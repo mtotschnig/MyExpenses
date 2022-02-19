@@ -14,8 +14,6 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
@@ -70,12 +68,11 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             }
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
-                startTaskExecution(
-                    TaskExecutionFragment.TASK_SYNC_LINK_LOCAL,
-                    arrayOf(account.uuid!!),
-                    account.syncAccountName,
-                    0
-                )
+                viewModel.syncLinkLocal(accountName = account.syncAccountName, uuid = account.uuid!!).observe(this) { result ->
+                    result.onFailure {
+                        showSnackBar(if (it is AccountSealedException) getString(R.string.object_sealed) else it.message ?: "ERROR")
+                    }
+                }
                 return
             }
             R.id.SYNC_LINK_COMMAND_REMOTE_DO -> {
@@ -175,37 +172,13 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
         listFragment.reloadAccountList()
-        if (callingActivity == null && (data.localAccountsNotSynced.isNotEmpty() || !data.remoteAccounts.isNullOrEmpty())) {
+        if (callingActivity == null && (data.localAccountsNotSynced.isNotEmpty() || data.remoteAccounts.isNotEmpty())) {
             //if we were called from AccountEdit, we do not show the setup account selection
             //since we suppose that user wants to create one account for the account he is editing
             if (callingActivity == null) {
 
                 SetupSyncDialogFragment.newInstance(data)
                     .show(supportFragmentManager, "SETUP_SYNC")
-            }
-        }
-    }
-
-    override fun onPostExecute(taskId: Int, o: Any?) {
-        super.onPostExecute(taskId, o)
-        when (taskId) {
-            TaskExecutionFragment.TASK_SYNC_LINK_SAVE -> {
-                run {
-                    val result = o as Result<*>?
-                    showDismissibleSnackBar(result!!.print(this))
-                }
-                run {
-                    val result = o as Result<*>?
-                    if (!result!!.isSuccess) {
-                        showSnackBar(result.print(this))
-                    }
-                }
-            }
-            TaskExecutionFragment.TASK_SYNC_LINK_LOCAL -> {
-                val result = o as Result<*>?
-                if (!result!!.isSuccess) {
-                    showSnackBar(result.print(this))
-                }
             }
         }
     }

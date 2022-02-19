@@ -7,11 +7,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
@@ -19,7 +15,6 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.CompositeException
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -31,7 +26,6 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
@@ -40,7 +34,6 @@ import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 const val KEY_ROW_IDS = "rowIds"
@@ -81,7 +74,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         val liveData = MutableLiveData<List<AccountMinimal>>()
         disposable = briteContentResolver.createQuery(
             TransactionProvider.ACCOUNTS_MINIMAL_URI, null,
-            if (withHidden) null else "${DatabaseConstants.KEY_HIDDEN} = 0",
+            if (withHidden) null else "$KEY_HIDDEN = 0",
             null, null, false
         )
             .mapToList { cursor ->
@@ -202,11 +195,11 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             contentResolver.observeQuery(
                 uri = with(TransactionProvider.DEBTS_URI.buildUpon()) {
                     rowId?.let {
-                        appendQueryParameter(DatabaseConstants.KEY_TRANSACTIONID, rowId.toString())
+                        appendQueryParameter(KEY_TRANSACTIONID, rowId.toString())
                     }
                     build()
                 },
-                selection = "${DatabaseConstants.KEY_SEALED} = 0",
+                selection = "$KEY_SEALED = 0",
                 notifyForDescendants = true
             )
                 .mapToList { Debt.fromCursor(it) }

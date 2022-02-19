@@ -1,9 +1,10 @@
 package org.totschnig.myexpenses.task;
 
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,12 +12,12 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.calendar.CalendarContractCompat;
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
@@ -32,25 +33,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
-import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.LegacyResultWrapperKt;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
-
-import androidx.annotation.NonNull;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -192,23 +180,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
         return true;
-      case TaskExecutionFragment.TASK_SYNC_LINK_LOCAL: {
-        Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
-        if (account.isSealed()) {
-          return Result.ofFailure(R.string.object_sealed);
-        }
-        String syncAccountName = (String) this.mExtra;
-        account.setSyncAccountName(syncAccountName);
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putString(KEY_UUID, account.getUuid());
-        bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
-        ContentResolver.requestSync(GenericAccountService.getAccount(syncAccountName),
-            TransactionProvider.AUTHORITY, bundle);
-        account.save();
-        return Result.SUCCESS;
-      }
       case TaskExecutionFragment.TASK_CATEGORY_COLOR: {
         return Category.updateColor((Long) ids[0], (Integer) mExtra) ? Result.SUCCESS :
             Result.ofFailure("Error while saving color for category");

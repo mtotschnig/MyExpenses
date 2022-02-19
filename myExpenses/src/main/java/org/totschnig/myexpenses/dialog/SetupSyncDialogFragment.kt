@@ -28,10 +28,17 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 
-class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDialogResultListener, DialogInterface.OnClickListener {
+class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDialogResultListener,
+    DialogInterface.OnClickListener {
 
     enum class SyncSource {
-        DEFAULT, LOCAL, REMOTE
+        /**
+         * DEFAULT is used for accounts that only exist locally or remotely, so there is no conflict,
+         * and there is only one possible source
+         */
+        DEFAULT,
+        LOCAL,
+        REMOTE
     }
 
     @Parcelize
@@ -40,7 +47,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         val uuid: String,
         val isLocal: Boolean,
         val isRemote: Boolean
-    ): Parcelable
+    ) : Parcelable
 
     private val dialogState: MutableMap<String, MutableState<SyncSource?>> = mutableMapOf()
 
@@ -49,7 +56,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     fun SyncViewModel.SyncAccountData.prepare(): List<AccountRow> =
         buildList {
             localAccountsNotSynced.forEach { local ->
-                val remoteAccount = remoteAccounts?.find { remote -> remote.uuid() == local.uuid }
+                val remoteAccount = remoteAccounts.find { remote -> remote.uuid() == local.uuid }
                 add(
                     AccountRow(
                         label = remoteAccount?.let {
@@ -63,8 +70,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 )
             }
             remoteAccounts
-                ?.filter { remote -> !localAccountsNotSynced.any { local -> local.uuid == remote.uuid() } }
-                ?.forEach {
+                .filter { remote -> !localAccountsNotSynced.any { local -> local.uuid == remote.uuid() } }
+                .forEach {
                     add(
                         AccountRow(
                             label = it.label(),
@@ -117,7 +124,12 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         Row {
             Column(modifier = cell(0)) {
                 Text(text = item.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(text = item.uuid, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 10.sp)
+                Text(
+                    text = item.uuid,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 10.sp
+                )
             }
             if (item.isLocal) {
                 Icon(
@@ -185,9 +197,9 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if(dialogTag == SYNC_CONFLICT_DIALOG) {
+        if (dialogTag == SYNC_CONFLICT_DIALOG) {
             val account = extras.getParcelable<AccountRow>(KEY_DATA)!!
-            when(which) {
+            when (which) {
                 SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
                     dialogState[account.uuid]?.value = SyncSource.REMOTE
                 }
@@ -203,8 +215,28 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         if (which == BUTTON_POSITIVE) {
             val data: SyncViewModel.SyncAccountData = requireArguments().getParcelable(KEY_DATA)!!
 
-
-            viewModel.setupSynchronization(data.accountName)
+            viewModel.setupSynchronization(
+                accountName = data.accountName,
+                localAccounts = data.localAccountsNotSynced.filter { account ->
+                    dialogState.any {
+                        it.key == account.uuid && it.value.value == SyncSource.DEFAULT
+                    }
+                },
+                remoteAccounts = data.remoteAccounts.filter { account ->
+                    dialogState.any {
+                        it.key == account.uuid() && it.value.value == SyncSource.DEFAULT
+                    }
+                },
+                conflicts = dialogState.entries.filter {
+                    it.value.value == SyncSource.LOCAL || it.value.value == SyncSource.REMOTE
+                }.map { entry ->
+                    Triple(
+                        data.localAccountsNotSynced.first { it.uuid == entry.key },
+                        data.remoteAccounts.first { it.uuid() == entry.key },
+                        entry.value.value!!
+                    )
+                }
+            )
         }
     }
 }

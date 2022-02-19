@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentResolver
 import android.content.Context
-import android.os.Bundle
 import android.text.TextUtils
 import androidx.annotation.StringRes
 import androidx.documentfile.provider.DocumentFile
@@ -69,9 +68,6 @@ fun doBackup(context: Context, password: String?, withSync: String?): Result<Doc
 
 private fun sync(contentResolver: ContentResolver, backend: String?, backupFile: DocumentFile) {
     backend?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }?.let {
-        val bundle = Bundle()
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
         var backupFileName = backupFile.name
         if (backupFileName == null) {
             CrashHandler.report(
@@ -93,11 +89,7 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
             SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI,
             backupFile.uri.toString()
         )
-        ContentResolver.requestSync(
-            GenericAccountService.getAccount(backend),
-            TransactionProvider.AUTHORITY,
-            bundle
-        )
+        GenericAccountService.requestSync(backend)
     }
 }
 

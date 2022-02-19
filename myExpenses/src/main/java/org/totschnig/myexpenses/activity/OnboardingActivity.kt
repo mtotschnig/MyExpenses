@@ -103,7 +103,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
         lifecycleScope.launchWhenResumed {
             dataFragment.setupMenu()
-            if (data.backups != null && data.remoteAccounts != null) {
+            if (data.backups != null) {
                 accountName = data.accountName
                 if (data.backups.isNotEmpty() || data.remoteAccounts.isNotEmpty()) {
                     if (checkForDuplicateUuids(data.remoteAccounts)) {

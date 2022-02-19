@@ -29,11 +29,11 @@ import android.os.IBinder
 import androidx.core.util.Pair
 import com.annimon.stream.Exceptional
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.asExceptional
@@ -140,6 +140,27 @@ class GenericAccountService : Service() {
         const val KEY_BROKEN = "broken"
         const val KEY_ENCRYPTED = "encrypted"
 
+        @JvmStatic
+        @JvmOverloads
+        fun requestSync(accountName: String,
+                        manualAndExpedited: Boolean = true,
+                        uuid: String? = null,
+                        extras: Bundle = Bundle()
+                        ) {
+            ContentResolver.requestSync(
+                getAccount(accountName),
+                TransactionProvider.AUTHORITY, extras.apply {
+                    if (manualAndExpedited) {
+                        putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+                        putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+                    }
+                    if (uuid != null) {
+                        putString(KEY_UUID, uuid)
+                    }
+                }
+            )
+        }
+
         /**
          * Obtain a handle to the [Account] used for sync in this application.
          *
@@ -147,7 +168,7 @@ class GenericAccountService : Service() {
          * has been called)
          */
         @JvmStatic
-        fun getAccount(accountName: String?): Account {
+        fun getAccount(accountName: String): Account {
             // Note: Normally the account name is set to the user's identity (username or email
             // address). However, since we aren't actually using any user accounts, it makes more sense
             // to use a generic string in this case.
@@ -182,7 +203,6 @@ class GenericAccountService : Service() {
                 }
         }
 
-        @JvmStatic
         fun storePassword(
             contentResolver: ContentResolver?,
             accountName: String,
@@ -191,7 +211,6 @@ class GenericAccountService : Service() {
             DbUtils.storeSetting(contentResolver, getPasswordKey(accountName), encryptionPassword)
         }
 
-        @JvmStatic
         fun loadPassword(contentResolver: ContentResolver?, accountName: String): String? {
             return DbUtils.loadSetting(contentResolver, getPasswordKey(accountName))
         }
@@ -235,14 +254,12 @@ class GenericAccountService : Service() {
         fun getAccountNames(context: Context): Array<String> =
             getAccounts(context).map { it.name }.toTypedArray()
 
-        @JvmStatic
         fun activateSync(account: Account, prefHandler: PrefHandler) {
             ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true)
             ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1)
             addPeriodicSync(account, prefHandler)
         }
 
-        @JvmStatic
         fun addPeriodicSync(account: Account, prefHandler: PrefHandler) {
             ContentResolver.addPeriodicSync(
                 account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
@@ -250,14 +267,12 @@ class GenericAccountService : Service() {
             )
         }
 
-        @JvmStatic
         fun getSyncFrequency(prefHandler: PrefHandler) =
             prefHandler.getInt(
                 PrefKey.SYNC_FREQUCENCY,
                 DEFAULT_SYNC_FREQUENCY_HOURS
             ) * HOUR_IN_SECONDS
 
-        @JvmStatic
         fun deactivateSync(account: Account) {
             if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
                 ContentResolver.cancelSync(account, TransactionProvider.AUTHORITY)
@@ -270,5 +285,7 @@ class GenericAccountService : Service() {
                 ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0)
             }
         }
+
+
     }
 }

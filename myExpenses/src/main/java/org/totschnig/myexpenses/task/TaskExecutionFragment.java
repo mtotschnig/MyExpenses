@@ -21,7 +21,9 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
-import org.apache.commons.lang3.NotImplementedException;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -30,8 +32,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import timber.log.Timber;
 
 
@@ -73,7 +73,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;
-  public static final int TASK_SYNC_LINK_LOCAL = 45;
 
   public static final int TASK_VALIDATE_LICENCE = 55;
   public static final int TASK_REMOVE_LICENCE = 56;
