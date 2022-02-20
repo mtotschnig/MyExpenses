@@ -610,9 +610,6 @@
     <string name="warning_trial_limit_reached">Zkušební období pro testování funkce %s skončilo.</string>
     <string name="warning_synchronization_folder_usage">Tato složka se využívá k synchronizaci dat mezi instalacemi aplikace {app_name} v různých zařízeních. Neupravujte ručně žádnou součást jejího obsahu.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Vámi zvolená složka se shoduje s jedním účtem existujícího back-endu. Abyste tento back-end mohli znovu použít, musíte zvolit nadřazenou složku.</string>
-    <string name="select_unsynced_accounts">Vyberte účty, které se mají synchronizovat s tímto rozhraním backend</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">Účty (%d) byly nakonfigurovány za účelem synchronizace s rozhraním backend.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">Účty (%d) nelze nakonfigurovat za účelem synchronizace s rozhraním backend.</string>
     <string name="link_account_failure_2">Účet se stejným UUID již existuje ve vzdáleném backendu.</string>
     <string name="link_account_failure_3">Konflikt je možné vyřešit ručně z kontextového menu položky.</string>
     <string name="progress_dialog_checking_sync_backend">Ověřování rozhraní backend</string>

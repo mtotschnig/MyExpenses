@@ -593,9 +593,6 @@
     <string name="warning_trial_limit_reached">Il periodo di prova per provare la funzionalità %s è terminato.</string>
     <string name="warning_synchronization_folder_usage">Questa cartella è usata per la sincronizzazione dei dati tra le installazioni di {app_name} sui diversi dispositivi. Per favore non modificarne il contenuto manualmente.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La cartella che hai selezionato corrisponde al conto di un back-end esistente. È necessario selezionare la propria cartella principale per poter riutilizzare questo back-end.</string>
-    <string name="select_unsynced_accounts">Seleziona i conti da sincronizzare con questo back-end</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d conti sono stati configurati per essere sincronizzati con il back-end.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d conti non sono stati configurati per essere sincronizzati con il back-end.</string>
     <string name="link_account_failure_2">Un conto con lo stesso uuid esiste già sul back-end remoto.</string>
     <string name="link_account_failure_3">Il conflitto può essere risolto manualmente dalle voci del menu contestuale.</string>
     <string name="progress_dialog_checking_sync_backend">Sto verificando il back-end</string>

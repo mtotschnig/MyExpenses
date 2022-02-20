@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">A(z) %s szolgáltatás tesztelési ideje lejárt.</string>
     <string name="warning_synchronization_folder_usage">Ezt a mappát a különböző alkalmazásokra telepített {app_name} adatainak szinkronizálására használjuk. Ne módosítsa manuálisan a tartalmát.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A megjelölt mappa megfelel egy fióknak egy meglévő háttérrendszeren. A háttérrendszer újrahasználásához válassza ki a szülőmappáját.</string>
-    <string name="select_unsynced_accounts">Válassza ki az ehhez a háttérrendszerhez szinkronizálandó fiókokat.</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d fiók úgy lett beállítva, hogy szinkronizálódjón a háttérprogrammal.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d fiókot nem lehet beállítani a háttérrendszerrel való szinkronizálásra.</string>
     <string name="link_account_failure_2">Ugyanazzal az UUID azonosítóval rendelkező fiók már létezik a távoli háttérprogramban.</string>
     <string name="link_account_failure_3">A konfliktus a bejegyzés kontextus menüjében manuálisan megoldható.</string>
     <string name="progress_dialog_checking_sync_backend">Háttérprogram ellenőrzése</string>

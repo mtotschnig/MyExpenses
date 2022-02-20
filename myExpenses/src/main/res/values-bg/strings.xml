@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">Периодът за тестване на %s е изтекъл.</string>
     <string name="warning_synchronization_folder_usage">Тази папка се използва за синхронизиране на данните между инсталации на {app_name} на различни устройства. Моля, не променяйте ръчно нейното съдържание.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папката, която избрахте, съответства на сметка от съществуващо отдалечено хранилище. Трябва да изберете родителската й папка, за да използвате отново това отдалечено хранилище.</string>
-    <string name="select_unsynced_accounts">Изберете сметки, които да бъдат синхронизирани с това отдалечено хранилище</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d сметки са избрани да бъдат синхронизирани с отдалеченото хранилище.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d сметки не могат да бъдат избрани за синхронизиране с отдалеченото хранилище.</string>
     <string name="link_account_failure_2">Сметка със същото име вече съществува на отдалеченото хранилище.</string>
     <string name="link_account_failure_3">Конфликтът може да бъде разрешен ръчно от контекстното меню на елемента.</string>
     <string name="progress_dialog_checking_sync_backend">Проверка на отдалеченото хранилище</string>

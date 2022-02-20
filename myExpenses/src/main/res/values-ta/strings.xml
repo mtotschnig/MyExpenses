@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">%s அம்சத்திற்கான பரிசோதனைக் காலம் முடிந்தது.</string>
     <string name="warning_synchronization_folder_usage">வெவ்வேறு கருவிகளில் {app_name} இன் நிறுவல்களுக்கு இடையேயான ஒத்திசைவுக்காக இந்த கோப்புறை பயன்படுத்தப்படுகிறது.  தயவு செய்து அதன் உள்ளடக்கங்களை கைமுறையாக மாற்ற வேண்டாம்.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">நீங்கள் தேர்ந்தெடுத்திற்கும் கோப்புறை ஏற்கனவே இருக்கும் ஒரு பின்தளத்தின் ஒரு கணக்குடன் ஒத்துள்ளது. இந்த பின்தளத்தை மறுபயன்பாடு செய்ய, அதன் மூலக் கோப்புறையை நீங்கள் தேர்ந்தெடுக்க வேண்டும்.</string>
-    <string name="select_unsynced_accounts">இந்த பின்தளத்துடன் ஒத்திசைக்க வேண்டிய கணக்குகளைத் தேர்ந்தெடுக்கவும்</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d கணக்குகள் பின்தளத்துடன் ஒத்திசைக்கப்படுகிறது.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d கணக்குகளை பின்தளத்துடன் ஒத்திசைக்க முடியவில்லை.</string>
     <string name="link_account_failure_2">தொலைநிலை பின்தளத்தில் அதே uuid கொண்ட ஒரு கணக்கு ஏற்கனவே உள்ளது.</string>
     <string name="link_account_failure_3">இந்த முரண்பாட்டை உள்ளீட்டின் சூழல் பட்டியலில் இருந்து கைமுறையாக தீர்க்க முடியும்.</string>
     <string name="progress_dialog_checking_sync_backend">பின்தளத்தை உறுதிப்படுத்துகிறது</string>

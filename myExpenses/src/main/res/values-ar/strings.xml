@@ -627,9 +627,6 @@
     <string name="warning_trial_limit_reached">انتهت الفترة التجريبية لاختبار الميزة %s.</string>
     <string name="warning_synchronization_folder_usage">يُستخدم هذا المجلد لمزامنة البيانات بين عمليات تثبيت {app_name} على أجهزة مختلفة. يُرجى عدم تعديل أي من محتوياته يدوياً.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">المجلد الذي حددته يتوافق مع حساب موجود لواجهة خلفية. يتعين عليك تحديد المجلد الأصلي الخاص به لإعادة استخدام هذه الخلفية.</string>
-    <string name="select_unsynced_accounts">حدد الحسابات التي ستتم مزامنتها مع هذه الخلفية</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">تم تهيئة %d حسابات لتتم مزامنتها مع الواجهة الخلفية.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">تعذر تهيئة %d حسابات لتتم مزامنتها مع الخلفية.</string>
     <string name="link_account_failure_2">حساب بنفس المعرف الفريد العالمي موجود بالفعل على الواجهة الخلفية البعيدة.</string>
     <string name="link_account_failure_3">يمكن حل التعارض يدوياً من قائمة سياق الإدخال.</string>
     <string name="progress_dialog_checking_sync_backend">التحقق من الواجهة الخلفية</string>

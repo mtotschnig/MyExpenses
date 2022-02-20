@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">Die Probezeit für die Funktion %s ist abgelaufen.</string>
     <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von {app_name} auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Der Ordner, den Sie ausgewählt haben, entspricht einem Konto eines bestehenden Backends. Sie müssen den übergeordneten Ordner auswählen, um dieses Backend wiederzuverwenden.</string>
-    <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d Konten wurden konfiguriert, um mit dem Backend synchronisiert zu werden.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d Konten konnten nicht für die Synchronisierung mit dem Backend konfiguriert werden.</string>
     <string name="link_account_failure_2">Ein Konto mit der gleichen UUID existiert bereits auf dem entfernten Backend.</string>
     <string name="link_account_failure_3">Der Konflikt kann über den Eintrag im Kontextmenü manuell aufgelöst werden.</string>
     <string name="progress_dialog_checking_sync_backend">Backend wird überprüft</string>

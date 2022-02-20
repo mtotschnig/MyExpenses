@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">O período de testes do recurso %s encerrou.</string>
     <string name="warning_synchronization_folder_usage">Esta pasta é usada para sincronizar dados entre instalações do {app_name} em diferentes aparelhos. Por favor não modifique nenhum dos seus conteúdos manualmente.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A pasta selecionada corresponde a uma conta de um destino existente. É necessário selecionar a pasta superior para reutilizar este servidor.</string>
-    <string name="select_unsynced_accounts">Selecione as contas a serem sincronizadas com este destino</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d contas foram configuradas para serem sincronizadas com o destino.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">Não foi possível configurar a sincronização de %d contas com o destino.</string>
     <string name="link_account_failure_2">Uma conta com o mesmo uuid já existe no destino remoto.</string>
     <string name="link_account_failure_3">O conflito pode ser resolvido manualmente a partir do menu de contexto da entrada.</string>
     <string name="progress_dialog_checking_sync_backend">Verificando o destino</string>

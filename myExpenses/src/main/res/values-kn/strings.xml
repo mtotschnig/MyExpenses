@@ -590,9 +590,6 @@
     <string name="warning_trial_limit_reached">ವೈಶಿಷ್ಟ್ಯವನ್ನು ಪರೀಕ್ಷಿಸುವ ಪ್ರಾಯೋಗಿಕ ಅವಧಿ %s ಕೊನೆಗೊಂಡಿದೆ.</string>
     <string name="warning_synchronization_folder_usage">ವಿಭಿನ್ನ ಸಾಧನಗಳಲ್ಲಿ {app_name} ನ ಸ್ಥಾಪನೆಗಳ ನಡುವೆ ಡೇಟಾವನ್ನು ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಈ ಫೋಲ್ಡರ್ ಅನ್ನು ಬಳಸಲಾಗುತ್ತದೆ. ದಯವಿಟ್ಟು ಅದರ ಯಾವುದೇ ವಿಷಯಗಳನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಮಾರ್ಪಡಿಸಬೇಡಿ.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಫೋಲ್ಡರ್ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಬ್ಯಾಕೆಂಡ್‌ನ ಒಂದು ಖಾತೆಗೆ ಅನುರೂಪವಾಗಿದೆ. ಈ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಮರುಬಳಕೆ ಮಾಡಲು ನೀವು ಅದರ ಮೂಲ ಫೋಲ್ಡರ್ ಅನ್ನು ಆರಿಸಬೇಕಾಗುತ್ತದೆ.</string>
-    <string name="select_unsynced_accounts">ಈ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಸಿಂಕ್ ಮಾಡಲು ಖಾತೆಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಲು ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾಗಿದೆ.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಲು ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾಗಲಿಲ್ಲ.</string>
     <string name="link_account_failure_2">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಅದೇ ಯುಯಿಡ್ ಹೊಂದಿರುವ ಖಾತೆ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ.</string>
     <string name="link_account_failure_3">ಪ್ರವೇಶದ ಸಂದರ್ಭ ಮೆನುವಿನಿಂದ ಸಂಘರ್ಷವನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಪರಿಹರಿಸಬಹುದು.</string>
     <string name="progress_dialog_checking_sync_backend">ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ</string>

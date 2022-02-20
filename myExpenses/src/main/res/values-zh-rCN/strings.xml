@@ -583,9 +583,6 @@
     <string name="warning_trial_limit_reached">%s功能的试用期已经结束。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安装在不同设备上时，两者之间的数据同步在此文件夹里。请不要手动修改其任何内容。</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个账户。您需要选择其上层文件夹才能重用此后端。</string>
-    <string name="select_unsynced_accounts">选择要同步到此后端的账户</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">已将%d账户配置为与后端同步。</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">无法将%d账户配置为与后端同步。</string>
     <string name="link_account_failure_2">具有相同uuid的帐户已存在于远程后端上。</string>
     <string name="link_account_failure_3">可以从进入账户列表的快显菜单中手动解决冲突。</string>
     <string name="progress_dialog_checking_sync_backend">验证后端</string>

@@ -566,9 +566,6 @@
     <string name="progress_dialog_checking_sync_backend">Provjeravanje pozadinskog sustava</string>
     <string name="link_account_failure_3">Problem se može riješiti ručno iz kontekstnog izbornika unosa.</string>
     <string name="link_account_failure_2">Račun s istom uuid oznakom već postoji na udaljenom pozadinskom sustavu.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d računi se nisu mogli konfigurirati za sinkronizaciju s pozadinskim sustavom.</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d računi su konfigurirani za sinkronizaciju s pozadinskim sustavom.</string>
-    <string name="select_unsynced_accounts">Odaberi račune koji se sinkroniziraju na ovaj pozadinski sustav</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Odabrana mapa odgovara računu jednog postojećeg pozadinskog gustava. Za korištenje tog pozadinskog sustava moraš odabrati njegovu nadređenu mapu.</string>
     <string name="warning_synchronization_folder_usage">Ova se mapa koristi za sinkroniziranje podataka između instalacija programa {app_name} na različitim uređajima. Nemoj ručno mijenjati njen sadržaj.</string>
     <string name="warning_trial_limit_reached">Probno razdoblje za testiranje funkcije %s je prošlo.</string>
