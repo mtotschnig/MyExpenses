@@ -8,17 +8,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.os.RemoteException;
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
-
 import com.android.calendar.CalendarContractCompat;
-import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -32,8 +27,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -48,8 +41,8 @@ import java.io.Serializable;
 @Deprecated
 public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   private final TaskExecutionFragment taskExecutionFragment;
-  private int mTaskId;
-  private Serializable mExtra;
+  private final int mTaskId;
+  private final Serializable mExtra;
 
   public GenericTask(TaskExecutionFragment taskExecutionFragment, int taskId, Serializable extra) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -72,7 +65,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   @Override
   protected Object doInBackground(T... ids) {
     Long transactionId;
-    Long[][] extraInfo2d;
     final MyApplication application = MyApplication.getInstance();
     final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     ContentResolver cr = context.getContentResolver();
@@ -196,21 +188,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         TransactionProvider.ACCOUNTS_URI, values,
         String.format("%s %s", KEY_ROWID, WhereFilter.Operation.IN.getOp(accountIds.length)),
         Stream.of(accountIds).map(String::valueOf).toArray(String[]::new)) == accountIds.length;
-  }
-
-  @NonNull
-  private Exceptional<SyncBackendProvider> getSyncBackendProviderFromExtra() {
-    return GenericAccountService.Companion.getSyncBackendProviderLegacy(MyApplication.getInstance(), (String) mExtra);
-  }
-
-  private boolean deleteAccount(Long anId) {
-    try {
-      Account.delete(anId);
-    } catch (RemoteException | OperationApplicationException e) {
-      CrashHandler.reportWithDbSchema(e);
-      return false;
-    }
-    return true;
   }
 
   @Override

@@ -27,7 +27,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.util.Pair
-import com.annimon.stream.Exceptional
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.ContribFeature
@@ -36,7 +35,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.asExceptional
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import timber.log.Timber
@@ -191,13 +189,6 @@ class GenericAccountService : Service() {
             SyncBackendProviderFactory[context, getAccount(syncAccountName), false].onFailure {
                 CrashHandler.report(it, "Provider", syncAccountName)
             }
-
-        @Deprecated("temporary wrapper for legacy java code where kotlin.Result is not available")
-        fun getSyncBackendProviderLegacy(
-            context: Context,
-            syncAccountName: String
-        ): Exceptional<SyncBackendProvider> =
-            getSyncBackendProvider(context, syncAccountName).asExceptional()
 
         fun getAccountNamesWithEncryption(context: Context): List<Pair<String, Boolean>> {
             return getAccounts(context)
