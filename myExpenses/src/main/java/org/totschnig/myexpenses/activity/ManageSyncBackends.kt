@@ -68,9 +68,15 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             }
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
-                viewModel.syncLinkLocal(accountName = account.syncAccountName, uuid = account.uuid!!).observe(this) { result ->
+                viewModel.syncLinkLocal(
+                    accountName = account.syncAccountName,
+                    uuid = account.uuid!!
+                ).observe(this) { result ->
                     result.onFailure {
-                        showSnackBar(if (it is AccountSealedException) getString(R.string.object_sealed) else it.message ?: "ERROR")
+                        showSnackBar(
+                            if (it is AccountSealedException) getString(R.string.object_sealed) else it.message
+                                ?: "ERROR"
+                        )
                     }
                 }
                 return
@@ -175,11 +181,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         if (callingActivity == null && (data.localAccountsNotSynced.isNotEmpty() || data.remoteAccounts.isNotEmpty())) {
             //if we were called from AccountEdit, we do not show the setup account selection
             //since we suppose that user wants to create one account for the account he is editing
-            if (callingActivity == null) {
-
-                SetupSyncDialogFragment.newInstance(data)
-                    .show(supportFragmentManager, "SETUP_SYNC")
-            }
+            SetupSyncDialogFragment.newInstance(data).show(supportFragmentManager, "SETUP_SYNC")
         }
     }
 
@@ -194,7 +196,12 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 )?.let { account ->
                     viewModel.save(account).observe(this) {
                         if (it == null) {
-                            showSnackBar(String.format("There was an error saving account %s", account.label))
+                            showSnackBar(
+                                String.format(
+                                    "There was an error saving account %s",
+                                    account.label
+                                )
+                            )
                         }
                     }
                 }

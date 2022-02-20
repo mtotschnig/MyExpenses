@@ -121,9 +121,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         val commandId: Int
         val titleId: Int
         val isSyncAvailable = licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)
-        if (getPackedPositionType(packedPosition) ==
-            PACKED_POSITION_TYPE_CHILD
-        ) {
+        if (getPackedPositionType(packedPosition) == PACKED_POSITION_TYPE_CHILD) {
             if (isSyncAvailable) {
                 when (syncBackendAdapter.getSyncState(packedPosition)) {
                     SyncBackendAdapter.SyncState.SYNCED_TO_THIS -> {
@@ -303,7 +301,10 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                         if (handleAuthException(throwable)) {
                             resolutionPendingForGroup = groupPosition
                         } else {
-                            manageSyncBackends.showSnackBar(throwable.message ?: "ERROR", Snackbar.LENGTH_SHORT)
+                            manageSyncBackends.showSnackBar(
+                                throwable.message ?: "ERROR",
+                                Snackbar.LENGTH_SHORT
+                            )
                         }
                     }
                 }

@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
-import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
 
 class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
@@ -27,7 +26,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
     @Composable
     override fun BuildContent() {
         viewModel.loadDebt(requireArguments().getLong(DatabaseConstants.KEY_DEBT_ID))
-            .observeAsState().value?.let<Debt, Unit> { debt ->
+            .observeAsState().value?.let { debt ->
                 viewModel.loadTransactions(debt)
                     .observeAsState().value?.let { transactions ->
                         val debtActivity = requireActivity() as DebtActivity

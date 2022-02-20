@@ -65,8 +65,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             val password = args.getString(AccountManager.KEY_PASSWORD)
             val userData = args.getBundle(AccountManager.KEY_USERDATA)
             val authToken = args.getString(AccountManager.KEY_AUTHTOKEN)
-            val shouldReturnBackups =
-                args.getBoolean(KEY_RETURN_BACKUPS)
+            val shouldReturnBackups = args.getBoolean(KEY_RETURN_BACKUPS)
             val encryptionPassword = args.getString(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
             val accountManager = AccountManager.get(getApplication())
             val account = getAccount(accountName)
@@ -149,7 +148,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                     .mapNotNull { it.getOrNull() }
                     .filter { remoteAccount -> !localAccounts.any { it.isSynced && it.uuid == remoteAccount.uuid() } }
             val backups =
-                if (shouldReturnBackups) syncBackendProvider.storedBackups else null
+                if (shouldReturnBackups) syncBackendProvider.storedBackups else emptyList()
             SyncAccountData(
                 accountName,
                 syncAccounts,
@@ -234,7 +233,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     data class SyncAccountData(
         val accountName: String,
         val remoteAccounts: List<AccountMetaData>,
-        val backups: List<String>?,
+        val backups: List<String>,
         val localAccountsNotSynced: List<LocalAccount>
     ) : Parcelable
 }
