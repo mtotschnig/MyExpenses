@@ -15,7 +15,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.asSequence
@@ -30,27 +29,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
-class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    fun setupSynchronization(accountName: String,
-                             localAccounts: List<LocalAccount>,
-                             remoteAccounts: List<AccountMetaData>,
-                             conflicts: List<Triple<LocalAccount, AccountMetaData, SetupSyncDialogFragment.SyncSource>>
-                             ) {
-
-        val syncLocalList = conflicts.filter { it.third == SetupSyncDialogFragment.SyncSource.LOCAL }
-        syncLocalList.forEach {
-            resetRemote(accountName, it.first.uuid)
-        }
-        conflicts.filter { it.third == SetupSyncDialogFragment.SyncSource.REMOTE }.forEach { (local, remote, _) ->
-            deleteAccountsInternal(arrayOf(local.id)).onSuccess {
-                remote.toAccount(currencyContext, accountName).save()
-            }
-        }
-        remoteAccounts.map { it.toAccount(currencyContext, accountName) }.forEach {
-           it.save()
-        }
-        configureLocalAccountForSync(accountName, *(localAccounts + syncLocalList.map { it.first }).map { it.uuid }.toTypedArray())
-    }
+open class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     fun syncLinkRemote(account: Account): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
@@ -184,14 +163,14 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         }
     }
 
-    private fun configureLocalAccountForSync(accountName: String, vararg localAccountIds: String) {
+    protected fun configureLocalAccountForSync(accountName: String, vararg uuids: String) {
         contentResolver.update(
             Account.CONTENT_URI,
             ContentValues().apply {
                 put(KEY_SYNC_ACCOUNT_NAME, accountName)
             },
-            KEY_UUID + " " + WhereFilter.Operation.IN.getOp(localAccountIds.size),
-            localAccountIds
+            KEY_UUID + " " + WhereFilter.Operation.IN.getOp(uuids.size),
+            uuids
         )
     }
 
@@ -210,7 +189,12 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                             .asSequence()
                             .mapNotNull { it.getOrNull() }
                             .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
-                            .map { accountMetaData -> accountMetaData.toAccount(getApplication<MyApplication>().appComponent.currencyContext(), accountName) }
+                            .map { accountMetaData ->
+                                accountMetaData.toAccount(
+                                    getApplication<MyApplication>().appComponent.currencyContext(),
+                                    accountName
+                                )
+                            }
                             .sumOf {
                                 @Suppress("USELESS_CAST")
                                 (if (it.save() == null) 0 else 1) as Int

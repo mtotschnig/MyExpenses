@@ -141,17 +141,23 @@ class GenericAccountService : Service() {
         const val KEY_ENCRYPTED = "encrypted"
 
         @JvmStatic
-        @JvmOverloads
+        fun requestSync(syncAccountName: String, uuid: String) {
+            requestSync(accountName = syncAccountName, uuid = uuid)
+        }
+
         fun requestSync(accountName: String,
-                        manualAndExpedited: Boolean = true,
+                        manual: Boolean = true,
+                        expedited: Boolean = true,
                         uuid: String? = null,
                         extras: Bundle = Bundle()
                         ) {
             ContentResolver.requestSync(
                 getAccount(accountName),
                 TransactionProvider.AUTHORITY, extras.apply {
-                    if (manualAndExpedited) {
+                    if (manual) {
                         putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+                    }
+                    if (expedited) {
                         putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
                     }
                     if (uuid != null) {
@@ -285,7 +291,5 @@ class GenericAccountService : Service() {
                 ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0)
             }
         }
-
-
     }
 }

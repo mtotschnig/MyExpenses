@@ -889,7 +889,7 @@ public class Account extends Model {
 
   public void requestSync() {
     if (syncAccountName != null) {
-      GenericAccountService.requestSync(syncAccountName, true, getUuid());
+      GenericAccountService.requestSync(syncAccountName,getUuid());
     }
   }
 
