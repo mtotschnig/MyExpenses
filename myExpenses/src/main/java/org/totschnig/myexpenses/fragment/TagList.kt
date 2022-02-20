@@ -71,33 +71,42 @@ class TagList : Fragment(), OnDialogResultListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)
-        viewModel.loadTags(selected).observe(viewLifecycleOwner, {
+        viewModel.loadTags(selected).observe(viewLifecycleOwner) {
             val closeFunction: (Tag) -> Unit = { tag ->
                 SimpleDialog.build()
-                        .title(R.string.dialog_title_warning_delete_tag)
-                        .extra(Bundle().apply {
-                            putParcelable(KEY_TAG, tag)
-                        })
-                        .msg(resources.getQuantityString(R.plurals.warning_delete_tag, tag.count, tag.label, tag.count))
-                        .pos(R.string.menu_delete)
-                        .neg(android.R.string.cancel)
-                        .show(this, DELETE_TAG_DIALOG)
+                    .title(R.string.dialog_title_warning_delete_tag)
+                    .extra(Bundle().apply {
+                        putParcelable(KEY_TAG, tag)
+                    })
+                    .msg(
+                        resources.getQuantityString(
+                            R.plurals.warning_delete_tag,
+                            tag.count,
+                            tag.label,
+                            tag.count
+                        )
+                    )
+                    .pos(R.string.menu_delete)
+                    .neg(android.R.string.cancel)
+                    .show(this, DELETE_TAG_DIALOG)
             }
             val longClickFunction: (Tag) -> Unit = { tag ->
                 SimpleInputDialog.build()
-                        .title(R.string.menu_edit_tag)
-                        .cancelable(false)
-                        .text(tag.label)
-                        .pos(R.string.menu_save)
-                        .neut()
-                        .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
-                        .show(this, EDIT_TAG_DIALOG)
+                    .title(R.string.menu_edit_tag)
+                    .cancelable(false)
+                    .text(tag.label)
+                    .pos(R.string.menu_save)
+                    .neut()
+                    .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
+                    .show(this, EDIT_TAG_DIALOG)
             }
             val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
-            adapter = Adapter(it, itemLayoutResId, if (allowModifications) closeFunction else null,
-                    if (allowModifications) longClickFunction else null)
+            adapter = Adapter(
+                it, itemLayoutResId, if (allowModifications) closeFunction else null,
+                if (allowModifications) longClickFunction else null
+            )
             binding.recyclerView.adapter = adapter
-        })
+        }
         binding.tagEdit.apply {
             if (allowModifications) {
                 setOnEditorActionListener { _, actionId, event: KeyEvent? ->
@@ -123,11 +132,11 @@ class TagList : Fragment(), OnDialogResultListener {
 
     private fun removeTag(tag: Tag) {
         val position = adapter.getPosition(tag.label)
-        viewModel.removeTagAndPersist(tag).observe(viewLifecycleOwner, {
+        viewModel.removeTagAndPersist(tag).observe(viewLifecycleOwner) {
             if (it) {
                 adapter.notifyItemRemoved(position)
             }
-        })
+        }
     }
 
     override fun onDestroyView() {
@@ -141,12 +150,12 @@ class TagList : Fragment(), OnDialogResultListener {
             if (position > -1) {
                 (activity as? ProtectedFragmentActivity)?.showSnackBar(getString(R.string.already_defined, label))
             } else {
-                viewModel.addTagAndPersist(label).observe(viewLifecycleOwner, {
+                viewModel.addTagAndPersist(label).observe(viewLifecycleOwner) {
                     if (it) {
                         adapter.notifyItemInserted(0)
                         runnable?.run()
                     }
-                })
+                }
             }
             binding.tagEdit.text = null
         } ?: kotlin.run { runnable?.run() }
@@ -219,13 +228,18 @@ class TagList : Fragment(), OnDialogResultListener {
                     EDIT_TAG_DIALOG -> {
                         val activePosition = adapter.getPosition(tag.label)
                         val newLabel = extras.getString(SimpleInputDialog.TEXT)!!
-                        viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner, {
+                        viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner) {
                             if (it) {
                                 adapter.notifyItemChanged(activePosition)
                             } else {
-                                (context as? ProtectedFragmentActivity)?.showSnackBar(getString(R.string.already_defined, newLabel))
+                                (context as? ProtectedFragmentActivity)?.showSnackBar(
+                                    getString(
+                                        R.string.already_defined,
+                                        newLabel
+                                    )
+                                )
                             }
-                        })
+                        }
                     }
                 }
                 true

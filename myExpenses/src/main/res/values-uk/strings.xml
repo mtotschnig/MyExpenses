@@ -595,9 +595,6 @@
     <string name="warning_trial_limit_reached">Випробувальний період для користування функцією %s закінчився.</string>
     <string name="warning_synchronization_folder_usage">Ця тека використовується для синхронізації даних між інсталяціями {app_name} на різних пристроях. Будь ласка, не змінюйте її вміст самостійно.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Вибрана тека відповідає одному рахунку існуючого сервера. Щоб ще раз використати цей сервер, Вам потрібно вибрати батьківську теку.</string>
-    <string name="select_unsynced_accounts">Виберіть рахунки, які потрібно синхронізувати з цим сервером</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d рахунків було налаштовано на синхронізацію з сервером.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d рахунків не вдалося налаштувати на синхронізацію з сервером.</string>
     <string name="link_account_failure_2">Рахунок з таким самим uuid вже існує на віддаленому сервері.</string>
     <string name="link_account_failure_3">Конфлікт можна вирішити вручну з контекстного меню запису.</string>
     <string name="progress_dialog_checking_sync_backend">Перевірка сервера</string>

@@ -16,14 +16,16 @@ class CustomAdHandler(factory: AdHandlerFactory, adContainer: ViewGroup, baseAct
     public override fun startBannerInternal() {
         val density = activity.resources.displayMetrics.density
         val contentProvider = PartnerProgram.pickContent(
-                listOf(*PartnerProgram.values()),
-                userCountry,
-                activity,
-                (adContainer.width / density).roundToInt())
+            PartnerProgram.values().toList(),
+            userCountry,
+            prefHandler,
+            activity,
+            (adContainer.width / density).roundToInt()
+        )
         if (contentProvider == null) {
             hide()
         } else {
-            adView = AdView(activity).apply {
+            adView = AdView(activity, prefHandler).apply {
                 setAdListener(object : AdListener() {
                     override fun onBannerLoaded(view: View) {
                         adContainer.addView(view)
@@ -41,11 +43,11 @@ class CustomAdHandler(factory: AdHandlerFactory, adContainer: ViewGroup, baseAct
     } ?: false
 
     override fun requestNewInterstitialDo() {
-        val contentProvider = PartnerProgram.pickContent(listOf(*PartnerProgram.values()),
-                userCountry, activity, -1)
+        val contentProvider = PartnerProgram.pickContent(PartnerProgram.values().asList(),
+                userCountry, prefHandler, activity, -1)
         if (contentProvider != null) {
             mInterstitialShown = false
-            interstitial = Interstitial(activity).apply {
+            interstitial = Interstitial(activity, prefHandler).apply {
                 setContentProvider(contentProvider)
                 setAdListener(object : AdListener() {})
                 fetchAd()

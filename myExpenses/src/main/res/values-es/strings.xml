@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">El periodo de prueba para la funcionalidad %s ha terminado.</string>
     <string name="warning_synchronization_folder_usage">Esta carpeta se utiliza para la sincronización de datos en las instalaciones de {app_name} en diferentes dispositivos. Por favor, no modifique nada de su contenido manualmente.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La carpeta que ha seleccionado corresponde a una cuenta de un servicio existente. Necesita seleccionar la carpeta principal para poder reutilizar este servicio.</string>
-    <string name="select_unsynced_accounts">Seleccione qué cuentas serán sincronizadas con este servicio</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d cuentas han sido configuradas para ser sincronizadas con el servicio.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d cuentas no pudieron ser configuradas para ser sincronizadas con el servicio.</string>
     <string name="link_account_failure_2">Una cuenta con el mismo UUID ya existe en el servicio remoto.</string>
     <string name="link_account_failure_3">El conflicto puede resolverse manualmente desde el menú de contexto de la entrada.</string>
     <string name="progress_dialog_checking_sync_backend">Comprobación de servicio</string>

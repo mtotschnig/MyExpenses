@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.activateSync
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncBackendProvider
@@ -120,9 +121,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         val commandId: Int
         val titleId: Int
         val isSyncAvailable = licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)
-        if (ExpandableListView.getPackedPositionType(packedPosition) ==
-            ExpandableListView.PACKED_POSITION_TYPE_CHILD
-        ) {
+        if (getPackedPositionType(packedPosition) == PACKED_POSITION_TYPE_CHILD) {
             if (isSyncAvailable) {
                 when (syncBackendAdapter.getSyncState(packedPosition)) {
                     SyncBackendAdapter.SyncState.SYNCED_TO_THIS -> {
@@ -259,13 +258,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         val syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition)
         val account = getAccount(syncAccountName)
         if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
-            val bundle = Bundle()
-            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
-            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
-            ContentResolver.requestSync(
-                account,
-                TransactionProvider.AUTHORITY, bundle
-            )
+            GenericAccountService.requestSync(syncAccountName)
         } else {
             val bundle = Bundle(1)
             bundle.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
@@ -308,7 +301,10 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                         if (handleAuthException(throwable)) {
                             resolutionPendingForGroup = groupPosition
                         } else {
-                            manageSyncBackends.showSnackBar(throwable.message ?: "ERROR", Snackbar.LENGTH_SHORT)
+                            manageSyncBackends.showSnackBar(
+                                throwable.message ?: "ERROR",
+                                Snackbar.LENGTH_SHORT
+                            )
                         }
                     }
                 }
@@ -334,7 +330,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (dialogTag == DIALOG_INACTIVE_BACKEND && which == OnDialogResultListener.BUTTON_POSITIVE) {
             activateSync(
-                getAccount(extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)),
+                getAccount(extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!),
                 prefHandler
             )
         }

@@ -181,9 +181,6 @@
     <string name="progress_dialog_checking_sync_backend">బ్యాకెండ్‌ను ధృవీకరిస్తోంది</string>
     <string name="link_account_failure_3">ఎంట్రీ యొక్క సందర్భ మెను నుండి సంఘర్షణ మానవీయంగా పరిష్కరించబడుతుంది.</string>
     <string name="link_account_failure_2">రిమోట్ బ్యాకెండ్‌లో ఇప్పటికే అదే uuid ఉన్న ఖాతా ఉంది.</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d ఖాతాలు బ్యాకెండ్‌తో సమకాలీకరించడానికి కాన్ఫిగర్ చేయబడ్డాయి.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d ఖాతాలను బ్యాకెండ్‌తో సమకాలీకరించడానికి కాన్ఫిగర్ చేయబడలేదు.</string>
-    <string name="select_unsynced_accounts">ఈ బ్యాకెండ్‌కు సమకాలీకరించడానికి ఖాతాలను ఎంచుకోండి</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">మీరు ఎంచుకున్న ఫోల్డర్ ఇప్పటికే ఉన్న బ్యాకెండ్ యొక్క ఒక ఖాతాకు అనుగుణంగా ఉంటుంది. ఈ బ్యాకెండ్‌ను తిరిగి ఉపయోగించడానికి మీరు దాని మాతృ ఫోల్డర్‌ను ఎంచుకోవాలి.</string>
     <string name="warning_synchronization_folder_usage">వివిధ పరికరాల్లో {app_name} యొక్క సంస్థాపనల మధ్య డేటాను సమకాలీకరించడానికి ఈ ఫోల్డర్ ఉపయోగించబడుతుంది. దయచేసి దానిలోని ఏ విషయాలను మానవీయంగా సవరించవద్దు.</string>
     <string name="warning_trial_limit_reached">ఫీచర్ %s ను పరీక్షించడానికి ట్రయల్ వ్యవధి ముగిసింది.</string>

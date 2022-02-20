@@ -28,6 +28,7 @@ import android.webkit.WebViewClient;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import androidx.annotation.Nullable;
@@ -36,16 +37,19 @@ import androidx.core.util.Pair;
 public class Interstitial implements View.OnClickListener {
   @Nullable private AdListener listener;
   private Pair<PartnerProgram, String> contentProvider;
-  private Context context;
+  private final Context context;
+  private final PrefHandler prefHandler;
   private Dialog mWebviewDialog;
 
   /**
    * Create a new {@link Interstitial}.
    *
    * @param context An Android {@link Context}.
+   * @param prefHandler
    */
-  public Interstitial(Context context) {
+  public Interstitial(Context context, PrefHandler prefHandler) {
     this.context = context;
+    this.prefHandler = prefHandler;
   }
 
   /**
@@ -74,8 +78,8 @@ public class Interstitial implements View.OnClickListener {
     openWebViewInOverlay();
     Bundle bundle = new Bundle(1);
     bundle.putString(Tracker.EVENT_PARAM_AD_PROVIDER, contentProvider.first.name());
-    MyApplication.getInstance().getAppComponent().tracker().logEvent(Tracker.EVENT_AD_CUSTOM, bundle);
-    contentProvider.first.record();
+    ((MyApplication) context.getApplicationContext()).getAppComponent().tracker().logEvent(Tracker.EVENT_AD_CUSTOM, bundle);
+    contentProvider.first.record(prefHandler);
   }
 
   private void openWebViewInOverlay() {

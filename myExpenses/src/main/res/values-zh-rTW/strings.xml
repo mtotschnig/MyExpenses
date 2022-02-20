@@ -584,9 +584,6 @@
     <string name="warning_trial_limit_reached">試用版功能%s已經到期。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安裝在不同裝置上時，兩者之間的資料同步在此檔案夾裡。請不要手動修改其任何內容。</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您所選的檔案夾已對應到此後端的一個帳戶。您需要選擇其上層檔案夾才能重用此後端。</string>
-    <string name="select_unsynced_accounts">選擇要同步到此後端的帳戶</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">已將%d帳戶設定為與後端同步。</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">無法將%d帳戶設定為與後端同步。</string>
     <string name="link_account_failure_2">具有相同\"通用唯一識別碼uuid\"的帳戶已存在於遠程後端上。</string>
     <string name="link_account_failure_3">可以從進入帳戶列表的快顯選單中手動解決衝突。</string>
     <string name="progress_dialog_checking_sync_backend">驗證後端</string>

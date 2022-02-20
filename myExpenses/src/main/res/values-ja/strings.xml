@@ -580,9 +580,6 @@
     <string name="warning_trial_limit_reached">%s機能をテストする試用期間が終了しました。</string>
     <string name="warning_synchronization_folder_usage">このフォルダーは、さまざまなデバイス上の{app_name}のインストール間でデータを同期するために使用されます。 内容を手動で変更しないでください。</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">選択したフォルダーは、既存のバックエンドのアカウントに対応します。 このバックエンドを再利用するには、その親フォルダーを選択する必要があります。</string>
-    <string name="select_unsynced_accounts">選択した勘定はこのバックエンドに同期されます</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d の勘定がこのバックエンドに同期するように設定されました。</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d の勘定がバックエンドと同期するように設定できませんでした。</string>
     <string name="link_account_failure_2">同じuuidを持つ勘定が、リモートのバックエンドにすでに存在します。</string>
     <string name="link_account_failure_3">競合は、エントリーのコンテキストメニューから手動で解決できます。</string>
     <string name="progress_dialog_checking_sync_backend">バックエンドの確認中</string>

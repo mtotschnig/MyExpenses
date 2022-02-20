@@ -50,7 +50,7 @@ class DropboxSetup : AbstractSyncBackup<DropboxSetupViewModel>() {
                 if (intent.action == ACTION_RE_AUTHENTICATE) {
                     with(AccountManager.get(this)) {
                         setUserData(
-                            GenericAccountService.getAccount(intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)),
+                            GenericAccountService.getAccount(intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!),
                             KEY_DBX_CREDENTIAL,
                             credentialSerialized
                         )

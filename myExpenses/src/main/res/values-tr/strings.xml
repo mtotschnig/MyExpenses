@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">%s işlevini deneme periyotu sona ermiştir.</string>
     <string name="warning_synchronization_folder_usage">Bu klasör, {app_name}\'ın değişik cihazlardaki kurulumları arasında eşleştirme yapmak için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Seçtiğiniz klasör mevcut arka ucun bir hesabına denk gelmektedir. Bu arka ucu kullanmak için bir üst klasörü seçmeniz gerekir.</string>
-    <string name="select_unsynced_accounts">Bu arka uçla eşleştirilecek hesapları seç</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d hesap arka uçla eşleştirmek için yapılandırıldı.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d hesap arka uçla eşleştirmek için yapılandırılamadı.</string>
     <string name="link_account_failure_2">Aynı uuid ile bir hesap zaten uzaktaki arka uçta mevcuttur.</string>
     <string name="link_account_failure_3">Çakışma elle unsurun bağlam menüsünden giderilebilir.</string>
     <string name="progress_dialog_checking_sync_backend">Arka ucu kontrol et</string>

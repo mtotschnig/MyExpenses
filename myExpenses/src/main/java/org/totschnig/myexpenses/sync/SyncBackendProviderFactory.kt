@@ -6,7 +6,6 @@ import android.content.Context
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
-import org.totschnig.myexpenses.util.asExceptional
 
 abstract class SyncBackendProviderFactory {
     private fun from(
@@ -32,7 +31,7 @@ abstract class SyncBackendProviderFactory {
             context: Context,
             account: Account,
             create: Boolean
-        ) = get(context, account, create).asExceptional()
+        ) = get(context, account, create).getOrThrow()
 
         @JvmStatic
         operator fun get(

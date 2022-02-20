@@ -24,20 +24,24 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import androidx.core.util.Pair;
 
 public class AdView extends WebView {
   private AdListener listener;
+  private PrefHandler prefHandler;
 
   /**
    * Create a new {@link AdView}.
    *
    * @param context An Android {@link Context}.
+   * @param prefHandler
    */
-  public AdView(Context context) {
+  public AdView(Context context, PrefHandler prefHandler) {
     super(context);
+    this.prefHandler = prefHandler;
     setWebViewClient(new WebViewClient() {
       @Override
       public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -69,7 +73,7 @@ public class AdView extends WebView {
     MyApplication.getInstance().getAppComponent().tracker().logEvent(Tracker.EVENT_AD_CUSTOM, bundle);
     this.loadData(String.format("<center>%s</center>", contentProvider.second), "text/html", "utf-8");
     listener.onBannerLoaded(this);
-    contentProvider.first.record();
+    contentProvider.first.record(prefHandler);
   }
 
   /**

@@ -592,9 +592,6 @@
     <string name="warning_trial_limit_reached">La période d\'essai pour tester la fonctionnalité %s est terminée.</string>
     <string name="warning_synchronization_folder_usage">Ce dossier est utilisé pour la synchronisation des données entre les installations de {app_name} sur différents appareils. S\'il vous plaît ne pas modifier son contenu manuellement.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Le dossier que vous avez sélectionné correspond à un compte d\'un backend existant. Vous devez sélectionner son dossier parent afin de réutiliser ce backend.</string>
-    <string name="select_unsynced_accounts">Sélectionnez les comptes à être synchronisés avec ce backend</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d comptes ont été configurés pour être synchronisés avec le backend.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d comptes n\'ont pas pu être configurés pour être synchronisés avec le backend.</string>
     <string name="link_account_failure_2">Un compte avec le même UUID existe déjà sur le serveur à distance.</string>
     <string name="link_account_failure_3">Le conflit peut être résolu manuellement à partir du menu contextuel de l\'entrée.</string>
     <string name="progress_dialog_checking_sync_backend">Vérification du backend</string>

@@ -691,8 +691,6 @@
     <string name="link_account_failure_2">یک حساب با uuid مشابه از قبل در سرور وجود دارد.</string>
     <string name="home_screen_shortcuts_nougate_info">میانبرها را می توان با ضربه طولانی روی نماد برنامه در صفحه اصلی اضافه کرد.</string>
     <string name="number_of_fraction_digits">تعداد ارقام کسری</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d حساب نمی تواند برای همگام سازی با سرور پیکربندی شود.</string>
-    <string name="select_unsynced_accounts">حساب ها را برای همگام سازی با این سرور انتخاب کنید</string>
     <string name="warning_auto_backup_deactivated">پشتیبان گیری خودکار غیرفعال شده است. پس از حل مشکل (به عنوان مثال انتخاب پوشه دیگری برای پشتیبان گیری) می توانید آن را دوباره از تنظیمات روشن کنید.</string>
     <string name="pref_backup_cloud_title">ذخیره در همگام سازی سرور</string>
     <string name="pref_backup_cloud_summary">علاوه بر فضای ذخیره سازی محلی روی دستگاه، فایل پشتیبان را می توان در یک سرور کپی کرد.</string>

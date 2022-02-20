@@ -610,9 +610,6 @@
     <string name="warning_trial_limit_reached">תקופת הזמן לבדיקת התכונה %s הסתיימה.</string>
     <string name="warning_synchronization_folder_usage">תיקייה זו משמשת לסנכרון נתונים בין התקנות של האפליקציה {app_name} במכשירים שונים. נא לא לשנות את התוכן שלו באופן ידני.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">התיקייה שבחרת מסומנת לחשבון אחד של backend קיים. עליך לבחור את תיקיית האב כדי לעשות שימוש חוזר ב- backend זה.</string>
-    <string name="select_unsynced_accounts">בחר חשבונות לסנכרון עם backend זה</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d חשבונות הוגדרו להיות מסונכרנים עם backend.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d לא ניתן להגדיר את החשבונות כדי לסנכרן עם backend.</string>
     <string name="link_account_failure_2">חשבון עם אותו משתמש uuid כבר קיים על ה-backend המרוחק.</string>
     <string name="link_account_failure_3">ניתן לפתור את אי ההתאמה באופן ידני מתפריט ההקשר של הכניסה.</string>
     <string name="progress_dialog_checking_sync_backend">מאמת backend</string>

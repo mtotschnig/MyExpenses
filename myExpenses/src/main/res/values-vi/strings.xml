@@ -573,9 +573,6 @@
     <string name="warning_trial_limit_reached">Thời gian dùng thử tính năng %s đã kết thúc.</string>
     <string name="warning_synchronization_folder_usage">Thư mục này được sử dụng cho việc đồng bộ dữ liệu giữa các bản cài của ứng dụng trên những thiết bị khác nhau ({app_name}). Vui lòng không tuỳ ý chỉnh sửa các thư mục này và nội dung của nó.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Thư mục bạn đã chọn tương ứng với một tài khoản của một backend sẵn có. Bạn cần chọn thư mục mẹ của nó để dùng lại backend này.</string>
-    <string name="select_unsynced_accounts">Chọn tài khoản để đồng bộ với backend này</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d tài khoản đã được thiết lập để đồng bộ với backend này.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d tài khoản không thể được thiết lập để đồng bộ với backend này.</string>
     <string name="link_account_failure_2">Một tài khoản có cùng uuid đã tồn tại trên phần phụ trợ bên ngoài.</string>
     <string name="link_account_failure_3">Mâu thuẫn có thể được giải quyết bằng tay từ trình đơn ngữ cảnh của mục nhập.</string>
     <string name="progress_dialog_checking_sync_backend">Đang xác minh phần phụ trợ</string>

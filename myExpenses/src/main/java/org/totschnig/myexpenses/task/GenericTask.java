@@ -1,23 +1,19 @@
 package org.totschnig.myexpenses.task;
 
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.RemoteException;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -31,26 +27,11 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.sync.SyncBackendProvider;
-import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.LegacyResultWrapperKt;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
-
-import androidx.annotation.NonNull;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -60,8 +41,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 @Deprecated
 public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   private final TaskExecutionFragment taskExecutionFragment;
-  private int mTaskId;
-  private Serializable mExtra;
+  private final int mTaskId;
+  private final Serializable mExtra;
 
   public GenericTask(TaskExecutionFragment taskExecutionFragment, int taskId, Serializable extra) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -84,7 +65,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   @Override
   protected Object doInBackground(T... ids) {
     Long transactionId;
-    Long[][] extraInfo2d;
     final MyApplication application = MyApplication.getInstance();
     final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     ContentResolver cr = context.getContentResolver();
@@ -192,76 +172,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
         return true;
-      case TaskExecutionFragment.TASK_SYNC_LINK_LOCAL: {
-        Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
-        if (account.isSealed()) {
-          return Result.ofFailure(R.string.object_sealed);
-        }
-        String syncAccountName = (String) this.mExtra;
-        account.setSyncAccountName(syncAccountName);
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putString(KEY_UUID, account.getUuid());
-        bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
-        ContentResolver.requestSync(GenericAccountService.getAccount(syncAccountName),
-            TransactionProvider.AUTHORITY, bundle);
-        account.save();
-        return Result.SUCCESS;
-      }
-      case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
-        //first get remote data for account
-        String syncAccountName = ((String) mExtra);
-        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (!syncBackendProvider.isPresent()) {
-          return Result.ofFailure(syncBackendProvider.getException().getMessage());
-        }
-        List<String> remoteUuidList;
-        try {
-          Stream<AccountMetaData> remoteAccounts = Stream.of(LegacyResultWrapperKt.asExceptional(syncBackendProvider.get().getRemoteAccountList()))
-              .filter(Exceptional::isPresent)
-              .map(Exceptional::get);
-          remoteUuidList = remoteAccounts
-              .map(AccountMetaData::uuid)
-              .collect(Collectors.toList());
-        } catch (IOException e) {
-          return Result.ofFailure(e.getMessage());
-        }
-        int requested = ids.length;
-        c = cr.query(TransactionProvider.ACCOUNTS_URI,
-            new String[]{KEY_ROWID},
-            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(requested) + " AND (" + KEY_UUID + " IS NULL OR NOT " +
-                KEY_UUID + " " + WhereFilter.Operation.IN.getOp(remoteUuidList.size()) + ")",
-            Stream.concat(
-                Stream.of(((Long[]) ids)).map(String::valueOf),
-                Stream.of(remoteUuidList))
-                .toArray(size -> new String[size]),
-            null);
-        if (c == null) {
-          return Result.ofFailure("Cursor is null");
-        }
-        int result = 0;
-        if (c.moveToFirst()) {
-          result = c.getCount();
-          while (!c.isAfterLast()) {
-            Account account = Account.getInstanceFromDb(c.getLong(0));
-            account.setSyncAccountName(syncAccountName);
-            account.save();
-            c.moveToNext();
-          }
-        }
-        c.close();
-        String message = "";
-        if (result > 0) {
-          message = context.getString(R.string.link_account_success, result);
-        }
-        if (requested > result) {
-          message += " " + context.getString(R.string.link_account_failure_1, requested - result)
-              + " " + context.getString(R.string.link_account_failure_2)
-              + " " + context.getString(R.string.link_account_failure_3);
-        }
-        return requested == result ? Result.ofSuccess(message) : Result.ofFailure(message);
-      }
       case TaskExecutionFragment.TASK_CATEGORY_COLOR: {
         return Category.updateColor((Long) ids[0], (Integer) mExtra) ? Result.SUCCESS :
             Result.ofFailure("Error while saving color for category");
@@ -278,21 +188,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         TransactionProvider.ACCOUNTS_URI, values,
         String.format("%s %s", KEY_ROWID, WhereFilter.Operation.IN.getOp(accountIds.length)),
         Stream.of(accountIds).map(String::valueOf).toArray(String[]::new)) == accountIds.length;
-  }
-
-  @NonNull
-  private Exceptional<SyncBackendProvider> getSyncBackendProviderFromExtra() {
-    return GenericAccountService.Companion.getSyncBackendProviderLegacy(MyApplication.getInstance(), (String) mExtra);
-  }
-
-  private boolean deleteAccount(Long anId) {
-    try {
-      Account.delete(anId);
-    } catch (RemoteException | OperationApplicationException e) {
-      CrashHandler.reportWithDbSchema(e);
-      return false;
-    }
-    return true;
   }
 
   @Override

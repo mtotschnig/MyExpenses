@@ -588,9 +588,6 @@
     <string name="warning_trial_limit_reached">%s eginbidea probatzeko proba-aldia amaitu egin da.</string>
     <string name="warning_synchronization_folder_usage">Karpeta hau gailu desberdinetan {app_name} instalatzean datuak sinkronizatzeko da. Mesedez ez aldatu bere edukirik eskuz.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Hautatu duzun karpeta existitzen den atzealdeko baten kontu bati dagokio. Bere karpeta nagusia hautatu behar duzu atzealdeko hau berrerabiltzeko.</string>
-    <string name="select_unsynced_accounts">Hautatu zein kontu sinkronizatu atzealdeko honetara</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d kontu konfiguratu dira atzealdekoarekin sinkronizatuak izateko.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d kontu ezin izan dira konfiguratu atzealdekoarekin sinkronizatuak izateko.</string>
     <string name="link_account_failure_2">UUID bereko kontu bat badago jadanik urruneko atzealdekoan.</string>
     <string name="link_account_failure_3">Gatazka eskuz ebatzi daiteke sarreraren laster-menutik.</string>
     <string name="progress_dialog_checking_sync_backend">Atzealdekoa egiaztatzen.</string>

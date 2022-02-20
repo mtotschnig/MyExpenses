@@ -105,10 +105,9 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             )
             return
         }
-        val backendProviderExceptional = getLegacy(context, account, false)
         val backend: SyncBackendProvider
         try {
-            backend = backendProviderExceptional.orThrow
+            backend = getLegacy(context, account, false)
         } catch (throwable: Throwable) {
             if (throwable is SyncParseException || throwable is EncryptionException) {
                 syncResult.databaseError = true

@@ -15,45 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.accounts.AccountManager;
-import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.RemoteException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.ShortcutHelper;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.viewmodel.data.Debt;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-
 import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -101,6 +62,43 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getSelectAmountSum;
 import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
+
+import android.accounts.AccountManager;
+import android.content.ContentProviderOperation;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.RemoteException;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.ShortcutHelper;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.viewmodel.data.Debt;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Account represents an account stored in the database.
@@ -891,12 +889,7 @@ public class Account extends Model {
 
   public void requestSync() {
     if (syncAccountName != null) {
-      Bundle bundle = new Bundle();
-      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-      bundle.putString(DatabaseConstants.KEY_UUID, getUuid());
-      ContentResolver.requestSync(GenericAccountService.getAccount(syncAccountName),
-          TransactionProvider.AUTHORITY, bundle);
+      GenericAccountService.requestSync(syncAccountName,getUuid());
     }
   }
 

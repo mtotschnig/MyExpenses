@@ -597,9 +597,6 @@
     <string name="warning_trial_limit_reached">The trial period for testing feature %s has ended.</string>
     <string name="warning_synchronization_folder_usage">This folder is used for synchronizing data between installations of {app_name} on different devices. Please do not modify any of its contents manually.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>
-    <string name="select_unsynced_accounts">Select accounts to be synced to this backend</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d accounts were configured to be synced with the backend.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d accounts could not be configured to be synced with the backend.</string>
     <string name="link_account_failure_2">An account with the same uuid already exists on the remote backend.</string>
     <string name="link_account_failure_3">The conflict can be resolved manually from the entry\'s context menu.</string>
     <string name="progress_dialog_checking_sync_backend">Verifying backend</string>
@@ -1027,4 +1024,5 @@
     <string name="whats_new_336_1">Share debt summary</string>
     <!-- New feature in version 3.3.6 #2 (https://github.com/mtotschnig/MyExpenses/issues/889) -->
     <string name="whats_new_336_2">Tags for split parts</string>
+    <string name="setup_completed">Setup completed</string>
 </resources>
