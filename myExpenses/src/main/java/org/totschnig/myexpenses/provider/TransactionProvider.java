@@ -550,8 +550,6 @@ public class TransactionProvider extends BaseTransactionProvider {
           if (!minimal) {
             String selectAccountSum = getSelectAmountSum(aggregateFunction);
             stringBuilder.append(",")
-                .append(KEY_GROUPING)
-                .append(",")
                 .append(KEY_OPENING_BALANCE)
                 .append(",")
                 .append(KEY_OPENING_BALANCE)
@@ -636,7 +634,8 @@ public class TransactionProvider extends BaseTransactionProvider {
                 aggregateFunction + "(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
                 currencyColumn,
                 "-1 AS " + KEY_COLOR,
-                "t." + KEY_GROUPING,
+                "(SELECT " + KEY_GROUPING + " FROM " + TABLE_CURRENCIES
+                            + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY + ")  AS " + KEY_GROUPING,
                 "'AGGREGATE' AS " + KEY_TYPE,
                 "0 AS " + KEY_SORT_KEY,
                 "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
@@ -738,8 +737,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
         if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
-          String grouping = prefHandler.getString(
-              GROUPING_AGGREGATE, "NONE");
+          String grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE");
           qb.setTables(TABLE_ACCOUNTS);
           projection = new String[]{
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
