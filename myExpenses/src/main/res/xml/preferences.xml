@@ -48,10 +48,10 @@
                 android:targetPackage="@string/application_id" />
         </Preference>
         <ListPreference
+            android:enabled="false"
             android:key="@string/pref_home_currency_key"
             android:title="@string/pref_home_currency_title"
-            android:enabled="false"
-            my:useSimpleSummaryProvider="true"/>
+            my:useSimpleSummaryProvider="true" />
         <Preference
             android:key="manage_tags"
             android:summary="@string/pref_manage_tags_summary"
@@ -105,7 +105,7 @@
             android:key="@string/pref_auto_fill_key"
             android:title="@string/autofill">
             <Preference
-                style="?preferenceInformationStyle"
+                android:selectable="false"
                 android:summary="@string/pref_auto_fill_summary" />
             <SwitchPreferenceCompat
                 android:defaultValue="true"
@@ -131,10 +131,10 @@
                 android:key="@string/pref_auto_fill_method_key"
                 android:title="@string/method" />
             <SwitchPreferenceCompat
-                my:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="@string/pref_auto_fill_focus_key"
-                android:title="@string/auto_fill_focus"/>
+                android:title="@string/auto_fill_focus"
+                my:singleLineTitle="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
@@ -243,7 +243,7 @@
             android:key="@string/pref_auto_backup_key"
             android:title="@string/pref_auto_backup_title">
             <Preference
-                style="?preferenceInformationStyle"
+                android:selectable="false"
                 android:key="@string/pref_auto_backup_info_key"
                 android:summary="@string/pref_auto_backup_summary" />
             <org.totschnig.myexpenses.preference.TimePreference
@@ -346,7 +346,9 @@
                 android:key="@string/pref_sync_changes_immediately_key"
                 android:summary="@string/pref_sync_changes_immediately_summary" />
         </PreferenceScreen>
-        <SwitchPreferenceCompat android:key="@string/pref_web_ui_key" android:title="@string/title_webui"/>
+        <SwitchPreferenceCompat
+            android:key="@string/pref_web_ui_key"
+            android:title="@string/title_webui" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -433,7 +435,7 @@
             android:key="@string/pref_translation_key"
             android:title="@string/pref_translation_title">
             <Preference
-                style="?preferenceInformationStyle"
+                android:selectable="false"
                 android:summary="Please help us keep the translation for your language up to date. You can either suggest improvements for missing or incorrect translations, or join the translation project as a regular contributor." />
             <Preference
                 android:key="translation_suggest_improvement"
@@ -449,8 +451,7 @@
                         android:value="Please provide a detailed description, ideally including a screenshot:" />
                 </intent>
             </Preference>
-            <Preference
-                android:title="Join My Exepenses @ Weblate">
+            <Preference android:title="Join My Exepenses @ Weblate">
                 <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://hosted.weblate.org/engage/my-expenses/" />
@@ -488,7 +489,7 @@
             android:key="@string/pref_crash_reports_key"
             android:title="@string/pref_category_title_crash_reports">
             <Preference
-                style="?preferenceInformationStyle"
+                android:selectable="false"
                 android:key="@string/pre_acra_info_key" />
             <SwitchPreferenceCompat
                 android:defaultValue="true"
