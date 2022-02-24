@@ -15,14 +15,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
-import androidx.preference.EditTextPreference
-import androidx.preference.ListPreference
-import androidx.preference.MultiSelectListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceGroup
-import androidx.preference.SwitchPreferenceCompat
+import androidx.preference.*
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
@@ -31,25 +24,17 @@ import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.preference.AccountPreference
-import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
+import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.service.DailyScheduler
-import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.BackendService
-import org.totschnig.myexpenses.util.ShortcutHelper
-import org.totschnig.myexpenses.util.TextUtils
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -65,7 +50,6 @@ import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.HashSet
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
     OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
@@ -186,7 +170,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     private fun configureUninstallPrefs() {
         configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_FEATURES, featureManager.installedFeatures().filterTo(HashSet()) { it != "drive" },
+            PrefKey.FEATURE_UNINSTALL_FEATURES,
+            featureManager.installedFeatures().filterTo(HashSet()) { it != "drive" },
             featureManager::uninstallFeatures
         ) { module ->
             Feature.fromModuleName(module)?.let { getString(it.labelResId) } ?: module
@@ -538,7 +523,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
         when (rootKey) {
             null -> { //ROOT screen
-                requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener = this
+                requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener =
+                    this
                 requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
 
                 requirePreference<Preference>(PrefKey.RESTORE).title =
@@ -563,7 +549,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible = result
                 }
 
-                val privacyCategory = requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)
+                val privacyCategory =
+                    requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)
                 if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
                     privacyCategory.removePreference(requirePreference(PrefKey.TRACKING))
                     privacyCategory.removePreference(requirePreference(PrefKey.CRASHREPORT_SCREEN))
@@ -749,6 +736,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         "EXCHANGE_RATE_HOST"
                     )
                 )
+            }
+            getKey(PrefKey.DEBUG_SCREEN) -> {
+                requirePreference<Preference>(PrefKey.CRASHLYTICS_USER_ID).let {
+                    if (DistributionHelper.isGithub ||
+                        !prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, false)
+                    ) {
+                        preferenceScreen.removePreference(it)
+                    } else {
+                        it.summary =
+                            prefHandler.getString(PrefKey.CRASHLYTICS_USER_ID, null).toString()
+                    }
+                }
             }
         }
     }

@@ -92,6 +92,7 @@
     <string name="pref_protection_device_lock_screen_key">protection_device_lock_screen</string>
     <string name="pref_crashreport_enabled_key">crashreport_enabled</string>
     <string name="pref_crashreport_useremail_key">crashreport_useremail</string>
+    <string name="pref_crashlytics_user_id_key">crashlytics_user_id</string>
     <string name="pref_home_currency_key">home_currency</string>
     <string name="pref_transaction_time_key">transaction_time</string>
     <string name="pref_value_date_key">value_date</string>

@@ -577,6 +577,11 @@
             <SwitchPreferenceCompat
                 android:key="@string/pref_debug_logging_key"
                 android:summary="@string/pref_debug_logging_summary" />
+            <Preference
+                android:selectable="false"
+                android:key="@string/pref_crashlytics_user_id_key"
+                android:title="Crashlytics User Id"
+                my:enableCopying="true" />
             <SwitchPreferenceCompat
                 android:key="@string/pref_debug_show_ads_key"
                 android:summary="Ads"

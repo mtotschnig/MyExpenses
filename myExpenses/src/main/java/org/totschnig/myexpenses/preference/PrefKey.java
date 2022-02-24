@@ -111,6 +111,7 @@ public enum PrefKey {
   CRASHREPORT_SCREEN(R.string.pref_crash_reports_key),
   CRASHREPORT_ENABLED(R.string.pref_crashreport_enabled_key),
   CRASHREPORT_USEREMAIL(R.string.pref_crashreport_useremail_key),
+  CRASHLYTICS_USER_ID(R.string.pref_crashlytics_user_id_key),
   HOME_CURRENCY(R.string.pref_home_currency_key),
   LAST_ORIGINAL_CURRENCY("last_original_currency"),
   TRANSACTION_WITH_TIME(R.string.pref_transaction_time_key),
