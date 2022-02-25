@@ -108,7 +108,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 )
             )
         } catch (e: Exception) {
-            emit(Result.failure<Int>(e))
+            emit(Result.failure(e))
         }
     }
 

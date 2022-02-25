@@ -54,12 +54,7 @@ inline fun <reified E : Enum<E>> getEnumFromPreferencesWithDefault(
     prefHandler: PrefHandler,
     prefKey: PrefKey,
     defaultValue: E
-) =
-    try {
-        enumValueOf(prefHandler.getString(prefKey, defaultValue.name)!!)
-    } catch (e: IllegalArgumentException) {
-        defaultValue
-    }
+) = enumValueOrDefault(prefHandler.getString(prefKey, null), defaultValue)
 
 fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
     if (type.isInstance(view)) {

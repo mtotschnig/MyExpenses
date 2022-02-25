@@ -41,7 +41,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 emit(Result.success(CSVFormat.DEFAULT.withDelimiter(delimiter).parse(InputStreamReader(it, encoding)).records))
             } ?: throw java.lang.Exception("OpenInputStream returned null")
         } catch (e: Exception) {
-            emit(Result.failure<List<CSVRecord>>(e))
+            emit(Result.failure(e))
         }
     }
 
@@ -87,7 +87,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                     income.subtract(expense)
                 }
             } catch (e: IllegalArgumentException) {
-                emit(Result.failure<Pair<Pair<Int, String>, Int>>(Exception("Amounts in data exceed storage limit")))
+                emit(Result.failure(Exception("Amounts in data exceed storage limit")))
                 return@liveData
             }
             val m = Money(account.currencyUnit, amount)

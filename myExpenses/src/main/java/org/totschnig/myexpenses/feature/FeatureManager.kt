@@ -9,6 +9,8 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.enumValueOrNull
 import java.util.*
 
 enum class Feature(@StringRes val labelResId: Int) {
@@ -30,11 +32,8 @@ enum class Feature(@StringRes val labelResId: Int) {
         get() = name.lowercase(Locale.ROOT)
 
     companion object {
-        fun fromModuleName(moduleName: String?) = try {
-            moduleName?.let { valueOf(it.uppercase(Locale.ROOT)) }
-        } catch (e: IllegalArgumentException) {
-            null
-        }
+        fun fromModuleName(moduleName: String?): Feature? =
+            enumValueOrNull<Feature>(moduleName?.uppercase(Locale.ROOT))
     }
 }
 
@@ -43,22 +42,20 @@ enum class Script {
 }
 
 fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler) =
-    Feature.fromModuleName(prefHandler.getString(PrefKey.OCR_ENGINE, null)) ?: getDefaultOcrEngine(
-        context
-    )
+    Feature.fromModuleName(prefHandler.getString(PrefKey.OCR_ENGINE, null))
+        ?: getDefaultOcrEngine(context)
 
 fun getUserConfiguredMlkitScriptModule(context: Context, prefHandler: PrefHandler) =
-    Feature.fromModuleName("mlkit_${getUserConfiguredMlkitScript(context, prefHandler).name.lowercase(
-        Locale.ROOT)}")!!
+    Feature.fromModuleName(
+        "mlkit_${
+            getUserConfiguredMlkitScript(context, prefHandler).name.lowercase(
+                Locale.ROOT
+            )
+        }"
+    )!!
 
 fun getUserConfiguredMlkitScript(context: Context, prefHandler: PrefHandler) =
-    prefHandler.getString(PrefKey.MLKIT_SCRIPT, null)?.let {
-        try {
-            Script.valueOf(it)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
-    } ?: defaultScript(context)
+    enumValueOrDefault(prefHandler.getString(PrefKey.MLKIT_SCRIPT, null), defaultScript(context))
 
 private fun defaultScript(context: Context) =
     when (getLocaleForUserCountry(context).language) {

@@ -17,19 +17,7 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import icepick.State
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.BaseMyExpenses
-import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
-import org.totschnig.myexpenses.activity.MAP_ACCOUNT_REQUEST
-import org.totschnig.myexpenses.activity.MAP_CATEGORY_REQUEST
-import org.totschnig.myexpenses.activity.MAP_METHOD_REQUEST
-import org.totschnig.myexpenses.activity.MAP_PAYEE_REQUEST
-import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
-import org.totschnig.myexpenses.activity.ManageCategories
-import org.totschnig.myexpenses.activity.ManageParties
-import org.totschnig.myexpenses.activity.ManageTags
-import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
@@ -45,6 +33,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
@@ -113,7 +102,7 @@ class TransactionList : BaseTransactionList() {
         }
         return true
     }
-    
+
     private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean, multiple: Boolean) {
         val resIds = mutableListOf<Int>()
         if (multiple) {
@@ -167,11 +156,10 @@ class TransactionList : BaseTransactionList() {
             for (i in 0 until positions.size()) {
                 if (positions.valueAt(i)) {
                     mTransactionsCursor.moveToPosition(positions.keyAt(i))
-                    val status: CrStatus = try {
-                        CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus))
-                    } catch (ex: IllegalArgumentException) {
+                    val status = enumValueOrDefault(
+                        mTransactionsCursor.getString(columnIndexCrStatus),
                         CrStatus.UNRECONCILED
-                    }
+                    )
                     if (status == CrStatus.RECONCILED) {
                         hasReconciled = true
                     }
@@ -342,7 +330,9 @@ class TransactionList : BaseTransactionList() {
                         }
                     }
                 }
-                CheckTransferAccountOfSplitPartsHandler(requireActivity().contentResolver).check(splitIds) { result ->
+                CheckTransferAccountOfSplitPartsHandler(requireActivity().contentResolver).check(
+                    splitIds
+                ) { result ->
                     lifecycleScope.launchWhenResumed {
                         result.onSuccess {
                             excludedIds.addAll(it)
@@ -412,11 +402,13 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
-    private fun setColor(text: String?) = text?.withAmountColor(resources, selectedTransactionSum.sign) ?: ""
+    private fun setColor(text: String?) =
+        text?.withAmountColor(resources, selectedTransactionSum.sign) ?: ""
 
     override fun onSelectionChanged(position: Int, checked: Boolean) {
         if (mTransactionsCursor.moveToPosition(position)) {
-            val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndexOrThrow(KEY_AMOUNT))
+            val amount =
+                mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndexOrThrow(KEY_AMOUNT))
             val shouldCount = if (isTransferAtPosition(position) && mAccount.isAggregate) {
                 if (mAccount.isHomeAggregate) false else mTransactionsCursor.getInt(
                     mTransactionsCursor.getColumnIndexOrThrow(KEY_IS_SAME_CURRENCY)

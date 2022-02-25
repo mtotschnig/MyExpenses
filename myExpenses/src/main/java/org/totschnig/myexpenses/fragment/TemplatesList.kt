@@ -74,12 +74,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
 import timber.log.Timber
@@ -198,13 +195,10 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                         dispatchCreateInstanceEditDo(id)
                     } else {
                         val splitAtPosition = isSplitAtPosition(position)
-                        val defaultAction: Template.Action = try {
-                            Template.Action.valueOf(
-                                mTemplatesCursor!!.getString(columnIndexDefaultAction)
-                            )
-                        } catch (e: IllegalArgumentException) {
+                        val defaultAction: Template.Action = enumValueOrDefault(
+                            mTemplatesCursor!!.getString(columnIndexDefaultAction),
                             Template.Action.SAVE
-                        }
+                        )
                         if (defaultAction == Template.Action.SAVE) {
                             if (splitAtPosition) {
                                 requestSplitTransaction(longArrayOf(id))

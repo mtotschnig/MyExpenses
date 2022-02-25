@@ -43,12 +43,15 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.task.ExportTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.postScrollToBottom
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -184,8 +187,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
                 binding.DelimiterRow.visibility =
                     if (checkedId == R.id.csv) View.VISIBLE else View.GONE
             }
-            val format = prefHandler.getString(PrefKey.EXPORT_FORMAT, "QIF")
-            binding.format.check(if (format == "CSV") R.id.csv else R.id.qif)
+            val format = enumValueOrDefault(prefHandler.getString(PrefKey.EXPORT_FORMAT, null), ExportFormat.QIF)
+            binding.format.check(format.resId)
             val delimiter = prefHandler.getInt(ExportTask.KEY_DELIMITER, ','.code)
                 .toChar()
             @IdRes val delimiterButtonResId = when (delimiter) {
@@ -315,11 +318,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
         if (ctx == null || accountId == null || accountId == 0L) {
             return
         }
-        val format = when (binding.format.checkedRadioButtonId) {
-            R.id.csv -> "CSV"
-            R.id.json -> "JSON"
-            else -> "QIF"
-        }
+        val format = ExportFormat.values().find { it.resId == binding.format.checkedRadioButtonId} ?: ExportFormat.QIF
         val dateFormat = binding.dateFormat.text.toString()
         val decimalSeparator = if (binding.separator.checkedRadioButtonId == R.id.dot) '.' else ','
         val delimiter = when (binding.Delimiter.checkedRadioButtonId) {
@@ -346,7 +345,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
         }
         val encoding = binding.Encoding.selectedItem as String
         with(prefHandler) {
-            putString(PrefKey.EXPORT_FORMAT, format)
+            putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)
             putString(PREF_KEY_EXPORT_ENCODING, encoding)
             putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator.code)
@@ -368,7 +367,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
                     putBoolean(ExportTask.KEY_MERGE_P, mergeAccounts)
                     prefHandler.putBoolean(ExportTask.KEY_MERGE_P, mergeAccounts)
                 }
-                putString(TaskExecutionFragment.KEY_FORMAT, format)
+                putSerializable(TaskExecutionFragment.KEY_FORMAT, format)
                 putBoolean(ExportTask.KEY_DELETE_P, binding.exportDelete.isChecked)
                 putBoolean(ExportTask.KEY_NOT_YET_EXPORTED_P, binding.exportNotYetExported.isChecked)
                 putString(TaskExecutionFragment.KEY_DATE_FORMAT, dateFormat)

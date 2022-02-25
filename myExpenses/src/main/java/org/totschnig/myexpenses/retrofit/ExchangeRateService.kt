@@ -7,6 +7,8 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.enumValueOrNull
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
@@ -124,14 +126,7 @@ fun configuration(prefHandler: @NotNull PrefHandler): Configuration {
         PrefKey.EXCHANGE_RATE_PROVIDER,
         default.name
     ).takeIf { it != "RATESAPI" }
-    val source = preferenceValue?.let {
-        try {
-            ExchangeRateSource.valueOf(it)
-        } catch (e: IllegalArgumentException) {
-            CrashHandler.report(e)
-            null
-        }
-    } ?: default
+    val source = enumValueOrDefault(preferenceValue, default)
     return Configuration(
         source, prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
     )

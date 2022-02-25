@@ -33,11 +33,7 @@ import javax.inject.Inject
 class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, extras: Bundle) :
     AsyncTask<Void, String, Pair<ExportFormat, List<Uri>>?>() {
     private val result = ArrayList<Uri>()
-    private var format: ExportFormat = try {
-        ExportFormat.valueOf(extras.getString(TaskExecutionFragment.KEY_FORMAT)!!)
-    } catch (e: IllegalArgumentException) {
-        ExportFormat.QIF
-    }
+    private var format: ExportFormat = extras.getSerializable(TaskExecutionFragment.KEY_FORMAT) as ExportFormat
     private val deleteP = extras.getBoolean(KEY_DELETE_P)
     private val notYetExportedP = extras.getBoolean(KEY_NOT_YET_EXPORTED_P)
     private val mergeP = extras.getBoolean(KEY_MERGE_P)

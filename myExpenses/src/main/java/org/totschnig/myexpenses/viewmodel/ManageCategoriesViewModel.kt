@@ -198,7 +198,7 @@ class ManageCategoriesViewModel(application: Application) :
                 }
             } catch (e: SQLiteConstraintException) {
                 CrashHandler.reportWithDbSchema(e)
-                emit(Result.failure<String>(e))
+                emit(Result.failure(e))
             }
         }
     }

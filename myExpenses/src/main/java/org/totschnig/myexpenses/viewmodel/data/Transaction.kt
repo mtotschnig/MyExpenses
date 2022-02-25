@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import java.io.File
 import java.math.BigDecimal
 
@@ -119,7 +120,11 @@ data class Transaction(
                 transferPeer = transferPeer,
                 transferAmount = transferAccountId?.let {
                     val transferCurrencyUnit =
-                        currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TRANSFER_CURRENCY)))
+                        currencyContext.get(
+                            cursor.getString(
+                                cursor.getColumnIndexOrThrow(KEY_TRANSFER_CURRENCY)
+                            )
+                        )
                     Money(
                         transferCurrencyUnit,
                         cursor.getLong(cursor.getColumnIndexOrThrow(KEY_TRANSFER_AMOUNT))
@@ -149,23 +154,23 @@ data class Transaction(
                             )
                         )
                     ),
-                pictureUri = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PICTURE_URI))?.let { uri ->
-                    var parsedUri = Uri.parse(uri)
-                    if ("file" == parsedUri.scheme) { // Upgrade from legacy uris
-                        parsedUri.path?.let {
-                            try {
-                                parsedUri = AppDirHelper.getContentUriForFile(File(it))
-                            } catch (ignored: IllegalArgumentException) {
+                pictureUri = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PICTURE_URI))
+                    ?.let { uri ->
+                        var parsedUri = Uri.parse(uri)
+                        if ("file" == parsedUri.scheme) { // Upgrade from legacy uris
+                            parsedUri.path?.let {
+                                try {
+                                    parsedUri = AppDirHelper.getContentUriForFile(File(it))
+                                } catch (ignored: IllegalArgumentException) {
+                                }
                             }
                         }
-                    }
-                    parsedUri
-                },
-                crStatus = try {
-                    CrStatus.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CR_STATUS)))
-                } catch (ex: IllegalArgumentException) {
+                        parsedUri
+                    },
+                crStatus = enumValueOrDefault(
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_CR_STATUS)),
                     CrStatus.UNRECONCILED
-                },
+                ),
                 referenceNumber = getString(cursor, KEY_REFERENCE_NUMBER),
                 originTemplate = getLongOrNull(
                     cursor,
@@ -173,17 +178,10 @@ data class Transaction(
                 )?.let { Template.getInstanceFromDb(it) },
                 isSealed = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_SEALED)) > 0,
                 accountLabel = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
-                accountType = try {
-                    AccountType.valueOf(
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow(
-                                KEY_ACCOUNT_TYPE
-                            )
-                        )
-                    )
-                } catch (ex: IllegalArgumentException) {
+                accountType = enumValueOrDefault(
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_TYPE)),
                     AccountType.CASH
-                },
+                ),
                 hasTransferPeerParent = getLongOrNull(
                     cursor,
                     KEY_TRANSFER_PEER_PARENT
