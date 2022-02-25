@@ -685,7 +685,6 @@
     <string name="sync_state_restored">وضعیت همگام‌سازی برای %d حساب بازیابی شد.</string>
     <string name="pref_webdav_timeout_title">وقفه WebDAV (در ثانیه)</string>
     <string name="onboarding_restore_from_cloud">بازیابی از همگام سازی با سرور</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">%d حساب برای همگام سازی با سرور پیکربندی شد.</string>
     <string name="link_account_failure_3">تناقض را می توان به صورت دستی از منوی زمینه ورودی حل کرد.</string>
     <string name="onboarding_restore_from_cloud_backup">پشتیبان گیری</string>
     <string name="link_account_failure_2">یک حساب با uuid مشابه از قبل در سرور وجود دارد.</string>
