@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
@@ -63,7 +64,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             "${getString(R.string.toast_text_copied)}: $text"
         } catch (e: RuntimeException) {
             Timber.e(e)
-            e.message ?: "Error"
+            e.safeMessage
         })
     }
 
@@ -228,7 +229,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             val throwable = activityResult?.error ?: Throwable("ERROR")
             CrashHandler.report(throwable)
-            showSnackBar(if (throwable is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else throwable.message ?: "ERROR")
+            showSnackBar(if (throwable is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else throwable.safeMessage)
         }
     }
 

@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.ui.FragmentPagerAdapter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.distribution
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 
 class OnboardingActivity : SyncBackendSetupActivity() {
@@ -145,7 +146,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
                 result.onSuccess {
                     start()
                 }.onFailure {
-                    showDismissibleSnackBar(it.message ?: "ERROR")
+                    showDismissibleSnackBar(it.safeMessage)
                 }
             }
     }

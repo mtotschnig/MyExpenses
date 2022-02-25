@@ -13,6 +13,7 @@ import eltos.simpledialogfragment.list.SimpleListDialog
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 
 const val DIALOG_TAG_FOLDER_SELECT = "FOLDER_SELECT"
@@ -45,7 +46,7 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
         viewModel.error.observe(this) { exception ->
             if (!handleException(exception)) {
                 CrashHandler.report(exception)
-                showSnackBar(exception.message ?: "ERROR")
+                showSnackBar(exception.safeMessage)
                 finish()
             }
         }

@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 import java.io.Serializable
@@ -74,8 +75,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 ).observe(this) { result ->
                     result.onFailure {
                         showSnackBar(
-                            if (it is AccountSealedException) getString(R.string.object_sealed) else it.message
-                                ?: "ERROR"
+                            if (it is AccountSealedException) getString(R.string.object_sealed) else it.safeMessage
                         )
                     }
                 }

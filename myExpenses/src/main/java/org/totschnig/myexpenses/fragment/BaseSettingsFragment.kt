@@ -124,7 +124,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }.onFailure {
                     if (preference.isChecked) preference.isChecked = false
-                    preferenceActivity.showSnackBar(it.message ?: "ERROR")
+                    preferenceActivity.showSnackBar(it.safeMessage)
                 }
             }
         }
@@ -861,7 +861,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun reportException(e: Exception) {
-        preferenceActivity.showSnackBar(e.message ?: "ERROR")
+        preferenceActivity.showSnackBar(e.safeMessage)
         CrashHandler.report(e)
     }
 }

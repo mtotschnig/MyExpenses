@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SyncBackendViewModel
@@ -364,7 +365,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                             syncSpinner.isEnabled = true
                             binding.SyncUnlink.visibility = View.GONE
                         }.onFailure {
-                            showSnackBar(it.message ?: "ERROR")
+                            showSnackBar(it.safeMessage)
                         }
                     }
                 }
@@ -406,7 +407,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 syncViewModel.syncCheck(uuid, syncSpinner.selectedItem as String).observe(this) { result ->
                     result.onFailure {
                     syncSpinner.setSelection(0)
-                    showHelp(it.message ?: "ERROR")
+                    showHelp(it.safeMessage)
                 }
             } }
         }

@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.ExceptionUtilsKt;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
@@ -102,7 +103,7 @@ public class ContribInfoDialogActivity extends IapActivity {
           licenceHandler.launchPurchase(aPackage, getIntent().getBooleanExtra(KEY_SHOULD_REPLACE_EXISTING, false), getBillingManager());
         } catch (IllegalStateException e) {
           CrashHandler.report(e);
-          showMessage(e.getMessage() != null ? e.getMessage() : "ERROR");
+          showMessage(ExceptionUtilsKt.getSafeMessage(e));
         }
         break;
       default:

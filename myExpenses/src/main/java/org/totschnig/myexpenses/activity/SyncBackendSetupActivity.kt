@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
 import java.io.File
@@ -180,7 +181,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
             result.onSuccess {
                 onReceiveSyncAccountData(it)
             }.onFailure {
-                showSnackBar(it.message ?: "ERROR")
+                showSnackBar(it.safeMessage)
             }
         }
     }

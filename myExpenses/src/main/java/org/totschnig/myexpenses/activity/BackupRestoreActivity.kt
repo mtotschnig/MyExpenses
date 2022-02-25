@@ -35,11 +35,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.task.RestoreTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.Result
-import org.totschnig.myexpenses.util.ShareUtils
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState
@@ -222,9 +218,9 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
 
     fun onSourceSelected(mUri: Uri, restorePlanStrategy: Int) {
         val args = buildRestoreArgs(mUri, restorePlanStrategy)
-        backupViewModel.isEncrypted(mUri).observe(this) {
-            it.onFailure {
-                showDismissibleSnackBar(it.message ?: "ERROR", object : Snackbar.Callback() {
+        backupViewModel.isEncrypted(mUri).observe(this) { result ->
+            result.onFailure {
+                showDismissibleSnackBar(it.safeMessage, object : Snackbar.Callback() {
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         finish()
                     }

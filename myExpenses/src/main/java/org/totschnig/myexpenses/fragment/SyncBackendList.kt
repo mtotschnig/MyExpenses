@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import javax.inject.Inject
 
@@ -302,7 +303,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                             resolutionPendingForGroup = groupPosition
                         } else {
                             manageSyncBackends.showSnackBar(
-                                throwable.message ?: "ERROR",
+                                throwable.safeMessage,
                                 Snackbar.LENGTH_SHORT
                             )
                         }
@@ -340,7 +341,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     fun syncUnlink(uuid: String) {
         viewModel.syncUnlink(uuid).observe(this) { result ->
             result.onFailure {
-                manageSyncBackends.showSnackBar(it.message ?: "ERROR")
+                manageSyncBackends.showSnackBar(it.safeMessage)
             }
         }
     }

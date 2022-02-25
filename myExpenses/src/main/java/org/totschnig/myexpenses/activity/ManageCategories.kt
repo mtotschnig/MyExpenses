@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.ShareUtils
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
 
 /**
@@ -216,7 +217,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
                     }
                 }
             }.onFailure {
-                updateSnackBar(it.message ?: "ERROR")
+                updateSnackBar(it.safeMessage)
             }
         }
     }
