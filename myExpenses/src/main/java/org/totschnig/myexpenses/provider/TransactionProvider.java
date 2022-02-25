@@ -1623,12 +1623,14 @@ public class TransactionProvider extends BaseTransactionProvider {
             c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, "(" + KEY_UUID + " IS NULL OR (SELECT "+ KEY_UUID + " from "+ TABLE_TRANSACTIONS +  " peer where peer." + KEY_TRANSFER_PEER + " = "+ KEY_ROWID + ") is null ) AND ("
                 + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", null, null, null, null);
             if (c.moveToFirst()) {
-              while (!c.isAfterLast()) {
-                String idString = c.getString(0);
-                db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
-                    new String[]{Model.generateUuid(), idString, idString});
-                c.moveToNext();
-              }
+              MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
+                while (!c.isAfterLast()) {
+                  String idString = c.getString(0);
+                  db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
+                          new String[]{Model.generateUuid(), idString, idString});
+                  c.moveToNext();
+                }
+              });
             }
             c.close();
             db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
