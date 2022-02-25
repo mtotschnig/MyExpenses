@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.model
 
 import android.content.Context
 import android.database.Cursor
+import androidx.annotation.Keep
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -11,6 +12,7 @@ import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Keep
 data class TransactionDTO(
     val id: String,
     val dateStr: String,
