@@ -243,8 +243,8 @@
             android:key="@string/pref_auto_backup_key"
             android:title="@string/pref_auto_backup_title">
             <Preference
-                android:selectable="false"
                 android:key="@string/pref_auto_backup_info_key"
+                android:selectable="false"
                 android:summary="@string/pref_auto_backup_summary" />
             <org.totschnig.myexpenses.preference.TimePreference
                 android:dependency="@string/pref_auto_backup_key"
@@ -413,21 +413,21 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_more_information">
-        <Preference
+        <org.totschnig.myexpenses.preference.SafePreference
             android:key="visit_website"
             android:summary="@string/pref_visit_website_summary"
             android:title="@string/pref_visit_website_title">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/website" />
-        </Preference>
-        <Preference
+        </org.totschnig.myexpenses.preference.SafePreference>
+        <org.totschnig.myexpenses.preference.SafePreference
             android:key="@string/pref_news_key"
             android:title="@string/pref_news_title">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://mastodon.social/@myexpenses" />
-        </Preference>
+        </org.totschnig.myexpenses.preference.SafePreference>
         <Preference
             android:key="@string/pref_more_info_dialog_key"
             android:title="@string/pref_more_info_dialog_title" />
@@ -451,11 +451,11 @@
                         android:value="Please provide a detailed description, ideally including a screenshot:" />
                 </intent>
             </Preference>
-            <Preference android:title="Join My Exepenses @ Weblate">
+            <org.totschnig.myexpenses.preference.SafePreference android:title="Join My Exepenses @ Weblate">
                 <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://hosted.weblate.org/engage/my-expenses/" />
-            </Preference>
+            </org.totschnig.myexpenses.preference.SafePreference>
 
         </PreferenceScreen>
     </PreferenceCategory>
@@ -489,8 +489,8 @@
             android:key="@string/pref_crash_reports_key"
             android:title="@string/pref_category_title_crash_reports">
             <Preference
-                android:selectable="false"
-                android:key="@string/pre_acra_info_key" />
+                android:key="@string/pre_acra_info_key"
+                android:selectable="false" />
             <SwitchPreferenceCompat
                 android:defaultValue="true"
                 android:key="@string/pref_crashreport_enabled_key"
@@ -578,8 +578,8 @@
                 android:key="@string/pref_debug_logging_key"
                 android:summary="@string/pref_debug_logging_summary" />
             <Preference
-                android:selectable="false"
                 android:key="@string/pref_crashlytics_user_id_key"
+                android:selectable="false"
                 android:title="Crashlytics User Id"
                 my:enableCopying="true" />
             <SwitchPreferenceCompat
