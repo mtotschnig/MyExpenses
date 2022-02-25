@@ -711,7 +711,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           "%1$s IN %2$s OR %3$s OR %4$s IN (SELECT %5$s FROM %6$s WHERE %3$s)",
           KEY_ROWID, uncommitedSelect, uncommitedParentSelect, KEY_TRANSFER_PEER, KEY_ROWID, TABLE_TRANSACTIONS);
       Timber.d(whereClause);
-      MoreDbUtilsKt.safeUpdateWithSealed(db, () -> db.delete(TABLE_TRANSACTIONS, whereClause, null);
+      MoreDbUtilsKt.safeUpdateWithSealed(db, () -> db.delete(TABLE_TRANSACTIONS, whereClause, null));
     } catch (SQLiteException e) {
       CrashHandler.report(e);
     }

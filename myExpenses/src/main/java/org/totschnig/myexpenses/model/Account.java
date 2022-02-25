@@ -556,7 +556,7 @@ public class Account extends Model {
 
   public void markAsExported(WhereFilter filter) throws OperationApplicationException, RemoteException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    Uri accountUri = ContentUris.withAppendedId(Account.CONTENT_URI, getId());
+    Uri accountUri = Account.CONTENT_URI;
     Uri debtUri = Debt.Companion.getCONTENT_URI();
     ops.add(newUpdate(accountUri).withValue(KEY_SEALED, -1)
         .withSelection(KEY_SEALED + " = 1", null).build());
