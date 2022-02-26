@@ -1010,4 +1010,5 @@
     </plurals>
     <string name="whats_new_336_1">Schuldenübersicht teilen</string>
     <string name="whats_new_336_2">Schlagwörter für Teilbuchungen</string>
+    <string name="setup_completed">Einrichtung abgeschlossen</string>
 </resources>
