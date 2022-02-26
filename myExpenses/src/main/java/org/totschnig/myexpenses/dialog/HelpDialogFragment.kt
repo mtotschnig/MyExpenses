@@ -36,7 +36,6 @@ import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
-import java.util.*
 
 /**
  * A Dialog Fragment that displays help information. The content is constructed from resources
@@ -48,7 +47,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
 
     companion object {
         const val KEY_VARIANT = "variant"
-        private const val KEY_CONTEXT = "context"
+        const val KEY_CONTEXT = "context"
+        const val KEY_TITLE = "title"
         private val iconMap: Map<String, Int?> = mapOf(
             "edit" to R.drawable.ic_menu_edit,
             "back" to R.drawable.ic_menu_back,
@@ -118,16 +118,18 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
         )
 
         @JvmStatic
-        fun newInstance(context: String?, variant: String?): HelpDialogFragment {
-            val dialogFragment = HelpDialogFragment()
-            val args = Bundle()
-            args.putString(KEY_CONTEXT, context)
-            if (variant != null) {
-                args.putString(KEY_VARIANT, variant)
+        fun newInstance(context: String?, variant: String?, title: String?) =
+            HelpDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putString(KEY_CONTEXT, context)
+                    if (variant != null) {
+                        putString(KEY_VARIANT, variant)
+                    }
+                    if (title != null) {
+                        putString(KEY_TITLE, title)
+                    }
+                }
             }
-            dialogFragment.arguments = args
-            return dialogFragment
-        }
     }
 
     private var context: String? = null
@@ -137,8 +139,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
         val ctx = activity
         val res = resources
         val title: String
-        val args = arguments
-        context = args!!.getString(KEY_CONTEXT)
+        val args = requireArguments()
+        context = args.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
         val builder = initBuilder {
             HelpDialogBinding.inflate(it)
@@ -204,7 +206,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
             }
             val titleResId =
                 if (variant != null) resolveString("help_" + context + "_" + variant + "_title") else 0
-            title = if (titleResId == 0) {
+            title = args.getString(KEY_TITLE) ?:
+                if (titleResId == 0) {
                 resolveStringOrThrowIf0("help_" + context + "_title")
             } else {
                 getString(titleResId)
@@ -215,15 +218,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
                 .setMessage("Error generating Help dialog")
                 .create()
         }
-        /*    view.setOnTouchListener(new View.OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        final ObjectAnimator animScrollToTop = ObjectAnimator.ofInt(view, "scrollY", 4000);
-        animScrollToTop.setDuration(4000);
-        animScrollToTop.start();
-        return true;
-      }
-    });*/return builder.setTitle(title)
+        return builder.setTitle(title)
             .setIcon(R.drawable.ic_menu_help)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                 if (activity == null) {
@@ -235,7 +230,11 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
     }
 
     private fun showLongTapHint(componentName: String) =
-        !arrayOf("ManageTemplates_plans_cabitems", "ManageTemplates_planner_cabitems", "ManageParties_manage_cabitems")
+        !arrayOf(
+            "ManageTemplates_plans_cabitems",
+            "ManageTemplates_planner_cabitems",
+            "ManageParties_manage_cabitems"
+        )
             .contains(componentName)
 
     private fun findComponentArray(type: String) =
@@ -449,8 +448,10 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
                     resolve(name, "drawable")
                 }
             }
+            val dimensionPixelSize =
+                resources.getDimensionPixelSize(R.dimen.help_text_inline_icon_size)
             return ResourcesCompat.getDrawable(resources, resId, theme)?.apply {
-                setBounds(0, 0, intrinsicWidth / 2, intrinsicHeight / 2)
+                setBounds(0, 0, dimensionPixelSize, dimensionPixelSize)
             }
         } catch (e: Resources.NotFoundException) {
             null

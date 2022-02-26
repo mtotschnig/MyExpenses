@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.dialog
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import eltos.simpledialogfragment.SimpleDialog
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.OverFlowMenu
@@ -107,7 +109,12 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         listOf(
                             MenuEntry(
                                 label = stringResource(id = R.string.menu_help)
-                            ) {}
+                            ) {
+                                startActivity(Intent(requireContext(), Help::class.java).apply {
+                                    putExtra(HelpDialogFragment.KEY_CONTEXT, "SetupSync")
+                                    putExtra(HelpDialogFragment.KEY_TITLE, "${getString(R.string.synchronization)} - ${getString(R.string.setup)}")
+                                })
+                            }
                         )
                     )
                 )

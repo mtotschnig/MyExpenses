@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
@@ -533,8 +534,7 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     } else if (command == R.id.HELP_COMMAND_DRAWER) {
       i = new Intent(this, Help.class);
-      i.putExtra(Help.KEY_CONTEXT, "NavigationDrawer");
-      //for result is needed since it allows us to inspect the calling activity
+      i.putExtra(HelpDialogFragment.KEY_CONTEXT, "NavigationDrawer");
       startActivity(i);
       return true;
     } else if (command == R.id.MANAGE_TEMPLATES_COMMAND) {

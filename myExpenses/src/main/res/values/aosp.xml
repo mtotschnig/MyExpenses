@@ -35,7 +35,9 @@
     <string name="add_widget">Add widget</string>
     <!-- platform_packages_providers_calendarprovider/res/values/string.xml name="provider_label"-->
     <string name="calendar">Calendar</string>
-    <!-- :platform_packages_apps_settings/res/values/strings.xml -->
+    <!-- platform_packages_apps_settings/res/values/strings.xml -->
     <string name="permissions_label">Permissions</string>
+    <!-- MusicFX -->
+    <string name="setup">"Setup"</string>
 </resources>
 

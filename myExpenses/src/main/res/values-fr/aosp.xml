@@ -23,5 +23,6 @@
     <string name="add_widget">"Ajouter un widget"</string>
     <string name="calendar">"Agenda"</string>
     <string name="permissions_label">"Autorisations"</string>
+    <string name="setup">"Configurer"</string>
 </resources>
 

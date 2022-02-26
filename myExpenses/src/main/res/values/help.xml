@@ -221,4 +221,6 @@
   <!-- home currency refers to the currency configured by the user in the settings -->
   <string name="form_DebtEdit_amount_help_text">Enter the original amount of the debt. Transactions linked to the debt will decrease or increase the balance. Use the switch to distinguish between debts you owe and debts that are owed to you. If you select a currency other than your home currency, the debt will only be visible in accounts with the same currency.</string>
   <string name="form_DebtEdit_date_help_text">Enter the date when the debt was incurred.</string>
+
+  <string name="help_SetupSync_info"><![CDATA[This screen allows you to select the data that you want to sync between the device and the backend. It lists all the accounts on your device that are not yet synced to other backends, and all accounts stored on the backend. Clicking on <img src="ic_hchain_broken"> / <img src="ic_hchain"> will select or unselect an account for synchronization. If you select an account that already exists both locally and remotely, you need to decide if originally the data on your device should override the existing data on the backend, or the other way round.]]></string>
 </resources>

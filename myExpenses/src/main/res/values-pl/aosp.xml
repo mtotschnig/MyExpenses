@@ -23,5 +23,6 @@
     <string name="add_widget">"Dodaj widżet"</string>
     <string name="calendar">"Kalendarz"</string>
     <string name="permissions_label">"Uprawnienia"</string>
+    <string name="setup">"Konfiguracja"</string>
 </resources>
 

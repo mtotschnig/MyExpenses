@@ -24,5 +24,6 @@
     <string name="add_widget">"Додати віджет"</string>
     <string name="calendar">"Календар"</string>
     <string name="permissions_label">"Дозволи"</string>
+    <string name="setup">"Налаштування"</string>
 </resources>
 

@@ -23,5 +23,6 @@
     <string name="add_widget">"Προσθήκη γραφικού στοιχείου"</string>
     <string name="calendar">"Ημερολόγιο"</string>
     <string name="permissions_label">"Άδειες"</string>
+    <string name="setup">"Ρύθμιση"</string>
 </resources>
 

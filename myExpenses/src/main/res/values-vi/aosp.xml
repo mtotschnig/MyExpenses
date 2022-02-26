@@ -23,5 +23,6 @@
     <string name="add_widget">"Thêm tiện ích"</string>
     <string name="calendar">"Lịch"</string>
     <string name="permissions_label">"Quyền"</string>
+    <string name="setup">"Thiết lập"</string>
 </resources>
 
