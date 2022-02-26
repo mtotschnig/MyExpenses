@@ -1008,4 +1008,6 @@
     <string name="debts">Deudas</string>
     <string name="pref_mlkit_script_title">Guion para MlKit</string>
     <string name="dialog_title_warning_delete_party">¿Borrar cuenta\?</string>
+    <string name="whats_new_336_1">Resumen de la deuda de las acciones</string>
+    <string name="whats_new_336_2">Etiquetas para las partes divididas</string>
 </resources>
