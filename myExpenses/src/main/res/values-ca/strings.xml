@@ -354,4 +354,7 @@
     <string name="account_types">Tipus de comptes</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sense anuncis</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suport per correu</b> amb resposta garantit de 2 dies laborals</string>
+    <string name="synchronization_none">Sense sincronització</string>
+    <string name="ui_refinement">Refinament de la interfície d\'usuari</string>
+    <string name="synchronization">Sincronització</string>
 </resources>
