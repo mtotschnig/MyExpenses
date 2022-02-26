@@ -25,4 +25,4 @@ const val checkForSealedDebt = "coalesce((SELECT $KEY_SEALED FROM $TABLE_DEBTS W
  * we check if the object (or any of its children) is linked to a sealed debt.
  */
 fun checkForSealedDebt(baseTable: String) =
-    "(SELECT max($KEY_SEALED) FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID OR $KEY_ROWID in (SELECT $KEY_DEBT_ID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID))"
+    "coalesce ((SELECT max($KEY_SEALED) FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID OR $KEY_ROWID in (SELECT $KEY_DEBT_ID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID)), 0)"
