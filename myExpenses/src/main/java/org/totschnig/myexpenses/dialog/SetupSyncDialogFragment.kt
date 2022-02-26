@@ -27,6 +27,9 @@ import eltos.simpledialogfragment.SimpleDialog
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel.SyncSource
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
@@ -81,6 +84,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
 
     @Composable
     override fun BuildContent() {
+        val data: SyncViewModel.SyncAccountData =
+            requireArguments().getParcelable(KEY_DATA)!!
         val progress = remember {
             mutableStateOf(SetupProgress.NOT_STARTED)
         }
@@ -89,6 +94,24 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 .padding(8.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    style = MaterialTheme.typography.h6,
+                    text = data.accountName
+                )
+                OverFlowMenu(
+                    menu = Menu(
+                        listOf(
+                            MenuEntry(
+                                label = stringResource(id = R.string.menu_help)
+                            ) {}
+                        )
+                    )
+                )
+            }
             Row {
                 Text(
                     modifier = cell(0),
@@ -119,8 +142,6 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         if (viewModel.dialogState.values.any { it.value != null }) {
                             Button(onClick = {
                                 progress.value = SetupProgress.RUNNING
-                                val data: SyncViewModel.SyncAccountData =
-                                    requireArguments().getParcelable(KEY_DATA)!!
                                 viewModel.setupSynchronization(
                                     accountName = data.accountName,
                                     localAccounts = data.localAccountsNotSynced.filter { account ->

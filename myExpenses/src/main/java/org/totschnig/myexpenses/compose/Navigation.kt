@@ -1,13 +1,12 @@
 package org.totschnig.myexpenses.compose
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -47,22 +46,28 @@ fun Navigation(
 }
 
 data class Menu(val entries: List<MenuEntry>)
-data class MenuEntry(val label: String, val content: Either<() -> Unit, Menu>)
+data class MenuEntry(val label: String, val content: Either<() -> Unit, Menu>) {
+    constructor(label: String, action: () -> Unit) : this(label, Either.Left(action))
+    constructor(label: String, subMenu: Menu) : this(label, Either.Right(subMenu))
+
+}
 
 @Composable
 fun OverFlowMenu(
+    modifier: Modifier = Modifier,
     menu: Menu
 ) {
     val showMenu = remember { mutableStateOf(false) }
-
-    IconButton(
-        onClick = { showMenu.value = true }) {
-        Icon(
-            Icons.Filled.MoreVert,
-            stringResource(id = R.string.abc_action_menu_overflow_description)
-        )
+    Box(modifier = modifier) {
+        IconButton(
+            onClick = { showMenu.value = true }) {
+            Icon(
+                Icons.Filled.MoreVert,
+                stringResource(id = R.string.abc_action_menu_overflow_description)
+            )
+        }
+        HierarchicalMenu(expanded = showMenu, menu = menu)
     }
-    HierarchicalMenu(expanded = showMenu, menu = menu)
 }
 
 /**
@@ -138,12 +143,10 @@ fun Overflow() {
             entries = listOf(
                 emptyEntry("Option 1"),
                 MenuEntry(
-                    "Option 2", Either.Right(
-                        Menu(
+                    "Option 2", Menu(
                             entries = listOf(
                                 emptyEntry("Option 2.1"),
-                                emptyEntry("Option 2.2"),
-                            )
+                                emptyEntry("Option 2.2")
                         )
                     )
                 )
