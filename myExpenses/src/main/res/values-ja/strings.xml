@@ -889,4 +889,5 @@
     <string name="pref_news_title">ニュース</string>
     <string name="title_scan_receipt_feature">レシートのスキャン</string>
     <string name="debt_managment">債務管理</string>
+    <string name="ui_refinement">ユーザーインターフェースの洗練</string>
 </resources>
