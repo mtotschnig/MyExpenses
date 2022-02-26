@@ -23,14 +23,14 @@
     <string name="menu_manage_plans_help_text">Gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
     <string name="menu_balance_help_text">Bu komut son mutabık ve kullanılabilir bakiyeyi gösteren bir diyalog açar. Kullanılabilir bakiyeyi banka hesabınız ile karşılaştırabilir ve tüm çözümlenmiş muameleleri uzlaşmış olarak işaretleyebilirsiniz. Seçime dayalı olarak, uzlaşmış muameleleri silmeye de karar verebilirsiniz.</string>
     <string name="menu_print_help_text">Şu anda gösterilen muamelelerin yazdırılabilir görüntüsünü oluşturur.</string>
-    <string name="menu_search_help_text">Bu unsur, kategori, meblağ, yorum, durum, alacaklı/mükellef ve ödeme metoduna dayalı arama kriterleri belirtmenize imkân veren bir alt menü açar. Bir arama filtresi etkin olduğunda alt menüde unsuruna tıklayıp onu devre dışı bırakabilirsiniz.</string>
+    <string name="menu_search_help_text">Bu unsur, kategori, meblağ, yorum, durum, alacaklı/mükellef ve ödeme yöntemine dayalı arama kriterleri belirtmenize imkân veren bir alt menü açar. Bir arama filtresi etkin olduğunda alt menüde unsuruna tıklayıp onu devre dışı bırakabilirsiniz.</string>
     <string name="cab_create_template_from_transaction_help_text">Seçilen muameleye dayalı yeni bir şablon tanımlayın. Şablonun başlığı size sorulacaktır.</string>
     <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve zamanla klonlanacaktır. Kopyayı kaydetmeden değişiklik yapabilirsiniz.</string>
     <string name="cab_split_help_text">Daha sonra gerektiği gibi ek bölümler eklemek için muameleyi düzenleyebilirsiniz.</string>
     <string name="menu_scan_mode_help_text">Makbuzları hızlıca taramak için tarama kipini etkinleştirin.</string>
     <string name="cab_link_help_text">Bir hesaptaki herhangi bir harcama, başka bir hesaptaki gelir ile ilişkilendirilebilir. Şayet hesaplar aynı para birimini kullanıyorsa, iki muamelenin de meblağının aynı olması gerekir.</string>
     <!--ManageMethods title is in keys-->
-    <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
+    <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme yöntemlerini (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni yöntem oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
     <!--ManageParties title is in keys-->
     <string name="help_ManageParties_manage_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan unsurları listeler. </string>
     <string name="help_ManageParties_select_mapping_info">Muameleye müdahil bir taraf seçmek için üzerine dokunun.</string>
@@ -94,7 +94,7 @@
     <string name="form_calculator_help_text"><![CDATA[ <img src=\"?calcIcon\"> düğmesi hesap makinesini açar.]]></string>
     <string name="form_crstatus_help_text">Banka hesaplarına ait muameleler için muamelenin durumunu çözümlenmiş olarak değiştirebilirsiniz. Uzlaşmış olarak değiştirmek için muamele listesinden \"Hesabı uzlaştır\" komutunu kullanmanız gerekir. Eğer durum boş olarak ayarlıysa, muamele dikkate alınmayacaktır.</string>
     <string name="form_comment_help_text">Unsurla ilgili herhangi bir not girin.</string>
-    <string name="form_method_help_text">Bu alan sadece güncel hesap herhangi bir ödeme metoduna bağlı ise mevcuttur. Varsayılan değer olarak sadece banka hesapları ödeme metotlarına bağlıdır (çek, kredi kartı, mevduat, doğrudan ödeme). Hesap türleri ve ödeme metotları arasındaki bağlantıyı yapılandırmak için Ayarlar -&gt; Yönet -&gt; Ödeme Metotları\'na gidin. Sayılı olarak tanımlanmış bir metot seçtiğinizde referans numarasını girebileceğiniz ek bir alan belirir.</string>
+    <string name="form_method_help_text">Bu alan sadece güncel hesap herhangi bir ödeme yöntemine bağlı ise kulanılabilir. Varsayılan değer olarak sadece banka hesapları ödeme yöntemlerine bağlıdır (çek, kredi kartı, mevduat, doğrudan ödeme). Hesap türleri ve ödeme yöntemleri arasındaki bağlantıyı yapılandırmak için Ayarlar -&gt; Yönet -&gt; Ödeme Yöntemleri\'ne gidin. Sayılı olarak tanımlanmış bir yöntem seçtiğinizde referans numarasını girebileceğiniz ek bir alan belirir.</string>
     <string name="form_attach_image_help_text"><![CDATA[ <img src=\"android:ic_menu_camera\"> düğmesi, unsura bir resim eklemenize (mesela galeriden ya da fotoğraf makinesinden) imkân verir.]]></string>
     <string name="form_default_action_help_text">Her şablon için ona şablonar listesinde kısa bir dokunmanın örneklemeyi derhal kaydedeceğini mi veya onu düzenleyebileceğiniz düzenleme formuna mı gireceğini yapılandırabilirsiniz. Her iki eyleme daima uzun bir dokunuş ile erişebilirsiniz.</string>
     <string name="form_category_help_text">Bu düğme kategorilerin listesini açar ve burada muameleyi ilişkilendireceğiniz kategoriyi seçebilirsiniz.</string>
@@ -121,7 +121,7 @@
     <string name="form_description_help_text">Açıklamanın sadece bilgilendirme amacı vardır.</string>
     <string name="form_AccountEdit_amount_switch_help_text">Sıfır altı açılış bakiyesi ile başlangıç yapmak için düğmeyi kullanın.</string>
     <string name="form_currency_help_text">Sunulan tüm güncel para birimleri listesinden bir para birimi seçin.</string>
-    <string name="form_AccountEdit_type_help_text">Hesabın türünü Nakit, Banka Hesabı, Aktif, Borç ya da Kredi Kartı olarak belirtebilirsiniz. Tür, Ayarlar -&gt; Yönet -&gt; Ödeme Metotları kısmında yapılandırabileceğiniz mevcut ödeme metotlarını belirler.</string>
+    <string name="form_AccountEdit_type_help_text">Hesabın türünü Nakit, Banka Hesabı, Aktif, Borç ya da Kredi Kartı olarak belirtebilirsiniz. Tür, Ayarlar -&gt; Yönet -&gt; Ödeme Yöntemleri kısmında yapılandırabileceğiniz kullanılabilir ödeme yöntemlerini belirler.</string>
     <string name="form_AccountEdit_type_help_text_reconciliation">Mutabakat özelliği nakit hesaplar hariç hepsi için geçerlidir: teyit edildiğinde herhangi bir muamelenin durumunu temizlenmişe çevirmenize imkan verir ve hesabın tümünü \"Hesap bakiyesi\" komutu ile banka ekstrenizle mutabık kılar.</string>
     <string name="form_color_help_text">Bir hesabın muamele listesindeki renk, birincil kullanıcı arayüzü rengi olarak kullanılacaktır.</string>
     <string name="form_synchronization_help_text_select">Bulut eşleştirmesi için bir arka uç seç.</string>
@@ -129,11 +129,11 @@
     <string name="form_AccountEdit_active_tags_help_text">Her hesapla bir veya daha fazla faal etiket ilişkilendirebilirsiniz. Yeni bir muamele oluşturduğunuzda bu, seçili hesap temel alınarak otomatik olarak bu etiketlerle etiketlenecektir.</string>
     <string name="menu_exclude_from_totals_help_text">Bu şıkkı seçerseniz, bu hesap para birimine dayalı gruplara dahil edilmeyecektir.</string>
     <!--MethodEdit-->
-    <string name="help_MethodEdit_title">Ödeme metotları için form</string>
-    <string name="form_MethodEdit_label_help_text">Etiket, bir muamele ilişkilendirildiğinde ödeme metodunu tanımlar.</string>
-    <string name="form_MethodEdit_type_help_text">Bir metodun türü ile sadece harcamalar için (gider), gelirler için ya da ikisi için de (tarafsız) geçerli olduğunu belirlersiniz.</string>
-    <string name="form_MethodEdit_numbered_help_text">Bir metot sayılı olarak belirtildiğinde, onuna ilişkili muameleler referans sayısının girilebileceği ek bir alan bulunduracaktır.</string>
-    <string name="form_MethodEdit_account_types_help_text">Bu metodun uygulanabilir olduğu hesap türlerini seçin.</string>
+    <string name="help_MethodEdit_title">Ödeme yöntemleri için form</string>
+    <string name="form_MethodEdit_label_help_text">Etiket, bir muamele ilişkilendirildiğinde ödeme yöntemini tanımlar.</string>
+    <string name="form_MethodEdit_type_help_text">Bir yöntemin türü ile sadece harcamalar için (gider), gelirler için ya da ikisi için de (tarafsız) geçerli olduğunu belirlersiniz.</string>
+    <string name="form_MethodEdit_numbered_help_text">Bir yöntem sayılı olarak belirtildiğinde, onuna ilişkili muameleler referans sayısının girilebileceği ek bir alan bulunduracaktır.</string>
+    <string name="form_MethodEdit_account_types_help_text">Bu yöntemin uygulanabilir olduğu hesap türlerini seçin.</string>
     <!--ManageCurrencies-->
     <string name="help_ManageCurrencies_info">Her para birimi için kullanılan kesir basamak sayısını değiştirebilirsiniz. Mesela avro için bir sentin 1/10\'nu yani bir avronun 1/1000\'ni dikkate almanız gerekiyorsa bu sayıyı üç olarak ayarlamanız gerekir. Bu para birimini kullanan mevcut hesaplar bu yeni ayara geçecektir.</string>
     <string name="help_ManageCurrencies_symbol">Belli bir para biriminde meblağlar biçimlendirildiğinde kullanılan para birimi simgesini de yapılandırabilirsiniz.</string>
@@ -188,9 +188,9 @@
     <string name="form_BudgetEdit_title_help_text">Herhangi bir bütçenin başlığı onu bütçe listesinde bulmanıza yardımcı olur.</string>
     <string name="form_BudgetEdit_amount_help_text">Bu bütçe bağlamında ne kadar paranın kullanılabilir olduğu.</string>
     <string name="form_BudgetEdit_accounts_help_text">Bir bütçe ya bir hesapla sınırlı olur; aynı para birimindeki tüm hesapları kapsar; ya da tüm para birimlerindeki genel toplamı ifade eder.</string>
-    <string name="form_BudgetEdit_filter_help_text">Bütçeler, kategorilere, taraflara, metotlara veya durumlara göre filtrelenebilir. Sadece bu filtrelerle eşleşen muameleler dikkate alınacaktır.</string>
+    <string name="form_BudgetEdit_filter_help_text">Bütçeler, kategorilere, taraflara, yöntemlere veya durumlara göre filtrelenebilir. Sadece bu filtrelerle eşleşen muameleler dikkate alınacaktır.</string>
     <string name="form_BudgetEdit_type_help_text">Bir bütçe ya düzenli (günlük, aylık, haftalık, senelik) olarak ya da bir kerelik olarak tanımlanır. Bir kerelik bütçeler için süresinin başlangıcını ve sonunu belirtirsiniz. (Filtrelenmemiş) düzenli bir bütçe varsayılan bütçe olarak tanımlanabilir: bu, muamele listesinin (gün, hafta, ay veya sene için verileri gruplandırmak üzere yapılandırılmışsa) her bir dönem için bu bütçenin ilerlemesini göstereceği anlamına gelir.</string>
-    <string name="cab_remap_help_text">Tüm seçili muameleler için belli bir özelliği (hesap, kategori, borçlu/alacaklı veya ödeme metodu) değiştirmek istiyorsanız bu alt menüdeki komutları kullanın.</string>
+    <string name="cab_remap_help_text">Tüm seçili muameleler için belli bir özelliği (hesap, kategori, borçlu/alacaklı veya ödeme yöntemi) değiştirmek istiyorsanız bu alt menüdeki komutları kullanın.</string>
     <!--Tags-->
     <string name="form_tags_help_text">+ ikonu mevcut etiketleri seçmeye ve yeni etiket oluşturmaya imkân sağlar. Her bir etiket üzerindeki x ikonu ise muamele ve etiket arasındaki eşleştirmeyi kaldırmaya imkân verir.</string>
     <string name="help_ManageTags_select_filter_info">Üzerine dokunarak işlem listesini filtrelemek için etiketleri seçin veya seçimi kaldırın. Seçimi teyit etmek için kayan eylem düğmesini kullanın.</string>
@@ -201,4 +201,5 @@
     <string name="form_DebtEdit_label_help_text">Etiket, bir işlemi peşinat olarak işaretlemek için işlemler için formdaki borcun seçilmesine olanak tanır.</string>
     <string name="cab_debts_help_text">Bu alt menü, seçilen tarafla ilişkili yeni borçların tanımlanmasına ve var olan borçların yönetilmesine, işlem geçmişini ve kalan bakiyeyi incelemeye ve bunları düzenlemeye, kapatmaya veya silmeye olanak tanır.</string>
     <string name="help_debt_managment">Borçları taraflarla ilişkilendirin, işlem listesini inceleyin ve kalan bakiyeyi hesaplayın.</string>
+    <string name="help_SetupSync_info">Bu ekran, aygıt ve arka uç arasında eşzamanlamak istediğiniz verileri seçmenizi sağlar. Aygıtınızdaki diğer arka uçlarla henüz eşzamanlanmayan tüm hesapları ve arka uçta depolanan tüm hesapları listeler. &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; üzerine tıklamak, eşzamanlamak için bir hesap seçecek veya seçimini kaldıracaktır. Hem yerel hem de uzak olarak zaten var olan bir hesabı seçerseniz, başlangıçta aygıtınızdaki veriler arka uçtaki mevcut verilerin üzerine yazmalı mı yoksa tam tersi mi olmalı karar vermeniz gerekir.</string>
 </resources>
