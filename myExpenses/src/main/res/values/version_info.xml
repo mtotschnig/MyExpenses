@@ -85,6 +85,7 @@
     <string name="project_board_334">57#column-15356254</string>
     <string name="project_board_335">58#column-16107025</string>
     <string name="project_board_336">61#column-17032814</string>
+    <string name="project_board_337">64#column-17809661</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
