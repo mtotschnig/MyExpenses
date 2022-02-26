@@ -542,7 +542,7 @@
     <string name="warning_cannot_move_split_transaction">此拆分交易无法移动到账户%1$s中，因为有部分转账已经引用到此账户。</string>
     <string name="content_description_calculator_clear_button">重置所有</string>
     <string name="content_description_calculator_delete_button">删除上一个数字</string>
-    <string name="paypal_callback_info">您的交易已经完成，购买收据已经通过电子邮件发送给您。您可以从www.paypal.com登录您的帐户以查看该交易的详细信息。</string>
+    <string name="paypal_callback_info">您的交易已经完成，购买收据已经通过电子邮件发送给您。您可以从www.paypal.com登录您的账户以查看该交易的详细信息。</string>
     <string name="search_transfer">搜索转账</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">下一个实例</string>
@@ -571,10 +571,10 @@
     <string name="pref_sync_frequency_title">同步频率</string>
     <string name="pref_sync_frequency_summary">数据应多久同步一次（以小时为单位）</string>
     <string name="dialog_confirm_sync_unlink">如果您将该账户从%s取消链接，则同步状态将丢失。当您稍后再次链接它们时，则需要重新执行完整的同步。</string>
-    <string name="dialog_sync_link">具有通用唯一识别码UUID %s的帐户在本地数据库和远程后端中都存在的情况下。当您链接两者时，首先要确认是要将本地数据上载到远程后端，还是要将远端数据下载到本地数据库。</string>
+    <string name="dialog_sync_link">具有通用唯一识别码UUID %s的账户在本地数据库和远程后端中都存在的情况下。当您链接两者时，首先要确认是要将本地数据上载到远程后端，还是要将远端数据下载到本地数据库。</string>
     <string name="dialog_command_sync_link_remote">从远程下载</string>
     <string name="dialog_command_sync_link_local">从本地上载</string>
-    <string name="dialog_synced_to_other">具有uuid %s的帐户已存在于本地数据库中，并且已链接到其他远程后端。</string>
+    <string name="dialog_synced_to_other">具有uuid %s的账户已存在于本地数据库中，并且已链接到其他远程后端。</string>
     <string name="menu_remove">移除</string>
     <string name="dialog_confirm_sync_remove_backend">远程后端%s将被移除。这不会影响本地或远程存储的数据，但是同步状态会丢失。</string>
     <string name="dialog_confirm_sync_link_local">该账户的远程数据将被删除。请确保没有其他设备与它相链接。</string>
@@ -583,7 +583,7 @@
     <string name="warning_trial_limit_reached">%s功能的试用期已经结束。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安装在不同设备上时，两者之间的数据同步在此文件夹里。请不要手动修改其任何内容。</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个账户。您需要选择其上层文件夹才能重用此后端。</string>
-    <string name="link_account_failure_2">具有相同uuid的帐户已存在于远程后端上。</string>
+    <string name="link_account_failure_2">具有相同uuid的账户已存在于远程后端上。</string>
     <string name="link_account_failure_3">可以从进入账户列表的快显菜单中手动解决冲突。</string>
     <string name="progress_dialog_checking_sync_backend">验证后端</string>
     <string name="template">模板</string>
@@ -605,9 +605,9 @@
     <string name="sync_database_error">同步期间发生数据库错误。</string>
     <string name="sync_io_error_cannot_connect">无法连接到同步后端。</string>
     <string name="sync_error_will_try_again_later">稍后会再试。</string>
-    <string name="sync_io_exception_reset_account_data">重置远程帐户时出错。</string>
+    <string name="sync_io_exception_reset_account_data">重置远程账户时出错。</string>
     <string name="sync_success_reset_account_data">账户%s的远程数据已删除。</string>
-    <string name="sync_io_exception_setup_remote_account">设置远程帐户时出错。</string>
+    <string name="sync_io_exception_setup_remote_account">设置远程账户时出错。</string>
     <string name="sync_io_exception_syncing">与服务器同步变更的数据时出错。</string>
     <string name="sync_io_exception_unlocking">从远程后端移除锁定时出错。</string>
     <string name="sync_io_exception_locking">远程后端已锁定或无法锁定。</string>
