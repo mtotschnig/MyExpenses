@@ -377,4 +377,6 @@
     <string name="pref_acra_user_email_summary">សូម​វាយ​បញ្ចូល​ អ៊ីម៉ែល​របស់​អ្នក បើ​អ្នក​ចង់​ជួយ ស្វែង​រកកំហុស​ឆ្គង និង​អនុញ្ញាតិ​អោយ​យើង​ខ្ញុំ​ទាក់ទង​ទៅ​អ្នក។</string>
     <string name="title_scan_receipt_feature">ស្កេនបង្កាន់ដៃ</string>
     <string name="debt_managment">ការគ្រប់គ្រងបំណុល</string>
+    <string name="synchronization">ការធ្វើសមកាលកម្ម</string>
+    <string name="ui_refinement">ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ</string>
 </resources>
