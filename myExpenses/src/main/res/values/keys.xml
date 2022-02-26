@@ -126,7 +126,7 @@
         <item>Configuring and applying custom colors to accounts by khris78</item>
         <item>Applying Sonar code quality checks by Ayman Abdelghany</item>
         <item>Implementing Input Dialogs and Color Pickers by eltos.</item>
-        <item>tillgraeger contributed to several tickets in the context of his internship.</item>
+        <item>tillgraeger implemented several tickets (#640, #704, #638) in the context of his internship.</item>
         <item>Alessandro Serafini consulted on the debt overview screen and contributed icons ic_debt_down, ic_debt_up and ic_swap_vert.</item>
     </string-array>
     <string-array name="additional_icon_credits_keys">
