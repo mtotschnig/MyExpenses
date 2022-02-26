@@ -71,7 +71,7 @@
     <string name="dialog_confirm_discard_new_transaction">Yeni muamele gözardı edilsin mi?</string>
     <string name="dialog_confirm_discard_new_template">Yeni şablon gözardı edilsin mi?</string>
     <string name="dialog_confirm_discard_new_account">Yeni hesap gözardı edilsin mi?</string>
-    <string name="dialog_confirm_discard_new_method">Yeni ödeme metodu gözardı edilsin mi?</string>
+    <string name="dialog_confirm_discard_new_method">Yeni ödeme yöntemi gözardı edilsin mi\?</string>
     <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
     <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri ikinci bir hesap gerektirir.</string>
     <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
@@ -161,7 +161,7 @@
     <string name="menu_create_instance_edit">Uygula ve düzenle</string>
     <string name="menu_create_instance_save">Uygula ve kaydet</string>
     <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
-    <string name="menu_create_method">Yeni ödeme metodu oluştur</string>
+    <string name="menu_create_method">Yeni ödeme yöntemi oluştur</string>
     <string name="menu_create_party">Yeni borçlu/alacaklı</string>
     <string name="menu_create_split">Yeni bölünmüş muamele</string>
     <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
@@ -178,7 +178,7 @@
     <string name="menu_edit">Düzenle</string>
     <string name="menu_edit_account">Hesabı düzenle</string>
     <string name="menu_edit_cat">Kategori düzenle</string>
-    <string name="menu_edit_method">Ödeme metodunu düzenle</string>
+    <string name="menu_edit_method">Ödeme yöntemini düzenle</string>
     <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
     <string name="menu_edit_plan_instance">Planlamanın tek oluşumunu düzenle</string>
     <string name="menu_edit_split">Bölünmeyi düzenle</string>
@@ -210,7 +210,7 @@
     <string name="button_label_share_file">Paylaş</string>
     <string name="button_label_close">Kapat</string>
     <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
-    <string name="method">Ödeme metodu</string>
+    <string name="method">Ödeme yöntemi</string>
     <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
     <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
     <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
@@ -222,7 +222,7 @@
     <string name="no_calendar_app_installed">Takvim olayını düzenlemek için hiçbir uygulama bulunamadı.</string>
     <string name="image_capture_not_installed">Resim çekmek için hiçbir uygulama bulunamadı.</string>
     <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
-    <string name="no_methods">Hiçbir ödeme metodu yok.</string>
+    <string name="no_methods">Ödeme yöntemi yok.</string>
     <string name="no_parties">Bölüm yok.</string>
     <string name="no_split_parts">Hiçbir alt muamele yok.</string>
     <string name="no_templates">Şablon yok.</string>
@@ -303,8 +303,8 @@
     <string name="pref_manage_accounts_title">Hesaplar</string>
     <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
     <string name="pref_manage_categories_title">Kategoriler</string>
-    <string name="pref_manage_methods_summary">Ödeme metotları oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
-    <string name="pref_manage_methods_title">Ödeme metotları</string>
+    <string name="pref_manage_methods_summary">Ödeme yöntemleri oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
+    <string name="pref_manage_methods_title">Ödeme yöntemleri</string>
     <string name="pref_manage_parties_summary">Borçlu/alacaklı ekle, düzenle veya sil.</string>
     <string name="pref_manage_parties_title">Bölümler</string>
     <string name="pref_manage_sync_backends_title">Eşleşme arka ucu</string>
@@ -457,7 +457,7 @@
     <string name="search_date">Tarih ara</string>
     <string name="search_status">Durum ara</string>
     <string name="search_payee">Alacaklı/mükellef ara</string>
-    <string name="search_method">Metot ara</string>
+    <string name="search_method">Yöntem ara</string>
     <string name="search_tag">Etiket ara</string>
     <string name="and">ve</string>
     <string name="between_and">%1$s ilâ %2$s arasında</string>
@@ -761,7 +761,7 @@
     <string name="sub_budget_exceeded_error_2">Ana kategoriye tahsis edilen meblağı arttırın veya başka alt kategorilerden para kaldırın.</string>
     <string name="sub_budget_under_allocated_error">%s zaten alt kategorilere tahsis edilmiştir. Onlardan para kaldırmazsanız, ana kategori için en az bu meblağı bütçelemeniz gerekir.</string>
     <!-- Description for button that allows to clear the selected method -->
-    <string name="content_description_clear_method">Metodu sil</string>
+    <string name="content_description_clear_method">Yöntemi temizle</string>
     <!-- Description for button that allows to clear the selected category -->
     <string name="content_description_clear_category">Kategoriyi sil</string>
     <string name="currency_code">Kod</string>
@@ -832,7 +832,7 @@
     <string name="menu_budget_allocated_only">Sadece tahsisi bulunan kategorileri göster</string>
     <string name="budget_filter_all_categories">Tüm kategoriler</string>
     <string name="budget_filter_all_parties">Tüm taraflar</string>
-    <string name="budget_filter_all_methods">Tüm metotlar</string>
+    <string name="budget_filter_all_methods">Tüm yöntemler</string>
     <string name="budget_filter_all_states">Tüm durumlar</string>
     <string name="budget_filter_all_tags">Tüm etiketler</string>
     <string name="budget_filter_all_accounts">Tüm hesaplar</string>
@@ -850,7 +850,7 @@
     <string name="dialog_title_confirm_remap">Eşleme değiştirilsin mi (%s)?</string>
     <string name="remap_category">Tüm seçili muameleler %s kategorisine eşlenecektir.</string>
     <string name="remap_payee">Tüm seçili muameleler %s borçlu/alacaklı unsuruna eşlenecektir.</string>
-    <string name="remap_method">Tüm seçili muameleler %s metoduna eşlenecektir.</string>
+    <string name="remap_method">Tüm seçili muameleler %s yöntemine eşlenecektir.</string>
     <string name="remap_account">Tüm seçili muameleler %s hesabına eşlenecektir.</string>
     <string name="remapping_result">Seçili muameleler tekrar eşlenmiştir.</string>
     <string name="clone_and_remap_result">Seçili muameleler konlandı ve yeniden eşleştirildi.</string>
