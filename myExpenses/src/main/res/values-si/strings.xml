@@ -364,4 +364,6 @@
     <string name="pref_news_title">පුවත්</string>
     <string name="title_scan_receipt_feature">ස්කෑන් ලදුපත</string>
     <string name="debt_managment">ණය කළමනාකරණය</string>
+    <string name="ui_refinement">පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම</string>
+    <string name="synchronization">සමමුහුර්තකරණය</string>
 </resources>
