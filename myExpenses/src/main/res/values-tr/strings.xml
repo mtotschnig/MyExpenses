@@ -1010,4 +1010,5 @@
     </plurals>
     <string name="whats_new_336_1">Borç özetini paylaşın</string>
     <string name="whats_new_336_2">Alt muameleler için etiketler</string>
+    <string name="setup_completed">Kurulum tamamlandı</string>
 </resources>
