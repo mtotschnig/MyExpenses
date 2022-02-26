@@ -1010,4 +1010,5 @@
     </plurals>
     <string name="whats_new_336_1">Partager le résumé de la dette</string>
     <string name="whats_new_336_2">Étiquettes pour les sous-opérations</string>
+    <string name="setup_completed">Configuration terminée</string>
 </resources>

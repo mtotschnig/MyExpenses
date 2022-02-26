@@ -479,4 +479,6 @@
     <string name="pref_news_title">Nyheder</string>
     <string name="title_scan_receipt_feature">Scan kvittering</string>
     <string name="debt_managment">Forvaltning af gæld</string>
+    <string name="synchronization">Synkronisering</string>
+    <string name="ui_refinement">Forbedring af brugergrænsefladen</string>
 </resources>

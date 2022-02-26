@@ -13,214 +13,192 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">Menu commands</string>
-  <string name="help_contextual_actions">Contextual actions</string>
-  <string name="help_contextual_actions_help">The menu for contextual actions gets displayed by long tapping on a list entry.</string>
-  <string name="help_form_fields">Form fields</string>
-  <string name="cab_delete_help_text">Delete the selected items.</string>
-  <string name="cab_edit_help_text">Edit the selected item.</string>
-
-  <string name="help_MyExpenses_title">Transaction list</string>
-  <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
-  <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
-  <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a menu with the following entries:</string>
-  <string name="popup_MyExpenses_toolbar_copy_text">Copy the current balance to the clipboard.</string>
-  <string name="popup_MyExpenses_toolbar_new_balance">Calculate the difference between the current balance and a new value.</string>
-  <string name="help_MyExpenses_crStatus_info">The status of the transaction is indicated by a colored rectangle: gray for unreconciled, blue for clear, green for reconciled. Clicking on the rectangle, changes the status.</string>
-  <string name="menu_reset_help_text">This command will export all transactions of the current account to a file on the SD card in QIF or CSV format. You can decide to delete the exported transactions, in that case the opening balance is automatically adjusted. Alternatively, if transactions are not deleted, they will be marked as exported. My Expenses can share the file immediately after the export through FTP, email or any other file sharing app, if you configure it to do so in the Settings. If a search filter is active, only the transactions mapped by this filter will be taken into consideration.</string>
-  <string name="menu_grouping_help_text">You can group transactions by day, week, month or year. For each group, the sum of income, expenses and transfers is calculated and displayed. When you click on a group header, the group of transactions is collapsed and only the header is displayed. Click again to expand.</string>
-  <string name="menu_sort_direction_help_text">Transactions can be sorted in ascending (oldest on top) or descending (latest on top) direction.</string>
-  <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also long click on a group header to inspect the distribution for a specific period of time.</string>
-  <string name="menu_budget_help_text">Manage daily, weekly, monthly or yearly budgets for the currently displayed account.</string>
-  <string name="menu_history_help_text">Display a cash flow diagram: How did your expense and income evolve over days, weeks, months or years?</string>
-  <string name="menu_manage_plans_help_text">Opens the list of templates and plans, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
-  <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
-  <string name="menu_print_help_text">Generates a printable view of the transactions currently displayed.</string>
-  <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method. When a search filter is active, you can simply click on its entry in the submenu to deactivate it.</string>
-  <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
-  <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time. You can make changes before saving the copy.</string>
-  <string name="cab_split_help_text">You can later edit the transaction to create additional parts as needed.</string>
-  <string name="menu_scan_mode_help_text">Activate scan mode in order to quickly scan receipts.</string>
-  <string name="cab_link_help_text">An expense in one account can be linked with an income in another account. If the accounts have the same currency, the two transactions must have identical amounts.</string>
-
-  <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Use the floating action button to open the form for creating a new method.</string>
-
-  <string name="help_ManageParties_manage_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.</string>
-  <string name="help_ManageParties_select_mapping_info">Select a party by tapping on it.</string>
-  <string name="help_ManageParties_select_filter_info">Tap on a party for filtering the transaction list. Long tap for selecting multiple parties.</string>
-  <string name="help_ManageParties_floating_action_button">Use the floating action button to add a new entry.</string>
-  <string name="menu_merge_help_text">If the same party appears multiple times in the list with different spelling variations, you can merge them together. You will be prompted to select which variant to keep.</string>
-  
-  <string name="help_ManageTemplates_plans_title">Plan calendar view</string>
-  <string name="help_ManageTemplates_planner_title">Upcoming recurrences</string>
-  <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template">While templates can be derived from transactions through their context menu, here you can create new templates from scratch (for transactions or transfers) by clicking on the floating action button. Clicking on a template, will create an instance for it.<br><img src="ic_event">A plan is a template for which you have created an event (one-time or recurring) in the planner calendar. Clicking on a plan, will open a calendar view, which displays past and upcoming instances of a plan.]]></string>
-  <string name="help_ManageTemplates_planner_intro">Long tapping on an open instance starts multi-selection. Tapping on the start or end of the date range allows to extend the range into the past or the future.</string>
-  <string name="help_ManageTemplates_plans_intro">Each highlighted date represents an instance of the plan.</string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[The state of an instance is indicated by the following icons:<br><img src="ic_stat_open"> The instance has not yet been applied.<br><img src="ic_stat_applied"> The instance has been applied.<br><img src="ic_stat_cancelled"> The instance has been cancelled, i.e. you have flaged it to be skipped. No transaction will be created for this instance.]]></string>
-  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instantiate the selected templates and save them immediately.</string>
-  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instantiate the selected template and enter its editing form where you can modify it before saving.</string>
-  <string name="cab_ManageTemplates_delete_help_text">Delete the selected templates and any associated plans.</string>
-  <string name="cab_ManageTemplates_edit_help_text">Edit the selected template and create or edit an associated plan.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Create transactions at the time of the selected event instances and save them immediately.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Create a transaction at the time of the selected event instance and enter its editing form where you can modify it before saving.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicate that at the selected event instances, no transactions should be created. If transactions have been created for the selected event instances, they will be deleted.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">If transactions have been created for the selected event instances, they will be deleted, if they have been flagged as cancelled, the flags are removed.</string>
-  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edit the transaction that has been created for the selected plan instance.</string>
-  <string name="menu_ManageTemplates_templates_sort_help_text">The template list can be sorted by title (alphabetically), by amount, by frequency of usages, or by the last time a transaction was instantiated from it.</string>
-
-  <string name="help_ManageCategories_distribution_info">This screen displays the distribution of your expenses and incomes per categories, for all transactions in an account, or for a specific group. If you expand a main category in the list, the pie chart will display the distribution of its subcategories. If you select a category in the list, it will be highlighted in the pie chart, and vice-versa. Long press on a category in order to display an aggregated list of the transactions mapped to it.</string>
-  <string name="help_ManageCategories_select_mapping_info">In addition to the actions that you can perform when managing categories from the Preferences screen (create, edit, delete), on this screen you map a transaction to a selected category. You select a subcategory for mapping to the current transaction by simply clicking on it. In order to map a main category, you have to call its context menu.</string>
-  <string name="help_ManageCategories_select_filter_info">Select the category for filtering the transaction list. In order to search for a main category, you have to call its context menu.</string>
-  <string name="help_ManageCategories_manage_info">This screen allows to create, edit and delete categories. By default, the primary sort criteria in the category list is the number of times you use a category (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often. In the settings, you can opt for sorting the categories in plain alphabetical order. Clicking on a main category, opens up its subcategories. From a main category\'s context menu, you can add new subcategories, delete a category or edit it. Subcategories have also context menus for deleting and editing.</string>
-  <string name="menu_ManageCategories_distribution_grouping_help_text">Set the type of grouping and display the distribution per day, month, week or year.</string>
-  <string name="menu_back_help_text">Navigate to the previous group. Can also be done through swipe gesture from left to right.</string>
-  <string name="menu_forward_help_text">Navigate to the next group. Can also be done through swipe gesture from right to left.</string>
-  <string name="cab_ManageCategories_create_sub_cat_help_text">Opens the dialog for specifying the title of a new sub-category below the selected category.</string>
-  <string name="cab_ManageCategories_move_help_text">Sub-categories can be moved to a different main category, or can be transformed to main categories. Main categories that have no children can be transformed to sub-categories of a different main category.</string>
-  <string name="cab_ManageCategories_select_help_text">Map the selected category to the transaction and return to the transaction form.</string>
-  <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
-  <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
-  <string name="menu_distribution_show_pie_char_help_text">Toggle the visibility of the pie chart.</string>
-  <string name="menu_distribution_aggreate_help_text">By default, the calculated sums include both expenses and income. You can decide to show them separately, a button in the action bar allows you to toggle between expenses and income.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">The selected category will be used for filtering the transaction list.</string>
-  <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
-  <string name="menu_ManageCategories_sort_help_text">The category list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was mapped to it.</string>
-  <string name="cab_ManageCategories_color_help_text">You can assign a color to main categories. This color will be used to represent the category in charts. Subcategories will use shades of their main category\'s color. </string>
-  
-  <string name="help_ExpenseEdit_transaction_title">Form for transactions</string>
-  <string name="help_ExpenseEdit_transfer_title">Form for transfers</string>
-  <string name="help_ExpenseEdit_split_title">Form for splits</string>
-  <string name="help_ExpenseEdit_splitPartCategory_title">Form for category split parts</string>
-  <string name="help_ExpenseEdit_splitPartTransfer_title">Form for transfer split parts</string>
-  <string name="help_ExpenseEdit_templateCategory_title">Form for transaction templates</string>
-  <string name="help_ExpenseEdit_templateTransfer_title">Form for transfer templates</string>
-  <string name="help_ExpenseEdit_templateSplit_title">Form for split templates</string>
-  <string name="help_ExpenseEdit_transaction_info">Use this form to enter a new transaction or to edit an existing one. Use the dropdown menu in the actionbar to switch to the form for adding a new transfer or split transaction.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">Use this form to enter a new template or to edit an existing one. Use the dropdown menu in the actionbar to switch between templates for transactions, transfers and splits.</string>
-  <string name="help_ExpenseEdit_split_info">A split transaction is a single transaction split up in parts, where each part can be assigned to a different category, or transferred to a different account.</string>
-  <string name="form_account_help_text">Select the account to which the transaction belongs.</string>
-  <string name="form_date_time_help_text">Enter the date and time when the transaction took place.</string>
-  <string name="form_date_time_help_text_configuration">In the settings you can disable time input and enable differentiation between booking date and value date.</string>
-  <string name="form_date_time_help_text_link"><![CDATA[If the <img src="ic_hchain">/<img src="ic_hchain_broken"> toggle is in its linked state, setting either value date or booking date will also update the other date.]]></string>
-  <string name="form_payer_or_payee_help_text">This field remembers the values you enter and will suggest them in the future.</string>
-  <string name="form_amount_switch_help_text">Use the switch to toggle between expense and income.</string>
-  <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> button opens the calculator.]]></string>
-  <string name="form_crstatus_help_text">For transactions belonging to bank accounts, you can change the transaction\'s status to cleared. For setting it to reconciled, you must use the \"Balance account\" command from the transaction list. If the status is set to void, the transaction will not be counted.</string>
-  <string name="form_comment_help_text">Enter any note about the object.</string>
-  <string name="form_method_help_text">This field is only available if the current account is of a type linked to any payment method. By default only bank accounts are linked to payment methods (cheque,credit card, deposit,direct debit). Go to Settings -> Manage -> Payment Methods to configure the association between account types and payment methods. When you select a method that is defined as numbered, an additional field for entering a reference number becomes available.</string>
-  <string name="form_attach_image_help_text"><![CDATA[The <img src="android:ic_menu_camera"> button allows you to attach an image (e.g. from the gallery or the camera) to the object.]]></string>
-  <string name="form_default_action_help_text">For each template, you can configure if a short tap on it in the template list will either save the instance immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap.</string>
-  <string name="form_category_help_text">This button opens the list of categories, where you can select the category you want to map to the transaction.</string>
-  <string name="form_split_parts_heading_help_text">Use the floating action button for entering as many split parts as needed. The difference between the sum of the parts and the transaction is displayed at the bottom of the screen. You can only save the split transaction, if the transaction amount has been exactly assigned.</string>
-  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Select a category for this split part.</string>
-  <string name="form_transfer_from_account_transfer_to_account_help_text">Assign the accounts where this object is transferred from or to.</string>
-  <string name="form_exchange_rate_help_text">You can specify the rate in either of the both directions of the transfer. The inverse rate and the amount corresponding to the dependent part of the exchange rate are calculated automatically.</string>
-  <string name="form_title_help_text">Enter a title that uniquely identifies the template.</string>
-  <string name="form_plan_help_text">When you create a plan for a template, it is added to a private calendar handled by your Calendar app. You can define the plan as a one-time event, or as recurring daily, weekly, monthly or yearly.</string>
-  <string name="form_plan_help_text_advanced">After you have saved the template, you can configure more advanced types of recurrence making use of your calendar app.</string>
-  <string name="form_plan_help_text_mode">A plan can be set to automatic or manual. When an instance of an automatic plan occurs, the transaction will be created, and you receive a notification. When the plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or applying the template to you.</string>
-  <string name="menu_save_help_text">Save the data and close the form.</string>
-  <string name="menu_save_and_new_help_text">If this is checked, after you save the data, the form is left open for creating a new transaction with the same data.</string>
-  <string name="menu_original_amount_help_text">Show a field that allows to define an additional amount. For example if you pay with your credit card in a foreign currency, you can remember the original price in addition to the amount debited from your card. The original amount is ignored for calculating sums.</string>
-  <string name="menu_equivalent_amount_help_text">For calculating a grand total across all accounts, transactions of foreign currency accounts, are multiplied by an exchange rate that you set for the account. But you can also override this implicitly calculated amount, by setting an equivalent amount for any individual transaction.</string>
-  <string name="menu_invert_transfer_help_text">Invert the direction of the transfer by swapping \'From\' and \'To\' account.</string>
-  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">If the currencies of \'From\' and \'To\' account are different, you specify the amount for only one of them. The other one will be calculated when you create instances from the template.</string>
-  <string name="form_goal_or_limit_help_text">This field allows to specify either a positive saving goal or a negative credit limit. In either case, on the account list, a progress indicator visualizes the distance between the current balance and the goal or the limit.</string>
-  <string name="menu_templates_help_text">Open a menu that lists all templates allowing to quickly load them into the form.</string>
-  <string name="menu_create_template_from_transaction_help_text">If this is checked, the transaction will also be saved as template. You can define its title and optionally set a plan for automatic recurrence.</string>
-
-  <string name="help_AccountEdit_title">Form for accounts</string>
-  <string name="form_AccountEdit_label_help_text">The label identifies the account in the account list.</string>
-  <string name="form_description_help_text">The description has only an informative purpose.</string>
-  <string name="form_AccountEdit_amount_switch_help_text">Use the switch to start with a negative opening balance.</string>
-  <string name="form_currency_help_text">Select a currency from the provided list of all current currencies.</string>
-  <string name="form_AccountEdit_type_help_text">You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -> Manage -> Payment Methods.</string>
-  <string name="form_AccountEdit_type_help_text_reconciliation">The reconciliation feature is available for all but cash accounts: It allows to set a transactions\' status to cleared, once it is confirmed, and reconcile the whole account with your bank statement through the \"Balance account\" command.</string>
-  <string name="form_color_help_text">On the transaction list for an account, its color will be used as primary user interface color.</string>
-  <string name="form_synchronization_help_text_select">Select a backend for cloud synchronization.</string>
-  <string name="form_synchronization_help_text_add">Backends can be added from the Settings screen.</string>
-  <string name="form_AccountEdit_active_tags_help_text">You can associate one ore more active tags with every account. When you create a new transaction, it is automatically tagged with those, based on the selected account.</string>
-  <string name="menu_exclude_from_totals_help_text">If you check this option, this account will not be included into the aggregates per currency.</string>
-  <string name="help_MethodEdit_title">Form for payment methods</string>
-  <string name="form_MethodEdit_label_help_text">The label identifies the method when you map a transaction to it.</string>
-  <string name="form_MethodEdit_type_help_text">Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral).</string>
-  <string name="form_MethodEdit_numbered_help_text">When a method is numbered, transactions that are mapped to it, will have an additional field for entering a reference number.</string>
-  <string name="form_MethodEdit_account_types_help_text">Select the account types for which this method is applicable.</string>
-
-  <string name="help_ManageCurrencies_info">For each currency, you can modify the number of fraction digits used. For example, if for Euro, you need to handle 1/10 of a ¢, i.e. 1/1000 of a Euro, you would set the number to three. Existing accounts which use the currency, will be switched to the new setting.</string>
-  <string name="help_ManageCurrencies_symbol">You can also configure the currency symbol, which is used when amounts in a specific currency are formatted.</string>
-  <string name="help_ManageCurrencies_new">For custom currencies, you additionally define a label, which is shown in menus for selecting a currency, and an alphabetic code, which by convention consists of three characters.</string>
-
-  <string name="help_FolderBrowser_info">The folder you select here, will be used for storing backups and exports. Navigate through the folder hierarchy until you reach the desired folder.</string>
-  <string name="menu_create_folder_help_text">Create a new folder inside the current folder.</string>
-  <string name="menu_FolderBrowser_select_help_text">Select the current folder as storage target for exports and backups.</string>
-  <string name="menu_up_help_text">Navigate to the parent of the current folder.</string>
-
-  <string name="help_ManageStaleImages_info">This screen allows you to deal with image files that have been left over from deleted transactions. Long click on entries in order to either delete them, or move them out of the (possibly internal) storage folder to a backup folder (Android/data/org.totschnig.mxexpenses/files/images.old) on external storage.</string>
-
-  <string name="help_CsvImportActivity_info"><![CDATA[After you select the file you want to import, you need to configure how  the file is encoded (UTF-8 or ISO-8859-1), which character separates fields (comma, semicolon or tab), and how dates are formated. Data can be either imported into an existing account, or a new one, where you can configure the currency and the account type.<br><br>After you hit the Parse button from the action bar, the data will be presented you in a table. Before triggering the import through the button in the action bar, you can select rows that you want to discard, and you have to map the columns to the respective data fields.<br><br>When you discard the first row, you are prompted if you want it to be treated as a header line, in which case <i>My Expenses</i> will try to automatically map the columns based on the content of the header cells. It will also remember your mapping based on the header line, and restore it, when you import a file with the same header format the next time.]]></string>
-  <string name="help_ExportDialog_date_format"><![CDATA[Text can be quoted using single quotes (\') to avoid interpretation. \'\' (two single quotes) represent a single quote. Consult the full <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">specification</a> for more details, or contact support@myexpenses.mobi for help.]]></string>
-
-  <string name="help_NavigationDrawer_info">The account list allows you to easily navigate between accounts by simply clicking on an entry.</string>
-  <string name="menu_create_account_help_text">Create a new account. The free version is limited to five accounts.</string>
-  <string name="menu_NavigationDrawer_sort_help_text">The account list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was created for it.</string>
-  <string name="menu_NavigationDrawer_sort_help_text_custom">Clicking on \"Custom\" allows you to freely configure the position of each account.</string>
-  <string name="menu_NavigationDrawer_grouping_help_text">The account list can be displayed grouped by account type, by currency, or ungrouped.</string>
-  <string name="menu_NavigationDrawer_hidden_accounts_help_text">Displays a list of all hidden accounts, where they can be made visible again or deleted.</string>
-  <string name="cab_NavigationDrawer_hide_help_text">Remove the account from the list.</string>
-  <string name="cab_NavigationDrawer_close_reopen_help_text">By closing an account, you can prevent any changes (additions, deletions, edits) to its data, but still allow it to be taken into consideration for all statistical calculations.</string>
-
-  <string name="help_ManageSyncBackends_intro">My Expenses allows to configure different synchronization backends for each account. For example, you can sync one account with a shared folder, while you sync another account with a private folder. On this screen you add or remove synchronization backends, start or stop synchronization with accounts available remotely. While synchronization happens automatically in a periodic manner, here you can also manually trigger it with a backend. Please be aware that My Expenses needs full control over the remote folder. You should not use other tools or interfaces for changing its contents, since this will most likely lead to failures during synchronization.</string>
-  <string name="help_ManageSyncBackends_webdav">WebDAV: If your cloud storage provider supports this protocol, My Expenses will be able to sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
-  <string name="help_ManageSyncBackends_drive">Google Drive: Pick any folder that you own or that is shared with you.</string>
-  <string name="help_ManageSyncBackends_encryption">For every backend, you can set a different passphrase for encrypting the synchronization data. You cannot switch an existing backend from unencrypted to encrypted. You need to recreate a new backend in that case. If you use the feature of storing auto-backups on the synchronization backend, these files are not encrypted with the backend specific password. Instead you can set a password that applies to all backup files, in the Security section of the Settings Screen.</string>
-  <string name="menu_create_sync_backend_help_text">From the submenu select the type of synchronization backend that you want to add, and provide the details specific to each.</string>
-  <string name="cab_sync_now_help_text">Trigger immediate synchronization with the selected backend.</string>
-  <string name="cab_remove_help_text">Remove the selected backend.</string>
-  <string name="cab_sync_download_help_text">Download an account that is available on the backend. An account will be created locally and be configured for synchronization with the backend.</string>
-  <string name="cab_sync_link_help_text">Start synchronization for an account that exists both locally and remotely. You need to decide if local or remote data should be kept on the first synchronization.</string>
-  <string name="cab_sync_unlink_help_text">The selected account will no longer be synced to the backend</string>
-
-  <string name="help_HistoryActivity_info">This screen displays your cash flow, how your expenses and income evolve over years, months, weeks or days.</string>
-  <string name="menu_HistoryActivity_grouping_help_text">Switch between daily, weekly, monthly or annual grouping of your cash flow data.</string>
-  <string name="menu_HistoryActivity_history_show_balance_help_text">Toggle the visibility of the balance.</string>
-  <string name="menu_HistoryActivity_history_transfers_help_text">Toggle, if transfers should be treated like a regular income or expense.</string>
-
-  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">By defining a budget, you define an overall amount that you want to spend during a given period. You can also allocate amounts for categories and sub-categories. You then monitor how much you have spent and how much remains to be spent.</string>
-  <string name="help_Budget_amount_click">Clicking on the budgeted amounts allows to change them.</string>
-  <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
-  <string name="menu_BudgetActivity_back_forward_help_text">Compare budget with spending of past and future periods of time.</string>
-  <string name="menu_BudgetActivity_edit_help_text">Change the budget\'s definition.</string>
-  <string name="menu_budget_aggregate_help_text">By default, the calculated sums include both expenses and income. If you deactivate this option, income is ignored, only expenses are taken into account.</string>
-  <string name="menu_budget_allocated_only_help_text">By activating this option, only categories, for which some amount has been allocated, are displayed.</string>
-  <string name="menu_BudgetActivity_delete_help_text">The currently displayed budget will be deleted.</string>
-
-  <string name="help_ManageBudgets_title">List of all budgets</string>
-  <string name="help_ManageBudgets_info">This screen shows a summary of all budgets you have created. Use the floating action button to create a new budget. Clicking on a list entry displays a single budget.</string>
-
-  <string name="help_BudgetEdit_title">Form for budgets</string>
-  <string name="help_BudgetEdit_info">Use this form to create a new budget or to edit an existing one.</string>
-  <string name="form_BudgetEdit_title_help_text">A budget\'s title helps identifying it in the budget list.</string>
-  <string name="form_BudgetEdit_amount_help_text">How much money is available in the context of this budget.</string>
-  <string name="form_BudgetEdit_accounts_help_text">A budget is either limited to one account; it covers all accounts with the same currency; or it refers to the total aggregate across all currencies.</string>
-  <string name="form_BudgetEdit_filter_help_text">Budgets can be filtered with respect to categories, parties, methods or states. Only transactions matched by these filters are taken into account.</string>
-  <string name="form_BudgetEdit_type_help_text">A budget is defined as either regular (daily, monthly, weekly, annual) or one-time. For one-time budgets, you specify the beginning and the end of its duration. A regular budget (that is not filtered) can be set as default: This means that the transaction list (if it is configured to group data per day, week, month or year) will show the progress for this budget for each period.</string>
-  <string name="cab_remap_help_text">Use the commands in this submenu, if you want to change the given property (account, category, payer/payee or payment method) for all selected transactions.</string>
-
-  <string name="form_tags_help_text">The + icon allows to select existing tags and to create new tags. The x icon on each tag allows to remove the mapping between the transaction and the tag.</string>
-  <string name="help_ManageTags_select_filter_info">Select or unselect the tags for filtering the transaction list by tapping on them. Use the floating action button to confirm the selection.</string>
-  <string name="help_ManageTags_manage_info">Create new tags by entering them into the text field. The x icon on each tag removes it from the database. Long tap on a tag allows to edit it.</string>
-  <string name="help_ManageTags_select_mapping_info">Map or unmap the tags by tapping on them. Use the floating action button to confirm the mapping.</string>
-  <string name="help_debt_managment">Associate debts with parties, inspect list of transactions and calculate remaining balance.</string>
-
-  <string name="cab_debts_help_text">This submenu allows to define new debts associated with the selected party, and to manage existing debts: to inspect the transaction history and the remaining balance and to edit, close or delete them.</string>
-
-  <string name="form_DebtEdit_label_help_text">The label allows to select the debt on the form for transactions, in order to mark a transaction as a down payment.</string>
-  <!-- home currency refers to the currency configured by the user in the settings -->
-  <string name="form_DebtEdit_amount_help_text">Enter the original amount of the debt. Transactions linked to the debt will decrease or increase the balance. Use the switch to distinguish between debts you owe and debts that are owed to you. If you select a currency other than your home currency, the debt will only be visible in accounts with the same currency.</string>
-  <string name="form_DebtEdit_date_help_text">Enter the date when the debt was incurred.</string>
-
-  <string name="help_SetupSync_info"><![CDATA[This screen allows you to select the data that you want to sync between the device and the backend. It lists all the accounts on your device that are not yet synced to other backends, and all accounts stored on the backend. Clicking on <img src="ic_hchain_broken"> / <img src="ic_hchain"> will select or unselect an account for synchronization. If you select an account that already exists both locally and remotely, you need to decide if originally the data on your device should override the existing data on the backend, or the other way round.]]></string>
+ --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+    <string name="help_menu_commands">Menu commands</string>
+    <string name="help_contextual_actions">Contextual actions</string>
+    <string name="help_contextual_actions_help">The menu for contextual actions gets displayed by long tapping on a list entry.</string>
+    <string name="help_form_fields">Form fields</string>
+    <string name="cab_delete_help_text">Delete the selected items.</string>
+    <string name="cab_edit_help_text">Edit the selected item.</string>
+    <string name="help_MyExpenses_title">Transaction list</string>
+    <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
+    <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
+    <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a menu with the following entries:</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">Copy the current balance to the clipboard.</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">Calculate the difference between the current balance and a new value.</string>
+    <string name="help_MyExpenses_crStatus_info">The status of the transaction is indicated by a colored rectangle: gray for unreconciled, blue for clear, green for reconciled. Clicking on the rectangle, changes the status.</string>
+    <string name="menu_reset_help_text">This command will export all transactions of the current account to a file on the SD card in QIF or CSV format. You can decide to delete the exported transactions, in that case the opening balance is automatically adjusted. Alternatively, if transactions are not deleted, they will be marked as exported. My Expenses can share the file immediately after the export through FTP, email or any other file sharing app, if you configure it to do so in the Settings. If a search filter is active, only the transactions mapped by this filter will be taken into consideration.</string>
+    <string name="menu_grouping_help_text">You can group transactions by day, week, month or year. For each group, the sum of income, expenses and transfers is calculated and displayed. When you click on a group header, the group of transactions is collapsed and only the header is displayed. Click again to expand.</string>
+    <string name="menu_sort_direction_help_text">Transactions can be sorted in ascending (oldest on top) or descending (latest on top) direction.</string>
+    <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also long click on a group header to inspect the distribution for a specific period of time.</string>
+    <string name="menu_budget_help_text">Manage daily, weekly, monthly or yearly budgets for the currently displayed account.</string>
+    <string name="menu_history_help_text">Display a cash flow diagram: How did your expense and income evolve over days, weeks, months or years?</string>
+    <string name="menu_manage_plans_help_text">Opens the list of templates and plans, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
+    <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
+    <string name="menu_print_help_text">Generates a printable view of the transactions currently displayed.</string>
+    <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method. When a search filter is active, you can simply click on its entry in the submenu to deactivate it.</string>
+    <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
+    <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time. You can make changes before saving the copy.</string>
+    <string name="cab_split_help_text">You can later edit the transaction to create additional parts as needed.</string>
+    <string name="menu_scan_mode_help_text">Activate scan mode in order to quickly scan receipts.</string>
+    <string name="cab_link_help_text">An expense in one account can be linked with an income in another account. If the accounts have the same currency, the two transactions must have identical amounts.</string>
+    <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Use the floating action button to open the form for creating a new method.</string>
+    <string name="help_ManageParties_manage_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.</string>
+    <string name="help_ManageParties_select_mapping_info">Select a party by tapping on it.</string>
+    <string name="help_ManageParties_select_filter_info">Tap on a party for filtering the transaction list. Long tap for selecting multiple parties.</string>
+    <string name="help_ManageParties_floating_action_button">Use the floating action button to add a new entry.</string>
+    <string name="menu_merge_help_text">If the same party appears multiple times in the list with different spelling variations, you can merge them together. You will be prompted to select which variant to keep.</string>
+    <string name="help_ManageTemplates_plans_title">Plan calendar view</string>
+    <string name="help_ManageTemplates_planner_title">Upcoming recurrences</string>
+    <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template">While templates can be derived from transactions through their context menu, here you can create new templates from scratch (for transactions or transfers) by clicking on the floating action button. Clicking on a template, will create an instance for it.<br><img src="ic_event">A plan is a template for which you have created an event (one-time or recurring) in the planner calendar. Clicking on a plan, will open a calendar view, which displays past and upcoming instances of a plan.]]></string>
+    <string name="help_ManageTemplates_planner_intro">Long tapping on an open instance starts multi-selection. Tapping on the start or end of the date range allows to extend the range into the past or the future.</string>
+    <string name="help_ManageTemplates_plans_intro">Each highlighted date represents an instance of the plan.</string>
+    <string name="help_ManageTemplates_plans_info"><![CDATA[The state of an instance is indicated by the following icons:<br><img src="ic_stat_open"> The instance has not yet been applied.<br><img src="ic_stat_applied"> The instance has been applied.<br><img src="ic_stat_cancelled"> The instance has been cancelled, i.e. you have flaged it to be skipped. No transaction will be created for this instance.]]></string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instantiate the selected templates and save them immediately.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instantiate the selected template and enter its editing form where you can modify it before saving.</string>
+    <string name="cab_ManageTemplates_delete_help_text">Delete the selected templates and any associated plans.</string>
+    <string name="cab_ManageTemplates_edit_help_text">Edit the selected template and create or edit an associated plan.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Create transactions at the time of the selected event instances and save them immediately.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Create a transaction at the time of the selected event instance and enter its editing form where you can modify it before saving.</string>
+    <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicate that at the selected event instances, no transactions should be created. If transactions have been created for the selected event instances, they will be deleted.</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">If transactions have been created for the selected event instances, they will be deleted, if they have been flagged as cancelled, the flags are removed.</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edit the transaction that has been created for the selected plan instance.</string>
+    <string name="menu_ManageTemplates_templates_sort_help_text">The template list can be sorted by title (alphabetically), by amount, by frequency of usages, or by the last time a transaction was instantiated from it.</string>
+    <string name="help_ManageCategories_distribution_info">This screen displays the distribution of your expenses and incomes per categories, for all transactions in an account, or for a specific group. If you expand a main category in the list, the pie chart will display the distribution of its subcategories. If you select a category in the list, it will be highlighted in the pie chart, and vice-versa. Long press on a category in order to display an aggregated list of the transactions mapped to it.</string>
+    <string name="help_ManageCategories_select_mapping_info">In addition to the actions that you can perform when managing categories from the Preferences screen (create, edit, delete), on this screen you map a transaction to a selected category. You select a subcategory for mapping to the current transaction by simply clicking on it. In order to map a main category, you have to call its context menu.</string>
+    <string name="help_ManageCategories_select_filter_info">Select the category for filtering the transaction list. In order to search for a main category, you have to call its context menu.</string>
+    <string name="help_ManageCategories_manage_info">This screen allows to create, edit and delete categories. By default, the primary sort criteria in the category list is the number of times you use a category (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often. In the settings, you can opt for sorting the categories in plain alphabetical order. Clicking on a main category, opens up its subcategories. From a main category\'s context menu, you can add new subcategories, delete a category or edit it. Subcategories have also context menus for deleting and editing.</string>
+    <string name="menu_ManageCategories_distribution_grouping_help_text">Set the type of grouping and display the distribution per day, month, week or year.</string>
+    <string name="menu_back_help_text">Navigate to the previous group. Can also be done through swipe gesture from left to right.</string>
+    <string name="menu_forward_help_text">Navigate to the next group. Can also be done through swipe gesture from right to left.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Opens the dialog for specifying the title of a new sub-category below the selected category.</string>
+    <string name="cab_ManageCategories_move_help_text">Sub-categories can be moved to a different main category, or can be transformed to main categories. Main categories that have no children can be transformed to sub-categories of a different main category.</string>
+    <string name="cab_ManageCategories_select_help_text">Map the selected category to the transaction and return to the transaction form.</string>
+    <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
+    <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
+    <string name="menu_distribution_show_pie_char_help_text">Toggle the visibility of the pie chart.</string>
+    <string name="menu_distribution_aggreate_help_text">By default, the calculated sums include both expenses and income. You can decide to show them separately, a button in the action bar allows you to toggle between expenses and income.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">The selected category will be used for filtering the transaction list.</string>
+    <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
+    <string name="menu_ManageCategories_sort_help_text">The category list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was mapped to it.</string>
+    <string name="cab_ManageCategories_color_help_text">You can assign a color to main categories. This color will be used to represent the category in charts. Subcategories will use shades of their main category\'s color. </string>
+    <string name="help_ExpenseEdit_transaction_title">Form for transactions</string>
+    <string name="help_ExpenseEdit_transfer_title">Form for transfers</string>
+    <string name="help_ExpenseEdit_split_title">Form for splits</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">Form for category split parts</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">Form for transfer split parts</string>
+    <string name="help_ExpenseEdit_templateCategory_title">Form for transaction templates</string>
+    <string name="help_ExpenseEdit_templateTransfer_title">Form for transfer templates</string>
+    <string name="help_ExpenseEdit_templateSplit_title">Form for split templates</string>
+    <string name="help_ExpenseEdit_transaction_info">Use this form to enter a new transaction or to edit an existing one. Use the dropdown menu in the actionbar to switch to the form for adding a new transfer or split transaction.</string>
+    <string name="help_ExpenseEdit_templateCategory_info">Use this form to enter a new template or to edit an existing one. Use the dropdown menu in the actionbar to switch between templates for transactions, transfers and splits.</string>
+    <string name="help_ExpenseEdit_split_info">A split transaction is a single transaction split up in parts, where each part can be assigned to a different category, or transferred to a different account.</string>
+    <string name="form_account_help_text">Select the account to which the transaction belongs.</string>
+    <string name="form_date_time_help_text">Enter the date and time when the transaction took place.</string>
+    <string name="form_date_time_help_text_configuration">In the settings you can disable time input and enable differentiation between booking date and value date.</string>
+    <string name="form_date_time_help_text_link"><![CDATA[If the <img src="ic_hchain">/<img src="ic_hchain_broken"> toggle is in its linked state, setting either value date or booking date will also update the other date.]]></string>
+    <string name="form_payer_or_payee_help_text">This field remembers the values you enter and will suggest them in the future.</string>
+    <string name="form_amount_switch_help_text">Use the switch to toggle between expense and income.</string>
+    <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> button opens the calculator.]]></string>
+    <string name="form_crstatus_help_text">For transactions belonging to bank accounts, you can change the transaction\'s status to cleared. For setting it to reconciled, you must use the \"Balance account\" command from the transaction list. If the status is set to void, the transaction will not be counted.</string>
+    <string name="form_comment_help_text">Enter any note about the object.</string>
+    <string name="form_method_help_text">This field is only available if the current account is of a type linked to any payment method. By default only bank accounts are linked to payment methods (cheque,credit card, deposit,direct debit). Go to Settings -&gt; Manage -&gt; Payment Methods to configure the association between account types and payment methods. When you select a method that is defined as numbered, an additional field for entering a reference number becomes available.</string>
+    <string name="form_attach_image_help_text"><![CDATA[The <img src="android:ic_menu_camera"> button allows you to attach an image (e.g. from the gallery or the camera) to the object.]]></string>
+    <string name="form_default_action_help_text">For each template, you can configure if a short tap on it in the template list will either save the instance immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap.</string>
+    <string name="form_category_help_text">This button opens the list of categories, where you can select the category you want to map to the transaction.</string>
+    <string name="form_split_parts_heading_help_text">Use the floating action button for entering as many split parts as needed. The difference between the sum of the parts and the transaction is displayed at the bottom of the screen. You can only save the split transaction, if the transaction amount has been exactly assigned.</string>
+    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Select a category for this split part.</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">Assign the accounts where this object is transferred from or to.</string>
+    <string name="form_exchange_rate_help_text">You can specify the rate in either of the both directions of the transfer. The inverse rate and the amount corresponding to the dependent part of the exchange rate are calculated automatically.</string>
+    <string name="form_title_help_text">Enter a title that uniquely identifies the template.</string>
+    <string name="form_plan_help_text">When you create a plan for a template, it is added to a private calendar handled by your Calendar app. You can define the plan as a one-time event, or as recurring daily, weekly, monthly or yearly.</string>
+    <string name="form_plan_help_text_advanced">After you have saved the template, you can configure more advanced types of recurrence making use of your calendar app.</string>
+    <string name="form_plan_help_text_mode">A plan can be set to automatic or manual. When an instance of an automatic plan occurs, the transaction will be created, and you receive a notification. When the plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or applying the template to you.</string>
+    <string name="menu_save_help_text">Save the data and close the form.</string>
+    <string name="menu_save_and_new_help_text">If this is checked, after you save the data, the form is left open for creating a new transaction with the same data.</string>
+    <string name="menu_original_amount_help_text">Show a field that allows to define an additional amount. For example if you pay with your credit card in a foreign currency, you can remember the original price in addition to the amount debited from your card. The original amount is ignored for calculating sums.</string>
+    <string name="menu_equivalent_amount_help_text">For calculating a grand total across all accounts, transactions of foreign currency accounts, are multiplied by an exchange rate that you set for the account. But you can also override this implicitly calculated amount, by setting an equivalent amount for any individual transaction.</string>
+    <string name="menu_invert_transfer_help_text">Invert the direction of the transfer by swapping \'From\' and \'To\' account.</string>
+    <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">If the currencies of \'From\' and \'To\' account are different, you specify the amount for only one of them. The other one will be calculated when you create instances from the template.</string>
+    <string name="form_goal_or_limit_help_text">This field allows to specify either a positive saving goal or a negative credit limit. In either case, on the account list, a progress indicator visualizes the distance between the current balance and the goal or the limit.</string>
+    <string name="menu_templates_help_text">Open a menu that lists all templates allowing to quickly load them into the form.</string>
+    <string name="menu_create_template_from_transaction_help_text">If this is checked, the transaction will also be saved as template. You can define its title and optionally set a plan for automatic recurrence.</string>
+    <string name="help_AccountEdit_title">Form for accounts</string>
+    <string name="form_AccountEdit_label_help_text">The label identifies the account in the account list.</string>
+    <string name="form_description_help_text">The description has only an informative purpose.</string>
+    <string name="form_AccountEdit_amount_switch_help_text">Use the switch to start with a negative opening balance.</string>
+    <string name="form_currency_help_text">Select a currency from the provided list of all current currencies.</string>
+    <string name="form_AccountEdit_type_help_text">You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -&gt; Manage -&gt; Payment Methods.</string>
+    <string name="form_AccountEdit_type_help_text_reconciliation">The reconciliation feature is available for all but cash accounts: It allows to set a transactions\' status to cleared, once it is confirmed, and reconcile the whole account with your bank statement through the \"Balance account\" command.</string>
+    <string name="form_color_help_text">On the transaction list for an account, its color will be used as primary user interface color.</string>
+    <string name="form_synchronization_help_text_select">Select a backend for cloud synchronization.</string>
+    <string name="form_synchronization_help_text_add">Backends can be added from the Settings screen.</string>
+    <string name="form_AccountEdit_active_tags_help_text">You can associate one ore more active tags with every account. When you create a new transaction, it is automatically tagged with those, based on the selected account.</string>
+    <string name="menu_exclude_from_totals_help_text">If you check this option, this account will not be included into the aggregates per currency.</string>
+    <string name="help_MethodEdit_title">Form for payment methods</string>
+    <string name="form_MethodEdit_label_help_text">The label identifies the method when you map a transaction to it.</string>
+    <string name="form_MethodEdit_type_help_text">Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral).</string>
+    <string name="form_MethodEdit_numbered_help_text">When a method is numbered, transactions that are mapped to it, will have an additional field for entering a reference number.</string>
+    <string name="form_MethodEdit_account_types_help_text">Select the account types for which this method is applicable.</string>
+    <string name="help_ManageCurrencies_info">For each currency, you can modify the number of fraction digits used. For example, if for Euro, you need to handle 1/10 of a ¢, i.e. 1/1000 of a Euro, you would set the number to three. Existing accounts which use the currency, will be switched to the new setting.</string>
+    <string name="help_ManageCurrencies_symbol">You can also configure the currency symbol, which is used when amounts in a specific currency are formatted.</string>
+    <string name="help_ManageCurrencies_new">For custom currencies, you additionally define a label, which is shown in menus for selecting a currency, and an alphabetic code, which by convention consists of three characters.</string>
+    <string name="help_FolderBrowser_info">The folder you select here, will be used for storing backups and exports. Navigate through the folder hierarchy until you reach the desired folder.</string>
+    <string name="menu_create_folder_help_text">Create a new folder inside the current folder.</string>
+    <string name="menu_FolderBrowser_select_help_text">Select the current folder as storage target for exports and backups.</string>
+    <string name="menu_up_help_text">Navigate to the parent of the current folder.</string>
+    <string name="help_ManageStaleImages_info">This screen allows you to deal with image files that have been left over from deleted transactions. Long click on entries in order to either delete them, or move them out of the (possibly internal) storage folder to a backup folder (Android/data/org.totschnig.mxexpenses/files/images.old) on external storage.</string>
+    <string name="help_CsvImportActivity_info"><![CDATA[After you select the file you want to import, you need to configure how  the file is encoded (UTF-8 or ISO-8859-1), which character separates fields (comma, semicolon or tab), and how dates are formated. Data can be either imported into an existing account, or a new one, where you can configure the currency and the account type.<br><br>After you hit the Parse button from the action bar, the data will be presented you in a table. Before triggering the import through the button in the action bar, you can select rows that you want to discard, and you have to map the columns to the respective data fields.<br><br>When you discard the first row, you are prompted if you want it to be treated as a header line, in which case <i>My Expenses</i> will try to automatically map the columns based on the content of the header cells. It will also remember your mapping based on the header line, and restore it, when you import a file with the same header format the next time.]]></string>
+    <string name="help_ExportDialog_date_format"><![CDATA[Text can be quoted using single quotes (\') to avoid interpretation. \'\' (two single quotes) represent a single quote. Consult the full <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">specification</a> for more details, or contact support@myexpenses.mobi for help.]]></string>
+    <string name="help_NavigationDrawer_info">The account list allows you to easily navigate between accounts by simply clicking on an entry.</string>
+    <string name="menu_create_account_help_text">Create a new account. The free version is limited to five accounts.</string>
+    <string name="menu_NavigationDrawer_sort_help_text">The account list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was created for it.</string>
+    <string name="menu_NavigationDrawer_sort_help_text_custom">Clicking on \"Custom\" allows you to freely configure the position of each account.</string>
+    <string name="menu_NavigationDrawer_grouping_help_text">The account list can be displayed grouped by account type, by currency, or ungrouped.</string>
+    <string name="menu_NavigationDrawer_hidden_accounts_help_text">Displays a list of all hidden accounts, where they can be made visible again or deleted.</string>
+    <string name="cab_NavigationDrawer_hide_help_text">Remove the account from the list.</string>
+    <string name="cab_NavigationDrawer_close_reopen_help_text">By closing an account, you can prevent any changes (additions, deletions, edits) to its data, but still allow it to be taken into consideration for all statistical calculations.</string>
+    <string name="help_ManageSyncBackends_intro">My Expenses allows to configure different synchronization backends for each account. For example, you can sync one account with a shared folder, while you sync another account with a private folder. On this screen you add or remove synchronization backends, start or stop synchronization with accounts available remotely. While synchronization happens automatically in a periodic manner, here you can also manually trigger it with a backend. Please be aware that My Expenses needs full control over the remote folder. You should not use other tools or interfaces for changing its contents, since this will most likely lead to failures during synchronization.</string>
+    <string name="help_ManageSyncBackends_webdav">WebDAV: If your cloud storage provider supports this protocol, My Expenses will be able to sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
+    <string name="help_ManageSyncBackends_drive">Google Drive: Pick any folder that you own or that is shared with you.</string>
+    <string name="help_ManageSyncBackends_encryption">For every backend, you can set a different passphrase for encrypting the synchronization data. You cannot switch an existing backend from unencrypted to encrypted. You need to recreate a new backend in that case. If you use the feature of storing auto-backups on the synchronization backend, these files are not encrypted with the backend specific password. Instead you can set a password that applies to all backup files, in the Security section of the Settings Screen.</string>
+    <string name="menu_create_sync_backend_help_text">From the submenu select the type of synchronization backend that you want to add, and provide the details specific to each.</string>
+    <string name="cab_sync_now_help_text">Trigger immediate synchronization with the selected backend.</string>
+    <string name="cab_remove_help_text">Remove the selected backend.</string>
+    <string name="cab_sync_download_help_text">Download an account that is available on the backend. An account will be created locally and be configured for synchronization with the backend.</string>
+    <string name="cab_sync_link_help_text">Start synchronization for an account that exists both locally and remotely. You need to decide if local or remote data should be kept on the first synchronization.</string>
+    <string name="cab_sync_unlink_help_text">The selected account will no longer be synced to the backend</string>
+    <string name="help_HistoryActivity_info">This screen displays your cash flow, how your expenses and income evolve over years, months, weeks or days.</string>
+    <string name="menu_HistoryActivity_grouping_help_text">Switch between daily, weekly, monthly or annual grouping of your cash flow data.</string>
+    <string name="menu_HistoryActivity_history_show_balance_help_text">Toggle the visibility of the balance.</string>
+    <string name="menu_HistoryActivity_history_transfers_help_text">Toggle, if transfers should be treated like a regular income or expense.</string>
+    <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">By defining a budget, you define an overall amount that you want to spend during a given period. You can also allocate amounts for categories and sub-categories. You then monitor how much you have spent and how much remains to be spent.</string>
+    <string name="help_Budget_amount_click">Clicking on the budgeted amounts allows to change them.</string>
+    <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
+    <string name="menu_BudgetActivity_back_forward_help_text">Compare budget with spending of past and future periods of time.</string>
+    <string name="menu_BudgetActivity_edit_help_text">Change the budget\'s definition.</string>
+    <string name="menu_budget_aggregate_help_text">By default, the calculated sums include both expenses and income. If you deactivate this option, income is ignored, only expenses are taken into account.</string>
+    <string name="menu_budget_allocated_only_help_text">By activating this option, only categories, for which some amount has been allocated, are displayed.</string>
+    <string name="menu_BudgetActivity_delete_help_text">The currently displayed budget will be deleted.</string>
+    <string name="help_ManageBudgets_title">List of all budgets</string>
+    <string name="help_ManageBudgets_info">This screen shows a summary of all budgets you have created. Use the floating action button to create a new budget. Clicking on a list entry displays a single budget.</string>
+    <string name="help_BudgetEdit_title">Form for budgets</string>
+    <string name="help_BudgetEdit_info">Use this form to create a new budget or to edit an existing one.</string>
+    <string name="form_BudgetEdit_title_help_text">A budget\'s title helps identifying it in the budget list.</string>
+    <string name="form_BudgetEdit_amount_help_text">How much money is available in the context of this budget.</string>
+    <string name="form_BudgetEdit_accounts_help_text">A budget is either limited to one account; it covers all accounts with the same currency; or it refers to the total aggregate across all currencies.</string>
+    <string name="form_BudgetEdit_filter_help_text">Budgets can be filtered with respect to categories, parties, methods or states. Only transactions matched by these filters are taken into account.</string>
+    <string name="form_BudgetEdit_type_help_text">A budget is defined as either regular (daily, monthly, weekly, annual) or one-time. For one-time budgets, you specify the beginning and the end of its duration. A regular budget (that is not filtered) can be set as default: This means that the transaction list (if it is configured to group data per day, week, month or year) will show the progress for this budget for each period.</string>
+    <string name="cab_remap_help_text">Use the commands in this submenu, if you want to change the given property (account, category, payer/payee or payment method) for all selected transactions.</string>
+    <string name="form_tags_help_text">The + icon allows to select existing tags and to create new tags. The x icon on each tag allows to remove the mapping between the transaction and the tag.</string>
+    <string name="help_ManageTags_select_filter_info">Select or unselect the tags for filtering the transaction list by tapping on them. Use the floating action button to confirm the selection.</string>
+    <string name="help_ManageTags_manage_info">Create new tags by entering them into the text field. The x icon on each tag removes it from the database. Long tap on a tag allows to edit it.</string>
+    <string name="help_ManageTags_select_mapping_info">Map or unmap the tags by tapping on them. Use the floating action button to confirm the mapping.</string>
+    <string name="help_debt_managment">Associate debts with parties, inspect list of transactions and calculate remaining balance.</string>
+    <string name="cab_debts_help_text">This submenu allows to define new debts associated with the selected party, and to manage existing debts: to inspect the transaction history and the remaining balance and to edit, close or delete them.</string>
+    <string name="form_DebtEdit_label_help_text">The label allows to select the debt on the form for transactions, in order to mark a transaction as a down payment.</string>
+    <!-- home currency refers to the currency configured by the user in the settings -->
+    <string name="form_DebtEdit_amount_help_text">Enter the original amount of the debt. Transactions linked to the debt will decrease or increase the balance. Use the switch to distinguish between debts you owe and debts that are owed to you. If you select a currency other than your home currency, the debt will only be visible in accounts with the same currency.</string>
+    <string name="form_DebtEdit_date_help_text">Enter the date when the debt was incurred.</string>
+    <string name="help_SetupSync_info">This screen allows you to select the data that you want to sync between the device and the backend. It lists all the accounts on your device that are not yet synced to other backends, and all accounts stored on the backend. Clicking on &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; will select or unselect an account for synchronization. If you select an account that already exists both locally and remotely, you need to decide if initially the data on your device should override the existing data on the backend, or the other way round.</string>
 </resources>

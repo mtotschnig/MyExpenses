@@ -803,4 +803,5 @@
     <string name="pref_news_title">Aktualności</string>
     <string name="title_scan_receipt_feature">Zeskanuj paragon</string>
     <string name="debt_managment">Zarządzanie długiem</string>
+    <string name="ui_refinement">Dopracowanie interfejsu użytkownika</string>
 </resources>

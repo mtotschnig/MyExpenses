@@ -524,4 +524,5 @@
     <string name="title_scan_receipt_feature">Scanați chitanța</string>
     <string name="all_contrib_key_features">Toate caracteristicile Contrib Cheie</string>
     <string name="all_extended_key_features">Toate caracteristicile Cheii Extinse</string>
+    <string name="ui_refinement">Perfecționarea interfeței cu utilizatorul</string>
 </resources>

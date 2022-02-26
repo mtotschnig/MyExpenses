@@ -806,4 +806,5 @@
     <string name="pref_news_title">Berita</string>
     <string name="title_scan_receipt_feature">Imbas resit</string>
     <string name="debt_managment">Pengurusan hutang</string>
+    <string name="ui_refinement">Penghalusan antaramuka pengguna</string>
 </resources>
