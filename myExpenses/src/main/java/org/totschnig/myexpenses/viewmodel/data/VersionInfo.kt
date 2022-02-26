@@ -11,48 +11,44 @@ import org.totschnig.myexpenses.util.getDisplayNameForScript
 import java.util.*
 
 @Parcelize
-class VersionInfo(val code: Int, val name: String): Parcelable {
+class VersionInfo(val code: Int, val name: String) : Parcelable {
     @IgnoredOnParcel
     val nameCondensed = name.replace(".", "")
     fun getChanges(ctx: Context): Array<String?>? {
         val res = ctx.resources
+        fun t(resId: Int) = ctx.getString(resId)
         val changesArray = when (nameCondensed) {
             "325" -> arrayOf(
-                "${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${
-                    ctx.getString(
-                        R.string.autofill
-                    )
-                }"
+                "${t(R.string.contrib_feature_csv_import_label)}: ${t(R.string.autofill)}"
             )
             "330" -> arrayOf(
-                "${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
-                ctx.getString(R.string.active_tags)
+                "${t(R.string.contrib_feature_csv_import_label)}: ${t(R.string.tags)}",
+                t(R.string.active_tags)
             )
             "331" -> arrayOf(
-                "${ctx.getString(R.string.menu_settings)} - ${ctx.getString(R.string.autofill)}: ${
-                    ctx.getString(
-                        R.string.ui_refinement
-                    )
-                }"
+                "${t(R.string.menu_settings)} - ${t(R.string.autofill)}: ${t(R.string.ui_refinement)}"
             )
             "332" -> arrayOf(
-                "${ctx.getString(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
-                "${ctx.getString(R.string.currency)}: ${ctx.getString(R.string.ui_refinement)}"
+                "${t(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
+                "${t(R.string.currency)}: ${t(R.string.ui_refinement)}"
             )
             "333" -> arrayOf(
-                "${ctx.getString(R.string.pref_exchange_rate_provider_title)}: https://exchangerate.host",
-                ctx.getString(R.string.pref_backup_cloud_summary)
+                "${t(R.string.pref_exchange_rate_provider_title)}: https://exchangerate.host",
+                t(R.string.pref_backup_cloud_summary)
             )
             "335" -> {
-                val scripts = arrayOf("Han", "Deva", "Jpan", "Kore").map {
+                val scripts = arrayOf("Han", "Deva", "Jpan", "Kore").joinToString {
                     getDisplayNameForScript(ctx, it)
-                }.joinToString()
+                }
                 arrayOf(
-                    "${ctx.getString(R.string.debt_managment)}: 2.0",
-                    "${ctx.getString(R.string.pref_category_title_export)}: JSON",
-                    "${ctx.getString(R.string.title_scan_receipt_feature)} ($scripts)"
+                    "${t(R.string.debt_managment)}: 2.0",
+                    "${t(R.string.pref_category_title_export)}: JSON",
+                    "${t(R.string.title_scan_receipt_feature)} ($scripts)"
                 )
             }
+            "337" -> arrayOf(
+                "${t(R.string.synchronization)} - ${t(R.string.setup)}: ${t(R.string.ui_refinement)}"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",
