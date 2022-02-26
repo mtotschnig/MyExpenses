@@ -52,7 +52,7 @@
     <string name="Sub_9_5">Bøter</string>
     <string name="Sub_9_4">Parkering</string>
     <string name="Sub_9_3">Vedlikehold</string>
-    <string name="Sub_9_2"></string>
+    <string name="Sub_9_2"/>
     <string name="Sub_9_1">Drivstoff</string>
     <string name="Main_9">Bil</string>
     <string name="Sub_8_3">Hus</string>
@@ -73,4 +73,5 @@
     <string name="Sub_1_3">Skattefradrag</string>
     <string name="Sub_1_1">Trygd</string>
     <string name="Main_1">Annen inntekt</string>
+    <string name="Main_8">Forsikring</string>
 </resources>
