@@ -446,7 +446,7 @@
     <string name="import_parties_none">Nessun beneficiario importato</string>
     <string name="import_transactions_none">Nessuna transazione importata nel conto %1$s</string>
     <string name="import_source_select_error">Si prega di fornire un file di tipo %1$s</string>
-    <string name="menu_categories_setup_default">Installazione categorie standard</string>
+    <string name="menu_categories_setup_default">Imposta le categorie predefinite</string>
     <string name="menu_create_folder">Nuova cartella</string>
     <string name="widget_title_accounts">I miei conti</string>
     <string name="widget_title_templates">I miei modelli</string>
@@ -1011,4 +1011,5 @@
     </plurals>
     <string name="whats_new_336_1">Condividi il riepilogo del debito</string>
     <string name="whats_new_336_2">Tag per importi frazionati</string>
+    <string name="setup_completed">Impostazione completata</string>
 </resources>
