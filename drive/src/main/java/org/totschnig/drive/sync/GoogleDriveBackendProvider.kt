@@ -230,8 +230,11 @@ class GoogleDriveBackendProvider internal constructor(
     @Throws(IOException::class)
     override fun writeAccount(account: org.totschnig.myexpenses.model.Account, update: Boolean) {
         val existingAccountFolder = getExistingAccountFolder(account.uuid!!)
-        accountFolder = existingAccountFolder ?: driveServiceHelper.createFolder(baseFolder.id, accountUuid!!, null).also {
+        if (existingAccountFolder == null) {
+            accountFolder = driveServiceHelper.createFolder(baseFolder.id, accountUuid!!, null)
             createWarningFile()
+        } else {
+            accountFolder = existingAccountFolder
         }
         if (update || existingAccountFolder == null) {
             saveFileContentsToAccountDir(
@@ -264,7 +267,7 @@ class GoogleDriveBackendProvider internal constructor(
         var nextShard = sequenceNumber.shard
         var startNumber = sequenceNumber.number
         while (true) {
-            val nextShardFolder = if (sequenceNumber.shard == 0) accountFolder else getSubFolder("_$nextShard")
+            val nextShardFolder = if (nextShard == 0) accountFolder else getSubFolder("_$nextShard")
             if (nextShardFolder != null) {
                 val fileList = driveServiceHelper.listChildren(nextShardFolder)
                 log().i("Getting data from shard %d", nextShard)

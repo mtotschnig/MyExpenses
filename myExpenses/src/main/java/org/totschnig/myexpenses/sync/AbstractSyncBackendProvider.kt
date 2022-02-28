@@ -14,7 +14,6 @@ import com.google.gson.GsonBuilder
 import dagger.internal.Preconditions
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Model
@@ -170,13 +169,13 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     @Throws(IOException::class)
     protected fun getChangeSetFromInputStream(
         sequenceNumber: SequenceNumber,
-        inputStream: InputStream?
+        inputStream: InputStream
     ): ChangeSet {
-        val changes: MutableList<TransactionChange> =
+        val changes: MutableList<TransactionChange>? =
         BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { reader ->
             org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader)
         }
-        if (changes.isEmpty()) {
+        if (changes.isNullOrEmpty()) {
             return ChangeSet.empty(sequenceNumber)
         }
         val iterator = changes.listIterator()
@@ -206,7 +205,7 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
             val homeUri = PictureDirHelper.getOutputMediaUri(false)
                 ?: throw IOException("Unable to write picture")
             val input = getInputStreamForPicture(it)
-            val output = MyApplication.getInstance().contentResolver
+            val output = context.contentResolver
                 .openOutputStream(homeUri) ?: throw IOException("Unable to write picture")
             FileCopyUtils.copy(maybeDecrypt(input), output)
             input.close()
