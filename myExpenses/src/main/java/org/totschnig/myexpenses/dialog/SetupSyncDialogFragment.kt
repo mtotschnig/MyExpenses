@@ -99,7 +99,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     style = MaterialTheme.typography.h6,
                     text = data.accountName
@@ -112,7 +113,10 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                             ) {
                                 startActivity(Intent(requireContext(), Help::class.java).apply {
                                     putExtra(HelpDialogFragment.KEY_CONTEXT, "SetupSync")
-                                    putExtra(HelpDialogFragment.KEY_TITLE, "${getString(R.string.synchronization)} - ${getString(R.string.setup)}")
+                                    putExtra(
+                                        HelpDialogFragment.KEY_TITLE,
+                                        "${getString(R.string.synchronization)} - ${getString(R.string.setup)}"
+                                    )
                                 })
                             }
                         )
@@ -232,28 +236,30 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                     Spacer(modifier = cell(1))
                 }
                 Icon(
-                    modifier = cell(2).clickable {
+                    modifier = cell(2).then(
+                        if (linkState.value == SyncSource.COMPLETED) Modifier else Modifier.clickable {
 
-                        if (linkState.value == null) {
-                            if (item.isLocal && item.isRemote) {
-                                SimpleDialog.build()
-                                    .extra(Bundle().apply {
-                                        putParcelable(KEY_DATA, item)
-                                    })
-                                    .msg(
-                                        getString(R.string.dialog_sync_link, item.uuid)
-                                    )
-                                    .pos(R.string.dialog_command_sync_link_remote)
-                                    .neut()
-                                    .neg(R.string.dialog_command_sync_link_local)
-                                    .show(this@SetupSyncDialogFragment, SYNC_CONFLICT_DIALOG)
+                            if (linkState.value == null) {
+                                if (item.isLocal && item.isRemote) {
+                                    SimpleDialog.build()
+                                        .extra(Bundle().apply {
+                                            putParcelable(KEY_DATA, item)
+                                        })
+                                        .msg(
+                                            getString(R.string.dialog_sync_link, item.uuid)
+                                        )
+                                        .pos(R.string.dialog_command_sync_link_remote)
+                                        .neut()
+                                        .neg(R.string.dialog_command_sync_link_local)
+                                        .show(this@SetupSyncDialogFragment, SYNC_CONFLICT_DIALOG)
+                                } else {
+                                    linkState.value = SyncSource.DEFAULT
+                                }
                             } else {
-                                linkState.value = SyncSource.DEFAULT
+                                linkState.value = null
                             }
-                        } else {
-                            linkState.value = null
-                        }
-                    },
+                        },
+                    ),
                     painter = painterResource(id = if (linkState.value != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
                     contentDescription = stringResource(id = R.string.menu_sync_link)
                 )
