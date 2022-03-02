@@ -19,8 +19,10 @@ import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 const val DIALOG_TAG_FOLDER_SELECT = "FOLDER_SELECT"
 const val DIALOG_TAG_FOLDER_CREATE = "FOLDER_CREATE"
 
-abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
+abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragmentActivity(),
+    SimpleDialog.OnDialogResultListener {
     lateinit var viewModel: T
+
     @JvmField
     @State
     var idList: ArrayList<String> = ArrayList()
@@ -69,12 +71,15 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
             idList.clear()
             idList.addAll(pairs.map { pair -> pair.first })
             SimpleListDialog.build().choiceMode(SINGLE_CHOICE)
-                    .title(R.string.synchronization_select_folder_dialog_title)
-                    .items(pairs.map { pair -> pair.second }.toTypedArray(), LongArray(pairs.size) { it.toLong() })
-                    .neg()
-                    .pos(R.string.select)
-                    .neut(R.string.menu_create_folder)
-                    .show(this, DIALOG_TAG_FOLDER_SELECT)
+                .title(R.string.synchronization_select_folder_dialog_title)
+                .choiceMin(1)
+                .items(
+                    pairs.map { pair -> pair.second }.toTypedArray(),
+                    LongArray(pairs.size) { it.toLong() })
+                .neg()
+                .pos(R.string.select)
+                .neut(R.string.menu_create_folder)
+                .show(this, DIALOG_TAG_FOLDER_SELECT)
         }
     }
 
@@ -82,10 +87,10 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
     fun showCreateFolderDialog() {
         if (supportFragmentManager.findFragmentByTag(DIALOG_TAG_FOLDER_CREATE) == null) {
             SimpleInputDialog.build()
-                    .title(R.string.menu_create_folder)
-                    .pos(android.R.string.ok)
-                    .neg()
-                    .show(this, DIALOG_TAG_FOLDER_CREATE)
+                .title(R.string.menu_create_folder)
+                .pos(android.R.string.ok)
+                .neg()
+                .show(this, DIALOG_TAG_FOLDER_CREATE)
         }
     }
 
@@ -99,10 +104,19 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
                 when (which) {
                     SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
                         extras.getString(SimpleListDialog.SELECTED_SINGLE_LABEL)?.let {
-                            success(Pair(idList[extras.getLong(CustomListDialog.SELECTED_SINGLE_ID).toInt()],
-                                    it))
+                            success(
+                                Pair(
+                                    idList[extras.getLong(CustomListDialog.SELECTED_SINGLE_ID)
+                                        .toInt()],
+                                    it
+                                )
+                            )
                         } ?: run {
-                            Toast.makeText(this, "Could not find folder label in result", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this,
+                                "Could not find folder label in result",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                     SimpleDialog.OnDialogResultListener.BUTTON_NEUTRAL -> showCreateFolderDialog()
