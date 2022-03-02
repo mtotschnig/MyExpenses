@@ -88,4 +88,8 @@
     <string name="Sub_1_6">Soziale Sicherheit</string>
     <string name="Sub_1_3">Steuergutschrift</string>
     <string name="Main_1">Anderes Einkommen</string>
+    <string name="Sub_2_1">Pensionskasse</string>
+    <string name="Sub_1_1">Arbeitslosenunterstützung</string>
+    <string name="Sub_1_2">Familienbeihilfe</string>
+    <string name="Sub_1_4">Glücksspiel</string>
 </resources>
