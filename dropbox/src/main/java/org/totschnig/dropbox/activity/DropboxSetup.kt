@@ -8,7 +8,7 @@ import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
 import icepick.State
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.AbstractSyncBackup
+import org.totschnig.myexpenses.activity.AbstractSyncSetup
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -20,7 +20,7 @@ import timber.log.Timber
 const val APP_KEY = "09ctg08r5gnsh5c"
 const val ACTION_RE_AUTHENTICATE = "RE_AUTHENTICATE"
 
-class DropboxSetup : AbstractSyncBackup<DropboxSetupViewModel>() {
+class DropboxSetup : AbstractSyncSetup<DropboxSetupViewModel>() {
     private var oauthStartPending: Boolean = false
 
     @JvmField

@@ -10,12 +10,12 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import icepick.State
 import org.totschnig.drive.sync.GoogleDriveBackendProvider
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.AbstractSyncBackup
+import org.totschnig.myexpenses.activity.AbstractSyncSetup
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.drive.viewmodel.DriveSetupViewModel
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
 
-class DriveSetup2 : AbstractSyncBackup<DriveSetupViewModel>() {
+class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
 
     @JvmField
     @State
