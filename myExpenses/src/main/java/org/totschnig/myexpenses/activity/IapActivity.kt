@@ -38,7 +38,7 @@ abstract class IapActivity: ProtectedFragmentActivity(), BillingListener {
             "${getString(R.string.licence_key)}: $packageLabel\n${getString(R.string.full_name)}:\n${
                 getString(R.string.postal_country)
             }: ${userCountry ?: ""}"
-        val mailto = "mailto:${MyApplication.INVOICES_EMAIL}&subject=${Uri.encode(subject)}&body=${
+        val mailto = "mailto:${MyApplication.INVOICES_EMAIL}?subject=${Uri.encode(subject)}&body=${
             Uri.encode(messageBody)
         }"
         val intent = Intent(Intent.ACTION_SENDTO).apply {
