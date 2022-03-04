@@ -19,15 +19,13 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.model.ITransaction
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Payee
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.*
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
@@ -150,7 +148,7 @@ abstract class MainDelegate<T : ITransaction>(
             context,
             R.layout.support_simple_spinner_dropdown_item,
             null,
-            arrayOf(DatabaseConstants.KEY_PAYEE_NAME),
+            arrayOf(KEY_PAYEE_NAME),
             intArrayOf(android.R.id.text1),
             0
         )
@@ -165,7 +163,7 @@ abstract class MainDelegate<T : ITransaction>(
             }
             context.contentResolver.query(
                 TransactionProvider.PAYEES_URI,
-                arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
+                arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
                 selection,
                 selectArgs,
                 null
@@ -180,42 +178,25 @@ abstract class MainDelegate<T : ITransaction>(
                         payeeId = it
                         handleDebts()
                         if (withAutoFill && shouldAutoFill) {
-                            if (prefHandler.getBoolean(PrefKey.AUTO_FILL_HINT_SHOWN, false)) {
-                                if (shouldStartAutoFill(prefHandler)) {
-                                    host.startAutoFill(it, false)
-                                }
-                            } else {
-                                val b = Bundle()
-                                b.putLong(DatabaseConstants.KEY_ROWID, it)
-                                b.putInt(
-                                    ConfirmationDialogFragment.KEY_TITLE,
-                                    R.string.dialog_title_information
-                                )
-                                b.putString(
-                                    ConfirmationDialogFragment.KEY_MESSAGE,
-                                    context.getString(R.string.hint_auto_fill)
-                                )
-                                b.putInt(
-                                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                                    R.id.AUTO_FILL_COMMAND
-                                )
-                                b.putInt(
-                                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                                    R.id.AUTO_FILL_COMMAND
-                                )
-                                b.putString(
-                                    ConfirmationDialogFragment.KEY_PREFKEY,
-                                    prefHandler.getKey(PrefKey.AUTO_FILL_HINT_SHOWN)
-                                )
-                                b.putInt(
-                                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                                    R.string.response_yes
-                                )
-                                b.putInt(
-                                    ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                                    R.string.response_no
-                                )
-                                ConfirmationDialogFragment.newInstance(b).show(
+                            if (shouldStartAutoFill(prefHandler)) {
+                                host.startAutoFill(it, false)
+                            } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
+                                newInstance(Bundle().apply {
+                                    putLong(KEY_ROWID, it)
+                                    putInt(KEY_TITLE, R.string.dialog_title_information)
+                                    putString(
+                                        KEY_MESSAGE,
+                                        context.getString(R.string.hint_auto_fill)
+                                    )
+                                    putInt(KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
+                                    putInt(KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
+                                    putString(
+                                        KEY_PREFKEY,
+                                        prefHandler.getKey(AUTO_FILL_HINT_SHOWN)
+                                    )
+                                    putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
+                                    putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
+                                }).show(
                                     (context as FragmentActivity).supportFragmentManager,
                                     "AUTO_FILL_HINT"
                                 )

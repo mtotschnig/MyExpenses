@@ -13,8 +13,10 @@ fun shouldStartAutoFillWithFocus(prefHandler: PrefHandler) = with(prefHandler) {
     shouldStartAutoFill(prefHandler) && getBoolean(PrefKey.AUTO_FILL_FOCUS, true)
 }
 
-fun enableAutoFill(prefHandler: PrefHandler) =
-        prefHandler.putBoolean(PrefKey.AUTO_FILL_SWITCH, true)
+fun enableAutoFill(prefHandler: PrefHandler) {
+    prefHandler.putBoolean(PrefKey.AUTO_FILL_SWITCH, true)
+    prefHandler.putBoolean(PrefKey.AUTO_FILL_HINT_SHOWN, true)
+}
 
 fun disableAutoFill(prefHandler: PrefHandler) =
         prefHandler.putBoolean(PrefKey.AUTO_FILL_SWITCH, false)
