@@ -1009,6 +1009,8 @@ public class MyExpenses extends BaseMyExpenses implements
         if (result > 0) {
           if (!checked) {
             showSnackBar(getResources().getQuantityString(R.plurals.delete_success, result, result));
+          } else {
+            dismissSnackBar();
           }
         } else {
           showDeleteFailureFeedback(null);
