@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -112,8 +111,6 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
   public static final String KEY_METHODID = "method_id";
   public static final String KEY_TITLE = "title";
-  public static final String KEY_LABEL_MAIN = "label_main";
-  public static final String KEY_LABEL_SUB = "label_sub";
   public static final String KEY_LABEL = "label";
   public static final String KEY_COLOR = "color";
   public static final String KEY_TYPE = "type";
@@ -310,69 +307,31 @@ public class DatabaseConstants {
   public static final String TABLE_DEBTS = "debts";
 
   /**
-   * an SQL CASE expression for transactions
-   * that gives either the category for normal transactions
-   * or the account for transfers
+   * TODO define view
+   * CREATE VIEW cat_tree as with Tree as
+   * (
+   *    select label, _id
+   *    from categories
+   *    where parent_id is null
+   *
+   *    union all
+   *
+   *    select Tree.label || ' > ' || categories.label as label, categories._id
+   *    from categories
+   *         inner join
+   *         Tree
+   *         on Tree._id = categories.parent_id
+   * )
+   * select * from Tree
    */
-  public static final String LABEL_MAIN =
-      "CASE WHEN " +
-          KEY_TRANSFER_ACCOUNT +
-          " THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
-          "WHEN " +
-          KEY_CATID +
-          " THEN " +
-          "  CASE WHEN " +
-          "    (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "  THEN " +
-          "    (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES
-          + " WHERE  " + KEY_ROWID + " = (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
-          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
-          "  ELSE " +
-          "    (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "  END " +
-          "END AS " + KEY_LABEL_MAIN;
-
-  public static final String LABEL_SUB =
-      "CASE WHEN " +
-          "  " + KEY_TRANSFER_PEER + " is null AND " + KEY_CATID + " AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
-          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "END AS " + KEY_LABEL_SUB;
-
-  /**
-   * //different from Transaction, since transfer_peer is treated as boolean here
-   */
-  public static final String LABEL_SUB_TEMPLATE =
-      "CASE WHEN " +
-          "  " + KEY_CATID + " AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
-          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "END AS " + KEY_LABEL_SUB;
-
-  private static final String FULL_CAT_CASE =
-      " CASE WHEN " +
-          KEY_CATID +
-          " THEN " +
-          "  CASE WHEN " +
-          " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          " THEN " +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " +
-          " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
-          " || '" + TransactionList.CATEGORY_SEPARATOR +
-          "' ELSE '' END || " +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "END";
+  private static final String FULL_CAT_CASE = "(SELECT LABEL FROM CAT_TREE WHERE _id = cat_id)";
 
   public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
 
-  public static final String TRANSFER_ACCOUNT_UUUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
+  public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
 
   /**
-   * if transaction is linked to a subcategory
-   * main and category label are concatenated
+   * for transfer label of transfer_account, for transaction full breadcrumb of category
    */
   public static final String FULL_LABEL =
       "CASE WHEN " +

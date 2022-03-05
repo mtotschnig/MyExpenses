@@ -20,7 +20,6 @@ data class TransactionDTO(
     val payee: String,
     val amount: BigDecimal,
     val labelMain: String,
-    val labelSub: String,
     val fullLabel: String,
     val comment: String,
     val methodLabel: String?,
@@ -41,18 +40,14 @@ data class TransactionDTO(
             val readCat = splitCursor?.takeIf { it.moveToFirst() } ?: cursor
             val transferPeer =
                 DbUtils.getLongOrNull(readCat, KEY_TRANSFER_PEER)
-            var labelMain = DbUtils.getString(readCat, KEY_LABEL_MAIN)
-            var labelSub = ""
+            var labelMain = DbUtils.getString(readCat, KEY_LABEL)
             var fullLabel = ""
             if (labelMain.isNotEmpty()) {
                 if (transferPeer != null) {
                     fullLabel = "[$labelMain]"
                     labelMain = context.getString(R.string.transfer)
-                    labelSub = fullLabel
                 } else {
-                    labelSub =
-                        DbUtils.getString(readCat, KEY_LABEL_SUB)
-                    fullLabel = TextUtils.formatQifCategory(labelMain, labelSub)!!
+                    fullLabel = TextUtils.formatQifCategory(labelMain, "TODO")!!
                 }
             }
             return TransactionDTO(
@@ -68,7 +63,6 @@ data class TransactionDTO(
                 Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)))
                     .amountMajor,
                 labelMain,
-                labelSub,
                 fullLabel,
                 DbUtils.getString(cursor, KEY_COMMENT),
                 if (isPart) null else cursor.getString(cursor.getColumnIndexOrThrow(KEY_METHOD_LABEL)),

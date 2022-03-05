@@ -80,7 +80,7 @@ public class AggregateAccount extends Account {
 
   @Override
   public String[] getExtendedProjectionForTransactionList() {
-    return isHomeAggregate() ? Transaction.PROJECTON_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
+    return isHomeAggregate() ? Transaction.PROJECTION_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
   }
 
   @Override

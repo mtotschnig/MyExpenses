@@ -65,10 +65,10 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         }
         with(requireArguments()) {
             viewModel.account(getLong(DatabaseConstants.KEY_ACCOUNTID))
-                .observe(this@TransactionListDialogFragment, {
+                .observe(this@TransactionListDialogFragment) {
                     mAccount = it
                     fillData()
-                })
+                }
             isMain = getBoolean(KEY_IS_MAIN)
             catId = getLong(DatabaseConstants.KEY_CATID)
         }
@@ -80,23 +80,13 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         val padding = resources.getDimensionPixelSize(R.dimen.general_padding)
         listView.setPadding(padding, 0, padding, 0)
         listView.scrollBarStyle = ListView.SCROLLBARS_OUTSIDE_INSET
-        mAdapter = object : TransactionAdapter(
+        mAdapter = TransactionAdapter(
             requireArguments().getSerializable(DatabaseConstants.KEY_GROUPING) as Grouping?,
             activity,
             R.layout.expense_row,
             null,
             0, currencyFormatter, prefHandler, currencyContext, null
-        ) {
-            override fun getCatText(
-                catText: CharSequence,
-                label_sub: String?
-            ): CharSequence {
-                return if (catId == 0L) super.getCatText(
-                    catText,
-                    label_sub
-                ) else if (isMain && label_sub != null) label_sub else ""
-            }
-        }
+        )
         listView.adapter = mAdapter
         listView.onItemClickListener =
             OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, id: Long ->

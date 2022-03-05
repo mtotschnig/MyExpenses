@@ -1,5 +1,29 @@
 package org.totschnig.myexpenses.adapter;
 
+import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
@@ -14,6 +38,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.cursoradapter.widget.ResourceCursorAdapter;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
@@ -39,36 +66,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Locale;
 
-import androidx.annotation.Nullable;
-import androidx.cursoradapter.widget.ResourceCursorAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 
 public class TransactionAdapter extends ResourceCursorAdapter {
   private int dateEms;
@@ -89,11 +89,10 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexCurrency;
   private int columnIndexSameCurrency;
   private int columnIndexColor;
-  private int columnIndexLabelMain;
+  private int columnIndexLabel;
   private int columnIndexAccountLabel;
   private int columnIndexAccountType;
   private int columnIndexStatus;
-  private int columnIndexLabelSub;
   private int columnIndexReferenceNumber;
   private int columnIndexComment;
   private int columnIndexPayee;
@@ -118,7 +117,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     void toggle(long id);
   }
 
-  protected TransactionAdapter(Grouping grouping, Context context, int layout,
+  public TransactionAdapter(Grouping grouping, Context context, int layout,
                                Cursor c, int flags, CurrencyFormatter currencyFormatter,
                                PrefHandler prefHandler, CurrencyContext currencyContext,
                                @Nullable OnToggleCrStatus onToggleCrStatus) {
@@ -190,7 +189,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       }
     }
     TextView tv2 = viewHolder.category;
-    CharSequence catText = DbUtils.getString(cursor, columnIndexLabelMain);
+    CharSequence catText = DbUtils.getString(cursor, columnIndexLabel);
     if (isTransfer) {
       catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       if (mAccount.isAggregate()) {
@@ -204,8 +203,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
         if (cursor.getInt(columnIndexStatus) != STATUS_HELPER) {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         }
-      } else {
-        catText = getCatText(catText, cursor.getString(columnIndexLabelSub));
       }
     }
     String referenceNumber = cursor.getString(columnIndexReferenceNumber);
@@ -263,18 +260,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
   }
 
-  /**
-   * @return extracts the information that should
-   * be displayed about the mapped category, can be overridden by subclass
-   * should not be used for handle transfers
-   */
-  protected CharSequence getCatText(CharSequence catText, @Nullable String label_sub) {
-    if (label_sub != null && label_sub.length() > 0) {
-      catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
-    }
-    return catText;
-  }
-
   private Locale localeFromContext() {
     return Utils.localeFromContext(context);
   }
@@ -323,12 +308,11 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       columnIndexAmount = cursor.getColumnIndex(KEY_AMOUNT);
       columnIndexSameCurrency = cursor.getColumnIndex(KEY_IS_SAME_CURRENCY);
       columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
-      columnIndexLabelMain = cursor.getColumnIndex(KEY_LABEL_MAIN);
+      columnIndexLabel = cursor.getColumnIndex(KEY_LABEL);
       columnIndexTransferPeer = cursor.getColumnIndex(KEY_TRANSFER_PEER);
       columnIndexAccountLabel = cursor.getColumnIndex(KEY_ACCOUNT_LABEL);
       columnIndexAccountType = cursor.getColumnIndex(KEY_ACCOUNT_TYPE);
       columnIndexStatus = cursor.getColumnIndex(KEY_STATUS);
-      columnIndexLabelSub = cursor.getColumnIndex(KEY_LABEL_SUB);
       columnIndexReferenceNumber = cursor.getColumnIndex(KEY_REFERENCE_NUMBER);
       columnIndexComment = cursor.getColumnIndex(KEY_COMMENT);
       columnIndexPayee = cursor.getColumnIndex(KEY_PAYEE_NAME);

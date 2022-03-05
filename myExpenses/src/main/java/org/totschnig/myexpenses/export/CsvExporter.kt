@@ -43,7 +43,6 @@ class CsvExporter(
             R.string.income,
             R.string.expense,
             R.string.category,
-            R.string.subcategory,
             R.string.comment,
             R.string.method,
             R.string.status,
@@ -85,8 +84,6 @@ class CsvExporter(
             .append(delimiter)
             .appendQ(labelMain)
             .append(delimiter)
-            .appendQ(labelSub)
-            .append(delimiter)
             .appendQ(comment)
             .append(delimiter)
             .appendQ(methodLabel ?: "")
@@ -116,8 +113,6 @@ class CsvExporter(
                     .appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
                     .append(delimiter)
                     .appendQ(labelMain)
-                    .append(delimiter)
-                    .appendQ(labelSub)
                     .append(delimiter)
                     .appendQ(comment)
                     .append(delimiter)

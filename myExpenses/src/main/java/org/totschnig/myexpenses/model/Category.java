@@ -15,6 +15,13 @@
 
 package org.totschnig.myexpenses.model;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -24,14 +31,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
@@ -72,7 +71,6 @@ public class Category extends Model {
    */
   public static long write(long id, String label, Long parentId) {
     Uri uri = new Category(id, label, parentId).save();
-    //noinspection ConstantConditions
     return uri == null ? -1 : Integer.parseInt(uri.getLastPathSegment());
   }
 
@@ -95,7 +93,6 @@ public class Category extends Model {
     selection += " and " + KEY_LABEL + " = ?";
     Cursor mCursor = cr().query(CONTENT_URI,
         new String[]{KEY_ROWID}, selection, selectionArgs, null);
-    //noinspection ConstantConditions
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;
@@ -125,16 +122,11 @@ public class Category extends Model {
     initialValues.put(KEY_ICON, icon);
     Uri uri;
     if (getId() == 0) {
-      if (isMainOrNull(parentId)) {
-        initialValues.put(KEY_PARENTID, parentId);
-        try {
-          uri = cr().insert(CONTENT_URI, initialValues);
-        } catch (SQLiteConstraintException e) {
-          uri = null;
-        }
-      } else {
+      initialValues.put(KEY_PARENTID, parentId);
+      try {
+        uri = cr().insert(CONTENT_URI, initialValues);
+      } catch (SQLiteConstraintException e) {
         uri = null;
-        CrashHandler.report("Attempt to store deep category hierarchy detected");
       }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
@@ -153,7 +145,6 @@ public class Category extends Model {
     }
     Cursor cursor = cr().query(CONTENT_URI,
         new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(id)}, null);
-    //noinspection ConstantConditions
     if (cursor.getCount() == 0) {
       cursor.close();
       return false;
@@ -173,7 +164,6 @@ public class Category extends Model {
   public static int countSub(long parentId) {
     Cursor mCursor = cr().query(CONTENT_URI,
         new String[]{"count(*)"}, KEY_PARENTID + " = ?", new String[]{String.valueOf(parentId)}, null);
-    //noinspection ConstantConditions
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return 0;
