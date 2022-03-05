@@ -129,6 +129,96 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.3.7
+    - "2022-03-02"
+    -
+      ar: |
+        التزامن - الإعداد: صقل واجهة المستخدم.
+      bg: |
+        Синхронизиране - Настройване: Подобрения в потребителския интерфейс.
+      ca: |
+        Sincronització - Configuració: Refinament de la interfície d'usuari.
+      cs: |
+        Synchronizace - Nastavit: Zdokonalení uživatelského rozhraní.
+      da: |
+        Synkronisering - Konfiguration: Forbedring af brugergrænsefladen.
+      de: |
+        Synchronisierung - Einrichtung: Verfeinerung der Benutzeroberfläche.
+      el: |
+        Συγχρονισμός - Ρύθμιση: Βελτίωση του περιβάλλοντος εργασίας χρήστη.
+      es: |
+        Sincronización - Configuración: Interfaz de usuario mejorada.
+      eu: |
+        Sinkronizazioa - Konfigurazioa: Erabiltzaile-interfazea hobetzea.
+      fr: |
+        Synchronisation - Configurer: Raffinement de l'interface utilisateur.
+      hr: |
+        Sinkronizacija - Postavljanje: Poboljšanje korisničkog sučelja.
+      hu: |
+        Szinkronizálás - Beállítás: A felhasználói felület finomítása.
+      it: |
+        Sincronizzazione - Configura: Miglioramento dell'interfaccia utente.
+      iw: |
+        סנכרון - הגדרה: חידוד ממשק המשתמש.
+      ja: |
+        同期 - 設定: ユーザーインターフェースの洗練.
+      ms: |
+        Penyegerakan - Persediaan: Penghalusan antaramuka pengguna.
+      km: |
+        ការធ្វើសមកាលកម្ម - ការរៀបចំ: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ.
+      kn: |
+        ಸಿಂಕ್ರೊನೈಸೇಶನ್ - ಸೆಟಪ್: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ.
+      ko: |
+        동기화 - 설정: 사용자 인터페이스 의 개선.
+      pl: |
+        Synchronizacja - Konfiguracja: Dopracowanie interfejsu użytkownika.
+      pt: |
+        Sincronização - Configurar: Melhorias na interface do usuário.
+      ro: |
+        Sincronizare - Configurați: Perfecționarea interfeței cu utilizatorul.
+      ru: |
+        Синхронизация - Настройка: Усовершенствование пользовательского интерфейса.
+      si: |
+        සමමුහුර්තකරණය - පිහිටුවීම: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම.
+      ta: |
+        ஒத்திசைவு - அமைவு: பயனர் இடைமுகத்தை மெருகேற்றுதல்.
+      tr: |
+        Eşleşmeli - Kur: Kullanıcı arayüzü iyileştirildi.
+      vi: |
+        Đồng bộ hóa - Thiết lập: Cải tiến giao diện người dùng.
+      zh: |
+        同步 - 设置: 用户界面的改进.
+      zh-TW: |
+        同步化 - 設定: 完善用户界面.
+      en: |
+        Synchronization - Setup: Refinement of the user interface.
+  -
+    - 3.3.6
+    - "2022-02-07"
+    -
+      bg: |
+        Етикети на разпределените части. Споделяне на резюме на задълженията.
+      de: |
+        Schuldenübersicht teilen. Schlagwörter für Teilbuchungen.
+      el: |
+        Μοιραστείτε την σύνοψη χρέους. Ετικέτες για χωρισμένα μέρη.
+      es: |
+        Resumen de la deuda de las acciones. Etiquetas para las partes divididas.
+      fr: |
+        Partager le résumé de la dette. Étiquettes pour les sous-opérations.
+      it: |
+        Condividi il riepilogo del debito. Tag per importi frazionati.
+      iw: |
+        שיתוף תקציר חוב. תגיות לחלקים המפוצלים.
+      kn: |
+        ಸಾಲದ ಸಾರಾಂಶವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ. ವಿಭಜಿತ ಭಾಗಗಳಿಗೆ ಟ್ಯಾಗ್ಗಳು.
+      pt: |
+        Etiquetas para as partes da divisão. Compartilhar o resumo da dívida.
+      tr: |
+        Borç özetini paylaşın. Alt muameleler için etiketler.
+      en: |
+        Share debt summary. Tags for split parts.
+  -
     - 3.3.5
     - "2021-12-11"
     -

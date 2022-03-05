@@ -9,21 +9,19 @@ import net.sf.saxon.s9api.SaxonApiException
 import net.sf.saxon.s9api.SequenceType
 import net.sf.saxon.s9api.Serializer
 import net.sf.saxon.s9api.XdmAtomicValue
-import net.sf.saxon.s9api.XdmDestination
 import net.sf.saxon.s9api.XdmValue
 import net.sf.saxon.s9api.XsltCompiler
 import net.sf.saxon.s9api.XsltExecutable
 import net.sf.saxon.s9api.XsltTransformer
 import java.io.File
 import java.util.*
-import javax.xml.transform.TransformerException
 import javax.xml.transform.stream.StreamSource
 import kotlin.system.exitProcess
 
 @Suppress("unused")
 class Main {
     companion object {
-        var displayNameForLanguage: ExtensionFunction = object : ExtensionFunction {
+        private var displayNameForLanguage: ExtensionFunction = object : ExtensionFunction {
             override fun getName() =
                 QName("http://myexpenses.mobi/", "displayNameForLanguage")
 
@@ -48,7 +46,7 @@ class Main {
             }
         }
 
-        var fileExists: ExtensionFunction = object : ExtensionFunction {
+        private var fileExists: ExtensionFunction = object : ExtensionFunction {
             override fun getName() = QName("http://myexpenses.mobi/", "fileExists")
 
             override fun getResultType() = SequenceType.makeSequenceType(
@@ -68,7 +66,7 @@ class Main {
             }
         }
 
-        var displayNameForScript: ExtensionFunction = object : ExtensionFunction {
+        private var displayNameForScript: ExtensionFunction = object : ExtensionFunction {
             override fun getName() =
                 QName("http://myexpenses.mobi/", "displayNameForScript")
 
@@ -102,18 +100,22 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             Locale.setDefault(Locale("en"))
+            val parameters = mutableMapOf("version" to args[1])
             when(args.getOrNull(0)) {
                 "fdroid" -> {
                     if (args.size != 3) usage()
-                    runTransform("doc/whatsnew2fdroid.xsl", args[1], "changelog.xml", args[2])
+                    parameters["versionCode"] = args[2]
+                    runTransform("doc/whatsnew2fdroid.xsl", parameters, "changelog.xml")
                 }
                 "gplay" -> {
                     if (args.size != 2) usage()
-                    runTransform("doc/whatsnew2gplay2.xsl", args[1])
+                    runTransform("doc/whatsnew2gplay2.xsl", parameters)
                 }
                 "yaml" -> {
-                    if (args.size != 2) usage()
-                    runTransform("doc/whatsnew2yaml.xsl", args[1])
+                    if (args.size != 4) usage()
+                    parameters["versionDate"] = args[2]
+                    parameters["appendDot"] = args[3]
+                    runTransform("doc/whatsnew2yaml.xsl", parameters)
                 }
                 else -> {
                     usage()
@@ -121,7 +123,11 @@ class Main {
             }
         }
 
-        private fun runTransform(styleSheet: String, version: String, outFile: String? = null, versionCode: String? = null) {
+        private fun runTransform(
+            styleSheet: String,
+            parameters: Map<String, String>,
+            outFile: String? = null
+        ) {
             val processor = Processor(false)
             processor.registerExtensionFunction(displayNameForLanguage)
             processor.registerExtensionFunction(fileExists)
@@ -132,16 +138,15 @@ class Main {
                 compiler.compile(StreamSource(File(styleSheet)))
             val transformer: XsltTransformer = stylesheet.load()
             transformer.initialTemplate = QName("main")
-            transformer.setParameter(QName("version"), XdmAtomicValue(version))
-            versionCode?.let {
-                transformer.setParameter(QName("versionCode"), XdmAtomicValue(it))
+            parameters.forEach { (name, value) ->
+                transformer.setParameter(QName(name), XdmAtomicValue(value))
             }
             transformer.destination = out
             transformer.transform()
         }
 
         private fun usage() {
-            System.err.println("Usage:\nChangelog fdroid <version> <versionCode>\nChangelog gplay <version>\nChangelog yaml <version>")
+            System.err.println("Usage:\nChangelog fdroid <version> <versionCode>\nChangelog gplay <version>\nChangelog yaml <version> <versionDate> <appendDot>")
             exitProcess(0)
         }
     }
