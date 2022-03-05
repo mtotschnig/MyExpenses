@@ -5,7 +5,7 @@
     <xsl:output encoding="UTF-8" method="text" />
     <xsl:include href="helpers.xsl" />
     <xsl:param name="version" />
-    <xsl:param name="version_date" select='"2014-xx-xx"' />
+    <xsl:param name="versionDate"  />
     <xsl:param name="languages" select="$all-languages" />
     <xsl:param name="appendDot" select="false()" />
 
@@ -19,7 +19,7 @@
         <xsl:value-of select="$newline" />
         <xsl:value-of select="str:padding(4, '&#032;')" />
         <xsl:text>-&#032;"</xsl:text>
-        <xsl:value-of select="$version_date" />
+        <xsl:value-of select="$versionDate" />
         <xsl:text>"</xsl:text>
         <xsl:value-of select="$newline" />
         <xsl:value-of select="str:padding(4, '&#032;')" />
