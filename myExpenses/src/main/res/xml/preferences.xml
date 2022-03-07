@@ -27,7 +27,7 @@
             android:title="@string/pref_manage_categories_title">
             <intent
                 android:action="MANAGE"
-                android:targetClass="org.totschnig.myexpenses.activity.ManageCategories"
+                android:targetClass="org.totschnig.myexpenses.activity.ManageCategories2"
                 android:targetPackage="@string/application_id" />
         </Preference>
         <Preference

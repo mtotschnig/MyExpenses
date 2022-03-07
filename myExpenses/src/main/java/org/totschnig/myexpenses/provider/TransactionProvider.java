@@ -207,6 +207,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
+  public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -505,14 +506,18 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case CATEGORIES:
-        final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
-        qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
-            String.format(Locale.ROOT, "%1$s %7$s %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
-                TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery,
-                uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT JOIN" : "INNER JOIN"));
-        qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
-        if (projection == null) {
-          projection = Category.PROJECTION;
+        if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
+          qb.setTables("cat_tree");
+        } else {
+          final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
+          qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
+                  String.format(Locale.ROOT, "%1$s %7$s %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
+                          TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery,
+                          uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT JOIN" : "INNER JOIN"));
+          qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
+          if (projection == null) {
+            projection = Category.PROJECTION;
+          }
         }
         break;
       case CATEGORY_ID:
