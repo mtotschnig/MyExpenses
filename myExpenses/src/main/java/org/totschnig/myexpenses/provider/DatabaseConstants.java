@@ -310,19 +310,19 @@ public class DatabaseConstants {
    * TODO define view
    * CREATE VIEW cat_tree as with Tree as
    * (
-   *    select label, label as path, _id, parent_id, 0 as level
+   *    select label, label as path, color, icon, _id, parent_id, 0 as level
    *    from categories
    *    where parent_id is null
    *
    *    union all
    *
-   *    select categories.label, Tree.label || ' > ' || categories.label as path, categories._id, categories.parent_id, level + 1
+   *    select categories.label, Tree.label || ' > ' || categories.label as path, categories.color, categories.icon, categories._id, categories.parent_id, level + 1
    *    from categories
    *         inner join
    *         Tree
-   *         on Tree._id = categories.parent_id order by 5 desc
+   *         on Tree._id = categories.parent_id order by level desc
    * )
-   * select * from Tree
+   * select * from Tree;
    */
   private static final String FULL_CAT_CASE = "(SELECT LABEL FROM CAT_TREE WHERE _id = cat_id)";
 

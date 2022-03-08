@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.database.Cursor
+import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,31 +27,43 @@ class CategoryViewModel(application: Application) : ContentResolvingAndroidViewM
         null,
         null
     ).mapToTree()
+
+    private fun Flow<Query>.mapToTree(
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Flow<Category> = transform { query ->
+        val value = withContext(dispatcher) {
+            query.run()?.use { cursor ->
+                cursor.moveToFirst()
+                Category("ROOT", ingest(getApplication(), cursor, null), null as Int?, null)
+            }
+        }
+        if (value != null) {
+            emit(value)
+        }
+    }
+
     companion object {
-        fun ingest(cursor: Cursor, parentId: Long?): List<Category> = buildList {
+        fun ingest(context: Context, cursor: Cursor, parentId: Long?): List<Category> = buildList {
             check(!cursor.isBeforeFirst)
             while (!cursor.isAfterLast) {
                 val nextParent = cursor.getLongOrNull(cursor.getColumnIndexOrThrow(KEY_PARENTID))
-                val nextLabel = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL))
                 val nextId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
+                val nextLabel = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL))
+                val nextColor = cursor.getIntOrNull(cursor.getColumnIndexOrThrow(KEY_COLOR))
+                val nextIcon = cursor.getStringOrNull(cursor.getColumnIndexOrThrow(KEY_ICON))
                 if (nextParent == parentId) {
                     cursor.moveToNext()
-                    add(Category(nextLabel, ingest(cursor, nextId)))
+                    add(
+                        Category(
+                            nextLabel,
+                            ingest(context, cursor, nextId),
+                            nextColor,
+                            nextIcon?.let {
+                                context.resources.getIdentifier(it, "drawable", context.packageName)
+                            }
+                        )
+                    )
                 } else return@buildList
-            }
-        }
-
-        private fun Flow<Query>.mapToTree(
-            dispatcher: CoroutineDispatcher = Dispatchers.IO
-        ): Flow<Category> = transform { query ->
-            val value = withContext(dispatcher) {
-                query.run()?.use { cursor ->
-                    cursor.moveToFirst()
-                    Category("ROOT", ingest(cursor, null))
-                }
-            }
-            if (value != null) {
-                emit(value)
             }
         }
     }
