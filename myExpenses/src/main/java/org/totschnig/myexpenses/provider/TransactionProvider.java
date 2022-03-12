@@ -76,6 +76,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -507,7 +508,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case CATEGORIES:
         if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
-          qb.setTables("cat_tree");
+          c = db.rawQuery(categoryTreeCTE(sortOrder, selection), Utils.joinArrays(selectionArgs, selectionArgs));
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
         } else {
           final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
           qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :

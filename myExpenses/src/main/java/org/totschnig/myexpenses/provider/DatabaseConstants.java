@@ -307,20 +307,20 @@ public class DatabaseConstants {
   public static final String TABLE_DEBTS = "debts";
 
   /**
-   * TODO define view
+   * # TODO define view
    * CREATE VIEW cat_tree as with Tree as
    * (
-   *    select label, label as path, color, icon, _id, parent_id, 0 as level
+   *    select label, label as path, color, icon, _id, parent_id, usages, last_used, 0 as level
    *    from categories
    *    where parent_id is null
    *
    *    union all
    *
-   *    select categories.label, Tree.label || ' > ' || categories.label as path, categories.color, categories.icon, categories._id, categories.parent_id, level + 1
+   *    select categories.label, Tree.label || ' > ' || categories.label as path, categories.color, categories.icon, categories._id, categories.parent_id, categories.usages, categories.last_used, level + 1
    *    from categories
    *         inner join
    *         Tree
-   *         on Tree._id = categories.parent_id order by level desc
+   *         on Tree._id = categories.parent_id order by level desc, usages
    * )
    * select * from Tree;
    */

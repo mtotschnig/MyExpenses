@@ -57,7 +57,7 @@ class ManageCategoriesViewModel(application: Application) :
         exportCatResult = liveData(context = coroutineContext()) {
             val appDir = AppDirHelper.getAppDir(getApplication())
             if (appDir == null) {
-                failure<Pair<Uri, String>>(R.string.external_storage_unavailable)
+                failure(R.string.external_storage_unavailable)
             } else {
                 val mainLabel =
                     "CASE WHEN $KEY_PARENTID THEN (SELECT $KEY_LABEL FROM $TABLE_CATEGORIES parent WHERE parent.$KEY_ROWID = $TABLE_CATEGORIES.$KEY_PARENTID) ELSE $KEY_LABEL END"
@@ -71,7 +71,7 @@ class ManageCategoriesViewModel(application: Application) :
                     null, null, sort
                 )?.use { c ->
                     if (c.count == 0) {
-                        failure<Pair<Uri, String>>(R.string.no_categories)
+                        failure(R.string.no_categories)
                     } else {
                         val outputFile = AppDirHelper.timeStampedFile(
                             appDir,
@@ -79,7 +79,7 @@ class ManageCategoriesViewModel(application: Application) :
                             ExportFormat.QIF.mimeType, null
                         )
                         if (outputFile == null) {
-                            failure<Pair<Uri, String>>(R.string.external_storage_unavailable)
+                            failure(R.string.external_storage_unavailable)
                         } else {
                             try {
                                 @Suppress("BlockingMethodInNonBlockingContext")
@@ -112,7 +112,7 @@ class ManageCategoriesViewModel(application: Application) :
                                     )
                                 )
                             } catch (e: IOException) {
-                                failure<Pair<Uri, String>>(
+                                failure(
                                     R.string.export_sdcard_failure,
                                     appDir.name,
                                     e.message
@@ -139,7 +139,7 @@ class ManageCategoriesViewModel(application: Application) :
                     null, null
                 ).use { cursor ->
                     if (cursor == null) {
-                        failure<String>(R.string.db_error_cursor_null)
+                        failure(R.string.db_error_cursor_null)
                     } else {
                         var deleted = 0
                         var mappedToTransaction = 0
@@ -192,7 +192,7 @@ class ManageCategoriesViewModel(application: Application) :
                             }
                             emit(Result.success(messages.joinToString(" ")))
                         } else {
-                            failure<String>(R.string.db_error_cursor_empty)
+                            failure(R.string.db_error_cursor_empty)
                         }
                     }
                 }

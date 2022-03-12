@@ -31,11 +31,12 @@ import kotlin.math.sqrt
 
 @Composable
 fun Category(
+    modifier: Modifier = Modifier,
     nodeModel: Category,
     state: SnapshotStateList<String>,
     level: Int
 ) {
-    Column {
+    Column(modifier = modifier) {
 
         if (level > 0) {
             CategoryRenderer(
@@ -102,19 +103,17 @@ fun CategoryRenderer(category: Category, state: SnapshotStateList<String>, level
                 painter = painterResource(id = category.icon),
                 contentDescription = null
             )
-        } else {
+        }
+        Text(text = category.label)
+        if (level == 1 && category.color != null) {
             Box(
                 modifier = Modifier
                     .size(24.dp)
                     .padding(3.dp)
-                    .then(
-                        if (level == 1 && category.color != null) Modifier
-                            .clip(CircleShape)
-                            .background(category.color) else Modifier
-                    )
+                    .clip(CircleShape)
+                    .background(category.color)
             )
         }
-        Text(text = category.label)
     }
 }
 
@@ -129,7 +128,6 @@ fun TreePreview() {
     ): Category {
         return Category(
             label = id,
-            color = color,
             children = buildList {
                 repeat(nrOfChildren) {
                     add(
@@ -142,7 +140,8 @@ fun TreePreview() {
                     )
                 }
                 add(Category.EMPTY)
-            }
+            },
+            color = color
         )
     }
 
@@ -155,14 +154,22 @@ fun TreePreview() {
 }
 
 @Immutable
-class Category(
+data class Category(
     val label: String,
+    val children: List<Category> = emptyList(),
+    val isMatching: Boolean = true,
     val color: Color? = null,
-    @DrawableRes val icon: Int? = null,
-    val children: List<Category> = emptyList()
+    @DrawableRes val icon: Int? = null
 ) {
-    constructor(label: String, color: Int, icon: Int?, children: List<Category>) :
-            this(label, Color(color), icon, children)
+    constructor(label: String, children: List<Category>, isMatching: Boolean, color: Int?, icon: Int?) :
+            this(label, children, isMatching, color?.let { Color(it) }, icon)
+
+    fun pruneNonMatching(): Category? {
+        val prunedChildren = children.mapNotNull { it.pruneNonMatching() }
+        return if (isMatching || prunedChildren.isNotEmpty()) {
+            this.copy(children = prunedChildren)
+        } else null
+    }
 
     companion object {
         val EMPTY = Category("EMPTY", icon = R.drawable.school)

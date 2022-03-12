@@ -19,10 +19,47 @@ fun checkForSealedAccount(baseTable: String, innerTable: String) =
  * we check if the object is linked to a sealed debt.
  * This can be used for queries that also include parts, where we do not need to include the parts here
  */
-const val checkForSealedDebt = "coalesce((SELECT $KEY_SEALED FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID), 0)"
+const val checkForSealedDebt =
+    "coalesce((SELECT $KEY_SEALED FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID), 0)"
 
 /**
  * we check if the object (or any of its children) is linked to a sealed debt.
  */
 fun checkForSealedDebt(baseTable: String) =
     "coalesce ((SELECT max($KEY_SEALED) FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID OR $KEY_ROWID in (SELECT $KEY_DEBT_ID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID)), 0)"
+
+fun categoryTreeCTE(sortOrder: String?, selection: String?) =
+"""
+  WITH Tree as (
+    SELECT
+        $KEY_LABEL,
+        $KEY_LABEL AS path,
+        $KEY_COLOR,
+        $KEY_ICON,
+        $KEY_ROWID,
+        $KEY_PARENTID,
+        $KEY_USAGES,
+        $KEY_LAST_USED,
+        0 AS level,
+        ${selection?: "1"} AS matches
+
+    FROM $TABLE_CATEGORIES
+    WHERE $KEY_PARENTID IS NULL
+    UNION ALL
+    SELECT
+        $TABLE_CATEGORIES.label,
+        Tree.label || ' > ' || $TABLE_CATEGORIES.label AS path,
+        $TABLE_CATEGORIES.color,
+        $TABLE_CATEGORIES.icon,
+        $TABLE_CATEGORIES._id,
+        $TABLE_CATEGORIES.parent_id,
+        $TABLE_CATEGORIES.usages,
+        $TABLE_CATEGORIES.last_used,
+        level + 1,
+        ${selection?: "1"} AS matches
+    FROM categories
+    JOIN Tree ON Tree._id = categories.parent_id
+    ORDER BY level DESC${sortOrder?.let { ", $it" } ?: ""}
+  )
+  SELECT * FROM Tree
+"""
