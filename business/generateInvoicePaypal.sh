@@ -41,6 +41,9 @@ while getopts "p:c:u:g:t:e:v:d:" opt; do
                Professional_24)
                  export KEY="My Expenses Professional Licence 2 years"
                  ;;
+               Upgrade)
+                 export KEY="Upgrade Contrib -> Extended Licence"
+                 ;;
             esac
            ;;
         c) export COUNTRY=$OPTARG
@@ -68,7 +71,7 @@ if [ -z "$KEY" ] || [ -z "$GROSS" ] || [ -z "$COUNTRY" ] || [ -z "$KUNDE" ] || [
      show_help
 fi
 
-if [ -z "$VAT" ] || [ "$VAT" == "0.00" ]
+if [ -z "$VAT" ] || [ "$VAT" == "0.00" ] || [ "$VAT" == "0" ]
   then
     TEMPLATE=Invoice-Paypal-noneu.tmpl
   else
