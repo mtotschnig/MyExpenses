@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">अन्य आमदनी</string>
@@ -226,4 +226,20 @@
     <string name="Sub_22_1">आवास</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_3">ट्रेवल्स</string>
+    <string name="Sub_7_3">सज्जा</string>
+    <string name="Sub_8_4">सामाजिक देनदारी</string>
+    <string name="Sub_15_1">आय कर</string>
+    <string name="Sub_15_2">भूमि कर</string>
+    <string name="Sub_16_4">फर्नीचर</string>
+    <string name="Sub_16_6">हीटिंग</string>
+    <string name="Sub_16_10">घरेलू सामान</string>
+    <string name="Sub_22_2">भ्रमण</string>
+    <string name="Sub_4_3">विविध प्रीमियम</string>
+    <string name="Sub_5_3">सैकेंड हैंड बिक्री</string>
+    <string name="Main_14">पेशेवर खर्चे</string>
+    <string name="Sub_15_3">बिक्री कर</string>
+    <string name="Main_17">अवकाश खर्च</string>
+    <string name="Sub_19_4">काइन्सिथेरेपिस्ट</string>
+    <string name="Sub_19_6">आंखो का डॉक्टर</string>
+    <string name="Sub_21_6">हवाई जहाज़</string>
 </resources>
