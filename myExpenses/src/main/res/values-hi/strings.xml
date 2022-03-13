@@ -287,4 +287,7 @@
     <string name="pref_acra_user_email">उपयोगकर्ता ईमेल क्रैश रिपोर्ट में शामिल करें</string>
     <string name="pref_acra_user_email_summary">यदि आप डिबगिंग में सहायता करने और आपसे संपर्क करने की अनुमति देने के लिए तैयार हैं तो कृपया अपना ईमेल पता दर्ज करें।</string>
     <string name="new_version">नया संस्करण</string>
+    <string name="backup_success">डेटाबेस और प्राथमिकताएं सफलतापूर्वक \"%1$s\" पर लिख दी गईं।</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">पाई चार्ट (प्रति श्रेणी वितरण)</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">विभाजित टेम्पलेट्स की असीमित संख्या</string>
 </resources>
