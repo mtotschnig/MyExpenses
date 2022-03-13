@@ -48,7 +48,7 @@ import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
  *
  * @author Michael Totschnig
  */
-class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListener,
+class ManageCategories : CategoryActivity<CategoryList>(),
     CategorySelectedListener {
     lateinit var viewModel: ManageCategoriesViewModel
 

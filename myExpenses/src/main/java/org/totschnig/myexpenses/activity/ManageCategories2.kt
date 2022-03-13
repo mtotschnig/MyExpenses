@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -8,10 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import org.totschnig.myexpenses.ACTION_SELECT_FILTER
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
+import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.form.Input
+import eltos.simpledialogfragment.form.SelectColorField
+import eltos.simpledialogfragment.form.SelectIconField
+import eltos.simpledialogfragment.form.SimpleFormDialog
+import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
@@ -19,12 +22,13 @@ import org.totschnig.myexpenses.databinding.ActivityCategoryComposeBinding
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
-open class ManageCategories2 : ProtectedFragmentActivity() {
+open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
     val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityCategoryComposeBinding
     private val sortOrder: String
@@ -103,13 +107,103 @@ open class ManageCategories2 : ProtectedFragmentActivity() {
             AppTheme(this) {
                 Category(
                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
-                    nodeModel = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
+                    category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
                     state = rememberMutableStateListOf(),
-                    level = 0
+                    onEdit = {
+                        editCat(it)
+                    }
                 )
             }
         }
     }
+
+    override fun dispatchCommand(command: Int, tag: Any?) =
+        if (super.dispatchCommand(command, tag)) {
+            true
+        } else when (command) {
+            R.id.CREATE_COMMAND -> {
+                createCat(null)
+                true
+            }
+            else -> false
+        }
+
+    /**
+     * presents AlertDialog for adding a new category
+     * if label is already used, shows an error
+     */
+    open fun createCat(parentId: Long?) {
+        val args = Bundle()
+        if (parentId != null) {
+            args.putLong(DatabaseConstants.KEY_PARENTID, parentId)
+        }
+        SimpleFormDialog.build()
+            .title(if (parentId == null) R.string.menu_create_main_cat else R.string.menu_create_sub_cat)
+            .cancelable(false)
+            .fields(buildLabelField(null), buildIconField(null))
+            .pos(R.string.dialog_button_add)
+            .neut()
+            .extra(args)
+            .show(this, CategoryActivity.DIALOG_NEW_CATEGORY)
+    }
+
+    /**
+     * presents AlertDialog for editing an existing category
+     */
+    open fun editCat(category: Category) {
+        val args = Bundle().apply {
+            putLong(DatabaseConstants.KEY_ROWID, category.id)
+        }
+        val formElements = buildList {
+            add(buildLabelField(category.label))
+            if (category.level == 1 && category.color != null) {
+                add(SelectColorField.picker(DatabaseConstants.KEY_COLOR).label(R.string.color)
+                    .color(category.color))
+            }
+            add(buildIconField(category.icon))
+        }.toTypedArray()
+
+        SimpleFormDialog.build()
+            .title(R.string.menu_edit_cat)
+            .cancelable(false)
+            .fields(*formElements)
+            .pos(R.string.menu_save)
+            .neut()
+            .extra(args)
+            .show(this, CategoryActivity.DIALOG_EDIT_CATEGORY)
+    }
+
+    private fun buildLabelField(text: String?) =
+        Input.plain(DatabaseConstants.KEY_LABEL).required().hint(R.string.label).text(text)
+            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+
+    private fun buildIconField(preset: String?) =
+        SelectIconField.picker(DatabaseConstants.KEY_ICON).icons(BuildConfig.CATEGORY_ICONS)
+            .preset(preset).label(R.string.icon)
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
+        if ((CategoryActivity.DIALOG_NEW_CATEGORY == dialogTag || CategoryActivity.DIALOG_EDIT_CATEGORY == dialogTag)
+            && which == CategoryActivity.BUTTON_POSITIVE
+        ) {
+            val parentId = if (extras.containsKey(DatabaseConstants.KEY_PARENTID)) {
+                extras.getLong(DatabaseConstants.KEY_PARENTID)
+            } else null
+            val label = extras.getString(DatabaseConstants.KEY_LABEL)
+            viewModel.saveCategory(
+                org.totschnig.myexpenses.model.Category(
+                    extras.getLong(DatabaseConstants.KEY_ROWID),
+                    label,
+                    parentId,
+                    extras.getInt(DatabaseConstants.KEY_COLOR),
+                    extras.getString(DatabaseConstants.KEY_ICON)
+                )
+            ).observe(this) { result ->
+                if (result == null) {
+                    showSnackBar(getString(R.string.already_defined, label))
+                }
+            }
+            true
+        } else false
 
     val action get() = intent.action ?: ACTION_SELECT_MAPPING
 }

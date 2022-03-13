@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,15 +11,13 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,28 +29,27 @@ import kotlin.math.sqrt
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
-    nodeModel: Category,
+    category: Category,
     state: SnapshotStateList<String>,
-    level: Int
+    onEdit: (Category) -> Unit = {}
 ) {
     Column(modifier = modifier) {
 
-        if (level > 0) {
+        if (category.level > 0) {
             CategoryRenderer(
-                category = nodeModel,
-                state = state,
-                level = level
-            )
-            AnimatedVisibility(visible = state.contains(nodeModel.label)) {
+                category = category,
+                state = state
+            ) { onEdit(category) }
+            AnimatedVisibility(visible = state.contains(category.label)) {
                 Column(
                     modifier = Modifier.padding(start = 24.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    nodeModel.children.forEach { model ->
+                    category.children.forEach { model ->
                         Category(
-                            nodeModel = model,
+                            category = model,
                             state = state,
-                            level = level + 1
+                            onEdit = onEdit
                         )
                     }
                 }
@@ -62,12 +58,12 @@ fun Category(
             LazyColumn(
                 verticalArrangement = Arrangement.Center
             ) {
-                nodeModel.children.forEach { model ->
+                category.children.forEach { model ->
                     item {
                         Category(
-                            nodeModel = model,
+                            category = model,
                             state = state,
-                            level = 1
+                            onEdit = onEdit
                         )
                     }
                 }
@@ -77,9 +73,17 @@ fun Category(
 }
 
 @Composable
-fun CategoryRenderer(category: Category, state: SnapshotStateList<String>, level: Int) {
+fun CategoryRenderer(
+    category: Category,
+    state: SnapshotStateList<String>,
+    onEdit: () -> Unit = {}
+) {
     val isExpanded = state.contains(category.label)
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    val showMenu = remember { mutableStateOf(false) }
+    Row(
+        modifier = Modifier.clickable { showMenu.value = true },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         if (category.children.isEmpty()) {
             Spacer(modifier = Modifier.width(24.dp))
         } else {
@@ -98,22 +102,38 @@ fun CategoryRenderer(category: Category, state: SnapshotStateList<String>, level
             )
         }
         if (category.icon != null) {
+            val context = LocalContext.current
             Icon(
                 modifier = Modifier.size(24.dp),
-                painter = painterResource(id = category.icon),
+                painter = painterResource(
+                    id = context.resources.getIdentifier(
+                        category.icon,
+                        "drawable",
+                        context.packageName
+                    )
+                ),
                 contentDescription = null
             )
+        } else {
+            Spacer(modifier = Modifier.width(24.dp))
         }
         Text(text = category.label)
-        if (level == 1 && category.color != null) {
+        if (category.level == 1 && category.color != null) {
             Box(
                 modifier = Modifier
                     .size(24.dp)
                     .padding(3.dp)
                     .clip(CircleShape)
-                    .background(category.color)
+                    .background(Color(category.color))
             )
         }
+        HierarchicalMenu(
+            showMenu, Menu(
+                listOf(
+                    MenuEntry(label = stringResource(id = R.string.menu_edit), action = onEdit)
+                )
+            )
+        )
     }
 }
 
@@ -122,9 +142,9 @@ fun CategoryRenderer(category: Category, state: SnapshotStateList<String>, level
 fun TreePreview() {
     fun buildCategory(
         id: String,
-        color: Color?,
+        color: Int?,
         nrOfChildren: Int,
-        childColors: List<Color>?
+        childColors: List<Int>?
     ): Category {
         return Category(
             label = id,
@@ -147,22 +167,28 @@ fun TreePreview() {
 
     val state = remember { mutableStateListOf("Root_0", "Root_0_0", "Root_0_0_0", "Root_0_0_0_0") }
     Category(
-        nodeModel = buildCategory("Root", null, 10, listOf(Color.Red, Color.Green, Color.Blue)),
+        category = buildCategory(
+            id = "Root",
+            color = null,
+            nrOfChildren = 10,
+            childColors = listOf(
+                android.graphics.Color.RED, android.graphics.Color.GREEN, android.graphics.Color.BLUE
+            )
+        ),
         state = state,
-        level = 0
     )
 }
 
 @Immutable
 data class Category(
+    val id: Long = 0,
+    val level: Int = 0,
     val label: String,
     val children: List<Category> = emptyList(),
     val isMatching: Boolean = true,
-    val color: Color? = null,
-    @DrawableRes val icon: Int? = null
+    val color: Int? = null,
+    val icon: String? = null
 ) {
-    constructor(label: String, children: List<Category>, isMatching: Boolean, color: Int?, icon: Int?) :
-            this(label, children, isMatching, color?.let { Color(it) }, icon)
 
     fun pruneNonMatching(): Category? {
         val prunedChildren = children.mapNotNull { it.pruneNonMatching() }
@@ -172,7 +198,7 @@ data class Category(
     }
 
     companion object {
-        val EMPTY = Category("EMPTY", icon = R.drawable.school)
+        val EMPTY = Category(label = "EMPTY", icon = "school")
     }
 }
 

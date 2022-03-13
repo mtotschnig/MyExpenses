@@ -40,21 +40,21 @@ fun categoryTreeCTE(sortOrder: String?, selection: String?) =
         $KEY_PARENTID,
         $KEY_USAGES,
         $KEY_LAST_USED,
-        0 AS level,
+        1 AS level,
         ${selection?: "1"} AS matches
 
     FROM $TABLE_CATEGORIES
     WHERE $KEY_PARENTID IS NULL
     UNION ALL
     SELECT
-        $TABLE_CATEGORIES.label,
-        Tree.label || ' > ' || $TABLE_CATEGORIES.label AS path,
-        $TABLE_CATEGORIES.color,
-        $TABLE_CATEGORIES.icon,
-        $TABLE_CATEGORIES._id,
-        $TABLE_CATEGORIES.parent_id,
-        $TABLE_CATEGORIES.usages,
-        $TABLE_CATEGORIES.last_used,
+        $TABLE_CATEGORIES.$KEY_LABEL,
+        Tree.$KEY_LABEL || ' > ' || $TABLE_CATEGORIES.$KEY_LABEL AS path,
+        $TABLE_CATEGORIES.$KEY_COLOR,
+        $TABLE_CATEGORIES.$KEY_ICON,
+        $TABLE_CATEGORIES.$KEY_ROWID,
+        $TABLE_CATEGORIES.$KEY_PARENTID,
+        $TABLE_CATEGORIES.$KEY_USAGES,
+        $TABLE_CATEGORIES.$KEY_LAST_USED,
         level + 1,
         ${selection?: "1"} AS matches
     FROM categories

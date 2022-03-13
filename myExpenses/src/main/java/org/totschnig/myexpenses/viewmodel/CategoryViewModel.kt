@@ -3,21 +3,23 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.Context
 import android.database.Cursor
-import androidx.core.database.getIntOrNull
-import androidx.core.database.getLongOrNull
-import androidx.core.database.getStringOrNull
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.compose.Category
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.util.Utils
+import timber.log.Timber
 
 class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
@@ -55,7 +57,8 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
             null,
             selection,
             selectionArgs,
-            sortOrder
+            sortOrder,
+            true
         ).mapToTree(filter.isNotBlank())
     }
 
@@ -63,10 +66,19 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
         isFiltered: Boolean,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
     ): Flow<Category> = transform { query ->
+        Timber.d("new emission")
         val value = withContext(dispatcher) {
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
-                Category("ROOT", ingest(getApplication(), cursor, null), true, null as Int?, null).let {
+                Category(
+                    0,
+                    0,
+                    "ROOT",
+                    ingest(getApplication(), cursor, null, 1),
+                    true,
+                    null as Int?,
+                    null
+                ).let {
                     if (isFiltered) it.pruneNonMatching() else it
                 }
             }
@@ -76,32 +88,34 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
         }
     }
 
+    fun saveCategory(category: org.totschnig.myexpenses.model.Category) =
+        liveData(context = coroutineContext()) {
+            emit(category.save())
+        }
+
     companion object {
-        fun ingest(context: Context, cursor: Cursor, parentId: Long?): List<Category> = buildList {
+        fun ingest(context: Context, cursor: Cursor, parentId: Long?, level: Int): List<Category> = buildList {
             if (!cursor.isBeforeFirst)
                 while (!cursor.isAfterLast) {
-                    val nextParent =
-                        cursor.getLongOrNull(cursor.getColumnIndexOrThrow(KEY_PARENTID))
-                    val nextId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-                    val nextLabel = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL))
-                    val nextColor = cursor.getIntOrNull(cursor.getColumnIndexOrThrow(KEY_COLOR))
-                    val nextIcon = cursor.getStringOrNull(cursor.getColumnIndexOrThrow(KEY_ICON))
-                    val nextIsMatching = cursor.getInt(cursor.getColumnIndexOrThrow("matches")) == 1
+                    val nextParent = cursor.getLongOrNull(KEY_PARENTID)
+                    val nextId = cursor.getLong(KEY_ROWID)
+                    val nextLabel = cursor.getString(KEY_LABEL)
+                    val nextColor = cursor.getIntOrNull(KEY_COLOR)
+                    val nextIcon = cursor.getStringOrNull(KEY_ICON)
+                    val nextIsMatching = cursor.getInt("matches") == 1
+                    val nextLevel = cursor.getInt("level")
                     if (nextParent == parentId) {
+                        check(level == nextLevel)
                         cursor.moveToNext()
                         add(
                             Category(
+                                nextId,
+                                nextLevel,
                                 nextLabel,
-                                ingest(context, cursor, nextId),
+                                ingest(context, cursor, nextId, level + 1),
                                 nextIsMatching,
                                 nextColor,
-                                nextIcon?.let {
-                                    context.resources.getIdentifier(
-                                        it,
-                                        "drawable",
-                                        context.packageName
-                                    )
-                                }
+                                nextIcon
                             )
                         )
                     } else return@buildList

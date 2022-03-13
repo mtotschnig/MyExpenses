@@ -30,24 +30,24 @@ class CategoryViewModelTest {
         cursor.addCat(7, null, "Food")
         cursor.addCat(8, null, "Leisure")
         cursor.moveToFirst()
-        assertThat(CategoryViewModel.ingest(context, cursor, null)).containsExactly(
+        assertThat(CategoryViewModel.ingest(context, cursor, null, 1)).containsExactly(
             Category(
-                "Car", listOf(
-                    Category("Fuel")
+                label = "Car", children = listOf(
+                    Category(label = "Fuel")
                 )
             ),
             Category(
-                "Care", listOf(
+                label = "Care", children = listOf(
                     Category(
-                        "Clothing", listOf(
-                            Category("Underwear")
+                        label = "Clothing", children = listOf(
+                            Category(label = "Underwear")
                         )
                     ),
-                    Category("Hairdresser")
+                    Category(label = "Hairdresser")
                 )
             ),
-            Category("Food"),
-            Category("Leisure"),
+            Category(label = "Food"),
+            Category(label = "Leisure"),
         ).inOrder()
     }
 }
