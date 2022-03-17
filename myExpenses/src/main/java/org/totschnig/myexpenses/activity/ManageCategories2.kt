@@ -5,6 +5,7 @@ import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.view.ActionMode
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
+import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.databinding.ActivityCategoryComposeBinding
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
@@ -29,6 +31,7 @@ import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
 open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
+    private var actionMode: ActionMode? = null
     val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityCategoryComposeBinding
     private val sortOrder: String
@@ -105,12 +108,48 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         viewModel.setSortOrder(sortOrder)
         binding.composeView.setContent {
             AppTheme(this) {
+                val selectionState = rememberMutableStateListOf<Long>()
                 Category(
                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
                     category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
-                    state = rememberMutableStateListOf(),
-                    onEdit = {
-                        editCat(it)
+                    expansionState = rememberMutableStateListOf(),
+                    selectionState = selectionState,
+                    onEdit = { editCat(it) },
+                    onDelete = { },
+                    onToggleSelection = {
+                        selectionState.toggle(it)
+                        if (selectionState.size == 0) {
+                            selectionState.clear()
+                            actionMode?.finish()
+                        } else {
+                            if (actionMode == null) {
+                                actionMode = startSupportActionMode(object : ActionMode.Callback {
+                                    override fun onCreateActionMode(
+                                        mode: ActionMode,
+                                        menu: Menu
+                                    ): Boolean {
+                                        menu.add("Delete")
+                                        return true
+                                    }
+
+                                    override fun onPrepareActionMode(
+                                        mode: ActionMode?,
+                                        menu: Menu?
+                                    ): Boolean = true
+
+                                    override fun onActionItemClicked(
+                                        mode: ActionMode?,
+                                        item: MenuItem?
+                                    ): Boolean = false
+
+                                    override fun onDestroyActionMode(mode: ActionMode?) {
+                                        actionMode = null
+                                    }
+
+                                })
+                            }
+                            actionMode?.title = "${selectionState.size}"
+                        }
                     }
                 )
             }
@@ -157,8 +196,10 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         val formElements = buildList {
             add(buildLabelField(category.label))
             if (category.level == 1 && category.color != null) {
-                add(SelectColorField.picker(DatabaseConstants.KEY_COLOR).label(R.string.color)
-                    .color(category.color))
+                add(
+                    SelectColorField.picker(DatabaseConstants.KEY_COLOR).label(R.string.color)
+                        .color(category.color)
+                )
             }
             add(buildIconField(category.icon))
         }.toTypedArray()

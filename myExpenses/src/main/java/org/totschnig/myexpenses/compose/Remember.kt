@@ -18,3 +18,7 @@ fun <T> rememberMutableStateListOf(vararg elements: T): SnapshotStateList<T> {
         elements.toList().toMutableStateList()
     }
 }
+
+fun <T> MutableList<T>.toggle(element: T) {
+    if (contains(element)) remove(element) else add(element)
+}

@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -30,17 +32,24 @@ import kotlin.math.sqrt
 fun Category(
     modifier: Modifier = Modifier,
     category: Category,
-    state: SnapshotStateList<String>,
-    onEdit: (Category) -> Unit = {}
+    expansionState: SnapshotStateList<Long>,
+    selectionState: SnapshotStateList<Long>,
+    onEdit: (Category) -> Unit = {},
+    onDelete: (Long) -> Unit = {},
+    onToggleSelection: (Long) -> Unit = {}
 ) {
     Column(modifier = modifier) {
 
         if (category.level > 0) {
             CategoryRenderer(
                 category = category,
-                state = state
-            ) { onEdit(category) }
-            AnimatedVisibility(visible = state.contains(category.label)) {
+                expansionState = expansionState,
+                selectionState = selectionState,
+                onEdit = { onEdit(category) },
+                onDelete = { onDelete(category.id) },
+                onToggleSelection = { onToggleSelection(category.id) }
+            )
+            AnimatedVisibility(visible = expansionState.contains(category.id)) {
                 Column(
                     modifier = Modifier.padding(start = 24.dp),
                     verticalArrangement = Arrangement.Center
@@ -48,8 +57,11 @@ fun Category(
                     category.children.forEach { model ->
                         Category(
                             category = model,
-                            state = state,
-                            onEdit = onEdit
+                            expansionState = expansionState,
+                            selectionState = selectionState,
+                            onEdit = onEdit,
+                            onDelete = onDelete,
+                            onToggleSelection = onToggleSelection
                         )
                     }
                 }
@@ -62,8 +74,11 @@ fun Category(
                     item {
                         Category(
                             category = model,
-                            state = state,
-                            onEdit = onEdit
+                            expansionState = expansionState,
+                            selectionState = selectionState,
+                            onEdit = onEdit,
+                            onDelete = onDelete,
+                            onToggleSelection = onToggleSelection
                         )
                     }
                 }
@@ -72,16 +87,32 @@ fun Category(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryRenderer(
     category: Category,
-    state: SnapshotStateList<String>,
-    onEdit: () -> Unit = {}
+    expansionState: SnapshotStateList<Long>,
+    selectionState: SnapshotStateList<Long>,
+    onEdit: () -> Unit = {},
+    onDelete: () -> Unit = {},
+    onToggleSelection: () -> Unit
 ) {
-    val isExpanded = state.contains(category.label)
+    val isExpanded = expansionState.contains(category.id)
+    val isSelected = selectionState.contains(category.id)
     val showMenu = remember { mutableStateOf(false) }
     Row(
-        modifier = Modifier.clickable { showMenu.value = true },
+        modifier = Modifier
+            .then(if (isSelected) Modifier.background(Color.LightGray) else Modifier)
+            .combinedClickable(
+                onLongClick = onToggleSelection,
+                onClick = {
+                    if (selectionState.size == 0) {
+                        showMenu.value = true
+                    } else {
+                        onToggleSelection()
+                    }
+                }
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (category.children.isEmpty()) {
@@ -91,7 +122,7 @@ fun CategoryRenderer(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable(onClick = {
-                        if (isExpanded) state.remove(category.label) else state.add(category.label)
+                        expansionState.toggle(category.id)
                     }),
                 imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                 contentDescription = stringResource(
@@ -130,52 +161,59 @@ fun CategoryRenderer(
         HierarchicalMenu(
             showMenu, Menu(
                 listOf(
-                    MenuEntry(label = stringResource(id = R.string.menu_edit), action = onEdit)
+                    MenuEntry(label = stringResource(id = R.string.menu_edit), action = onEdit),
+                    MenuEntry(label = stringResource(id = R.string.menu_delete), action = onDelete),
                 )
             )
         )
     }
 }
 
-@Preview
+@Preview(heightDp = 300)
 @Composable
 fun TreePreview() {
+    var counter = 0;
     fun buildCategory(
-        id: String,
         color: Int?,
         nrOfChildren: Int,
-        childColors: List<Int>?
+        childColors: List<Int>?,
+        level: Int
     ): Category {
+        val id = counter++
         return Category(
-            label = id,
+            id = counter.toLong(),
+            level = level,
+            label = "_$id",
             children = buildList {
                 repeat(nrOfChildren) {
                     add(
                         buildCategory(
-                            "${id}_$it",
                             childColors?.get(it % childColors.size),
                             if (nrOfChildren == 1) 0 else floor(sqrt(nrOfChildren.toFloat())).toInt(),
-                            null
+                            null,
+                            level + 1
                         )
                     )
                 }
-                add(Category.EMPTY)
+                add(Category(label = "BOGUS", level = level + 1))
             },
             color = color
         )
     }
 
-    val state = remember { mutableStateListOf("Root_0", "Root_0_0", "Root_0_0_0", "Root_0_0_0_0") }
     Category(
         category = buildCategory(
-            id = "Root",
+            level = 0,
             color = null,
             nrOfChildren = 10,
             childColors = listOf(
-                android.graphics.Color.RED, android.graphics.Color.GREEN, android.graphics.Color.BLUE
+                android.graphics.Color.RED,
+                android.graphics.Color.GREEN,
+                android.graphics.Color.BLUE
             )
         ),
-        state = state,
+        expansionState = remember { mutableStateListOf(0, 1, 2) },
+        selectionState = remember { mutableStateListOf(3, 4, 5) }
     )
 }
 
@@ -198,7 +236,7 @@ data class Category(
     }
 
     companion object {
-        val EMPTY = Category(label = "EMPTY", icon = "school")
+        val EMPTY = Category(label = "EMPTY")
     }
 }
 
