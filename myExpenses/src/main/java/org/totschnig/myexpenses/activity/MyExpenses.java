@@ -1013,7 +1013,7 @@ public class MyExpenses extends BaseMyExpenses implements
             dismissSnackBar();
           }
         } else {
-          showDeleteFailureFeedback(null);
+          showDeleteFailureFeedback(null, null);
         }
       });
     } else if (command == R.id.BALANCE_COMMAND_DO) {

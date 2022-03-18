@@ -239,7 +239,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_ROWID + " integer primary key autoincrement, "
           + KEY_LABEL + " text not null, "
           + KEY_LABEL_NORMALIZED + " text,"
-          + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
+          + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
           + KEY_COLOR + " integer, "

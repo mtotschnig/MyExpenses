@@ -28,8 +28,56 @@ const val checkForSealedDebt =
 fun checkForSealedDebt(baseTable: String) =
     "coalesce ((SELECT max($KEY_SEALED) FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID OR $KEY_ROWID in (SELECT $KEY_DEBT_ID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID)), 0)"
 
-fun categoryTreeCTE(sortOrder: String?, selection: String?) =
-"""
+fun categoryTreeSelect(
+    sortOrder: String? = null,
+    matches: String? = null,
+    projection: String = "*",
+    selection: String? = null
+) = categoryTreeCTE(
+    sortOrder = sortOrder,
+    matches = matches
+) + "SELECT $projection FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+
+fun categoryTreeWithMappedObjects(
+    selection: String,
+    projection: Array<String>,
+    aggregate: Boolean
+): String {
+    fun wrapQuery(query: String, key: String, aggregate: Boolean) = query.let {
+        if (aggregate) "sum($it)" else it
+    } + " AS $key"
+
+    fun subQuery(table: String, key: String, aggregate: Boolean) = wrapQuery(
+        "(select 1 FROM $table WHERE $KEY_CATID IN (SELECT $KEY_ROWID FROM Tree))",
+        key,
+        aggregate
+    )
+
+    val map = projection.map {
+        when (it) {
+            KEY_MAPPED_TRANSACTIONS -> subQuery(TABLE_TRANSACTIONS, it, aggregate)
+            KEY_MAPPED_TEMPLATES -> subQuery(TABLE_TEMPLATES, it, aggregate)
+            KEY_MAPPED_BUDGETS -> subQuery(TABLE_BUDGET_CATEGORIES, it, aggregate)
+            KEY_HAS_DESCENDANTS -> wrapQuery("(select count(*) FROM Tree) > 1", it, aggregate)
+            else -> it
+        }
+    }
+    return """
+            ${categoryTreeCTE("$TABLE_CATEGORIES.$KEY_ROWID")}
+            SELECT
+            ${map.joinToString()}
+            FROM $TABLE_CATEGORIES
+            WHERE
+            $selection
+        """.trimIndent()
+}
+
+fun categoryTreeCTE(
+    rootId: String? = null,
+    sortOrder: String? = null,
+    matches: String? = null
+) =
+    """
   WITH Tree as (
     SELECT
         $KEY_LABEL,
@@ -41,25 +89,23 @@ fun categoryTreeCTE(sortOrder: String?, selection: String?) =
         $KEY_USAGES,
         $KEY_LAST_USED,
         1 AS level,
-        ${selection?: "1"} AS matches
-
-    FROM $TABLE_CATEGORIES
-    WHERE $KEY_PARENTID IS NULL
+        ${matches ?: "1"} AS matches
+    FROM $TABLE_CATEGORIES main
+    WHERE ${rootId?.let { " $KEY_ROWID = $it" } ?: "$KEY_PARENTID IS NULL"}
     UNION ALL
     SELECT
-        $TABLE_CATEGORIES.$KEY_LABEL,
-        Tree.$KEY_LABEL || ' > ' || $TABLE_CATEGORIES.$KEY_LABEL AS path,
-        $TABLE_CATEGORIES.$KEY_COLOR,
-        $TABLE_CATEGORIES.$KEY_ICON,
-        $TABLE_CATEGORIES.$KEY_ROWID,
-        $TABLE_CATEGORIES.$KEY_PARENTID,
-        $TABLE_CATEGORIES.$KEY_USAGES,
-        $TABLE_CATEGORIES.$KEY_LAST_USED,
+        subtree.$KEY_LABEL,
+        Tree.$KEY_LABEL || ' > ' || subtree.$KEY_LABEL AS path,
+        subtree.$KEY_COLOR,
+        subtree.$KEY_ICON,
+        subtree.$KEY_ROWID,
+        subtree.$KEY_PARENTID,
+        subtree.$KEY_USAGES,
+        subtree.$KEY_LAST_USED,
         level + 1,
-        ${selection?: "1"} AS matches
-    FROM categories
-    JOIN Tree ON Tree._id = categories.parent_id
+        ${matches ?: "1"} AS matches
+    FROM categories subtree
+    JOIN Tree ON Tree._id = subtree.parent_id
     ORDER BY level DESC${sortOrder?.let { ", $it" } ?: ""}
   )
-  SELECT * FROM Tree
-"""
+""".trimIndent()

@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORM
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -105,10 +106,7 @@ public class Category extends Model {
   }
 
   public static boolean delete(long id) {
-    return cr().delete(CONTENT_URI,
-        KEY_PARENTID + " =  ?  OR " + KEY_ROWID + " = ?",
-        new String[]{String.valueOf(id), String.valueOf(id)}
-    ) > 0;
+    return cr().delete(ContentUris.withAppendedId(CONTENT_URI, id), null, null) > 0;
   }
 
   @Override

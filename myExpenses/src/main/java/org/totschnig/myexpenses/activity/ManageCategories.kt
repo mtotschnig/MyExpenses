@@ -20,7 +20,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import icepick.State
 import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.ACTION_MANAGE

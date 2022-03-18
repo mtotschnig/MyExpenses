@@ -19,6 +19,13 @@ fun <T> rememberMutableStateListOf(vararg elements: T): SnapshotStateList<T> {
     }
 }
 
-fun <T> MutableList<T>.toggle(element: T) {
-    if (contains(element)) remove(element) else add(element)
+/**
+ * true if element was added, false if it was removed
+ */
+fun <T> MutableList<T>.toggle(element: T) = if (contains(element)) {
+    remove(element)
+    false
+} else {
+    add(element)
+    true
 }

@@ -151,7 +151,6 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
         "(SELECT count(*) FROM " + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = "
             + TABLE_CATEGORIES + "." + KEY_ROWID + ") as " + KEY_CHILD_COUNT,
 
-        //here we do not filter out void transactions since they need to be considered as mapped
         "(SELECT 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);

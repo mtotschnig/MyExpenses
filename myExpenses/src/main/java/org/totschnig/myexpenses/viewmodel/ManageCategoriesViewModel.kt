@@ -47,12 +47,6 @@ class ManageCategoriesViewModel(application: Application) :
         }
     }
 
-    suspend fun <T> LiveDataScope<Result<T>>.failure(
-        @StringRes resId: Int,
-        vararg formatArgs: Any?
-    ) =
-        emit(Result.failure(Throwable(getString(resId, *formatArgs))))
-
     fun exportCats(encoding: String) {
         exportCatResult = liveData(context = coroutineContext()) {
             val appDir = AppDirHelper.getAppDir(getApplication())

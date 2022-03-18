@@ -299,9 +299,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         )
                     }
                 }.onFailure {
-                    manageParties.showDeleteFailureFeedback(
-                        it.message
-                    )
+                    manageParties.showDeleteFailureFeedback(it.message)
                 }
             }
     }

@@ -537,7 +537,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showDeleteFailureFeedback(null);
+          showDeleteFailureFeedback(null, null);
         }
         break;
       }

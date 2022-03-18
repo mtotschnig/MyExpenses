@@ -15,6 +15,9 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeCTE;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
+
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -249,6 +252,8 @@ public class DatabaseConstants {
    */
   public static final String KEY_CHILD_COUNT = "childCount";
 
+  public static final String KEY_HAS_DESCENDANTS = "hasDescendants";
+
   /**
    * No special status
    */
@@ -306,25 +311,7 @@ public class DatabaseConstants {
 
   public static final String TABLE_DEBTS = "debts";
 
-  /**
-   * # TODO define view
-   * CREATE VIEW cat_tree as with Tree as
-   * (
-   *    select label, label as path, color, icon, _id, parent_id, usages, last_used, 0 as level
-   *    from categories
-   *    where parent_id is null
-   *
-   *    union all
-   *
-   *    select categories.label, Tree.label || ' > ' || categories.label as path, categories.color, categories.icon, categories._id, categories.parent_id, categories.usages, categories.last_used, level + 1
-   *    from categories
-   *         inner join
-   *         Tree
-   *         on Tree._id = categories.parent_id order by level desc, usages
-   * )
-   * select * from Tree;
-   */
-  private static final String FULL_CAT_CASE = "(SELECT LABEL FROM CAT_TREE WHERE _id = cat_id)";
+  private static final String FULL_CAT_CASE = "(" + categoryTreeSelect(null, null, KEY_LABEL, KEY_ROWID + " = " + KEY_CATID) + ")";
 
   public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
 

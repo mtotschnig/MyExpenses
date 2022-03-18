@@ -15,7 +15,9 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.CompositeException
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -206,6 +208,20 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 .collect {
                     debts.postValue(it)
                 }
+        }
+    }
+
+    suspend fun <T> LiveDataScope<Result<T>>.failure(
+        @StringRes resId: Int,
+        vararg formatArgs: Any?
+    ) = emit(Result.failure(Throwable(getString(resId, *formatArgs))))
+
+    fun <T> MutableStateFlow<Result<T>?>.failure(
+        @StringRes resId: Int,
+        vararg formatArgs: Any?
+    ) {
+        update {
+            Result.failure(Throwable(getString(resId, *formatArgs)))
         }
     }
 

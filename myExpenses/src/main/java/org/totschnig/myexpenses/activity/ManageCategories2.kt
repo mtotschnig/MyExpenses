@@ -5,22 +5,31 @@ import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
 import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SelectColorField
 import eltos.simpledialogfragment.form.SelectIconField
 import eltos.simpledialogfragment.form.SimpleFormDialog
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.databinding.ActivityCategoryComposeBinding
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
 import org.totschnig.myexpenses.preference.PrefKey
@@ -29,6 +38,8 @@ import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
 
 open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
     private var actionMode: ActionMode? = null
@@ -106,52 +117,164 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             inject(viewModel)
         }
         viewModel.setSortOrder(sortOrder)
+        observeDeleteResult()
         binding.composeView.setContent {
             AppTheme(this) {
                 val selectionState = rememberMutableStateListOf<Long>()
+                LaunchedEffect(Unit) {
+                    if (selectionState.isNotEmpty()) {
+                        startActionMode(selectionState)
+                        updateActionModeTitle(selectionState)
+                    }
+                }
                 Category(
                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
                     category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
                     expansionState = rememberMutableStateListOf(),
                     selectionState = selectionState,
                     onEdit = { editCat(it) },
-                    onDelete = { },
+                    onDelete = { viewModel.deleteCategories(listOf(it)) },
                     onToggleSelection = {
-                        selectionState.toggle(it)
+                        if (selectionState.toggle(it.id)) {
+                            //when we select a category, children are implicitly selected, so we remove
+                            //them from the explicit selection
+                            it.recursiveUnselectChildren(selectionState)
+                        }
                         if (selectionState.size == 0) {
-                            selectionState.clear()
-                            actionMode?.finish()
+                            finishActionMode()
                         } else {
                             if (actionMode == null) {
-                                actionMode = startSupportActionMode(object : ActionMode.Callback {
-                                    override fun onCreateActionMode(
-                                        mode: ActionMode,
-                                        menu: Menu
-                                    ): Boolean {
-                                        menu.add("Delete")
-                                        return true
-                                    }
-
-                                    override fun onPrepareActionMode(
-                                        mode: ActionMode?,
-                                        menu: Menu?
-                                    ): Boolean = true
-
-                                    override fun onActionItemClicked(
-                                        mode: ActionMode?,
-                                        item: MenuItem?
-                                    ): Boolean = false
-
-                                    override fun onDestroyActionMode(mode: ActionMode?) {
-                                        actionMode = null
-                                    }
-
-                                })
+                                startActionMode(selectionState)
                             }
-                            actionMode?.title = "${selectionState.size}"
+                            updateActionModeTitle(selectionState)
                         }
                     }
                 )
+            }
+        }
+    }
+
+    private fun finishActionMode() {
+        actionMode?.finish()
+    }
+
+    private fun updateActionModeTitle(selectionState: SnapshotStateList<Long>) {
+        actionMode?.title = "${selectionState.size}"
+    }
+
+    private fun startActionMode(selectionState: SnapshotStateList<Long>) {
+        actionMode = startSupportActionMode(object : ActionMode.Callback {
+            override fun onCreateActionMode(
+                mode: ActionMode,
+                menu: Menu
+            ): Boolean {
+                menu.add(
+                    Menu.NONE,
+                    R.id.DELETE_COMMAND,
+                    0,
+                    R.string.menu_delete
+                )
+                return true
+            }
+
+            override fun onPrepareActionMode(
+                mode: ActionMode,
+                menu: Menu
+            ): Boolean = true
+
+            override fun onActionItemClicked(
+                mode: ActionMode,
+                item: MenuItem
+            ): Boolean = if (item.itemId == R.id.DELETE_COMMAND) {
+                viewModel.deleteCategories(selectionState)
+                true
+            } else false
+
+            override fun onDestroyActionMode(mode: ActionMode) {
+                actionMode = null
+                selectionState.clear()
+            }
+
+        })
+    }
+
+    private fun MutableList<String>.mapToMessage(quantity: Int, @PluralsRes resId: Int) {
+        if (quantity > 0) add(
+            resources.getQuantityString(
+                resId,
+                quantity,
+                quantity
+            )
+        )
+    }
+
+    private fun observeDeleteResult() {
+        val dismissCallback = object : Snackbar.Callback() {
+            override fun onDismissed(
+                transientBottomBar: Snackbar,
+                event: Int
+            ) {
+                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                    viewModel.deleteMessageShown()
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.deleteResult.collect { result ->
+                    result?.onSuccess {
+                        when (it) {
+                            is OperationComplete -> {
+                                finishActionMode()
+                                val messages = buildList {
+                                    mapToMessage(it.deleted, R.plurals.delete_success)
+                                    mapToMessage(
+                                        it.mappedToTransactions,
+                                        R.plurals.not_deletable_mapped_transactions
+                                    )
+                                    mapToMessage(
+                                        it.mappedToTemplates,
+                                        R.plurals.not_deletable_mapped_templates
+                                    )
+                                }
+                                showDismissibleSnackBar(
+                                    messages.joinToString(" "),
+                                    dismissCallback
+                                )
+                            }
+                            is OperationPending -> {
+                                val messages = buildList {
+                                    mapToMessage(
+                                        it.hasDescendants,
+                                        R.plurals.warning_delete_main_category
+                                    )
+                                    if (it.mappedToBudgets > 0) {
+                                        add(getString(R.string.warning_delete_category_with_budget))
+                                    }
+                                    add(getString(R.string.continue_confirmation))
+                                }
+                                MessageDialogFragment.newInstance(
+                                    getString(R.string.dialog_title_warning_delete_category),
+                                    messages.joinToString(" "),
+                                    MessageDialogFragment.Button(
+                                        R.string.response_yes,
+                                        R.id.DELETE_COMMAND_DO,
+                                        it.ids.toTypedArray()
+                                    ),
+                                    null,
+                                    MessageDialogFragment.Button(
+                                        R.string.response_no,
+                                        R.id.CANCEL_CALLBACK_COMMAND,
+                                        null
+                                    )
+                                )
+                                    .show(supportFragmentManager, "DELETE_CATEGORY")
+                                viewModel.deleteMessageShown()
+                            }
+                        }
+                    }?.onFailure {
+                        showDeleteFailureFeedback(it.message, dismissCallback)
+                    }
+                }
             }
         }
     }
@@ -162,6 +285,16 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         } else when (command) {
             R.id.CREATE_COMMAND -> {
                 createCat(null)
+                true
+            }
+            R.id.CANCEL_CALLBACK_COMMAND -> {
+                finishActionMode()
+                true
+            }
+            R.id.DELETE_COMMAND_DO -> {
+                showSnackBarIndefinite(R.string.progress_dialog_deleting)
+                @Suppress("UNCHECKED_CAST")
+                viewModel.deleteCategoriesDo((tag as Array<Long>).toList())
                 true
             }
             else -> false

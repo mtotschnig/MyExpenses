@@ -76,7 +76,8 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeCTE;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -209,6 +210,11 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
   public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
+  /**
+   * 1 -> mapped objects for each row
+   * 2 -> aggregate sums for all mapped objects
+   */
+  public static final String QUERY_PARAMETER_MAPPED_OBJECTS = "mappedObjects";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -507,8 +513,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case CATEGORIES:
+        String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
+        if (mappedObjects != null) {
+          c = db.rawQuery(categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2")), selectionArgs);
+          return c;
+        }
         if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
-          c = db.rawQuery(categoryTreeCTE(sortOrder, selection), Utils.joinArrays(selectionArgs, selectionArgs));
+          c = db.rawQuery(categoryTreeSelect(sortOrder, selection, "*", null), Utils.joinArrays(selectionArgs, selectionArgs));
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {

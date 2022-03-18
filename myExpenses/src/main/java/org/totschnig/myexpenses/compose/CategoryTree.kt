@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.R
 import kotlin.math.floor
 import kotlin.math.sqrt
@@ -36,10 +38,11 @@ fun Category(
     selectionState: SnapshotStateList<Long>,
     onEdit: (Category) -> Unit = {},
     onDelete: (Long) -> Unit = {},
-    onToggleSelection: (Long) -> Unit = {}
+    onToggleSelection: (Category) -> Unit = {},
+    selectedAncestor: Category? = null
 ) {
-    Column(modifier = modifier) {
-
+    val isSelected = selectionState.contains(category.id)
+    Column(modifier = modifier.then(if (isSelected) Modifier.background(Color.LightGray) else Modifier)) {
         if (category.level > 0) {
             CategoryRenderer(
                 category = category,
@@ -47,7 +50,7 @@ fun Category(
                 selectionState = selectionState,
                 onEdit = { onEdit(category) },
                 onDelete = { onDelete(category.id) },
-                onToggleSelection = { onToggleSelection(category.id) }
+                onToggleSelection = { onToggleSelection(selectedAncestor ?: category) }
             )
             AnimatedVisibility(visible = expansionState.contains(category.id)) {
                 Column(
@@ -61,7 +64,9 @@ fun Category(
                             selectionState = selectionState,
                             onEdit = onEdit,
                             onDelete = onDelete,
-                            onToggleSelection = onToggleSelection
+                            onToggleSelection = onToggleSelection,
+                            selectedAncestor = selectedAncestor
+                                ?: if (isSelected) category else null
                         )
                     }
                 }
@@ -98,11 +103,9 @@ fun CategoryRenderer(
     onToggleSelection: () -> Unit
 ) {
     val isExpanded = expansionState.contains(category.id)
-    val isSelected = selectionState.contains(category.id)
     val showMenu = remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
-            .then(if (isSelected) Modifier.background(Color.LightGray) else Modifier)
             .combinedClickable(
                 onLongClick = onToggleSelection,
                 onClick = {
@@ -134,16 +137,14 @@ fun CategoryRenderer(
         }
         if (category.icon != null) {
             val context = LocalContext.current
+            val drawable = AppCompatResources.getDrawable(
+                context,
+                context.resources.getIdentifier(category.icon, "drawable", context.packageName)
+            )
             Icon(
                 modifier = Modifier.size(24.dp),
-                painter = painterResource(
-                    id = context.resources.getIdentifier(
-                        category.icon,
-                        "drawable",
-                        context.packageName
-                    )
-                ),
-                contentDescription = null
+                painter = rememberDrawablePainter(drawable = drawable),
+                contentDescription = category.icon
             )
         } else {
             Spacer(modifier = Modifier.width(24.dp))
@@ -172,7 +173,7 @@ fun CategoryRenderer(
 @Preview(heightDp = 300)
 @Composable
 fun TreePreview() {
-    var counter = 0;
+    var counter = 0
     fun buildCategory(
         color: Int?,
         nrOfChildren: Int,
@@ -233,6 +234,13 @@ data class Category(
         return if (isMatching || prunedChildren.isNotEmpty()) {
             this.copy(children = prunedChildren)
         } else null
+    }
+
+    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
+        children.forEach {
+            selectionState.remove(it.id)
+            it.recursiveUnselectChildren(selectionState)
+        }
     }
 
     companion object {
