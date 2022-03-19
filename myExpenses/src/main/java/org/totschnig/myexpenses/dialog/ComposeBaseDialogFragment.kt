@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
+import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
@@ -21,4 +22,6 @@ abstract class ComposeBaseDialogFragment: BaseDialogFragment() {
                 }
             })
         }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?) = initBuilder().create()
 }

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.dialog
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import org.totschnig.myexpenses.MyApplication
@@ -50,8 +51,8 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        initBuilder().setPositiveButton(android.R.string.ok, null).create()
+    override fun initBuilder(): AlertDialog.Builder =
+        super.initBuilder().setPositiveButton(android.R.string.ok, null)
 
     companion object {
         fun newInstance(debtId: Long) = DebtDetailsDialogFragment().apply {
@@ -59,6 +60,5 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
                 putLong(DatabaseConstants.KEY_DEBT_ID, debtId)
             }
         }
-
     }
 }

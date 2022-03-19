@@ -24,12 +24,11 @@ import eltos.simpledialogfragment.form.SelectIconField
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
-import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.Category
-import org.totschnig.myexpenses.compose.rememberMutableStateListOf
-import org.totschnig.myexpenses.compose.toggle
+import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityCategoryComposeBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
 import org.totschnig.myexpenses.preference.PrefKey
@@ -121,38 +120,31 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         binding.composeView.setContent {
             AppTheme(this) {
                 val selectionState = rememberMutableStateListOf<Long>()
-                LaunchedEffect(Unit) {
+                LaunchedEffect(selectionState.size) {
                     if (selectionState.isNotEmpty()) {
                         startActionMode(selectionState)
                         updateActionModeTitle(selectionState)
+                    } else {
+                        finishActionMode()
                     }
                 }
                 Category(
                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
                     category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
                     expansionState = rememberMutableStateListOf(),
-                    selectionState = selectionState,
                     onEdit = { editCat(it) },
                     onDelete = { viewModel.deleteCategories(listOf(it)) },
                     onAdd = { createCat(it) },
-                    onToggleSelection = {
-                        if (selectionState.toggle(it.id)) {
-                            //when we select a category, children are implicitly selected, so we remove
-                            //them from the explicit selection
-                            it.recursiveUnselectChildren(selectionState)
-                        }
-                        if (selectionState.size == 0) {
-                            finishActionMode()
-                        } else {
-                            if (actionMode == null) {
-                                startActionMode(selectionState)
-                            }
-                            updateActionModeTitle(selectionState)
-                        }
-                    }
+                    onMove = { showMoveTargetDialog(it) },
+                    choiceMode = ChoiceMode.MultiChoiceMode(selectionState, true)
                 )
             }
         }
+    }
+
+    private fun showMoveTargetDialog(category: Category) {
+        SelectCategoryMoveTargetDialogFragment.newInstance(category)
+            .show(supportFragmentManager, "SELECT_TARGET")
     }
 
     private fun finishActionMode() {
@@ -164,39 +156,41 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
     }
 
     private fun startActionMode(selectionState: SnapshotStateList<Long>) {
-        actionMode = startSupportActionMode(object : ActionMode.Callback {
-            override fun onCreateActionMode(
-                mode: ActionMode,
-                menu: Menu
-            ): Boolean {
-                menu.add(
-                    Menu.NONE,
-                    R.id.DELETE_COMMAND,
-                    0,
-                    R.string.menu_delete
-                )
-                return true
-            }
+        if (actionMode == null) {
+            actionMode = startSupportActionMode(object : ActionMode.Callback {
+                override fun onCreateActionMode(
+                    mode: ActionMode,
+                    menu: Menu
+                ): Boolean {
+                    menu.add(
+                        Menu.NONE,
+                        R.id.DELETE_COMMAND,
+                        0,
+                        R.string.menu_delete
+                    )
+                    return true
+                }
 
-            override fun onPrepareActionMode(
-                mode: ActionMode,
-                menu: Menu
-            ): Boolean = true
+                override fun onPrepareActionMode(
+                    mode: ActionMode,
+                    menu: Menu
+                ): Boolean = true
 
-            override fun onActionItemClicked(
-                mode: ActionMode,
-                item: MenuItem
-            ): Boolean = if (item.itemId == R.id.DELETE_COMMAND) {
-                viewModel.deleteCategories(selectionState)
-                true
-            } else false
+                override fun onActionItemClicked(
+                    mode: ActionMode,
+                    item: MenuItem
+                ): Boolean = if (item.itemId == R.id.DELETE_COMMAND) {
+                    viewModel.deleteCategories(selectionState)
+                    true
+                } else false
 
-            override fun onDestroyActionMode(mode: ActionMode) {
-                actionMode = null
-                selectionState.clear()
-            }
+                override fun onDestroyActionMode(mode: ActionMode) {
+                    actionMode = null
+                    selectionState.clear()
+                }
 
-        })
+            })
+        }
     }
 
     private fun MutableList<String>.mapToMessage(quantity: Int, @PluralsRes resId: Int) {

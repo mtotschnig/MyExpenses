@@ -14,8 +14,11 @@ data class Colors(
     val iconTint: Color
 )
 
-val LocalColors =
-    compositionLocalOf<Colors> { throw IllegalStateException("Colors not initialized") }
+val LocalColors = compositionLocalOf { Colors(
+        income = Color.Red,
+        expense = Color.Green,
+        iconTint = Color.DarkGray
+    ) }
 
 val LocalAmountFormatter = staticCompositionLocalOf<AmountFormatter> {
     { amount, currency ->

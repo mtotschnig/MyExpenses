@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.os.Parcelable
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -22,11 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import kotlin.math.floor
 import kotlin.math.sqrt
@@ -35,27 +36,29 @@ import kotlin.math.sqrt
 fun Category(
     modifier: Modifier = Modifier,
     category: Category,
-    expansionState: SnapshotStateList<Long>,
-    selectionState: SnapshotStateList<Long>,
+    expansionState: SnapshotStateList<Long>?,
     onEdit: (Category) -> Unit = {},
     onDelete: (Long) -> Unit = {},
     onAdd: (Long) -> Unit = {},
-    onToggleSelection: (Category) -> Unit = {},
-    selectedAncestor: Category? = null
+    onMove: (Category) -> Unit = {},
+    selectedAncestor: Category? = null,
+    choiceMode: ChoiceMode
 ) {
-    val isSelected = selectionState.contains(category.id)
-    Column(modifier = modifier.then(if (isSelected) Modifier.background(Color.LightGray) else Modifier)) {
+    Column(modifier = modifier.then(if (choiceMode.isTreeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier)) {
         if (category.level > 0) {
             CategoryRenderer(
                 category = category,
                 expansionState = expansionState,
-                selectionState = selectionState,
+                choiceMode = choiceMode,
                 onEdit = { onEdit(category) },
                 onDelete = { onDelete(category.id) },
                 onAdd = { onAdd(category.id) },
-                onToggleSelection = { onToggleSelection(selectedAncestor ?: category) }
+                onMove = { onMove(category) },
+                onToggleSelection = {
+                    choiceMode.toggleSelection(selectedAncestor, category)
+                }
             )
-            AnimatedVisibility(visible = expansionState.contains(category.id)) {
+            AnimatedVisibility(visible = expansionState?.contains(category.id) ?: true) {
                 Column(
                     modifier = Modifier.padding(start = 24.dp),
                     verticalArrangement = Arrangement.Center
@@ -64,13 +67,13 @@ fun Category(
                         Category(
                             category = model,
                             expansionState = expansionState,
-                            selectionState = selectionState,
                             onEdit = onEdit,
                             onDelete = onDelete,
                             onAdd = onAdd,
-                            onToggleSelection = onToggleSelection,
+                            onMove = onMove,
                             selectedAncestor = selectedAncestor
-                                ?: if (isSelected) category else null
+                                ?: if (choiceMode.isSelected(category.id)) category else null,
+                            choiceMode = choiceMode
                         )
                     }
                 }
@@ -84,11 +87,11 @@ fun Category(
                         Category(
                             category = model,
                             expansionState = expansionState,
-                            selectionState = selectionState,
                             onEdit = onEdit,
                             onDelete = onDelete,
                             onAdd = onAdd,
-                            onToggleSelection = onToggleSelection
+                            onMove = onMove,
+                            choiceMode = choiceMode
                         )
                     }
                 }
@@ -101,27 +104,31 @@ fun Category(
 @Composable
 fun CategoryRenderer(
     category: Category,
-    expansionState: SnapshotStateList<Long>,
-    selectionState: SnapshotStateList<Long>,
+    expansionState: SnapshotStateList<Long>?,
+    choiceMode: ChoiceMode,
     onEdit: () -> Unit = {},
     onDelete: () -> Unit = {},
     onAdd: () -> Unit = {},
+    onMove: () -> Unit = {},
     onToggleSelection: () -> Unit
 ) {
-    val isExpanded = expansionState.contains(category.id)
+    val isExpanded = expansionState?.contains(category.id) ?: true
     val showMenu = remember { mutableStateOf(false) }
     Row(
-        modifier = Modifier
-            .combinedClickable(
-                onLongClick = onToggleSelection,
-                onClick = {
-                    if (selectionState.size == 0) {
-                        showMenu.value = true
-                    } else {
-                        onToggleSelection()
+        modifier = when(choiceMode) {
+            is ChoiceMode.MultiChoiceMode -> Modifier
+                .combinedClickable(
+                    onLongClick = onToggleSelection,
+                    onClick = {
+                        if (choiceMode.selectionState.size == 0) {
+                            showMenu.value = true
+                        } else {
+                            onToggleSelection()
+                        }
                     }
-                }
-            ),
+                )
+            is ChoiceMode.SingleChoiceMode -> Modifier.clickable(onClick = onToggleSelection)
+        }.then(if (choiceMode.isNodeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (category.children.isEmpty()) {
@@ -130,9 +137,12 @@ fun CategoryRenderer(
             Icon(
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable(onClick = {
-                        expansionState.toggle(category.id)
-                    }),
+                    .then(
+                        if (expansionState == null) Modifier else
+                            Modifier.clickable(onClick = {
+                                expansionState.toggle(category.id)
+                            })
+                    ),
                 imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                 contentDescription = stringResource(
                     id = if (isExpanded)
@@ -174,6 +184,11 @@ fun CategoryRenderer(
                         icon = Icons.Filled.Add,
                         label = stringResource(id = R.string.subcategory),
                         action = onAdd
+                    ),
+                    MenuEntry(
+                        icon = myiconpack.ArrowsAlt,
+                        label = stringResource(id = R.string.menu_move),
+                        action = onMove
                     )
                 )
             )
@@ -225,11 +240,49 @@ fun TreePreview() {
             )
         ),
         expansionState = remember { mutableStateListOf(0, 1, 2) },
-        selectionState = remember { mutableStateListOf(3, 4, 5) }
+        choiceMode = ChoiceMode.SingleChoiceMode(remember { mutableStateOf(null) }, false)
     )
 }
 
+sealed class ChoiceMode(
+    /**
+     * if true, selecting a category highlights the tree (including children), if false children are
+     * not highlighted
+     */
+    val selectTree: Boolean
+) {
+    fun isTreeSelected(id: Long) = selectTree && isSelected(id)
+    fun isNodeSelected(id: Long) = !selectTree && isSelected(id)
+
+    abstract fun isSelected(id: Long): Boolean
+
+    abstract fun toggleSelection(selectedAncestor: Category?, category: Category)
+
+    class MultiChoiceMode(val selectionState: SnapshotStateList<Long>, selectTree: Boolean) :
+        ChoiceMode(selectTree) {
+        override fun isSelected(id: Long) = selectionState.contains(id)
+        override fun toggleSelection(selectedAncestor: Category?, category: Category) {
+            (selectedAncestor ?: category).let {
+                if (selectionState.toggle(it.id)) {
+                    //when we select a category, children are implicitly selected, so we remove
+                    //them from the explicit selection
+                    it.recursiveUnselectChildren(selectionState)
+                }
+            }
+        }
+    }
+
+    class SingleChoiceMode(val selectionState: MutableState<Category?>, selectTree: Boolean) :
+        ChoiceMode(selectTree) {
+        override fun isSelected(id: Long) = selectionState.value?.id == id
+        override fun toggleSelection(selectedAncestor: Category?, category: Category) {
+            selectionState.value = if (selectionState.value == category) null else category
+        }
+    }
+}
+
 @Immutable
+@Parcelize
 data class Category(
     val id: Long = 0,
     val level: Int = 0,
@@ -238,7 +291,7 @@ data class Category(
     val isMatching: Boolean = true,
     val color: Int? = null,
     val icon: String? = null
-) {
+) : Parcelable {
 
     fun pruneNonMatching(): Category? {
         val prunedChildren = children.mapNotNull { it.pruneNonMatching() }

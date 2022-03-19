@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -204,8 +205,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
             requireArguments().getParcelable<SyncViewModel.SyncAccountData>(KEY_DATA)!!.prepare()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        initBuilder().setCancelable(false).create()
+    override fun initBuilder(): AlertDialog.Builder = super.initBuilder().setCancelable(false)
 
     @Composable
     fun Account(

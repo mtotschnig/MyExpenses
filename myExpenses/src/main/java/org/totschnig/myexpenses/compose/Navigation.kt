@@ -130,7 +130,7 @@ fun HierarchicalMenu(
 }
 
 @Composable
-private fun EntryContent(entry: MenuEntry, offset: Dp = 0.dp) {
+private fun RowScope.EntryContent(entry: MenuEntry, offset: Dp = 0.dp) {
     Spacer(modifier = Modifier.width(offset))
     entry.icon?.let {
         Icon(
@@ -191,8 +191,13 @@ fun Activity() {
 @Preview
 @Composable
 fun EntryContent() {
-    Row {
-        EntryContent(MenuEntry(icon = Icons.Filled.Edit, label = "Edit") {})
+    Column {
+        DropdownMenuItem(onClick = {}) {
+            EntryContent(MenuEntry(icon = Icons.Filled.Edit, label = "Edit") {})
+        }
+        DropdownMenuItem(onClick = {}) {
+            EntryContent(MenuEntry(icon = myiconpack.ArrowsAlt, label = "Move") {})
+        }
     }
 }
 
@@ -207,8 +212,8 @@ fun Overflow() {
                 MenuEntry(
                     label = "Option 2", subMenu = Menu(
                         entries = listOf(
-                            emptyEntry("Option 2.1"),
-                            emptyEntry("Option 2.2")
+                            MenuEntry(icon = Icons.Filled.Edit, label = "Edit") {},
+                            MenuEntry(icon = myiconpack.ArrowsAlt, label = "Move") {}
                         )
                     )
                 )
