@@ -8,9 +8,10 @@ import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
 import java.time.format.DateTimeFormatter
 
-class Colors(
+data class Colors(
     val income: Color,
-    val expense: Color
+    val expense: Color,
+    val iconTint: Color
 )
 
 val LocalColors =

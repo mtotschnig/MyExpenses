@@ -134,6 +134,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
                     selectionState = selectionState,
                     onEdit = { editCat(it) },
                     onDelete = { viewModel.deleteCategories(listOf(it)) },
+                    onAdd = { createCat(it) },
                     onToggleSelection = {
                         if (selectionState.toggle(it.id)) {
                             //when we select a category, children are implicitly selected, so we remove

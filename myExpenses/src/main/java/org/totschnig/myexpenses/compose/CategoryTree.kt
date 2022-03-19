@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.*
@@ -38,6 +39,7 @@ fun Category(
     selectionState: SnapshotStateList<Long>,
     onEdit: (Category) -> Unit = {},
     onDelete: (Long) -> Unit = {},
+    onAdd: (Long) -> Unit = {},
     onToggleSelection: (Category) -> Unit = {},
     selectedAncestor: Category? = null
 ) {
@@ -50,6 +52,7 @@ fun Category(
                 selectionState = selectionState,
                 onEdit = { onEdit(category) },
                 onDelete = { onDelete(category.id) },
+                onAdd = { onAdd(category.id) },
                 onToggleSelection = { onToggleSelection(selectedAncestor ?: category) }
             )
             AnimatedVisibility(visible = expansionState.contains(category.id)) {
@@ -64,6 +67,7 @@ fun Category(
                             selectionState = selectionState,
                             onEdit = onEdit,
                             onDelete = onDelete,
+                            onAdd = onAdd,
                             onToggleSelection = onToggleSelection,
                             selectedAncestor = selectedAncestor
                                 ?: if (isSelected) category else null
@@ -83,6 +87,7 @@ fun Category(
                             selectionState = selectionState,
                             onEdit = onEdit,
                             onDelete = onDelete,
+                            onAdd = onAdd,
                             onToggleSelection = onToggleSelection
                         )
                     }
@@ -100,6 +105,7 @@ fun CategoryRenderer(
     selectionState: SnapshotStateList<Long>,
     onEdit: () -> Unit = {},
     onDelete: () -> Unit = {},
+    onAdd: () -> Unit = {},
     onToggleSelection: () -> Unit
 ) {
     val isExpanded = expansionState.contains(category.id)
@@ -162,8 +168,13 @@ fun CategoryRenderer(
         HierarchicalMenu(
             showMenu, Menu(
                 listOf(
-                    MenuEntry(label = stringResource(id = R.string.menu_edit), action = onEdit),
-                    MenuEntry(label = stringResource(id = R.string.menu_delete), action = onDelete),
+                    MenuEntry.edit(onEdit),
+                    MenuEntry.delete(onDelete),
+                    MenuEntry(
+                        icon = Icons.Filled.Add,
+                        label = stringResource(id = R.string.subcategory),
+                        action = onAdd
+                    )
                 )
             )
         )

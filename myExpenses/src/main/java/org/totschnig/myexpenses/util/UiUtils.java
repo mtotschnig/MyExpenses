@@ -28,6 +28,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.ImageViewCompat;
 
@@ -130,11 +131,15 @@ public class UiUtils {
   }
 
   /**
-   * Returns the value of the desired theme integer attribute, or -1 if not found
+   * Returns the value of the desired theme integer attribute
+   * @throws android.content.res.Resources.NotFoundException if the given ID
+   *         does not exist.
    **/
   @ColorInt
-  public static int getColor(@Nullable Context context, @AttrRes int attr) {
-    return MaterialColors.getColor(context, attr, context.getClass().getCanonicalName());
+  public static int getColor(Context context, @AttrRes int attr) {
+    TypedValue typedValue = new TypedValue();
+    context.getTheme().resolveAttribute(attr, typedValue, true);
+    return ContextCompat.getColor(context, typedValue.resourceId);
   }
 
   public static boolean themeBoolAttr(Context context, int attr) {

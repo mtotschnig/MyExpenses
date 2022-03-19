@@ -8,6 +8,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -74,7 +76,7 @@ fun DebtRenderer(
     onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> }
 ) {
     CompositionLocalProvider(
-        LocalColors provides Colors(
+        LocalColors provides LocalColors.current.copy(
             income = colorResource(id = R.color.colorIncomeOnCard),
             expense = colorResource(id = R.color.colorExpenseOnCard)
         )
@@ -160,25 +162,28 @@ fun DebtRenderer(
                     modifier = Modifier.align(Alignment.TopEnd),
                     menu = Menu(buildList {
                         if (!debt.isSealed) {
-                            add(MenuEntry(stringResource(id = R.string.menu_edit)) {
+                            add(MenuEntry.edit {
                                 onEdit(debt)
                             })
                         }
                         add(
                             MenuEntry(
-                                stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close)
+                                icon = if (debt.isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
+                                label = stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close)
                             ) {
                                 onToggle(debt)
                             }
                         )
-                        add(MenuEntry(stringResource(id = R.string.menu_delete)) {
+                        add(MenuEntry.delete {
                             onDelete(debt, transactions.size)
                         })
                         add(
-                            MenuEntry(stringResource(id = R.string.button_label_share_file),
-                                Menu(
+                            MenuEntry(
+                                icon = Icons.Filled.Share,
+                                label = stringResource(id = R.string.button_label_share_file),
+                                subMenu = Menu(
                                     DebtViewModel.ExportFormat.values().map {
-                                        MenuEntry(it.name) {
+                                        MenuEntry(label = it.name) {
                                             onShare(debt, it)
                                         }
                                     }
