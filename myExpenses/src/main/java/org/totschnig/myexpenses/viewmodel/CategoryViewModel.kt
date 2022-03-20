@@ -7,11 +7,8 @@ import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.*
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.provider.*
@@ -25,7 +22,9 @@ import timber.log.Timber
 class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
     var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
+    var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     var deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult
+    var moveResult: StateFlow<Boolean?> = _moveResult
 
     sealed class DeleteResult {
         class OperationPending(val ids: List<Long>, val mappedToBudgets: Int, val hasDescendants: Int): DeleteResult()
@@ -80,6 +79,7 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                 cursor.moveToFirst()
                 Category(
                     0,
+                    null,
                     0,
                     "ROOT",
                     ingest(getApplication(), cursor, null, 1),
@@ -192,9 +192,18 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
         }
     }
 
-    fun deleteMessageShown() {
+    fun messageShown() {
         _deleteResult.update {
             null
+        }
+        _moveResult.update {
+            null
+        }
+    }
+
+    fun moveCategory(source: Long, target: Long?) {
+        _moveResult.update {
+            org.totschnig.myexpenses.model.Category.move(source, target)
         }
     }
 
@@ -216,6 +225,7 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                             add(
                                 Category(
                                     nextId,
+                                    parentId ?: 0L,
                                     nextLevel,
                                     nextLabel,
                                     ingest(context, cursor, nextId, level + 1),

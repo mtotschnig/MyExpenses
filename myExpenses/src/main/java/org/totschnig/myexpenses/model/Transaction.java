@@ -1063,14 +1063,6 @@ public class Transaction extends Model implements ITransaction {
     return save();
   }
 
-  public static void move(long whichTransactionId, long whereAccountId) {
-    ContentValues args = new ContentValues();
-    args.put(KEY_ACCOUNTID, whereAccountId);
-    cr().update(Uri.parse(
-        CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
-        null, null, null);
-  }
-
   public static int count(Uri uri, String selection, String[] selectionArgs) {
     Cursor cursor = cr().query(uri, new String[]{"count(*)"},
         selection, selectionArgs, null);

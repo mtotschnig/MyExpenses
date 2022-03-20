@@ -36,19 +36,22 @@ import kotlin.math.sqrt
 fun Category(
     modifier: Modifier = Modifier,
     category: Category,
-    expansionState: SnapshotStateList<Long>?,
+    expansionMode: ExpansionMode,
     onEdit: (Category) -> Unit = {},
     onDelete: (Long) -> Unit = {},
     onAdd: (Long) -> Unit = {},
     onMove: (Category) -> Unit = {},
     selectedAncestor: Category? = null,
-    choiceMode: ChoiceMode
+    choiceMode: ChoiceMode,
+    excludedSubTree: Long? = null,
+    withRoot: Boolean = false
 ) {
     Column(modifier = modifier.then(if (choiceMode.isTreeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier)) {
-        if (category.level > 0) {
+        val filteredChildren = if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree  }
+        if (withRoot || category.level > 0) {
             CategoryRenderer(
                 category = category,
-                expansionState = expansionState,
+                expansionMode = expansionMode,
                 choiceMode = choiceMode,
                 onEdit = { onEdit(category) },
                 onDelete = { onDelete(category.id) },
@@ -58,22 +61,23 @@ fun Category(
                     choiceMode.toggleSelection(selectedAncestor, category)
                 }
             )
-            AnimatedVisibility(visible = expansionState?.contains(category.id) ?: true) {
+            AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
                     modifier = Modifier.padding(start = 24.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    category.children.forEach { model ->
+                    filteredChildren.forEach { model ->
                         Category(
                             category = model,
-                            expansionState = expansionState,
+                            expansionMode = expansionMode,
                             onEdit = onEdit,
                             onDelete = onDelete,
                             onAdd = onAdd,
                             onMove = onMove,
                             selectedAncestor = selectedAncestor
                                 ?: if (choiceMode.isSelected(category.id)) category else null,
-                            choiceMode = choiceMode
+                            choiceMode = choiceMode,
+                            excludedSubTree = excludedSubTree
                         )
                     }
                 }
@@ -82,16 +86,17 @@ fun Category(
             LazyColumn(
                 verticalArrangement = Arrangement.Center
             ) {
-                category.children.forEach { model ->
+                filteredChildren.forEach { model ->
                     item {
                         Category(
                             category = model,
-                            expansionState = expansionState,
+                            expansionMode = expansionMode,
                             onEdit = onEdit,
                             onDelete = onDelete,
                             onAdd = onAdd,
                             onMove = onMove,
-                            choiceMode = choiceMode
+                            choiceMode = choiceMode,
+                            excludedSubTree = excludedSubTree
                         )
                     }
                 }
@@ -104,7 +109,7 @@ fun Category(
 @Composable
 fun CategoryRenderer(
     category: Category,
-    expansionState: SnapshotStateList<Long>?,
+    expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
     onEdit: () -> Unit = {},
     onDelete: () -> Unit = {},
@@ -112,7 +117,7 @@ fun CategoryRenderer(
     onMove: () -> Unit = {},
     onToggleSelection: () -> Unit
 ) {
-    val isExpanded = expansionState?.contains(category.id) ?: true
+    val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
     Row(
         modifier = when(choiceMode) {
@@ -137,12 +142,9 @@ fun CategoryRenderer(
             Icon(
                 modifier = Modifier
                     .size(24.dp)
-                    .then(
-                        if (expansionState == null) Modifier else
-                            Modifier.clickable(onClick = {
-                                expansionState.toggle(category.id)
-                            })
-                    ),
+                    .clickable {
+                        expansionMode.state.toggle(category.id)
+                    },
                 imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                 contentDescription = stringResource(
                     id = if (isExpanded)
@@ -199,16 +201,18 @@ fun CategoryRenderer(
 @Preview(heightDp = 300)
 @Composable
 fun TreePreview() {
-    var counter = 0
+    var counter = 0L
     fun buildCategory(
         color: Int?,
         nrOfChildren: Int,
         childColors: List<Int>?,
-        level: Int
+        level: Int,
+        parentId: Long?
     ): Category {
         val id = counter++
         return Category(
-            id = counter.toLong(),
+            id = counter,
+            parentId = parentId,
             level = level,
             label = "_$id",
             children = buildList {
@@ -218,7 +222,8 @@ fun TreePreview() {
                             childColors?.get(it % childColors.size),
                             if (nrOfChildren == 1) 0 else floor(sqrt(nrOfChildren.toFloat())).toInt(),
                             null,
-                            level + 1
+                            level + 1,
+                            counter
                         )
                     )
                 }
@@ -230,18 +235,34 @@ fun TreePreview() {
 
     Category(
         category = buildCategory(
-            level = 0,
             color = null,
             nrOfChildren = 10,
             childColors = listOf(
                 android.graphics.Color.RED,
                 android.graphics.Color.GREEN,
                 android.graphics.Color.BLUE
-            )
+            ),
+            level = 0,
+            parentId = null
         ),
-        expansionState = remember { mutableStateListOf(0, 1, 2) },
+        expansionMode = ExpansionMode.DefaultCollapsed(remember { mutableStateListOf(0, 1, 2) }),
         choiceMode = ChoiceMode.SingleChoiceMode(remember { mutableStateOf(null) }, false)
     )
+}
+
+sealed class ExpansionMode(
+    val state: SnapshotStateList<Long>
+) {
+    abstract fun isExpanded(id: Long): Boolean
+
+    class DefaultExpanded(state: SnapshotStateList<Long>) : ExpansionMode(state) {
+        override fun isExpanded(id: Long) = !state.contains(id)
+    }
+
+    class DefaultCollapsed(state: SnapshotStateList<Long>) : ExpansionMode(state) {
+        override fun isExpanded(id: Long) = state.contains(id)
+    }
+
 }
 
 sealed class ChoiceMode(
@@ -249,7 +270,7 @@ sealed class ChoiceMode(
      * if true, selecting a category highlights the tree (including children), if false children are
      * not highlighted
      */
-    val selectTree: Boolean
+    private val selectTree: Boolean
 ) {
     fun isTreeSelected(id: Long) = selectTree && isSelected(id)
     fun isNodeSelected(id: Long) = !selectTree && isSelected(id)
@@ -285,6 +306,7 @@ sealed class ChoiceMode(
 @Parcelize
 data class Category(
     val id: Long = 0,
+    val parentId: Long? = null,
     val level: Int = 0,
     val label: String,
     val children: List<Category> = emptyList(),

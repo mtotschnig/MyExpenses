@@ -21,9 +21,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -32,6 +29,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import timber.log.Timber;
 
 
@@ -57,7 +56,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_FORMAT = "format";
 
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
-  public static final int TASK_MOVE = 12;
   public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;
   public static final int TASK_QIF_IMPORT = 20;
@@ -69,7 +67,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SET_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
   public static final int TASK_REVOKE_SPLIT = 31;
-  public static final int TASK_MOVE_CATEGORY = 38;
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;

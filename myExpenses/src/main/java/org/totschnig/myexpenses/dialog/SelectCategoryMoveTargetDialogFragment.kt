@@ -14,8 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.Category
-import org.totschnig.myexpenses.compose.ChoiceMode
+import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
 class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
@@ -28,7 +27,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
     @Composable
     override fun BuildContent() {
-        val category = requireArguments().getParcelable<Category>(KEY_SOURCE)!!
+        val source = requireArguments().getParcelable<Category>(KEY_SOURCE)!!
         Column(modifier = Modifier.padding(8.dp)) {
             val selectionState: MutableState<Category?> = rememberSaveable {
                 mutableStateOf(null)
@@ -41,13 +40,30 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
             Category(
                 modifier = Modifier.weight(1f),
-                category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
-                expansionState = null,
-                choiceMode = ChoiceMode.SingleChoiceMode(selectionState, false)
+                category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value.copy(
+                    label = stringResource(id = R.string.transform_subcategory_to_main)
+                ),
+                expansionMode = ExpansionMode.DefaultExpanded(rememberMutableStateListOf()),
+                choiceMode = ChoiceMode.SingleChoiceMode(selectionState, false),
+                excludedSubTree = source.id,
+                withRoot = source.parentId!! > 0
             )
 
-            Button(modifier = Modifier.align(Alignment.End), onClick = { dismiss() }) {
-                Text("Move ${category.label} to ${selectionState.value?.label ?: "?"}")
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = {
+                    viewModel.moveCategory(source.id, selectionState.value!!.id.takeIf { it != 0L })
+                    dismiss()
+                },
+                enabled = selectionState.value != null
+            ) {
+                val selection = selectionState.value
+                Text(
+                    if (selection?.id == 0L)
+                        selection.label
+                    else
+                        "Move ${source.label} to ${selection?.label ?: "?"}"
+                )
             }
         }
     }

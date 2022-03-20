@@ -1,28 +1,20 @@
 package org.totschnig.myexpenses.task;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
-
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -32,6 +24,11 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -94,27 +91,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 .build(),
             null, null, null);
         return null;
-      case TaskExecutionFragment.TASK_MOVE:
-        Transaction.move((Long) ids[0], (Long) mExtra);
-        return null;
-      case TaskExecutionFragment.TASK_MOVE_CATEGORY:
-        for (long id : (Long[]) ids) {
-          if (Category.move(id, (Long) mExtra))
-            successCount++;
-          else
-            failureCount++;
-        }
-        String resultMsg = "";
-        if (successCount > 0) {
-          resultMsg += context.getResources().getQuantityString(R.plurals.move_category_success, successCount, successCount);
-        }
-        if (failureCount > 0) {
-          if (!TextUtils.isEmpty(resultMsg)) {
-            resultMsg += " ";
-          }
-          resultMsg += context.getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
-        }
-        return successCount > 0 ? Result.ofSuccess(resultMsg) : Result.ofFailure(resultMsg);
       case TaskExecutionFragment.TASK_BALANCE:
         return Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:

@@ -21,13 +21,11 @@ import android.view.Menu
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import icepick.State
-import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment.CategorySelectedListener
 import org.totschnig.myexpenses.fragment.CategoryList
 import org.totschnig.myexpenses.model.Category
@@ -35,7 +33,6 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.ShareUtils
 import org.totschnig.myexpenses.util.safeMessage
@@ -263,14 +260,7 @@ class ManageCategories : CategoryActivity<CategoryList>(),
     }
 
     override fun onCategorySelected(args: Bundle) {
-        finishActionMode()
-        val target = args.getLong(SelectMainCategoryDialogFragment.KEY_RESULT)
-        startTaskExecution(
-            TaskExecutionFragment.TASK_MOVE_CATEGORY,
-            ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
-            if (target == 0L) null else target,
-            R.string.saving
-        )
+        throw UnsupportedOperationException()
     }
 
     override fun onPostExecute(result: Uri?) {
@@ -289,11 +279,6 @@ class ManageCategories : CategoryActivity<CategoryList>(),
         super.onPostExecute(taskId, result)
         if (result !is Result<*>) {
             return
-        }
-        if (result.isSuccess) {
-            when (taskId) {
-                TaskExecutionFragment.TASK_MOVE_CATEGORY -> mListFragment.reset()
-            }
         }
         val print = result.print0(this)
         print?.let { showSnackBar(it) }

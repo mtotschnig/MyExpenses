@@ -15,13 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -32,6 +25,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
@@ -177,12 +177,7 @@ public class Category extends Model {
     if (id.equals(newParent)) {
       throw new IllegalStateException("Cannot move category to itself");
     }
-    if (!isMainOrNull(newParent)) {
-      throw new IllegalStateException("Cannot move to subcategory");
-    }
-    if (isMainOrNull(id) && countSub(id) > 0) {
-      throw new IllegalStateException("Cannot move main category if it has children");
-    }
+    //TODO check for illegal move to one's own descendant
     ContentValues values = new ContentValues();
     values.put(KEY_PARENTID, newParent);
     try {

@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityCategoryComposeBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
 import org.totschnig.myexpenses.preference.PrefKey
@@ -117,6 +116,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         }
         viewModel.setSortOrder(sortOrder)
         observeDeleteResult()
+        observeMoveResult()
         binding.composeView.setContent {
             AppTheme(this) {
                 val selectionState = rememberMutableStateListOf<Long>()
@@ -131,7 +131,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
                 Category(
                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
                     category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
-                    expansionState = rememberMutableStateListOf(),
+                    expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
                     onEdit = { editCat(it) },
                     onDelete = { viewModel.deleteCategories(listOf(it)) },
                     onAdd = { createCat(it) },
@@ -203,16 +203,29 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         )
     }
 
-    private fun observeDeleteResult() {
-        val dismissCallback = object : Snackbar.Callback() {
-            override fun onDismissed(
-                transientBottomBar: Snackbar,
-                event: Int
-            ) {
-                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
-                    viewModel.deleteMessageShown()
+    private val dismissCallback = object : Snackbar.Callback() {
+        override fun onDismissed(
+            transientBottomBar: Snackbar,
+            event: Int
+        ) {
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                viewModel.messageShown()
+        }
+    }
+
+    private fun observeMoveResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moveResult.collect { result ->
+                    result?.let {
+                        showDismissibleSnackBar(if (it) "Moved" else "Not moved", dismissCallback)
+                    }
+                }
             }
         }
+    }
+
+    private fun observeDeleteResult() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.deleteResult.collect { result ->
@@ -263,7 +276,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
                                     )
                                 )
                                     .show(supportFragmentManager, "DELETE_CATEGORY")
-                                viewModel.deleteMessageShown()
+                                viewModel.messageShown()
                             }
                         }
                     }?.onFailure {
