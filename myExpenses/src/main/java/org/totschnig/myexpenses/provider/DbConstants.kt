@@ -32,10 +32,12 @@ fun categoryTreeSelect(
     sortOrder: String? = null,
     matches: String? = null,
     projection: String = "*",
-    selection: String? = null
+    selection: String? = null,
+    rootId: String? = null,
 ) = categoryTreeCTE(
     sortOrder = sortOrder,
-    matches = matches
+    matches = matches,
+    rootId = rootId
 ) + "SELECT $projection FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
 fun categoryTreeWithMappedObjects(

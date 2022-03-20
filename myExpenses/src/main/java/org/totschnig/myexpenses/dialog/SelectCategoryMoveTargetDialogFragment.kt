@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -50,22 +52,27 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
                 excludedSubTree = source.id,
                 withRoot = source.parentId!! > 0
             )
-
-            Button(
-                modifier = Modifier.align(Alignment.End),
-                onClick = {
-                    viewModel.moveCategory(source.id, selectionState.value!!.id.takeIf { it != 0L })
-                    dismiss()
-                },
-                enabled = selectionState.value != null
-            ) {
-                val selection = selectionState.value
-                Text(
-                    if (selection?.id == 0L)
-                        selection.label
-                    else
-                        "Move ${source.label} to ${selection?.label ?: "?"}"
-                )
+            ButtonRow {
+                Button(onClick = { dismiss() }) {
+                    Text(stringResource(id = android.R.string.cancel))
+                }
+                Button(
+                    onClick = {
+                        viewModel.moveCategory(
+                            source.id,
+                            selectionState.value!!.id.takeIf { it != 0L })
+                        dismiss()
+                    },
+                    enabled = selectionState.value != null
+                ) {
+                    val selection = selectionState.value
+                    Text(
+                        if (selection?.id == 0L)
+                            selection.label
+                        else
+                            "Move ${source.label} to ${selection?.label ?: "?"}"
+                    )
+                }
             }
         }
     }

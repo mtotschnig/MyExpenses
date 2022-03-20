@@ -10,7 +10,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
 const val DATABASE_VERSION = 123
-const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
+
+private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
+private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY = "SELECT RAISE (FAIL, 'attempt to create inconsistent category hierarchy');"
 
 private const val DEBTS_SEALED_TRIGGER_CREATE = """
 CREATE TRIGGER sealed_debt_update
@@ -42,6 +44,12 @@ AFTER UPDATE on $TABLE_TRANSACTIONS WHEN new.$KEY_ACCOUNTID != old.$KEY_ACCOUNTI
 BEGIN
     UPDATE $TABLE_TRANSACTIONS SET $KEY_TRANSFER_ACCOUNT = new.$KEY_ACCOUNTID WHERE _id = new.$KEY_TRANSFER_PEER;
 END
+"""
+
+private val CATEGORY_HIERARCHY_TRIGGER = """
+CREATE TRIGGER category_hierarchy_update
+BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IN (${categoryTreeSelect(projection = KEY_ROWID, rootId = "new.$KEY_ROWID")})
+BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
 """
 
 abstract class BaseTransactionDatabase(
@@ -161,5 +169,12 @@ abstract class BaseTransactionDatabase(
         run.run()
         db.execSQL("update accounts set sealed = 1 where sealed = -1")
         db.execSQL("update debts set sealed = 1 where sealed = -1")
+    }
+
+    fun createOrRefreshCategoryHierarchyTrigger(db: SQLiteDatabase) {
+        with(db) {
+            execSQL("DROP TRIGGER IF EXISTS category_hierarchy_update")
+            execSQL(CATEGORY_HIERARCHY_TRIGGER)
+        }
     }
 }

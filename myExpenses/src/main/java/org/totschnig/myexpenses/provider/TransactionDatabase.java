@@ -783,6 +783,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE);
 
+    createOrRefreshCategoryHierarchyTrigger(db);
+
     //Views
     createOrRefreshViews(db);
     //insertTestData(db, 50, 50);
