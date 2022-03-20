@@ -44,7 +44,9 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
                     label = stringResource(id = R.string.transform_subcategory_to_main)
                 ),
                 expansionMode = ExpansionMode.DefaultExpanded(rememberMutableStateListOf()),
-                choiceMode = ChoiceMode.SingleChoiceMode(selectionState, false),
+                choiceMode = ChoiceMode.SingleChoiceMode(selectionState, false) {
+                          it != source.parentId
+                },
                 excludedSubTree = source.id,
                 withRoot = source.parentId!! > 0
             )

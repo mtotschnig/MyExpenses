@@ -46,8 +46,15 @@ fun Category(
     excludedSubTree: Long? = null,
     withRoot: Boolean = false
 ) {
-    Column(modifier = modifier.then(if (choiceMode.isTreeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier)) {
-        val filteredChildren = if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree  }
+    Column(
+        modifier = modifier.then(
+            if (choiceMode.isTreeSelected(category.id)) Modifier.background(
+                Color.LightGray
+            ) else Modifier
+        )
+    ) {
+        val filteredChildren =
+            if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
         if (withRoot || category.level > 0) {
             CategoryRenderer(
                 category = category,
@@ -120,7 +127,7 @@ fun CategoryRenderer(
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
     Row(
-        modifier = when(choiceMode) {
+        modifier = when (choiceMode) {
             is ChoiceMode.MultiChoiceMode -> Modifier
                 .combinedClickable(
                     onLongClick = onToggleSelection,
@@ -132,7 +139,9 @@ fun CategoryRenderer(
                         }
                     }
                 )
-            is ChoiceMode.SingleChoiceMode -> Modifier.clickable(onClick = onToggleSelection)
+            is ChoiceMode.SingleChoiceMode -> if (choiceMode.isSelectable(category.id)) Modifier.clickable(
+                onClick = onToggleSelection
+            ) else Modifier
         }.then(if (choiceMode.isNodeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -293,7 +302,11 @@ sealed class ChoiceMode(
         }
     }
 
-    class SingleChoiceMode(val selectionState: MutableState<Category?>, selectTree: Boolean) :
+    class SingleChoiceMode(
+        val selectionState: MutableState<Category?>,
+        selectTree: Boolean,
+        val isSelectable: (Long) -> Boolean = { true }
+    ) :
         ChoiceMode(selectTree) {
         override fun isSelected(id: Long) = selectionState.value?.id == id
         override fun toggleSelection(selectedAncestor: Category?, category: Category) {
