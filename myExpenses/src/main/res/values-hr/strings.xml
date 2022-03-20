@@ -886,16 +886,8 @@
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Ako se iznosi ne aktualiziraju, oni će se nakon promjene prikazati kao pomnoženi s %d.</string>
     <string name="warning_change_fraction_digits_1">Iznosi u bazi podataka moraju se aktualizirati kako bi odgovarali novom broju decimalnih mjesta.</string>
     <string name="warning_reset_account_matched">Ako nastaviš, s trenutačnim filtrom pronađene transakcije će se nepovratno izbrisati iz baze podataka.</string>
-    <plurals name="move_category_failure">
-        <item quantity="one">%d kategorija nije premještena, jer ista oznaka već postoji na cilju.</item>
-        <item quantity="few">%d kategorije nisu premještene, jer ista oznaka već postoji na cilju.</item>
-        <item quantity="other">%d kategorija nije premješteno, jer ista oznaka već postoji na cilju.</item>
-    </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">%d kategorija je uspješno premještena.</item>
-        <item quantity="few">%d kategorije su uspješno premještene.</item>
-        <item quantity="other">%d kategorija je uspješno premješteno.</item>
-    </plurals>
+    <string name="move_category_success">Jedna kategorija je uspješno premještena. </string>
+    <string name="move_category_failure">Jedna kategorija nije premještena, jer ista oznaka već postoji na cilju.</string>
     <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja proračunu koja će se također izbrisati.</string>
     <string name="status_void">nevažeće</string>
     <string name="select_payee">Odaberi primaoca/platišu</string>

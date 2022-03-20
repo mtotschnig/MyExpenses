@@ -233,8 +233,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    fun showDismissibleSnackBar(message: Int) {
-        showDismissibleSnackBar(getText(message))
+    @JvmOverloads
+    fun showDismissibleSnackBar(message: Int, callback: Snackbar.Callback? = null) {
+        showDismissibleSnackBar(getText(message), callback)
     }
 
     @JvmOverloads

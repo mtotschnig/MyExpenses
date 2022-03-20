@@ -218,7 +218,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.moveResult.collect { result ->
                     result?.let {
-                        showDismissibleSnackBar(if (it) "Moved" else "Not moved", dismissCallback)
+                        showDismissibleSnackBar(if (it) R.string.move_category_success else R.string.move_category_success, dismissCallback)
                     }
                 }
             }

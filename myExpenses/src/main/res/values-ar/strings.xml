@@ -438,22 +438,8 @@
         <item quantity="many">سيتم حذف %1$d من المعاملات المحددة.</item>
         <item quantity="other">سيتم حذف %1$d من المعاملات المحددة.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="zero">تم نقل %d فئات بنجاح.</item>
-        <item quantity="one">تم نقل فئة واحدة بنجاح.</item>
-        <item quantity="two">تم نقل %d فئات بنجاح.</item>
-        <item quantity="few">تم نقل %d فئات بنجاح.</item>
-        <item quantity="many">تم نقل %d فئات بنجاح.</item>
-        <item quantity="other">تم نقل %d فئات بنجاح.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="zero">لم يتم نقل %d فئات لأن نفس التسمية موجودة بالفعل في المكان المراد النقل إليه.</item>
-        <item quantity="one">لم يتم نقل فئة واحدة، لأن نفس التسمية موجودة بالفعل في المكان المراد النقل إليه.</item>
-        <item quantity="two">لم يتم نقل %d فئات لأن نفس التسمية موجودة بالفعل في المكان المراد النقل إليه.</item>
-        <item quantity="few">لم يتم نقل %d فئات لأن نفس التسمية موجودة بالفعل في المكان المراد النقل إليه.</item>
-        <item quantity="many">لم يتم نقل %d فئات لأن نفس التسمية موجودة بالفعل في المكان المراد النقل إليه.</item>
-        <item quantity="other">لم يتم نقل %d فئات لأن نفس التسمية موجودة بالفعل في المكان المراد النقل إليه.</item>
-    </plurals>
+    <string name="move_category_success">تم نقل فئة واحدة بنجاح.</string>
+    <string name="move_category_failure">لم يتم نقل فئة واحدة، لأن نفس التسمية موجودة بالفعل في المكان المراد النقل إليه.</string>
     <string name="warning_delete_reconciled">سيؤدي حذف المعاملات التي تمت تسويتها إلى اختلاف سجلاتك عن كشف الحساب المصرفي.</string>
     <string name="warning_balance_account">يُرجى مقارنة الإجمالي المسوّى بالرصيد الختامي في كشف حسابك المصرفي. إذا قمت بالمتابعة، فسيتم وضع علامة على المعاملات التي تمت تسويتها على أنها قد تمت تسويتها.</string>
     <string name="warning_password_protected">تم حماية التطبيق بكلمة مرور.</string>

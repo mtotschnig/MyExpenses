@@ -416,12 +416,7 @@
         <item quantity="many">%1$d wybranych transakcji zostanie usuniętych.</item>
         <item quantity="other">%1$d wybranych transakcji zostanie usuniętych.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Kategoria została pomyślnie przeniesiona.</item>
-        <item quantity="few">%d kategorii zostało pomyślnie przeniesionych.</item>
-        <item quantity="many">%dkategorii zostało pomyślnie przeniesionych.</item>
-        <item quantity="other">%dkategorii zostało pomyślnie przeniesionych.</item>
-    </plurals>
+    <string name="move_category_success">Kategoria została pomyślnie przeniesiona.</string>
     <string name="warning_delete_reconciled">Usunięcie pojednanych transakcji spowoduje powstanie różnicy twoich rekordów z wyciągiem z konta bankowego.</string>
     <string name="warning_balance_account">Porównaj rozliczoną sumę z saldem końcowym na wyciągu bankowym. Jeśli kontynuujesz, wyczyszczone transakcje zostaną oznaczone jako uzgodnione.</string>
     <string name="warning_password_protected">Aplikacja jest chroniona hasłem.</string>

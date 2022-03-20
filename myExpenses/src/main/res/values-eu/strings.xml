@@ -407,14 +407,8 @@
         <item quantity="one">Aukeratutako transakzioa ezabatuko da.</item>
         <item quantity="other">Aukeratutako %1$d transakzio ezabatuko dira.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Kategoria bat ongi mugitu da.</item>
-        <item quantity="other">%d kategoria ongi mugitu dira.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Kategoria bat ez da mugitu, etiketa bera badagoelako helburuan.</item>
-        <item quantity="other">%d kategoria ez dira mugitu, etiketa bera badagoelako helburuan.</item>
-    </plurals>
+    <string name="move_category_success">Kategoria bat ongi mugitu da.</string>
+    <string name="move_category_failure">Kategoria bat ez da mugitu, etiketa bera badagoelako helburuan.</string>
     <string name="warning_delete_reconciled">Berdinkatutako transakzioak ezabatzeak zure erregistroak eta bankukoak bat ez etortzea ekarriko du.</string>
     <string name="warning_balance_account">Konparatu kitatutako guztirakoa zure bankuko bukaera saldoarekin. Aurrera egiten baduzu, kitatutako transakzioak berdinkatuta gisa markatu dira</string>
     <string name="warning_password_protected">Aplikazioa pasahitz bidez babestuta dago.</string>

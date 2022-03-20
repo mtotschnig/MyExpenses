@@ -324,14 +324,8 @@
     <string name="warning_password_protected">అనువర్తనం పాస్‌వర్డ్‌తో రక్షించబడింది.</string>
     <string name="warning_balance_account">దయచేసి క్లియర్ చేసిన మొత్తాన్ని మీ బ్యాంక్ స్టేట్‌మెంట్‌లోని ముగింపు బ్యాలెన్స్‌తో పోల్చండి. మీరు కొనసాగితే, క్లియర్ చేసిన లావాదేవీలు రాజీపడినట్లు గుర్తించబడతాయి.</string>
     <string name="warning_delete_reconciled">రాజీ చేసిన లావాదేవీలను తొలగించడం వల్ల మీ రికార్డులు బ్యాంక్ స్టేట్‌మెంట్‌కు భిన్నంగా ఉంటాయి.</string>
-    <plurals name="move_category_failure">
-        <item quantity="one">ఒక వర్గం తరలించబడలేదు, ఎందుకంటే అదే లేబుల్ ఇప్పటికే లక్ష్యం వద్ద ఉంది.</item>
-        <item quantity="other">%d వర్గాలు తరలించబడలేదు, ఎందుకంటే అదే లేబుల్ ఇప్పటికే లక్ష్యం వద్ద ఉంది.</item>
-    </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">ఒక వర్గం విజయవంతంగా తరలించబడింది.</item>
-        <item quantity="other">%d వర్గాలు విజయవంతంగా తరలించబడ్డాయి.</item>
-    </plurals>
+    <string name="move_category_success">ఒక వర్గం విజయవంతంగా తరలించబడింది.</string>
+    <string name="move_category_failure">ఒక వర్గం తరలించబడలేదు, ఎందుకంటే అదే లేబుల్ ఇప్పటికే లక్ష్యం వద్ద ఉంది.</string>
     <plurals name="warning_delete_transaction">
         <item quantity="one">ఎంచుకున్న లావాదేవీ తొలగించబడుతుంది.</item>
         <item quantity="other">%1$d ఎంచుకున్న లావాదేవీలు తొలగించబడతాయి.</item>

@@ -411,18 +411,8 @@
         <item quantity="many">%1$d вибраних операцій буде видалено.</item>
         <item quantity="other">%1$d вибрані операції буде видалено.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Одну категорію було успішно переміщено.</item>
-        <item quantity="few">%d категорії було успішно переміщено.</item>
-        <item quantity="many">%d категорій було успішно переміщено.</item>
-        <item quantity="other">%d категорії було успішно переміщено.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Одну категорію не було переміщено, оскільки така сама назва вже існує в місці призначення.</item>
-        <item quantity="few">%d категорії не було переміщено, оскільки така сама назва вже існує в місці призначення.</item>
-        <item quantity="many">%d категорій не було переміщено, оскільки така сама назва вже існує в місці призначення.</item>
-        <item quantity="other">%d категорії не було переміщено, оскільки така сама назва вже існує в місці призначення.</item>
-    </plurals>
+    <string name="move_category_success">Одну категорію було успішно переміщено.</string>
+    <string name="move_category_failure">Одну категорію не було переміщено, оскільки така сама назва вже існує в місці призначення.</string>
     <string name="warning_delete_reconciled">Видалення узгоджених операцій призведе до розбіжностей між записами та банківською випискою.</string>
     <string name="warning_balance_account">Будь ласка, порівняйте суму підтверджених операцій з кінцевим балансом у виписці з банку. Якщо Ви продовжите, то підтверджені операції будуть позначені як узгоджені.</string>
     <string name="warning_password_protected">Програма захищена паролем.</string>

@@ -423,18 +423,8 @@
         <item quantity="many">%1$d выбранных операций будут удалены.</item>
         <item quantity="other">%1$d выбранных операций будут удалены.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Одна категория была успешно перемещена..</item>
-        <item quantity="few">%d категории были успешно перемещены.</item>
-        <item quantity="many">%d категорий были успешно перемещены.</item>
-        <item quantity="other">%d категорий были успешно перемещены.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Одна категория не была перемещена, поскольку тот же ярлык уже существует в целевом объекте.</item>
-        <item quantity="few">%d категории не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
-        <item quantity="many">%d категорий не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
-        <item quantity="other">%d категорий не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
-    </plurals>
+    <string name="move_category_success">Одна категория была успешно перемещена.</string>
+    <string name="move_category_failure">Одна категория не была перемещена, поскольку тот же ярлык уже существует в целевом объекте.</string>
     <string name="warning_delete_reconciled">Удаление согласованных операций может привести к расхождениям с банковской счет-выпиской</string>
     <string name="warning_balance_account">Пожалуйста, сравните итог с конечным балансом в вашем счете-выписке. Если Вы продолжите, то утвержденные операции будут отмечены как согласованные.</string>
     <string name="warning_password_protected">Приложение защищено паролем.</string>

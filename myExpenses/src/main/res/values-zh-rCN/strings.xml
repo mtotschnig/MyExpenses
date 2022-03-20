@@ -403,12 +403,8 @@
     <plurals name="warning_delete_transaction">
         <item quantity="other">所选的 %1$d 笔交易将被删除。</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="other">%d类别已移动成功。</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="other">%d类别未移动，因为目标上已经存在相同的标签。</item>
-    </plurals>
+    <string name="move_category_success">一个类别已移动成功。</string>
+    <string name="move_category_failure">一个类别未移动，因为目标上已经存在相同的标签。</string>
     <string name="warning_delete_reconciled">删除已对帐的交易会导致您的记录与银行对帐单不同。</string>
     <string name="warning_balance_account">请核对\"已入帐/已结算\"的交易总额与银行对帐单期末结余。如果继续操作，\"已入帐/已结算\"的交易将被标记为\"已对帐\"。</string>
     <string name="warning_password_protected">应用程序被密码保护中。</string>

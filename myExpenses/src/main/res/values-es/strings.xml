@@ -410,14 +410,8 @@
         <item quantity="one">Se eliminará la transacción seleccionada.</item>
         <item quantity="other">%1$d transacciones seleccionadas serán eliminadas.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Una categoría fue traslada correctamente.</item>
-        <item quantity="other">%d categorías fueron trasladadas correctamente.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Una categoría no fue traslada, porque la misma etiqueta ya existe en el destino.</item>
-        <item quantity="other">%d categorías no fueron trasladadas porque la misma etiqueta existe en el lugar de destino.</item>
-    </plurals>
+    <string name="move_category_success">Una categoría fue traslada correctamente.</string>
+    <string name="move_category_failure">Una categoría no fue traslada, porque la misma etiqueta ya existe en el destino.</string>
     <string name="warning_delete_reconciled">Eliminar transacciones reconciliadas hará que los registros difieran del estado de cuenta bancaria.</string>
     <string name="warning_balance_account">Por favor, compare el total despejado con el saldo final de su cuenta bancaria. Si continúa, las transacciones despejadas serán marcadas como reconciliadas.</string>
     <string name="warning_password_protected">La aplicación está protegida con contraseña.</string>

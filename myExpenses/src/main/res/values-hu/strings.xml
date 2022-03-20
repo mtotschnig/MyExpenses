@@ -410,14 +410,8 @@
         <item quantity="one">A kiválasztott tranzakció törlődik.</item>
         <item quantity="other">%1$d kiválasztott tranzakció törölve lesz.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Egy kategória sikeresen áthelyezve.</item>
-        <item quantity="other">%d kategória sikeresen áthelyezve.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Egy kategória nem került áthelyezésre, mert ugyanaz a címke már létezik a célnál.</item>
-        <item quantity="other">%d kategória nem került áthelyezésre, mert ugyanaz a címke már létezik a célnál.</item>
-    </plurals>
+    <string name="move_category_success">Egy kategória sikeresen áthelyezve.</string>
+    <string name="move_category_failure">Egy kategória nem került áthelyezésre, mert ugyanaz a címke már létezik a célnál.</string>
     <string name="warning_delete_reconciled">Az érvényesített tranzakciók törlése esetén az ön feljegyzései eltérőek lesznek a bankszámlakivonaton szereplőktől.</string>
     <string name="warning_balance_account">Hasonlítsa össze a törölt összesítést a végső egyenleggel a bankszámlakivonatán. Ha folytatja, a törölt tranzakciók kiegyenlítettként lesznek megjelölve.</string>
     <string name="warning_password_protected">Az alkalmazás jelszóvédett</string>

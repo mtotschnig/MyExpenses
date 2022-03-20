@@ -373,12 +373,8 @@
     <plurals name="warning_delete_transaction">
         <item quantity="other">%1$d 선택된 거래 내역이 삭제됩니다.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="other">%d 카테고리가 성공적으로 옮겨졌습니다.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="other">%d 카테고리가 옮겨지지 않았습니다. 같은 라벨이 이미 목적지에 있습니다.</item>
-    </plurals>
+    <string name="move_category_success">하나의카테고리가 성공적으로 옮겨졌습니다.</string>
+    <string name="move_category_failure">하나의카테고리가 옮겨지지 않았습니다. 같은 라벨이 이미 목적지에 있습니다.</string>
     <string name="warning_delete_reconciled">수지 결산을 맞춘 거래 내역을 삭제하게 되면 현재의 기록이 은행의 내역서와 달라지게 됩니다.</string>
     <string name="warning_balance_account">지불 완료 총계를 은행의 내역서에 표기된 결산 잔고와 비교해보세요.  계속 진행하면 지불 완료 거래 내역은 수지 결산을 맞춘 거래 내역으로 표시하게 됩니다.</string>
     <string name="warning_password_protected">앱은 암호로 보호되어 있습니다.</string>

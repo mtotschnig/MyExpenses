@@ -620,10 +620,7 @@
         <item quantity="one">الگوی انتخاب شده حذف خواهد شد.</item>
         <item quantity="other">%1$d الگوی انتخاب شده حذف خواهند شد.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">یک دسته با موفقیت جابجا شد.</item>
-        <item quantity="other">%d دسته با موفقیت جابجا شد.</item>
-    </plurals>
+    <string name="move_category_success">یک دسته با موفقیت جابجا شد.</string>
     <string name="import_parties_none">هیچ شخصی درون ریزی نشد</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d حساب با واحد پول %2$s به روز شده است.</string>
     <string name="restore_calendar_handling_configured">برنامه‌ها را به تقویم پیکربندی‌شده فعلی بازیابی کنید</string>
