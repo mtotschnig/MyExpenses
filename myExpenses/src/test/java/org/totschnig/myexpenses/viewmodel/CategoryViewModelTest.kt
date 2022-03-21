@@ -7,7 +7,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.totschnig.myexpenses.compose.Category
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
 @RunWith(RobolectricTestRunner::class)
@@ -31,23 +31,23 @@ class CategoryViewModelTest {
         cursor.addCat(8, null, "Leisure")
         cursor.moveToFirst()
         assertThat(CategoryViewModel.ingest(context, cursor, null, 1)).containsExactly(
-            Category(
+            Category2(
                 label = "Car", children = listOf(
-                    Category(label = "Fuel")
+                    Category2(label = "Fuel")
                 )
             ),
-            Category(
+            Category2(
                 label = "Care", children = listOf(
-                    Category(
+                    Category2(
                         label = "Clothing", children = listOf(
-                            Category(label = "Underwear")
+                            Category2(label = "Underwear")
                         )
                     ),
-                    Category(label = "Hairdresser")
+                    Category2(label = "Hairdresser")
                 )
             ),
-            Category(label = "Food"),
-            Category(label = "Leisure"),
+            Category2(label = "Food"),
+            Category2(label = "Leisure"),
         ).inOrder()
     }
 }

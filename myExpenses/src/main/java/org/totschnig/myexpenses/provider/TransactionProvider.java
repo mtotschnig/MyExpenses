@@ -1123,25 +1123,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = TEMPLATES_URI + "/" + id;
         break;
       case CATEGORIES:
-        //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
         Long parentId = values.getAsLong(KEY_PARENTID);
-        String label = values.getAsString(KEY_LABEL);
-        String selection;
-        String[] selectionArgs;
-        if (parentId == null) {
-          selection = KEY_PARENTID + " is null";
-          selectionArgs = new String[]{label};
-        } else {
-          selection = KEY_PARENTID + " = ?";
-          selectionArgs = new String[]{String.valueOf(parentId), label};
-        }
-        selection += " and " + KEY_LABEL + " = ?";
-        Cursor mCursor = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-        if (mCursor.getCount() != 0) {
-          mCursor.close();
-          throw new SQLiteConstraintException();
-        }
-        mCursor.close();
         if (parentId == null && !values.containsKey(KEY_COLOR)) {
           values.put(KEY_COLOR, suggestNewCategoryColor(db));
         }
@@ -1491,45 +1473,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
           throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
         segment = uri.getLastPathSegment();
-        //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
-        String label = values.getAsString(KEY_LABEL);
-        if (label != null) {
-          String selection;
-          String[] selectionArgs;
-          selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
-          selectionArgs = new String[]{label, segment};
-          c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-          if (c.getCount() != 0) {
-            c.moveToFirst();
-            if (c.getLong(0) != Long.parseLong(segment)) {
-              c.close();
-              throw new SQLiteConstraintException();
-            }
-          }
-          c.close();
-          count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
-              whereArgs);
-          break;
-        }
-        if (values.containsKey(KEY_PARENTID)) {
-          Long newParent = values.getAsLong(KEY_PARENTID);
-          String selection;
-          String[] selectionArgs;
-          selection = "label = (SELECT label FROM categories WHERE _id =?) and parent_id is " + newParent;
-          selectionArgs = new String[]{segment};
-          c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-          if (c.getCount() != 0) {
-            c.moveToFirst();
-            if (c.getLong(0) == Long.parseLong(segment)) {
-              //silently do nothing if we try to update with the same value
-              c.close();
-              return 0;
-            }
-            c.close();
-            throw new SQLiteConstraintException();
-          }
-          c.close();
-        }
         count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
             whereArgs);
         break;

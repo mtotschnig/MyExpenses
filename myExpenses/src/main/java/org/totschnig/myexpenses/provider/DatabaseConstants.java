@@ -115,6 +115,9 @@ public class DatabaseConstants {
   public static final String KEY_METHODID = "method_id";
   public static final String KEY_TITLE = "title";
   public static final String KEY_LABEL = "label";
+  public static final String KEY_PATH = "path";
+  public static final String KEY_MATCHES_FILTER = "matches";
+  public static final String KEY_LEVEL = "level";
   public static final String KEY_COLOR = "color";
   public static final String KEY_TYPE = "type";
   public static final String KEY_CURRENCY = "currency";

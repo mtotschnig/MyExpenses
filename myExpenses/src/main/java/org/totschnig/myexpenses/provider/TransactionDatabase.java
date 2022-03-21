@@ -52,6 +52,7 @@ import java.util.Locale;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_INDEX_CREATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
@@ -726,6 +727,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(CATEGORIES_CREATE);
+    db.execSQL(CATEGORY_LABEL_INDEX_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);

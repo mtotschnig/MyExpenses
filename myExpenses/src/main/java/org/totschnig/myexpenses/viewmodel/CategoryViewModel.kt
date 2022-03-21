@@ -10,13 +10,13 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import timber.log.Timber
 
 class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
@@ -45,17 +45,17 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
         }
     }
 
-    val categoryTree: StateFlow<Category> = combine(
+    val categoryTree: StateFlow<Category2> = combine(
         savedStateHandle.getLiveData(KEY_FILTER, "").asFlow(),
         sortOrder
     ) { filter, sort ->
         filter to sort
     }.flatMapLatest { (filter, sortOrder) -> categoryTree(filter, sortOrder) }
-        .stateIn(viewModelScope, SharingStarted.Lazily, Category.EMPTY)
+        .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
     val categoryTreeForSelect = categoryTree("", sortOrder.value)
 
-    private fun categoryTree(filter: String, sortOrder: String?): Flow<Category> {
+    private fun categoryTree(filter: String, sortOrder: String?): Flow<Category2> {
         val (selection, selectionArgs) = if (filter.isNotBlank()) {
             "$KEY_LABEL_NORMALIZED LIKE ?" to arrayOf(
                 "%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%"
@@ -77,12 +77,12 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
     private fun Flow<Query>.mapToTree(
         isFiltered: Boolean,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ): Flow<Category> = transform { query ->
+    ): Flow<Category2> = transform { query ->
         Timber.d("new emission")
         val value = withContext(dispatcher) {
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
-                Category(
+                Category2(
                     id = 0,
                     parentId = null,
                     level = 0,
@@ -101,9 +101,9 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
         }
     }
 
-    fun saveCategory(category: org.totschnig.myexpenses.model.Category) =
+    fun saveCategory(category: Category2) =
         liveData(context = coroutineContext()) {
-            emit(category.save())
+            emit(repository.saveCategory(category))
         }
 
     fun deleteCategories(ids: List<Long>) {
@@ -208,28 +208,29 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
 
     fun moveCategory(source: Long, target: Long?) {
         _moveResult.update {
+            repository.moveCategory(source, target)
             org.totschnig.myexpenses.model.Category.move(source, target)
         }
     }
 
     companion object {
-        fun ingest(context: Context, cursor: Cursor, parentId: Long?, level: Int): List<Category> =
+        fun ingest(context: Context, cursor: Cursor, parentId: Long?, level: Int): List<Category2> =
             buildList {
                 if (!cursor.isBeforeFirst)
                     while (!cursor.isAfterLast) {
                         val nextParent = cursor.getLongOrNull(KEY_PARENTID)
                         val nextId = cursor.getLong(KEY_ROWID)
                         val nextLabel = cursor.getString(KEY_LABEL)
-                        val nextPath = cursor.getString("path")
+                        val nextPath = cursor.getString(KEY_PATH)
                         val nextColor = cursor.getIntOrNull(KEY_COLOR)
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
-                        val nextIsMatching = cursor.getInt("matches") == 1
-                        val nextLevel = cursor.getInt("level")
+                        val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
+                        val nextLevel = cursor.getInt(KEY_LEVEL)
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()
                             add(
-                                Category(
+                                Category2(
                                     nextId,
                                     parentId ?: 0L,
                                     nextLevel,

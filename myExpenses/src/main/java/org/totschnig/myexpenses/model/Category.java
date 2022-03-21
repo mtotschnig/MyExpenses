@@ -33,8 +33,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORM
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-//TODO implement complete DAO
-//for the moment we only wrap calls to the content provider
+@Deprecated
 public class Category extends Model {
   public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
   private String label;
@@ -137,23 +136,6 @@ public class Category extends Model {
     return uri;
   }
 
-  private static boolean isMainOrNull(Long id) {
-    if (id == null) {
-      return true;
-    }
-    Cursor cursor = cr().query(CONTENT_URI,
-        new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(id)}, null);
-    if (cursor.getCount() == 0) {
-      cursor.close();
-      return false;
-    } else {
-      cursor.moveToFirst();
-      long result = DbUtils.getLongOr0L(cursor, 0);
-      cursor.close();
-      return result == 0L;
-    }
-  }
-
   /**
    * How many subcategories under a given parent?
    *
@@ -170,20 +152,6 @@ public class Category extends Model {
       int result = mCursor.getInt(0);
       mCursor.close();
       return result;
-    }
-  }
-
-  public static boolean move(Long id, Long newParent) {
-    if (id.equals(newParent)) {
-      throw new IllegalStateException("Cannot move category to itself");
-    }
-    //TODO check for illegal move to one's own descendant
-    ContentValues values = new ContentValues();
-    values.put(KEY_PARENTID, newParent);
-    try {
-      return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), values, null, null) > 0;
-    } catch (SQLiteConstraintException e) {
-      return false;
     }
   }
 

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose
 
-import android.os.Parcelable
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -28,22 +27,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
-import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import kotlin.math.floor
 import kotlin.math.sqrt
 
-typealias CategoryAction = ((Category) -> Unit)
+typealias CategoryAction = ((Category2) -> Unit)
 
 data class CategoryMenu(val onEdit: CategoryAction, val onDelete: CategoryAction, val onAdd: CategoryAction, val onMove: CategoryAction)
 
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
-    category: Category,
+    category: Category2,
     expansionMode: ExpansionMode,
     menu: CategoryMenu? = null,
-    selectedAncestor: Category? = null,
+    selectedAncestor: Category2? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
     withRoot: Boolean = false
@@ -120,7 +119,7 @@ fun Category(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryRenderer(
-    category: Category,
+    category: Category2,
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
     menu: Menu?,
@@ -215,9 +214,9 @@ fun TreePreview() {
         childColors: List<Int>?,
         level: Int,
         parentId: Long?
-    ): Category {
+    ): Category2 {
         val id = counter++
-        return Category(
+        return Category2(
             id = counter,
             parentId = parentId,
             level = level,
@@ -234,7 +233,7 @@ fun TreePreview() {
                         )
                     )
                 }
-                add(Category(label = "BOGUS", level = level + 1))
+                add(Category2(label = "BOGUS", level = level + 1))
             },
             color = color
         )
@@ -284,12 +283,12 @@ sealed class ChoiceMode(
 
     abstract fun isSelected(id: Long): Boolean
 
-    abstract fun toggleSelection(selectedAncestor: Category?, category: Category)
+    abstract fun toggleSelection(selectedAncestor: Category2?, category: Category2)
 
     class MultiChoiceMode(val selectionState: SnapshotStateList<Long>, selectTree: Boolean) :
         ChoiceMode(selectTree) {
         override fun isSelected(id: Long) = selectionState.contains(id)
-        override fun toggleSelection(selectedAncestor: Category?, category: Category) {
+        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {
             (selectedAncestor ?: category).let {
                 if (selectionState.toggle(it.id)) {
                     //when we select a category, children are implicitly selected, so we remove
@@ -301,52 +300,14 @@ sealed class ChoiceMode(
     }
 
     class SingleChoiceMode(
-        val selectionState: MutableState<Category?>,
+        val selectionState: MutableState<Category2?>,
         isSelectable: (Long) -> Boolean = { true }
     ) :
         ChoiceMode(false, isSelectable) {
         override fun isSelected(id: Long) = selectionState.value?.id == id
-        override fun toggleSelection(selectedAncestor: Category?, category: Category) {
+        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {
             selectionState.value = if (selectionState.value == category) null else category
         }
-    }
-}
-
-@Immutable
-@Parcelize
-data class Category(
-    val id: Long = 0,
-    val parentId: Long? = null,
-    val level: Int = 0,
-    val label: String,
-    val path: String = label,
-    val children: List<Category> = emptyList(),
-    val isMatching: Boolean = true,
-    val color: Int? = null,
-    val icon: String? = null
-) : Parcelable {
-
-    fun flatten(): List<Category> =  buildList {
-        add(this@Category)
-        addAll(children.flatMap { it.flatten() })
-    }
-
-    fun pruneNonMatching(): Category? {
-        val prunedChildren = children.mapNotNull { it.pruneNonMatching() }
-        return if (isMatching || prunedChildren.isNotEmpty()) {
-            this.copy(children = prunedChildren)
-        } else null
-    }
-
-    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
-        children.forEach {
-            selectionState.remove(it.id)
-            it.recursiveUnselectChildren(selectionState)
-        }
-    }
-
-    companion object {
-        val EMPTY = Category(label = "EMPTY")
     }
 }
 

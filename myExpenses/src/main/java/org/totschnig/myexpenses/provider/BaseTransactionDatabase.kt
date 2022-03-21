@@ -52,6 +52,8 @@ BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IN (${categoryTreeSele
 BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
 """
 
+const val CATEGORY_LABEL_INDEX_CREATE = "CREATE UNIQUE INDEX categories_label ON $TABLE_CATEGORIES($KEY_LABEL,coalesce($KEY_PARENTID, 0))"
+
 abstract class BaseTransactionDatabase(
     context: Context,
     databaseName: String,

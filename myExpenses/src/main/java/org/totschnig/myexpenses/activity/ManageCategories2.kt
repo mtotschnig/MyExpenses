@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -19,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SelectColorField
 import eltos.simpledialogfragment.form.SelectIconField
@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
+import org.totschnig.myexpenses.viewmodel.data.Category2
 
 enum class Action {
     SELECT_MAPPING, SELECT_FILTER, MANAGE
@@ -131,7 +132,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             AppTheme(this) {
                 choiceMode = when (action) {
                     Action.SELECT_MAPPING -> {
-                        val selectionState: MutableState<Category?> = remember {
+                        val selectionState: MutableState<Category2?> = remember {
                             mutableStateOf(null)
                         }
                         LaunchedEffect(selectionState.value) {
@@ -157,7 +158,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
 
                 Category(
                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
-                    category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
+                    category = viewModel.categoryTree.collectAsState(initial = Category2.EMPTY).value,
                     expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
                     menu = if (action == Action.SELECT_FILTER) null else CategoryMenu(
                         onEdit = { editCat(it) },
@@ -171,7 +172,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         }
     }
 
-    private fun doSingleSelection(category: Category) {
+    private fun doSingleSelection(category: Category2) {
         val intent = Intent().apply {
             putExtra(KEY_CATID, category.id)
             putExtra(KEY_LABEL, category.path)
@@ -191,7 +192,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         finish()
     }
 
-    private fun showMoveTargetDialog(category: Category) {
+    private fun showMoveTargetDialog(category: Category2) {
         SelectCategoryMoveTargetDialogFragment.newInstance(category)
             .show(supportFragmentManager, "SELECT_TARGET")
     }
@@ -392,13 +393,13 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             .pos(R.string.dialog_button_add)
             .neut()
             .extra(args)
-            .show(this, CategoryActivity.DIALOG_NEW_CATEGORY)
+            .show(this, DIALOG_NEW_CATEGORY)
     }
 
     /**
      * presents AlertDialog for editing an existing category
      */
-    open fun editCat(category: Category) {
+    open fun editCat(category: Category2) {
         val args = Bundle().apply {
             putLong(DatabaseConstants.KEY_ROWID, category.id)
         }
@@ -420,7 +421,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             .pos(R.string.menu_save)
             .neut()
             .extra(args)
-            .show(this, CategoryActivity.DIALOG_EDIT_CATEGORY)
+            .show(this, DIALOG_EDIT_CATEGORY)
     }
 
     private fun buildLabelField(text: String?) =
@@ -432,20 +433,17 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             .preset(preset).label(R.string.icon)
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-        if ((CategoryActivity.DIALOG_NEW_CATEGORY == dialogTag || CategoryActivity.DIALOG_EDIT_CATEGORY == dialogTag)
-            && which == CategoryActivity.BUTTON_POSITIVE
+        if ((DIALOG_NEW_CATEGORY == dialogTag || DIALOG_EDIT_CATEGORY == dialogTag)
+            && which == BUTTON_POSITIVE
         ) {
-            val parentId = if (extras.containsKey(DatabaseConstants.KEY_PARENTID)) {
-                extras.getLong(DatabaseConstants.KEY_PARENTID)
-            } else null
-            val label = extras.getString(KEY_LABEL)
+            val label = extras.getString(KEY_LABEL)!!
             viewModel.saveCategory(
-                org.totschnig.myexpenses.model.Category(
-                    extras.getLong(DatabaseConstants.KEY_ROWID),
-                    label,
-                    parentId,
-                    extras.getInt(DatabaseConstants.KEY_COLOR),
-                    extras.getString(DatabaseConstants.KEY_ICON)
+                Category2(
+                    id = extras.getLong(DatabaseConstants.KEY_ROWID),
+                    label = label,
+                    parentId = extras.getLong(DatabaseConstants.KEY_PARENTID).takeIf { it != 0L },
+                    color = extras.getInt(DatabaseConstants.KEY_COLOR),
+                    icon = extras.getString(DatabaseConstants.KEY_ICON)
                 )
             ).observe(this) { result ->
                 if (result == null) {
@@ -456,4 +454,9 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         } else false
 
     val action get() = enumValueOrDefault(intent.action, Action.SELECT_MAPPING)
+
+    companion object {
+        const val DIALOG_NEW_CATEGORY = "dialogNewCat"
+        const val DIALOG_EDIT_CATEGORY = "dialogEditCat"
+    }
 }
