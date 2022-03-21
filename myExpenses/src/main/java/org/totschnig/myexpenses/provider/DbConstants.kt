@@ -33,11 +33,11 @@ fun categoryTreeSelect(
     matches: String? = null,
     projection: String = "*",
     selection: String? = null,
-    rootId: String? = null,
+    rootExpression: String? = null,
 ) = categoryTreeCTE(
     sortOrder = sortOrder,
     matches = matches,
-    rootId = rootId
+    rootExpression = rootExpression
 ) + "SELECT $projection FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
 fun categoryTreeWithMappedObjects(
@@ -65,7 +65,7 @@ fun categoryTreeWithMappedObjects(
         }
     }
     return """
-            ${categoryTreeCTE("$TABLE_CATEGORIES.$KEY_ROWID")}
+            ${categoryTreeCTE(rootExpression = "= $TABLE_CATEGORIES.$KEY_ROWID")}
             SELECT
             ${map.joinToString()}
             FROM $TABLE_CATEGORIES
@@ -75,7 +75,7 @@ fun categoryTreeWithMappedObjects(
 }
 
 fun categoryTreeCTE(
-    rootId: String? = null,
+    rootExpression: String? = null,
     sortOrder: String? = null,
     matches: String? = null
 ) =
@@ -93,7 +93,7 @@ fun categoryTreeCTE(
         1 AS $KEY_LEVEL,
         ${matches ?: "1"} AS $KEY_MATCHES_FILTER
     FROM $TABLE_CATEGORIES main
-    WHERE ${rootId?.let { " $KEY_ROWID = $it" } ?: "$KEY_PARENTID IS NULL"}
+    WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
     UNION ALL
     SELECT
         subtree.$KEY_LABEL,

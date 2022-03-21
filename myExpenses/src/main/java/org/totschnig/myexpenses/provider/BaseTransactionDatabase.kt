@@ -48,7 +48,7 @@ END
 
 private val CATEGORY_HIERARCHY_TRIGGER = """
 CREATE TRIGGER category_hierarchy_update
-BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IN (${categoryTreeSelect(projection = KEY_ROWID, rootId = "new.$KEY_ROWID")})
+BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IN (${categoryTreeSelect(projection = KEY_ROWID, rootExpression = "= new.$KEY_ROWID")})
 BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
 """
 

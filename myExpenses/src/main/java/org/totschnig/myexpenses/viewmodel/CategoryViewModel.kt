@@ -209,7 +209,6 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
     fun moveCategory(source: Long, target: Long?) {
         _moveResult.update {
             repository.moveCategory(source, target)
-            org.totschnig.myexpenses.model.Category.move(source, target)
         }
     }
 
