@@ -129,7 +129,7 @@ fun CategoryRenderer(
     val showMenu = remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
-            .height(48.dp)
+            .height(48.dp).fillMaxWidth()
             .then(if (menu == null) {
 
                 if (choiceMode.isSelectable(category.id)) Modifier.clickable(
@@ -181,7 +181,7 @@ fun CategoryRenderer(
                 context.resources.getIdentifier(category.icon, "drawable", context.packageName)
             )
             Icon(
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(24.dp).padding(end = 6.dp),
                 painter = rememberDrawablePainter(drawable = drawable),
                 contentDescription = category.icon
             )
@@ -192,6 +192,7 @@ fun CategoryRenderer(
         if (category.level == 1 && category.color != null) {
             Box(
                 modifier = Modifier
+                    .padding(start = 6.dp)
                     .size(24.dp)
                     .padding(3.dp)
                     .clip(CircleShape)
