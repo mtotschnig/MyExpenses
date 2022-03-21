@@ -121,7 +121,7 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ManageCategories2;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageParties;
 import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -1262,7 +1262,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     int command = item.getItemId();
     if (command == R.id.FILTER_CATEGORY_COMMAND) {
       if (!removeFilter(command)) {
-        Intent i = new Intent(getActivity(), ManageCategories2.class);
+        Intent i = new Intent(getActivity(), ManageCategories.class);
         i.setAction(ACTION_SELECT_FILTER);
         startActivityForResult(i, FILTER_CATEGORY_REQUEST);
       }

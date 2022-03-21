@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.activity.Distribution;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.HistoryActivity;
 import org.totschnig.myexpenses.activity.ManageBudgets;
-import org.totschnig.myexpenses.activity.ManageCategories2;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.ManageParties;
@@ -79,7 +79,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
         ExpenseEdit.class,
         HistoryActivity.class,
         ManageBudgets.class,
-        ManageCategories2.class,
+        ManageCategories.class,
         ManageCurrencies.class,
         ManageMethods.class,
         ManageParties.class,

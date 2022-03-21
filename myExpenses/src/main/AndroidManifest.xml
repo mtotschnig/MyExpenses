@@ -170,7 +170,7 @@
             android:name=".activity.BudgetEdit"
             android:theme="@style/EditDialog" />
         <activity
-            android:name=".activity.ManageCategories2"
+            android:name=".activity.ManageCategories"
             android:exported="false"
             android:theme="@style/EditDialog">
             <meta-data

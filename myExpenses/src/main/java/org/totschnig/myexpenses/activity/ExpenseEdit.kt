@@ -903,7 +903,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
      * calls the activity for selecting (and managing) categories
      */
     fun startSelectCategory() {
-        val i = Intent(this, ManageCategories2::class.java)
+        val i = Intent(this, ManageCategories::class.java)
         forwardDataEntryFromWidget(i)
         //we pass the currently selected category in to prevent
         //it from being deleted, which can theoretically lead

@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.GrisbiImport;
-import org.totschnig.myexpenses.activity.ManageCategories2;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
@@ -60,7 +60,7 @@ public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_categories_title)),
             click()));
-    intended(hasComponent(ManageCategories2.class.getName()));
+    intended(hasComponent(ManageCategories.class.getName()));
     onView(withText(R.string.pref_manage_categories_title)).check(matches(isDisplayed()));
   }
 
