@@ -1,33 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.view.View;
-
-import org.hamcrest.Matcher;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.CsvImportActivity;
-import org.totschnig.myexpenses.activity.GrisbiImport;
-import org.totschnig.myexpenses.activity.ManageCategories;
-import org.totschnig.myexpenses.activity.ManageCurrencies;
-import org.totschnig.myexpenses.activity.ManageMethods;
-import org.totschnig.myexpenses.activity.ManageSyncBackends;
-import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.activity.QifImport;
-import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -38,6 +10,34 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import org.hamcrest.Matcher;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BackupRestoreActivity;
+import org.totschnig.myexpenses.activity.CsvImportActivity;
+import org.totschnig.myexpenses.activity.GrisbiImport;
+import org.totschnig.myexpenses.activity.ManageCategories2;
+import org.totschnig.myexpenses.activity.ManageCurrencies;
+import org.totschnig.myexpenses.activity.ManageMethods;
+import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.activity.QifImport;
+import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
 
@@ -60,7 +60,7 @@ public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_categories_title)),
             click()));
-    intended(hasComponent(ManageCategories.class.getName()));
+    intended(hasComponent(ManageCategories2.class.getName()));
     onView(withText(R.string.pref_manage_categories_title)).check(matches(isDisplayed()));
   }
 

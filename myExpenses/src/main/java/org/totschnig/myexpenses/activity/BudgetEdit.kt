@@ -107,7 +107,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private fun startFilterDialog(id: Int) {
         when (id) {
             R.id.FILTER_CATEGORY_COMMAND -> {
-                Intent(this, ManageCategories::class.java).apply {
+                Intent(this, ManageCategories2::class.java).apply {
                     action = ACTION_SELECT_FILTER
                     startActivityForResult(this, FILTER_CATEGORY_REQUEST)
                 }

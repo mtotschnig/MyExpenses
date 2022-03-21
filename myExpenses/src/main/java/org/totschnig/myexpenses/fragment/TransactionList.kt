@@ -243,7 +243,7 @@ class TransactionList : BaseTransactionList() {
             }
         } else if (command == R.id.REMAP_CATEGORY_COMMAND) {
             checkSealed(itemIds) {
-                val i = Intent(activity, ManageCategories::class.java)
+                val i = Intent(activity, ManageCategories2::class.java)
                 i.action = ACTION_SELECT_MAPPING
                 startActivityForResult(i, MAP_CATEGORY_REQUEST)
             }

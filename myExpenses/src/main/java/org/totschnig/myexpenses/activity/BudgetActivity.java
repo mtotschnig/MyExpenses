@@ -17,7 +17,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.MANAGE_CATEGORIES_COMMAND) {
-      Intent i = new Intent(this, ManageCategories.class);
+      Intent i = new Intent(this, ManageCategories2.class);
       i.setAction(ACTION_MANAGE);
       startActivity(i);
       return true;
