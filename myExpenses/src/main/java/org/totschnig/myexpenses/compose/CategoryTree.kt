@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -32,15 +33,16 @@ import org.totschnig.myexpenses.R
 import kotlin.math.floor
 import kotlin.math.sqrt
 
+typealias CategoryAction = ((Category) -> Unit)
+
+data class CategoryMenu(val onEdit: CategoryAction, val onDelete: CategoryAction, val onAdd: CategoryAction, val onMove: CategoryAction)
+
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
     category: Category,
     expansionMode: ExpansionMode,
-    onEdit: (Category) -> Unit = {},
-    onDelete: (Long) -> Unit = {},
-    onAdd: (Long) -> Unit = {},
-    onMove: (Category) -> Unit = {},
+    menu: CategoryMenu? = null,
     selectedAncestor: Category? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
@@ -56,14 +58,23 @@ fun Category(
         val filteredChildren =
             if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
         if (withRoot || category.level > 0) {
+            val menuEntries = if (menu != null) Menu(buildList {
+                add(MenuEntry.edit { menu.onEdit(category) })
+                add(MenuEntry.delete { menu.onDelete(category) })
+                add(MenuEntry(
+                    icon = Icons.Filled.Add,
+                    label = stringResource(id = R.string.subcategory)
+                ) { menu.onAdd(category) })
+                add(MenuEntry(
+                    icon = myiconpack.ArrowsAlt,
+                    label = stringResource(id = R.string.menu_move)
+                ) { menu.onMove(category) })
+            }) else null
             CategoryRenderer(
                 category = category,
                 expansionMode = expansionMode,
                 choiceMode = choiceMode,
-                onEdit = { onEdit(category) },
-                onDelete = { onDelete(category.id) },
-                onAdd = { onAdd(category.id) },
-                onMove = { onMove(category) },
+                menu = menuEntries,
                 onToggleSelection = {
                     choiceMode.toggleSelection(selectedAncestor, category)
                 }
@@ -77,10 +88,7 @@ fun Category(
                         Category(
                             category = model,
                             expansionMode = expansionMode,
-                            onEdit = onEdit,
-                            onDelete = onDelete,
-                            onAdd = onAdd,
-                            onMove = onMove,
+                            menu = menu,
                             selectedAncestor = selectedAncestor
                                 ?: if (choiceMode.isSelected(category.id)) category else null,
                             choiceMode = choiceMode,
@@ -98,10 +106,7 @@ fun Category(
                         Category(
                             category = model,
                             expansionMode = expansionMode,
-                            onEdit = onEdit,
-                            onDelete = onDelete,
-                            onAdd = onAdd,
-                            onMove = onMove,
+                            menu = menu,
                             choiceMode = choiceMode,
                             excludedSubTree = excludedSubTree
                         )
@@ -118,49 +123,57 @@ fun CategoryRenderer(
     category: Category,
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
-    onEdit: () -> Unit = {},
-    onDelete: () -> Unit = {},
-    onAdd: () -> Unit = {},
-    onMove: () -> Unit = {},
+    menu: Menu?,
     onToggleSelection: () -> Unit
 ) {
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
     Row(
-        modifier = when (choiceMode) {
-            is ChoiceMode.MultiChoiceMode -> Modifier
-                .combinedClickable(
-                    onLongClick = onToggleSelection,
-                    onClick = {
-                        if (choiceMode.selectionState.size == 0) {
-                            showMenu.value = true
-                        } else {
-                            onToggleSelection()
-                        }
-                    }
-                )
-            is ChoiceMode.SingleChoiceMode -> if (choiceMode.isSelectable(category.id)) Modifier.clickable(
-                onClick = onToggleSelection
-            ) else Modifier
-        }.then(if (choiceMode.isNodeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier),
+        modifier = Modifier
+            .height(48.dp)
+            .then(if (menu == null) {
+
+                if (choiceMode.isSelectable(category.id)) Modifier.clickable(
+                    onClick = onToggleSelection
+                ) else Modifier
+            } else {
+
+                when (choiceMode) {
+                    is ChoiceMode.MultiChoiceMode -> Modifier
+                        .combinedClickable(
+                            onLongClick = onToggleSelection,
+                            onClick = {
+                                if (choiceMode.selectionState.size == 0) {
+                                    showMenu.value = true
+                                } else {
+                                    onToggleSelection()
+                                }
+                            }
+                        )
+                    is ChoiceMode.SingleChoiceMode -> Modifier
+                        .combinedClickable(
+                            onLongClick = { showMenu.value = true },
+                            onClick = onToggleSelection
+                        )
+                }
+            }
+            )
+            .then(if (choiceMode.isNodeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (category.children.isEmpty()) {
-            Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(48.dp))
         } else {
-            Icon(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable {
-                        expansionMode.state.toggle(category.id)
-                    },
-                imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                contentDescription = stringResource(
-                    id = if (isExpanded)
-                        R.string.content_description_collapse else
-                        R.string.content_description_expand
+            IconButton(onClick = { expansionMode.state.toggle(category.id) }) {
+                Icon(
+                    imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = stringResource(
+                        id = if (isExpanded)
+                            R.string.content_description_collapse else
+                            R.string.content_description_expand
+                    )
                 )
-            )
+            }
         }
         if (category.icon != null) {
             val context = LocalContext.current
@@ -186,24 +199,9 @@ fun CategoryRenderer(
                     .background(Color(category.color))
             )
         }
-        HierarchicalMenu(
-            showMenu, Menu(
-                listOf(
-                    MenuEntry.edit(onEdit),
-                    MenuEntry.delete(onDelete),
-                    MenuEntry(
-                        icon = Icons.Filled.Add,
-                        label = stringResource(id = R.string.subcategory),
-                        action = onAdd
-                    ),
-                    MenuEntry(
-                        icon = myiconpack.ArrowsAlt,
-                        label = stringResource(id = R.string.menu_move),
-                        action = onMove
-                    )
-                )
-            )
-        )
+        menu?.let {
+            HierarchicalMenu(showMenu, menu)
+        }
     }
 }
 
@@ -255,7 +253,7 @@ fun TreePreview() {
             parentId = null
         ),
         expansionMode = ExpansionMode.DefaultCollapsed(remember { mutableStateListOf(0, 1, 2) }),
-        choiceMode = ChoiceMode.SingleChoiceMode(remember { mutableStateOf(null) }, false)
+        choiceMode = ChoiceMode.SingleChoiceMode(remember { mutableStateOf(null) })
     )
 }
 
@@ -279,7 +277,7 @@ sealed class ChoiceMode(
      * if true, selecting a category highlights the tree (including children), if false children are
      * not highlighted
      */
-    private val selectTree: Boolean
+    private val selectTree: Boolean, val isSelectable: (Long) -> Boolean = { true }
 ) {
     fun isTreeSelected(id: Long) = selectTree && isSelected(id)
     fun isNodeSelected(id: Long) = !selectTree && isSelected(id)
@@ -304,10 +302,9 @@ sealed class ChoiceMode(
 
     class SingleChoiceMode(
         val selectionState: MutableState<Category?>,
-        selectTree: Boolean,
-        val isSelectable: (Long) -> Boolean = { true }
+        isSelectable: (Long) -> Boolean = { true }
     ) :
-        ChoiceMode(selectTree) {
+        ChoiceMode(false, isSelectable) {
         override fun isSelected(id: Long) = selectionState.value?.id == id
         override fun toggleSelection(selectedAncestor: Category?, category: Category) {
             selectionState.value = if (selectionState.value == category) null else category
@@ -322,11 +319,17 @@ data class Category(
     val parentId: Long? = null,
     val level: Int = 0,
     val label: String,
+    val path: String = label,
     val children: List<Category> = emptyList(),
     val isMatching: Boolean = true,
     val color: Int? = null,
     val icon: String? = null
 ) : Parcelable {
+
+    fun flatten(): List<Category> =  buildList {
+        add(this@Category)
+        addAll(children.flatMap { it.flatten() })
+    }
 
     fun pruneNonMatching(): Category? {
         val prunedChildren = children.mapNotNull { it.pruneNonMatching() }

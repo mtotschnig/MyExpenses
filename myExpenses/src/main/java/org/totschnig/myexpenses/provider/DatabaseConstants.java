@@ -311,7 +311,7 @@ public class DatabaseConstants {
 
   public static final String TABLE_DEBTS = "debts";
 
-  private static final String FULL_CAT_CASE = "(" + categoryTreeSelect(null, null, KEY_LABEL, KEY_ROWID + " = " + KEY_CATID, null) + ")";
+  private static final String FULL_CAT_CASE = "(" + categoryTreeSelect(null, null, "path AS label", KEY_ROWID + " = " + KEY_CATID, null) + ")";
 
   public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
 

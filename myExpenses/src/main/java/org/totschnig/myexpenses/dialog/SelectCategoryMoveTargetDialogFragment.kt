@@ -42,11 +42,11 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
             Category(
                 modifier = Modifier.weight(1f),
-                category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value.copy(
+                category = viewModel.categoryTreeForSelect.collectAsState(initial = Category.EMPTY).value.copy(
                     label = stringResource(id = R.string.transform_subcategory_to_main)
                 ),
                 expansionMode = ExpansionMode.DefaultExpanded(rememberMutableStateListOf()),
-                choiceMode = ChoiceMode.SingleChoiceMode(selectionState, false) {
+                choiceMode = ChoiceMode.SingleChoiceMode(selectionState) {
                           it != source.parentId
                 },
                 excludedSubTree = source.id,

@@ -24,6 +24,35 @@ class CategoryTreeTest {
     }
 
     @Test
+    fun shouldFlattenDepthFirst() {
+        val category = Category(
+            label = "ROOT", children = listOf(
+                Category(
+                    label = "1", children = listOf(
+                        Category(
+                            label = "1.1", children = listOf(
+                                Category(label = "1.1.1")
+                            )
+                        )
+                    )
+                ),
+                Category(
+                    label = "2", children = listOf(
+                        Category(
+                            label = "2.1", children = listOf(
+                                Category(label = "2.1.1")
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        Truth.assertThat(category.flatten().map { it.label }).containsExactly(
+            "ROOT", "1", "1.1", "1.1.1", "2", "2.1", "2.1.1"
+        )
+    }
+
+    @Test
     fun shouldRemoveNonMatchingChildren() {
         val category = Category(
             label = "ROOT", children = listOf(

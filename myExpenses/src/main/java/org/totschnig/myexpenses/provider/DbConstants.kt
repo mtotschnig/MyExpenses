@@ -97,7 +97,7 @@ fun categoryTreeCTE(
     UNION ALL
     SELECT
         subtree.$KEY_LABEL,
-        Tree.$KEY_LABEL || ' > ' || subtree.$KEY_LABEL AS path,
+        Tree.path || ' > ' || subtree.$KEY_LABEL AS path,
         subtree.$KEY_COLOR,
         subtree.$KEY_ICON,
         subtree.$KEY_ROWID,

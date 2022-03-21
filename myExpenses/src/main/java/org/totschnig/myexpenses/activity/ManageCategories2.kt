@@ -1,15 +1,16 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -23,7 +24,9 @@ import eltos.simpledialogfragment.form.SelectColorField
 import eltos.simpledialogfragment.form.SelectIconField
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.*
+import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityCategoryComposeBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -32,12 +35,18 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
+
+enum class Action {
+    SELECT_MAPPING, SELECT_FILTER, MANAGE
+}
 
 open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
     private var actionMode: ActionMode? = null
@@ -49,9 +58,10 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             prefHandler,
             defaultSortOrder
         )!!
+    private lateinit var choiceMode: ChoiceMode
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (action != ACTION_SELECT_FILTER) {
+        if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
         }
         menuInflater.inflate(R.menu.search, menu)
@@ -119,27 +129,66 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         observeMoveResult()
         binding.composeView.setContent {
             AppTheme(this) {
-                val selectionState = rememberMutableStateListOf<Long>()
-                LaunchedEffect(selectionState.size) {
-                    if (selectionState.isNotEmpty()) {
-                        startActionMode(selectionState)
-                        updateActionModeTitle(selectionState)
-                    } else {
-                        finishActionMode()
+                choiceMode = when (action) {
+                    Action.SELECT_MAPPING -> {
+                        val selectionState: MutableState<Category?> = remember {
+                            mutableStateOf(null)
+                        }
+                        LaunchedEffect(selectionState.value) {
+                            selectionState.value?.let {
+                                doSingleSelection(it)
+                            }
+                        }
+                        ChoiceMode.SingleChoiceMode(selectionState)
+                    }
+                    Action.MANAGE, Action.SELECT_FILTER -> {
+                        val selectionState = rememberMutableStateListOf<Long>()
+                        LaunchedEffect(selectionState.size) {
+                            if (selectionState.isNotEmpty()) {
+                                startActionMode(selectionState)
+                                updateActionModeTitle(selectionState)
+                            } else {
+                                finishActionMode()
+                            }
+                        }
+                        ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
+
                 Category(
                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
                     category = viewModel.categoryTree.collectAsState(initial = Category.EMPTY).value,
                     expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                    onEdit = { editCat(it) },
-                    onDelete = { viewModel.deleteCategories(listOf(it)) },
-                    onAdd = { createCat(it) },
-                    onMove = { showMoveTargetDialog(it) },
-                    choiceMode = ChoiceMode.MultiChoiceMode(selectionState, true)
+                    menu = if (action == Action.SELECT_FILTER) null else CategoryMenu(
+                        onEdit = { editCat(it) },
+                        onDelete = { viewModel.deleteCategories(listOf(it.id)) },
+                        onAdd = { createCat(it.id) },
+                        onMove = { showMoveTargetDialog(it) }
+                    ),
+                    choiceMode = choiceMode
                 )
             }
         }
+    }
+
+    private fun doSingleSelection(category: Category) {
+        val intent = Intent().apply {
+            putExtra(KEY_CATID, category.id)
+            putExtra(KEY_LABEL, category.path)
+            putExtra(DatabaseConstants.KEY_ICON, category.icon)
+        }
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
+    fun doMultiSelection() {
+        val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
+        val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }.joinToString(separator = ",") { it.path }
+        setResult(RESULT_FIRST_USER, Intent().apply {
+            putExtra(KEY_CATID, selected.toLongArray())
+            putExtra(KEY_LABEL, label)
+        })
+        finish()
     }
 
     private fun showMoveTargetDialog(category: Category) {
@@ -162,12 +211,21 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
                     mode: ActionMode,
                     menu: Menu
                 ): Boolean {
-                    menu.add(
-                        Menu.NONE,
-                        R.id.DELETE_COMMAND,
-                        0,
-                        R.string.menu_delete
-                    )
+                    if (action == Action.MANAGE) {
+                        menu.add(
+                            Menu.NONE,
+                            R.id.DELETE_COMMAND,
+                            0,
+                            R.string.menu_delete
+                        ).setIcon(R.drawable.ic_menu_delete)
+                    } else if (action == Action.SELECT_FILTER) {
+                        menu.add(
+                            Menu.NONE,
+                            R.id.SELECT_COMMAND,
+                            0,
+                            R.string.menu_select
+                        ).setIcon(R.drawable.ic_menu_done)
+                    }
                     return true
                 }
 
@@ -179,10 +237,17 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
                 override fun onActionItemClicked(
                     mode: ActionMode,
                     item: MenuItem
-                ): Boolean = if (item.itemId == R.id.DELETE_COMMAND) {
-                    viewModel.deleteCategories(selectionState)
-                    true
-                } else false
+                ): Boolean = when (item.itemId) {
+                    R.id.DELETE_COMMAND -> {
+                        viewModel.deleteCategories(selectionState)
+                        true
+                    }
+                    R.id.SELECT_COMMAND -> {
+                        doMultiSelection()
+                        true
+                    }
+                    else -> false
+                }
 
                 override fun onDestroyActionMode(mode: ActionMode) {
                     actionMode = null
@@ -218,7 +283,10 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.moveResult.collect { result ->
                     result?.let {
-                        showDismissibleSnackBar(if (it) R.string.move_category_success else R.string.move_category_failure, dismissCallback)
+                        showDismissibleSnackBar(
+                            if (it) R.string.move_category_success else R.string.move_category_failure,
+                            dismissCallback
+                        )
                     }
                 }
             }
@@ -356,7 +424,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
     }
 
     private fun buildLabelField(text: String?) =
-        Input.plain(DatabaseConstants.KEY_LABEL).required().hint(R.string.label).text(text)
+        Input.plain(KEY_LABEL).required().hint(R.string.label).text(text)
             .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
 
     private fun buildIconField(preset: String?) =
@@ -370,7 +438,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             val parentId = if (extras.containsKey(DatabaseConstants.KEY_PARENTID)) {
                 extras.getLong(DatabaseConstants.KEY_PARENTID)
             } else null
-            val label = extras.getString(DatabaseConstants.KEY_LABEL)
+            val label = extras.getString(KEY_LABEL)
             viewModel.saveCategory(
                 org.totschnig.myexpenses.model.Category(
                     extras.getLong(DatabaseConstants.KEY_ROWID),
@@ -387,5 +455,5 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
             true
         } else false
 
-    val action get() = intent.action ?: ACTION_SELECT_MAPPING
+    val action get() = enumValueOrDefault(intent.action, Action.SELECT_MAPPING)
 }

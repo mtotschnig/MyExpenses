@@ -21,8 +21,8 @@ import timber.log.Timber
 
 class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
-    var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
-    var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    private var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
+    private var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     var deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult
     var moveResult: StateFlow<Boolean?> = _moveResult
 
@@ -45,19 +45,24 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
         }
     }
 
-    val categoryTree: Flow<Category> = combine(
+    val categoryTree: StateFlow<Category> = combine(
         savedStateHandle.getLiveData(KEY_FILTER, "").asFlow(),
         sortOrder
     ) { filter, sort ->
         filter to sort
-    }.flatMapLatest { (filter, sortOrder) ->
+    }.flatMapLatest { (filter, sortOrder) -> categoryTree(filter, sortOrder) }
+        .stateIn(viewModelScope, SharingStarted.Lazily, Category.EMPTY)
+
+    val categoryTreeForSelect = categoryTree("", sortOrder.value)
+
+    private fun categoryTree(filter: String, sortOrder: String?): Flow<Category> {
         val (selection, selectionArgs) = if (filter.isNotBlank()) {
             "$KEY_LABEL_NORMALIZED LIKE ?" to arrayOf(
                 "%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%"
             )
         } else null to null
 
-        contentResolver.observeQuery(
+        return contentResolver.observeQuery(
             TransactionProvider.CATEGORIES_URI.buildUpon()
                 .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
                 .build(),
@@ -78,14 +83,14 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
                 Category(
-                    0,
-                    null,
-                    0,
-                    "ROOT",
-                    ingest(getApplication(), cursor, null, 1),
-                    true,
-                    null as Int?,
-                    null
+                    id = 0,
+                    parentId = null,
+                    level = 0,
+                    label = "ROOT",
+                    children = ingest(getApplication(), cursor, null, 1),
+                    isMatching = true,
+                    color = null as Int?,
+                    icon = null
                 ).let {
                     if (isFiltered) it.pruneNonMatching() else it
                 }
@@ -215,6 +220,7 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                         val nextParent = cursor.getLongOrNull(KEY_PARENTID)
                         val nextId = cursor.getLong(KEY_ROWID)
                         val nextLabel = cursor.getString(KEY_LABEL)
+                        val nextPath = cursor.getString("path")
                         val nextColor = cursor.getIntOrNull(KEY_COLOR)
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt("matches") == 1
@@ -228,6 +234,7 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                                     parentId ?: 0L,
                                     nextLevel,
                                     nextLabel,
+                                    nextPath,
                                     ingest(context, cursor, nextId, level + 1),
                                     nextIsMatching,
                                     nextColor,
