@@ -54,6 +54,26 @@ BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
 
 const val CATEGORY_LABEL_INDEX_CREATE = "CREATE UNIQUE INDEX categories_label ON $TABLE_CATEGORIES($KEY_LABEL,coalesce($KEY_PARENTID, 0))"
 
+const val CATEGORY_LABEL_LEGACY_TRIGGER_INSERT = """
+CREATE TRIGGER category_label_unique_insert
+    BEFORE INSERT
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NULL AND exists (SELECT 1 from $TABLE_CATEGORIES WHERE $KEY_LABEL = new.$KEY_LABEL AND $KEY_PARENTID IS NULL)
+    BEGIN
+    SELECT RAISE (FAIL, 'main category exists');
+END
+"""
+
+const val CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE = """
+CREATE TRIGGER category_label_unique_update
+    BEFORE UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NULL ANd new.$KEY_LABEL != old.$KEY_LABEL AND exists (SELECT 1 from $TABLE_CATEGORIES WHERE $KEY_LABEL = new.$KEY_LABEL AND $KEY_PARENTID IS NULL)
+    BEGIN
+    SELECT RAISE (FAIL, 'main category exists');
+END
+"""
+
 abstract class BaseTransactionDatabase(
     context: Context,
     databaseName: String,
@@ -177,6 +197,15 @@ abstract class BaseTransactionDatabase(
         with(db) {
             execSQL("DROP TRIGGER IF EXISTS category_hierarchy_update")
             execSQL(CATEGORY_HIERARCHY_TRIGGER)
+        }
+    }
+
+    fun createOrRefreshCategoryLabelLegacyTrigger(db: SQLiteDatabase) {
+        with(db) {
+            execSQL("DROP TRIGGER IF EXISTS category_label_unique_insert")
+            execSQL("DROP TRIGGER IF EXISTS category_label_unique_update")
+            execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_INSERT)
+            execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE)
         }
     }
 }

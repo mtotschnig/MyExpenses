@@ -8,11 +8,20 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -128,6 +137,7 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         viewModel.setSortOrder(sortOrder)
         observeDeleteResult()
         observeMoveResult()
+        observeImportCatResult()
         binding.composeView.setContent {
             AppTheme(this) {
                 choiceMode = when (action) {
@@ -155,19 +165,41 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
+                viewModel.categoryTree.collectAsState(initial = Category2.EMPTY).value.let {
+                    if(it.children.isEmpty()) {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            Column(
+                                modifier = Modifier.align(Alignment.Center),
+                                verticalArrangement = Arrangement.spacedBy(5.dp),
+                                horizontalAlignment = CenterHorizontally) {
+                                Text(text = stringResource(id = R.string.no_categories))
+                                Button(onClick = { importCats() }) {
+                                    Column(horizontalAlignment = CenterHorizontally) {
+                                        Icon(
+                                            imageVector = Icons.Filled.PlaylistAdd,
+                                            contentDescription = null
+                                        )
+                                        Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        Category(
+                            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
+                            category = it,
+                            expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
+                            menu = if (action == Action.SELECT_FILTER) null else CategoryMenu(
+                                onEdit = { editCat(it) },
+                                onDelete = { viewModel.deleteCategories(listOf(it.id)) },
+                                onAdd = { createCat(it.id) },
+                                onMove = { showMoveTargetDialog(it) }
+                            ),
+                            choiceMode = choiceMode
+                        )
+                    }
+                }
 
-                Category(
-                    modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
-                    category = viewModel.categoryTree.collectAsState(initial = Category2.EMPTY).value,
-                    expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                    menu = if (action == Action.SELECT_FILTER) null else CategoryMenu(
-                        onEdit = { editCat(it) },
-                        onDelete = { viewModel.deleteCategories(listOf(it.id)) },
-                        onAdd = { createCat(it.id) },
-                        onMove = { showMoveTargetDialog(it) }
-                    ),
-                    choiceMode = choiceMode
-                )
             }
         }
     }
@@ -184,7 +216,8 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
 
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
-        val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }.joinToString(separator = ",") { it.path }
+        val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }
+            .joinToString(separator = ",") { it.path }
         setResult(RESULT_FIRST_USER, Intent().apply {
             putExtra(KEY_CATID, selected.toLongArray())
             putExtra(KEY_LABEL, label)
@@ -356,6 +389,38 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
         }
     }
 
+    private fun observeImportCatResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.importResult.collect { pair ->
+                    pair?.let {
+                        showDismissibleSnackBar(
+                            if (pair.first == 0 && pair.second == 0) {
+                                getString(R.string.import_categories_none)
+                            } else {
+                                buildList {
+                                    pair.first.takeIf { it != 0 }?.let {
+                                        add(getString(R.string.import_categories_success, it))
+                                    }
+                                    pair.second.takeIf { it != 0 }?.let {
+                                        add(
+                                            resources.getQuantityString(
+                                                R.plurals.import_categories_icons_updated,
+                                                it,
+                                                it
+                                            )
+                                        )
+                                    }
+                                }.joinToString(separator = " ")
+                            },
+                            dismissCallback
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
             true
@@ -374,8 +439,17 @@ open class ManageCategories2 : ProtectedFragmentActivity(), SimpleDialog.OnDialo
                 viewModel.deleteCategoriesDo((tag as Array<Long>).toList())
                 true
             }
+            R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
+                importCats()
+                true
+            }
             else -> false
         }
+
+    private fun importCats() {
+        showSnackBarIndefinite(R.string.menu_categories_setup_default)
+        viewModel.importCats()
+    }
 
     /**
      * presents AlertDialog for adding a new category

@@ -23,8 +23,10 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
     ContentResolvingAndroidViewModel(application) {
     private var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
     private var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    private var _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
     var deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult
     var moveResult: StateFlow<Boolean?> = _moveResult
+    var importResult: StateFlow<Pair<Int, Int>?> = _importResult
 
     sealed class DeleteResult {
         class OperationPending(val ids: List<Long>, val mappedToBudgets: Int, val hasDescendants: Int): DeleteResult()
@@ -209,6 +211,19 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
     fun moveCategory(source: Long, target: Long?) {
         _moveResult.update {
             repository.moveCategory(source, target)
+        }
+    }
+
+    fun importCats() {
+        viewModelScope.launch(context = coroutineContext()) {
+            _importResult.update {
+                contentResolver.call(
+                    TransactionProvider.DUAL_URI,
+                    TransactionProvider.METHOD_SETUP_CATEGORIES,
+                    null,
+                    null
+                )?.getSerializable(TransactionProvider.KEY_RESULT) as? Pair<Int, Int> ?: 0 to 0
+            }
         }
     }
 

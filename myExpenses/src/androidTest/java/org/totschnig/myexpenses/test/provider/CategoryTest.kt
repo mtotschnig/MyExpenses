@@ -307,27 +307,29 @@ class CategoryTest : BaseDbTest() {
     fun testUpdateColor() {
         insertData()
         val testColor = ColorUtils.MAIN_COLORS[0]
-        val categoryIdUri =
-            TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(testCategories[3].first.toString()).build()
-        mockContentResolver.update(
-            categoryIdUri,
-            ContentValues().apply {
-                put(DatabaseConstants.KEY_COLOR, testColor)
-            }, null, null
-        )
-        val projection = arrayOf(
-            DatabaseConstants.KEY_COLOR
-        )
-        mockContentResolver.query(
-            categoryIdUri,
-            projection,
-            null,
-            null,
-            null
-        )!!.use {
-            assertEquals(1, it.count)
-            assertTrue(it.moveToFirst())
-            assertEquals(testColor, it.getInt(0))
+        testCategories.forEach { pair ->
+            val categoryIdUri =
+                TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(pair.first.toString()).build()
+            mockContentResolver.update(
+                categoryIdUri,
+                ContentValues().apply {
+                    put(DatabaseConstants.KEY_COLOR, testColor)
+                }, null, null
+            )
+            val projection = arrayOf(
+                DatabaseConstants.KEY_COLOR
+            )
+            mockContentResolver.query(
+                categoryIdUri,
+                projection,
+                null,
+                null,
+                null
+            )!!.use {
+                assertEquals(1, it.count)
+                assertTrue(it.moveToFirst())
+                assertEquals(testColor, it.getInt(0))
+            }
         }
     }
 

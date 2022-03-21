@@ -33,7 +33,6 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -43,7 +42,6 @@ import androidx.annotation.Nullable;
 import androidx.cursoradapter.widget.ResourceCursorAdapter;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -81,7 +79,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private final int colorExpense;
   private final int colorIncome;
   private final ColorStateList textColorSecondary;
-  private boolean insideFragment;
   private final int monthStart;
   private final CurrencyFormatter currencyFormatter;
   private boolean indexesCalculated = false;
@@ -122,9 +119,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
                                PrefHandler prefHandler, CurrencyContext currencyContext,
                                @Nullable OnToggleCrStatus onToggleCrStatus) {
     super(context, layout, c, flags);
-    if (context instanceof ManageCategories) {
-      insideFragment = true;
-    }
     this.context = context;
     this.onToggleCrStatus = onToggleCrStatus;
     colorIncome = context.getResources().getColor(R.color.colorIncome);
@@ -232,14 +226,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       catText = catText.length() > 0 ?
           TextUtils.concat(catText, TransactionList.COMMENT_SEPARATOR, ssb) :
           ssb;
-    }
-    if (insideFragment) {
-      if (catText.length() == 0) {
-        catText = "―――";
-        tv2.setGravity(Gravity.CENTER);
-      } else {
-        tv2.setGravity(Gravity.START);
-      }
     }
     tv2.setText(catText);
 

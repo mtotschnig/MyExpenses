@@ -37,7 +37,6 @@ import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
-import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.fragment.CurrencyList;
@@ -186,8 +185,6 @@ public interface AppComponent {
   void inject(SplitPartList splitPartList);
 
   void inject(TransactionListDialogFragment transactionListDialogFragment);
-
-  void inject(CategoryList categoryList);
 
   void inject(BudgetFragment budgetFragment);
 

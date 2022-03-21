@@ -25,6 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -53,6 +54,8 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_INDEX_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_LEGACY_TRIGGER_INSERT;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
@@ -727,7 +730,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(CATEGORIES_CREATE);
-    db.execSQL(CATEGORY_LABEL_INDEX_CREATE);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      db.execSQL(CATEGORY_LABEL_INDEX_CREATE);
+    } else {
+      createOrRefreshCategoryLabelLegacyTrigger(db);
+    }
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
