@@ -1008,4 +1008,7 @@
         <item quantity="other">கடன் %1$s உடன் %2$d பரிவர்த்தனைகள் தொடற்பு படுத்தப்பட்டுள்ளன.</item>
     </plurals>
     <string name="ui_refinement">பயனர் இடைமுகத்தை மெருகேற்றுதல்</string>
+    <string name="setup_completed">அமைப்பு நிறைவடைந்தது</string>
+    <string name="whats_new_336_1">கடன் சுருக்கத்தை பகிரவும்</string>
+    <string name="whats_new_336_2">பிரிவு பகுதிக்கான குறிச்சொற்கள்</string>
 </resources>
