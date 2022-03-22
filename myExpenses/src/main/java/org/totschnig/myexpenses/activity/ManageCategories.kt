@@ -43,12 +43,11 @@ import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.util.configureSearch
-import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.prepareSearch
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
@@ -137,7 +136,8 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         viewModel.setSortOrder(sortOrder)
         observeDeleteResult()
         observeMoveResult()
-        observeImportCatResult()
+        observeImportResult()
+        observeExportResult()
         binding.composeView.setContent {
             AppTheme(this) {
                 choiceMode = when (action) {
@@ -389,7 +389,33 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         }
     }
 
-    private fun observeImportCatResult() {
+    private fun observeExportResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.exportResult.collect { result ->
+                    result?.let {
+                        result.onSuccess { pair ->
+                            updateSnackBar(getString(R.string.export_sdcard_success, pair.second))
+                            if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+                                val shareResult = ShareUtils.share(
+                                    this@ManageCategories, listOf(pair.first),
+                                    prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
+                                    "text/qif"
+                                )
+                                if (!shareResult.isSuccess) {
+                                    updateSnackBar(shareResult.print(this@ManageCategories))
+                                }
+                            }
+                        }.onFailure {
+                            updateSnackBar(it.safeMessage)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeImportResult() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.importResult.collect { pair ->
@@ -443,12 +469,26 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                 importCats()
                 true
             }
+
+            R.id.EXPORT_CATEGORIES_COMMAND_ISO88591 -> {
+                exportCats("ISO-8859-1")
+                true
+            }
+            R.id.EXPORT_CATEGORIES_COMMAND_UTF8 -> {
+                exportCats("UTF-8")
+                true
+            }
             else -> false
         }
 
     private fun importCats() {
         showSnackBarIndefinite(R.string.menu_categories_setup_default)
         viewModel.importCats()
+    }
+
+    private fun exportCats(encoding: String) {
+        showDismissibleSnackBar(R.string.menu_categories_export)
+        viewModel.exportCats(encoding)
     }
 
     /**

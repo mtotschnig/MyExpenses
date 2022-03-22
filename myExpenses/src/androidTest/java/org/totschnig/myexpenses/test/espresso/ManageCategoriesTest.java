@@ -5,7 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageCategories2;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
@@ -21,11 +21,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu;
 
-public class ManageCategoriesTest extends BaseUiTest<ManageCategories2> {
+public class ManageCategoriesTest extends BaseUiTest<ManageCategories> {
 
   @Rule
-  public ActivityScenarioRule<ManageCategories2> scenarioRule =
-      new ActivityScenarioRule<>(ManageCategories2.class);
+  public ActivityScenarioRule<ManageCategories> scenarioRule =
+      new ActivityScenarioRule<>(ManageCategories.class);
 
   @AfterClass
   public static void tearDown() {
@@ -42,7 +42,7 @@ public class ManageCategoriesTest extends BaseUiTest<ManageCategories2> {
 
   @NonNull
   @Override
-  protected ActivityScenario<ManageCategories2> getTestScenario() {
+  protected ActivityScenario<ManageCategories> getTestScenario() {
     return scenarioRule.getScenario();
   }
 }

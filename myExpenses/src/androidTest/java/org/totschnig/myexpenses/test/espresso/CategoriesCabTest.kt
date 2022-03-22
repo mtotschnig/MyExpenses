@@ -20,7 +20,7 @@ import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ManageCategories2
+import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
@@ -37,8 +37,8 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.time.LocalDate
 import java.util.*
 
-class CategoriesCabTest : BaseUiTest<ManageCategories2>() {
-    private lateinit var activityScenario: ActivityScenario<ManageCategories2>
+class CategoriesCabTest : BaseUiTest<ManageCategories>() {
+    private lateinit var activityScenario: ActivityScenario<ManageCategories>
 
     private val contentResolver
         get() = targetContext.contentResolver
@@ -127,7 +127,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories2>() {
     }
 
     private fun launchAndOpenCab(): Int {
-        activityScenario = ActivityScenario.launch(ManageCategories2::class.java)
+        activityScenario = ActivityScenario.launch(ManageCategories::class.java)
         val origListSize = waitForAdapter().count
         Espresso.onData(Matchers.`is`(Matchers.instanceOf(org.totschnig.myexpenses.viewmodel.data.Category::class.java)))
                 .atPosition(0)
@@ -146,6 +146,6 @@ class CategoriesCabTest : BaseUiTest<ManageCategories2>() {
         assertThat(Category.countSub(categoryId)).isEqualTo(1)
     }
 
-    override val testScenario: ActivityScenario<ManageCategories2>
+    override val testScenario: ActivityScenario<ManageCategories>
         get() = activityScenario
 }

@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.provider
 import android.content.ContentResolver
 import android.content.Context
 import android.text.TextUtils
-import androidx.annotation.StringRes
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.AccountPreference
@@ -12,6 +11,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.File
 import java.io.IOException
@@ -24,21 +24,21 @@ const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 
 fun doBackup(context: Context, password: String?, withSync: String?): Result<DocumentFile> {
     if (!AppDirHelper.isExternalStorageAvailable()) {
-        return failure(context, R.string.external_storage_unavailable)
+        return Result.failure(context, R.string.external_storage_unavailable)
     }
     val appDir = AppDirHelper.getAppDir(context)
-        ?: return failure(context, R.string.io_error_appdir_null)
+        ?: return Result.failure(context, R.string.io_error_appdir_null)
     if (!AppDirHelper.isWritableDirectory(appDir)) {
-        return failure(
+        return Result.failure(
             context, R.string.app_dir_not_accessible, FileUtils.getPath(context, appDir.uri)
         )
     }
     val backupFile = requireBackupFile(appDir, !TextUtils.isEmpty(password))
-        ?: return failure(context, R.string.io_error_backupdir_null)
+        ?: return Result.failure(context, R.string.io_error_backupdir_null)
     val cacheDir = AppDirHelper.getCacheDir()
     if (cacheDir == null) {
         CrashHandler.report("CacheDir is null")
-        return failure(context, R.string.io_error_cachedir_null)
+        return Result.failure(context, R.string.io_error_cachedir_null)
     }
     val result = DbUtils.backup(cacheDir, context)
     val failure: Throwable
@@ -92,13 +92,6 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
         GenericAccountService.requestSync(backend)
     }
 }
-
-private fun <T> failure(
-    context: Context,
-    @StringRes resId: Int,
-    vararg formatArgs: Any?
-): Result<T> =
-    Result.failure(Throwable(context.getString(resId, *formatArgs)))
 
 private fun requireBackupFile(appDir: DocumentFile, encrypted: Boolean): DocumentFile? {
     return AppDirHelper.timeStampedFile(

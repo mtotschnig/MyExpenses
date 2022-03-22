@@ -165,6 +165,12 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     } catch (e: SQLiteConstraintException) {
         false
     }
+
+    fun deleteCategory(id: Long) = contentResolver.delete(
+        ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, id),
+        null,
+        null
+    ) > 0
 }
 
 data class AutoFillInfo(val categoryId: Long)

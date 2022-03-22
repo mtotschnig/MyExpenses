@@ -211,20 +211,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         }
     }
 
-    suspend fun <T> LiveDataScope<Result<T>>.failure(
-        @StringRes resId: Int,
-        vararg formatArgs: Any?
-    ) = emit(Result.failure(Throwable(getString(resId, *formatArgs))))
-
-    fun <T> MutableStateFlow<Result<T>?>.failure(
-        @StringRes resId: Int,
-        vararg formatArgs: Any?
-    ) {
-        update {
-            Result.failure(Throwable(getString(resId, *formatArgs)))
-        }
-    }
-
 /*    fun loadDebugDebts(count: Int = 10) {
         debts.postValue(List(
             count

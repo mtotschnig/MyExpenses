@@ -4,33 +4,59 @@ import android.app.Application
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
-import androidx.lifecycle.*
+import android.net.Uri
+import androidx.annotation.StringRes
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.failure
+import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import timber.log.Timber
+import java.io.IOException
+import java.io.OutputStreamWriter
 
 class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
     private var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
     private var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     private var _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
+    private var _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
     var deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult
     var moveResult: StateFlow<Boolean?> = _moveResult
     var importResult: StateFlow<Pair<Int, Int>?> = _importResult
+    var exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
 
     sealed class DeleteResult {
-        class OperationPending(val ids: List<Long>, val mappedToBudgets: Int, val hasDescendants: Int): DeleteResult()
-        class OperationComplete(val deleted: Int, val mappedToTransactions: Int, val mappedToTemplates: Int): DeleteResult()
+        class OperationPending(
+            val ids: List<Long>,
+            val mappedToBudgets: Int,
+            val hasDescendants: Int
+        ) : DeleteResult()
+
+        class OperationComplete(
+            val deleted: Int,
+            val mappedToTransactions: Int,
+            val mappedToTemplates: Int
+        ) : DeleteResult()
     }
 
     private val sortOrder = MutableStateFlow<String?>(null)
@@ -147,16 +173,21 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
             ids.map { it.toString() }.toTypedArray(), null
         )
 
+    private fun <T> failure(
+        @StringRes resId: Int,
+        vararg formatArgs: Any?
+    ) = Result.failure<T>(getApplication(), resId, formatArgs)
+
     fun deleteCategoriesDo(ids: List<Long>) {
         viewModelScope.launch(context = coroutineContext()) {
-            try {
-                mappedObjectQuery(
-                    arrayOf(KEY_ROWID, KEY_MAPPED_TRANSACTIONS, KEY_MAPPED_TEMPLATES),
-                    ids, false
-                ).use { cursor ->
+            _deleteResult.update {
+                try {
+                    mappedObjectQuery(
+                        arrayOf(KEY_ROWID, KEY_MAPPED_TRANSACTIONS, KEY_MAPPED_TEMPLATES),
+                        ids, false
+                    ).use { cursor ->
                         if (cursor == null) {
-                            _deleteResult
-                            _deleteResult.failure(R.string.db_error_cursor_null)
+                            failure(R.string.db_error_cursor_null)
                         } else {
                             var deleted = 0
                             var mappedToTransaction = 0
@@ -173,26 +204,26 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                                         mappedToTemplate++
                                     }
                                     if (deletable) {
-                                        org.totschnig.myexpenses.model.Category.delete(
-                                            cursor.getLong(
-                                                0
-                                            )
-                                        )
-                                        deleted++
+                                        if (repository.deleteCategory(cursor.getLong(0))) {
+                                            deleted++
+                                        }
                                     }
                                     cursor.moveToNext()
                                 }
-                                _deleteResult.update {
-                                    Result.success(DeleteResult.OperationComplete(deleted, mappedToTransaction, mappedToTemplate))
-                                }
+                                Result.success(
+                                    DeleteResult.OperationComplete(
+                                        deleted,
+                                        mappedToTransaction,
+                                        mappedToTemplate
+                                    )
+                                )
                             } else {
-                                _deleteResult.failure(R.string.db_error_cursor_empty)
+                                failure(R.string.db_error_cursor_empty)
                             }
                         }
                     }
-            } catch (e: SQLiteConstraintException) {
-                CrashHandler.reportWithDbSchema(e)
-                _deleteResult.update {
+                } catch (e: SQLiteConstraintException) {
+                    CrashHandler.reportWithDbSchema(e)
                     Result.failure(e)
                 }
             }
@@ -204,6 +235,9 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
             null
         }
         _moveResult.update {
+            null
+        }
+        _importResult.update {
             null
         }
     }
@@ -223,6 +257,78 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                     null,
                     null
                 )?.getSerializable(TransactionProvider.KEY_RESULT) as? Pair<Int, Int> ?: 0 to 0
+            }
+        }
+    }
+
+    fun exportCats(encoding: String) {
+        viewModelScope.launch(context = coroutineContext()) {
+            _exportResult.update {
+                val appDir = AppDirHelper.getAppDir(getApplication())
+                if (appDir == null) {
+                    failure(R.string.external_storage_unavailable)
+                } else {
+                    val mainLabel =
+                        "CASE WHEN $KEY_PARENTID THEN (SELECT $KEY_LABEL FROM $TABLE_CATEGORIES parent WHERE parent.$KEY_ROWID = $TABLE_CATEGORIES.$KEY_PARENTID) ELSE $KEY_LABEL END"
+                    val subLabel = "CASE WHEN $KEY_PARENTID THEN $KEY_LABEL END"
+
+                    //sort sub categories immediately after their main category
+                    val sort = "CASE WHEN parent_id then parent_id else _id END"
+                    val fileName = "categories"
+                    contentResolver.query(
+                        TransactionProvider.CATEGORIES_URI, arrayOf(mainLabel, subLabel),
+                        null, null, sort
+                    )?.use { c ->
+                        if (c.count == 0) {
+                            failure(R.string.no_categories)
+                        } else {
+                            val outputFile = AppDirHelper.timeStampedFile(
+                                appDir,
+                                fileName,
+                                ExportFormat.QIF.mimeType, "qif"
+                            )
+                            if (outputFile == null) {
+                                failure(R.string.external_storage_unavailable)
+                            } else {
+                                try {
+                                    @Suppress("BlockingMethodInNonBlockingContext")
+                                    OutputStreamWriter(
+                                        contentResolver.openOutputStream(outputFile.uri),
+                                        encoding
+                                    ).use { out ->
+                                        out.write("!Type:Cat")
+                                        c.moveToFirst()
+                                        while (c.position < c.count) {
+                                            val sb = StringBuilder()
+                                            sb.append("\nN")
+                                                .append(
+                                                    TextUtils.formatQifCategory(
+                                                        c.getString(0),
+                                                        c.getString(1)
+                                                    )
+                                                )
+                                                .append("\n^")
+                                            out.write(sb.toString())
+                                            c.moveToNext()
+                                        }
+                                    }
+                                    Result.success<Pair<Uri, String>>(
+                                        outputFile.uri to FileUtils.getPath(
+                                            getApplication(),
+                                            outputFile.uri
+                                        )
+                                    )
+                                } catch (e: IOException) {
+                                    failure(
+                                        R.string.export_sdcard_failure,
+                                        appDir.name,
+                                        e.message
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
