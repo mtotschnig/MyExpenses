@@ -82,7 +82,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         listView.scrollBarStyle = ListView.SCROLLBARS_OUTSIDE_INSET
         mAdapter = TransactionAdapter(
             requireArguments().getSerializable(DatabaseConstants.KEY_GROUPING) as Grouping?,
-            activity,
+            requireActivity(),
             R.layout.expense_row,
             null,
             0, currencyFormatter, prefHandler, currencyContext, null

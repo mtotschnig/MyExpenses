@@ -154,6 +154,7 @@ fun CategoryRenderer(
                             onLongClick = { showMenu.value = true },
                             onClick = onToggleSelection
                         )
+                    else -> Modifier
                 }
             }
             )
@@ -308,6 +309,14 @@ sealed class ChoiceMode(
         override fun isSelected(id: Long) = selectionState.value?.id == id
         override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {
             selectionState.value = if (selectionState.value == category) null else category
+        }
+    }
+
+    object NoChoice : ChoiceMode(false) {
+        override fun isSelected(id: Long) = false
+
+        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {
+
         }
     }
 }

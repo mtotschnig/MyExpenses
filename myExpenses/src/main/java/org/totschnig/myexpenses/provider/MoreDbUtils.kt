@@ -234,7 +234,7 @@ private fun findMainCategory(database: SQLiteDatabase, label: String) =
 val Cursor.asSequence: Sequence<Cursor>
     get() = generateSequence { takeIf { it.moveToNext() } }
 
-fun Cursor.getString(column: String) = getString(getColumnIndexOrThrow(column))
+fun Cursor.getString(column: String) = getStringOrNull(getColumnIndexOrThrow(column)) ?: ""
 fun Cursor.getInt(column: String) = getInt(getColumnIndexOrThrow(column))
 fun Cursor.getLong(column: String) = getLong(getColumnIndexOrThrow(column))
 fun Cursor.getStringOrNull(column: String) = getStringOrNull(getColumnIndexOrThrow(column))

@@ -37,7 +37,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
-import org.totschnig.myexpenses.databinding.ActivityCategoryComposeBinding
+import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.model.Sort
@@ -60,7 +60,7 @@ enum class Action {
 open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
     private var actionMode: ActionMode? = null
     val viewModel: CategoryViewModel by viewModels()
-    private lateinit var binding: ActivityCategoryComposeBinding
+    private lateinit var binding: ActivityComposeFabBinding
     private val sortOrder: String
         get() = preferredOrderByForCategories(
             getSortOrderPrefKey(),
@@ -127,7 +127,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCategoryComposeBinding.inflate(layoutInflater)
+        binding = ActivityComposeFabBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar(true)
         with((applicationContext as MyApplication).appComponent) {

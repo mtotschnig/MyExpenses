@@ -74,6 +74,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.RemoteException;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
@@ -223,6 +224,7 @@ public class Account extends Model {
 
   private AccountType type;
 
+  @NonNull
   private Grouping grouping = Grouping.NONE;
 
   public static final int DEFAULT_COLOR = 0xff009688;
@@ -969,11 +971,12 @@ public class Account extends Model {
     this.type = type;
   }
 
+  @NonNull
   public Grouping getGrouping() {
     return grouping;
   }
 
-  public void setGrouping(Grouping grouping) {
+  public void setGrouping(@NonNull Grouping grouping) {
     this.grouping = grouping;
   }
 

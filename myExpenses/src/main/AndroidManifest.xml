@@ -178,8 +178,8 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".activity.Distribution"
-            android:exported="false" />
+            android:name=".activity.DistributionActivity"
+            android:exported="true" />
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="true"
