@@ -115,7 +115,7 @@ android {
 
     packagingOptions {
         resources {
-            excludes += ['/META-INF/{AL2.0,LGPL2.1}', 'META-INF/*', '**/attach_hotspot_windows.dll', 'META-INF/licenses/**', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
+            //excludes += ['/META-INF/{AL2.0,LGPL2.1}', 'META-INF/*', '**/attach_hotspot_windows.dll', 'META-INF/licenses/**', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
         }
         jniLibs {
             excludes += ['META-INF/*', 'META-INF/licenses/**']
