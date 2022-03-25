@@ -18,20 +18,16 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbConstantsKt;
-import org.totschnig.myexpenses.util.Utils;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
-
 import androidx.annotation.Nullable;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.DbConstantsKt;
 
 public class CategoryCriteria extends IdCriteria {
   static final String COLUMN = KEY_CATID;
@@ -68,7 +64,7 @@ public class CategoryCriteria extends IdCriteria {
     if (operation == WhereFilter.Operation.ISNULL) {
       return super.getSelection();
     }
-    return getColumn() + " IN (" + DbConstantsKt.categoryTreeSelect(null, null, KEY_ROWID, null, WhereFilter.Operation.IN.getOp(values.length))  + ")";
+    return getColumn() + " IN (" + DbConstantsKt.categoryTreeSelect(null, null, new String[] { KEY_ROWID }, null, WhereFilter.Operation.IN.getOp(values.length))  + ")";
   }
 
   public static final Parcelable.Creator<CategoryCriteria> CREATOR = new Parcelable.Creator<CategoryCriteria>() {

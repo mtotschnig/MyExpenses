@@ -14,6 +14,7 @@ import com.github.mikephil.charting.charts.PieChart
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category2
 
@@ -55,7 +56,7 @@ class DistributionActivity: ProtectedFragmentActivity() {
     fun RenderTree(modifier: Modifier) {
         Category(
             modifier = modifier,
-            category = viewModel.categoryTree.collectAsState(initial = Category2.EMPTY).value,
+            category = viewModel.categoryTreeWithSum.collectAsState(initial = Category2.EMPTY).value,
             choiceMode = ChoiceMode.NoChoice,
             expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf())
         )

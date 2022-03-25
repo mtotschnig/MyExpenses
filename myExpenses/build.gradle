@@ -158,6 +158,10 @@ android {
     }
 }
 
+kotlin.sourceSets.all {
+    languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+}
+
 configurations.all {
     exclude group: "com.google.android.material", module: "material"
 }

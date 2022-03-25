@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import kotlin.math.floor
 import kotlin.math.sqrt
@@ -129,7 +130,7 @@ fun CategoryRenderer(
     val showMenu = remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
-            .height(48.dp).fillMaxWidth()
+            .height(48.dp).fillMaxWidth().padding(end=24.dp)
             .then(if (menu == null) {
 
                 if (choiceMode.isSelectable(category.id)) Modifier.clickable(
@@ -198,6 +199,13 @@ fun CategoryRenderer(
                     .padding(3.dp)
                     .clip(CircleShape)
                     .background(Color(category.color))
+            )
+        }
+        category.aggregateSum.takeIf { it != 0L }?.let {
+            Spacer(modifier = Modifier.weight(1f))
+            ColoredAmountText(
+                amount = it,
+                currency = Utils.getHomeCurrency().code,
             )
         }
         menu?.let {

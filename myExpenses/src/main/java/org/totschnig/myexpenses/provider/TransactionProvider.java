@@ -519,7 +519,9 @@ public class TransactionProvider extends BaseTransactionProvider {
           return c;
         }
         if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
-          c = db.rawQuery(categoryTreeSelect(sortOrder, selection, "*", null, null), Utils.joinArrays(selectionArgs, selectionArgs));
+          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null);
+          log(sql);
+          c = db.rawQuery(sql, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {

@@ -16,7 +16,8 @@ data class Category2(
     val children: List<Category2> = emptyList(),
     val isMatching: Boolean = true,
     val color: Int? = null,
-    val icon: String? = null
+    val icon: String? = null,
+    val sum: Long = 0L
 ) : Parcelable {
 
     fun flatten(): List<Category2> =  buildList {
@@ -24,9 +25,10 @@ data class Category2(
         addAll(children.flatMap { it.flatten() })
     }
 
-    fun pruneNonMatching(): Category2? {
-        val prunedChildren = children.mapNotNull { it.pruneNonMatching() }
-        return if (isMatching || prunedChildren.isNotEmpty()) {
+    fun pruneNonMatching(_criteria: ((Category2) -> Boolean)? = null): Category2? {
+        val criteria = _criteria ?: { it.isMatching }
+        val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
+        return if (criteria(this) || prunedChildren.isNotEmpty()) {
             this.copy(children = prunedChildren)
         } else null
     }
@@ -37,6 +39,8 @@ data class Category2(
             it.recursiveUnselectChildren(selectionState)
         }
     }
+
+    val aggregateSum: Long by lazy { sum + children.sumOf { it.aggregateSum } }
 
     companion object {
         val EMPTY = Category2(label = "EMPTY")

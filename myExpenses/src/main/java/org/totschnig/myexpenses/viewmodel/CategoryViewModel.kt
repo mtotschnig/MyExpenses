@@ -12,12 +12,14 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -30,9 +32,11 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
+import java.util.*
 
 class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
@@ -73,41 +77,88 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
         }
     }
 
-    val categoryTree: StateFlow<Category2> = combine(
+    val categoryTreeWithSum = categoryTree(arrayOf("*", sumColumn())) { it.sum != 0L }
+
+    fun sumColumn(): String {
+        val accountInfo =
+            DistributionAccountInfo(1, "TEST", CurrencyUnit(Currency.getInstance("EUR")), 0)
+        val accountSelection: String?
+        var amountCalculation = KEY_AMOUNT
+        var table = VIEW_COMMITTED
+        when {
+            accountInfo.id == Account.HOME_AGGREGATE_ID -> {
+                accountSelection = null
+                amountCalculation = getAmountHomeEquivalent(VIEW_WITH_ACCOUNT)
+                table = VIEW_WITH_ACCOUNT
+            }
+            accountInfo.id < 0 -> {
+                accountSelection =
+                    " IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = '${accountInfo.currency.code}' AND $KEY_EXCLUDE_FROM_TOTALS = 0 )"
+            }
+            else -> {
+                accountSelection = " = ${accountInfo.id}"
+            }
+        }
+        val catFilter =
+            "FROM $table WHERE $WHERE_NOT_VOID${if (accountSelection == null) "" else " AND +$KEY_ACCOUNTID$accountSelection"} AND $KEY_CATID = Tree.$KEY_ROWID"
+/*        if (!aggregateTypes) {
+            catFilter += " AND " + KEY_AMOUNT + (if (isIncome) ">" else "<") + "0"
+        }*/
+/*        val dateFilter = buildFilterClause(table)
+        if (dateFilter != null) {
+            catFilter += " AND $dateFilter"
+        }*/
+        //val extraColumn = extraColumn
+        return "(SELECT sum($amountCalculation) $catFilter) AS $KEY_SUM"
+/*        if (extraColumn != null) {
+            projection.add(extraColumn)
+        }*/
+    }
+
+    val categoryTree = categoryTree()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun categoryTree(projection: Array<String>? = null, keepCriteria: ((Category2) -> Boolean)? = null): StateFlow<Category2> = combine(
         savedStateHandle.getLiveData(KEY_FILTER, "").asFlow(),
         sortOrder
     ) { filter, sort ->
+        Timber.d("new emission: $filter/$sort")
         filter to sort
-    }.flatMapLatest { (filter, sortOrder) -> categoryTree(filter, sortOrder) }
+    }.flatMapLatest { (filter, sortOrder) -> categoryTree(filter, sortOrder, projection, keepCriteria) }
         .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
     val categoryTreeForSelect = categoryTree("", sortOrder.value)
 
-    private fun categoryTree(filter: String, sortOrder: String?): Flow<Category2> {
+    private fun categoryTree(
+        filter: String,
+        sortOrder: String?,
+        projection: Array<String>? = null,
+        keepCriteria: ((Category2) -> Boolean)? = null
+    ): Flow<Category2> {
         val (selection, selectionArgs) = if (filter.isNotBlank()) {
-            "$KEY_LABEL_NORMALIZED LIKE ?" to arrayOf(
-                "%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%"
-            )
+            val selectionArgs =
+                arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
+            //The filter is applied twice in the CTE
+            "$KEY_LABEL_NORMALIZED LIKE ?" to selectionArgs + selectionArgs
         } else null to null
 
         return contentResolver.observeQuery(
             TransactionProvider.CATEGORIES_URI.buildUpon()
                 .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
                 .build(),
-            null,
+            projection,
             selection,
             selectionArgs,
             sortOrder,
             true
-        ).mapToTree(filter.isNotBlank())
+        ).mapToTree(keepCriteria)
     }
 
     private fun Flow<Query>.mapToTree(
-        isFiltered: Boolean,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
+        keepCriteria: ((Category2) -> Boolean)?
     ): Flow<Category2> = transform { query ->
         Timber.d("new emission")
-        val value = withContext(dispatcher) {
+        val value = withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
                 Category2(
@@ -119,9 +170,7 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                     isMatching = true,
                     color = null as Int?,
                     icon = null
-                ).let {
-                    if (isFiltered) it.pruneNonMatching() else it
-                }
+                ).pruneNonMatching(keepCriteria)
             }
         }
         if (value != null) {
@@ -346,6 +395,7 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
+                        val nextSum = cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }?.let { cursor.getLong(it) } ?: 0L
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()
@@ -359,7 +409,8 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
                                     ingest(context, cursor, nextId, level + 1),
                                     nextIsMatching,
                                     nextColor,
-                                    nextIcon
+                                    nextIcon,
+                                    nextSum
                                 )
                             )
                         } else return@buildList

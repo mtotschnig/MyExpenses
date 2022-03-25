@@ -31,14 +31,14 @@ fun checkForSealedDebt(baseTable: String) =
 fun categoryTreeSelect(
     sortOrder: String? = null,
     matches: String? = null,
-    projection: String = "*",
+    projection: Array<String>? = null,
     selection: String? = null,
     rootExpression: String? = null,
 ) = categoryTreeCTE(
     sortOrder = sortOrder,
     matches = matches,
     rootExpression = rootExpression
-) + "SELECT $projection FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+) + "SELECT ${(projection ?: arrayOf("*")).joinToString()} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
 fun categoryTreeWithMappedObjects(
     selection: String,
