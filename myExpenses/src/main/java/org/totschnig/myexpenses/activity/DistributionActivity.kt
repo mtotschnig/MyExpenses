@@ -78,7 +78,6 @@ class DistributionActivity : ProtectedFragmentActivity() {
                             setValueFormatter(PercentFormatter())
                         }
                         chart.highlightValues(null)
-                        selectionState.value = categories.firstOrNull()
                         chart.invalidate()
                     }
                 }
@@ -94,6 +93,17 @@ class DistributionActivity : ProtectedFragmentActivity() {
                     }
                 }
                 val choiceMode = ChoiceMode.SingleChoiceMode(selectionState) { id -> chartCategoryTree.value.children.any { it.id == id } }
+                val expansionMode = object: ExpansionMode.Single(expansionState) {
+                    override fun toggle(category: Category2) {
+                        super.toggle(category)
+                        //when we collapse a category, we want it to be selected, when expand the first child should be selected
+                        if (state.value == null) {
+                            selectionState.value = category
+                        } else {
+                            selectionState.value = category.children.firstOrNull()
+                        }
+                    }
+                }
                 when (configuration.orientation) {
                     Configuration.ORIENTATION_LANDSCAPE -> {
                         Row {
@@ -101,7 +111,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
                                 modifier = Modifier.weight(0.5f),
                                 category = categoryTree.value,
                                 choiceMode = choiceMode,
-                                expansionState = expansionState
+                                expansionMode = expansionMode
                             )
                             RenderChart(
                                 modifier = Modifier
@@ -118,7 +128,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
                                 modifier = Modifier.weight(0.5f),
                                 category = categoryTree.value,
                                 choiceMode = choiceMode,
-                                expansionState = expansionState
+                                expansionMode = expansionMode
                             )
                             RenderChart(
                                 modifier = Modifier
@@ -139,13 +149,13 @@ class DistributionActivity : ProtectedFragmentActivity() {
         modifier: Modifier,
         category: Category2,
         choiceMode: ChoiceMode,
-        expansionState: MutableState<Category2?>
+        expansionMode: ExpansionMode
     ) {
         Category(
             modifier = modifier,
             category = category,
             choiceMode = choiceMode,
-            expansionMode = ExpansionMode.Single(expansionState)
+            expansionMode = expansionMode
         )
     }
 
@@ -227,7 +237,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
             """.trimIndent()
     }
 
-    fun getSubColors(color: Int): List<Int?>? {
+    private fun getSubColors(color: Int): List<Int?>? {
         val isLight = UiUtils.themeBoolAttr(this, R.attr.isLightTheme)
         return if (isLight) ColorUtils.getShades(color) else ColorUtils.getTints(color)
         /*var result: List<Int?>? = subColorMap.get(color)

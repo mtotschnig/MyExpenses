@@ -266,15 +266,14 @@ fun TreePreview() {
     )
 }
 
-sealed class ExpansionMode {
-    abstract class MultiExpand( val state: SnapshotStateList<Long>): ExpansionMode() {
+interface ExpansionMode {
+    fun isExpanded(id: Long): Boolean
+    fun toggle(category: Category2)
+    abstract class MultiExpand( val state: SnapshotStateList<Long>): ExpansionMode {
         override fun toggle(category: Category2) {
             state.toggle(category.id)
         }
     }
-
-    abstract fun isExpanded(id: Long): Boolean
-    abstract fun toggle(category: Category2)
 
     class DefaultExpanded(state: SnapshotStateList<Long>) : MultiExpand(state) {
         override fun isExpanded(id: Long) = !state.contains(id)
@@ -284,7 +283,7 @@ sealed class ExpansionMode {
         override fun isExpanded(id: Long) = state.contains(id)
     }
 
-    class Single(val state: MutableState<Category2?>): ExpansionMode() {
+    open class Single(val state: MutableState<Category2?>): ExpansionMode {
         override fun isExpanded(id: Long) = state.value?.id == id
         override fun toggle(category: Category2) {
             if (state.value == category) {
@@ -335,12 +334,5 @@ sealed class ChoiceMode(
         }
     }
 
-    object NoChoice : ChoiceMode(false) {
-        override fun isSelected(id: Long) = false
-
-        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {
-
-        }
-    }
 }
 
