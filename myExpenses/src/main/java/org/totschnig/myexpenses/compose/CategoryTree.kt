@@ -165,7 +165,7 @@ fun CategoryRenderer(
         if (category.children.isEmpty()) {
             Spacer(modifier = Modifier.width(48.dp))
         } else {
-            IconButton(onClick = { expansionMode.state.toggle(category.id) }) {
+            IconButton(onClick = { expansionMode.toggle(category) }) {
                 Icon(
                     imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                     contentDescription = stringResource(
@@ -266,19 +266,34 @@ fun TreePreview() {
     )
 }
 
-sealed class ExpansionMode(
-    val state: SnapshotStateList<Long>
-) {
-    abstract fun isExpanded(id: Long): Boolean
+sealed class ExpansionMode {
+    abstract class MultiExpand( val state: SnapshotStateList<Long>): ExpansionMode() {
+        override fun toggle(category: Category2) {
+            state.toggle(category.id)
+        }
+    }
 
-    class DefaultExpanded(state: SnapshotStateList<Long>) : ExpansionMode(state) {
+    abstract fun isExpanded(id: Long): Boolean
+    abstract fun toggle(category: Category2)
+
+    class DefaultExpanded(state: SnapshotStateList<Long>) : MultiExpand(state) {
         override fun isExpanded(id: Long) = !state.contains(id)
     }
 
-    class DefaultCollapsed(state: SnapshotStateList<Long>) : ExpansionMode(state) {
+    class DefaultCollapsed(state: SnapshotStateList<Long>) : MultiExpand(state) {
         override fun isExpanded(id: Long) = state.contains(id)
     }
 
+    class Single(val state: MutableState<Category2?>): ExpansionMode() {
+        override fun isExpanded(id: Long) = state.value?.id == id
+        override fun toggle(category: Category2) {
+            if (state.value == category) {
+                state.value = null
+            } else {
+                state.value = category
+            }
+        }
+    }
 }
 
 sealed class ChoiceMode(

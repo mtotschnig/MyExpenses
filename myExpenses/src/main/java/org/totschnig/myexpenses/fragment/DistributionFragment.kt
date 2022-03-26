@@ -111,7 +111,6 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
                     val index = highlight.x.toInt()
                     val packedPosition = if (lastExpandedPosition == -1) ExpandableListView.getPackedPositionForGroup(index) else ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index)
                     Timber.w("%d/%d/%d, %b", index, lastExpandedPosition, packedPosition, showChart)
-                    val listView = listView
                     val flatPosition = listView.getFlatListPosition(packedPosition)
                     listView.setItemChecked(flatPosition, true)
                     listView.smoothScrollToPosition(flatPosition)
@@ -214,7 +213,6 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
     }
 
     fun onNothingSelected() {
-        val listView = listView
         listView.setItemChecked(listView.checkedItemPosition, false)
     }
 
