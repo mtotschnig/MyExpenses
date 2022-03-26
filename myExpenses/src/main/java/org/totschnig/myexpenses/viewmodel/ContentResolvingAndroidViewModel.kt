@@ -15,9 +15,7 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.CompositeException
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
