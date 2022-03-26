@@ -14,14 +14,15 @@ import com.github.mikephil.charting.charts.PieChart
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
+import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category2
 
 class DistributionActivity: ProtectedFragmentActivity() {
     private lateinit var binding: ActivityComposeBinding
-    val viewModel: CategoryViewModel by viewModels()
-
+    val viewModel: DistributionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,7 @@ class DistributionActivity: ProtectedFragmentActivity() {
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
         }
+        viewModel.initWithAccount(intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0))
         binding.composeView.setContent {
             AppTheme(this) {
                 val configuration = LocalConfiguration.current

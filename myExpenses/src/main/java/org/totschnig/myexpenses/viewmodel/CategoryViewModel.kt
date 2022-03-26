@@ -18,8 +18,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -32,13 +30,11 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Category2
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
-import java.util.*
 
-class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
+open class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
     private var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
     private var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
@@ -72,47 +68,7 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
     fun getFilter() = savedStateHandle.get<String>(KEY_FILTER)
 
     fun setSortOrder(sort: String) {
-        viewModelScope.launch {
-            sortOrder.emit(sort)
-        }
-    }
-
-    val categoryTreeWithSum = categoryTree(arrayOf("*", sumColumn())) { it.sum != 0L }
-
-    fun sumColumn(): String {
-        val accountInfo =
-            DistributionAccountInfo(1, "TEST", CurrencyUnit(Currency.getInstance("EUR")), 0)
-        val accountSelection: String?
-        var amountCalculation = KEY_AMOUNT
-        var table = VIEW_COMMITTED
-        when {
-            accountInfo.id == Account.HOME_AGGREGATE_ID -> {
-                accountSelection = null
-                amountCalculation = getAmountHomeEquivalent(VIEW_WITH_ACCOUNT)
-                table = VIEW_WITH_ACCOUNT
-            }
-            accountInfo.id < 0 -> {
-                accountSelection =
-                    " IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = '${accountInfo.currency.code}' AND $KEY_EXCLUDE_FROM_TOTALS = 0 )"
-            }
-            else -> {
-                accountSelection = " = ${accountInfo.id}"
-            }
-        }
-        val catFilter =
-            "FROM $table WHERE $WHERE_NOT_VOID${if (accountSelection == null) "" else " AND +$KEY_ACCOUNTID$accountSelection"} AND $KEY_CATID = Tree.$KEY_ROWID"
-/*        if (!aggregateTypes) {
-            catFilter += " AND " + KEY_AMOUNT + (if (isIncome) ">" else "<") + "0"
-        }*/
-/*        val dateFilter = buildFilterClause(table)
-        if (dateFilter != null) {
-            catFilter += " AND $dateFilter"
-        }*/
-        //val extraColumn = extraColumn
-        return "(SELECT sum($amountCalculation) $catFilter) AS $KEY_SUM"
-/*        if (extraColumn != null) {
-            projection.add(extraColumn)
-        }*/
+        sortOrder.tryEmit(sort)
     }
 
     val categoryTree = categoryTree()
@@ -129,13 +85,13 @@ class CategoryViewModel(application: Application, private val savedStateHandle: 
 
     val categoryTreeForSelect = categoryTree("", sortOrder.value)
 
-    private fun categoryTree(
-        filter: String,
+    fun categoryTree(
+        filter: String?,
         sortOrder: String?,
         projection: Array<String>? = null,
         keepCriteria: ((Category2) -> Boolean)? = null
     ): Flow<Category2> {
-        val (selection, selectionArgs) = if (filter.isNotBlank()) {
+        val (selection, selectionArgs) = if (filter?.isNotBlank() == true) {
             val selectionArgs =
                 arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
             //The filter is applied twice in the CTE
