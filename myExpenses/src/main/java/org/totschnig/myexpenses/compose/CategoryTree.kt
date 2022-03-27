@@ -283,11 +283,12 @@ interface ExpansionMode {
         override fun isExpanded(id: Long) = state.contains(id)
     }
 
-    open class Single(val state: SnapshotStateList<Category2>): ExpansionMode {
+    open class Single(val state: SnapshotStateList<Category2>) : ExpansionMode {
         override fun isExpanded(id: Long) = state.any { it.id == id }
         override fun toggle(category: Category2) {
+            val isExpanded = isExpanded(category.id)
             state.removeRange(state.indexOfFirst { it.id == category.parentId } + 1, state.size)
-            if (!isExpanded(category.id)) {
+            if (!isExpanded) {
                 state.add(category)
             }
         }
