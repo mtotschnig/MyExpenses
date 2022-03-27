@@ -191,7 +191,7 @@ fun CategoryRenderer(
             Spacer(modifier = Modifier.width(24.dp))
         }
         Text(text = category.label)
-        if (category.level == 1 && category.color != null) {
+        if (category.color != null) {
             Box(
                 modifier = Modifier
                     .padding(start = 6.dp)
@@ -283,13 +283,12 @@ interface ExpansionMode {
         override fun isExpanded(id: Long) = state.contains(id)
     }
 
-    open class Single(val state: MutableState<Category2?>): ExpansionMode {
-        override fun isExpanded(id: Long) = state.value?.id == id
+    open class Single(val state: SnapshotStateList<Category2>): ExpansionMode {
+        override fun isExpanded(id: Long) = state.any { it.id == id }
         override fun toggle(category: Category2) {
-            if (state.value == category) {
-                state.value = null
-            } else {
-                state.value = category
+            state.removeRange(state.indexOfFirst { it.id == category.parentId } + 1, state.size)
+            if (!isExpanded(category.id)) {
+                state.add(category)
             }
         }
     }

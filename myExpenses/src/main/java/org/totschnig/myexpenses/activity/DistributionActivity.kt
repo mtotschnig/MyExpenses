@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.viewinterop.AndroidView
@@ -22,16 +24,10 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.Category
-import org.totschnig.myexpenses.compose.ChoiceMode
-import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
-import org.totschnig.myexpenses.util.ColorUtils
-import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import kotlin.math.abs
@@ -55,20 +51,18 @@ class DistributionActivity : ProtectedFragmentActivity() {
                 val configuration = LocalConfiguration.current
                 val categoryTree =
                     viewModel.categoryTreeWithSum.collectAsState(initial = Category2.EMPTY)
-                val selectionState: MutableState<Category2?> = remember {
+                val selectionState: MutableState<Category2?> = rememberSaveable {
                     mutableStateOf(null)
                 }
-                val expansionState: MutableState<Category2?> = remember {
-                    mutableStateOf(null)
-                }
+                val expansionState: SnapshotStateList<Category2> = rememberMutableStateListOf()
                 val chartCategoryTree = derivedStateOf {
-                    (expansionState.value ?: categoryTree.value)
+                    (expansionState.lastOrNull() ?: categoryTree.value)
                 }
                 LaunchedEffect(chartCategoryTree.value) {
                     if (::chart.isInitialized) {
                         val categories = chartCategoryTree.value.children
                         chart.data = PieData(PieDataSet(categories.map { PieEntry(abs(it.aggregateSum.toFloat()), it.label) }, "").apply {
-                            colors = chartCategoryTree.value.takeIf { it.id == 0L }?.children?.map(Category2::color) ?: getSubColors(chartCategoryTree.value.color!!)
+                            colors = chartCategoryTree.value.children.map(Category2::color)
                             sliceSpace = 2f
                             setDrawValues(false)
                             xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
@@ -97,10 +91,10 @@ class DistributionActivity : ProtectedFragmentActivity() {
                     override fun toggle(category: Category2) {
                         super.toggle(category)
                         //when we collapse a category, we want it to be selected, when expand the first child should be selected
-                        if (state.value == null) {
-                            selectionState.value = category
-                        } else {
+                        if (isExpanded(category.id)) {
                             selectionState.value = category.children.firstOrNull()
+                        } else {
+                            selectionState.value = category
                         }
                     }
                 }
@@ -235,16 +229,5 @@ class DistributionActivity : ProtectedFragmentActivity() {
             $description
             $value
             """.trimIndent()
-    }
-
-    private fun getSubColors(color: Int): List<Int?>? {
-        val isLight = UiUtils.themeBoolAttr(this, R.attr.isLightTheme)
-        return if (isLight) ColorUtils.getShades(color) else ColorUtils.getTints(color)
-        /*var result: List<Int?>? = subColorMap.get(color)
-        if (result == null) {
-            result = if (isLight) ColorUtils.getShades(color) else ColorUtils.getTints(color)
-            subColorMap.put(color, result)
-        }
-        return result*/
     }
 }

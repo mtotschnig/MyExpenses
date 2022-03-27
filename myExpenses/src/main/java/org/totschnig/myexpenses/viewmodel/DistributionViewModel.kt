@@ -34,7 +34,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTreeWithSum: StateFlow<Category2> =
         accountInfo.filterNotNull().flatMapLatest { info ->
-            categoryTree(null, null, arrayOf("*", sumColumn(info))) { it.sum != 0L }
+            categoryTree(null, null, arrayOf("*", sumColumn(info)), true) { it.sum != 0L }
         }.stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
     private fun sumColumn(accountInfo: DistributionAccountInfo): String {

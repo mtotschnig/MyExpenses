@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
+import android.util.SparseArray
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
@@ -23,9 +24,7 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.TextUtils
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
@@ -33,6 +32,8 @@ import org.totschnig.myexpenses.viewmodel.data.Category2
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
+import kotlin.Result
+import kotlin.Result.Companion.failure
 
 open class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
@@ -80,7 +81,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
     ) { filter, sort ->
         Timber.d("new emission: $filter/$sort")
         filter to sort
-    }.flatMapLatest { (filter, sortOrder) -> categoryTree(filter, sortOrder, projection, keepCriteria) }
+    }.flatMapLatest { (filter, sortOrder) -> categoryTree(filter, sortOrder, projection, false, keepCriteria) }
         .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
     val categoryTreeForSelect = categoryTree("", sortOrder.value)
@@ -89,6 +90,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
         filter: String?,
         sortOrder: String?,
         projection: Array<String>? = null,
+        withSubColors: Boolean = false,
         keepCriteria: ((Category2) -> Boolean)? = null
     ): Flow<Category2> {
         val (selection, selectionArgs) = if (filter?.isNotBlank() == true) {
@@ -107,10 +109,11 @@ open class CategoryViewModel(application: Application, private val savedStateHan
             selectionArgs,
             sortOrder,
             true
-        ).mapToTree(keepCriteria)
+        ).mapToTree(withSubColors, keepCriteria)
     }
 
     private fun Flow<Query>.mapToTree(
+        withSubColors: Boolean = false,
         keepCriteria: ((Category2) -> Boolean)?
     ): Flow<Category2> = transform { query ->
         Timber.d("new emission")
@@ -122,7 +125,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                     parentId = null,
                     level = 0,
                     label = "ROOT",
-                    children = ingest(getApplication(), cursor, null, 1),
+                    children = ingest(getApplication(), cursor, null, if (withSubColors) 0 else null, 1),
                     isMatching = true,
                     color = null as Int?,
                     icon = null
@@ -229,7 +232,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                     }
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(e)
-                    Result.failure(e)
+                    failure(e)
                 }
             }
         }
@@ -339,15 +342,31 @@ open class CategoryViewModel(application: Application, private val savedStateHan
     }
 
     companion object {
-        fun ingest(context: Context, cursor: Cursor, parentId: Long?, level: Int): List<Category2> =
+        private val subColorMap = SparseArray<List<Int>>()
+        fun getSubColors(color: Int): List<Int?>? {
+            val isLight = true // TODO UiUtils.themeBoolAttr(this, R.attr.isLightTheme)
+            var result: List<Int?>? = subColorMap.get(color)
+            if (result == null) {
+                result = if (isLight) ColorUtils.getShades(color) else ColorUtils.getTints(color)
+                subColorMap.put(color, result)
+            }
+            return result
+        }
+        /**
+         * @param parentColor if null no subColors will be calculated, if 0, no subColors for the current
+         * level, but color will be passed on to next level fo
+         */
+        fun ingest(context: Context, cursor: Cursor, parentId: Long?, parentColor: Int?, level: Int): List<Category2> =
             buildList {
-                if (!cursor.isBeforeFirst)
+                if (!cursor.isBeforeFirst) {
+                    val subColors = parentColor?.takeIf { it != 0 }?.let { getSubColors(it) }
+                    var index = 0
                     while (!cursor.isAfterLast) {
                         val nextParent = cursor.getLongOrNull(KEY_PARENTID)
                         val nextId = cursor.getLong(KEY_ROWID)
                         val nextLabel = cursor.getString(KEY_LABEL)
                         val nextPath = cursor.getString(KEY_PATH)
-                        val nextColor = cursor.getIntOrNull(KEY_COLOR)
+                        val nextColor = subColors?.let { it[index % it.size] } ?: cursor.getIntOrNull(KEY_COLOR)
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
@@ -362,15 +381,17 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                                     nextLevel,
                                     nextLabel,
                                     nextPath,
-                                    ingest(context, cursor, nextId, level + 1),
+                                    ingest(context, cursor, nextId, if (parentColor == null) null else nextColor, level + 1),
                                     nextIsMatching,
                                     nextColor,
                                     nextIcon,
                                     nextSum
                                 )
                             )
+                            index++
                         } else return@buildList
                     }
+                }
             }
     }
 }
