@@ -186,7 +186,6 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         }
                     } else {
                         Category(
-                            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.general_padding)),
                             category = it,
                             expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
                             menu = if (action == Action.SELECT_FILTER) null else CategoryMenu(

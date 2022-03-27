@@ -9,6 +9,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -23,8 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.R
@@ -35,7 +38,12 @@ import kotlin.math.sqrt
 
 typealias CategoryAction = ((Category2) -> Unit)
 
-data class CategoryMenu(val onEdit: CategoryAction, val onDelete: CategoryAction, val onAdd: CategoryAction, val onMove: CategoryAction)
+data class CategoryMenu(
+    val onEdit: CategoryAction,
+    val onDelete: CategoryAction,
+    val onAdd: CategoryAction,
+    val onMove: CategoryAction
+)
 
 @Composable
 fun Category(
@@ -46,17 +54,22 @@ fun Category(
     selectedAncestor: Category2? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
-    withRoot: Boolean = false
+    withRoot: Boolean = false,
+    startPadding: Dp = 0.dp
 ) {
     Column(
         modifier = modifier.then(
-            if (choiceMode.isTreeSelected(category.id)) Modifier.background(
-                Color.LightGray
-            ) else Modifier
+            if (choiceMode.isTreeSelected(category.id)) Modifier
+                .padding(2.dp)
+                .clip(RoundedCornerShape(15.dp))
+                .background(
+                    colorResource(id = R.color.activatedBackground)
+                ) else Modifier
         )
     ) {
         val filteredChildren =
             if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
+        val subTreePadding = startPadding + 24.dp
         if (withRoot || category.level > 0) {
             val menuEntries = if (menu != null) Menu(buildList {
                 add(MenuEntry.edit { menu.onEdit(category) })
@@ -75,13 +88,13 @@ fun Category(
                 expansionMode = expansionMode,
                 choiceMode = choiceMode,
                 menu = menuEntries,
+                startPadding = startPadding,
                 onToggleSelection = {
                     choiceMode.toggleSelection(selectedAncestor, category)
                 }
             )
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
-                    modifier = Modifier.padding(start = 24.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
                     filteredChildren.forEach { model ->
@@ -92,7 +105,8 @@ fun Category(
                             selectedAncestor = selectedAncestor
                                 ?: if (choiceMode.isSelected(category.id)) category else null,
                             choiceMode = choiceMode,
-                            excludedSubTree = excludedSubTree
+                            excludedSubTree = excludedSubTree,
+                            startPadding = subTreePadding
                         )
                     }
                 }
@@ -108,7 +122,8 @@ fun Category(
                             expansionMode = expansionMode,
                             menu = menu,
                             choiceMode = choiceMode,
-                            excludedSubTree = excludedSubTree
+                            excludedSubTree = excludedSubTree,
+                            startPadding = subTreePadding
                         )
                     }
                 }
@@ -124,13 +139,15 @@ fun CategoryRenderer(
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
     menu: Menu?,
+    startPadding: Dp,
     onToggleSelection: () -> Unit
 ) {
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
-            .height(48.dp).fillMaxWidth().padding(end=24.dp)
+            .height(48.dp)
+            .fillMaxWidth()
             .then(if (menu == null) {
 
                 if (choiceMode.isSelectable(category.id)) Modifier.clickable(
@@ -159,7 +176,12 @@ fun CategoryRenderer(
                 }
             }
             )
-            .then(if (choiceMode.isNodeSelected(category.id)) Modifier.background(Color.LightGray) else Modifier),
+            .then(
+                if (choiceMode.isNodeSelected(category.id))
+                    Modifier.background(colorResource(id = R.color.activatedBackground))
+                else Modifier
+            )
+            .padding(end = 24.dp, start = startPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (category.children.isEmpty()) {
@@ -183,7 +205,9 @@ fun CategoryRenderer(
                 context.resources.getIdentifier(category.icon, "drawable", context.packageName)
             )
             Icon(
-                modifier = Modifier.size(24.dp).padding(end = 6.dp),
+                modifier = Modifier
+                    .size(24.dp)
+                    .padding(end = 6.dp),
                 painter = rememberDrawablePainter(drawable = drawable),
                 contentDescription = category.icon
             )
@@ -269,7 +293,7 @@ fun TreePreview() {
 interface ExpansionMode {
     fun isExpanded(id: Long): Boolean
     fun toggle(category: Category2)
-    abstract class MultiExpand( val state: SnapshotStateList<Long>): ExpansionMode {
+    abstract class MultiExpand(val state: SnapshotStateList<Long>) : ExpansionMode {
         override fun toggle(category: Category2) {
             state.toggle(category.id)
         }
