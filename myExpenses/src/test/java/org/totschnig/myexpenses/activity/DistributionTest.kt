@@ -34,7 +34,7 @@ import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class DistributionTest {
-    private lateinit var scenario: ActivityScenario<Distribution>
+    private lateinit var scenario: ActivityScenario<DistributionActivity>
     val currency = CurrencyUnit(Currency.getInstance("EUR"))
     private lateinit var account: Account
     private var categoryId: Long = 0
@@ -44,7 +44,7 @@ class DistributionTest {
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         additionalFixture()
-        scenario = ActivityScenario.launch(Intent(InstrumentationRegistry.getInstrumentation().context, Distribution::class.java).apply {
+        scenario = ActivityScenario.launch(Intent(InstrumentationRegistry.getInstrumentation().context, DistributionActivity::class.java).apply {
             putExtra(KEY_ACCOUNTID, account.id)
         })
     }

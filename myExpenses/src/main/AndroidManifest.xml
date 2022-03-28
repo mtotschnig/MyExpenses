@@ -178,9 +178,6 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".activity.Distribution"
-            android:exported="false" />
-        <activity
             android:name=".activity.DistributionActivity"
             android:exported="true" />
         <activity
