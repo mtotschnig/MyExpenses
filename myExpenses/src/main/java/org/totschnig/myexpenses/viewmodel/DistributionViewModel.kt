@@ -162,7 +162,6 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val dateInfoExtra: StateFlow<DateInfo3?> = _grouping.flatMapLatest { grouping ->
-        Timber.d("emitting $grouping")
         //if we are at the beginning of the year we are interested in the max of the previous year
         val maxYearToLookUp = if (grouping.second <= 1) grouping.year - 1 else grouping.year
         val maxValueExpression = when (grouping.grouping) {
@@ -220,6 +219,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     ) { accountInfo, aggregateTypes, incomeType, grouping ->
         Triple(accountInfo, if (aggregateTypes) null else incomeType, grouping)
     }.flatMapLatest { (accountInfo, incomeType, grouping) ->
+        Timber.d("emitting $grouping")
         categoryTree(
             null,
             null,
@@ -268,7 +268,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     }
 
     private fun buildFilterClause(groupingInfo: GroupingInfo) = with(groupingInfo) {
-        val yearExpression = "$YEAR = ${getThisYearOfMonthStart()}"
+        val yearExpression = "$YEAR = $year"
         when (grouping) {
             Grouping.YEAR -> yearExpression
             Grouping.DAY -> "$yearExpression AND $DAY = $second"
