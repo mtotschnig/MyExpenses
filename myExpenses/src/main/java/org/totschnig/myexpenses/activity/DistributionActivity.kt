@@ -5,17 +5,19 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.CompoundButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SwitchCompat
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
@@ -73,8 +75,10 @@ class DistributionActivity : ProtectedFragmentActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        /*Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).subMenu, grouping)
-        }*/
+        Utils.configureGroupingMenu(
+            menu.findItem(R.id.GROUPING_COMMAND).subMenu,
+            viewModel.grouping
+        )
         menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
             it.isChecked = showChart.value
         }
@@ -90,6 +94,22 @@ class DistributionActivity : ProtectedFragmentActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (handleGrouping(item)) return true
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun handleGrouping(item: MenuItem): Boolean {
+        val newGrouping = Utils.getGroupingFromMenuItemId(item.itemId)
+        if (newGrouping != null) {
+            viewModel.setGrouping(newGrouping)
+            invalidateOptionsMenu()
+            reset()
+            return true
+        }
+        return false
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
             true
@@ -97,7 +117,11 @@ class DistributionActivity : ProtectedFragmentActivity() {
             R.id.TOGGLE_AGGREGATE_TYPES -> {
                 val value = tag as Boolean
                 viewModel.setAggregateTypes(value)
-                prefHandler.putBoolean(prefKey, value)
+                if (value) {
+                    prefHandler.remove(prefKey)
+                } else {
+                    prefHandler.putBoolean(prefKey, viewModel.incomeType)
+                }
                 invalidateOptionsMenu()
                 reset()
                 true
@@ -108,27 +132,37 @@ class DistributionActivity : ProtectedFragmentActivity() {
                 invalidateOptionsMenu()
                 true
             }
+            R.id.BACK_COMMAND -> {
+                viewModel.backward()
+                true
+            }
+            R.id.FORWARD_COMMAND -> {
+                viewModel.forward()
+                true
+            }
             else -> false
         }
 
     private fun setChartData(categories: List<Category2>) {
-        chart.data = PieData(PieDataSet(categories.map {
-            PieEntry(
-                abs(it.aggregateSum.toFloat()),
-                it.label
-            )
-        }, "").apply {
-            colors = categories.map(Category2::color)
-            sliceSpace = 2f
-            setDrawValues(false)
-            xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-            valueLinePart2Length = 0.1f
-            valueLineColor = textColorSecondary.defaultColor
-        }).apply {
-            setValueFormatter(PercentFormatter())
+        if ((::chart.isInitialized)) {
+            chart.data = PieData(PieDataSet(categories.map {
+                PieEntry(
+                    abs(it.aggregateSum.toFloat()),
+                    it.label
+                )
+            }, "").apply {
+                colors = categories.map(Category2::color)
+                sliceSpace = 2f
+                setDrawValues(false)
+                xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+                valueLinePart2Length = 0.1f
+                valueLineColor = textColorSecondary.defaultColor
+            }).apply {
+                setValueFormatter(PercentFormatter())
+            }
+            chart.invalidate()
         }
         selectionState.value = categories.firstOrNull()
-        chart.invalidate()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -157,15 +191,11 @@ class DistributionActivity : ProtectedFragmentActivity() {
                     (expansionState.lastOrNull() ?: categoryTree.value)
                 }
                 LaunchedEffect(chartCategoryTree.value) {
-                    if (::chart.isInitialized) {
-                        setChartData(chartCategoryTree.value.children)
-
-                    }
+                    setChartData(chartCategoryTree.value.children)
                 }
 
                 LaunchedEffect(selectionState.value) {
                     if (::chart.isInitialized) {
-
                         val position =
                             chartCategoryTree.value.children.indexOf(selectionState.value)
                         if (position > -1) {
@@ -187,39 +217,46 @@ class DistributionActivity : ProtectedFragmentActivity() {
                         }
                     }
                 }
-                when (configuration.orientation) {
-                    Configuration.ORIENTATION_LANDSCAPE -> {
-                        Row {
-                            RenderTree(
-                                modifier = Modifier.weight(0.5f),
-                                category = categoryTree.value,
-                                choiceMode = choiceMode,
-                                expansionMode = expansionMode
-                            )
-                            RenderChart(
-                                modifier = Modifier
-                                    .weight(0.5f)
-                                    .fillMaxHeight(),
-                                categories = chartCategoryTree,
-                                expansionState = selectionState
-                            )
-                        }
+                if (categoryTree.value.children.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = stringResource(id = R.string.no_mapped_transactions),
+                            textAlign = TextAlign.Center
+                        )
                     }
-                    else -> {
-                        Column {
-                            RenderTree(
-                                modifier = Modifier.weight(0.5f),
-                                category = categoryTree.value,
-                                choiceMode = choiceMode,
-                                expansionMode = expansionMode
-                            )
-                            RenderChart(
-                                modifier = Modifier
-                                    .weight(0.5f)
-                                    .fillMaxSize(),
-                                categories = chartCategoryTree,
-                                expansionState = selectionState
-                            )
+                } else {
+                    when (configuration.orientation) {
+                        Configuration.ORIENTATION_LANDSCAPE -> {
+                            Row {
+                                RenderTree(
+                                    modifier = Modifier.weight(0.5f),
+                                    category = categoryTree.value,
+                                    choiceMode = choiceMode,
+                                    expansionMode = expansionMode
+                                )
+                                RenderChart(
+                                    modifier = Modifier
+                                        .weight(0.5f)
+                                        .fillMaxHeight(),
+                                    categories = chartCategoryTree
+                                )
+                            }
+                        }
+                        else -> {
+                            Column {
+                                RenderTree(
+                                    modifier = Modifier.weight(0.5f),
+                                    category = categoryTree.value,
+                                    choiceMode = choiceMode,
+                                    expansionMode = expansionMode
+                                )
+                                RenderChart(
+                                    modifier = Modifier
+                                        .weight(0.5f)
+                                        .fillMaxSize(),
+                                    categories = chartCategoryTree
+                                )
+                            }
                         }
                     }
                 }
@@ -249,8 +286,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
     @Composable
     fun RenderChart(
         modifier: Modifier,
-        categories: State<Category2>,
-        expansionState: MutableState<Category2?>
+        categories: State<Category2>
     ) {
         if (showChart.value)
             AndroidView(
@@ -283,12 +319,12 @@ class DistributionActivity : ProtectedFragmentActivity() {
                         setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                             override fun onValueSelected(e: Entry, highlight: Highlight) {
                                 val index = highlight.x.toInt()
-                                expansionState.value = categories.value.children[index]
+                                selectionState.value = categories.value.children[index]
                                 this@apply.setCenterText(index)
                             }
 
                             override fun onNothingSelected() {
-                                expansionState.value = null
+                                selectionState.value = null
                             }
                         })
                         setUsePercentValues(true)

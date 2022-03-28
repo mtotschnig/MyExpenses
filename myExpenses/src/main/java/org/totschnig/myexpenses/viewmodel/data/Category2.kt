@@ -28,7 +28,7 @@ data class Category2(
     fun pruneNonMatching(_criteria: ((Category2) -> Boolean)? = null): Category2? {
         val criteria = _criteria ?: { it.isMatching }
         val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
-        return if (criteria(this) || prunedChildren.isNotEmpty()) {
+        return if (id == 0L || criteria(this) || prunedChildren.isNotEmpty()) {
             this.copy(children = prunedChildren)
         } else null
     }
