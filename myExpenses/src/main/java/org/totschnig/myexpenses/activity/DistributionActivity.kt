@@ -4,9 +4,8 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.CompoundButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SwitchCompat
@@ -19,6 +18,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
@@ -34,6 +35,7 @@ import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.compose.ChoiceMode
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
@@ -48,6 +50,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
     val viewModel: DistributionViewModel by viewModels()
     val prefKey = PrefKey.DISTRIBUTION_AGGREGATE_TYPES
     private val showChart = mutableStateOf(false)
+    private var mDetector: GestureDetector? = null
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.distribution, menu)
@@ -91,6 +94,9 @@ class DistributionActivity : ProtectedFragmentActivity() {
             (item.actionView.findViewById<View>(R.id.TaType) as SwitchCompat).isChecked =
                 viewModel.incomeType
         }
+        val grouped = viewModel.grouping != Grouping.NONE
+        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped)
+        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped)
         return true
     }
 
@@ -181,6 +187,17 @@ class DistributionActivity : ProtectedFragmentActivity() {
             inject(viewModel)
         }
         viewModel.initWithAccount(intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0))
+        lifecycleScope.launch {
+            viewModel.accountInfo.collect {
+                supportActionBar?.title = it.label
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.displayTitle.collect {
+                supportActionBar?.subtitle = it
+            }
+        }
+
         binding.composeView.setContent {
             AppTheme(this) {
                 val configuration = LocalConfiguration.current
@@ -262,6 +279,48 @@ class DistributionActivity : ProtectedFragmentActivity() {
                 }
             }
         }
+        setupGestureDetector()
+    }
+
+    private fun setupGestureDetector() {
+        val dm = resources.displayMetrics
+
+        val minDistance =
+            (SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f).toInt()
+        val maxOffPath =
+            (SWIPE_MAX_OFF_PATH * dm.densityDpi / 160.0f).toInt()
+        val thresholdVelocity =
+            (SWIPE_THRESHOLD_VELOCITY * dm.densityDpi / 160.0f).toInt()
+        mDetector = GestureDetector(this,
+            object : SimpleOnGestureListener() {
+                override fun onFling(
+                    e1: MotionEvent, e2: MotionEvent,
+                    velocityX: Float, velocityY: Float
+                ): Boolean {
+                    if (abs(e1.y - e2.y) > maxOffPath) return false
+                    if (e1.x - e2.x > minDistance
+                        && abs(velocityX) > thresholdVelocity
+                    ) {
+                        viewModel.forward()
+                        return true
+                    } else if (e2.x - e1.x > minDistance
+                        && abs(velocityX) > thresholdVelocity
+                    ) {
+                        viewModel.backward()
+                        return true
+                    }
+                    return false
+                }
+            })
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        mDetector?.let {
+            if (viewModel.grouping != Grouping.NONE && it.onTouchEvent(event)) {
+                return true
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     @Composable
@@ -356,5 +415,11 @@ class DistributionActivity : ProtectedFragmentActivity() {
             $description
             $value
             """.trimIndent()
+    }
+
+    companion object {
+        private const val SWIPE_MIN_DISTANCE = 120
+        private const val SWIPE_MAX_OFF_PATH = 250
+        private const val SWIPE_THRESHOLD_VELOCITY = 100
     }
 }

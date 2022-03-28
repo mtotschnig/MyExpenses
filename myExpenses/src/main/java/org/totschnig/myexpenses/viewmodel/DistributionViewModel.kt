@@ -18,22 +18,25 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.viewmodel.data.Category2
-import org.totschnig.myexpenses.viewmodel.data.DateInfo2
-import org.totschnig.myexpenses.viewmodel.data.DateInfo3
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.viewmodel.data.*
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 open class DistributionViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     CategoryViewModel(application, savedStateHandle) {
+    @Inject
+    lateinit var userLocaleProvider: UserLocaleProvider
+
     val selectionState: MutableState<Category2?> = mutableStateOf(null)
     val expansionState: SnapshotStateList<Category2> = SnapshotStateList()
-    private val accountInfo = MutableStateFlow<DistributionAccountInfo?>(null)
+    private val _accountInfo = MutableStateFlow<DistributionAccountInfo?>(null)
+    val accountInfo: Flow<DistributionAccountInfo> = _accountInfo.filterNotNull()
 
     private val _aggregateTypes = MutableStateFlow(true)
     private val _incomeType = MutableStateFlow(false)
-    private val _grouping = MutableStateFlow(GroupingInfo(Grouping.NONE))
+    val _groupingInfo = MutableStateFlow(GroupingInfo(Grouping.NONE))
 
     val aggregateTypes: Boolean
         get() = _aggregateTypes.value
@@ -42,7 +45,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         get() = _incomeType.value
 
     val grouping: Grouping
-        get() = _grouping.value.grouping
+        get() = _groupingInfo.value.grouping
 
     fun setAggregateTypes(newValue: Boolean) {
         _aggregateTypes.tryEmit(newValue)
@@ -55,7 +58,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     fun setGrouping(grouping: Grouping) {
         viewModelScope.launch {
             dateInfo.filterNotNull().collect {
-                _grouping.tryEmit(
+                _groupingInfo.tryEmit(
                     GroupingInfo(
                         grouping = grouping,
                         year = when (grouping) {
@@ -77,19 +80,19 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
 
     fun forward() {
         if (grouping == Grouping.YEAR) {
-            _grouping.tryEmit(
-                _grouping.value.copy(
-                    year = _grouping.value.year + 1
+            _groupingInfo.tryEmit(
+                _groupingInfo.value.copy(
+                    year = _groupingInfo.value.year + 1
                 )
             )
         } else {
             viewModelScope.launch {
-                dateInfoExtra.filterNotNull().collect {
-                    val nextSecond = _grouping.value.second + 1
-                    val currentYear = _grouping.value.year
+                dateInfoExtra.filterNotNull().take(1).collect {
+                    val nextSecond = _groupingInfo.value.second + 1
+                    val currentYear = _groupingInfo.value.year
                     val overflow = nextSecond > it.maxValue
-                    _grouping.tryEmit(
-                        _grouping.value.copy(
+                    _groupingInfo.tryEmit(
+                        _groupingInfo.value.copy(
                             year = if (overflow) currentYear + 1 else currentYear,
                             second = if (overflow) grouping.minValue else nextSecond
                         )
@@ -101,19 +104,19 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
 
     fun backward() {
         if (grouping == Grouping.YEAR) {
-            _grouping.tryEmit(
-                _grouping.value.copy(
-                    year = _grouping.value.year - 1
+            _groupingInfo.tryEmit(
+                _groupingInfo.value.copy(
+                    year = _groupingInfo.value.year - 1
                 )
             )
         } else {
             viewModelScope.launch {
                 dateInfoExtra.filterNotNull().take(1).collect {
-                    val nextSecond = _grouping.value.second - 1
-                    val currentYear = _grouping.value.year
+                    val nextSecond = _groupingInfo.value.second - 1
+                    val currentYear = _groupingInfo.value.year
                     val underflow = nextSecond < grouping.minValue
-                    _grouping.tryEmit(
-                        _grouping.value.copy(
+                    _groupingInfo.tryEmit(
+                        _groupingInfo.value.copy(
                             year = if (underflow) currentYear - 1 else currentYear,
                             second = if (underflow) it.maxValue else nextSecond
                         )
@@ -126,7 +129,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     fun initWithAccount(accountId: Long) {
         viewModelScope.launch {
             account(accountId, true).asFlow().collect {
-                accountInfo.tryEmit(
+                _accountInfo.tryEmit(
                     DistributionAccountInfo(
                         it.id,
                         it.getLabelForScreenTitle(getApplication()),
@@ -161,7 +164,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dateInfoExtra: StateFlow<DateInfo3?> = _grouping.flatMapLatest { grouping ->
+    val dateInfoExtra: StateFlow<DateInfo3?> = _groupingInfo.flatMapLatest { grouping ->
         //if we are at the beginning of the year we are interested in the max of the previous year
         val maxYearToLookUp = if (grouping.second <= 1) grouping.year - 1 else grouping.year
         val maxValueExpression = when (grouping.grouping) {
@@ -210,12 +213,33 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
+    val displayTitle: Flow<String> = combine(
+        _groupingInfo,
+        dateInfo.filterNotNull(),
+        dateInfoExtra.filterNotNull()
+    ) { groupingInfo, dateInfo, dateInfoExtra ->
+        groupingInfo.grouping.getDisplayTitle(
+            getApplication(), groupingInfo.year, groupingInfo.second,
+            DateInfo(
+                dateInfo.day,
+                dateInfo.week,
+                dateInfo.month,
+                dateInfo.year,
+                dateInfo.yearOfWeekStart,
+                dateInfo.yearOfMonthStart,
+                dateInfoExtra.maxValue,
+                dateInfoExtra.weekStart,
+                dateInfoExtra.weekEnd
+            ), userLocaleProvider.getUserPreferredLocale()
+        )
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTreeWithSum: StateFlow<Category2> = combine(
-        accountInfo.filterNotNull(),
+        _accountInfo.filterNotNull(),
         _aggregateTypes,
         _incomeType,
-        _grouping
+        _groupingInfo
     ) { accountInfo, aggregateTypes, incomeType, grouping ->
         Triple(accountInfo, if (aggregateTypes) null else incomeType, grouping)
     }.flatMapLatest { (accountInfo, incomeType, grouping) ->
