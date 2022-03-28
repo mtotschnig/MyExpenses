@@ -1,6 +1,9 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
@@ -9,12 +12,32 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
 class DistributionViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     CategoryViewModel(application, savedStateHandle) {
+    val selectionState: MutableState<Category2?> = mutableStateOf(null)
+    val expansionState: SnapshotStateList<Category2> = SnapshotStateList()
     private val accountInfo = MutableStateFlow<DistributionAccountInfo?>(null)
+
+    val _aggregateTypes = MutableStateFlow<Boolean>(true)
+    val _incomeType = MutableStateFlow<Boolean>(false)
+
+    val aggregateTypes: Boolean
+        get() = _aggregateTypes.value
+
+    val incomeType: Boolean
+        get() = _incomeType.value
+
+    fun setAggregateTypes(newValue: Boolean) {
+        _aggregateTypes.tryEmit(newValue)
+    }
+
+    fun setIncomeType(newValue: Boolean) {
+        _incomeType.tryEmit(newValue)
+    }
 
     fun initWithAccount(accountId: Long) {
         viewModelScope.launch {
@@ -32,12 +55,22 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeWithSum: StateFlow<Category2> =
-        accountInfo.filterNotNull().flatMapLatest { info ->
-            categoryTree(null, null, arrayOf("*", sumColumn(info)), true) { it.sum != 0L }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
+    val categoryTreeWithSum: StateFlow<Category2> = combine(
+        accountInfo.filterNotNull(),
+        _aggregateTypes,
+        _incomeType
+    ) { accountInfo, aggregateTypes, incomeType ->
+        accountInfo to if (aggregateTypes) null else incomeType
+    }.flatMapLatest { (accountInfo, incomeType) ->
+        categoryTree(
+            null,
+            null,
+            arrayOf("*", sumColumn(accountInfo, incomeType)),
+            true
+        ) { it.sum != 0L }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
-    private fun sumColumn(accountInfo: DistributionAccountInfo): String {
+    private fun sumColumn(accountInfo: DistributionAccountInfo, incomeType: Boolean?): String {
         val accountSelection: String?
         var amountCalculation = DatabaseConstants.KEY_AMOUNT
         var table = DatabaseConstants.VIEW_COMMITTED
@@ -56,11 +89,11 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                 accountSelection = " = ${accountInfo.id}"
             }
         }
-        val catFilter =
+        var catFilter =
             "FROM $table WHERE ${DatabaseConstants.WHERE_NOT_VOID}${if (accountSelection == null) "" else " AND +${DatabaseConstants.KEY_ACCOUNTID}$accountSelection"} AND ${DatabaseConstants.KEY_CATID} = Tree.${DatabaseConstants.KEY_ROWID}"
-/*        if (!aggregateTypes) {
-            catFilter += " AND " + KEY_AMOUNT + (if (isIncome) ">" else "<") + "0"
-        }*/
+        if (incomeType != null) {
+            catFilter += " AND " + KEY_AMOUNT + (if (incomeType) ">" else "<") + "0"
+        }
 /*        val dateFilter = buildFilterClause(table)
         if (dateFilter != null) {
             catFilter += " AND $dateFilter"

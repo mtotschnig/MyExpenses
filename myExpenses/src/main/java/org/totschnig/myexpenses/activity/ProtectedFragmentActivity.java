@@ -361,7 +361,9 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public boolean onOptionsItemSelected(MenuItem item) {
     int itemId = item.getItemId();
     if (itemId != 0) {
-      if (dispatchCommand(itemId, null)) {
+      //isChecked reports the value at the moment the item is clicked, we dispatch command with the
+      //requested new value
+      if (dispatchCommand(itemId, item.isCheckable() ? !item.isChecked() : null)) {
         return true;
       }
     }
