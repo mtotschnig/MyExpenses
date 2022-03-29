@@ -1010,4 +1010,5 @@
     </plurals>
     <string name="whats_new_336_2">Етикети на разпределените части</string>
     <string name="whats_new_336_1">Споделяне на резюме на задълженията</string>
+    <string name="setup_completed">Настройката завърши</string>
 </resources>
