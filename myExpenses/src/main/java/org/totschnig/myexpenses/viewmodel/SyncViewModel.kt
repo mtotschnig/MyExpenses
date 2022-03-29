@@ -130,14 +130,20 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             arrayOf(KEY_ROWID, KEY_LABEL, KEY_UUID, "$KEY_SYNC_ACCOUNT_NAME IS NULL", KEY_SEALED),
             null, null, null
         )?.use { cursor ->
-            cursor.asSequence.map {
-                LocalAccount(
-                    id = it.getLong(0),
-                    label = it.getString(1),
-                    uuid = it.getString(2),
-                    isSynced = it.getInt(3) == 0,
-                    isSealed = it.getInt(4) == 1
-                )
+            cursor.asSequence.mapNotNull {
+                val uuid = it.getString(2)
+                if (uuid == null) {
+                    CrashHandler.report("Account with null uuid")
+                    null
+                } else {
+                    LocalAccount(
+                        id = it.getLong(0),
+                        label = it.getString(1),
+                        uuid = uuid,
+                        isSynced = it.getInt(3) == 0,
+                        isSealed = it.getInt(4) == 1
+                    )
+                }
             }.toList()
         } ?: emptyList()
 

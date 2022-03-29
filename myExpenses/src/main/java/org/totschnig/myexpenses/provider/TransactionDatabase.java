@@ -2194,6 +2194,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
       }
+      if (oldVersion < 124) {
+        upgradeTo124(db);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
