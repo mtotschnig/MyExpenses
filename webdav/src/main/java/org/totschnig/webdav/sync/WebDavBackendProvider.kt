@@ -177,7 +177,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             var nextShard = sequenceNumber.shard
             var startNumber = sequenceNumber.number
             while (true) {
-                val nextShardResource = if (sequenceNumber.shard == 0) webDavClient.getCollection(accountUuid)
+                val nextShardResource = if (nextShard == 0) webDavClient.getCollection(accountUuid)
                 else webDavClient.getCollection("_$nextShard", accountUuid)
                 if (nextShardResource.exists()) {
                     val finalNextShard = nextShard
