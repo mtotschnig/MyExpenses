@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.wait
 import org.totschnig.myexpenses.testutils.Matchers.withListSize
-import java.util.*
 
 class AccountEditTest : BaseUiTest<AccountEdit>() {
     private lateinit var activityScenario: ActivityScenario<AccountEdit>
@@ -49,7 +48,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
     @Test
     fun shouldKeepUuidAfterSave() {
         val (id, uuid) = with(Account(LABEL,
-            CurrencyUnit(Currency.getInstance("EUR")), 0, "", AccountType.CASH, Account.DEFAULT_COLOR)) {
+            CurrencyUnit.DebugInstance, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)) {
             save()
             id to uuid
         }

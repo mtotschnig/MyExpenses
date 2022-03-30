@@ -32,7 +32,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     val selectionState: MutableState<Category2?> = mutableStateOf(null)
     val expansionState: SnapshotStateList<Category2> = SnapshotStateList()
     private val _accountInfo = MutableStateFlow<DistributionAccountInfo?>(null)
-    val accountInfo: Flow<DistributionAccountInfo> = _accountInfo.filterNotNull()
+    val accountInfo: Flow<DistributionAccountInfo?> = _accountInfo
 
     private val _aggregateTypes = MutableStateFlow(true)
     private val _incomeType = MutableStateFlow(false)

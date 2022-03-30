@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import kotlin.math.floor
 import kotlin.math.sqrt
@@ -55,7 +55,8 @@ fun Category(
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
     withRoot: Boolean = false,
-    startPadding: Dp = 0.dp
+    startPadding: Dp = 0.dp,
+    sumCurrency: CurrencyUnit? = null
 ) {
     Column(
         modifier = modifier.then(
@@ -91,7 +92,8 @@ fun Category(
                 startPadding = startPadding,
                 onToggleSelection = {
                     choiceMode.toggleSelection(selectedAncestor, category)
-                }
+                },
+                sumCurrency = sumCurrency
             )
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
@@ -106,7 +108,8 @@ fun Category(
                                 ?: if (choiceMode.isSelected(category.id)) category else null,
                             choiceMode = choiceMode,
                             excludedSubTree = excludedSubTree,
-                            startPadding = subTreePadding
+                            startPadding = subTreePadding,
+                            sumCurrency = sumCurrency
                         )
                     }
                 }
@@ -123,7 +126,8 @@ fun Category(
                             menu = menu,
                             choiceMode = choiceMode,
                             excludedSubTree = excludedSubTree,
-                            startPadding = subTreePadding
+                            startPadding = subTreePadding,
+                            sumCurrency = sumCurrency
                         )
                     }
                 }
@@ -140,7 +144,8 @@ fun CategoryRenderer(
     choiceMode: ChoiceMode,
     menu: Menu?,
     startPadding: Dp,
-    onToggleSelection: () -> Unit
+    onToggleSelection: () -> Unit,
+    sumCurrency: CurrencyUnit?
 ) {
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
@@ -225,11 +230,11 @@ fun CategoryRenderer(
                     .background(Color(category.color))
             )
         }
-        category.aggregateSum.takeIf { it != 0L }?.let {
+        sumCurrency?.let {
             Spacer(modifier = Modifier.weight(1f))
             ColoredAmountText(
-                amount = it,
-                currency = Utils.getHomeCurrency().code,
+                amount = category.aggregateSum,
+                currency = it,
             )
         }
         menu?.let {

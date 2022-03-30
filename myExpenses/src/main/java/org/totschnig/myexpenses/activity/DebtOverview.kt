@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DebtCard
 import org.totschnig.myexpenses.compose.Navigation
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
@@ -62,7 +63,7 @@ class DebtOverview : DebtActivity() {
                             )
                             ColoredAmountText(
                                 amount = debts.value.sumOf { it.currentBalance },
-                                currency = Utils.getHomeCurrency().code,
+                                currency = Utils.getHomeCurrency(),
                             )
                         }
                     }
@@ -135,7 +136,7 @@ fun DebtListPreview() {
                             description = "some description",
                             payeeId = 1,
                             amount = 4000,
-                            currency = "EUR",
+                            currency = CurrencyUnit.DebugInstance,
                             date = localDate2Epoch(LocalDate.now()),
                             payeeName = "Joe Doe",
                             sum = 3000
@@ -146,7 +147,7 @@ fun DebtListPreview() {
                             description = "",
                             payeeId = 2,
                             amount = -500,
-                            currency = "EUR",
+                            currency = CurrencyUnit.DebugInstance,
                             date = localDate2Epoch(LocalDate.now()),
                             payeeName = "Klara Masterful",
                             sum = -200

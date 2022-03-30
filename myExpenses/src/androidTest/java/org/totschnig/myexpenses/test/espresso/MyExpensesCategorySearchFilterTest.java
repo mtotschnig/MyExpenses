@@ -58,7 +58,7 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest<MyExpen
     catLabel1 = "Main category 1";
     catLabel1Sub = "Sub category 1";
     catLabel2 = "Test category 2";
-    final CurrencyUnit currency = new CurrencyUnit(Currency.getInstance("EUR"));
+    final CurrencyUnit currency = CurrencyUnit.Companion.getDebugInstance();
     account = new Account("Test account 1", currency, 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();

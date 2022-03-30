@@ -24,7 +24,7 @@ val LocalAmountFormatter = staticCompositionLocalOf<AmountFormatter> {
     { amount, currency ->
         DebugCurrencyFormatter.convAmount(
             amount,
-            CurrencyUnit(currency, currency, 2)
+            currency
         )
     }
 }

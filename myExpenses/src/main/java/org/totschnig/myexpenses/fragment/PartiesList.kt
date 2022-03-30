@@ -159,11 +159,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
                             .setIcon(R.drawable.balance_scale) else menu
                     debts?.forEachIndexed { index, debt ->
                         index2IdMap[index] = debt.id
-                        val currencyUnit = currencyContext[debt.currency]
                         val menuTitle = TextUtils.concat(
                             debt.label,
                             " ",
-                            currencyFormatter.formatMoney(Money(currencyUnit, debt.currentBalance))
+                            currencyFormatter.formatMoney(Money(debt.currency, debt.currentBalance))
                                 .withAmountColor(resources, debt.currentBalance.sign)
                         )
                         val item = subMenu.add(Menu.NONE, index, Menu.NONE, menuTitle)

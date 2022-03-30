@@ -14,7 +14,6 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
@@ -88,7 +87,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
         contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)
             .mapToList {
-                Debt.fromCursor(it)
+                Debt.fromCursor(it, currencyContext)
             }.collect { list ->
                 this@PartyListViewModel.debts = list.groupBy { it.payeeId }
                 emit(Unit)

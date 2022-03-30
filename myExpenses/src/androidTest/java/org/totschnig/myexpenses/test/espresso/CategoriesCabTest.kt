@@ -43,7 +43,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private val contentResolver
         get() = targetContext.contentResolver
 
-    val currency = CurrencyUnit(Currency.getInstance("EUR"))
+    val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
     private var categoryId: Long = 0
 

@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -188,7 +189,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
         }
         viewModel.initWithAccount(intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0))
         lifecycleScope.launch {
-            viewModel.accountInfo.collect {
+            viewModel.accountInfo.filterNotNull().collect {
                 supportActionBar?.title = it.label
             }
         }
@@ -330,11 +331,13 @@ class DistributionActivity : ProtectedFragmentActivity() {
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode
     ) {
+        val accountInfo = viewModel.accountInfo.collectAsState(null)
         Category(
             modifier = modifier,
             category = category,
             choiceMode = choiceMode,
-            expansionMode = expansionMode
+            expansionMode = expansionMode,
+            sumCurrency = viewModel.accountInfo.collectAsState(null)?.value?.currency
         )
     }
 

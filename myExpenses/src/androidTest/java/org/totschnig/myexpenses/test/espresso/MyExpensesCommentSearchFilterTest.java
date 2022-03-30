@@ -47,7 +47,7 @@ public final class MyExpensesCommentSearchFilterTest extends BaseUiTest<MyExpens
 
   @BeforeClass
   public static void fixture() {
-    final CurrencyUnit currency = new CurrencyUnit(Currency.getInstance("EUR"));
+    final CurrencyUnit currency = CurrencyUnit.Companion.getDebugInstance();
     account = new Account("Test account 1",  currency, 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();

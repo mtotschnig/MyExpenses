@@ -54,7 +54,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
                         binding.Label.setText(it.label)
                         binding.Description.setText(it.description)
                         binding.Amount.setSelectedCurrency(it.currency)
-                        binding.Amount.setAmount(Money(currencyContext[it.currency], it.amount).amountMajor)
+                        binding.Amount.setAmount(Money(it.currency, it.amount).amountMajor)
                         binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
                         setTitle(it.amount > 0)
                         setupListeners()

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
@@ -33,7 +34,7 @@ import org.totschnig.myexpenses.viewmodel.data.Debt
 import timber.log.Timber
 import java.time.LocalDate
 
-typealias AmountFormatter = ((Long, String) -> String)
+typealias AmountFormatter = ((Long, CurrencyUnit) -> String)
 
 @Composable
 fun DebtCard(
@@ -199,7 +200,7 @@ fun DebtRenderer(
 @Composable
 fun TransactionRenderer(
     transaction: DebtViewModel.Transaction,
-    currency: String,
+    currency: CurrencyUnit,
     boldBalance: Boolean,
     withIcon: Boolean = true
 ) {
@@ -253,7 +254,7 @@ fun SingleDebtPreview() {
         description = "some long, very long, extremely long description",
         payeeId = -1L,
         amount = 4000,
-        currency = "EUR",
+        currency = CurrencyUnit.DebugInstance,
         date = localDate2Epoch(LocalDate.now()),
         payeeName = "Joe Doe"
     )

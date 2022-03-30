@@ -6,11 +6,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import org.totschnig.myexpenses.model.CurrencyUnit
 
 @Composable
 fun ColoredAmountText(
     amount: Long,
-    currency: String,
+    currency: CurrencyUnit,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight? = null,
     textAlign: TextAlign? = null

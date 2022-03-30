@@ -202,7 +202,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 selection = "$KEY_SEALED = 0",
                 notifyForDescendants = true
             )
-                .mapToList { Debt.fromCursor(it) }
+                .mapToList { Debt.fromCursor(it, currencyContext) }
                 .collect {
                     debts.postValue(it)
                 }

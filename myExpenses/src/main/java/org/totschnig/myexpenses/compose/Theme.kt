@@ -20,7 +20,7 @@ fun AppTheme(
     MdcTheme {
         CompositionLocalProvider(
             LocalAmountFormatter provides { amount, currency ->
-                activity.currencyFormatter.convAmount(amount, activity.currencyContext[currency])
+                activity.currencyFormatter.convAmount(amount, currency)
             },
             LocalDateFormatter provides getDateTimeFormatter(activity),
             LocalColors provides Colors(
