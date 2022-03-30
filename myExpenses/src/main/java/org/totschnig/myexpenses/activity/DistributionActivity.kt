@@ -6,17 +6,24 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.Menu
 import android.widget.CompoundButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SwitchCompat
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.charts.PieChart
@@ -31,10 +38,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.Category
-import org.totschnig.myexpenses.compose.ChoiceMode
-import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
@@ -43,6 +47,7 @@ import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
 
 class DistributionActivity : ProtectedFragmentActivity() {
@@ -235,6 +240,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
                         }
                     }
                 }
+                val accountInfo = viewModel.accountInfo.collectAsState(null)
                 if (categoryTree.value.children.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Text(
@@ -243,21 +249,26 @@ class DistributionActivity : ProtectedFragmentActivity() {
                         )
                     }
                 } else {
+                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     when (configuration.orientation) {
                         Configuration.ORIENTATION_LANDSCAPE -> {
-                            Row {
-                                RenderTree(
-                                    modifier = Modifier.weight(0.5f),
-                                    category = categoryTree.value,
-                                    choiceMode = choiceMode,
-                                    expansionMode = expansionMode
-                                )
-                                RenderChart(
-                                    modifier = Modifier
-                                        .weight(0.5f)
-                                        .fillMaxHeight(),
-                                    categories = chartCategoryTree
-                                )
+                            Column {
+                                Row(modifier = Modifier.weight(1f)) {
+                                    RenderTree(
+                                        modifier = Modifier.weight(0.5f),
+                                        category = categoryTree.value,
+                                        choiceMode = choiceMode,
+                                        expansionMode = expansionMode,
+                                        accountInfo = accountInfo.value
+                                    )
+                                    RenderChart(
+                                        modifier = Modifier
+                                            .weight(0.5f)
+                                            .fillMaxHeight(),
+                                        categories = chartCategoryTree
+                                    )
+                                }
+                                RenderSumLine(accountInfo.value, sums)
                             }
                         }
                         else -> {
@@ -266,7 +277,8 @@ class DistributionActivity : ProtectedFragmentActivity() {
                                     modifier = Modifier.weight(0.5f),
                                     category = categoryTree.value,
                                     choiceMode = choiceMode,
-                                    expansionMode = expansionMode
+                                    expansionMode = expansionMode,
+                                    accountInfo = accountInfo.value
                                 )
                                 RenderChart(
                                     modifier = Modifier
@@ -274,6 +286,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
                                         .fillMaxSize(),
                                     categories = chartCategoryTree
                                 )
+                                RenderSumLine(accountInfo.value, sums)
                             }
                         }
                     }
@@ -329,20 +342,38 @@ class DistributionActivity : ProtectedFragmentActivity() {
         modifier: Modifier,
         category: Category2,
         choiceMode: ChoiceMode,
-        expansionMode: ExpansionMode
+        expansionMode: ExpansionMode,
+        accountInfo: DistributionAccountInfo?
     ) {
-        val accountInfo = viewModel.accountInfo.collectAsState(null)
         Category(
             modifier = modifier,
             category = category,
             choiceMode = choiceMode,
             expansionMode = expansionMode,
-            sumCurrency = viewModel.accountInfo.collectAsState(null)?.value?.currency
+            sumCurrency = accountInfo?.currency
         )
     }
 
     private fun requireChart(context: Context) {
         chart = PieChart(context)
+    }
+
+    @Composable
+    fun RenderSumLine(
+        accountInfo: DistributionAccountInfo?,
+        sums: Pair<Long, Long>
+    ) {
+        val accountFormatter = LocalAmountFormatter.current
+        accountInfo?.let {
+            Row {
+                CompositionLocalProvider(LocalTextStyle provides TextStyle(fontWeight = FontWeight.Bold)) {
+                    Text("∑ :")
+                    Text(modifier = Modifier.weight(1f), text= "+" + accountFormatter(sums.first, it.currency), textAlign = TextAlign.End)
+                    Text(modifier = Modifier.weight(1f), text= "-" + accountFormatter(sums.second, it.currency), textAlign = TextAlign.End)
+                }
+            }
+            Divider(color = Color(it.color), thickness = 4.dp)
+        }
     }
 
     @Composable

@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.viewmodel.data.*
 import timber.log.Timber
@@ -141,7 +142,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         }
     }
 
-    private val dateInfo: StateFlow<DateInfo2?> = contentResolver.observeQuery(
+    private val dateInfo: Flow<DateInfo2?> = contentResolver.observeQuery(
         uri = TransactionProvider.DUAL_URI,
         projection = arrayOf(
             "${getThisYearOfWeekStart()} AS $KEY_THIS_YEAR_OF_WEEK_START",
@@ -161,7 +162,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         }?.let {
             emit(it)
         }
-    }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val dateInfoExtra: StateFlow<DateInfo3?> = _groupingInfo.flatMapLatest { grouping ->
@@ -235,7 +236,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeWithSum: StateFlow<Category2> = combine(
+    val categoryTreeWithSum: Flow<Category2> = combine(
         _accountInfo.filterNotNull(),
         _aggregateTypes,
         _incomeType,
@@ -250,7 +251,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
             arrayOf("*", sumColumn(accountInfo, incomeType, grouping)),
             true
         ) { it.sum != 0L }
-    }.stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
+    }
 
     private fun sumColumn(
         accountInfo: DistributionAccountInfo,
@@ -299,6 +300,50 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
             Grouping.WEEK -> "${getYearOfWeekStart()} = $year AND ${getWeek()} = $second"
             Grouping.MONTH -> "${getYearOfMonthStart()} = $year AND ${getMonth()} = $second"
             else -> null
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val sums: Flow<Pair<Long, Long>> = combine(
+        _accountInfo.filterNotNull(),
+        _groupingInfo
+    ) { accountInfo, grouping -> accountInfo to grouping }.flatMapLatest { (accountInfo, grouping) ->
+        val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1")
+        val id = accountInfo.id
+        if (id != Account.HOME_AGGREGATE_ID) {
+            if (id < 0) {
+                builder.appendQueryParameter(KEY_CURRENCY, accountInfo.currency.code)
+            } else {
+                builder.appendQueryParameter(KEY_ACCOUNTID, id.toString())
+            }
+        }
+        //if we have no income or expense, there is no row in the cursor
+        contentResolver.observeQuery(
+            builder.build(),
+            null,
+            buildFilterClause(grouping),
+            null,
+            null, true
+        ).transform { query ->
+            withContext(Dispatchers.IO) {
+                query.run()?.use { cursor ->
+                    var income: Long = 0
+                    var expense: Long = 0
+                    for (pair in cursor.asSequence) {
+                        val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE))
+                        val sum = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_SUM))
+                        if (type > 0) {
+                            income = sum
+                        } else {
+                            expense = sum
+                        }
+                    }
+                    Pair(income, expense)
+                }
+            }?.let {
+                emit(it)
+            }
         }
     }
 
