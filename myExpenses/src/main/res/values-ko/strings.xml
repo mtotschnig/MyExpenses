@@ -507,4 +507,5 @@
     <string name="debt_managment">부채 관리</string>
     <string name="ui_refinement">사용자 인터페이스 의 개선</string>
     <string name="synchronization">동기화</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">버그 수정</string>
 </resources>
