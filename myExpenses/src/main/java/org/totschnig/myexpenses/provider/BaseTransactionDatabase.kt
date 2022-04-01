@@ -5,11 +5,12 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import org.totschnig.myexpenses.model.CurrencyEnum
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 123
+const val DATABASE_VERSION = 124
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY = "SELECT RAISE (FAIL, 'attempt to create inconsistent category hierarchy');"
@@ -130,6 +131,20 @@ abstract class BaseTransactionDatabase(
         }
         db.execSQL("DROP TRIGGER IF EXISTS account_remap_transfer_transaction_update")
         db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
+    }
+
+    fun upgradeTo124(db: SQLiteDatabase) {
+        repairWithSealedAccounts(db) {
+            db.query("accounts", arrayOf("_id"), "uuid is null", null, null, null, null)
+                .use { cursor ->
+                    cursor.asSequence.forEach {
+                        db.execSQL(
+                            "update accounts set uuid = ? where _id =?",
+                            arrayOf(Model.generateUuid(), it.getLong(0))
+                        )
+                    }
+                }
+        }
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
