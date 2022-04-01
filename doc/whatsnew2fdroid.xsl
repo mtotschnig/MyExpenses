@@ -81,13 +81,15 @@
             <xsl:value-of select="$versionCode"/>
             <xsl:text>.txt</xsl:text>
         </xsl:variable>
+        <xsl:variable name="github" select="document($info)/resources/string[@name=my:githubBoardResourceName($version)]" />
         <xsl:result-document href="{$output}" method="text">
             <xsl:value-of select="$changelog" />
             <xsl:value-of select="$newline" />
+            <xsl:if test="$github != ''">
             <xsl:text>https://github.com/mtotschnig/MyExpenses/projects/</xsl:text>
-            <xsl:value-of
-                select="document($info)/resources/string[@name=my:githubBoardResourceName($version)]" />
+            <xsl:value-of select="$github" />
             <xsl:value-of select="$newline" />
+            </xsl:if>
         </xsl:result-document>
     </xsl:template>
 </xsl:stylesheet>
