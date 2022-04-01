@@ -974,4 +974,5 @@
     <string name="pref_news_title">Hírek</string>
     <string name="debt_managment">Adósságkezelés</string>
     <string name="ui_refinement">A felhasználói felület finomítása</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">Hibajavítások</string>
 </resources>
