@@ -14,7 +14,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.*
@@ -36,21 +35,12 @@ import org.totschnig.myexpenses.viewmodel.data.Category2
 import kotlin.math.floor
 import kotlin.math.sqrt
 
-typealias CategoryAction = ((Category2) -> Unit)
-
-data class CategoryMenu(
-    val onEdit: CategoryAction,
-    val onDelete: CategoryAction,
-    val onAdd: CategoryAction,
-    val onMove: CategoryAction
-)
-
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
     category: Category2,
     expansionMode: ExpansionMode,
-    menu: CategoryMenu? = null,
+    menuGenerator: @Composable (Category2) -> Menu<Category2>? = { null },
     selectedAncestor: Category2? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
@@ -72,23 +62,11 @@ fun Category(
             if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
         val subTreePadding = startPadding + 12.dp
         if (withRoot || category.level > 0) {
-            val menuEntries = if (menu != null) Menu(buildList {
-                add(MenuEntry.edit { menu.onEdit(category) })
-                add(MenuEntry.delete { menu.onDelete(category) })
-                add(MenuEntry(
-                    icon = Icons.Filled.Add,
-                    label = stringResource(id = R.string.subcategory)
-                ) { menu.onAdd(category) })
-                add(MenuEntry(
-                    icon = myiconpack.ArrowsAlt,
-                    label = stringResource(id = R.string.menu_move)
-                ) { menu.onMove(category) })
-            }) else null
             CategoryRenderer(
                 category = category,
                 expansionMode = expansionMode,
                 choiceMode = choiceMode,
-                menu = menuEntries,
+                menuGenerator = menuGenerator,
                 startPadding = startPadding,
                 onToggleSelection = {
                     choiceMode.toggleSelection(selectedAncestor, category)
@@ -103,7 +81,7 @@ fun Category(
                         Category(
                             category = model,
                             expansionMode = expansionMode,
-                            menu = menu,
+                            menuGenerator = menuGenerator,
                             selectedAncestor = selectedAncestor
                                 ?: if (choiceMode.isSelected(category.id)) category else null,
                             choiceMode = choiceMode,
@@ -123,7 +101,7 @@ fun Category(
                         Category(
                             category = model,
                             expansionMode = expansionMode,
-                            menu = menu,
+                            menuGenerator = menuGenerator,
                             choiceMode = choiceMode,
                             excludedSubTree = excludedSubTree,
                             startPadding = subTreePadding,
@@ -142,13 +120,14 @@ fun CategoryRenderer(
     category: Category2,
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
-    menu: Menu?,
+    menuGenerator: @Composable (Category2) -> Menu<Category2>?,
     startPadding: Dp,
     onToggleSelection: () -> Unit,
     sumCurrency: CurrencyUnit?
 ) {
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
+    val menu = menuGenerator(category)
     Row(
         modifier = Modifier
             .height(48.dp)
@@ -238,7 +217,7 @@ fun CategoryRenderer(
             )
         }
         menu?.let {
-            HierarchicalMenu(showMenu, menu)
+            HierarchicalMenu(showMenu, menu, category)
         }
     }
 }

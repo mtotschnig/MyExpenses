@@ -148,10 +148,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
         return true;
-      case TaskExecutionFragment.TASK_CATEGORY_COLOR: {
-        return Category.updateColor((Long) ids[0], (Integer) mExtra) ? Result.SUCCESS :
-            Result.ofFailure("Error while saving color for category");
-      }
     }
     return null;
   }

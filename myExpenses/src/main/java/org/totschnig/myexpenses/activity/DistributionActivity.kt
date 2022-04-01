@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.Menu
@@ -15,6 +14,11 @@ import androidx.compose.material.Divider
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Colorize
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +41,8 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.color.SimpleColorDialog
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -46,6 +52,7 @@ import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
@@ -54,7 +61,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category2
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
 
-class DistributionActivity : ProtectedFragmentActivity() {
+class DistributionActivity : ProtectedFragmentActivity(), OnDialogResultListener {
     private lateinit var chart: PieChart
     private lateinit var binding: ActivityComposeBinding
     val viewModel: DistributionViewModel by viewModels()
@@ -354,7 +361,25 @@ class DistributionActivity : ProtectedFragmentActivity() {
             category = category,
             choiceMode = choiceMode,
             expansionMode = expansionMode,
-            sumCurrency = accountInfo?.currency
+            sumCurrency = accountInfo?.currency,
+            menuGenerator = {
+                org.totschnig.myexpenses.compose.Menu(
+                    buildList {
+                        add(
+                            MenuEntry(
+                                Icons.Filled.List,
+                                stringResource(id = R.string.menu_show_transactions)
+                            ) { })
+                        if (it.level == 1)
+                            add(
+                                MenuEntry(
+                                    Icons.Filled.Palette,
+                                    stringResource(id = R.string.color)
+                                ) { category -> category.color?.let { editCategoryColor(category.id, it) } }
+                            )
+                    }
+                )
+            }
         )
     }
 
@@ -369,12 +394,29 @@ class DistributionActivity : ProtectedFragmentActivity() {
     ) {
         val accountFormatter = LocalAmountFormatter.current
         accountInfo?.let {
-            Divider(modifier = Modifier.padding(top = 4.dp), color = MaterialTheme.colors.onSurface, thickness = 1.dp)
+            Divider(
+                modifier = Modifier.padding(top = 4.dp),
+                color = MaterialTheme.colors.onSurface,
+                thickness = 1.dp
+            )
             Row(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))) {
-                CompositionLocalProvider(LocalTextStyle provides TextStyle(fontWeight = FontWeight.Bold, fontSize = TEXT_SIZE_MEDIUM_SP.sp )) {
+                CompositionLocalProvider(
+                    LocalTextStyle provides TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = TEXT_SIZE_MEDIUM_SP.sp
+                    )
+                ) {
                     Text("∑ :")
-                    Text(modifier = Modifier.weight(1f), text= "+" + accountFormatter(sums.first, it.currency), textAlign = TextAlign.End)
-                    Text(modifier = Modifier.weight(1f), text= "-" + accountFormatter(sums.second, it.currency), textAlign = TextAlign.End)
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "+" + accountFormatter(sums.first, it.currency),
+                        textAlign = TextAlign.End
+                    )
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "-" + accountFormatter(sums.second, it.currency),
+                        textAlign = TextAlign.End
+                    )
                 }
             }
             Divider(color = Color(it.color), thickness = 4.dp)
@@ -410,9 +452,12 @@ class DistributionActivity : ProtectedFragmentActivity() {
                                 }
                             }).apply {
                             paintEntryLabels.color = textColorSecondary.defaultColor
-                            paintEntryLabels.textSize = UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
+                            paintEntryLabels.textSize =
+                                UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
                         }
-                        setCenterTextSizePixels( UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat())
+                        setCenterTextSizePixels(
+                            UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
+                        )
                         setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                             override fun onValueSelected(e: Entry, highlight: Highlight) {
                                 val index = highlight.x.toInt()
@@ -444,6 +489,18 @@ class DistributionActivity : ProtectedFragmentActivity() {
             """.trimIndent()
     }
 
+    private fun editCategoryColor(id: Long, color: Int) {
+        SimpleColorDialog.build()
+            .allowCustom(true)
+            .cancelable(false)
+            .neut()
+            .extra(Bundle().apply {
+                putLong(KEY_ROWID, id)
+            })
+            .colorPreset(color)
+            .show(this, EDIT_COLOR_DIALOG)
+    }
+
     companion object {
         private const val SWIPE_MIN_DISTANCE = 120
         private const val SWIPE_MAX_OFF_PATH = 250
@@ -451,4 +508,10 @@ class DistributionActivity : ProtectedFragmentActivity() {
         private const val TEXT_SIZE_SMALL_SP = 14F
         private const val TEXT_SIZE_MEDIUM_SP = 18F
     }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
+        if (EDIT_COLOR_DIALOG == dialogTag && which == OnDialogResultListener.BUTTON_POSITIVE) {
+            viewModel.updateColor(extras.getLong(KEY_ROWID), extras.getInt(SimpleColorDialog.COLOR))
+            true
+        } else false
 }

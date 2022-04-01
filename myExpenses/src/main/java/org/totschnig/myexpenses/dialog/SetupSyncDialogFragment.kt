@@ -122,7 +122,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                                 })
                             }
                         )
-                    )
+                    ), target = Unit
                 )
             }
             Row {

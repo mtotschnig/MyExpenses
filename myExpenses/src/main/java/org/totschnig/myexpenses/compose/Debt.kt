@@ -164,7 +164,7 @@ fun DebtRenderer(
                     menu = Menu(buildList {
                         if (!debt.isSealed) {
                             add(MenuEntry.edit {
-                                onEdit(debt)
+                                onEdit(it)
                             })
                         }
                         add(
@@ -172,25 +172,26 @@ fun DebtRenderer(
                                 icon = if (debt.isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
                                 label = stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close)
                             ) {
-                                onToggle(debt)
+                                onToggle(it)
                             }
                         )
                         add(MenuEntry.delete {
-                            onDelete(debt, transactions.size)
+                            onDelete(it, transactions.size)
                         })
                         add(
                             MenuEntry(
                                 icon = Icons.Filled.Share,
                                 label = stringResource(id = R.string.button_label_share_file),
                                 subMenu = Menu(
-                                    DebtViewModel.ExportFormat.values().map {
-                                        MenuEntry(label = it.name) {
-                                            onShare(debt, it)
+                                    DebtViewModel.ExportFormat.values().map { format ->
+                                        MenuEntry(label = format.name) {
+                                            onShare(it, format)
                                         }
                                     }
                                 )
                             ))
-                    })
+                    }),
+                    target = debt
                 )
             }
         }

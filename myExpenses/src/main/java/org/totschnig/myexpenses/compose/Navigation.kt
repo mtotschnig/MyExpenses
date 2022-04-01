@@ -61,43 +61,45 @@ fun Navigation(
     )
 }
 
-data class Menu(val entries: List<MenuEntry>)
-data class MenuEntry(
+data class Menu<T>(val entries: List<MenuEntry<T>>)
+data class MenuEntry<T>(
     val icon: ImageVector? = null,
     val label: String,
-    val content: Either<() -> Unit, Menu>
+    val content: Either<(T) -> Unit, Menu<T>>
 ) {
-    constructor(icon: ImageVector? = null, label: String, action: () -> Unit) : this(
+    constructor(icon: ImageVector? = null, label: String, action: (T) -> Unit) : this(
         icon,
         label,
         Either.Left(action)
     )
 
-    constructor(icon: ImageVector? = null, label: String, subMenu: Menu) : this(
+    constructor(icon: ImageVector? = null, label: String, subMenu: Menu<T>) : this(
         icon,
         label,
         Either.Right(subMenu)
     )
     companion object {
         @Composable
-        fun delete(action: () -> Unit) = MenuEntry(
+        fun <T> delete(action: (T) -> Unit) = MenuEntry(
             icon = Icons.Filled.Delete,
             label = stringResource(id = R.string.menu_delete),
             action = action
         )
         @Composable
-        fun edit(action: () -> Unit) = MenuEntry(
+        fun <T> edit(action: (T) -> Unit) = MenuEntry(
             icon = Icons.Filled.Edit,
             label = stringResource(id = R.string.menu_edit),
             action = action
         )
     }
 }
+typealias GenericMenuEntry = MenuEntry<Unit>
 
 @Composable
-fun OverFlowMenu(
+fun <T> OverFlowMenu(
     modifier: Modifier = Modifier,
-    menu: Menu
+    menu: Menu<T>,
+    target: T
 ) {
     val showMenu = remember { mutableStateOf(false) }
     Box(modifier = modifier) {
@@ -108,7 +110,7 @@ fun OverFlowMenu(
                 stringResource(id = R.string.abc_action_menu_overflow_description)
             )
         }
-        HierarchicalMenu(expanded = showMenu, menu = menu)
+        HierarchicalMenu(expanded = showMenu, menu = menu, target = target)
     }
 }
 
@@ -117,20 +119,21 @@ fun OverFlowMenu(
  * We tried to render proper submenus, but were not able to get the position of the submenu right
  */
 @Composable
-fun HierarchicalMenu(
+fun <T> HierarchicalMenu(
     expanded: MutableState<Boolean>,
-    menu: Menu
+    menu: Menu<T>,
+    target: T
 ) {
     DropdownMenu(
         expanded = expanded.value,
         onDismissRequest = { expanded.value = false }
     ) {
-        EntryListRenderer(expanded, menu)
+        EntryListRenderer(expanded, menu, target)
     }
 }
 
 @Composable
-private fun RowScope.EntryContent(entry: MenuEntry, offset: Dp = 0.dp) {
+private fun RowScope.EntryContent(entry: MenuEntry<*>, offset: Dp = 0.dp) {
     Spacer(modifier = Modifier.width(offset))
     entry.icon?.let {
         Icon(
@@ -144,13 +147,13 @@ private fun RowScope.EntryContent(entry: MenuEntry, offset: Dp = 0.dp) {
 }
 
 @Composable
-private fun EntryListRenderer(expanded: MutableState<Boolean>, menu: Menu, offset: Dp = 0.dp) {
+private fun <T> EntryListRenderer(expanded: MutableState<Boolean>, menu: Menu<T>, target: T, offset: Dp = 0.dp) {
     menu.entries.forEach { entry ->
         entry.content.fold(ifLeft = { function ->
             DropdownMenuItem(
                 onClick = {
                     expanded.value = false
-                    function.invoke()
+                    function.invoke(target)
                 }
             ) {
                 EntryContent(entry, offset)
@@ -173,7 +176,7 @@ private fun EntryListRenderer(expanded: MutableState<Boolean>, menu: Menu, offse
                 )
             }
             if (subMenuVisible) {
-                EntryListRenderer(expanded = expanded, menu = submenu, offset = offset + 12.dp)
+                EntryListRenderer(expanded = expanded, menu = submenu, target, offset = offset + 12.dp)
             }
         })
     }
@@ -193,10 +196,10 @@ fun Activity() {
 fun EntryContent() {
     Column {
         DropdownMenuItem(onClick = {}) {
-            EntryContent(MenuEntry(icon = Icons.Filled.Edit, label = "Edit") {})
+            EntryContent(GenericMenuEntry(icon = Icons.Filled.Edit, label = "Edit") {})
         }
         DropdownMenuItem(onClick = {}) {
-            EntryContent(MenuEntry(icon = myiconpack.ArrowsAlt, label = "Move") {})
+            EntryContent(GenericMenuEntry(icon = myiconpack.ArrowsAlt, label = "Move") {})
         }
     }
 }
@@ -204,7 +207,7 @@ fun EntryContent() {
 @Preview
 @Composable
 fun Overflow() {
-    fun emptyEntry(label: String) = MenuEntry(label = label) {}
+    fun emptyEntry(label: String) = GenericMenuEntry(label = label) {}
     OverFlowMenu(
         menu = Menu(
             entries = listOf(
@@ -218,7 +221,8 @@ fun Overflow() {
                     )
                 )
             )
-        )
+        ),
+        target = Unit
     )
 }
 

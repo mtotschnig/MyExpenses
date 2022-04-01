@@ -13,6 +13,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -164,8 +165,8 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-                viewModel.categoryTree.collectAsState(initial = Category2.EMPTY).value.let {
-                    if(it.children.isEmpty()) {
+                viewModel.categoryTree.collectAsState(initial = Category2.EMPTY).value.let { root ->
+                    if(root.children.isEmpty()) {
                         Box(modifier = Modifier.fillMaxSize()) {
                             Column(
                                 modifier = Modifier.align(Alignment.Center),
@@ -185,14 +186,22 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         }
                     } else {
                         Category(
-                            category = it,
+                            category = root,
                             expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                            menu = if (action == Action.SELECT_FILTER) null else CategoryMenu(
-                                onEdit = { editCat(it) },
-                                onDelete = { viewModel.deleteCategories(listOf(it.id)) },
-                                onAdd = { createCat(it.id) },
-                                onMove = { showMoveTargetDialog(it) }
-                            ),
+                            menuGenerator = { if (action == Action.SELECT_FILTER) null else Menu(
+                               listOf(
+                                   MenuEntry.edit { editCat(it) },
+                                   MenuEntry.delete { viewModel.deleteCategories(listOf(it.id)) },
+                                   MenuEntry(
+                                       icon = Icons.Filled.Add,
+                                       label = stringResource(id = R.string.subcategory)
+                                   ) { createCat(it.id) },
+                                   MenuEntry(
+                                       icon = myiconpack.ArrowsAlt,
+                                       label = stringResource(id = R.string.menu_move)
+                                   ) { showMoveTargetDialog(it) }
+                               )
+                            ) },
                             choiceMode = choiceMode
                         )
                     }

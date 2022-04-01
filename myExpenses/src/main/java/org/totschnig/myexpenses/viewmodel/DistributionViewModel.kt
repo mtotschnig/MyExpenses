@@ -303,6 +303,12 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         }
     }
 
+    fun updateColor(id: Long, color: Int) {
+        viewModelScope.launch(context = coroutineContext()) {
+            repository.updateCategoryColor(id, color)
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val sums: Flow<Pair<Long, Long>> = combine(
         _accountInfo.filterNotNull(),

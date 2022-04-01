@@ -75,7 +75,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
   public static final int TASK_ACCOUNT_SORT = 60;
-  public static final int TASK_CATEGORY_COLOR = 61;
   public static final int TASK_SET_ACCOUNT_HIDDEN = 63;
 
 

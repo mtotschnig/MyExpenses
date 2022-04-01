@@ -171,6 +171,13 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
         null,
         null
     ) > 0
+
+    fun updateCategoryColor(id: Long, color: Int?) = contentResolver.update(
+        ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, id),
+        ContentValues().apply {
+            put(KEY_COLOR, color)
+        }, null, null
+    ) == 1
 }
 
 data class AutoFillInfo(val categoryId: Long)
