@@ -104,13 +104,16 @@ abstract class BaseTransactionDatabase(
     }
 
     fun upgradeTo124(db: SQLiteDatabase) {
-        db.query("accounts", arrayOf("_id"), "uuid is null", null, null, null, null).use { cursor ->
-            cursor.asSequence.forEach {
-                db.execSQL(
-                    "update accounts set uuid = ? where _id =?",
-                    arrayOf(Model.generateUuid(), it.getLong(0))
-                )
-            }
+        repairWithSealedAccounts(db) {
+            db.query("accounts", arrayOf("_id"), "uuid is null", null, null, null, null)
+                .use { cursor ->
+                    cursor.asSequence.forEach {
+                        db.execSQL(
+                            "update accounts set uuid = ? where _id =?",
+                            arrayOf(Model.generateUuid(), it.getLong(0))
+                        )
+                    }
+                }
         }
     }
 
