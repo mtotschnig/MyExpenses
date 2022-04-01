@@ -122,6 +122,10 @@ public class UiUtils {
     return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
   }
 
+  public static int sp2Px(float sp, Resources resources) {
+    return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, resources.getDisplayMetrics());
+  }
+
   public static int px2Dp(int px) {
     return (int) (px / Resources.getSystem().getDisplayMetrics().density);
   }

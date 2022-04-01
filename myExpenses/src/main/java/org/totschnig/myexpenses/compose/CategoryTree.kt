@@ -70,7 +70,7 @@ fun Category(
     ) {
         val filteredChildren =
             if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
-        val subTreePadding = startPadding + 24.dp
+        val subTreePadding = startPadding + 12.dp
         if (withRoot || category.level > 0) {
             val menuEntries = if (menu != null) Menu(buildList {
                 add(MenuEntry.edit { menu.onEdit(category) })

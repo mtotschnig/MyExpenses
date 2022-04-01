@@ -13,17 +13,20 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.charts.PieChart
@@ -44,6 +47,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
+import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category2
@@ -365,8 +369,9 @@ class DistributionActivity : ProtectedFragmentActivity() {
     ) {
         val accountFormatter = LocalAmountFormatter.current
         accountInfo?.let {
-            Row {
-                CompositionLocalProvider(LocalTextStyle provides TextStyle(fontWeight = FontWeight.Bold)) {
+            Divider(modifier = Modifier.padding(top = 4.dp), color = MaterialTheme.colors.onSurface, thickness = 1.dp)
+            Row(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))) {
+                CompositionLocalProvider(LocalTextStyle provides TextStyle(fontWeight = FontWeight.Bold, fontSize = TEXT_SIZE_MEDIUM_SP.sp )) {
                     Text("∑ :")
                     Text(modifier = Modifier.weight(1f), text= "+" + accountFormatter(sums.first, it.currency), textAlign = TextAlign.End)
                     Text(modifier = Modifier.weight(1f), text= "-" + accountFormatter(sums.second, it.currency), textAlign = TextAlign.End)
@@ -405,10 +410,9 @@ class DistributionActivity : ProtectedFragmentActivity() {
                                 }
                             }).apply {
                             paintEntryLabels.color = textColorSecondary.defaultColor
-                            paintEntryLabels.textSize =
-                                getTextSizeForAppearance(android.R.attr.textAppearanceSmall).toFloat()
+                            paintEntryLabels.textSize = UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
                         }
-                        setCenterTextSizePixels(getTextSizeForAppearance(android.R.attr.textAppearanceMedium).toFloat())
+                        setCenterTextSizePixels( UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat())
                         setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                             override fun onValueSelected(e: Entry, highlight: Highlight) {
                                 val index = highlight.x.toInt()
@@ -425,17 +429,6 @@ class DistributionActivity : ProtectedFragmentActivity() {
                         setChartData(categories.value.children)
                     }
                 })
-    }
-
-    private fun getTextSizeForAppearance(appearance: Int): Int {
-        val typedValue = TypedValue()
-        theme.resolveAttribute(appearance, typedValue, true)
-        val textSizeAttr = intArrayOf(android.R.attr.textSize)
-        val indexOfAttrTextSize = 0
-        val a = obtainStyledAttributes(typedValue.data, textSizeAttr)
-        val textSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1)
-        a.recycle()
-        return textSize
     }
 
     private fun PieChart.setCenterText(position: Int) {
@@ -455,5 +448,7 @@ class DistributionActivity : ProtectedFragmentActivity() {
         private const val SWIPE_MIN_DISTANCE = 120
         private const val SWIPE_MAX_OFF_PATH = 250
         private const val SWIPE_THRESHOLD_VELOCITY = 100
+        private const val TEXT_SIZE_SMALL_SP = 14F
+        private const val TEXT_SIZE_MEDIUM_SP = 18F
     }
 }
