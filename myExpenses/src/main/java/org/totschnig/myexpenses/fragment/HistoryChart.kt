@@ -156,7 +156,15 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                         //expense is first entry, income second
                         val type = if (h.stackIndex == 0) -1 else 1
                         newInstance(
-                                accountInfo.id, 0, false, grouping, buildGroupingClause(e.x.toInt()), null, formatXValue(e.x), type, includeTransfers)
+                            accountInfo.id,
+                            0,
+                            grouping,
+                            buildGroupingClause(e.x.toInt()),
+                            null,
+                            formatXValue(e.x),
+                            type,
+                            includeTransfers
+                        )
                                 .show(parentFragmentManager, TransactionListDialogFragment::class.java.name)
                     }
                 }

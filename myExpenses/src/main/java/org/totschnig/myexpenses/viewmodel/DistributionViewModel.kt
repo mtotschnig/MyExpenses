@@ -292,6 +292,9 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         }*/
     }
 
+    val filterClause: String?
+        get() = buildFilterClause(_groupingInfo.value)
+
     private fun buildFilterClause(groupingInfo: GroupingInfo) = with(groupingInfo) {
         val yearExpression = "$YEAR = $year"
         when (grouping) {

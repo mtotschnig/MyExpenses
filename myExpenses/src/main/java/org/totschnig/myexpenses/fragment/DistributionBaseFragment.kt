@@ -279,7 +279,6 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
         newInstance(
             accountInfo.id,
             cat_id,
-            isMain,
             grouping,
             buildFilterClause(VIEW_EXTENDED),
             filterSelectionArgs(),

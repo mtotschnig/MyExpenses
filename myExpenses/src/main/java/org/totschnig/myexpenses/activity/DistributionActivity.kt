@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -365,11 +366,26 @@ class DistributionActivity : ProtectedFragmentActivity(), OnDialogResultListener
             menuGenerator = {
                 org.totschnig.myexpenses.compose.Menu(
                     buildList {
-                        add(
-                            MenuEntry(
-                                Icons.Filled.List,
-                                stringResource(id = R.string.menu_show_transactions)
-                            ) { })
+                        if (accountInfo != null) {
+                            add(
+                                MenuEntry(
+                                    Icons.Filled.List,
+                                    stringResource(id = R.string.menu_show_transactions)
+                                ) {
+                                    TransactionListDialogFragment.newInstance(
+                                        accountInfo.id,
+                                        it.id,
+                                        viewModel.grouping,
+                                        viewModel.filterClause,
+                                        null,
+                                        it.label,
+                                        0,
+                                        true,
+                                        resources.getIdentifier(it.icon, "drawable", packageName)
+                                    )
+                                        .show(supportFragmentManager, TransactionListDialogFragment::class.java.name)
+                                })
+                        }
                         if (it.level == 1)
                             add(
                                 MenuEntry(
