@@ -6,11 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
+import arrow.core.Tuple4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
@@ -20,10 +18,18 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category2
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
 class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHandle) :
     DistributionViewModel(application, savedStateHandle) {
+    private val _allocatedOnly = MutableStateFlow(false)
+
+    fun setAllocatedOnly(newValue: Boolean) {
+        _allocatedOnly.tryEmit(newValue)
+    }
+
+    val allocatedOnly: Boolean
+        get() = _allocatedOnly.value
+
 /*    private val _budget = MutableStateFlow<Budget?>(null)
     val budget: Flow<Budget?> = _budget*/
 
@@ -86,5 +92,19 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeForBudget: Flow<Category2> = categoryTreeForDistribution()
+    val categoryTreeForBudget: Flow<Category2> = combine(
+        _accountInfo.filterNotNull(),
+        _aggregateTypes,
+        _allocatedOnly,
+        _groupingInfo
+    ) { accountInfo, aggregateTypes, allocatedOnly, grouping ->
+        Tuple4(accountInfo, if (aggregateTypes) null else false, allocatedOnly, grouping)
+    }.flatMapLatest { (accountInfo, incomeType, allocatedOnly, grouping) ->
+        categoryTreeWithSum(
+            accountInfo,
+            incomeType,
+            grouping,
+            if (allocatedOnly) TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY else null
+        )
+    }
 }

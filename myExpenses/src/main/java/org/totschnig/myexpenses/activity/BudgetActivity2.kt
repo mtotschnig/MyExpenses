@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import org.totschnig.myexpenses.MyApplication
@@ -40,9 +39,37 @@ class BudgetActivity2 : DistributionBaseActivity() {
         }
     }
 
+    override fun dispatchCommand(command: Int, tag: Any?) =
+        if (super.dispatchCommand(command, tag)) {
+            true
+        } else viewModel.accountInfo.value?.let {
+            when (command) {
+                R.id.BUDGET_ALLOCATED_ONLY -> {
+                    val value = tag as Boolean
+                    viewModel.setAllocatedOnly(value)
+                    prefHandler.putBoolean(templateForAllocatedOnlyKey(it.budgetId!!), value)
+                    invalidateOptionsMenu()
+                    reset()
+                    true
+                }
+                else -> false
+            }
+        } ?: false
+
+    private fun templateForAllocatedOnlyKey(budgetId: String) = "allocatedOnly_$budgetId"
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.budget, menu)
         super.onCreateOptionsMenu(menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
+            it.isChecked = viewModel.allocatedOnly
+        }
         return true
     }
 }

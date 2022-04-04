@@ -32,7 +32,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     val selectionState: MutableState<Category2?> = mutableStateOf(null)
     val expansionState: SnapshotStateList<Category2> = SnapshotStateList()
     protected val _accountInfo = MutableStateFlow<DistributionAccountInfo?>(null)
-    val accountInfo: Flow<DistributionAccountInfo?> = _accountInfo
+    val accountInfo: StateFlow<DistributionAccountInfo?> = _accountInfo
 
     protected val _aggregateTypes = MutableStateFlow(true)
     private val _incomeType = MutableStateFlow(false)
@@ -227,13 +227,8 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         )
     }
 
-    val categoryTreeForDistribution = categoryTreeForDistribution() { it.sum != 0L }
-        .map { it.sortChildrenBySum() }
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun categoryTreeForDistribution(
-        keepCriteria: ((Category2) -> Boolean)? = null
-    ): Flow<Category2> = combine(
+    val categoryTreeForDistribution = combine(
         _accountInfo.filterNotNull(),
         _aggregateTypes,
         _incomeType,
@@ -241,14 +236,14 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     ) { accountInfo, aggregateTypes, incomeType, grouping ->
         Triple(accountInfo, if (aggregateTypes) null else incomeType, grouping)
     }.flatMapLatest { (accountInfo, incomeType, grouping) ->
-        categoryTreeWithSum(accountInfo, incomeType, grouping, keepCriteria)
-    }
+        categoryTreeWithSum(accountInfo, incomeType, grouping) { it.sum != 0L }
+    }.map { it.sortChildrenBySum() }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun categoryTreeWithSum(
         accountInfo: DistributionAccountInfo,
         incomeType: Boolean?,
         groupingInfo: GroupingInfo,
+        queryParameter: String? = null,
         keepCriteria: ((Category2) -> Boolean)? = null
     ): Flow<Category2> =
         categoryTree(
@@ -261,7 +256,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
             }.toTypedArray(),
             withSubColors = true,
             keepCriteria = keepCriteria,
-            //projection is used twice in CTE
+            queryParameter = queryParameter,
             selectionArgsForProjection = accountInfo.budgetId?.let { arrayOf(it) }
         )
 

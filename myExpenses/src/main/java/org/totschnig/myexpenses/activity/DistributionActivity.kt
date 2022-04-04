@@ -82,14 +82,8 @@ class DistributionActivity : DistributionBaseActivity(), OnDialogResultListener 
         return true
     }
 
-    val expansionState
-        get() = viewModel.expansionState
     val selectionState
         get() = viewModel.selectionState
-
-    private fun reset() {
-        expansionState.clear()
-    }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         super.onPrepareOptionsMenu(menu)

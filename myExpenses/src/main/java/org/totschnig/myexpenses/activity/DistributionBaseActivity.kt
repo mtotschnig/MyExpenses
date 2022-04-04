@@ -9,6 +9,8 @@ import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 abstract class DistributionBaseActivity : ProtectedFragmentActivity() {
     open val viewModel: DistributionViewModel by viewModels()
     abstract val prefKey: PrefKey
+    val expansionState
+        get() = viewModel.expansionState
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES)?.let {
@@ -30,9 +32,13 @@ abstract class DistributionBaseActivity : ProtectedFragmentActivity() {
                     prefHandler.putBoolean(prefKey, viewModel.incomeType)
                 }
                 invalidateOptionsMenu()
-                //reset()
+                reset()
                 true
             }
             else -> false
         }
+
+    protected fun reset() {
+        expansionState.clear()
+    }
 }

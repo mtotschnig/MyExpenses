@@ -530,6 +530,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
+          //TODO delete after removal of legacy BudgetFragment
           final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
           qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
                   String.format(Locale.ROOT, "%1$s %7$s %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",

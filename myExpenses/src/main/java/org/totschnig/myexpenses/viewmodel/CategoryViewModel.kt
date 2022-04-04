@@ -13,8 +13,11 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.*
@@ -32,7 +35,10 @@ import java.io.OutputStreamWriter
 import kotlin.Result
 import kotlin.Result.Companion.failure
 
-open class CategoryViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
+open class CategoryViewModel(
+    application: Application,
+    private val savedStateHandle: SavedStateHandle
+) :
     ContentResolvingAndroidViewModel(application) {
     private var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
     private var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
@@ -76,13 +82,15 @@ open class CategoryViewModel(application: Application, private val savedStateHan
     ) { filter, sort ->
         Timber.d("new emission: $filter/$sort")
         filter to sort
-    }.flatMapLatest { (filter, sortOrder) -> categoryTree(
-        filter = filter,
-        sortOrder = sortOrder,
-        projection = null,
-        withSubColors = false,
-        keepCriteria = null
-    ) }
+    }.flatMapLatest { (filter, sortOrder) ->
+        categoryTree(
+            filter = filter,
+            sortOrder = sortOrder,
+            projection = null,
+            withSubColors = false,
+            keepCriteria = null
+        )
+    }
         .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
     val categoryTreeForSelect = categoryTree("", sortOrder.value)
@@ -93,6 +101,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
         projection: Array<String>? = null,
         withSubColors: Boolean = false,
         selectionArgsForProjection: Array<String>? = null,
+        queryParameter: String? = null,
         keepCriteria: ((Category2) -> Boolean)? = null
     ): Flow<Category2> {
         val (selection, selectionArgs) = if (filter?.isNotBlank() == true) {
@@ -103,9 +112,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
         } else null to emptyArray()
 
         return contentResolver.observeQuery(
-            TransactionProvider.CATEGORIES_URI.buildUpon()
-                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
-                .build(),
+            categoryUri(queryParameter),
             projection,
             selection,
             selectionArgs + (selectionArgsForProjection ?: emptyArray()),
@@ -113,6 +120,16 @@ open class CategoryViewModel(application: Application, private val savedStateHan
             true
         ).mapToTree(withSubColors, keepCriteria)
     }
+
+    private fun categoryUri(queryParameter: String?): Uri =
+        TransactionProvider.CATEGORIES_URI.buildUpon()
+            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
+            .apply {
+                queryParameter?.let {
+                    appendQueryParameter(it, "1")
+                }
+            }
+            .build()
 
     private fun Flow<Query>.mapToTree(
         withSubColors: Boolean = false,
@@ -127,7 +144,13 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                     parentId = null,
                     level = 0,
                     label = "ROOT",
-                    children = ingest(getApplication(), cursor, null, if (withSubColors) 0 else null, 1),
+                    children = ingest(
+                        getApplication(),
+                        cursor,
+                        null,
+                        if (withSubColors) 0 else null,
+                        1
+                    ),
                     isMatching = true,
                     color = null as Int?,
                     icon = null
@@ -354,11 +377,18 @@ open class CategoryViewModel(application: Application, private val savedStateHan
             }
             return result
         }
+
         /**
          * @param parentColor if null no subColors will be calculated, if 0, no subColors for the current
          * level, but color will be passed on to next level fo
          */
-        fun ingest(context: Context, cursor: Cursor, parentId: Long?, parentColor: Int?, level: Int): List<Category2> =
+        fun ingest(
+            context: Context,
+            cursor: Cursor,
+            parentId: Long?,
+            parentColor: Int?,
+            level: Int
+        ): List<Category2> =
             buildList {
                 if (!cursor.isBeforeFirst) {
                     val subColors = parentColor?.takeIf { it != 0 }?.let { getSubColors(it) }
@@ -368,11 +398,13 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                         val nextId = cursor.getLong(KEY_ROWID)
                         val nextLabel = cursor.getString(KEY_LABEL)
                         val nextPath = cursor.getString(KEY_PATH)
-                        val nextColor = subColors?.let { it[index % it.size] } ?: cursor.getIntOrNull(KEY_COLOR)
+                        val nextColor =
+                            subColors?.let { it[index % it.size] } ?: cursor.getIntOrNull(KEY_COLOR)
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
-                        val nextSum = cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }?.let { cursor.getLong(it) } ?: 0L
+                        val nextSum = cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }
+                            ?.let { cursor.getLong(it) } ?: 0L
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()
@@ -383,7 +415,13 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                                     nextLevel,
                                     nextLabel,
                                     nextPath,
-                                    ingest(context, cursor, nextId, if (parentColor == null) null else nextColor, level + 1),
+                                    ingest(
+                                        context,
+                                        cursor,
+                                        nextId,
+                                        if (parentColor == null) null else nextColor,
+                                        level + 1
+                                    ),
                                     nextIsMatching,
                                     nextColor,
                                     nextIcon,
