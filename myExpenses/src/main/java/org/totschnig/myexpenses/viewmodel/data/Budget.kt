@@ -41,7 +41,7 @@ data class Budget(
             ?: if (accountId == Account.HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
             else currency.code
 
-    override val budgetId= id.toString()
+    override val budget = this
 
     fun toContentValues() = ContentValues().apply {
         put(KEY_TITLE, title)

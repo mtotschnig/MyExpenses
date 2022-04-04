@@ -8,5 +8,5 @@ interface DistributionAccountInfo {
     fun label(context: Context): String
     val currency: CurrencyUnit
     val color: Int
-    val budgetId: String?
+    val budget: Budget?
 }

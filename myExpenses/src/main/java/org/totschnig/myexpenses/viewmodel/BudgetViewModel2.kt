@@ -107,4 +107,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             if (allocatedOnly) TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY else null
         )
     }
+
+    override val defaultDisplayTitle: String?
+        get() = accountInfo.value?.budget?.durationPrettyPrint()
 }

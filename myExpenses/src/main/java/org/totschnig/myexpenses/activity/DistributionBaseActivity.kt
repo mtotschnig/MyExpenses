@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.activity
 
+import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
@@ -11,6 +14,15 @@ abstract class DistributionBaseActivity : ProtectedFragmentActivity() {
     abstract val prefKey: PrefKey
     val expansionState
         get() = viewModel.expansionState
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            viewModel.displaySubTitle.collect {
+                supportActionBar?.subtitle = it
+            }
+        }
+    }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES)?.let {
@@ -33,6 +45,14 @@ abstract class DistributionBaseActivity : ProtectedFragmentActivity() {
                 }
                 invalidateOptionsMenu()
                 reset()
+                true
+            }
+            R.id.BACK_COMMAND -> {
+                viewModel.backward()
+                true
+            }
+            R.id.FORWARD_COMMAND -> {
+                viewModel.forward()
                 true
             }
             else -> false

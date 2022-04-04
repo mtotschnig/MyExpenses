@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
@@ -27,6 +30,14 @@ class BudgetActivity2 : DistributionBaseActivity() {
         }
         val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
         viewModel.initWithBudget(budgetId)
+        lifecycleScope.launch {
+            viewModel.accountInfo.filterNotNull().collect {
+                with(it.budget!!) {
+                    supportActionBar?.title = title
+                    viewModel.setGrouping(grouping)
+                }
+            }
+        }
         binding.composeView.setContent {
             AppTheme(this) {
                 Category(
@@ -47,7 +58,7 @@ class BudgetActivity2 : DistributionBaseActivity() {
                 R.id.BUDGET_ALLOCATED_ONLY -> {
                     val value = tag as Boolean
                     viewModel.setAllocatedOnly(value)
-                    prefHandler.putBoolean(templateForAllocatedOnlyKey(it.budgetId!!), value)
+                    prefHandler.putBoolean(templateForAllocatedOnlyKey(it.budget!!.id), value)
                     invalidateOptionsMenu()
                     reset()
                     true
@@ -56,7 +67,7 @@ class BudgetActivity2 : DistributionBaseActivity() {
             }
         } ?: false
 
-    private fun templateForAllocatedOnlyKey(budgetId: String) = "allocatedOnly_$budgetId"
+    private fun templateForAllocatedOnlyKey(budgetId: Long) = "allocatedOnly_$budgetId"
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

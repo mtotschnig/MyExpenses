@@ -144,14 +144,6 @@ class DistributionActivity : DistributionBaseActivity(), OnDialogResultListener 
                 invalidateOptionsMenu()
                 true
             }
-            R.id.BACK_COMMAND -> {
-                viewModel.backward()
-                true
-            }
-            R.id.FORWARD_COMMAND -> {
-                viewModel.forward()
-                true
-            }
             else -> false
         }
 
@@ -196,11 +188,6 @@ class DistributionActivity : DistributionBaseActivity(), OnDialogResultListener 
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {
                 supportActionBar?.title = it.label(this@DistributionActivity)
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.displayTitle.collect {
-                supportActionBar?.subtitle = it
             }
         }
 

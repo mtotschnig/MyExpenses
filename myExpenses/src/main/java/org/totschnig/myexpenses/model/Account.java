@@ -94,6 +94,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Debt;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -1035,7 +1036,7 @@ public class Account extends Model implements DistributionAccountInfo {
 
   @Nullable
   @Override
-  public String getBudgetId() {
+  public Budget getBudget() {
     return null;
   }
 

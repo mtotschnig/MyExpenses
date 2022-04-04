@@ -13,6 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -55,25 +56,29 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         _incomeType.tryEmit(newValue)
     }
 
-    fun setGrouping(grouping: Grouping) {
-        viewModelScope.launch {
-            dateInfo.filterNotNull().collect {
-                _groupingInfo.tryEmit(
-                    GroupingInfo(
-                        grouping = grouping,
-                        year = when (grouping) {
-                            Grouping.WEEK -> it.yearOfWeekStart
-                            Grouping.MONTH -> it.yearOfMonthStart
-                            else -> it.year
-                        },
-                        second = when (grouping) {
-                            Grouping.DAY -> it.day
-                            Grouping.WEEK -> it.week
-                            Grouping.MONTH -> it.month
-                            else -> 0
-                        }
+    open fun setGrouping(grouping: Grouping) {
+        if (grouping == Grouping.NONE) {
+            _groupingInfo.tryEmit(GroupingInfo(grouping, 0, 0))
+        } else {
+            viewModelScope.launch {
+                dateInfo.filterNotNull().collect {
+                    _groupingInfo.tryEmit(
+                        GroupingInfo(
+                            grouping = grouping,
+                            year = when (grouping) {
+                                Grouping.WEEK -> it.yearOfWeekStart
+                                Grouping.MONTH -> it.yearOfMonthStart
+                                else -> it.year
+                            },
+                            second = when (grouping) {
+                                Grouping.DAY -> it.day
+                                Grouping.WEEK -> it.week
+                                Grouping.MONTH -> it.month
+                                else -> 0
+                            }
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -206,26 +211,32 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
-    val displayTitle: Flow<String> = combine(
+    val displaySubTitle: Flow<String> = combine(
         _groupingInfo,
-        dateInfo.filterNotNull(),
-        dateInfoExtra.filterNotNull()
+        dateInfo,
+        dateInfoExtra
     ) { groupingInfo, dateInfo, dateInfoExtra ->
-        groupingInfo.grouping.getDisplayTitle(
-            getApplication(), groupingInfo.year, groupingInfo.second,
-            DateInfo(
-                dateInfo.day,
-                dateInfo.week,
-                dateInfo.month,
-                dateInfo.year,
-                dateInfo.yearOfWeekStart,
-                dateInfo.yearOfMonthStart,
-                dateInfoExtra.maxValue,
-                dateInfoExtra.weekStart,
-                dateInfoExtra.weekEnd
-            ), userLocaleProvider.getUserPreferredLocale()
-        )
-    }
+        if (groupingInfo.grouping == Grouping.NONE) {
+            defaultDisplayTitle
+        } else if (dateInfo != null && dateInfoExtra != null) {
+            groupingInfo.grouping.getDisplayTitle(
+                getApplication(), groupingInfo.year, groupingInfo.second,
+                DateInfo(
+                    dateInfo.day,
+                    dateInfo.week,
+                    dateInfo.month,
+                    dateInfo.year,
+                    dateInfo.yearOfWeekStart,
+                    dateInfo.yearOfMonthStart,
+                    dateInfoExtra.maxValue,
+                    dateInfoExtra.weekStart,
+                    dateInfoExtra.weekEnd
+                ), userLocaleProvider.getUserPreferredLocale()
+            )
+        } else null
+    }.filterNotNull()
+
+    open val defaultDisplayTitle: String? = getString(R.string.menu_aggregates)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTreeForDistribution = combine(
@@ -252,12 +263,12 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
             projection = buildList {
                 add("*")
                 add(sumColumn(accountInfo, incomeType, groupingInfo))
-                if (accountInfo.budgetId != null) add(FQCN_CATEGORIES_BUDGET)
+                if (accountInfo.budget != null) add(FQCN_CATEGORIES_BUDGET)
             }.toTypedArray(),
             withSubColors = true,
             keepCriteria = keepCriteria,
             queryParameter = queryParameter,
-            selectionArgsForProjection = accountInfo.budgetId?.let { arrayOf(it) }
+            selectionArgsForProjection = accountInfo.budget?.let { arrayOf(it.id.toString()) }
         )
 
     private fun sumColumn(
