@@ -261,7 +261,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
             filter = null,
             sortOrder = null,
             projection = buildList {
-                add("*")
+                add("$TREE_CATEGORIES.*")
                 add(sumColumn(accountInfo, incomeType, groupingInfo))
                 if (accountInfo.budget != null) add(FQCN_CATEGORIES_BUDGET)
             }.toTypedArray(),

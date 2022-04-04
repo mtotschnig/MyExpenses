@@ -3,13 +3,20 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.Budget
+import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -40,12 +47,17 @@ class BudgetActivity2 : DistributionBaseActivity() {
         }
         binding.composeView.setContent {
             AppTheme(this) {
-                Category(
-                    category = viewModel.categoryTreeForBudget.collectAsState(initial = Category2.EMPTY).value,
-                    expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                    choiceMode = ChoiceMode.NoChoice,
-                    sumCurrency = viewModel.accountInfo.collectAsState(null).value?.currency,
-                )
+                val category = viewModel.categoryTreeForBudget.collectAsState(initial = Category2.EMPTY).value
+                val currency = viewModel.accountInfo.collectAsState(null).value?.currency
+                if (category != Category2.EMPTY && currency != null) {
+                    Budget(
+                        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))
+                            .padding(4.dp),
+                        category = category,
+                        expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
+                        currency = currency,
+                    )
+                }
             }
         }
     }

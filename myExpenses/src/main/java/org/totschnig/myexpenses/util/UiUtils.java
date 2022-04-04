@@ -1,5 +1,8 @@
 package org.totschnig.myexpenses.util;
 
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -14,26 +17,21 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.preference.PrefHandler;
-
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.ImageViewCompat;
 
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
+import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.preference.PrefHandler;
 
 public class UiUtils {
 
@@ -100,7 +98,7 @@ public class UiUtils {
   }
 
   public enum DateMode {
-    DATE, DATE_TIME, BOOKING_VALUE;
+    DATE, DATE_TIME, BOOKING_VALUE
   }
 
   public static DateMode getDateMode(AccountType accountType, PrefHandler prefHandler) {

@@ -405,6 +405,8 @@ open class CategoryViewModel(
                         val nextLevel = cursor.getInt(KEY_LEVEL)
                         val nextSum = cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }
                             ?.let { cursor.getLong(it) } ?: 0L
+                        val nextBudget = cursor.getColumnIndex(KEY_BUDGET).takeIf { it != -1 }
+                            ?.let { cursor.getLong(it) } ?: 0L
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()
@@ -425,7 +427,8 @@ open class CategoryViewModel(
                                     nextIsMatching,
                                     nextColor,
                                     nextIcon,
-                                    nextSum
+                                    nextSum,
+                                    nextBudget
                                 )
                             )
                             index++

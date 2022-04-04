@@ -520,10 +520,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           c = db.rawQuery(sql, selectionArgs);
           return c;
         }
-        final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
-        final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
-                uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
         if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
+          final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
+          final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
+                  uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
           String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression);
           log(sql);
           c = db.rawQuery(sql, selectionArgs);

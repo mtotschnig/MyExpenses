@@ -19,7 +19,8 @@ data class Category2(
     val isMatching: Boolean = true,
     val color: Int? = null,
     val icon: String? = null,
-    val sum: Long = 0L
+    val sum: Long = 0L,
+    val budget: Long = 0L
 ) : Parcelable {
 
     fun flatten(): List<Category2> =  buildList {
