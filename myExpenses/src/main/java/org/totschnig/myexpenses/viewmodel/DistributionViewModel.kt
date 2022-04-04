@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.viewmodel.data.*
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -32,10 +31,10 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
 
     val selectionState: MutableState<Category2?> = mutableStateOf(null)
     val expansionState: SnapshotStateList<Category2> = SnapshotStateList()
-    private val _accountInfo = MutableStateFlow<DistributionAccountInfo?>(null)
+    protected val _accountInfo = MutableStateFlow<DistributionAccountInfo?>(null)
     val accountInfo: Flow<DistributionAccountInfo?> = _accountInfo
 
-    private val _aggregateTypes = MutableStateFlow(true)
+    protected val _aggregateTypes = MutableStateFlow(true)
     private val _incomeType = MutableStateFlow(false)
     val _groupingInfo = MutableStateFlow(GroupingInfo(Grouping.NONE))
 
@@ -130,14 +129,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     fun initWithAccount(accountId: Long) {
         viewModelScope.launch {
             account(accountId, true).asFlow().collect {
-                _accountInfo.tryEmit(
-                    DistributionAccountInfo(
-                        it.id,
-                        it.getLabelForScreenTitle(getApplication()),
-                        it.currencyUnit,
-                        it.color
-                    )
-                )
+                _accountInfo.tryEmit(it)
             }
         }
     }
@@ -235,8 +227,13 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         )
     }
 
+    val categoryTreeForDistribution = categoryTreeForDistribution() { it.sum != 0L }
+        .map { it.sortChildrenBySum() }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeWithSum: Flow<Category2> = combine(
+    fun categoryTreeForDistribution(
+        keepCriteria: ((Category2) -> Boolean)? = null
+    ): Flow<Category2> = combine(
         _accountInfo.filterNotNull(),
         _aggregateTypes,
         _incomeType,
@@ -244,14 +241,29 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     ) { accountInfo, aggregateTypes, incomeType, grouping ->
         Triple(accountInfo, if (aggregateTypes) null else incomeType, grouping)
     }.flatMapLatest { (accountInfo, incomeType, grouping) ->
-        Timber.d("emitting $grouping")
-        categoryTree(
-            null,
-            null,
-            arrayOf("*", sumColumn(accountInfo, incomeType, grouping)),
-            true
-        ) { it.sum != 0L }
+        categoryTreeWithSum(accountInfo, incomeType, grouping, keepCriteria)
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun categoryTreeWithSum(
+        accountInfo: DistributionAccountInfo,
+        incomeType: Boolean?,
+        groupingInfo: GroupingInfo,
+        keepCriteria: ((Category2) -> Boolean)? = null
+    ): Flow<Category2> =
+        categoryTree(
+            filter = null,
+            sortOrder = null,
+            projection = buildList {
+                add("*")
+                add(sumColumn(accountInfo, incomeType, groupingInfo))
+                if (accountInfo.budgetId != null) add(FQCN_CATEGORIES_BUDGET)
+            }.toTypedArray(),
+            withSubColors = true,
+            keepCriteria = keepCriteria,
+            //projection is used twice in CTE
+            selectionArgsForProjection = accountInfo.budgetId?.let { arrayOf(it) }
+        )
 
     private fun sumColumn(
         accountInfo: DistributionAccountInfo,
@@ -277,7 +289,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
             }
         }
         var catFilter =
-            "FROM $table WHERE ${WHERE_NOT_VOID}${if (accountSelection == null) "" else " AND +${KEY_ACCOUNTID}$accountSelection"} AND $KEY_CATID = Tree.${KEY_ROWID}"
+            "FROM $table WHERE ${WHERE_NOT_VOID}${if (accountSelection == null) "" else " AND +${KEY_ACCOUNTID}$accountSelection"} AND $KEY_CATID = $TREE_CATEGORIES.${KEY_ROWID}"
         if (incomeType != null) {
             catFilter += " AND " + KEY_AMOUNT + (if (incomeType) ">" else "<") + "0"
         }

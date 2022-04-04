@@ -329,6 +329,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SimpleImageActivity" />
+        <activity android:name=".activity.BudgetActivity2" />
         <activity android:name=".activity.BudgetActivity" />
         <activity
             android:name=".activity.ManageTags"

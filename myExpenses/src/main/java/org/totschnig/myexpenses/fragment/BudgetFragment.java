@@ -1,5 +1,14 @@
 package org.totschnig.myexpenses.fragment;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.FQCN_CATEGORIES_BUDGET;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
+import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
+import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.annimon.stream.Stream;
 import com.google.android.material.chip.ChipGroup;
@@ -33,7 +47,6 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
@@ -41,22 +54,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.lifecycle.ViewModelProvider;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
-import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
-import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> implements
     BudgetAdapter.OnBudgetClickListener, SimpleDialog.OnDialogResultListener {
@@ -252,7 +252,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     this.budget = budget;
     filterPersistence.reloadFromPreferences();
     allocatedOnly = prefHandler.getBoolean(getTemplateForAllocatedOnlyKey(budget),false);
-    setAccountInfo(new DistributionAccountInfo(budget.getAccountId(), budget.label(requireActivity()), budget.getCurrency(), budget.getColor()));
+    setAccountInfo(budget);
     final ActionBar actionBar = ((ProtectedFragmentActivity) requireActivity()).getSupportActionBar();
     actionBar.setTitle(budget.getTitle());
     if (mAdapter == null) {
@@ -349,7 +349,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
 
   @Override
   protected String getExtraColumn() {
-    return KEY_BUDGET;
+    return FQCN_CATEGORIES_BUDGET;
   }
 
   @NonNull

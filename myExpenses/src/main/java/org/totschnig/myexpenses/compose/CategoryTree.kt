@@ -341,6 +341,10 @@ sealed class ChoiceMode(
             selectionState.value = if (selectionState.value == category) null else category
         }
     }
+    object NoChoice: ChoiceMode(false) {
+        override fun isSelected(id: Long) = false
 
+        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {}
+    }
 }
 

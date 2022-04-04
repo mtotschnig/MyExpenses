@@ -34,11 +34,12 @@ fun categoryTreeSelect(
     projection: Array<String>? = null,
     selection: String? = null,
     rootExpression: String? = null,
+    tableJoin: String = ""
 ) = categoryTreeCTE(
+    rootExpression = rootExpression,
     sortOrder = sortOrder,
-    matches = matches,
-    rootExpression = rootExpression
-) + "SELECT ${(projection ?: arrayOf("*")).joinToString()} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+    matches = matches
+) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree $tableJoin  ${selection?.let { "WHERE $it" } ?: ""}"
 
 fun categoryTreeWithMappedObjects(
     selection: String,
@@ -50,7 +51,7 @@ fun categoryTreeWithMappedObjects(
     } + " AS $key"
 
     fun subQuery(table: String, key: String, aggregate: Boolean) = wrapQuery(
-        "(select 1 FROM $table WHERE $KEY_CATID IN (SELECT $KEY_ROWID FROM Tree))",
+        "(select 1 FROM $table WHERE $KEY_CATID IN (SELECT $KEY_ROWID FROM $TREE_CATEGORIES))",
         key,
         aggregate
     )
@@ -60,7 +61,11 @@ fun categoryTreeWithMappedObjects(
             KEY_MAPPED_TRANSACTIONS -> subQuery(TABLE_TRANSACTIONS, it, aggregate)
             KEY_MAPPED_TEMPLATES -> subQuery(TABLE_TEMPLATES, it, aggregate)
             KEY_MAPPED_BUDGETS -> subQuery(TABLE_BUDGET_CATEGORIES, it, aggregate)
-            KEY_HAS_DESCENDANTS -> wrapQuery("(select count(*) FROM Tree) > 1", it, aggregate)
+            KEY_HAS_DESCENDANTS -> wrapQuery(
+                "(select count(*) FROM $TREE_CATEGORIES) > 1",
+                it,
+                aggregate
+            )
             else -> it
         }
     }
@@ -106,7 +111,7 @@ fun categoryTreeCTE(
         subtree.$KEY_LAST_USED,
         level + 1,
         ${matches ?: "1"} AS $KEY_MATCHES_FILTER
-    FROM categories subtree
+    FROM $TABLE_CATEGORIES subtree
     JOIN Tree ON Tree._id = subtree.parent_id
     ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
   )

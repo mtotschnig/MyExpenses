@@ -15,10 +15,8 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Colorize
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,11 +60,9 @@ import org.totschnig.myexpenses.viewmodel.data.Category2
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
 
-class DistributionActivity : ProtectedFragmentActivity(), OnDialogResultListener {
+class DistributionActivity : DistributionBaseActivity(), OnDialogResultListener {
     private lateinit var chart: PieChart
-    private lateinit var binding: ActivityComposeBinding
-    val viewModel: DistributionViewModel by viewModels()
-    val prefKey = PrefKey.DISTRIBUTION_AGGREGATE_TYPES
+    override val prefKey = PrefKey.DISTRIBUTION_AGGREGATE_TYPES
     private val showChart = mutableStateOf(false)
     private var mDetector: GestureDetector? = null
 
@@ -96,15 +92,13 @@ class DistributionActivity : ProtectedFragmentActivity(), OnDialogResultListener
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        super.onPrepareOptionsMenu(menu)
         Utils.configureGroupingMenu(
             menu.findItem(R.id.GROUPING_COMMAND).subMenu,
             viewModel.grouping
         )
         menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
             it.isChecked = showChart.value
-        }
-        menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES)?.let {
-            it.isChecked = viewModel.aggregateTypes
         }
         val item = menu.findItem(R.id.switchId)
         Utils.menuItemSetEnabledAndVisible(item, !viewModel.aggregateTypes)
@@ -191,7 +185,7 @@ class DistributionActivity : ProtectedFragmentActivity(), OnDialogResultListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityComposeBinding.inflate(layoutInflater)
+        val binding = ActivityComposeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar(true)
         showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
@@ -207,7 +201,7 @@ class DistributionActivity : ProtectedFragmentActivity(), OnDialogResultListener
         viewModel.initWithAccount(intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0))
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {
-                supportActionBar?.title = it.label
+                supportActionBar?.title = it.label(this@DistributionActivity)
             }
         }
         lifecycleScope.launch {
@@ -220,7 +214,7 @@ class DistributionActivity : ProtectedFragmentActivity(), OnDialogResultListener
             AppTheme(this) {
                 val configuration = LocalConfiguration.current
                 val categoryTree =
-                    viewModel.categoryTreeWithSum.collectAsState(initial = Category2.EMPTY)
+                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category2.EMPTY)
 
                 val chartCategoryTree = derivedStateOf {
                     (expansionState.lastOrNull() ?: categoryTree.value)

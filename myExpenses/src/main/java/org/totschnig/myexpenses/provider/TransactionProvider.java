@@ -515,11 +515,16 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CATEGORIES:
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
         if (mappedObjects != null) {
-          c = db.rawQuery(categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2")), selectionArgs);
+          String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
+          log(sql);
+          c = db.rawQuery(sql, selectionArgs);
           return c;
         }
+        final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
+        final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
+                uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
         if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
-          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null);
+          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression);
           log(sql);
           c = db.rawQuery(sql, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);

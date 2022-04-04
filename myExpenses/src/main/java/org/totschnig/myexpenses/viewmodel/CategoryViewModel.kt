@@ -13,11 +13,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.*
@@ -72,16 +69,20 @@ open class CategoryViewModel(application: Application, private val savedStateHan
         sortOrder.tryEmit(sort)
     }
 
-    val categoryTree = categoryTree()
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun categoryTree(projection: Array<String>? = null, keepCriteria: ((Category2) -> Boolean)? = null): StateFlow<Category2> = combine(
+    val categoryTree = combine(
         savedStateHandle.getLiveData(KEY_FILTER, "").asFlow(),
         sortOrder
     ) { filter, sort ->
         Timber.d("new emission: $filter/$sort")
         filter to sort
-    }.flatMapLatest { (filter, sortOrder) -> categoryTree(filter, sortOrder, projection, false, keepCriteria) }
+    }.flatMapLatest { (filter, sortOrder) -> categoryTree(
+        filter = filter,
+        sortOrder = sortOrder,
+        projection = null,
+        withSubColors = false,
+        keepCriteria = null
+    ) }
         .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
     val categoryTreeForSelect = categoryTree("", sortOrder.value)
@@ -91,6 +92,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
         sortOrder: String?,
         projection: Array<String>? = null,
         withSubColors: Boolean = false,
+        selectionArgsForProjection: Array<String>? = null,
         keepCriteria: ((Category2) -> Boolean)? = null
     ): Flow<Category2> {
         val (selection, selectionArgs) = if (filter?.isNotBlank() == true) {
@@ -98,7 +100,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                 arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
             //The filter is applied twice in the CTE
             "$KEY_LABEL_NORMALIZED LIKE ?" to selectionArgs + selectionArgs
-        } else null to null
+        } else null to emptyArray()
 
         return contentResolver.observeQuery(
             TransactionProvider.CATEGORIES_URI.buildUpon()
@@ -106,7 +108,7 @@ open class CategoryViewModel(application: Application, private val savedStateHan
                 .build(),
             projection,
             selection,
-            selectionArgs,
+            selectionArgs + (selectionArgsForProjection ?: emptyArray()),
             sortOrder,
             true
         ).mapToTree(withSubColors, keepCriteria)

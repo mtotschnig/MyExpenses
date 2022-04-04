@@ -20,6 +20,7 @@ import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
+import org.totschnig.myexpenses.activity.BudgetActivity2
 import org.totschnig.myexpenses.databinding.BudgetListRowBinding
 import org.totschnig.myexpenses.databinding.BudgetsBinding
 import org.totschnig.myexpenses.fragment.BudgetFragment.EDIT_BUDGET_DIALOG
@@ -152,11 +153,19 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                     filterPersistence.whereFilter.criteria.forEach { criterion -> filterList.add(criterion.prettyPrint(context)) }
                     filter.addChipsBulk(filterList, null)
                     root.setOnClickListener {
+                        val i = Intent(context, BudgetActivity2::class.java)
+                        i.putExtra(KEY_ROWID, budget.id)
+                        i.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        lastClickedPosition = holder.adapterPosition
+                        startActivityForResult(i, 0)
+                    }
+                    root.setOnLongClickListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)
                         i.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                         lastClickedPosition = holder.adapterPosition
                         startActivityForResult(i, 0)
+                        true
                     }
                 }
             }

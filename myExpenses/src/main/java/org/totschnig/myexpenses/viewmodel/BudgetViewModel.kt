@@ -94,7 +94,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     }
 
     fun loadBudget(budgetId: Long, once: Boolean) {
-        disposable = createQuery("%s = ?".format(q(KEY_ROWID)), arrayOf(budgetId.toString()))
+        disposable = createQuery("${q(KEY_ROWID)} = ?", arrayOf(budgetId.toString()))
                 .mapToOne(budgetCreatorFunction)
                 .subscribe {
                     postBudget(it)
@@ -177,7 +177,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
 
     companion object {
         private const val TOKEN = 0
-        private val PROJECTION = arrayOf(
+        val PROJECTION = arrayOf(
                 q(KEY_ROWID),
                 "coalesce(%1\$s, -(select %2\$s from %3\$s where %4\$s = %5\$s), %6\$d) AS %1\$s"
                         .format(Locale.ROOT, KEY_ACCOUNTID, KEY_ROWID, TABLE_CURRENCIES, KEY_CODE,
@@ -194,7 +194,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL"
         )
 
-        private fun q(column:String) = "$TABLE_BUDGETS.$column"
+        fun q(column:String) = "$TABLE_BUDGETS.$column"
 
         fun prefNameForCriteria(budgetId: Long): String =
                 "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)

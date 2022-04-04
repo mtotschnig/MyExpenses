@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlin.math.absoluteValue
 
 @Immutable
 @Parcelize
@@ -33,6 +35,9 @@ data class Category2(
         } else null
     }
 
+    fun sortChildrenBySum(): Category2 = if (children.isEmpty()) this else
+        this.copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue })
+
     fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
         children.forEach {
             selectionState.remove(it.id)
@@ -40,6 +45,7 @@ data class Category2(
         }
     }
 
+    @IgnoredOnParcel
     val aggregateSum: Long by lazy { sum + children.sumOf { it.aggregateSum } }
 
     companion object {

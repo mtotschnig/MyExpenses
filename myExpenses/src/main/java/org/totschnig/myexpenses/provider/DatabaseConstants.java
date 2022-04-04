@@ -281,6 +281,7 @@ public class DatabaseConstants {
   public static final String TABLE_ACCOUNTS = "accounts";
   static final String TABLE_SYNC_STATE = "_sync_state";
   public static final String TABLE_CATEGORIES = "categories";
+  public static final String TREE_CATEGORIES = "Tree";
   public static final String TABLE_METHODS = "paymentmethods";
   static final String TABLE_ACCOUNTTYES_METHODS = "accounttype_paymentmethod";
   public static final String TABLE_TEMPLATES = "templates";
@@ -314,11 +315,17 @@ public class DatabaseConstants {
 
   public static final String TABLE_DEBTS = "debts";
 
-  private static final String FULL_CAT_CASE = "(" + categoryTreeSelect(null, null, new String[] {"path AS label" }, KEY_ROWID + " = " + KEY_CATID, null) + ")";
+  private static final String FULL_CAT_CASE = "(" + categoryTreeSelect(null, null, new String[] {"path" }, KEY_ROWID + " = " + KEY_CATID, null, "") + ")";
 
   public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
 
   public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
+
+  /**
+   * fully qualified column name for categories budget table
+   */
+  public static final String FQCN_CATEGORIES_BUDGET = TABLE_BUDGET_CATEGORIES + "." + KEY_BUDGET;
+
 
   /**
    * for transfer label of transfer_account, for transaction full breadcrumb of category

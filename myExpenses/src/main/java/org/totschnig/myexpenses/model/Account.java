@@ -95,6 +95,7 @@ import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.data.Debt;
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.math.BigDecimal;
@@ -107,7 +108,7 @@ import java.util.List;
  *
  * @author Michael Totschnig
  */
-public class Account extends Model {
+public class Account extends Model implements DistributionAccountInfo {
 
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
@@ -1021,4 +1022,26 @@ public class Account extends Model {
     return sealed;
   }
 
+  @NonNull
+  @Override
+  public CurrencyUnit getCurrency() {
+    return currencyUnit;
+  }
+
+  @Override
+  public int getColor() {
+    return -1;
+  }
+
+  @Nullable
+  @Override
+  public String getBudgetId() {
+    return null;
+  }
+
+  @NonNull
+  @Override
+  public String label(@NonNull Context context) {
+    return label;
+  }
 }

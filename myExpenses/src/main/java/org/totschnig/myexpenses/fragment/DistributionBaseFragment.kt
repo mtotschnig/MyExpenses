@@ -20,42 +20,7 @@ import org.totschnig.myexpenses.dialog.TransactionListDialogFragment.Companion.n
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_MONTH_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
-import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
-import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
@@ -249,8 +214,8 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
             }
     }
 
-    protected open fun filterSelectionArgs(): Array<String?>? {
-        return null
+    protected open fun filterSelectionArgs(): Array<String?> {
+        return emptyArray()
     }
 
     protected abstract fun updateIncomeAndExpense(income: Long, expense: Long)
@@ -368,7 +333,8 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
                 accountSelector = accountInfo.currency.code
             }
             else -> {
-                accountSelection = " = $id"
+                accountSelection = " = ?"
+                accountSelector = id.toString()
             }
         }
         catFilter =
