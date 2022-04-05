@@ -1,14 +1,16 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -26,7 +29,8 @@ fun Budget(
     modifier: Modifier = Modifier,
     category: Category2,
     expansionMode: ExpansionMode,
-    currency: CurrencyUnit
+    currency: CurrencyUnit,
+    startPadding: Dp = 0.dp,
 ) {
     Column(
         modifier = modifier
@@ -34,7 +38,9 @@ fun Budget(
         if (category.level > 0) {
             BudgetCategoryRenderer(
                 category = category,
-                currency = currency
+                currency = currency,
+                expansionMode = expansionMode,
+                startPadding = startPadding,
             )
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
@@ -44,7 +50,8 @@ fun Budget(
                         Budget(
                             category = model,
                             expansionMode = expansionMode,
-                            currency = currency
+                            currency = currency,
+                            startPadding = startPadding + 12.dp
                         )
                     }
                 }
@@ -65,8 +72,48 @@ fun Budget(
                         Divider()
                     }
                 }
+                item {
+                    Footer(category, currency)
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun Footer(category: Category2, currency: CurrencyUnit) {
+    val sumAllocated = category.children.sumOf { it.budget }
+    val sumSpent = category.aggregateSum
+    Row(modifier = Modifier.height(36.dp)) {
+        Text(
+            modifier = Modifier
+                .weight(2f)
+                .padding(end = 8.dp), text = "Gesamt"
+        )
+        HorizontalDivider()
+        Text(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 8.dp),
+            text = LocalAmountFormatter.current(sumAllocated, currency),
+            textAlign = TextAlign.End
+        )
+        HorizontalDivider()
+        Text(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 8.dp),
+            text = LocalAmountFormatter.current(sumSpent, currency),
+            textAlign = TextAlign.End
+        )
+        HorizontalDivider()
+        Text(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 8.dp),
+            text = LocalAmountFormatter.current(sumAllocated + sumSpent, currency),
+            textAlign = TextAlign.End
+        )
     }
 }
 
@@ -108,13 +155,32 @@ private fun Header() {
 }
 
 @Composable
-private fun BudgetCategoryRenderer(category: Category2, currency: CurrencyUnit) {
-    Row(modifier = Modifier.height(48.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            modifier = Modifier
-                .weight(2f)
-                .padding(end = 8.dp), text = category.label
-        )
+private fun BudgetCategoryRenderer(
+    category: Category2,
+    currency: CurrencyUnit,
+    expansionMode: ExpansionMode,
+    startPadding: Dp,
+) {
+    val isExpanded = expansionMode.isExpanded(category.id)
+    Row(modifier = Modifier.height((if (category.level == 1) 48 else 36).dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier
+            .weight(2f)
+            .padding(end = 8.dp, start = startPadding), verticalAlignment = Alignment.CenterVertically) {
+            Text(text = category.label)
+            if (category.children.isNotEmpty()) {
+                IconButton(onClick = { expansionMode.toggle(category) }) {
+                    Icon(
+                        imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                        contentDescription = stringResource(
+                            id = if (isExpanded)
+                                R.string.content_description_collapse else
+                                R.string.content_description_expand
+                        )
+                    )
+                }
+            }
+        }
         HorizontalDivider()
         Box(modifier = Modifier
             .fillMaxSize()
