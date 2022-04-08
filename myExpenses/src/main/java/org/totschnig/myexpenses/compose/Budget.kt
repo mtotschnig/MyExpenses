@@ -36,6 +36,8 @@ fun Budget(
     expansionMode: ExpansionMode,
     currency: CurrencyUnit,
     startPadding: Dp = 0.dp,
+    parent: Category2? = null,
+    onBudgetEdit: (category: Category2, parent: Category2?) -> Unit
 ) {
     Column(
         modifier = modifier.then(
@@ -54,8 +56,8 @@ fun Budget(
                 category = category,
                 currency = currency,
                 expansionMode = expansionMode,
-                startPadding = startPadding,
-            )
+                startPadding = startPadding
+            ) { onBudgetEdit(category, parent) }
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
                     verticalArrangement = Arrangement.Center
@@ -65,7 +67,9 @@ fun Budget(
                             category = model,
                             expansionMode = expansionMode,
                             currency = currency,
-                            startPadding = startPadding + 12.dp
+                            startPadding = startPadding + 12.dp,
+                            parent = category,
+                            onBudgetEdit = onBudgetEdit
                         )
                     }
                 }
@@ -77,15 +81,17 @@ fun Budget(
                 verticalArrangement = Arrangement.Center
             ) {
                 item {
-                    Summary(category, currency)
+                    Summary(category, currency) { onBudgetEdit(category, parent) }
                     Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
                 }
                 category.children.forEach { model ->
                     item {
                         Budget(
                             category = model,
+                            parent = category,
                             expansionMode = expansionMode,
-                            currency = currency
+                            currency = currency,
+                            onBudgetEdit = onBudgetEdit
                         )
                     }
                 }
@@ -95,7 +101,11 @@ fun Budget(
 }
 
 @Composable
-private fun Summary(category: Category2, currency: CurrencyUnit) {
+private fun Summary(
+    category: Category2,
+    currency: CurrencyUnit,
+    onBudgetEdit: () -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -106,7 +116,7 @@ private fun Summary(category: Category2, currency: CurrencyUnit) {
             text = stringResource(id = R.string.menu_aggregates)
         )
         VerticalDivider()
-        BudgetNumbers(category = category, currency = currency)
+        BudgetNumbers(category = category, currency = currency, onBudgetEdit = onBudgetEdit)
     }
 }
 
@@ -129,7 +139,9 @@ val narrowScreen: Boolean
     @Composable get() = LocalConfiguration.current.screenWidthDp < breakPoint.value
 
 private fun Modifier.labelColumn(scope: RowScope): Modifier =
-    composed { this.then(if (narrowScreen) width(breakPoint * 0.35f) else with(scope) { weight(2f) }) }.padding(end = 8.dp)
+    composed { this.then(if (narrowScreen) width(breakPoint * 0.35f) else with(scope) { weight(2f) }) }.padding(
+        end = 8.dp
+    )
 
 private fun Modifier.numberColumn(scope: RowScope): Modifier =
     composed { this.then(if (narrowScreen) width(breakPoint * 0.2f) else with(scope) { weight(1f) }) }
@@ -168,6 +180,7 @@ private fun BudgetCategoryRenderer(
     currency: CurrencyUnit,
     expansionMode: ExpansionMode,
     startPadding: Dp,
+    onBudgetEdit: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -194,17 +207,24 @@ private fun BudgetCategoryRenderer(
             }
         }
         VerticalDivider()
-        BudgetNumbers(category = category, currency = currency)
+        BudgetNumbers(category = category, currency = currency, onBudgetEdit)
     }
 }
 
 @Composable
-private fun RowScope.BudgetNumbers(category: Category2, currency: CurrencyUnit) {
-    val allocation = if (category.children.isEmpty()) category.budget else category.children.sumOf { it.budget }
+private fun RowScope.BudgetNumbers(
+    category: Category2,
+    currency: CurrencyUnit,
+    onBudgetEdit: () -> Unit
+) {
+    val allocation =
+        if (category.children.isEmpty()) category.budget else category.children.sumOf { it.budget }
     if (allocation != category.budget) {
         Column(modifier = Modifier.numberColumn(this)) {
             Text(
-                modifier = Modifier.clickable { }.fillMaxWidth(),
+                modifier = Modifier
+                    .clickable(onClick = onBudgetEdit)
+                    .fillMaxWidth(),
                 text = LocalAmountFormatter.current(category.budget, currency),
                 textAlign = TextAlign.End,
                 textDecoration = TextDecoration.Underline
@@ -217,17 +237,20 @@ private fun RowScope.BudgetNumbers(category: Category2, currency: CurrencyUnit) 
         }
     } else {
         Text(
-            modifier = Modifier.numberColumn(this).clickable { },
+            modifier = Modifier
+                .numberColumn(this)
+                .clickable(onClick = onBudgetEdit),
             text = LocalAmountFormatter.current(category.budget, currency),
             textAlign = TextAlign.End,
             textDecoration = TextDecoration.Underline
         )
     }
     VerticalDivider()
+    val aggregateSum = category.aggregateSum
     Text(
         modifier = Modifier
             .numberColumn(this),
-        text = LocalAmountFormatter.current(category.aggregateSum, currency),
+        text = LocalAmountFormatter.current(aggregateSum, currency),
         textAlign = TextAlign.End
     )
     VerticalDivider()
@@ -237,7 +260,7 @@ private fun RowScope.BudgetNumbers(category: Category2, currency: CurrencyUnit) 
     ) {
         ColoredAmountText(
             modifier = Modifier.align(Alignment.CenterEnd),
-            amount = category.budget + category.aggregateSum,
+            amount = category.budget + aggregateSum,
             currency = currency,
             textAlign = TextAlign.End,
             withBorder = true

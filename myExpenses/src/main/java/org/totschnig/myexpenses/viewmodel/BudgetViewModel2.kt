@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentUris
+import android.content.ContentValues
 import android.database.Cursor
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -110,4 +112,17 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     override val defaultDisplayTitle: String?
         get() = accountInfo.value?.budget?.durationPrettyPrint()
+
+    fun updateBudget(budgetId: Long, categoryId: Long, amount: Money) {
+        val contentValues = ContentValues(1).apply {
+            put(DatabaseConstants.KEY_BUDGET, amount.amountMinor)
+        }
+        val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.update(
+                if (categoryId == 0L) budgetUri else ContentUris.withAppendedId(budgetUri, categoryId),
+                contentValues, null, null
+            )
+        }
+    }
 }

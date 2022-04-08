@@ -204,16 +204,16 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     }
     simpleFormDialog
         .fields(buildAmountField(amount, max == null ? null : max.getAmountMajor(),
-            min == null ? null : min.getAmountMajor(), category != null, parentItem != null, getContext()))
+            min == null ? null : min.getAmountMajor(), category == null ? 0 : (parentItem == null ? 1 : 2), getContext()))
         .show(this, EDIT_BUDGET_DIALOG);
   }
 
   public static AmountEdit buildAmountField(Money amount, Context context) {
-    return buildAmountField(amount, null, null, false, false, context);
+    return buildAmountField(amount, null, null, 0, context);
   }
 
   public static AmountEdit buildAmountField(Money amount, BigDecimal max, BigDecimal min,
-                                            boolean isMainCategory, boolean isSubCategory, Context context) {
+                                            int level, Context context) {
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
         .label(appendCurrencySymbol(context, R.string.budget_allocated_amount, amount.getCurrencyUnit()))
         .fractionDigits(amount.getCurrencyUnit().getFractionDigits()).required();
@@ -222,11 +222,11 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     }
     if (max != null) {
       amountEdit.max(max, String.format(Locale.ROOT, "%s %s",
-          context.getString(isSubCategory ? R.string.sub_budget_exceeded_error_1_1 : R.string.budget_exceeded_error_1_1, max),
-          context.getString(isSubCategory ? R.string.sub_budget_exceeded_error_2 : R.string.budget_exceeded_error_2)));
+          context.getString(level > 1 ? R.string.sub_budget_exceeded_error_1_1 : R.string.budget_exceeded_error_1_1, max),
+          context.getString(level > 1 ? R.string.sub_budget_exceeded_error_2 : R.string.budget_exceeded_error_2)));
     }
     if (min != null) {
-      amountEdit.min(min, context.getString(isMainCategory ? R.string.sub_budget_under_allocated_error : R.string.budget_under_allocated_error, min));
+      amountEdit.min(min, context.getString(level == 1 ? R.string.sub_budget_under_allocated_error : R.string.budget_under_allocated_error, min));
     }
     return amountEdit;
   }

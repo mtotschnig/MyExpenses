@@ -23,7 +23,7 @@ data class Category2(
     val budget: Long = 0L
 ) : Parcelable {
 
-    fun flatten(): List<Category2> =  buildList {
+    fun flatten(): List<Category2> = buildList {
         add(this@Category2)
         addAll(children.flatMap { it.flatten() })
     }
@@ -46,8 +46,13 @@ data class Category2(
         }
     }
 
+    /**
+     * at the moment, the root category gets initialized with the total spent as sum
+     * this could be refactored by getting unmapped expenses as part of the category tree
+     */
     @IgnoredOnParcel
-    val aggregateSum: Long by lazy { sum + children.sumOf { it.aggregateSum } }
+    val aggregateSum: Long
+        get() = sum + if (level == 0) 0 else children.sumOf { it.aggregateSum }
 
     companion object {
         val EMPTY = Category2(label = "EMPTY")
