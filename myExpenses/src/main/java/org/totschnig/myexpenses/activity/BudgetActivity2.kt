@@ -3,11 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -48,14 +44,12 @@ class BudgetActivity2 : DistributionBaseActivity() {
         binding.composeView.setContent {
             AppTheme(this) {
                 val category = viewModel.categoryTreeForBudget.collectAsState(initial = Category2.EMPTY).value
-                val currency = viewModel.accountInfo.collectAsState(null).value?.currency
-                if (category != Category2.EMPTY && currency != null) {
+                val account = viewModel.accountInfo.collectAsState(null).value
+                if (category != Category2.EMPTY && account != null) {
                     Budget(
-                        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))
-                            .padding(4.dp),
-                        category = category,
+                        category = category.copy(budget = account.budget!!.amount.amountMinor),
                         expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                        currency = currency,
+                        currency = account.currency,
                     )
                 }
             }
