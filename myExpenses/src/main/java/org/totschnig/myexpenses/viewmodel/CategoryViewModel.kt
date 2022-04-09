@@ -41,14 +41,14 @@ open class CategoryViewModel(
     private val savedStateHandle: SavedStateHandle
 ) :
     ContentResolvingAndroidViewModel(application) {
-    private var _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
-    private var _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
-    private var _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
-    private var _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
-    var deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult
-    var moveResult: StateFlow<Boolean?> = _moveResult
-    var importResult: StateFlow<Pair<Int, Int>?> = _importResult
-    var exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
+    private val _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)
+    private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    private val _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
+    private val _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
+    val deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult
+    val moveResult: StateFlow<Boolean?> = _moveResult
+    val importResult: StateFlow<Pair<Int, Int>?> = _importResult
+    val exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
     val defaultSort = Sort.USAGES
 
     sealed class DeleteResult {

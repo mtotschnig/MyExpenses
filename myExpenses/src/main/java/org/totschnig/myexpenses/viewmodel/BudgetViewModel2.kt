@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
@@ -120,9 +121,23 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
         viewModelScope.launch(context = coroutineContext()) {
             contentResolver.update(
-                if (categoryId == 0L) budgetUri else ContentUris.withAppendedId(budgetUri, categoryId),
+                if (categoryId == 0L) budgetUri else ContentUris.withAppendedId(
+                    budgetUri,
+                    categoryId
+                ),
                 contentValues, null, null
             )
         }
+    }
+
+    fun deleteBudget(budgetId: Long) = liveData(context = coroutineContext()) {
+        emit(
+            contentResolver.delete(
+                ContentUris.withAppendedId(
+                    TransactionProvider.BUDGETS_URI,
+                    budgetId
+                ), null, null
+            ) == 1
+        )
     }
 }

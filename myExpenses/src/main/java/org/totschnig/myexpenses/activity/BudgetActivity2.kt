@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -140,8 +141,14 @@ class BudgetActivity2 : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRe
                 return true
             }
             if (budget != null && dialogTag == DELETE_BUDGET_DIALOG) {
-                //TODO()
-                //viewModel.deleteBudget(budget.id)
+                viewModel.deleteBudget(budget.id).observe(this) {
+                    if(it) {
+                        setResult(Activity.RESULT_FIRST_USER);
+                        finish();
+                    } else {
+                        showDeleteFailureFeedback()
+                    }
+                }
                 return true
             }
         }
