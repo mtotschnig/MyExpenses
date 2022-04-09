@@ -60,7 +60,8 @@ import org.totschnig.myexpenses.viewmodel.data.Category2
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
 
-class DistributionActivity : DistributionBaseActivity(), OnDialogResultListener {
+class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), OnDialogResultListener {
+    override val viewModel: DistributionViewModel by viewModels()
     private lateinit var chart: PieChart
     override val prefKey = PrefKey.DISTRIBUTION_AGGREGATE_TYPES
     private val showChart = mutableStateOf(false)

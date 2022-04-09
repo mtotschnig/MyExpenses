@@ -1,11 +1,13 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
+import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,7 +30,11 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.math.BigDecimal
 
-class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
+class BudgetActivity2 : DistributionBaseActivity<BudgetViewModel2>(), OnDialogResultListener {
+    companion object {
+        const val EDIT_BUDGET_DIALOG = "EDIT_BUDGET"
+        private const val DELETE_BUDGET_DIALOG = "DELETE_BUDGET"
+    }
     override val viewModel: BudgetViewModel2 by viewModels()
     private lateinit var sortDelegate: SortDelegate
     override val prefKey = PrefKey.BUDGET_AGGREGATE_TYPES
@@ -52,23 +58,22 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
         viewModel.initWithBudget(budgetId)
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {
-                with(it.budget!!) {
-                    supportActionBar?.title = title
-                    viewModel.setGrouping(grouping)
-                }
+                supportActionBar?.title = it.title
+                viewModel.setGrouping(it.grouping)
             }
         }
         binding.composeView.setContent {
             AppTheme(this) {
                 val category = viewModel.categoryTreeForBudget.collectAsState(initial = Category2.EMPTY).value
-                val account = viewModel.accountInfo.collectAsState(null).value
+                val budget = viewModel.accountInfo.collectAsState(null).value
                 val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                 val sort = viewModel.sortOrder.collectAsState()
-                if (category != Category2.EMPTY && account != null) {
+                if (category != Category2.EMPTY && budget != null) {
                     Budget(
                         category = category.copy(
-                            budget = account.budget!!.amount.amountMinor,
-                            sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,).let {
+                            budget = budget.amount.amountMinor,
+                            sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,
+                        ).let {
                             when(sort.value) {
                                 Sort.SPENT -> it.sortChildrenBySumRecursive()
                                 Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
@@ -76,8 +81,8 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
                             }
                         },
                         expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                        currency = account.currency,
-                        onBudgetEdit = { cat, parent -> showEditBudgetDialog(cat, parent, account.currency) }
+                        currency = budget.currency,
+                        onBudgetEdit = { cat, parent -> showEditBudgetDialog(cat, parent, budget.currency) }
                     )
                 }
             }
@@ -116,28 +121,29 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
                     amount, max?.let { Money(currencyUnit, it).amountMajor },
                     Money(currencyUnit, min).amountMajor, category.level, this)
             )
-            .show(this, BudgetFragment.EDIT_BUDGET_DIALOG)
+            .show(this, EDIT_BUDGET_DIALOG)
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == OnDialogResultListener.BUTTON_POSITIVE) {
-            val accountInfo = viewModel.accountInfo.value
-            if (accountInfo != null && dialogTag == BudgetFragment.EDIT_BUDGET_DIALOG) {
+            val budget = viewModel.accountInfo.value
+            if (budget != null && dialogTag == EDIT_BUDGET_DIALOG) {
                 val amount = Money(
-                    accountInfo.currency,
+                    budget.currency,
                     (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal?)!!
                 )
                 viewModel.updateBudget(
-                    accountInfo.budget!!.id,
+                    budget.id,
                     extras.getLong(DatabaseConstants.KEY_CATID),
                     amount
                 )
                 return true
             }
-/*            if (dialogTag == BudgetFragment.DELETE_BUDGET_DIALOG) {
-                viewModel.deleteBudget(budget.id)
+            if (budget != null && dialogTag == DELETE_BUDGET_DIALOG) {
+                //TODO()
+                //viewModel.deleteBudget(budget.id)
                 return true
-            }*/
+            }
         }
         return false
     }
@@ -150,9 +156,33 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
                 R.id.BUDGET_ALLOCATED_ONLY -> {
                     val value = tag as Boolean
                     viewModel.setAllocatedOnly(value)
-                    prefHandler.putBoolean(templateForAllocatedOnlyKey(it.budget!!.id), value)
+                    prefHandler.putBoolean(templateForAllocatedOnlyKey(it.id), value)
                     invalidateOptionsMenu()
                     reset()
+                    true
+                }
+                R.id.EDIT_COMMAND -> {
+                    viewModel.accountInfo.value?.let {
+                        startActivity(Intent(this, BudgetEdit::class.java).apply {
+                            putExtra(DatabaseConstants.KEY_ROWID, it.id)
+                        })
+                    }
+                    true
+                }
+                R.id.DELETE_COMMAND -> {
+                    viewModel.accountInfo.value?.let {
+                        SimpleDialog.build()
+                            .title(R.string.dialog_title_warning_delete_budget)
+                            .msg(
+                                getString(
+                                    R.string.warning_delete_budget,
+                                    it.title
+                                ) + " " + getString(R.string.continue_confirmation)
+                            )
+                            .pos(R.string.menu_delete)
+                            .neg(android.R.string.cancel)
+                            .show(this, DELETE_BUDGET_DIALOG)
+                    }
                     true
                 }
                 else -> false

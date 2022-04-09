@@ -1034,12 +1034,6 @@ public class Account extends Model implements DistributionAccountInfo {
     return -1;
   }
 
-  @Nullable
-  @Override
-  public Budget getBudget() {
-    return null;
-  }
-
   @NonNull
   @Override
   public String label(@NonNull Context context) {

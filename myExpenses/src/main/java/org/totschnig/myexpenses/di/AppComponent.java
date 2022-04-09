@@ -68,6 +68,7 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel2;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.DebtViewModel;
@@ -283,4 +284,6 @@ public interface AppComponent {
   void inject(PartiesList partiesList);
 
   void inject(DistributionViewModel distributionViewModel);
+
+  void inject(BudgetViewModel2 distributionViewModel);
 }

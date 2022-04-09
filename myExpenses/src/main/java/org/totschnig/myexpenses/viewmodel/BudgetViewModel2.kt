@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category2
 
 class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHandle) :
-    DistributionViewModel(application, savedStateHandle) {
+    DistributionViewModelBase<Budget>(application, savedStateHandle) {
     private val _allocatedOnly = MutableStateFlow(false)
 
     fun setAllocatedOnly(newValue: Boolean) {
@@ -111,7 +111,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     override val defaultDisplayTitle: String?
-        get() = accountInfo.value?.budget?.durationPrettyPrint()
+        get() = accountInfo.value?.durationPrettyPrint()
 
     fun updateBudget(budgetId: Long, categoryId: Long, amount: Money) {
         val contentValues = ContentValues(1).apply {

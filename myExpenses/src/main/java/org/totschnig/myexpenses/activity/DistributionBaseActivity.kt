@@ -2,15 +2,14 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.view.Menu
-import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.viewmodel.DistributionViewModel
+import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 
-abstract class DistributionBaseActivity : ProtectedFragmentActivity() {
-    open val viewModel: DistributionViewModel by viewModels()
+abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : ProtectedFragmentActivity() {
+    abstract val viewModel: T
     abstract val prefKey: PrefKey
     val expansionState
         get() = viewModel.expansionState
