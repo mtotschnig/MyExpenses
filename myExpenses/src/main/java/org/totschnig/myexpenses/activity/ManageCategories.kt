@@ -8,7 +8,10 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -41,7 +44,6 @@ import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForCategories
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -61,12 +63,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     private var actionMode: ActionMode? = null
     val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityComposeFabBinding
-    private val sortOrder: String
-        get() = preferredOrderByForCategories(
-            getSortOrderPrefKey(),
-            prefHandler,
-            defaultSortOrder
-        )!!
+    private lateinit var sortDelegate: SortDelegate
     private lateinit var choiceMode: ChoiceMode
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -95,35 +92,18 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val menuItem = menu.findItem(R.id.SORT_COMMAND)
-        if (menuItem != null) {
-            val currentItem = menuItem.subMenu.findItem(getCurrentSortOrder().commandId)
-            if (currentItem != null) {
-                currentItem.isChecked = true
-            }
-        }
+        sortDelegate.onPrepareOptionsMenu(menu)
+
         prepareSearch(menu, viewModel.getFilter())
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = Sort.fromCommandId(item.itemId)?.let {
-        if (!item.isChecked) {
-            prefHandler.putString(getSortOrderPrefKey(), it.name)
+    override fun onOptionsItemSelected(item: MenuItem) =
+        if (sortDelegate.onOptionsItemSelected(item)) {
             invalidateOptionsMenu()
-            viewModel.setSortOrder(sortOrder)
-        }
-        true
-    } ?: super.onOptionsItemSelected(item)
-
-    protected val defaultSortOrder get() = Sort.USAGES
-
-    protected fun getCurrentSortOrder() =
-        enumValueOrDefault(
-            prefHandler.getString(getSortOrderPrefKey(), null),
-            defaultSortOrder
-        )
-
-    protected fun getSortOrderPrefKey() = PrefKey.SORT_ORDER_CATEGORIES
+            viewModel.setSortOrder(sortDelegate.sortOrder)
+            true
+        } else super.onOptionsItemSelected(item)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,7 +113,13 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
         }
-        viewModel.setSortOrder(sortOrder)
+        sortDelegate = SortDelegate(
+            defaultSortOrder = Sort.USAGES,
+            prefKey = PrefKey.SORT_ORDER_CATEGORIES,
+            options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
+            prefHandler = prefHandler
+        )
+        viewModel.setSortOrder(sortDelegate.sortOrder)
         observeDeleteResult()
         observeMoveResult()
         observeImportResult()

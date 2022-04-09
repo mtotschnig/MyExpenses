@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +20,7 @@ import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.fragment.BudgetFragment
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
@@ -28,6 +30,7 @@ import java.math.BigDecimal
 
 class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
     override val viewModel: BudgetViewModel2 by viewModels()
+    private lateinit var sortDelegate: SortDelegate
     override val prefKey = PrefKey.BUDGET_AGGREGATE_TYPES
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +41,13 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
         }
+        sortDelegate = SortDelegate(
+            defaultSortOrder = Sort.ALLOCATED,
+            prefKey = PrefKey.SORT_ORDER_BUDGET_CATEGORIES,
+            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT),
+            prefHandler = prefHandler
+        )
+        viewModel.setSortOrder(sortDelegate.sortOrder)
         val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
         viewModel.initWithBudget(budgetId)
         lifecycleScope.launch {
@@ -151,10 +161,18 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        sortDelegate.onPrepareOptionsMenu(menu)
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
             it.isChecked = viewModel.allocatedOnly
         }
         return true
     }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        if (sortDelegate.onOptionsItemSelected(item)) {
+            invalidateOptionsMenu()
+            viewModel.setSortOrder(sortDelegate.sortOrder)
+            true
+        } else super.onOptionsItemSelected(item)
 }
