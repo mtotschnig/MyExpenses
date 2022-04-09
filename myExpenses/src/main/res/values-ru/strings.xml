@@ -1004,4 +1004,7 @@
         <item quantity="other">В %1$d категориях была обновлена иконка.</item>
     </plurals>
     <string name="title_activity_debt_overview">Обзор дебета</string>
+    <string name="whats_new_336_2">Теги для разделенных частей</string>
+    <string name="whats_new_336_1">Поделиться информацией о задолженности</string>
+    <string name="setup_completed">Настройка завершена</string>
 </resources>
