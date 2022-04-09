@@ -39,6 +39,9 @@ data class Category2(
     fun sortChildrenBySum(): Category2 = if (children.isEmpty()) this else
         this.copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue })
 
+    fun sortChildrenByBudget(): Category2 = if (children.isEmpty()) this else
+        this.copy(children = children.sortedByDescending { it.budget })
+
     fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
         children.forEach {
             selectionState.remove(it.id)

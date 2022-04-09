@@ -47,7 +47,7 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
             options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT),
             prefHandler = prefHandler
         )
-        viewModel.setSortOrder(sortDelegate.sortOrder)
+        viewModel.setSortOrder(sortDelegate.currentSortOrder)
         val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
         viewModel.initWithBudget(budgetId)
         lifecycleScope.launch {
@@ -63,10 +63,17 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
                 val category = viewModel.categoryTreeForBudget.collectAsState(initial = Category2.EMPTY).value
                 val account = viewModel.accountInfo.collectAsState(null).value
                 val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
+                val sort = viewModel.sortOrder.collectAsState()
                 if (category != Category2.EMPTY && account != null) {
                     Budget(
                         category = category.copy(budget = account.budget!!.amount.amountMinor,
-                            sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second),
+                            sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second).let {
+                            when(sort.value) {
+                                Sort.SPENT -> it.sortChildrenBySum()
+                                Sort.ALLOCATED -> it.sortChildrenByBudget()
+                                else -> it
+                            }
+                        },
                         expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
                         currency = account.currency,
                         onBudgetEdit = { cat, parent -> showEditBudgetDialog(cat, parent, account.currency) }
@@ -172,7 +179,7 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
     override fun onOptionsItemSelected(item: MenuItem) =
         if (sortDelegate.onOptionsItemSelected(item)) {
             invalidateOptionsMenu()
-            viewModel.setSortOrder(sortDelegate.sortOrder)
+            viewModel.setSortOrder(sortDelegate.currentSortOrder)
             true
         } else super.onOptionsItemSelected(item)
 }

@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
@@ -48,6 +49,7 @@ open class CategoryViewModel(
     var moveResult: StateFlow<Boolean?> = _moveResult
     var importResult: StateFlow<Pair<Int, Int>?> = _importResult
     var exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
+    open val defaultSort = Sort.USAGES
 
     sealed class DeleteResult {
         class OperationPending(
@@ -63,7 +65,7 @@ open class CategoryViewModel(
         ) : DeleteResult()
     }
 
-    private val sortOrder = MutableStateFlow<String?>(null)
+    val sortOrder = MutableStateFlow(Sort.LABEL)
 
     fun setFilter(filter: String) {
         savedStateHandle[KEY_FILTER] = filter
@@ -71,7 +73,7 @@ open class CategoryViewModel(
 
     fun getFilter() = savedStateHandle.get<String>(KEY_FILTER)
 
-    fun setSortOrder(sort: String) {
+    fun setSortOrder(sort: Sort) {
         sortOrder.tryEmit(sort)
     }
 
@@ -85,7 +87,7 @@ open class CategoryViewModel(
     }.flatMapLatest { (filter, sortOrder) ->
         categoryTree(
             filter = filter,
-            sortOrder = sortOrder,
+            sortOrder = sortOrder.toOrderByWithDefault(defaultSort),
             projection = null,
             withSubColors = false,
             keepCriteria = null
@@ -93,7 +95,7 @@ open class CategoryViewModel(
     }
         .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
-    val categoryTreeForSelect = categoryTree("", sortOrder.value)
+    val categoryTreeForSelect = categoryTree("", sortOrder.value.toOrderByWithDefault(Sort.USAGES))
 
     fun categoryTree(
         filter: String?,

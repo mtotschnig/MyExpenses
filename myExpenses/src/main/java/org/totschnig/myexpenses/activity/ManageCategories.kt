@@ -101,7 +101,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     override fun onOptionsItemSelected(item: MenuItem) =
         if (sortDelegate.onOptionsItemSelected(item)) {
             invalidateOptionsMenu()
-            viewModel.setSortOrder(sortDelegate.sortOrder)
+            viewModel.setSortOrder(sortDelegate.currentSortOrder)
             true
         } else super.onOptionsItemSelected(item)
 
@@ -114,12 +114,12 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             inject(viewModel)
         }
         sortDelegate = SortDelegate(
-            defaultSortOrder = Sort.USAGES,
+            defaultSortOrder = viewModel.defaultSort,
             prefKey = PrefKey.SORT_ORDER_CATEGORIES,
             options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
             prefHandler = prefHandler
         )
-        viewModel.setSortOrder(sortDelegate.sortOrder)
+        viewModel.setSortOrder(sortDelegate.defaultSortOrder)
         observeDeleteResult()
         observeMoveResult()
         observeImportResult()

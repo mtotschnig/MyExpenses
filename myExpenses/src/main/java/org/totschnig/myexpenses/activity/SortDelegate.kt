@@ -6,7 +6,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.enumValueOrNull
 
 class SortDelegate(
     val defaultSortOrder: Sort,
@@ -30,17 +32,21 @@ class SortDelegate(
         true
     } ?: false
 
-    val sortOrder: String
-        get() = Sort.preferredOrderByRestricted(
-            prefKey,
-            prefHandler,
-            defaultSortOrder,
-            options
-        )!!
+    val sortOrder: String?
+        get() {
+            val configuredOrDefault = currentSortOrder
+            val orderBy = configuredOrDefault.toOrderBy()
+            return if (orderBy == null || configuredOrDefault == defaultSortOrder) orderBy else
+                orderBy + ", " + defaultSortOrder.toOrderBy()
+        }
 
     val currentSortOrder: Sort
-        get() = enumValueOrDefault(
-            prefHandler.getString(prefKey, null),
-            defaultSortOrder
-        )
+        get() = enumValueOrNull<Sort>(
+            prefHandler.requireString(
+                prefKey,
+                defaultSortOrder.name
+            )
+        )?.takeIf {
+            options.contains(it)
+        } ?: defaultSortOrder
 }

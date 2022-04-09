@@ -34,6 +34,12 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
         if (isDescending) "$it DESC" else it
     }
 
+    fun toOrderByWithDefault(defaultSort: Sort): String? {
+        val orderBy = toOrderBy()
+        return if (orderBy == null || this == defaultSort) orderBy else
+            orderBy + ", " + defaultSort.toOrderBy()
+    }
+
     companion object {
         private val categorySort = arrayOf(LABEL, USAGES, LAST_USED)
         private val templateSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT)
