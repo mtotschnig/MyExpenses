@@ -119,7 +119,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
             prefHandler = prefHandler
         )
-        viewModel.setSortOrder(sortDelegate.defaultSortOrder)
+        viewModel.setSortOrder(sortDelegate.currentSortOrder)
         observeDeleteResult()
         observeMoveResult()
         observeImportResult()

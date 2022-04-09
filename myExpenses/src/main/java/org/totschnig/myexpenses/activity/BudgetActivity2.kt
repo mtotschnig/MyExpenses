@@ -66,11 +66,12 @@ class BudgetActivity2 : DistributionBaseActivity(), OnDialogResultListener {
                 val sort = viewModel.sortOrder.collectAsState()
                 if (category != Category2.EMPTY && account != null) {
                     Budget(
-                        category = category.copy(budget = account.budget!!.amount.amountMinor,
-                            sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second).let {
+                        category = category.copy(
+                            budget = account.budget!!.amount.amountMinor,
+                            sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,).let {
                             when(sort.value) {
-                                Sort.SPENT -> it.sortChildrenBySum()
-                                Sort.ALLOCATED -> it.sortChildrenByBudget()
+                                Sort.SPENT -> it.sortChildrenBySumRecursive()
+                                Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
                                 else -> it
                             }
                         },

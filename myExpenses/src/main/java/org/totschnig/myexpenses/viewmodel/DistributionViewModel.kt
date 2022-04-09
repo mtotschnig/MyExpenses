@@ -248,7 +248,7 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
         Triple(accountInfo, if (aggregateTypes) null else incomeType, grouping)
     }.flatMapLatest { (accountInfo, incomeType, grouping) ->
         categoryTreeWithSum(accountInfo, incomeType, grouping) { it.sum != 0L }
-    }.map { it.sortChildrenBySum() }
+    }.map { it.sortChildrenBySumRecursive() }
 
     fun categoryTreeWithSum(
         accountInfo: DistributionAccountInfo,
@@ -259,7 +259,6 @@ open class DistributionViewModel(application: Application, savedStateHandle: Sav
     ): Flow<Category2> =
         categoryTree(
             filter = null,
-            sortOrder = null,
             projection = buildList {
                 add("$TREE_CATEGORIES.*")
                 add(sumColumn(accountInfo, incomeType, groupingInfo))

@@ -36,11 +36,15 @@ data class Category2(
         } else null
     }
 
-    fun sortChildrenBySum(): Category2 = if (children.isEmpty()) this else
-        this.copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue })
+    fun sortChildrenBySumRecursive(): Category2 = if (children.isEmpty()) this else
+        this.copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue }.map {
+            it.sortChildrenBySumRecursive()
+        })
 
-    fun sortChildrenByBudget(): Category2 = if (children.isEmpty()) this else
-        this.copy(children = children.sortedByDescending { it.budget })
+    fun sortChildrenByBudgetRecursive(): Category2 = if (children.isEmpty()) this else
+        this.copy(children = children.sortedByDescending { it.budget }.map {
+            it.sortChildrenByBudgetRecursive()
+        })
 
     fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
         children.forEach {

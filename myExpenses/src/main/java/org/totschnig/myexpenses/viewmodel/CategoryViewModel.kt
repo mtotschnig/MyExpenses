@@ -49,7 +49,7 @@ open class CategoryViewModel(
     var moveResult: StateFlow<Boolean?> = _moveResult
     var importResult: StateFlow<Pair<Int, Int>?> = _importResult
     var exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
-    open val defaultSort = Sort.USAGES
+    val defaultSort = Sort.USAGES
 
     sealed class DeleteResult {
         class OperationPending(
@@ -95,11 +95,12 @@ open class CategoryViewModel(
     }
         .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
 
-    val categoryTreeForSelect = categoryTree("", sortOrder.value.toOrderByWithDefault(Sort.USAGES))
+    val categoryTreeForSelect: Flow<Category2>
+        get() = categoryTree("", sortOrder.value.toOrderByWithDefault(defaultSort))
 
     fun categoryTree(
         filter: String?,
-        sortOrder: String?,
+        sortOrder: String? = null,
         projection: Array<String>? = null,
         withSubColors: Boolean = false,
         selectionArgsForProjection: Array<String>? = null,
@@ -118,7 +119,7 @@ open class CategoryViewModel(
             projection,
             selection,
             selectionArgs + (selectionArgsForProjection ?: emptyArray()),
-            sortOrder,
+            sortOrder ?: KEY_LABEL,
             true
         ).mapToTree(withSubColors, keepCriteria)
     }
