@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable
 import org.totschnig.myexpenses.databinding.BudgetSummaryBinding
 import org.totschnig.myexpenses.databinding.BudgetTotalTableBinding
 import org.totschnig.myexpenses.model.Money
@@ -14,6 +13,7 @@ import org.totschnig.myexpenses.util.ColorUtils.getComplementColor
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.getBackgroundForAvailable
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import kotlin.math.roundToInt
 

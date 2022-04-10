@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.compose.Budget
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
-import org.totschnig.myexpenses.fragment.BudgetFragment
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
@@ -32,6 +31,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.math.BigDecimal
@@ -151,7 +151,7 @@ class BudgetActivity2 : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRe
         } else null
         simpleFormDialog
             .fields(
-                BudgetFragment.buildAmountField(
+                buildAmountField(
                     amount, max?.let { Money(currencyUnit, it).amountMajor },
                     Money(currencyUnit, min).amountMajor, category.level, this
                 )

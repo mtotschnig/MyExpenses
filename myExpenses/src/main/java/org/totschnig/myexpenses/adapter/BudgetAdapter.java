@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
-import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;
+import static org.totschnig.myexpenses.util.BudgetLegacyKt.getBackgroundForAvailable;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 

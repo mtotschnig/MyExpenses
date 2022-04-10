@@ -21,7 +21,7 @@ import android.content.res.Resources;
 import junit.framework.Assert;
 
 import org.totschnig.myexpenses.activity.AccountEdit;
-import org.totschnig.myexpenses.activity.BudgetActivity;
+import org.totschnig.myexpenses.activity.BudgetActivity2;
 import org.totschnig.myexpenses.activity.BudgetEdit;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.DebtEdit;
@@ -71,7 +71,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     //TODO complete with new activities
     Class<?>[] activities = new Class<?>[]{
         AccountEdit.class,
-        BudgetActivity.class,
+        BudgetActivity2.class,
         BudgetEdit.class,
         CsvImportActivity.class,
         DebtEdit.class,
