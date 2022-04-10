@@ -39,6 +39,9 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.categoryTreeSelect
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
@@ -159,15 +162,21 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             if (!TextUtils.isEmpty(selection)) {
                 selection += " AND "
             }
-            selection += (DatabaseConstants.KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
-                    + DatabaseConstants.TABLE_CATEGORIES + " WHERE " + DatabaseConstants.KEY_PARENTID + " = ? OR "
-                    + DatabaseConstants.KEY_ROWID + " = ?)")
+            selection += DatabaseConstants.KEY_CATID + " IN (" +
+                    categoryTreeSelect(
+                        sortOrder = null,
+                        matches = null,
+                        projection = arrayOf(KEY_ROWID),
+                        selection = null,
+                        rootExpression = WhereFilter.Operation.IN.getOp(1),
+                        tableJoin = ""
+                    ) + ")"
             val catSelect = catId.toString()
-            selectionArgs = accountSelect?.let { arrayOf(it, catSelect, catSelect) }
-                ?: arrayOf(catSelect, catSelect)
+            selectionArgs = accountSelect?.let { arrayOf(it, catSelect) }
+                ?: arrayOf(catSelect)
         }
         val groupingClause = requireArguments().getString(KEY_GROUPING_CLAUSE)
-        if (groupingClause != null) {
+        if (!TextUtils.isEmpty(groupingClause)) {
             if (!TextUtils.isEmpty(selection)) {
                 selection += " AND "
             }

@@ -58,10 +58,10 @@ class CategoryTreeTest {
         val category = Category2(
             label = "ROOT", children = listOf(
                 Category2(
-                    label = "1", isMatching = false, children = listOf(
+                    id= 1, label = "1", isMatching = false, children = listOf(
                         Category2(
-                            label = "1.1", isMatching = false, children = listOf(
-                                Category2(label = "1.1.2", isMatching = false)
+                            id = 2, label = "1.1", isMatching = false, children = listOf(
+                                Category2(id =3 ,label = "1.1.2", isMatching = false)
                             )
                         )
                     )

@@ -524,7 +524,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
           final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
                   uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
-          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression);
+          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression, null);
           log(sql);
           c = db.rawQuery(sql, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);

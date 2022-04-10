@@ -275,21 +275,19 @@ class ExportTest {
     fun testExportCSV() {
         val linesCSV = arrayOf(
             csvHeader(';', false),
-            "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
+            "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
                     + "\";\"*\";\"1\";\"\";\"Tag One, 'Tags, Tags, Tags'\"",
-            "\"\";\"" + date + "\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"\";\"" + context.getString(
+            "\"\";\"" + date + "\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\";\"\";\"2\";\"\";\"\"",
-            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\";\"\"",
-            "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"\";\"" + date + "\";\"\";\"0.50\";\"0\";\"" + context.getString(R.string.transfer)
-                    + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\";\"\"",
-            "\"\";\"" + date + "\";\"\";\"0\";\"0.60\";\"" + context.getString(R.string.transfer)
-                    + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"picture.png\";\"\"",
+            "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main:Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"" + date + "\";\"\";\"0.50\";\"0\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\";\"\"",
+            "\"\";\"" + date + "\";\"\";\"0\";\"0.60\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"\"",
             ""
         )
         try {
@@ -313,21 +311,19 @@ class ExportTest {
         val date = SimpleDateFormat("M/d/yyyy", Locale.US).format(base)
         val linesCSV = arrayOf(
             csvHeader(',', false),
-            "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
+            "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
                     + "\",\"*\",\"1\",\"\",\"Tag One, 'Tags, Tags, Tags'\"",
-            "\"\",\"" + date + "\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"\",\"" + context.getString(
+            "\"\",\"" + date + "\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\",\"\",\"2\",\"\",\"\"",
-            "\"\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"picture.png\",\"\"",
-            "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"\",\"" + date + "\",\"\",\"0,50\",\"0\",\"" + context.getString(R.string.transfer)
-                    + "\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\",\"\"",
-            "\"\",\"" + date + "\",\"\",\"0\",\"0,60\",\"" + context.getString(R.string.transfer)
-                    + "\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"picture.png\",\"\"",
+            "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main:Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"\",\"" + date + "\",\"\",\"0,50\",\"0\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\",\"\"",
+            "\"\",\"" + date + "\",\"\",\"0\",\"0,60\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"\"",
             ""
         )
         try {
@@ -358,9 +354,9 @@ class ExportTest {
     fun testExportNotYetExported() {
         val linesCSV = arrayOf(
             csvHeader(';', false),
-            "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"\";\"Expense inserted after first export\";\""
+            "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"Expense inserted after first export\";\""
                     + context.getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\";\"\"",
-            "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\";\"\"",
             ""
         )
         val account = insertData1()
@@ -394,11 +390,11 @@ class ExportTest {
         val (account1, account2) = insertData3()
         val linesCSV = arrayOf(
             csvHeader(';', true),
-            "\"" + account1.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(
+            "\"" + account1.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\";\"*\";\"1\";\"\";\"\"",
-            "\"" + account2.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(
+            "\"" + account2.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\";\"*\";\"1\";\"\";\"\"",
@@ -494,7 +490,6 @@ class ExportTest {
             R.string.income,
             R.string.expense,
             R.string.category,
-            R.string.subcategory,
             R.string.comment,
             R.string.method,
             R.string.status,

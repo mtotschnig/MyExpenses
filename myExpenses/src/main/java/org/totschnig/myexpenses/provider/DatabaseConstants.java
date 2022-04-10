@@ -15,9 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeCTE;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
-
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -315,9 +312,7 @@ public class DatabaseConstants {
 
   public static final String TABLE_DEBTS = "debts";
 
-  private static final String FULL_CAT_CASE = "(" + categoryTreeSelect(null, null, new String[] {"path" }, KEY_ROWID + " = " + KEY_CATID, null, "") + ")";
-
-  public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
+  public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 
   public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
 
@@ -330,15 +325,7 @@ public class DatabaseConstants {
   /**
    * for transfer label of transfer_account, for transaction full breadcrumb of category
    */
-  public static final String FULL_LABEL =
-      "CASE WHEN " +
-          "  " + KEY_TRANSFER_ACCOUNT + " " +
-          " THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
-          " ELSE " +
-          FULL_CAT_CASE +
-          " END AS  " + KEY_LABEL;
-
+  public static final String FULL_LABEL = DbConstantsKt.fullLabel(null);
 
   public static final String TRANSFER_PEER_PARENT =
       "(SELECT " + KEY_PARENTID

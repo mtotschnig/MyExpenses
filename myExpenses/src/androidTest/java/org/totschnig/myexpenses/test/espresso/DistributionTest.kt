@@ -1,38 +1,37 @@
-package org.totschnig.myexpenses.activity
+package org.totschnig.myexpenses.test.espresso
 
-import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
-import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import okhttp3.internal.wait
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.DistributionActivity
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.testutils.BaseUiTest
 import java.util.*
 
-@Ignore("Robolectric does not seem to be able interact with Compose Popups, we run this connected at the moment")
-@RunWith(AndroidJUnit4::class)
-class DistributionTest {
+class DistributionTest : BaseUiTest<DistributionActivity>() {
     private lateinit var scenario: ActivityScenario<DistributionActivity>
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
-    val targetContext: Context
-        get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
@@ -40,10 +39,10 @@ class DistributionTest {
 
     private fun baseFixture(additionalFixture: () -> Unit = {}) {
         account = Account("Test account 1", currency, 0, "",
-            AccountType.CASH, Account.DEFAULT_COLOR)
+                AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         additionalFixture()
-        scenario = ActivityScenario.launch(Intent(targetContext, DistributionActivity::class.java).apply {
+        scenario = ActivityScenario.launch(Intent(InstrumentationRegistry.getInstrumentation().targetContext, DistributionActivity::class.java).apply {
             putExtra(KEY_ACCOUNTID, account.id)
         })
     }
@@ -63,8 +62,8 @@ class DistributionTest {
     fun testSelectCommand() {
         launchWithContextCommand(R.string.menu_show_transactions)
         onView(allOf(withText(containsString("TestCategory")), withText(containsString("12"))))
-            .inRoot(isDialog())
-            .check(matches(isDisplayed()))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
     }
 
     @Test
@@ -85,6 +84,8 @@ class DistributionTest {
     }
 
     private fun onContextMenu(@StringRes menuItemId: Int) =
-        composeTestRule.onNodeWithText(targetContext.getString(menuItemId)).performClick()
+        composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
 
+    override val testScenario: ActivityScenario<out DistributionActivity>
+        get() = scenario
 }

@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import java.util.*
 
+//Used by Robolectric
 class TestMyApplication : MyApplication() {
     override fun buildAppComponent(systemLocale: Locale): AppComponent {
         return DaggerAppComponent.builder()

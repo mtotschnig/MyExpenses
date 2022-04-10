@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.provider
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -22,7 +23,7 @@ class TransactionDebtTest: BaseDbTest() {
     private var debt2: Long = 0
     private var closedDebt: Long = 0
     private var closedTransaction: Long = 0
-
+    val currency = CurrencyUnit.DebugInstance
 
     @Throws(Exception::class)
     override fun setUp() {
@@ -43,17 +44,17 @@ class TransactionDebtTest: BaseDbTest() {
         debt1 = mDb.insertOrThrow(
             TABLE_DEBTS,
             null,
-            Debt(0, "Debt 1", "", payeeId1, 100000, "EUR", System.currentTimeMillis() / 1000).toContentValues()
+            Debt(0, "Debt 1", "", payeeId1, 100000, currency, System.currentTimeMillis() / 1000).toContentValues()
         )
         debt2 = mDb.insertOrThrow(
             TABLE_DEBTS,
             null,
-            Debt(0, "Debt 2", "", payeeId2, 100000, "EUR", System.currentTimeMillis() / 1000).toContentValues()
+            Debt(0, "Debt 2", "", payeeId2, 100000, currency, System.currentTimeMillis() / 1000).toContentValues()
         )
         closedDebt = mDb.insertOrThrow(
             TABLE_DEBTS,
             null,
-            Debt(0, "Closed debt", "", payeeId1, 100000, "EUR", System.currentTimeMillis() / 1000).toContentValues()
+            Debt(0, "Closed debt", "", payeeId1, 100000, currency, System.currentTimeMillis() / 1000).toContentValues()
         )
         closedTransaction = mDb.insertOrThrow(
             DatabaseConstants.TABLE_TRANSACTIONS,

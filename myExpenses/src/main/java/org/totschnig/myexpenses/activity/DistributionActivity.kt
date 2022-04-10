@@ -341,17 +341,17 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                                 MenuEntry(
                                     Icons.Filled.List,
                                     stringResource(id = R.string.menu_show_transactions)
-                                ) {
+                                ) { category ->
                                     TransactionListDialogFragment.newInstance(
                                         accountInfo.accountId,
-                                        it.id,
+                                        category.id,
                                         viewModel.grouping,
                                         viewModel.filterClause,
                                         null,
-                                        it.label,
-                                        0,
+                                        category.label,
+                                        if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
                                         true,
-                                        resources.getIdentifier(it.icon, "drawable", packageName)
+                                        category.icon?.let { resources.getIdentifier(it, "drawable", packageName) }
                                     )
                                         .show(supportFragmentManager, TransactionListDialogFragment::class.java.name)
                                 })

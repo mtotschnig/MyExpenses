@@ -11,7 +11,7 @@ import kotlin.math.absoluteValue
 @Parcelize
 data class Category2(
     val id: Long = 0,
-    val parentId: Long? = null,
+    val parentId: Long? = 0,
     val level: Int = 0,
     val label: String,
     val path: String = label,

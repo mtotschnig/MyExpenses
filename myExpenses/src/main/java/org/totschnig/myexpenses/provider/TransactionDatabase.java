@@ -730,7 +730,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(CATEGORIES_CREATE);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !"robolectric".equals(Build.FINGERPRINT)) {
       db.execSQL(CATEGORY_LABEL_INDEX_CREATE);
     } else {
       createOrRefreshCategoryLabelLegacyTrigger(db);

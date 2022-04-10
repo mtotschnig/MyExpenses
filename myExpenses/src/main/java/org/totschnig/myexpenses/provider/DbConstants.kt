@@ -34,11 +34,13 @@ fun categoryTreeSelect(
     projection: Array<String>? = null,
     selection: String? = null,
     rootExpression: String? = null,
-    tableJoin: String = ""
+    tableJoin: String = "",
+    categorySeparator: String? = null
 ) = categoryTreeCTE(
     rootExpression = rootExpression,
     sortOrder = sortOrder,
-    matches = matches
+    matches = matches,
+    categorySeparator = categorySeparator
 ) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree $tableJoin  ${selection?.let { "WHERE $it" } ?: ""}"
 
 fun categoryTreeWithMappedObjects(
@@ -82,7 +84,8 @@ fun categoryTreeWithMappedObjects(
 fun categoryTreeCTE(
     rootExpression: String? = null,
     sortOrder: String? = null,
-    matches: String? = null
+    matches: String? = null,
+    categorySeparator: String? = null
 ) =
     """
   WITH Tree as (
@@ -102,7 +105,7 @@ fun categoryTreeCTE(
     UNION ALL
     SELECT
         subtree.$KEY_LABEL,
-        Tree.$KEY_PATH || ' > ' || subtree.$KEY_LABEL,
+        Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || subtree.$KEY_LABEL,
         subtree.$KEY_COLOR,
         subtree.$KEY_ICON,
         subtree.$KEY_ROWID,
@@ -116,3 +119,22 @@ fun categoryTreeCTE(
     ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
   )
 """.trimIndent()
+
+fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
+    null,
+    null,
+    arrayOf(KEY_PATH),
+    "$KEY_ROWID = $KEY_CATID",
+    null,
+    "",
+    categorySeparator = categorySeparator
+) + ")"
+
+
+fun fullLabel(categorySeparator: String?) = "CASE WHEN " +
+        "  " + KEY_TRANSFER_ACCOUNT + " " +
+        " THEN " +
+        "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
+        " ELSE " +
+        fullCatCase(categorySeparator) +
+        " END AS  " + KEY_LABEL
