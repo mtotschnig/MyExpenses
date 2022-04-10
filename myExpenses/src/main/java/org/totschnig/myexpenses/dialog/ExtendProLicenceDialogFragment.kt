@@ -39,7 +39,7 @@ class ExtendProLicenceDialogFragment : DialogFragment(), DialogInterface.OnClick
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = ExtendProLicenceBinding.inflate(LayoutInflater.from(requireContext()))
+        binding = ExtendProLicenceBinding.inflate(layoutInflater)
         val proPackages = licenceHandler.proPackages.map(licenceHandler::getExtendOrSwitchMessage)
         val adapter = MaterialSpinnerAdapter(
                 requireContext(),
