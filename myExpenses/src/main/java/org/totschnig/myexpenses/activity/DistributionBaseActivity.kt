@@ -21,6 +21,7 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
                 supportActionBar?.subtitle = it
             }
         }
+        setAggregateTypesFromPreferences()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -59,5 +60,14 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
 
     protected fun reset() {
         expansionState.clear()
+    }
+
+    fun setAggregateTypesFromPreferences() {
+        val aggregateTypesFromPreference =
+            if (prefHandler.isSet(prefKey)) prefHandler.getBoolean(prefKey, false) else null
+        viewModel.setAggregateTypes(aggregateTypesFromPreference == null)
+        if (aggregateTypesFromPreference != null) {
+            viewModel.setIncomeType(aggregateTypesFromPreference)
+        }
     }
 }

@@ -178,7 +178,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
         disposeSum()
         val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1")
-        val id = accountInfo.id
+        val id = accountInfo.accountId
         if (id != Account.HOME_AGGREGATE_ID) {
             if (id < 0) {
                 builder.appendQueryParameter(KEY_CURRENCY, accountInfo.currency.code)
@@ -242,7 +242,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
 
     override fun doSingleSelection(cat_id: Long, label: String, icon: String?, isMain: Boolean) {
         newInstance(
-            accountInfo.id,
+            accountInfo.accountId,
             cat_id,
             grouping,
             buildFilterClause(VIEW_EXTENDED),
@@ -319,7 +319,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
         val accountSelection: String?
         var amountCalculation = KEY_AMOUNT
         var table = VIEW_COMMITTED
-        val id = accountInfo.id
+        val id = accountInfo.accountId
         when {
             id == Account.HOME_AGGREGATE_ID -> {
                 accountSelection = null

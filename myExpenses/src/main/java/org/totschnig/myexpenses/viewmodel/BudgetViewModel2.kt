@@ -9,7 +9,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import arrow.core.Tuple4
+import arrow.core.Tuple5
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category2
@@ -79,6 +80,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
 
     fun initWithBudget(budgetId: Long) {
+
         viewModelScope.launch {
             contentResolver.observeQuery(
                 TransactionProvider.BUDGETS_URI,
@@ -87,9 +89,16 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 arrayOf(budgetId.toString()),
                 null,
                 true
-            ).mapToOne(mapper = budgetCreatorFunction).collect {
-                _accountInfo.tryEmit(it)
-                //_budget.tryEmit(it)
+            ).mapToOne(mapper = budgetCreatorFunction).collect { budget ->
+                _accountInfo.tryEmit(budget)
+                _filterPersistence.update {
+                    FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
+                        immediatePersist = false,
+                        restoreFromPreferences = true
+                    ).also {
+                        it.reloadFromPreferences()
+                    }
+                }
             }
         }
     }
@@ -99,16 +108,23 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         _accountInfo.filterNotNull(),
         _aggregateTypes,
         _allocatedOnly,
-        _groupingInfo
-    ) { accountInfo, aggregateTypes, allocatedOnly, grouping ->
-        Tuple4(accountInfo, if (aggregateTypes) null else false, allocatedOnly, grouping)
-    }.flatMapLatest { (accountInfo, incomeType, allocatedOnly, grouping) ->
+        _groupingInfo.filterNotNull(),
+        _filterPersistence
+    ) { accountInfo, aggregateTypes, allocatedOnly, grouping, filterPersistence ->
+        Tuple5(accountInfo, if (aggregateTypes) null else false, allocatedOnly, grouping, filterPersistence)
+    }.flatMapLatest { (accountInfo, incomeType, allocatedOnly, grouping, filterPersistence) ->
         categoryTreeWithSum(
             accountInfo,
             incomeType,
             grouping,
-            if (allocatedOnly) TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY else null
+            if (allocatedOnly) TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY else null,
+            filterPersistence
         )
+    }
+
+    override fun dateFilterClause(groupingInfo: GroupingInfo): String? {
+        return if (groupingInfo.grouping == Grouping.NONE) accountInfo.value?.durationAsSqlFilter() else
+            super.dateFilterClause(groupingInfo)
     }
 
     override val defaultDisplayTitle: String?

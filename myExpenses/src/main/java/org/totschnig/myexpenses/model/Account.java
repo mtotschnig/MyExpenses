@@ -1039,4 +1039,9 @@ public class Account extends Model implements DistributionAccountInfo {
   public String label(@NonNull Context context) {
     return label;
   }
+
+  @Override
+  public long getAccountId() {
+    return getId();
+  }
 }

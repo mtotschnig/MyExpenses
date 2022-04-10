@@ -103,7 +103,7 @@ open class CategoryViewModel(
         sortOrder: String? = null,
         projection: Array<String>? = null,
         withSubColors: Boolean = false,
-        selectionArgsForProjection: Array<String>? = null,
+        additionalSelectionArgs: Array<String>? = null,
         queryParameter: String? = null,
         keepCriteria: ((Category2) -> Boolean)? = null
     ): Flow<Category2> {
@@ -118,7 +118,7 @@ open class CategoryViewModel(
             categoryUri(queryParameter),
             projection,
             selection,
-            selectionArgs + (selectionArgsForProjection ?: emptyArray()),
+            selectionArgs + (additionalSelectionArgs ?: emptyArray()),
             sortOrder ?: KEY_LABEL,
             true
         ).mapToTree(withSubColors, keepCriteria)

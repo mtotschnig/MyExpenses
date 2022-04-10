@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.chip.ChipGroup
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.SimpleFormDialog
@@ -28,6 +31,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.math.BigDecimal
@@ -59,6 +63,7 @@ class BudgetActivity2 : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRe
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
         val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
         viewModel.initWithBudget(budgetId)
+
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {
                 supportActionBar?.title = it.title
@@ -72,28 +77,43 @@ class BudgetActivity2 : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRe
                 val budget = viewModel.accountInfo.collectAsState(null).value
                 val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                 val sort = viewModel.sortOrder.collectAsState()
+                val filterPersistence = viewModel.filterPersistence.collectAsState().value
                 if (category != Category2.EMPTY && budget != null) {
-                    Budget(
-                        category = category.copy(
-                            budget = budget.amount.amountMinor,
-                            sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,
-                        ).let {
-                            when (sort.value) {
-                                Sort.SPENT -> it.sortChildrenBySumRecursive()
-                                Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
-                                else -> it
-                            }
-                        },
-                        expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                        currency = budget.currency,
-                        onBudgetEdit = { cat, parent ->
-                            showEditBudgetDialog(
-                                cat,
-                                parent,
-                                budget.currency
-                            )
+                    Column {
+                        AndroidView(factory = {
+                            ChipGroup(it)
+                        }, update = { chipGroup ->
+                            chipGroup.addChipsBulk(buildList {
+                                add(budget.label(this@BudgetActivity2))
+                                filterPersistence?.whereFilter?.criteria?.map {
+                                    it.prettyPrint(this@BudgetActivity2)
+                                }?.let { addAll(it) }
+                            })
                         }
-                    )
+
+                        )
+                        Budget(
+                            category = category.copy(
+                                budget = budget.amount.amountMinor,
+                                sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,
+                            ).let {
+                                when (sort.value) {
+                                    Sort.SPENT -> it.sortChildrenBySumRecursive()
+                                    Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
+                                    else -> it
+                                }
+                            },
+                            expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
+                            currency = budget.currency,
+                            onBudgetEdit = { cat, parent ->
+                                showEditBudgetDialog(
+                                    cat,
+                                    parent,
+                                    budget.currency
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

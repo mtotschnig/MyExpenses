@@ -51,11 +51,14 @@ import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
+import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
@@ -127,18 +130,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
         if (super.dispatchCommand(command, tag)) {
             true
         } else when (command) {
-            R.id.TOGGLE_AGGREGATE_TYPES -> {
-                val value = tag as Boolean
-                viewModel.setAggregateTypes(value)
-                if (value) {
-                    prefHandler.remove(prefKey)
-                } else {
-                    prefHandler.putBoolean(prefKey, viewModel.incomeType)
-                }
-                invalidateOptionsMenu()
-                reset()
-                true
-            }
             R.id.TOGGLE_CHART_COMMAND -> {
                 showChart.value = tag as Boolean
                 prefHandler.putBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, showChart.value)
@@ -176,16 +167,19 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
         setContentView(binding.root)
         setupToolbar(true)
         showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
-        val aggregateTypesFromPreference =
-            if (prefHandler.isSet(prefKey)) prefHandler.getBoolean(prefKey, false) else null
-        viewModel.setAggregateTypes(aggregateTypesFromPreference == null)
-        if (aggregateTypesFromPreference != null) {
-            viewModel.setIncomeType(aggregateTypesFromPreference)
-        }
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
         }
         viewModel.initWithAccount(intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0))
+        val grouping = enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE)
+        val groupingYear = intent.getIntExtra(DatabaseConstants.KEY_YEAR, 0)
+        val groupingSecond = intent.getIntExtra(DatabaseConstants.KEY_SECOND_GROUP, 0)
+        if (groupingYear == 0 && groupingSecond == 0) {
+            viewModel.setGrouping(grouping)
+        } else {
+            viewModel.setGroupingInfo(DistributionViewModelBase.GroupingInfo(grouping, groupingYear, groupingSecond))
+        }
+
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {
                 supportActionBar?.title = it.label(this@DistributionActivity)
@@ -349,7 +343,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                                     stringResource(id = R.string.menu_show_transactions)
                                 ) {
                                     TransactionListDialogFragment.newInstance(
-                                        accountInfo.id,
+                                        accountInfo.accountId,
                                         it.id,
                                         viewModel.grouping,
                                         viewModel.filterClause,

@@ -147,25 +147,25 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         binding = OneBudgetBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
-        viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
+        viewModel = ViewModelProvider(this)[BudgetEditViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
-        viewModel.accounts.observe(this, { list ->
+        viewModel.accounts.observe(this) { list ->
             accountSpinnerHelper.adapter = AccountAdapter(this, list)
             (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
             if (pendingBudgetLoad != 0L) {
                 viewModel.loadBudget(pendingBudgetLoad, true)
             }
-        })
-        viewModel.budget.observe(this, { populateData(it) })
+        }
+        viewModel.budget.observe(this) { populateData(it) }
         mNewInstance = budgetId == 0L
-        viewModel.databaseResult.observe(this, {
+        viewModel.databaseResult.observe(this) {
             if (it > -1) {
                 finish()
             } else {
                 Toast.makeText(this, "Error while saving budget", Toast.LENGTH_LONG).show()
             }
-        })
+        }
         typeSpinnerHelper = SpinnerHelper(binding.Type).apply {
             adapter = GroupingAdapter(this@BudgetEdit)
             setSelection(Grouping.MONTH.ordinal)

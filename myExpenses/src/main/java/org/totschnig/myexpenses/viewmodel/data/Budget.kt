@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 
 
 data class Budget(
-    override val id: Long, val accountId: Long, val title: String, val description: String?,
+    val id: Long, override val accountId: Long, val title: String, val description: String?,
     override val currency: CurrencyUnit, val amount: Money, val grouping: Grouping, override val color: Int,
     val start: LocalDate?, val end: LocalDate?, val accountName: String?, val default: Boolean) : DistributionAccountInfo {
     constructor(id: Long, accountId: Long, title: String, description: String?, currency: CurrencyUnit, amount: Money, grouping: Grouping, color: Int, start: String?, end: String?, accountName: String?, default: Boolean) : this(

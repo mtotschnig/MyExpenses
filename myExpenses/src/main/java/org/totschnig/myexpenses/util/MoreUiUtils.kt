@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 
-fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)?) {
+fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)? = null) {
     removeAllViews()
     for (chip in chips) {
         addView(ScrollingChip(context).also { scrollingChip ->
