@@ -36,7 +36,7 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.math.BigDecimal
 
-class BudgetActivity2 : DistributionBaseActivity<BudgetViewModel2>(), OnDialogResultListener {
+class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogResultListener {
     companion object {
         const val EDIT_BUDGET_DIALOG = "EDIT_BUDGET"
         private const val DELETE_BUDGET_DIALOG = "DELETE_BUDGET"
@@ -84,9 +84,9 @@ class BudgetActivity2 : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRe
                             ChipGroup(it)
                         }, update = { chipGroup ->
                             chipGroup.addChipsBulk(buildList {
-                                add(budget.label(this@BudgetActivity2))
+                                add(budget.label(this@BudgetActivity))
                                 filterPersistence?.whereFilter?.criteria?.map {
-                                    it.prettyPrint(this@BudgetActivity2)
+                                    it.prettyPrint(this@BudgetActivity)
                                 }?.let { addAll(it) }
                             })
                         }

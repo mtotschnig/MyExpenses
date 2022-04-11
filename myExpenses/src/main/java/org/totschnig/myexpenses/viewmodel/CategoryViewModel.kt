@@ -127,6 +127,7 @@ open class CategoryViewModel(
 
     private fun categoryUri(queryParameter: String?): Uri =
         TransactionProvider.CATEGORIES_URI.buildUpon()
+                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
             .apply {
                 queryParameter?.let {
                     appendQueryParameter(it, "1")

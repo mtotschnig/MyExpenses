@@ -3,33 +3,32 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.ContentUris.appendId
 import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import androidx.annotation.StringRes
+import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
-import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.containsString
-import org.hamcrest.Matchers
-import org.junit.After
+import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
+import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.Category
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
@@ -39,6 +38,8 @@ import java.util.*
 
 class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private lateinit var activityScenario: ActivityScenario<ManageCategories>
+    @get:Rule
+    val composeTestRule = createEmptyComposeRule()
 
     private val contentResolver
         get() = targetContext.contentResolver
@@ -46,6 +47,12 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
     private var categoryId: Long = 0
+    private val origListSize = 1
+    private val context: Context
+        get() = ApplicationProvider.getApplicationContext()
+
+    private val repository: Repository
+        get() = Repository(context, Mockito.mock(CurrencyContext::class.java))
 
     private fun baseFixture() {
         account = Account("Test account 1", currency, 0, "",
@@ -53,6 +60,16 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
         account.save()
         categoryId = Category.write(0, "TestCategory", null)
     }
+
+    private fun launch() =
+        ActivityScenario.launch<ManageCategories>(
+            Intent(InstrumentationRegistry.getInstrumentation().targetContext, ManageCategories::class.java).also {
+                it.action = ACTION_MANAGE
+            }
+
+        ).also {
+            activityScenario = it
+        }
 
     private fun fixtureWithMappedTransaction() {
         baseFixture()
@@ -87,64 +104,71 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
         }
     }
 
-    @After
-    fun tearDown() {
-        Account.delete(account.id)
-        contentResolver.delete(Category.CONTENT_URI, null, null)
-        activityScenario.close()
+    @Test
+    fun shouldDeleteCategory() {
+        baseFixture()
+        launch().use {
+            cabAndDelete()
+            assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize - 1)
+        }
     }
 
     @Test
     fun shouldNotDeleteCategoryMappedToTransaction() {
         fixtureWithMappedTransaction()
-        val origListSize = launchAndOpenCab()
-        clickMenuItem(R.id.DELETE_COMMAND, true)
-        assertThat(waitForAdapter().count).isEqualTo(origListSize)
-        onView(withId(com.google.android.material.R.id.snackbar_text))
+        launch().use {
+            cabAndDelete()
+            onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(getQuantityString(
-                        R.plurals.not_deletable_mapped_transactions, 1, 1))))
+                    R.plurals.not_deletable_mapped_transactions, 1, 1))))
+            assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
+        }
     }
 
     @Test
     fun shouldNotDeleteCategoryMappedToTemplate() {
         fixtureWithMappedTemplate()
-        val origListSize = launchAndOpenCab()
-        clickMenuItem(R.id.DELETE_COMMAND, true)
-        assertThat(waitForAdapter().count).isEqualTo(origListSize)
-        onView(withId(com.google.android.material.R.id.snackbar_text))
+        launch().use {
+            cabAndDelete()
+            onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(getQuantityString(
-                        R.plurals.not_deletable_mapped_templates, 1, 1))))
+                    R.plurals.not_deletable_mapped_templates, 1, 1))))
+            assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
+        }
     }
 
     @Test
     fun shouldNotDeleteCategoryMappedToBudget() {
         fixtureWithMappedBudget()
-        val origListSize = launchAndOpenCab()
-        clickMenuItem(R.id.DELETE_COMMAND, true)
-        onView(withText(containsString(getString(R.string.warning_delete_category_with_budget)))).check(matches(isDisplayed()))
-        onView(withText(R.string.response_no)).perform(click())
-        assertThat(waitForAdapter().count).isEqualTo(origListSize)
+        launch().use {
+            cabAndDelete()
+            onView(withText(containsString(getString(R.string.warning_delete_category_with_budget)))).check(matches(isDisplayed()))
+            onView(withText(R.string.response_no)).perform(click())
+            assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
+        }
     }
 
-    private fun launchAndOpenCab(): Int {
-        activityScenario = ActivityScenario.launch(ManageCategories::class.java)
-        val origListSize = waitForAdapter().count
-        Espresso.onData(Matchers.`is`(Matchers.instanceOf(org.totschnig.myexpenses.viewmodel.data.Category::class.java)))
-                .atPosition(0)
-                .perform(ViewActions.longClick())
-        return origListSize
+    private fun cabAndDelete()  {
+        //Interestingly, we have to use the SemanticsActions, since performTouchInput { longClick() } does not work
+        composeTestRule.onNodeWithText("TestCategory").performSemanticsAction(SemanticsActions.OnLongClick)
+        clickMenuItem(R.id.DELETE_COMMAND, true)
     }
 
     @Test
     fun shouldCreateSubCategory() {
         baseFixture()
-        launchAndOpenCab()
-        clickMenuItem(R.id.CREATE_SUB_COMMAND, true)
-        onView(withId(R.id.editText))
+        launch().use {
+            composeTestRule.onNodeWithText("TestCategory").performClick()
+            onContextMenu(R.string.subcategory)
+            onView(withId(R.id.editText))
                 .perform(replaceText("Subcategory"), closeSoftKeyboard())
-        onView(withId(android.R.id.button1)).perform(click())
-        assertThat(Category.countSub(categoryId)).isEqualTo(1)
+            onView(withId(android.R.id.button1)).perform(click())
+            assertThat(Category.countSub(categoryId)).isEqualTo(1)
+        }
     }
+
+    private fun onContextMenu(@StringRes menuItemId: Int) =
+        composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
 
     override val testScenario: ActivityScenario<ManageCategories>
         get() = activityScenario

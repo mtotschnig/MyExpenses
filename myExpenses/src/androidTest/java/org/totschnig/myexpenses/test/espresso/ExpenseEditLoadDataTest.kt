@@ -4,8 +4,6 @@ import android.Manifest
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
-import android.content.OperationApplicationException
-import android.os.RemoteException
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.core.app.ActivityScenario
@@ -16,7 +14,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import org.assertj.core.api.Assertions
 import org.hamcrest.CoreMatchers
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -69,55 +66,38 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         }
     }
 
-    /*
- use of IdlingThreadPoolExecutor unfortunately does not prevent the tests from failing
- it seems that espresso after execution of coroutine immediately thinks app is idle, before UI has
- been populated with data
- at the moment we load data on main thread in test
-  private IdlingThreadPoolExecutor getIdlingResource() {
-    return ((TestApp) InstrumentationRegistry.getTargetContext().getApplicationContext()).getTestCoroutineModule().getExecutor();
-  }*/
-    @After
-    @Throws(RemoteException::class, OperationApplicationException::class)
-    fun tearDown() {
-        Account.delete(account1.id)
-        Account.delete(account2.id)
-        activityScenario.close()
-        //IdlingRegistry.getInstance().unregister(getIdlingResource());
-    }
-
-    private fun load(id: Long) {
-        launchAndWait(intent.apply {
-            putExtra(DatabaseConstants.KEY_ROWID, id)
-        })
-    }
+    private fun load(id: Long) = launchAndWait(intent.apply {
+        putExtra(DatabaseConstants.KEY_ROWID, id)
+    })
 
     @Test
     fun shouldPopulateWithTransactionAndPrepareForm() {
-        load(transaction.id)
-        checkEffectiveGone(R.id.OperationType)
-        toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
-        checkEffectiveVisible(
-            R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-            R.id.PayeeRow, R.id.AccountRow
-        )
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
+        load(transaction.id).use {
+            checkEffectiveGone(R.id.OperationType)
+            toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
+            checkEffectiveVisible(
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
+                R.id.PayeeRow, R.id.AccountRow
             )
-        ).check(matches(withText("5")))
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("5")))
+        }
     }
 
     @Test
     fun shouldKeepStatusAndUuidAfterSave() {
-        load(transaction.id)
-        val uuid = transaction.uuid
-        val status = transaction.status
-        closeKeyboardAndSave()
-        val t = Transaction.getInstanceFromDb(transaction.id)
-        Assertions.assertThat(t.status).isEqualTo(status)
-        Assertions.assertThat(t.uuid).isEqualTo(uuid)
+        load(transaction.id).use {
+            val uuid = transaction.uuid
+            val status = transaction.status
+            closeKeyboardAndSave()
+            val t = Transaction.getInstanceFromDb(transaction.id)
+            Assertions.assertThat(t.status).isEqualTo(status)
+            Assertions.assertThat(t.uuid).isEqualTo(uuid)
+        }
     }
 
     @Test
@@ -139,40 +119,40 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             )
         )
         foreignTransfer.save()
-        load(foreignTransfer.id)
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
-            )
-        ).check(matches(withText("1")))
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.TransferAmount
-            )
-        ).check(matches(withText("2")))
-        onView(
-            withIdAndAncestor(
-                R.id.ExchangeRateEdit1,
-                R.id.ExchangeRate
-            )
-        ).check(matches(withText("2")))
-        onView(
-            withIdAndAncestor(
-                R.id.ExchangeRateEdit2,
-                R.id.ExchangeRate
-            )
-        ).check(matches(withText(formatAmount(0.5f))))
-        Account.delete(foreignAccount.id)
+        load(foreignTransfer.id).use {
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("1")))
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.TransferAmount
+                )
+            ).check(matches(withText("2")))
+            onView(
+                withIdAndAncestor(
+                    R.id.ExchangeRateEdit1,
+                    R.id.ExchangeRate
+                )
+            ).check(matches(withText("2")))
+            onView(
+                withIdAndAncestor(
+                    R.id.ExchangeRateEdit2,
+                    R.id.ExchangeRate
+                )
+            ).check(matches(withText(formatAmount(0.5f))))
+        }
     }
 
     private fun formatAmount(amount: Float): String {
         return DecimalFormat("0.##").format(amount.toDouble())
     }
 
-    private fun launchAndWait(i: Intent) {
-        activityScenario = ActivityScenario.launch(i)
+    private fun launchAndWait(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
+        activityScenario = it
     }
 
     @Test
@@ -186,20 +166,22 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun testTransfer(loadFromPeer: Boolean) {
-        load((if (loadFromPeer) transfer.transferPeer else transfer.id)!!)
-        checkEffectiveGone(R.id.OperationType)
-        toolbarTitle().check(matches(withText(R.string.menu_edit_transfer)))
-        checkEffectiveVisible(
-            R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
-            R.id.TransferAccountRow
-        )
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
+        load((if (loadFromPeer) transfer.transferPeer else transfer.id)!!).use {
+            checkEffectiveGone(R.id.OperationType)
+            toolbarTitle().check(matches(withText(R.string.menu_edit_transfer)))
+            checkEffectiveVisible(
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
+                R.id.TransferAccountRow
             )
-        ).check(matches(withText("6")))
-        checkTransferDirection(loadFromPeer)
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("6")))
+            checkTransferDirection(loadFromPeer)
+
+        }
     }
 
     private fun checkTransferDirection(loadFromPeer: Boolean) {
@@ -244,58 +226,61 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 if (loadFromPeer) transfer.transferPeer else transfer.id
             )
             putExtra(ExpenseEdit.KEY_CLONE, true)
-        })
-        checkEffectiveVisible(
-            R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
-            R.id.TransferAccountRow
-        )
-        onView(ViewMatchers.withId(R.id.OperationType))
-            .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_transfer)))
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
+        }).use {
+            checkEffectiveVisible(
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
+                R.id.TransferAccountRow
             )
-        ).check(matches(withText("6")))
-        checkTransferDirection(loadFromPeer)
+            onView(ViewMatchers.withId(R.id.OperationType))
+                .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_transfer)))
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("6")))
+            checkTransferDirection(loadFromPeer)
+        }
     }
 
     @Test
     fun shouldSwitchAccountViewsForReceivingTransferPart() {
-        load(transfer.transferPeer!!)
-        activityScenario.onActivity { activity: ExpenseEdit ->
-            Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue
-            Assertions.assertThat(
-                (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
-                    1
-                ).id
-            ).isEqualTo(R.id.TransferAccount)
+        load(transfer.transferPeer!!).use {
+            activityScenario.onActivity { activity: ExpenseEdit ->
+                Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue
+                Assertions.assertThat(
+                    (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
+                        1
+                    ).id
+                ).isEqualTo(R.id.TransferAccount)
+            }
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("6")))
         }
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
-            )
-        ).check(matches(withText("6")))
     }
 
     @Test
     fun shouldKeepAccountViewsForGivingTransferPart() {
-        load(transfer.id)
-        activityScenario.onActivity { activity: ExpenseEdit ->
-            Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse
-            Assertions.assertThat(
-                (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
-                    1
-                ).id
-            ).isEqualTo(R.id.Account)
+        load(transfer.id).use {
+            activityScenario.onActivity { activity: ExpenseEdit ->
+                Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse
+                Assertions.assertThat(
+                    (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
+                        1
+                    ).id
+                ).isEqualTo(R.id.Account)
+            }
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("6")))
         }
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
-            )
-        ).check(matches(withText("6")))
     }
 
     @Test
@@ -303,28 +288,31 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         val splitTransaction: Transaction = SplitTransaction.getNewInstance(account1.id)
         splitTransaction.status = DatabaseConstants.STATUS_NONE
         splitTransaction.save(true)
-        load(splitTransaction.id)
-        checkEffectiveGone(R.id.OperationType)
-        toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
-        checkEffectiveVisible(
-            R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
-            R.id.PayeeRow, R.id.AccountRow
-        )
+        load(splitTransaction.id).use {
+            checkEffectiveGone(R.id.OperationType)
+            toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
+            checkEffectiveVisible(
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
+                R.id.PayeeRow, R.id.AccountRow
+            )
+
+        }
     }
 
     @Test
     fun shouldPopulateWithSplitTemplateAndLoadParts() {
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
-        })
-        activityScenario.onActivity { activity: ExpenseEdit ->
-            Assertions.assertThat(activity.isTemplate).isTrue()
+        }).use {
+            it.onActivity { activity: ExpenseEdit ->
+                Assertions.assertThat(activity.isTemplate).isTrue()
+            }
+            toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_edit_template))))
+            checkEffectiveVisible(R.id.SplitContainer)
+            checkEffectiveGone(R.id.OperationType)
+            onView(ViewMatchers.withId(R.id.list))
+                .check(matches(ViewMatchers.hasChildCount(1)))
         }
-        toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_edit_template))))
-        checkEffectiveVisible(R.id.SplitContainer)
-        checkEffectiveGone(R.id.OperationType)
-        onView(ViewMatchers.withId(R.id.list))
-            .check(matches(ViewMatchers.hasChildCount(1)))
     }
 
     @Test
@@ -332,15 +320,17 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
             putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
-        })
-        activityScenario.onActivity { activity: ExpenseEdit ->
-            Assertions.assertThat(activity.isTemplate).isFalse()
+        }).use {
+            it.onActivity { activity: ExpenseEdit ->
+                Assertions.assertThat(activity.isTemplate).isFalse()
+            }
+            onView(ViewMatchers.withId(R.id.OperationType))
+                .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_split)))
+            checkEffectiveVisible(R.id.SplitContainer)
+            onView(ViewMatchers.withId(R.id.list))
+                .check(matches(ViewMatchers.hasChildCount(1)))
+
         }
-        onView(ViewMatchers.withId(R.id.OperationType))
-            .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_split)))
-        checkEffectiveVisible(R.id.SplitContainer)
-        onView(ViewMatchers.withId(R.id.list))
-            .check(matches(ViewMatchers.hasChildCount(1)))
     }
 
     private fun buildSplitTemplate(): Long {
@@ -376,23 +366,25 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         plan.save()
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, plan.id)
-        })
-        checkEffectiveVisible(
-            R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-            R.id.PayeeRow, R.id.AccountRow, R.id.PB
-        )
-        checkEffectiveGone(R.id.Recurrence)
-        activityScenario.onActivity { activity: ExpenseEdit ->
-            Assertions.assertThat(activity.isTemplate).isTrue()
-        }
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
+        }).use {
+            checkEffectiveVisible(
+                R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
+                R.id.PayeeRow, R.id.AccountRow, R.id.PB
             )
-        ).check(matches(withText("7")))
-        onView(ViewMatchers.withId(R.id.Title))
-            .check(matches(withText("Daily plan")))
+            checkEffectiveGone(R.id.Recurrence)
+            activityScenario.onActivity { activity: ExpenseEdit ->
+                Assertions.assertThat(activity.isTemplate).isTrue()
+            }
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("7")))
+            onView(ViewMatchers.withId(R.id.Title))
+                .check(matches(withText("Daily plan")))
+
+        }
     }
 
     @Test
@@ -409,21 +401,23 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
             putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
-        })
-        checkEffectiveVisible(
-            R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-            R.id.PayeeRow, R.id.AccountRow
-        )
-        checkEffectiveGone(R.id.PB, R.id.TitleRow)
-        activityScenario.onActivity { activity: ExpenseEdit ->
-            Assertions.assertThat(activity.isTemplate).isFalse()
-        }
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
+        }).use {
+            checkEffectiveVisible(
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
+                R.id.PayeeRow, R.id.AccountRow
             )
-        ).check(matches(withText("8")))
+            checkEffectiveGone(R.id.PB, R.id.TitleRow)
+            activityScenario.onActivity { activity: ExpenseEdit ->
+                Assertions.assertThat(activity.isTemplate).isFalse()
+            }
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText("8")))
+
+        }
     }
 
     @Test
@@ -435,27 +429,27 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             putExtra(Transactions.PAYEE_NAME, "John Doe")
             putExtra(Transactions.CATEGORY_LABEL, "A")
             putExtra(Transactions.COMMENT, "A note")
-        })
-        onView(ViewMatchers.withId(R.id.Account)).check(
-            matches(
-                ViewMatchers.withSpinnerText(
-                    account1.label
+        }).use {
+            onView(ViewMatchers.withId(R.id.Account)).check(
+                matches(
+                    ViewMatchers.withSpinnerText(
+                        account1.label
+                    )
                 )
             )
-        )
-        onView(
-            withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
-            )
-        ).check(matches(withText(formatAmount(1.23f))))
-        onView(ViewMatchers.withId(R.id.Payee))
-            .check(matches(withText("John Doe")))
-        onView(ViewMatchers.withId(R.id.Comment))
-            .check(matches(withText("A note")))
-        onView(ViewMatchers.withId(R.id.Category))
-            .check(matches(withText("A")))
-        Category.delete(Category.find("A", null))
+            onView(
+                withIdAndParent(
+                    R.id.AmountEditText,
+                    R.id.Amount
+                )
+            ).check(matches(withText(formatAmount(1.23f))))
+            onView(ViewMatchers.withId(R.id.Payee))
+                .check(matches(withText("John Doe")))
+            onView(ViewMatchers.withId(R.id.Comment))
+                .check(matches(withText("A note")))
+            onView(ViewMatchers.withId(R.id.Category))
+                .check(matches(withText("A")))
+        }
     }
 
     @Test
@@ -475,9 +469,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 sealedAccount.id
             ), values, null, null
         )
-        load(sealed.id)
-        assertCanceled()
-        Account.delete(sealedAccount.id)
+        load(sealed.id).use {
+            assertCanceled()
+        }
     }
 
     override val testScenario: ActivityScenario<TestExpenseEdit>

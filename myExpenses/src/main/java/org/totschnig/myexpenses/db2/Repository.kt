@@ -178,6 +178,13 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
             put(KEY_COLOR, color)
         }, null, null
     ) == 1
+
+    fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): Int {
+        return contentResolver.query(uri, arrayOf("count(*)"), selection, selectionArgs, null, null)?.use {
+            it.moveToFirst()
+            it.getInt(0)
+        } ?: 0
+    }
 }
 
 data class AutoFillInfo(val categoryId: Long)
