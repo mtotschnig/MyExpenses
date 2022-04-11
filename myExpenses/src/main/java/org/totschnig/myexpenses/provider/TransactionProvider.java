@@ -209,7 +209,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
-  public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
+  public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
   /**
    * 1 -> mapped objects for each row
    * 2 -> aggregate sums for all mapped objects
@@ -512,7 +512,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         break;
       }
-      case CATEGORIES:
+      case CATEGORIES: {
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
         if (mappedObjects != null) {
           String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
@@ -520,28 +520,16 @@ public class TransactionProvider extends BaseTransactionProvider {
           c = db.rawQuery(sql, selectionArgs);
           return c;
         }
-        if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
-          final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
-          final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
-                  uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
-          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression, null);
-          log(sql);
-          c = db.rawQuery(sql, selectionArgs);
-          c.setNotificationUri(getContext().getContentResolver(), uri);
-          return c;
-        } else {
-          //TODO delete after removal of legacy BudgetFragment
-          final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
-          qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
-                  String.format(Locale.ROOT, "%1$s %7$s %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
-                          TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery,
-                          uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT JOIN" : "INNER JOIN"));
-          qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
-          if (projection == null) {
-            projection = Category.PROJECTION;
-          }
-        }
-        break;
+        final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
+        final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
+                uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
+        String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression,
+                uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR));
+        log(sql);
+        c = db.rawQuery(sql, selectionArgs);
+        c.setNotificationUri(getContext().getContentResolver(), uri);
+        return c;
+      }
       case CATEGORY_ID:
         qb.setTables(TABLE_CATEGORIES);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));

@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -52,9 +51,9 @@ abstract class AbstractExporter
         Timber.i("now starting export")
         //first we check if there are any exportable transactions
         var selection =
-            KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null"
+            "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null"
         var selectionArgs: Array<String?>? = arrayOf(account.id.toString())
-        if (notYetExportedP) selection += " AND " + KEY_STATUS + " = " + STATUS_NONE
+        if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
         if (filter != null && !filter.isEmpty) {
             selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED)
             selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
@@ -75,7 +74,7 @@ abstract class AbstractExporter
         )
         return context.contentResolver.query(
             Transaction.EXTENDED_URI,
-            projection, selection, selectionArgs, DatabaseConstants.KEY_DATE
+            projection, selection, selectionArgs, KEY_DATE
         )?.use { cursor ->
 
             if (cursor.count == 0) {

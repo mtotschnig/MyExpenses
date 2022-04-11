@@ -15,6 +15,12 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_INDEX_CREATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -51,14 +57,6 @@ import java.io.File;
 import java.util.Locale;
 
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_INDEX_CREATE;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_LEGACY_TRIGGER_INSERT;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends BaseTransactionDatabase {
   private final Context mCtx;

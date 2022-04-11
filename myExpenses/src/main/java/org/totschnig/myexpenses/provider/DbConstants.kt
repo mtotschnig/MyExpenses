@@ -81,43 +81,46 @@ fun categoryTreeWithMappedObjects(
         """.trimIndent()
 }
 
+fun labelEscapedForQif(tableName: String) = "replace(replace($tableName.$KEY_LABEL,'/','|'), ':','|')"
+
+fun maybeEscapeLabel(categorySeparator: String?, tableName: String) = if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
+
 fun categoryTreeCTE(
     rootExpression: String? = null,
     sortOrder: String? = null,
     matches: String? = null,
     categorySeparator: String? = null
-) =
-    """
-  WITH Tree as (
-    SELECT
-        $KEY_LABEL,
-        $KEY_LABEL AS $KEY_PATH,
-        $KEY_COLOR,
-        $KEY_ICON,
-        $KEY_ROWID,
-        $KEY_PARENTID,
-        $KEY_USAGES,
-        $KEY_LAST_USED,
-        1 AS $KEY_LEVEL,
-        ${matches ?: "1"} AS $KEY_MATCHES_FILTER
-    FROM $TABLE_CATEGORIES main
-    WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
-    UNION ALL
-    SELECT
-        subtree.$KEY_LABEL,
-        Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || subtree.$KEY_LABEL,
-        subtree.$KEY_COLOR,
-        subtree.$KEY_ICON,
-        subtree.$KEY_ROWID,
-        subtree.$KEY_PARENTID,
-        subtree.$KEY_USAGES,
-        subtree.$KEY_LAST_USED,
-        level + 1,
-        ${matches ?: "1"} AS $KEY_MATCHES_FILTER
-    FROM $TABLE_CATEGORIES subtree
-    JOIN Tree ON Tree._id = subtree.parent_id
-    ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
-  )
+): String = """
+WITH Tree as (
+SELECT
+    $KEY_LABEL,
+    ${maybeEscapeLabel(categorySeparator, "main")} AS $KEY_PATH,
+    $KEY_COLOR,
+    $KEY_ICON,
+    $KEY_ROWID,
+    $KEY_PARENTID,
+    $KEY_USAGES,
+    $KEY_LAST_USED,
+    1 AS $KEY_LEVEL,
+    ${matches ?: "1"} AS $KEY_MATCHES_FILTER
+FROM $TABLE_CATEGORIES main
+WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
+UNION ALL
+SELECT
+    subtree.$KEY_LABEL,
+    Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${maybeEscapeLabel(categorySeparator, "subtree")},
+    subtree.$KEY_COLOR,
+    subtree.$KEY_ICON,
+    subtree.$KEY_ROWID,
+    subtree.$KEY_PARENTID,
+    subtree.$KEY_USAGES,
+    subtree.$KEY_LAST_USED,
+    level + 1,
+    ${matches ?: "1"} AS $KEY_MATCHES_FILTER
+FROM $TABLE_CATEGORIES subtree
+JOIN Tree ON Tree._id = subtree.parent_id
+ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
+)
 """.trimIndent()
 
 fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(

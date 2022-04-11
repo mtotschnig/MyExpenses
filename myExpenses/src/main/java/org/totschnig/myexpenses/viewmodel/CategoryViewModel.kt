@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.provider.*
@@ -126,7 +127,6 @@ open class CategoryViewModel(
 
     private fun categoryUri(queryParameter: String?): Uri =
         TransactionProvider.CATEGORIES_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
             .apply {
                 queryParameter?.let {
                     appendQueryParameter(it, "1")
@@ -300,71 +300,7 @@ open class CategoryViewModel(
     fun exportCats(encoding: String) {
         viewModelScope.launch(context = coroutineContext()) {
             _exportResult.update {
-                val appDir = AppDirHelper.getAppDir(getApplication())
-                if (appDir == null) {
-                    failure(R.string.external_storage_unavailable)
-                } else {
-                    val mainLabel =
-                        "CASE WHEN $KEY_PARENTID THEN (SELECT $KEY_LABEL FROM $TABLE_CATEGORIES parent WHERE parent.$KEY_ROWID = $TABLE_CATEGORIES.$KEY_PARENTID) ELSE $KEY_LABEL END"
-                    val subLabel = "CASE WHEN $KEY_PARENTID THEN $KEY_LABEL END"
-
-                    //sort sub categories immediately after their main category
-                    val sort = "CASE WHEN parent_id then parent_id else _id END"
-                    val fileName = "categories"
-                    contentResolver.query(
-                        TransactionProvider.CATEGORIES_URI, arrayOf(mainLabel, subLabel),
-                        null, null, sort
-                    )?.use { c ->
-                        if (c.count == 0) {
-                            failure(R.string.no_categories)
-                        } else {
-                            val outputFile = AppDirHelper.timeStampedFile(
-                                appDir,
-                                fileName,
-                                ExportFormat.QIF.mimeType, "qif"
-                            )
-                            if (outputFile == null) {
-                                failure(R.string.external_storage_unavailable)
-                            } else {
-                                try {
-                                    @Suppress("BlockingMethodInNonBlockingContext")
-                                    OutputStreamWriter(
-                                        contentResolver.openOutputStream(outputFile.uri),
-                                        encoding
-                                    ).use { out ->
-                                        out.write("!Type:Cat")
-                                        c.moveToFirst()
-                                        while (c.position < c.count) {
-                                            val sb = StringBuilder()
-                                            sb.append("\nN")
-                                                .append(
-                                                    TextUtils.formatQifCategory(
-                                                        c.getString(0),
-                                                        c.getString(1)
-                                                    )
-                                                )
-                                                .append("\n^")
-                                            out.write(sb.toString())
-                                            c.moveToNext()
-                                        }
-                                    }
-                                    Result.success<Pair<Uri, String>>(
-                                        outputFile.uri to FileUtils.getPath(
-                                            getApplication(),
-                                            outputFile.uri
-                                        )
-                                    )
-                                } catch (e: IOException) {
-                                    failure(
-                                        R.string.export_sdcard_failure,
-                                        appDir.name,
-                                        e.message
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
+                CategoryExporter.export(getApplication(), encoding)
             }
         }
     }
