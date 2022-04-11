@@ -61,15 +61,6 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     getProvider().getOpenHelperForTest().getWritableDatabase().update(DatabaseConstants.TABLE_ACCOUNTS, values, null, null);
   }
 
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    Account.delete(mAccount1.getId());
-    Account.delete(mAccount2.getId());
-    Category.delete(catId1);
-    Category.delete(catId2);
-  }
-
   public void testTransaction() {
     String payee = "N.N";
     long start = Transaction.getSequenceCount().longValue();

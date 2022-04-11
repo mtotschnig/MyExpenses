@@ -1308,8 +1308,10 @@ public class TransactionProvider extends BaseTransactionProvider {
             whereArgs);
         break;
       case CATEGORY_ID:
+        String lastPathSegment = uri.getLastPathSegment();
+        if (Long.parseLong(lastPathSegment) == SPLIT_CATID) throw new IllegalArgumentException("split category can not be deleted");
         count = db.delete(TABLE_CATEGORIES,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+            KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
         break;
       case PAYEE_ID:
         count = db.delete(TABLE_PAYEES,

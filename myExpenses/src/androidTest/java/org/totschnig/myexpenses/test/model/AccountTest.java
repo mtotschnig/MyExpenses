@@ -55,18 +55,6 @@ public class AccountTest extends ModelTest {
       transferP = 50L,
       transferN = 60L;
   private long catId;
-  
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    if (account1 != null) {
-      Account.delete(account1.getId());
-    }
-    if (account2 != null) {
-      Account.delete(account2.getId());
-    }
-    Category.delete(catId);
-  }
 
   private void insertData() {
     Transaction op;

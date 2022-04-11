@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
@@ -36,8 +37,7 @@ import eltos.simpledialogfragment.form.SelectColorField
 import eltos.simpledialogfragment.form.SelectIconField
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
@@ -54,6 +54,10 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
 import org.totschnig.myexpenses.viewmodel.data.Category2
+
+enum class HelpVariant {
+    manage, select_mapping, select_filter
+}
 
 enum class Action {
     SELECT_MAPPING, SELECT_FILTER, MANAGE
@@ -112,6 +116,21 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         setupToolbar(true)
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
+        }
+        val (helpVariant, title) = when (action) {
+            Action.MANAGE ->
+                HelpVariant.manage to R.string.pref_manage_categories_title
+            Action.SELECT_FILTER ->
+                HelpVariant.select_filter to R.string.search_category
+            Action.SELECT_MAPPING ->
+                HelpVariant.select_mapping to R.string.select_category
+        }
+        setHelpVariant(helpVariant, true)
+        if (title != 0) supportActionBar!!.setTitle(title)
+        if (action == Action.SELECT_MAPPING || action == Action.MANAGE) {
+            configureFloatingActionButton(R.string.menu_create_main_cat)
+        } else {
+            findViewById<View>(R.id.CREATE_COMMAND).visibility = View.GONE
         }
         sortDelegate = SortDelegate(
             defaultSortOrder = viewModel.defaultSort,

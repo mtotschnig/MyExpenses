@@ -104,10 +104,6 @@ public class Category extends Model {
     }
   }
 
-  public static boolean delete(long id) {
-    return cr().delete(ContentUris.withAppendedId(CONTENT_URI, id), null, null) > 0;
-  }
-
   @Override
   public Uri save() {
     ContentValues initialValues = new ContentValues();

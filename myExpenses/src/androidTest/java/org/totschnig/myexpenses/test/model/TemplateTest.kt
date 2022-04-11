@@ -42,14 +42,6 @@ class TemplateTest : ModelTest() {
         payeeId = Payee.maybeWrite("N.N")
     }
 
-    @Throws(Exception::class)
-    override fun tearDown() {
-        super.tearDown()
-        Account.delete(mAccount1.id)
-        Account.delete(mAccount2.id)
-        Category.delete(categoryId)
-    }
-
     fun testTemplateFromTransaction() {
         val start = mAccount1.totalBalance.amountMinor
         val amount = 100.toLong()

@@ -75,11 +75,6 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest<MyExpen
     id1Sub = ContentUris.parseId(op.saveAsNew());
   }
 
-  @AfterClass
-  public static void tearDown() throws RemoteException, OperationApplicationException {
-    Account.delete(account.getId());
-  }
-
   @Before
   public void startSearch() throws TimeoutException {
     waitForAdapter();
