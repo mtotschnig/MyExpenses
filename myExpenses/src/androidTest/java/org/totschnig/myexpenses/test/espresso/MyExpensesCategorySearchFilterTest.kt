@@ -8,7 +8,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -19,13 +18,13 @@ import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.viewmodel.data.Category2
@@ -36,11 +35,6 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
-    private val repository: Repository
-        get() = Repository(
-            ApplicationProvider.getApplicationContext<MyApplication>(),
-            Mockito.mock(CurrencyContext::class.java)
-        )
     private lateinit var catLabel1: String
     private lateinit var catLabel2: String
     private lateinit var catLabel1Sub: String
