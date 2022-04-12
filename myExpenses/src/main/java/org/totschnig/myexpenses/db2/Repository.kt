@@ -83,7 +83,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     private fun findPayee(name: String) = contentResolver.query(
         TransactionProvider.PAYEES_URI,
         arrayOf(KEY_ROWID),
-        KEY_PAYEE_NAME + " = ?",
+        "$KEY_PAYEE_NAME = ?",
         arrayOf(name.trim()), null
     )?.use {
         if (it.moveToFirst()) it.getLong(0) else null
@@ -142,7 +142,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
             if (category.id == 0L) {
                 contentResolver.insert(TransactionProvider.CATEGORIES_URI, initialValues)
             } else {
-                Category.CONTENT_URI.buildUpon().appendPath(category.id.toString()).build().let {
+                TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(category.id.toString()).build().let {
                     if (contentResolver.update(it, initialValues, null, null) == 0)
                         null else it
                 }

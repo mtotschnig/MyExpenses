@@ -25,6 +25,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -165,7 +168,20 @@ fun CategoryRenderer(
                     Modifier.background(colorResource(id = R.color.activatedBackground))
                 else Modifier
             )
-            .padding(end = 24.dp, start = startPadding),
+            .padding(end = 24.dp, start = startPadding)
+            .semantics {
+                if (isExpanded) {
+                    collapse {
+                        expansionMode.toggle(category)
+                        true
+                    }
+                } else {
+                    expand {
+                        expansionMode.toggle(category)
+                        true
+                    }
+                }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (category.children.isEmpty()) {

@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.ContentUris.appendId
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.ui.semantics.SemanticsActions
@@ -24,6 +23,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 import org.totschnig.myexpenses.ACTION_MANAGE
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.time.LocalDate
 import java.util.*
 
@@ -48,17 +49,18 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private lateinit var account: Account
     private var categoryId: Long = 0
     private val origListSize = 1
-    private val context: Context
-        get() = ApplicationProvider.getApplicationContext()
 
     private val repository: Repository
-        get() = Repository(context, Mockito.mock(CurrencyContext::class.java))
+        get() = Repository(
+            ApplicationProvider.getApplicationContext<MyApplication>(),
+            Mockito.mock(CurrencyContext::class.java)
+        )
 
     private fun baseFixture() {
         account = Account("Test account 1", currency, 0, "",
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
-        categoryId = Category.write(0, "TestCategory", null)
+        categoryId = ContentUris.parseId(repository.saveCategory(Category2(label = "TestCategory"))!!)
     }
 
     private fun launch() =
@@ -66,7 +68,6 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
             Intent(InstrumentationRegistry.getInstrumentation().targetContext, ManageCategories::class.java).also {
                 it.action = ACTION_MANAGE
             }
-
         ).also {
             activityScenario = it
         }
@@ -163,7 +164,8 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
             onView(withId(R.id.editText))
                 .perform(replaceText("Subcategory"), closeSoftKeyboard())
             onView(withId(android.R.id.button1)).perform(click())
-            assertThat(Category.countSub(categoryId)).isEqualTo(1)
+            assertThat(repository.count(TransactionProvider.CATEGORIES_URI,
+                "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(categoryId.toString()))).isEqualTo(1)
         }
     }
 

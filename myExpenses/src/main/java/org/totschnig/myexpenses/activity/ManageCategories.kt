@@ -229,7 +229,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
         val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }
-            .joinToString(separator = ",") { it.path }
+            .joinToString(separator = ",") { it.label }
         setResult(RESULT_FIRST_USER, Intent().apply {
             putExtra(KEY_CATID, selected.toLongArray())
             putExtra(KEY_LABEL, label)

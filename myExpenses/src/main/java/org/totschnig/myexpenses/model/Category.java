@@ -132,25 +132,6 @@ public class Category extends Model {
     return uri;
   }
 
-  /**
-   * How many subcategories under a given parent?
-   *
-   * @return number of subcategories
-   */
-  public static int countSub(long parentId) {
-    Cursor mCursor = cr().query(CONTENT_URI,
-        new String[]{"count(*)"}, KEY_PARENTID + " = ?", new String[]{String.valueOf(parentId)}, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return 0;
-    } else {
-      mCursor.moveToFirst();
-      int result = mCursor.getInt(0);
-      mCursor.close();
-      return result;
-    }
-  }
-
   public String getLabel() {
     return label;
   }
