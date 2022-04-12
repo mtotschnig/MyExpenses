@@ -20,21 +20,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CategoryExporter
-import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.ColorUtils
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
-import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Category2
 import timber.log.Timber
-import java.io.IOException
-import java.io.OutputStreamWriter
-import kotlin.Result
 import kotlin.Result.Companion.failure
 
 open class CategoryViewModel(

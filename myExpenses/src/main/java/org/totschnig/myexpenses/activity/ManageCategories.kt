@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
@@ -37,7 +38,9 @@ import eltos.simpledialogfragment.form.SelectColorField
 import eltos.simpledialogfragment.form.SelectIconField
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.*
+import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
@@ -46,9 +49,7 @@ import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
@@ -196,7 +197,19 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                             menuGenerator = { if (action == Action.SELECT_FILTER) null else Menu(
                                listOf(
                                    MenuEntry.edit { editCat(it) },
-                                   MenuEntry.delete { viewModel.deleteCategories(listOf(it.id)) },
+                                   MenuEntry.delete {
+                                       if (it.flatten().map { it.id }.contains(protectionInfo?.id)) {
+                                           showSnackBar(
+                                               resources.getQuantityString(
+                                                   if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
+                                                   1,
+                                                   1
+                                               )
+                                           )
+                                       } else {
+                                           viewModel.deleteCategories(listOf(it.id))
+                                       }
+                                   },
                                    MenuEntry(
                                        icon = Icons.Filled.Add,
                                        label = stringResource(id = R.string.subcategory)
@@ -220,7 +233,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         val intent = Intent().apply {
             putExtra(KEY_CATID, category.id)
             putExtra(KEY_LABEL, category.path)
-            putExtra(DatabaseConstants.KEY_ICON, category.icon)
+            putExtra(KEY_ICON, category.icon)
         }
         setResult(RESULT_OK, intent)
         finish()
@@ -493,6 +506,9 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             else -> false
         }
 
+    private val protectionInfo: ProtectionInfo?
+        get() = intent.getParcelableExtra(KEY_PROTECTION_INFO)
+
     private fun importCats() {
         showSnackBarIndefinite(R.string.menu_categories_setup_default)
         viewModel.importCats()
@@ -510,7 +526,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     open fun createCat(parentId: Long?) {
         val args = Bundle()
         if (parentId != null) {
-            args.putLong(DatabaseConstants.KEY_PARENTID, parentId)
+            args.putLong(KEY_PARENTID, parentId)
         }
         SimpleFormDialog.build()
             .title(if (parentId == null) R.string.menu_create_main_cat else R.string.menu_create_sub_cat)
@@ -527,13 +543,13 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
      */
     open fun editCat(category: Category2) {
         val args = Bundle().apply {
-            putLong(DatabaseConstants.KEY_ROWID, category.id)
+            putLong(KEY_ROWID, category.id)
         }
         val formElements = buildList {
             add(buildLabelField(category.label))
             if (category.level == 1 && category.color != null) {
                 add(
-                    SelectColorField.picker(DatabaseConstants.KEY_COLOR).label(R.string.color)
+                    SelectColorField.picker(KEY_COLOR).label(R.string.color)
                         .color(category.color)
                 )
             }
@@ -555,7 +571,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
 
     private fun buildIconField(preset: String?) =
-        SelectIconField.picker(DatabaseConstants.KEY_ICON).icons(BuildConfig.CATEGORY_ICONS)
+        SelectIconField.picker(KEY_ICON).icons(BuildConfig.CATEGORY_ICONS)
             .preset(preset).label(R.string.icon)
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
@@ -565,11 +581,11 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             val label = extras.getString(KEY_LABEL)!!
             viewModel.saveCategory(
                 Category2(
-                    id = extras.getLong(DatabaseConstants.KEY_ROWID),
+                    id = extras.getLong(KEY_ROWID),
                     label = label,
-                    parentId = extras.getLong(DatabaseConstants.KEY_PARENTID).takeIf { it != 0L },
-                    color = extras.getInt(DatabaseConstants.KEY_COLOR),
-                    icon = extras.getString(DatabaseConstants.KEY_ICON)
+                    parentId = extras.getLong(KEY_PARENTID).takeIf { it != 0L },
+                    color = extras.getInt(KEY_COLOR),
+                    icon = extras.getString(KEY_ICON)
                 )
             ).observe(this) { result ->
                 if (result == null) {
@@ -584,5 +600,9 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     companion object {
         const val DIALOG_NEW_CATEGORY = "dialogNewCat"
         const val DIALOG_EDIT_CATEGORY = "dialogEditCat"
+        const val KEY_PROTECTION_INFO = "protection_info"
     }
+
+    @Parcelize
+    data class ProtectionInfo(val id: Long, val isTemplate: Boolean): Parcelable
 }
