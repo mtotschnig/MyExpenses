@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.AccountAdapter
-import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
 import org.totschnig.myexpenses.databinding.OneBudgetBinding
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
@@ -33,11 +32,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.filter.CategoryCriteria
-import org.totschnig.myexpenses.provider.filter.Criteria
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.PayeeCriteria
-import org.totschnig.myexpenses.provider.filter.TagCriteria
+import org.totschnig.myexpenses.provider.filter.*
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal

@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
@@ -172,12 +173,13 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                     }
                 }
                 viewModel.categoryTree.collectAsState(initial = Category2.EMPTY).value.let { root ->
-                    if(root.children.isEmpty()) {
+                    if (root.children.isEmpty()) {
                         Box(modifier = Modifier.fillMaxSize()) {
                             Column(
                                 modifier = Modifier.align(Alignment.Center),
                                 verticalArrangement = Arrangement.spacedBy(5.dp),
-                                horizontalAlignment = CenterHorizontally) {
+                                horizontalAlignment = CenterHorizontally
+                            ) {
                                 Text(text = stringResource(id = R.string.no_categories))
                                 Button(onClick = { importCats() }) {
                                     Column(horizontalAlignment = CenterHorizontally) {
@@ -192,34 +194,50 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         }
                     } else {
                         Category(
-                            category = root,
-                            expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                            menuGenerator = { if (action == Action.SELECT_FILTER) null else Menu(
-                               listOf(
-                                   MenuEntry.edit { editCat(it) },
-                                   MenuEntry.delete { category ->
-                                       if (category.flatten().map { it.id }.contains(protectionInfo?.id)) {
-                                           showSnackBar(
-                                               resources.getQuantityString(
-                                                   if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
-                                                   1,
-                                                   1
-                                               )
-                                           )
-                                       } else {
-                                           viewModel.deleteCategories(listOf(category.id))
-                                       }
-                                   },
-                                   MenuEntry(
-                                       icon = Icons.Filled.Add,
-                                       label = stringResource(id = R.string.subcategory)
-                                   ) { createCat(it.id) },
-                                   MenuEntry(
-                                       icon = myiconpack.ArrowsAlt,
-                                       label = stringResource(id = R.string.menu_move)
-                                   ) { showMoveTargetDialog(it) }
-                               )
-                            ) },
+                            category = if (action == Action.SELECT_FILTER)
+                                root.copy(children = buildList {
+                                    add(
+                                        Category2(
+                                            id = NULL_ITEM_ID,
+                                            label = stringResource(id = R.string.unmapped),
+                                            level = 1
+                                        )
+                                    )
+                                    addAll(root.children)
+                                })
+                            else root,
+                            expansionMode = ExpansionMode.DefaultCollapsed(
+                                rememberMutableStateListOf()
+                            ),
+                            menuGenerator = {
+                                if (action == Action.SELECT_FILTER) null else Menu(
+                                    listOf(
+                                        MenuEntry.edit { editCat(it) },
+                                        MenuEntry.delete { category ->
+                                            if (category.flatten().map { it.id }
+                                                    .contains(protectionInfo?.id)) {
+                                                showSnackBar(
+                                                    resources.getQuantityString(
+                                                        if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
+                                                        1,
+                                                        1
+                                                    )
+                                                )
+                                            } else {
+                                                viewModel.deleteCategories(listOf(category.id))
+                                            }
+                                        },
+                                        MenuEntry(
+                                            icon = Icons.Filled.Add,
+                                            label = stringResource(id = R.string.subcategory)
+                                        ) { createCat(it.id) },
+                                        MenuEntry(
+                                            icon = myiconpack.ArrowsAlt,
+                                            label = stringResource(id = R.string.menu_move)
+                                        ) { showMoveTargetDialog(it) }
+                                    )
+                                )
+                            },
                             choiceMode = choiceMode
                         )
                     }
@@ -241,13 +259,17 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
 
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
-        val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }
-            .joinToString(separator = ",") { it.label }
-        setResult(RESULT_FIRST_USER, Intent().apply {
-            putExtra(KEY_CATID, selected.toLongArray())
-            putExtra(KEY_LABEL, label)
-        })
-        finish()
+        if (selected.size == 1 || !selected.contains(NULL_ITEM_ID)) {
+            val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }
+                .joinToString(separator = ",") { it.label }
+            setResult(RESULT_FIRST_USER, Intent().apply {
+                putExtra(KEY_CATID, selected.toLongArray())
+                putExtra(KEY_LABEL, label)
+            })
+            finish()
+        } else {
+            showSnackBar(R.string.unmapped_filter_only_single)
+        }
     }
 
     private fun showMoveTargetDialog(category: Category2) {
@@ -604,5 +626,5 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     }
 
     @Parcelize
-    data class ProtectionInfo(val id: Long, val isTemplate: Boolean): Parcelable
+    data class ProtectionInfo(val id: Long, val isTemplate: Boolean) : Parcelable
 }

@@ -25,7 +25,6 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_CATEGORY_REQUEST
 import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_METHOD_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
-import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_POSITIVE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_MESSAGE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL;
@@ -67,6 +66,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.filter.ConstantsKt.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;

@@ -42,13 +42,13 @@ import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.ManageParties
-import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.configureSearch
@@ -455,7 +455,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     listOf(
                         PartyWrapper(
                             Party(
-                                CategoryTreeBaseAdapter.NULL_ITEM_ID,
+                                NULL_ITEM_ID,
                                 getString(R.string.unmapped),
                                 mappedTransactions = false,
                                 mappedTemplates = false,
@@ -545,7 +545,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             val selected = adapter.getSelected().map { it.party }
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
-            if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
+            if (itemIds.size != 1 && itemIds.contains(NULL_ITEM_ID)) {
                 manageParties.showSnackBar(R.string.unmapped_filter_only_single)
             } else {
                 requireActivity().apply {
