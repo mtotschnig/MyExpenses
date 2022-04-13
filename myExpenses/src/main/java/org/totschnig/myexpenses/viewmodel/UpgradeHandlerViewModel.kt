@@ -100,5 +100,13 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                         || getString(PrefKey.AUTO_FILL_ACCOUNT, "never") != "never"))
             }
         }
+        if (fromVersion < 518) {
+            with(prefHandler) {
+                //semantics of pref has changed, previously true meant do Aggregate, false means dont
+                //now unset means do Aggregate, on Distribution Screen true means show income, false means show Expenses
+                if (getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, true)) remove(PrefKey.DISTRIBUTION_AGGREGATE_TYPES)
+                if (getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) remove(PrefKey.BUDGET_AGGREGATE_TYPES)
+            }
+        }
     }
 }
