@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.CategoryTree;
@@ -25,11 +26,9 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 
-public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
+import javax.inject.Inject;
 
-  /**
-   * 
-   */
+public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
 
   public GrisbiImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
@@ -38,6 +37,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     this.sourceStr = fileUri.getPath();
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   private String title;
@@ -56,6 +56,9 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
   private boolean phaseChangedP = false;
   private CategoryTree catTree;
   private ArrayList<String> partiesList;
+
+  @Inject
+  public Repository repository;
 
   public void setTitle(String title) {
     this.title = title;
@@ -96,7 +99,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
   /**
    * made public to allow passing task to
-   * {@link Utils#importCats(CategoryTree, GrisbiImportTask)} and
+   * {@link GrisbiImportHelper#importCats(CategoryTree, GrisbiImportTask)} and
    * {@link Utils#importParties(ArrayList, GrisbiImportTask)}
    * 
    * @param i
@@ -160,7 +163,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
     int totalImportedCat,totalImportedParty;
     if (withCategoriesP) {
-      totalImportedCat = Utils.importCats(catTree, this);
+      totalImportedCat = GrisbiImportHelper.INSTANCE.importCats(catTree, this);
     } else {
       totalImportedCat = -1;
     }

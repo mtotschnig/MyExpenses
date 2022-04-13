@@ -158,7 +158,7 @@ public class TestMain extends BaseUiTest<MyExpenses> {
     pref.edit().putString(PrefKey.HOME_CURRENCY.getKey(), Utils.getSaveDefault().getCurrencyCode()).apply();
     ((MockLicenceHandler) getApp().getLicenceHandler()).setLockState(false);
 
-    getApp().fixture.setup(withPicture);
+    getApp().fixture.setup(withPicture, getRepository());
     int current_version = DistributionHelper.getVersionNumber();
     pref.edit()
         .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), getApp().fixture.getAccount1().getId())

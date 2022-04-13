@@ -15,23 +15,15 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
-import android.net.Uri;
-
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
+import android.net.Uri;
+
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 @Deprecated
 public class Category extends Model {
@@ -62,74 +54,9 @@ public class Category extends Model {
   public static final String[] PROJECTION = new String[]{KEY_ROWID, KEY_LABEL, KEY_PARENTID};
   public static final Uri CONTENT_URI = TransactionProvider.CATEGORIES_URI;
 
-  /**
-   * inserts a new category if id = 0, or alters an existing one if id != 0
-   *
-   * @param id       0 if a new instance, database id otherwise
-   * @param parentId a new instance is created under this parent, ignored for existing instances
-   * @return id of new record, or -1, if it already exists
-   */
-  public static long write(long id, String label, Long parentId) {
-    Uri uri = new Category(id, label, parentId).save();
-    return uri == null ? -1 : Integer.parseInt(uri.getLastPathSegment());
-  }
-
-  /**
-   * Looks for a cat with a label under a given parent
-   *
-   * @return id or -1 if not found
-   */
-  public static long find(String label, Long parentId) {
-    label = StringUtils.strip(label);
-    String selection;
-    String[] selectionArgs;
-    if (parentId == null) {
-      selection = KEY_PARENTID + " is null";
-      selectionArgs = new String[]{label};
-    } else {
-      selection = KEY_PARENTID + " = ?";
-      selectionArgs = new String[]{String.valueOf(parentId), label};
-    }
-    selection += " and " + KEY_LABEL + " = ?";
-    Cursor mCursor = cr().query(CONTENT_URI,
-        new String[]{KEY_ROWID}, selection, selectionArgs, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return -1;
-    } else {
-      mCursor.moveToFirst();
-      long result = mCursor.getLong(0);
-      mCursor.close();
-      return result;
-    }
-  }
-
   @Override
   public Uri save() {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_LABEL, getLabel());
-    initialValues.put(KEY_LABEL_NORMALIZED, Utils.normalize(getLabel()));
-    if (color != 0) {
-      initialValues.put(KEY_COLOR, color);
-    }
-    initialValues.put(KEY_ICON, icon);
-    Uri uri;
-    if (getId() == 0) {
-      initialValues.put(KEY_PARENTID, parentId);
-      try {
-        uri = cr().insert(CONTENT_URI, initialValues);
-      } catch (SQLiteConstraintException e) {
-        uri = null;
-      }
-    } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
-      try {
-        if (cr().update(uri, initialValues, null, null) == 0) return null;
-      } catch (SQLiteConstraintException e) {
-        uri = null;
-      }
-    }
-    return uri;
+    throw new NotImplementedException();
   }
 
   public String getLabel() {
@@ -140,10 +67,4 @@ public class Category extends Model {
     this.label = StringUtils.strip(label);
   }
 
-  public static boolean updateColor(Long id, Integer color) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_COLOR, color);
-    return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        initialValues, null, null) == 1;
-  }
 }

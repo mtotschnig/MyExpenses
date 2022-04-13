@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.data.Category2
@@ -128,7 +129,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
 
     fun saveCategory(category: Category2): Uri? {
         val initialValues = ContentValues().apply {
-            put(KEY_LABEL, category.label)
+            put(KEY_LABEL, category.label.trim())
             put(KEY_LABEL_NORMALIZED, Utils.normalize(category.label))
             category.color.takeIf { it != 0 }?.let {
                 put(KEY_COLOR, it)
@@ -140,9 +141,9 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
         }
         return try {
             if (category.id == 0L) {
-                contentResolver.insert(TransactionProvider.CATEGORIES_URI, initialValues)
+                contentResolver.insert(CATEGORIES_URI, initialValues)
             } else {
-                TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(category.id.toString()).build().let {
+                CATEGORIES_URI.buildUpon().appendPath(category.id.toString()).build().let {
                     if (contentResolver.update(it, initialValues, null, null) == 0)
                         null else it
                 }
@@ -154,7 +155,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
 
     fun moveCategory(source: Long, target: Long?) = try {
         contentResolver.update(
-            TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(source.toString())
+            CATEGORIES_URI.buildUpon().appendPath(source.toString())
                 .build(),
             ContentValues().apply {
                 put(KEY_PARENTID, target)
@@ -167,23 +168,50 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     }
 
     fun deleteCategory(id: Long) = contentResolver.delete(
-        ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, id),
+        ContentUris.withAppendedId(CATEGORIES_URI, id),
         null,
         null
     ) > 0
 
     fun updateCategoryColor(id: Long, color: Int?) = contentResolver.update(
-        ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, id),
+        ContentUris.withAppendedId(CATEGORIES_URI, id),
         ContentValues().apply {
             put(KEY_COLOR, color)
         }, null, null
     ) == 1
 
+    /**
+     * Looks for a cat with a label under a given parent
+     *
+     * @return id or -1 if not found
+     */
+    fun findCategory(label: String, parentId: Long? = null): Long {
+        val stripped = label.trim()
+        val (parentSelection, parentSelectionArgs) = if (parentId == null) {
+            "$KEY_PARENTID is null" to emptyArray()
+        } else {
+            "$KEY_PARENTID = ?" to arrayOf(parentId.toString())
+        }
+        return contentResolver.query(
+            CATEGORIES_URI,
+            arrayOf(KEY_ROWID),
+            "$KEY_LABEL = ? AND $parentSelection",
+            arrayOf(stripped) + parentSelectionArgs,
+            null
+        )?.use {
+            if (it.count == 0) -1 else {
+                it.moveToFirst()
+                it.getLong(0)
+            }
+        } ?: -1
+    }
+
     fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): Int {
-        return contentResolver.query(uri, arrayOf("count(*)"), selection, selectionArgs, null, null)?.use {
-            it.moveToFirst()
-            it.getInt(0)
-        } ?: 0
+        return contentResolver.query(uri, arrayOf("count(*)"), selection, selectionArgs, null, null)
+            ?.use {
+                it.moveToFirst()
+                it.getInt(0)
+            } ?: 0
     }
 }
 

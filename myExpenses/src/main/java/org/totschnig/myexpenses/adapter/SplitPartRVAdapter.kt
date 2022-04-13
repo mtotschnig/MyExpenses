@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SplitPartRowBinding
-import org.totschnig.myexpenses.model.Category
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.viewmodel.data.Category2
 
 class SplitPartRVAdapter(
     context: Context,
@@ -74,7 +74,7 @@ class SplitPartRVAdapter(
                 append(
                     when {
                         transaction.isTransfer -> Transfer.getIndicatorPrefixForLabel(transaction.amountRaw) + transaction.label
-                        else -> transaction.label ?: Category.NO_CATEGORY_ASSIGNED_LABEL
+                        else -> transaction.label ?: Category2.NO_CATEGORY_ASSIGNED_LABEL
                     }
                 )
                 transaction.comment.takeIf { !it.isNullOrBlank() }?.let {

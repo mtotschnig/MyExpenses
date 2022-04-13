@@ -18,7 +18,6 @@ android {
 
 dependencies {
     implementation project(":myExpenses")
-    implementation 'com.annimon:stream:1.2.1'
     implementation('com.gitlab.mtotschn:dav4android:2c26db1e24')
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

@@ -55,7 +55,8 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
     ) {
         syncDelegate = SyncDelegate(
             currencyContext,
-            (context.applicationContext as MyApplication).appComponent.featureManager()
+            (context.applicationContext as MyApplication).appComponent.featureManager(),
+            (context.applicationContext as MyApplication).appComponent.repository()
         )
     }
 

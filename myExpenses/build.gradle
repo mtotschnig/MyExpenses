@@ -292,6 +292,7 @@ dependencies {
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     testImplementation "androidx.test:core:$androidSupportTestVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
     //noinspection GradleDependency

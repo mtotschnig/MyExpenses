@@ -27,20 +27,10 @@ import android.text.TextUtils
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.util.SparseBooleanArray
+import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.AdapterContextMenuInfo
-import android.widget.ImageView
-import android.widget.SimpleCursorAdapter
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
@@ -54,21 +44,11 @@ import icepick.Icepick
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.EDIT_REQUEST
-import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.ManageTemplates
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.databinding.TemplatesListBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.Category
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DbUtils
@@ -79,6 +59,7 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
@@ -658,7 +639,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             } else {
                 val catId = DbUtils.getLongOrNull(c, DatabaseConstants.KEY_CATID)
                 if (catId == null) {
-                    catText = Category.NO_CATEGORY_ASSIGNED_LABEL
+                    catText = Category2.NO_CATEGORY_ASSIGNED_LABEL
                 }
             }
             //TODO: simplify confer TemplateWidget

@@ -17,7 +17,6 @@ dependencies {
     implementation project(":myExpenses")
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
-    implementation 'com.annimon:stream:1.2.1'
 
     implementation 'com.dropbox.core:dropbox-core-sdk:5.1.1'
 }

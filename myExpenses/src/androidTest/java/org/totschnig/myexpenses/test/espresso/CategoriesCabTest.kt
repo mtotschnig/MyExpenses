@@ -50,7 +50,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
         account = Account("Test account 1", currency, 0, "",
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
-        categoryId = ContentUris.parseId(repository.saveCategory(Category2(label = "TestCategory"))!!)
+        categoryId = writeCategory(label = "TestCategory")
     }
 
     private fun launch() =

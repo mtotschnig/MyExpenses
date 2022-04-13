@@ -49,7 +49,7 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
 
     private fun fixtureWithMappedTransaction() {
         baseFixture {
-            categoryId = Category.write(0, "TestCategory", null)
+            categoryId = writeCategory("TestCategory")
             with(Transaction.getNewInstance(account.id)) {
                 amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
                 catId = categoryId

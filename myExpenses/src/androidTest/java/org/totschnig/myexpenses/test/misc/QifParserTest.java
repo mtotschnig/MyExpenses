@@ -10,6 +10,8 @@
 package org.totschnig.myexpenses.test.misc;
 
 import android.test.AndroidTestCase;
+
+import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.export.qif.*;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.testutils.DateTime;
@@ -19,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.totschnig.myexpenses.export.qif.QifDateFormat.*;
@@ -63,7 +66,7 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals("My Bank Account", p.accounts.get(1).memo);
         assertEquals("Bank", p.accounts.get(1).type);
     }
- 
+
     public void test_should_parse_account_list() throws IOException {
       parseQif(
          "!Option:AutoSwitch\n" +
@@ -114,7 +117,7 @@ public class QifParserTest extends AndroidTestCase {
       assertEquals("Payee 1", t.payee);
       assertEquals("Some note here...", t.memo);
     }
-    
+
     public void test_should_parse_account_with_a_couple_of_transactions() throws Exception {
         parseQif(
                 "!Type:Cat\n" +
@@ -145,13 +148,13 @@ public class QifParserTest extends AndroidTestCase {
 
         assertEquals(3, p.categories.size());
 
-        List<QifCategory> categories = getCategoriesList(p);
+        List<CategoryInfo> categories = getCategoriesList(p);
         assertEquals("P1", categories.get(0).getName());
-        assertEquals(false, categories.get(0).isIncome);
+        assertFalse(categories.get(0).getIncome());
         assertEquals("P1:c1", categories.get(1).getName());
-        assertEquals(false, categories.get(1).isIncome);
+        assertFalse(categories.get(1).getIncome());
         assertEquals("P2", categories.get(2).getName());
-        assertEquals(true, categories.get(2).isIncome);
+        assertTrue(categories.get(2).getIncome());
 
         assertEquals(1, p.accounts.size());
 
@@ -272,11 +275,11 @@ public class QifParserTest extends AndroidTestCase {
 
         assertEquals(2, p.categories.size());
 
-        List<QifCategory> categories = getCategoriesList(p);
+        List<CategoryInfo> categories = getCategoriesList(p);
         assertEquals("P1", categories.get(0).getName());
-        assertEquals(false, categories.get(0).isIncome);
+        assertFalse(categories.get(0).getIncome());
         assertEquals("P1:c1", categories.get(1).getName());
-        assertEquals(false, categories.get(1).isIncome);
+        assertFalse(categories.get(1).getIncome());
 
         assertEquals(1, p.accounts.size());
 
@@ -395,7 +398,7 @@ public class QifParserTest extends AndroidTestCase {
                 "LP2\n" +
                 "^\n");
 
-        Set<QifCategory> categories = p.categories;
+        Set<CategoryInfo> categories = p.categories;
         assertEquals(5, categories.size());
     }
 
@@ -652,11 +655,11 @@ public class QifParserTest extends AndroidTestCase {
 
     assertEquals(2, p.categories.size());
 
-    List<QifCategory> categories = getCategoriesList(p);
+    List<CategoryInfo> categories = getCategoriesList(p);
     assertEquals("P1", categories.get(0).getName());
-    assertEquals(false, categories.get(0).isIncome);
+    assertFalse(categories.get(0).getIncome());
     assertEquals("P1:c1", categories.get(1).getName());
-    assertEquals(false, categories.get(1).isIncome);
+    assertFalse(categories.get(1).getIncome());
   }
 
     public void test_should_parse_opening_balance_and_memo_from_first_entry() throws Exception {
@@ -691,7 +694,7 @@ public class QifParserTest extends AndroidTestCase {
                 "L[My Account Name]\n"
         );
         fail("Should not accept large amount input");
-      } catch (IllegalArgumentException e) {}
+      } catch (IllegalArgumentException ignored) {}
 
     }
 
@@ -700,15 +703,15 @@ public class QifParserTest extends AndroidTestCase {
     }
 
     public void parseQif(String fileContent, QifDateFormat dateFormat) throws IOException {
-        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileContent.getBytes()), "UTF-8")));
+        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileContent.getBytes()), StandardCharsets.UTF_8)));
         p = new QifParser(r, dateFormat, CurrencyUnit.Companion.getDebugInstance());
         p.parse();
     }
 
-    private List<QifCategory> getCategoriesList(QifParser p) {
-        List<QifCategory> categories = new ArrayList<>(p.categories.size());
+    private List<CategoryInfo> getCategoriesList(QifParser p) {
+        List<CategoryInfo> categories = new ArrayList<>(p.categories.size());
         categories.addAll(p.categories);
-        Collections.sort(categories, (c1, c2) -> c1.getName().compareTo(c2.getName()));
+        Collections.sort(categories, Comparator.comparing(CategoryInfo::getName));
         return categories;
     }
 

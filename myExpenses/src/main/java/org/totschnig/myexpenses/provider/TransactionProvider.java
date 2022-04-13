@@ -15,6 +15,19 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
+import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
+import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
+
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
@@ -30,13 +43,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
@@ -68,23 +84,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
-import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
-import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
@@ -535,7 +535,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           qb.setTables(TABLE_CATEGORIES);
           qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
           if (projection == null) {
-            projection = Category.PROJECTION;
+            projection = new String[]{KEY_ROWID, KEY_LABEL, KEY_PARENTID};
           }
           break;
         }

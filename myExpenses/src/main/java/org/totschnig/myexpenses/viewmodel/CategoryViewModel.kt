@@ -322,7 +322,7 @@ open class CategoryViewModel(
                             add(
                                 Category2(
                                     nextId,
-                                    parentId ?: 0L,
+                                    parentId,
                                     nextLevel,
                                     nextLabel,
                                     nextPath,

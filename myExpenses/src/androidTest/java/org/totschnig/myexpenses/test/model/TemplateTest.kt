@@ -17,13 +17,7 @@ package org.totschnig.myexpenses.test.model
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.Category
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Payee
-import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.*
 
 class TemplateTest : ModelTest() {
     private lateinit var mAccount1: Account
@@ -38,7 +32,7 @@ class TemplateTest : ModelTest() {
         mAccount1.save()
         mAccount2 = Account("TestAccount 2", 100, "Secondary account")
         mAccount2.save()
-        categoryId = Category.write(0, "TestCategory", null)
+        categoryId = writeCategory("TestCategory", null)
         payeeId = Payee.maybeWrite("N.N")
     }
 

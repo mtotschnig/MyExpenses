@@ -1,12 +1,15 @@
 package org.totschnig.myexpenses.sync
 
 import android.content.ContentProviderOperation
+import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -25,17 +28,21 @@ class SyncAdapterWriteToDbTest {
     }
 
     private fun setupSync() {
-        syncDelegate = SyncDelegate(currencyContext(), featureManager())
+        syncDelegate = SyncDelegate(currencyContext, featureManager, repository)
         syncDelegate.account = Account()
     }
 
     private fun setupSyncWithFakeResolver() {
-        syncDelegate = SyncDelegate(currencyContext(), featureManager()) { _, _ -> 1 }
+        syncDelegate = SyncDelegate(currencyContext, featureManager, repository) { _, _ -> 1 }
         syncDelegate.account = Account()
     }
 
-    private fun currencyContext() = Mockito.mock(CurrencyContext::class.java)
-    private fun featureManager() = Mockito.mock(FeatureManager::class.java)
+    private val currencyContext = Mockito.mock(CurrencyContext::class.java)
+    private val featureManager = Mockito.mock(FeatureManager::class.java)
+    private val repository = Repository(
+        ApplicationProvider.getApplicationContext<MyApplication>(),
+        currencyContext
+    )
 
     @Test
     fun createdChangeShouldBeCollectedAsInsertOperation() {

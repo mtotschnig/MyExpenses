@@ -11,6 +11,7 @@ package org.totschnig.myexpenses.export.qif;
 
 import android.text.TextUtils;
 
+import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 
 import java.io.IOException;
@@ -30,8 +31,8 @@ public class QifParser {
   private final QifDateFormat dateFormat;
 
   public final List<QifAccount> accounts = new ArrayList<>();
-  public final Set<QifCategory> categories = new HashSet<>();
-  private final Set<QifCategory> categoriesFromTransactions = new HashSet<>();
+  public final Set<CategoryInfo> categories = new HashSet<>();
+  private final Set<CategoryInfo> categoriesFromTransactions = new HashSet<>();
   public final Set<String> payees = new HashSet<>();
   public final Set<String> classes = new HashSet<>();
   private final CurrencyUnit currency;
@@ -85,8 +86,7 @@ public class QifParser {
 
   private void parseCategories() throws IOException {
     do {
-      QifCategory category = new QifCategory();
-      category.readFrom(r);
+      CategoryInfo category = CategoryInfo.readFrom(r);
       if (category.getName() != null) {
         categories.add(category);
       }
@@ -140,7 +140,7 @@ public class QifParser {
       }
     } else {
       if (!TextUtils.isEmpty(t.category)) {
-        QifCategory c = new QifCategory(t.category, false);
+        CategoryInfo c = new CategoryInfo(t.category, false);
         categoriesFromTransactions.add(c);
       }
       if (!TextUtils.isEmpty(t.categoryClass)) {

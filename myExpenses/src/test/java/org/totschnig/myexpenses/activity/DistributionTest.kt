@@ -1,11 +1,13 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
@@ -20,9 +22,13 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.util.*
 
 @Ignore("Robolectric does not seem to be able interact with Compose Popups, we run this connected at the moment")
@@ -33,6 +39,12 @@ class DistributionTest {
     val composeTestRule = createEmptyComposeRule()
     val targetContext: Context
         get() = InstrumentationRegistry.getInstrumentation().targetContext
+
+    private val repository: Repository
+        get() = Repository(
+            ApplicationProvider.getApplicationContext<MyApplication>(),
+            Mockito.mock(CurrencyContext::class.java)
+        )
 
     val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
@@ -50,7 +62,7 @@ class DistributionTest {
 
     private fun fixtureWithMappedTransaction() {
         baseFixture {
-            categoryId = Category.write(0, "TestCategory", null)
+            categoryId =  ContentUris.parseId(repository.saveCategory(Category2(label = "TestCategory"))!!)
             with(Transaction.getNewInstance(account.id)) {
                 amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
                 catId = categoryId

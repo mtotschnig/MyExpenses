@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.util;
 
+import static android.text.format.DateUtils.DAY_IN_MILLIS;
+
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -25,7 +27,6 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.InsetDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
@@ -38,6 +39,12 @@ import android.util.Xml;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.squareup.phrase.Phrase;
@@ -46,7 +53,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -86,14 +92,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 import timber.log.Timber;
-
-import static android.text.format.DateUtils.DAY_IN_MILLIS;
 
 /**
  * Util class with helper methods
@@ -453,50 +452,6 @@ public class Utils {
       }
       if (task != null && i % 10 == 0) {
         task.publishProgress(i);
-      }
-    }
-    return total;
-  }
-
-  public static int importCats(CategoryTree catTree, GrisbiImportTask task) {
-    int count = 0, total = 0;
-    String label;
-    long main_id, sub_id;
-
-    int size = catTree.children().size();
-    for (int i = 0; i < size; i++) {
-      CategoryTree mainCat = catTree.children().valueAt(i);
-      label = mainCat.getLabel();
-      count++;
-      main_id = Category.find(label, null);
-      if (main_id != -1) {
-        Timber.i("category with label %s already defined", label);
-      } else {
-        main_id = Category.write(0L, label, null);
-        if (main_id != -1) {
-          total++;
-          if (task != null && count % 10 == 0) {
-            task.publishProgress(count);
-          }
-        } else {
-          // this should not happen
-          Timber.w("could neither retrieve nor store main category %s", label);
-          continue;
-        }
-      }
-      int subSize = mainCat.children().size();
-      for (int j = 0; j < subSize; j++) {
-        label = mainCat.children().valueAt(j).getLabel();
-        count++;
-        sub_id = Category.write(0L, label, main_id);
-        if (sub_id != -1) {
-          total++;
-        } else {
-          Timber.i("could not store sub category %s", label);
-        }
-        if (task != null && count % 10 == 0) {
-          task.publishProgress(count);
-        }
       }
     }
     return total;

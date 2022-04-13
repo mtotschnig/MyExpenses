@@ -12,10 +12,10 @@ import junit.framework.Assert;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.debug.test.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
@@ -47,6 +47,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 public class Fixture {
   private final Context testContext;
   private final MyApplication appContext;
+  private Repository repository;
   private Account account1, account2, account3, account4;
 
   public String getSyncAccount1() {
@@ -78,7 +79,8 @@ public class Fixture {
     return account3;
   }
 
-  public void setup(boolean withPicture) {
+  public void setup(boolean withPicture, Repository repository) {
+    this.repository = repository;
     CurrencyUnit defaultCurrency = Utils.getHomeCurrency();
     CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(defaultCurrency.getCode().equals("EUR") ? "GBP" : "EUR");
 
@@ -135,7 +137,7 @@ public class Fixture {
       final TransactionBuilder builder = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(12000))
-          .catId(R.string.testData_transaction1SubCat, mainCat1)
+          .catId(findCat(R.string.testData_transaction1SubCat, mainCat1))
           .date(offset - 300000);
       if (withPicture) {
         builder.pictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")));
@@ -146,7 +148,7 @@ public class Fixture {
       Transaction op2 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(2200L))
-          .catId(R.string.testData_transaction2SubCat, mainCat2)
+          .catId(findCat(R.string.testData_transaction2SubCat, mainCat2))
           .date(offset - 7200000)
           .comment(testContext.getString(R.string.testData_transaction2Comment))
           .persist();
@@ -155,7 +157,7 @@ public class Fixture {
       Transaction op3 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(2500L))
-          .catId(R.string.testData_transaction3SubCat, mainCat3)
+          .catId(findCat(R.string.testData_transaction3SubCat, mainCat3))
           .date(offset - 72230000)
           .crStatus(CrStatus.CLEARED)
           .persist();
@@ -164,7 +166,7 @@ public class Fixture {
       Transaction op4 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(5000L))
-          .catId(R.string.testData_transaction4SubCat, mainCat2)
+          .catId(findCat(R.string.testData_transaction4SubCat, mainCat2))
           .payee(R.string.testData_transaction4Payee)
           .date(offset - 98030000)
           .crStatus(CrStatus.CLEARED)
@@ -283,8 +285,12 @@ public class Fixture {
     Timber.d("Set up %d categories", integerIntegerPair.getFirst());
   }
 
-  private static long findCat(String label, Long parent) {
-    Long result = Category.find(label, parent);
+  private long findCat(int resId, Long parent) {
+    return findCat(testContext.getString(resId), parent);
+  }
+
+  private long findCat(String label, Long parent) {
+    Long result = repository.findCategory(label, parent);
     if (result == -1) {
       throw new RuntimeException("Could not find category");
     }
@@ -324,11 +330,6 @@ public class Fixture {
 
     private TransactionBuilder amount(CurrencyUnit currency, long amountMinor) {
       this.amount = new Money(currency, amountMinor);
-      return this;
-    }
-
-    private TransactionBuilder catId(int resId, Long parentId) {
-      this.catId = findCat(context.getString(resId), parentId);
       return this;
     }
 

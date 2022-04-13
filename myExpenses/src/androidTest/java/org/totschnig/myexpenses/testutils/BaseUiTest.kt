@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.testutils
 
 import android.app.Activity
+import android.content.ContentUris
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -38,6 +39,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import org.totschnig.myexpenses.debug.test.R as RT
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
@@ -231,4 +233,7 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
                 .atPosition(1)
                 .perform(ViewActions.longClick())
     }
+
+    protected fun writeCategory(label: String, parentId: Long? = null) =
+        ContentUris.parseId(repository.saveCategory(Category2(label = label, parentId = parentId))!!)
 }

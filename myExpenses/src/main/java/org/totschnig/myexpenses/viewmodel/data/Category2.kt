@@ -71,5 +71,6 @@ data class Category2(
 
     companion object {
         val LOADING = Category2(label = "EMPTY")
+        const val NO_CATEGORY_ASSIGNED_LABEL = "—"
     }
 }

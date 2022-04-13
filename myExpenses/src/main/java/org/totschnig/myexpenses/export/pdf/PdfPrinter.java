@@ -55,7 +55,6 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
@@ -73,6 +72,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
+import org.totschnig.myexpenses.viewmodel.data.Category2;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
 import java.io.IOException;
@@ -416,7 +416,7 @@ public class PdfPrinter {
                 splitText = "[" + splitText + "]";
               }
             } else {
-              splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
+              splitText = Category2.NO_CATEGORY_ASSIGNED_LABEL;
             }
             splitText += " " + convAmount(currencyFormatter, splits.getLong(
                 splits.getColumnIndexOrThrow(KEY_AMOUNT)), account.getCurrencyUnit());
@@ -433,7 +433,7 @@ public class PdfPrinter {
           catText = catTextBuilder.toString();
           splits.close();
         } else if (catId == null) {
-          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
+          catText = Category2.NO_CATEGORY_ASSIGNED_LABEL;
         }
       }
       if (account.getId() < 0) {

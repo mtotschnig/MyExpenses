@@ -1,19 +1,18 @@
 package org.totschnig.myexpenses.testutils;
 
+import static org.hamcrest.Matchers.is;
+
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+
+import androidx.test.espresso.matcher.BoundedMatcher;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.totschnig.myexpenses.dialog.select.DataHolder;
-import org.totschnig.myexpenses.viewmodel.data.Category;
-
-import androidx.test.espresso.matcher.BoundedMatcher;
-
-import static org.hamcrest.Matchers.is;
 
 public class Matchers {
   private Matchers() {
@@ -84,21 +83,6 @@ public class Matchers {
       public void describeTo(final Description description) {
         description.appendText("should return first matching item, but none was found: ");
         matcher.describeTo(description);
-      }
-    };
-  }
-
-  public static Matcher<Category> withCategoryLabel(Matcher<String> nameMatcher) {
-    return new TypeSafeMatcher<Category>() {
-      @Override
-      public boolean matchesSafely(Category category) {
-        return nameMatcher.matches(category.getLabel());
-      }
-
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("should return category with label: ");
-        nameMatcher.describeTo(description);
       }
     };
   }

@@ -18,13 +18,10 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
 
-import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.os.RemoteException;
 
 import androidx.test.espresso.matcher.CursorMatchers;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;

@@ -16,6 +16,8 @@
 
 package org.totschnig.myexpenses.task;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
@@ -25,10 +27,12 @@ import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.db2.CategoryHelper;
+import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.export.qif.QifAccount;
 import org.totschnig.myexpenses.export.qif.QifBufferedReader;
-import org.totschnig.myexpenses.export.qif.QifCategory;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.export.qif.QifParser;
 import org.totschnig.myexpenses.export.qif.QifTransaction;
@@ -57,9 +61,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import timber.log.Timber;
+import javax.inject.Inject;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import timber.log.Timber;
 
 public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -78,6 +82,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
   private CurrencyUnit currencyUnit;
 
+  @Inject
+  Repository repository;
+
   public QifImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.dateFormat = (QifDateFormat) b.getSerializable(TaskExecutionFragment.KEY_DATE_FORMAT);
@@ -88,6 +95,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     this.withTransactionsP = b.getBoolean(TaskExecutionFragment.KEY_WITH_TRANSACTIONS);
     this.currencyUnit = (CurrencyUnit) b.getSerializable(DatabaseConstants.KEY_CURRENCY);
     this.encoding = b.getString(TaskExecutionFragment.KEY_ENCODING);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override
@@ -249,9 +257,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     return count;
   }
 
-  private void insertCategories(Set<QifCategory> categories) {
-    for (QifCategory category : categories) {
-      totalCategories += category.insert(categoryToId, true);
+  private void insertCategories(Set<CategoryInfo> categories) {
+    for (CategoryInfo category : categories) {
+      totalCategories += CategoryHelper.INSTANCE.insert(repository, category.getName(), categoryToId, true);
     }
   }
 

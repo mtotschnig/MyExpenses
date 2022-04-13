@@ -15,24 +15,23 @@
 
 package org.totschnig.myexpenses.test.model;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+
 import android.database.Cursor;
 import android.net.Uri;
 
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.util.Date;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 public class TransactionTest extends ModelTest {
   private Account mAccount1;
@@ -202,8 +201,8 @@ public class TransactionTest extends ModelTest {
   }
 
   public void testIncreaseCatUsage() {
-    catId1 = Category.write(0, "Test category 1", null);
-    catId2 = Category.write(0, "Test category 2", null);
+    catId1 = writeCategory("Test category 1", null);
+    catId2 = writeCategory("Test category 2", null);
     assertEquals(getCatUsage(catId1), 0);
     assertEquals(getCatUsage(catId2), 0);
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());

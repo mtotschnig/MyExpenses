@@ -13,6 +13,7 @@ import org.apache.commons.text.StringTokenizer
 import org.apache.commons.text.matcher.StringMatcherFactory
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.AutoFillInfo
+import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
@@ -130,7 +131,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 }
             }
             if (!TextUtils.isEmpty(categoryInfo)) {
-                CategoryInfo(categoryInfo).insert(categoryToId, false)
+                CategoryHelper.insert(repository, categoryInfo!!, categoryToId, false)
                 t.catId = categoryToId[categoryInfo]
             }
             if (columnIndexDate != -1) {

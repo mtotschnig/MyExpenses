@@ -54,9 +54,9 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
             AccountType.CASH, Account.DEFAULT_COLOR
         )
         account.save()
-        val categoryId1 = writeCategory(catLabel1, null)
+        val categoryId1 = writeCategory(catLabel1)
         val categoryId1Sub = writeCategory(catLabel1Sub, categoryId1)
-        val categoryId2 = writeCategory(catLabel2, null)
+        val categoryId2 = writeCategory(catLabel2)
         val op = Transaction.getNewInstance(account.id)
         op.amount = Money(currency, -1200L)
         op.catId = categoryId1
@@ -66,9 +66,6 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
         op.catId = categoryId1Sub
         id1Sub = ContentUris.parseId(op.saveAsNew())
     }
-
-    private fun writeCategory(label: String, parentId: Long?) =
-        ContentUris.parseId(repository.saveCategory(Category2(label = label, parentId = parentId))!!)
 
     @Before
     @Throws(TimeoutException::class)

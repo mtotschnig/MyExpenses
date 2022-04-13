@@ -1,5 +1,10 @@
 package org.totschnig.myexpenses.task;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,7 +17,6 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -24,11 +28,6 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case

@@ -6,6 +6,8 @@ import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
 import androidx.core.util.Pair
 import org.apache.commons.collections4.ListUtils
+import org.totschnig.myexpenses.db2.CategoryHelper
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -27,7 +29,12 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.*
 
-class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContext, val featureManager: FeatureManager, val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid) {
+class SyncDelegate @JvmOverloads constructor(
+    val currencyContext: CurrencyContext,
+    val featureManager: FeatureManager,
+    val repository: Repository,
+    val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid
+) {
 
     private val categoryToId: MutableMap<String, Long> = HashMap()
     private val payeeToId: MutableMap<String, Long> = HashMap()
@@ -315,7 +322,7 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
     }
 
     private fun extractCatId(label: String): Long {
-        CategoryInfo(label).insert(categoryToId, false)
+        CategoryHelper.insert(repository = repository, label, categoryToId, false)
         return categoryToId[label] ?: -1
     }
 

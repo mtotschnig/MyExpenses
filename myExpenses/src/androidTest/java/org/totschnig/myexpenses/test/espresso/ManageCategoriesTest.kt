@@ -1,20 +1,16 @@
 package org.totschnig.myexpenses.test.espresso
 
-import org.totschnig.myexpenses.testutils.BaseUiTest
-import org.totschnig.myexpenses.activity.ManageCategories
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import kotlin.Throws
-import androidx.test.espresso.matcher.ViewMatchers
-import org.totschnig.myexpenses.R
-import androidx.test.espresso.action.ViewActions
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.google.common.truth.Truth.assertThat
-import org.junit.AfterClass
 import org.junit.Rule
 import org.junit.Test
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.model.Category
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso
 import java.util.concurrent.TimeoutException
 
