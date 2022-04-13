@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
-import android.util.SparseArray
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
@@ -25,7 +24,6 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
@@ -86,7 +84,6 @@ open class CategoryViewModel(
             filter = filter,
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort),
             projection = null,
-            withSubColors = false,
             keepCriteria = null
         )
     }
@@ -99,7 +96,6 @@ open class CategoryViewModel(
         filter: String?,
         sortOrder: String? = null,
         projection: Array<String>? = null,
-        withSubColors: Boolean = false,
         additionalSelectionArgs: Array<String>? = null,
         queryParameter: String? = null,
         keepCriteria: ((Category2) -> Boolean)? = null
@@ -118,7 +114,7 @@ open class CategoryViewModel(
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
             sortOrder ?: KEY_LABEL,
             true
-        ).mapToTree(withSubColors, keepCriteria)
+        ).mapToTree(keepCriteria)
     }
 
     private fun categoryUri(queryParameter: String?): Uri =
@@ -132,7 +128,6 @@ open class CategoryViewModel(
             .build()
 
     private fun Flow<Query>.mapToTree(
-        withSubColors: Boolean = false,
         keepCriteria: ((Category2) -> Boolean)?
     ): Flow<Category2> = transform { query ->
         Timber.d("new emission")
@@ -148,7 +143,6 @@ open class CategoryViewModel(
                         getApplication(),
                         cursor,
                         null,
-                        if (withSubColors) 0 else null,
                         1
                     ),
                     isMatching = true,
@@ -303,39 +297,22 @@ open class CategoryViewModel(
     }
 
     companion object {
-        private val subColorMap = SparseArray<List<Int>>()
-        fun getSubColors(color: Int): List<Int?>? {
-            val isLight = true // TODO UiUtils.themeBoolAttr(this, R.attr.isLightTheme)
-            var result: List<Int?>? = subColorMap.get(color)
-            if (result == null) {
-                result = if (isLight) ColorUtils.getShades(color) else ColorUtils.getTints(color)
-                subColorMap.put(color, result)
-            }
-            return result
-        }
 
-        /**
-         * @param parentColor if null no subColors will be calculated, if 0, no subColors for the current
-         * level, but color will be passed on to next level fo
-         */
         fun ingest(
             context: Context,
             cursor: Cursor,
             parentId: Long?,
-            parentColor: Int?,
             level: Int
         ): List<Category2> =
             buildList {
                 if (!cursor.isBeforeFirst) {
-                    val subColors = parentColor?.takeIf { it != 0 }?.let { getSubColors(it) }
                     var index = 0
                     while (!cursor.isAfterLast) {
                         val nextParent = cursor.getLongOrNull(KEY_PARENTID)
                         val nextId = cursor.getLong(KEY_ROWID)
                         val nextLabel = cursor.getString(KEY_LABEL)
                         val nextPath = cursor.getString(KEY_PATH)
-                        val nextColor =
-                            subColors?.let { it[index % it.size] } ?: cursor.getIntOrNull(KEY_COLOR)
+                        val nextColor = cursor.getIntOrNull(KEY_COLOR)
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
@@ -357,7 +334,6 @@ open class CategoryViewModel(
                                         context,
                                         cursor,
                                         nextId,
-                                        if (parentColor == null) null else nextColor,
                                         level + 1
                                     ),
                                     nextIsMatching,

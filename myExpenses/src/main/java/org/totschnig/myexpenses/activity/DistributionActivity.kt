@@ -3,12 +3,14 @@ package org.totschnig.myexpenses.activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.SparseArray
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.Menu
 import android.widget.CompoundButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SwitchCompat
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.LocalTextStyle
@@ -54,6 +56,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
+import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
@@ -70,6 +73,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
     private val showChart = mutableStateOf(false)
     private var mDetector: GestureDetector? = null
 
+    private val subColorMap = SparseArray<List<Int>>()
+    private fun getSubColors(color: Int, isDark: Boolean): List<Int> {
+        return subColorMap.get(color)
+            ?: (if (isDark) ColorUtils.getTints(color) else ColorUtils.getShades(color)).also {
+                subColorMap.put(color, it)
+            }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.distribution, menu)
         menuInflater.inflate(R.menu.grouping, menu)
@@ -77,9 +88,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
             menu.findItem(R.id.switchId).actionView.findViewById(R.id.TaType)
         typeButton.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             prefHandler.putBoolean(prefKey, isChecked)
-            viewModel.setIncomeType(
-                isChecked
-            )
+            viewModel.setIncomeType(isChecked)
             reset()
         }
         super.onCreateOptionsMenu(menu)
@@ -188,12 +197,21 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
 
         binding.composeView.setContent {
             AppTheme(this) {
+                val isDark = isSystemInDarkTheme()
                 val configuration = LocalConfiguration.current
                 val categoryTree =
-                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category2.EMPTY)
+                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category2.EMPTY).value.withSubColors {
+                        getSubColors(it, isDark)
+                    }
 
                 val chartCategoryTree = derivedStateOf {
-                    (expansionState.lastOrNull() ?: categoryTree.value)
+                    //expansionState does not reflect updates to the data, that is why we just use it
+                    //to walk down the updated tree and find the expanded category
+                    var result = categoryTree
+                    expansionState.forEach { expanded ->
+                        result = result.children.find { it.id == expanded.id } ?: result
+                    }
+                    result
                 }
                 LaunchedEffect(chartCategoryTree.value) {
                     setChartData(chartCategoryTree.value.children)
@@ -223,7 +241,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                     }
                 }
                 val accountInfo = viewModel.accountInfo.collectAsState(null)
-                if (categoryTree.value.children.isEmpty()) {
+                if (categoryTree.children.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Text(
                             text = stringResource(id = R.string.no_mapped_transactions),
@@ -238,7 +256,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                                 Row(modifier = Modifier.weight(1f)) {
                                     RenderTree(
                                         modifier = Modifier.weight(0.5f),
-                                        category = categoryTree.value,
+                                        category = categoryTree,
                                         choiceMode = choiceMode,
                                         expansionMode = expansionMode,
                                         accountInfo = accountInfo.value
@@ -257,7 +275,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                             Column {
                                 RenderTree(
                                     modifier = Modifier.weight(0.5f),
-                                    category = categoryTree.value,
+                                    category = categoryTree,
                                     choiceMode = choiceMode,
                                     expansionMode = expansionMode,
                                     accountInfo = accountInfo.value

@@ -32,17 +32,25 @@ data class Category2(
         val criteria = _criteria ?: { it.isMatching }
         val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
         return if (id == 0L || criteria(this) || prunedChildren.isNotEmpty()) {
-            this.copy(children = prunedChildren)
+            copy(children = prunedChildren)
         } else null
     }
 
     fun sortChildrenBySumRecursive(): Category2 = if (children.isEmpty()) this else
-        this.copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue }.map {
+        copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue }.map {
             it.sortChildrenBySumRecursive()
         })
 
+    fun withSubColors(subColorProvider: (Int) -> List<Int>): Category2 =
+        if (children.isEmpty()) this else
+            copy(children = (if (color == null) children else {
+                val subColors = subColorProvider(color)
+                children.mapIndexed { index, category -> category.copy(color = subColors[index % subColors.size]) }
+            }).map { it.withSubColors(subColorProvider) })
+
+
     fun sortChildrenByBudgetRecursive(): Category2 = if (children.isEmpty()) this else
-        this.copy(children = children.sortedByDescending { it.budget }.map {
+        copy(children = children.sortedByDescending { it.budget }.map {
             it.sortChildrenByBudgetRecursive()
         })
 

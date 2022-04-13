@@ -268,11 +268,10 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
                 add(sumColumn(accountInfo, incomeType, groupingInfo, filterPersistence))
                 if (accountInfo is Budget) add(FQCN_CATEGORIES_BUDGET)
             }.toTypedArray(),
-            withSubColors = true,
-            keepCriteria = keepCriteria,
-            queryParameter = queryParameter,
             additionalSelectionArgs = (filterPersistence?.whereFilter?.getSelectionArgs(true) ?: emptyArray<String>()) +
-            ((accountInfo as? Budget)?.id?.let { arrayOf(it.toString()) } ?: emptyArray())
+            ((accountInfo as? Budget)?.id?.let { arrayOf(it.toString()) } ?: emptyArray()),
+            queryParameter = queryParameter,
+            keepCriteria = keepCriteria
         )
 
     private fun sumColumn(

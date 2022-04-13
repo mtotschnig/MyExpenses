@@ -197,8 +197,8 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                             menuGenerator = { if (action == Action.SELECT_FILTER) null else Menu(
                                listOf(
                                    MenuEntry.edit { editCat(it) },
-                                   MenuEntry.delete {
-                                       if (it.flatten().map { it.id }.contains(protectionInfo?.id)) {
+                                   MenuEntry.delete { category ->
+                                       if (category.flatten().map { it.id }.contains(protectionInfo?.id)) {
                                            showSnackBar(
                                                resources.getQuantityString(
                                                    if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
@@ -207,7 +207,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                                )
                                            )
                                        } else {
-                                           viewModel.deleteCategories(listOf(it.id))
+                                           viewModel.deleteCategories(listOf(category.id))
                                        }
                                    },
                                    MenuEntry(
