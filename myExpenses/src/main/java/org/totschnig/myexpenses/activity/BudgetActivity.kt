@@ -6,8 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.ChipGroup
@@ -73,46 +78,57 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         binding.composeView.setContent {
             AppTheme(this) {
                 val category =
-                    viewModel.categoryTreeForBudget.collectAsState(initial = Category2.EMPTY).value
+                    viewModel.categoryTreeForBudget.collectAsState(initial = Category2.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value
                 val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                 val sort = viewModel.sortOrder.collectAsState()
                 val filterPersistence = viewModel.filterPersistence.collectAsState().value
-                if (category != Category2.EMPTY && budget != null) {
-                    Column {
-                        AndroidView(factory = {
-                            ChipGroup(it)
-                        }, update = { chipGroup ->
-                            chipGroup.addChipsBulk(buildList {
-                                add(budget.label(this@BudgetActivity))
-                                filterPersistence?.whereFilter?.criteria?.map {
-                                    it.prettyPrint(this@BudgetActivity)
-                                }?.let { addAll(it) }
-                            })
-                        }
-
+                Box(modifier = Modifier.fillMaxSize()) {
+                    if (category == Category2.LOADING || budget == null) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .size(96.dp)
+                                .align(Alignment.Center)
                         )
-                        Budget(
-                            category = category.copy(
-                                budget = budget.amount.amountMinor,
-                                sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,
-                            ).let {
-                                when (sort.value) {
-                                    Sort.SPENT -> it.sortChildrenBySumRecursive()
-                                    Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
-                                    else -> it
+                    } else {
+                        Column {
+                            AndroidView(
+                                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin)),
+                                factory = { ChipGroup(it) },
+                                update = { chipGroup ->
+                                    chipGroup.addChipsBulk(buildList {
+                                        add(budget.label(this@BudgetActivity))
+                                        filterPersistence?.whereFilter?.criteria?.map {
+                                            it.prettyPrint(this@BudgetActivity)
+                                        }?.let { addAll(it) }
+                                    })
                                 }
-                            },
-                            expansionMode = ExpansionMode.DefaultCollapsed(rememberMutableStateListOf()),
-                            currency = budget.currency,
-                            onBudgetEdit = { cat, parent ->
-                                showEditBudgetDialog(
-                                    cat,
-                                    parent,
-                                    budget.currency
-                                )
-                            }
-                        )
+
+                            )
+                            Budget(
+                                category = category.copy(
+                                    budget = budget.amount.amountMinor,
+                                    sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,
+                                ).let {
+                                    when (sort.value) {
+                                        Sort.SPENT -> it.sortChildrenBySumRecursive()
+                                        Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
+                                        else -> it
+                                    }
+                                },
+                                expansionMode = ExpansionMode.DefaultCollapsed(
+                                    rememberMutableStateListOf()
+                                ),
+                                currency = budget.currency,
+                                onBudgetEdit = { cat, parent ->
+                                    showEditBudgetDialog(
+                                        cat,
+                                        parent,
+                                        budget.currency
+                                    )
+                                }
+                            )
+                        }
                     }
                 }
             }

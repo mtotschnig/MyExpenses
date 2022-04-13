@@ -12,10 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SwitchCompat
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Palette
@@ -200,7 +197,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                 val isDark = isSystemInDarkTheme()
                 val configuration = LocalConfiguration.current
                 val categoryTree =
-                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category2.EMPTY).value.withSubColors {
+                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category2.LOADING).value.withSubColors {
                         getSubColors(it, isDark)
                     }
 
@@ -241,52 +238,63 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                     }
                 }
                 val accountInfo = viewModel.accountInfo.collectAsState(null)
-                if (categoryTree.children.isEmpty()) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(
-                            text = stringResource(id = R.string.no_mapped_transactions),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                } else {
-                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
-                    when (configuration.orientation) {
-                        Configuration.ORIENTATION_LANDSCAPE -> {
-                            Column {
-                                Row(modifier = Modifier.weight(1f)) {
-                                    RenderTree(
-                                        modifier = Modifier.weight(0.5f),
-                                        category = categoryTree,
-                                        choiceMode = choiceMode,
-                                        expansionMode = expansionMode,
-                                        accountInfo = accountInfo.value
-                                    )
-                                    RenderChart(
-                                        modifier = Modifier
-                                            .weight(0.5f)
-                                            .fillMaxHeight(),
-                                        categories = chartCategoryTree
-                                    )
-                                }
-                                RenderSumLine(accountInfo.value, sums)
-                            }
+                Box(modifier = Modifier.fillMaxSize()) {
+                    when {
+                        categoryTree == Category2.LOADING -> {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .size(96.dp)
+                                    .align(Alignment.Center)
+                            )
+                        }
+                        categoryTree.children.isEmpty() -> {
+                            Text(
+                                modifier = Modifier.align(Alignment.Center),
+                                text = stringResource(id = R.string.no_mapped_transactions),
+                                textAlign = TextAlign.Center
+                            )
                         }
                         else -> {
-                            Column {
-                                RenderTree(
-                                    modifier = Modifier.weight(0.5f),
-                                    category = categoryTree,
-                                    choiceMode = choiceMode,
-                                    expansionMode = expansionMode,
-                                    accountInfo = accountInfo.value
-                                )
-                                RenderChart(
-                                    modifier = Modifier
-                                        .weight(0.5f)
-                                        .fillMaxSize(),
-                                    categories = chartCategoryTree
-                                )
-                                RenderSumLine(accountInfo.value, sums)
+                            val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
+                            when (configuration.orientation) {
+                                Configuration.ORIENTATION_LANDSCAPE -> {
+                                    Column {
+                                        Row(modifier = Modifier.weight(1f)) {
+                                            RenderTree(
+                                                modifier = Modifier.weight(0.5f),
+                                                category = categoryTree,
+                                                choiceMode = choiceMode,
+                                                expansionMode = expansionMode,
+                                                accountInfo = accountInfo.value
+                                            )
+                                            RenderChart(
+                                                modifier = Modifier
+                                                    .weight(0.5f)
+                                                    .fillMaxHeight(),
+                                                categories = chartCategoryTree
+                                            )
+                                        }
+                                        RenderSumLine(accountInfo.value, sums)
+                                    }
+                                }
+                                else -> {
+                                    Column {
+                                        RenderTree(
+                                            modifier = Modifier.weight(0.5f),
+                                            category = categoryTree,
+                                            choiceMode = choiceMode,
+                                            expansionMode = expansionMode,
+                                            accountInfo = accountInfo.value
+                                        )
+                                        RenderChart(
+                                            modifier = Modifier
+                                                .weight(0.5f)
+                                                .fillMaxSize(),
+                                            categories = chartCategoryTree
+                                        )
+                                        RenderSumLine(accountInfo.value, sums)
+                                    }
+                                }
                             }
                         }
                     }

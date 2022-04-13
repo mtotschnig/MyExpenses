@@ -43,7 +43,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
             Category(
                 modifier = Modifier.weight(1f),
-                category = viewModel.categoryTreeForSelect.collectAsState(initial = Category2.EMPTY).value.copy(
+                category = viewModel.categoryTreeForSelect.collectAsState(initial = Category2.LOADING).value.copy(
                     label = stringResource(id = R.string.transform_subcategory_to_main)
                 ),
                 expansionMode = ExpansionMode.DefaultExpanded(rememberMutableStateListOf()),

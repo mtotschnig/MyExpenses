@@ -70,6 +70,6 @@ data class Category2(
         get() = sum + if (level == 0) 0 else children.sumOf { it.aggregateSum }
 
     companion object {
-        val EMPTY = Category2(label = "EMPTY")
+        val LOADING = Category2(label = "EMPTY")
     }
 }

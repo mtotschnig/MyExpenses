@@ -12,11 +12,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.model.Sort
@@ -87,7 +84,7 @@ open class CategoryViewModel(
             keepCriteria = null
         )
     }
-        .stateIn(viewModelScope, SharingStarted.Lazily, Category2.EMPTY)
+        .stateIn(viewModelScope, SharingStarted.Lazily, Category2.LOADING)
 
     val categoryTreeForSelect: Flow<Category2>
         get() = categoryTree("", sortOrder.value.toOrderByWithDefault(defaultSort))
@@ -130,7 +127,6 @@ open class CategoryViewModel(
     private fun Flow<Query>.mapToTree(
         keepCriteria: ((Category2) -> Boolean)?
     ): Flow<Category2> = transform { query ->
-        Timber.d("new emission")
         val value = withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
