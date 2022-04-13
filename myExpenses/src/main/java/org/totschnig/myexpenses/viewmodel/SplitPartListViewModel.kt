@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -27,7 +26,7 @@ class SplitPartListViewModel(application: Application) :
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
         loadJob?.cancel()
-        loadJob= viewModelScope.launch {
+        loadJob = viewModelScope.launch {
             contentResolver.observeQuery(
                 uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
                 else TransactionProvider.UNCOMMITTED_URI,

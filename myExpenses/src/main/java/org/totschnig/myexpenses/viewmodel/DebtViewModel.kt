@@ -46,7 +46,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
             null,
             null
         ).mapToOne {
-            Debt.fromCursor(it)
+            Debt.fromCursor(it, currencyContext)
         }.collect(this::emit)
     }
 
@@ -63,7 +63,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
 
     private fun transactionsFlow(debt: Debt): Flow<List<Transaction>> {
         var runningTotal: Long = 0
-        val homeCurrency = Utils.getHomeCurrency().code
+        val homeCurrency = Utils.getHomeCurrency()
         val amountColumn = if (debt.currency == homeCurrency) {
             "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${
                 getAmountHomeEquivalent(
@@ -145,14 +145,13 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
             }
         }
         val dateFormatter = getDateTimeFormatter(context)
-        val currency = currencyContext[debt.currency]
         return transactions.map { transaction ->
             Triple(
                 dateFormatter.format(transaction.date),
                 transaction.amount.takeIf { it != 0L }?.let {
-                    currencyFormatter.convAmount(it, currency)
+                    currencyFormatter.convAmount(it, debt.currency)
                 } ?: "",
-                currencyFormatter.convAmount(transaction.runningTotal, currency)
+                currencyFormatter.convAmount(transaction.runningTotal, debt.currency)
             )
         }
     }

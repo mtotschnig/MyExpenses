@@ -8,15 +8,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.enumValueOrNull
 
 enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
-    USAGES(R.id.SORT_USAGES_COMMAND), LAST_USED(R.id.SORT_LAST_USED_COMMAND), AMOUNT(R.id.SORT_AMOUNT_COMMAND), TITLE(
-        R.id.SORT_TITLE_COMMAND,
-        false
-    ),
-    LABEL(R.id.SORT_LABEL_COMMAND, false), CUSTOM(
-        R.id.SORT_CUSTOM_COMMAND,
-        false
-    ),
-    NEXT_INSTANCE(R.id.SORT_NEXT_INSTANCE_COMMAND), ALLOCATED(R.id.SORT_ALLOCATED_COMMAND), SPENT(R.id.SORT_SPENT_COMMAND);
+    USAGES(R.id.SORT_USAGES_COMMAND),
+    LAST_USED(R.id.SORT_LAST_USED_COMMAND),
+    AMOUNT(R.id.SORT_AMOUNT_COMMAND),
+    TITLE(R.id.SORT_TITLE_COMMAND, false),
+    LABEL(R.id.SORT_LABEL_COMMAND, false),
+    CUSTOM(R.id.SORT_CUSTOM_COMMAND, false),
+    NEXT_INSTANCE(R.id.SORT_NEXT_INSTANCE_COMMAND),
+    ALLOCATED(R.id.SORT_ALLOCATED_COMMAND),
+    SPENT(R.id.SORT_SPENT_COMMAND);
 
     private fun toDatabaseColumn() = when (this) {
         USAGES -> DatabaseConstants.KEY_USAGES
@@ -32,6 +32,12 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
 
     fun toOrderBy() = toDatabaseColumn()?.let {
         if (isDescending) "$it DESC" else it
+    }
+
+    fun toOrderByWithDefault(defaultSort: Sort): String? {
+        val orderBy = toOrderBy()
+        return if (orderBy == null || this == defaultSort) orderBy else
+            orderBy + ", " + defaultSort.toOrderBy()
     }
 
     companion object {
@@ -87,7 +93,7 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
             preferredOrderByRestricted(prefKey, prefHandler, defaultSort, accountSort)
 
         //returns null if the preferred Sort has null toOrderBy, otherwise the preferred Sort (with defaultOrderBy as secondary sort), otherwise the defaultOrderBy
-        private fun preferredOrderByRestricted(
+        fun preferredOrderByRestricted(
             prefKey: PrefKey,
             prefHandler: PrefHandler,
             defaultSort: Sort,

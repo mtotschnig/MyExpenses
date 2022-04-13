@@ -424,18 +424,8 @@
         <item quantity="many">%1$dעיסקאות שנבחרו  יימחקו.</item>
         <item quantity="other">%1$dעיסקאות שנבחרו  יימחקו.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">קטגוריה אחת הועברה בהצלחה.</item>
-        <item quantity="two">%d קטגוריות הועברו בהצלחה.</item>
-        <item quantity="many">%d קטגוריות הועברו בהצלחה.</item>
-        <item quantity="other">%d קטגוריות הועברו בהצלחה.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">קטגוריה אחת לא הועברה, כי אותה תווית כבר קיימת ביעד.</item>
-        <item quantity="two">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
-        <item quantity="many">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
-        <item quantity="other">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
-    </plurals>
+    <string name="move_category_success">קטגוריה אחת הועברה בהצלחה.</string>
+    <string name="move_category_failure">קטגוריה אחת לא הועברה, כי אותה תווית כבר קיימת ביעד.</string>
     <string name="warning_delete_reconciled">מחיקת עסקאות שהושלמו תגרום לרשומות שלך להיות שונות מהצהרת הבנק.</string>
     <string name="warning_balance_account">השווה את הסכום הכולל שסומן cleared עם יתרת הסיום בהצהרת הבנק שלך. אם תמשיך, עסקאות מסומנות יסומנו reconciled.</string>
     <string name="warning_password_protected">היישויון מוגן בסיסמה.</string>

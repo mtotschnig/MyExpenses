@@ -403,12 +403,8 @@
     <plurals name="warning_delete_transaction">
         <item quantity="other">%1$d選定的交易項目將被刪除。</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="other">%d類別已移動成功。</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="other">%d類別尚未被移動，因為目的地上已經存在相同的標記。</item>
-    </plurals>
+    <string name="move_category_success">一個類別已移動成功。</string>
+    <string name="move_category_failure">一個類別尚未被移動，因為目的地上已經存在相同的標記。</string>
     <string name="warning_delete_reconciled">刪除已對帳的交易項目將導致您的記錄與銀行對帳單不同。</string>
     <string name="warning_balance_account">請核對\"已入帳/已結算\"的交易總額與銀行對帳單期末結餘。如果繼續操作，\"已入帳/已結算\"的交易將被更改標記成\"已對帳\"。</string>
     <string name="warning_password_protected">應用程式受密碼保護。</string>

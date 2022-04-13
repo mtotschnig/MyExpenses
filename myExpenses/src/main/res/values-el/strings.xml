@@ -407,14 +407,8 @@
         <item quantity="one">Η επιλεγμένη συναλλαγή θα διαγραφεί.</item>
         <item quantity="other">%1$d επιλεγμένες συναλλαγές θα διαγραφούν.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Μία κατηγορία μετακινήθηκε με επιτυχία.</item>
-        <item quantity="other">%d κατηγορίες μετακινήθηκαν με επιτυχία.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Μία κατηγορία δεν μετακινήθηκε, επειδή η ίδια ετικέτα υπάρχει ήδη στο στόχο.</item>
-        <item quantity="other">%d κατηγορίες δεν μετακινήθηκαν, επειδή η ίδια ετικέτα υπάρχει ήδη στο στόχο.</item>
-    </plurals>
+    <string name="move_category_success">Μία κατηγορία μετακινήθηκε με επιτυχία.</string>
+    <string name="move_category_failure">Μία κατηγορία δεν μετακινήθηκε, επειδή η ίδια ετικέτα υπάρχει ήδη στο στόχο.</string>
     <string name="warning_delete_reconciled">Η διαγραφή διακανονισμένων συναλλαγών θα προκαλέσει τις εγγραφές σας να διαφέρουν από το αντίγραφο κίνησης τραπεζικού λογαριασμού.</string>
     <string name="warning_balance_account">Παρακαλώ συγκρίνετε το εκκαθαρισμένο σύνολο με το τελικό υπόλοιπο στον τραπεζικό σας λογαριασμό. Αν συνεχίσετε, οι εκκαθαρισμένες συναλλαγές θα χαρακτηριστούν ως διακανονισμένες.</string>
     <string name="warning_password_protected">Η εφαρμογή είναι προστατευμένη με κωδικό πρόσβασης.</string>

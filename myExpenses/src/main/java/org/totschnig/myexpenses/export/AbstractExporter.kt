@@ -4,15 +4,12 @@ import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.TransactionDTO
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.fullLabel
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
 import java.io.IOException
@@ -54,16 +51,30 @@ abstract class AbstractExporter
         Timber.i("now starting export")
         //first we check if there are any exportable transactions
         var selection =
-            DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " is null"
+            "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null"
         var selectionArgs: Array<String?>? = arrayOf(account.id.toString())
-        if (notYetExportedP) selection += " AND " + DatabaseConstants.KEY_STATUS + " = " + DatabaseConstants.STATUS_NONE
+        if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
         if (filter != null && !filter.isEmpty) {
-            selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
+            selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED)
             selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
+        val projection = arrayOf(
+            KEY_ROWID,
+            KEY_CATID,
+            KEY_DATE,
+            KEY_PAYEE_NAME,
+            KEY_AMOUNT,
+            KEY_COMMENT,
+            PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
+            KEY_CR_STATUS,
+            KEY_REFERENCE_NUMBER,
+            KEY_PICTURE_URI,
+            KEY_TRANSFER_PEER,
+            fullLabel(":")
+        )
         return context.contentResolver.query(
             Transaction.EXTENDED_URI,
-            null, selection, selectionArgs, DatabaseConstants.KEY_DATE
+            projection, selection, selectionArgs, KEY_DATE
         )?.use { cursor ->
 
             if (cursor.count == 0) {
@@ -77,21 +88,21 @@ abstract class AbstractExporter
                         val formatter = SimpleDateFormat(dateFormat, Locale.US)
                         header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
-                            val catId = DbUtils.getLongOrNull(cursor, DatabaseConstants.KEY_CATID)
+                            val catId = DbUtils.getLongOrNull(cursor, KEY_CATID)
                             val rowId =
-                                cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID))
-                            val isSplit = DatabaseConstants.SPLIT_CATID == catId
+                                cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
+                            val isSplit = SPLIT_CATID == catId
                             val splitCursor = if (isSplit) context.contentResolver.query(
                                 Transaction.CONTENT_URI,
-                                null,
-                                "${DatabaseConstants.KEY_PARENTID} = ?",
+                                projection,
+                                "$KEY_PARENTID = ?",
                                 arrayOf(rowId.toString()),
                                 null
                             ) else null
                             val tagList = context.contentResolver.query(
                                 TransactionProvider.TRANSACTIONS_TAGS_URI,
                                 arrayOf(KEY_LABEL),
-                                "${DatabaseConstants.KEY_TRANSACTIONID} = ?",
+                                "$KEY_TRANSACTIONID = ?",
                                 arrayOf(rowId.toString()),
                                 null
                             )?.use { tagCursor ->

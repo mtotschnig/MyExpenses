@@ -410,14 +410,8 @@
         <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனை நீக்கப்படும்.</item>
         <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d பரிவர்த்தனைகள் நீக்கப்படும்.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">ஒரு வகை வெற்றிகரமாக நகர்த்தப்பட்டது.</item>
-        <item quantity="other">%d பிரிவுகள் வெற்றிகரமாக நகர்த்தப்பட்டன.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">ஒரு வகை நகர்த்தப்படவில்லை, ஏனெனில் அதே லேபிள் ஏற்கனவே இலக்கில் உள்ளது.</item>
-        <item quantity="other">%d பிரிவுகள் நகர்த்தப்படவில்லை, ஏனெனில் அதே விவரத்துணுக்கு ஏற்கனவே இலக்கில் உள்ளது.</item>
-    </plurals>
+    <string name="move_category_success">ஒரு வகை வெற்றிகரமாக நகர்த்தப்பட்டது.</string>
+    <string name="move_category_failure">ஒரு வகை நகர்த்தப்படவில்லை, ஏனெனில் அதே லேபிள் ஏற்கனவே இலக்கில் உள்ளது.</string>
     <string name="warning_delete_reconciled">நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளை நீக்குவதால் உங்கள் பதிவுகள் வங்கி அறிக்கையிலிருந்து மாறுபடும்.</string>
     <string name="warning_balance_account">ஒப்புக்கொள்ளப்பட்ட மொத்தத்தை உங்கள் வங்கிக் அறிக்கையிலிருக்கும் முடிவு இருப்புடன் ஒப்பிடவும். நீங்கள் தொடர்ந்தால், ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் நல்லிணக்கம் செய்யப்பட்டது என குறிக்கப்படும்.</string>
     <string name="warning_password_protected">செயலி கடவுச்சொல்லால் பாதுகாக்கப்படுகிறது.</string>

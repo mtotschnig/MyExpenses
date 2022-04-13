@@ -20,10 +20,9 @@ import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
+import org.totschnig.myexpenses.activity.BudgetActivity.Companion.EDIT_BUDGET_DIALOG
 import org.totschnig.myexpenses.databinding.BudgetListRowBinding
 import org.totschnig.myexpenses.databinding.BudgetsBinding
-import org.totschnig.myexpenses.fragment.BudgetFragment.EDIT_BUDGET_DIALOG
-import org.totschnig.myexpenses.fragment.BudgetFragment.buildAmountField
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -31,6 +30,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
@@ -150,7 +150,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                     filterList.add(budget.label(requireContext()))
                     val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, immediatePersist = false, restoreFromPreferences = true)
                     filterPersistence.whereFilter.criteria.forEach { criterion -> filterList.add(criterion.prettyPrint(context)) }
-                    filter.addChipsBulk(filterList, null)
+                    filter.addChipsBulk(filterList)
                     root.setOnClickListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)

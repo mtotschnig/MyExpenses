@@ -15,6 +15,63 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_CATEGORY_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_PAYEE_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_TAGS_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_CATEGORY_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_METHOD_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_REQUEST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_POSITIVE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_MESSAGE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
+import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
+import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.filter.ConstantsKt.NULL_ITEM_ID;
+import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
+import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
+import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -45,6 +102,16 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.LongSparseArray;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+import androidx.viewbinding.ViewBinding;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.IntStream;
@@ -120,15 +187,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.LongSparseArray;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
-import androidx.viewbinding.ViewBinding;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
@@ -137,65 +195,6 @@ import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapte
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_CATEGORY_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_PAYEE_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_TAGS_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_CATEGORY_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_METHOD_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_REQUEST;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
-import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
-import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_POSITIVE;
-import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_MESSAGE;
-import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL;
-import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
-import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
-import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
-import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
-import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 
 public abstract class BaseTransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener,
@@ -255,10 +254,18 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
    */
   private SparseBooleanArray mCheckedListItems;
 
-  protected int columnIndexYear, columnIndexYearOfWeekStart, columnIndexMonth,
-      columnIndexWeek, columnIndexDay, columnIndexLabelSub,
-      columnIndexPayee, columnIndexCrStatus, columnIndexYearOfMonthStart,
-      columnIndexLabelMain, columnIndexAccountId, columnIndexAmount, columnIndexCurrency;
+  protected int columnIndexYear;
+  protected int columnIndexYearOfWeekStart;
+  protected int columnIndexMonth;
+  protected int columnIndexWeek;
+  protected int columnIndexDay;
+  protected int columnIndexPayee;
+  protected int columnIndexCrStatus;
+  protected int columnIndexYearOfMonthStart;
+  protected int columnIndexLabel;
+  protected int columnIndexAccountId;
+  protected int columnIndexAmount;
+  protected int columnIndexCurrency;
   private boolean indexesCalculated = false;
   protected Account mAccount;
   private Money budget = null;
@@ -485,9 +492,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       final boolean splitAtPosition = isSplitAtPosition(acmi.position);
       String label = mTransactionsCursor.getString(columnIndexPayee);
       if (TextUtils.isEmpty(label))
-        label = mTransactionsCursor.getString(columnIndexLabelSub);
-      if (TextUtils.isEmpty(label))
-        label = mTransactionsCursor.getString(columnIndexLabelMain);
+        label = mTransactionsCursor.getString(columnIndexLabel);
       String finalLabel = label;
       checkSealed(new long[]{acmi.id}, () -> {
         if (splitAtPosition && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true)) {
@@ -592,8 +597,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           columnIndexMonth = c.getColumnIndex(KEY_MONTH);
           columnIndexWeek = c.getColumnIndex(KEY_WEEK);
           columnIndexDay = c.getColumnIndex(KEY_DAY);
-          columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
-          columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
+          columnIndexLabel = c.getColumnIndex(KEY_LABEL);
           columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
           columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
           columnIndexAccountId = c.getColumnIndex(KEY_ACCOUNTID);

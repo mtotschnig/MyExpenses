@@ -44,9 +44,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ManageCategories.Companion.KEY_PROTECTION_INFO
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.DateEditBinding
@@ -904,12 +904,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
      */
     fun startSelectCategory() {
         val i = Intent(this, ManageCategories::class.java)
-        i.action = ACTION_SELECT_MAPPING
         forwardDataEntryFromWidget(i)
         //we pass the currently selected category in to prevent
         //it from being deleted, which can theoretically lead
         //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
-        i.putExtra(KEY_ROWID, (delegate as? CategoryDelegate)?.catId)
+        (delegate as? CategoryDelegate)?.catId?.let {
+            i.putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
+        }
         startActivityForResult(i, SELECT_CATEGORY_REQUEST)
     }
 

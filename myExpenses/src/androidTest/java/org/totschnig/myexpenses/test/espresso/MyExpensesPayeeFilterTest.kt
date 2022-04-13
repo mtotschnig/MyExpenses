@@ -44,7 +44,7 @@ class MyExpensesPayeeFilterTest: BaseUiTest<MyExpenses>() {
 
     @Before
     fun fixture() {
-        val currency = CurrencyUnit(Currency.getInstance("EUR"))
+        val currency = CurrencyUnit.DebugInstance
         account = Account("Test account 1", currency, 0, "",
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()

@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -20,7 +21,7 @@ data class Debt(
     val description: String,
     val payeeId: Long,
     val amount: Long,
-    val currency: String,
+    val currency: CurrencyUnit,
     val date: Long,
     val payeeName: String? = null,
     val isSealed: Boolean = false,
@@ -40,7 +41,7 @@ data class Debt(
         description,
         payeeId,
         Money(currency, amount).amountMinor,
-        currency.code,
+        currency,
         localDate2Epoch(date)
     )
 
@@ -59,7 +60,7 @@ data class Debt(
         put(KEY_LABEL, label)
         put(KEY_DESCRIPTION, description)
         put(KEY_AMOUNT, amount)
-        put(KEY_CURRENCY, currency)
+        put(KEY_CURRENCY, currency.code)
         put(KEY_DATE, date)
         if (id == 0L) {
             //the link between debt and payeeId should not be altered
@@ -69,13 +70,13 @@ data class Debt(
 
     companion object {
         val CONTENT_URI: Uri = TransactionProvider.DEBTS_URI
-        fun fromCursor(cursor: Cursor) = Debt(
+        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = Debt(
             cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
             cursor.getLong(cursor.getColumnIndexOrThrow(KEY_PAYEEID)),
             cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)),
+            currencyContext[cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))],
             cursor.getLong(cursor.getColumnIndexOrThrow(KEY_DATE)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_PAYEE_NAME)),
             cursor.getInt(cursor.getColumnIndexOrThrow(KEY_SEALED)) == 1,

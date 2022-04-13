@@ -424,18 +424,9 @@
         <item quantity="many">%1$d vybraných transakcí bude odstraněno.</item>
         <item quantity="other">%1$d vybraných transakcí bude odstraněno.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Byla úspěšně přesunuta jedna kategorie.</item>
-        <item quantity="few">Byly úspěšně přesunuty %d kategorie.</item>
-        <item quantity="many">%d kategorií bylo úspěšně přesunuto.</item>
-        <item quantity="other">%d kategorií bylo úspěšně přesunuto.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Jedna kategorie nebyla přesunuta, protože v cíli již existuje stejný štítek.</item>
-        <item quantity="few">%d kategorie nebyly přesunuty, protože v cíli již existuje stejný štítek.</item>
-        <item quantity="many">%d kategorií nebylo přesunuto, protože v cíli již existuje stejný štítek.</item>
-        <item quantity="other">%d kategorií nebylo přesunuto, protože v cíli již existuje stejný štítek.</item>
-    </plurals>
+
+    <string name="move_category_success">Byla úspěšně přesunuta jedna kategorie.</string>
+    <string name="move_category_failure">Jedna kategorie nebyla přesunuta, protože v cíli již existuje stejný štítek.</string>
     <string name="warning_delete_reconciled">Odstranění odsouhlasených transakcí způsobí, že se vaše záznamy budou lišit od bankovního výpisu.</string>
     <string name="warning_balance_account">Porovnejte prosím zaplacený součet s konečným zůstatkem na vašem bankovním výpisu. Pokud budete pokračovat, transakce platby budou označeny jako vyřízené.</string>
     <string name="warning_password_protected">Aplikace je chráněna heslem</string>

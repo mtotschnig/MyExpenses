@@ -158,6 +158,10 @@ android {
     }
 }
 
+kotlin.sourceSets.all {
+    languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+}
+
 configurations.all {
     exclude group: "com.google.android.material", module: "material"
 }
@@ -176,6 +180,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "com.google.accompanist:accompanist-drawablepainter:0.23.1"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"

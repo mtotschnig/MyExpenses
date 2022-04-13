@@ -395,12 +395,8 @@
     <plurals name="warning_delete_transaction">
         <item quantity="other">%1$d danh mục được chọn sẽ bị xóa.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="other">%d danh mục đã được di chuyển thành công.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="other">%d danh mục không được di chuyển vì nhãn tương tự đã tồn tại trong mục tiêu.</item>
-    </plurals>
+    <string name="move_category_success">Một danh mục đã được di chuyển thành công. </string>
+    <string name="move_category_failure">Một danh mục không được di chuyển vì nhãn tương tự đã tồn tại trong mục tiêu.</string>
     <string name="warning_delete_reconciled">Xoá giao dịch đã khớp sẽ khiến thống kê của bạn khác đi so với của ngân hàng.</string>
     <string name="warning_balance_account">Xin hãy kiểm tra số tiền đã thanh toán với số dư hiện tại trong giấy xác nhận của ngân hàng. Nếu bạn tiếp tục, giao dịch đã thanh toán sẽ được đánh dấu là đã khớp.</string>
     <string name="warning_password_protected">Ứng dụng được bảo vệ bởi mật khẩu.</string>

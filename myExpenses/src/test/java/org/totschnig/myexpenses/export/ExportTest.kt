@@ -24,21 +24,14 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.Category
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.model.saveTagLinks
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -66,8 +59,6 @@ class ExportTest {
     private val split1 = 70L
     private val part1 = 40L
     private val part2 = 30L
-    private var cat1Id: Long? = null
-    private var cat2Id: Long? = null
 
     @Suppress("DEPRECATION")
     private var base = Date(117, 11, 15, 12, 0, 0)
@@ -83,19 +74,25 @@ class ExportTest {
     private val context: Context
         get() = ApplicationProvider.getApplicationContext()
 
+    private val repository: Repository
+        get() = Repository(context, Mockito.mock(CurrencyContext::class.java))
+
     @get:Rule
     val expect: Expect = Expect.create()
 
+    private fun writeCategory(label: String, parentId: Long? = null) =
+        ContentUris.parseId(repository.saveCategory(Category2(label = label, parentId = parentId))!!)
+
     private fun insertData1(): Account {
-        val tag1Id = org.totschnig.myexpenses.model.write("Tag One")
-        val tag2Id = org.totschnig.myexpenses.model.write("Tags, Tags, Tags")
+        val tag1Id = write("Tag One")
+        val tag2Id = write("Tags, Tags, Tags")
         val account1 = Account("Account 1", openingBalance, "Account 1")
         account1.type = AccountType.BANK
         account1.save()
         val account2 = Account("Account 2", openingBalance, "Account 2")
         account2.save()
-        cat1Id = Category.write(0, "Main", null)
-        cat2Id = Category.write(0, "Sub", cat1Id)
+        val cat1Id = writeCategory("Main")
+        val cat2Id = writeCategory("Sub", cat1Id)
         val op = Transaction.getNewInstance(account1.id) ?: throw IllegalStateException()
         op.amount = Money(account1.currencyUnit, -expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
@@ -184,8 +181,6 @@ class ExportTest {
         account1.save()
         val account2 = Account("Account 2", openingBalance, "Account 2")
         account2.save()
-        cat1Id = Category.write(0, "Main", null)
-        cat2Id = Category.write(0, "Sub", cat1Id)
         op = Transaction.getNewInstance(account1.id)
         if (op == null) {
             throw IllegalStateException()
@@ -275,21 +270,19 @@ class ExportTest {
     fun testExportCSV() {
         val linesCSV = arrayOf(
             csvHeader(';', false),
-            "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
+            "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
                     + "\";\"*\";\"1\";\"\";\"Tag One, 'Tags, Tags, Tags'\"",
-            "\"\";\"" + date + "\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"\";\"" + context.getString(
+            "\"\";\"$date\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\";\"\";\"2\";\"\";\"\"",
-            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\";\"\"",
-            "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"\";\"" + date + "\";\"\";\"0.50\";\"0\";\"" + context.getString(R.string.transfer)
-                    + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\";\"\"",
-            "\"\";\"" + date + "\";\"\";\"0\";\"0.60\";\"" + context.getString(R.string.transfer)
-                    + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"picture.png\";\"\"",
+            "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main:Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0.50\";\"0\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0\";\"0.60\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"\"",
             ""
         )
         try {
@@ -313,21 +306,19 @@ class ExportTest {
         val date = SimpleDateFormat("M/d/yyyy", Locale.US).format(base)
         val linesCSV = arrayOf(
             csvHeader(',', false),
-            "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
+            "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
                     + "\",\"*\",\"1\",\"\",\"Tag One, 'Tags, Tags, Tags'\"",
-            "\"\",\"" + date + "\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"\",\"" + context.getString(
+            "\"\",\"$date\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\",\"\",\"2\",\"\",\"\"",
-            "\"\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"picture.png\",\"\"",
-            "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"\",\"" + date + "\",\"\",\"0,50\",\"0\",\"" + context.getString(R.string.transfer)
-                    + "\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\",\"\"",
-            "\"\",\"" + date + "\",\"\",\"0\",\"0,60\",\"" + context.getString(R.string.transfer)
-                    + "\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"picture.png\",\"\"",
+            "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main:Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"\",\"$date\",\"\",\"0,50\",\"0\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\",\"\"",
+            "\"\",\"$date\",\"\",\"0\",\"0,60\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"\"",
             ""
         )
         try {
@@ -355,12 +346,52 @@ class ExportTest {
     }
 
     @Test
+    fun testQIFCategorySanitizer() {
+        val linesQIF = arrayOf(
+            "!Account",
+            "NAccount 1",
+            "TBank",
+            "^",
+            "!Type:Bank",
+            "D$date",
+            "T0.40",
+            "LWith|and|Main:With|and|Sub",
+            "^"
+        )
+
+        val account = Account("Account 1", openingBalance, "Account 1").apply {
+            type = AccountType.BANK
+            save()
+        }
+        val op = Transaction.getNewInstance(account.id) ?: throw IllegalStateException()
+        op.amount = Money(account.currencyUnit, income2)
+        op.catId = writeCategory("With/and:Sub",  writeCategory("With/and:Main"))
+        op.date = baseSinceEpoch
+        op.save()
+
+        try {
+            expect.that(
+                exportAll(
+                    account,
+                    ExportFormat.QIF,
+                    notYetExportedP = false,
+                    append = false,
+                    withAccountColumn = false
+                ).isSuccess
+            ).isTrue()
+            compare(linesQIF)
+        } catch (e: IOException) {
+            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
+        }
+    }
+
+    @Test
     fun testExportNotYetExported() {
         val linesCSV = arrayOf(
             csvHeader(';', false),
-            "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"\";\"Expense inserted after first export\";\""
+            "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"Expense inserted after first export\";\""
                     + context.getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\";\"\"",
-            "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\";\"\"",
             ""
         )
         val account = insertData1()
@@ -394,11 +425,11 @@ class ExportTest {
         val (account1, account2) = insertData3()
         val linesCSV = arrayOf(
             csvHeader(';', true),
-            "\"" + account1.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(
+            "\"" + account1.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\";\"*\";\"1\";\"\";\"\"",
-            "\"" + account2.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(
+            "\"" + account2.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(
                 R.string.pm_cheque
             )
                     + "\";\"*\";\"1\";\"\";\"\"",
@@ -494,7 +525,6 @@ class ExportTest {
             R.string.income,
             R.string.expense,
             R.string.category,
-            R.string.subcategory,
             R.string.comment,
             R.string.method,
             R.string.status,

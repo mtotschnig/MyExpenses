@@ -497,7 +497,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 accountsCursor?.let {
                     it.moveToPosition(currentPosition)
                     recordUsage(feature)
-                    val i = Intent(this, Distribution::class.java)
+                    val i = Intent(this, DistributionActivity::class.java)
                     i.putExtra(KEY_ACCOUNTID, accountId)
                     i.putExtra(
                         KEY_GROUPING,

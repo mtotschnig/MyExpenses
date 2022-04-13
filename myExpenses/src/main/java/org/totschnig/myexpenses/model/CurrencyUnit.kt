@@ -9,4 +9,8 @@ data class CurrencyUnit(val code: String, val symbol: String, val fractionDigits
             currency.displayName
     )
     constructor(code: String, symbol: String, fractionDigits: Int) : this(code, symbol, fractionDigits, code)
+
+    companion object {
+        val DebugInstance = CurrencyUnit(Currency.getInstance("EUR"))
+    }
 }

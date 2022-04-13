@@ -1,5 +1,8 @@
 package org.totschnig.myexpenses.util;
 
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -14,25 +17,21 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.ImageViewCompat;
+
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.color.MaterialColors;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
-
-import androidx.annotation.AttrRes;
-import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.view.ViewCompat;
-import androidx.core.widget.ImageViewCompat;
-
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
 
 public class UiUtils {
 
@@ -99,7 +98,7 @@ public class UiUtils {
   }
 
   public enum DateMode {
-    DATE, DATE_TIME, BOOKING_VALUE;
+    DATE, DATE_TIME, BOOKING_VALUE
   }
 
   public static DateMode getDateMode(AccountType accountType, PrefHandler prefHandler) {
@@ -121,6 +120,10 @@ public class UiUtils {
     return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
   }
 
+  public static int sp2Px(float sp, Resources resources) {
+    return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, resources.getDisplayMetrics());
+  }
+
   public static int px2Dp(int px) {
     return (int) (px / Resources.getSystem().getDisplayMetrics().density);
   }
@@ -130,11 +133,15 @@ public class UiUtils {
   }
 
   /**
-   * Returns the value of the desired theme integer attribute, or -1 if not found
+   * Returns the value of the desired theme integer attribute
+   * @throws android.content.res.Resources.NotFoundException if the given ID
+   *         does not exist.
    **/
   @ColorInt
-  public static int getColor(@Nullable Context context, @AttrRes int attr) {
-    return MaterialColors.getColor(context, attr, context.getClass().getCanonicalName());
+  public static int getColor(Context context, @AttrRes int attr) {
+    TypedValue typedValue = new TypedValue();
+    context.getTheme().resolveAttribute(attr, typedValue, true);
+    return ContextCompat.getColor(context, typedValue.resourceId);
   }
 
   public static boolean themeBoolAttr(Context context, int attr) {

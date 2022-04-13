@@ -1,306 +1,637 @@
-/*   This file is part of My Expenses.
- *   My Expenses is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *   My Expenses is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
+import android.text.InputType
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
-import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import icepick.State
-import org.apache.commons.lang3.ArrayUtils
-import org.totschnig.myexpenses.ACTION_MANAGE
-import org.totschnig.myexpenses.ACTION_SELECT_FILTER
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
+import androidx.activity.viewModels
+import androidx.annotation.PluralsRes
+import androidx.appcompat.view.ActionMode
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.PlaylistAdd
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
+import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
+import eltos.simpledialogfragment.form.Input
+import eltos.simpledialogfragment.form.SelectColorField
+import eltos.simpledialogfragment.form.SelectIconField
+import eltos.simpledialogfragment.form.SimpleFormDialog
+import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment.CategorySelectedListener
-import org.totschnig.myexpenses.fragment.CategoryList
-import org.totschnig.myexpenses.model.Category
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.Result
-import org.totschnig.myexpenses.util.ShareUtils
-import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
+import org.totschnig.myexpenses.viewmodel.data.Category2
 
-/**
- * SelectCategory activity allows to select categories while editing a transaction
- * and also managing (creating, deleting, importing)
- *
- * @author Michael Totschnig
- */
-class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListener,
-    CategorySelectedListener {
-    lateinit var viewModel: ManageCategoriesViewModel
+enum class HelpVariant {
+    manage, select_mapping, select_filter
+}
 
-    enum class HelpVariant {
-        manage, select_mapping, select_filter
-    }
+enum class Action {
+    SELECT_MAPPING, SELECT_FILTER, MANAGE
+}
 
-    enum class OperationInProgress {
-        Import, Export, Delete
-    }
-
-    @State
-    @JvmField
-    var operationInProgress: OperationInProgress? = null
-
-    private var mCategory: Category? = null
-    override fun getAction(): String {
-        val intent = intent
-        val action = intent.action
-        return action ?: ACTION_SELECT_MAPPING
-    }
-
-    override fun getContentView(): Int {
-        return R.layout.activity_category
-    }
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[ManageCategoriesViewModel::class.java]
-        (applicationContext as MyApplication).appComponent.inject(viewModel)
-        val (helpVariant, title) = when (action) {
-            Intent.ACTION_MAIN, ACTION_MANAGE ->
-                HelpVariant.manage to R.string.pref_manage_categories_title
-            ACTION_SELECT_FILTER ->
-                HelpVariant.select_filter to R.string.search_category
-            ACTION_SELECT_MAPPING ->
-                HelpVariant.select_mapping to R.string.select_category
-            else -> null to 0
-        }
-        if (helpVariant != null) setHelpVariant(helpVariant, true)
-        if (title != 0) supportActionBar!!.setTitle(title)
-        if (action == ACTION_SELECT_MAPPING || action == ACTION_MANAGE) {
-            configureFloatingActionButton(R.string.menu_create_main_cat)
-        } else {
-            findViewById<View>(R.id.CREATE_COMMAND).visibility = View.GONE
-        }
-        if (savedInstanceState != null && operationInProgress != null) {
-            when (operationInProgress) {
-                OperationInProgress.Import -> observeImportCatResult()
-                OperationInProgress.Export -> observeExportCatResult()
-                OperationInProgress.Delete -> observeDeleteResult()
-            }
-        }
-    }
-
-    /*  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    final MenuItem item = menu.findItem(R.id.SETUP_CATEGORIES_DEFAULT_COMMAND);
-    if (item != null) {
-      Utils.menuItemSetEnabledAndVisible(item, getResources().getBoolean(R.bool.has_localized_categories));
-    }
-    return super.onPrepareOptionsMenu(menu);
-  }*/
+open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
+    private var actionMode: ActionMode? = null
+    val viewModel: CategoryViewModel by viewModels()
+    private lateinit var binding: ActivityComposeFabBinding
+    private lateinit var sortDelegate: SortDelegate
+    private lateinit var choiceMode: ChoiceMode
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        val action = action
-        if (action != ACTION_SELECT_FILTER) {
-            inflater.inflate(R.menu.categories, menu)
+        if (action != Action.SELECT_FILTER) {
+            menuInflater.inflate(R.menu.categories, menu)
         }
+        menuInflater.inflate(R.menu.search, menu)
+        configureSearch(this, menu, this::onQueryTextChange)
         super.onCreateOptionsMenu(menu)
         return true
     }
 
-    private fun isTaskRunning(): Boolean {
-        return if (operationInProgress != null) {
-            showSnackBar("Previous task still executing, please try again later")
+    private fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.setFilter(
+            if (newText.isNullOrEmpty()) {
+                ""
+                //configureImportButton(true)
+            } else {
+                newText
+                // if a filter results in an empty list,
+                // we do not want to show the setup default categories button
+                //configureImportButton(false)
+            }
+        )
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        sortDelegate.onPrepareOptionsMenu(menu)
+
+        prepareSearch(menu, viewModel.getFilter())
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        if (sortDelegate.onOptionsItemSelected(item)) {
+            invalidateOptionsMenu()
+            viewModel.setSortOrder(sortDelegate.currentSortOrder)
             true
-        } else false
-    }
+        } else super.onOptionsItemSelected(item)
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (super.dispatchCommand(command, tag)) {
-            return true
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityComposeFabBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupToolbar(true)
+        with((applicationContext as MyApplication).appComponent) {
+            inject(viewModel)
         }
-        when (command) {
-            R.id.CREATE_COMMAND -> {
-                createCat(null)
-                return true
-            }
-            R.id.DELETE_COMMAND_DO -> {
-                if (!isTaskRunning()) {
-                    finishActionMode()
-                    showSnackBarIndefinite(R.string.progress_dialog_deleting)
-                    operationInProgress = OperationInProgress.Delete
-                    @Suppress("UNCHECKED_CAST")
-                    viewModel.deleteCategories((tag as Array<Long>).toLongArray())
-                    observeDeleteResult()
-
-                }
-                return true
-            }
-            R.id.CANCEL_CALLBACK_COMMAND -> {
-                finishActionMode()
-                return true
-            }
-            R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
-                if (!isTaskRunning()) {
-                    showSnackBarIndefinite(R.string.menu_categories_setup_default)
-                    viewModel.importCats()
-                    observeImportCatResult()
-                }
-                return true
-            }
-            R.id.EXPORT_CATEGORIES_COMMAND_ISO88591 -> {
-                exportCats("ISO-8859-1")
-                return true
-            }
-            R.id.EXPORT_CATEGORIES_COMMAND_UTF8 -> {
-                exportCats("UTF-8")
-                return true
-            }
-            else -> return false
+        val (helpVariant, title) = when (action) {
+            Action.MANAGE ->
+                HelpVariant.manage to R.string.pref_manage_categories_title
+            Action.SELECT_FILTER ->
+                HelpVariant.select_filter to R.string.search_category
+            Action.SELECT_MAPPING ->
+                HelpVariant.select_mapping to R.string.select_category
         }
-    }
-
-    private fun observeImportCatResult() {
-        viewModel.importCatResult?.observe(this) { pair ->
-            operationInProgress = null
-            showSnackBar(
-                if (pair.first == 0 && pair.second == 0) {
-                    getString(R.string.import_categories_none)
-                } else {
-                    buildList {
-                        pair.first.takeIf { it != 0 }?.let {
-                            add(getString(R.string.import_categories_success, it))
+        setHelpVariant(helpVariant, true)
+        if (title != 0) supportActionBar!!.setTitle(title)
+        if (action == Action.SELECT_MAPPING || action == Action.MANAGE) {
+            configureFloatingActionButton(R.string.menu_create_main_cat)
+        } else {
+            findViewById<View>(R.id.CREATE_COMMAND).visibility = View.GONE
+        }
+        sortDelegate = SortDelegate(
+            defaultSortOrder = viewModel.defaultSort,
+            prefKey = PrefKey.SORT_ORDER_CATEGORIES,
+            options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
+            prefHandler = prefHandler
+        )
+        viewModel.setSortOrder(sortDelegate.currentSortOrder)
+        observeDeleteResult()
+        observeMoveResult()
+        observeImportResult()
+        observeExportResult()
+        binding.composeView.setContent {
+            AppTheme(this) {
+                choiceMode = when (action) {
+                    Action.SELECT_MAPPING -> {
+                        val selectionState: MutableState<Category2?> = remember {
+                            mutableStateOf(null)
                         }
-                        pair.second.takeIf { it != 0 }?.let {
-                            add(
-                                resources.getQuantityString(
-                                    R.plurals.import_categories_icons_updated,
-                                    it,
-                                    it
-                                )
-                            )
+                        LaunchedEffect(selectionState.value) {
+                            selectionState.value?.let {
+                                doSingleSelection(it)
+                            }
                         }
-                    }.joinToString(separator = " ")
-                }
-            )
-        }
-    }
-
-    private fun observeExportCatResult() {
-        viewModel.exportCatResult?.observe(this) { result ->
-            operationInProgress = null
-            result.onSuccess { pair ->
-                updateSnackBar(getString(R.string.export_sdcard_success, pair.second))
-                if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
-                    val shareResult = ShareUtils.share(
-                        this, listOf(pair.first),
-                        prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
-                        "text/qif"
-                    )
-                    if (!shareResult.isSuccess) {
-                        updateSnackBar(shareResult.print(this))
+                        ChoiceMode.SingleChoiceMode(selectionState)
+                    }
+                    Action.MANAGE, Action.SELECT_FILTER -> {
+                        val selectionState = rememberMutableStateListOf<Long>()
+                        LaunchedEffect(selectionState.size) {
+                            if (selectionState.isNotEmpty()) {
+                                startActionMode(selectionState)
+                                updateActionModeTitle(selectionState)
+                            } else {
+                                finishActionMode()
+                            }
+                        }
+                        ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-            }.onFailure {
-                updateSnackBar(it.safeMessage)
+                viewModel.categoryTree.collectAsState(initial = Category2.LOADING).value.let { root ->
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        when {
+                            root == Category2.LOADING -> {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .size(96.dp)
+                                        .align(Alignment.Center)
+                                )
+                            }
+                            root.children.isEmpty() -> {
+                                Column(
+                                    modifier = Modifier.align(Alignment.Center),
+                                    verticalArrangement = Arrangement.spacedBy(5.dp),
+                                    horizontalAlignment = CenterHorizontally
+                                ) {
+                                    Text(text = stringResource(id = R.string.no_categories))
+                                    Button(onClick = { importCats() }) {
+                                        Column(horizontalAlignment = CenterHorizontally) {
+                                            Icon(
+                                                imageVector = Icons.Filled.PlaylistAdd,
+                                                contentDescription = null
+                                            )
+                                            Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                                        }
+                                    }
+                                }
+                            }
+                            else -> {
+                                Category(
+                                    category = if (action == Action.SELECT_FILTER)
+                                        root.copy(children = buildList {
+                                            add(
+                                                Category2(
+                                                    id = NULL_ITEM_ID,
+                                                    label = stringResource(id = R.string.unmapped),
+                                                    level = 1
+                                                )
+                                            )
+                                            addAll(root.children)
+                                        })
+                                    else root,
+                                    expansionMode = ExpansionMode.DefaultCollapsed(
+                                        rememberMutableStateListOf()
+                                    ),
+                                    menuGenerator = {
+                                        if (action == Action.SELECT_FILTER) null else Menu(
+                                            listOf(
+                                                MenuEntry.edit { editCat(it) },
+                                                MenuEntry.delete { category ->
+                                                    if (category.flatten().map { it.id }
+                                                            .contains(protectionInfo?.id)) {
+                                                        showSnackBar(
+                                                            resources.getQuantityString(
+                                                                if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
+                                                                1,
+                                                                1
+                                                            )
+                                                        )
+                                                    } else {
+                                                        viewModel.deleteCategories(listOf(category.id))
+                                                    }
+                                                },
+                                                MenuEntry(
+                                                    icon = Icons.Filled.Add,
+                                                    label = stringResource(id = R.string.subcategory)
+                                                ) { createCat(it.id) },
+                                                MenuEntry(
+                                                    icon = myiconpack.ArrowsAlt,
+                                                    label = stringResource(id = R.string.menu_move)
+                                                ) { showMoveTargetDialog(it) }
+                                            )
+                                        )
+                                    },
+                                    choiceMode = choiceMode
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun doSingleSelection(category: Category2) {
+        val intent = Intent().apply {
+            putExtra(KEY_CATID, category.id)
+            putExtra(KEY_LABEL, category.path)
+            putExtra(KEY_ICON, category.icon)
+        }
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
+    fun doMultiSelection() {
+        val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
+        if (selected.size == 1 || !selected.contains(NULL_ITEM_ID)) {
+            val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }
+                .joinToString(separator = ",") { it.label }
+            setResult(RESULT_FIRST_USER, Intent().apply {
+                putExtra(KEY_CATID, selected.toLongArray())
+                putExtra(KEY_LABEL, label)
+            })
+            finish()
+        } else {
+            showSnackBar(R.string.unmapped_filter_only_single)
+        }
+    }
+
+    private fun showMoveTargetDialog(category: Category2) {
+        SelectCategoryMoveTargetDialogFragment.newInstance(category)
+            .show(supportFragmentManager, "SELECT_TARGET")
+    }
+
+    private fun finishActionMode() {
+        actionMode?.finish()
+    }
+
+    private fun updateActionModeTitle(selectionState: SnapshotStateList<Long>) {
+        actionMode?.title = "${selectionState.size}"
+    }
+
+    private fun startActionMode(selectionState: SnapshotStateList<Long>) {
+        if (actionMode == null) {
+            actionMode = startSupportActionMode(object : ActionMode.Callback {
+                override fun onCreateActionMode(
+                    mode: ActionMode,
+                    menu: Menu
+                ): Boolean {
+                    if (action == Action.MANAGE) {
+                        menu.add(
+                            Menu.NONE,
+                            R.id.DELETE_COMMAND,
+                            0,
+                            R.string.menu_delete
+                        ).setIcon(R.drawable.ic_menu_delete)
+                    } else if (action == Action.SELECT_FILTER) {
+                        menu.add(
+                            Menu.NONE,
+                            R.id.SELECT_COMMAND,
+                            0,
+                            R.string.menu_select
+                        ).setIcon(R.drawable.ic_menu_done)
+                    }
+                    return true
+                }
+
+                override fun onPrepareActionMode(
+                    mode: ActionMode,
+                    menu: Menu
+                ): Boolean = true
+
+                override fun onActionItemClicked(
+                    mode: ActionMode,
+                    item: MenuItem
+                ): Boolean = when (item.itemId) {
+                    R.id.DELETE_COMMAND -> {
+                        viewModel.deleteCategories(selectionState)
+                        true
+                    }
+                    R.id.SELECT_COMMAND -> {
+                        doMultiSelection()
+                        true
+                    }
+                    else -> false
+                }
+
+                override fun onDestroyActionMode(mode: ActionMode) {
+                    actionMode = null
+                    selectionState.clear()
+                }
+
+            })
+        }
+    }
+
+    private fun MutableList<String>.mapToMessage(quantity: Int, @PluralsRes resId: Int) {
+        if (quantity > 0) add(
+            resources.getQuantityString(
+                resId,
+                quantity,
+                quantity
+            )
+        )
+    }
+
+    private val dismissCallback = object : Snackbar.Callback() {
+        override fun onDismissed(
+            transientBottomBar: Snackbar,
+            event: Int
+        ) {
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                viewModel.messageShown()
+        }
+    }
+
+    private fun observeMoveResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moveResult.collect { result ->
+                    result?.let {
+                        showDismissibleSnackBar(
+                            if (it) R.string.move_category_success else R.string.move_category_failure,
+                            dismissCallback
+                        )
+                    }
+                }
             }
         }
     }
 
     private fun observeDeleteResult() {
-        viewModel.deleteResult?.observe(this) { result ->
-            operationInProgress = null
-            result.onSuccess {
-                showDismissibleSnackBar(it)
-            }.onFailure {
-                showDeleteFailureFeedback(it.message)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.deleteResult.collect { result ->
+                    result?.onSuccess {
+                        when (it) {
+                            is OperationComplete -> {
+                                finishActionMode()
+                                val messages = buildList {
+                                    mapToMessage(it.deleted, R.plurals.delete_success)
+                                    mapToMessage(
+                                        it.mappedToTransactions,
+                                        R.plurals.not_deletable_mapped_transactions
+                                    )
+                                    mapToMessage(
+                                        it.mappedToTemplates,
+                                        R.plurals.not_deletable_mapped_templates
+                                    )
+                                }
+                                showDismissibleSnackBar(
+                                    messages.joinToString(" "),
+                                    dismissCallback
+                                )
+                            }
+                            is OperationPending -> {
+                                val messages = buildList {
+                                    mapToMessage(
+                                        it.hasDescendants,
+                                        R.plurals.warning_delete_main_category
+                                    )
+                                    if (it.mappedToBudgets > 0) {
+                                        add(getString(R.string.warning_delete_category_with_budget))
+                                    }
+                                    add(getString(R.string.continue_confirmation))
+                                }
+                                MessageDialogFragment.newInstance(
+                                    getString(R.string.dialog_title_warning_delete_category),
+                                    messages.joinToString(" "),
+                                    MessageDialogFragment.Button(
+                                        R.string.response_yes,
+                                        R.id.DELETE_COMMAND_DO,
+                                        it.ids.toTypedArray()
+                                    ),
+                                    null,
+                                    MessageDialogFragment.Button(
+                                        R.string.response_no,
+                                        R.id.CANCEL_CALLBACK_COMMAND,
+                                        null
+                                    )
+                                )
+                                    .show(supportFragmentManager, "DELETE_CATEGORY")
+                                viewModel.messageShown()
+                            }
+                        }
+                    }?.onFailure {
+                        showDeleteFailureFeedback(it.message, dismissCallback)
+                    }
+                }
             }
         }
+    }
+
+    private fun observeExportResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.exportResult.collect { result ->
+                    result?.let {
+                        result.onSuccess { pair ->
+                            updateSnackBar(getString(R.string.export_sdcard_success, pair.second))
+                            if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+                                val shareResult = ShareUtils.share(
+                                    this@ManageCategories, listOf(pair.first),
+                                    prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
+                                    "text/qif"
+                                )
+                                if (!shareResult.isSuccess) {
+                                    updateSnackBar(shareResult.print(this@ManageCategories))
+                                }
+                            }
+                        }.onFailure {
+                            updateSnackBar(it.safeMessage)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeImportResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.importResult.collect { pair ->
+                    pair?.let {
+                        showDismissibleSnackBar(
+                            if (pair.first == 0 && pair.second == 0) {
+                                getString(R.string.import_categories_none)
+                            } else {
+                                buildList {
+                                    pair.first.takeIf { it != 0 }?.let {
+                                        add(getString(R.string.import_categories_success, it))
+                                    }
+                                    pair.second.takeIf { it != 0 }?.let {
+                                        add(
+                                            resources.getQuantityString(
+                                                R.plurals.import_categories_icons_updated,
+                                                it,
+                                                it
+                                            )
+                                        )
+                                    }
+                                }.joinToString(separator = " ")
+                            },
+                            dismissCallback
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    override fun dispatchCommand(command: Int, tag: Any?) =
+        if (super.dispatchCommand(command, tag)) {
+            true
+        } else when (command) {
+            R.id.CREATE_COMMAND -> {
+                createCat(null)
+                true
+            }
+            R.id.CANCEL_CALLBACK_COMMAND -> {
+                finishActionMode()
+                true
+            }
+            R.id.DELETE_COMMAND_DO -> {
+                showSnackBarIndefinite(R.string.progress_dialog_deleting)
+                @Suppress("UNCHECKED_CAST")
+                viewModel.deleteCategoriesDo((tag as Array<Long>).toList())
+                true
+            }
+            R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
+                importCats()
+                true
+            }
+
+            R.id.EXPORT_CATEGORIES_COMMAND_ISO88591 -> {
+                exportCats("ISO-8859-1")
+                true
+            }
+            R.id.EXPORT_CATEGORIES_COMMAND_UTF8 -> {
+                exportCats("UTF-8")
+                true
+            }
+            else -> false
+        }
+
+    private val protectionInfo: ProtectionInfo?
+        get() = intent.getParcelableExtra(KEY_PROTECTION_INFO)
+
+    private fun importCats() {
+        showSnackBarIndefinite(R.string.menu_categories_setup_default)
+        viewModel.importCats()
     }
 
     private fun exportCats(encoding: String) {
-        if (!isTaskRunning()) {
-            showDismissibleSnackBar(R.string.menu_categories_export)
-            viewModel.exportCats(encoding)
-            observeExportCatResult()
-        }
+        showDismissibleSnackBar(R.string.menu_categories_export)
+        viewModel.exportCats(encoding)
     }
 
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
+    /**
+     * presents AlertDialog for adding a new category
+     * if label is already used, shows an error
+     */
+    open fun createCat(parentId: Long?) {
+        val args = Bundle()
+        if (parentId != null) {
+            args.putLong(KEY_PARENTID, parentId)
+        }
+        SimpleFormDialog.build()
+            .title(if (parentId == null) R.string.menu_create_main_cat else R.string.menu_create_sub_cat)
+            .cancelable(false)
+            .fields(buildLabelField(null), buildIconField(null))
+            .pos(R.string.dialog_button_add)
+            .neut()
+            .extra(args)
+            .show(this, DIALOG_NEW_CATEGORY)
+    }
+
+    /**
+     * presents AlertDialog for editing an existing category
+     */
+    open fun editCat(category: Category2) {
+        val args = Bundle().apply {
+            putLong(KEY_ROWID, category.id)
+        }
+        val formElements = buildList {
+            add(buildLabelField(category.label))
+            if (category.level == 1 && category.color != null) {
+                add(
+                    SelectColorField.picker(KEY_COLOR).label(R.string.color)
+                        .color(category.color)
+                )
+            }
+            add(buildIconField(category.icon))
+        }.toTypedArray()
+
+        SimpleFormDialog.build()
+            .title(R.string.menu_edit_cat)
+            .cancelable(false)
+            .fields(*formElements)
+            .pos(R.string.menu_save)
+            .neut()
+            .extra(args)
+            .show(this, DIALOG_EDIT_CATEGORY)
+    }
+
+    private fun buildLabelField(text: String?) =
+        Input.plain(KEY_LABEL).required().hint(R.string.label).text(text)
+            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+
+    private fun buildIconField(preset: String?) =
+        SelectIconField.picker(KEY_ICON).icons(BuildConfig.CATEGORY_ICONS)
+            .preset(preset).label(R.string.icon)
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
         if ((DIALOG_NEW_CATEGORY == dialogTag || DIALOG_EDIT_CATEGORY == dialogTag)
             && which == BUTTON_POSITIVE
         ) {
-            var parentId: Long? = null
-            if (extras.containsKey(DatabaseConstants.KEY_PARENTID)) {
-                parentId = extras.getLong(DatabaseConstants.KEY_PARENTID)
-            }
-            mCategory = Category(
-                extras.getLong(DatabaseConstants.KEY_ROWID),
-                extras.getString(DatabaseConstants.KEY_LABEL),
-                parentId,
-                extras.getInt(DatabaseConstants.KEY_COLOR),
-                extras.getString(DatabaseConstants.KEY_ICON)
-            )
-            startDbWriteTask()
-            finishActionMode()
-            return true
-        }
-        return super.onResult(dialogTag, which, extras)
-    }
-
-    override fun onCategorySelected(args: Bundle) {
-        finishActionMode()
-        val target = args.getLong(SelectMainCategoryDialogFragment.KEY_RESULT)
-        startTaskExecution(
-            TaskExecutionFragment.TASK_MOVE_CATEGORY,
-            ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
-            if (target == 0L) null else target,
-            R.string.saving
-        )
-    }
-
-    override fun onPostExecute(result: Uri?) {
-        if (result == null) {
-            showSnackBar(
-                getString(
-                    R.string.already_defined,
-                    mCategory?.label ?: ""
+            val label = extras.getString(KEY_LABEL)!!
+            viewModel.saveCategory(
+                Category2(
+                    id = extras.getLong(KEY_ROWID),
+                    label = label,
+                    parentId = extras.getLong(KEY_PARENTID).takeIf { it != 0L },
+                    color = extras.getInt(KEY_COLOR),
+                    icon = extras.getString(KEY_ICON)
                 )
-            )
-        }
-        super.onPostExecute(result)
-    }
-
-    override fun onPostExecute(taskId: Int, result: Any?) {
-        super.onPostExecute(taskId, result)
-        if (result !is Result<*>) {
-            return
-        }
-        if (result.isSuccess) {
-            when (taskId) {
-                TaskExecutionFragment.TASK_MOVE_CATEGORY -> mListFragment.reset()
+            ).observe(this) { result ->
+                if (result == null) {
+                    showSnackBar(getString(R.string.already_defined, label))
+                }
             }
-        }
-        val print = result.print0(this)
-        print?.let { showSnackBar(it) }
+            true
+        } else false
+
+    val action get() = enumValueOrDefault(intent.action, Action.SELECT_MAPPING)
+
+    companion object {
+        const val DIALOG_NEW_CATEGORY = "dialogNewCat"
+        const val DIALOG_EDIT_CATEGORY = "dialogEditCat"
+        const val KEY_PROTECTION_INFO = "protection_info"
     }
 
-    override fun getObject(): Model {
-        return mCategory!!
-    }
+    @Parcelize
+    data class ProtectionInfo(val id: Long, val isTemplate: Boolean) : Parcelable
 }

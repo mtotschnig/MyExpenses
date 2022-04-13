@@ -104,9 +104,8 @@ public abstract class Criteria implements Parcelable {
   }
 
   /**
-   * @param selection
    * @return selection wrapped in a way that it also finds split transactions with parts
-   * that are matched by the critera
+   * that are matched by the criteria
    */
   protected String applyToSplitParts(String selection, String tableName) {
     if (!shouldApplyToParts()) {
@@ -122,7 +121,6 @@ public abstract class Criteria implements Parcelable {
    * the sums are calculated based on split parts, hence here we must take care to select parts
    * where the parents match
    *
-   * @param selection
    * @return selection wrapped in a way that is also finds split parts where parents are
    * matched by the criteria
    */

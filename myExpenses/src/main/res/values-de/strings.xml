@@ -410,14 +410,8 @@
         <item quantity="one">Die ausgewählte Buchung wird gelöscht.</item>
         <item quantity="other">%1$d ausgewählte Buchungen werden gelöscht.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Eine Kategorie wurde erfolgreich verschoben.</item>
-        <item quantity="other">%d Kategorien wurden erfolgreich verschoben.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Eine Kategorie wurde nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
-        <item quantity="other">%d Kategorien wurden nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
-    </plurals>
+    <string name="move_category_success">Eine Kategorie wurde erfolgreich verschoben.</string>
+    <string name="move_category_failure">Eine Kategorie wurde nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</string>
     <string name="warning_delete_reconciled">Wenn Sie abgestimmte Buchungen löschen, können Ihre Aufzeichnungen von Ihrem Kontoauszug abweichen.</string>
     <string name="warning_balance_account">Bitte vergleichen Sie die verrechnete Summe mit dem Kontostand Ihres Kontoauszuges. Wenn Sie fortfahren, werden verrechnete Buchungen als abgestimmt markiert.</string>
     <string name="warning_password_protected">App ist durch Passwort geschützt.</string>

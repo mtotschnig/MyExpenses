@@ -15,37 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
-import android.net.Uri;
-import android.os.RemoteException;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.CalendarProviderProxy;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
@@ -75,12 +44,41 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_SUB_TEMPLATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
+
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
+import android.net.Uri;
+import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.TextUtils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import kotlin.Pair;
 
@@ -140,9 +138,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_AMOUNT,
         KEY_COMMENT,
         KEY_CATID,
-        LABEL_MAIN,
         FULL_LABEL,
-        LABEL_SUB_TEMPLATE,
         KEY_PAYEE_NAME,
         KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID,

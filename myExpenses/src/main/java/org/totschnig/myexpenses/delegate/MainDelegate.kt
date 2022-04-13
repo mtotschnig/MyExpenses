@@ -240,8 +240,7 @@ abstract class MainDelegate<T : ITransaction>(
 
     private fun formatDebt(debt: Debt, withInstallment: Boolean = false): CharSequence {
         val amount = debt.currentBalance
-        val currencyUnit = currencyContext[debt.currency]
-        val money = Money(currencyUnit, amount)
+        val money = Money(debt.currency, amount)
         val elements = mutableListOf<CharSequence>().apply {
             add(debt.label)
             add(" ")
@@ -252,7 +251,7 @@ abstract class MainDelegate<T : ITransaction>(
         }
         val account = currentAccount()
         if (withInstallment && account != null) {
-            val isForeignExchangeDebt = debt.currency != account.currency.code
+            val isForeignExchangeDebt = debt.currency != account.currency
 
             val installment = if (isForeignExchangeDebt)
                 with(
@@ -271,7 +270,7 @@ abstract class MainDelegate<T : ITransaction>(
                 elements.add(" ${Transfer.RIGHT_ARROW} ")
                 val futureBalance = money.amountMajor - installment
                 elements.add(
-                    currencyFormatter.formatMoney(Money(currencyUnit, futureBalance))
+                    currencyFormatter.formatMoney(Money(debt.currency, futureBalance))
                         .withAmountColor(
                             viewBinding.root.context.resources,
                             futureBalance.signum()
@@ -286,7 +285,7 @@ abstract class MainDelegate<T : ITransaction>(
         updateUiWithDebt(debt)
         debtId = debt.id
         host.setDirty()
-        if (debt.currency != currentAccount()!!.currency.code) {
+        if (debt.currency != currentAccount()!!.currency) {
             if (!equivalentAmountVisible) {
                 equivalentAmountVisible = true
                 configureEquivalentAmount()
@@ -295,7 +294,7 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     private val applicableDebts: List<Debt>
-        get() = debts.filter { it.currency == currentAccount()?.currency?.code || it.currency == Utils.getHomeCurrency().code }
+        get() = debts.filter { it.currency == currentAccount()?.currency || it.currency == Utils.getHomeCurrency() }
 
     private fun handleDebts() {
         applicableDebts.let { debts ->

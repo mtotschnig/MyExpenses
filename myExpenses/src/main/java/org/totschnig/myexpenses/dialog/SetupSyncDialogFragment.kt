@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -29,6 +30,7 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
+import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.OverFlowMenu
@@ -120,7 +122,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                                 })
                             }
                         )
-                    )
+                    ), target = Unit
                 )
             }
             Row {
@@ -143,10 +145,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
 
             when (progress.value) {
                 SetupProgress.NOT_STARTED -> {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.End)
-                    ) {
+                    ButtonRow {
                         Button(onClick = { dismiss() }) {
                             Text(stringResource(id = android.R.string.cancel))
                         }
@@ -204,8 +203,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
             requireArguments().getParcelable<SyncViewModel.SyncAccountData>(KEY_DATA)!!.prepare()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        initBuilder().setCancelable(false).create()
+    override fun initBuilder(): AlertDialog.Builder = super.initBuilder().setCancelable(false)
 
     @Composable
     fun Account(

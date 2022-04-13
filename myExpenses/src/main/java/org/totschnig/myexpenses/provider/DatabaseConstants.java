@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -112,9 +111,10 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
   public static final String KEY_METHODID = "method_id";
   public static final String KEY_TITLE = "title";
-  public static final String KEY_LABEL_MAIN = "label_main";
-  public static final String KEY_LABEL_SUB = "label_sub";
   public static final String KEY_LABEL = "label";
+  public static final String KEY_PATH = "path";
+  public static final String KEY_MATCHES_FILTER = "matches";
+  public static final String KEY_LEVEL = "level";
   public static final String KEY_COLOR = "color";
   public static final String KEY_TYPE = "type";
   public static final String KEY_CURRENCY = "currency";
@@ -252,6 +252,8 @@ public class DatabaseConstants {
    */
   public static final String KEY_CHILD_COUNT = "childCount";
 
+  public static final String KEY_HAS_DESCENDANTS = "hasDescendants";
+
   /**
    * No special status
    */
@@ -276,6 +278,7 @@ public class DatabaseConstants {
   public static final String TABLE_ACCOUNTS = "accounts";
   static final String TABLE_SYNC_STATE = "_sync_state";
   public static final String TABLE_CATEGORIES = "categories";
+  public static final String TREE_CATEGORIES = "Tree";
   public static final String TABLE_METHODS = "paymentmethods";
   static final String TABLE_ACCOUNTTYES_METHODS = "accounttype_paymentmethod";
   public static final String TABLE_TEMPLATES = "templates";
@@ -309,80 +312,20 @@ public class DatabaseConstants {
 
   public static final String TABLE_DEBTS = "debts";
 
-  /**
-   * an SQL CASE expression for transactions
-   * that gives either the category for normal transactions
-   * or the account for transfers
-   */
-  public static final String LABEL_MAIN =
-      "CASE WHEN " +
-          KEY_TRANSFER_ACCOUNT +
-          " THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
-          "WHEN " +
-          KEY_CATID +
-          " THEN " +
-          "  CASE WHEN " +
-          "    (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "  THEN " +
-          "    (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES
-          + " WHERE  " + KEY_ROWID + " = (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
-          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
-          "  ELSE " +
-          "    (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "  END " +
-          "END AS " + KEY_LABEL_MAIN;
+  public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 
-  public static final String LABEL_SUB =
-      "CASE WHEN " +
-          "  " + KEY_TRANSFER_PEER + " is null AND " + KEY_CATID + " AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
-          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "END AS " + KEY_LABEL_SUB;
+  public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
 
   /**
-   * //different from Transaction, since transfer_peer is treated as boolean here
+   * fully qualified column name for categories budget table
    */
-  public static final String LABEL_SUB_TEMPLATE =
-      "CASE WHEN " +
-          "  " + KEY_CATID + " AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
-          + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "END AS " + KEY_LABEL_SUB;
+  public static final String FQCN_CATEGORIES_BUDGET = TABLE_BUDGET_CATEGORIES + "." + KEY_BUDGET;
 
-  private static final String FULL_CAT_CASE =
-      " CASE WHEN " +
-          KEY_CATID +
-          " THEN " +
-          "  CASE WHEN " +
-          " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          " THEN " +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " +
-          " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
-          " || '" + TransactionList.CATEGORY_SEPARATOR +
-          "' ELSE '' END || " +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-          "END";
-
-  public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
-
-  public static final String TRANSFER_ACCOUNT_UUUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
 
   /**
-   * if transaction is linked to a subcategory
-   * main and category label are concatenated
+   * for transfer label of transfer_account, for transaction full breadcrumb of category
    */
-  public static final String FULL_LABEL =
-      "CASE WHEN " +
-          "  " + KEY_TRANSFER_ACCOUNT + " " +
-          " THEN " +
-          "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
-          " ELSE " +
-          FULL_CAT_CASE +
-          " END AS  " + KEY_LABEL;
-
+  public static final String FULL_LABEL = DbConstantsKt.fullLabel(null);
 
   public static final String TRANSFER_PEER_PARENT =
       "(SELECT " + KEY_PARENTID

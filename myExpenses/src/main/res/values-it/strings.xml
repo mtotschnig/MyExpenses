@@ -411,14 +411,8 @@
         <item quantity="one">L\'operazione selezionata verrà cancellata.</item>
         <item quantity="other">Saranno cancellati %1$d transazioni selezionate.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Una categoria è stata spostata con successo.</item>
-        <item quantity="other">%d categorie erano spostate con successo.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Una categoria non è stata spostata, perché la stessa etichetta è già presente nella destinazione.</item>
-        <item quantity="other">%d categorie non sono state spostate, perché le stesse etichette sono già presenti nella destinazione.</item>
-    </plurals>
+    <string name="move_category_success">Una categoria è stata spostata con successo.</string>
+    <string name="move_category_failure">Una categoria non è stata spostata, perché la stessa etichetta è già presente nella destinazione.</string>
     <string name="warning_delete_reconciled">L\'eliminazione delle transazioni riconciliate causerà le registrazioni a differire dal conto bancario.</string>
     <string name="warning_balance_account">Si prega di confrontare il totale liquidato con il saldo finale nel tuo estratto conto bancario. Se si procede, le transazioni liquidate verranno contrassegnate come riconciliate.</string>
     <string name="warning_password_protected">App è protetto da password.</string>

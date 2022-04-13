@@ -36,7 +36,7 @@ import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class SelectedSumTest {
-    private lateinit var scenario: ActivityScenario<Distribution>
+    private lateinit var scenario: ActivityScenario<DistributionActivity>
 
     @Before
     fun fixture() {

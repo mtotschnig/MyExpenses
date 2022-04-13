@@ -55,18 +55,6 @@ public class AccountTest extends ModelTest {
       transferP = 50L,
       transferN = 60L;
   private long catId;
-  
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    if (account1 != null) {
-      Account.delete(account1.getId());
-    }
-    if (account2 != null) {
-      Account.delete(account2.getId());
-    }
-    Category.delete(catId);
-  }
 
   private void insertData() {
     Transaction op;
@@ -100,7 +88,7 @@ public class AccountTest extends ModelTest {
     Account account, restored;
     Long openingBalance = (long) 100;
     account = new Account("TestAccount", openingBalance, "Testing with Junit");
-    account.setCurrency(new CurrencyUnit(java.util.Currency.getInstance("EUR")));
+    account.setCurrency(CurrencyUnit.Companion.getDebugInstance());
     assertEquals("EUR", account.getCurrencyUnit().getCode());
     account.save();
     assertTrue(account.getId() > 0);

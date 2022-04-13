@@ -4,14 +4,17 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 124
-const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
+const val DATABASE_VERSION = 125
+
+private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
+private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY = "SELECT RAISE (FAIL, 'attempt to create inconsistent category hierarchy');"
 
 private const val DEBTS_SEALED_TRIGGER_CREATE = """
 CREATE TRIGGER sealed_debt_update
@@ -42,6 +45,37 @@ CREATE TRIGGER account_remap_transfer_transaction_update
 AFTER UPDATE on $TABLE_TRANSACTIONS WHEN new.$KEY_ACCOUNTID != old.$KEY_ACCOUNTID
 BEGIN
     UPDATE $TABLE_TRANSACTIONS SET $KEY_TRANSFER_ACCOUNT = new.$KEY_ACCOUNTID WHERE _id = new.$KEY_TRANSFER_PEER;
+END
+"""
+
+private val CATEGORY_HIERARCHY_TRIGGER = """
+CREATE TRIGGER category_hierarchy_update
+BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IN (${categoryTreeSelect(
+    projection = arrayOf(KEY_ROWID),
+    rootExpression = "= new.$KEY_ROWID"
+)})
+BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
+"""
+
+const val CATEGORY_LABEL_INDEX_CREATE = "CREATE UNIQUE INDEX categories_label ON $TABLE_CATEGORIES($KEY_LABEL,coalesce($KEY_PARENTID, 0))"
+
+const val CATEGORY_LABEL_LEGACY_TRIGGER_INSERT = """
+CREATE TRIGGER category_label_unique_insert
+    BEFORE INSERT
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NULL AND exists (SELECT 1 from $TABLE_CATEGORIES WHERE $KEY_LABEL = new.$KEY_LABEL AND $KEY_PARENTID IS NULL)
+    BEGIN
+    SELECT RAISE (FAIL, 'main category exists');
+END
+"""
+
+const val CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE = """
+CREATE TRIGGER category_label_unique_update
+    BEFORE UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NULL ANd new.$KEY_LABEL != old.$KEY_LABEL AND exists (SELECT 1 from $TABLE_CATEGORIES WHERE $KEY_LABEL = new.$KEY_LABEL AND $KEY_PARENTID IS NULL)
+    BEGIN
+    SELECT RAISE (FAIL, 'main category exists');
 END
 """
 
@@ -117,6 +151,17 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun upgradeTo125(db: SQLiteDatabase) {
+        db.execSQL("ALTER TABLE categories RENAME to categories_old")
+        db.execSQL(
+            "CREATE TABLE categories (_id integer primary key autoincrement, label text not null, label_normalized text, parent_id integer references categories(_id) ON DELETE CASCADE, usages integer default 0, last_used datetime, color integer, icon string, UNIQUE (label,parent_id));"
+        )
+        db.execSQL("INSERT INTO categories (_id, label, label_normalized, parent_id, usages, last_used, color, icon) SELECT _id, label, label_normalized, parent_id, usages, last_used, color, icon FROM categories_old")
+        db.execSQL("DROP TABLE categories_old")
+        createOrRefreshCategoryMainCategoryUniqueLabel(db)
+        createOrRefreshCategoryHierarchyTrigger(db)
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
         PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION.putInt(DATABASE_VERSION)
     }
@@ -177,4 +222,26 @@ abstract class BaseTransactionDatabase(
         db.execSQL("update accounts set sealed = 1 where sealed = -1")
         db.execSQL("update debts set sealed = 1 where sealed = -1")
     }
+
+    fun createOrRefreshCategoryHierarchyTrigger(db: SQLiteDatabase) {
+        with(db) {
+            execSQL("DROP TRIGGER IF EXISTS category_hierarchy_update")
+            execSQL(CATEGORY_HIERARCHY_TRIGGER)
+        }
+    }
+
+    fun createOrRefreshCategoryMainCategoryUniqueLabel(db: SQLiteDatabase) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && "robolectric" != Build.FINGERPRINT) {
+            db.execSQL("DROP INDEX if exists categories_label")
+            db.execSQL(CATEGORY_LABEL_INDEX_CREATE)
+        } else {
+            with(db) {
+                execSQL("DROP TRIGGER IF EXISTS category_label_unique_insert")
+                execSQL("DROP TRIGGER IF EXISTS category_label_unique_update")
+                execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_INSERT)
+                execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE)
+            }
+        }
+    }
+
 }

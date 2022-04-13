@@ -410,14 +410,8 @@
         <item quantity="one">Избраната транзакция ще бъде изтрита.</item>
         <item quantity="other">Избраните %1$d транзакции ще бъдат изтрити.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Успешно преместена категория.</item>
-        <item quantity="other">Успешно преместени %d  категории.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Категорията не е преместена, защото в приемната вече съществува такава.</item>
-        <item quantity="other">%d категории не са преместени, защото в приемната вече съществуват такива.</item>
-    </plurals>
+    <string name="move_category_success">Успешно преместена категория.</string>
+    <string name="move_category_failure">Категорията не е преместена, защото в приемната вече съществува такава.</string>
     <string name="warning_delete_reconciled">Изтриването на съгласувани транзакции ще предизвика вашите записи да се различават от банковото извлечение.</string>
     <string name="warning_balance_account">Моля, сравнете изчистената крайна сума с крайното салдо в банковото си извлечение. Ако продължите, изчистените плащания ще бъдат маркирани като съгласувани.</string>
     <string name="warning_password_protected">Приложението е защитено с парола.</string>

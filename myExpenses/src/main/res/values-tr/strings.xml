@@ -410,14 +410,8 @@
         <item quantity="one">Seçilen muamele silinecektir.</item>
         <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Bir kategori başarılı bir şekilde taşındı.</item>
-        <item quantity="other">%d kategori başarılı bir şekilde taşındı.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Bir kategori taşınmadı, çünkü aynı etiket hedefte zaten mevcut.</item>
-        <item quantity="other">%d kategori taşınmadı, çünkü aynı etiket hedefte zaten mevcut.</item>
-    </plurals>
+    <string name="move_category_success">Bir kategori başarılı bir şekilde taşındı.</string>
+    <string name="move_category_failure">Bir kategori taşınmadı, çünkü aynı etiket hedefte zaten mevcut.</string>
     <string name="warning_delete_reconciled">Uzlaşmış muameleleri silmeniz kayıtlarınızın banka kayıtlarından farklı olmasına yol açar.</string>
     <string name="warning_balance_account">Lütfen çözümlenmiş toplamı banka ekstresindeki bakiye ile karşılaştırın. Devam ederseniz çözümlenmiş muameleler uzlaşmış olarak işaretlenecektir.</string>
     <string name="warning_password_protected">Uygulama parola ile koruludur.</string>

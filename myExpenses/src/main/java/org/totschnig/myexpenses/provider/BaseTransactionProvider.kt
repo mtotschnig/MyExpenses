@@ -2,29 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
 abstract class BaseTransactionProvider : ContentProvider() {
     var dirty = false
@@ -48,6 +26,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
+
+        fun categoryBudgetJoin(joinType: String) = " $joinType JOIN $TABLE_BUDGET_CATEGORIES ON ($KEY_CATID = $TREE_CATEGORIES.$KEY_ROWID AND $TABLE_BUDGET_CATEGORIES.$KEY_BUDGETID = ?)"
 
         /**
          * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI

@@ -401,12 +401,8 @@
     <plurals name="warning_delete_transaction">
         <item quantity="other">%1$d の選択された取引が削除されます。</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="other">%d 分類の取引を移動しました。</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="other">%d 分類の取引が移動できませんでした。対象に同じラベルがすでに存在します。</item>
-    </plurals>
+    <string name="move_category_success">1分類の取引を移動しました。</string>
+    <string name="move_category_failure">1分類の取引が移動できませんでした。対象に同じラベルがすでに存在します。</string>
     <string name="warning_delete_reconciled">照合済の取引を削除すると、記録が銀行取引明細書と異なることになります。</string>
     <string name="warning_balance_account">銀行取引明細書の期末残高と消込済合計を比較してください。続行すると、消込済取引は照合済としてマークされます。</string>
     <string name="warning_password_protected">アプリはパスワード保護されています。</string>

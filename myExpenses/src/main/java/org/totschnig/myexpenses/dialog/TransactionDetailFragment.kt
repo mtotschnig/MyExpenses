@@ -82,7 +82,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
         viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
         viewModel.getTags().observe(this) { tags ->
             if (tags.isNotEmpty()) {
-                binding.TagGroup.addChipsBulk(tags, null)
+                binding.TagGroup.addChipsBulk(tags)
             } else {
                 binding.TagRow.visibility = View.GONE
             }

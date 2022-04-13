@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -24,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
@@ -33,8 +33,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORM
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-//TODO implement complete DAO
-//for the moment we only wrap calls to the content provider
+@Deprecated
 public class Category extends Model {
   public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
   private String label;
@@ -72,7 +71,6 @@ public class Category extends Model {
    */
   public static long write(long id, String label, Long parentId) {
     Uri uri = new Category(id, label, parentId).save();
-    //noinspection ConstantConditions
     return uri == null ? -1 : Integer.parseInt(uri.getLastPathSegment());
   }
 
@@ -95,7 +93,6 @@ public class Category extends Model {
     selection += " and " + KEY_LABEL + " = ?";
     Cursor mCursor = cr().query(CONTENT_URI,
         new String[]{KEY_ROWID}, selection, selectionArgs, null);
-    //noinspection ConstantConditions
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;
@@ -105,13 +102,6 @@ public class Category extends Model {
       mCursor.close();
       return result;
     }
-  }
-
-  public static boolean delete(long id) {
-    return cr().delete(CONTENT_URI,
-        KEY_PARENTID + " =  ?  OR " + KEY_ROWID + " = ?",
-        new String[]{String.valueOf(id), String.valueOf(id)}
-    ) > 0;
   }
 
   @Override
@@ -125,16 +115,11 @@ public class Category extends Model {
     initialValues.put(KEY_ICON, icon);
     Uri uri;
     if (getId() == 0) {
-      if (isMainOrNull(parentId)) {
-        initialValues.put(KEY_PARENTID, parentId);
-        try {
-          uri = cr().insert(CONTENT_URI, initialValues);
-        } catch (SQLiteConstraintException e) {
-          uri = null;
-        }
-      } else {
+      initialValues.put(KEY_PARENTID, parentId);
+      try {
+        uri = cr().insert(CONTENT_URI, initialValues);
+      } catch (SQLiteConstraintException e) {
         uri = null;
-        CrashHandler.report("Attempt to store deep category hierarchy detected");
       }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
@@ -145,63 +130,6 @@ public class Category extends Model {
       }
     }
     return uri;
-  }
-
-  private static boolean isMainOrNull(Long id) {
-    if (id == null) {
-      return true;
-    }
-    Cursor cursor = cr().query(CONTENT_URI,
-        new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(id)}, null);
-    //noinspection ConstantConditions
-    if (cursor.getCount() == 0) {
-      cursor.close();
-      return false;
-    } else {
-      cursor.moveToFirst();
-      long result = DbUtils.getLongOr0L(cursor, 0);
-      cursor.close();
-      return result == 0L;
-    }
-  }
-
-  /**
-   * How many subcategories under a given parent?
-   *
-   * @return number of subcategories
-   */
-  public static int countSub(long parentId) {
-    Cursor mCursor = cr().query(CONTENT_URI,
-        new String[]{"count(*)"}, KEY_PARENTID + " = ?", new String[]{String.valueOf(parentId)}, null);
-    //noinspection ConstantConditions
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return 0;
-    } else {
-      mCursor.moveToFirst();
-      int result = mCursor.getInt(0);
-      mCursor.close();
-      return result;
-    }
-  }
-
-  public static boolean move(Long id, Long newParent) {
-    if (id.equals(newParent)) {
-      throw new IllegalStateException("Cannot move category to itself");
-    }
-    if (!isMainOrNull(newParent)) {
-      throw new IllegalStateException("Cannot move to subcategory");
-    }
-    if (isMainOrNull(id) && countSub(id) > 0) {
-      throw new IllegalStateException("Cannot move main category if it has children");
-    }
-    ContentValues values = new ContentValues();
-    values.put(KEY_PARENTID, newParent);
-    try {
-      return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), values, null, null) > 0;
-    } catch (SQLiteConstraintException e) {
-      return false;
-    }
   }
 
   public String getLabel() {

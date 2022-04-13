@@ -11,8 +11,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
@@ -55,7 +54,6 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CrStatus;
@@ -226,8 +224,7 @@ public class PdfPrinter {
     int columnIndexWeek = transactionCursor.getColumnIndex(KEY_WEEK);
     int columnIndexDay = transactionCursor.getColumnIndex(KEY_DAY);
     int columnIndexAmount = transactionCursor.getColumnIndex(KEY_AMOUNT);
-    int columnIndexLabelSub = transactionCursor.getColumnIndex(KEY_LABEL_SUB);
-    int columnIndexLabelMain = transactionCursor.getColumnIndex(KEY_LABEL_MAIN);
+    int columnIndexLabel = transactionCursor.getColumnIndex(KEY_LABEL);
     int columnIndexComment = transactionCursor.getColumnIndex(KEY_COMMENT);
     int columnIndexReferenceNumber = transactionCursor.getColumnIndex(KEY_REFERENCE_NUMBER);
     int columnIndexPayee = transactionCursor.getColumnIndex(KEY_PAYEE_NAME);
@@ -402,7 +399,7 @@ public class PdfPrinter {
         cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
       }
 
-      String catText = transactionCursor.getString(columnIndexLabelMain);
+      String catText = transactionCursor.getString(columnIndexLabel);
       if (DbUtils.getLongOrNull(transactionCursor, columnIndexTransferPeer) != null) {
         catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       } else {
@@ -413,14 +410,10 @@ public class PdfPrinter {
           splits.moveToFirst();
           StringBuilder catTextBuilder = new StringBuilder();
           while (splits.getPosition() < splits.getCount()) {
-            String splitText = DbUtils.getString(splits, KEY_LABEL_MAIN);
+            String splitText = DbUtils.getString(splits, KEY_LABEL);
             if (splitText.length() > 0) {
               if (DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER) != null) {
                 splitText = "[" + splitText + "]";
-              } else {
-                String label_sub = DbUtils.getString(splits, KEY_LABEL_SUB);
-                if (label_sub.length() > 0)
-                  splitText += TransactionList.CATEGORY_SEPARATOR + label_sub;
               }
             } else {
               splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
@@ -441,11 +434,6 @@ public class PdfPrinter {
           splits.close();
         } else if (catId == null) {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-        } else {
-          String label_sub = transactionCursor.getString(columnIndexLabelSub);
-          if (label_sub != null && label_sub.length() > 0) {
-            catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
-          }
         }
       }
       if (account.getId() < 0) {

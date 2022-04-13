@@ -15,6 +15,11 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -50,11 +55,6 @@ import java.io.File;
 import java.util.Locale;
 
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends BaseTransactionDatabase {
   private final Context mCtx;
@@ -239,7 +239,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_ROWID + " integer primary key autoincrement, "
           + KEY_LABEL + " text not null, "
           + KEY_LABEL_NORMALIZED + " text,"
-          + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
+          + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
           + KEY_COLOR + " integer, "
@@ -726,6 +726,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(CATEGORIES_CREATE);
+    createOrRefreshCategoryMainCategoryUniqueLabel(db);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
@@ -782,6 +783,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshTransactionDebtTriggers(db);
 
     db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE);
+
+    createOrRefreshCategoryHierarchyTrigger(db);
 
     //Views
     createOrRefreshViews(db);
@@ -2196,6 +2199,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 124) {
         upgradeTo124(db);
+      }
+      if (oldVersion < 125) {
+        upgradeTo125(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

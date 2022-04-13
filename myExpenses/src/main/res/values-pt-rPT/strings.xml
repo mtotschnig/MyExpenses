@@ -389,14 +389,8 @@
         <item quantity="one">A transação selecionada será excluída.</item>
         <item quantity="other">As %1$d transações selecionadas serão excluídas.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Uma categoria foi movida com sucesso.</item>
-        <item quantity="other">As %d categorias foram movidas com sucesso.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Uma categoria não foi movida, porque o mesmo rótulo já existe no destino.</item>
-        <item quantity="other">%d categorias não foram movidas, porque o mesmo rótulo já existe no destino.</item>
-    </plurals>
+    <string name="move_category_success">Uma categoria foi movida com sucesso.</string>
+    <string name="move_category_failure">Uma categoria não foi movida, porque o mesmo rótulo já existe no destino.</string>
     <string name="warning_delete_reconciled">Excluir transações reconciliadas fará com que seus registros difiram do extrato bancário.</string>
     <string name="warning_balance_account">Por favor, compare o total compensado com o saldo final em seu extrato bancário. Se você prosseguir, as transações compensadas serão marcadas como reconciliadas.</string>
     <string name="warning_password_protected">A app é protegida por palavra-passe.</string>

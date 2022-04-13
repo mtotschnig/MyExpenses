@@ -410,14 +410,8 @@
         <item quantity="one">L\'opération sélectionnée sera supprimée.</item>
         <item quantity="other">%1$d opérations sélectionnées seront supprimées.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">Une catégorie a été correctement déplacée.</item>
-        <item quantity="other">%d catégories ont été correctement déplacées.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">Une catégorie n\'a pas pu être déplacée, parce que la même étiquette existe déjà au niveau de la cible.</item>
-        <item quantity="other">%d catégories n\'ont pas pu être déplacées, parce que la même étiquette existe déjà au niveau de la cible.</item>
-    </plurals>
+    <string name="move_category_success">Une catégorie a été correctement déplacée.</string>
+    <string name="move_category_failure">Une catégorie n\'a pas pu être déplacée, parce que la même étiquette existe déjà au niveau de la cible.</string>
     <string name="warning_delete_reconciled">La suppression des opérations rapprochées entraînera une différence avec  les enregistrements de votre relevé bancaire.</string>
     <string name="warning_balance_account">Vous pouvez ici comparer le total pointé avec le solde de votre relevé bancaire. Si vous poursuivez, les opérations pointées seront marquées comme rapprochées.</string>
     <string name="warning_password_protected">L\'application est protégée par mot de passe.</string>

@@ -15,50 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.RemoteException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException;
-import org.totschnig.myexpenses.exception.UnknownPictureSaveException;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-
-import kotlin.Pair;
-import kotlin.Triple;
-import timber.log.Timber;
-
 import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -117,8 +73,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
@@ -143,6 +97,50 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
+
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException;
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import kotlin.Pair;
+import kotlin.Triple;
+import timber.log.Timber;
 
 /**
  * Domain class for transactions
@@ -197,7 +195,7 @@ public class Transaction extends Model implements ITransaction {
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
   private int status = 0;
-  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTON_EXTENDED_HOME;
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTION_EXTENDED_HOME;
 
   public static void buildProjection(Context context) {
     PROJECTION_BASE = new String[]{
@@ -207,8 +205,7 @@ public class Transaction extends Model implements ITransaction {
         KEY_AMOUNT,
         KEY_COMMENT,
         KEY_CATID,
-        LABEL_MAIN,
-        LABEL_SUB,
+        FULL_LABEL,
         KEY_PAYEE_NAME,
         KEY_TRANSFER_PEER,
         KEY_TRANSFER_ACCOUNT,
@@ -254,10 +251,10 @@ public class Transaction extends Model implements ITransaction {
     PROJECTION_EXTENDED_AGGREGATE[extendedLength + 1] = KEY_ACCOUNTID;
 
     int aggregateLength = PROJECTION_EXTENDED_AGGREGATE.length;
-    PROJECTON_EXTENDED_HOME = new String[aggregateLength + 2];
-    System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTON_EXTENDED_HOME, 0, aggregateLength);
-    PROJECTON_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
-    PROJECTON_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED) + " AS " + KEY_EQUIVALENT_AMOUNT;
+    PROJECTION_EXTENDED_HOME = new String[aggregateLength + 2];
+    System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTION_EXTENDED_HOME, 0, aggregateLength);
+    PROJECTION_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
+    PROJECTION_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED) + " AS " + KEY_EQUIVALENT_AMOUNT;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
@@ -1064,14 +1061,6 @@ public class Transaction extends Model implements ITransaction {
     setId(0L);
     setUuid(null);
     return save();
-  }
-
-  public static void move(long whichTransactionId, long whereAccountId) {
-    ContentValues args = new ContentValues();
-    args.put(KEY_ACCOUNTID, whereAccountId);
-    cr().update(Uri.parse(
-        CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
-        null, null, null);
   }
 
   public static int count(Uri uri, String selection, String[] selectionArgs) {

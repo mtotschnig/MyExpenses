@@ -602,10 +602,6 @@
     <string name="dialog_command_sync_link_local">بارگذاری از داده های محلی</string>
     <string name="dialog_confirm_sync_unlink">اگر پیوند این حساب را از %s لغو کنید، وضعیت همگام‌سازی از بین می‌رود. پیوند دادن مجدد آنها بعداً، نیاز به همگام سازی کامل دارد تا دوباره اجرا شود.</string>
     <string name="pref_protection_delay_seconds_summary">با گذشت چند ثانیه از زمان بیکاری، کاره با رمز قفل خواهد شد.</string>
-    <plurals name="move_category_failure">
-        <item quantity="one">یک دسته منتقل نشد، زیرا همان برچسب در مقصد نیز وجود دارد.</item>
-        <item quantity="other">%d دسته منتقل نشد، زیرا همان برچسب در مقصد نیز وجود دارد.</item>
-    </plurals>
     <string name="warning_instantiate_template_from_widget_password_protected">نمونه‌برداری سریع از الگوها از این ویجت تنها در صورتی کار می‌کند که اجازه ورود داده‌ها از ویجت‌ها بدون رمز عبور را در تنظیمات برنامه بدهید.</string>
     <string name="import_parties_success">%1$s شخص با موفقیت درون ریزی شد</string>
     <string name="warning_change_fraction_digits_1">مقادیر موجود در پایگاه داده باید به روز شوند تا با تعداد جدید ارقام کسری مطابقت داشته باشند.</string>
@@ -620,10 +616,8 @@
         <item quantity="one">الگوی انتخاب شده حذف خواهد شد.</item>
         <item quantity="other">%1$d الگوی انتخاب شده حذف خواهند شد.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">یک دسته با موفقیت جابجا شد.</item>
-        <item quantity="other">%d دسته با موفقیت جابجا شد.</item>
-    </plurals>
+    <string name="move_category_success">یک دسته با موفقیت جابجا شد.</string>
+    <string name="move_category_failure">یک دسته منتقل نشد، زیرا همان برچسب در مقصد نیز وجود دارد.</string>
     <string name="import_parties_none">هیچ شخصی درون ریزی نشد</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d حساب با واحد پول %2$s به روز شده است.</string>
     <string name="restore_calendar_handling_configured">برنامه‌ها را به تقویم پیکربندی‌شده فعلی بازیابی کنید</string>

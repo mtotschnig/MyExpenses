@@ -74,6 +74,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.RemoteException;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
@@ -93,7 +94,9 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Debt;
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.math.BigDecimal;
@@ -106,7 +109,7 @@ import java.util.List;
  *
  * @author Michael Totschnig
  */
-public class Account extends Model {
+public class Account extends Model implements DistributionAccountInfo {
 
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
@@ -223,6 +226,7 @@ public class Account extends Model {
 
   private AccountType type;
 
+  @NonNull
   private Grouping grouping = Grouping.NONE;
 
   public static final int DEFAULT_COLOR = 0xff009688;
@@ -969,11 +973,12 @@ public class Account extends Model {
     this.type = type;
   }
 
+  @NonNull
   public Grouping getGrouping() {
     return grouping;
   }
 
-  public void setGrouping(Grouping grouping) {
+  public void setGrouping(@NonNull Grouping grouping) {
     this.grouping = grouping;
   }
 
@@ -1018,4 +1023,25 @@ public class Account extends Model {
     return sealed;
   }
 
+  @NonNull
+  @Override
+  public CurrencyUnit getCurrency() {
+    return currencyUnit;
+  }
+
+  @Override
+  public int getColor() {
+    return -1;
+  }
+
+  @NonNull
+  @Override
+  public String label(@NonNull Context context) {
+    return label;
+  }
+
+  @Override
+  public long getAccountId() {
+    return getId();
+  }
 }

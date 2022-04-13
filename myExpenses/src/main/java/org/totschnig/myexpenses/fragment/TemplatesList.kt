@@ -97,7 +97,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     private var mAdapter: SimpleCursorAdapter? = null
     lateinit var mManager: LoaderManager
     private var columnIndexAmount = 0
-    private var columnIndexLabelSub = 0
     private var columnIndexComment = 0
     private var columnIndexPayee = 0
     private var columnIndexColor = 0
@@ -168,7 +167,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         // Create an array to specify the fields we want to display in the list
         val from = arrayOf(
             DatabaseConstants.KEY_TITLE,
-            DatabaseConstants.KEY_LABEL_MAIN,
+            DatabaseConstants.KEY_LABEL,
             DatabaseConstants.KEY_AMOUNT
         )
         // and an array of the fields we want to bind those fields to
@@ -433,7 +432,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             if (c != null && !indexesCalculated) {
                 columnIndexRowId = c.getColumnIndex(DatabaseConstants.KEY_ROWID)
                 columnIndexAmount = c.getColumnIndex(DatabaseConstants.KEY_AMOUNT)
-                columnIndexLabelSub = c.getColumnIndex(DatabaseConstants.KEY_LABEL_SUB)
                 columnIndexComment = c.getColumnIndex(DatabaseConstants.KEY_COMMENT)
                 columnIndexPayee = c.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME)
                 columnIndexColor = c.getColumnIndex(DatabaseConstants.KEY_COLOR)
@@ -661,12 +659,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 val catId = DbUtils.getLongOrNull(c, DatabaseConstants.KEY_CATID)
                 if (catId == null) {
                     catText = Category.NO_CATEGORY_ASSIGNED_LABEL
-                } else {
-                    val labelSub = c.getString(columnIndexLabelSub)
-                    if (labelSub != null && labelSub.isNotEmpty()) {
-                        val categorySeparator = " : "
-                        catText = catText.toString() + categorySeparator + labelSub
-                    }
                 }
             }
             //TODO: simplify confer TemplateWidget

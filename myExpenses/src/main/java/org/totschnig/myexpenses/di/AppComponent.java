@@ -35,13 +35,10 @@ import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
-import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
-import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.fragment.CurrencyList;
-import org.totschnig.myexpenses.fragment.DistributionFragment;
 import org.totschnig.myexpenses.fragment.HistoryChart;
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
@@ -70,9 +67,11 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel2;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.DebtViewModel;
+import org.totschnig.myexpenses.viewmodel.DistributionViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
@@ -187,12 +186,6 @@ public interface AppComponent {
 
   void inject(TransactionListDialogFragment transactionListDialogFragment);
 
-  void inject(CategoryList categoryList);
-
-  void inject(BudgetFragment budgetFragment);
-
-  void inject(DistributionFragment distributionFragment);
-
   void inject(BaseAdHandler adHandler);
 
   void inject(LicenceApiTask licenceApiTask);
@@ -286,4 +279,8 @@ public interface AppComponent {
   void inject(ExportTask exportTask);
 
   void inject(PartiesList partiesList);
+
+  void inject(DistributionViewModel distributionViewModel);
+
+  void inject(BudgetViewModel2 distributionViewModel);
 }

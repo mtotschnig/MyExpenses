@@ -76,6 +76,8 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -207,6 +209,13 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
+  public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
+  public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
+  /**
+   * 1 -> mapped objects for each row
+   * 2 -> aggregate sums for all mapped objects
+   */
+  public static final String QUERY_PARAMETER_MAPPED_OBJECTS = "mappedObjects";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -504,17 +513,33 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         break;
       }
-      case CATEGORIES:
-        final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
-        qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
-            String.format(Locale.ROOT, "%1$s %7$s %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
-                TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery,
-                uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT JOIN" : "INNER JOIN"));
-        qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
-        if (projection == null) {
-          projection = Category.PROJECTION;
+      case CATEGORIES: {
+        String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
+        if (mappedObjects != null) {
+          String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
+          log(sql);
+          c = db.rawQuery(sql, selectionArgs);
+          return c;
         }
-        break;
+        if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
+          final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
+          final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
+                  uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
+          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression,
+                  uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR));
+          log(sql);
+          c = db.rawQuery(sql, selectionArgs);
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
+        } else {
+          qb.setTables(TABLE_CATEGORIES);
+          qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
+          if (projection == null) {
+            projection = Category.PROJECTION;
+          }
+          break;
+        }
+      }
       case CATEGORY_ID:
         qb.setTables(TABLE_CATEGORIES);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
@@ -1104,25 +1129,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = TEMPLATES_URI + "/" + id;
         break;
       case CATEGORIES:
-        //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
         Long parentId = values.getAsLong(KEY_PARENTID);
-        String label = values.getAsString(KEY_LABEL);
-        String selection;
-        String[] selectionArgs;
-        if (parentId == null) {
-          selection = KEY_PARENTID + " is null";
-          selectionArgs = new String[]{label};
-        } else {
-          selection = KEY_PARENTID + " = ?";
-          selectionArgs = new String[]{String.valueOf(parentId), label};
-        }
-        selection += " and " + KEY_LABEL + " = ?";
-        Cursor mCursor = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-        if (mCursor.getCount() != 0) {
-          mCursor.close();
-          throw new SQLiteConstraintException();
-        }
-        mCursor.close();
         if (parentId == null && !values.containsKey(KEY_COLOR)) {
           values.put(KEY_COLOR, suggestNewCategoryColor(db));
         }
@@ -1301,8 +1308,10 @@ public class TransactionProvider extends BaseTransactionProvider {
             whereArgs);
         break;
       case CATEGORY_ID:
+        String lastPathSegment = uri.getLastPathSegment();
+        if (Long.parseLong(lastPathSegment) == SPLIT_CATID) throw new IllegalArgumentException("split category can not be deleted");
         count = db.delete(TABLE_CATEGORIES,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+            KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
         break;
       case PAYEE_ID:
         count = db.delete(TABLE_PAYEES,
@@ -1337,8 +1346,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       case SETTINGS:
         count = db.delete(TABLE_SETTINGS, where, whereArgs);
         break;
-      case BUDGETS:
-        count = db.delete(TABLE_BUDGETS, where, whereArgs);
+      case BUDGET_ID:
+        count = db.delete(TABLE_BUDGETS, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case PAYEES:
         count = db.delete(TABLE_PAYEES, where, whereArgs);
@@ -1472,45 +1481,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
           throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
         segment = uri.getLastPathSegment();
-        //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
-        String label = values.getAsString(KEY_LABEL);
-        if (label != null) {
-          String selection;
-          String[] selectionArgs;
-          selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
-          selectionArgs = new String[]{label, segment};
-          c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-          if (c.getCount() != 0) {
-            c.moveToFirst();
-            if (c.getLong(0) != Long.parseLong(segment)) {
-              c.close();
-              throw new SQLiteConstraintException();
-            }
-          }
-          c.close();
-          count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
-              whereArgs);
-          break;
-        }
-        if (values.containsKey(KEY_PARENTID)) {
-          Long newParent = values.getAsLong(KEY_PARENTID);
-          String selection;
-          String[] selectionArgs;
-          selection = "label = (SELECT label FROM categories WHERE _id =?) and parent_id is " + newParent;
-          selectionArgs = new String[]{segment};
-          c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-          if (c.getCount() != 0) {
-            c.moveToFirst();
-            if (c.getLong(0) == Long.parseLong(segment)) {
-              //silently do nothing if we try to update with the same value
-              c.close();
-              return 0;
-            }
-            c.close();
-            throw new SQLiteConstraintException();
-          }
-          c.close();
-        }
         count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
             whereArgs);
         break;

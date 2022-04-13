@@ -400,12 +400,8 @@
     <plurals name="warning_delete_transaction">
         <item quantity="other">%1$d transaksi terpilih akan dipadam.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="other">%d kategori berjaya dialihkan.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="other">%d kategori tidak dialihkan, kerana label yang sama sudah wujud pada sasaran.</item>
-    </plurals>
+    <string name="move_category_success">Satu kategori berjaya dialihkan. </string>
+    <string name="move_category_failure">Satu kategori tidak dialihkan, kerana label yang sama sudah wujud pada sasaran.</string>
     <string name="warning_delete_reconciled">Memadam transaksi tersesuai akan menyebabkan rekod anda berlainan dengan penyata bank.</string>
     <string name="warning_balance_account">Sila bandingkan jumlah selesai dengan baki akhir dalam penyata bank anda. Jika anda teruskan, transaksi selesai akan ditanda sebagai telah disesuai semula.</string>
     <string name="warning_password_protected">Apl dilindungi kata laluan.</string>

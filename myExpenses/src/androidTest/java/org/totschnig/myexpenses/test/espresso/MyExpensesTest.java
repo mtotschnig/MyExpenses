@@ -71,7 +71,7 @@ public final class MyExpensesTest extends BaseUiTest<MyExpenses> {
 
   @Before
   public void fixture() {
-    account = new Account("Test account 1", new CurrencyUnit(Currency.getInstance("EUR")), 0, "",
+    account = new Account("Test account 1", CurrencyUnit.Companion.getDebugInstance(), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     Intent i = new Intent(getTargetContext(), MyExpenses.class);

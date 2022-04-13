@@ -409,14 +409,8 @@
         <item quantity="one">ಆಯ್ದ ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
         <item quantity="other">%1$d ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
     </plurals>
-    <plurals name="move_category_success">
-        <item quantity="one">ಒಂದು ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸರಿಸಲಾಗಿದೆ.</item>
-        <item quantity="other">%d ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸರಿಸಲಾಗಿದೆ.</item>
-    </plurals>
-    <plurals name="move_category_failure">
-        <item quantity="one">ಒಂದು ವರ್ಗವನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ, ಏಕೆಂದರೆ ಅದೇ ಲೇಬಲ್ ಈಗಾಗಲೇ ಗುರಿಯಲ್ಲಿದೆ.</item>
-        <item quantity="other">%d ವಿಭಾಗಗಳನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ, ಏಕೆಂದರೆ ಅದೇ ಲೇಬಲ್ ಈಗಾಗಲೇ ಗುರಿಯಲ್ಲಿದೆ.</item>
-    </plurals>
+    <string name="move_category_success">ಒಂದು ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸರಿಸಲಾಗಿದೆ.</string>
+    <string name="move_category_failure">ಒಂದು ವರ್ಗವನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ, ಏಕೆಂದರೆ ಅದೇ ಲೇಬಲ್ ಈಗಾಗಲೇ ಗುರಿಯಲ್ಲಿದೆ.</string>
     <string name="warning_delete_reconciled">ರಾಜಿ ಮಾಡಿಕೊಂಡ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸುವುದರಿಂದ ನಿಮ್ಮ ದಾಖಲೆಗಳು ಬ್ಯಾಂಕ್ ಹೇಳಿಕೆಯಿಂದ ಭಿನ್ನವಾಗುತ್ತವೆ.</string>
     <string name="warning_balance_account">ದಯವಿಟ್ಟು ತೆರವುಗೊಳಿಸಿದ ಮೊತ್ತವನ್ನು ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಸ್ಟೇಟ್‌ಮೆಂಟ್‌ನಲ್ಲಿ ಕೊನೆಗೊಳ್ಳುವ ಬ್ಯಾಲೆನ್ಸ್‌ನೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ನೀವು ಮುಂದುವರಿದರೆ, ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಎಂದು ಗುರುತಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="warning_password_protected">ಅಪ್ಲಿಕೇಶನ್ ಪಾಸ್‌ವರ್ಡ್ ರಕ್ಷಿತವಾಗಿದೆ.</string>

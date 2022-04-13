@@ -8,6 +8,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
@@ -31,7 +34,7 @@ import org.totschnig.myexpenses.viewmodel.data.Debt
 import timber.log.Timber
 import java.time.LocalDate
 
-typealias AmountFormatter = ((Long, String) -> String)
+typealias AmountFormatter = ((Long, CurrencyUnit) -> String)
 
 @Composable
 fun DebtCard(
@@ -74,7 +77,7 @@ fun DebtRenderer(
     onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> }
 ) {
     CompositionLocalProvider(
-        LocalColors provides Colors(
+        LocalColors provides LocalColors.current.copy(
             income = colorResource(id = R.color.colorIncomeOnCard),
             expense = colorResource(id = R.color.colorExpenseOnCard)
         )
@@ -160,31 +163,35 @@ fun DebtRenderer(
                     modifier = Modifier.align(Alignment.TopEnd),
                     menu = Menu(buildList {
                         if (!debt.isSealed) {
-                            add(MenuEntry(stringResource(id = R.string.menu_edit)) {
-                                onEdit(debt)
+                            add(MenuEntry.edit {
+                                onEdit(it)
                             })
                         }
                         add(
                             MenuEntry(
-                                stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close)
+                                icon = if (debt.isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
+                                label = stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close)
                             ) {
-                                onToggle(debt)
+                                onToggle(it)
                             }
                         )
-                        add(MenuEntry(stringResource(id = R.string.menu_delete)) {
-                            onDelete(debt, transactions.size)
+                        add(MenuEntry.delete {
+                            onDelete(it, transactions.size)
                         })
                         add(
-                            MenuEntry(stringResource(id = R.string.button_label_share_file),
-                                Menu(
-                                    DebtViewModel.ExportFormat.values().map {
-                                        MenuEntry(it.name) {
-                                            onShare(debt, it)
+                            MenuEntry(
+                                icon = Icons.Filled.Share,
+                                label = stringResource(id = R.string.button_label_share_file),
+                                subMenu = Menu(
+                                    DebtViewModel.ExportFormat.values().map { format ->
+                                        MenuEntry(label = format.name) {
+                                            onShare(it, format)
                                         }
                                     }
                                 )
                             ))
-                    })
+                    }),
+                    target = debt
                 )
             }
         }
@@ -194,7 +201,7 @@ fun DebtRenderer(
 @Composable
 fun TransactionRenderer(
     transaction: DebtViewModel.Transaction,
-    currency: String,
+    currency: CurrencyUnit,
     boldBalance: Boolean,
     withIcon: Boolean = true
 ) {
@@ -248,7 +255,7 @@ fun SingleDebtPreview() {
         description = "some long, very long, extremely long description",
         payeeId = -1L,
         amount = 4000,
-        currency = "EUR",
+        currency = CurrencyUnit.DebugInstance,
         date = localDate2Epoch(LocalDate.now()),
         payeeName = "Joe Doe"
     )

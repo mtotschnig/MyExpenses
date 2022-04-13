@@ -8,19 +8,23 @@ import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
 import java.time.format.DateTimeFormatter
 
-class Colors(
+data class Colors(
     val income: Color,
-    val expense: Color
+    val expense: Color,
+    val iconTint: Color
 )
 
-val LocalColors =
-    compositionLocalOf<Colors> { throw IllegalStateException("Colors not initialized") }
+val LocalColors = compositionLocalOf { Colors(
+        income = Color.Red,
+        expense = Color.Green,
+        iconTint = Color.DarkGray
+    ) }
 
 val LocalAmountFormatter = staticCompositionLocalOf<AmountFormatter> {
     { amount, currency ->
         DebugCurrencyFormatter.convAmount(
             amount,
-            CurrencyUnit(currency, currency, 2)
+            currency
         )
     }
 }

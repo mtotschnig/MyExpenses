@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import java.util.*
 
+@Deprecated("Legacy")
 data class Category(
     val id: Long,
     val parentId: Long?,

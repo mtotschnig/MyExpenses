@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.model.Category;
 
 public class CategoryTest extends ModelTest {
 
-  public void testShouldNotAllowMoreThanTwoLevels() {
+  public void testShouldAllowArbitrarilyDeepCategoryTree() {
     Category parent = new Category(0L, "Main", null);
     long parentId = ContentUris.parseId(parent.save());
     assertTrue(parentId > 0);
@@ -14,9 +14,8 @@ public class CategoryTest extends ModelTest {
     long subId = ContentUris.parseId(sub.save());
     assertTrue(subId > 0);
     Category subsub = new Category(0L, "Sub", subId);
-    assertNull(subsub.save());
-    Category.delete(parentId);
-    Category.delete(subId);
+    long subSubId = ContentUris.parseId(subsub.save());
+    assertTrue(subSubId > 0);
   }
 
   public void testShouldStripWhiteSpace() {
@@ -30,6 +29,5 @@ public class CategoryTest extends ModelTest {
     assertTrue(testedId != -1);
     assertTrue(testedStrippedId != -1);
     assertEquals(testedId, testedStrippedId);
-    Category.delete(testedId);
   }
 }

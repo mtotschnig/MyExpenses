@@ -12,6 +12,7 @@ import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ListView
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -28,10 +29,14 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import org.junit.Assert
 import org.junit.Before
+import org.mockito.Mockito
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.debug.test.R as RT
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
@@ -164,6 +169,12 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
                 list.adapter
             } else null
         }
+
+    protected val repository: Repository
+        get() = Repository(
+            ApplicationProvider.getApplicationContext<MyApplication>(),
+            Mockito.mock(CurrencyContext::class.java)
+        )
 
     @Throws(TimeoutException::class)
     protected fun waitForAdapter(): Adapter {

@@ -36,7 +36,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_ACCOUNT_UUUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_ACCOUNT_UUID;
 
 @AutoValue
 public abstract class TransactionChange {
@@ -55,7 +55,7 @@ public abstract class TransactionChange {
       KEY_EQUIVALENT_AMOUNT,
       FULL_LABEL,
       "NULLIF(TRIM(" + KEY_PAYEE_NAME + "),'') AS " + KEY_PAYEE_NAME,
-      TRANSFER_ACCOUNT_UUUID,
+          TRANSFER_ACCOUNT_UUID,
       KEY_METHOD_LABEL,
       KEY_CR_STATUS,
       "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,

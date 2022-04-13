@@ -27,7 +27,7 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
     private lateinit var account3: Account
     private lateinit var transfer: Transfer
 
-    val currencyUnit = CurrencyUnit(Currency.getInstance("EUR"))
+    val currencyUnit = CurrencyUnit.DebugInstance
 
     private fun createAccount(label: String): Account = Account(
         label, currencyUnit, 0, "", AccountType.CASH, Account.DEFAULT_COLOR

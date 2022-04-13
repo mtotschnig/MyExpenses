@@ -1,6 +1,24 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -20,24 +38,6 @@ import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
 
 public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
 
