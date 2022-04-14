@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Команды меню</string>
   <string name="help_contextual_actions">Контекстные действия</string>
@@ -143,4 +143,9 @@
   <!--History-->
   <!--Budget-->
   <!--Tags-->
+    <string name="popup_MyExpenses_toolbar_intro">При нажатии на панель инструментов (ярлык счета или текущий баланс) появляется меню со следующими пунктами:</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">Копирование текущего баланса в буфер обмена.</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">Рассчитать разницу между текущим балансом и новым значением.</string>
+    <string name="menu_scan_mode_help_text">Включите режим сканирования, чтобы быстро отсканировать квитанции.</string>
+    <string name="cab_link_help_text">Расход по одному счету может быть связан с доходом по другому счету. Если счета имеют одну и ту же валюту, то обе операции должны иметь одинаковые суммы.</string>
 </resources>
