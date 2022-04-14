@@ -51,7 +51,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
                           it != source.parentId
                 },
                 excludedSubTree = source.id,
-                withRoot = source.parentId!! > 0
+                withRoot = source.parentId != null
             )
             ButtonRow {
                 Button(onClick = { dismiss() }) {
