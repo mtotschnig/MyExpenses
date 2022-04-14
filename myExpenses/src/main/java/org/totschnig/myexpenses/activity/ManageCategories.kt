@@ -65,7 +65,8 @@ enum class Action {
     SELECT_MAPPING, SELECT_FILTER, MANAGE
 }
 
-open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener, ContribIFace {
+open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener,
+    ContribIFace {
     private var actionMode: ActionMode? = null
     val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityComposeFabBinding
@@ -154,7 +155,11 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         }
                         LaunchedEffect(selectionState.value) {
                             selectionState.value?.let {
-                                contribFeatureRequested(ContribFeature.CATEGORY_TREE, it)
+                                if (it.level > 2) {
+                                    contribFeatureRequested(ContribFeature.CATEGORY_TREE, it)
+                                } else {
+                                    doSingleSelection(it)
+                                }
                             }
                         }
                         ChoiceMode.SingleChoiceMode(selectionState)
@@ -238,12 +243,16 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                                 MenuEntry(
                                                     icon = Icons.Filled.Add,
                                                     label = stringResource(id = R.string.subcategory)
-                                                ) { if (it.level > 1)  {
-                                                    contribFeatureRequested(ContribFeature.CATEGORY_TREE, it.id)
-                                                } else {
-                                                    createCat(it.id)
-                                                }
-                                                  },
+                                                ) {
+                                                    if (it.level > 1) {
+                                                        contribFeatureRequested(
+                                                            ContribFeature.CATEGORY_TREE,
+                                                            it.id
+                                                        )
+                                                    } else {
+                                                        createCat(it.id)
+                                                    }
+                                                },
                                                 MenuEntry(
                                                     icon = myiconpack.ArrowsAlt,
                                                     label = stringResource(id = R.string.menu_move)
