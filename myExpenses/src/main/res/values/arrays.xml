@@ -181,7 +181,10 @@
         <item>create_sub_cat</item>
         <item>delete</item>
         <item>move</item>
-        <item>color</item>
+    </string-array>
+    <string-array name="cab_ManageCategories_edit_help_text">
+        <item>cab_edit_help_text</item>
+        <item>cab_ManageCategories_color_help_text</item>
     </string-array>
     <string-array name="ManageCategories_select_mapping_cabitems" tools:ignore="UnusedResources">
         <item>select</item>
@@ -416,6 +419,12 @@
         <item>help_MyExpenses_info</item>
         <item>help_MyExpenses_fab_long_press</item>
         <item>popup_MyExpenses_toolbar</item>
+    </string-array>
+
+    <string-array name="help_ManageCategories_manage_info">
+        <item>help_ManageCategories_manage_info</item>
+        <item>help_ManageCategories_expand_collapse</item>
+        <item>help_ManageCategories_manage_context</item>
     </string-array>
 
     <string-array name="popup_MyExpenses_toolbar_items" tools:ignore="UnusedResources">

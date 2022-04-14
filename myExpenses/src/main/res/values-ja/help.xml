@@ -50,12 +50,10 @@
   <string name="help_ManageCategories_distribution_info">この画面では、勘定内のすべての取引に対して、または特定のグループに対して、分類ごとに支出と収入の分布を表示します。リスト内の主分類を展開すると、その副分類の分布が円グラフで表示されます。リストで分類を選択した場合は、円グラフで強調表示されます。分類を長押しすると、それにマッピングされた取引の集計リストを表示します。</string>
   <string name="help_ManageCategories_select_mapping_info">環境設定画面から分類を管理する時に実行できるアクション (作成、編集、削除) に加えて、この画面では、選択した分類に取引を配置します。副分類をクリックすることで、現在の取引に割り当てる副分類を選択します。主分類を配置するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_select_filter_info">取引リストをフィルタリングする分類を選択します。主分類を検索するには、そのコンテキストメニューを呼び出す必要があります。</string>
-  <string name="help_ManageCategories_manage_info">この画面は、分類を作成、編集および削除することができます。デフォルトでは、分類リストの主なソート基準は、分類の使用回数です (二番目の基準はアルファベット順です)。これにより、最も頻繁に使用する分類にすばやくアクセスできます。設定で、分類をプレーンなアルファベット順にソートすることを選ぶことができます。主分類をクリックすると、その副分類を開きます。主分類のコンテキストメニューから、新しい副分類を追加、分類を削除または編集することができます。副分類にも削除や編集のコンテキストメニューがあります。</string>
+  <string name="help_ManageCategories_manage_info">この画面は、分類を作成、編集および削除することができます。デフォルトでは、分類リストの主なソート基準は、分類の使用回数です (二番目の基準はアルファベット順です)。これにより、最も頻繁に使用する分類にすばやくアクセスできます。</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">グループ化の種類を設定し、日、月、週または年間の分布を表示します。</string>
   <string name="menu_back_help_text">前のグループに移動します。左から右にスワイプのジェスチャーをして移動することもできます。</string>
   <string name="menu_forward_help_text">次のグループに移動します。右から左にスワイプのジェスチャーをして移動することもできます。</string>
-  <string name="cab_ManageCategories_create_sub_cat_help_text">選択した分類の下の、新しい副分類のタイトルを指定するダイアログを開きます。</string>
-  <string name="cab_ManageCategories_move_help_text">副分類は、異なる主分類に移動させること、または主分類に変換することができます。子を持たない主分類は異なる主分類の副分類に変換することができます。</string>
   <string name="cab_ManageCategories_select_help_text">取引に選択した分類を配置し、取引フォームに戻ります。</string>
   <string name="menu_categories_setup_default_help_text">デフォルトの分類のセットがインポートされます。</string>
   <string name="menu_categories_export_help_text">分類を QIF ファイルにエクスポートします。</string>
