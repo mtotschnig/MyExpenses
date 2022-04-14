@@ -104,27 +104,30 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
 }
 
 @Keep
-sealed class AddOnPackage(defaultPrice: Long, val feature: ContribFeature) : Package(defaultPrice) {
+sealed class AddOnPackage(val feature: ContribFeature, defaultPrice: Long = 430) : Package(defaultPrice) {
     override val optionName = "AddOn"
     val sku: String
-        get() = this::class.simpleName!!.toLowerCase(Locale.ROOT)
+        get() = this::class.simpleName!!.lowercase(Locale.ROOT)
 
     override fun payPalButtonId(isSandBox: Boolean) =
         if (isSandBox) "9VF4Z9KSLHXZN" else "FNEEWJWU5YJ44"
 
     @Parcelize
     @Keep
-    object SplitTemplate : AddOnPackage(430, ContribFeature.SPLIT_TEMPLATE)
+    object SplitTemplate : AddOnPackage(ContribFeature.SPLIT_TEMPLATE)
     @Parcelize
     @Keep
-    object History : AddOnPackage(430, ContribFeature.HISTORY)
+    object History : AddOnPackage(ContribFeature.HISTORY)
     @Parcelize
     @Keep
-    object Budget : AddOnPackage(430, ContribFeature.BUDGET)
+    object Budget : AddOnPackage(ContribFeature.BUDGET)
     @Parcelize
     @Keep
-    object Ocr : AddOnPackage(430, ContribFeature.OCR)
+    object Ocr : AddOnPackage(ContribFeature.OCR)
     @Parcelize
     @Keep
-    object WebUi : AddOnPackage(430, ContribFeature.WEB_UI)
+    object WebUi : AddOnPackage(ContribFeature.WEB_UI)
+    @Parcelize
+    @Keep
+    object CategoryTree : AddOnPackage(ContribFeature.CATEGORY_TREE)
 }

@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
@@ -54,6 +55,7 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
 import org.totschnig.myexpenses.viewmodel.data.Category2
+import java.io.Serializable
 
 enum class HelpVariant {
     manage, select_mapping, select_filter
@@ -63,7 +65,7 @@ enum class Action {
     SELECT_MAPPING, SELECT_FILTER, MANAGE
 }
 
-open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener {
+open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener, ContribIFace {
     private var actionMode: ActionMode? = null
     val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityComposeFabBinding
@@ -152,7 +154,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         }
                         LaunchedEffect(selectionState.value) {
                             selectionState.value?.let {
-                                doSingleSelection(it)
+                                contribFeatureRequested(ContribFeature.CATEGORY_TREE, it)
                             }
                         }
                         ChoiceMode.SingleChoiceMode(selectionState)
@@ -236,7 +238,12 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                                 MenuEntry(
                                                     icon = Icons.Filled.Add,
                                                     label = stringResource(id = R.string.subcategory)
-                                                ) { createCat(it.id) },
+                                                ) { if (it.level > 1)  {
+                                                    contribFeatureRequested(ContribFeature.CATEGORY_TREE, it.id)
+                                                } else {
+                                                    createCat(it.id)
+                                                }
+                                                  },
                                                 MenuEntry(
                                                     icon = myiconpack.ArrowsAlt,
                                                     label = stringResource(id = R.string.menu_move)
@@ -553,17 +560,15 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
      * if label is already used, shows an error
      */
     open fun createCat(parentId: Long?) {
-        val args = Bundle()
-        if (parentId != null) {
-            args.putLong(KEY_PARENTID, parentId)
-        }
         SimpleFormDialog.build()
             .title(if (parentId == null) R.string.menu_create_main_cat else R.string.menu_create_sub_cat)
             .cancelable(false)
             .fields(buildLabelField(null), buildIconField(null))
             .pos(R.string.dialog_button_add)
             .neut()
-            .extra(args)
+            .extra(Bundle().apply {
+                parentId?.let { putLong(KEY_PARENTID, it) }
+            })
             .show(this, DIALOG_NEW_CATEGORY)
     }
 
@@ -623,6 +628,14 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             }
             true
         } else false
+
+    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+        if (feature == ContribFeature.CATEGORY_TREE) {
+            (tag as? Long)?.also { createCat(tag as? Long) } ?: run {
+                doSingleSelection(tag as Category2)
+            }
+        }
+    }
 
     val action get() = enumValueOrDefault(intent.action, Action.SELECT_MAPPING)
 

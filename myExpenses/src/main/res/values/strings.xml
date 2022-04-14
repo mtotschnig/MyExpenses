@@ -52,6 +52,7 @@
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Email support</b> with guaranteed response within 2 business days</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voting right on <b>development roadmap</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">History chart</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Category tree</string>
     <string name="licence_status_free">Free</string>
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>
@@ -89,6 +90,7 @@
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d accounts.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d plans.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Your current licence status (%1$s) allows you to create 1 split template.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">With your current licence status (%1$s), this dialogue will be displayed on every usage.</string>
     <string name="dialog_export_delete">Delete exported transactions</string>
     <string name="dialog_export_not_yet_exported">Export only transactions not yet exported</string>
     <string name="dialog_password_activate_protection">Activate password protection</string>

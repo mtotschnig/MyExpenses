@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 import kotlin.math.absoluteValue
 
 @Immutable
@@ -21,7 +22,7 @@ data class Category2(
     val icon: String? = null,
     val sum: Long = 0L,
     val budget: Long = 0L
-) : Parcelable {
+) : Parcelable, Serializable {
 
     fun flatten(): List<Category2> = buildList {
         add(this@Category2)

@@ -204,8 +204,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         }
     }
 
-    override fun contribFeatureNotCalled(feature: ContribFeature) {}
-
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         super.onPermissionsGranted(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {

@@ -12,27 +12,21 @@
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
+package org.totschnig.myexpenses.activity
 
-package org.totschnig.myexpenses.activity;
+import org.totschnig.myexpenses.model.ContribFeature
+import java.io.Serializable
 
-import org.totschnig.myexpenses.model.ContribFeature;
+interface ContribIFace {
+    /**
+     * called when the user clicks on "not yet", and calls the requested feature, or if he has access
+     */
+    fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?)
 
-import java.io.Serializable;
-
-import androidx.annotation.Nullable;
-
-public interface ContribIFace {
-
-  /**
-   * called when the user clicks on "not yet", and calls the requested feature, or if he has access
-   */
-  void contribFeatureCalled(ContribFeature feature, @Nullable Serializable tag);
-
-  /**
-   * the user can either click on "Buy" or cancel the dialog
-   * for the moment, we are fine with the same callback for both cases,
-   * for example, in some cases, the calling activity might have to be finished
-   */
-  void contribFeatureNotCalled(ContribFeature feature);
-
+    /**
+     * the user can either click on "Buy" or cancel the dialog
+     * for the moment, we are fine with the same callback for both cases,
+     * for example, in some cases, the calling activity might have to be finished
+     */
+    fun contribFeatureNotCalled(feature: ContribFeature) {}
 }

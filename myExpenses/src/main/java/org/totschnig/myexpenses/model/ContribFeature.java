@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.text.HtmlCompat;
 
@@ -61,7 +62,7 @@ public enum ContribFeature {
   CSV_IMPORT(TrialMode.NUMBER_OF_TIMES, EXTENDED),
   AUTO_BACKUP(TrialMode.NUMBER_OF_TIMES, EXTENDED) {
     @Override
-    public String buildUsagesLefString(Context ctx, PrefHandler prefHandler) {
+    public String buildUsagesLeftString(Context ctx, PrefHandler prefHandler) {
       int usagesLeft = usagesLeft(prefHandler);
       return usagesLeft > 0 ? ctx.getString(R.string.warning_auto_backup_limited_trial, usagesLeft) :
           getLimitReachedWarning(ctx);
@@ -80,9 +81,10 @@ public enum ContribFeature {
   HISTORY(TrialMode.NUMBER_OF_TIMES, PROFESSIONAL),
   BUDGET(TrialMode.DURATION, PROFESSIONAL),
   OCR(TrialMode.DURATION, PROFESSIONAL),
-  WEB_UI(TrialMode.DURATION, PROFESSIONAL);
+  WEB_UI(TrialMode.DURATION, PROFESSIONAL),
+  CATEGORY_TREE(TrialMode.UNLIMITED, PROFESSIONAL);
 
-  private enum TrialMode {NONE, NUMBER_OF_TIMES, DURATION}
+  private enum TrialMode {NONE, NUMBER_OF_TIMES, DURATION, UNLIMITED}
 
   ContribFeature() {
     this(TrialMode.NUMBER_OF_TIMES);
@@ -163,6 +165,8 @@ public enum ContribFeature {
       case DURATION:
         long now = System.currentTimeMillis();
         return getEndOfTrial(now, prefHandler) < now ? 0 : 1;
+      case UNLIMITED:
+        return Integer.MAX_VALUE;
       default:
         return 0;
     }
@@ -198,7 +202,8 @@ public enum ContribFeature {
   }
 
   @SuppressLint("DefaultLocale")
-  public CharSequence buildUsagesLefString(Context ctx, PrefHandler prefHandler) {
+  @Nullable
+  public CharSequence buildUsagesLeftString(Context ctx, PrefHandler prefHandler) {
     if (trialMode == TrialMode.NUMBER_OF_TIMES) {
       int usagesLeft = usagesLeft(prefHandler);
       return ctx.getText(R.string.dialog_contrib_usage_count) + " : " +
@@ -212,8 +217,7 @@ public enum ContribFeature {
         return ctx.getString(R.string.warning_limited_trial, ctx.getString(getLabelResIdOrThrow(ctx)),
             Utils.getDateFormatSafe(ctx).format(new Date(endOfTrial)));
       }
-    }
-    throw new IllegalStateException();
+    } else return null;
   }
 
   public String buildUsageLimitString(Context context) {
@@ -223,6 +227,8 @@ public enum ContribFeature {
         return context.getString(R.string.dialog_contrib_usage_limit, USAGES_LIMIT, currentLicence);
       case DURATION:
         return context.getString(R.string.dialog_contrib_usage_limit_synchronization, TRIAL_DURATION_DAYS, currentLicence);
+      case UNLIMITED:
+        return context.getString(R.string.dialog_contrib_usage_limit_with_dialog, currentLicence);
       default:
         return "";
     }
@@ -248,8 +254,8 @@ public enum ContribFeature {
     return getLicenceStatus() == PROFESSIONAL;
   }
 
-  public boolean hasTrial() {
-    return trialMode != TrialMode.NONE;
+  public int trialButton() {
+    return (trialMode == TrialMode.UNLIMITED) ? R.string.dialog_remind_later : R.string.dialog_contrib_no;
   }
 
   public LicenceStatus getLicenceStatus() {

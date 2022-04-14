@@ -97,14 +97,15 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         dialogView = binding.root
 
         //prepare HEADER
-        val message = feature?.let {
-            val featureDescription = it.buildFullInfoString(ctx)
+        val message = feature?.let { feature ->
+            val featureDescription = feature.buildFullInfoString(ctx)
             val linefeed: CharSequence = HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY)
-            val removePhrase = it.buildRemoveLimitation(activity, true)
-            if (it.hasTrial()) {
-                binding.usagesLeft.text = it.buildUsagesLefString(ctx, prefHandler)
+            val removePhrase = feature.buildRemoveLimitation(activity, true)
+            feature.buildUsagesLeftString(ctx, prefHandler)?.let {
+                binding.usagesLeft.text = it
                 binding.usagesLeft.visibility = View.VISIBLE
             }
+
             TextUtils.concat(featureDescription, linefeed, removePhrase)
         } ?: Utils.getTextWithAppName(context, R.string.dialog_contrib_text_2).let {
             if (isGithub)
@@ -208,8 +209,10 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 .setView(dialogView)
                 .setIcon(R.mipmap.ic_launcher_alt)
                 .setPositiveButton(R.string.upgrade_now, null)
-        if (feature?.let { licenceHandler.hasTrialAccessTo(it) } == true) {
-            builder.setNeutralButton(R.string.dialog_contrib_no, this)
+        feature?.let {
+            if (licenceHandler.hasTrialAccessTo(it)) {
+                builder.setNeutralButton(it.trialButton(), this)
+            }
         }
         val dialog = builder.create()
         dialog.setOnShowListener {
@@ -231,14 +234,8 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         return dialog
     }
 
-    private fun getSinglePackage() = when (feature) {
-        ContribFeature.SPLIT_TEMPLATE -> AddOnPackage.SplitTemplate
-        ContribFeature.HISTORY -> AddOnPackage.History
-        ContribFeature.BUDGET -> AddOnPackage.Budget
-        ContribFeature.OCR -> AddOnPackage.Ocr
-        ContribFeature.WEB_UI -> AddOnPackage.WebUi
-        else -> throw IllegalStateException()
-    }
+    private fun getSinglePackage(): AddOnPackage =
+        AddOnPackage::class.sealedSubclasses.find { it.objectInstance?.feature == feature }?.objectInstance ?: throw  IllegalStateException()
 
     private fun onUpgradeClicked() {
         val ctx = activity as ContribInfoDialogActivity? ?: return

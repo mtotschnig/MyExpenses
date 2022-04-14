@@ -219,8 +219,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
     }
 
-    override fun contribFeatureNotCalled(feature: ContribFeature) {}
-
     companion object {
         private const val KEY_ACCOUNT = "account"
     }
