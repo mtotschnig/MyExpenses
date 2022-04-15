@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import java.util.*
 
 @Ignore("Robolectric does not seem to be able interact with Compose Popups, we run this connected at the moment")
@@ -62,7 +62,7 @@ class DistributionTest {
 
     private fun fixtureWithMappedTransaction() {
         baseFixture {
-            categoryId =  ContentUris.parseId(repository.saveCategory(Category2(label = "TestCategory"))!!)
+            categoryId =  ContentUris.parseId(repository.saveCategory(Category(label = "TestCategory"))!!)
             with(Transaction.getNewInstance(account.id)) {
                 amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
                 catId = categoryId

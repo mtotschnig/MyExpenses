@@ -31,7 +31,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -81,7 +81,7 @@ class ExportTest {
     val expect: Expect = Expect.create()
 
     private fun writeCategory(label: String, parentId: Long? = null) =
-        ContentUris.parseId(repository.saveCategory(Category2(label = label, parentId = parentId))!!)
+        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 
     private fun insertData1(): Account {
         val tag1Id = write("Tag One")

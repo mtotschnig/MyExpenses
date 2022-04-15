@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Budget
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHandle) :
     DistributionViewModelBase<Budget>(application, savedStateHandle) {
@@ -104,7 +104,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeForBudget: Flow<Category2> = combine(
+    val categoryTreeForBudget: Flow<Category> = combine(
         _accountInfo.filterNotNull(),
         _aggregateTypes,
         _allocatedOnly,

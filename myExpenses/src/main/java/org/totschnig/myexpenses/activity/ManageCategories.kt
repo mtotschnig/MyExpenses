@@ -54,7 +54,7 @@ import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
 
 enum class HelpVariant {
@@ -150,7 +150,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             AppTheme(this) {
                 choiceMode = when (action) {
                     Action.SELECT_MAPPING -> {
-                        val selectionState: MutableState<Category2?> = remember {
+                        val selectionState: MutableState<Category?> = remember {
                             mutableStateOf(null)
                         }
                         LaunchedEffect(selectionState.value) {
@@ -177,10 +177,10 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-                viewModel.categoryTree.collectAsState(initial = Category2.LOADING).value.let { root ->
+                viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         when {
-                            root == Category2.LOADING -> {
+                            root == Category.LOADING -> {
                                 CircularProgressIndicator(
                                     modifier = Modifier
                                         .size(96.dp)
@@ -210,7 +210,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                     category = if (action == Action.SELECT_FILTER)
                                         root.copy(children = buildList {
                                             add(
-                                                Category2(
+                                                Category(
                                                     id = NULL_ITEM_ID,
                                                     label = stringResource(id = R.string.unmapped),
                                                     level = 1
@@ -270,7 +270,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         }
     }
 
-    private fun doSingleSelection(category: Category2) {
+    private fun doSingleSelection(category: Category) {
         val intent = Intent().apply {
             putExtra(KEY_CATID, category.id)
             putExtra(KEY_LABEL, category.path)
@@ -295,7 +295,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         }
     }
 
-    private fun showMoveTargetDialog(category: Category2) {
+    private fun showMoveTargetDialog(category: Category) {
         SelectCategoryMoveTargetDialogFragment.newInstance(category)
             .show(supportFragmentManager, "SELECT_TARGET")
     }
@@ -584,7 +584,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     /**
      * presents AlertDialog for editing an existing category
      */
-    open fun editCat(category: Category2) {
+    open fun editCat(category: Category) {
         val args = Bundle().apply {
             putLong(KEY_ROWID, category.id)
         }
@@ -623,7 +623,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         ) {
             val label = extras.getString(KEY_LABEL)!!
             viewModel.saveCategory(
-                Category2(
+                Category(
                     id = extras.getLong(KEY_ROWID),
                     label = label,
                     parentId = extras.getLong(KEY_PARENTID).takeIf { it != 0L },
@@ -641,7 +641,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (feature == ContribFeature.CATEGORY_TREE) {
             (tag as? Long)?.also { createCat(tag as? Long) } ?: run {
-                doSingleSelection(tag as Category2)
+                doSingleSelection(tag as Category)
             }
         }
     }

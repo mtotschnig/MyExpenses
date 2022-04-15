@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
-import org.totschnig.myexpenses.viewmodel.data.Category2
 import java.util.concurrent.TimeoutException
 
 class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {

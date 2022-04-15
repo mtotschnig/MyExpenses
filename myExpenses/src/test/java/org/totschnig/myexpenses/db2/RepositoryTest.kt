@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(AndroidJUnit4::class)
 class RepositoryTest {
@@ -25,7 +25,7 @@ class RepositoryTest {
         val labelUnderTestStripped = "Main"
         assertThat(repository.findCategory(labelUnderTest, null)).isEqualTo(-1)
         assertThat(repository.findCategory(labelUnderTestStripped, null)).isEqualTo(-1)
-        assertThat(repository.saveCategory(Category2(label = labelUnderTest))).isNotNull()
+        assertThat(repository.saveCategory(Category(label = labelUnderTest))).isNotNull()
 
         val testedId = repository.findCategory(labelUnderTest)
         val testedStrippedId = repository.findCategory(labelUnderTestStripped)
@@ -36,11 +36,11 @@ class RepositoryTest {
 
     @Test
     fun saveCategory() {
-        val parent = Category2(label = "Main")
+        val parent = Category(label = "Main")
         val parentId = ContentUris.parseId(repository.saveCategory(parent)!!)
-        val sub = Category2(label = "Sub", parentId = parentId)
+        val sub = Category(label = "Sub", parentId = parentId)
         val subId = ContentUris.parseId(repository.saveCategory(sub)!!)
-        val subsub = Category2(label = "SubSub", parentId = subId)
+        val subsub = Category(label = "SubSub", parentId = subId)
         val subSubId = ContentUris.parseId(repository.saveCategory(subsub)!!)
         assertThat(repository.findCategory(parent.label)).isGreaterThan(0)
         assertThat(repository.findCategory(sub.label, parentId)).isGreaterThan(0)

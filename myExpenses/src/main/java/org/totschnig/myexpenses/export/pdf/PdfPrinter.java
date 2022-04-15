@@ -72,7 +72,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
-import org.totschnig.myexpenses.viewmodel.data.Category2;
+import org.totschnig.myexpenses.viewmodel.data.Category;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
 import java.io.IOException;
@@ -416,7 +416,7 @@ public class PdfPrinter {
                 splitText = "[" + splitText + "]";
               }
             } else {
-              splitText = Category2.NO_CATEGORY_ASSIGNED_LABEL;
+              splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
             }
             splitText += " " + convAmount(currencyFormatter, splits.getLong(
                 splits.getColumnIndexOrThrow(KEY_AMOUNT)), account.getCurrencyUnit());
@@ -433,7 +433,7 @@ public class PdfPrinter {
           catText = catTextBuilder.toString();
           splits.close();
         } else if (catId == null) {
-          catText = Category2.NO_CATEGORY_ASSIGNED_LABEL;
+          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         }
       }
       if (account.getId() < 0) {

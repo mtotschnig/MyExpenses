@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
 import org.apache.commons.lang3.StringUtils
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 object CategoryHelper {
     var countInserted = 0
@@ -72,7 +72,7 @@ object CategoryHelper {
     private fun maybeWriteCategory(repository: Repository, name: String, parentId: Long?): Long {
         var id = repository.findCategory(name, parentId)
         if (id == -1L) {
-            id = repository.saveCategory(Category2(label = name, parentId = parentId))
+            id = repository.saveCategory(Category(label = name, parentId = parentId))
                 ?.let { ContentUris.parseId(it) } ?: -1
             if (id != -1L) countInserted++
         }

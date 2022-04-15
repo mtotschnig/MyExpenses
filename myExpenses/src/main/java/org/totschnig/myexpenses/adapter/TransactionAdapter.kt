@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.*
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -143,7 +143,7 @@ open class TransactionAdapter(
             if (SPLIT_CATID == catId) catText =
                 context.getString(R.string.split_transaction) else if (catId == null) {
                 if (cursor.getInt(KEY_STATUS) != STATUS_HELPER) {
-                    catText = Category2.NO_CATEGORY_ASSIGNED_LABEL
+                    catText = Category.NO_CATEGORY_ASSIGNED_LABEL
                 }
             }
         }

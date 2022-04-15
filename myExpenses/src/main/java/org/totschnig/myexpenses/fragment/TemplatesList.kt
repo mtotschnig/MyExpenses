@@ -59,7 +59,7 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
@@ -639,7 +639,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             } else {
                 val catId = DbUtils.getLongOrNull(c, DatabaseConstants.KEY_CATID)
                 if (catId == null) {
-                    catText = Category2.NO_CATEGORY_ASSIGNED_LABEL
+                    catText = Category.NO_CATEGORY_ASSIGNED_LABEL
                 }
             }
             //TODO: simplify confer TemplateWidget

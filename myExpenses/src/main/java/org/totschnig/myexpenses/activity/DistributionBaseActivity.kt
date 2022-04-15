@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : ProtectedFragmentActivity() {
     abstract val viewModel: T
@@ -73,7 +73,7 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
         }
     }
 
-    fun showTransactions(category: Category2) {
+    fun showTransactions(category: Category) {
         viewModel.accountInfo.value?.let {
             TransactionListDialogFragment.newInstance(
                 it.accountId,

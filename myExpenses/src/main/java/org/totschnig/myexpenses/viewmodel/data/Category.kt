@@ -10,13 +10,13 @@ import kotlin.math.absoluteValue
 
 @Immutable
 @Parcelize
-data class Category2(
+data class Category(
     val id: Long = 0,
     val parentId: Long? = null,
     val level: Int = 0,
     val label: String,
     val path: String = label,
-    val children: List<Category2> = emptyList(),
+    val children: List<Category> = emptyList(),
     val isMatching: Boolean = true,
     val color: Int? = null,
     val icon: String? = null,
@@ -24,12 +24,12 @@ data class Category2(
     val budget: Long = 0L
 ) : Parcelable, Serializable {
 
-    fun flatten(): List<Category2> = buildList {
-        add(this@Category2)
+    fun flatten(): List<Category> = buildList {
+        add(this@Category)
         addAll(children.flatMap { it.flatten() })
     }
 
-    fun pruneNonMatching(_criteria: ((Category2) -> Boolean)? = null): Category2? {
+    fun pruneNonMatching(_criteria: ((Category) -> Boolean)? = null): Category? {
         val criteria = _criteria ?: { it.isMatching }
         val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
         return if (id == 0L || criteria(this) || prunedChildren.isNotEmpty()) {
@@ -37,12 +37,12 @@ data class Category2(
         } else null
     }
 
-    fun sortChildrenBySumRecursive(): Category2 = if (children.isEmpty()) this else
+    fun sortChildrenBySumRecursive(): Category = if (children.isEmpty()) this else
         copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue }.map {
             it.sortChildrenBySumRecursive()
         })
 
-    fun withSubColors(subColorProvider: (Int) -> List<Int>): Category2 =
+    fun withSubColors(subColorProvider: (Int) -> List<Int>): Category =
         if (children.isEmpty()) this else
             copy(children = (if (color == null) children else {
                 val subColors = subColorProvider(color)
@@ -50,7 +50,7 @@ data class Category2(
             }).map { it.withSubColors(subColorProvider) })
 
 
-    fun sortChildrenByBudgetRecursive(): Category2 = if (children.isEmpty()) this else
+    fun sortChildrenByBudgetRecursive(): Category = if (children.isEmpty()) this else
         copy(children = children.sortedByDescending { it.budget }.map {
             it.sortChildrenByBudgetRecursive()
         })
@@ -71,7 +71,7 @@ data class Category2(
         get() = sum + if (level == 0) 0 else children.sumOf { it.aggregateSum }
 
     companion object {
-        val LOADING = Category2(label = "EMPTY")
+        val LOADING = Category(label = "EMPTY")
         const val NO_CATEGORY_ASSIGNED_LABEL = "—"
     }
 }

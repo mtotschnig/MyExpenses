@@ -27,18 +27,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 @Composable
 fun Budget(
     modifier: Modifier = Modifier,
-    category: Category2,
+    category: Category,
     expansionMode: ExpansionMode,
     currency: CurrencyUnit,
     startPadding: Dp = 0.dp,
-    parent: Category2? = null,
-    onBudgetEdit: (category: Category2, parent: Category2?) -> Unit,
-    onShowTransactions: (category: Category2) -> Unit
+    parent: Category? = null,
+    onBudgetEdit: (category: Category, parent: Category?) -> Unit,
+    onShowTransactions: (category: Category) -> Unit
 ) {
     Column(
         modifier = modifier.then(
@@ -114,7 +114,7 @@ fun Budget(
 
 @Composable
 private fun Summary(
-    category: Category2,
+    category: Category,
     currency: CurrencyUnit,
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit
@@ -189,7 +189,7 @@ private fun Header() {
 
 @Composable
 private fun BudgetCategoryRenderer(
-    category: Category2,
+    category: Category,
     currency: CurrencyUnit,
     expansionMode: ExpansionMode,
     startPadding: Dp,
@@ -227,7 +227,7 @@ private fun BudgetCategoryRenderer(
 
 @Composable
 private fun RowScope.BudgetNumbers(
-    category: Category2,
+    category: Category,
     currency: CurrencyUnit,
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit

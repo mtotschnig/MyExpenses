@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
     lateinit var viewModel: CategoryViewModel
@@ -30,9 +30,9 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
     @Composable
     override fun BuildContent() {
-        val source = requireArguments().getParcelable<Category2>(KEY_SOURCE)!!
+        val source = requireArguments().getParcelable<Category>(KEY_SOURCE)!!
         Column(modifier = Modifier.padding(8.dp)) {
-            val selectionState: MutableState<Category2?> = rememberSaveable {
+            val selectionState: MutableState<Category?> = rememberSaveable {
                 mutableStateOf(null)
             }
 
@@ -43,7 +43,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
             Category(
                 modifier = Modifier.weight(1f),
-                category = viewModel.categoryTreeForSelect.collectAsState(initial = Category2.LOADING).value.copy(
+                category = viewModel.categoryTreeForSelect.collectAsState(initial = Category.LOADING).value.copy(
                     label = stringResource(id = R.string.transform_subcategory_to_main)
                 ),
                 expansionMode = ExpansionMode.DefaultExpanded(rememberMutableStateListOf()),
@@ -80,7 +80,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
     companion object {
         const val KEY_SOURCE = "source"
-        fun newInstance(category: Category2) = SelectCategoryMoveTargetDialogFragment().apply {
+        fun newInstance(category: Category) = SelectCategoryMoveTargetDialogFragment().apply {
             arguments = Bundle().apply {
                 putParcelable("source", category)
             }

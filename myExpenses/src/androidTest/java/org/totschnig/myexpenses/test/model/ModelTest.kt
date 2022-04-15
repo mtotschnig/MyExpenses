@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.testutils.BaseProviderTest
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 abstract class ModelTest : BaseProviderTest() {
     protected val repository: Repository
@@ -16,7 +16,7 @@ abstract class ModelTest : BaseProviderTest() {
         )
 
     fun writeCategory(label: String, parentId: Long?) =
-        ContentUris.parseId(repository.saveCategory(Category2(label = label, parentId = parentId))!!)
+        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 
     @Throws(Exception::class)
     override fun setUp() {

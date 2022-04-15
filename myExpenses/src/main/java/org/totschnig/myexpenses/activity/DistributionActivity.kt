@@ -46,7 +46,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
-import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -59,7 +58,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
 
@@ -145,7 +144,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
             else -> false
         }
 
-    private fun setChartData(categories: List<Category2>) {
+    private fun setChartData(categories: List<Category>) {
         if ((::chart.isInitialized)) {
             chart.data = PieData(PieDataSet(categories.map {
                 PieEntry(
@@ -153,7 +152,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                     it.label
                 )
             }, "").apply {
-                colors = categories.map(Category2::color)
+                colors = categories.map(Category::color)
                 sliceSpace = 2f
                 setDrawValues(false)
                 xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
@@ -197,7 +196,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                 val isDark = isSystemInDarkTheme()
                 val configuration = LocalConfiguration.current
                 val categoryTree =
-                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category2.LOADING).value.withSubColors {
+                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING).value.withSubColors {
                         getSubColors(it, isDark)
                     }
 
@@ -227,7 +226,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                 val choiceMode =
                     ChoiceMode.SingleChoiceMode(selectionState) { id -> chartCategoryTree.value.children.any { it.id == id } }
                 val expansionMode = object : ExpansionMode.Single(expansionState) {
-                    override fun toggle(category: Category2) {
+                    override fun toggle(category: Category) {
                         super.toggle(category)
                         //when we collapse a category, we want it to be selected, when expand the first child should be selected
                         if (isExpanded(category.id)) {
@@ -240,7 +239,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                 val accountInfo = viewModel.accountInfo.collectAsState(null)
                 Box(modifier = Modifier.fillMaxSize()) {
                     when {
-                        categoryTree == Category2.LOADING -> {
+                        categoryTree == Category.LOADING -> {
                             CircularProgressIndicator(
                                 modifier = Modifier
                                     .size(96.dp)
@@ -348,7 +347,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
     @Composable
     fun RenderTree(
         modifier: Modifier,
-        category: Category2,
+        category: Category,
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
         accountInfo: DistributionAccountInfo?
@@ -427,7 +426,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
     @Composable
     fun RenderChart(
         modifier: Modifier,
-        categories: State<Category2>
+        categories: State<Category>
     ) {
         if (showChart.value)
             AndroidView(

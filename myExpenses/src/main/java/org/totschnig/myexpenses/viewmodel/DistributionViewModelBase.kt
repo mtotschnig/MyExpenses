@@ -30,8 +30,8 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
 
-    val selectionState: MutableState<Category2?> = mutableStateOf(null)
-    val expansionState: SnapshotStateList<Category2> = SnapshotStateList()
+    val selectionState: MutableState<Category?> = mutableStateOf(null)
+    val expansionState: SnapshotStateList<Category> = SnapshotStateList()
     protected val _accountInfo = MutableStateFlow<T?>(null)
     val accountInfo: StateFlow<T?> = _accountInfo
 
@@ -259,8 +259,8 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
         groupingInfo: GroupingInfo,
         queryParameter: String? = null,
         filterPersistence: FilterPersistence? = null,
-        keepCriteria: ((Category2) -> Boolean)? = null
-    ): Flow<Category2> =
+        keepCriteria: ((Category) -> Boolean)? = null
+    ): Flow<Category> =
         categoryTree(
             filter = null,
             projection = buildList {

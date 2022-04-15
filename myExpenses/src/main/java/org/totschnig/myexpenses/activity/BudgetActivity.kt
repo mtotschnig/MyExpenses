@@ -38,7 +38,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import java.math.BigDecimal
 
 class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogResultListener {
@@ -78,13 +78,13 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         binding.composeView.setContent {
             AppTheme(this) {
                 val category =
-                    viewModel.categoryTreeForBudget.collectAsState(initial = Category2.LOADING).value
+                    viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value
                 val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                 val sort = viewModel.sortOrder.collectAsState()
                 val filterPersistence = viewModel.filterPersistence.collectAsState().value
                 Box(modifier = Modifier.fillMaxSize()) {
-                    if (category == Category2.LOADING || budget == null) {
+                    if (category == Category.LOADING || budget == null) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .size(96.dp)
@@ -137,8 +137,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     }
 
     private fun showEditBudgetDialog(
-        category: Category2,
-        parentItem: Category2?,
+        category: Category,
+        parentItem: Category?,
         currencyUnit: CurrencyUnit
     ) {
         val simpleFormDialog = SimpleFormDialog.build()

@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -127,7 +127,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
 
     fun saveParty(id: Long, name: String) = Payee(id, name).save()
 
-    fun saveCategory(category: Category2): Uri? {
+    fun saveCategory(category: Category): Uri? {
         val initialValues = ContentValues().apply {
             put(KEY_LABEL, category.label.trim())
             put(KEY_LABEL_NORMALIZED, Utils.normalize(category.label))

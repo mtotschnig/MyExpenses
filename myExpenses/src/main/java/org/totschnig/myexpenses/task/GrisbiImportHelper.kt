@@ -3,12 +3,12 @@ package org.totschnig.myexpenses.task
 import android.content.ContentUris
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.util.CategoryTree
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 
 object GrisbiImportHelper {
     private fun writeCategory(repository: Repository, label: String, parentId: Long? = null) =
-        ContentUris.parseId(repository.saveCategory(Category2(label = label, parentId = parentId))!!)
+        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 
     fun importCats(catTree: CategoryTree, task: GrisbiImportTask): Int {
         var count = 0

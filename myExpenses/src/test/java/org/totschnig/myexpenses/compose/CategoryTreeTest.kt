@@ -2,19 +2,19 @@ package org.totschnig.myexpenses.compose
 
 import com.google.common.truth.Truth
 import org.junit.Test
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 
 class CategoryTreeTest {
 
     @Test
     fun shouldKeepDeeplyNestedMatch() {
-        val category = Category2(
+        val category = Category(
             label = "ROOT", children = listOf(
-                Category2(
+                Category(
                     label = "1", isMatching = false, children = listOf(
-                        Category2(
+                        Category(
                             label = "1.1", isMatching = false, children = listOf(
-                                Category2(label = "1.1.2", isMatching = true)
+                                Category(label = "1.1.2", isMatching = true)
                             )
                         )
                     )
@@ -26,22 +26,22 @@ class CategoryTreeTest {
 
     @Test
     fun shouldFlattenDepthFirst() {
-        val category = Category2(
+        val category = Category(
             label = "ROOT", children = listOf(
-                Category2(
+                Category(
                     label = "1", children = listOf(
-                        Category2(
+                        Category(
                             label = "1.1", children = listOf(
-                                Category2(label = "1.1.1")
+                                Category(label = "1.1.1")
                             )
                         )
                     )
                 ),
-                Category2(
+                Category(
                     label = "2", children = listOf(
-                        Category2(
+                        Category(
                             label = "2.1", children = listOf(
-                                Category2(label = "2.1.1")
+                                Category(label = "2.1.1")
                             )
                         )
                     )
@@ -55,13 +55,13 @@ class CategoryTreeTest {
 
     @Test
     fun shouldRemoveNonMatchingChildren() {
-        val category = Category2(
+        val category = Category(
             label = "ROOT", children = listOf(
-                Category2(
+                Category(
                     id= 1, label = "1", isMatching = false, children = listOf(
-                        Category2(
+                        Category(
                             id = 2, label = "1.1", isMatching = false, children = listOf(
-                                Category2(id =3 ,label = "1.1.2", isMatching = false)
+                                Category(id =3 ,label = "1.1.2", isMatching = false)
                             )
                         )
                     )

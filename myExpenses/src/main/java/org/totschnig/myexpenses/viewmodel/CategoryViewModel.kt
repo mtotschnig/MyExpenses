@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import kotlin.Result.Companion.failure
 
@@ -84,9 +84,9 @@ open class CategoryViewModel(
             keepCriteria = null
         )
     }
-        .stateIn(viewModelScope, SharingStarted.Lazily, Category2.LOADING)
+        .stateIn(viewModelScope, SharingStarted.Lazily, Category.LOADING)
 
-    val categoryTreeForSelect: Flow<Category2>
+    val categoryTreeForSelect: Flow<Category>
         get() = categoryTree("", sortOrder.value.toOrderByWithDefault(defaultSort))
 
     fun categoryTree(
@@ -95,8 +95,8 @@ open class CategoryViewModel(
         projection: Array<String>? = null,
         additionalSelectionArgs: Array<String>? = null,
         queryParameter: String? = null,
-        keepCriteria: ((Category2) -> Boolean)? = null
-    ): Flow<Category2> {
+        keepCriteria: ((Category) -> Boolean)? = null
+    ): Flow<Category> {
         val (selection, selectionArgs) = if (filter?.isNotBlank() == true) {
             val selectionArgs =
                 arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
@@ -125,12 +125,12 @@ open class CategoryViewModel(
             .build()
 
     private fun Flow<Query>.mapToTree(
-        keepCriteria: ((Category2) -> Boolean)?
-    ): Flow<Category2> = transform { query ->
+        keepCriteria: ((Category) -> Boolean)?
+    ): Flow<Category> = transform { query ->
         val value = withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
-                Category2(
+                Category(
                     id = 0,
                     parentId = null,
                     level = 0,
@@ -152,7 +152,7 @@ open class CategoryViewModel(
         }
     }
 
-    fun saveCategory(category: Category2) =
+    fun saveCategory(category: Category) =
         liveData(context = coroutineContext()) {
             emit(repository.saveCategory(category))
         }
@@ -299,7 +299,7 @@ open class CategoryViewModel(
             cursor: Cursor,
             parentId: Long?,
             level: Int
-        ): List<Category2> =
+        ): List<Category> =
             buildList {
                 if (!cursor.isBeforeFirst) {
                     var index = 0
@@ -320,7 +320,7 @@ open class CategoryViewModel(
                             check(level == nextLevel)
                             cursor.moveToNext()
                             add(
-                                Category2(
+                                Category(
                                     nextId,
                                     parentId,
                                     nextLevel,

@@ -34,17 +34,17 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.viewmodel.data.Category2
+import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.floor
 import kotlin.math.sqrt
 
 @Composable
 fun Category(
     modifier: Modifier = Modifier,
-    category: Category2,
+    category: Category,
     expansionMode: ExpansionMode,
-    menuGenerator: @Composable (Category2) -> Menu<Category2>? = { null },
-    selectedAncestor: Category2? = null,
+    menuGenerator: @Composable (Category) -> Menu<Category>? = { null },
+    selectedAncestor: Category? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
     withRoot: Boolean = false,
@@ -120,10 +120,10 @@ fun Category(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryRenderer(
-    category: Category2,
+    category: Category,
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
-    menuGenerator: @Composable (Category2) -> Menu<Category2>?,
+    menuGenerator: @Composable (Category) -> Menu<Category>?,
     startPadding: Dp,
     onToggleSelection: () -> Unit,
     sumCurrency: CurrencyUnit?
@@ -248,9 +248,9 @@ fun TreePreview() {
         childColors: List<Int>?,
         level: Int,
         parentId: Long?
-    ): Category2 {
+    ): Category {
         val id = counter++
-        return Category2(
+        return Category(
             id = counter,
             parentId = parentId,
             level = level,
@@ -267,7 +267,7 @@ fun TreePreview() {
                         )
                     )
                 }
-                add(Category2(label = "BOGUS", level = level + 1))
+                add(Category(label = "BOGUS", level = level + 1))
             },
             color = color
         )
@@ -292,9 +292,9 @@ fun TreePreview() {
 
 interface ExpansionMode {
     fun isExpanded(id: Long): Boolean
-    fun toggle(category: Category2)
+    fun toggle(category: Category)
     abstract class MultiExpand(val state: SnapshotStateList<Long>) : ExpansionMode {
-        override fun toggle(category: Category2) {
+        override fun toggle(category: Category) {
             state.toggle(category.id)
         }
     }
@@ -307,9 +307,9 @@ interface ExpansionMode {
         override fun isExpanded(id: Long) = state.contains(id)
     }
 
-    open class Single(val state: SnapshotStateList<Category2>) : ExpansionMode {
+    open class Single(val state: SnapshotStateList<Category>) : ExpansionMode {
         override fun isExpanded(id: Long) = state.any { it.id == id }
-        override fun toggle(category: Category2) {
+        override fun toggle(category: Category) {
             val isExpanded = isExpanded(category.id)
             state.removeRange(state.indexOfFirst { it.id == category.parentId } + 1, state.size)
             if (!isExpanded) {
@@ -331,12 +331,12 @@ sealed class ChoiceMode(
 
     abstract fun isSelected(id: Long): Boolean
 
-    abstract fun toggleSelection(selectedAncestor: Category2?, category: Category2)
+    abstract fun toggleSelection(selectedAncestor: Category?, category: Category)
 
     class MultiChoiceMode(val selectionState: SnapshotStateList<Long>, selectTree: Boolean) :
         ChoiceMode(selectTree) {
         override fun isSelected(id: Long) = selectionState.contains(id)
-        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {
+        override fun toggleSelection(selectedAncestor: Category?, category: Category) {
             (selectedAncestor ?: category).let {
                 if (selectionState.toggle(it.id)) {
                     //when we select a category, children are implicitly selected, so we remove
@@ -348,19 +348,19 @@ sealed class ChoiceMode(
     }
 
     class SingleChoiceMode(
-        val selectionState: MutableState<Category2?>,
+        val selectionState: MutableState<Category?>,
         isSelectable: (Long) -> Boolean = { true }
     ) :
         ChoiceMode(false, isSelectable) {
         override fun isSelected(id: Long) = selectionState.value?.id == id
-        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {
+        override fun toggleSelection(selectedAncestor: Category?, category: Category) {
             selectionState.value = if (selectionState.value == category) null else category
         }
     }
     object NoChoice: ChoiceMode(false) {
         override fun isSelected(id: Long) = false
 
-        override fun toggleSelection(selectedAncestor: Category2?, category: Category2) {}
+        override fun toggleSelection(selectedAncestor: Category?, category: Category) {}
     }
 }
 
