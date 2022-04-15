@@ -175,6 +175,7 @@
     <string name="menu_HistoryActivity_history_transfers_help_text">Toggle, if transfers should be treated like a regular income or expense.</string>
     <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">By defining a budget, you define an overall amount that you want to spend during a given period. You can also allocate amounts for categories and sub-categories. You then monitor how much you have spent and how much remains to be spent.</string>
     <string name="help_Budget_amount_click">Clicking on the budgeted amounts allows to change them.</string>
+    <string name="help_Budget_spent_click">Clicking on the spent amounts lists all the transactions relevant for the current budget and the corresponding category.</string>
     <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Compare budget with spending of past and future periods of time.</string>
     <string name="menu_BudgetActivity_edit_help_text">Change the budget\'s definition.</string>

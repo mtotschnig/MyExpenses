@@ -5,8 +5,10 @@ import android.view.Menu
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
+import org.totschnig.myexpenses.viewmodel.data.Category2
 
 abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : ProtectedFragmentActivity() {
     abstract val viewModel: T
@@ -68,6 +70,23 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
         viewModel.setAggregateTypes(aggregateTypesFromPreference == null)
         if (aggregateTypesFromPreference != null) {
             viewModel.setIncomeType(aggregateTypesFromPreference)
+        }
+    }
+
+    fun showTransactions(category: Category2) {
+        viewModel.accountInfo.value?.let {
+            TransactionListDialogFragment.newInstance(
+                it.accountId,
+                category.id,
+                viewModel.grouping,
+                viewModel.filterClause,
+                viewModel.filterPersistence.value?.whereFilter?.getSelectionArgs(true),
+                category.label,
+                if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
+                true,
+                category.icon?.let { resources.getIdentifier(it, "drawable", packageName) }
+            )
+                .show(supportFragmentManager, TransactionListDialogFragment::class.java.name)
         }
     }
 }

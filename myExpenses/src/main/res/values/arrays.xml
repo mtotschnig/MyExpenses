@@ -169,7 +169,7 @@
         <item>search</item>
         <item>categories_setup_default</item>
     </string-array>
-    <string-array name="Distribution_menuitems" tools:ignore="UnusedResources">
+    <string-array name="DistributionActivity_menuitems" tools:ignore="UnusedResources">
         <item>grouping</item>
         <item>back</item>
         <item>forward</item>
@@ -195,9 +195,9 @@
     <string-array name="ManageCategories_select_filter_cabitems" tools:ignore="UnusedResources">
         <item>select</item>
     </string-array>
-    <string-array name="Distribution_cabitems" tools:ignore="UnusedResources">
-        <item>color</item>
+    <string-array name="DistributionActivity_cabitems" tools:ignore="UnusedResources">
         <item>show_transactions</item>
+        <item>color</item>
     </string-array>
 
     <string-array name="BudgetActivity_menuitems" tools:ignore="UnusedResources">
@@ -207,10 +207,6 @@
         <item>budget_aggregate</item>
         <item>budget_allocated_only</item>
         <item>delete</item>
-    </string-array>
-    <string-array name="BudgetActivity_cabitems" tools:ignore="UnusedResources">
-        <item>color</item>
-        <item>show_transactions</item>
     </string-array>
 
     <string-array name="ExpenseEdit_transaction_menuitems" tools:ignore="UnusedResources">
@@ -498,6 +494,7 @@
     <string-array name="help_BudgetActivity_info" tools:ignore="UnusedResources">
         <item>help_BudgetActivity_info</item>
         <item>help_Budget_amount_click</item>
+        <item>help_Budget_spent_click</item>
     </string-array>
 
     <string-array name="help_ManageBudgets_info" tools:ignore="UnusedResources">

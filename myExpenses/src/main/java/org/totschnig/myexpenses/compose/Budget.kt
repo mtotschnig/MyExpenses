@@ -37,7 +37,8 @@ fun Budget(
     currency: CurrencyUnit,
     startPadding: Dp = 0.dp,
     parent: Category2? = null,
-    onBudgetEdit: (category: Category2, parent: Category2?) -> Unit
+    onBudgetEdit: (category: Category2, parent: Category2?) -> Unit,
+    onShowTransactions: (category: Category2) -> Unit
 ) {
     Column(
         modifier = modifier.then(
@@ -51,13 +52,17 @@ fun Budget(
             } else Modifier
         )
     ) {
+        val doEdit = { onBudgetEdit(category, parent) }
+        val doShow = { onShowTransactions(category) }
         if (category.level > 0) {
             BudgetCategoryRenderer(
                 category = category,
                 currency = currency,
                 expansionMode = expansionMode,
-                startPadding = startPadding
-            ) { onBudgetEdit(category, parent) }
+                startPadding = startPadding,
+                onBudgetEdit = doEdit,
+                onShowTransactions = doShow
+            )
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
                     verticalArrangement = Arrangement.Center
@@ -69,7 +74,8 @@ fun Budget(
                             currency = currency,
                             startPadding = startPadding + 12.dp,
                             parent = category,
-                            onBudgetEdit = onBudgetEdit
+                            onBudgetEdit = onBudgetEdit,
+                            onShowTransactions = onShowTransactions
                         )
                     }
                 }
@@ -81,7 +87,12 @@ fun Budget(
                 verticalArrangement = Arrangement.Center
             ) {
                 item {
-                    Summary(category, currency) { onBudgetEdit(category, parent) }
+                    Summary(
+                        category,
+                        currency,
+                        doEdit,
+                        doShow
+                    )
                     Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
                 }
                 category.children.forEach { model ->
@@ -91,7 +102,8 @@ fun Budget(
                             parent = category,
                             expansionMode = expansionMode,
                             currency = currency,
-                            onBudgetEdit = onBudgetEdit
+                            onBudgetEdit = onBudgetEdit,
+                            onShowTransactions = onShowTransactions
                         )
                     }
                 }
@@ -104,7 +116,8 @@ fun Budget(
 private fun Summary(
     category: Category2,
     currency: CurrencyUnit,
-    onBudgetEdit: () -> Unit
+    onBudgetEdit: () -> Unit,
+    onShowTransactions: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -116,7 +129,7 @@ private fun Summary(
             text = stringResource(id = R.string.menu_aggregates)
         )
         VerticalDivider()
-        BudgetNumbers(category = category, currency = currency, onBudgetEdit = onBudgetEdit)
+        BudgetNumbers(category, currency, onBudgetEdit, onShowTransactions)
     }
 }
 
@@ -181,6 +194,7 @@ private fun BudgetCategoryRenderer(
     expansionMode: ExpansionMode,
     startPadding: Dp,
     onBudgetEdit: () -> Unit,
+    onShowTransactions: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -207,7 +221,7 @@ private fun BudgetCategoryRenderer(
             }
         }
         VerticalDivider()
-        BudgetNumbers(category = category, currency = currency, onBudgetEdit)
+        BudgetNumbers(category = category, currency = currency, onBudgetEdit, onShowTransactions)
     }
 }
 
@@ -215,7 +229,8 @@ private fun BudgetCategoryRenderer(
 private fun RowScope.BudgetNumbers(
     category: Category2,
     currency: CurrencyUnit,
-    onBudgetEdit: () -> Unit
+    onBudgetEdit: () -> Unit,
+    onShowTransactions: () -> Unit
 ) {
     val allocation =
         if (category.children.isEmpty()) category.budget else category.children.sumOf { it.budget }
@@ -249,9 +264,11 @@ private fun RowScope.BudgetNumbers(
     val aggregateSum = category.aggregateSum
     Text(
         modifier = Modifier
-            .numberColumn(this),
+            .numberColumn(this)
+            .clickable(onClick = onShowTransactions),
         text = LocalAmountFormatter.current(aggregateSum, currency),
-        textAlign = TextAlign.End
+        textAlign = TextAlign.End,
+        textDecoration = TextDecoration.Underline
     )
     VerticalDivider()
     Box(

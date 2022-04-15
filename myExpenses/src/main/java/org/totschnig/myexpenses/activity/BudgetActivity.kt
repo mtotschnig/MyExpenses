@@ -126,7 +126,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                         parent,
                                         budget.currency
                                     )
-                                }
+                                },
+                                onShowTransactions = ::showTransactions
                             )
                         }
                     }

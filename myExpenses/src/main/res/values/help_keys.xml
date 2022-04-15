@@ -5,7 +5,7 @@
     <string name="help_ManageTemplates_templates_title">@string/menu_manage_plans</string>
     <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
     <string name="help_ManageParties_manage_title">@string/pref_manage_parties_title</string>
-    <string name="help_Distribution_title">@string/menu_distribution</string>
+    <string name="help_DistributionActivity_title">@string/menu_distribution</string>
     <string name="help_BudgetActivity_title">@string/menu_budget</string>
     <string name="help_ManageCategories_select_mapping_title">@string/select_category</string>
     <string name="help_ManageParties_select_mapping_title">@string/select_payee</string>
@@ -24,8 +24,8 @@
     <string name="help_HistoryActivity_title">@string/menu_history</string>
     <string name="form_AccountEdit_exchange_rate_help_text">@string/menu_equivalent_amount_help_text</string>
     <string name="cab_ungroup_split_transaction_help_text">@string/warning_ungroup_split_transactions</string>
-    <string name="help_Distribution_info">@string/help_ManageCategories_distribution_info</string>
-    <string name="menu_Distribution_grouping_help_text">@string/menu_ManageCategories_distribution_grouping_help_text</string>
+    <string name="help_DistributionActivity_info">@string/help_ManageCategories_distribution_info</string>
+    <string name="menu_DistributionActivity_grouping_help_text">@string/menu_ManageCategories_distribution_grouping_help_text</string>
     <string name="cab_color_help_text">@string/cab_ManageCategories_color_help_text</string>
     <string name="menu_manage_categories_help_text">@string/pref_manage_categories_summary</string>
     <string name="help_RoadmapVoteActivity_title">@string/roadmap_vote</string>

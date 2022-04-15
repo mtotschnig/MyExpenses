@@ -366,21 +366,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                             add(
                                 MenuEntry(
                                     Icons.Filled.List,
-                                    stringResource(id = R.string.menu_show_transactions)
-                                ) { category ->
-                                    TransactionListDialogFragment.newInstance(
-                                        accountInfo.accountId,
-                                        category.id,
-                                        viewModel.grouping,
-                                        viewModel.filterClause,
-                                        null,
-                                        category.label,
-                                        if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
-                                        true,
-                                        category.icon?.let { resources.getIdentifier(it, "drawable", packageName) }
-                                    )
-                                        .show(supportFragmentManager, TransactionListDialogFragment::class.java.name)
-                                })
+                                    stringResource(id = R.string.menu_show_transactions),
+                                    ::showTransactions
+                                )
+                            )
                         }
                         if (it.level == 1)
                             add(
