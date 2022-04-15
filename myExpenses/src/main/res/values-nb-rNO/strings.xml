@@ -345,4 +345,7 @@
     <string name="dialog_remind_later">Senere</string>
     <string name="dialog_password_new_password_confirmation">Nytt passord (bekreftelse)</string>
     <string name="new_version">Ny versjon</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategoritre</string>
+    <string name="decimal_separator">Desimaltegn</string>
+    <string name="menu_edit_transfer">Rediger overføring</string>
 </resources>
