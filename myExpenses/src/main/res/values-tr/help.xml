@@ -186,4 +186,6 @@
     <string name="help_ManageCategories_expand_collapse">Bir kategoriyi genişletmek veya daraltmak için &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; simgesine tıklayın.</string>
     <string name="cab_ManageCategories_move_help_text">Herhangi bir kategori (alt kategorileriyle birlikte) yeni bir üst kategoriye taşınabilir. Alt kategoriler ana kategorilere dönüştürülebilir.</string>
     <string name="help_ManageCategories_manage_context">Bağlam menüsünü göstermek için bir unsura tıklayın. Çoklu seçimi başlatmak için uzun dokunun.</string>
+    <string name="help_Budget_spent_click">Harcanan miktarlara tıklamak, geçerli bütçe ve ilgili kategori ile ilgili tüm muameleleri listeler.</string>
+    <string name="help_ManageCategories_select_filter_info">Çoklu seçimi başlatmak için bir unsura tıklayın.</string>
 </resources>
