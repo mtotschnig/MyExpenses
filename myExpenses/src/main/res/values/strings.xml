@@ -1021,4 +1021,6 @@
     <!-- New feature in version 3.3.6 #2 (https://github.com/mtotschnig/MyExpenses/issues/889) -->
     <string name="whats_new_336_2">Tags for split parts</string>
     <string name="setup_completed">Setup completed</string>
+    <!-- New feature in version 3.3.8 -->
+    <string name="whats_new_338">Arbitrarily deep category hierarchy</string>
 </resources>
