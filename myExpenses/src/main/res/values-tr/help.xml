@@ -6,7 +6,6 @@
     <string name="help_form_fields">Form alanları</string>
     <string name="cab_delete_help_text">Seçilen unsurları sil.</string>
     <string name="cab_edit_help_text">Seçilen unsuru düzenle.</string>
-    <!--My Expenses Transaction list-->
     <string name="help_MyExpenses_title">Muamele listesi</string>
     <string name="help_MyExpenses_info">Bu ekran güncel hesap için tüm muameleleri gösterir. Yeni muamele oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
     <string name="help_MyExpenses_fab_long_press">Kayan eylem düğmesine uzun süre dokunmak, gelir, transfer veya bölünmüş muamele için form hazırlamaya izin veren bir menü açar.</string>
@@ -29,15 +28,12 @@
     <string name="cab_split_help_text">Daha sonra gerektiği gibi ek bölümler eklemek için muameleyi düzenleyebilirsiniz.</string>
     <string name="menu_scan_mode_help_text">Makbuzları hızlıca taramak için tarama kipini etkinleştirin.</string>
     <string name="cab_link_help_text">Bir hesaptaki herhangi bir harcama, başka bir hesaptaki gelir ile ilişkilendirilebilir. Şayet hesaplar aynı para birimini kullanıyorsa, iki muamelenin de meblağının aynı olması gerekir.</string>
-    <!--ManageMethods title is in keys-->
     <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme yöntemlerini (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni yöntem oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
-    <!--ManageParties title is in keys-->
     <string name="help_ManageParties_manage_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan unsurları listeler. </string>
     <string name="help_ManageParties_select_mapping_info">Muameleye müdahil bir taraf seçmek için üzerine dokunun.</string>
     <string name="help_ManageParties_select_filter_info">Muamele listesine filtre uygulamak için muameleye müdahil bir tarafa dokunun. Birden fazla taraf seçmek için uzun dokunun.</string>
     <string name="help_ManageParties_floating_action_button">Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
     <string name="menu_merge_help_text">Şayet aynı taraf listede imla değişiklikleriyle birden fazla defa mevcutsa, bunları birleştirebilirsiniz. Hangisinin muhafaza edileceğini seçmeniz istenecektir.</string>
-    <!--ManageTemplates title is in keys-->
     <string name="help_ManageTemplates_plans_title">Planlama takvim görünümü</string>
     <string name="help_ManageTemplates_planner_title">Gelecek tekrarlamalar</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Şablonlar muamelelerin bağlam menülerinden elde edilebilir olsa da, burada yeni şablonları (muameleler ya da transferler için) eylem düğmesine tıklayarak sıfırdan oluşturabilirsiniz. Şablona tıklamak onun bir örneklendirmesini oluşturacaktır.<br><img src=\"ic_event\">Bir planlama, planlama takviminde (bir seferlik ya da tekrarlanan) bir olay oluşturduğunuz bir şablondur. Herhangi bir planlamaya tıklamanız planlamanın geçmiş ve gelecekteki örneklemelerini gösteren takvim görünümünü açacaktır.]]></string>
@@ -54,7 +50,6 @@
     <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Eğer seçilen olay örneklemeleri için muamele oluşturulduysa, bu muameleler silinecek, eğer iptal edilmiş olarak işaretlendiler ise bu işaretler kaldırılacaktır.</string>
     <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Seçilen planlama örneklemesi için oluşturulan muameleyi düzenle.</string>
     <string name="menu_ManageTemplates_templates_sort_help_text">Şablon listesi başlıklara göre (alfabetik olarak), meblağa göre, kullanma sıklığına göre ya da son muamele örneklendirme tarihine göre sıralanabilir.</string>
-    <!--ManageCategories_* titles are in keys-->
     <string name="help_ManageCategories_distribution_info">Bu ekran harcamalarınızın ve gelirlerinizin ya bir hesaptaki tüm muameleler için ya da özel bir grup için kategorilere göre dağılımını gösterir. Eğer listedki bir ana kategoriyi genişletirseniz, yuvarlak diyagram alt kategorilerin dağılımını gösterir. Listedeki bir kategoriyi seçerseniz yuvarlak diyagramda vurgulanacaktır ve bunun tersi de geçerlidir. Kendisine eşlenen işlemlerin toplu bir listesini görüntülemek için bir kategoriye uzun süre dokunun.</string>
     <string name="help_ManageCategories_select_mapping_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz için tıklamanız yeterlidir.</string>
     <string name="help_ManageCategories_select_filter_info">Muamele listesini süzmek için kategori seçin. Ana bir kategori aramak için onun bağlam menüsünü çağırmanız gerekir.</string>
@@ -70,7 +65,6 @@
     <string name="menu_ManageCategories_search_help_text">Sorgunuzla eşleşen sadece ana ve alt kategoriler gösterilecektir.</string>
     <string name="menu_ManageCategories_sort_help_text">Kategori listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre ya da son muamele ilişkilendirme tarihine göre sıralanabilir.</string>
     <string name="cab_ManageCategories_color_help_text">Ana kategorilere renk atayabilirsiniz. Bu renk, kategoriyi grafiklerde temsil etmek için kullanılacaktır. Alt kategoriler, ana kategorinin renginin tonlarını kullanacaktır.</string>
-    <!--ExpenseEdit-->
     <string name="help_ExpenseEdit_transaction_title">Muamele formu</string>
     <string name="help_ExpenseEdit_transfer_title">Transfer formu</string>
     <string name="help_ExpenseEdit_split_title">Bölünmüş muamele formu</string>
@@ -112,7 +106,6 @@
     <string name="form_goal_or_limit_help_text">Bu alan ya bir pozitif tasarruf hedefi ya da bir negatif kredi limiti belirtmenize izin verir. Her iki durumda da hesap listesinde, bir ilerleme göstergesi mevcut bakiye ile hedef veya limit arasındaki mesafeyi görselleştirir.</string>
     <string name="menu_templates_help_text">Forma hızlı bir şekilde yükleme yapılmasına imkân veren tüm şablonları listeleyen bir menü açar.</string>
     <string name="menu_create_template_from_transaction_help_text">Eğer bu şık seçiliyse, muamele aynı zamanda bir şablon olarak da kaydedilecektir. Başlığını tanımlayabilir ve seçime dayalı olarak otomatik tekrarlama için bir planlama ayarlayabilirsiniz.</string>
-    <!--AccountEdit-->
     <string name="help_AccountEdit_title">Hesaplar için form</string>
     <string name="form_AccountEdit_label_help_text">Etiket hesabı hesap listesinde tanımlar.</string>
     <string name="form_description_help_text">Açıklamanın sadece bilgilendirme amacı vardır.</string>
@@ -125,24 +118,19 @@
     <string name="form_synchronization_help_text_add">Arka uçlar Ayarlar ekranından eklenebilir.</string>
     <string name="form_AccountEdit_active_tags_help_text">Her hesapla bir veya daha fazla faal etiket ilişkilendirebilirsiniz. Yeni bir muamele oluşturduğunuzda bu, seçili hesap temel alınarak otomatik olarak bu etiketlerle etiketlenecektir.</string>
     <string name="menu_exclude_from_totals_help_text">Bu şıkkı seçerseniz, bu hesap para birimine dayalı gruplara dahil edilmeyecektir.</string>
-    <!--MethodEdit-->
     <string name="help_MethodEdit_title">Ödeme yöntemleri için form</string>
     <string name="form_MethodEdit_label_help_text">Etiket, bir muamele ilişkilendirildiğinde ödeme yöntemini tanımlar.</string>
     <string name="form_MethodEdit_type_help_text">Bir yöntemin türü ile sadece harcamalar için (gider), gelirler için ya da ikisi için de (tarafsız) geçerli olduğunu belirlersiniz.</string>
     <string name="form_MethodEdit_numbered_help_text">Bir yöntem sayılı olarak belirtildiğinde, onuna ilişkili muameleler referans sayısının girilebileceği ek bir alan bulunduracaktır.</string>
     <string name="form_MethodEdit_account_types_help_text">Bu yöntemin uygulanabilir olduğu hesap türlerini seçin.</string>
-    <!--ManageCurrencies-->
     <string name="help_ManageCurrencies_info">Her para birimi için kullanılan kesir basamak sayısını değiştirebilirsiniz. Mesela avro için bir sentin 1/10\'nu yani bir avronun 1/1000\'ni dikkate almanız gerekiyorsa bu sayıyı üç olarak ayarlamanız gerekir. Bu para birimini kullanan mevcut hesaplar bu yeni ayara geçecektir.</string>
     <string name="help_ManageCurrencies_symbol">Belli bir para biriminde meblağlar biçimlendirildiğinde kullanılan para birimi simgesini de yapılandırabilirsiniz.</string>
     <string name="help_ManageCurrencies_new">Özel para birimleri için menülerde para birimi seçmek için gösterilecek ilave bir etiket ve üç karakterden oluşması gereken bir alfabetik kod tanımlamanız gerektir.</string>
-    <!--FolderBrowser title is in keys-->
     <string name="help_FolderBrowser_info">Burada seçtiğiniz klasör yedeklemeleri ve dışa aktarmaları saklamak için kullanılacaktır. İstediğiniz klasöre ulaşana dek klasör hiyerarşisinde gezinebilirsiniz.</string>
     <string name="menu_create_folder_help_text">Güncel klasörün içinde yeni klasör oluştur.</string>
     <string name="menu_FolderBrowser_select_help_text">Güncel klasörü dışa aktarmalar ve yedeklemeler için hedef olarak seç.</string>
     <string name="menu_up_help_text">Bu klasörün üst klasörüne git.</string>
-    <!--StaleImages-->
     <string name="help_ManageStaleImages_info">Bu ekran silinmiş muamelelerden kalan resim dosyalarını yönetmenize izin verir. Silmek ya da (muhtemelen dahili) depolamadan harici depolamada bir yedekleme klasörüne (Android/data/org.totschnig.mxexpenses/files/images.old) taşımak için unsurlara uzun süre dokununuz.</string>
-    <!--CSV Import-->
     <string name="help_CsvImportActivity_info"><![CDATA[İçe aktaracağınız dosyayı seçtikten sonra dosyanın nasıl kodladığını (UTF-8 ya da ISO-8859-1), alanları hangi karakterin ayırdığını (virgül, noktalı virgül ya da sekme (⇆)) ve tarihlerin nasıl biçimlendirildiğini yapılandırmanız gerekir. Veriler ya zaten mevcut bir hesaba ya da yeni bir hesaba aktarılabilir ki bu durumda para birimini ve hesap türünü ayarlayabilirsiniz.<br><br>Etkinlik çubuğundan Ayrıştırma düğmesine dokunduğunuzda veriler bir tabloda size sunulacaktır. Etkinlik çubuğundaki düğme ile içe aktarımı başlatmadan önce hangi sıraları atmak istediğinizi seçebilirsiniz ve sütunları ilgili veri alanlarına haritalamanız ya da eşleştirmeniz gerekir.<br><br>İlk sırayı attığınızda onun bir başlık satırı olarak kullanılmasını isteyip istemediğiniz sorulur, istiyorsanız <i>Harcamalarım</i> başlık hücrelerinin içeriğine dayanarak otomatik olarak sütunları eşleştirmeye çalışacaktır. Ayrıca başlık sırasına göre eşleştirmenizi hatırlayacak ve gelecek sefer aynı başlık biçimi ile bir dosya içe aktardığınızda bunu kullanacaktır.]]></string>
     <string name="help_ExportDialog_date_format"><![CDATA[Yorumlamayı engellemek için metin alıntılarında tekli tırnak (\') kullanılabilir. \'\' (iki tekli tırnak) tek bir tırnağı temsil eder. Daha fazla ayrıntı için <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">tanımlamaya</a> bakın ya da destek için support@myexpenses.mobi adresi ile irtibata geçin.]]></string>
     <string name="help_NavigationDrawer_info">Hesap listesi, bir unsura tıklayarak kolayca hesaplar arası geçiş yapmanıza izin verir.</string>
@@ -153,7 +141,6 @@
     <string name="menu_NavigationDrawer_hidden_accounts_help_text">Tüm gizli hesapların listesini görüntüler, ki bu listede tekrar görünür yapılabilirler veya silinebilirler.</string>
     <string name="cab_NavigationDrawer_hide_help_text">Hesabı listeden kaldır.</string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">Hesabı kapatarak, verilerine yapılacak tüm değişikliklere (eklemeler, silmeler, düzenlemeler) engel olabilirsiniz, ancak tüm istatistiksel hesaplamalar için dikkate alınmasının devamını sağlayabilirsiniz.</string>
-    <!--SyncBackends-->
     <string name="help_ManageSyncBackends_intro">Harcamalarım her hesap için değişik eşleştirme arka uçları yapılandırmanıza izin verir. Mesela bir hesabı paylaşılan bir klasör ile, başka bir hesabı da özel bir klasör ile eşleştirebilirsiniz. Bu ekranda eşleştirme arka uçları ekleyip kaldırabilir, uzaktaki hesaplarla eşleştirmeyi başlatıp sonlandırabilirsiniz. Eşleştirme otomatik olarak periyodik bir şekilde yapılsa da burada onu bir arka uçla elle başlatabilirsiniz. Lütfen Harcamalarım\'ın uzaktaki klasörde tam kontrole ihtiyacı olduğunu unutmayınız. İçeriğini değiştirmek için başka araçlar ya da arayüzler kullanmamalısınız çünkü bu eşleşme sırasında muhtemelen başarısızlıklara yol açacaktır.</string>
     <string name="help_ManageSyncBackends_webdav">WebDAV: eğer bulut depolama sağlayıcınız bu protokolü destekliyorsa Harcamalarım onunla veri eşleştirmesi yapabilecektir. Bir klasör için bağlantı, kullanıcı isminiz ve parola belirtmeniz yeterli olacaktır. Eğer https kullanıyorsanız ve sunucunuz kendisi imzaladığı bir sertifika kullanıyorsa, ona güvendiğinizi açıkça belirtebileceksiniz.</string>
     <string name="help_ManageSyncBackends_drive">Google Drive: sahip olduğunuz ya da sizinle paylaşılan herhangi bir klasör seçin.</string>
@@ -164,12 +151,10 @@
     <string name="cab_sync_download_help_text">Arka uçta mevcut olan bir hesabı indir. Hesap yerel olarak oluşturulacak ve arka uçla eşleştirilecek şekilde yapılandırılacaktır.</string>
     <string name="cab_sync_link_help_text">Hem yerel, hem de uzakta mevcut olan bir hesap için eşleştirmeyi başlat. İlk eşleştirmede yerel verilerin mi, yoksa uzaktaki verilerin mi korunacağını seçmeniz gerekir.</string>
     <string name="cab_sync_unlink_help_text">Seçili hesap artık arka uçla eşleştirilmeyecektir</string>
-    <!--History-->
     <string name="help_HistoryActivity_info">Ekran nakit akışınızı, gelir ve giderlerinizin günlük, haftalık, aylık ve yıllık olarak nasıl geliştiğini gösterir.</string>
     <string name="menu_HistoryActivity_grouping_help_text">Nakit akışı verilerinizin günlük, haftalık, aylık ve yıllık gruplamaları arasında geçiş yapın.</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">Bakiyenin gösterilmesini aç ya da kapat.</string>
     <string name="menu_HistoryActivity_history_transfers_help_text">Transferlerin düzenli gelir veya masraf olarak değerlendirilmesi arasında geçiş yapın.</string>
-    <!--Budget-->
     <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Bir bütçe tanımlayarak, belli bir zaman dilimi içinde harcamak istediğiniz toplam meblağı belirlemiş olursunuz. Aynı zamanda kategoriler ve alt kategoriler için tutarlar da tahsis edebilirsiniz. Bunun ardından ne kadar harcadığınızı ve ne kadar harcanacak para kaldığını izleyebilirsiniz.</string>
     <string name="help_Budget_amount_click">Bütçelenmiş meblağlara tıklamak onları değiştirmenize imkân verir.</string>
     <string name="cab_show_transactions_help_text">Güncel hesapta seçilen kategoriye eşlenen tüm muameleleri listeleyen bir diyalog kutusu aç.</string>
@@ -188,7 +173,6 @@
     <string name="form_BudgetEdit_filter_help_text">Bütçeler, kategorilere, taraflara, yöntemlere veya durumlara göre filtrelenebilir. Sadece bu filtrelerle eşleşen muameleler dikkate alınacaktır.</string>
     <string name="form_BudgetEdit_type_help_text">Bir bütçe ya düzenli (günlük, aylık, haftalık, senelik) olarak ya da bir kerelik olarak tanımlanır. Bir kerelik bütçeler için süresinin başlangıcını ve sonunu belirtirsiniz. (Filtrelenmemiş) düzenli bir bütçe varsayılan bütçe olarak tanımlanabilir: bu, muamele listesinin (gün, hafta, ay veya sene için verileri gruplandırmak üzere yapılandırılmışsa) her bir dönem için bu bütçenin ilerlemesini göstereceği anlamına gelir.</string>
     <string name="cab_remap_help_text">Tüm seçili muameleler için belli bir özelliği (hesap, kategori, borçlu/alacaklı veya ödeme yöntemi) değiştirmek istiyorsanız bu alt menüdeki komutları kullanın.</string>
-    <!--Tags-->
     <string name="form_tags_help_text">+ ikonu mevcut etiketleri seçmeye ve yeni etiket oluşturmaya imkân sağlar. Her bir etiket üzerindeki x ikonu ise muamele ve etiket arasındaki eşleştirmeyi kaldırmaya imkân verir.</string>
     <string name="help_ManageTags_select_filter_info">Üzerine dokunarak işlem listesini filtrelemek için etiketleri seçin veya seçimi kaldırın. Seçimi teyit etmek için kayan eylem düğmesini kullanın.</string>
     <string name="help_ManageTags_manage_info">Yeni etkilet oluşturmak için onu metin alanına girin. Her bir etiket üzerindeki x ikonu etiketi veritabanından kaldırır. Bir etikete uzun dokunmak onu düzenlemeye imkân verir.</string>

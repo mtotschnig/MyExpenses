@@ -1,20 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="help_form_fields">Campos do formulario</string>
-  <!--My Expenses Transaction list-->
-  <!--ManageMethods title is in keys-->
-  <!--ManageParties title is in keys-->
-  <!--ManageTemplates title is in keys-->
-  <!--ManageCategories_* titles are in keys-->
-  <!--ExpenseEdit-->
-  <!--AccountEdit-->
-  <!--MethodEdit-->
-  <!--ManageCurrencies-->
-  <!--FolderBrowser title is in keys-->
-  <!--StaleImages-->
-  <!--CSV Import-->
-  <!--SyncBackends-->
-  <!--History-->
-  <!--Budget-->
-  <!--Tags-->
 </resources>

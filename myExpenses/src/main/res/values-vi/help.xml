@@ -1,11 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="help_menu_commands">Menu dòng lệnh</string>
   <string name="help_contextual_actions">Hành động ngữ cảnh</string>
   <string name="help_form_fields">Trường điền</string>
   <string name="cab_delete_help_text">Xoá mục được chọn.</string>
   <string name="cab_edit_help_text">Sửa mục được chọn.</string>
-  <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Danh sách giao dịch</string>
   <string name="help_MyExpenses_info">Màn hình này liệt kê tất cả các giao dịch của tài khoản hiện tại. Dùng nút hành động nổi để mở mục tạo giao dịch mới</string>
   <string name="help_MyExpenses_crStatus_info">Trạng thái của giao dịch được chỉ định bởi hình chữ nhật có màu: màu xám là chưa đối chiếu, màu xanh là đã bù trừ, màu xanh lá cây là đã đối chiếu. Nhấn vào hình chữ nhật để làm thay đổi trạng thái.</string>
@@ -20,34 +19,19 @@
   <string name="cab_create_template_from_transaction_help_text">Định nghĩa một bản mẩu mới dựa trên giao dịch được chọn. Sẽ nhắc bạn cho tiêu đề của mẫu.</string>
   <string name="cab_clone_transaction_help_text">Các giao dịch được chọn sẽ được nhân bản với ngày và giờ hiện tại. Bạn có thể thay đổi trước khi lưu bản sao đó.</string>
   <string name="cab_split_help_text">Bạn có thể chỉnh sửa các giao dịch để tạo các phần bổ sung như mong muốn</string>
-  <!--ManageMethods title is in keys-->
-  <!--ManageParties title is in keys-->
-  <!--ManageTemplates title is in keys-->
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Khởi tạo các bản mẫu được chọn và lưu chúng ngay lập tức.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Khởi tạo bản mẫu được chọn và nhập biểu mẫu chỉnh sửa của nó nơi bạn có thể chỉnh sửa nó trước khi lưu.</string>
-  <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_select_mapping_info">Để có thể tác động thêm các thao tác khi quản lý các phần phân loại từ màn hình Tùy Biến (tạo, chỉnh sửa, xóa), trên màn hình này bạn có thể gán các giao dịch vào các phần phân loại đã được chọn bằng cách click vào đối tượng này.</string>
   <string name="help_ManageCategories_manage_info">Màn hình này cho phép bạn tạo, chỉnh sửa và xóa các phân loại. Theo mặc định, phần sắp xếp chính trong danh sách phân loại là sớ lần bạn sử dụng một phân loại (điều kiện sắp xếp thứ hai dựa vào trình tự chữ cái abc). Phần này sẽ giúp bạn truy cập nhanh hơn đến các phân loại mà bạn thường hay sử dụng.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Chỉnh loại của nhóm và hiển thị việc phân phối theo ngày, tháng, tuần hoặc năm.</string>
   <string name="menu_back_help_text">Định hướng tới nhóm trước đó.</string>
   <string name="menu_forward_help_text">Định hướng đến nhóm tiếp theo.</string>
-  <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Mẫu đơn cho các giao dịch</string>
   <string name="help_ExpenseEdit_transfer_title">Mẫu đơn cho các truyền đổi</string>
   <string name="help_ExpenseEdit_split_title">Mẫu đơn cho phần tách biệt</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Mẫu đơn cho phần tách biệt phân loại</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Mẫu đơn cho phần chuyển đổi phân tách</string>
   <string name="menu_save_help_text">Lưu dữ liệu và đóng lại mẫu đơn.</string>
-  <!--AccountEdit-->
   <string name="help_AccountEdit_title">Mẫu đơn cho các tài khoản</string>
-  <!--MethodEdit-->
   <string name="help_MethodEdit_title">Mẫu đơn cho phương thức thanh toán</string>
-  <!--ManageCurrencies-->
-  <!--FolderBrowser title is in keys-->
-  <!--StaleImages-->
-  <!--CSV Import-->
-  <!--SyncBackends-->
-  <!--History-->
-  <!--Budget-->
-  <!--Tags-->
 </resources>

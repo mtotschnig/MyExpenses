@@ -6,7 +6,6 @@
   <string name="help_form_fields">Поля форм</string>
   <string name="cab_delete_help_text">Удалить выбранные элементы.</string>
   <string name="cab_edit_help_text">Правка выбранного элемента.</string>
-  <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Список операций</string>
   <string name="help_MyExpenses_info">Этот экран отображает все операции по текущему счету. Для создания новой операции откройте форму, нажав на плавающую кнопку.</string>
   <string name="help_MyExpenses_crStatus_info">Состояние операции обозначается цветным прямоугольником: серый для несогласованой, синий для свободной, зеленый для согласованной. Нажатие на прямоугольник меняет статус.</string>
@@ -23,14 +22,11 @@
   <string name="cab_create_template_from_transaction_help_text">Определить новый шаблон на основе выбранной операции. Предложит ввести название шаблона.</string>
   <string name="cab_clone_transaction_help_text">Выбранные транзакции будут клонированы с текущей датой и временем. Вы можете внести изменения перед сохранением копии.</string>
   <string name="cab_split_help_text">Позже вы можете изменить трансакцию, чтобы создать дополнительные детали при необходимости.</string>
-  <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">На этом экране перечислены методы оплаты ( чек, кредитная карта, депозит, прямоe дебетование) и вы можете указать новые. Используйте floating action button, чтобы открыть форму для создания нового метода. </string>
-  <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Этот экран перечисляет участников, используюших для автозаполнения поля Плательщик / Получатель.</string>
   <string name="help_ManageParties_select_mapping_info">Выберите участника, нажав на него.</string>
   <string name="help_ManageParties_select_filter_info">Нажмите на участника для фильтрации списка трансакций. Долгое нажатие выбирает нескольких участников.</string>
   <string name="help_ManageParties_floating_action_button">Используйте floating action button, чтобы добавить новую запись.</string>
-  <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Календарь планов</string>
   <string name="help_ManageTemplates_planner_title">Предстоящие повторения</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\"> В то время как шаблоны могут быть получены из трансакций через их контекстное меню, здесь вы можете создавать новые шаблоны с нуля (для трансакций или переводов), нажав floating action button. Нажмите на шаблон чтобы создасть для него инстанс. <br><img src=\"ic_event\"> План - это шаблон, для которого вы создали событие (одноразовое или повторяющееся) в календаре планировщика. При нажатии на план откроется представление календаря, в котором отображаются прошлые и будущие инстансы плана.]]></string>
@@ -46,7 +42,6 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Если операции были созданы для выбранного события, они будут удалены. Если они были помечены как отмененные, пометка будет удалена.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Редактировать операцию, которая была создана для события выбранного плана.</string>
   <string name="menu_ManageTemplates_templates_sort_help_text">Список шаблонов может быть отсортирован по заголовку (в алфавитном порядке), по величине, по частоте использования или по времени последней операции по шаблону.</string>
-  <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">На этом экране отображается распределение ваших расходов и доходов по категориям, для всех трансакций в учетной записи или для конкретной группы. Если развернуть основную категорию в списке, на круговой диаграмме будет показано распределение ее подкатегорий. Если вы выберите категорию в списке, она будет выделена на круговой диаграмме, и наоборот. Длительно нажмите на категорию, чтобы отобразить совокупный список трансакций, сопоставленных с ней.</string>
   <string name="help_ManageCategories_select_mapping_info">Помимо действий, которые можно выполнять при управлении категорий в экране настроек (создание, редактирование, удаление), на этом экране вы сопоставляете операции для выбранной категории, просто нажав на неё.</string>
   <string name="help_ManageCategories_select_filter_info">Выберите категорию для фильтрации списка операций. Для того, чтобы искать в основной категории, необходимо вызвать ее контекстное меню.</string>
@@ -62,7 +57,6 @@
   <string name="menu_ManageCategories_search_help_text">Будут отображены только основные категории и подкатегории, которые соответствуют вашему запросу. будет отображаться.</string>
   <string name="menu_ManageCategories_sort_help_text">Список категорий может быть отсортирован по заголовку (в алфавитном порядке), по частоте использования или по времени последней операции внутри категории.</string>
   <string name="cab_ManageCategories_color_help_text">Вы можете назначить цвет основным категориям. Этот цвет будет использоваться для представления категории в диаграммах. Подкатегории будут использовать оттенки цвета их основной категории.</string>
-  <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Форма для операций</string>
   <string name="help_ExpenseEdit_transfer_title">Форма для переводов</string>
   <string name="help_ExpenseEdit_split_title">Форма для разделений</string>
@@ -99,7 +93,6 @@
   <string name="menu_invert_transfer_help_text">Инвертировать направление перевода путем перестановки счёта \"От\" к \"Кому\"</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Если валюты счета «От» и «Кому» различаются, вы указываете сумму только для одной из них. Другой будет рассчитан при создании инстанс из шаблона.</string>
   <string name="form_goal_or_limit_help_text">В этом поле можно указать положительную цель сбережений или отрицательный лимит кредита. В любом случае в списке счетов индикатор прогресса отображает расстояние между текущим балансом и целью или лимитом.</string>
-  <!--AccountEdit-->
   <string name="help_AccountEdit_title">Форма для счетов</string>
   <string name="form_AccountEdit_label_help_text">Метка идентифицирует учетную запись в перечне учетных записей.</string>
   <string name="form_description_help_text">Описание имеет только информативную цель.</string>
@@ -110,24 +103,19 @@
   <string name="form_color_help_text">В списке трансакций для учетной записи его цвет будет использоваться в качестве основного цвета пользовательского интерфейса.</string>
   <string name="form_synchronization_help_text_select">Выберите бэкенд для облачной синхронизации.</string>
   <string name="form_synchronization_help_text_add">Бэкенды могут быть добавлены на экране настроек.</string>
-  <!--MethodEdit-->
   <string name="help_MethodEdit_title">Форма для способов оплаты</string>
   <string name="form_MethodEdit_label_help_text">Метка идентифицирует метод при сопоставлении с ним трансакции.</string>
   <string name="form_MethodEdit_type_help_text">С помощью типа метода вы определяете, применим ли он к расходам (дебет), доходу (кредит) или и тем, и другим (нейтральный).</string>
   <string name="form_MethodEdit_numbered_help_text">Когда метод пронумерован, трансакции, которые ему сопоставляются, будут иметь дополнительное поле для ввода ссылочного номера.</string>
   <string name="form_MethodEdit_account_types_help_text">Выберите типы учетных записей, для которых применим этот метод.</string>
-  <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Для каждой валюты вы можете изменить количество используемых дробных цифр. Например, если для евро вам нужно обработать 1/10 ¢ (цента), то есть 1/1000 евро, вы должны установить число равным трем. Существующие учетные записи, использующие эту валюту, будут переведены на новую настройку.</string>
   <string name="help_ManageCurrencies_symbol">Вы также можете настроить символ валюты, который используется при форматировании сумм в определенной валюте.</string>
   <string name="help_ManageCurrencies_new">Для пользовательских валют вы дополнительно определяете метку, которая отображается в меню для выбора валюты, и буквенный код, который по соглашению состоит из трех символов.</string>
-  <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Выбранная здесь папка будет использоваться для хранения резервных копий и экспорта. Перемещайтесь по иерархии папок, пока не дойдете до нужной папки.</string>
   <string name="menu_create_folder_help_text">Создайте новую папку внутри текущей папки.</string>
   <string name="menu_FolderBrowser_select_help_text">Выберите текущую папку в качестве целевого хранилища для экспорта и резервного копирования.</string>
   <string name="menu_up_help_text">Перейдите к родительскому элементу текущей папки.</string>
-  <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Этот экран позволяет вам работать с файлами изображений, которые остались после удаленных трансакций. Нажмите и удерживайте записи, чтобы либо удалить их, либо переместить из (возможно, внутренней) папки хранилища в резервную папку (Android / data / org.totschnig.mxexpenses / files / images.old) на внешнем хранилище.</string>
-  <!--CSV Import-->
   <string name="help_ExportDialog_date_format"><![CDATA[Текст можно заключить в одинарные кавычки (\'), чтобы избежать интерпретации. \'\' (две одинарные кавычки) представляют собой одинарную кавычку. Проконсультируйтесь с полной <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html"> спецификации для получения более подробной информации или свяжитесь с support@myexpenses.mobi для получения помощи.]]></string>
   <string name="help_NavigationDrawer_info">Список учетных записей позволяет легко перемещаться между учетными записями, просто щелкая запись.</string>
   <string name="menu_create_account_help_text">Создать новую учетную запись . Бесплатная версия ограничена пятью учетными записями.</string>
@@ -137,11 +125,7 @@
   <string name="menu_NavigationDrawer_hidden_accounts_help_text">Отображает список всех скрытых учетных записей, где их можно снова сделать видимыми или удалить.</string>
   <string name="cab_NavigationDrawer_hide_help_text">Удалите учетную запись из списка.</string>
   <string name="cab_NavigationDrawer_close_reopen_help_text">Закрывая учетную запись, вы можете предотвратить любые изменения (добавления, удаления, правки) ее данных, но при этом разрешить их учет во всех статистических расчетах.</string>
-  <!--SyncBackends-->
   <string name="help_ManageSyncBackends_intro">My Expenses позволяет настраивать разные бэкенды синхронизации для каждой учетной записи. Например, вы можете синхронизировать одну учетную запись с общей папкой, а другую учетную запись - с личной папкой. На этом экране вы добавляете или удаляете бэкенды синхронизации, запускаете или останавливаете синхронизацию с учетными записями, доступными удаленно. Хотя синхронизация автоматически происходит периодически, здесь вы также можете запустить ее вручную с помощью бэкенда. Имейте в виду, что My Expenses требует полного контроля над удаленной папкой. Вы не должны использовать другие инструменты или интерфейсы для изменения его содержимого, поскольку это, скорее всего, приведет к сбоям во время синхронизации.</string>
-  <!--History-->
-  <!--Budget-->
-  <!--Tags-->
     <string name="popup_MyExpenses_toolbar_intro">При нажатии на панель инструментов (ярлык счета или текущий баланс) появляется меню со следующими пунктами:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Копирование текущего баланса в буфер обмена.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Рассчитать разницу между текущим балансом и новым значением.</string>

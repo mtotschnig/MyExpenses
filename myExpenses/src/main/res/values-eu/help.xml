@@ -6,7 +6,6 @@
   <string name="help_form_fields">Formularioaren eremuak</string>
   <string name="cab_delete_help_text">Ezabatu aukeratutako elementuak.</string>
   <string name="cab_edit_help_text">Editatu aukeratutako elementua.</string>
-  <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Transakzioen zerrenda</string>
   <string name="help_MyExpenses_info">Pantaila honek uneko kontuaren transakzio guztiak zerrendatzen ditu. Erabili ekintza botoi flotatzailea transakzio berri bat sortzeko formularioa irekitzeko.</string>
   <string name="help_MyExpenses_crStatus_info">Transakzioaren egoera kolorezko lauki baten bidez adierazten da: grisa berdikatu gabea, urdina kitatua, berdea berdinkatuta. Sakatu laukia egoera aldatzeko.</string>
@@ -23,14 +22,11 @@
   <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
   <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira. Aldaketak egin ditzakezu kopia gorde aurretik</string>
   <string name="cab_split_help_text">Transakzioa beranduago editatzea duzu zati gehigarriak behar dituzun neurrian sortzeko.</string>
-  <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Pantaila honetan aurre-zehaztutako ordainketa metodoak zerrendatzen dira (Txekea, kreditu txartela, gordailua, zordunketa zuzena) eta berriak zehaztea baimentzen dizu. Erabili ekintza botoi flotatzailea metodo berri bat sortzeko formularioa irekitzeko.</string>
-  <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Pantaila honek Ordaintzailea/Onuraduna eremua automatikoki betetzeko erabiltzen diren balioak zerrendatzen ditu.</string>
   <string name="help_ManageParties_select_mapping_info">Hautatu balio bat gainean sakatuz.</string>
   <string name="help_ManageParties_select_filter_info">Sakatu balio batean transakzio zerrenda iragazteko. Sakatze luzea balio sortak hautatzeko.</string>
   <string name="help_ManageParties_floating_action_button">Erabili ekintza botoi mugikorra sarrera berri bat gehitzeko.</string>
-  <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Egutegi ikuspegia</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Txantiloiak transakzioetatik erator daitezke beraien laster-menuaren bidez, hemen txantiloi berriak sor ditzakezu hutsetik (transakzioetarako edo transferentzietarako) ekintza botoi mugikorrean klik eginez. Txantiloi batean klik eginez, horretarako instantzia bat sortzen da.<br><img src=\"ic_event\">Plan bat egutegiaren antolatzailean berarentzako gertaera bat (behin edo errepikakorra) sortu duzun txantiloi bat da. Plan batean klik egiteak egutegi ikuspegia irekiko du, zeinak plan baten iraganeko eta hurrengo instantziak bistaratuko dituen.]]></string>
   <string name="help_ManageTemplates_plans_intro">Nabarmendutako data bakoitzak planeko instantzia bat adierazten du.</string>
@@ -45,7 +41,6 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Aukeratutako gertaeren instantzietatik transakzioak sortu badira, hauek ezabatu egingo dira, ezeztatuta gisa markatu badira, marka kenduko zaie.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editatu sortutako transakzioa aukeratutako planaren instantziatik.</string>
   <string name="menu_ManageTemplates_templates_sort_help_text">Txantiloi zerrenda izenburuaren (alfabetikoki), kopuruaren, erabilera maiztasunaren edo bertan transakzio batetik instantziatu den azken aldiaren arabera ordenatu daiteke.</string>
-  <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Pantaila honek zure gastu eta diru-sarreren kategoriako banaketa bistaratzen du, kontu baten transakzio guztiena edo talde zehatz batena. Zerrendan kategoria nagusi bat zabaltzen baduzu, grafiko biribilak azpikategorien banaketa bistaratuko du. Zerrendan kategoria bat hautatzen baduzu, hau grafiko biribilean nabarmenduko da, eta alderantziz. Sakatu luze kategoria batean berari esleitutako transakzioen agregatutako zerrenda bat bistaratzeko.</string>
   <string name="help_ManageCategories_select_mapping_info">Hobespenen pantailan kategoriak kudeatzean egin ditzakezun ekintzez gain (sortu, editatu, ezabatu), pantaila honetan transakzio bat aukeratutako kategoriarekin lotu dezakezu.</string>
   <string name="help_ManageCategories_select_filter_info">Aukeratu kategoria transakzio zerrenda iragazteko . Kategoria nagusi bat hautatzeko bere testuinguru menua deitu behar duzu.</string>
@@ -61,7 +56,6 @@
   <string name="menu_ManageCategories_search_help_text">Zure kontsultarekin bat datozen kategoria nagusiak eta azpikategoriak bakarrik bistaratuko dira.</string>
   <string name="menu_ManageCategories_sort_help_text">Kategoria zerrenda izenburuaren (alfabetikoki), erabilera maiztasunaren edo transakzio bat esleitua izan den azken aldiaren arabera ordenatu daiteke.</string>
   <string name="cab_ManageCategories_color_help_text">Kolore bat kategoria nagusiei eslei diezaiekezu. Kolore hau erabiliko da kategoria grafikoetan irudikatzeko. Azpikategoriek bere kategoria nagusiaren kolorearen itzalak erabiliko ditu. </string>
-  <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Transakzioen formularioa</string>
   <string name="help_ExpenseEdit_transfer_title">Transferentzien formularioa</string>
   <string name="help_ExpenseEdit_split_title">Banaketen formularioa</string>
@@ -92,7 +86,6 @@
   <string name="menu_save_help_text">Gorde datuak eta itxi formularioa.</string>
   <string name="menu_invert_transfer_help_text">Alderantzikatu transferentziaren norabidea \'Nondik\' eta \'Nora\' kontuak txandakatuz</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">\'Nork\' et \'Nori\' kontuen monetak desberdinak badira, bietako bakarraren kopurua zehaztu. Bestea txantiloitik instantziak sortzen dituzunean kalkulatuko da.</string>
-  <!--AccountEdit-->
   <string name="help_AccountEdit_title">Kontuen formularioa</string>
   <string name="form_AccountEdit_label_help_text">Etiketak kontua identifikatzen du kontuen zerrendan.</string>
   <string name="form_description_help_text">Deskripzioa informaziorako da besterik ez.</string>
@@ -104,34 +97,25 @@
   <string name="form_synchronization_help_text_select">Hautatu atzealdeko bat hodeian sinkronizatzeko.</string>
   <string name="form_synchronization_help_text_add">Atzealdekoak Ezarpenen pantailatik gehi daitezke.</string>
   <string name="menu_exclude_from_totals_help_text">Aukera hau markatzen baduzu, kontu hau ez da monetako guztirakoetan agregatuko.</string>
-  <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ordainketa metodoen formularioa</string>
   <string name="form_MethodEdit_label_help_text">Etiketak transakzio bat esleitzen duzuneko metodoa identifikatzen du.</string>
   <string name="form_MethodEdit_type_help_text">Metodo baten motaren bidez, gastuentzako (zordunketa), irabazientzako (kreditua) edo bientzako (neutrala) erabilgarria den zehazten duzu.</string>
   <string name="form_MethodEdit_numbered_help_text">Metodoa zenbakituta badago, bertara lotzen diren transakzioak erreferentzia zenbaki bat sartzeko eremu gehigarri bat izango dute.</string>
   <string name="form_MethodEdit_account_types_help_text">Hautatu metodo hau erabili dezaketen kontu motak.</string>
-  <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Moneta bakoitzeko, erabilitako dezimal kopurua aldatu dezakezu, Adibidez, Euro zentimo bateko zehaztasun handiagoa behar baduzu, esaterako 1/1000 Euro, hiru dezimal ezarri ditzakezu. Aurretik moneta hau erabiltzen duten kontuak ezarpen berrira egokituko dira.</string>
-  <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Hemen aukeratzen duzun karpeta babeskopiak eta esportazioak gordetzeko erabiliko da. Nabigatu karpeten hierarkian zehar nahi duzun karpeta aurkitu arte.</string>
   <string name="menu_create_folder_help_text">Sortu karpeta bat karpeta honen barruan.</string>
   <string name="menu_FolderBrowser_select_help_text">Aukeratu uneko karpeta esportazio eta babeskopien biltegiratze helburu gisa.</string>
   <string name="menu_up_help_text">Joan karpeta honen karpeta gurasora.</string>
-  <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Pantaila honetan ezabatutako transakzioetatik soberan geratu diren irudiak kudeatzea baimentzen dizu. Sakatu luze sarreretan hauek ezabatu edo (barne) biltegiratze karpetatik kanpo biltegiratzeko babeskopia karpetara mugitzeko (Android/data/org.totschnig.mxexpenses/files/images.old) </string>
-  <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[Inportatu nahi duzun fitxategia aukeratu eta gero, honen kodeketa zehaztu behar duzu (UTF-8 edo ISO-8859-1), eremuak banatzeko erabilitako karakterea (koma, puntu eta koma edo tabulazioa), eta daten formatua. Datuak aurretik dagoen kontu batetara inportatu daitezke edo kontu berri batetara, bigarren kasuan moneta eta kontu mota aukeratu ditzakezu.<br><br>Ekintza barrako prozesatu botoia sakatu eta gero datuak taula batean aurkeztuko zaizkizu. Inportazioa ekintza barrako botoiarekin abiatu aurretik albo batera utzi nahi dituzun lerroak aukeratu ditzakezu, eta zutabeak dagokien eremuekin lotu behar dituzu.<br><br>lehen lerroa alboratzen baduzu, goiburu gisa hartu nahi duzun galdetuko zaizu, kasu honetan <i>Nire Gastuak</i> zutabeak eremuekin automatikoki lotzen saiatuko da goiburuko gelaxken edukien arabera. Goiburuaren araberako loturak ere gogoratuko ditu goiburu formatu bera duen beste fitxategi bat inportatzean.]]></string>
   <string name="menu_create_account_help_text">Sortu kontu berri bat. Dohako bertsioa bost kontuetara mugatuta dago.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">Kontuen zerrenda kontu mota edo monetaren arabera taldekatuta ala taldekatu gabe bistaratu daiteke.</string>
   <string name="cab_NavigationDrawer_hide_help_text">Kendu kontua zerrendatik.</string>
-  <!--SyncBackends-->
   <string name="help_ManageSyncBackends_drive">Google Drive: hautatu edozein karpeta, zure jabetzako karpeta edo zurekin partekatutakoa.</string>
-  <!--History-->
-  <!--Budget-->
   <string name="help_ManageBudgets_title">Aurrekontu guztien zerrenda</string>
   <string name="help_BudgetEdit_title">Aurrekontuentzako formularioa</string>
   <string name="help_BudgetEdit_info">Erabili formulario hau aurrekontu berri bat sortzeko edo dagoeneko existitzen den aurrekontu bat editatzeko.</string>
   <string name="form_BudgetEdit_title_help_text">Aurrekontuaren izenburuak laguntzen du aurrekontuen zerrendan bilatzen.</string>
   <string name="form_BudgetEdit_amount_help_text">Zenbat diru dago eskuragarri aurrekontu honen testuinguruan.</string>
-  <!--Tags-->
 </resources>

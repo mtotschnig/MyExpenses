@@ -5,7 +5,6 @@
   <string name="help_form_fields">Campos do formulário</string>
   <string name="cab_delete_help_text">Apagar os itens selecionados.</string>
   <string name="cab_edit_help_text">Editar o item selecionado.</string>
-  <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Lista de transações</string>
   <string name="help_MyExpenses_info">Este ecrã lista todas as transações da conta atual. Utilize o botão de ação flutuante para abrir o formulário de criação de uma nova transação.</string>
   <string name="help_MyExpenses_crStatus_info">O estado da transação é indicado por um rectângulo colorido: cinzento para não reconciliada, azul para liquidada, verde para reconciliada. Clicar no rectângulo, altera o estado.</string>
@@ -18,12 +17,9 @@
   <string name="menu_search_help_text">Esta entrada abre um submenu que lhe permite definir critérios de pesquisa baseados na categoria, quantia, comentário, estado, pagador/beneficiário e método de pagamento. Quando um filtro de pesquisa estiver ativo, pode simplesmente clicar na respetiva entrada no submenu para o desativar.</string>
   <string name="cab_create_template_from_transaction_help_text">Definir um novo modelo baseado na transação selecionada. Ser-lhe-á pedido um título para o modelo.</string>
   <string name="cab_clone_transaction_help_text">As transações selecionadas serão clonadas com a data e hora atual. Pode fazer alterações antes de guardar a cópia.</string>
-  <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Este ecrã lista os métodos de pagamento predefinidos (cheque, cartão de crédito, depósito, débito direto) e permite-lhe definir novos métodos. Utilize o botão de ação flutuante para abrir o formulário de criação de um novo método.</string>
-  <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Este ecrã lista os participantes utilizados no preenchimento automático do campo do pagador/beneficiário.</string>
   <string name="help_ManageParties_select_filter_info">Utilize o botão de ação flutuante para adicionar uma nova entrada.</string>
-  <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Vista de calendário de planeamento</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Enquanto que os modelos podem derivar de transações através dos respetivos menus de contexto, aqui pode criar novos modelos a partir do zero (para transações ou transferências) clicando no botão de ação flutuante. Clicar num modelo, irá criar uma ocorrência para o mesmo.<br><img src=\"ic_event\">Um plano é um modelo para o qual criou um evento (único ou recorrente) no calendário de planeamento. Clicar num plano, abrirá a vista de calendário que exibe as ocorrências passadas e futuras de um plano.]]></string>
   <string name="help_ManageTemplates_plans_intro">Cada data realçada representa uma ocorrência do plano. </string>
@@ -38,7 +34,6 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se foram criadas transações para as ocorrências dos eventos selecionados, as mesmas serão eliminadas, se foram marcadas como canceladas, as marcações serão removidas.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editar a transação que foi criada para a ocorrência do plano selecionado.</string>
   <string name="menu_ManageTemplates_templates_sort_help_text">A lista de modelos pode ser ordenada por título (alfabeticamente), por quantia, por frequência de usos, ou pelo último modelo aplicado a uma transação.</string>
-  <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Este ecrã exibe a distribuição das suas despesas e receitas por categorias, para todas as transações numa conta, ou para um grupo específico. Se expandir a categoria principal na lista, o gráfico circular exibirá a distribuição das respetivas subcategorias. Se selecionar uma categoria na lista, a mesma será realçada no gráfico circular, e vice-versa. Pressione longamente numa categoria para exibir a lista de transações atribuídas à mesma.</string>
   <string name="help_ManageCategories_select_mapping_info">Para além das ações que pode efetuar quando gere categorias a partir do ecrã de Definições (criar, editar, eliminar), neste ecrã atribui uma transação a uma categoria selecionada clicando simplesmente na mesma.</string>
   <string name="help_ManageCategories_select_filter_info">Selecionar a categoria para filtrar a lista de transações. Para procurar uma categoria principal, tem de invocar o respetivo menu de contexto.</string>
@@ -53,7 +48,6 @@
   <string name="cab_ManageCategories_select_filter_select_help_text">A categoria selecionada será usada para filtrar a lista de transações.</string>
   <string name="menu_ManageCategories_search_help_text">Apenas a categoria principal e as subcategorias que coincidem com a sua pesquisa serão exibidas.</string>
   <string name="menu_ManageCategories_sort_help_text">A lista de categorias pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última categoria atribuída a uma transação.</string>
-  <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulário para transações</string>
   <string name="help_ExpenseEdit_transfer_title">Formulário para transferências</string>
   <string name="help_ExpenseEdit_split_title">Formulário para divisões</string>
@@ -83,7 +77,6 @@
   <string name="menu_save_help_text">Guardar os dados e fechar o formulário.</string>
   <string name="menu_invert_transfer_help_text">Inverter a direção da transferência trocando o \'De\' e \'Para\' conta.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Se as moedas das contas \'De\' e \'Para\' forem diferentes, especifique a quantia apenas para uma delas. A outra será calculada quando criar ocorrências a partir do modelo.</string>
-  <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulário para contas</string>
   <string name="form_AccountEdit_label_help_text">A etiqueta identifica a conta na lista de contas.</string>
   <string name="form_description_help_text">A descrição é meramente informativa.</string>
@@ -95,29 +88,23 @@
   <string name="form_synchronization_help_text_select">Selecionar um backend para sincronização na nuvem.</string>
   <string name="form_synchronization_help_text_add">Backends podem ser adicionados a partir do ecrã de Definições.</string>
   <string name="menu_exclude_from_totals_help_text">Se selecionar esta opção, esta conta não será incluída nos totais por moeda.</string>
-  <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para métodos de pagamento</string>
   <string name="form_MethodEdit_label_help_text">A etiqueta identifica o método quando atribui uma transação ao mesmo.</string>
   <string name="form_MethodEdit_type_help_text">Através do tipo de método, pode determinar se é aplicável a despesas (débito), receitas (crédito) ou ambos (neutro).</string>
   <string name="form_MethodEdit_numbered_help_text">Quando um método é numerado, as transações atribuídas ao mesmo, terão um campo adicional para introduzir um número de referência.</string>
   <string name="form_MethodEdit_account_types_help_text">Selecionar os tipos de conta para as quais este método é aplicável.</string>
-  <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Para cada moeda, pode modificar o número de dígitos fracionários a serem usados. Por exemplo, se para o Euro, precisa de lidar com 1/10 de um ¢, por ex. 1/1000 de um Euro, definiria o número para três. Contas existentes que usam a moeda, serão alteradas para a nova definição.</string>
-  <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">A pasta que selecionar aqui, será usada para armazenar cópias de segurança e exportações. Navegue através da hierarquia da pasta até chegar à pasta pretendida.</string>
   <string name="menu_create_folder_help_text">Criar uma nova pasta dentro da pasta atual.</string>
   <string name="menu_FolderBrowser_select_help_text">Selecionar a pasta atual como destino de armazenamento de exportações e cópias de segurança.</string>
   <string name="menu_up_help_text">Navegar para a pasta superior da pasta atual.</string>
-  <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Este ecrã permite-lhe lidar com imagens que foram deixadas para trás pelas transações eliminadas. Clique longamente nas entradas para as eliminar, ou para as mover da pasta de armazenamento (possívelmente interno) para uma pasta de cópia de segurança (Android/data/org.totschnig.mxexpenses/files/images.old) no armazenamento externo.</string>
-  <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[Após selecionar o ficheiro que pretende importar, precisa de configurar em que modo o ficheiro está codificado (UTF-8 ou ISO-8859-1), que carácter separa os campos (vírgula, ponto e vírgula ou tabulador), e em que modo as datas estão formatadas. Os dados podem ser importados para uma conta existente, ou para uma nova, onde pode configurar a moeda e o tipo de conta.<br><br>Após pressionar o botão de Analisar a partir da barra de ações, os dados ser-lhe-ão apresentados numa tabela. Antes de iniciar a importação através do botão na barra de ações, pode selecionar as linhas que pretende descartar, e terá de atribuir as colunas aos respetivos campos de dados.<br><br>Quando descartar a primeira linha, ser-lhe-á perguntado se pertende que a mesma seja tratada como uma linha de cabeçalho, onde nesse caso o <i>My Expenses</i> tentará atribuir automaticamente as colunas com base no conteúdo das células de cabeçalho. Lembrará também a sua atribuição com base na linha do cabeçalho, e restaurará a mesma, na próxima vez que importar um ficheiro com o mesmo formato de cabeçalho.]]></string>
   <string name="help_ExportDialog_date_format"><![CDATA[O texto pode ser citado usando apóstrofos (\') para evitar a interpretação. \" (aspas) representam um apóstrofo. Consulte a <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">especificação</a> completa para mais detalhes, ou contacte support@myexpenses.mobi para obter ajuda.]]></string>
   <string name="help_NavigationDrawer_info">A lista de contas permite-lhe facilmente navegar entre contas com um simples clique numa entrada.</string>
   <string name="menu_create_account_help_text">Criar uma nova conta. A versão gratuita está limitada a cinco contas.</string>
   <string name="menu_NavigationDrawer_sort_help_text">A lista de contas pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última transação criada.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">A lista de contas pode ser exibida agrupada por tipo de conta, moeda, ou não agrupada.</string>
-  <!--SyncBackends-->
   <string name="help_ManageSyncBackends_drive">Google Drive: Escolha qualquer pasta que possua ou que esteja partilhada consigo.</string>
   <string name="menu_create_sync_backend_help_text">A partir do submenu, selecione o tipo de backend de sincronização que pretende adicionar, e forneça os detalhes específicos de cada.</string>
   <string name="cab_sync_now_help_text">Iniciar a sincronização imediata com o backend selecionado.</string>
@@ -125,7 +112,4 @@
   <string name="cab_sync_download_help_text">Transferir uma conta que esteja disponível no backend. Uma conta será criada localmente e será configurada para sincronizar com o backend.</string>
   <string name="cab_sync_link_help_text">Iniciar a sincronização de uma conta que existe localmente e remotamente. Tem de decidir se devem ser mantidos os dados locais ou remotos na primeira sincronização.</string>
   <string name="cab_sync_unlink_help_text">A conta selecionada deixará de ser sincronizada com o backend</string>
-  <!--History-->
-  <!--Budget-->
-  <!--Tags-->
 </resources>

@@ -1,26 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="help_menu_commands">Εντολές μενού</string>
   <string name="help_contextual_actions">Εξαρτώμενες ενέργειες</string>
   <string name="help_form_fields">Πεδία</string>
   <string name="cab_delete_help_text">Διαγραφή επιλεγμένων</string>
   <string name="cab_edit_help_text">Επεξεργασία επιλεγμένου αντικειμένου</string>
-  <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Λίστα συναλλαγών</string>
   <string name="help_MyExpenses_info">Αυτή η οθόνη εμφανίζει όλες τις συναλλαγές για τον τρέχοντα λογαριασμό. Χρησιμοποιήστε το αναδυώμενο κουμπί ενεργειών για να ανοίξετε την φόρμα δημιουργίας νέας συναλλαγής</string>
-  <!--ManageMethods title is in keys-->
-  <!--ManageParties title is in keys-->
-  <!--ManageTemplates title is in keys-->
-  <!--ManageCategories_* titles are in keys-->
-  <!--ExpenseEdit-->
-  <!--AccountEdit-->
-  <!--MethodEdit-->
-  <!--ManageCurrencies-->
-  <!--FolderBrowser title is in keys-->
-  <!--StaleImages-->
-  <!--CSV Import-->
-  <!--SyncBackends-->
-  <!--History-->
-  <!--Budget-->
-  <!--Tags-->
 </resources>
