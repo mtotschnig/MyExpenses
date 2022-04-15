@@ -1005,4 +1005,6 @@
     <string name="whats_new_336_2">Etiquetas para as partes da divisão</string>
     <string name="whats_new_336_1">Compartilhar o resumo da dívida</string>
     <string name="setup_completed">Configuração concluída</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Árvore de categorias</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Devido ao status atual da sua licença (%1$s), este diálogo será exibido a cada utilização.</string>
 </resources>
