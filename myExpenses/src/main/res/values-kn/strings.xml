@@ -973,4 +973,6 @@
     <string name="whats_new_336_1">ಸಾಲದ ಸಾರಾಂಶವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
     <string name="whats_new_336_2">ವಿಭಜಿತ ಭಾಗಗಳಿಗೆ ಟ್ಯಾಗ್ಗಳು</string>
     <string name="setup_completed">ಸೆಟಪ್ ಪೂರ್ಣಗೊಂಡಿದೆ</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">ವರ್ಗ ಮರ</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%1$s), ಈ ಸಂವಾದವನ್ನು ಪ್ರತಿ ಬಳಕೆಯಲ್ಲೂ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
 </resources>
