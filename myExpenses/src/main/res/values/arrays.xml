@@ -431,6 +431,11 @@
         <item>help_ManageCategories_expand_collapse</item>
     </string-array>
 
+    <string-array name="help_ManageCategories_select_filter_info">
+        <item>help_ManageCategories_expand_collapse</item>
+        <item>help_ManageCategories_select_filter_info</item>
+    </string-array>
+
     <string-array name="popup_MyExpenses_toolbar_items" tools:ignore="UnusedResources">
         <item>copy_text</item>
         <item>new_balance</item>

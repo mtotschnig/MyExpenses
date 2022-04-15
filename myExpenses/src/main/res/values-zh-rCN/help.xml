@@ -13,7 +13,7 @@
     <string name="menu_back_help_text">导航到前一组。也可以通过从左到右的滑动手势来实现。</string>
     <string name="menu_categories_setup_default_help_text">将导入一组默认类别。</string>
     <string name="menu_categories_export_help_text">类别会被导出到QIF文件。</string>
-    <string name="cab_ManageCategories_select_filter_select_help_text">所选类别将用于筛选交易列表。</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">选择的类别将用于过滤交易列表。</string>
     <string name="menu_ManageCategories_search_help_text">只显示与您的查询匹配的主类别和子类别。</string>
     <string name="form_comment_help_text">输入有关交易条目的备注信息。</string>
     <string name="form_title_help_text">输入唯一标识该模板的标题。</string>
@@ -120,7 +120,6 @@
     <string name="menu_distribution_aggreate_help_text">默认情况下，计算的总金额包括支出和收入。你可以设置分开展示，在操作栏的按钮切换支出和收入。</string>
     <string name="menu_distribution_show_pie_char_help_text">切换为饼图。</string>
     <string name="menu_forward_help_text">导航到下一组。也可以通过从右到左的滑动手势来实现。</string>
-    <string name="help_ManageCategories_select_filter_info">选择用于筛选交易列表的类别。为了查找某个主类别，您必须调用该类别的快捷菜单。</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">设置分组类型，并以每天、每月、每周或每年为单位显示分布情况。</string>
     <string name="help_ExpenseEdit_splitPartTransfer_title">转账拆分部分的表单</string>
     <string name="help_ExpenseEdit_templateTransfer_title">用于转账模板的表单</string>

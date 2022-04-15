@@ -52,7 +52,6 @@
     <string name="menu_ManageTemplates_templates_sort_help_text">Şablon listesi başlıklara göre (alfabetik olarak), meblağa göre, kullanma sıklığına göre ya da son muamele örneklendirme tarihine göre sıralanabilir.</string>
     <string name="help_ManageCategories_distribution_info">Bu ekran harcamalarınızın ve gelirlerinizin ya bir hesaptaki tüm muameleler için ya da özel bir grup için kategorilere göre dağılımını gösterir. Eğer listedki bir ana kategoriyi genişletirseniz, yuvarlak diyagram alt kategorilerin dağılımını gösterir. Listedeki bir kategoriyi seçerseniz yuvarlak diyagramda vurgulanacaktır ve bunun tersi de geçerlidir. Kendisine eşlenen işlemlerin toplu bir listesini görüntülemek için bir kategoriye uzun süre dokunun.</string>
     <string name="help_ManageCategories_select_mapping_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz için tıklamanız yeterlidir.</string>
-    <string name="help_ManageCategories_select_filter_info">Muamele listesini süzmek için kategori seçin. Ana bir kategori aramak için onun bağlam menüsünü çağırmanız gerekir.</string>
     <string name="help_ManageCategories_manage_info">Bu ekran kategorileri oluşturmaya, düzenlemeye ve silmeye imkân verir. Varsayılan değer olarak kategori listesinde ilk sıralama kriteri kategoriyi kullanma sayınızdır (ikinci kriter ise alfabetik sıradır). Bu, en sık kullandığınız kategorilere çabuk ulaşmanızı sağlar.</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">Gruplama biçimini seçin ve dağılımı gün, ay, hafta ya da senelik olarak görüntüleyin.</string>
     <string name="menu_back_help_text">Önceki gruba geç. Soldan sağa kaydırarak yapılması da mümkündür.</string>
@@ -61,7 +60,7 @@
     <string name="menu_categories_export_help_text">Kategoriler QIF dosyasına dışa aktarılacaktır.</string>
     <string name="menu_distribution_show_pie_char_help_text">Yuvarlak diyagramın görüntülenmesini aç ya da kapat.</string>
     <string name="menu_distribution_aggreate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem harcamalar hem de gelirleri içerir. Bunların ayrı olarak gösterilmesini seçebilirsiniz, eylem çubuğundaki bir düğme harcamalar ve gelirler arasında geçiş yapmaya imkân verir.</string>
-    <string name="cab_ManageCategories_select_filter_select_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">Seçilen kategoriler, işlem listesini filtrelemek için kullanılacaktır.</string>
     <string name="menu_ManageCategories_search_help_text">Sorgunuzla eşleşen sadece ana ve alt kategoriler gösterilecektir.</string>
     <string name="menu_ManageCategories_sort_help_text">Kategori listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre ya da son muamele ilişkilendirme tarihine göre sıralanabilir.</string>
     <string name="cab_ManageCategories_color_help_text">Ana kategorilere renk atayabilirsiniz. Bu renk, kategoriyi grafiklerde temsil etmek için kullanılacaktır. Alt kategoriler, ana kategorinin renginin tonlarını kullanacaktır.</string>

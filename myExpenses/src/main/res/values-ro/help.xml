@@ -38,7 +38,6 @@
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editarea tranzacţiei care a fost creată pentru scadenţa selectată.</string>
   <string name="help_ManageCategories_distribution_info">Acest ecran afișează distribuția cheltuielilor și veniturilor dvs. pentru ori ce categorie, pentru toate tranzacțiile dintr-un cont sau pentru un anumit grup. Dacă extindeți o categorie principală din listă, graficul va afișa distribuția subcategoriilor sale. Dacă selectați o categorie din listă, aceasta va fi evidențiată în grafic și invers. Apăsați lung pe o categorie pentru a afișa o listă agregată a tranzacțiilor mapate pe acea categorie.</string>
   <string name="help_ManageCategories_select_mapping_info">Pe lângă acţiunile pe care puteţi efectua gestionarea categoriilor din ecranul  Preferinţe (creare, editare, ştergere) de pe acest ecran mapaţi o tranzacţie la o categorie selectată pur şi simplu făcând clic pe ea.</string>
-  <string name="help_ManageCategories_select_filter_info">Selectaţi categoria pentru filtrarea listei de tranzacţii. Pentru a căuta o categorie principală, trebuie să apelaţi meniul ei contextual.</string>
   <string name="help_ManageCategories_manage_info">Acest ecran vă permite să creaţi, editaţi şi şterge categorii. În mod implicit, criteriu de sortare primar în lista  categoriilor este frecvenţa lor de utilizare (criteriul secundar este ordine alfabetică). Acest lucru vă oferă acces rapid la categoriile pe care le utilizaţi cel mai frecvent.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Setaţi tipul de grupare şi afişare a distribuției pe zi, lună, săptămână sau an.</string>
   <string name="menu_back_help_text">Navigaţi la grupul anterior. Se poate face şi printr-un gest de deplasare al degetului de la stânga la dreapta.</string>
@@ -47,7 +46,7 @@
   <string name="menu_categories_export_help_text">Categoriile vor fi exportate într-un fisier QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Comutați vizibilitatea graficului.</string>
   <string name="menu_distribution_aggreate_help_text">În mod implicit, sumele calculate includ atât cheltuieli, cât și venituri. Puteți decide să le arătați separat, un buton din bara de acțiune vă permite să comutați între cheltuieli și venituri.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">Categoria selectată va fi folosită pentru filtrarea listei de tranzacţie.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Categoriile selectate vor fi folosite pentru filtrarea listei de tranzacții.</string>
   <string name="menu_ManageCategories_search_help_text">Vor fi afișate doar categoriile principale și sub-categorii care se potrivesc interogării dvs.</string>
   <string name="menu_ManageCategories_sort_help_text">Lista de categorii poate fi sortată după titlu (alfabetic), în funcție de frecvența de utilizare sau de ultima dată când a fost mapată o tranzacție.</string>
   <string name="help_ExpenseEdit_transaction_title">Formular pentru tranzacţii</string>

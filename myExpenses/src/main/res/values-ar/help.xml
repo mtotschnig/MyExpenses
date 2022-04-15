@@ -50,7 +50,6 @@
   <string name="menu_ManageTemplates_templates_sort_help_text">يمكن فرز قائمة القوالب حسب العنوان (أبجديًا) ، أو الكمية ، أو تكرار الاستخدامات ، أو حسب آخر مرة تم فيها إنشاء معاملة منها.</string>
   <string name="help_ManageCategories_distribution_info">تعرض هذه الشاشة توزيع نفقاتك ودخولك لكل فئة ، لجميع المعاملات في الحساب ، أو لمجموعة معينة. إذا قمت بتوسيع فئة رئيسية في القائمة ، فسيعرض المخطط الدائري توزيع فئاته الفرعية. إذا قمت بتحديد فئة في القائمة ، فسيتم تمييزها في المخطط الدائري ، والعكس صحيح. اضغط مطولاً على فئة من أجل عرض قائمة مجمعة بالمعاملات المعينة لها.</string>
   <string name="help_ManageCategories_select_mapping_info">الإجراءات التي يمكنك تنفيذها عند إدارة الفئات من شاشة التفضيلات (إنشاء أو تحرير أو حذف) ، يمكنك في هذه الشاشة تعيين معاملة إلى فئة محددة بمجرد النقر عليها.</string>
-  <string name="help_ManageCategories_select_filter_info">حدد فئة تصفية قائمة المعاملات. من أجل البحث عن فئة رئيسية ، يجب عليك استدعاء قائمة السياق الخاصة بها.</string>
   <string name="help_ManageCategories_manage_info">تسمح هذه الشاشة بإنشاء وتحرير وحذف الفئات. بشكل افتراضي ، يكون معيار الفرز الأساسي في قائمة الفئات هو عدد المرات التي تستخدم فيها فئة (المعايير الثانوية هي الترتيب الأبجدي). يمنحك هذا وصولاً سريعًا إلى الفئات التي تستخدمها غالبًا.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">عيّن نوع التجميع واعرض التوزيع لكل يوم أو شهر أو أسبوع أو سنة.</string>
   <string name="menu_back_help_text">الانتقال للمجموعة السابقة.</string>
@@ -59,7 +58,7 @@
   <string name="menu_categories_export_help_text">سيتم تصدير الفئات إلى ملف QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">تبديل رؤية المخطط الدائري.</string>
   <string name="menu_distribution_aggreate_help_text">بشكل افتراضي ، تتضمن المبالغ المحسوبة كلاً من النفقات والدخل. يمكنك أن تقرر إظهارها بشكل منفصل ، يتيح لك الزر الموجود في شريط الإجراءات التبديل بين النفقات والدخل.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">سيتم استخدام الفئة المحددة لتصفية قائمة المعاملات.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">سيتم استخدام الفئات المحددة لتصفية قائمة المعاملات.</string>
   <string name="menu_ManageCategories_search_help_text">سيتم عرض الفئات الرئيسية والفرعية التي تطابق الاستعلام الخاص بك فقط.</string>
   <string name="menu_ManageCategories_sort_help_text">يمكن فرز قائمة الفئات حسب العنوان (أبجديًا) ، أو تكرار الاستخدامات ، أو حسب آخر مرة تم فيها تعيين معاملة لها.</string>
   <string name="cab_ManageCategories_color_help_text">يمكنك تخصيص لون للفئات الرئيسية. سيتم استخدام هذا اللون لتمثيل الفئة في الرسوم البيانية. ستستخدم الفئات الفرعية ظلال لون فئتها الرئيسية.</string>

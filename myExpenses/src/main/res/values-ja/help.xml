@@ -44,7 +44,6 @@
   <string name="menu_ManageTemplates_templates_sort_help_text">テンプレートリストは、タイトル (アルファベット順)、金額、使用頻度、または取引がインスタンス化された最後の時間によってソートすることができます。</string>
   <string name="help_ManageCategories_distribution_info">この画面では、勘定内のすべての取引に対して、または特定のグループに対して、分類ごとに支出と収入の分布を表示します。リスト内の主分類を展開すると、その副分類の分布が円グラフで表示されます。リストで分類を選択した場合は、円グラフで強調表示されます。分類を長押しすると、それにマッピングされた取引の集計リストを表示します。</string>
   <string name="help_ManageCategories_select_mapping_info">環境設定画面から分類を管理する時に実行できるアクション (作成、編集、削除) に加えて、この画面では、選択した分類に取引を配置します。</string>
-  <string name="help_ManageCategories_select_filter_info">取引リストをフィルタリングする分類を選択します。主分類を検索するには、そのコンテキストメニューを呼び出す必要があります。</string>
   <string name="help_ManageCategories_manage_info">この画面は、分類を作成、編集および削除することができます。デフォルトでは、分類リストの主なソート基準は、分類の使用回数です (二番目の基準はアルファベット順です)。これにより、最も頻繁に使用する分類にすばやくアクセスできます。</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">グループ化の種類を設定し、日、月、週または年間の分布を表示します。</string>
   <string name="menu_back_help_text">前のグループに移動します。左から右にスワイプのジェスチャーをして移動することもできます。</string>
@@ -53,7 +52,7 @@
   <string name="menu_categories_export_help_text">分類を QIF ファイルにエクスポートします。</string>
   <string name="menu_distribution_show_pie_char_help_text">円グラフの表示を切り替えます。</string>
   <string name="menu_distribution_aggreate_help_text">デフォルトでは、計算された合計に支出と収入の両方が含まれます。それらを個別に表示することもできます。アクションバーにあるボタンを使用すると、支出と収入の間で切り替えできます。</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">選択したカテゴリは、トランザクションリストのフィルタリングに使用されます。</string>
   <string name="menu_ManageCategories_search_help_text">クエリに一致するメインとサブカテゴリーのみ表示されます。</string>
   <string name="menu_ManageCategories_sort_help_text">分類リストは、タイトル (アルファベット順)、使用頻度、または取引がマップされた最後の時間によってソートすることができます。</string>
   <string name="cab_ManageCategories_color_help_text">主分類に色を割り当てることができます。 この色は、グラフの分類を表すために使用されます。 副分類は、主分類の色の陰影を使用します。</string>

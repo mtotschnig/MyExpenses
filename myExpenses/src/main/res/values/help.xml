@@ -66,7 +66,7 @@
     <string name="menu_ManageTemplates_templates_sort_help_text">The template list can be sorted by title (alphabetically), by amount, by frequency of usages, or by the last time a transaction was instantiated from it.</string>
     <string name="help_ManageCategories_distribution_info">This screen displays the distribution of your expenses and incomes per categories, for all transactions in an account, or for a specific group. If you expand a main category in the list, the pie chart will display the distribution of its subcategories. If you select a category in the list, it will be highlighted in the pie chart, and vice-versa. Long press on a category in order to display an aggregated list of the transactions mapped to it.</string>
     <string name="help_ManageCategories_select_mapping_info">In addition to the actions that you can perform when managing categories from the Preferences screen (create, edit, delete), on this screen you map a transaction to a selected category by simply clicking on it.</string>
-    <string name="help_ManageCategories_select_filter_info">Select the category for filtering the transaction list. In order to search for a main category, you have to call its context menu.</string>
+    <string name="help_ManageCategories_select_filter_info">Click on an entry for starting multi-selection.</string>
     <string name="help_ManageCategories_manage_info">This screen allows to create, edit and delete categories. By default, the primary sort criteria in the category list is the number of times you use a category (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often.</string>
     <string name="help_ManageCategories_expand_collapse"><![CDATA[Click on the <img src="ic_expand_more">/<img src="ic_expand_less"> icon to expand or collapse a category.]]></string>
     <string name="help_ManageCategories_manage_context">Click on an entry for showing its context menu. Long tap for starting multi-selection.</string>
@@ -79,7 +79,7 @@
     <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
     <string name="menu_distribution_show_pie_char_help_text">Toggle the visibility of the pie chart.</string>
     <string name="menu_distribution_aggreate_help_text">By default, the calculated sums include both expenses and income. You can decide to show them separately, a button in the action bar allows you to toggle between expenses and income.</string>
-    <string name="cab_ManageCategories_select_filter_select_help_text">The selected category will be used for filtering the transaction list.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">The selected categories will be used for filtering the transaction list.</string>
     <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
     <string name="menu_ManageCategories_sort_help_text">The category list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was mapped to it.</string>
     <string name="cab_ManageCategories_color_help_text">You can assign a color to main categories. This color will be used to represent the category in charts. Subcategories will use shades of their main category\'s color. </string>

@@ -39,7 +39,6 @@
   <string name="menu_ManageTemplates_templates_sort_help_text">Lista szablonów może być sortowana według tytułu (alfabetycznie), według ilości, częstotliwości użycia lub ostatniego czasu utworzenia transakcji.</string>
   <string name="help_ManageCategories_distribution_info">Na tym ekranie wyświetla się rozkład wydatków i dochodów w kategoriach dla wszystkich transakcji na koncie lub dla określonej grupy. Po rozwinięciu głównej kategorii na liście wykres kołowy wyświetli rozkład podkategorii. Jeśli wybierzesz kategorię z listy, zostanie ona podświetlona na wykresie kołowym i odwrotnie. Naciśnij długo kategorię, aby wyświetlić zagregowaną listę mapowanych do niej transakcji.</string>
   <string name="help_ManageCategories_select_mapping_info">Oprócz akcji które możesz dokonać podczas zarządzania kategoriami z ekranu Preferencji (utwórz, edytuj, usuń), na tym ekranie możesz zmapować transakcję do wybranej kategorii przez kliknięcie na niej.</string>
-  <string name="help_ManageCategories_select_filter_info">Wybierz kategorię filtrowania listy transakcji. Aby wyszukać głównej kategorii musisz wywołać jej menu kontekstowe.</string>
   <string name="help_ManageCategories_manage_info">Ten ekran pozwala na tworzenie, edytowanie i usuwanie kategorii. Domyślnie, główne kryteria sortowanie na liście kategorii to ilość razy ile użyłeś danej kategorii (Drugorzędne kryteria to kolejność alfabetyczna). To pozwala Ci na szybki dostęp do kategorii których najczęściej używasz.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Ustawia typ grupowania i wyświetla dystrybucję na dzień, miesiąc, tydzień lub rok.</string>
   <string name="menu_back_help_text">Przechodzi do poprzedniej grupy. To może być także dokonane przez gest przesunięcia palcem od lewej do prawej.</string>
@@ -48,7 +47,7 @@
   <string name="menu_categories_export_help_text">Kategorie zostaną wyeksportowane do pliku QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Przełącz widoczność wykresu kołowego.</string>
   <string name="menu_distribution_aggreate_help_text">Domyślnie, kalkulowane sumy zawierają zarówno wydatki jak i przychody. Możesz zadecydować by wyświetlać je osobno, przycisk w pasku akcji pozwala na przełączanie pomiędzy wydatkami i przychodami.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">Wybrana kategoria zostania użyta do filtrowania listy transakcji.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Wybrane kategorie posłużą do filtrowania listy transakcji.</string>
   <string name="menu_ManageCategories_search_help_text">Tylko kategorie główne i podkategorie które pasują do twojego zapytania zostaną wyświetlone.</string>
   <string name="menu_ManageCategories_sort_help_text">Lista kategorii może być sortowana według tytułu (alfabetycznie), według częstotliwości używania lub ostatniego czasu, kiedy transakcja została do niej przyporządkowana.</string>
   <string name="help_ExpenseEdit_transaction_title">Formularz dla transakcji</string>

@@ -41,7 +41,6 @@
   <string name="menu_ManageTemplates_templates_sort_help_text">Senarai templat boleh diisih mengikut tajuk (secara berabjad), mengikut amaun, mengikut kekerapan penggunaan, atau mengikut kali terakhir transaksi disegerakan darinya.</string>
   <string name="help_ManageCategories_distribution_info">Skin ini memaparkan agihan perbelanjaan dan pendapatan anda per kategori, untuk semua transaksi di dalam akaun, atau untuk kumpulan tertentu. Jika anda kembangkan kategori utama di dalam senarai, carta pai akan paparkan agihan subkategorinya. Jika anda memilih satu kategori di dalam senarai, ia akan disorot pada carta pai, dan sebaliknya. Tahan lama pada kategori supaya dapat paparkan senarai beragregat transaksi yang dipetakan padanya.</string>
   <string name="help_ManageCategories_select_mapping_info">Selain dari tindakan yang anda boleh buat bila mengurus kategori dari skrin Keutamaan (cipta, sunting, padam), pada skrin ini anda boleh petakan transaksi pada kategori terpilih hanya mengklik padanya.</string>
-  <string name="help_ManageCategories_select_filter_info">Pilih kategori untuk menapis senarai transaksi. Untuk menggelintar kategori utama, anda perlu pergi kem menu konteksnya.</string>
   <string name="help_ManageCategories_manage_info">Skrin ini membolehkan anda cipta, sunting dan padam kategori. Secara lalai, kriteria isih utama dalam senarai kategori ialah berapa kali anda gunakan kategori (kriteria sekunder adalah tertib abjad). Ia memberikan anda capaian pantas ke kategori yang kerap anda guna.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Tetapkan jenis pengumpulan dan papar agihan sehari, sebulan, seminggu atau setahun.</string>
   <string name="menu_back_help_text">Navigasi ke kumpulan terdahulu. Boleh juga dibuat melalui gerak isyarat seret dari kiri ke kanan.</string>
@@ -50,7 +49,7 @@
   <string name="menu_categories_export_help_text">Kategori akan dieksport ke fail QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Togol ketampakan carta pai.</string>
   <string name="menu_distribution_aggreate_help_text">Secara lalai, hasil tambah yang dikira termasuklah kedua-dua perbelanjaan dan pendapatan. Anda boleh tentukan sama ada ditunjukkan secara berasingan, butang pada palang tindakan membolehkan anda togol diantara perbelanjaan dengan pendapatan.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">Kategori terpilih akan digunakan untuk menapis senarai transaksi.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Kategori yang dipilih akan digunakan untuk menapis senarai transaksi.</string>
   <string name="menu_ManageCategories_search_help_text">Hanya kategori utama dan sub-kategori yang sepadan dengan pertanyaan anda akan dipaparkan.</string>
   <string name="menu_ManageCategories_sort_help_text">Senarai kategori boleh diisih mengikut tajuk (secara berabjad), mengikut kekerapan penggunaan, atau mengikut kali terakhir transaksi dipetakan.</string>
   <string name="cab_ManageCategories_color_help_text">Anda boleh umpuk satu warna untuk kategori utama. Warna ini akan digunakan untuk mewakili kategori dalam carta. Subkategori akan guna lorekan dari warna kategori utama mereka.</string>
