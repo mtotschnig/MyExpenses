@@ -21,12 +21,11 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදී ගනුදෙනුවක් සකසා තිබේ නම් එය මකා දැමේ, අවලංගු කිරීමට සලකුණු දමා තිබේ නම් ඒවා මකා දැමේ.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">තෝරා ගත් සිද්ධි අවස්ථාවේ ගනුදෙනුවක් සංස්කරණය කිරීම.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_select_mapping_info">ප්‍රෙෆරන්ස් තිරය (තැනීම, සංස්කරණය, මැකීම් ) හරහා කාණ්ඩ පාලන කිරීමේ ක්‍රියා වලට අමතරව තෝරාගත් කාණ්ඩයකට ගනුදෙනුවක් තිරය මත අනුරූපනය කල හැක. අනුකාණඩයක් මත ක්ලික් කිරීමෙන් එය ජංගම ගනුදෙනුව අනුරූපනය කිරීමට තෝරා ගනියි. ප්‍රධාන කාණ්ඩයක් අනුරූපනය කිරීම සඳහා එහි සංදර්භ ලේඛනය තෝරා ගත යුතුයි. </string>
+  <string name="help_ManageCategories_select_mapping_info">ප්‍රෙෆරන්ස් තිරය (තැනීම, සංස්කරණය, මැකීම් ) හරහා කාණ්ඩ පාලන කිරීමේ ක්‍රියා වලට අමතරව තෝරාගත් කාණ්ඩයකට ගනුදෙනුවක් තිරය මත අනුරූපනය කල හැක.</string>
   <string name="help_ManageCategories_manage_info">මෙම තිරය මඟින් කාණ්ඩ තැනීම, සංස්කරණය, මැකීම කල හැක.  පැහැරහැරීමේදී, කාණ්ඩ ලැයිස්තුවේ මූලික වර්ග උපමාන ගණන කාණ්ඩායක් භාවිතා කිරීමේ ගණනට සමාන වේ(ද්වීතීක උපමානය වනුයේ අකාරාදී පිළිවෙළයි ) . මෙය ඔබ වැඩියෙන්ම භාවිතා කරන කාණ්ඩය ඉතා ඉක්මනින් ප්‍රවේශ වීමට උදව් වෙයි.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">කණ්ඩායම්කරනයේ වර්ග ස්ථාවර කර දිනට, මසකට, සතියකට හෝ වර්ශයට විභාජනය විදහා දැක්වීම.</string>
   <string name="menu_back_help_text">පෙර කණ්ඩායමට ගමන් කිරීම. මෙය වමේ සිට දකුණට සර්පණ අංගහාරයෙන් කල හැක. </string>
   <string name="menu_forward_help_text">ඊළඟ කණ්ඩායමට ගමන් කිරීම. මෙය දකුණේ සිට වමට සර්පණ අංගහාරයෙන් කල හැක. </string>
-  <string name="cab_ManageCategories_select_help_text">තෝරා ගත් කාණ්ඩය ගනුදෙනුවකට අනුරූපනය කර ගනුදෙනු පෝරමයට නැවත පිවිසෙන්න.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">ගනුදෙනු සඳහා පෝරමය</string>
   <string name="help_ExpenseEdit_transfer_title">මුදල් හුවමාරුව සඳහා පෝරමය</string>

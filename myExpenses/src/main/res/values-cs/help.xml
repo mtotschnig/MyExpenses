@@ -15,7 +15,7 @@
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_select_mapping_info">Kromě akcí, které můžete provádět při správě kategorií z nabídky předvolby (vytvoření, upravení, odstranění), můžete na této obrazovce přiřadit transakci k vybrané kategorii. Vyberte podkategorii pro přiřazení k aktuální transakci kliknutím na tuto kategorii. K přiřazení hlavní kategorie, budete muset vyvolat kontextové menu.</string>
+  <string name="help_ManageCategories_select_mapping_info">Kromě akcí, které můžete provádět při správě kategorií z nabídky předvolby (vytvoření, upravení, odstranění), můžete na této obrazovce přiřadit transakci k vybrané kategorii kliknutím na tuto kategorii.</string>
   <string name="help_ManageCategories_manage_info">Tato obrazovka umožňuje vytvářet, upravovat a odstraňovat kategorie. Ve výchozím nastavení jsou kategorie primárně řazeny podle počtu opakovaných použití dané kategorie (druhou možností je abecední řazení). To vám umožní rychlý přístup ke kategoriím, které nejčastěji používáte.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Nastavte typ seskupení a zobrazení distribuce za den, měsíc, týden nebo rok.</string>
   <string name="menu_back_help_text">Přejde na předchozí skupinu. Lze také provést prostřednictvím gesta posunu prstem zleva doprava.</string>

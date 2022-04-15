@@ -16,7 +16,7 @@
   <string name="cab_ManageTemplates_delete_help_text">Suprimeix les plantilles seleccionades i les seves planificacions.</string>
   <string name="cab_ManageTemplates_edit_help_text">Modifica les plantilles seleccionades i crea o modifica una planificació relacionada.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_select_mapping_info">A més de les accions que podeu utilitzar quan gestioneu categories des de la pantalla de Preferències (nou, edita, suprimeix), en aquesta pantalla podeu assignar una operació a una categoria. Seleccioneu una subcategoria per assignar l\'operació actual només clicant-hi. Per tal d\'assignar una categoria principal, heu d\'anar al seu menú contextual.</string>
+  <string name="help_ManageCategories_select_mapping_info">A més de les accions que podeu utilitzar quan gestioneu categories des de la pantalla de Preferències (nou, edita, suprimeix), en aquesta pantalla podeu assignar una operació a una categoria només clicant-hi.</string>
   <string name="help_ManageCategories_manage_info">Aquesta pantalla permet generar, modificar i suprimir categories. Per omissió, la llista de categories s\'ordena pel nombre de vegades que utilitzeu una categoria (i en segon lloc per ordre alfabètic). Això permet accedir ràpidament a les categories que feu servir més sovint.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Indiqueu el tipus d\'agrupació i mostra la distribució per dia, mes, setmana o any.</string>
   <string name="menu_back_help_text">Navegueu al grup anterior. També ho podeu fer lliscant el dit d\'esquerra a dreta.</string>

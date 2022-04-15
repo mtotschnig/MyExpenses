@@ -47,13 +47,12 @@
   <string name="menu_ManageTemplates_templates_sort_help_text">Txantiloi zerrenda izenburuaren (alfabetikoki), kopuruaren, erabilera maiztasunaren edo bertan transakzio batetik instantziatu den azken aldiaren arabera ordenatu daiteke.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Pantaila honek zure gastu eta diru-sarreren kategoriako banaketa bistaratzen du, kontu baten transakzio guztiena edo talde zehatz batena. Zerrendan kategoria nagusi bat zabaltzen baduzu, grafiko biribilak azpikategorien banaketa bistaratuko du. Zerrendan kategoria bat hautatzen baduzu, hau grafiko biribilean nabarmenduko da, eta alderantziz. Sakatu luze kategoria batean berari esleitutako transakzioen agregatutako zerrenda bat bistaratzeko.</string>
-  <string name="help_ManageCategories_select_mapping_info">Hobespenen pantailan kategoriak kudeatzean egin ditzakezun ekintzez gain (sortu, editatu, ezabatu), pantaila honetan transakzio bat aukeratutako kategoriarekin lotu dezakezu. Transakzio bat azpikategoria batetara lotzeko sakatu hau besterik gabe, kategoria nagusi batetara lotzeko bere laster-menua ireki behar duzu.</string>
+  <string name="help_ManageCategories_select_mapping_info">Hobespenen pantailan kategoriak kudeatzean egin ditzakezun ekintzez gain (sortu, editatu, ezabatu), pantaila honetan transakzio bat aukeratutako kategoriarekin lotu dezakezu.</string>
   <string name="help_ManageCategories_select_filter_info">Aukeratu kategoria transakzio zerrenda iragazteko . Kategoria nagusi bat hautatzeko bere testuinguru menua deitu behar duzu.</string>
   <string name="help_ManageCategories_manage_info">Pantaila honetan kategoriak sortu, editatu eta ezabatu ditzakezu. Lehenetsita, kategoria zerrenda ordenatzeko irispidea kategoria erabilitako aldi kopurua da (bigarren irispidea ordena alfabetikoa da). Honek maiz erabilitako kategoriak azkar aurkitzea errazten du.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Ezarri taldekatze mota eta eguneko, asteko, hileko edo urteko distribuzioa bistaratu</string>
   <string name="menu_back_help_text">Joan aurreko taldera. Hatza ezkerretik eskumara pasatuz ere egin daiteke.</string>
   <string name="menu_forward_help_text">Joan hurrengo taldera. Hatza eskumatik ezkerrera pasatuz ere egin daiteke.</string>
-  <string name="cab_ManageCategories_select_help_text">Lotu aukeratutako kategoria transakziora eta itzuli transakzioaren formulariora.</string>
   <string name="menu_categories_setup_default_help_text">Lehenetsitako kategoria multzo bat inportatuko da.</string>
   <string name="menu_categories_export_help_text">Kategoriak QIF fitxategira esportatuko dira.</string>
   <string name="menu_distribution_show_pie_char_help_text">Txandakatu grafiko biribilaren ikusgaitasuna.</string>

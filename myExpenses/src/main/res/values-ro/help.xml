@@ -42,13 +42,12 @@
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editarea tranzacţiei care a fost creată pentru scadenţa selectată.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Acest ecran afișează distribuția cheltuielilor și veniturilor dvs. pentru ori ce categorie, pentru toate tranzacțiile dintr-un cont sau pentru un anumit grup. Dacă extindeți o categorie principală din listă, graficul va afișa distribuția subcategoriilor sale. Dacă selectați o categorie din listă, aceasta va fi evidențiată în grafic și invers. Apăsați lung pe o categorie pentru a afișa o listă agregată a tranzacțiilor mapate pe acea categorie.</string>
-  <string name="help_ManageCategories_select_mapping_info">Pe lângă acţiunile pe care puteţi efectua gestionarea categoriilor din ecranul  Preferinţe (creare, editare, ştergere) de pe acest ecran mapaţi o tranzacţie la o categorie selectată. Selectaţi o subcategorie pentru maparea la tranzacţia curentă  pur şi simplu făcând clic pe ea. Pentru a asocia o categorie principală,  apelaţi-o din meniul ei  contextual.</string>
+  <string name="help_ManageCategories_select_mapping_info">Pe lângă acţiunile pe care puteţi efectua gestionarea categoriilor din ecranul  Preferinţe (creare, editare, ştergere) de pe acest ecran mapaţi o tranzacţie la o categorie selectată pur şi simplu făcând clic pe ea.</string>
   <string name="help_ManageCategories_select_filter_info">Selectaţi categoria pentru filtrarea listei de tranzacţii. Pentru a căuta o categorie principală, trebuie să apelaţi meniul ei contextual.</string>
   <string name="help_ManageCategories_manage_info">Acest ecran vă permite să creaţi, editaţi şi şterge categorii. În mod implicit, criteriu de sortare primar în lista  categoriilor este frecvenţa lor de utilizare (criteriul secundar este ordine alfabetică). Acest lucru vă oferă acces rapid la categoriile pe care le utilizaţi cel mai frecvent.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Setaţi tipul de grupare şi afişare a distribuției pe zi, lună, săptămână sau an.</string>
   <string name="menu_back_help_text">Navigaţi la grupul anterior. Se poate face şi printr-un gest de deplasare al degetului de la stânga la dreapta.</string>
   <string name="menu_forward_help_text">Navigaţi la grupul următor. Se poate face şi printr-un gest de deplasare al degetului de la dreapta la stânga.</string>
-  <string name="cab_ManageCategories_select_help_text">Mapează categoria selectată la tranzacţie şi a revine la formularul de tranzacţie.</string>
   <string name="menu_categories_setup_default_help_text">Un set de categorii implicite va fi importat.</string>
   <string name="menu_categories_export_help_text">Categoriile vor fi exportate într-un fisier QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Comutați vizibilitatea graficului.</string>

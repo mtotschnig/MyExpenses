@@ -26,7 +26,7 @@
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Khởi tạo các bản mẫu được chọn và lưu chúng ngay lập tức.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Khởi tạo bản mẫu được chọn và nhập biểu mẫu chỉnh sửa của nó nơi bạn có thể chỉnh sửa nó trước khi lưu.</string>
   <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_select_mapping_info">Để có thể tác động thêm các thao tác khi quản lý các phần phân loại từ màn hình Tùy Biến (tạo, chỉnh sửa, xóa), trên màn hình này bạn có thể gán các giao dịch vào các phần phân loại đã được chọn. Bạn chọn một phân loại con để gán vào giáo dịch hiện tại chỉ đơn giản bằng cách click vào đối tượng này. Để có thể gán vào phần phân loại chính, bạn sẽ cần phải sử dụng menu bổ sung.</string>
+  <string name="help_ManageCategories_select_mapping_info">Để có thể tác động thêm các thao tác khi quản lý các phần phân loại từ màn hình Tùy Biến (tạo, chỉnh sửa, xóa), trên màn hình này bạn có thể gán các giao dịch vào các phần phân loại đã được chọn bằng cách click vào đối tượng này.</string>
   <string name="help_ManageCategories_manage_info">Màn hình này cho phép bạn tạo, chỉnh sửa và xóa các phân loại. Theo mặc định, phần sắp xếp chính trong danh sách phân loại là sớ lần bạn sử dụng một phân loại (điều kiện sắp xếp thứ hai dựa vào trình tự chữ cái abc). Phần này sẽ giúp bạn truy cập nhanh hơn đến các phân loại mà bạn thường hay sử dụng.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Chỉnh loại của nhóm và hiển thị việc phân phối theo ngày, tháng, tuần hoặc năm.</string>
   <string name="menu_back_help_text">Định hướng tới nhóm trước đó.</string>

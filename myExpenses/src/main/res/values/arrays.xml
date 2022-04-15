@@ -187,7 +187,6 @@
         <item>cab_ManageCategories_color_help_text</item>
     </string-array>
     <string-array name="ManageCategories_select_mapping_cabitems" tools:ignore="UnusedResources">
-        <item>select</item>
         <item>edit</item>
         <item>create_sub_cat</item>
         <item>delete</item>

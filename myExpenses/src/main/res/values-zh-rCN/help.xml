@@ -16,7 +16,6 @@
     <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">表明在选定的事件实例中，不应该创建任何交易。如果已为所选事件实例创建了交易，则将删除它们。</string>
     <!--ManageCategories_* titles are in keys-->
     <string name="menu_back_help_text">导航到前一组。也可以通过从左到右的滑动手势来实现。</string>
-    <string name="cab_ManageCategories_select_help_text">将选定的类别映射到交易，并返回到交易表单。</string>
     <string name="menu_categories_setup_default_help_text">将导入一组默认类别。</string>
     <string name="menu_categories_export_help_text">类别会被导出到QIF文件。</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">所选类别将用于筛选交易列表。</string>
@@ -155,7 +154,7 @@
     <string name="help_ManageTags_select_mapping_info">轻按标签进行映射或取消映射。使用浮动操作按钮确认映射。</string>
     <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;模板可以基于交易通过快捷菜单加以创建，此处您可以点击悬浮操作按钮，从头创建新的（交易或转账）模板。点击某一模板，即可创建基于该模板的实例。&lt;br&gt;&lt;img src=ic_event&gt;计划是指您在计划表日历中为之创建（单次或重复）事件的模板。点击某一计划，将会打开日历视图，显示某一计划的过去和即将到来的实例。</string>
     <string name="help_ManageCategories_distribution_info">此界面显示您的支出和收入在每个类别、账户中的所有交易或特定组中的分布。如果您在列表中展开一个主要类别，饼图将显示其子类别的分布。如果您在列表中选择一个类别，它将在饼图中突出显示，反之亦然。长按一个类别，可显示映射到该类别的交易的汇总列表。</string>
-    <string name="help_ManageCategories_select_mapping_info">除了从首选项界面管理类别时可以执行的操作(创建、编辑、删除)之外，在此界面上，您可以将某项交易映射到选定的类别。只需单击子类别，即可选择映射到当前交易的子类别。为了映射一个主类别，你必须调用其快捷菜单。</string>
+    <string name="help_ManageCategories_select_mapping_info">除了从首选项界面管理类别时可以执行的操作(创建、编辑、删除)之外，在此界面上，您可以将某项交易映射到选定的类别。只需单击子类别。</string>
     <string name="help_ManageCategories_manage_info">此界面允许创建、编辑和删除类别。默认情况下，类别列表中的主要排序标准是您使用类别的次数(次要标准是字母顺序)。您可以借此快速访问最常使用的类别。</string>
     <string name="help_ExpenseEdit_templateCategory_title">用于交易模板的表单</string>
     <string name="help_FolderBrowser_info">您在此选择的文件夹将用于存储备份和导出。浏览文件夹层次结构，直到找到所需的文件夹。</string>
