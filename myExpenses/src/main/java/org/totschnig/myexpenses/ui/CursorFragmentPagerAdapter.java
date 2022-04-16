@@ -143,8 +143,7 @@ public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
         }
 
         setItemPositions();
-        if (newCursor != null)
-          notifyDataSetChanged();
+        notifyDataSetChanged();
 
         return oldCursor;
     }
@@ -154,8 +153,7 @@ public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
         if (!mDataValid || !mCursor.moveToPosition(position)) {
             return super.getItemId(position);
         }
-        int rowId = mCursor.getInt(mRowIDColumn);
-        return rowId;
+        return mCursor.getInt(mRowIDColumn);
     }
 
 }
