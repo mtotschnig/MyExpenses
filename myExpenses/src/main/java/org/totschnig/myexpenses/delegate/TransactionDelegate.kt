@@ -6,11 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.CompoundButton
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import com.squareup.picasso.Picasso
 import icepick.Icepick
@@ -22,9 +18,7 @@ import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.*
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
@@ -409,9 +403,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun populateOriginalCurrency() {
-        if (originalCurrencyCode != null) {
-            viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode)
-        }
+        viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode?.let { currencyContext[it] } ?: Utils.getHomeCurrency())
     }
 
     protected fun setVisibility(view: View, visible: Boolean) {
@@ -833,38 +825,37 @@ abstract class TransactionDelegate<T : ITransaction>(
                 Plan.Recurrence.LAST_DAY_OF_MONTH else it
         } ?: Plan.Recurrence.NONE
 
-    protected fun validateAmountInput(forSave: Boolean): BigDecimal? {
-        return validateAmountInput(viewBinding.Amount, forSave, forSave)
-    }
+    protected fun validateAmountInput(): BigDecimal? =
+        validateAmountInput(viewBinding.Amount, showToUser = false, ifPresent = false)
 
-    protected fun validateAmountInput(forSave: Boolean, currencyUnit: CurrencyUnit): Money? {
-        return validateAmountInput(viewBinding.Amount, forSave, forSave, currencyUnit)
-    }
+    protected fun validateAmountInput(forSave: Boolean, currencyUnit: CurrencyUnit) =
+        validateAmountInput(viewBinding.Amount, forSave, forSave, currencyUnit)
 
     protected open fun validateAmountInput(
         input: AmountInput,
         showToUser: Boolean,
         ifPresent: Boolean,
         currencyUnit: CurrencyUnit
-    ): Money? = input.getTypedValue(ifPresent, showToUser)?.let {
-        try {
-            Money(currencyUnit, it)
-        } catch (e: ArithmeticException) {
-            if (showToUser) {
-                input.setError("Number too large.")
+    ): Result<Money?> {
+        val result = validateAmountInput(input, ifPresent, showToUser)
+        return if (result == null) Result.success(null) else
+            kotlin.runCatching {
+                try {
+                    Money(currencyUnit, result)
+                } catch (e: ArithmeticException) {
+                    if (showToUser) {
+                        input.setError("Number too large.")
+                    }
+                    throw e
+                }
             }
-            null
-        }
     }
-
 
     protected open fun validateAmountInput(
         input: AmountInput,
         showToUser: Boolean,
         ifPresent: Boolean
-    ): BigDecimal? {
-        return input.getTypedValue(ifPresent, showToUser)
-    }
+    ): BigDecimal? = input.getTypedValue(ifPresent, showToUser)
 
     private fun configureAccountDependent(account: Account) {
         val currencyUnit = account.currency

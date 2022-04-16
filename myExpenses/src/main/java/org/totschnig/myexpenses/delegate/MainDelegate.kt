@@ -32,8 +32,10 @@ import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.lang.ArithmeticException
 import kotlin.math.sign
 
 //Transaction or Split
@@ -86,7 +88,7 @@ abstract class MainDelegate<T : ITransaction>(
         forSave: Boolean,
         accountId: Long
     ): T? {
-        val amount = validateAmountInput(forSave, currentAccount()!!.currency)
+        val amount = validateAmountInput(forSave, currentAccount()!!.currency).getOrNull()
             ?: //Snackbar is shown in validateAmountInput
             return null
         return buildMainTransaction(accountId).apply {
@@ -94,28 +96,35 @@ abstract class MainDelegate<T : ITransaction>(
             payee = viewBinding.Payee.text.toString()
             this.debtId = this@MainDelegate.debtId
             this.methodId = this@MainDelegate.methodId
-            val originalAmount = validateAmountInput(
-                viewBinding.OriginalAmount,
-                showToUser = false,
-                ifPresent = true
-            )
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
-            if (selectedItem != null && originalAmount != null) {
+            if (selectedItem != null) {
                 val currency = selectedItem.code
-                prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
-                this.originalAmount = Money(currencyContext[currency], originalAmount)
+                val originalAmount = validateAmountInput(
+                    viewBinding.OriginalAmount,
+                    showToUser = true,
+                    ifPresent = true,
+                    currencyUnit = currencyContext[currency]
+                )
+                originalAmount.onFailure {
+                    return null
+                }.onSuccess {
+                    prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
+                    this.originalAmount = it
+                }
             } else {
                 this.originalAmount = null
             }
             val equivalentAmount = validateAmountInput(
                 viewBinding.EquivalentAmount,
-                showToUser = false,
-                ifPresent = true
+                showToUser = true,
+                ifPresent = true,
+                Utils.getHomeCurrency()
             )
-            this.equivalentAmount = if (equivalentAmount == null) null else Money(
-                Utils.getHomeCurrency(),
-                if (isIncome) equivalentAmount else equivalentAmount.negate()
-            )
+            equivalentAmount.onFailure {
+                return null
+            }.onSuccess {
+                this.equivalentAmount = if (isIncome) it else it?.negate()
+            }
         }
     }
 
@@ -264,7 +273,7 @@ abstract class MainDelegate<T : ITransaction>(
                     if (isIncome) this else this?.negate()
                 }
             else
-                validateAmountInput(false)
+                validateAmountInput()
 
             if (installment != null) {
                 elements.add(" ${Transfer.RIGHT_ARROW} ")
