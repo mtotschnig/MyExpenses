@@ -102,7 +102,6 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
             } ?: throw IOException("Cursor was null")
         }
         var account: Account?
-        val destDir: DocumentFile
         val appDir = AppDirHelper.getAppDir(application)
         val context = ContextHelper.wrap(
             application,
@@ -113,102 +112,106 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
             return null
         }
         val oneFile = accountIds.size == 1 || mergeP
-        destDir = if (oneFile) {
+        val destDir = if (oneFile) {
             appDir
         } else {
-            AppDirHelper.newDirectory(appDir, fileName) ?: throw createFileFailure(
+            AppDirHelper.newDirectory(appDir, fileName)
+        }
+        if (destDir != null) {
+            val successfullyExported = ArrayList<Account>()
+            val simpleDateFormat = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
+            val now = Date()
+            for (i in accountIds.indices) {
+                account = Account.getInstanceFromDb(accountIds[i])
+                if (account == null) continue
+                publishProgress(account.label + " ...")
+                try {
+                    val append = mergeP && i > 0
+                    val fileNameForAccount = if (oneFile) fileName else String.format(
+                        "%s-%s", Utils.escapeForFileName(account.label),
+                        simpleDateFormat.format(now)
+                    )
+                    val exporter = when (format) {
+                        ExportFormat.CSV -> CsvExporter(
+                            account,
+                            filter,
+                            notYetExportedP,
+                            dateFormat,
+                            decimalSeparator,
+                            encoding,
+                            !append,
+                            delimiter,
+                            mergeP
+                        )
+                        ExportFormat.QIF -> QifExporter(
+                            account,
+                            filter,
+                            notYetExportedP,
+                            dateFormat,
+                            decimalSeparator,
+                            encoding
+                        )
+                        ExportFormat.JSON -> JSONExporter(
+                            account,
+                            filter,
+                            notYetExportedP,
+                            dateFormat,
+                            decimalSeparator,
+                            encoding,
+                            gson
+                        )
+                    }
+                    val result = exporter.export(context, lazy {
+                        Result.success(
+                            AppDirHelper.buildFile(
+                                destDir, fileNameForAccount, format.mimeType,
+                                append, true
+                            ) ?: throw createFileFailure(context, destDir, fileName)
+                        )
+                    }, append)
+                    result.onSuccess {
+                        if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
+                            addResult(it)
+                        }
+                        successfullyExported.add(account)
+                        publishProgress(
+                            "..." + context.getString(
+                                R.string.export_sdcard_success,
+                                FileUtils.getPath(context, it)
+                            )
+                        )
+                    }.onFailure {
+                        publishProgress("... " + it.message)
+                    }
+                } catch (e: IOException) {
+                    publishProgress(
+                        "... " + context.getString(
+                            R.string.export_sdcard_failure,
+                            appDir.name,
+                            e.message
+                        )
+                    )
+                }
+            }
+            for (a in successfullyExported) {
+                try {
+                    if (deleteP) {
+                        check(!a.isSealed) { "Trying to reset account that is sealed" }
+                        a.reset(filter, handleDelete, fileName)
+                    } else {
+                        a.markAsExported(filter)
+                    }
+                } catch (e: Exception) {
+                    publishProgress("ERROR: " + e.message)
+                    CrashHandler.report(e)
+                }
+            }
+        } else {
+            publishProgress("ERROR: " + createFileFailure(
                 context,
                 appDir,
                 fileName
-            )
-        }
-        val successfullyExported = ArrayList<Account>()
-        val simpleDateFormat = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
-        val now = Date()
-        for (i in accountIds.indices) {
-            account = Account.getInstanceFromDb(accountIds[i])
-            if (account == null) continue
-            publishProgress(account.label + " ...")
-            try {
-                val append = mergeP && i > 0
-                val fileNameForAccount = if (oneFile) fileName else String.format(
-                    "%s-%s", Utils.escapeForFileName(account.label),
-                    simpleDateFormat.format(now)
-                )
-                val exporter = when (format) {
-                    ExportFormat.CSV -> CsvExporter(
-                        account,
-                        filter,
-                        notYetExportedP,
-                        dateFormat,
-                        decimalSeparator,
-                        encoding,
-                        !append,
-                        delimiter,
-                        mergeP
-                    )
-                    ExportFormat.QIF -> QifExporter(
-                        account,
-                        filter,
-                        notYetExportedP,
-                        dateFormat,
-                        decimalSeparator,
-                        encoding
-                    )
-                    ExportFormat.JSON -> JSONExporter(
-                        account,
-                        filter,
-                        notYetExportedP,
-                        dateFormat,
-                        decimalSeparator,
-                        encoding,
-                        gson
-                    )
-                }
-                val result = exporter.export(context, lazy {
-                    Result.success(
-                        AppDirHelper.buildFile(
-                            destDir, fileNameForAccount, format.mimeType,
-                            append, true
-                        ) ?: throw createFileFailure(context, destDir, fileName)
-                    )
-                }, append)
-                result.onSuccess {
-                    if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
-                        addResult(it)
-                    }
-                    successfullyExported.add(account)
-                    publishProgress(
-                        "..." + context.getString(
-                            R.string.export_sdcard_success,
-                            FileUtils.getPath(context, it)
-                        )
-                    )
-                }.onFailure {
-                    publishProgress("... " + it.message)
-                }
-            } catch (e: IOException) {
-                publishProgress(
-                    "... " + context.getString(
-                        R.string.export_sdcard_failure,
-                        appDir.name,
-                        e.message
-                    )
-                )
-            }
-        }
-        for (a in successfullyExported) {
-            try {
-                if (deleteP) {
-                    check(!a.isSealed) { "Trying to reset account that is sealed" }
-                    a.reset(filter, handleDelete, fileName)
-                } else {
-                    a.markAsExported(filter)
-                }
-            } catch (e: Exception) {
-                publishProgress("ERROR: " + e.message)
-                CrashHandler.report(e)
-            }
+            ).message)
         }
         return Pair.create(format, getResult())
     }
