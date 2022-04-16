@@ -112,7 +112,6 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         } catch (throwable: Throwable) {
             if (throwable is SyncParseException || throwable is EncryptionException) {
                 syncResult.databaseError = true
-                log().e(throwable)
                 (throwable as? SyncParseException)?.let { report(it) }
                 deactivateSync(account)
                 accountManager.setUserData(account, GenericAccountService.KEY_BROKEN, "1")
