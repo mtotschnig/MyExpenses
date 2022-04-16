@@ -1803,7 +1803,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("DROP TRIGGER IF EXISTS delete_change_log");
         db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
         db.execSQL("update transactions set transfer_peer = (select _id from transactions peer where peer.transfer_peer = transactions._id) where transfer_peer is null;");
-        createOrRefreshTransactionTriggers(db);
+        //createOrRefreshTransactionTriggers(db);
       }
 
       if (oldVersion < 75) {
@@ -1912,7 +1912,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 82) {
-        createOrRefreshAccountTriggers(db);
+        //createOrRefreshAccountTriggers(db);
       }
 
       if (oldVersion < 83) {
@@ -1949,7 +1949,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 87) {
-        createOrRefreshTemplateViews(db);
+        //createOrRefreshTemplateViews(db);
       }
 
       if (oldVersion < 88) {
@@ -2030,11 +2030,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 93) {
         //on very recent versions of Sqlite renaming tables like done in upgrade to 92 breaks views AND triggers
-        createOrRefreshTransactionTriggers(db);
+        //createOrRefreshTransactionTriggers(db);
       }
 
       if (oldVersion < 94) {
-        createOrRefreshAccountTriggers(db);
+        //createOrRefreshAccountTriggers(db);
       }
 
 /*      if (oldVersion < 95) {
@@ -2079,9 +2079,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
         db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
-        createOrRefreshTransactionTriggers(db);
-        createOrRefreshAccountTriggers(db);
-        createOrRefreshAccountMetadataTrigger(db);
+        //createOrRefreshTransactionTriggers(db);
+        //createOrRefreshAccountTriggers(db);
+        //createOrRefreshAccountMetadataTrigger(db);
       }
 /*      if (oldVersion < 100) {
         ContentValues initialValues = new ContentValues();
@@ -2091,9 +2091,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 102) {
         db.execSQL("CREATE TABLE tags (_id integer primary key autoincrement, label text UNIQUE not null)");
         db.execSQL("CREATE TABLE transactions_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, transaction_id integer references transactions(_id) ON DELETE CASCADE, primary key (tag_id,transaction_id))");
-        createOrRefreshTransferTagsTriggers(db);
+        //createOrRefreshTransferTagsTriggers(db);
         db.execSQL("CREATE TABLE templates_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, template_id integer references templates(_id) ON DELETE CASCADE, primary key (tag_id,template_id));");
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
       if (oldVersion < 103) {
         createOrRefreshTransferTagsTriggers(db);
@@ -2123,7 +2123,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("CREATE INDEX templates_payee_id_index on templates(payee_id)");
       }
       if (oldVersion < 110) {
-        createOrRefreshTemplateViews(db);
+        //createOrRefreshTemplateViews(db);
       }
       if (oldVersion < 111) {
         repairSplitPartDates(db);
@@ -2188,7 +2188,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 121) {
         createOrRefreshViews(db);
-        createOrRefreshTemplateViews(db);
       }
       if (oldVersion < 122) {
         upgradeTo122(db);
