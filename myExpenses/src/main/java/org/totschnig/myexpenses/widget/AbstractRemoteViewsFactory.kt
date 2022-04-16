@@ -42,11 +42,9 @@ abstract class AbstractRemoteViewsFactory(
         cursor?.close()
         val token = Binder.clearCallingIdentity()
         try {
-            try {
-                cursor = buildCursor()
-            } catch (e: SQLiteException) {
-                CrashHandler.report(e)
-            }
+            cursor = buildCursor()
+        } catch (e: SQLiteException) {
+            CrashHandler.report(e);
         } finally {
             Binder.restoreCallingIdentity(token)
         }
