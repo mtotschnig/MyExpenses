@@ -64,7 +64,7 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
         expansionState.clear()
     }
 
-    fun setAggregateTypesFromPreferences() {
+    private fun setAggregateTypesFromPreferences() {
         val aggregateTypesFromPreference =
             if (prefHandler.isSet(prefKey)) prefHandler.getBoolean(prefKey, false) else null
         viewModel.setAggregateTypes(aggregateTypesFromPreference == null)
@@ -74,14 +74,14 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
     }
 
     fun showTransactions(category: Category) {
-        viewModel.accountInfo.value?.let {
+        viewModel.accountInfo.value?.let { accountInfo ->
             TransactionListDialogFragment.newInstance(
-                it.accountId,
+                accountInfo.accountId,
                 category.id,
                 viewModel.grouping,
                 viewModel.filterClause,
                 viewModel.filterPersistence.value?.whereFilter?.getSelectionArgs(true),
-                category.label,
+                if (category.level == 0) accountInfo.label(this) else category.label,
                 if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
                 true,
                 category.icon?.let { resources.getIdentifier(it, "drawable", packageName) }
