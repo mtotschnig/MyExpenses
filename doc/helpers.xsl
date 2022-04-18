@@ -149,6 +149,20 @@
                     select="document($strings)/resources/string[@name='ui_refinement']" />
                 <xsl:text>.</xsl:text>
             </xsl:when>
+
+            <xsl:when test="$version = '3.3.8'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='whats_new_338']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='menu_budget']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='ui_refinement']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

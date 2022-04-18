@@ -75,6 +75,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
+            Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EXPORT_COMMAND), action == Action.MANAGE)
         }
         menuInflater.inflate(R.menu.search, menu)
         configureSearch(this, menu, this::onQueryTextChange)

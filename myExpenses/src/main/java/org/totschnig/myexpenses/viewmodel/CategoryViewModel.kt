@@ -12,21 +12,28 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CategoryExporter
+import org.totschnig.myexpenses.export.createFileFailure
+import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
+import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
-import kotlin.Result.Companion.failure
 
 open class CategoryViewModel(
     application: Application,
@@ -247,7 +254,7 @@ open class CategoryViewModel(
                     }
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(e)
-                    failure(e)
+                    Result.failure(e)
                 }
             }
         }
@@ -286,8 +293,24 @@ open class CategoryViewModel(
 
     fun exportCats(encoding: String) {
         viewModelScope.launch(context = coroutineContext()) {
+            val context = getApplication<MyApplication>()
+            val destDir = AppDirHelper.getAppDir(context)
+            val fileName = "categories"
             _exportResult.update {
-                CategoryExporter.export(getApplication(), encoding)
+                if (destDir != null) {
+                    CategoryExporter.export(getApplication(), encoding,
+                        lazy {
+                            Result.success(
+                                AppDirHelper.timeStampedFile(destDir,
+                                    fileName,
+                                    ExportFormat.QIF.mimeType, "qif"
+                                )  ?: throw createFileFailure(context, destDir, fileName)
+                            )
+                        }
+                    ).mapCatching {
+                        it to FileUtils.getPath(context, it)
+                    }
+                } else failure(R.string.external_storage_unavailable)
             }
         }
     }

@@ -32,11 +32,7 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Category
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStreamReader
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -282,8 +278,7 @@ class ExportTest {
             "\"\";\"$date\";\"\";\"0\";\"0.60\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            ""
+            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"\""
         )
         try {
             expect.that(
@@ -318,26 +313,26 @@ class ExportTest {
             "\"\",\"$date\",\"\",\"0\",\"0,60\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
             "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
             "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            ""
+            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"\""
         )
         try {
-            expect.that(CsvExporter(
-                insertData1(),
-                null,
-                false,
-                "M/d/yyyy",
-                ',',
-                "UTF-8",
-                true,
-                ',',
-                false
-            )
-                .export(
-                    context,
-                    lazy { Result.success(DocumentFile.fromFile(outFile)) },
+            expect.that(
+                CsvExporter(
+                    insertData1(),
+                    null,
+                    false,
+                    "M/d/yyyy",
+                    ',',
+                    "UTF-8",
+                    true,
+                    ',',
                     false
-                ).isSuccess
+                )
+                    .export(
+                        context,
+                        lazy { Result.success(DocumentFile.fromFile(outFile)) },
+                        false
+                    ).isSuccess
             ).isTrue()
             compare(linesCSV)
         } catch (e: IOException) {
@@ -365,7 +360,7 @@ class ExportTest {
         }
         val op = Transaction.getNewInstance(account.id) ?: throw IllegalStateException()
         op.amount = Money(account.currencyUnit, income2)
-        op.catId = writeCategory("With/and:Sub",  writeCategory("With/and:Main"))
+        op.catId = writeCategory("With/and:Sub", writeCategory("With/and:Main"))
         op.date = baseSinceEpoch
         op.save()
 
@@ -391,8 +386,7 @@ class ExportTest {
             csvHeader(';', false),
             "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"Expense inserted after first export\";\""
                     + context.getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\";\"\"",
-            "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\";\"\"",
-            ""
+            "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\";\"\""
         )
         val account = insertData1()
         expect.that(
@@ -432,8 +426,7 @@ class ExportTest {
             "\"" + account2.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(
                 R.string.pm_cheque
             )
-                    + "\";\"*\";\"1\";\"\";\"\"",
-            ""
+                    + "\";\"*\";\"1\";\"\";\"\""
         )
         expect.that(
             exportAll(
@@ -503,6 +496,18 @@ class ExportTest {
         compare(linesQIF)
     }
 
+    @Test
+    fun testCategoryExporter() {
+        val cat1Id = writeCategory("Main")
+        writeCategory("Sub", cat1Id)
+        val result = CategoryExporter.export(context, "UTF-8", lazyFile)
+        result.onSuccess {
+            compare(arrayOf("!Type:Cat", "NMain", "^", "NMain:Sub", "^"))
+        }.onFailure {
+            expect.fail()
+        }
+    }
+
     private fun compare(lines: Array<String>) {
         FileInputStream(outFile).use { inputStream ->
             BufferedReader(InputStreamReader(inputStream)).use { reader ->
@@ -513,6 +518,7 @@ class ExportTest {
                     } != null) {
                     count++
                 }
+                expect.that(count).isEqualTo(lines.size)
             }
         }
     }
@@ -567,10 +573,12 @@ class ExportTest {
         ) else QifExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
         return exporter.export(
             context,
-            lazy { Result.success(DocumentFile.fromFile(outFile)) },
+            lazyFile,
             append
         )
     }
+
+    val lazyFile = lazy { Result.success(DocumentFile.fromFile(outFile)) }
 
     companion object {
         private const val FILE_NAME = "TEST"

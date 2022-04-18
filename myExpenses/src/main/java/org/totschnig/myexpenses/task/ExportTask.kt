@@ -1,17 +1,16 @@
 package org.totschnig.myexpenses.task
 
-import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import androidx.core.util.Pair
-import androidx.documentfile.provider.DocumentFile
 import com.google.gson.Gson
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CsvExporter
 import org.totschnig.myexpenses.export.JSONExporter
 import org.totschnig.myexpenses.export.QifExporter
+import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
@@ -70,14 +69,6 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
             )
         }
     }
-
-    private fun createFileFailure(context: Context, parent: DocumentFile, fileName: String) =
-        IOException(
-            context.getString(
-                R.string.io_error_unable_to_create_file,
-                fileName, FileUtils.getPath(context, parent.uri)
-            )
-        )
 
     override fun doInBackground(vararg ignored: Void): Pair<ExportFormat, List<Uri>>? {
         val application = MyApplication.getInstance()

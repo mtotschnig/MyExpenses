@@ -23,6 +23,7 @@
         android:title="@string/menu_categories_setup_default"
         app:showAsAction="never" />
     <item
+        android:id="@+id/EXPORT_COMMAND"
         android:icon="@drawable/ic_menu_download"
         android:title="@string/menu_categories_export"
         app:showAsAction="never">
