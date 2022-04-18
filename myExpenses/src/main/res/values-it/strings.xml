@@ -1006,4 +1006,6 @@
     <string name="whats_new_336_1">Condividi il riepilogo del debito</string>
     <string name="whats_new_336_2">Tag per importi frazionati</string>
     <string name="setup_completed">Impostazione completata</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Albero delle categorie</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Al tuo attuale stato di licenza (%1$s), questa finestra verrà visualizzato ad ogni utilizzo.</string>
 </resources>

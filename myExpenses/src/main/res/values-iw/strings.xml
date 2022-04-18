@@ -1031,4 +1031,7 @@
     <string name="whats_new_336_1">שיתוף תקציר חוב</string>
     <string name="whats_new_336_2">תגיות לחלקים המפוצלים</string>
     <string name="setup_completed">ההקמה הושלמה</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">עץ קטגוריות</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">עם מצב הרישיון הנוכחי שלך (%1$s), חלונית זאת תוצג עם כל הפעלה.</string>
+    <string name="whats_new_338">היררכיית קטגוריה עמוקה שרירותית</string>
 </resources>

@@ -182,4 +182,10 @@
     <string name="cab_debts_help_text">Bu alt menü, seçilen tarafla ilişkili yeni borçların tanımlanmasına ve var olan borçların yönetilmesine, işlem geçmişini ve kalan bakiyeyi incelemeye ve bunları düzenlemeye, kapatmaya veya silmeye olanak tanır.</string>
     <string name="help_debt_managment">Borçları taraflarla ilişkilendirin, işlem listesini inceleyin ve kalan bakiyeyi hesaplayın.</string>
     <string name="help_SetupSync_info">Bu ekran, aygıt ve arka uç arasında eşzamanlamak istediğiniz verileri seçmenizi sağlar. Aygıtınızdaki diğer arka uçlarla henüz eşzamanlanmayan tüm hesapları ve arka uçta depolanan tüm hesapları listeler. &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; üzerine tıklamak, eşzamanlamak için bir hesap seçecek veya seçimini kaldıracaktır. Hem yerel hem de uzak olarak zaten var olan bir hesabı seçerseniz, başlangıçta aygıtınızdaki veriler arka uçtaki mevcut verilerin üzerine yazmalı mı yoksa tam tersi mi olmalı karar vermeniz gerekir.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Seçili kategorinin altında yeni bir alt kategori oluşturmak için iletişim kutusunu açar. Alt kategoriler isteğe bağlı derinlikte iç içe yerleştirilebilir.</string>
+    <string name="help_ManageCategories_expand_collapse">Bir kategoriyi genişletmek veya daraltmak için &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; simgesine tıklayın.</string>
+    <string name="cab_ManageCategories_move_help_text">Herhangi bir kategori (alt kategorileriyle birlikte) yeni bir üst kategoriye taşınabilir. Alt kategoriler ana kategorilere dönüştürülebilir.</string>
+    <string name="help_ManageCategories_manage_context">Bağlam menüsünü göstermek için bir unsura tıklayın. Çoklu seçimi başlatmak için uzun dokunun.</string>
+    <string name="help_Budget_spent_click">Harcanan miktarlara tıklamak, geçerli bütçe ve ilgili kategori ile ilgili tüm muameleleri listeler.</string>
+    <string name="help_ManageCategories_select_filter_info">Çoklu seçimi başlatmak için bir unsura tıklayın.</string>
 </resources>

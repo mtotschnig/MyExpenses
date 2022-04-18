@@ -1005,4 +1005,7 @@
     <string name="whats_new_336_1">Borç özetini paylaşın</string>
     <string name="whats_new_336_2">Alt muameleler için etiketler</string>
     <string name="setup_completed">Kurulum tamamlandı</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategori ağacı</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Geçerli lisans durumunuzla (%1$s), bu iletişim kutusu her kullanımda görüntülenecektir.</string>
+    <string name="whats_new_338">İstenilen derinlikte kategori hiyerarşisi</string>
 </resources>
