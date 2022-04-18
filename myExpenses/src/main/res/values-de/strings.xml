@@ -1005,4 +1005,7 @@
     <string name="whats_new_336_1">Schuldenübersicht teilen</string>
     <string name="whats_new_336_2">Schlagwörter für Teilbuchungen</string>
     <string name="setup_completed">Einrichtung abgeschlossen</string>
+    <string name="whats_new_338">Beliebig tiefe Kategorienhierarchie</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategorienbaum</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Mit Ihrem aktuellen Lizenzstatus (%1$s) wird dieser Dialog bei jeder Nutzung angezeigt.</string>
 </resources>
