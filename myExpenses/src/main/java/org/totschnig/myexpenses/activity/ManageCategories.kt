@@ -57,16 +57,15 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.Operati
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
 
-enum class HelpVariant {
-    manage, select_mapping, select_filter
-}
-
 enum class Action {
     SELECT_MAPPING, SELECT_FILTER, MANAGE
 }
 
 open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener,
     ContribIFace {
+    enum class HelpVariant {
+        manage, select_mapping, select_filter
+    }
     private var actionMode: ActionMode? = null
     val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityComposeFabBinding
