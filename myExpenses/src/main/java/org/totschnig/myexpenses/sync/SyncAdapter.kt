@@ -731,17 +731,12 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
     }
 
     @Throws(RemoteException::class)
-    private fun hasLocalChanges(provider: ContentProviderClient, changesUri: Uri): Boolean {
-        var result = false
-        val c = provider.query(changesUri, arrayOf("count(*)"), null, null, null)
-        if (c != null) {
-            if (c.moveToFirst()) {
-                result = c.getLong(0) > 0
-            }
-            c.close()
-        }
-        return result
-    }
+    private fun hasLocalChanges(provider: ContentProviderClient, changesUri: Uri) =
+        provider.query(changesUri, arrayOf("count(*)"), null, null, null)?.use {
+            if (it.moveToFirst()) {
+                it.getLong(0) > 0
+            } else false
+        } ?: false
 
     private fun getBooleanSetting(
         provider: ContentProviderClient,
