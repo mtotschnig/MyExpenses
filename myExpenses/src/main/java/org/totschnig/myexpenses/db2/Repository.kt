@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.db2
 import android.content.*
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -133,8 +134,8 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
             put(KEY_LABEL_NORMALIZED, Utils.normalize(category.label))
             category.color.takeIf { it != 0 }?.let {
                 put(KEY_COLOR, it)
-                put(KEY_ICON, category.icon)
             }
+            put(KEY_ICON, category.icon)
             if (category.id == 0L) {
                 put(KEY_PARENTID, category.parentId)
             }
@@ -204,6 +205,24 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                 it.getLong(0)
             }
         } ?: -1
+    }
+
+    @VisibleForTesting
+    fun loadCategory(id: Long): Category? = contentResolver.query(
+        CATEGORIES_URI,
+        arrayOf(KEY_PARENTID, KEY_LABEL, KEY_COLOR, KEY_ICON),
+        "$KEY_ROWID = ?",
+        arrayOf(id.toString()),
+        null
+    )?.use {
+        if (it.moveToFirst())
+            Category(
+                id = id,
+                parentId = it.getLong(0),
+                label = it.getString(1),
+                color = it.getInt(2),
+                icon = it.getString(3)
+            ) else null
     }
 
     fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): Int {

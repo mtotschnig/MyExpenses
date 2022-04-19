@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
+import androidx.compose.ui.graphics.Color
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -35,7 +36,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun saveCategory() {
+    fun saveCategoryHierarchy() {
         val parent = Category(label = "Main")
         val parentId = ContentUris.parseId(repository.saveCategory(parent)!!)
         val sub = Category(label = "Sub", parentId = parentId)
@@ -45,5 +46,23 @@ class RepositoryTest {
         assertThat(repository.findCategory(parent.label)).isGreaterThan(0)
         assertThat(repository.findCategory(sub.label, parentId)).isGreaterThan(0)
         assertThat(repository.findCategory(subsub.label, subId)).isGreaterThan(0)
+    }
+
+    @Test
+    fun saveCategoryData() {
+        val category = Category(label ="Main", icon = "food", color = android.graphics.Color.RED)
+        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        with(repository.loadCategory(id)!!) {
+            assertThat(label).isEqualTo("Main")
+            assertThat(icon).isEqualTo("food")
+            assertThat(color).isEqualTo(android.graphics.Color.RED)
+        }
+        val sub = Category(label ="Sub", icon = "bread", parentId = id)
+        val subId = ContentUris.parseId(repository.saveCategory(sub)!!)
+        with(repository.loadCategory(subId)!!) {
+            assertThat(label).isEqualTo("Sub")
+            assertThat(icon).isEqualTo("bread")
+            assertThat(color).isEqualTo(0)
+        }
     }
 }
