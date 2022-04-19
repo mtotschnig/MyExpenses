@@ -938,4 +938,5 @@
     </plurals>
     <string name="cb_label_merge_accounts">Spoji račune</string>
     <string name="pref_mlkit_script_title">Skripta za MlKit</string>
+    <string name="whats_new_338">Proizvoljno duboka hijerarhija kategorija</string>
 </resources>
