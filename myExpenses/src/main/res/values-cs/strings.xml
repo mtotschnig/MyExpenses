@@ -424,7 +424,6 @@
         <item quantity="many">%1$d vybraných transakcí bude odstraněno.</item>
         <item quantity="other">%1$d vybraných transakcí bude odstraněno.</item>
     </plurals>
-
     <string name="move_category_success">Byla úspěšně přesunuta jedna kategorie.</string>
     <string name="move_category_failure">Jedna kategorie nebyla přesunuta, protože v cíli již existuje stejný štítek.</string>
     <string name="warning_delete_reconciled">Odstranění odsouhlasených transakcí způsobí, že se vaše záznamy budou lišit od bankovního výpisu.</string>
@@ -990,4 +989,5 @@
     <string name="pref_news_title">Novinky</string>
     <string name="debt_managment">Správa dluhů</string>
     <string name="ui_refinement">Zdokonalení uživatelského rozhraní</string>
+    <string name="whats_new_338">Arbitrárně hluboká hierarchie kategorií</string>
 </resources>

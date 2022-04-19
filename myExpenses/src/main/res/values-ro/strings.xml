@@ -525,4 +525,6 @@
     <string name="all_contrib_key_features">Toate caracteristicile Contrib Cheie</string>
     <string name="all_extended_key_features">Toate caracteristicile Cheii Extinse</string>
     <string name="ui_refinement">Perfecționarea interfeței cu utilizatorul</string>
+    <string name="whats_new_338">Ierarhie de categorii arbitrar de adâncă</string>
+    <string name="menu_budget">Bugetare</string>
 </resources>

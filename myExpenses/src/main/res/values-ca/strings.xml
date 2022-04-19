@@ -357,4 +357,6 @@
     <string name="synchronization_none">Sense sincronització</string>
     <string name="ui_refinement">Refinament de la interfície d\'usuari</string>
     <string name="synchronization">Sincronització</string>
+    <string name="menu_budget">Pressupost</string>
+    <string name="whats_new_338">Jerarquia de categories arbitràriament profunda</string>
 </resources>

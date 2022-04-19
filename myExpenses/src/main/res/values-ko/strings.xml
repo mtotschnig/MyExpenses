@@ -504,4 +504,6 @@
     <string name="ui_refinement">사용자 인터페이스 의 개선</string>
     <string name="synchronization">동기화</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">버그 수정</string>
+    <string name="menu_budget">예산</string>
+    <string name="whats_new_338">임의로 깊은 범주 계층 구조</string>
 </resources>

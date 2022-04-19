@@ -698,4 +698,6 @@
     <string name="debt_managment">Zorraren kudeaketa</string>
     <string name="title_scan_receipt_feature">Eskaneatu ordainagiria</string>
     <string name="ui_refinement">Erabiltzaile-interfazea hobetzea</string>
+    <string name="menu_budget">Aurrekontua</string>
+    <string name="whats_new_338">Kategoria hierarkia arbitrarioki sakona</string>
 </resources>
