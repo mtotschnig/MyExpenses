@@ -481,4 +481,6 @@
     <string name="debt_managment">Forvaltning af gæld</string>
     <string name="synchronization">Synkronisering</string>
     <string name="ui_refinement">Forbedring af brugergrænsefladen</string>
+    <string name="whats_new_338">Vilkårligt dybt kategorihierarki</string>
+    <string name="menu_budget">Budgettering</string>
 </resources>
