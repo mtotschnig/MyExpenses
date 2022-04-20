@@ -74,7 +74,7 @@
     <string name="help_ManageTemplates_planner_intro">ضربه زدن طولانی بر روی یک نمونه باز، انتخاب چندگانه را آغاز می کند. ضربه زدن روی شروع یا پایان محدوده تاریخ به شما امکان می دهد محدوده را به گذشته یا آینده گسترش دهید.</string>
     <string name="help_ManageTemplates_plans_info">وضعیت یک نمونه با نمادهای زیر نشان داده می شود:&lt;br&gt;&lt;img src=ic_stat_open&gt; نمونه هنوز اعمال نشده است.&lt;br&gt;&lt;img src=ic_stat_applied&gt; نمونه اعمال شده است.&lt;br&gt;&lt;img src =ic_stat_cancelled&gt; نمونه لغو شده است، یعنی شما آن را علامت گذاری کرده اید تا رد شود. هیچ معامله ای برای این مثال ایجاد نخواهد شد.</string>
     <string name="menu_ManageCategories_sort_help_text">فهرست دسته ها را می توان بر اساس عنوان (الفبایی)، تعداد دفعات استفاده، یا آخرین باری که تراکنش به آن نگاشت شده است مرتب کرد.</string>
-    <string name="help_ExpenseEdit_templateSplit_title">فرم الگوهای اسپلیت</string>
+    <string name="help_ExpenseEdit_templateSplit_title">فرم تقسیم هزینه ها</string>
     <string name="help_ExpenseEdit_templateCategory_info">از این فرم برای وارد کردن یک الگوی جدید یا ویرایش یک الگوی موجود استفاده کنید. از منوی کشویی در نوار عمل برای جابه‌جایی بین قالب‌های تراکنش، انتقال و تقسیم استفاده کنید.</string>
     <string name="form_account_help_text">حسابی که تراکنش به آن تعلق دارد را انتخاب کنید.</string>
     <string name="form_date_time_help_text_link">اگر وضعیت &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; در حالت پیوندی باشد، تنظیم تاریخ ارزش یا تاریخ ثبت، تاریخ دیگر را نیز به‌روزرسانی می‌کند.</string>
@@ -87,7 +87,7 @@
     <string name="menu_scan_mode_help_text">برای اسکن سریع رسیدها حالت اسکن را فعال کنید.</string>
     <string name="help_ManageParties_manage_info">این صفحه، طرف هایی را که برای تکمیل خودکار فیلد پرداخت کننده/ گیرنده وجه استفاده شده اند، فهرست می کند.</string>
     <string name="help_ManageParties_select_mapping_info">یک فرد را با ضربه زدن روی آن انتخاب کنید.</string>
-    <string name="help_ManageParties_select_filter_info">برای فیلتر کردن لیست تراکنش، نام یک فرد را لمس کنید. برای انتخاب چندین فرد به مدت طولانی لمس کنید.</string>
+    <string name="help_ManageParties_select_filter_info">برای فیلتر کردن لیست تراکنش، روی نام فرد ضربه بزنید. برای انتخاب چندین فرد، ضربه بزنید و نگه دارید.</string>
     <string name="help_ManageTemplates_planner_title">بازرخدادهای آتی</string>
     <string name="help_ManageTemplates_plans_intro">هر تاریخ برجسته شده نمونه ای از طرح را نشان می دهد.</string>
     <string name="form_attach_image_help_text">دکمه &lt;img src=android:ic_menu_camera&gt; به شما امکان می دهد یک تصویر (مثلاً از گالری یا دوربین) را به موضوع متصل کنید.</string>
@@ -106,4 +106,9 @@
     <string name="menu_original_amount_help_text">یک فیلد را نشان دهید که اجازه تعریف یک مقدار اضافی را می‌دهد. برای مثال اگر با کارت اعتباری خود در یک واحد پول خارجی پرداخت کنید، می‌توانید قیمت اولیه را علاوه بر مقدار دریافتی از کارت خود به یاد بیاورید. مقدار اصلی برای محاسبه مبالغ نادیده گرفته می‌شود.</string>
     <string name="menu_equivalent_amount_help_text">برای محاسبه مجموع کل در تمام حساب‌ها، معاملات حساب‌های ارز خارجی، توسط نرخ ارز که برای حساب تنظیم کرده‌اید، ضرب می‌شوند. اما شما همچنین می توانید با تعیین مبلغی معادل برای هر تراکنش فردی، این مقدار محاسبه شده ضمنی را نادیده بگیرید.</string>
     <string name="menu_invert_transfer_help_text">جهت انتقال را با تعویض حساب «از» و «به» معکوس کنید.</string>
+    <string name="help_ManageCategories_select_filter_info">برای شروع انتخاب چندگانه روی یک ورودی کلیک کنید.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">یک پنجره برای ایجاد یک زیرمجموعه جدید پایین دسته انتخاب شده، باز می‌شود. زیرمجموعه را می توان با عمق دلخواه تودرتو کرد.</string>
+    <string name="cab_ManageCategories_move_help_text">هر دسته ای (به همراه زیر مجموعه های آن) را می توان به دسته بندی والد جدید منتقل کرد. زیر مجموعه ها را می توان به دسته های اصلی تبدیل کرد.</string>
+    <string name="help_ManageCategories_expand_collapse">روی نماد &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; کلیک کنید تا یک دسته را بزرگ یا کوچک کنید.</string>
+    <string name="help_ManageCategories_manage_context">برای نمایش منوی متنی بر روی یک ورودی کلیک کنید. برای شروع انتخاب چندگانه، ضربه بزنید و نگه دارید.</string>
 </resources>
