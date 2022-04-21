@@ -461,7 +461,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                         setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                             override fun onValueSelected(e: Entry, highlight: Highlight) {
                                 val index = highlight.x.toInt()
-                                selectionState.value = categories.value.children[index]
+                                selectionState.value = categories.value.children.getOrNull(index)
                                 this@apply.setCenterText(index)
                             }
 
