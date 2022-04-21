@@ -137,13 +137,13 @@ private fun RowScope.EntryContent(entry: MenuEntry<*>, offset: Dp = 0.dp) {
     Spacer(modifier = Modifier.width(offset))
     entry.icon?.let {
         Icon(
-            modifier = Modifier.padding(end = 5.dp),
+            modifier = Modifier.padding(end = 5.dp).size(24.dp),
             imageVector = it,
             tint = LocalColors.current.iconTint,
             contentDescription = null
         )
     }
-    Text(text = entry.label)
+    Text(text = entry.label, modifier = Modifier.weight(1f))
 }
 
 @Composable
