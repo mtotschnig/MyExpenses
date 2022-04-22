@@ -2,20 +2,20 @@ package org.totschnig.myexpenses.util.log
 
 import android.content.Context
 import android.util.Log
-import ch.qos.logback.core.rolling.RollingFileAppender
-import ch.qos.logback.classic.spi.ILoggingEvent
-import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP
-import ch.qos.logback.core.util.FileSize
-import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.AsyncAppender
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import ch.qos.logback.classic.LoggerContext
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder
+import ch.qos.logback.classic.spi.ILoggingEvent
+import ch.qos.logback.core.rolling.RollingFileAppender
+import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP
+import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
+import ch.qos.logback.core.util.FileSize
 import ch.qos.logback.core.util.StatusPrinter
 import org.slf4j.LoggerFactory
 import timber.log.Timber
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 
 //Credits: http://www.sureshjoshi.com/mobile/file-logging-in-android-with-timber/
 class TagFilterFileLoggingTree(context: Context, private val tag: String) : Timber.DebugTree() {
@@ -59,7 +59,7 @@ class TagFilterFileLoggingTree(context: Context, private val tag: String) : Timb
                 }
                 encoder = PatternLayoutEncoder().apply {
                     this.context = loggerContext
-                    charset = Charset.forName("UTF-8")
+                    charset = StandardCharsets.UTF_8
                     pattern = "%date %level [%thread] %msg%n"
                     start()
                 }

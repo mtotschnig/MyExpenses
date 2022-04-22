@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.PushbackInputStream;
 import java.io.SequenceInputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -65,7 +66,7 @@ public class EncryptionHelper {
       throws NoSuchAlgorithmException {
     MessageDigest sha = MessageDigest.getInstance("SHA-256");
 
-    return new SecretKeySpec(sha.digest(password.getBytes(Charset.forName("UTF-8"))), "AES");
+    return new SecretKeySpec(sha.digest(password.getBytes(StandardCharsets.UTF_8)), "AES");
   }
 
   public static byte[] encrypt(byte[] plaintext, String password) throws GeneralSecurityException {
