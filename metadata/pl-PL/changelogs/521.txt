@@ -1,0 +1,4 @@
+• Arbitralnie głęboka hierarchia kategorii
+• Przydzielanie budżetu: Dopracowanie interfejsu użytkownika
+
+https://github.com/mtotschnig/MyExpenses/projects/65#column-17887806
