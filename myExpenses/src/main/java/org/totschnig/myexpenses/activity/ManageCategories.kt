@@ -17,6 +17,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -162,7 +163,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                 }
                             }
                         }
-                        ChoiceMode.SingleChoiceMode(selectionState)
+                        ChoiceMode.SingleChoiceMode(selectionState, false)
                     }
                     Action.MANAGE, Action.SELECT_FILTER -> {
                         val selectionState = rememberMutableStateListOf<Long>()
@@ -224,7 +225,12 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                     ),
                                     menuGenerator = {
                                         if (action == Action.SELECT_FILTER) null else Menu(
-                                            listOf(
+                                            listOfNotNull(
+                                                if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false)
+                                                    MenuEntry(icon = Icons.Filled.Check, label = stringResource(id = R.string.select)) {
+                                                        doSingleSelection(it)
+                                                    }
+                                                    else null,
                                                 MenuEntry.edit { editCat(it) },
                                                 MenuEntry.delete { category ->
                                                     if (category.flatten().map { it.id }

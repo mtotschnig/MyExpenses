@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.compose
 
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
@@ -27,8 +29,9 @@ fun AppTheme(
                 income = colorResource(id = R.color.colorIncome),
                 expense = colorResource(id = R.color.colorExpense),
                 iconTint = Color(UiUtils.getColor(activity, R.attr.colorControlNormal))
-            ),
-            content = content
-        )
+            )
+        ) {
+            ProvideTextStyle(value = MaterialTheme.typography.body2, content = content)
+        }
     }
 }

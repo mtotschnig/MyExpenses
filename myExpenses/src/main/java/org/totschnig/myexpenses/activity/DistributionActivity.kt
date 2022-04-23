@@ -196,8 +196,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                 val isDark = isSystemInDarkTheme()
                 val configuration = LocalConfiguration.current
                 val categoryTree =
-                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING).value.withSubColors {
-                        getSubColors(it, isDark)
+                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING).value.let {
+                        if (showChart.value) it.withSubColors {
+                            getSubColors(it, isDark)
+                        } else {
+                            it.copy(children = it.children.map { it.copy(color = null) })
+                        }
                     }
 
                 val chartCategoryTree = derivedStateOf {

@@ -88,7 +88,8 @@ open class CategoryViewModel(
             filter = filter,
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort),
             projection = null,
-            keepCriteria = null
+            keepCriteria = null,
+            withColors = false
         )
     }
         .stateIn(viewModelScope, SharingStarted.Lazily, Category.LOADING)
@@ -102,7 +103,8 @@ open class CategoryViewModel(
         projection: Array<String>? = null,
         additionalSelectionArgs: Array<String>? = null,
         queryParameter: String? = null,
-        keepCriteria: ((Category) -> Boolean)? = null
+        keepCriteria: ((Category) -> Boolean)? = null,
+        withColors: Boolean = true
     ): Flow<Category> {
         val (selection, selectionArgs) = if (filter?.isNotBlank() == true) {
             val selectionArgs =
@@ -118,7 +120,7 @@ open class CategoryViewModel(
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
             sortOrder ?: KEY_LABEL,
             true
-        ).mapToTree(keepCriteria)
+        ).mapToTree(keepCriteria, withColors)
     }
 
     private fun categoryUri(queryParameter: String?): Uri =
@@ -132,7 +134,8 @@ open class CategoryViewModel(
             .build()
 
     private fun Flow<Query>.mapToTree(
-        keepCriteria: ((Category) -> Boolean)?
+        keepCriteria: ((Category) -> Boolean)?,
+        withColors: Boolean
     ): Flow<Category> = transform { query ->
         val value = withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
@@ -143,6 +146,7 @@ open class CategoryViewModel(
                     level = 0,
                     label = "ROOT",
                     children = ingest(
+                        withColors,
                         getApplication(),
                         cursor,
                         null,
@@ -318,6 +322,7 @@ open class CategoryViewModel(
     companion object {
 
         fun ingest(
+            withColors: Boolean,
             context: Context,
             cursor: Cursor,
             parentId: Long?,
@@ -331,7 +336,7 @@ open class CategoryViewModel(
                         val nextId = cursor.getLong(KEY_ROWID)
                         val nextLabel = cursor.getString(KEY_LABEL)
                         val nextPath = cursor.getString(KEY_PATH)
-                        val nextColor = cursor.getIntOrNull(KEY_COLOR)
+                        val nextColor = if (withColors) cursor.getIntOrNull(KEY_COLOR) else null
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
@@ -350,6 +355,7 @@ open class CategoryViewModel(
                                     nextLabel,
                                     nextPath,
                                     ingest(
+                                        withColors,
                                         context,
                                         cursor,
                                         nextId,

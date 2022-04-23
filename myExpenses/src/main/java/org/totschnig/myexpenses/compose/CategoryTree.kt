@@ -8,8 +8,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -32,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -99,17 +102,18 @@ fun Category(
             LazyColumn(
                 verticalArrangement = Arrangement.Center
             ) {
-                filteredChildren.forEach { model ->
-                    item {
-                        Category(
-                            category = model,
-                            expansionMode = expansionMode,
-                            menuGenerator = menuGenerator,
-                            choiceMode = choiceMode,
-                            excludedSubTree = excludedSubTree,
-                            startPadding = subTreePadding,
-                            sumCurrency = sumCurrency
-                        )
+                itemsIndexed(filteredChildren) { index, item ->
+                    Category(
+                        category = item,
+                        expansionMode = expansionMode,
+                        menuGenerator = menuGenerator,
+                        choiceMode = choiceMode,
+                        excludedSubTree = excludedSubTree,
+                        startPadding = subTreePadding,
+                        sumCurrency = sumCurrency
+                    )
+                    if (index < filteredChildren.lastIndex) {
+                        Divider()
                     }
                 }
             }
@@ -157,7 +161,13 @@ fun CategoryRenderer(
                     is ChoiceMode.SingleChoiceMode -> Modifier
                         .combinedClickable(
                             onLongClick = { showMenu.value = true },
-                            onClick = onToggleSelection
+                            onClick = {
+                                if (choiceMode.selectParentOnClick || category.children.isEmpty()) {
+                                    onToggleSelection.invoke()
+                                } else {
+                                    expansionMode.toggle(category)
+                                }
+                            }
                         )
                     else -> Modifier
                 }
@@ -214,7 +224,7 @@ fun CategoryRenderer(
         } else {
             Spacer(modifier = Modifier.width(24.dp))
         }
-        Text(text = category.label)
+        Text(text = category.label, modifier = Modifier.weight(1f))
         if (category.color != null) {
             Box(
                 modifier = Modifier
@@ -226,8 +236,8 @@ fun CategoryRenderer(
             )
         }
         sumCurrency?.let {
-            Spacer(modifier = Modifier.weight(1f))
             ColoredAmountText(
+                modifier = Modifier.padding(start = 4.dp),
                 amount = category.aggregateSum,
                 currency = it,
             )
@@ -254,7 +264,7 @@ fun TreePreview() {
             id = counter,
             parentId = parentId,
             level = level,
-            label = "_$id",
+            label = "Categories can have long names _$id",
             children = buildList {
                 repeat(nrOfChildren) {
                     add(
@@ -272,22 +282,30 @@ fun TreePreview() {
             color = color
         )
     }
-
-    Category(
-        category = buildCategory(
-            color = null,
-            nrOfChildren = 10,
-            childColors = listOf(
-                android.graphics.Color.RED,
-                android.graphics.Color.GREEN,
-                android.graphics.Color.BLUE
+    MdcTheme {
+        Category(
+            category = buildCategory(
+                color = null,
+                nrOfChildren = 10,
+                childColors = listOf(
+                    android.graphics.Color.RED,
+                    android.graphics.Color.GREEN,
+                    android.graphics.Color.BLUE
+                ),
+                level = 0,
+                parentId = null
             ),
-            level = 0,
-            parentId = null
-        ),
-        expansionMode = ExpansionMode.DefaultCollapsed(remember { mutableStateListOf(0, 1, 2) }),
-        choiceMode = ChoiceMode.SingleChoiceMode(remember { mutableStateOf(null) })
-    )
+            expansionMode = ExpansionMode.DefaultCollapsed(remember {
+                mutableStateListOf(
+                    0,
+                    1,
+                    2
+                )
+            }),
+            choiceMode = ChoiceMode.SingleChoiceMode(remember { mutableStateOf(null) }),
+            sumCurrency = CurrencyUnit.DebugInstance
+        )
+    }
 }
 
 interface ExpansionMode {
@@ -349,6 +367,7 @@ sealed class ChoiceMode(
 
     class SingleChoiceMode(
         val selectionState: MutableState<Category?>,
+        val selectParentOnClick: Boolean = true,
         isSelectable: (Long) -> Boolean = { true }
     ) :
         ChoiceMode(false, isSelectable) {
@@ -357,7 +376,8 @@ sealed class ChoiceMode(
             selectionState.value = if (selectionState.value == category) null else category
         }
     }
-    object NoChoice: ChoiceMode(false) {
+
+    object NoChoice : ChoiceMode(false) {
         override fun isSelected(id: Long) = false
 
         override fun toggleSelection(selectedAncestor: Category?, category: Category) {}
