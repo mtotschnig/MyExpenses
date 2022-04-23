@@ -152,7 +152,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                     it.label
                 )
             }, "").apply {
-                colors = categories.map(Category::color)
+                colors = categories.map { it.color ?: 0 }
                 sliceSpace = 2f
                 setDrawValues(false)
                 xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE

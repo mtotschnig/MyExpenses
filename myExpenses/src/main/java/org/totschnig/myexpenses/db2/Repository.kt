@@ -4,6 +4,8 @@ import android.content.*
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
+import androidx.core.database.getIntOrNull
+import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -218,9 +220,9 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
         if (it.moveToFirst())
             Category(
                 id = id,
-                parentId = it.getLong(0),
+                parentId = it.getLongOrNull(0),
                 label = it.getString(1),
-                color = it.getInt(2),
+                color = it.getIntOrNull(2),
                 icon = it.getString(3)
             ) else null
     }

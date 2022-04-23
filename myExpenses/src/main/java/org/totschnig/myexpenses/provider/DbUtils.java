@@ -263,7 +263,7 @@ public class DbUtils {
         "color",
         "(select count(*) from categories where parent_id is null and color=t.color) as count"
     };
-    Cursor cursor = db.query(ColorUtils.MAIN_COLORS_AS_TABLE(), projection, null, null, null, null, "count ASC", "1");
+    Cursor cursor = db.query(ColorUtils.MAIN_COLORS_AS_TABLE, projection, null, null, null, null, "count ASC", "1");
     int result = 0;
     if (cursor != null) {
       cursor.moveToFirst();

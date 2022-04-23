@@ -9,12 +9,14 @@ import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor
 import timber.log.Timber
 
-const val DATABASE_VERSION = 125
+const val DATABASE_VERSION = 126
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
-private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY = "SELECT RAISE (FAIL, 'attempt to create inconsistent category hierarchy');"
+private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
+    "SELECT RAISE (FAIL, 'attempt to create inconsistent category hierarchy');"
 
 private const val DEBTS_SEALED_TRIGGER_CREATE = """
 CREATE TRIGGER sealed_debt_update
@@ -50,14 +52,17 @@ END
 
 private val CATEGORY_HIERARCHY_TRIGGER = """
 CREATE TRIGGER category_hierarchy_update
-BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IN (${categoryTreeSelect(
-    projection = arrayOf(KEY_ROWID),
-    rootExpression = "= new.$KEY_ROWID"
-)})
+BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID != old.$KEY_PARENTID AND new.$KEY_PARENTID IN (${
+    categoryTreeSelect(
+        projection = arrayOf(KEY_ROWID),
+        rootExpression = "= new.$KEY_ROWID"
+    )
+})
 BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
 """
 
-const val CATEGORY_LABEL_INDEX_CREATE = "CREATE UNIQUE INDEX categories_label ON $TABLE_CATEGORIES($KEY_LABEL,coalesce($KEY_PARENTID, 0))"
+const val CATEGORY_LABEL_INDEX_CREATE =
+    "CREATE UNIQUE INDEX categories_label ON $TABLE_CATEGORIES($KEY_LABEL,coalesce($KEY_PARENTID, 0))"
 
 const val CATEGORY_LABEL_LEGACY_TRIGGER_INSERT = """
 CREATE TRIGGER category_label_unique_insert
@@ -160,6 +165,40 @@ abstract class BaseTransactionDatabase(
         db.execSQL("DROP TABLE categories_old")
         createOrRefreshCategoryMainCategoryUniqueLabel(db)
         createOrRefreshCategoryHierarchyTrigger(db)
+    }
+
+    fun upgradeTo126(db: SQLiteDatabase) {
+        //trigger caused a hanging query, because it did not check if parent_id was updated
+        createOrRefreshCategoryHierarchyTrigger(db)
+        //subcategories should not have a color
+        db.update(
+            "categories",
+            ContentValues(1).apply {
+                putNull("color")
+            },
+            "parent_id IS NOT NULL", null
+        )
+        //main categories need a color
+        db.query(
+            "categories",
+            arrayOf("_id"),
+            "parent_id is null AND color is null",
+            null,
+            null,
+            null,
+            null
+        )?.use {
+            it.asSequence.forEach {
+                db.update(
+                    "categories",
+                    ContentValues(1).apply {
+                        put(KEY_COLOR, suggestNewCategoryColor(db))
+                    },
+                    "_id = ?",
+                    arrayOf(it.getLong(0).toString())
+                )
+            }
+        }
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

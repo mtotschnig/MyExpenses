@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
-import androidx.compose.ui.graphics.Color
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -42,10 +41,36 @@ class RepositoryTest {
         val sub = Category(label = "Sub", parentId = parentId)
         val subId = ContentUris.parseId(repository.saveCategory(sub)!!)
         val subsub = Category(label = "SubSub", parentId = subId)
-        val subSubId = ContentUris.parseId(repository.saveCategory(subsub)!!)
+        repository.saveCategory(subsub)
         assertThat(repository.findCategory(parent.label)).isGreaterThan(0)
         assertThat(repository.findCategory(sub.label, parentId)).isGreaterThan(0)
         assertThat(repository.findCategory(subsub.label, subId)).isGreaterThan(0)
+    }
+
+    @Test
+    fun transformMainToSub() {
+        val cat1 = Category(label = "Main1")
+        val catId1 = ContentUris.parseId(repository.saveCategory(cat1)!!)
+        val cat2 = Category(label = "Main2")
+        val catId2 = ContentUris.parseId(repository.saveCategory(cat2)!!)
+        repository.moveCategory(catId2, catId1)
+        with(repository.loadCategory(catId2)!!) {
+            assertThat(parentId).isEqualTo(catId1)
+            assertThat(color).isNull()
+        }
+    }
+
+    @Test
+    fun transformSubToMain() {
+        val cat1 = Category(label = "Main1")
+        val catId1 = ContentUris.parseId(repository.saveCategory(cat1)!!)
+        val cat2 = Category(label = "Main2", parentId = catId1)
+        val catId2 = ContentUris.parseId(repository.saveCategory(cat2)!!)
+        repository.moveCategory(catId2, null)
+        with(repository.loadCategory(catId2)!!) {
+            assertThat(parentId).isNull()
+            assertThat(color).isNotNull()
+        }
     }
 
     @Test
@@ -62,7 +87,7 @@ class RepositoryTest {
         with(repository.loadCategory(subId)!!) {
             assertThat(label).isEqualTo("Sub")
             assertThat(icon).isEqualTo("bread")
-            assertThat(color).isEqualTo(0)
+            assertThat(color).isNull()
         }
     }
 }

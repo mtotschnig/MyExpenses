@@ -1480,6 +1480,15 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CATEGORY_ID:
         if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
           throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
+        if (values.containsKey(KEY_PARENTID)) {
+          Long parentId = values.getAsLong(KEY_PARENTID);
+          if (parentId == null && !values.containsKey(KEY_COLOR)) {
+            values.put(KEY_COLOR, suggestNewCategoryColor(db));
+          }
+          if (parentId != null) {
+            values.putNull(KEY_COLOR);
+          }
+        }
         segment = uri.getLastPathSegment();
         count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
             whereArgs);
