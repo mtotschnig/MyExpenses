@@ -1008,4 +1008,5 @@
     <string name="whats_new_338">Une hiérarchie de catégories arbitrairement profonde</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Arborescence des catégories</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Avec votre statut de licence actuel (%1$s), ce dialogue s\'affichera à chaque utilisation.</string>
+    <string name="menu_parent_category_selection">Sélectionnez la catégorie parent en appuyant brièvement</string>
 </resources>
