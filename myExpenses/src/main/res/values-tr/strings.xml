@@ -1008,4 +1008,5 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategori ağacı</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Geçerli lisans durumunuzla (%1$s), bu iletişim kutusu her kullanımda görüntülenecektir.</string>
     <string name="whats_new_338">İstenilen derinlikte kategori hiyerarşisi</string>
+    <string name="menu_parent_category_selection">Kısa dokunuşla üst kategoriyi seç</string>
 </resources>
