@@ -67,16 +67,25 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     enum class HelpVariant {
         manage, select_mapping, select_filter
     }
+
     private var actionMode: ActionMode? = null
     val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityComposeFabBinding
     private lateinit var sortDelegate: SortDelegate
     private lateinit var choiceMode: ChoiceMode
+    private val parentSelectionOnTap: MutableState<Boolean> = mutableStateOf(false)
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
-            Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EXPORT_COMMAND), action == Action.MANAGE)
+            Utils.menuItemSetEnabledAndVisible(
+                menu.findItem(R.id.EXPORT_COMMAND),
+                action == Action.MANAGE
+            )
+            Utils.menuItemSetEnabledAndVisible(
+                menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP),
+                action == Action.SELECT_MAPPING
+            )
         }
         menuInflater.inflate(R.menu.search, menu)
         configureSearch(this, menu, this::onQueryTextChange)
@@ -101,7 +110,9 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         sortDelegate.onPrepareOptionsMenu(menu)
-
+        menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
+            it.isChecked = parentSelectionOnTap.value
+        }
         prepareSearch(menu, viewModel.getFilter())
         return true
     }
@@ -142,6 +153,8 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
             prefHandler = prefHandler
         )
+        parentSelectionOnTap.value =  prefHandler.getBoolean(PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP,
+            false)
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
         observeDeleteResult()
         observeMoveResult()
@@ -163,7 +176,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                 }
                             }
                         }
-                        ChoiceMode.SingleChoiceMode(selectionState, false)
+                        ChoiceMode.SingleChoiceMode(selectionState, parentSelectionOnTap.value)
                     }
                     Action.MANAGE, Action.SELECT_FILTER -> {
                         val selectionState = rememberMutableStateListOf<Long>()
@@ -227,10 +240,13 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                         if (action == Action.SELECT_FILTER) null else Menu(
                                             listOfNotNull(
                                                 if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false)
-                                                    MenuEntry(icon = Icons.Filled.Check, label = stringResource(id = R.string.select)) {
+                                                    MenuEntry(
+                                                        icon = Icons.Filled.Check,
+                                                        label = stringResource(id = R.string.select)
+                                                    ) {
                                                         doSingleSelection(it)
                                                     }
-                                                    else null,
+                                                else null,
                                                 MenuEntry.edit { editCat(it) },
                                                 MenuEntry.delete { category ->
                                                     if (category.flatten().map { it.id }
@@ -552,6 +568,12 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             }
             R.id.EXPORT_CATEGORIES_COMMAND_UTF8 -> {
                 exportCats("UTF-8")
+                true
+            }
+            R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP -> {
+                val value = tag as Boolean
+                parentSelectionOnTap.value = value
+                prefHandler.putBoolean(PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP, value)
                 true
             }
             else -> false

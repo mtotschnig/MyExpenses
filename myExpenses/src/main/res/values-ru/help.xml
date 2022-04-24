@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="help_menu_commands">Команды меню</string>
   <string name="help_contextual_actions">Контекстные действия</string>
   <string name="help_contextual_actions_help">Меню для контекстных действий отображается при долгом нажатии на запись списка.</string>
@@ -130,4 +130,5 @@
     <string name="popup_MyExpenses_toolbar_new_balance">Рассчитать разницу между текущим балансом и новым значением.</string>
     <string name="menu_scan_mode_help_text">Включите режим сканирования, чтобы быстро отсканировать квитанции.</string>
     <string name="cab_link_help_text">Расход по одному счету может быть связан с доходом по другому счету. Если счета имеют одну и ту же валюту, то обе операции должны иметь одинаковые суммы.</string>
+  <string name="cab_ManageCategories_select_help_text">Отобразить выбранную категорию в операции и вернуться к форме операции.</string>
 </resources>

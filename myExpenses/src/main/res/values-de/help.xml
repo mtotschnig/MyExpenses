@@ -188,4 +188,5 @@
     <string name="cab_ManageCategories_move_help_text">Jede Kategorie (zusammen mit ihren Unterkategorien) kann in eine neue übergeordnete Kategorie verschoben werden. Unterkategorien können in Hauptkategorien umgewandelt werden.</string>
     <string name="help_ManageCategories_expand_collapse">Klicken Sie auf das Symbol &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt;, um eine Kategorie zu erweitern oder zu reduzieren.</string>
     <string name="help_ManageCategories_manage_context">Klicken Sie auf einen Eintrag, um sein Kontextmenü anzuzeigen. Langes Antippen zum Starten der Mehrfachauswahl.</string>
+    <string name="cab_ManageCategories_select_help_text">Die ausgewählte Kategorie wird der Buchung zugeordnet und Rückkehr zum Buchungsformular.</string>
 </resources>

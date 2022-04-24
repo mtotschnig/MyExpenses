@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,158 +14,158 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <item name="BACKUP_COMMAND" type="id"/>
-    <item name="CLONE_TRANSACTION_COMMAND" type="id"/>
-    <item name="CONTRIB_INFO_COMMAND" type="id"/>
-    <item name="CONTRIB_INFO_DIALOG" type="id"/>
-    <item name="CONTRIB_BUY_COMMAND" type="id"/>
-    <item name="CREATE_COMMAND" type="id"/>
-    <item name="CREATE_PART_COMMAND" type="id"/>
-    <item name="CREATE_SUB_COMMAND" type="id"/>
-    <item name="CREATE_ACCOUNT_COMMAND" type="id"/>
-    <item name="CREATE_TEMPLATE_COMMAND" type="id"/>
-    <item name="DELETE_COMMAND" type="id"/>
-    <item name="DELETE_COMMAND_DO" type="id"/>
-    <item name="DISTRIBUTION_COMMAND" type="id"/>
-    <item name="EDIT_ACCOUNT_COMMAND" type="id"/>
-    <item name="EDIT_PLAN_INSTANCE_COMMAND" type="id"/>
-    <item name="EDIT_COMMAND" type="id"/>
-    <item name="FEEDBACK_COMMAND" type="id"/>
-    <item name="FTP_DIALOG" type="id"/>
-    <item name="GROUPING_COMMAND" type="id"/>
-    <item name="HANDLE_RESTORE_ON_INSTALL_COMMAND" type="id"/>
-    <item name="HELP_COMMAND" type="id"/>
-    <item name="INVERT_TRANSFER_COMMAND" type="id"/>
-    <item name="MANAGE_TEMPLATES_COMMAND" type="id"/>
-    <item name="MORE_ACTIONS_DIALOG" type="id"/>
-    <item name="MORE_INFO_DIALOG" type="id"/>
-    <item name="NO_COMMAND" type="id"/>
-    <item name="PASSWORD_WARNING_DIALOG" type="id"/>
-    <item name="RATE_COMMAND" type="id"/>
-    <item name="RESET_COMMAND" type="id"/>
-    <item name="RESTORE_COMMAND" type="id"/>
-    <item name="SAVE_AND_NEW_COMMAND" type="id"/>
-    <item name="SELECT_ACCOUNT_DIALOG" type="id"/>
-    <item name="SETTINGS_COMMAND" type="id"/>
-    <item name="TEMPLATE_TITLE_DIALOG" type="id"/>
-    <item name="WEB_COMMAND" type="id"/>
-    <item name="ROADMAP_RESULT_COMMAND" type="id"/>
-    <item name="CREATE_INSTANCE_EDIT_COMMAND" type="id"/>
-    <item name="CREATE_INSTANCE_SAVE_COMMAND" type="id"/>
-    <item name="CREATE_PLAN_INSTANCE_EDIT_COMMAND" type="id"/>
-    <item name="CREATE_PLAN_INSTANCE_SAVE_COMMAND" type="id"/>
-    <item name="CANCEL_PLAN_INSTANCE_COMMAND" type="id"/>
-    <item name="RESET_PLAN_INSTANCE_COMMAND" type="id"/>
-    <item name="DELETE_ACCOUNT_COMMAND" type="id"/>
-    <item name="DELETE_ACCOUNT_COMMAND_DO" type="id"/>
-    <item name="SELECT_COMMAND" type="id"/>
-    <item name="SHARE_COMMAND" type="id"/>
-    <item name="CANCEL_CALLBACK_COMMAND" type="id"/>
-    <item name="SETUP_CATEGORIES_DEFAULT_COMMAND" type="id"/>
-    <item name="UP_COMMAND" type="id"/>
-    <item name="START_EXPORT_COMMAND" type="id"/>
-    <item name="PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG" type="id"/>
-    <item name="BALANCE_COMMAND" type="id"/>
-    <item name="BALANCE_COMMAND_DO" type="id"/>
-    <item name="FILTER_CATEGORY_COMMAND" type="id"/>
-    <item name="FILTER_AMOUNT_COMMAND" type="id"/>
-    <item name="FILTER_COMMENT_COMMAND" type="id"/>
-    <item name="FILTER_STATUS_COMMAND" type="id"/>
-    <item name="FILTER_PAYEE_COMMAND" type="id"/>
-    <item name="FILTER_METHOD_COMMAND" type="id"/>
-    <item name="FILTER_DATE_COMMAND" type="id"/>
-    <item name="FILTER_TAG_COMMAND" type="id"/>
-    <item name="PRINT_COMMAND" type="id"/>
-    <item name="OPEN_PDF_COMMAND" type="id"/>
-    <item name="AUTO_FILL_COMMAND" type="id"/>
-    <item name="EXCLUDE_FROM_TOTALS_COMMAND" type="id"/>
-    <item name="QUIT_COMMAND" type="id"/>
-    <item name="SPLIT_TRANSACTION_COMMAND" type="id"/>
-    <item name="TOGGLE_CHART_COMMAND" type="id"/>
-    <item name="TOGGLE_AGGREGATE_TYPES" type="id"/>
-    <item name="VIEW_COMMAND" type="id"/>
-    <item name="CHANGE_COMMAND" type="id"/>
-    <item name="SAVE_COMMAND" type="id"/>
-    <item name="SEARCH_COMMAND" type="id"/>
-    <item name="SELECT_COMMAND_MULTIPLE" type="id"/>
-    <item name="UNDELETE_COMMAND" type="id"/>
-    <item name="EXPORT_CATEGORIES_COMMAND_UTF8" type="id"/>
-    <item name="EXPORT_CATEGORIES_COMMAND_ISO88591" type="id"/>
-    <item name="IMPORT_COMMAND" type="id"/>
-    <item name="PARSE_COMMAND" type="id"/>
-    <item name="SET_HEADER_COMMAND" type="id"/>
-    <item name="MOVE_COMMAND" type="id"/>
-    <item name="SORT_COMMAND" type="id"/>
-    <item name="SORT_TITLE_COMMAND" type="id"/>
-    <item name="SORT_LABEL_COMMAND" type="id"/>
-    <item name="SORT_USAGES_COMMAND" type="id"/>
-    <item name="SORT_LAST_USED_COMMAND" type="id"/>
-    <item name="SORT_AMOUNT_COMMAND" type="id"/>
-    <item name="SORT_ALLOCATED_COMMAND" type="id"/>
-    <item name="SORT_SPENT_COMMAND" type="id"/>
-    <item name="GROUPING_ACCOUNTS_COMMAND" type="id"/>
-    <item name="GROUPING_ACCOUNTS_TYPE_COMMAND" type="id"/>
-    <item name="GROUPING_ACCOUNTS_CURRENCY_COMMAND" type="id"/>
-    <item name="GROUPING_ACCOUNTS_NONE_COMMAND" type="id"/>
-    <item name="SORT_CUSTOM_COMMAND" type="id"/>
-    <item name="GROUPING_NONE_COMMAND" type="id"/>
-    <item name="GROUPING_DAY_COMMAND" type="id"/>
-    <item name="GROUPING_WEEK_COMMAND" type="id"/>
-    <item name="GROUPING_MONTH_COMMAND" type="id"/>
-    <item name="GROUPING_YEAR_COMMAND" type="id"/>
-    <item name="HELP_COMMAND_DRAWER" type="id"/>
-    <item name="FILTER_TRANSFER_COMMAND" type="id"/>
-    <item name="FILTER_ACCOUNT_COMMAND" type="id"/>
-    <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
-    <item name="SYNC_COMMAND" type="id"/>
-    <item name="SYNC_SETTINGS_COMMAND" type="id"/>
-    <item name="SYNC_DOWNLOAD_COMMAND" type="id"/>
-    <item name="SYNC_LINK_COMMAND" type="id"/>
-    <item name="SYNC_UNLINK_COMMAND" type="id"/>
-    <item name="SYNC_LINK_COMMAND_REMOTE_DO" type="id"/>
-    <item name="SYNC_LINK_COMMAND_LOCAL_DO" type="id"/>
-    <item name="SYNC_LINK_COMMAND_REMOTE" type="id"/>
-    <item name="SYNC_LINK_COMMAND_LOCAL" type="id"/>
-    <item name="SYNCED_TO_OTHER_COMMAND" type="id"/>
-    <item name="SYNC_REMOVE_BACKEND_COMMAND" type="id"/>
-    <item name="SYNC_BACKEND_LOCAL" type="id"/>
-    <item name="SYNC_BACKEND_WEBDAV" type="id"/>
-    <item name="SYNC_BACKEND_DRIVE" type="id"/>
-    <item name="SYNC_BACKEND_DROPBOX" type="id"/>
-    <item name="REMOVE_LICENCE_COMMAND" type="id"/>
-    <item name="SORT_DIRECTION_COMMAND" type="id"/>
-    <item name="SORT_DIRECTION_ASCENDING_COMMAND" type="id"/>
-    <item name="SORT_DIRECTION_DESCENDING_COMMAND" type="id"/>
-    <item name="ROADMAP_DETAILS_COMMAND" type="id"/>
-    <item name="ROADMAP_ISSUE_VOTE_COMMAND" type="id"/>
-    <item name="ROADMAP_SUBMIT_VOTE" type="id"/>
-    <item name="SHARE_PDF_COMMAND" type="id"/>
-    <item name="HISTORY_COMMAND" type="id"/>
-    <item name="TOGGLE_BALANCE_COMMAND" type="id"/>
-    <item name="TOGGLE_INCLUDE_TRANSFERS_COMMAND" type="id"/>
-    <item name="TOGGLE_TOTALS_COMMAND" type="id"/>
-    <item name="ORIGINAL_AMOUNT_COMMAND" type="id"/>
-    <item name="EQUIVALENT_AMOUNT_COMMAND" type="id"/>
+    <item name="BACKUP_COMMAND" type="id" />
+    <item name="CLONE_TRANSACTION_COMMAND" type="id" />
+    <item name="CONTRIB_INFO_COMMAND" type="id" />
+    <item name="CONTRIB_INFO_DIALOG" type="id" />
+    <item name="CONTRIB_BUY_COMMAND" type="id" />
+    <item name="CREATE_COMMAND" type="id" />
+    <item name="CREATE_PART_COMMAND" type="id" />
+    <item name="CREATE_SUB_COMMAND" type="id" />
+    <item name="CREATE_ACCOUNT_COMMAND" type="id" />
+    <item name="CREATE_TEMPLATE_COMMAND" type="id" />
+    <item name="DELETE_COMMAND" type="id" />
+    <item name="DELETE_COMMAND_DO" type="id" />
+    <item name="DISTRIBUTION_COMMAND" type="id" />
+    <item name="EDIT_ACCOUNT_COMMAND" type="id" />
+    <item name="EDIT_PLAN_INSTANCE_COMMAND" type="id" />
+    <item name="EDIT_COMMAND" type="id" />
+    <item name="FEEDBACK_COMMAND" type="id" />
+    <item name="FTP_DIALOG" type="id" />
+    <item name="GROUPING_COMMAND" type="id" />
+    <item name="HANDLE_RESTORE_ON_INSTALL_COMMAND" type="id" />
+    <item name="HELP_COMMAND" type="id" />
+    <item name="INVERT_TRANSFER_COMMAND" type="id" />
+    <item name="MANAGE_TEMPLATES_COMMAND" type="id" />
+    <item name="MORE_ACTIONS_DIALOG" type="id" />
+    <item name="MORE_INFO_DIALOG" type="id" />
+    <item name="NO_COMMAND" type="id" />
+    <item name="PASSWORD_WARNING_DIALOG" type="id" />
+    <item name="RATE_COMMAND" type="id" />
+    <item name="RESET_COMMAND" type="id" />
+    <item name="RESTORE_COMMAND" type="id" />
+    <item name="SAVE_AND_NEW_COMMAND" type="id" />
+    <item name="SELECT_ACCOUNT_DIALOG" type="id" />
+    <item name="SETTINGS_COMMAND" type="id" />
+    <item name="TEMPLATE_TITLE_DIALOG" type="id" />
+    <item name="WEB_COMMAND" type="id" />
+    <item name="ROADMAP_RESULT_COMMAND" type="id" />
+    <item name="CREATE_INSTANCE_EDIT_COMMAND" type="id" />
+    <item name="CREATE_INSTANCE_SAVE_COMMAND" type="id" />
+    <item name="CREATE_PLAN_INSTANCE_EDIT_COMMAND" type="id" />
+    <item name="CREATE_PLAN_INSTANCE_SAVE_COMMAND" type="id" />
+    <item name="CANCEL_PLAN_INSTANCE_COMMAND" type="id" />
+    <item name="RESET_PLAN_INSTANCE_COMMAND" type="id" />
+    <item name="DELETE_ACCOUNT_COMMAND" type="id" />
+    <item name="DELETE_ACCOUNT_COMMAND_DO" type="id" />
+    <item name="SELECT_COMMAND" type="id" />
+    <item name="SHARE_COMMAND" type="id" />
+    <item name="CANCEL_CALLBACK_COMMAND" type="id" />
+    <item name="SETUP_CATEGORIES_DEFAULT_COMMAND" type="id" />
+    <item name="UP_COMMAND" type="id" />
+    <item name="START_EXPORT_COMMAND" type="id" />
+    <item name="PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG" type="id" />
+    <item name="BALANCE_COMMAND" type="id" />
+    <item name="BALANCE_COMMAND_DO" type="id" />
+    <item name="FILTER_CATEGORY_COMMAND" type="id" />
+    <item name="FILTER_AMOUNT_COMMAND" type="id" />
+    <item name="FILTER_COMMENT_COMMAND" type="id" />
+    <item name="FILTER_STATUS_COMMAND" type="id" />
+    <item name="FILTER_PAYEE_COMMAND" type="id" />
+    <item name="FILTER_METHOD_COMMAND" type="id" />
+    <item name="FILTER_DATE_COMMAND" type="id" />
+    <item name="FILTER_TAG_COMMAND" type="id" />
+    <item name="PRINT_COMMAND" type="id" />
+    <item name="OPEN_PDF_COMMAND" type="id" />
+    <item name="AUTO_FILL_COMMAND" type="id" />
+    <item name="EXCLUDE_FROM_TOTALS_COMMAND" type="id" />
+    <item name="QUIT_COMMAND" type="id" />
+    <item name="SPLIT_TRANSACTION_COMMAND" type="id" />
+    <item name="TOGGLE_CHART_COMMAND" type="id" />
+    <item name="TOGGLE_AGGREGATE_TYPES" type="id" />
+    <item name="VIEW_COMMAND" type="id" />
+    <item name="CHANGE_COMMAND" type="id" />
+    <item name="SAVE_COMMAND" type="id" />
+    <item name="SEARCH_COMMAND" type="id" />
+    <item name="SELECT_COMMAND_MULTIPLE" type="id" />
+    <item name="UNDELETE_COMMAND" type="id" />
+    <item name="EXPORT_CATEGORIES_COMMAND_UTF8" type="id" />
+    <item name="EXPORT_CATEGORIES_COMMAND_ISO88591" type="id" />
+    <item name="IMPORT_COMMAND" type="id" />
+    <item name="PARSE_COMMAND" type="id" />
+    <item name="SET_HEADER_COMMAND" type="id" />
+    <item name="MOVE_COMMAND" type="id" />
+    <item name="SORT_COMMAND" type="id" />
+    <item name="SORT_TITLE_COMMAND" type="id" />
+    <item name="SORT_LABEL_COMMAND" type="id" />
+    <item name="SORT_USAGES_COMMAND" type="id" />
+    <item name="SORT_LAST_USED_COMMAND" type="id" />
+    <item name="SORT_AMOUNT_COMMAND" type="id" />
+    <item name="SORT_ALLOCATED_COMMAND" type="id" />
+    <item name="SORT_SPENT_COMMAND" type="id" />
+    <item name="GROUPING_ACCOUNTS_COMMAND" type="id" />
+    <item name="GROUPING_ACCOUNTS_TYPE_COMMAND" type="id" />
+    <item name="GROUPING_ACCOUNTS_CURRENCY_COMMAND" type="id" />
+    <item name="GROUPING_ACCOUNTS_NONE_COMMAND" type="id" />
+    <item name="SORT_CUSTOM_COMMAND" type="id" />
+    <item name="GROUPING_NONE_COMMAND" type="id" />
+    <item name="GROUPING_DAY_COMMAND" type="id" />
+    <item name="GROUPING_WEEK_COMMAND" type="id" />
+    <item name="GROUPING_MONTH_COMMAND" type="id" />
+    <item name="GROUPING_YEAR_COMMAND" type="id" />
+    <item name="HELP_COMMAND_DRAWER" type="id" />
+    <item name="FILTER_TRANSFER_COMMAND" type="id" />
+    <item name="FILTER_ACCOUNT_COMMAND" type="id" />
+    <item name="SORT_NEXT_INSTANCE_COMMAND" type="id" />
+    <item name="SYNC_COMMAND" type="id" />
+    <item name="SYNC_SETTINGS_COMMAND" type="id" />
+    <item name="SYNC_DOWNLOAD_COMMAND" type="id" />
+    <item name="SYNC_LINK_COMMAND" type="id" />
+    <item name="SYNC_UNLINK_COMMAND" type="id" />
+    <item name="SYNC_LINK_COMMAND_REMOTE_DO" type="id" />
+    <item name="SYNC_LINK_COMMAND_LOCAL_DO" type="id" />
+    <item name="SYNC_LINK_COMMAND_REMOTE" type="id" />
+    <item name="SYNC_LINK_COMMAND_LOCAL" type="id" />
+    <item name="SYNCED_TO_OTHER_COMMAND" type="id" />
+    <item name="SYNC_REMOVE_BACKEND_COMMAND" type="id" />
+    <item name="SYNC_BACKEND_LOCAL" type="id" />
+    <item name="SYNC_BACKEND_WEBDAV" type="id" />
+    <item name="SYNC_BACKEND_DRIVE" type="id" />
+    <item name="SYNC_BACKEND_DROPBOX" type="id" />
+    <item name="REMOVE_LICENCE_COMMAND" type="id" />
+    <item name="SORT_DIRECTION_COMMAND" type="id" />
+    <item name="SORT_DIRECTION_ASCENDING_COMMAND" type="id" />
+    <item name="SORT_DIRECTION_DESCENDING_COMMAND" type="id" />
+    <item name="ROADMAP_DETAILS_COMMAND" type="id" />
+    <item name="ROADMAP_ISSUE_VOTE_COMMAND" type="id" />
+    <item name="ROADMAP_SUBMIT_VOTE" type="id" />
+    <item name="SHARE_PDF_COMMAND" type="id" />
+    <item name="HISTORY_COMMAND" type="id" />
+    <item name="TOGGLE_BALANCE_COMMAND" type="id" />
+    <item name="TOGGLE_INCLUDE_TRANSFERS_COMMAND" type="id" />
+    <item name="TOGGLE_TOTALS_COMMAND" type="id" />
+    <item name="ORIGINAL_AMOUNT_COMMAND" type="id" />
+    <item name="EQUIVALENT_AMOUNT_COMMAND" type="id" />
     <item name="ExchangeRateEdit1" type="id" />
     <item name="ExchangeRateEdit2" type="id" />
-    <item name="UNGROUP_SPLIT_COMMAND" type="id"/>
-    <item name="AccountTypeCheckboxCash" type="id"/>
-    <item name="AccountTypeCheckboxBank" type="id"/>
-    <item name="AccountTypeCheckboxCcard" type="id"/>
-    <item name="AccountTypeCheckboxAsset" type="id"/>
-    <item name="AccountTypeCheckboxLiability" type="id"/>
-    <item name="GDPR_NO_CONSENT_COMMAND" type="id"/>
-    <item name="GDPR_CONSENT_COMMAND" type="id"/>
-    <item name="CLEAR_FILTER_COMMAND" type="id"/>
-    <item name="COLOR_COMMAND" type="id"/>
-    <item name="BUDGET_COMMAND" type="id"/>
-    <item name="MANAGE_CATEGORIES_COMMAND" type="id"/>
-    <item name="ROADMAP_COMMAND" type="id"/>
-    <item name="HIDE_ACCOUNT_COMMAND" type="id"/>
-    <item name="CLOSE_ACCOUNT_COMMAND" type="id"/>
-    <item name="REOPEN_ACCOUNT_COMMAND" type="id"/>
-    <item name="HIDDEN_ACCOUNTS_COMMAND" type="id"/>
-    <item name="BUDGET_ALLOCATED_ONLY" type="id"/>
+    <item name="UNGROUP_SPLIT_COMMAND" type="id" />
+    <item name="AccountTypeCheckboxCash" type="id" />
+    <item name="AccountTypeCheckboxBank" type="id" />
+    <item name="AccountTypeCheckboxCcard" type="id" />
+    <item name="AccountTypeCheckboxAsset" type="id" />
+    <item name="AccountTypeCheckboxLiability" type="id" />
+    <item name="GDPR_NO_CONSENT_COMMAND" type="id" />
+    <item name="GDPR_CONSENT_COMMAND" type="id" />
+    <item name="CLEAR_FILTER_COMMAND" type="id" />
+    <item name="COLOR_COMMAND" type="id" />
+    <item name="BUDGET_COMMAND" type="id" />
+    <item name="MANAGE_CATEGORIES_COMMAND" type="id" />
+    <item name="ROADMAP_COMMAND" type="id" />
+    <item name="HIDE_ACCOUNT_COMMAND" type="id" />
+    <item name="CLOSE_ACCOUNT_COMMAND" type="id" />
+    <item name="REOPEN_ACCOUNT_COMMAND" type="id" />
+    <item name="HIDDEN_ACCOUNTS_COMMAND" type="id" />
+    <item name="BUDGET_ALLOCATED_ONLY" type="id" />
     <item name="REMAP_CATEGORY_COMMAND" type="id" />
     <item name="REMAP_PAYEE_COMMAND" type="id" />
     <item name="REMAP_METHOD_COMMAND" type="id" />
@@ -174,7 +173,7 @@
     <item name="REMAP_COMMAND" type="id" />
     <item name="MAP_TAG_COMMAND" type="id" />
     <item name="PLANNER_COMMAND" type="id" />
-    <item name="SCAN_MODE_COMMAND" type="id"/>
+    <item name="SCAN_MODE_COMMAND" type="id" />
     <item name="OCR_DOWNLOAD_COMMAND" type="id" />
     <item name="OCR_FAQ_COMMAND" type="id" />
     <item name="LOAD_TEMPLATE_DO" type="id" />
@@ -191,5 +190,6 @@
     <item name="SHOW_PASSWORD_COMMAND" type="id" />
     <item name="DEBT_COMMAND" type="id" />
     <item name="MANAGE_PARTIES_COMMAND" type="id" />
-    <item name="DELETE_DEBT_COMMAND" type="id"/>
+    <item name="DELETE_DEBT_COMMAND" type="id" />
+    <item name="TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP" type="id" />
 </resources>

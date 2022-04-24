@@ -32,4 +32,5 @@
   <string name="menu_invert_transfer_help_text">යවන්නා හා ලැබෙන්නා යන ගිණුම් මාරු කර හුවමාරුවක දිශාව යටිකුරු කිරීම.</string>
   <string name="help_AccountEdit_title">ගිණුම් සඳහා පෝරමය.</string>
   <string name="help_MethodEdit_title">ගෙවීමේ ක්‍රමය සඳහා පෝරමය.</string>
+  <string name="cab_ManageCategories_select_help_text">තෝරා ගත් කාණ්ඩය ගනුදෙනුවකට අනුරූපනය කර ගනුදෙනු පෝරමයට නැවත පිවිසෙන්න.</string>
 </resources>

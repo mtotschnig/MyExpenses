@@ -1023,4 +1023,5 @@
     <string name="setup_completed">Setup completed</string>
     <!-- New feature in version 3.3.8 -->
     <string name="whats_new_338">Arbitrarily deep category hierarchy</string>
+    <string name="menu_parent_category_selection">Select parent category on short tap</string>
 </resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="help_menu_commands">دستورات منو</string>
     <string name="help_contextual_actions">اقدامات متنی</string>
     <string name="help_contextual_actions_help">منو برای عملیات متنی با فشار طولانی در یک لیست نمایش داده می شود.</string>
@@ -111,4 +111,5 @@
     <string name="cab_ManageCategories_move_help_text">هر دسته ای (به همراه زیر مجموعه های آن) را می توان به دسته بندی والد جدید منتقل کرد. زیر مجموعه ها را می توان به دسته های اصلی تبدیل کرد.</string>
     <string name="help_ManageCategories_expand_collapse">روی نماد &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; کلیک کنید تا یک دسته را بزرگ یا کوچک کنید.</string>
     <string name="help_ManageCategories_manage_context">برای نمایش منوی متنی بر روی یک ورودی کلیک کنید. برای شروع انتخاب چندگانه، ضربه بزنید و نگه دارید.</string>
+    <string name="cab_ManageCategories_select_help_text">اتصال دسته انتخاب شده به معامله و بازگشت به فرم معامله.</string>
 </resources>

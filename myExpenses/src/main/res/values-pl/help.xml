@@ -118,4 +118,5 @@
   <string name="cab_sync_download_help_text">Pobierz konto, które jest dostępne na serwerze. Konto zostanie utworzone lokalnie i skonfigurowane do synchronizacji z serwerem.</string>
   <string name="cab_sync_link_help_text">Rozpocznij synchronizację dla konta, które istnieje zarówno lokalnie, jak i zdalnie. Musisz zdecydować, czy dane lokalne czy zdalne powinny być przechowywane przy pierwszej synchronizacji.</string>
   <string name="cab_sync_unlink_help_text">Wybrane konto nie będzie już synchronizowane z serwerem</string>
+  <string name="cab_ManageCategories_select_help_text">Mapuj wybraną kategorię do transakcji i wróć do formy transakcji.</string>
 </resources>

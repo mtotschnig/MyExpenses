@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="help_menu_commands">Menuko komandoak</string>
   <string name="help_contextual_actions">Testuinguruko ekintzak</string>
   <string name="help_contextual_actions_help">Testuinguruko ekintzen menua bistaratzen da zerrendako sarrera batean luze sakatuz.</string>
@@ -117,4 +117,5 @@
   <string name="help_BudgetEdit_info">Erabili formulario hau aurrekontu berri bat sortzeko edo dagoeneko existitzen den aurrekontu bat editatzeko.</string>
   <string name="form_BudgetEdit_title_help_text">Aurrekontuaren izenburuak laguntzen du aurrekontuen zerrendan bilatzen.</string>
   <string name="form_BudgetEdit_amount_help_text">Zenbat diru dago eskuragarri aurrekontu honen testuinguruan.</string>
+  <string name="cab_ManageCategories_select_help_text">Lotu aukeratutako kategoria transakziora eta itzuli transakzioaren formulariora.</string>
 </resources>

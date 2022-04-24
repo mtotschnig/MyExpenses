@@ -156,7 +156,8 @@ public enum PrefKey {
   VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check"),
   SAVE_TO_SYNC_BACKEND_CHECKED("save_to_sync_backend_checked"),
   NEWS(R.string.pref_news_key),
-  DB_SAFE_MODE(R.string.pref_db_safe_mode_key)
+  DB_SAFE_MODE(R.string.pref_db_safe_mode_key),
+  PARENT_CATEGORY_SELECTION_ON_TAP("parent_category_selection_on_tap")
   ;
 
   int resId = 0;

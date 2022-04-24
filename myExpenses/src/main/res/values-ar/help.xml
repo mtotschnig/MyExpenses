@@ -173,4 +173,5 @@
   <string name="help_ManageTags_select_filter_info">حدد أو قم بإلغاء تحديد العلامات لتصفية قائمة المعاملات من خلال النقر عليها. استخدم زر الإجراء العائم لتأكيد التحديد.</string>
   <string name="help_ManageTags_manage_info">قم بإنشاء علامات جديدة عن طريق إدخالها في حقل النص. تقوم أيقونة x الموجودة في كل علامة بإزالتها من قاعدة البيانات. الضغط لفترة طويلة على علامة يسمح بتحريرها.</string>
   <string name="help_ManageTags_select_mapping_info">قم بتعيين أو إلغاء تعيين العلامات من خلال النقر عليها. استخدم زر الإجراء العائم لتأكيد التعيين.</string>
+  <string name="cab_ManageCategories_select_help_text">قم بتعيين الفئة المحددة للمعاملة والعودة إلى نموذج المعاملة.</string>
 </resources>

@@ -90,7 +90,7 @@
     <string name="form_category_help_text">לחצן זה פותח את רשימת הקטגוריות, שבהן תוכל לבחור את הקטגוריה שברצונך למפות לעסקה.</string>
     <string name="form_split_parts_heading_help_text">השתמש בלחצן הפעולה הצף להזנת חלקים מפוצלים רבים לפי הצורך. ההפרש בין סכום החלקים לעסקה מוצג בתחתית המסך. באפשרותך לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">נא לבחור קטגוריה לחלק המפוצל.</string>
-    <string name="form_transfer_from_account_transfer_to_account_help_text">הקצה את החשבונות שאליהם מועבר אובייקט זה מ... או אל.</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">הקצה את החשבונות שאליהם מועבר אובייקט זה מ… או אל.</string>
     <string name="form_exchange_rate_help_text">תוכל לציין את התעריף באחת משני הכיוונים של ההעברה. ההיוון ההפוך והסכום המתאים לחלק התלותי של שער החליפין מחושבים באופן אוטומטי.</string>
     <string name="form_title_help_text">הזן כותרת שמזהה את התבנית באופן ייחודי.</string>
     <string name="form_plan_help_text">כאשר אתה יוצר תכנית עבור תבנית, היא מתווספת ליומן פרטי המטופל באפליקציית היומן שלך. ניתן להגדיר את התוכנית כאירוע חד פעמי, או כ חוזר מדי יום, שבועי, חודשי או שנתי.</string>
@@ -188,4 +188,5 @@
     <string name="cab_ManageCategories_move_help_text">אפשר להעביר כל קטגוריה שהיא (על תת־הקטגוריות שלה) לקטגוריית הורה חדשה. מותר גם להמיר תת־קטגוריות לקטגוריות ראשיות.</string>
     <string name="help_ManageCategories_select_filter_info">לחיצה על רשומה תתחיל בחירה מרובה.</string>
     <string name="help_Budget_spent_click">לחיצה על סכומי ההוצאות מציג את כל התנועות המתאימות לתקציב הנוכחי והקטגוריה המתאימה.</string>
+    <string name="cab_ManageCategories_select_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
 </resources>

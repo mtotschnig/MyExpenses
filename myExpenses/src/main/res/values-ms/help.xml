@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="help_menu_commands">Perintah menu</string>
   <string name="help_contextual_actions">Tindakan konteksual</string>
   <string name="help_contextual_actions_help">Menu untuk tindakan konteksual dipaparkan dengan mengetik lama pada masukan senarai.</string>
@@ -139,4 +139,5 @@
   <string name="menu_HistoryActivity_history_transfers_help_text">Togol, jika pemindahan patut dianggap seperti pendapatan atau perbelanjaan biasa.</string>
   <string name="cab_show_transactions_help_text">Buka satu dialog yang menyenaraikan semua transaksi terpeta ke kategori terpilih dalam akaun semasa.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Bandingkan bajet dengan perbelanjaan bagi tempoh masa lepas dan akan datang.</string>
+  <string name="cab_ManageCategories_select_help_text">Petakan kategori terpilih ke transaksi dan kembali ke borang transaksi.</string>
 </resources>

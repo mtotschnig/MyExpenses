@@ -188,4 +188,5 @@
     <string name="help_ManageCategories_manage_context">Bağlam menüsünü göstermek için bir unsura tıklayın. Çoklu seçimi başlatmak için uzun dokunun.</string>
     <string name="help_Budget_spent_click">Harcanan miktarlara tıklamak, geçerli bütçe ve ilgili kategori ile ilgili tüm muameleleri listeler.</string>
     <string name="help_ManageCategories_select_filter_info">Çoklu seçimi başlatmak için bir unsura tıklayın.</string>
+    <string name="cab_ManageCategories_select_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
 </resources>

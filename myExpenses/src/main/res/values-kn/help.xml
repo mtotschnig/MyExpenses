@@ -186,4 +186,5 @@
     <string name="cab_ManageCategories_create_sub_cat_help_text">ಆಯ್ದ ವರ್ಗದ ಕೆಳಗೆ ಹೊಸ ಉಪ-ವರ್ಗವನ್ನು ರಚಿಸಲು ಸಂವಾದವನ್ನು ತೆರೆಯುತ್ತದೆ. ಉಪ-ವರ್ಗಗಳನ್ನು ಅನಿಯಂತ್ರಿತ ಆಳದೊಂದಿಗೆ ಗೂಡು ಮಾಡಬಹುದು.</string>
     <string name="help_ManageCategories_manage_context">ಅದರ ಸಂದರ್ಭ ಮೆನುವನ್ನು ತೋರಿಸಲು ನಮೂದನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ. ಬಹು-ಆಯ್ಕೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಲಾಂಗ್ ಟ್ಯಾಪ್ ಮಾಡಿ.</string>
     <string name="cab_ManageCategories_move_help_text">ಯಾವುದೇ ವರ್ಗವನ್ನು (ಅದರ ಉಪ-ವರ್ಗಗಳೊಂದಿಗೆ) ಹೊಸ ಪೋಷಕ ವರ್ಗಕ್ಕೆ ಸರಿಸಬಹುದು. ಉಪ-ವರ್ಗಗಳನ್ನು ಮುಖ್ಯ ವರ್ಗಗಳಾಗಿ ಪರಿವರ್ತಿಸಬಹುದು.</string>
+    <string name="cab_ManageCategories_select_help_text">ಆಯ್ದ ವರ್ಗವನ್ನು ವಹಿವಾಟಿಗೆ ನಕ್ಷೆ ಮಾಡಿ ಮತ್ತು ವ್ಯವಹಾರ ರೂಪಕ್ಕೆ ಹಿಂತಿರುಗಿ.</string>
 </resources>

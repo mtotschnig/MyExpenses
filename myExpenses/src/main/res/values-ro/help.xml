@@ -73,4 +73,5 @@
   <string name="menu_FolderBrowser_select_help_text">Selectaţi folderul curent ca targhet de stocare pentru export şi backup.</string>
   <string name="menu_up_help_text">Navigheaza in folderul parinte al folderului curent.</string>>
   <string name="menu_create_account_help_text">Creaza un cont nou. Versiunea gratuită este limitată la cinci conturi.</string>
+  <string name="cab_ManageCategories_select_help_text">Mapează categoria selectată la tranzacţie şi a revine la formularul de tranzacţie.</string>
 </resources>

@@ -189,4 +189,5 @@
     <string name="help_ManageCategories_select_filter_info">Cliquez sur une entrée pour lancer la multi-sélection.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">Ouvre le dialogue permettant de créer une nouvelle sous-catégorie sous la catégorie sélectionnée. Les sous-catégories peuvent être imbriquées avec une profondeur arbitraire.</string>
     <string name="cab_ManageCategories_move_help_text">Toute catégorie (ainsi que ses sous-catégories) peut être déplacée vers une nouvelle catégorie mère. Les sous-catégories peuvent être transformées en catégories principales.</string>
+    <string name="cab_ManageCategories_select_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
 </resources>

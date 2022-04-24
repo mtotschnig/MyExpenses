@@ -166,7 +166,7 @@
     <string name="help_ManageBudgets_info">Esta pantalla muestra un resumen de todos los presupuestos que ha creado. Use el botón de acción flotante para crear un nuevo presupuesto. Haciendo clic en una entrada de la lista mostrará un único presupuesto.</string>
     <string name="help_BudgetEdit_title">Formulario para presupuestos</string>
     <string name="help_BudgetEdit_info">Use este formulario para crear un nuevo presupuesto o editar uno existente.</string>
-    <string name="form_BudgetEdit_title_help_text">Un título de prepuesto ayuda a identificarlo en la lista lista de presupuestos.</string>
+    <string name="form_BudgetEdit_title_help_text">Un título de prepuesto ayuda a identificarlo en la lista de presupuestos.</string>
     <string name="form_BudgetEdit_amount_help_text">Cuánto dinero hay disponible en el contexto de este presupuesto.</string>
     <string name="form_BudgetEdit_accounts_help_text">Un propuesto está limitado a una cuenta, cubriendo todas las cuentas con la misma divisa, o se refiere al conjunto total de todas las divisas.</string>
     <string name="form_BudgetEdit_filter_help_text">Se pueden filtrar los presupuestos con respecto a las categorías, grupos, métodos o estados. Sólo se tienen en cuenta las transacciones emparejadas con estos filtros.</string>
@@ -181,4 +181,5 @@
     <string name="help_debt_managment">Asociar deudas entre entidades, inspeccionar la lista de transacciones y calcular el saldo restante.</string>
     <string name="form_DebtEdit_date_help_text">Introduzca la fecha en que se contrajo la deuda.</string>
     <string name="form_DebtEdit_label_help_text">La etiqueta permite seleccionar la deuda en el formulario para las transacciones, con el fin de marcar una transacción como un anticipo.</string>
+    <string name="cab_ManageCategories_select_help_text">Asignar la categoría seleccionada a la transacción y volver al formulario de transacción.</string>
 </resources>

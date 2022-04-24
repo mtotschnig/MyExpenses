@@ -57,4 +57,9 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@id/TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="@string/menu_parent_category_selection"/>
 </menu>
