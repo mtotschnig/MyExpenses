@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Diğer gelirler</string>
@@ -105,7 +105,7 @@
     <!-- Main category -->
     <string name="Main_10">Hediyeler</string>
     <!-- Main category -->
-    <string name="Main_11">Çocuklar</string>
+    <string name="Main_11">Altlar</string>
     <!-- Subcategory under "Children" -->
     <string name="Sub_11_1">Bakıcı</string>
     <!-- Subcategory under "Children" -->
