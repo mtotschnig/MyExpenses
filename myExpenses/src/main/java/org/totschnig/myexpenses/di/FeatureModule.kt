@@ -24,7 +24,6 @@ open class FeatureModule {
                 ocrFeature = it
             }
         } catch (e: ClassNotFoundException) {
-            CrashHandler.report(e)
             null
         }
     }
