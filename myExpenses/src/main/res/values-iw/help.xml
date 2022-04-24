@@ -189,4 +189,5 @@
     <string name="help_ManageCategories_select_filter_info">לחיצה על רשומה תתחיל בחירה מרובה.</string>
     <string name="help_Budget_spent_click">לחיצה על סכומי ההוצאות מציג את כל התנועות המתאימות לתקציב הנוכחי והקטגוריה המתאימה.</string>
     <string name="cab_ManageCategories_select_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
+    <string name="menu_parent_category_selection_help_text">עם אפשרות זו אפשר לכוון את הנקישה על קטגוריה שיש לה קטגוריות צאצאיות: אם האפשרות מסומנת, נקישה קצרה תבחר קטגוריה, אם לא מסומנת, נקישה קצרה תרחיב/תצמצם את הקטגוריה. במקרה השני, הבחירה זמינה מתפריט ההקשר.</string>
 </resources>
