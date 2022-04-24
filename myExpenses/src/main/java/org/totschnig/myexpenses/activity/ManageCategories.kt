@@ -487,7 +487,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                 viewModel.exportResult.collect { result ->
                     result?.let {
                         result.onSuccess { pair ->
-                            updateSnackBar(getString(R.string.export_sdcard_success, pair.second))
+                            updateDismissibleSnackBar(getString(R.string.export_sdcard_success, pair.second))
                             if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
                                 val shareResult = ShareUtils.share(
                                     this@ManageCategories, listOf(pair.first),
@@ -495,11 +495,11 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                                     "text/qif"
                                 )
                                 if (!shareResult.isSuccess) {
-                                    updateSnackBar(shareResult.print(this@ManageCategories))
+                                    updateDismissibleSnackBar(shareResult.print(this@ManageCategories))
                                 }
                             }
                         }.onFailure {
-                            updateSnackBar(it.safeMessage)
+                            updateDismissibleSnackBar(it.safeMessage)
                         }
                     }
                 }

@@ -298,9 +298,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } ?: showSnackBarFallBack(message)
     }
 
-    fun updateSnackBar(message: CharSequence) {
+    fun updateDismissibleSnackBar(message: CharSequence) {
         snackBar?.setText(message) ?: run {
-            CrashHandler.report("updateSnackBar called without snackBar being instantiated")
+            showDismissibleSnackBar(message)
         }
     }
 
