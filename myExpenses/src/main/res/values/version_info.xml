@@ -113,5 +113,6 @@
     </string-array>
     <string-array name="whats_new_3381">
         <item>@string/bug_fixes</item>
+        <item>@string/ui_refinement</item>
     </string-array>
 </resources>
