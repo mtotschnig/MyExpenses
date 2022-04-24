@@ -189,4 +189,5 @@
     <string name="help_ManageCategories_expand_collapse">Klicken Sie auf das Symbol &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt;, um eine Kategorie zu erweitern oder zu reduzieren.</string>
     <string name="help_ManageCategories_manage_context">Klicken Sie auf einen Eintrag, um sein Kontextmenü anzuzeigen. Langes Antippen zum Starten der Mehrfachauswahl.</string>
     <string name="cab_ManageCategories_select_help_text">Die ausgewählte Kategorie wird der Buchung zugeordnet und Rückkehr zum Buchungsformular.</string>
+    <string name="menu_parent_category_selection_help_text">Mit dieser Option passen Sie das Tippen auf eine Kategorie an, die Unterkategorien hat: Wenn sie aktiviert ist, wird die Kategorie durch kurzes Antippen ausgewählt; wenn sie nicht aktiviert ist, wird die Kategorie durch kurzes Antippen erweitert bzw. reduziert. In letzterem Fall ist die Auswahl über das Kontextmenü möglich.</string>
 </resources>
