@@ -756,4 +756,5 @@
     <string name="debt_managment">Quản lý nợ</string>
     <string name="ui_refinement">Cải tiến giao diện người dùng</string>
     <string name="whats_new_338">Hệ thống phân cấp thể loại sâu tùy ý</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">Sửa lỗi</string>
 </resources>

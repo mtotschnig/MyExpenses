@@ -308,4 +308,6 @@
     <string name="pref_news_title">新闻</string>
     <string name="title_scan_receipt_feature">扫描收据</string>
     <string name="debt_managment">债务管理</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">错误修复</string>
+    <string name="ui_refinement">完善用户界面</string>
 </resources>
