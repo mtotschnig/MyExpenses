@@ -46,41 +46,41 @@ var translation_data = {
         },
 
         "text_1":  {
-             "ar": "افتح هذا الرابط على جهاز Android الخاص بك باستخدام تطبيق مصروفاتي.",
+             "ar": "افتح <a href="%s">هذا الرابط</a> على جهاز Android الخاص بك باستخدام تطبيق مصروفاتي.",
 
-             "bg": "Отвори тази връзка от приложението Моите разходи на своето устройство с Андроид.",
+             "bg": "Отвори <a href="%s">тази връзка</a> от приложението Моите разходи на своето устройство с Андроид.",
 
-             "cs": "Otevře tento odkaz na vašem Android zařízení v aplikaci My Expenses.",
+             "cs": "Otevře <a href="%s">tento odkaz</a> na vašem Android zařízení v aplikaci My Expenses.",
 
-             "de": "Öffnen Sie diesen Link auf Ihrem Android-Gerät mit der App Meine Ausgaben.",
+             "de": "Öffnen Sie <a href="%s">diesen Link</a> auf Ihrem Android-Gerät mit der App Meine Ausgaben.",
 
-             "el": "Ανοίξτε αυτό το σύνδεσμο στην Android συσκευή σας με την εφαρμογή Έξοδά μου.",
+             "el": "Ανοίξτε <a href="%s">αυτό το σύνδεσμο</a> στην Android συσκευή σας με την εφαρμογή Έξοδά μου.",
 
-             "en": "Open this link on your Android device with the My Expenses app.",
+             "en": "Open <a href="%s">this link</a> on your Android device with the My Expenses app.",
 
-             "es": "Abrir este enlace en tu dispositivo Android con la aplicación de Mis Gastos.",
+             "es": "Abrir <a href="%s">este enlace</a> en tu dispositivo Android con la aplicación de Mis Gastos.",
 
-             "eu": "Ireki lotura hau zure Nire Gastuak aplikazioa duen Android gailuan.",
+             "eu": "Ireki <a href="%s">lotura hau</a> zure Nire Gastuak aplikazioa duen Android gailuan.",
 
-             "fr": "Ouvrez ce lien sur votre appareil Android avec l'application Mes dépenses",
+             "fr": "Ouvrez <a href="%s">ce lien</a> sur votre appareil Android avec l'application Mes dépenses",
 
-             "it": "Aprire questo link sul tuo dispositivo Android con l'app My spese.",
+             "it": "Aprire <a href="%s">questo link</a> sul tuo dispositivo Android con l'app My spese.",
 
-             "iw": "פתח את הקישור הזה במכשיר האנדרואיד שלך באמצעות האפליקציה 'ההוצאות שלי'.",
+             "iw": "פתח <a href="%s">את הקישור הזה</a> במכשיר האנדרואיד שלך באמצעות האפליקציה 'ההוצאות שלי'.",
              
-             "kn": "ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್ ಅಪ್ಲಿಕೇಶನ್‌ನೊಂದಿಗೆ ನಿಮ್ಮ ಆಂಡ್ರಾಯ್ಡ್ ಸಾಧನದಲ್ಲಿ ಈ ಲಿಂಕ್ ತೆರೆಯಿರಿ.",
+             "kn": "ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್ ಅಪ್ಲಿಕೇಶನ್‌ನೊಂದಿಗೆ ನಿಮ್ಮ ಆಂಡ್ರಾಯ್ಡ್ ಸಾಧನದಲ್ಲಿ ಈ <a href="%s">ಲಿಂಕ್</a> ತೆರೆಯಿರಿ.",
              
-             "ja": "お使いの Android 上のマイエクスペンス アプリでリンクを開きます。",
+             "ja": "<a href="%s">お使いの Android 上のマイエクスペンス アプリでリンクを開きます。</a>",
 
-             "ms": "Buka pautan ini melalui peranti Android anda dengan apl My Expenses.",
+             "ms": "Buka <a href="%s">pautan ini</a> melalui peranti Android anda dengan apl Perbelanjaan Saya.",
 
-             "pt": "Abra este link no seu dispositivo Android com a aplicação Minhas despesas.",
+             "pt": "Abra <a href="%s">este link</a> no seu dispositivo Android com a aplicação Minhas despesas.",
 
-             "ru": "Откройте эту ссылку на вашем Android устройстве с помощью приложения Мои расходы.",
+             "ru": "Откройте <a href="%s">эту ссылку</a> на вашем Android устройстве с помощью приложения Мои расходы.",
 
-             "tr": "Bu bağlantıyı Android cihazınızda Harcamalarım uygulamasıyla açın.",
+             "tr": "<a href="%s">Bu bağlantıyı</a> Android cihazınızda Harcamalarım uygulamasıyla açın.",
 
-             "vi": "Mở liên kết này trên thiết bị Android của bạn với ứng dụng Quản lý chi tiêu.",
+             "vi": "<a href="%s">Mở liên kết này</a> trên thiết bị Android của bạn với ứng dụng Quản lý chi tiêu.",
 
         },
         "text_2": {
@@ -161,7 +161,7 @@ function buildLocalizedAlert() {
    isPdt = getURLParameter("isPdt") != "false";
 
    return ((isPdt ?  getLocalized("text_0", lang) : "") + " ")
-      + getLocalized("text_1", lang) + " "
+      + sprintf(getLocalized("text_1", lang), window.location.href) + " "
       + sprintf(getLocalized("text_2", lang), getURLParameter("key"))
       + " <a href='mailto:support@myexpenses.mobi'>" + getLocalized("customer_support", lang)  + "</a>";
 }
