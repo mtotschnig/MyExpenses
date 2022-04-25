@@ -5,16 +5,16 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
-import androidx.annotation.PluralsRes
-import androidx.annotation.StringRes
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.CompositeException
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -35,18 +35,16 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
+import kotlin.collections.set
 
 const val KEY_ROW_IDS = "rowIds"
 
 object AccountSealedException : IllegalStateException()
 
 abstract class ContentResolvingAndroidViewModel(application: Application) :
-    AndroidViewModel(application) {
+    BaseViewModel(application) {
     @Inject
     lateinit var briteContentResolver: BriteContentResolver
-
-    @Inject
-    lateinit var coroutineDispatcher: CoroutineDispatcher
 
     @Inject
     lateinit var repository: Repository
@@ -95,12 +93,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         return liveData
     }
 
-    fun getString(@StringRes resId: Int, vararg formatArgs: Any?) =
-        getApplication<MyApplication>().getString(resId, *formatArgs)
-
-    fun getQuantityString(@PluralsRes resId: Int, quantity: Int, vararg formatArgs: Any?) =
-        getApplication<MyApplication>().resources.getQuantityString(resId, quantity, *formatArgs)
-
     fun account(accountId: Long, once: Boolean = false) = liveData(context = coroutineContext()) {
         val base =
             if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
@@ -128,8 +120,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             if (!it.isDisposed) it.dispose()
         }
     }
-
-    protected fun coroutineContext() = viewModelScope.coroutineContext + coroutineDispatcher
 
     fun deleteTemplates(ids: LongArray, deletePlan: Boolean): LiveData<Int> =
         liveData(context = coroutineContext()) {

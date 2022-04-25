@@ -72,7 +72,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REPAIR_PLAN = 41;
 
   public static final int TASK_VALIDATE_LICENCE = 55;
-  public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_ACCOUNT_SORT = 60;
   public static final int TASK_SET_ACCOUNT_HIDDEN = 63;
 
@@ -208,10 +207,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_PRINT:
         new PrintTask(this, args).execute();
-        break;
-      case TASK_VALIDATE_LICENCE:
-      case TASK_REMOVE_LICENCE:
-        new LicenceApiTask(this, taskId).execute();
         break;
       case TASK_SPLIT:
         new SplitCommandTask(this, taskId).execute(args);

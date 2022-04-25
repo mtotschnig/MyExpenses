@@ -59,7 +59,6 @@ import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
-import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.task.QifImportTask;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.BaseAdHandler;
@@ -77,6 +76,7 @@ import org.totschnig.myexpenses.viewmodel.DistributionViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
+import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
@@ -190,8 +190,6 @@ public interface AppComponent {
 
   void inject(BaseAdHandler adHandler);
 
-  void inject(LicenceApiTask licenceApiTask);
-
   void inject(SettingsFragment settingsFragment);
 
   void inject(ContribDialogFragment contribDialogFragment);
@@ -289,4 +287,7 @@ public interface AppComponent {
   void inject(QifImportTask qifImportTask);
 
   void inject(GrisbiImportTask grisbiImportTask);
+
+  void inject(LicenceValidationViewModel licenceValidationViewModel);
+
 }

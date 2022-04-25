@@ -20,17 +20,18 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Pair
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -38,12 +39,11 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.SettingsFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
+import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import java.io.Serializable
 import java.util.*
 
@@ -52,7 +52,9 @@ import java.util.*
  *
  * @author Michael Totschnig
  */
-class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
+class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
+    PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
+    val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     private var initialPrefToShow: String? = null
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +65,15 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
             ft.replace(R.id.fragment_container, SettingsFragment(), FRAGMENT_TAG)
             ft.commit()
         }
-        initialPrefToShow = if (savedInstanceState == null) intent.getStringExtra(KEY_OPEN_PREF_KEY) else null
+        initialPrefToShow =
+            if (savedInstanceState == null) intent.getStringExtra(KEY_OPEN_PREF_KEY) else null
 
         //when a user no longer has access to auto backup we do not want him to believe that it works
         if (!licenceHandler.hasTrialAccessTo(ContribFeature.AUTO_BACKUP)) {
             prefHandler.putBoolean(PrefKey.AUTO_BACKUP, false)
         }
+        (applicationContext as MyApplication).appComponent.inject(licenceValidationViewModel)
+        observeLicenceApiResult()
     }
 
     private val fragment: SettingsFragment
@@ -79,6 +84,33 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         return true
     }
 
+    private fun observeLicenceApiResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                licenceValidationViewModel.result.collect { result ->
+                    result?.let {
+                        fragment.setProtectionDependentsState()
+                        fragment.configureContribPrefs()
+                        showDismissibleSnackBar(
+                            it,
+                            dismissCallback
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private val dismissCallback = object : Snackbar.Callback() {
+        override fun onDismissed(
+            transientBottomBar: Snackbar,
+            event: Int
+        ) {
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                licenceValidationViewModel.messageShown()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home && supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
@@ -87,26 +119,33 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         return super.onOptionsItemSelected(item)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateDialog(id: Int): Dialog {
         when (id) {
             R.id.FTP_DIALOG -> return DialogUtils.sendWithFTPDialog(this)
             R.id.MORE_INFO_DIALOG -> {
                 val builder = MaterialAlertDialogBuilder(this)
                 val view = LayoutInflater.from(builder.context).inflate(R.layout.more_info, null)
-                (view.findViewById<View>(R.id.aboutVersionCode) as TextView).text = getVersionInfo(this)
+                (view.findViewById<View>(R.id.aboutVersionCode) as TextView).text =
+                    getVersionInfo(this)
                 val projectContainer = view.findViewById<TextView>(R.id.project_container)
                 projectContainer.text = Utils.makeBulletList(this,
-                        Utils.getProjectDependencies(this)
-                                .map { project: Map<String, String> ->
-                                    val name = project["name"]
-                                    "${if (project.containsKey("extra_info")) "$name (${project["extra_info"]})" else name}, from ${project["url"]}, licenced under ${project["licence"]}"
-                                }.toList(), R.drawable.ic_menu_forward)
+                    Utils.getProjectDependencies(this)
+                        .map { project: Map<String, String> ->
+                            val name = project["name"]
+                            "${if (project.containsKey("extra_info")) "$name (${project["extra_info"]})" else name}, from ${project["url"]}, licenced under ${project["licence"]}"
+                        }.toList(), R.drawable.ic_menu_forward
+                )
                 val additionalContainer = view.findViewById<TextView>(R.id.additional_container)
-                val lines: List<CharSequence> = listOf(*resources.getStringArray(R.array.additional_credits),
-                        "${getString(R.string.translated_by)}: ${buildTranslationCredits()}")
-                additionalContainer.text = Utils.makeBulletList(this, lines, R.drawable.ic_menu_forward)
+                val lines: List<CharSequence> = listOf(
+                    *resources.getStringArray(R.array.additional_credits),
+                    "${getString(R.string.translated_by)}: ${buildTranslationCredits()}"
+                )
+                additionalContainer.text =
+                    Utils.makeBulletList(this, lines, R.drawable.ic_menu_forward)
                 val iconContainer = view.findViewById<LinearLayout>(R.id.additional_icons_container)
-                val iconLines = listOf<CharSequence>(*resources.getStringArray(R.array.additional_icon_credits))
+                val iconLines =
+                    listOf<CharSequence>(*resources.getStringArray(R.array.additional_icon_credits))
                 val ar = resources.obtainTypedArray(R.array.additional_icon_credits_keys)
                 val len = ar.length()
                 val height = UiUtils.dp2Px(32f, resources)
@@ -115,7 +154,8 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
                 while (i < len) {
                     val textView = TextView(this)
                     textView.gravity = Gravity.CENTER_VERTICAL
-                    val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
+                    val layoutParams =
+                        LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
                     textView.layoutParams = layoutParams
                     textView.compoundDrawablePadding = drawablePadding
                     textView.text = iconLines[i]
@@ -130,18 +170,25 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
                 }
                 ar.recycle()
                 return builder.setTitle(R.string.pref_more_info_dialog_title)
-                        .setView(view)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create()
+                    .setView(view)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .create()
             }
         }
         return super.onCreateDialog(id)
     }
 
-    private fun buildTranslationCredits() = resources.getStringArray(R.array.pref_ui_language_values)
+    private fun buildTranslationCredits() =
+        resources.getStringArray(R.array.pref_ui_language_values)
             .map { lang ->
                 val parts = lang.split("-".toRegex()).toTypedArray()
-                Pair.create(lang, getTranslatorsArrayResId(parts[0], if (parts.size == 2) parts[1].toLowerCase(Locale.ROOT) else null))
+                Pair.create(
+                    lang,
+                    getTranslatorsArrayResId(
+                        parts[0],
+                        if (parts.size == 2) parts[1].lowercase(Locale.ROOT) else null
+                    )
+                )
             }
             .filter { pair -> pair.second != 0 }
             .map { pair -> Pair.create(pair.first, resources.getStringArray(pair.second)) }
@@ -156,24 +203,24 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         val prefix = "translators_"
         if (!TextUtils.isEmpty(language)) {
             if (!TextUtils.isEmpty(country)) {
-                result = resources.getIdentifier(prefix + language + "_" + country,
-                        "array", packageName)
+                result = resources.getIdentifier(
+                    prefix + language + "_" + country,
+                    "array", packageName
+                )
             }
             if (result == 0) {
-                result = resources.getIdentifier(prefix + language,
-                        "array", packageName)
+                result = resources.getIdentifier(
+                    prefix + language,
+                    "array", packageName
+                )
             }
         }
         return result
     }
 
     fun validateLicence() {
-        startValidationTask(TaskExecutionFragment.TASK_VALIDATE_LICENCE, R.string.progress_validating_licence)
-    }
-
-    private fun startValidationTask(taskId: Int, progressResId: Int) {
-        startTaskExecution(taskId, arrayOf<String>(), null, 0)
-        showSnackBarIndefinite(progressResId)
+        showSnackBarIndefinite(R.string.progress_validating_licence)
+        licenceValidationViewModel.validateLicence()
     }
 
     override fun onFeatureAvailable(feature: Feature) {
@@ -219,12 +266,19 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         }
     }
 
-    override fun onPreferenceStartScreen(preferenceFragmentCompat: PreferenceFragmentCompat,
-                                         preferenceScreen: PreferenceScreen): Boolean {
+    override fun onPreferenceStartScreen(
+        preferenceFragmentCompat: PreferenceFragmentCompat,
+        preferenceScreen: PreferenceScreen
+    ): Boolean {
         val key = preferenceScreen.key
         if (key == prefHandler.getKey(PrefKey.PERFORM_PROTECTION_SCREEN) &&
-                (application as MyApplication).isProtected) {
-            confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST, { startPerformProtectionScreen() }, false)
+            (application as MyApplication).isProtected
+        ) {
+            confirmCredentials(
+                CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST,
+                { startPerformProtectionScreen() },
+                false
+            )
             return true
         }
         if (key == prefHandler.getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS)) {
@@ -238,20 +292,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         return true
     }
 
-    override fun onPostExecute(taskId: Int, o: Any?) {
-        super.onPostExecute(taskId, o)
-        when (taskId) {
-            TaskExecutionFragment.TASK_VALIDATE_LICENCE, TaskExecutionFragment.TASK_REMOVE_LICENCE -> {
-                dismissSnackBar()
-                if (o is Result<*>) {
-                    showSnackBar(o.print(this))
-                    fragment.setProtectionDependentsState()
-                    fragment.configureContribPrefs()
-                }
-            }
-        }
-    }
-
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST) {
@@ -270,7 +311,8 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
             return true
         }
         if (command == R.id.REMOVE_LICENCE_COMMAND) {
-            startValidationTask(TaskExecutionFragment.TASK_REMOVE_LICENCE, R.string.progress_removing_licence)
+            showSnackBarIndefinite(R.string.progress_removing_licence)
+            licenceValidationViewModel.removeLicence()
             return true
         }
         if (command == R.id.CHANGE_COMMAND) {
@@ -292,7 +334,9 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
     }
 
     fun showUnencryptedBackupWarning() {
-        if (prefHandler.getString(PrefKey.EXPORT_PASSWORD, null) == null) showMessage(unencryptedBackupWarning())
+        if (prefHandler.getString(PrefKey.EXPORT_PASSWORD, null) == null) showMessage(
+            unencryptedBackupWarning()
+        )
     }
 
     companion object {
