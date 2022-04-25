@@ -123,7 +123,9 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
+                <data android:scheme="org.totschnig.myexpenses"
+                    android:host="www.myexpenses.mobi"
+                    android:path="/callback2.html" />
                 <data
                     android:host="www.myexpenses.mobi"
                     android:path="/callback2.html"

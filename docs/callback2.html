@@ -161,7 +161,7 @@ function buildLocalizedAlert() {
    isPdt = getURLParameter("isPdt") != "false";
 
    return ((isPdt ?  getLocalized("text_0", lang) : "") + " ")
-      + sprintf(getLocalized("text_1", lang), "org.totschnig.myexpenses:///callback2.html"+ location.search + "#verify") + " "
+      + sprintf(getLocalized("text_1", lang), "org.totschnig.myexpenses://www.myexpenses.mobi/callback2.html"+ location.search + "#verify") + " "
       + sprintf(getLocalized("text_2", lang), getURLParameter("key"))
       + " <a href='mailto:support@myexpenses.mobi'>" + getLocalized("customer_support", lang)  + "</a>";
 }
