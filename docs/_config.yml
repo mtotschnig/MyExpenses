@@ -129,6 +129,70 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.3.8
+    - "2022-04-19"
+    -
+      ar: |
+        تسلسل هرمي عميق بشكل تعسفي للفئات. وضع الميزانية: صقل واجهة المستخدم
+      bg: |
+        Произволно дълбока йерархия на категориите. Бюджетиране: Подобрения в потребителския интерфейс
+      ca: |
+        Jerarquia de categories arbitràriament profunda. Pressupost: Refinament de la interfície d'usuari
+      cs: |
+        Arbitrárně hluboká hierarchie kategorií. Rozpočty: Zdokonalení uživatelského rozhraní
+      da: |
+        Vilkårligt dybt kategorihierarki. Budgettering: Forbedring af brugergrænsefladen
+      de: |
+        Beliebig tiefe Kategorienhierarchie. Budgetierung: Verfeinerung der Benutzeroberfläche
+      el: |
+        Αυθαίρετα βαθιά ιεραρχία κατηγοριών. Προϋπολογισμός: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Jerarquía de categorías arbitrariamente profunda. Presupuestar: Interfaz de usuario mejorada
+      eu: |
+        Kategoria hierarkia arbitrarioki sakona. Aurrekontua: Erabiltzaile-interfazea hobetzea
+      fr: |
+        Une hiérarchie de catégories arbitrairement profonde. Budgétisation: Raffinement de l'interface utilisateur
+      hr: |
+        Proizvoljno duboka hijerarhija kategorija. Izrada proračuna: Poboljšanje korisničkog sučelja
+      hu: |
+        Tetszőlegesen mély kategóriahierarchia. Költségvetés: A felhasználói felület finomítása
+      it: |
+        Gerarchia di categorie arbitrariamente profonda. Bilancio: Miglioramento dell'interfaccia utente
+      iw: |
+        היררכיית קטגוריה עמוקה שרירותית. תקצוב: חידוד ממשק המשתמש
+      ja: |
+        任意に深いカテゴリー階層. 予算作成: ユーザーインターフェースの洗練
+      ms: |
+        Hierarki kategori yang mendalam secara sewenang-wenangnya. Pembelanjawan: Penghalusan antaramuka pengguna
+      km: |
+        ឋានានុក្រមប្រភេទជ្រៅតាមអំពើចិត្ត. ថវិកា: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ
+      kn: |
+        ನಿರಂಕುಶವಾಗಿ ಆಳವಾದ ವರ್ಗ ಶ್ರೇಣಿ. ಬಜೆಟ್: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ko: |
+        임의로 깊은 범주 계층 구조. 예산: 사용자 인터페이스 의 개선
+      pl: |
+        Arbitralnie głęboka hierarchia kategorii. Przydzielanie budżetu: Dopracowanie interfejsu użytkownika
+      pt: |
+        Hierarquia de categorias arbitrariamente profunda. Orçamento: Melhorias na interface do usuário
+      ro: |
+        Ierarhie de categorii arbitrar de adâncă. Bugetare: Perfecționarea interfeței cu utilizatorul
+      ru: |
+        Произвольно глубокая иерархия категорий. Бюджетирование: Усовершенствование пользовательского интерфейса
+      si: |
+        අත්තනෝමතික ලෙස ගැඹුරු කාණ්ඩ ධුරාවලිය. අයවැය සකස් කිරීම: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම
+      ta: |
+        தன்னிச்சையாக ஆழமான வகை படிநிலை. வரவு செலவுத் திட்டம்: பயனர் இடைமுகத்தை மெருகேற்றுதல்
+      tr: |
+        İstenilen derinlikte kategori hiyerarşisi. Bütçeleme: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Hệ thống phân cấp thể loại sâu tùy ý. Ngân quỹ: Cải tiến giao diện người dùng
+      zh: |
+        任意深的类别层次结构. 预算编制: 用户界面的改进
+      zh-TW: |
+        任意深入的类别层次结构. 預算編訂: 完善用户界面
+      en: |
+        Arbitrarily deep category hierarchy. Budgeting: Refinement of the user interface
+  -
     - 3.3.7
     - "2022-03-02"
     -
