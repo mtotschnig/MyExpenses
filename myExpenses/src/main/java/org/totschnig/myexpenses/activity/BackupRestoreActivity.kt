@@ -52,7 +52,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         super.onCreate(savedInstanceState)
         backupViewModel = ViewModelProvider(this)[BackupViewModel::class.java]
         requireApplication().appComponent.inject(backupViewModel)
-        backupViewModel.getBackupState().observe(this) { backupState: BackupState? ->
+        backupViewModel.getBackupState().observe(this) { backupState: BackupState ->
             val onDismissed: Snackbar.Callback = object : Snackbar.Callback() {
                 override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
                     setResult(taskResult)
@@ -187,16 +187,12 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         )
     }
 
-    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
-        bundle.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri)
-        return bundle
+    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int) = Bundle().apply {
+        putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
+        putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri)
     }
 
-    override fun shouldKeepProgress(taskId: Int): Boolean {
-        return true
-    }
+    override fun shouldKeepProgress(taskId: Int) = true
 
     override fun onPostRestoreTask(result: Result<*>) {
         super.onPostRestoreTask(result)
@@ -206,15 +202,13 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         }
     }
 
-    fun calledExternally(): Boolean {
-        return Intent.ACTION_VIEW == intent.action
-    }
+    val calledExternally: Boolean
+        get() = Intent.ACTION_VIEW == intent.action
 
-    private fun calledFromOnboarding(): Boolean {
-        val callingActivity = callingActivity
-        return callingActivity != null && (Utils.getSimpleClassNameFromComponentName(callingActivity)
-                == OnboardingActivity::class.java.simpleName)
-    }
+    private val calledFromOnboarding: Boolean
+        get() = callingActivity?.let {
+            Utils.getSimpleClassNameFromComponentName(it)
+        } == OnboardingActivity::class.java.simpleName
 
     fun onSourceSelected(mUri: Uri, restorePlanStrategy: Int) {
         val args = buildRestoreArgs(mUri, restorePlanStrategy)
@@ -228,11 +222,14 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
             }.onSuccess {
                 if (it) {
                     SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
-                        .fields(Input.password(RestoreTask.KEY_PASSWORD).text(prefHandler.getString(PrefKey.EXPORT_PASSWORD, "")).required())
+                        .fields(
+                            Input.password(RestoreTask.KEY_PASSWORD)
+                                .text(prefHandler.getString(PrefKey.EXPORT_PASSWORD, "")).required()
+                        )
                         .extra(args)
                         .show(this, DIALOG_TAG_PASSWORD)
                 } else {
-                    if (calledFromOnboarding()) {
+                    if (calledFromOnboarding) {
                         doRestore(args)
                     } else {
                         showRestoreDialog(args)
@@ -245,7 +242,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (DIALOG_TAG_PASSWORD == dialogTag) {
             if (which == OnDialogResultListener.BUTTON_POSITIVE) {
-                if (calledFromOnboarding()) {
+                if (calledFromOnboarding) {
                     doRestore(extras)
                 } else {
                     showRestoreDialog(extras)
@@ -262,10 +259,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
         if (command == R.id.BACKUP_COMMAND) {
             prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
-            backupViewModel.doBackup(
-                prefHandler.getString(PrefKey.EXPORT_PASSWORD, null),
-                checked
-            )
+            backupViewModel.doBackup(checked)
         } else if (command == R.id.RESTORE_COMMAND) {
             doRestore(args)
         }
@@ -285,7 +279,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     }
 
     override fun onProgressDialogDismiss() {
-        if (calledExternally()) {
+        if (calledExternally) {
             restartAfterRestore()
         } else {
             setResult(taskResult)

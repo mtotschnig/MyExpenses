@@ -49,7 +49,7 @@ class AutoBackupService : JobIntentService() {
         if (ACTION_AUTO_BACKUP == action) {
             val syncAccount = prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null)
             val result: Result<DocumentFile> =
-                doBackup(this, prefHandler.getString(PrefKey.EXPORT_PASSWORD, null), syncAccount)
+                doBackup(this, prefHandler, syncAccount)
             result.onSuccess {
                 val remaining = ContribFeature.AUTO_BACKUP.recordUsage(prefHandler, licenceHandler)
                 if (remaining < 1) {

@@ -44,7 +44,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
-    final int selectorVisibility = ((BackupRestoreActivity) requireActivity()).calledExternally()
+    final int selectorVisibility = ((BackupRestoreActivity) requireActivity()).getCalledExternally()
         ? View.GONE : View.VISIBLE;
     view.findViewById(R.id.summary).setVisibility(selectorVisibility);
     view.findViewById(R.id.btn_browse).setVisibility(selectorVisibility);

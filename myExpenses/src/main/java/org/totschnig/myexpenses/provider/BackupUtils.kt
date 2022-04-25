@@ -6,6 +6,8 @@ import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.AccountPreference
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -13,6 +15,7 @@ import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.security.GeneralSecurityException
@@ -22,7 +25,8 @@ import java.util.*
 const val BACKUP_DB_FILE_NAME = "BACKUP"
 const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 
-fun doBackup(context: Context, password: String?, withSync: String?): Result<DocumentFile> {
+fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Result<DocumentFile> {
+    val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
     if (!AppDirHelper.isExternalStorageAvailable()) {
         return Result.failure(context, R.string.external_storage_unavailable)
     }
@@ -40,30 +44,38 @@ fun doBackup(context: Context, password: String?, withSync: String?): Result<Doc
         CrashHandler.report("CacheDir is null")
         return Result.failure(context, R.string.io_error_cachedir_null)
     }
-    val result = DbUtils.backup(cacheDir, context)
-    val failure: Throwable
-    if (result.isSuccess) {
+    return backup(cacheDir, context, prefHandler).mapCatching {
         try {
             ZipUtils.zipBackup(
                 cacheDir,
                 backupFile, password
             )
+            purge(appDir)
             sync(context.contentResolver, withSync, backupFile)
-            return Result.success(backupFile)
+            backupFile
         } catch (e: IOException) {
             CrashHandler.report(e)
-            failure = e
+            throw e
         } catch (e: GeneralSecurityException) {
             CrashHandler.report(e)
-            failure = e
+            throw e
         } finally {
             getBackupDbFile(cacheDir).delete()
             getBackupPrefFile(cacheDir).delete()
         }
-    } else {
-        failure = Throwable(result.print(context))
     }
-    return Result.failure(failure)
+}
+
+fun purge(appDir: DocumentFile) {
+    appDir.listFiles()
+        .filter {
+            it.name?.matches("""backup-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\.zip""".toRegex()) == true
+        }
+        .sortedBy { it.lastModified() }
+        .dropLast(3)
+        .forEach {
+            Timber.d("File %s; last modified %d", it.name, it.lastModified())
+        }
 }
 
 private fun sync(contentResolver: ContentResolver, backend: String?, backupFile: DocumentFile) {

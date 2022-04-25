@@ -29,12 +29,12 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
         return backupState
     }
 
-    fun doBackup(password: String?, withSync: Boolean) {
+    fun doBackup(withSync: Boolean) {
         viewModelScope.launch(coroutineDispatcher) {
             backupState.postValue(BackupState.Running)
             doBackup(
                 getApplication(),
-                password,
+                prefHandler,
                 if (withSync) prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null) else null
             ).onSuccess {
                 backupState.postValue(

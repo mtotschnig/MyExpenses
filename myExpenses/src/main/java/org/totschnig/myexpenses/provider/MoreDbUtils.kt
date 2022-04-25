@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import android.accounts.AccountManager
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.res.Resources
@@ -8,19 +9,25 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteStatement
+import android.provider.CalendarContract
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
+import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
+import java.io.File
 
 fun safeUpdateWithSealed(db: SQLiteDatabase, runnable: Runnable) {
     db.beginTransaction()
@@ -268,6 +275,60 @@ fun cacheSyncState(context: Context) {
                 }
             } while (it.moveToNext())
             editor.apply()
+        }
+    }
+}
+
+fun cacheEventData(context: Context, prefHandler: PrefHandler) {
+    if (!PermissionGroup.CALENDAR.hasPermission(context)) {
+        return
+    }
+    val plannerCalendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID,"-1")
+    if (plannerCalendarId == "-1") {
+        return
+    }
+    val eventValues = ContentValues()
+    val cr = context.contentResolver
+    //remove old cache
+    cr.delete(
+        TransactionProvider.EVENT_CACHE_URI, null, null
+    )
+    cr.query(
+        Template.CONTENT_URI, arrayOf(
+            KEY_PLANID
+        ),
+        KEY_PLANID + " IS NOT null", null, null
+    )?.use { planCursor ->
+        if (planCursor.moveToFirst()) {
+            val projection = MyApplication.buildEventProjection()
+            do {
+                val planId = planCursor.getLong(0)
+                val eventUri = ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_URI,
+                    planId
+                )
+                cr.query(
+                    eventUri, projection,
+                    CalendarContract.Events.CALENDAR_ID + " = ?", arrayOf(plannerCalendarId), null
+                )?.use { eventCursor ->
+                    if (eventCursor.moveToFirst()) {
+                        MyApplication.copyEventData(eventCursor, eventValues)
+                        cr.insert(TransactionProvider.EVENT_CACHE_URI, eventValues)
+                    }
+                }
+            } while (planCursor.moveToNext())
+        }
+    }
+}
+
+fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<Unit> {
+    cacheEventData(context, prefHandler)
+    cacheSyncState(context)
+    return with(context.contentResolver.acquireContentProviderClient(TransactionProvider.AUTHORITY)!!) {
+        try {
+            (localContentProvider as BaseTransactionProvider).backup(context, backupDir)
+        } finally {
+            release()
         }
     }
 }

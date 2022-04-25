@@ -1,8 +1,19 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.io.FileCopyUtils
+import timber.log.Timber
+import java.io.File
+import javax.inject.Inject
+import javax.inject.Named
 
 abstract class BaseTransactionProvider : ContentProvider() {
     var dirty = false
@@ -12,6 +23,18 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             field = value
         }
+
+    lateinit var transactionDatabase: TransactionDatabase
+
+    @Inject
+    @Named(AppComponent.DATABASE_NAME)
+    lateinit var databaseName: String
+
+    @set:Inject
+    var cursorFactory: SQLiteDatabase.CursorFactory? = null
+
+    @Inject
+    lateinit var prefHandler: PrefHandler
 
     companion object {
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
@@ -53,5 +76,64 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val KEY_DEBT_LABEL = "debt"
 
         const val DEBT_LABEL_EXPRESSION = "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
+        const val TAG = "TransactionProvider"
+    }
+
+    open fun backup(context: Context, backupDir: File): Result<Unit> {
+        val currentDb = File(transactionDatabase.readableDatabase.path)
+        transactionDatabase.readableDatabase.beginTransaction()
+        return try {
+            backupDb(getBackupDbFile(backupDir), currentDb).mapCatching {
+                val backupPrefFile = getBackupPrefFile(backupDir)
+                // Samsung has special path on some devices
+                // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
+                val sharedPrefPath = "/shared_prefs/" + context.packageName + "_preferences.xml"
+                var sharedPrefFile =
+                    File("/dbdata/databases/" + context.packageName + sharedPrefPath)
+                if (!sharedPrefFile.exists()) {
+                    sharedPrefFile = File(getInternalAppDir().getPath() + sharedPrefPath)
+                    log(sharedPrefFile.path)
+                    if (!sharedPrefFile.exists()) {
+                        val message = "Unable to find shared preference file at " +
+                                sharedPrefFile.path
+                        CrashHandler.report(message)
+                        throw Throwable(message)
+                    }
+                }
+                dirty = if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
+                    prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false)
+                    false
+                } else {
+                    val message = "Unable to copy preference file from  " +
+                            sharedPrefFile.path + " to " + backupPrefFile.path
+                    CrashHandler.report(message)
+                    throw Throwable(message)
+                }
+            }
+        } finally {
+            transactionDatabase.getReadableDatabase().endTransaction()
+        }
+    }
+
+    private fun backupDb(backupDb: File, currentDb: File): Result<Unit> {
+        if (currentDb.exists()) {
+            if (FileCopyUtils.copy(currentDb, backupDb)) {
+                return Result.success(Unit)
+            }
+            return Result.failure(Throwable("Error while copying ${currentDb.path} to ${backupDb.path}"))
+        }
+        return Result.failure(Throwable("Could not find database at ${currentDb.path}"))
+    }
+
+    fun initOpenHelper() {
+        transactionDatabase = TransactionDatabase(context, databaseName, cursorFactory)
+    }
+
+    fun getInternalAppDir(): File {
+        return context!!.filesDir.parentFile!!
+    }
+
+    fun log(message: String, vararg args: Any) {
+        Timber.tag(TAG).i(message, *args)
     }
 }

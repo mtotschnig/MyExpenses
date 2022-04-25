@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.BaseTransactionProvider;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -227,7 +228,7 @@ public class MyApplication extends Application implements
         Timber.plant(new TagFilterFileLoggingTree(this, PlanExecutor.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
-        Timber.plant(new TagFilterFileLoggingTree(this, TransactionProvider.TAG));
+        Timber.plant(new TagFilterFileLoggingTree(this, BaseTransactionProvider.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, OcrFeature.TAG));
       } catch (Exception e) {
         CrashHandler.report(e);
