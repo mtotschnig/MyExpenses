@@ -67,9 +67,9 @@ var translation_data = {
              "it": "Aprire <a href='%s'>questo link</a> sul tuo dispositivo Android con l'app My spese.",
 
              "iw": "פתח <a href='%s'>את הקישור הזה</a> במכשיר האנדרואיד שלך באמצעות האפליקציה 'ההוצאות שלי'.",
-             
+
              "kn": "ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್ ಅಪ್ಲಿಕೇಶನ್‌ನೊಂದಿಗೆ ನಿಮ್ಮ ಆಂಡ್ರಾಯ್ಡ್ ಸಾಧನದಲ್ಲಿ ಈ <a href='%s'>ಲಿಂಕ್</a> ತೆರೆಯಿರಿ.",
-             
+
              "ja": "<a href='%s'>お使いの Android 上のマイエクスペンス アプリでリンクを開きます。</a>",
 
              "ms": "Buka <a href='%s'>pautan ini</a> melalui peranti Android anda dengan apl Perbelanjaan Saya.",
@@ -161,7 +161,7 @@ function buildLocalizedAlert() {
    isPdt = getURLParameter("isPdt") != "false";
 
    return ((isPdt ?  getLocalized("text_0", lang) : "") + " ")
-      + sprintf(getLocalized("text_1", lang), window.location.href) + " "
+      + sprintf(getLocalized("text_1", lang), "javascript:window.location.reload(true)") + " "
       + sprintf(getLocalized("text_2", lang), getURLParameter("key"))
       + " <a href='mailto:support@myexpenses.mobi'>" + getLocalized("customer_support", lang)  + "</a>";
 }
