@@ -15,6 +15,15 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMax;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.cacheSyncState;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
+
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -24,8 +33,10 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.provider.CalendarContract;
 
-import com.android.calendar.CalendarContractCompat;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -40,18 +51,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMax;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.cacheSyncState;
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class DbUtils {
 
@@ -116,8 +115,6 @@ public class DbUtils {
   }
 
   /**
-   * @param c
-   * @param field
    * @return Long that is null if field is null in db
    */
   @Nullable
@@ -133,8 +130,6 @@ public class DbUtils {
   }
 
   /**
-   * @param c
-   * @param field
    * @return Long that is OL if field is null in db
    */
   public static Long getLongOr0L(Cursor c, String field) {
@@ -148,8 +143,6 @@ public class DbUtils {
   }
 
   /**
-   * @param c
-   * @param field
    * @return String that is guaranteed to be not null
    */
   public static String getString(Cursor c, String field) {
@@ -214,11 +207,11 @@ public class DbUtils {
         String[] projection = MyApplication.buildEventProjection();
         do {
           long planId = planCursor.getLong(0);
-          Uri eventUri = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI,
+          Uri eventUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,
               planId);
 
           Cursor eventCursor = cr.query(eventUri, projection,
-              CalendarContractCompat.Events.CALENDAR_ID + " = ?", new String[]{plannerCalendarId}, null);
+              CalendarContract.Events.CALENDAR_ID + " = ?", new String[]{plannerCalendarId}, null);
           if (eventCursor != null) {
             if (eventCursor.moveToFirst()) {
               MyApplication.copyEventData(eventCursor, eventValues);

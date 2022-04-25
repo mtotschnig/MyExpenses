@@ -5,21 +5,21 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 
-import com.android.calendar.CalendarContractCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.ListPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.preference.ListPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
-
 public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
   @Override
-  protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+  protected void onPrepareDialogBuilder(@NonNull AlertDialog.Builder builder) {
     final ListPreference preference = (ListPreference) getPreference();
     boolean localExists = false;
     Cursor selectionCursor;
@@ -27,21 +27,21 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
     int selectedIndex = -1;
     String[] projection =
         new String[]{
-            CalendarContractCompat.Calendars._ID,
-            CalendarContractCompat.Calendars.ACCOUNT_NAME,
-            CalendarContractCompat.Calendars.ACCOUNT_TYPE,
-            CalendarContractCompat.Calendars.NAME,
-            "ifnull(" + CalendarContractCompat.Calendars.ACCOUNT_NAME + ",'') || ' / ' ||" +
-                "ifnull(" + CalendarContractCompat.Calendars.CALENDAR_DISPLAY_NAME + ",'') AS full_name"
+            CalendarContract.Calendars._ID,
+            CalendarContract.Calendars.ACCOUNT_NAME,
+            CalendarContract.Calendars.ACCOUNT_TYPE,
+            CalendarContract.Calendars.NAME,
+            "ifnull(" + CalendarContract.Calendars.ACCOUNT_NAME + ",'') || ' / ' ||" +
+                "ifnull(" + CalendarContract.Calendars.CALENDAR_DISPLAY_NAME + ",'') AS full_name"
         };
     Cursor calCursor = null;
     try {
       calCursor = getContext().getContentResolver().
-          query(CalendarContractCompat.Calendars.CONTENT_URI,
+          query(CalendarContract.Calendars.CONTENT_URI,
               projection,
-              CalendarContractCompat.Calendars.CALENDAR_ACCESS_LEVEL + " >= " + CalendarContractCompat.Calendars.CAL_ACCESS_CONTRIBUTOR,
+              CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + " >= " + CalendarContract.Calendars.CAL_ACCESS_CONTRIBUTOR,
               null,
-              CalendarContractCompat.Calendars._ID + " ASC");
+              CalendarContract.Calendars._ID + " ASC");
     } catch (SecurityException e) {
       // android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing
     }
@@ -52,7 +52,7 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
             selectedIndex = calCursor.getPosition();
           }
           if (DbUtils.getString(calCursor, 1).equals(MyApplication.PLANNER_ACCOUNT_NAME)
-              && DbUtils.getString(calCursor, 2).equals(CalendarContractCompat.ACCOUNT_TYPE_LOCAL)
+              && DbUtils.getString(calCursor, 2).equals(CalendarContract.ACCOUNT_TYPE_LOCAL)
               && DbUtils.getString(calCursor, 3).equals(MyApplication.PLANNER_CALENDAR_NAME))
             localExists = true;
         } while (calCursor.moveToNext());
@@ -61,10 +61,10 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
         selectionCursor = calCursor;
       } else {
         MatrixCursor extras = new MatrixCursor(new String[]{
-            CalendarContractCompat.Calendars._ID,
-            CalendarContractCompat.Calendars.ACCOUNT_NAME,
-            CalendarContractCompat.Calendars.ACCOUNT_TYPE,
-            CalendarContractCompat.Calendars.NAME,
+            CalendarContract.Calendars._ID,
+            CalendarContract.Calendars.ACCOUNT_NAME,
+            CalendarContract.Calendars.ACCOUNT_TYPE,
+            CalendarContract.Calendars.NAME,
             "full_name"});
         extras.addRow(new String[]{
             "-1", "", "", "",

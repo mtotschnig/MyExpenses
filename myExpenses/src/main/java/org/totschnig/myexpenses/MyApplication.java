@@ -32,9 +32,9 @@ import android.os.Build;
 import android.os.Process;
 import android.os.StrictMode;
 
-import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.CalendarContractCompat.Calendars;
-import com.android.calendar.CalendarContractCompat.Events;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Calendars;
+import android.provider.CalendarContract.Events;
 
 import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -339,15 +339,15 @@ public class MyApplication extends Application implements
           int syncEvents = c.getInt(1);
           if (syncEvents == 0) {
             String[] parts = found.split("/", 3);
-            if (parts[0].equals(PLANNER_ACCOUNT_NAME) && parts[1].equals(CalendarContractCompat.ACCOUNT_TYPE_LOCAL)) {
+            if (parts[0].equals(PLANNER_ACCOUNT_NAME) && parts[1].equals(CalendarContract.ACCOUNT_TYPE_LOCAL)) {
               Uri.Builder builder = Calendars.CONTENT_URI.buildUpon().appendEncodedPath(calendarId);
-              builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
-              builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_TYPE,
-                  CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
-              builder.appendQueryParameter(CalendarContractCompat.CALLER_IS_SYNCADAPTER,
+              builder.appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
+              builder.appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE,
+                  CalendarContract.ACCOUNT_TYPE_LOCAL);
+              builder.appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER,
                   "true");
               ContentValues values = new ContentValues(1);
-              values.put(CalendarContractCompat.Calendars.SYNC_EVENTS, 1);
+              values.put(CalendarContract.Calendars.SYNC_EVENTS, 1);
               getContentResolver().update(builder.build(), values, null, null);
               Timber.i("Fixing sync_events for planning calendar ");
             }
@@ -391,7 +391,7 @@ public class MyApplication extends Application implements
 
   /**
    * check if we already have a calendar in Account {@link #PLANNER_ACCOUNT_NAME}
-   * of type {@link CalendarContractCompat#ACCOUNT_TYPE_LOCAL} with name
+   * of type {@link CalendarContract#ACCOUNT_TYPE_LOCAL} with name
    * {@link #PLANNER_ACCOUNT_NAME} if yes use it, otherwise create it
    *
    * @param persistToSharedPref if true id of the created calendar is stored in preferences
@@ -402,8 +402,8 @@ public class MyApplication extends Application implements
     String plannerCalendarId;
     builder.appendQueryParameter(Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
     builder.appendQueryParameter(Calendars.ACCOUNT_TYPE,
-        CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
-    builder.appendQueryParameter(CalendarContractCompat.CALLER_IS_SYNCADAPTER,
+        CalendarContract.ACCOUNT_TYPE_LOCAL);
+    builder.appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER,
         "true");
     Uri calendarUri = builder.build();
     Cursor c = getContentResolver().query(calendarUri,
@@ -422,7 +422,7 @@ public class MyApplication extends Application implements
       ContentValues values = new ContentValues();
       values.put(Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
       values.put(Calendars.ACCOUNT_TYPE,
-          CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+          CalendarContract.ACCOUNT_TYPE_LOCAL);
       values.put(Calendars.NAME, PLANNER_CALENDAR_NAME);
       values.put(Calendars.CALENDAR_DISPLAY_NAME,
           Utils.getTextWithAppName(this, R.string.plan_calendar_name).toString());

@@ -16,7 +16,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
-import com.android.calendar.CalendarContractCompat.Calendars;
+import android.provider.CalendarContract.Calendars;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;

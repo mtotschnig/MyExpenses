@@ -1,5 +1,10 @@
 package org.totschnig.myexpenses.fragment;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,12 +13,20 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.calendar.CalendarContractCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.roomorama.caldroid.CaldroidListener;
@@ -38,21 +51,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
 import hirondelle.date4j.DateTime;
 import icepick.Icepick;
 import icepick.State;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
 public class PlanMonthFragment extends CaldroidFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -184,7 +185,7 @@ public class PlanMonthFragment extends CaldroidFragment
             requireActivity(),
             builder.build(),
             null,
-            String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
+            String.format(Locale.US, CalendarContract.Instances.EVENT_ID + " = %d",
                 requireArguments().getLong(DatabaseConstants.KEY_PLANID)),
             null,
             null);
@@ -220,7 +221,7 @@ public class PlanMonthFragment extends CaldroidFragment
         clearSelectedDates();
         while (!data.isAfterLast()) {
           long timeInMillis = data.getLong(
-              data.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN));
+              data.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN));
           calendar.setTimeInMillis(timeInMillis);
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
           selectedDates.add(dateTime);

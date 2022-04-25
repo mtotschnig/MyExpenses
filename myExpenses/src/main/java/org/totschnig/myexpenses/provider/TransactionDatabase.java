@@ -32,7 +32,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.android.calendar.CalendarContractCompat.Events;
+import android.provider.CalendarContract.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;

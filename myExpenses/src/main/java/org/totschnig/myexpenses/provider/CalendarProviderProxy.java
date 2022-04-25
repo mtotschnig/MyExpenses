@@ -5,28 +5,29 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.CalendarContract;
 
-import com.android.calendar.CalendarContractCompat;
+import androidx.annotation.NonNull;
+
 import com.android.calendarcommon2.EventRecurrence;
 
 import org.totschnig.myexpenses.BuildConfig;
 
 import java.util.TimeZone;
 
-import androidx.annotation.NonNull;
 import hirondelle.date4j.DateTime;
 
 /**
- * Proxy for {@link com.android.calendar.CalendarContractCompat.Instances} which allows to swap in
+ * Proxy for {@link  CalendarContract.Instances} which allows to swap in
  * alternate implementation in context where the Instances table does not work, e.g. Blackberry
  */
 public class CalendarProviderProxy extends ContentProvider {
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".calendarinstances";
   public static final Uri INSTANCES_URI = Uri.parse("content://" + AUTHORITY + "/instances/when");
   private static final String[] INSTANCE_PROJECTION = new String[]{
-      CalendarContractCompat.Instances.EVENT_ID,
-      CalendarContractCompat.Instances.BEGIN,
-      CalendarContractCompat.Instances.TITLE
+      CalendarContract.Instances.EVENT_ID,
+      CalendarContract.Instances.BEGIN,
+      CalendarContract.Instances.TITLE
   };
 
   private static final UriMatcher URI_MATCHER;
@@ -63,15 +64,15 @@ public class CalendarProviderProxy extends ContentProvider {
         //the calendar content provider on Android < 4 does not interpret the selection arguments
         //hence we put them into the selection
         selection = selection == null ? "" : (selection + " AND ");
-        selection += CalendarContractCompat.Instances.BEGIN +
+        selection += CalendarContract.Instances.BEGIN +
             " BETWEEN " + startMilliseconds + " AND " + endMilliseconds;
         Uri proxiedUri = Uri.parse(uri.toString().replace(
-            INSTANCES_URI.toString(), CalendarContractCompat.Instances.CONTENT_URI.toString()));
+            INSTANCES_URI.toString(), CalendarContract.Instances.CONTENT_URI.toString()));
         return getContext().getContentResolver().query(proxiedUri, INSTANCE_PROJECTION, selection, selectionArgs,
             sortOrder);
 
       case EVENTS:
-        return getContext().getContentResolver().query(CalendarContractCompat.Events.CONTENT_URI,
+        return getContext().getContentResolver().query(CalendarContract.Events.CONTENT_URI,
             projection, selection, selectionArgs, sortOrder);
       default:
         throw new IllegalArgumentException("Unknown URL " + uri);
@@ -94,7 +95,7 @@ public class CalendarProviderProxy extends ContentProvider {
         return dayToCheck.getDay().equals(startDate.getDay()) &&
             dayToCheck.getMonth().equals(startDate.getMonth());
     }
-    throw new IllegalStateException("Unhandled event recurrence" + recurrence.toString());
+    throw new IllegalStateException("Unhandled event recurrence" + recurrence);
   }
 
   public static long calculateId(long date) {

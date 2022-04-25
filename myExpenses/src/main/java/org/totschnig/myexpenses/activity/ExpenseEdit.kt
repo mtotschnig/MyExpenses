@@ -24,11 +24,8 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.provider.CalendarContract
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.Nullable
@@ -39,7 +36,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
-import com.android.calendar.CalendarContractCompat
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -52,61 +48,28 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.delegate.CategoryDelegate
-import org.totschnig.myexpenses.delegate.MainDelegate
-import org.totschnig.myexpenses.delegate.SplitDelegate
-import org.totschnig.myexpenses.delegate.TransactionDelegate
-import org.totschnig.myexpenses.delegate.TransferDelegate
+import org.totschnig.myexpenses.delegate.*
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.ITransaction
-import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.ui.AmountInput
-import org.totschnig.myexpenses.ui.DateButton
-import org.totschnig.myexpenses.ui.DiscoveryHelper
-import org.totschnig.myexpenses.ui.ExchangeRateEdit
-import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.PictureDirHelper
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.checkMenuIcon
-import org.totschnig.myexpenses.util.getEnumFromPreferencesWithDefault
+import org.totschnig.myexpenses.ui.*
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
-import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
-import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
-import org.totschnig.myexpenses.viewmodel.ERROR_WHILE_SAVING_TAGS
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.FROM_INTENT_EXTRAS
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TEMPLATE
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
+import org.totschnig.myexpenses.viewmodel.*
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.*
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import java.io.Serializable
@@ -1205,9 +1168,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     fun launchPlanView(forResult: Boolean, planId: Long) {
         val intent = Intent(Intent.ACTION_VIEW)
         //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
-        //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan!!.dtstart)
-        //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan!!.dtstart)
-        intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId)
+        //intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, mPlan!!.dtstart)
+        //intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, mPlan!!.dtstart)
+        intent.data = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, planId)
         startActivity(
             intent,
             R.string.no_calendar_app_installed,
@@ -1403,7 +1366,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         if (pObserver == null) {
             pObserver = PlanObserver().also {
                 contentResolver.registerContentObserver(
-                    ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
+                    ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, planId),
                     false, it
                 )
             }

@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
 import android.os.Parcelable
-import com.android.calendar.CalendarContractCompat
+import android.provider.CalendarContract
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
@@ -33,8 +33,8 @@ data class PlanInstance(val templateId: Long, val transactionId: Long?, val titl
 
     companion object {
         fun fromEventCursor(cursor: Cursor) = Template.getPlanInstance(
-                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.EVENT_ID)),
-                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN)))
+                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.EVENT_ID)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN)))
     }
 }
 

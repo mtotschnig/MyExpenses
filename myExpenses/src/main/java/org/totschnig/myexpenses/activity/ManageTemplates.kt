@@ -17,10 +17,10 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NavUtils
 import androidx.core.app.TaskStackBuilder
-import com.android.calendar.CalendarContractCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
@@ -52,7 +52,7 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
         setContentView(R.layout.manage_templates)
         setupToolbar(true)
         title = getString(R.string.menu_manage_plans)
-        val uriString = intent.getStringExtra(CalendarContractCompat.Events.CUSTOM_APP_URI)
+        val uriString = intent.getStringExtra(CalendarContract.Events.CUSTOM_APP_URI)
         if (uriString != null) {
             val uriPath = Uri.parse(uriString).pathSegments
             try {

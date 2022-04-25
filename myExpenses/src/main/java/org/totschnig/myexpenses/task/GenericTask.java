@@ -11,8 +11,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
+import android.provider.CalendarContract;
 
-import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -131,8 +131,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         values = new ContentValues();
         for (String uuid : (String[]) ids) {
-          Cursor eventCursor = cr.query(CalendarContractCompat.Events.CONTENT_URI, new String[]{CalendarContractCompat.Events._ID},
-              CalendarContractCompat.Events.CALENDAR_ID + " = ? AND " + CalendarContractCompat.Events.DESCRIPTION
+          Cursor eventCursor = cr.query(CalendarContract.Events.CONTENT_URI, new String[]{CalendarContract.Events._ID},
+                  CalendarContract.Events.CALENDAR_ID + " = ? AND " + CalendarContract.Events.DESCRIPTION
                   + " LIKE ?", new String[]{calendarId,
                   "%" + uuid + "%"}, null);
           if (eventCursor != null) {

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
+import android.provider.CalendarContract
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
@@ -12,17 +13,11 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.android.calendar.CalendarContractCompat
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAdjusters
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -37,6 +32,11 @@ import org.totschnig.myexpenses.viewmodel.data.Event
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 
 class PlannerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     data class Month(val year: Int, val month: Int) {
@@ -121,8 +121,8 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             }
             disposable = briteContentResolver.createQuery(
                 builder.build(), null,
-                CalendarContractCompat.Events.CALENDAR_ID + " = " + plannerCalendarId,
-                null, CalendarContractCompat.Instances.BEGIN + " ASC", false
+                CalendarContract.Events.CALENDAR_ID + " = " + plannerCalendarId,
+                null, CalendarContract.Instances.BEGIN + " ASC", false
             )
                 .mapToList(PlanInstance.Companion::fromEventCursor)
                 .subscribe {

@@ -8,10 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.CalendarContract;
 import android.text.TextUtils;
-
-import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.CalendarContractCompat.Events;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -140,9 +138,9 @@ public class PlanExecutor extends JobIntentService {
         Cursor cursor;
         try {
           cursor = getContentResolver().query(eventsUri, null,
-              Events.CALENDAR_ID + " = " + plannerCalendarId,
+              CalendarContract.Events.CALENDAR_ID + " = " + plannerCalendarId,
               null,
-              CalendarContractCompat.Instances.BEGIN + " ASC");
+              CalendarContract.Instances.BEGIN + " ASC");
         } catch (Exception e) {
           //} catch (SecurityException | IllegalArgumentException e) {
           CrashHandler.report(e);
@@ -155,8 +153,8 @@ public class PlanExecutor extends JobIntentService {
           if (cursor.moveToFirst()) {
             LocalDate today = LocalDate.now();
             while (!cursor.isAfterLast()) {
-              long planId = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.EVENT_ID));
-              long date = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN));
+              long planId = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.EVENT_ID));
+              long date = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN));
               LocalDate localDate = epochMillis2LocalDate(date, ZoneId.systemDefault());
               long diff = ChronoUnit.DAYS.between(today, localDate);
               long instanceId = CalendarProviderProxy.calculateId(date);

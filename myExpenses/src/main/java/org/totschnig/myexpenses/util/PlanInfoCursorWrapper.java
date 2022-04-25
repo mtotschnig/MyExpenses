@@ -1,25 +1,24 @@
 package org.totschnig.myexpenses.util;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO;
+
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.text.TextUtils;
 
-import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.CalendarContractCompat.Events;
+import androidx.collection.LongSparseArray;
+import androidx.collection.SparseArrayCompat;
 
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-import androidx.collection.LongSparseArray;
-import androidx.collection.SparseArrayCompat;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO;
 
 public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   private final Context context;
@@ -121,12 +120,12 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
       ContentUris.appendId(eventsUriBuilder, interval[1]);
       Uri eventsUri = eventsUriBuilder.build();
       Cursor c = context.getContentResolver().query(eventsUri, null,
-          CalendarContractCompat.Instances.EVENT_ID + " = ?",
+          CalendarContract.Instances.EVENT_ID + " = ?",
           new String[]{String.valueOf(planId)},
           null);
       if (c != null) {
         if (c.moveToFirst()) {
-          result = c.getLong(c.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN));
+          result = c.getLong(c.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN));
           c.close();
           return result;
         }

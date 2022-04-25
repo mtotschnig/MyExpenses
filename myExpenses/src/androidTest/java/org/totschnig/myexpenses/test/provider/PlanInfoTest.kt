@@ -4,9 +4,9 @@ import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
 import android.os.Build
+import android.provider.CalendarContract
 import android.test.mock.MockContentProvider
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import com.android.calendar.CalendarContractCompat
 import org.assertj.core.api.Assertions.assertThat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
@@ -38,13 +38,13 @@ class PlanInfoTest : BaseDbTest() {
         super.setUp()
         //grantCalendarPermission()
         EventProvider().also {
-            MatrixCursor(arrayOf(CalendarContractCompat.Events._ID, CalendarContractCompat.Events.RRULE, CalendarContractCompat.Events.DTSTART)).apply {
+            MatrixCursor(arrayOf(CalendarContract.Events._ID, CalendarContract.Events.RRULE, CalendarContract.Events.DTSTART)).apply {
                 addRow(dailyPlan.toMatrixRow())
                 addRow(weeklyPlan.toMatrixRow())
                 addRow(monthlyPlan.toMatrixRow())
                 it.addEventResult(this)
             }
-            mockContentResolver.addProvider(CalendarContractCompat.AUTHORITY, it)
+            mockContentResolver.addProvider(CalendarContract.AUTHORITY, it)
         }
     }
 
@@ -88,7 +88,7 @@ class PlanInfoTest : BaseDbTest() {
                 }
                 Timber.i("nextInstanceDays %d for planId %d", nextInstanceDays, planId)
                 val nextInstance = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(nextInstanceDays)
-                return MatrixCursor(arrayOf(CalendarContractCompat.Instances.BEGIN)).apply {
+                return MatrixCursor(arrayOf(CalendarContract.Instances.BEGIN)).apply {
                     addRow(arrayOf(nextInstance))
                 }
             }

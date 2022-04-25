@@ -5,9 +5,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteException
 import android.net.Uri
+import android.provider.CalendarContract
 import android.text.TextUtils
 import android.text.format.Time
-import com.android.calendar.CalendarContractCompat
 import com.android.calendar.EventRecurrenceFormatter
 import com.android.calendarcommon2.EventRecurrence
 import org.totschnig.myexpenses.MyApplication
@@ -117,14 +117,14 @@ class Plan private constructor(
     override fun save(): Uri? {
         val uri: Uri
         val values = ContentValues()
-        values.put(CalendarContractCompat.Events.TITLE, title)
-        values.put(CalendarContractCompat.Events.DESCRIPTION, description)
+        values.put(CalendarContract.Events.TITLE, title)
+        values.put(CalendarContract.Events.DESCRIPTION, description)
         if (id == 0L) {
             val isOneTimeEvent = TextUtils.isEmpty(rRule)
             if (!isOneTimeEvent) {
-                values.put(CalendarContractCompat.Events.RRULE, rRule)
+                values.put(CalendarContract.Events.RRULE, rRule)
             }
-            values.put(CalendarContractCompat.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
             var calendarId: String? = MyApplication.getInstance().checkPlanner()
                 ?: throw CalendarIntegrationNotAvailableException()
             if (MyApplication.INVALID_CALENDAR_ID == calendarId) {
@@ -133,18 +133,18 @@ class Plan private constructor(
                     throw CalendarIntegrationNotAvailableException()
                 }
             }
-            values.put(CalendarContractCompat.Events.CALENDAR_ID, calendarId!!.toLong())
-            values.put(CalendarContractCompat.Events.DTSTART, dtStart)
+            values.put(CalendarContract.Events.CALENDAR_ID, calendarId!!.toLong())
+            values.put(CalendarContract.Events.DTSTART, dtStart)
             if (isOneTimeEvent) {
-                values.put(CalendarContractCompat.Events.DTEND, dtStart)
+                values.put(CalendarContract.Events.DTEND, dtStart)
             } else {
-                values.put(CalendarContractCompat.Events.DURATION, "P0S")
+                values.put(CalendarContract.Events.DURATION, "P0S")
             }
-            uri = cr().insert(CalendarContractCompat.Events.CONTENT_URI, values)!!
+            uri = cr().insert(CalendarContract.Events.CONTENT_URI, values)!!
             id = ContentUris.parseId(uri)
             DailyScheduler.updatePlannerAlarms(MyApplication.getInstance(), true, true)
         } else {
-            uri = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, id)
+            uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
             if (cr().update(uri, values, null, null) == 0) return null
         }
         return uri
@@ -162,12 +162,12 @@ class Plan private constructor(
             var plan: Plan? = null
             if (PermissionGroup.CALENDAR.hasPermission(MyApplication.getInstance())) {
                 val c = cr().query(
-                    ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
+                    ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, planId),
                     arrayOf(
-                        CalendarContractCompat.Events._ID,
-                        CalendarContractCompat.Events.DTSTART,
-                        CalendarContractCompat.Events.RRULE,
-                        CalendarContractCompat.Events.TITLE
+                        CalendarContract.Events._ID,
+                        CalendarContract.Events.DTSTART,
+                        CalendarContract.Events.RRULE,
+                        CalendarContract.Events.TITLE
                     ),
                     null,
                     null,
@@ -176,13 +176,13 @@ class Plan private constructor(
                 if (c != null) {
                     if (c.moveToFirst()) {
                         val eventId =
-                            c.getLong(c.getColumnIndexOrThrow(CalendarContractCompat.Events._ID))
+                            c.getLong(c.getColumnIndexOrThrow(CalendarContract.Events._ID))
                         val dtStart =
-                            c.getLong(c.getColumnIndexOrThrow(CalendarContractCompat.Events.DTSTART))
+                            c.getLong(c.getColumnIndexOrThrow(CalendarContract.Events.DTSTART))
                         val rRule =
-                            c.getString(c.getColumnIndexOrThrow(CalendarContractCompat.Events.RRULE))
+                            c.getString(c.getColumnIndexOrThrow(CalendarContract.Events.RRULE))
                         val title =
-                            c.getString(c.getColumnIndexOrThrow(CalendarContractCompat.Events.TITLE))
+                            c.getString(c.getColumnIndexOrThrow(CalendarContract.Events.TITLE))
                         plan = Plan(
                             eventId,
                             dtStart,
@@ -201,11 +201,11 @@ class Plan private constructor(
         fun delete(id: Long) {
             val calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1")
             val eventUri =
-                CalendarContractCompat.Events.CONTENT_URI.buildUpon().appendPath(id.toString())
+                CalendarContract.Events.CONTENT_URI.buildUpon().appendPath(id.toString())
                     .build()
             cr().query(
                 eventUri, arrayOf("1 as ignore"),
-                CalendarContractCompat.Events.CALENDAR_ID + " = ?", arrayOf(calendarId),
+                CalendarContract.Events.CALENDAR_ID + " = ?", arrayOf(calendarId),
                 null
             )?.use {
                 if (it.count > 0) {
@@ -248,14 +248,14 @@ class Plan private constructor(
         fun updateCustomAppUri(id: Long?, customAppUri: String?) {
             try {
                 val values = ContentValues()
-                values.put(CalendarContractCompat.Events.CUSTOM_APP_URI, customAppUri)
+                values.put(CalendarContract.Events.CUSTOM_APP_URI, customAppUri)
                 values.put(
-                    CalendarContractCompat.Events.CUSTOM_APP_PACKAGE,
+                    CalendarContract.Events.CUSTOM_APP_PACKAGE,
                     MyApplication.getInstance().packageName
                 )
                 cr().update(
                     ContentUris.withAppendedId(
-                        CalendarContractCompat.Events.CONTENT_URI,
+                        CalendarContract.Events.CONTENT_URI,
                         id!!
                     ), values, null, null
                 )
@@ -266,9 +266,9 @@ class Plan private constructor(
 
         fun updateDescription(id: Long?, description: String?) {
             val values = ContentValues()
-            values.put(CalendarContractCompat.Events.DESCRIPTION, description)
+            values.put(CalendarContract.Events.DESCRIPTION, description)
             cr().update(
-                ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, id!!),
+                ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id!!),
                 values,
                 null,
                 null
