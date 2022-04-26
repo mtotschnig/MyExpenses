@@ -1,5 +1,14 @@
 package org.totschnig.myexpenses.task;
 
+import static org.totschnig.myexpenses.MyApplication.INVALID_CALENDAR_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+
 import android.accounts.AccountManager;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
@@ -14,9 +23,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.provider.CalendarContract.Calendars;
 import android.text.TextUtils;
 
-import android.provider.CalendarContract.Calendars;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -25,9 +36,9 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.BackupUtilsKt;
 import org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
@@ -51,14 +62,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.MyApplication.INVALID_CALENDAR_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_BACKUP_FROM_SYNC = "backupFromSync";
@@ -331,7 +335,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
         //we remove all links to plans we did not restore
         ContentValues planValues = new ContentValues();
-        planValues.putNull(DatabaseConstants.KEY_PLANID);
+        planValues.putNull(KEY_PLANID);
         cr.update(Template.CONTENT_URI,
             planValues, null, null);
       } else {
@@ -354,15 +358,18 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       //3. move pictures home and update uri
       File backupPictureDir = new File(workingDir, ZipUtils.PICTURES);
       Cursor c = cr.query(TransactionProvider.TRANSACTIONS_URI,
-          new String[]{KEY_ROWID, DatabaseConstants.KEY_PICTURE_URI, DatabaseConstants.KEY_ACCOUNTID},
-          DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL", null, null);
+          new String[]{KEY_ROWID, KEY_PICTURE_URI, KEY_ACCOUNTID, KEY_TRANSFER_ACCOUNT},
+          KEY_PICTURE_URI + " IS NOT NULL", null, null);
       if (c == null)
         return Result.ofFailure(R.string.restore_db_failure);
       if (c.moveToFirst()) {
         do {
           ContentValues uriValues = new ContentValues();
           String[] rowId = new String[] {c.getString(0)};
-          String[] accountId = new String[] {c.getString(2)};
+          String accountId = c.getString(2);
+          String transferAccount = c.getString(3);
+          String[] accountSelectionArgs = transferAccount == null ?
+                  new String[] {accountId} : new String[] {accountId, transferAccount};
           Uri fromBackup = Uri.parse(c.getString(1));
           String fileName = fromBackup.getLastPathSegment();
           File backupImage = new File(backupPictureDir, fileName);
@@ -371,27 +378,28 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             File restoredImage = PictureDirHelper.getOutputMediaFile(
                 fileName.substring(0, fileName.lastIndexOf('.')), false, true);
             if (restoredImage == null || !FileCopyUtils.copy(backupImage, restoredImage)) {
-              CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup.toString()));
+              CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup));
             } else {
               restored = AppDirHelper.getContentUriForFile(restoredImage);
             }
           } else {
-            CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup.toString()));
+            CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup));
           }
           if (restored != null) {
-            uriValues.put(DatabaseConstants.KEY_PICTURE_URI, restored.toString());
+            uriValues.put(KEY_PICTURE_URI, restored.toString());
           } else {
-            uriValues.putNull(DatabaseConstants.KEY_PICTURE_URI);
+            uriValues.putNull(KEY_PICTURE_URI);
           }
           ArrayList<ContentProviderOperation> ops = new ArrayList<>();
           try {
+            String accountSelection = " AND " + KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(accountSelectionArgs.length);
             ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1)
-                .withSelection(KEY_SEALED + " = 1 AND " + KEY_ROWID + " = ?", accountId).build());
+                .withSelection(KEY_SEALED + " = 1 " + accountSelection, accountSelectionArgs).build());
             ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
                 .withValues(uriValues).withSelection(KEY_ROWID + " = ?", rowId)
                 .build());
             ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1)
-                .withSelection(KEY_SEALED + " = -1 AND " + KEY_ROWID + " = ?", accountId).build());
+                .withSelection(KEY_SEALED + " = -1 " + accountSelection, accountSelectionArgs).build());
             cr.applyBatch(TransactionProvider.AUTHORITY, ops);
           } catch (OperationApplicationException | RemoteException e) {
             CrashHandler.report(e);
@@ -466,7 +474,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       Uri uri = secure ? FileProvider.getUriForFile(MyApplication.getInstance(),
           "org.totschnig.myexpenses.fileprovider", file) :
           Uri.fromFile(file);
-      values.put(DatabaseConstants.KEY_PICTURE_URI, uri.toString());
+      values.put(KEY_PICTURE_URI, uri.toString());
       MyApplication.getInstance().getContentResolver().insert(
           TransactionProvider.STALE_IMAGES_URI, values);
     }
