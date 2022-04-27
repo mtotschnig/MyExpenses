@@ -1006,4 +1006,7 @@
     <string name="whats_new_336_1">Споделяне на резюме на задълженията</string>
     <string name="setup_completed">Настройката завърши</string>
     <string name="whats_new_338">Произволно дълбока йерархия на категориите</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">При сегашния статус на лиценза (%1$s), този диалог ще се показва при всяка употреба.</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Дърво на категориите</string>
+    <string name="menu_parent_category_selection">С кратко докосване избирате родителската категория</string>
 </resources>
