@@ -20,15 +20,11 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
-import javax.inject.Inject
 
 abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application: Application, savedStateHandle: SavedStateHandle) :
     CategoryViewModel(application, savedStateHandle) {
-    @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
 
     val selectionState: MutableState<Category?> = mutableStateOf(null)
     val expansionState: SnapshotStateList<Category> = SnapshotStateList()
@@ -223,7 +219,7 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
             defaultDisplayTitle
         } else if (dateInfo != null && dateInfoExtra != null) {
             groupingInfo.grouping.getDisplayTitle(
-                getApplication(), groupingInfo.year, groupingInfo.second,
+                localizedContext, groupingInfo.year, groupingInfo.second,
                 DateInfo(
                     dateInfo.day,
                     dateInfo.week,
@@ -239,7 +235,8 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
         } else null
     }.filterNotNull()
 
-    open val defaultDisplayTitle: String? = getString(R.string.menu_aggregates)
+    open val defaultDisplayTitle: String?
+        get() = getString(R.string.menu_aggregates)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTreeForDistribution = combine(

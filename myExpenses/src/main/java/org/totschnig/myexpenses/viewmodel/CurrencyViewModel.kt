@@ -7,16 +7,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import java.text.Collator
-import java.util.*
-import javax.inject.Inject
 
 open class CurrencyViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-
-     @Inject
-     lateinit var userLocaleProvider: UserLocaleProvider
 
     private val currencies by lazy {
         val liveData = MutableLiveData<List<Currency>>()
