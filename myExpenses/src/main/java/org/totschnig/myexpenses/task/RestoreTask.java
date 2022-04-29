@@ -109,10 +109,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     String currentPlannerId = null, currentPlannerPath = null;
     final MyApplication application = MyApplication.getInstance();
     ContentResolver cr = application.getContentResolver();
-    workingDir = AppDirHelper.getCacheDir();
-    if (workingDir == null) {
-      return Result.ofFailure(R.string.external_storage_unavailable);
-    }
+    workingDir = AppDirHelper.cacheDir(application);
     try {
       PushbackInputStream is;
       SyncBackendProvider syncBackendProvider;
@@ -120,7 +117,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (syncAccountName != null) {
         android.accounts.Account account = GenericAccountService.getAccount(syncAccountName);
         try {
-          syncBackendProvider = SyncBackendProviderFactory.getLegacy(MyApplication.getInstance(), account, false);
+          syncBackendProvider = SyncBackendProviderFactory.getLegacy(application, account, false);
         } catch (Throwable throwable) {
           String errorMessage = String.format("Unable to get sync backend provider for %s",
               syncAccountName);
@@ -373,7 +370,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             if (restoredImage == null || !FileCopyUtils.copy(backupImage, restoredImage)) {
               CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup.toString()));
             } else {
-              restored = AppDirHelper.getContentUriForFile(restoredImage);
+              restored = AppDirHelper.getContentUriForFile(application, restoredImage);
             }
           } else {
             CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup.toString()));

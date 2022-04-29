@@ -17,7 +17,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.JobIntentService
-import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -48,8 +47,7 @@ class AutoBackupService : JobIntentService() {
         val action = intent.action
         if (ACTION_AUTO_BACKUP == action) {
             val syncAccount = prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null)
-            val result: Result<DocumentFile> =
-                doBackup(this, prefHandler, syncAccount)
+            val result = doBackup(this, prefHandler, syncAccount)
             result.onSuccess {
                 val remaining = ContribFeature.AUTO_BACKUP.recordUsage(prefHandler, licenceHandler)
                 if (remaining < 1) {

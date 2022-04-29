@@ -243,7 +243,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                     }
                 }
             }
-            emit(AppDirHelper.getContentUriForFile(file))
+            emit(AppDirHelper.getContentUriForFile(getApplication(), file))
         }
 
     data class Transaction(

@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.util.NougatFileProviderException
 class SystemImageViewIntentProvider : ImageViewIntentProvider {
     override fun getViewIntent(context: Context, pictureUri: Uri): Intent {
         val uri = try {
-            AppDirHelper.ensureContentUri(pictureUri)
+            AppDirHelper.ensureContentUri(pictureUri, context)
         } catch (e: NougatFileProviderException) {
             return getFallbackIntent(context, pictureUri)
         }

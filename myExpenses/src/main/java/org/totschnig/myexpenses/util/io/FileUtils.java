@@ -202,7 +202,7 @@ public class FileUtils {
     // MediaStore (and general)
     else if ("content".equalsIgnoreCase(uri.getScheme())) {
 
-      if(AppDirHelper.getFileProviderAuthority().equals(uri.getAuthority())) {
+      if(AppDirHelper.getFileProviderAuthority(context).equals(uri.getAuthority())) {
         return PictureDirHelper.getFileForUri(uri).getPath();
       }
 

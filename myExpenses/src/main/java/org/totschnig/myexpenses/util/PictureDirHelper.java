@@ -30,14 +30,13 @@ public class PictureDirHelper {
    *             the user is editing the transaction if false the file will serve
    *             as permanent storage,
    *             care is taken that the file does not yet exist
-   * @param checkUnique
    * @return a file on the external storage
    */
   public static File getOutputMediaFile(String fileName, boolean temp, boolean secure, boolean checkUnique) {
     // To be safe, you should check that the SDCard is mounted
     // using Environment.getExternalStorageState() before doing this.
 
-    File mediaStorageDir = temp ? AppDirHelper.getCacheDir() : getPictureDir(secure);
+    File mediaStorageDir = temp ? AppDirHelper.cacheDir(MyApplication.getInstance()) : getPictureDir(secure);
     if (mediaStorageDir == null) return null;
     return getOutputMediaFile(fileName, mediaStorageDir, checkUnique);
   }
@@ -62,7 +61,7 @@ public class PictureDirHelper {
     File outputMediaFile = getOutputMediaFile(fileName, temp, secure, true);
     if (outputMediaFile == null) return null;
     try {
-      return getContentUriForFile(outputMediaFile);
+      return getContentUriForFile(MyApplication.getInstance(), outputMediaFile);
     } catch (IllegalArgumentException e) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !temp) {
         throw new NougatFileProviderException(e);
@@ -98,10 +97,6 @@ public class PictureDirHelper {
     return result.exists() ? result : null;
   }
 
-  /**
-   * @param pictureUri
-   * @return
-   */
   public static boolean doesPictureExist(Uri pictureUri) throws IllegalArgumentException {
     return getFileForUri(pictureUri).exists();
   }
@@ -111,7 +106,7 @@ public class PictureDirHelper {
     if ("file".equals(pictureUri.getScheme())) {
       return new File(pictureUri.getPath());
     }
-    Preconditions.checkArgument("authority", AppDirHelper.getFileProviderAuthority(),
+    Preconditions.checkArgument("authority", AppDirHelper.getFileProviderAuthority(MyApplication.getInstance()),
         pictureUri.getAuthority());
     List<String> pathSegments = pictureUri.getPathSegments();
     //TODO create unit test for checking if this logic is in sync with image_path.xml

@@ -95,7 +95,7 @@ data class Transaction(
             KEY_TAGLIST
         )
 
-        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): Transaction {
+        fun fromCursor(context: Context, cursor: Cursor, currencyContext: CurrencyContext): Transaction {
             val currencyUnit =
                 currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
             val amountRaw = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT))
@@ -160,7 +160,7 @@ data class Transaction(
                         if ("file" == parsedUri.scheme) { // Upgrade from legacy uris
                             parsedUri.path?.let {
                                 try {
-                                    parsedUri = AppDirHelper.getContentUriForFile(File(it))
+                                    parsedUri = AppDirHelper.getContentUriForFile(context, File(it))
                                 } catch (ignored: IllegalArgumentException) {
                                 }
                             }

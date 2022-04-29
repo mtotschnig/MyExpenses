@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_CATEGORY_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_PAYEE_REQUEST;
@@ -121,9 +120,6 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ManageCategories;
-import org.totschnig.myexpenses.activity.ManageParties;
-import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
@@ -131,14 +127,8 @@ import org.totschnig.myexpenses.databinding.ExpensesListBinding;
 import org.totschnig.myexpenses.databinding.HeaderBinding;
 import org.totschnig.myexpenses.databinding.HeaderWithBudgetBinding;
 import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -165,10 +155,8 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
 import org.totschnig.myexpenses.provider.filter.TagCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.ExpansionHandle;
-import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.MenuUtilsKt;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -218,7 +206,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   public static final String CATEGORY_SEPARATOR = " : ",
       COMMENT_SEPARATOR = " / ";
   private MyGroupedAdapter mAdapter;
-  private boolean hasItems;
+  protected boolean hasItems;
   private boolean mappedCategories;
   private boolean mappedPayees;
   private boolean mappedMethods;
@@ -1149,7 +1137,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
    *
    * @return true if the filter was set and successfully removed, false otherwise
    */
-  private boolean removeFilter(int id) {
+  protected boolean removeFilter(int id) {
     boolean isFiltered = filterPersistence.removeFilter(id);
     if (isFiltered) {
       refreshAfterFilterChange();
@@ -1252,99 +1240,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       filterPersistence.onSaveInstanceState(outState);
     }
     Icepick.saveInstanceState(this, outState);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    if (mAccount == null || getActivity() == null) {
-      return false;
-    }
-    int command = item.getItemId();
-    if (command == R.id.FILTER_CATEGORY_COMMAND) {
-      if (!removeFilter(command)) {
-        Intent i = new Intent(getActivity(), ManageCategories.class);
-        i.setAction(ACTION_SELECT_FILTER);
-        startActivityForResult(i, FILTER_CATEGORY_REQUEST);
-      }
-      return true;
-    } else if (command == R.id.FILTER_TAG_COMMAND) {
-      if (!removeFilter(command)) {
-        Intent i = new Intent(getActivity(), ManageTags.class);
-        i.setAction(ACTION_SELECT_FILTER);
-        startActivityForResult(i, FILTER_TAGS_REQUEST);
-      }
-      return true;
-    } else if (command == R.id.FILTER_AMOUNT_COMMAND) {
-      if (!removeFilter(command)) {
-        AmountFilterDialog.newInstance(mAccount.getCurrencyUnit())
-            .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
-      }
-      return true;
-    } else if (command == R.id.FILTER_DATE_COMMAND) {
-      if (!removeFilter(command)) {
-        DateFilterDialog.newInstance()
-            .show(getActivity().getSupportFragmentManager(), "DATE_FILTER");
-      }
-      return true;
-    } else if (command == R.id.FILTER_COMMENT_COMMAND) {
-      if (!removeFilter(command)) {
-        SimpleInputDialog.build()
-            .title(R.string.search_comment)
-            .pos(R.string.menu_search)
-            .neut()
-            .show(this, FILTER_COMMENT_DIALOG);
-      }
-      return true;
-    } else if (command == R.id.FILTER_STATUS_COMMAND) {
-      if (!removeFilter(command)) {
-        SelectCrStatusDialogFragment.newInstance()
-            .show(getActivity().getSupportFragmentManager(), "STATUS_FILTER");
-      }
-      return true;
-    } else if (command == R.id.FILTER_PAYEE_COMMAND) {
-      if (!removeFilter(command)) {
-        Intent i = new Intent(getActivity(), ManageParties.class);
-        i.setAction(ACTION_SELECT_FILTER);
-        i.putExtra(KEY_ACCOUNTID, mAccount.getId());
-        startActivityForResult(i, FILTER_PAYEE_REQUEST);
-      }
-      return true;
-    } else if (command == R.id.FILTER_METHOD_COMMAND) {
-      if (!removeFilter(command)) {
-        SelectMethodDialogFragment.newInstance(mAccount.getId())
-            .show(getActivity().getSupportFragmentManager(), "METHOD_FILTER");
-      }
-      return true;
-    } else if (command == R.id.FILTER_TRANSFER_COMMAND) {
-      if (!removeFilter(command)) {
-        SelectTransferAccountDialogFragment.newInstance(mAccount.getId())
-            .show(getActivity().getSupportFragmentManager(), "TRANSFER_FILTER");
-      }
-      return true;
-    } else if (command == R.id.FILTER_ACCOUNT_COMMAND) {
-      if (!removeFilter(command)) {
-        SelectMultipleAccountDialogFragment.newInstance(mAccount.getCurrencyUnit().getCode())
-            .show(getActivity().getSupportFragmentManager(), "ACCOUNT_FILTER");
-      }
-      return true;
-    } else if (command == R.id.PRINT_COMMAND) {
-      MyExpenses ctx = (MyExpenses) getActivity();
-      Result appDirStatus = AppDirHelper.checkAppDir(ctx);
-      if (hasItems) {
-        if (appDirStatus.isSuccess()) {
-          ctx.contribFeatureRequested(ContribFeature.PRINT, null);
-        } else {
-          ctx.showDismissibleSnackBar(appDirStatus.print(ctx));
-        }
-      } else {
-        ctx.showExportDisabledCommand();
-      }
-      return true;
-    } else if (command == R.id.SYNC_COMMAND) {
-      mAccount.requestSync();
-      return true;
-    }
-    return super.onOptionsItemSelected(item);
   }
 
   public ArrayList<Criteria> getFilterCriteria() {

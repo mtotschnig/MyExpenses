@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.doBackup
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.IOException
@@ -18,9 +19,9 @@ import java.io.IOException
 class BackupViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     sealed class BackupState {
+        class Prepared(val appDir: Result<DocumentFile>) : BackupState()
         object Running : BackupState()
-        class Error(val throwable: Throwable) : BackupState()
-        class Success(val result: Pair<DocumentFile, String>) : BackupState()
+        class Completed(val result: Result<Pair<DocumentFile, String>>) : BackupState()
     }
 
     private val backupState = MutableLiveData<BackupState>()
@@ -32,22 +33,19 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
     fun doBackup(withSync: Boolean) {
         viewModelScope.launch(coroutineDispatcher) {
             backupState.postValue(BackupState.Running)
-            doBackup(
-                getApplication(),
-                prefHandler,
-                if (withSync) prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null) else null
-            ).onSuccess {
-                backupState.postValue(
-                    BackupState.Success(
-                        it to FileUtils.getPath(
-                            getApplication(),
-                            it.uri
-                        )
-                    )
-                )
-            }.onFailure {
-                backupState.postValue(BackupState.Error(it))
-            }
+            backupState.postValue(
+                BackupState.Completed(
+                    doBackup(
+                        getApplication(),
+                        prefHandler,
+                        if (withSync) prefHandler.getString(
+                            PrefKey.AUTO_BACKUP_CLOUD,
+                            null
+                        ) else null
+                    ).map {
+                        with(it.first) { this to FileUtils.getPath(getApplication(), uri) }
+                    })
+            )
         }
     }
 
@@ -57,7 +55,13 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                 getApplication<MyApplication>().contentResolver.openInputStream(uri).use {
                     if (it == null) throw(IOException("Unable to open file $uri"))
                     EncryptionHelper.isEncrypted(it)
-            }
-        })
+                }
+            })
+    }
+
+    fun prepare() {
+        viewModelScope.launch(coroutineDispatcher) {
+            backupState.postValue(BackupState.Prepared(AppDirHelper.checkAppDir(getApplication())))
+        }
     }
 }

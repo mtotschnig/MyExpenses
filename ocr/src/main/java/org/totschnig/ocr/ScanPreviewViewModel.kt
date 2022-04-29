@@ -51,7 +51,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
                 Intent(ACTION).apply {
                     //use this if working with debug (Storage permission must be granted to OCR app)
                     //setDataAndType(Uri.fromFile(scanFile), MIME_TYPE)
-                    setDataAndType(AppDirHelper.ensureContentUri(Uri.fromFile(scanFile)), MIME_TYPE)
+                    setDataAndType(AppDirHelper.ensureContentUri(Uri.fromFile(scanFile), activity), MIME_TYPE)
                     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 }, OCR_REQUEST)
     }

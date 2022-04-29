@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.security.GeneralSecurityException
@@ -25,9 +24,9 @@ import java.util.*
 const val BACKUP_DB_FILE_NAME = "BACKUP"
 const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 
-fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Result<DocumentFile> {
+fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Result<Pair<DocumentFile, List<DocumentFile>>> {
     val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
-    if (!AppDirHelper.isExternalStorageAvailable()) {
+    if (!AppDirHelper.isExternalStorageAvailable) {
         return Result.failure(context, R.string.external_storage_unavailable)
     }
     val appDir = AppDirHelper.getAppDir(context)
@@ -39,20 +38,16 @@ fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Res
     }
     val backupFile = requireBackupFile(appDir, !TextUtils.isEmpty(password))
         ?: return Result.failure(context, R.string.io_error_backupdir_null)
-    val cacheDir = AppDirHelper.getCacheDir()
-    if (cacheDir == null) {
-        CrashHandler.report("CacheDir is null")
-        return Result.failure(context, R.string.io_error_cachedir_null)
-    }
+    val cacheDir = AppDirHelper.cacheDir(context)
     return backup(cacheDir, context, prefHandler).mapCatching {
         try {
             ZipUtils.zipBackup(
                 cacheDir,
                 backupFile, password
             )
-            purge(appDir)
+
             sync(context.contentResolver, withSync, backupFile)
-            backupFile
+            backupFile to listOldBackups(appDir)
         } catch (e: IOException) {
             CrashHandler.report(e)
             throw e
@@ -66,17 +61,13 @@ fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Res
     }
 }
 
-fun purge(appDir: DocumentFile) {
+fun listOldBackups(appDir: DocumentFile) =
     appDir.listFiles()
         .filter {
             it.name?.matches("""backup-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\.zip""".toRegex()) == true
         }
         .sortedBy { it.lastModified() }
         .dropLast(3)
-        .forEach {
-            Timber.d("File %s; last modified %d", it.name, it.lastModified())
-        }
-}
 
 private fun sync(contentResolver: ContentResolver, backend: String?, backupFile: DocumentFile) {
     backend?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }?.let {

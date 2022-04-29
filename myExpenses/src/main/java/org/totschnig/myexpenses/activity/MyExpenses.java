@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -39,10 +38,10 @@ import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
+import org.totschnig.myexpenses.adapter.MyViewPagerAdapter;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -67,8 +66,6 @@ import org.totschnig.myexpenses.provider.ProtectedCursorLoader;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
-import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -92,7 +89,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
@@ -148,7 +144,6 @@ public class MyExpenses extends BaseMyExpenses implements
 
   private LoaderManager mManager;
 
-  private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
   private int mAccountCount = 0;
 
@@ -519,18 +514,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       return true;
     } else if (command == R.id.RESET_COMMAND) {
-      tl = getCurrentFragment();
-      if (tl != null && tl.hasItems()) {
-        Result appDirStatus = AppDirHelper.checkAppDir(this);
-        if (appDirStatus.isSuccess()) {
-          ExportDialogFragment.newInstance(accountId, tl.isFiltered())
-              .show(this.getSupportFragmentManager(), "WARNING_RESET");
-        } else {
-          showDismissibleSnackBar(appDirStatus.print(this));
-        }
-      } else {
-        showExportDisabledCommand();
-      }
+      doReset();
       return true;
     } else if (command == R.id.HELP_COMMAND_DRAWER) {
       i = new Intent(this, Help.class);
@@ -572,14 +556,14 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.OPEN_PDF_COMMAND) {
       i = new Intent();
       i.setAction(Intent.ACTION_VIEW);
-      Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
+      Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag), this);
       i.setDataAndType(data, "application/pdf");
       i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       startActivity(i, R.string.no_app_handling_pdf_available, null);
       return true;
     } else if (command == R.id.SHARE_PDF_COMMAND) {
       Result shareResult = ShareUtils.share(this,
-          Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag))),
+          Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag), this)),
           getShareTarget(),
           "application/pdf");
       if (!shareResult.isSuccess()) {
@@ -674,27 +658,8 @@ public class MyExpenses extends BaseMyExpenses implements
     showSnackBar(R.string.account_list_not_yet_loaded);
   }
 
-  public void showExportDisabledCommand() {
-    showMessage(R.string.dialog_command_disabled_reset_account);
-  }
-
   private void closeDrawer() {
     if (binding.drawer != null) binding.drawer.closeDrawers();
-  }
-
-  private class MyViewPagerAdapter extends CursorFragmentPagerAdapter {
-    MyViewPagerAdapter(Context context, FragmentManager fm, Cursor cursor) {
-      super(context, fm, cursor);
-    }
-
-    String getFragmentName(int currentPosition) {
-      return FragmentPagerAdapter.makeFragmentName(viewPager().getId(), getItemId(currentPosition));
-    }
-
-    @Override
-    public Fragment getItem(Context context, Cursor cursor) {
-      return TransactionList.newInstance(cursor.getLong(getColumnIndexRowId()));
-    }
   }
 
   @Override
@@ -798,14 +763,14 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void setupViewPager(Cursor cursor) {
-    if (mViewPagerAdapter == null) {
-      mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), cursor);
-      viewPager().setAdapter(mViewPagerAdapter);
+    if (getPagerAdapter() == null) {
+      setPagerAdapter(new MyViewPagerAdapter(this, getSupportFragmentManager(), cursor));
+      viewPager().setAdapter(getPagerAdapter());
       viewPager().addOnPageChangeListener(this);
       viewPager().setPageMargin(UiUtils.dp2Px(10, getResources()));
       viewPager().setPageMarginDrawable(new ColorDrawable(UiUtils.getColor(this, R.attr.colorOnSurface)));
     } else {
-      mViewPagerAdapter.swapCursor(cursor);
+      getPagerAdapter().swapCursor(cursor);
     }
   }
 
@@ -848,7 +813,7 @@ public class MyExpenses extends BaseMyExpenses implements
   @Override
   public void onLoaderReset(@NonNull Loader<Cursor> loader) {
     if (loader.getId() == ACCOUNTS_CURSOR) {
-      mViewPagerAdapter.swapCursor(null);
+      getPagerAdapter().swapCursor(null);
       mDrawerListAdapter.swapCursor(null);
       onNoData();
       setAccountsCursor(null);
@@ -977,14 +942,6 @@ public class MyExpenses extends BaseMyExpenses implements
     }
 
     return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
-  }
-
-  @Nullable
-  public TransactionList getCurrentFragment() {
-    if (mViewPagerAdapter == null)
-      return null;
-    return (TransactionList) getSupportFragmentManager().findFragmentByTag(
-        mViewPagerAdapter.getFragmentName(getCurrentPosition()));
   }
 
   public void startExport(Bundle args) {

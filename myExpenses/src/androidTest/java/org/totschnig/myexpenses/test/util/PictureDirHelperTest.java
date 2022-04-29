@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.util.PictureDirHelper;
 import java.io.File;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +33,7 @@ public class PictureDirHelperTest {
     Uri uri = PictureDirHelper.getOutputMediaUri(false, false);
     //then
     File file = PictureDirHelper.getFileForUri(uri);
-    assertEquals(AppDirHelper.getContentUriForFile(file), uri);
+    assertEquals(AppDirHelper.getContentUriForFile(InstrumentationRegistry.getInstrumentation().getTargetContext(), file), uri);
   }
 
   @Test
@@ -41,6 +42,6 @@ public class PictureDirHelperTest {
     Uri uri = PictureDirHelper.getOutputMediaUri(false, true);
     //then
     File file = PictureDirHelper.getFileForUri(uri);
-    assertEquals(AppDirHelper.getContentUriForFile(file), uri);
+    assertEquals(AppDirHelper.getContentUriForFile(InstrumentationRegistry.getInstrumentation().getTargetContext(), file), uri);
   }
 }
