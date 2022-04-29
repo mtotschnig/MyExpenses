@@ -263,13 +263,7 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
-    androidTestImplementation "androidx.test:runner:$androidSupportTestVersion"
-    //https://github.com/android/android-test/issues/1254
-    androidTestImplementation('androidx.test:monitor') {
-        version {
-            strictly '1.4.0'
-        }
-    }
+    androidTestImplementation "androidx.test:runner:1.5.0-alpha03"
     androidTestUtil "androidx.test:orchestrator:1.4.1"
     androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
