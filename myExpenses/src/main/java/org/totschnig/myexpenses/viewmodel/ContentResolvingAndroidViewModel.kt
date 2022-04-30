@@ -60,11 +60,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     val contentResolver: ContentResolver
         get() = getApplication<MyApplication>().contentResolver
 
-    val localizedContext: Context
-        get() = with(getApplication<MyApplication>()) {
-            ContextHelper.wrap(this, appComponent.userLocaleProvider().getUserPreferredLocale())
-        }
-
     private val debts = MutableLiveData<List<Debt>>()
     fun getDebts(): LiveData<List<Debt>> = debts
 
