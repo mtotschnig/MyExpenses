@@ -73,8 +73,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     lateinit var adHandlerFactory: AdHandlerFactory
 
     private val webUiViewModel: WebUiViewModel by viewModels()
-    val currencyViewModel: CurrencyViewModel by viewModels()
-    val viewModel: SettingsViewModel by viewModels()
+    private val currencyViewModel: CurrencyViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModels()
 
     //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
     private val storeInDatabaseChangeListener =

@@ -602,18 +602,20 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         )
         if (intent != null) {
             builder.setContentIntent(
+                //noinspection InlinedApi
                 PendingIntent.getActivity(
-                    context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT
+                    context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             )
         }
         if (account != null) {
             val dismissIntent = Intent(context, SyncNotificationDismissHandler::class.java)
             dismissIntent.putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, account.name)
+            //noinspection InlinedApi
             builder.setDeleteIntent(
                 PendingIntent.getService(
                     context, 0,
-                    dismissIntent, PendingIntent.FLAG_ONE_SHOT
+                    dismissIntent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
                 )
             )
         }

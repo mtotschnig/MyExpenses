@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.activity.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -18,8 +17,8 @@ import java.time.LocalDate
 
 class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     private lateinit var binding: OneDebtBinding
-    val viewModel: DebtViewModel by viewModels()
-    val currencyViewModel: CurrencyViewModel by viewModels()
+    private val viewModel: DebtViewModel by viewModels()
+    private val currencyViewModel: CurrencyViewModel by viewModels()
 
     val payeeName: String
         get() = intent.getStringExtra(DatabaseConstants.KEY_PAYEE_NAME)!!

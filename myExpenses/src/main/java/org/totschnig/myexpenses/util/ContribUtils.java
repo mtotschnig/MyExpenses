@@ -22,10 +22,11 @@ public class ContribUtils {
         feature.buildRemoveLimitation(context, true));
 
     Intent contribIntent = ContribInfoDialogActivity.getIntentFor(context, feature);
+    //noinspection InlinedApi
     NotificationBuilderWrapper builder =
         NotificationBuilderWrapper.defaultBigTextStyleBuilder(context, notifTitle, content)
             .setContentIntent(PendingIntent.getActivity(context, 0, contribIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT));
+                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE));
     Notification notification = builder.build();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE))

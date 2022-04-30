@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 
 class DeepLinkActivity : ProtectedFragmentActivity() {
     private var isPdt = true //PayPalDataTransfer
-    val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
+    private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (applicationContext as MyApplication).appComponent.inject(licenceValidationViewModel)

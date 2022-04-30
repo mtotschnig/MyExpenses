@@ -67,8 +67,9 @@ public class PlanNotificationClickHandler extends IntentService {
             Intent displayIntent = new Intent(this, MyExpenses.class)
                 .putExtra(DatabaseConstants.KEY_ROWID, t.getAccountId())
                 .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.getId());
+            //noinspection InlinedApi
             PendingIntent resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             builder.setContentIntent(resultIntent);
             builder.setAutoCancel(true);
           } else {

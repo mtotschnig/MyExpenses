@@ -21,7 +21,10 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
     sealed class BackupState {
         class Prepared(val appDir: Result<DocumentFile>) : BackupState()
         object Running : BackupState()
-        class Completed(val result: Result<Pair<DocumentFile, String>>) : BackupState()
+        class Completed(val result: Result<Triple<DocumentFile, String, List<DocumentFile>>>) :
+            BackupState()
+
+        class Purged(val result: Result<Int>) : BackupState()
     }
 
     private val backupState = MutableLiveData<BackupState>()
@@ -43,7 +46,11 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                             null
                         ) else null
                     ).map {
-                        with(it.first) { this to FileUtils.getPath(getApplication(), uri) }
+                        Triple(
+                            it.first,
+                            FileUtils.getPath(getApplication(), it.first.uri),
+                            it.second
+                        )
                     })
             )
         }
@@ -62,6 +69,20 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
     fun prepare() {
         viewModelScope.launch(coroutineDispatcher) {
             backupState.postValue(BackupState.Prepared(AppDirHelper.checkAppDir(getApplication())))
+        }
+    }
+
+    fun purgeBackups() {
+        viewModelScope.launch(coroutineDispatcher) {
+            backupState.postValue(
+                BackupState.Purged(
+                    runCatching {
+                        @Suppress("DEPRECATION")
+                        (backupState.value as BackupState.Completed).result.getOrThrow().third.sumBy {
+                            if (it.delete()) 1 else 0
+                        }
+                    }
+                ))
         }
     }
 }

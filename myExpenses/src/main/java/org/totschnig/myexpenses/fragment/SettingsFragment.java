@@ -83,6 +83,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSEN
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
+import static org.totschnig.myexpenses.preference.PrefKey.PURGE_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE;
 import static org.totschnig.myexpenses.preference.PrefKey.ROOT_SCREEN;
@@ -129,9 +130,10 @@ public class SettingsFragment extends BaseSettingsFragment implements
         concatResStrings(activity, " ", R.string.app_name, R.string.menu_settings) :
         screen.getTitle();
     actionBar.setTitle(title);
-    boolean hasMasterSwitch = handleScreenWithMasterSwitch(PERFORM_SHARE);
-    hasMasterSwitch = handleScreenWithMasterSwitch(AUTO_BACKUP) || hasMasterSwitch;
-    hasMasterSwitch = handleScreenWithMasterSwitch(AUTO_FILL_SWITCH) || hasMasterSwitch;
+    boolean hasMasterSwitch = handleScreenWithMasterSwitch(PERFORM_SHARE) ||
+            handleScreenWithMasterSwitch(AUTO_BACKUP) ||
+            handleScreenWithMasterSwitch(AUTO_FILL_SWITCH) ||
+            handleScreenWithMasterSwitch(PURGE_BACKUP);
     if (!hasMasterSwitch) {
       actionBar.setCustomView(null);
     }
@@ -153,7 +155,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   }
 
   @Override
-  public boolean onPreferenceChange(Preference pref, Object value) {
+  public boolean onPreferenceChange(@NonNull Preference pref, Object value) {
     if (matches(pref, HOME_CURRENCY)) {
       if (!value.equals(prefHandler.getString(HOME_CURRENCY, null))) {
         MessageDialogFragment.newInstance(getString(R.string.dialog_title_information),
@@ -247,7 +249,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   }
 
   @Override
-  public boolean onPreferenceClick(Preference preference) {
+  public boolean onPreferenceClick(@NonNull Preference preference) {
     trackPreferenceClick(preference);
     if (matches(preference, CONTRIB_PURCHASE)) {
       if (licenceHandler.isUpgradeable()) {
@@ -348,7 +350,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     DialogFragment fragment = null;
     String key = preference.getKey();
     if (matches(preference, PLANNER_CALENDAR_ID)) {
-      if (CALENDAR.hasPermission(getContext())) {
+      if (CALENDAR.hasPermission(requireContext())) {
         fragment = CalendarListPreferenceDialogFragmentCompat.newInstance(key);
       } else {
         getPreferenceActivity().requestCalendarPermission();

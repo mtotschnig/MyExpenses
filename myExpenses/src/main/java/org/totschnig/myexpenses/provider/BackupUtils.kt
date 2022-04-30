@@ -47,7 +47,7 @@ fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Res
             )
 
             sync(context.contentResolver, withSync, backupFile)
-            backupFile to listOldBackups(appDir)
+            backupFile to listOldBackups(appDir, prefHandler)
         } catch (e: IOException) {
             CrashHandler.report(e)
             throw e
@@ -61,13 +61,17 @@ fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Res
     }
 }
 
-fun listOldBackups(appDir: DocumentFile) =
-    appDir.listFiles()
-        .filter {
-            it.name?.matches("""backup-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\.zip""".toRegex()) == true
-        }
-        .sortedBy { it.lastModified() }
-        .dropLast(3)
+fun listOldBackups(appDir: DocumentFile, prefHandler: PrefHandler): List<DocumentFile> {
+    val keep = prefHandler.getInt(PrefKey.PURGE_BACKUP_KEEP, 0)
+    return if (prefHandler.getBoolean(PrefKey.PURGE_BACKUP, false) && keep > 0) {
+        appDir.listFiles()
+            .filter {
+                it.name?.matches("""backup-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\.zip""".toRegex()) == true
+            }
+            .sortedBy { it.lastModified() }
+            .dropLast(keep)
+    } else emptyList()
+}
 
 private fun sync(contentResolver: ContentResolver, backend: String?, backupFile: DocumentFile) {
     backend?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }?.let {

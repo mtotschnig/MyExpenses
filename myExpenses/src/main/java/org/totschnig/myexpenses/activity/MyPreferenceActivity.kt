@@ -54,7 +54,7 @@ import java.util.*
  */
 class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
-    val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
+    private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     private var initialPrefToShow: String? = null
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
