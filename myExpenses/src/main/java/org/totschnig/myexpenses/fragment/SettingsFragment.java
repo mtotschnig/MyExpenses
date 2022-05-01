@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.feature.Feature;
+import org.totschnig.myexpenses.model.AcceptableSchemaEnum;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
@@ -173,7 +174,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
           return false;
         }
         String scheme = uri.getScheme();
-        if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
+        AcceptableSchemaEnum schemaEnum = AcceptableSchemaEnum.getEnumFromDescription(scheme);
+        if (null == schemaEnum) {
           getPreferenceActivity().showSnackBar(getString(R.string.share_scheme_not_supported, scheme));
           return false;
         }

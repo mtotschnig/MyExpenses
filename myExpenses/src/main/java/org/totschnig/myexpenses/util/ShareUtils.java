@@ -8,6 +8,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.service.TransactionService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,11 +34,19 @@ public class ShareUtils {
             return handleFtp(ctx, uriList, target, mimeType);
           case "mailto":
             return handleMailto(ctx, uriList, mimeType, uri);
+          case "http":
+          case "https":
+            return handleHttp(uriList, target);
           default:
             return complain(ctx.getString(R.string.share_scheme_not_supported, scheme));
         }
       }
     }
+  }
+
+  private static Result handleHttp(List<Uri> fileUris, String target) {
+    new TransactionService(target).sendFileListToWebService(fileUris);
+    return Result.SUCCESS;
   }
 
   private static Result handleGeneric(Context ctx, List<Uri> fileUris, String mimeType) {
