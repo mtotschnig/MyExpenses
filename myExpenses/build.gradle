@@ -82,6 +82,7 @@ android {
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
             buildConfigField "String", "BUILD_DATE", "\"now\""
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
+            buildConfigField "boolean", "BETA", getPropertyIfDefined("BETA", "false")
         }
         beta {
             initWith debug

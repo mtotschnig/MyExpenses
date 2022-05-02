@@ -15,8 +15,8 @@ import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 class VersionInfoTest {
     @Test
     fun shouldProvideVersionInfoForCurrentVersion() {
-        Assume.assumeTrue(BuildConfig.BUILD_TYPE == "debug")
-        if (BuildConfig.VERSION_NAME.length == 3) { // bug fix version do not need more_info
+        Assume.assumeFalse(BuildConfig.BETA)
+        if (BuildConfig.VERSION_NAME.length == 5) { // bug fix version do not need more_info
             val resIdMoreInfo = resId("version_more_info_")
             Truth.assertThat(resIdMoreInfo).isNotEqualTo(0)
         }

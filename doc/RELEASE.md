@@ -6,7 +6,7 @@
 * if applicable publish announcement on Google+ and Facebook and add links
 * Test and assemble
   * ./gradlew lintExternRelease
-  * ./gradlew testExternDebugUnitTest
+  * ./gradlew testExternDebugUnitTest (-PBETA=true)
   * ./gradlew disableSystemAnimations clean connectedExternDebugAndroidTest
   * ./gradlew clean :myExpenses:packageExternReleaseUniversalApk
 * test upgrade mechanism
