@@ -64,10 +64,11 @@ class AccountRemoteViewsFactory(
                 if (clickInfo == null) {
                     setOnClickFillInIntent(buttonId, Intent().apply(block))
                 } else {
+                    //noinspection InlinedApi
                     setOnClickPendingIntent(buttonId, PendingIntent.getBroadcast(
                             context, clickInfo.first, clickInfo.second.apply(block).apply {
                         data = Uri.parse(this.toUri(Intent.URI_INTENT_SCHEME))
-                    }, PendingIntent.FLAG_UPDATE_CURRENT))
+                    }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
                 }
             }
         }
@@ -90,8 +91,9 @@ class AccountRemoteViewsFactory(
                 if (clickInfo == null) {
                     setOnClickFillInIntent(R.id.object_info, Intent().apply(block))
                 } else {
+                    //noinspection InlinedApi
                     setOnClickPendingIntent(R.id.object_info, PendingIntent.getBroadcast(
-                            context, clickInfo.first, clickInfo.second.apply(block), PendingIntent.FLAG_UPDATE_CURRENT))
+                            context, clickInfo.first, clickInfo.second.apply(block), PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
                 }
                 configureButton(context, R.id.command1, R.drawable.ic_menu_add, CLICK_ACTION_NEW_TRANSACTION, R.string.menu_create_transaction, account, availableWidth, 175, clickInfo)
                 configureButton(context, R.id.command2, R.drawable.ic_menu_forward, CLICK_ACTION_NEW_TRANSFER, R.string.menu_create_transfer, account, availableWidth, 223, clickInfo)

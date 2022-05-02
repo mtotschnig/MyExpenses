@@ -239,6 +239,7 @@
             android:key="@string/pref_auto_backup_cloud_key"
             android:summary="@string/pref_backup_cloud_summary"
             android:title="@string/pref_backup_cloud_title" />
+
         <PreferenceScreen
             android:key="@string/pref_auto_backup_key"
             android:title="@string/pref_auto_backup_title">
@@ -250,8 +251,26 @@
                 android:dependency="@string/pref_auto_backup_key"
                 android:key="@string/pref_auto_backup_time_key"
                 android:title="@string/pref_auto_backup_time_title" />
-
         </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="@string/pref_purge_backup_key"
+            android:title="@string/dialog_title_purge_backups">
+            <SeekBarPreference
+                android:defaultValue="5"
+                android:key="@string/pref_purge_backup_keep_key"
+                android:max="100"
+                android:summary="@string/pref_purge_backup_keep_title"
+                my:min="1"
+                my:showSeekBarValue="true"
+                my:updatesContinuously="true" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="@string/pref_purge_backup_require_confirmation_key"
+                android:summary="@string/pref_purge_backup_require_confirmation_summary" />
+        </PreferenceScreen>
+
+
         <Preference
             android:key="@string/pref_restore_key"
             android:summary="@string/pref_restore_summary">

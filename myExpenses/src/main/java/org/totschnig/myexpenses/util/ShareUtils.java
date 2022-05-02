@@ -41,7 +41,7 @@ public class ShareUtils {
   }
 
   private static Result handleGeneric(Context ctx, List<Uri> fileUris, String mimeType) {
-    Intent intent = buildIntent(fileUris, mimeType, null);
+    Intent intent = buildIntent(ctx, fileUris, mimeType, null);
     if (Utils.isIntentAvailable(ctx, intent)) {
       // we launch the chooser in order to make action more explicit
       ctx.startActivity(Intent.createChooser(intent, ctx.getString(R.string.share_sending)));
@@ -52,7 +52,7 @@ public class ShareUtils {
   }
 
   private static Result handleMailto(Context ctx, List<Uri> fileUris, String mimeType, @NonNull URI uri) {
-    Intent intent = buildIntent(fileUris, mimeType, uri.getSchemeSpecificPart());
+    Intent intent = buildIntent(ctx, fileUris, mimeType, uri.getSchemeSpecificPart());
     if (Utils.isIntentAvailable(ctx, intent)) {
       ctx.startActivity(intent);
     } else {
@@ -62,17 +62,17 @@ public class ShareUtils {
   }
 
   @VisibleForTesting
-  public static Intent buildIntent(List<Uri> fileUris, String mimeType, @Nullable String emailAddress) {
+  public static Intent buildIntent(Context ctx, List<Uri> fileUris, String mimeType, @Nullable String emailAddress) {
     Intent intent;
     if (fileUris.size() > 1) {
       intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
       ArrayList<Uri> uriArrayList = Stream.of(fileUris)
-          .map(AppDirHelper::ensureContentUri)
+          .map(uri -> AppDirHelper.ensureContentUri(uri, ctx))
           .collect(Collectors.toCollection(ArrayList::new));
       intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriArrayList);
     } else {
       intent = new Intent(Intent.ACTION_SEND);
-      intent.putExtra(Intent.EXTRA_STREAM, AppDirHelper.ensureContentUri(fileUris.get(0)));
+      intent.putExtra(Intent.EXTRA_STREAM, AppDirHelper.ensureContentUri(fileUris.get(0), ctx));
     }
     intent.setType(mimeType);
     if (emailAddress != null) {
@@ -88,7 +88,7 @@ public class ShareUtils {
       return complain("sending multiple file through ftp is not supported");
     } else {
       intent = new Intent(Intent.ACTION_SENDTO);
-      final Uri contentUri = AppDirHelper.ensureContentUri(fileUris.get(0));
+      final Uri contentUri = AppDirHelper.ensureContentUri(fileUris.get(0), ctx);
       intent.putExtra(Intent.EXTRA_STREAM, contentUri);
       intent.setDataAndType(Uri.parse(target), mimeType);
       ctx.grantUriPermission("org.totschnig.sendwithftp", contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);

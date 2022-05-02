@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.widget
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -91,11 +92,12 @@ abstract class AbstractWidget(
     open fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val widget = RemoteViews(context.packageName, R.layout.widget_list)
         widget.setEmptyView(R.id.list, R.id.emptyView)
+        //noinspection InlinedApi
         val clickPI = PendingIntent.getBroadcast(
             context,
             appWidgetId,
             clickBaseIntent(context),
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         widget.setOnClickPendingIntent(R.id.emptyView, clickPI)
         if (isProtected(context)) {

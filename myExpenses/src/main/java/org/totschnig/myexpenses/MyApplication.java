@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.BaseTransactionProvider;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -108,8 +109,6 @@ public class MyApplication extends Application implements
   private static MyApplication mSelf;
 
   public static final String KEY_NOTIFICATION_ID = "notification_id";
-
-  public static final String CONTRIB_SECRET = "RANDOM_SECRET";
 
   private long mLastPause = 0;
 
@@ -227,7 +226,7 @@ public class MyApplication extends Application implements
         Timber.plant(new TagFilterFileLoggingTree(this, PlanExecutor.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
-        Timber.plant(new TagFilterFileLoggingTree(this, TransactionProvider.TAG));
+        Timber.plant(new TagFilterFileLoggingTree(this, BaseTransactionProvider.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, OcrFeature.TAG));
       } catch (Exception e) {
         CrashHandler.report(e);
@@ -458,8 +457,7 @@ public class MyApplication extends Application implements
   }
 
   public static String[] buildEventProjection() {
-    String[] projection = new String[android.os.Build.VERSION.SDK_INT >= 16 ? 10
-        : 8];
+    String[] projection = new String[10];
     projection[0] = Events.DTSTART;
     projection[1] = Events.DTEND;
     projection[2] = Events.RRULE;
@@ -468,10 +466,8 @@ public class MyApplication extends Application implements
     projection[5] = Events.EVENT_TIMEZONE;
     projection[6] = Events.DURATION;
     projection[7] = Events.DESCRIPTION;
-    if (android.os.Build.VERSION.SDK_INT >= 16) {
-      projection[8] = Events.CUSTOM_APP_PACKAGE;
-      projection[9] = Events.CUSTOM_APP_URI;
-    }
+    projection[8] = Events.CUSTOM_APP_PACKAGE;
+    projection[9] = Events.CUSTOM_APP_URI;
     return projection;
   }
 
@@ -499,10 +495,8 @@ public class MyApplication extends Application implements
     eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
     eventValues.put(Events.DURATION, duration);
     eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
-    if (android.os.Build.VERSION.SDK_INT >= 16) {
-      eventValues.put(Events.CUSTOM_APP_PACKAGE, eventCursor.getString(8));
-      eventValues.put(Events.CUSTOM_APP_URI, eventCursor.getString(9));
-    }
+    eventValues.put(Events.CUSTOM_APP_PACKAGE, eventCursor.getString(8));
+    eventValues.put(Events.CUSTOM_APP_URI, eventCursor.getString(9));
   }
 
   private boolean insertEventAndUpdatePlan(ContentValues eventValues,

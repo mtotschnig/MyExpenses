@@ -129,7 +129,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment implements On
       prefHandler.putBoolean(prefKey, true);
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      ctx.onPositive(arguments, arguments.getString(KEY_CHECKBOX_LABEL) != null && checkBox.isChecked());
+      ctx.onPositive(arguments, checkBox != null && checkBox.isChecked());
     } else {
       int negativeCommand = arguments.getInt(KEY_COMMAND_NEGATIVE);
       if (negativeCommand != 0) {

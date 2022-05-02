@@ -18,7 +18,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.task.RestoreTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState
@@ -43,120 +44,167 @@ import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState.Running
 
 class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogListener,
     OnDialogResultListener {
-    lateinit var backupViewModel: BackupViewModel
+    private val backupViewModel: BackupViewModel by viewModels()
 
     @JvmField
     @State
     var taskResult = RESULT_OK
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        backupViewModel = ViewModelProvider(this)[BackupViewModel::class.java]
         requireApplication().appComponent.inject(backupViewModel)
-        backupViewModel.getBackupState().observe(this) { backupState: BackupState? ->
+        backupViewModel.getBackupState().observe(this) { backupState: BackupState ->
             val onDismissed: Snackbar.Callback = object : Snackbar.Callback() {
                 override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
-                    setResult(taskResult)
-                    finish()
+                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION) {
+                        setResult(taskResult)
+                        finish()
+                    }
                 }
             }
             when (backupState) {
-                is Running -> {
-                    showSnackBarIndefinite(R.string.menu_backup)
-                }
-                is BackupState.Error -> {
-                    showDismissibleSnackBar(backupState.throwable.message!!, onDismissed)
-                }
-                is BackupState.Success -> {
-                    var message = getString(R.string.backup_success, backupState.result.second)
-                    if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
-                        val uris = ArrayList<Uri>()
-                        uris.add(backupState.result.first.uri)
-                        val shareResult = ShareUtils.share(
-                            this, uris,
-                            prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
-                            "application/zip"
+                is BackupState.Prepared -> backupState.appDir.onSuccess {
+                    if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_BACKUP) == null) {
+                        val isProtected =
+                            !TextUtils.isEmpty(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null))
+                        val message = StringBuilder().append(
+                            getString(
+                                R.string.warning_backup,
+                                FileUtils.getPath(this, it.uri)
+                            )
                         )
-                        if (!shareResult.isSuccess) {
-                            message += " " + shareResult.print(this)
+                            .append(" ")
+                        if (isProtected) {
+                            message.append(getString(R.string.warning_backup_protected)).append(" ")
+                        } else if (prefHandler.getBoolean(
+                                PrefKey.PROTECTION_LEGACY,
+                                false
+                            ) || prefHandler.getBoolean(
+                                PrefKey.PROTECTION_DEVICE_LOCK_SCREEN,
+                                false
+                            )
+                        ) {
+                            message.append(unencryptedBackupWarning()).append(" ")
                         }
+                        message.append(getString(R.string.continue_confirmation))
+                        ConfirmationDialogFragment.newInstance(Bundle().apply {
+                            putInt(
+                                ConfirmationDialogFragment.KEY_TITLE,
+                                if (isProtected) R.string.dialog_title_backup_protected else R.string.menu_backup
+                            )
+                            putString(
+                                ConfirmationDialogFragment.KEY_MESSAGE,
+                                message.toString()
+                            )
+                            putInt(
+                                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                                R.id.BACKUP_COMMAND
+                            )
+                            putInt(
+                                ConfirmationDialogFragment.KEY_ICON,
+                                if (isProtected) R.drawable.ic_lock else 0
+                            )
+                            val withSync = prefHandler.getString(
+                                PrefKey.AUTO_BACKUP_CLOUD,
+                                AccountPreference.SYNCHRONIZATION_NONE
+                            )
+                            if (withSync != AccountPreference.SYNCHRONIZATION_NONE) {
+                                putString(
+                                    ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                                    getString(R.string.backup_save_to_sync_backend, withSync)
+                                )
+                                putBoolean(
+                                    ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHHECKED,
+                                    prefHandler.getBoolean(
+                                        PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED,
+                                        false
+                                    )
+                                )
+                            }
+                        })
+                            .show(supportFragmentManager, FRAGMENT_TAG_CONFIRM_BACKUP)
                     }
-                    showDismissibleSnackBar(message, onDismissed)
+                }.onFailure {
+                    abort(it.safeMessage)
+                }
+                is Running -> showSnackBarIndefinite(R.string.menu_backup)
+                is BackupState.Completed -> backupState.result.onSuccess { (file, path, extraData) ->
+                    if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_PURGE) == null) {
+                        var message = getString(R.string.backup_success, path)
+                        if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+                            val uris = ArrayList<Uri>()
+                            uris.add(file.uri)
+                            val shareResult = ShareUtils.share(
+                                this, uris,
+                                prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
+                                "application/zip"
+                            )
+                            if (!shareResult.isSuccess) {
+                                message += " " + shareResult.print(this)
+                            }
+                        }
+                        extraData.fold(
+                            ifLeft = { purgeList ->
+                                if (purgeList.isEmpty()) {
+                                    showDismissibleSnackBar(message, onDismissed)
+                                } else {
+                                    dismissSnackBar()
+                                    ConfirmationDialogFragment.newInstance(Bundle().apply {
+                                        putInt(
+                                            ConfirmationDialogFragment.KEY_TITLE,
+                                            R.string.dialog_title_purge_backups
+                                        )
+                                        putString(
+                                            ConfirmationDialogFragment.KEY_MESSAGE,
+                                            message + "\n" + getString(R.string.purge_backups) + "\n" +
+                                                    purgeList.joinToString("\n") {
+                                                        " • " + (it.name ?: it.uri.toString())
+                                                    }
+                                        )
+                                        putInt(
+                                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                                            R.id.PURGE_BACKUPS_COMMAND
+                                        )
+                                        putInt(
+                                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                                            R.string.menu_delete
+                                        )
+                                    })
+                                        .show(supportFragmentManager, FRAGMENT_TAG_CONFIRM_PURGE)
+                                }
+                            },
+                            ifRight = { list ->
+                                message += BackupViewModel.purgeResult2Message(this, list)
+                                showDismissibleSnackBar(message, onDismissed)
+                            }
+                        )
+                    }
+                }.onFailure {
+                    showDismissibleSnackBar(it.safeMessage, onDismissed)
+                }
+                is BackupState.Purged -> backupState.result.onSuccess {
+                    showDismissibleSnackBar(
+                        resources.getQuantityString(
+                            R.plurals.purge_backup_success,
+                            it,
+                            it
+                        ), onDismissed
+                    )
+                }.onFailure {
+                    CrashHandler.report(it)
+                    showDismissibleSnackBar(it.safeMessage, onDismissed)
                 }
             }
         }
         if (savedInstanceState != null) {
             return
         }
-        val action = intent.action
-        when (action ?: "") {
+        when (intent.action ?: "") {
             ACTION_BACKUP -> {
-                val appDirStatus = AppDirHelper.checkAppDir(this)
-                if (!appDirStatus.isSuccess) {
-                    abort(appDirStatus.print(this))
-                    return
-                }
-                val appDir = AppDirHelper.getAppDir(this)
-                if (appDir == null) {
-                    abort(getString(R.string.io_error_appdir_null))
-                    return
-                }
-                val isProtected =
-                    !TextUtils.isEmpty(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null))
-                val message = StringBuilder()
-                message.append(
-                    getString(
-                        R.string.warning_backup,
-                        FileUtils.getPath(this, appDir.uri)
-                    )
-                )
-                    .append(" ")
-                if (isProtected) {
-                    message.append(getString(R.string.warning_backup_protected)).append(" ")
-                } else if (prefHandler.getBoolean(
-                        PrefKey.PROTECTION_LEGACY,
-                        false
-                    ) || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
-                ) {
-                    message.append(unencryptedBackupWarning()).append(" ")
-                }
-                message.append(getString(R.string.continue_confirmation))
-                val bundle = Bundle()
-                bundle.putInt(
-                    ConfirmationDialogFragment.KEY_TITLE,
-                    if (isProtected) R.string.dialog_title_backup_protected else R.string.menu_backup
-                )
-                bundle.putString(
-                    ConfirmationDialogFragment.KEY_MESSAGE,
-                    message.toString()
-                )
-                bundle.putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                    R.id.BACKUP_COMMAND
-                )
-                bundle.putInt(
-                    ConfirmationDialogFragment.KEY_ICON,
-                    if (isProtected) R.drawable.ic_lock else 0
-                )
-                val withSync = prefHandler.getString(
-                    PrefKey.AUTO_BACKUP_CLOUD,
-                    AccountPreference.SYNCHRONIZATION_NONE
-                )
-                if (withSync != AccountPreference.SYNCHRONIZATION_NONE) {
-                    bundle.putString(
-                        ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-                        getString(R.string.backup_save_to_sync_backend, withSync)
-                    )
-                    bundle.putBoolean(
-                        ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHHECKED,
-                        prefHandler.getBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, false)
-                    )
-                }
-                ConfirmationDialogFragment.newInstance(bundle)
-                    .show(supportFragmentManager, "BACKUP")
+                backupViewModel.prepare()
             }
             ACTION_RESTORE, Intent.ACTION_VIEW -> {
                 BackupSourcesDialogFragment.newInstance(intent.data).show(
-                    supportFragmentManager, FRAGMENT_TAG
+                    supportFragmentManager, FRAGMENT_TAG_RESTORE_SOURCE
                 )
             }
         }
@@ -187,16 +235,12 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         )
     }
 
-    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
-        bundle.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri)
-        return bundle
+    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int) = Bundle().apply {
+        putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
+        putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri)
     }
 
-    override fun shouldKeepProgress(taskId: Int): Boolean {
-        return true
-    }
+    override fun shouldKeepProgress(taskId: Int) = true
 
     override fun onPostRestoreTask(result: Result<*>) {
         super.onPostRestoreTask(result)
@@ -206,15 +250,13 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         }
     }
 
-    fun calledExternally(): Boolean {
-        return Intent.ACTION_VIEW == intent.action
-    }
+    val calledExternally: Boolean
+        get() = Intent.ACTION_VIEW == intent.action
 
-    private fun calledFromOnboarding(): Boolean {
-        val callingActivity = callingActivity
-        return callingActivity != null && (Utils.getSimpleClassNameFromComponentName(callingActivity)
-                == OnboardingActivity::class.java.simpleName)
-    }
+    private val calledFromOnboarding: Boolean
+        get() = callingActivity?.let {
+            Utils.getSimpleClassNameFromComponentName(it)
+        } == OnboardingActivity::class.java.simpleName
 
     fun onSourceSelected(mUri: Uri, restorePlanStrategy: Int) {
         val args = buildRestoreArgs(mUri, restorePlanStrategy)
@@ -228,11 +270,14 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
             }.onSuccess {
                 if (it) {
                     SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
-                        .fields(Input.password(RestoreTask.KEY_PASSWORD).text(prefHandler.getString(PrefKey.EXPORT_PASSWORD, "")).required())
+                        .fields(
+                            Input.password(RestoreTask.KEY_PASSWORD)
+                                .text(prefHandler.getString(PrefKey.EXPORT_PASSWORD, "")).required()
+                        )
                         .extra(args)
                         .show(this, DIALOG_TAG_PASSWORD)
                 } else {
-                    if (calledFromOnboarding()) {
+                    if (calledFromOnboarding) {
                         doRestore(args)
                     } else {
                         showRestoreDialog(args)
@@ -245,7 +290,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (DIALOG_TAG_PASSWORD == dialogTag) {
             if (which == OnDialogResultListener.BUTTON_POSITIVE) {
-                if (calledFromOnboarding()) {
+                if (calledFromOnboarding) {
                     doRestore(extras)
                 } else {
                     showRestoreDialog(extras)
@@ -262,12 +307,11 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
         if (command == R.id.BACKUP_COMMAND) {
             prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
-            backupViewModel.doBackup(
-                prefHandler.getString(PrefKey.EXPORT_PASSWORD, null),
-                checked
-            )
+            backupViewModel.doBackup(checked)
         } else if (command == R.id.RESTORE_COMMAND) {
             doRestore(args)
+        } else if (command == R.id.PURGE_BACKUPS_COMMAND) {
+            backupViewModel.purgeBackups()
         }
     }
 
@@ -285,7 +329,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     }
 
     override fun onProgressDialogDismiss() {
-        if (calledExternally()) {
+        if (calledExternally) {
             restartAfterRestore()
         } else {
             setResult(taskResult)
@@ -300,7 +344,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         super.onPermissionsDenied(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-            (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as? CalendarRestoreStrategyChangedListener)
+            (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_RESTORE_SOURCE) as? CalendarRestoreStrategyChangedListener)
                 ?.onCalendarPermissionDenied()
         }
     }
@@ -310,7 +354,9 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     }
 
     companion object {
-        const val FRAGMENT_TAG = "BACKUP_SOURCE"
+        const val FRAGMENT_TAG_RESTORE_SOURCE = "RESTORE_SOURCE"
+        const val FRAGMENT_TAG_CONFIRM_BACKUP = "CONFIRM_BACKUP"
+        const val FRAGMENT_TAG_CONFIRM_PURGE = "CONFIRM_PURGE"
         private const val DIALOG_TAG_PASSWORD = "PASSWORD"
         const val ACTION_BACKUP = "BACKUP"
         const val ACTION_RESTORE = "RESTORE"

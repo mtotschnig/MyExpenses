@@ -52,7 +52,7 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getScanUri(file: File): Uri = try {
-        AppDirHelper.getContentUriForFile(file)
+        AppDirHelper.getContentUriForFile(getApplication(), file)
     } catch (e: IllegalArgumentException) {
         Uri.fromFile(file)
     }

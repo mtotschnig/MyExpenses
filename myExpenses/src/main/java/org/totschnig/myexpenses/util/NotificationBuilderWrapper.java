@@ -21,7 +21,7 @@ public class NotificationBuilderWrapper {
   public static String CHANNEL_ID_SYNC = "sync";
   public static String CHANNEL_ID_PLANNER = "planner";
   public static String CHANNEL_ID_DEFAULT = "default";
-  private Context context;
+  private final Context context;
   private Notification.Builder api23Builder;
   private NotificationCompat.Builder compatBuilder;
 

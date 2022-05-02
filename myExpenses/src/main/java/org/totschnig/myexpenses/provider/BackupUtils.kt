@@ -6,6 +6,8 @@ import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.AccountPreference
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -22,8 +24,13 @@ import java.util.*
 const val BACKUP_DB_FILE_NAME = "BACKUP"
 const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 
-fun doBackup(context: Context, password: String?, withSync: String?): Result<DocumentFile> {
-    if (!AppDirHelper.isExternalStorageAvailable()) {
+fun doBackup(
+    context: Context,
+    prefHandler: PrefHandler,
+    withSync: String?
+): Result<Pair<DocumentFile, List<DocumentFile>>> {
+    val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
+    if (!AppDirHelper.isExternalStorageAvailable) {
         return Result.failure(context, R.string.external_storage_unavailable)
     }
     val appDir = AppDirHelper.getAppDir(context)
@@ -35,35 +42,39 @@ fun doBackup(context: Context, password: String?, withSync: String?): Result<Doc
     }
     val backupFile = requireBackupFile(appDir, !TextUtils.isEmpty(password))
         ?: return Result.failure(context, R.string.io_error_backupdir_null)
-    val cacheDir = AppDirHelper.getCacheDir()
-    if (cacheDir == null) {
-        CrashHandler.report("CacheDir is null")
-        return Result.failure(context, R.string.io_error_cachedir_null)
-    }
-    val result = DbUtils.backup(cacheDir, context)
-    val failure: Throwable
-    if (result.isSuccess) {
+    val cacheDir = AppDirHelper.cacheDir(context)
+    return backup(cacheDir, context, prefHandler).mapCatching {
         try {
             ZipUtils.zipBackup(
                 cacheDir,
                 backupFile, password
             )
+
             sync(context.contentResolver, withSync, backupFile)
-            return Result.success(backupFile)
+            backupFile to listOldBackups(appDir, prefHandler)
         } catch (e: IOException) {
             CrashHandler.report(e)
-            failure = e
+            throw e
         } catch (e: GeneralSecurityException) {
             CrashHandler.report(e)
-            failure = e
+            throw e
         } finally {
             getBackupDbFile(cacheDir).delete()
             getBackupPrefFile(cacheDir).delete()
         }
-    } else {
-        failure = Throwable(result.print(context))
     }
-    return Result.failure(failure)
+}
+
+fun listOldBackups(appDir: DocumentFile, prefHandler: PrefHandler): List<DocumentFile> {
+    val keep = prefHandler.getInt(PrefKey.PURGE_BACKUP_KEEP, 0)
+    return if (prefHandler.getBoolean(PrefKey.PURGE_BACKUP, false) && keep > 0) {
+        appDir.listFiles()
+            .filter {
+                it.name?.matches("""backup-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\.zip""".toRegex()) == true
+            }
+            .sortedBy { it.lastModified() }
+            .dropLast(keep)
+    } else emptyList()
 }
 
 private fun sync(contentResolver: ContentResolver, backend: String?, backupFile: DocumentFile) {

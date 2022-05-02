@@ -49,7 +49,6 @@ import androidx.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AggregateAccount;
@@ -61,13 +60,11 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
@@ -82,14 +79,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.inject.Named;
-
-import timber.log.Timber;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
-  private TransactionDatabase mOpenHelper;
-  public static final String TAG = "TransactionProvider";
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -303,26 +295,13 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Inject
   CurrencyContext currencyContext;
   @Inject
-  PrefHandler prefHandler;
-  @Inject
   UserLocaleProvider userLocaleProvider;
-  @Inject
-  @Named(AppComponent.DATABASE_NAME)
-  String databaseName;
-
-  @Inject
-  @Nullable
-  SQLiteDatabase.CursorFactory cursorFactory;
 
   @Override
   public boolean onCreate() {
     MyApplication.getInstance().getAppComponent().inject(this);
     initOpenHelper();
     return true;
-  }
-
-  private void initOpenHelper() {
-    mOpenHelper = new TransactionDatabase(getContext(), databaseName, cursorFactory);
   }
 
   public static String aggregateFunction(boolean safeMode) {
@@ -334,7 +313,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                       @Nullable String[] selectionArgs, @Nullable String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
     SQLiteDatabase db;
-    db = mOpenHelper.getReadableDatabase();
+    db = getTransactionDatabase().getReadableDatabase();
 
     Cursor c;
 
@@ -1101,7 +1080,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
     setDirty(true);
     log("INSERT Uri: %s, values: %s", uri, values);
-    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
     long id;
     String newUri;
     int uriMatch = URI_MATCHER.match(uri);
@@ -1245,7 +1224,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty(true);
     log("Delete for URL: %s", uri);
-    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
     int count;
     String segment;
     int uriMatch = URI_MATCHER.match(uri);
@@ -1431,7 +1410,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
     setDirty(true);
-    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
     String segment; // contains rowId
     int count;
     int uriMatch = URI_MATCHER.match(uri);
@@ -1810,7 +1789,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {
-    final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    final SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
     db.beginTransaction();
     try {
       final int numOperations = operations.size();
@@ -1839,7 +1818,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
     switch (method) {
       case METHOD_INIT: {
-        mOpenHelper.getReadableDatabase();
+        getTransactionDatabase().getReadableDatabase();
         break;
       }
       case METHOD_BULK_START: {
@@ -1856,7 +1835,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case METHOD_SORT_ACCOUNTS: {
-        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
         if (extras != null) {
           long[] sortedIds = extras.getLongArray(KEY_SORT_KEY);
           if (sortedIds != null) {
@@ -1872,13 +1851,13 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SETUP_CATEGORIES: {
         Bundle result = new Bundle(1);
-        result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(mOpenHelper.getWritableDatabase(), wrappedContext().getResources()));
+        result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(getTransactionDatabase().getWritableDatabase(), wrappedContext().getResources()));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }
 
       case METHOD_RESET_EQUIVALENT_AMOUNTS: {
-        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
         Bundle result = new Bundle(1);
         MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
           ContentValues resetValues = new ContentValues(1);
@@ -1969,61 +1948,7 @@ public class TransactionProvider extends BaseTransactionProvider {
    */
   @VisibleForTesting
   public TransactionDatabase getOpenHelperForTest() {
-    return mOpenHelper;
-  }
-
-  public Result backup(File backupDir) {
-    File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
-    mOpenHelper.getReadableDatabase().beginTransaction();
-    try {
-      File backupPrefFile, sharedPrefFile;
-      Result result = backupDb(BackupUtilsKt.getBackupDbFile(backupDir), currentDb);
-      if (result.isSuccess()) {
-        backupPrefFile = BackupUtilsKt.getBackupPrefFile(backupDir);
-        // Samsung has special path on some devices
-        // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
-        final MyApplication application = MyApplication.getInstance();
-        String sharedPrefPath = "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
-        sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
-        if (!sharedPrefFile.exists()) {
-          sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
-          log(sharedPrefFile.getPath());
-          if (!sharedPrefFile.exists()) {
-            final String message = "Unable to find shared preference file at " +
-                sharedPrefFile.getPath();
-            CrashHandler.report(message);
-            return Result.ofFailure(message);
-          }
-        }
-        if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
-          prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false);
-          setDirty(false);
-        } else {
-          final String message = "Unable to copy preference file from  " +
-              sharedPrefFile.getPath() + " to " + backupPrefFile.getPath();
-          CrashHandler.report(message);
-          return Result.ofFailure(message);
-        }
-      }
-      return result;
-    } finally {
-      mOpenHelper.getReadableDatabase().endTransaction();
-    }
-  }
-
-  private Result backupDb(File backupDb, File currentDb) {
-    if (currentDb.exists()) {
-      if (FileCopyUtils.copy(currentDb, backupDb)) {
-        return Result.SUCCESS;
-      }
-      return Result.ofFailure(String.format(
-          "Error while copying %s to %s", currentDb.getPath(), backupDb.getPath()));
-    }
-    return Result.ofFailure("Could not find database at " + currentDb.getPath());
-  }
-
-  private File getInternalAppDir() {
-    return MyApplication.getInstance().getFilesDir().getParentFile();
+    return getTransactionDatabase();
   }
 
   public boolean restore(File backupFile) {
@@ -2031,9 +1956,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     dataDir.mkdir();
     //line below gives app_databases instead of databases ???
     //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-    File currentDb = new File(dataDir, databaseName);
+    File currentDb = new File(dataDir, getDatabaseName());
     boolean result = false;
-    mOpenHelper.close();
+    getTransactionDatabase().close();
     try {
       result = FileCopyUtils.copy(backupFile, currentDb);
     } finally {
@@ -2074,7 +1999,4 @@ public class TransactionProvider extends BaseTransactionProvider {
     return projection;
   }
 
-  private void log(String message, Object... args) {
-    Timber.tag(TAG).i(message, args);
-  }
 }

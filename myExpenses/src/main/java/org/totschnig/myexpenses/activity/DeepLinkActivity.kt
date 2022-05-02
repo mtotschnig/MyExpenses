@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +16,7 @@ import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 
 class DeepLinkActivity : ProtectedFragmentActivity() {
     private var isPdt = true //PayPalDataTransfer
-    val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
+    private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (applicationContext as MyApplication).appComponent.inject(licenceValidationViewModel)
@@ -43,7 +42,7 @@ class DeepLinkActivity : ProtectedFragmentActivity() {
                                 !licenceHandler.isContribEnabled) {
                             prefHandler.putString(PrefKey.NEW_LICENCE, key)
                             prefHandler.putString(PrefKey.LICENCE_EMAIL, email)
-                            Toast.makeText(this, R.string.progress_validating_licence, Toast.LENGTH_LONG).show()
+                            showSnackBarIndefinite( R.string.progress_validating_licence)
                             licenceValidationViewModel.validateLicence()
                         } else {
                             showMessageWithPayPalInfo(String.format(
@@ -74,11 +73,16 @@ class DeepLinkActivity : ProtectedFragmentActivity() {
         finish()
     }
 
+    override fun getSnackBarContainerId(): Int {
+        return android.R.id.content
+    }
+
     private fun observeLicenceApiResult() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 licenceValidationViewModel.result.collect { result ->
                     result?.let {
+                        dismissSnackBar()
                         showMessageWithPayPalInfo(it)
                     }
                 }

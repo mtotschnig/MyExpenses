@@ -37,11 +37,11 @@ ext {
     versionName = '3.3.8.1'
     compileSdkVersion = 31
     minSdkVersion = 21
-    targetSdkVersion = 30
+    targetSdkVersion = 31
     espressoVersion = "3.4.0"
     androidSupportTestVersion = "1.4.0"
     androidxTextExtJunit = "1.1.3"
-    daggerVersion = "2.40.2"
+    daggerVersion = "2.41"
     okHttpVersion = "4.9.3"
     acraVersion = "5.8.4"
     butterknifeVersion = "10.2.3"
@@ -50,7 +50,7 @@ ext {
     archLifecycleVersion = '2.4.1'
     androidxArchVersion = '2.1.0'
     fragmentVersion = "1.4.1"
-    coroutines = '1.6.0'
+    coroutines = '1.6.1'
     mockitoVersion = '3.12.4'
     retrofitVersion = "2.9.0"
     ktxVersion = "1.7.0"

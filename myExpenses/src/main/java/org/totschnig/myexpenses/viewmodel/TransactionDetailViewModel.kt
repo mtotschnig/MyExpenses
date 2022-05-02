@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -22,7 +23,7 @@ class TransactionDetailViewModel(application: Application) : TransactionViewMode
             "$KEY_PARENTID IS NULL DESC",
             false
         )
-            .mapToList { fromCursor(it, currencyContext) }
+            .mapToList { fromCursor(getApplication(), it, currencyContext) }
             .subscribe { list ->
                 liveData.postValue(list)
             }

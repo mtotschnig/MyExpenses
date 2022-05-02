@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.ViewModelProvider
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.DebtActivity
 import org.totschnig.myexpenses.compose.DebtRenderer
@@ -15,8 +16,7 @@ import javax.inject.Inject
 
 class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
 
-    val viewModel: DebtViewModel
-        get() = (requireActivity() as DebtActivity).debtViewModel
+    private lateinit var viewModel: DebtViewModel
 
     @Inject
     lateinit var currencyContext: CurrencyContext
@@ -49,6 +49,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
         with((requireActivity().applicationContext as MyApplication).appComponent) {
             inject(this@DebtDetailsDialogFragment)
         }
+        viewModel = ViewModelProvider(requireActivity())[DebtViewModel::class.java]
     }
 
     override fun initBuilder(): AlertDialog.Builder =

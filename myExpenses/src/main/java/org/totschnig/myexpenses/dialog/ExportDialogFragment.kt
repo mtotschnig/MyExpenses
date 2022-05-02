@@ -49,10 +49,7 @@ import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.task.ExportTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.postScrollToBottom
+import org.totschnig.myexpenses.util.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -352,8 +349,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
             putInt(ExportTask.KEY_DELIMITER, delimiter.code)
             putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted)
         }
-        val appDirStatus = AppDirHelper.checkAppDir(activity)
-        if (appDirStatus.isSuccess) {
+        AppDirHelper.checkAppDir(requireActivity()).onSuccess {
             (requireActivity() as MyExpenses).startExport(Bundle().apply {
                 putInt(
                     ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
@@ -377,8 +373,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
                 putString(ExportTask.KEY_FILE_NAME, binding.fileName.text.toString())
                 putChar(ExportTask.KEY_DELIMITER, delimiter)
             })
-        } else {
-            showSnackBar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG, null)
+        }.onFailure {
+            showSnackBar(it.safeMessage, Snackbar.LENGTH_LONG, null)
         }
     }
 

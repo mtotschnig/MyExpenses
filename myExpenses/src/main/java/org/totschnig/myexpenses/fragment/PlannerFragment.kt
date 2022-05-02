@@ -49,7 +49,7 @@ fun configureMenuInternalPlanInstances(menu: Menu, state: PlanInstanceState) {
 
 class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
 
-    val viewModel: PlannerViewModel by viewModels()
+    private val viewModel: PlannerViewModel by viewModels()
 
     @State
     @JvmField

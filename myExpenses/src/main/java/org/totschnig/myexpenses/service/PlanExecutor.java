@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.service;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -88,6 +89,7 @@ public class PlanExecutor extends JobIntentService {
     ((MyApplication) getApplication()).getAppComponent().inject(this);
   }
 
+  @SuppressLint("InlinedApi")
   @Override
   public void onHandleWork(Intent intent) {
     String action = intent.getAction();
@@ -198,7 +200,7 @@ public class PlanExecutor extends JobIntentService {
                             .putExtra(KEY_ROWID, template.getAccountId())
                             .putExtra(KEY_TRANSACTIONID, t.getId());
                         resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
-                            FLAG_UPDATE_CURRENT);
+                            FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                         builder.setContentIntent(resultIntent);
                       } else {
                         builder.setContentText(getString(R.string.save_transaction_error));
@@ -217,7 +219,7 @@ public class PlanExecutor extends JobIntentService {
                           android.R.drawable.ic_menu_close_clear_cancel,
                           R.drawable.ic_menu_close_clear_cancel,
                           getString(android.R.string.cancel),
-                          PendingIntent.getService(this, notificationId, cancelIntent, FLAG_UPDATE_CURRENT));
+                          PendingIntent.getService(this, notificationId, cancelIntent, FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
                       Intent editIntent = new Intent(this, ExpenseEdit.class)
                           .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                           .putExtra(KEY_TEMPLATEID, template.getId())
@@ -226,7 +228,7 @@ public class PlanExecutor extends JobIntentService {
                       if (useDateFromPlan) {
                           editIntent.putExtra(KEY_DATE, date);
                       }
-                      resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, FLAG_UPDATE_CURRENT);
+                      resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                       builder.addAction(
                           android.R.drawable.ic_menu_edit,
                           R.drawable.ic_menu_edit,
@@ -245,7 +247,7 @@ public class PlanExecutor extends JobIntentService {
                           android.R.drawable.ic_menu_save,
                           R.drawable.ic_menu_save,
                           getString(R.string.menu_apply_template),
-                          PendingIntent.getService(this, notificationId, applyIntent, FLAG_UPDATE_CURRENT));
+                          PendingIntent.getService(this, notificationId, applyIntent, FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
                       builder.setContentIntent(resultIntent);
                       notification = builder.build();
                       notification.flags |= Notification.FLAG_NO_CLEAR;

@@ -1024,4 +1024,17 @@
     <!-- New feature in version 3.3.8 -->
     <string name="whats_new_338">Arbitrarily deep category hierarchy</string>
     <string name="menu_parent_category_selection">Select parent category on short tap</string>
+    <string name="dialog_title_purge_backups">Purge old backups</string>
+    <string name="purge_backups">The following old backup files will be deleted:</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">One old backup file was purged.</item>
+        <item quantity="other">%d old backup files were purged.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">One old backup file could not be deleted.</item>
+        <item quantity="other">%d old backup files could not be deleted.</item>
+    </plurals>
+    <!-- This is the title of a preference for the "Purge old backups" feature. If there are more backups found than this number, all but the most recent ones are purged.-->
+    <string name="pref_purge_backup_keep_title">Maximum number of most recent backup files to keep</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Show confirmation prompt before files are purged</string>
 </resources>

@@ -27,7 +27,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
 
     fun loadAppDirInfo() {
         viewModelScope.launch(context = coroutineContext()) {
-            if (AppDirHelper.isExternalStorageAvailable()) {
+            if (AppDirHelper.isExternalStorageAvailable) {
                 AppDirHelper.getAppDir(getApplication())?.let {
                     _appDirInfo.postValue(Result.success(Pair(FileUtils.getPath(getApplication(), it.uri), AppDirHelper.isWritableDirectory(it))))
                 } ?: run {

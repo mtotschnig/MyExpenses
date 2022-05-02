@@ -28,9 +28,11 @@ import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
+import org.totschnig.myexpenses.adapter.MyViewPagerAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.feature.*
@@ -46,9 +48,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
@@ -101,6 +105,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var viewModel: MyExpensesViewModel
 
     lateinit var binding: ActivityMainBinding
+    protected var pagerAdapter: MyViewPagerAdapter? = null
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -648,8 +653,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    abstract override fun getCurrentFragment(): TransactionList?
-
     fun accountList(): ExpandableStickyListHeadersListView {
         return binding.accountPanel.accountList
     }
@@ -663,6 +666,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     open fun  buildCheckSealedHandler() = CheckSealedHandler(contentResolver)
+
+    fun doReset() {
+        currentFragment?.takeIf { it.hasItems() }?.also { fragment ->
+            AppDirHelper.checkAppDir(this).onSuccess {
+                ExportDialogFragment.newInstance(accountId, fragment.isFiltered)
+                    .show(this.supportFragmentManager, "EXPORT")
+            }.onFailure {
+                showDismissibleSnackBar(it.safeMessage)
+            }
+        } ?: kotlin.run {
+            showExportDisabledCommand()
+        }
+    }
+
+    override fun getCurrentFragment() = pagerAdapter?.let {
+        supportFragmentManager.findFragmentByTag(
+            it.getFragmentName(currentPosition)
+        ) as TransactionList?
+    }
+
+    fun showExportDisabledCommand() {
+        showMessage(R.string.dialog_command_disabled_reset_account)
+    }
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"

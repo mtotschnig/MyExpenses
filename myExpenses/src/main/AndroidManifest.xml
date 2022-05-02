@@ -215,11 +215,7 @@
         </activity>
         <activity
             android:name=".activity.Help"
-            android:theme="@style/Translucent">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Translucent" />
         <activity
             android:name=".activity.ManageParties"
             android:exported="false"
@@ -237,6 +233,7 @@
             android:name=".activity.ManageTemplates"
             android:parentActivityName=".activity.MyExpenses"
             android:theme="@style/EditDialog"
+            android:exported="true"
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
@@ -259,14 +256,11 @@
             android:theme="@style/EditDialog" />
         <activity
             android:name=".activity.CalculatorInput"
-            android:theme="@style/Calculator">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Calculator" />
         <activity
             android:name=".activity.ContribInfoDialogActivity"
-            android:theme="@style/Translucent">
+            android:theme="@style/Translucent"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -280,6 +274,7 @@
             android:exported="false"
             android:theme="@style/EditDialog" />
         <activity
+            android:exported="true"
             android:name=".activity.AccountWidgetConfigure"
             android:label="@string/account_widget_configuration"
             android:theme="@style/WidgetConfiguration">
@@ -325,7 +320,7 @@
         <service android:name=".service.PlanNotificationClickHandler" />
         <service android:name=".service.SyncNotificationDismissHandler" />
 
-        <activity android:name=".activity.SimpleToastActivity">
+        <activity android:name=".activity.SimpleToastActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -376,14 +371,17 @@
                 android:resource="@xml/sync_adapter" />
         </service>
 
-        <receiver android:name=".service.GenericAlarmReceiver">
+        <receiver android:name=".service.GenericAlarmReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".service.ScheduleReceiver" />
+
         <receiver
+            android:exported="true"
             android:name=".widget.AccountWidget"
             android:label="@string/widget_title_accounts">
             <intent-filter>
@@ -395,6 +393,7 @@
                 android:resource="@xml/account_widget_info" />
         </receiver>
         <receiver
+            android:exported="true"
             android:name=".widget.TemplateWidget"
             android:label="@string/widget_title_templates">
             <intent-filter>

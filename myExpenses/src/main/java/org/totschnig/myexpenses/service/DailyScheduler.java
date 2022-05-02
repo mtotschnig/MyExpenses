@@ -90,7 +90,8 @@ public class DailyScheduler {
     if (extras != null) {
       intent.putExtras(extras);
     }
-    return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    //noinspection InlinedApi
+    return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
   }
 
   public static void updatePlannerAlarms(Context context, boolean force, boolean now) {

@@ -20,29 +20,15 @@ import io.ktor.routing.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import org.apache.commons.text.StringSubstitutor
-import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
-import org.apache.commons.text.StringSubstitutor.DEFAULT_PREFIX
-import org.apache.commons.text.StringSubstitutor.DEFAULT_SUFFIX
+import org.apache.commons.text.StringSubstitutor.*
 import org.apache.commons.text.lookup.StringLookup
-import java.time.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.feature.IWebInputService
-import org.totschnig.myexpenses.feature.START_ACTION
-import org.totschnig.myexpenses.feature.STOP_ACTION
-import org.totschnig.myexpenses.feature.ServerStateObserver
-import org.totschnig.myexpenses.feature.WebUiBinder
+import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.ui.ContextHelper
@@ -53,6 +39,7 @@ import org.totschnig.myexpenses.util.io.getWifiIpAddress
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.io.IOException
 import java.net.ServerSocket
+import java.time.LocalDate
 import javax.inject.Inject
 
 private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
@@ -183,7 +170,7 @@ class WebInputService : Service(), IWebInputService {
                                     "accounts" to contentResolver.query(
                                         TransactionProvider.ACCOUNTS_BASE_URI,
                                         arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
-                                        DatabaseConstants.KEY_SEALED + " = 0", null, null
+                                        KEY_SEALED + " = 0", null, null
                                     )?.use {
                                         it.asSequence.map {
                                             mapOf(
@@ -299,7 +286,8 @@ class WebInputService : Service(), IWebInputService {
                                 0,
                                 0,
                                 getString(R.string.stop),
-                                PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT)
+                                //noinspection InlinedApi
+                                PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
                             )
                             .build()
 

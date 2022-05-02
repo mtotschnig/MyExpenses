@@ -69,7 +69,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     }
 
     private var actionMode: ActionMode? = null
-    val viewModel: CategoryViewModel by viewModels()
+    private val viewModel: CategoryViewModel by viewModels()
     private lateinit var binding: ActivityComposeFabBinding
     private lateinit var sortDelegate: SortDelegate
     private lateinit var choiceMode: ChoiceMode

@@ -8,19 +8,25 @@ import android.text.TextUtils
 import android.util.SparseBooleanArray
 import android.view.ActionMode
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.State
+import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.*
+import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.DateFilterDialog
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
-import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
+import org.totschnig.myexpenses.dialog.select.*
+import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment.Companion.newInstance
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
@@ -29,11 +35,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.task.TaskExecutionFragment
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
-import org.totschnig.myexpenses.util.asTrueSequence
-import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
@@ -86,6 +90,97 @@ class TransactionList : BaseTransactionList() {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (mAccount == null || activity == null) {
+            return false
+        }
+        val command = item.itemId
+        if (command == R.id.FILTER_CATEGORY_COMMAND) {
+            if (!removeFilter(command)) {
+                val i = Intent(activity, ManageCategories::class.java)
+                i.action = ACTION_SELECT_FILTER
+                startActivityForResult(i, FILTER_CATEGORY_REQUEST)
+            }
+            return true
+        } else if (command == R.id.FILTER_TAG_COMMAND) {
+            if (!removeFilter(command)) {
+                val i = Intent(activity, ManageTags::class.java)
+                i.action = ACTION_SELECT_FILTER
+                startActivityForResult(i, FILTER_TAGS_REQUEST)
+            }
+            return true
+        } else if (command == R.id.FILTER_AMOUNT_COMMAND) {
+            if (!removeFilter(command)) {
+                AmountFilterDialog.newInstance(mAccount.currencyUnit)
+                    .show(requireActivity().supportFragmentManager, "AMOUNT_FILTER")
+            }
+            return true
+        } else if (command == R.id.FILTER_DATE_COMMAND) {
+            if (!removeFilter(command)) {
+                DateFilterDialog.newInstance()
+                    .show(requireActivity().supportFragmentManager, "DATE_FILTER")
+            }
+            return true
+        } else if (command == R.id.FILTER_COMMENT_COMMAND) {
+            if (!removeFilter(command)) {
+                SimpleInputDialog.build()
+                    .title(R.string.search_comment)
+                    .pos(R.string.menu_search)
+                    .neut()
+                    .show(this, FILTER_COMMENT_DIALOG)
+            }
+            return true
+        } else if (command == R.id.FILTER_STATUS_COMMAND) {
+            if (!removeFilter(command)) {
+                SelectCrStatusDialogFragment.newInstance()
+                    .show(requireActivity().supportFragmentManager, "STATUS_FILTER")
+            }
+            return true
+        } else if (command == R.id.FILTER_PAYEE_COMMAND) {
+            if (!removeFilter(command)) {
+                val i = Intent(activity, ManageParties::class.java)
+                i.action = ACTION_SELECT_FILTER
+                i.putExtra(DatabaseConstants.KEY_ACCOUNTID, mAccount.id)
+                startActivityForResult(i, FILTER_PAYEE_REQUEST)
+            }
+            return true
+        } else if (command == R.id.FILTER_METHOD_COMMAND) {
+            if (!removeFilter(command)) {
+                SelectMethodDialogFragment.newInstance(mAccount.id)
+                    .show(requireActivity().supportFragmentManager, "METHOD_FILTER")
+            }
+            return true
+        } else if (command == R.id.FILTER_TRANSFER_COMMAND) {
+            if (!removeFilter(command)) {
+                SelectTransferAccountDialogFragment.newInstance(mAccount.id)
+                    .show(requireActivity().supportFragmentManager, "TRANSFER_FILTER")
+            }
+            return true
+        } else if (command == R.id.FILTER_ACCOUNT_COMMAND) {
+            if (!removeFilter(command)) {
+                newInstance(mAccount.currencyUnit.code)
+                    .show(requireActivity().supportFragmentManager, "ACCOUNT_FILTER")
+            }
+            return true
+        } else if (command == R.id.PRINT_COMMAND) {
+            val ctx = requireActivity() as MyExpenses
+            if (hasItems) {
+                AppDirHelper.checkAppDir(requireContext()).onSuccess {
+                    ctx.contribFeatureRequested(ContribFeature.PRINT, null)
+                }.onFailure {
+                    ctx.showDismissibleSnackBar(it.safeMessage)
+                }
+            } else {
+                ctx.showExportDisabledCommand()
+            }
+            return true
+        } else if (command == R.id.SYNC_COMMAND) {
+            mAccount.requestSync()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onHeaderLongClick(
@@ -336,7 +431,7 @@ class TransactionList : BaseTransactionList() {
                         result.onSuccess {
                             excludedIds.addAll(it)
                             val dialogFragment =
-                                org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment.newInstance(
+                                SelectSingleAccountDialogFragment.newInstance(
                                     R.string.menu_remap,
                                     R.string.remap_empty_list,
                                     excludedIds

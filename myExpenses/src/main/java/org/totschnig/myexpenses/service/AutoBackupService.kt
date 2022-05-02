@@ -26,10 +26,13 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.doBackup
+import org.totschnig.myexpenses.provider.listOldBackups
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import javax.inject.Inject
 
 class AutoBackupService : JobIntentService() {
@@ -44,43 +47,122 @@ class AutoBackupService : JobIntentService() {
         (application as MyApplication).appComponent.inject(this)
     }
 
+    private val notificationTitle: String
+        get() = TextUtils.concatResStrings(
+            this,
+            " ",
+            R.string.app_name,
+            R.string.contrib_feature_auto_backup_label
+        )
+
+    private fun notify(notification: Notification) {
+        (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
+            .notify(NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP, notification)
+    }
+
+    private fun buildMessage(message: CharSequence) =
+        NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, notificationTitle, message)
+
     override fun onHandleWork(intent: Intent) {
         val action = intent.action
-        if (ACTION_AUTO_BACKUP == action) {
-            val syncAccount = prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null)
-            val result: Result<DocumentFile> =
-                doBackup(this, prefHandler.getString(PrefKey.EXPORT_PASSWORD, null), syncAccount)
-            result.onSuccess {
-                val remaining = ContribFeature.AUTO_BACKUP.recordUsage(prefHandler, licenceHandler)
-                if (remaining < 1) {
-                    ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP)
-                }
-            }.onFailure {
-                val notificationTitle = TextUtils.concatResStrings(
-                    this,
-                    " ",
-                    R.string.app_name,
-                    R.string.contrib_feature_auto_backup_label
-                )
-                prefHandler.putBoolean(PrefKey.AUTO_BACKUP, false)
-                val content = "${it.message} ${getString(R.string.warning_auto_backup_deactivated)}"
-                val preferenceIntent = Intent(this, MyPreferenceActivity::class.java)
-                val builder =
-                    NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, notificationTitle, content)
+        when (action) {
+            ACTION_AUTO_BACKUP -> {
+                val syncAccount = prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null)
+                val result: Result<Pair<DocumentFile, List<DocumentFile>>> =
+                    doBackup(this, prefHandler, syncAccount)
+                result.onSuccess { pair ->
+                    val remaining =
+                        ContribFeature.AUTO_BACKUP.recordUsage(prefHandler, licenceHandler)
+                    if (remaining < 1) {
+                        ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP)
+                    }
+                    if (pair.second.isNotEmpty()) {
+                        val requireConfirmation =
+                            prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)
+                        if (requireConfirmation) {
+                            val builder = buildMessage(
+                                "${getString(R.string.dialog_title_purge_backups)} (${pair.second.size})"
+                            )
+                            builder.addAction(
+                                0,
+                                0,
+                                getString(R.string.menu_delete),
+                                PendingIntent.getBroadcast(
+                                    this,
+                                    0,
+                                    Intent(this, GenericAlarmReceiver::class.java).setAction(
+                                        ACTION_BACKUP_PURGE
+                                    ),
+                                    //noinspection InlinedApi
+                                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                                )
+                            )
+                            builder.addAction(
+                                0,
+                                0,
+                                getString(android.R.string.cancel),
+                                PendingIntent.getBroadcast(
+                                    this,
+                                    0,
+                                    Intent(this, GenericAlarmReceiver::class.java).setAction(
+                                        ACTION_BACKUP_PURGE_CANCEL
+                                    ),
+                                    //noinspection InlinedApi
+                                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                                )
+                            )
+                            notify(builder.build())
+                        } else {
+                            val failedDelete = pair.second.filter {
+                                !it.delete()
+                            }.size
+                            if (failedDelete > 0) {
+                                notify(
+                                    buildMessage(
+                                        resources.getQuantityString(
+                                            R.plurals.purge_backup_failure,
+                                            failedDelete,
+                                            failedDelete
+                                        )
+                                    ).build()
+                                )
+                            }
+                        }
+                    }
+                }.onFailure {
+                    prefHandler.putBoolean(PrefKey.AUTO_BACKUP, false)
+                    val content =
+                        "${it.message} ${getString(R.string.warning_auto_backup_deactivated)}"
+                    val preferenceIntent = Intent(this, MyPreferenceActivity::class.java)
+                    val builder = buildMessage(content)
                         .setContentIntent(
                             PendingIntent.getActivity(
-                                this, 0,
-                                preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT
+                                this,
+                                0,
+                                preferenceIntent,
+                                //noinspection InlinedApi
+                                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                             )
                         )
-                val notification = builder.build()
-                notification.flags = Notification.FLAG_AUTO_CANCEL
-                (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).notify(
-                    NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP, notification
-                )
+                    val notification = builder.build()
+                    notification.flags = Notification.FLAG_AUTO_CANCEL
+                    notify(notification)
+                }
             }
-        } else if (ACTION_SCHEDULE_AUTO_BACKUP == action) {
-            DailyScheduler.updateAutoBackupAlarms(this)
+            ACTION_SCHEDULE_AUTO_BACKUP -> {
+                DailyScheduler.updateAutoBackupAlarms(this)
+            }
+            ACTION_BACKUP_PURGE -> {
+                AppDirHelper.getAppDir(this)?.let { appDir ->
+                    notify(
+                        buildMessage(
+                            BackupViewModel.purgeResult2Message(
+                                this,
+                                listOldBackups(appDir, prefHandler).map { it.delete() })
+                        ).build()
+                    )
+                }
+            }
         }
     }
 
@@ -88,11 +170,13 @@ class AutoBackupService : JobIntentService() {
         const val ACTION_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_AUTO_BACKUP"
         const val ACTION_SCHEDULE_AUTO_BACKUP =
             BuildConfig.APPLICATION_ID + ".ACTION_SCHEDULE_AUTO_BACKUP"
+        const val ACTION_BACKUP_PURGE_CANCEL = "BACKUP_PURGE_CANCEL"
+        const val ACTION_BACKUP_PURGE = "BACKUP_PURGE"
 
         /**
          * Unique job ID for this service.
          */
-        const val JOB_ID = 1000
+        private const val JOB_ID = 1000
 
         /**
          * Convenience method for enqueuing work in to this service.

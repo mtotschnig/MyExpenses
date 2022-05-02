@@ -545,7 +545,7 @@ public class Transaction extends Model implements ITransaction {
       Uri parsedUri = Uri.parse(c.getString(pictureUriColumnIndex));
       if ("file".equals(parsedUri.getScheme())) { // Upgrade from legacy uris
         try {
-          parsedUri = AppDirHelper.getContentUriForFile(new File(parsedUri.getPath()));
+          parsedUri = AppDirHelper.getContentUriForFile(MyApplication.getInstance(), new File(parsedUri.getPath()));
         } catch (IllegalArgumentException ignored) {
         }
       }
