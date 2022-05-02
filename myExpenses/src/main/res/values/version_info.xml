@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
-        <item>523;3.3.8.1</item>
+        <item>524;3.3.9</item>
         <item>521;3.3.8</item>
         <item>515;3.3.7</item>
         <item>511;3.3.6</item>
@@ -65,7 +65,6 @@
     <string name="version_more_info_336">107745551599621121</string>
     <string name="version_more_info_337">107877987796717018</string>
     <string name="version_more_info_338">108159979078178826</string>
-    <string name="version_more_info_3381">108187423818394702</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
@@ -93,7 +92,7 @@
     <string name="project_board_336">61#column-17032814</string>
     <string name="project_board_337">64#column-17809661</string>
     <string name="project_board_338">65#column-17887806</string>
-    <string name="project_board_3381">68#column-18543179</string>
+    <string name="project_board_339">67#column-18533219</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
@@ -111,8 +110,7 @@
         <item>@string/whats_new_336_1</item>
         <item>@string/whats_new_336_2</item>
     </string-array>
-    <string-array name="whats_new_3381">
-        <item>@string/bug_fixes</item>
-        <item>@string/ui_refinement</item>
+    <string-array name="whats_new_339">
+        <item>@string/dialog_title_purge_backups</item>
     </string-array>
 </resources>
