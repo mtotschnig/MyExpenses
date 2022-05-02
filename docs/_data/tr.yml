@@ -3,7 +3,7 @@ tr:
   imprint_text: Bu sitenin içeriği ve <i>{app_name}</i> uygulamasının geliştirmesi,
     bakımı ve dağıtımından sorumlu olan kişi
   privacy_policy_heading: Gizlilik
-  privacy_policy_text: "<i>{app_name}</i>, cihazınızda kendi veritabanı ve SD kartındaki\
+  privacy_policy_text: "<i>{app_name}</i>, aygıtınızda kendi veri tabanı ve SD kartındaki\
     \ kendi klasöründen başka hiçbir veriye erişmez. Eğer gelecekteki ve tekrarlanan\
     \ muameleler için planlama işlevini kullanıyorsanız bu planlamaların muhafaza\
     \ edildiği takvimde atama yaparsınız."
@@ -34,8 +34,8 @@ tr:
     distribution: Kategori başına dağılımı görüntüleyin
     history: Finansal durumunuzun zaman içinde nasıl geliştiğini anlayın
     export: PDF olarak yazdırın veya QIF ve CSV ile paylaşın.
-    sync: Şifrelenmiş hesap verilerini özel ya da herkese açık bulut hizmetleriyle
-      çeşitli cihazlarda eşleştirin.
+    sync: Özel veya genel bulut hizmetleri aracılığıyla şifrelenmiş hesap verilerini
+      birden fazla aygıtta eşzamanlayın.
   features:
     manage_accounts: <b>Havaleler</b> dahil olmak üzere 5 hesap desteği (değişik dövizler
       arasında da havale yapılabilir)
@@ -65,8 +65,8 @@ tr:
       csv_import: Gelişmiş, özelleştirilebilen <b>CSV içe aktarma</b> (tablolama uygulamaları)
       auto_backup: Günlük <b>otomatik yedekleme</b> ve seçime bağlı bulut depolama
         alanına yükleme
-      cloud_sync: "<b>Bulut eşleştirmesi</b>: veriler birden çok cihaz vasıtasıyla\
-        \ eşleştirilebilir"
+      cloud_sync: "<b>Bulut eşzamanlaması</b>: Veriler birden fazla aygıt arasında\
+        \ eşzamanlanabilir"
       split_template: Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b>
       email_support: 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
       roadmap_voting: <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
@@ -104,10 +104,10 @@ tr:
       explanation_usage_tracking: Anonim kullanım takibi
       explanation_crash_reporting: Çökme raporları
       explanation_key_validation: Lisans anahtarı teyidi
-      explanation_cloud_sync: Bulut eşleşmesi
+      explanation_cloud_sync: Bulut eşzamanlaması
     accounts:
       label: Hesaplar
-      explanation: Cihazlar arası bulut hizmetleri ile eşleşme.
+      explanation: Bulut hizmetleri aracılığıyla aygıtlar arasında eşzamanlama.
   contrib-key: Katkı Anahtarı
   extended-key: Genişletilmiş Anahtarı
   professional-key: Profesyonel Anahtar
@@ -132,4 +132,4 @@ tr:
     distribution: Grafik diyagram
     history: Finansal durumunuzun tarihçesi
     export: PDF, QIF ve CSV olarak dışa aktarma
-    sync: Bulut eşleşmesi
+    sync: Bulut eşzamanlaması
