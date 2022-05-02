@@ -260,10 +260,14 @@
                 android:defaultValue="5"
                 android:key="@string/pref_purge_backup_keep_key"
                 android:max="100"
-                android:title="@string/pref_purge_backup_keep_title"
+                android:summary="@string/pref_purge_backup_keep_title"
                 my:min="1"
                 my:showSeekBarValue="true"
                 my:updatesContinuously="true" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="@string/pref_purge_backup_require_confirmation_key"
+                android:summary="@string/pref_purge_backup_require_confirmation_summary" />
         </PreferenceScreen>
 
 

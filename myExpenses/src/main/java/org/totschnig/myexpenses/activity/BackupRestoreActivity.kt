@@ -127,48 +127,68 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                     abort(it.safeMessage)
                 }
                 is Running -> showSnackBarIndefinite(R.string.menu_backup)
-                is BackupState.Completed -> backupState.result.onSuccess { (file, path, purgeList) ->
+                is BackupState.Completed -> backupState.result.onSuccess { (file, path, extraData) ->
                     if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_PURGE) == null) {
                         var message = getString(R.string.backup_success, path)
-                        if (purgeList.isEmpty()) {
-                            if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
-                                val uris = ArrayList<Uri>()
-                                uris.add(file.uri)
-                                val shareResult = ShareUtils.share(
-                                    this, uris,
-                                    prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
-                                    "application/zip"
-                                )
-                                if (!shareResult.isSuccess) {
-                                    message += " " + shareResult.print(this)
-                                }
+                        if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+                            val uris = ArrayList<Uri>()
+                            uris.add(file.uri)
+                            val shareResult = ShareUtils.share(
+                                this, uris,
+                                prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
+                                "application/zip"
+                            )
+                            if (!shareResult.isSuccess) {
+                                message += " " + shareResult.print(this)
                             }
-                            showDismissibleSnackBar(message, onDismissed)
-                        } else {
-                            dismissSnackBar()
-                            ConfirmationDialogFragment.newInstance(Bundle().apply {
-                                putInt(
-                                    ConfirmationDialogFragment.KEY_TITLE,
-                                    R.string.dialog_title_purge_backups
-                                )
-                                putString(
-                                    ConfirmationDialogFragment.KEY_MESSAGE,
-                                    message + "\nOld backup files (${purgeList.joinToString { it.name ?: it.uri.toString() }}) will be deleted.\n" +
-                                            getString(R.string.continue_confirmation)
-                                )
-                                putInt(
-                                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                                    R.id.PURGE_BACKUPS_COMMAND
-                                )
-                            })
-                                .show(supportFragmentManager, FRAGMENT_TAG_CONFIRM_PURGE)
                         }
+                        extraData.fold(
+                            ifLeft = { purgeList ->
+                                if (purgeList.isEmpty()) {
+                                    showDismissibleSnackBar(message, onDismissed)
+                                } else {
+                                    dismissSnackBar()
+                                    ConfirmationDialogFragment.newInstance(Bundle().apply {
+                                        putInt(
+                                            ConfirmationDialogFragment.KEY_TITLE,
+                                            R.string.dialog_title_purge_backups
+                                        )
+                                        putString(
+                                            ConfirmationDialogFragment.KEY_MESSAGE,
+                                            message + "\n" + getString(R.string.purge_backups) + "\n" +
+                                                    purgeList.joinToString("\n") {
+                                                        " • " + (it.name ?: it.uri.toString())
+                                                    }
+                                        )
+                                        putInt(
+                                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                                            R.id.PURGE_BACKUPS_COMMAND
+                                        )
+                                        putInt(
+                                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                                            R.string.menu_delete
+                                        )
+                                    })
+                                        .show(supportFragmentManager, FRAGMENT_TAG_CONFIRM_PURGE)
+                                }
+                            },
+                            ifRight = { list ->
+                                message += BackupViewModel.purgeResult2Message(this, list)
+                                showDismissibleSnackBar(message, onDismissed)
+                            }
+                        )
                     }
                 }.onFailure {
                     showDismissibleSnackBar(it.safeMessage, onDismissed)
                 }
                 is BackupState.Purged -> backupState.result.onSuccess {
-                    showDismissibleSnackBar(resources.getQuantityString(R.plurals.purge_backup_success, it, it), onDismissed)
+                    showDismissibleSnackBar(
+                        resources.getQuantityString(
+                            R.plurals.purge_backup_success,
+                            it,
+                            it
+                        ), onDismissed
+                    )
                 }.onFailure {
                     CrashHandler.report(it)
                     showDismissibleSnackBar(it.safeMessage, onDismissed)

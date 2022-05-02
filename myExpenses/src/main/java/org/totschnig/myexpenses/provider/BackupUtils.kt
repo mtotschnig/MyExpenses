@@ -24,7 +24,11 @@ import java.util.*
 const val BACKUP_DB_FILE_NAME = "BACKUP"
 const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 
-fun doBackup(context: Context, prefHandler: PrefHandler, withSync: String?): Result<Pair<DocumentFile, List<DocumentFile>>> {
+fun doBackup(
+    context: Context,
+    prefHandler: PrefHandler,
+    withSync: String?
+): Result<Pair<DocumentFile, List<DocumentFile>>> {
     val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
     if (!AppDirHelper.isExternalStorageAvailable) {
         return Result.failure(context, R.string.external_storage_unavailable)

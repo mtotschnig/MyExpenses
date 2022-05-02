@@ -1,14 +1,17 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.doBackup
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -21,7 +24,7 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
     sealed class BackupState {
         class Prepared(val appDir: Result<DocumentFile>) : BackupState()
         object Running : BackupState()
-        class Completed(val result: Result<Triple<DocumentFile, String, List<DocumentFile>>>) :
+        class Completed(val result: Result<Triple<DocumentFile, String, Either<List<DocumentFile>, List<Boolean>>>>) :
             BackupState()
 
         class Purged(val result: Result<Int>) : BackupState()
@@ -45,11 +48,16 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                             PrefKey.AUTO_BACKUP_CLOUD,
                             null
                         ) else null
-                    ).map {
+                    ).mapCatching { pair ->
+                        val requireConfirmation =
+                            prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)
+                        val extraData = if (requireConfirmation || pair.second.isEmpty())
+                            Either.Left(pair.second) else
+                            Either.Right(pair.second.map { it.delete() })
                         Triple(
-                            it.first,
-                            FileUtils.getPath(getApplication(), it.first.uri),
-                            it.second
+                            pair.first,
+                            FileUtils.getPath(getApplication(), pair.first.uri),
+                            extraData
                         )
                     })
             )
@@ -78,11 +86,45 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                 BackupState.Purged(
                     runCatching {
                         @Suppress("DEPRECATION")
-                        (backupState.value as BackupState.Completed).result.getOrThrow().third.sumBy {
-                            if (it.delete()) 1 else 0
-                        }
+                        (backupState.value as BackupState.Completed).result.getOrThrow().third.fold(
+                            ifLeft = { list ->
+                                list.sumBy {
+                                    if (it.delete()) 1 else 0
+                                }
+                            },
+                            ifRight = {
+                                throw IllegalStateException()
+                            }
+                        )
                     }
                 ))
+        }
+    }
+
+    companion object {
+        fun purgeResult2Message(context: Context, result: List<Boolean>): String {
+            val deleted = result.count { it }
+            val failed = result.count { !it }
+            return buildList {
+                if (deleted > 0) {
+                    add(
+                        context.resources.getQuantityString(
+                            R.plurals.purge_backup_success,
+                            deleted,
+                            deleted
+                        )
+                    )
+                }
+                if (failed > 0) {
+                    add(
+                        context.resources.getQuantityString(
+                            R.plurals.purge_backup_failure,
+                            failed,
+                            failed
+                        )
+                    )
+                }
+            }.joinToString(" ")
         }
     }
 }

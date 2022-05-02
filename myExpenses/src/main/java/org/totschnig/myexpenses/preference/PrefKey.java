@@ -159,7 +159,8 @@ public enum PrefKey {
   DB_SAFE_MODE(R.string.pref_db_safe_mode_key),
   PARENT_CATEGORY_SELECTION_ON_TAP("parent_category_selection_on_tap"),
   PURGE_BACKUP(R.string.pref_purge_backup_key),
-  PURGE_BACKUP_KEEP(R.string.pref_purge_backup_keep_key)
+  PURGE_BACKUP_KEEP(R.string.pref_purge_backup_keep_key),
+  PURGE_BACKUP_REQUIRE_CONFIRMATION(R.string.pref_purge_backup_require_confirmation_key)
   ;
 
   int resId = 0;
