@@ -150,7 +150,7 @@
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
     <string name="menu_apply_template">Uygula</string>
     <string name="menu_back">Önceki</string>
-    <string name="menu_backup">Yedekleme</string>
+    <string name="menu_backup">Yedekle</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
     <string name="menu_balance">Hesabı uzlaştır</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
@@ -307,9 +307,9 @@
     <string name="pref_manage_methods_title">Ödeme yöntemleri</string>
     <string name="pref_manage_parties_summary">Borçlu/alacaklı ekle, düzenle veya sil.</string>
     <string name="pref_manage_parties_title">Bölümler</string>
-    <string name="pref_manage_sync_backends_title">Eşleşme arka ucu</string>
+    <string name="pref_manage_sync_backends_title">Eşzamanlama arka uçları</string>
     <!-- %s will be replaced with list of backends -->
-    <string name="pref_manage_sync_backends_summary">Hesapları eşleştirmek için arka uç ekle (%s).</string>
+    <string name="pref_manage_sync_backends_summary">Hesapları eşzamanlamak için arka uç ekle (%s).</string>
     <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
     <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
     <string name="pref_perform_protection_title">Koruma</string>
@@ -354,8 +354,8 @@
     <string name="restore_db_success">Veri tabanı yedekten geri yüklendi.</string>
     <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
     <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
-    <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
-    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Yedeklemeden %d planlama geri alınmıştır</string>
+    <string name="restore_preferences_success">Tercihler yedekten geri yüklendi.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plan yedekten geri yüklendi</string>
     <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
     <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
     <plurals name="save_transaction_from_template_success">
@@ -443,8 +443,8 @@
     <string name="menu_create_folder">Yeni klasör</string>
     <string name="widget_title_accounts">Hesaplarım</string>
     <string name="widget_title_templates">Şablonlarım</string>
-    <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>
-    <string name="app_dir_not_compatible_with_nougat">Yedeklemeler ve dışa aktarmalar için güncel olarak yapılandırılmış URI (%1$s) Android Nougat tarafından desteklenmemektedir. Lütfen bir defa daha bir klasör seçin.</string>
+    <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için seçili olan klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>
+    <string name="app_dir_not_compatible_with_nougat">Yedeklemeler ve dışa aktarmalar için yapılandırılmış olan URI (%1$s) Android Nougat tarafından desteklenmiyor. Lütfen tekrar bir klasör seçin.</string>
     <string name="search_amount">Meblağ ara</string>
     <string name="search_category">Kategori ara</string>
     <string name="search_comment">Not ara</string>
@@ -473,9 +473,9 @@
     <string name="import_source_file">Dosya</string>
     <string name="restore_calendar_handling">Takvim veri yönetimi</string>
     <string name="restore_calendar_handling_configured">Planlamaları güncel yapılandırılmış takvime geri al</string>
-    <string name="restore_calendar_handling_backup">Planlamaları mevcutsa yedeklemedeki takvim setine geri al</string>
+    <string name="restore_calendar_handling_backup">Varsa planları yedekte ayarlanmış takvime geri yükle</string>
     <string name="restore_calendar_handling_ignore">Planlamaları geri alma</string>
-    <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivindeki %s takvim seti yerel olarak mevcut değildir. Geri alma iptal edilmiştir.</string>
+    <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivinde ayarlanan %s takvimi yerel olarak kullanılabilir değil. Geri yükleme iptal edildi.</string>
     <string name="restore_not_possible_local_calendar_missing">Güncel planlama takvimi mevcut değildir.</string>
     <string name="menu_view_picture">Resmi görüntüle</string>
     <string name="menu_delete_picture">Resmi sil</string>
@@ -513,7 +513,7 @@
     <string name="menu_show_transactions">Muameleleri göster</string>
     <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
     <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
-    <string name="pref_auto_backup_title">Otomatik yedekleme</string>
+    <string name="pref_auto_backup_title">Otomatik yedekle</string>
     <string name="pref_auto_backup_summary">Veri tabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
     <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
@@ -552,51 +552,51 @@
     <string name="crash_dialog_title">{app_name} çöktü</string>
     <string name="crash_dialog_text">Uygulamanın çıkmasının zorlanması sırasında beklenmeyen bir hata meydana geldi. Lütfen bu hatayı düzeltmemize kullanıcı verileri yollayarak yardımcı olun, tüm yapmanız gereken Tamam\'a dokunmaktır.</string>
     <string name="crash_dialog_comment_prompt">Problemle ilgili yorumlarınızı aşağıda ekleyebilirsiniz:</string>
-    <string name="synchronization">Eşleşmeli</string>
-    <string name="synchronization_none">Eşleşmesiz</string>
+    <string name="synchronization">Eşzamanla</string>
+    <string name="synchronization_none">Eşzamanlama yok</string>
     <string name="hint_url">Bağlantı</string>
     <string name="description_webdav_url">Lütfen WebDAV sunucunuzdaki özel bir klasör için bağlantı girin. {app_name} verilerini bu klasör içinde saklayacak ve dışında hiçbir şeye dokunmayacaktır.</string>
     <string name="description_webdav_trust_certificate">Ağ sitesi Android tarafından güvenilmeyen bir sertifika kullanmaktadır.</string>
     <string name="hint_user_name">Kullanıcı ismi</string>
     <string name="hint_password">Parola</string>
     <string name="label_trust_certificate">Bu sertifikaya güven</string>
-    <string name="no_sync_backends">Hiçbir eşleşme arka ucu yok</string>
-    <string name="menu_create_sync_backend">Yeni eşleşme arka ucu</string>
+    <string name="no_sync_backends">Eşzamanlama arka ucu yok</string>
+    <string name="menu_create_sync_backend">Yeni eşzamanlama arka ucu</string>
     <string name="validate_error_not_empty">Boş olmamalı</string>
     <string name="validate_error_webdav_invalid_certificate">Bu sertifikaya güvenilemedi. Geçersiz gibi görünüyor.</string>
     <string name="validate_error_webdav_not_compliant">Bağlantı bir WebDAV kaynağına işaret etmemektedir.</string>
     <string name="validate_error_webdav_404">Bağlantı (URL) sunucuda mevcut değildir.</string>
     <string name="url_not_valid">Geçersiz bağlantı</string>
-    <string name="menu_sync_unlink">Eşleşmeyi durdur</string>
-    <string name="menu_sync_link">Eşleşmeyi başlat</string>
-    <string name="menu_sync_download">İndir ve eşleştir</string>
-    <string name="menu_sync_now">Şimdi eşleştir</string>
-    <string name="pref_sync_frequency_title">Eşleştirme sıklığı</string>
-    <string name="pref_sync_frequency_summary">Verilerin hangi sıklıkla eşleştirilecekleri (saat olarak)</string>
-    <string name="dialog_confirm_sync_unlink">Bu hesabın %s ile bağlantısını kaldırırsanız, eşleşme durumu kaybolur. Daha sonra bağlantıyı tekrar kurmak tam bir eşleşmenin tekrar yapılmasını gerektirir.</string>
+    <string name="menu_sync_unlink">Eşzamanlamayı durdur</string>
+    <string name="menu_sync_link">Eşzamanlamayı başlat</string>
+    <string name="menu_sync_download">İndir ve eşzamanla</string>
+    <string name="menu_sync_now">Şimdi eşzamanla</string>
+    <string name="pref_sync_frequency_title">Eşzamanlama sıklığı</string>
+    <string name="pref_sync_frequency_summary">Verilerin hangi sıklıkla eşzamanlanacağı (saat olarak)</string>
+    <string name="dialog_confirm_sync_unlink">Bu hesabın %s ile bağlantısını kaldırırsanız, eşzamanlama durumu kaybolur. Daha sonra bağlantıyı tekrar kurmak tam bir eşzamanlamanın tekrar yapılması gerekir.</string>
     <string name="dialog_sync_link">uuid %s ile bir hesap hem yerel veri tabanında hem de uzaktaki arka uçta mevcuttur. Bu ikisini ilişkilendirdiğinizde, ilk olarak yerel verileri uzaktaki arka uca mı yükleyeceğinize ya da uzaktan yerel veri tabanına mı indireceğinize karar vermeniz gerekir.</string>
     <string name="dialog_command_sync_link_remote">Uzaktan indir</string>
     <string name="dialog_command_sync_link_local">Yerelden gönder</string>
     <string name="dialog_synced_to_other">uuid %s ile bir hesap zaten yerel veri tabanında mevcuttur ve uzaktaki başka bir arka uca bağlıdır.</string>
     <string name="menu_remove">Kaldır</string>
-    <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır.</string>
-    <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir cihazın ona bağlı olmadığından emin olun.</string>
+    <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşzamanlama durumu kaybolacaktır.</string>
+    <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir aygıtın ona bağlı olmadığından emin olun.</string>
     <string name="dialog_confirm_sync_link_remote">Bu hesabın yerel verileri silinecektir.</string>
     <string name="warning_limited_trial">%1$s işlevi %2$s tarihine dek denenebilir.</string>
     <string name="warning_trial_limit_reached">%s işlevini deneme periyotu sona ermiştir.</string>
-    <string name="warning_synchronization_folder_usage">Bu klasör, {app_name}\'ın değişik cihazlardaki kurulumları arasında eşleştirme yapmak için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
+    <string name="warning_synchronization_folder_usage">Bu klasör, farklı aygıtlarda {app_name} kurulumları arasında verilerin eşzamanlanması için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Seçtiğiniz klasör mevcut arka ucun bir hesabına denk gelmektedir. Bu arka ucu kullanmak için bir üst klasörü seçmeniz gerekir.</string>
     <string name="link_account_failure_2">Aynı uuid ile bir hesap zaten uzaktaki arka uçta mevcuttur.</string>
     <string name="link_account_failure_3">Çakışma elle unsurun bağlam menüsünden giderilebilir.</string>
-    <string name="progress_dialog_checking_sync_backend">Arka ucu kontrol et</string>
+    <string name="progress_dialog_checking_sync_backend">Arka uç doğrulanıyor</string>
     <string name="template">Şablon</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Bulut eşleşmesi</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Bulut eşzamanlaması</string>
     <string name="all_contrib_key_features">Katkı Anahtarının tüm işlevleri</string>
     <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Yükselt</string>
-    <string name="pref_backup_cloud_title">Eşleşme arka ucunda sakla</string>
-    <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
+    <string name="pref_backup_cloud_title">Eşzamanlama arka ucunda sakla</string>
+    <string name="pref_backup_cloud_summary">Aygıttaki yerel depolamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
     <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
     <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
     <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
@@ -605,46 +605,46 @@
     <string name="warning_auto_backup_deactivated">Otomatik yedekleme devre dışıdır. Problemi çözdükten sonra (yani yedeklemeler için yeni bir klasör seçtikten sonra) onu ayarlarda tekrar etkinleştirebilirsiniz.</string>
     <string name="pref_tracking_summary">Geliştirme planlamamıza yardımcı olan kullanım modelleri hakkında anonim veriler toplamamıza izin verin.</string>
     <string name="pref_tracking_title">Kullanım hakkında veri toplama</string>
-    <string name="sync_database_error">Eşleşme sırasında bir veri tabanı hatası meydana geldi.</string>
-    <string name="sync_io_error_cannot_connect">Eşleşme arka ucuna bağlanılamadı.</string>
+    <string name="sync_database_error">Eşzamanlama sırasında bir veri tabanı hatası meydana geldi.</string>
+    <string name="sync_io_error_cannot_connect">Eşzamanlama arka ucuna bağlanılamadı.</string>
     <string name="sync_error_will_try_again_later">Daha sonra tekrar denenecektir.</string>
     <string name="sync_io_exception_reset_account_data">Uzaktaki hesabın sıfırlanması sırasında hata.</string>
     <string name="sync_success_reset_account_data">%s hesabı için uzaktaki veriler silindi.</string>
     <string name="sync_io_exception_setup_remote_account">Uzaktaki hesabın ayarlanması sırasında hata.</string>
-    <string name="sync_io_exception_syncing">Sunucu ile değişiklikler eşleştirilirken hata oluştu.</string>
+    <string name="sync_io_exception_syncing">Sunucu ile değişiklikler eşzamanlanırken hata oluştu.</string>
     <string name="sync_io_exception_unlocking">Uzaktaki arka uçtan kilit kaldırılırken hata oluştu.</string>
     <string name="sync_io_exception_locking">Uzaktaki arka uç kilitli ya da kilitlenemez.</string>
-    <string name="synchronization_start">%s hesabı için eşleştirme başlatılıyor.</string>
+    <string name="synchronization_start">%s hesabı için eşzamanlama başlatılıyor.</string>
     <string name="synchronization_end_success">Uzaktaki %1$d değişiklik yerel veri tabanına yazıldı. Yerel %2$d değişiklik uzaktaki arka uca yazıldı.</string>
-    <string name="synchronization_end_success_none">Eşleştirilecek hiçbir değişiklik yok.</string>
+    <string name="synchronization_end_success_none">Eşzamanlanacak değişiklik yok.</string>
     <string name="pref_webdav_timeout_title">WebDAV Zaman Aşımı (saniye olarak)</string>
-    <string name="sync_state_restored">%d hesap için eşleştirme durumu geri getirildi.</string>
-    <string name="sync_state_could_not_be_restored">%d hesap için eşleştirme durumu geri getirilemedi.</string>
+    <string name="sync_state_restored">%d hesap için eşzamanlama durumu geri yüklendi.</string>
+    <string name="sync_state_could_not_be_restored">%d hesap için eşzamanlama durumu geri yüklenemedi.</string>
     <string name="onboarding_ui_title">{app_name} tercihinize uyum sağlar</string>
     <string name="onboarding_data_title">İlk hesabınızı kuralım</string>
     <string name="onboarding_get_started">Başlarken</string>
     <string name="onboarding_more_options">Daha fazla seçenek</string>
-    <string name="onboarding_restore_from_cloud">Bulut eşleşmesinden geri getir</string>
+    <string name="onboarding_restore_from_cloud">Bulut eşzamanlamasından geri yükle</string>
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">Yedeklemeler</string>
     <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
     <string name="dialog_button_add">Ekle</string>
     <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
     <string name="contributed_by">Katkıda bulunan: %s</string>
-    <string name="pref_sync_notification_summary">Eşleşme ilerlemesi hakkında bildirim göster</string>
+    <string name="pref_sync_notification_summary">Eşzamanlama ilerlemesi hakkında bildirim göster</string>
     <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem kütüğüne yaz</string>
     <string name="plan_custom_recurrence_info">Lütfen önce şablonu kaydedin. O zaman planlama takvim uygulamasında açılacaktır ve burada özel bir tekrarlama seçebilirsiniz.</string>
     <string name="picture">Resim</string>
     <string name="menu_create_template_for_split">Yeni bölünmüş şablon</string>
     <string name="progress_validating_licence">Lisans doğrulanıyor</string>
     <string name="licence_validation_error_expired">Lisans sona ermiş</string>
-    <string name="licence_validation_error_device_limit_exceeded">Cİhaz sınırı aşılmıştır. Lütfen başka bir cihazdan lisansı kaldırın.</string>
+    <string name="licence_validation_error_device_limit_exceeded">Aygıt sınırı aşıldı. Lütfen başka bir aygıttan lisansı kaldırın.</string>
     <string name="error">Hata (%s)</string>
     <string name="button_validate">Doğrula</string>
     <string name="licence_key">Lisans Anahtarı</string>
-    <string name="licence_removal_information">Eğer bu cihazda genişletilmiş işlevlere ihtiyaç duymuyorsanız, lisans anahtarını kaldırabilirsiniz. Bu, anahtarı başka bir cihazda etkinleştirebilmenize izin verir. Anahtar en çok %d cihazda etkinleştirilebilir. </string>
+    <string name="licence_removal_information">Eğer bu aygıtta genişletilmiş işlevlere ihtiyaç duymuyorsanız, lisans anahtarını kaldırabilirsiniz. Bu, anahtarı başka bir aygıtta etkinleştirebilmenize izin verir. Anahtar en fazla %d aygıtta etkinleştirilebilir.</string>
     <string name="progress_removing_licence">Lisans kaldırılıyor</string>
-    <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
+    <string name="licence_removal_success">Lisans anahtarı bu aygıttan başarıyla kaldırıldı.</string>
     <string name="professional_key">Profesyonel Anahtar</string>
     <string name="n_months">%d ay</string>
     <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
@@ -673,9 +673,9 @@
         <item quantity="other">%d nesne başarıyla silindi.</item>
     </plurals>
     <string name="feature_deprecated">Kullanımdan kaldırılmış</string>
-    <string name="pref_protection_device_lock_screen_title">Cihaz kilitleme ekranı</string>
+    <string name="pref_protection_device_lock_screen_title">Aygıt kilit ekranı</string>
     <string name="pref_warning_only_one_protection">%1$s ile korumayı kullanmadan önce %2$s ile korumayı devre dışı bırakmanız gerekir.</string>
-    <string name="warning_device_lock_screen_not_set_up_1">Güvenli cihaz kilidi ekranı ayarlanmadı.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Güvenli aygıt kilit ekranı ayarlanmadı.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Ekran kilidini ayarlamak için \'Ayarlar -&gt; Güvenlik -&gt; Ekran kilidine\' gidiniz.</string>
     <string name="menu_history_show_balance">Bakiyeyi göster</string>
     <string name="menu_history_transfers">Transferleri dahil et</string>
@@ -723,9 +723,9 @@
     <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
     <string name="sort_order">Sıralama düzeni</string>
     <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
-    <string name="pref_sync_wifi_only_summary">Sadece Wi-Fi üzerindeyken eşleştir</string>
+    <string name="pref_sync_wifi_only_summary">Yalnızca Wi-Fi üzerindeyken eşzamanla</string>
     <string name="pref_sync_changes_immediately_summary">Yerel değişimleri derhal arka uca yaz</string>
-    <string name="wifi_not_connected">Cihaz Wi-Fi ile bağlı değil. Eşleşme sonraya bırakıldı.</string>
+    <string name="wifi_not_connected">Aygıt Wi-Fi\'ye bağlı değil. Eşzamanlama ertelendi.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">Çeviri</string>
     <!-- Content description for accessibility on image that allows to collapse content  -->
@@ -767,12 +767,12 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Eşlenmemiş\' filtresi çoklu seçime dahil edilemez</string>
-    <string name="upgrade_information_cloud_sync_storage_format">2.9.8 sürümünden beri verilerin eşleşme arka uçlarına yazılma yöntemi değişmiştir. Eşleştirme yapılan tüm cihazlarda yeni kayıt girmeden önce lütfen bu sürüme yükseltme yapın.</string>
+    <string name="upgrade_information_cloud_sync_storage_format">2.9.8 sürümünden beri verilerin eşzamanlama arka uçlarına yazılma yöntemi değişmiştir. Eşzamanlama yapılan tüm aygıtlarda yeni kayıt girmeden önce lütfen bu sürüme yükseltme yapın.</string>
     <string name="pref_security_export_passphrase_title">Yedeklemeler için parola</string>
     <string name="pref_security_export_passphrase_summary">Yedeklemeler bu parola ile şifrelenecektir</string>
     <string name="backup_is_encrypted">Yedekleme dosyası şifrelenmiştir. Şifrelemeyi çözmek için parolayı girmeniz gerekir.</string>
     <string name="backup_wrong_password">Yedekleme dosyası başka bir parola ile şifrelenmiş görünmektedir.</string>
-    <string name="passphrase_for_synchronization">Eğer bu arka uçtaki eşleşme verilerinin şifrelenmesini istiyorsanız bir parola giriniz.</string>
+    <string name="passphrase_for_synchronization">Eğer bu arka uçtaki eşzamanlama verilerinin şifrelenmesini istiyorsanız bir parola girin.</string>
     <string name="sync_backend_is_encrypted">Uzaktaki arka uç şifrelenmiştir. Bir parola girmeniz gerekmektedir.</string>
     <string name="sync_backend_wrong_passphrase">Uzaktaki arka uç başka bir parola ile şifrelenmiş görünmektedir.</string>
     <string name="sync_backend_is_not_encrypted">Uzaktaki arka uç şifrelenmemiştir.</string>
@@ -782,7 +782,7 @@
     <string name="button_label_no_encryption">Şifresiz</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">veya</string>
-    <string name="pref_account_list_fast_scroll_summary">Hesap listesi için hızlı kaydırmayı etkinleştir. Bazı cihazlarda yanlış görüntüleme oluşmasına sebep olabilir</string>
+    <string name="pref_account_list_fast_scroll_summary">Hesap listesi için hızlı kaydırmayı etkinleştir. Bazı aygıtlarda yanlış görüntüleme oluşmasına sebep olabilir</string>
     <string name="menu_hide">Gizle</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Kapat</string>
@@ -796,7 +796,7 @@
     <string name="content_description_encrypted">Şifrelenmiş</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Kapatılmış</string>
-    <string name="warning_synced_account_cannot_be_closed">Herhangi bir eşleşme arka ucuna bağlı bir hesap kapatılamaz</string>
+    <string name="warning_synced_account_cannot_be_closed">Herhangi bir eşzamanlama arka ucuna bağlı bir hesap kapatılamaz</string>
     <string name="translated_by">Çevirenler</string>
     <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
     <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
@@ -857,7 +857,7 @@
     <string name="pref_clone_with_current_date_summary_on">Klonlanmış muamelelerin tarihi güncel tarihtir</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Klonlanmış muameleler orijinal tarihi korur</string>
-    <string name="pref_protection_screenshot_information">Cihaz korumasını etkinleştirerek ekran kopyası almayı devre dışı bırakırsınız.</string>
+    <string name="pref_protection_screenshot_information">Aygıt korumasını etkinleştirerek ekran görüntüsü alma devre dışı bırakılır.</string>
     <string name="tags_create_or_select">Etiket oluştur veya seç</string>
     <string name="content_description_tags_confirm">Teyit et</string>
     <string name="tags">Etiketler</string>
@@ -940,7 +940,7 @@
     <string name="ocr_recognition_info">Metin tanıma %s ile çalıştırılıyor</string>
     <string name="ocr_download_info">Metin tanıma kabiliyeti harici bir uygulama tarafından sağlanmaktadır.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
-    <string name="warning_unencrypted_backup">Bu cihazda verileriniz izinsiz erişimden korunuyor olsalar dahi, yedeklemeler %s unsurunu yapılandırmadığınız takdirde şifrelenmemiş bir şekilde oluşturulurlar.</string>
+    <string name="warning_unencrypted_backup">Bu aygıtta verileriniz izinsiz erişimden korunuyor olsalar dahi, yedeklemeler %s unsurunu yapılandırmadığınız takdirde şifrelenmemiş bir şekilde oluşturulurlar.</string>
     <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
     <string name="pref_group_header_show_details_summary">Grup başlığında ayrıntılı toplamları göster</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
@@ -1009,4 +1009,16 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Geçerli lisans durumunuzla (%1$s), bu iletişim kutusu her kullanımda görüntülenecektir.</string>
     <string name="whats_new_338">İstenilen derinlikte kategori hiyerarşisi</string>
     <string name="menu_parent_category_selection">Kısa dokunuşla üst kategoriyi seç</string>
+    <string name="dialog_title_purge_backups">Eski yedekleri temizle</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Dosyalar temizlenmeden önce onay iste</string>
+    <string name="purge_backups">Aşağıdaki eski yedekleme dosyaları silinecek:</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Bir eski yedekleme dosyası temizlendi.</item>
+        <item quantity="other">%d eski yedekleme dosyası temizlendi.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Bir eski yedekleme dosyası silinemedi.</item>
+        <item quantity="other">%d eski yedekleme dosyası silinemedi.</item>
+    </plurals>
+    <string name="pref_purge_backup_keep_title">Saklanacak en fazla son yedekleme dosyası sayısı</string>
 </resources>
