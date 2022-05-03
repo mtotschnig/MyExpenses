@@ -13,8 +13,8 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 abstract class AbstractRemoteViewsFactory(
-        private val context: Context,
-        intent: Intent
+    private val context: Context,
+    intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory {
     protected var cursor: Cursor? = null
     protected val width: Int = intent.getIntExtra(KEY_WIDTH, 0).takeIf { it > 0 } ?: Int.MAX_VALUE
@@ -23,8 +23,9 @@ abstract class AbstractRemoteViewsFactory(
 
     override fun getLoadingView() = null
 
-    override fun getItemId(position: Int) = cursor?.let {
-        it.moveToPosition(position)
+    override fun getItemId(position: Int) = cursor?.takeIf {
+        !it.isClosed && it.moveToPosition(position)
+    }?.let {
         it.getLong(it.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID))
     } ?: 0
 
@@ -52,19 +53,24 @@ abstract class AbstractRemoteViewsFactory(
 
     abstract fun buildCursor(): Cursor?
 
-    override fun getViewAt(position: Int) = RemoteViews(context.packageName, R.layout.widget_row).apply {
-        cursor?.takeIf { !it.isClosed && it.moveToPosition(position) }?.let {
-            populate(it)
+    override fun getViewAt(position: Int) =
+        RemoteViews(context.packageName, R.layout.widget_row).apply {
+            cursor?.takeIf { !it.isClosed && it.moveToPosition(position) }?.let {
+                populate(it)
+            }
         }
-    }
 
     abstract fun RemoteViews.populate(cursor: Cursor)
 }
 
 //http://stackoverflow.com/a/35633411/1199911
 fun RemoteViews.setImageViewVectorDrawable(context: Context, viewId: Int, resId: Int) {
-    setImageViewBitmap(viewId, UiUtils.getTintedBitmapForTheme(context, resId,
-            R.style.DarkBackground))
+    setImageViewBitmap(
+        viewId, UiUtils.getTintedBitmapForTheme(
+            context, resId,
+            R.style.DarkBackground
+        )
+    )
 }
 
 fun RemoteViews.setBackgroundColorSave(res: Int, color: Int) {
