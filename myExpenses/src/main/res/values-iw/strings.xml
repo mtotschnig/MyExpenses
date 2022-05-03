@@ -1035,4 +1035,20 @@
     <string name="dialog_contrib_usage_limit_with_dialog">עם מצב הרישיון הנוכחי שלך (%1$s), חלונית זאת תוצג עם כל הפעלה.</string>
     <string name="whats_new_338">היררכיית קטגוריה עמוקה שרירותית</string>
     <string name="menu_parent_category_selection">אפשר לבחור קטגוריית הורה בנקישה קצרה</string>
+    <string name="purge_backups">הגיבויים הישנים הבאים יימחקו:</string>
+    <string name="pref_purge_backup_keep_title">המספר המרבי של קובצי הגיבוי העדכניים ביותר לשמירה</string>
+    <string name="pref_purge_backup_require_confirmation_summary">הצגת בקשה לאישור בטרם מחיקת קבצים</string>
+    <string name="dialog_title_purge_backups">ניפוי גיבויים ישנים</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">גיבוי אחד ישן נמחק.</item>
+        <item quantity="two">%d גיבויים ישנים נמחקו.</item>
+        <item quantity="many">%d גיבויים ישנים נמחקו.</item>
+        <item quantity="other">%d גיבויים ישנים נמחקו.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">מחיקת אחד מקובצי הגיבוי הישנים נכשלה.</item>
+        <item quantity="two">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
+        <item quantity="many">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
+        <item quantity="other">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
+    </plurals>
 </resources>
