@@ -129,6 +129,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         with((applicationContext as MyApplication).appComponent) {
             inject(ocrViewModel)
             inject(featureViewModel)
+            inject(shareViewModel)
         }
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
@@ -178,8 +179,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 shareViewModel.shareResult.collect {
                     it?.onFailure {
-                        showSnackBar(it.safeMessage)
-                        shareViewModel.messageShown()
+                        showDismissibleSnackBar(it.safeMessage, object: Snackbar.Callback() {
+                            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION) {
+                                    shareViewModel.messageShown()
+                                }
+                            }
+                        })
                     }
                 }
             }

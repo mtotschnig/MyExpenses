@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
+import org.totschnig.myexpenses.viewmodel.ShareViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
@@ -289,5 +290,7 @@ public interface AppComponent {
   void inject(GrisbiImportTask grisbiImportTask);
 
   void inject(LicenceValidationViewModel licenceValidationViewModel);
+
+  void inject(ShareViewModel shareViewModel);
 
 }
