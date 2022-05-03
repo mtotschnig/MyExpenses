@@ -1,63 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.app.Activity;
-import android.app.KeyguardManager;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.TextUtils;
-
-import com.annimon.stream.Stream;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
-import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.feature.Feature;
-import org.totschnig.myexpenses.model.AcceptableSchemaEnum;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
-import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
-import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
-import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
-import org.totschnig.myexpenses.preference.PopupMenuPreference;
-import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
-import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
-import org.totschnig.myexpenses.preference.SimplePasswordPreference;
-import org.totschnig.myexpenses.preference.TimePreference;
-import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.ShareUtils;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
-import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
-
-import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-
-import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.DialogFragment;
-import androidx.preference.ListPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceScreen;
-import eltos.simpledialogfragment.SimpleDialog;
-import eltos.simpledialogfragment.form.Input;
-import eltos.simpledialogfragment.form.SimpleFormDialog;
-import eltos.simpledialogfragment.input.SimpleInputDialog;
-
 import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.model.ContribFeature.CSV_IMPORT;
@@ -94,6 +36,65 @@ import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
+
+import android.app.Activity;
+import android.app.KeyguardManager;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.DialogFragment;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceScreen;
+
+import com.annimon.stream.Stream;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
+import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.feature.Feature;
+import org.totschnig.myexpenses.model.AcceptableSchemaEnum;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
+import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.PopupMenuPreference;
+import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.SimplePasswordPreference;
+import org.totschnig.myexpenses.preference.TimePreference;
+import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
+import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
+import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
+import org.totschnig.myexpenses.viewmodel.ShareViewModel;
+
+import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import javax.inject.Inject;
+
+import eltos.simpledialogfragment.SimpleDialog;
+import eltos.simpledialogfragment.form.Input;
+import eltos.simpledialogfragment.form.SimpleFormDialog;
+import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 public class SettingsFragment extends BaseSettingsFragment implements
     SimpleInputDialog.OnDialogResultListener {
@@ -170,7 +171,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       String target = (String) value;
       URI uri;
       if (!target.equals("")) {
-        uri = ShareUtils.parseUri(target);
+        uri = ShareViewModel.Companion.parseUri(target);
         if (uri == null) {
           getPreferenceActivity().showSnackBar(getString(R.string.ftp_uri_malformed, target));
           return false;
@@ -237,7 +238,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           getPreferenceActivity().showSnackBar(getString(R.string.no_network) + " (WIFI)");
           return false;
         }
-        if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && getPreferenceActivity().featureViewModel.isFeatureAvailable(getPreferenceActivity(), Feature.WEBUI)) {
+        if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && getPreferenceActivity().getFeatureViewModel().isFeatureAvailable(getPreferenceActivity(), Feature.WEBUI)) {
           return true;
         } else {
           getPreferenceActivity().contribFeatureRequested(ContribFeature.WEB_UI, null);

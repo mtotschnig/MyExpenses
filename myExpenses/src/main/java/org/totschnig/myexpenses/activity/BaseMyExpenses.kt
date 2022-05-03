@@ -36,23 +36,20 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.feature.*
+import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.fragment.TransactionList
-import org.totschnig.myexpenses.model.AggregateAccount
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.distrib.ReviewManager
-import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
@@ -64,6 +61,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
+import kotlin.Result
 
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
@@ -306,11 +304,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return false
     }
 
+    private val shareTarget: String
+        get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim { it <= ' ' }
+
+    fun shareExport(format: ExportFormat, uriList: List<Uri>) {
+        shareViewModel.share(this, uriList,
+            shareTarget,
+            "text/" + format.name.lowercase(Locale.US)
+        )
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
             true
         }
         else when (command) {
+            R.id.SHARE_PDF_COMMAND -> {
+                shareViewModel.share(
+                    this, listOf(ensureContentUri(Uri.parse(tag as String?), this)),
+                    shareTarget,
+                    "application/pdf"
+                )
+                true
+            }
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse("market://details?id=org.totschnig.ocr.tesseract")

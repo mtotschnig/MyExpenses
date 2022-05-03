@@ -13,7 +13,7 @@ object RetrofitClientInstance {
     private const val READ_TIME_OUT = 30L
     private var retrofit: Retrofit? = null
 
-    fun getInstance(baseUrl: String): Retrofit? {
+    fun getInstance(baseUrl: String): Retrofit {
         if (null == retrofit) {
             val okHttpClient = OkHttpClient.Builder()
                     .connectTimeout(CONNECTION_TIME_OUT, TimeUnit.SECONDS)
@@ -28,7 +28,7 @@ object RetrofitClientInstance {
                     .build()
         }
 
-        return retrofit;
+        return retrofit!!
     }
 
 }

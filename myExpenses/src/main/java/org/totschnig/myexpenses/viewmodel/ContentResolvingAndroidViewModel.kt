@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.ui.ContextHelper
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -166,7 +167,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 }
             }
             if (failures.isEmpty())
-                Result.success(Unit)
+                ResultUnit
             else
                 Result.failure(CompositeException(failures))
         }

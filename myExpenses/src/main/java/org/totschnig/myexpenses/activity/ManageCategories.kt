@@ -153,8 +153,10 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
             prefHandler = prefHandler
         )
-        parentSelectionOnTap.value =  prefHandler.getBoolean(PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP,
-            false)
+        parentSelectionOnTap.value = prefHandler.getBoolean(
+            PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP,
+            false
+        )
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
         observeDeleteResult()
         observeMoveResult()
@@ -485,22 +487,22 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.exportResult.collect { result ->
-                    result?.let {
-                        result.onSuccess { pair ->
-                            updateDismissibleSnackBar(getString(R.string.export_sdcard_success, pair.second))
-                            if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
-                                val shareResult = ShareUtils.share(
-                                    this@ManageCategories, listOf(pair.first),
-                                    prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
-                                    "text/qif"
-                                )
-                                if (!shareResult.isSuccess) {
-                                    updateDismissibleSnackBar(shareResult.print(this@ManageCategories))
-                                }
-                            }
-                        }.onFailure {
-                            updateDismissibleSnackBar(it.safeMessage)
+                    result?.onSuccess { pair ->
+                        updateDismissibleSnackBar(
+                            getString(
+                                R.string.export_sdcard_success,
+                                pair.second
+                            )
+                        )
+                        if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+                            shareViewModel.share(
+                                this@ManageCategories, listOf(pair.first),
+                                prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
+                                "text/qif"
+                            )
                         }
+                    }?.onFailure {
+                        updateDismissibleSnackBar(it.safeMessage)
                     }
                 }
             }

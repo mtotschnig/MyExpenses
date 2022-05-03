@@ -15,18 +15,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import icepick.State
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -46,6 +50,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
+import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import timber.log.Timber
 import javax.inject.Inject
@@ -103,10 +108,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var crashHandler: CrashHandler
 
-    lateinit var ocrViewModel: OcrViewModel
-    lateinit var featureViewModel: FeatureViewModel
-    private var helpVariant: Enum<*>? = null
+    val ocrViewModel: OcrViewModel by viewModels()
+    val featureViewModel: FeatureViewModel by viewModels()
+    val shareViewModel: ShareViewModel by viewModels()
 
+    private var helpVariant: Enum<*>? = null
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -120,9 +126,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     open fun onFeatureAvailable(feature: Feature) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModelProvider = ViewModelProvider(this)
-        ocrViewModel = viewModelProvider[OcrViewModel::class.java]
-        featureViewModel = viewModelProvider[FeatureViewModel::class.java]
         with((applicationContext as MyApplication).appComponent) {
             inject(ocrViewModel)
             inject(featureViewModel)
@@ -171,6 +174,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         })
         super.onCreate(savedInstanceState)
         tracker.init(this)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                shareViewModel.shareResult.collect {
+                    it?.onFailure {
+                        showSnackBar(it.safeMessage)
+                        shareViewModel.messageShown()
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {

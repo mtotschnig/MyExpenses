@@ -9,3 +9,5 @@ fun <T> Result.Companion.failure(
     @StringRes resId: Int,
     vararg formatArgs: Any?
 ): Result<T> = failure(Throwable(context.getString(resId, *formatArgs)))
+
+val ResultUnit = Result.success(Unit)
