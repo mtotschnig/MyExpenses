@@ -15,11 +15,12 @@ class ShareUtilsTest {
     @Test
     fun shouldConvertSingleFileUri() {
         val mimeType = "text/plain"
-        val testFileUri = AppDirHelper.getAppDir(InstrumentationRegistry.getInstrumentation().targetContext)!!
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val testFileUri = AppDirHelper.getAppDir(context)!!
             .createFile(mimeType, "testFile")!!.uri
         assertFileScheme(testFileUri)
         val fileUris = listOf(testFileUri)
-        val intent = ShareUtils.buildIntent(ctx, fileUris, mimeType, null)
+        val intent = ShareUtils.buildIntent(context, fileUris, mimeType, null)
         val sharedUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
         assertContentScheme(sharedUri)
     }
