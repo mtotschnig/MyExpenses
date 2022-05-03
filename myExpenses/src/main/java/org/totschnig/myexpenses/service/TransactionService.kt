@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.totschnig.myexpenses.retrofit.ITransactionDAO
 import org.totschnig.myexpenses.retrofit.RetrofitClientInstance
 import timber.log.Timber
@@ -17,7 +17,8 @@ class TransactionService() {
     private var transactionService: ITransactionDAO? = null
 
     constructor(urlBaseWebService: String) : this() {
-        this.transactionService = RetrofitClientInstance.getInstance(urlBaseWebService)?.create(ITransactionDAO::class.java)
+        this.transactionService = RetrofitClientInstance.getInstance(urlBaseWebService)
+            ?.create(ITransactionDAO::class.java)
     }
 
     fun sendFileListToWebService(fileUriList: List<Uri>) {
@@ -29,9 +30,11 @@ class TransactionService() {
     fun sendFileToWebservice(uri: Uri) {
         val file = File(uri.path)
 
-        val requestBody = file.path.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-        val formData = MultipartBody.Part.createFormData("file", file.name, requestBody)
+        val formData = MultipartBody.Part.createFormData(
+            "file",
+            file.name,
+            file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        )
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -39,10 +42,10 @@ class TransactionService() {
             if (response != null) {
                 if (response.isSuccessful) {
                     response.body()?.let {
-                        Timber.i("SUCCESS", it.string())
+                        Timber.i(it.string())
                     }
                 } else {
-                    Timber.e("ERROR", response.body()?.string())
+                    Timber.e(response.errorBody()?.string())
                 }
             }
         }
