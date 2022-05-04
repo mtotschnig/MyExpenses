@@ -1009,4 +1009,16 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Arborescence des catégories</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Avec votre statut de licence actuel (%1$s), ce dialogue s\'affichera à chaque utilisation.</string>
     <string name="menu_parent_category_selection">Sélectionnez la catégorie parent en appuyant brièvement</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Afficher une demande de confirmation avant la purge des fichiers</string>
+    <string name="dialog_title_purge_backups">Purger les anciennes sauvegardes</string>
+    <string name="purge_backups">Les anciens fichiers de sauvegarde suivants seront supprimés :</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Un ancien fichier de sauvegarde a été purgé.</item>
+        <item quantity="other">%d anciens fichiers de sauvegarde ont été purgés.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Un ancien fichier de sauvegarde n\'a pas pu être supprimé.</item>
+        <item quantity="other">%d anciens fichiers de sauvegarde n\'ont pas pu être supprimés.</item>
+    </plurals>
+    <string name="pref_purge_backup_keep_title">Nombre maximal de fichiers de sauvegarde les plus récents à conserver</string>
 </resources>
