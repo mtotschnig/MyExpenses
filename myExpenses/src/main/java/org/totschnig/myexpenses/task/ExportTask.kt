@@ -161,7 +161,7 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
                         )
                     }, append)
                     result.onSuccess {
-                        if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
+                        if (!append && PrefKey.PERFORM_SHARE.getBoolean(false)) {
                             addResult(it)
                         }
                         successfullyExported.add(account)
