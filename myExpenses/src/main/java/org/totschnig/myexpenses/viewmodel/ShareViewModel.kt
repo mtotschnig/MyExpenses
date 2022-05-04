@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.internal.closeQuietly
 import okio.BufferedSink
 import okio.source
@@ -22,7 +22,8 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.calculateSize
+import org.totschnig.myexpenses.util.io.getMimeType
 import timber.log.Timber
 import java.io.IOException
 import java.net.URI
@@ -77,12 +78,11 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
     private fun handleHttp(fileUris: List<Uri>, target: String): Result<Unit> =
         runCatching {
             for (uri in fileUris) {
+                val resourceName = DialogUtils.getDisplayName(uri)
                 val requestBody: RequestBody = object : RequestBody() {
-                    override fun contentLength(): Long = -1
+                    override fun contentLength(): Long = calculateSize(contentResolver, uri)
 
-                    override fun contentType(): MediaType {
-                        return "multipart/form-data".toMediaType()
-                    }
+                    override fun contentType() = getMimeType(resourceName).toMediaTypeOrNull()
 
                     @Throws(IOException::class)
                     override fun writeTo(sink: BufferedSink) {
@@ -97,8 +97,13 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
                 }
 
                 val builder: Request.Builder = Request.Builder()
+                Uri.parse(target).userInfo?.let {
+                    val (username, password) = it.split(":")
+                    builder.header("Authorization", Credentials.basic(username, password))
+                }
+                builder
                     .put(requestBody)
-                    .url(target + DialogUtils.getDisplayName(uri))
+                    .url(target + resourceName)
 
                 val response: Response = okHttpBuilder.build().newCall(builder.build()).execute()
 
@@ -107,7 +112,7 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
                         Timber.i(it.string())
                     }
                 } else {
-                    Timber.e(response.body?.string())
+                    throw IOException("FAILURE: ${response.code}")
                 }
             }
         }
