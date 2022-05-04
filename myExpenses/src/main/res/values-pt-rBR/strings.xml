@@ -1008,4 +1008,5 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Árvore de categorias</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Devido ao status atual da sua licença (%1$s), este diálogo será exibido a cada utilização.</string>
     <string name="whats_new_338">Hierarquia de categorias arbitrariamente profunda</string>
+    <string name="dialog_title_purge_backups">Expurgar backups antigos</string>
 </resources>
