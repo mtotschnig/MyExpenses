@@ -186,6 +186,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 }
                             }
                         })
+                    }?.onSuccess {
+                        if (it == ShareViewModel.Scheme.HTTP || it == ShareViewModel.Scheme.HTTPS) {
+                            showDismissibleSnackBar("HTTP PUT completed successfully.")
+                        }
                     }
                 }
             }

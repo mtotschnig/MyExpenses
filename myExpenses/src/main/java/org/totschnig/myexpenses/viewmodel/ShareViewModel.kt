@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.internal.closeQuietly
 import okio.BufferedSink
@@ -19,9 +20,9 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.io.calculateSize
 import org.totschnig.myexpenses.util.io.getMimeType
 import timber.log.Timber
@@ -29,13 +30,17 @@ import java.io.IOException
 import java.net.URI
 import java.net.URISyntaxException
 import javax.inject.Inject
+import kotlin.Result.Companion.failure
+import kotlin.Result.Companion.success
 
 class ShareViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+    enum class Scheme { FTP, MAILTO, HTTP, HTTPS; }
+
     @Inject
     lateinit var okHttpBuilder: OkHttpClient.Builder
 
-    private val _shareResult: MutableStateFlow<Result<Unit>?> = MutableStateFlow(null)
-    val shareResult: StateFlow<Result<Unit>?> = _shareResult
+    private val _shareResult: MutableStateFlow<Result<Scheme?>?> = MutableStateFlow(null)
+    val shareResult: StateFlow<Result<Scheme?>?> = _shareResult
     fun messageShown() {
         _shareResult.update {
             null
@@ -52,20 +57,23 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
                     if (uri == null) {
                         complain(ctx.getString(R.string.ftp_uri_malformed, target))
                     } else {
-                        when (val scheme = uri.scheme) {
-                            "ftp" -> handleFtp(ctx, uriList, target, mimeType)
-                            "mailto" -> handleMailto(ctx, uriList, mimeType, uri)
-                            "http", "https" -> handleHttp(uriList, target).also { result ->
+                        when (val scheme = enumValueOrNull<Scheme>(uri.scheme.uppercase())) {
+                            Scheme.FTP -> handleFtp(ctx, uriList, target, mimeType)
+                            Scheme.MAILTO -> handleMailto(ctx, uriList, mimeType, uri)
+                            Scheme.HTTP, Scheme.HTTPS -> handleHttp(
+                                uriList,
+                                target
+                            ).also { result ->
                                 result.onFailure {
                                     if (BuildConfig.DEBUG || it !is IOException) {
                                         CrashHandler.report(it)
                                     }
                                 }
-                            }
-                            else -> complain(
+                            }.map { scheme }
+                            null -> complain(
                                 ctx.getString(
                                     R.string.share_scheme_not_supported,
-                                    scheme
+                                    uri.scheme
                                 )
                             )
                         }
@@ -103,7 +111,10 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
                 }
                 builder
                     .put(requestBody)
-                    .url(target + resourceName)
+                    .url(
+                        target.toHttpUrl().newBuilder().username("").password("")
+                            .addPathSegment(resourceName).build()
+                    )
 
                 val response: Response = okHttpBuilder.build().newCall(builder.build()).execute()
 
@@ -117,7 +128,11 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
             }
         }
 
-    private fun handleGeneric(ctx: Context, fileUris: List<Uri>, mimeType: String): Result<Unit> {
+    private fun handleGeneric(
+        ctx: Context,
+        fileUris: List<Uri>,
+        mimeType: String
+    ): Result<Scheme?> {
         val intent = buildIntent(ctx, fileUris, mimeType, null)
         if (Utils.isIntentAvailable(ctx, intent)) {
             // we launch the chooser in order to make action more explicit
@@ -125,7 +140,7 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
         } else {
             return complain("No app for sharing found")
         }
-        return ResultUnit
+        return success(null)
     }
 
     private fun handleMailto(
@@ -133,14 +148,14 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
         fileUris: List<Uri>,
         mimeType: String,
         uri: URI
-    ): Result<Unit> {
+    ): Result<Scheme> {
         val intent = buildIntent(ctx, fileUris, mimeType, uri.schemeSpecificPart)
         if (Utils.isIntentAvailable(ctx, intent)) {
             ctx.startActivity(intent)
         } else {
             return complain(ctx.getString(R.string.no_app_handling_email_available))
         }
-        return ResultUnit
+        return success(Scheme.MAILTO)
     }
 
     private fun handleFtp(
@@ -148,7 +163,7 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
         fileUris: List<Uri>,
         target: String,
         mimeType: String
-    ): Result<Unit> {
+    ): Result<Scheme> {
         val intent: Intent
         if (fileUris.size > 1) {
             return complain("sending multiple file through ftp is not supported")
@@ -168,11 +183,11 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
                 return complain(ctx.getString(R.string.no_app_handling_ftp_available))
             }
         }
-        return ResultUnit
+        return success(Scheme.FTP)
     }
 
-    private fun complain(string: String): Result<Unit> {
-        return Result.failure(Throwable(string))
+    private fun complain(string: String): Result<Scheme> {
+        return failure(Throwable(string))
     }
 
     companion object {
