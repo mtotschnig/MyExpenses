@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
@@ -49,7 +50,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 emit(Result.failure(AccountSealedException))
             }
             resetRemote(accountName, uuid)
-            emit(Result.success(Unit))
+            emit(ResultUnit)
         }
 
 
@@ -208,7 +209,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                         emit(Result.failure(Throwable("No accounts were restored")))
                     } else {
                         GenericAccountService.requestSync(accountName)
-                        emit(Result.success(Unit))
+                        emit(ResultUnit)
                     }
                 }
             }.onFailure {

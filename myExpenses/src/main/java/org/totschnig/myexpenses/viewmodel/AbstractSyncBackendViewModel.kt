@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.TextUtils
 
 abstract class AbstractSyncBackendViewModel(application: Application) :
@@ -76,7 +77,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
                     account.syncAccountName = null
                     account.save()
                 }
-            } != null) Result.success(Unit) else Result.failure(Exception("ERROR")))
+            } != null) ResultUnit else Result.failure(Exception("ERROR")))
     }
 
     fun syncCheck(uuid: String, syncAccountName: String) = liveData(context = coroutineContext()) {

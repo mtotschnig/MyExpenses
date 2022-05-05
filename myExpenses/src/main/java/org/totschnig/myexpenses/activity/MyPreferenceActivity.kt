@@ -111,6 +111,8 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         }
     }
 
+    override fun doHelp(variant: String?) = false //handled in fragment
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home && supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()

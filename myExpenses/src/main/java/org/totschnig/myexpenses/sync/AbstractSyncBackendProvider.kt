@@ -8,10 +8,8 @@ import android.net.Uri
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Base64
-import android.webkit.MimeTypeMap
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import dagger.internal.Preconditions
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -28,6 +26,9 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileCopyUtils
+import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
+import org.totschnig.myexpenses.util.io.getFileExtension
+import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import timber.log.Timber
 import java.io.*
 import java.security.GeneralSecurityException
@@ -252,22 +253,6 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         return getNameWithoutExtension(fileName).substring(1).toInt()
     }
 
-    //from Guava
-    private fun getNameWithoutExtension(file: String): String {
-        Preconditions.checkNotNull(file)
-        val fileName = File(file).name
-        val dotIndex = fileName.lastIndexOf('.')
-        return if (dotIndex == -1) fileName else fileName.substring(0, dotIndex)
-    }
-
-    //from Guava
-    private fun getFileExtension(fullName: String): String {
-        Preconditions.checkNotNull(fullName)
-        val fileName = File(fullName).name
-        val dotIndex = fileName.lastIndexOf('.')
-        return if (dotIndex == -1) "" else fileName.substring(dotIndex + 1)
-    }
-
     @Throws(IOException::class)
     private fun mapPictureDuringWrite(transactionChange: TransactionChange): TransactionChange {
         if (transactionChange.pictureUri() != null) {
@@ -334,11 +319,6 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
 
     protected fun buildMetadata(account: Account?): String {
         return gson.toJson(AccountMetaData.from(account))
-    }
-
-    protected fun getMimeType(fileName: String): String {
-        val result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(fileName))
-        return result ?: MIME_TYPE_OCTET_STREAM
     }
 
     protected fun getLastFileNamePart(fileName: String): String {
@@ -458,7 +438,6 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         private val LOCK_TIMEOUT_MILLIS =
             TimeUnit.MINUTES.toMillis(SyncAdapter.LOCK_TIMEOUT_MINUTES.toLong())
         const val ENCRYPTION_TOKEN_FILE_NAME = "ENCRYPTION_TOKEN"
-        private const val MIME_TYPE_OCTET_STREAM = "application/octet-stream"
     }
 
     init {

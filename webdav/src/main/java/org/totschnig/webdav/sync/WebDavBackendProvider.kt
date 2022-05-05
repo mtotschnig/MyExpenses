@@ -5,7 +5,6 @@ import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.provider.OpenableColumns
 import androidx.core.util.Pair
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
@@ -27,11 +26,11 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.io.calculateSize
+import org.totschnig.myexpenses.util.io.getMimeType
 import org.totschnig.webdav.sync.client.CertificateHelper.fromString
 import org.totschnig.webdav.sync.client.InvalidCertificateException
 import org.totschnig.webdav.sync.client.WebDavClient
-import timber.log.Timber
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.cert.CertificateException
@@ -231,38 +230,15 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         saveUriToFolder(fileName, uri, accountUuid!!, true)
     }
 
-    private fun calculateSize(uri: Uri): Long {
-        val size: Long
-        Timber.d("Uri %s", uri)
-        if ("file" == uri.scheme) {
-            size = uri.path?.let { File(it) }?.length() ?: 0
-        } else {
-            context.contentResolver.query(uri, null, null, null, null).use { c ->
-                size = if (c != null) {
-                    c.moveToFirst()
-                    c.getLong(c.getColumnIndexOrThrow(OpenableColumns.SIZE))
-                } else {
-                    -1
-                }
-            }
-        }
-        Timber.d("Size %d", size)
-        return size
-    }
-
     @Throws(IOException::class)
     private fun saveUriToFolder(fileName: String, uri: Uri, folder: String, maybeEncrypt: Boolean) {
         val finalFileName = getLastFileNamePart(fileName)
         val encrypt = isEncrypted && maybeEncrypt
-        val contentLength = if (encrypt) -1 else calculateSize(uri)
+        val contentLength = if (encrypt) -1 else calculateSize(context.contentResolver, uri)
         val requestBody: RequestBody = object : RequestBody() {
-            override fun contentLength(): Long {
-                return contentLength
-            }
+            override fun contentLength() = contentLength
 
-            override fun contentType(): MediaType? {
-                return getMimeType(finalFileName).toMediaTypeOrNull()
-            }
+            override fun contentType() = getMimeType(finalFileName).toMediaTypeOrNull()
 
             @Throws(IOException::class)
             override fun writeTo(sink: BufferedSink) {

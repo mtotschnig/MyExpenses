@@ -425,8 +425,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       startActionView(getString(R.string.website));
       return true;
     } else if (command == R.id.HELP_COMMAND) {
-      doHelp((String) tag);
-      return true;
+      return doHelp((String) tag);
     } else if (command == android.R.id.home) {
       doHome();
       return true;
@@ -447,13 +446,14 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     startActivityForResult(i, CONTRIB_REQUEST);
   }
 
-  protected void doHelp(String variant) {
+  protected boolean doHelp(String variant) {
     Intent i;
     i = new Intent(this, Help.class);
     i.putExtra(HelpDialogFragment.KEY_VARIANT,
         variant != null ? variant : getHelpVariant());
     //for result is needed since it allows us to inspect the calling activity
     startActivityForResult(i, 0);
+    return true;
   }
 
   protected void doHome() {

@@ -1,15 +1,23 @@
 package org.totschnig.myexpenses.fragment
 
+import android.annotation.SuppressLint
+import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Bitmap
 import android.icu.text.ListFormatter
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
@@ -20,6 +28,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -30,22 +39,30 @@ import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
+import org.totschnig.myexpenses.viewmodel.ShareViewModel
+import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
+import java.net.URI
 import java.text.DateFormatSymbols
+import java.time.LocalDate
+import java.time.LocalTime
 import java.time.chrono.IsoChronology
+import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.util.*
@@ -72,6 +89,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var adHandlerFactory: AdHandlerFactory
 
+    @Inject
+    lateinit var currencyFormatter: CurrencyFormatter
+
+    @Inject
+    lateinit var crashHandler: CrashHandler
+
     private val webUiViewModel: WebUiViewModel by viewModels()
     private val currencyViewModel: CurrencyViewModel by viewModels()
     private val viewModel: SettingsViewModel by viewModels()
@@ -87,6 +110,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             true
         }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.help, menu)
+        menu.findItem(R.id.HELP_COMMAND).setShowAsAction(SHOW_AS_ACTION_ALWAYS)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (matches(preferenceScreen, PrefKey.PERFORM_SHARE) && item.itemId == R.id.HELP_COMMAND) {
+            preferenceActivity.startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options")
+        }
+        return true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with((requireActivity().application as MyApplication).appComponent) {
@@ -128,6 +163,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
         }
+        setHasOptionsMenu(matches(preferenceScreen, PrefKey.PERFORM_SHARE))
     }
 
     override fun onStart() {
@@ -336,6 +372,149 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     }
 
+    override fun onPreferenceChange(pref: Preference, value: Any): Boolean {
+        when {
+            matches(pref, PrefKey.HOME_CURRENCY) -> {
+                if (value != prefHandler.getString(PrefKey.HOME_CURRENCY, null)) {
+                    MessageDialogFragment.newInstance(
+                        getString(R.string.dialog_title_information),
+                        concatResStrings(
+                            requireContext(),
+                            " ",
+                            R.string.home_currency_change_warning,
+                            R.string.continue_confirmation
+                        ),
+                        MessageDialogFragment.Button(
+                            android.R.string.ok, R.id.CHANGE_COMMAND,
+                            value as String
+                        ),
+                        null, MessageDialogFragment.noButton()
+                    ).show(parentFragmentManager, "CONFIRM")
+                }
+                return false
+            }
+            matches(pref, PrefKey.SHARE_TARGET) -> {
+                val target = value as String
+                val uri: URI?
+                if (target != "") {
+                    uri = parseUri(target)
+                    if (uri == null) {
+                        preferenceActivity.showSnackBar(
+                            getString(
+                                R.string.ftp_uri_malformed,
+                                target
+                            )
+                        )
+                        return false
+                    }
+                    val scheme = uri.scheme
+                    if (enumValueOrNull<ShareViewModel.Scheme>(scheme) == null) {
+                        preferenceActivity.showSnackBar(
+                            getString(
+                                R.string.share_scheme_not_supported,
+                                scheme
+                            )
+                        )
+                        return false
+                    }
+                    val intent: Intent
+                    if (scheme == "ftp") {
+                        intent = Intent(Intent.ACTION_SENDTO)
+                        intent.data = Uri.parse(target)
+                        if (!Utils.isIntentAvailable(requireActivity(), intent)) {
+                            preferenceActivity.showDialog(R.id.FTP_DIALOG)
+                        }
+                    }
+                }
+            }
+            matches(pref, PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
+                currencyFormatter.invalidateAll(requireContext().contentResolver)
+            }
+            matches(pref, PrefKey.EXCHANGE_RATE_PROVIDER) -> {
+                configureOpenExchangeRatesPreference((value as String))
+            }
+            matches(pref, PrefKey.CRASHREPORT_USEREMAIL) -> {
+                crashHandler.setUserEmail(value as String)
+            }
+            matches(pref, PrefKey.CRASHREPORT_ENABLED) -> {
+                preferenceActivity.showSnackBar(R.string.app_restart_required)
+            }
+            matches(pref, PrefKey.OCR_DATE_FORMATS) -> {
+                if (!isEmpty(value as String)) {
+                    try {
+                        for (line in value.lines()) {
+                            LocalDate.now().format(DateTimeFormatter.ofPattern(line))
+                        }
+                    } catch (e: java.lang.Exception) {
+                        preferenceActivity.showSnackBar(R.string.date_format_illegal)
+                        return false
+                    }
+                }
+            }
+            matches(pref, PrefKey.OCR_TIME_FORMATS) -> {
+                if (!isEmpty(value as String)) {
+                    try {
+                        for (line in value.lines()) {
+                            LocalTime.now().format(DateTimeFormatter.ofPattern(line))
+                        }
+                    } catch (e: java.lang.Exception) {
+                        preferenceActivity.showSnackBar(R.string.date_format_illegal)
+                        return false
+                    }
+                }
+            }
+            matches(pref, PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
+                if (value as Boolean) {
+                    if (!(requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).isKeyguardSecure) {
+                        preferenceActivity.showDeviceLockScreenWarning()
+                        return false
+                    } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)) {
+                        showOnlyOneProtectionWarning(true)
+                        return false
+                    }
+                }
+                return true
+            }
+            matches(pref, PrefKey.UI_WEB) -> {
+                return if (value as Boolean) {
+                    if (!isConnectedWifi(requireContext())) {
+                        preferenceActivity.showSnackBar(getString(R.string.no_network) + " (WIFI)")
+                        return false
+                    }
+                    if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && preferenceActivity.featureViewModel.isFeatureAvailable(
+                            preferenceActivity,
+                            Feature.WEBUI
+                        )
+                    ) {
+                        true
+                    } else {
+                        preferenceActivity.contribFeatureRequested(ContribFeature.WEB_UI, null)
+                        false
+                    }
+                } else {
+                    true
+                }
+            }
+        }
+        return true
+    }
+
+    @SuppressLint("StringFormatMatches")
+    protected fun showOnlyOneProtectionWarning(legacyProtectionByPasswordIsActive: Boolean) {
+        val lockScreen = getString(R.string.pref_protection_device_lock_screen_title)
+        val passWord = getString(R.string.pref_protection_password_title)
+        val formatArgs: Array<String> = if (legacyProtectionByPasswordIsActive) arrayOf(
+            lockScreen,
+            passWord
+        ) else arrayOf(passWord, lockScreen)
+        preferenceActivity.showSnackBar(
+            getString(
+                R.string.pref_warning_only_one_protection,
+                formatArgs
+            )
+        )
+    }
+
     private fun updateAllWidgets() {
         updateWidgetsForClass(AccountWidget::class.java)
         updateWidgetsForClass(TemplateWidget::class.java)
@@ -388,7 +567,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             licenceKeyPref?.let {
                 if (licenceHandler.hasValidKey()) {
                     it.title = getKeyInfo()
-                    it.summary = TextUtils.concatResStrings(
+                    it.summary = concatResStrings(
                         requireActivity(), " / ",
                         R.string.button_validate, R.string.menu_remove
                     )
@@ -618,12 +797,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceDeviceLock.onPreferenceChangeListener = this
             }
             getKey(PrefKey.PERFORM_SHARE) -> {
-                val sharePref = requirePreference<Preference>(PrefKey.SHARE_TARGET)
-
-                sharePref.summary = (getString(R.string.pref_share_target_summary) + ":\n" +
-                        "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
-                        "mailto: \"mailto:john@my.example.com\"")
-                sharePref.onPreferenceChangeListener = this
+                with(requirePreference<Preference>(PrefKey.SHARE_TARGET)) {
+                    summary = getString(R.string.pref_share_target_summary) + " " +
+                            ShareViewModel.Scheme.values().joinToString(
+                                separator = ", ", prefix = "(", postfix = ")"
+                            ) { it.name.lowercase() }
+                    onPreferenceChangeListener = this@BaseSettingsFragment
+                }
             }
             getKey(PrefKey.AUTO_BACKUP) -> {
                 requirePreference<Preference>(PrefKey.AUTO_BACKUP_INFO).summary =

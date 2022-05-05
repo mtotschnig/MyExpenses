@@ -15,6 +15,37 @@
 
 package org.totschnig.myexpenses.activity;
 
+import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
+import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
+import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
+import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -30,6 +61,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.util.Pair;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -69,7 +111,6 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -80,54 +121,10 @@ import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.util.Pair;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.viewpager.widget.ViewPager;
 import eltos.simpledialogfragment.list.MenuDialog;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
-import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
-import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
-import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR;
-import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
-import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
-import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 /**
  * This is the main activity where all expenses are listed
@@ -433,13 +430,13 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
-        ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());
+        getOcrViewModel().startOcrFeature(scanFile, getSupportFragmentManager());
       } else {
         processImageCaptureError(resultCode, CropImage.getActivityResult(intent));
       }
     }
     if (requestCode == OCR_REQUEST) {
-      ocrViewModel.handleOcrData(intent, getSupportFragmentManager());
+      getOcrViewModel().handleOcrData(intent, getSupportFragmentManager());
     }
   }
 
@@ -561,15 +558,6 @@ public class MyExpenses extends BaseMyExpenses implements
       i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       startActivity(i, R.string.no_app_handling_pdf_available, null);
       return true;
-    } else if (command == R.id.SHARE_PDF_COMMAND) {
-      Result shareResult = ShareUtils.share(this,
-          Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag), this)),
-          getShareTarget(),
-          "application/pdf");
-      if (!shareResult.isSuccess()) {
-        showSnackBar(shareResult.print(this));
-      }
-      return true;
     } else if (command == R.id.EDIT_ACCOUNT_COMMAND) {
       closeDrawer();
       long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
@@ -648,10 +636,6 @@ public class MyExpenses extends BaseMyExpenses implements
       startActivity(i);
     }
     return false;
-  }
-
-  public String getShareTarget() {
-    return requireString(prefHandler, PrefKey.SHARE_TARGET, "").trim();
   }
 
   private void complainAccountsNotLoaded() {
@@ -875,12 +859,7 @@ public class MyExpenses extends BaseMyExpenses implements
       case TASK_EXPORT: {
         Pair<ExportFormat, List<Uri>> result = (Pair<ExportFormat, List<Uri>>) o;
         if (result != null && !result.second.isEmpty()) {
-          Result shareResult = ShareUtils.share(this, result.second,
-              getShareTarget(),
-              "text/" + result.first.name().toLowerCase(Locale.US));
-          if (!shareResult.isSuccess()) {
-            showSnackBar(shareResult.print(this));
-          }
+          shareExport(result.first, result.second);
         }
         break;
       }

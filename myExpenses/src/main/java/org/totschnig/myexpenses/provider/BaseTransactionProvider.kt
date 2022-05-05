@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import timber.log.Timber
@@ -118,7 +119,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     private fun backupDb(backupDb: File, currentDb: File): Result<Unit> {
         if (currentDb.exists()) {
             if (FileCopyUtils.copy(currentDb, backupDb)) {
-                return Result.success(Unit)
+                return ResultUnit
             }
             return Result.failure(Throwable("Error while copying ${currentDb.path} to ${backupDb.path}"))
         }

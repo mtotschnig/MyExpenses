@@ -133,14 +133,11 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                         if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
                             val uris = ArrayList<Uri>()
                             uris.add(file.uri)
-                            val shareResult = ShareUtils.share(
+                            shareViewModel.share(
                                 this, uris,
                                 prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
                                 "application/zip"
                             )
-                            if (!shareResult.isSuccess) {
-                                message += " " + shareResult.print(this)
-                            }
                         }
                         extraData.fold(
                             ifLeft = { purgeList ->
