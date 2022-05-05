@@ -14,6 +14,10 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
@@ -107,6 +111,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             true
         }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.help, menu)
+        menu.findItem(R.id.HELP_COMMAND).setShowAsAction(SHOW_AS_ACTION_ALWAYS)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (matches(preferenceScreen, PrefKey.PERFORM_SHARE) && item.itemId == R.id.HELP_COMMAND) {
+            preferenceActivity.startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options")
+        }
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         with((requireActivity().application as MyApplication).appComponent) {
             inject(currencyViewModel)
@@ -147,6 +163,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
         }
+        setHasOptionsMenu(matches(preferenceScreen, PrefKey.PERFORM_SHARE))
     }
 
     override fun onStart() {
@@ -382,7 +399,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 if (target != "") {
                     uri = parseUri(target)
                     if (uri == null) {
-                        preferenceActivity.showSnackBar(getString(R.string.ftp_uri_malformed, target))
+                        preferenceActivity.showSnackBar(
+                            getString(
+                                R.string.ftp_uri_malformed,
+                                target
+                            )
+                        )
                         return false
                     }
                     val scheme = uri.scheme
@@ -775,12 +797,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceDeviceLock.onPreferenceChangeListener = this
             }
             getKey(PrefKey.PERFORM_SHARE) -> {
-                val sharePref = requirePreference<Preference>(PrefKey.SHARE_TARGET)
-
-                sharePref.summary = (getString(R.string.pref_share_target_summary) + ":\n" +
-                        "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
-                        "mailto: \"mailto:john@my.example.com\"")
-                sharePref.onPreferenceChangeListener = this
+                with(requirePreference<Preference>(PrefKey.SHARE_TARGET)) {
+                    summary = getString(R.string.pref_share_target_summary) + " " +
+                            ShareViewModel.Scheme.values().joinToString(
+                                separator = ", ", prefix = "(", postfix = ")"
+                            ) { it.name.lowercase() }
+                    onPreferenceChangeListener = this@BaseSettingsFragment
+                }
             }
             getKey(PrefKey.AUTO_BACKUP) -> {
                 requirePreference<Preference>(PrefKey.AUTO_BACKUP_INFO).summary =
