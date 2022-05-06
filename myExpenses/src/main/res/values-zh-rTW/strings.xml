@@ -958,4 +958,5 @@
     <string name="ui_refinement">完善用户界面</string>
     <string name="whats_new_338">任意深入的类别层次结构</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">错误修复</string>
+    <string name="dialog_title_purge_backups">清除旧的备份</string>
 </resources>
