@@ -23,7 +23,10 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
 
-abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application: Application, savedStateHandle: SavedStateHandle) :
+abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
+    application: Application,
+    savedStateHandle: SavedStateHandle
+) :
     CategoryViewModel(application, savedStateHandle) {
 
     val selectionState: MutableState<Category?> = mutableStateOf(null)
@@ -87,29 +90,29 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
     }
 
     fun forward() {
-       _groupingInfo.value?.let { groupingInfo ->
-           if (groupingInfo.grouping == Grouping.YEAR) {
-               _groupingInfo.tryEmit(
-                   groupingInfo.copy(
-                       year = groupingInfo.year + 1
-                   )
-               )
-           } else {
-               viewModelScope.launch {
-                   dateInfoExtra.filterNotNull().take(1).collect {
-                       val nextSecond = groupingInfo.second + 1
-                       val currentYear = groupingInfo.year
-                       val overflow = nextSecond > it.maxValue
-                       _groupingInfo.tryEmit(
-                           groupingInfo.copy(
-                               year = if (overflow) currentYear + 1 else currentYear,
-                               second = if (overflow) grouping.minValue else nextSecond
-                           )
-                       )
-                   }
-               }
-           }
-       }
+        _groupingInfo.value?.let { groupingInfo ->
+            if (groupingInfo.grouping == Grouping.YEAR) {
+                _groupingInfo.tryEmit(
+                    groupingInfo.copy(
+                        year = groupingInfo.year + 1
+                    )
+                )
+            } else {
+                viewModelScope.launch {
+                    dateInfoExtra.filterNotNull().take(1).collect {
+                        val nextSecond = groupingInfo.second + 1
+                        val currentYear = groupingInfo.year
+                        val overflow = nextSecond > it.maxValue
+                        _groupingInfo.tryEmit(
+                            groupingInfo.copy(
+                                year = if (overflow) currentYear + 1 else currentYear,
+                                second = if (overflow) grouping.minValue else nextSecond
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     fun backward() {
@@ -161,54 +164,58 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dateInfoExtra: StateFlow<DateInfo3?> = _groupingInfo.filterNotNull().flatMapLatest { grouping ->
-        //if we are at the beginning of the year we are interested in the max of the previous year
-        val maxYearToLookUp = if (grouping.second <= 1) grouping.year - 1 else grouping.year
-        val maxValueExpression = when (grouping.grouping) {
-            Grouping.DAY -> String.format(
-                Locale.US,
-                "strftime('%%j','%d-12-31')",
-                maxYearToLookUp
-            )
-            Grouping.WEEK -> DbUtils.maximumWeekExpression(maxYearToLookUp)
-            Grouping.MONTH -> "11"
-            else -> "0"
-        }
-        val projectionList = buildList {
-            add("$maxValueExpression AS $KEY_MAX_VALUE")
-            if (grouping.grouping == Grouping.WEEK) {
-                //we want to find out the week range when we are given a week number
-                //we find out the first day in the year, which is the beginning of week "0" and then
-                //add (weekNumber)*7 days to get at the beginning of the week
-                add(
-                    DbUtils.weekStartFromGroupSqlExpression(
-                        grouping.year,
-                        grouping.second
-                    )
+    val dateInfoExtra: StateFlow<DateInfo3?> =
+        _groupingInfo.filterNotNull().flatMapLatest { grouping ->
+            //if we are at the beginning of the year we are interested in the max of the previous year
+            val maxYearToLookUp = if (grouping.second <= 1) grouping.year - 1 else grouping.year
+            val maxValueExpression = when (grouping.grouping) {
+                Grouping.DAY -> String.format(
+                    Locale.US,
+                    "strftime('%%j','%d-12-31')",
+                    maxYearToLookUp
                 )
-                add(
-                    DbUtils.weekEndFromGroupSqlExpression(
-                        grouping.year,
-                        grouping.second
-                    )
-                )
+                Grouping.WEEK -> DbUtils.maximumWeekExpression(maxYearToLookUp)
+                Grouping.MONTH -> "11"
+                else -> "0"
             }
-        }
-        contentResolver.observeQuery(
-            uri = TransactionProvider.DUAL_URI,
-            projection = projectionList.toTypedArray(),
-            selection = null, selectionArgs = null, sortOrder = null, notifyForDescendants = false
-        ).transform { query ->
-            withContext(Dispatchers.IO) {
-                query.run()?.use { cursor ->
-                    cursor.moveToFirst()
-                    DateInfo3.fromCursor(cursor)
+            val projectionList = buildList {
+                add("$maxValueExpression AS $KEY_MAX_VALUE")
+                if (grouping.grouping == Grouping.WEEK) {
+                    //we want to find out the week range when we are given a week number
+                    //we find out the first day in the year, which is the beginning of week "0" and then
+                    //add (weekNumber)*7 days to get at the beginning of the week
+                    add(
+                        DbUtils.weekStartFromGroupSqlExpression(
+                            grouping.year,
+                            grouping.second
+                        )
+                    )
+                    add(
+                        DbUtils.weekEndFromGroupSqlExpression(
+                            grouping.year,
+                            grouping.second
+                        )
+                    )
                 }
-            }?.let {
-                emit(it)
             }
-        }
-    }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+            contentResolver.observeQuery(
+                uri = TransactionProvider.DUAL_URI,
+                projection = projectionList.toTypedArray(),
+                selection = null,
+                selectionArgs = null,
+                sortOrder = null,
+                notifyForDescendants = false
+            ).transform { query ->
+                withContext(Dispatchers.IO) {
+                    query.run()?.use { cursor ->
+                        cursor.moveToFirst()
+                        DateInfo3.fromCursor(cursor)
+                    }
+                }?.let {
+                    emit(it)
+                }
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     val displaySubTitle: Flow<String> = combine(
         _groupingInfo.filterNotNull(),
@@ -265,8 +272,9 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
                 add(sumColumn(accountInfo, incomeType, groupingInfo, filterPersistence))
                 if (accountInfo is Budget) add(FQCN_CATEGORIES_BUDGET)
             }.toTypedArray(),
-            additionalSelectionArgs = (filterPersistence?.whereFilter?.getSelectionArgs(true) ?: emptyArray<String>()) +
-            ((accountInfo as? Budget)?.id?.let { arrayOf(it.toString()) } ?: emptyArray()),
+            additionalSelectionArgs = (filterPersistence?.whereFilter?.getSelectionArgs(true)
+                ?: emptyArray<String>()) +
+                    ((accountInfo as? Budget)?.id?.let { arrayOf(it.toString()) } ?: emptyArray()),
             queryParameter = queryParameter,
             keepCriteria = keepCriteria
         )
@@ -340,47 +348,57 @@ abstract class DistributionViewModelBase<T: DistributionAccountInfo>(application
     @OptIn(ExperimentalCoroutinesApi::class)
     val sums: Flow<Pair<Long, Long>> = combine(
         _accountInfo.filterNotNull(),
-        _groupingInfo.filterNotNull(),
+        _groupingInfo,
         _filterPersistence
-    ) { accountInfo, grouping, filterPersistence -> Triple(accountInfo, grouping, filterPersistence) }.flatMapLatest { (accountInfo, grouping, filterPersistence) ->
-        val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1")
-        val id = accountInfo.accountId
-        if (id != Account.HOME_AGGREGATE_ID) {
-            if (id < 0) {
-                builder.appendQueryParameter(KEY_CURRENCY, accountInfo.currency.code)
-            } else {
-                builder.appendQueryParameter(KEY_ACCOUNTID, id.toString())
-            }
-        }
-        //if we have no income or expense, there is no row in the cursor
-        contentResolver.observeQuery(
-            builder.build(),
-            null,
-            buildFilterClause(grouping, filterPersistence, VIEW_WITH_ACCOUNT),
-            filterPersistence?.whereFilter?.getSelectionArgs(true),
-            null, true
-        ).transform { query ->
-            withContext(Dispatchers.IO) {
-                query.run()?.use { cursor ->
-                    var income: Long = 0
-                    var expense: Long = 0
-                    for (pair in cursor.asSequence) {
-                        val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE))
-                        val sum = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_SUM))
-                        if (type > 0) {
-                            income = sum
-                        } else {
-                            expense = sum
-                        }
-                    }
-                    Pair(income, expense)
-                }
-            }?.let {
-                emit(it)
-            }
+    ) { accountInfo, grouping, filterPersistence ->
+        grouping?.let {
+            Triple(
+                accountInfo,
+                grouping,
+                filterPersistence
+            )
         }
     }
+        .filterNotNull()
+        .flatMapLatest { (accountInfo, grouping, filterPersistence) ->
+            val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1")
+            val id = accountInfo.accountId
+            if (id != Account.HOME_AGGREGATE_ID) {
+                if (id < 0) {
+                    builder.appendQueryParameter(KEY_CURRENCY, accountInfo.currency.code)
+                } else {
+                    builder.appendQueryParameter(KEY_ACCOUNTID, id.toString())
+                }
+            }
+            //if we have no income or expense, there is no row in the cursor
+            contentResolver.observeQuery(
+                builder.build(),
+                null,
+                buildFilterClause(grouping, filterPersistence, VIEW_WITH_ACCOUNT),
+                filterPersistence?.whereFilter?.getSelectionArgs(true),
+                null, true
+            ).transform { query ->
+                withContext(Dispatchers.IO) {
+                    query.run()?.use { cursor ->
+                        var income: Long = 0
+                        var expense: Long = 0
+                        for (pair in cursor.asSequence) {
+                            val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE))
+                            val sum = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_SUM))
+                            if (type > 0) {
+                                income = sum
+                            } else {
+                                expense = sum
+                            }
+                        }
+                        Pair(income, expense)
+                    }
+                }?.let {
+                    emit(it)
+                }
+            }
+        }
 
     data class GroupingInfo(
         val grouping: Grouping,
