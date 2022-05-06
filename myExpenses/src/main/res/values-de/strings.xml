@@ -1009,4 +1009,16 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategorienbaum</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Mit Ihrem aktuellen Lizenzstatus (%1$s) wird dieser Dialog bei jeder Nutzung angezeigt.</string>
     <string name="menu_parent_category_selection">Übergeordnete Kategorie durch kurzes Antippen auswählen</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Bestätigungsaufforderung vor dem Löschen von Dateien anzeigen</string>
+    <string name="dialog_title_purge_backups">Alte Backups löschen</string>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Eine alte Sicherungsdatei konnte nicht gelöscht werden.</item>
+        <item quantity="other">%d alte Sicherungsdateien konnten nicht gelöscht werden.</item>
+    </plurals>
+    <string name="pref_purge_backup_keep_title">Maximale Anzahl der letzten Sicherungsdateien, die aufbewahrt werden sollen</string>
+    <string name="purge_backups">Die folgenden alten Sicherungsdateien werden gelöscht:</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Eine alte Sicherungsdatei wurde gelöscht.</item>
+        <item quantity="other">%d alte Sicherungsdateien wurden gelöscht.</item>
+    </plurals>
 </resources>
