@@ -527,4 +527,5 @@
     <string name="ui_refinement">Perfecționarea interfeței cu utilizatorul</string>
     <string name="whats_new_338">Ierarhie de categorii arbitrar de adâncă</string>
     <string name="menu_budget">Bugetare</string>
+    <string name="dialog_title_purge_backups">Elimină copiile de rezervă vechi</string>
 </resources>
