@@ -939,4 +939,5 @@
     <string name="cb_label_merge_accounts">Spoji račune</string>
     <string name="pref_mlkit_script_title">Skripta za MlKit</string>
     <string name="whats_new_338">Proizvoljno duboka hijerarhija kategorija</string>
+    <string name="dialog_title_purge_backups">Čišćenje starih sigurnosnih kopija</string>
 </resources>

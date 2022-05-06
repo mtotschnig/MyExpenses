@@ -887,4 +887,5 @@
     <string name="debt_managment">債務管理</string>
     <string name="ui_refinement">ユーザーインターフェースの洗練</string>
     <string name="whats_new_338">任意に深いカテゴリー階層</string>
+    <string name="dialog_title_purge_backups">古いバックアップをパージする</string>
 </resources>

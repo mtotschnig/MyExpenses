@@ -970,4 +970,5 @@
     <string name="ui_refinement">A felhasználói felület finomítása</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">Hibajavítások</string>
     <string name="whats_new_338">Tetszőlegesen mély kategóriahierarchia</string>
+    <string name="dialog_title_purge_backups">Régi biztonsági mentések törlése</string>
 </resources>

@@ -1009,4 +1009,5 @@
     <string name="dialog_contrib_usage_limit_with_dialog">При сегашния статус на лиценза (%1$s), този диалог ще се показва при всяка употреба.</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Дърво на категориите</string>
     <string name="menu_parent_category_selection">С кратко докосване избирате родителската категория</string>
+    <string name="dialog_title_purge_backups">Изчистване на стари резервни копия</string>
 </resources>
