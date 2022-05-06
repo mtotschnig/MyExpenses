@@ -700,4 +700,5 @@
     <string name="ui_refinement">Erabiltzaile-interfazea hobetzea</string>
     <string name="menu_budget">Aurrekontua</string>
     <string name="whats_new_338">Kategoria hierarkia arbitrarioki sakona</string>
+    <string name="dialog_title_purge_backups">Garbitu babeskopia zaharrak</string>
 </resources>
