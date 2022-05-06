@@ -68,7 +68,7 @@ class AccountRemoteViewsFactory(
                     setOnClickPendingIntent(buttonId, PendingIntent.getBroadcast(
                             context, clickInfo.first, clickInfo.second.apply(block).apply {
                         data = Uri.parse(this.toUri(Intent.URI_INTENT_SCHEME))
-                    }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
+                    }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE))
                 }
             }
         }

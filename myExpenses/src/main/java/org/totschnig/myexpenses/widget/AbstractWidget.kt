@@ -97,7 +97,7 @@ abstract class AbstractWidget(
             context,
             appWidgetId,
             clickBaseIntent(context),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
         widget.setOnClickPendingIntent(R.id.emptyView, clickPI)
         if (isProtected(context)) {
