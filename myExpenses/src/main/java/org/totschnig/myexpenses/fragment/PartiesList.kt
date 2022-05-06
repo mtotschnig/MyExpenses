@@ -274,6 +274,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 checkStates = mutableSetOf(*it.toTypedArray())
             }
         }
+
+        fun clearSelection() {
+            checkStates.clear()
+        }
     }
 
     private fun updateFabEnabled() {
@@ -529,6 +533,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         selectedItemIds.toLongArray(),
                         selectedItemIds[extras.getInt(KEY_POSITION)]
                     )
+                    adapter.clearSelection()
                     resetAdapter()
                     return true
                 }
