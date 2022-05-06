@@ -60,7 +60,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                     AccountRow(
                         label = remoteAccount?.let {
                             if (it.label() == local.label) local.label else
-                                local.label.substring(0, 15) + "/" + it.label().substring(0, 15)
+                                local.label.take(15) + "/" + it.label().take(15)
                         } ?: local.label,
                         uuid = local.uuid,
                         isLocal = true,
