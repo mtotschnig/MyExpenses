@@ -800,4 +800,5 @@
     <string name="debt_managment">Zarządzanie długiem</string>
     <string name="ui_refinement">Dopracowanie interfejsu użytkownika</string>
     <string name="whats_new_338">Arbitralnie głęboka hierarchia kategorii</string>
+    <string name="dialog_title_purge_backups">Wyczyść stare kopie zapasowe</string>
 </resources>
