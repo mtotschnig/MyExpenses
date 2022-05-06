@@ -72,7 +72,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {
                 supportActionBar?.title = it.title
-                viewModel.setGrouping(it.grouping)
             }
         }
         binding.composeView.setContent {

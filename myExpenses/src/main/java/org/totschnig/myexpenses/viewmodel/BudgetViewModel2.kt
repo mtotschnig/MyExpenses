@@ -90,9 +90,12 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 null,
                 true
             ).mapToOne(mapper = budgetCreatorFunction).collect { budget ->
+                _groupingInfo.tryEmit(null)
                 _accountInfo.tryEmit(budget)
+                setGrouping(budget.grouping)
                 _filterPersistence.update {
-                    FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
+                    FilterPersistence(
+                        prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
                         immediatePersist = false,
                         restoreFromPreferences = true
                     ).also {
@@ -108,19 +111,29 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         _accountInfo.filterNotNull(),
         _aggregateTypes,
         _allocatedOnly,
-        _groupingInfo.filterNotNull(),
+        _groupingInfo,
         _filterPersistence
     ) { accountInfo, aggregateTypes, allocatedOnly, grouping, filterPersistence ->
-        Tuple5(accountInfo, if (aggregateTypes) null else false, allocatedOnly, grouping, filterPersistence)
-    }.flatMapLatest { (accountInfo, incomeType, allocatedOnly, grouping, filterPersistence) ->
-        categoryTreeWithSum(
-            accountInfo,
-            incomeType,
-            grouping,
-            if (allocatedOnly) TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY else null,
-            filterPersistence
-        )
+        grouping?.let {
+            Tuple5(
+                accountInfo,
+                if (aggregateTypes) null else false,
+                allocatedOnly,
+                it,
+                filterPersistence
+            )
+        }
     }
+        .filterNotNull()
+        .flatMapLatest { (accountInfo, incomeType, allocatedOnly, grouping, filterPersistence) ->
+            categoryTreeWithSum(
+                accountInfo,
+                incomeType,
+                grouping,
+                if (allocatedOnly) TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY else null,
+                filterPersistence
+            )
+        }
 
     override fun dateFilterClause(groupingInfo: GroupingInfo): String? {
         return if (groupingInfo.grouping == Grouping.NONE) accountInfo.value?.durationAsSqlFilter() else
