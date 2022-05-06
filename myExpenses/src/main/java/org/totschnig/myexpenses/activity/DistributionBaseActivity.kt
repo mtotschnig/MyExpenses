@@ -6,7 +6,9 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Category
 
@@ -30,6 +32,9 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
         menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES)?.let {
             it.isChecked = viewModel.aggregateTypes
         }
+        val grouped = viewModel.grouping != Grouping.NONE
+        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped)
+        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped)
         return true
     }
 

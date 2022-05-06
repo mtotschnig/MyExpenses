@@ -109,9 +109,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
             (item.actionView.findViewById<View>(R.id.TaType) as SwitchCompat).isChecked =
                 viewModel.incomeType
         }
-        val grouped = viewModel.grouping != Grouping.NONE
-        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped)
-        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped)
         return true
     }
 
