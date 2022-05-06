@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
+import org.totschnig.myexpenses.util.DateUtilsKt;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
@@ -126,15 +127,11 @@ public class DateCriteria extends Criteria {
   }
 
   private String toStartOfDay(String localDate) {
-    return local2ZonedAtTime(localDate, LocalTime.MIN);
+    return String.valueOf(DateUtilsKt.toStartOfDayEpoch(LocalDate.parse(localDate)));
   }
 
   private String toEndOfDay(String localDate) {
-    return local2ZonedAtTime(localDate, LocalTime.MAX);
-  }
-
-  private String local2ZonedAtTime(String localDate, LocalTime localTime) {
-    return String.valueOf(localDateTime2Epoch(LocalDate.parse(localDate).atTime(localTime)));
+    return String.valueOf(DateUtilsKt.toEndOfDayEpoch(LocalDate.parse(localDate)));
   }
 
   @Override

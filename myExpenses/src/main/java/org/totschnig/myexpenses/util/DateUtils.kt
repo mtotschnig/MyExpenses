@@ -3,16 +3,11 @@ package org.totschnig.myexpenses.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import org.totschnig.myexpenses.R
 import java.text.SimpleDateFormat
+import java.time.*
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 fun epoch2LocalDate(epochSecond: Long): LocalDate = ZonedDateTime.ofInstant(
     Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault()).toLocalDate()
@@ -34,6 +29,9 @@ fun localDateTime2EpochMillis(localDateTime: LocalDateTime) = localDateTime2Epoc
 fun getDateTimeFormatter(context: Context): DateTimeFormatter =
         (Utils.getDateFormatSafe(context) as? SimpleDateFormat)?.let { DateTimeFormatter.ofPattern(it.toPattern()) }
                 ?: DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+
+fun LocalDate.toStartOfDayEpoch(): Long = localDateTime2Epoch(this.atTime(LocalTime.MIN))
+fun LocalDate.toEndOfDayEpoch(): Long = localDateTime2Epoch(this.atTime(LocalTime.MAX))
 
 @SuppressLint("SimpleDateFormat")
 fun validateDateFormat(dateFormat: String) = when {
