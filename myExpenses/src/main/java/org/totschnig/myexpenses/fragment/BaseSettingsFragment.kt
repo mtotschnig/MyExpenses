@@ -408,7 +408,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         return false
                     }
                     val scheme = uri.scheme
-                    if (enumValueOrNull<ShareViewModel.Scheme>(scheme) == null) {
+                    if (enumValueOrNull<ShareViewModel.Scheme>(scheme.uppercase()) == null) {
                         preferenceActivity.showSnackBar(
                             getString(
                                 R.string.share_scheme_not_supported,

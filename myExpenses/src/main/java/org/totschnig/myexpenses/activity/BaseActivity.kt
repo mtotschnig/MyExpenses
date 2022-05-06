@@ -1,13 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.DownloadManager
-import android.content.ActivityNotFoundException
-import android.content.BroadcastReceiver
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
@@ -22,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
@@ -177,18 +170,19 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         tracker.init(this)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                shareViewModel.shareResult.collect {
-                    it?.onFailure {
-                        showDismissibleSnackBar(it.safeMessage, object: Snackbar.Callback() {
-                            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION) {
-                                    shareViewModel.messageShown()
-                                }
+                shareViewModel.shareResult.collect { result ->
+                    val callback = object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION) {
+                                shareViewModel.messageShown()
                             }
-                        })
+                        }
+                    }
+                    result?.onFailure {
+                        showDismissibleSnackBar(it.safeMessage, callback)
                     }?.onSuccess {
                         if (it == ShareViewModel.Scheme.HTTP || it == ShareViewModel.Scheme.HTTPS) {
-                            showDismissibleSnackBar("HTTP PUT completed successfully.")
+                            showDismissibleSnackBar("HTTP PUT completed successfully.", callback)
                         }
                     }
                 }
