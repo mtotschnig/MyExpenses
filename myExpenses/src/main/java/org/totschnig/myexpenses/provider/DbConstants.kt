@@ -81,7 +81,7 @@ fun categoryTreeWithMappedObjects(
         """.trimIndent()
 }
 
-fun labelEscapedForQif(tableName: String) = "replace(replace($tableName.$KEY_LABEL,'/','|'), ':','|')"
+fun labelEscapedForQif(tableName: String) = "replace(replace($tableName.$KEY_LABEL,'/','\\u002F'), ':','\\u003A')"
 
 fun maybeEscapeLabel(categorySeparator: String?, tableName: String) = if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
 

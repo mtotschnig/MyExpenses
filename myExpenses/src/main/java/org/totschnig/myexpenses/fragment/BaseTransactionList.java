@@ -203,8 +203,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   private static final int SECTION_CURSOR = 3;
 
   public static final String KEY_FILTER = "filter";
-  public static final String CATEGORY_SEPARATOR = " : ",
-      COMMENT_SEPARATOR = " / ";
+  public static final String COMMENT_SEPARATOR = " / ";
   private MyGroupedAdapter mAdapter;
   protected boolean hasItems;
   private boolean mappedCategories;

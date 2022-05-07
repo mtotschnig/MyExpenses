@@ -1,10 +1,11 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
-import org.apache.commons.lang3.StringUtils
+import org.apache.commons.text.translate.UnicodeUnescaper
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 object CategoryHelper {
+    private val unicodeEscaper = UnicodeUnescaper()
     var countInserted = 0
     /**
      * inserts the category to the database if needed
@@ -20,8 +21,7 @@ object CategoryHelper {
         stripQifCategoryClass: Boolean
     ): Int {
         countInserted = 0
-        val name: String = if (stripQifCategoryClass) stripCategoryClass(name) else name
-        insertCategory(reduceToTwoLevels(name), categoryToId, repository)
+        insertCategory(parse(if (stripQifCategoryClass) stripCategoryClass(name) else name), categoryToId, repository)
         return countInserted
     }
 
@@ -32,69 +32,40 @@ object CategoryHelper {
         } else name
     }
 
-    private fun reduceToTwoLevels(name: String): String {
-        if (StringUtils.countMatches(name, ':') > 1) {
-            val parts = name.split(":".toRegex()).toTypedArray()
-            return parts[0] + ":" + parts[1]
-        }
-        return name
-    }
+    private fun parse(name: String) = name.split(":".toRegex())
 
     private fun insertCategory(
-        name: String,
+        name: List<String>,
         categoryToId: MutableMap<String, Long>,
         repository: Repository
     ) {
-        if (isChildCategory(name)) {
-            insertChildCategory(repository, name, categoryToId)
-        } else {
-            insertRootCategory(repository, name, categoryToId)
+        var parentId: Long? = null
+        var path = ""
+        name.forEach {
+            if (!path.isEmpty()) path += ":"
+            path += it
+            var id = categoryToId[path]
+            if (id == null) {
+                id = maybeWriteCategory(repository, it, parentId)
+                if (id != -1L) categoryToId[path] = id
+            }
+            if (id == -1L) {
+                return
+            } else {
+                parentId = id
+            }
         }
-    }
-
-    private fun isChildCategory(name: String): Boolean {
-        return name.contains(":")
-    }
-
-    private fun insertRootCategory(
-        repository: Repository,
-        name: String,
-        categoryToId: MutableMap<String, Long>
-    ): Long {
-        var id = categoryToId[name]
-        if (id == null) {
-            id = maybeWriteCategory(repository, name, null)
-            if (id != -1L) categoryToId[name] = id
-        }
-        return id
     }
 
     private fun maybeWriteCategory(repository: Repository, name: String, parentId: Long?): Long {
-        var id = repository.findCategory(name, parentId)
+        val unescaped = unicodeEscaper.translate(name)
+        var id = repository.findCategory(unescaped, parentId)
         if (id == -1L) {
-            id = repository.saveCategory(Category(label = name, parentId = parentId))
+            id = repository.saveCategory(Category(label = unescaped, parentId = parentId))
                 ?.let { ContentUris.parseId(it) } ?: -1
             if (id != -1L) countInserted++
         }
         return id
     }
 
-    private fun insertChildCategory(
-        repository: Repository,
-        name: String,
-        categoryToId: MutableMap<String, Long>
-    ): Long? {
-        var id = categoryToId[name]
-        if (id == null) {
-            val i = name.lastIndexOf(':')
-            val parentCategoryName = name.substring(0, i)
-            val childCategoryName = name.substring(i + 1)
-            val main = insertRootCategory(repository, parentCategoryName, categoryToId)
-            if (main != -1L) {
-                id = maybeWriteCategory(repository, childCategoryName, main)
-                if (id != -1L) categoryToId[name] = id
-            }
-        }
-        return id
-    }
 }

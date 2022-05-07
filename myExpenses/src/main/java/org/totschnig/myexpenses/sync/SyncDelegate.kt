@@ -322,7 +322,7 @@ class SyncDelegate @JvmOverloads constructor(
     }
 
     private fun extractCatId(label: String): Long {
-        CategoryHelper.insert(repository = repository, label, categoryToId, false)
+        CategoryHelper.insert(repository, label, categoryToId, false)
         return categoryToId[label] ?: -1
     }
 

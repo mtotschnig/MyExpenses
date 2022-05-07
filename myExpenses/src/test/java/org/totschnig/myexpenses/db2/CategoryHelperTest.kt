@@ -45,9 +45,9 @@ class CategoryHelperTest {
     }
 
     @Test
-    fun shouldReduceToTwoLevels() {
+    fun shouldInsertThreeLevels() {
         insert("abc:def:ghi", false)
-        assertNull(categoryToId["abc:def:ghi"])
+        assertNotNull(categoryToId["abc:def:ghi"])
         assertNotNull(categoryToId["abc:def"])
         assertNotNull(categoryToId["abc"])
     }
