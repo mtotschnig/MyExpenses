@@ -967,5 +967,5 @@
     <string name="pref_news_title">新闻</string>
     <string name="debt_managment">债务管理</string>
     <string name="whats_new_338">任意深的类别层次结构</string>
-    <string name="dialog_title_purge_backups">清除旧的备份</string>
+    <string name="dialog_title_purge_backups">清除旧备份</string>
 </resources>
