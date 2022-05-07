@@ -6,6 +6,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Toast
 import androidx.preference.Preference
+import org.totschnig.myexpenses.util.safeMessage
+import java.lang.Exception
 
 class SafePreference constructor(
     context: Context,
@@ -15,8 +17,8 @@ class SafePreference constructor(
     override fun performClick() {
         try {
             super.performClick()
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "No browser installed", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(context, e.safeMessage, Toast.LENGTH_LONG).show()
         }
     }
 }
