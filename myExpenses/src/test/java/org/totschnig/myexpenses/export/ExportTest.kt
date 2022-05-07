@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
+import org.apache.commons.text.translate.UnicodeEscaper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -342,6 +343,9 @@ class ExportTest {
 
     @Test
     fun testQIFCategorySanitizer() {
+        val unicodeEscaper = UnicodeEscaper()
+        val colonEscaped = unicodeEscaper.translate(":")
+        val slashEscaped = unicodeEscaper.translate("/")
         val linesQIF = arrayOf(
             "!Account",
             "NAccount 1",
@@ -350,7 +354,7 @@ class ExportTest {
             "!Type:Bank",
             "D$date",
             "T0.40",
-            "LWith|and|Main:With|and|Sub",
+            "LWith${slashEscaped}and${colonEscaped}Main:With${slashEscaped}and${colonEscaped}Sub",
             "^"
         )
 
