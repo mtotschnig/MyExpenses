@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:my="http://myexpenses.mobi/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="2.0">
     <xsl:variable name="all-languages"
-        select="'ar bg ca cs da de el es eu fr hr hu it iw ja ms km kn ko pl pt ro ru si ta tr vi zh zh-TW en'" />
+        select="'ar bg ca cs da de el es eu fr hr hu it iw ja kn ko ms km pl pt ro ru si ta tr vi zh zh-TW en'" />
     <xsl:variable name='newline'>
         <xsl:text>&#xa;</xsl:text>
     </xsl:variable>
@@ -162,6 +162,17 @@
                 <xsl:text>:&#032;</xsl:text>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='ui_refinement']" />
+            </xsl:when>
+            <xsl:when test="$version = '3.3.9'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='dialog_title_purge_backups']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='pref_perform_share_title']" />
+                <xsl:text>:&#032;HTTP</xsl:text>
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
