@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -499,7 +498,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return true
     }
 
-    @SuppressLint("StringFormatMatches")
     protected fun showOnlyOneProtectionWarning(legacyProtectionByPasswordIsActive: Boolean) {
         val lockScreen = getString(R.string.pref_protection_device_lock_screen_title)
         val passWord = getString(R.string.pref_protection_password_title)
@@ -507,10 +505,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             lockScreen,
             passWord
         ) else arrayOf(passWord, lockScreen)
+        //noinspection StringFormatMatches
         preferenceActivity.showSnackBar(
             getString(
                 R.string.pref_warning_only_one_protection,
-                formatArgs
+                *formatArgs
             )
         )
     }
