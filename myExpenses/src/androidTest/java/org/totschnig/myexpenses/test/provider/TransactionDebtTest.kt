@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.util.*
