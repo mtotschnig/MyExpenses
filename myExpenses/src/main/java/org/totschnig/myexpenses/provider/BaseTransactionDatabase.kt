@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor
 import timber.log.Timber
 
-const val DATABASE_VERSION = 126
+const val DATABASE_VERSION = 127
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =

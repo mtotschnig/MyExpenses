@@ -2198,7 +2198,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         upgradeTo120(db);
       }
       if (oldVersion < 121) {
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
       if (oldVersion < 122) {
         upgradeTo122(db);
@@ -2215,6 +2215,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 126) {
         upgradeTo126(db);
+      }
+      if (oldVersion < 127) {
+        createOrRefreshViews(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
