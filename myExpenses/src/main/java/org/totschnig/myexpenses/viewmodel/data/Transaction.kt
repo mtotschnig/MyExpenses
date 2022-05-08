@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.*
+import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper

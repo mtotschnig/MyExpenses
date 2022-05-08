@@ -321,12 +321,6 @@ public class DatabaseConstants {
    */
   public static final String FQCN_CATEGORIES_BUDGET = TABLE_BUDGET_CATEGORIES + "." + KEY_BUDGET;
 
-
-  /**
-   * for transfer label of transfer_account, for transaction full breadcrumb of category
-   */
-  public static final String FULL_LABEL = DbConstantsKt.fullLabel(null);
-
   public static final String TRANSFER_PEER_PARENT =
       "(SELECT " + KEY_PARENTID
           + " FROM " + TABLE_TRANSACTIONS + " peer WHERE peer." + KEY_ROWID

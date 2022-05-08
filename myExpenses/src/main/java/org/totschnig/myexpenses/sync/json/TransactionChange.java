@@ -18,7 +18,6 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;

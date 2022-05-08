@@ -85,6 +85,22 @@ fun labelEscapedForQif(tableName: String) = "replace(replace($tableName.$KEY_LAB
 
 fun maybeEscapeLabel(categorySeparator: String?, tableName: String) = if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
 
+val categoryTreeForView = """
+    WITH Tree as (
+    SELECT
+        main.$KEY_LABEL AS $KEY_PATH,
+        $KEY_ROWID
+    FROM $TABLE_CATEGORIES main
+    WHERE $KEY_PARENTID IS NULL
+    UNION ALL
+    SELECT
+        Tree.$KEY_PATH || ' > ' || subtree.$KEY_LABEL,
+        subtree.$KEY_ROWID
+    FROM $TABLE_CATEGORIES subtree
+    JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
+    )
+""".trimIndent()
+
 fun categoryTreeCTE(
     rootExpression: String? = null,
     sortOrder: String? = null,
@@ -133,7 +149,6 @@ fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
     categorySeparator = categorySeparator
 ) + ")"
 
-
 fun fullLabel(categorySeparator: String?) = "CASE WHEN " +
         "  " + KEY_TRANSFER_ACCOUNT + " " +
         " THEN " +
@@ -141,3 +156,9 @@ fun fullLabel(categorySeparator: String?) = "CASE WHEN " +
         " ELSE " +
         fullCatCase(categorySeparator) +
         " END AS  " + KEY_LABEL
+
+/**
+ * for transfer label of transfer_account, for transaction full breadcrumb of category
+ */
+const val FULL_LABEL =
+    "CASE WHEN  $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) ELSE $KEY_PATH END AS  $KEY_LABEL"

@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -108,8 +109,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private static String buildViewDefinition(String tableName, boolean withTags) {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(" AS SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
-        .append(".").append(KEY_PAYEE_NAME).append(", ")
+    stringBuilder.append( " AS ").append(DbConstantsKt.getCategoryTreeForView())
+        .append(" SELECT ").append(tableName).append(".*, ")
+        .append("Tree.").append(KEY_PATH).append(", ")
+        .append(TABLE_PAYEES).append(".").append(KEY_PAYEE_NAME).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
@@ -120,10 +123,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       stringBuilder.append(", group_concat(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(", ', ') AS ").append(KEY_TAGLIST);
     }
 
-    stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
-        .append(KEY_PAYEEID).append(" = ").append(TABLE_PAYEES).append(".").append(KEY_ROWID).append(" LEFT JOIN ")
-        .append(TABLE_METHODS).append(" ON ").append(KEY_METHODID).append(" = ").append(TABLE_METHODS)
-        .append(".").append(KEY_ROWID);
+    stringBuilder.append(" FROM ").append(tableName)
+        .append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ").append(KEY_PAYEEID).append(" = ").append(TABLE_PAYEES).append(".").append(KEY_ROWID)
+        .append(" LEFT JOIN ").append(TABLE_METHODS).append(" ON ").append(KEY_METHODID).append(" = ").append(TABLE_METHODS).append(".").append(KEY_ROWID)
+        .append(" LEFT JOIN Tree ON ").append(KEY_CATID).append(" = TREE.").append(KEY_ROWID);
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(" LEFT JOIN ").append(TABLE_PLAN_INSTANCE_STATUS)
@@ -148,13 +151,17 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private static String buildViewDefinitionExtended(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
-
-    stringBuilder.append(" AS SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
+    stringBuilder.append( " AS ");
+    if (!tableName.equals(TABLE_CHANGES)) {
+      stringBuilder.append(DbConstantsKt.getCategoryTreeForView());
+    }
+    stringBuilder.append(" SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
         .append(".").append(KEY_PAYEE_NAME).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
 
     if (!tableName.equals(TABLE_CHANGES)) {
       stringBuilder.append(", ")
+          .append("Tree.").append(KEY_PATH).append(", ")
           .append(KEY_COLOR).append(", ")
           .append(KEY_CURRENCY).append(", ")
           .append(KEY_SEALED).append(", ")
@@ -176,7 +183,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     if (!tableName.equals(TABLE_CHANGES)) {
       stringBuilder.append(" LEFT JOIN ").append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
-          .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID);
+          .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID)
+           .append(" LEFT JOIN Tree ON ").append(KEY_CATID)
+           .append(" = TREE.").append(KEY_ROWID);
     }
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {

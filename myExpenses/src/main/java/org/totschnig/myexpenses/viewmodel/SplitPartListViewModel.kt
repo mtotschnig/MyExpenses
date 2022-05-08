@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
+import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 class SplitPartListViewModel(application: Application) :

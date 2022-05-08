@@ -29,5 +29,6 @@ data class TransactionInfo @JvmOverloads constructor(
             put(DatabaseConstants.KEY_UUID, Model.generateUuid())
             put(DatabaseConstants.KEY_DEBT_ID, debtId)
             put(DatabaseConstants.KEY_CATID, catId)
+            put(DatabaseConstants.KEY_METHODID, methodId)
         }
 }

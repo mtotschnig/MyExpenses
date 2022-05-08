@@ -21,7 +21,6 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
@@ -92,6 +91,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekEnd;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAlias;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
