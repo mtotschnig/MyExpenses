@@ -61,7 +61,6 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
@@ -302,7 +301,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                     }
                 }
                 parentId = intent.getLongExtra(KEY_PARENTID, 0)
-                var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
+                var accountId = intent.getLongExtra(KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
                     viewModel.newTemplate(
                         operationType,
@@ -439,7 +438,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 if (::delegate.isInitialized) {
                     delegate.setAccounts(
                         accounts,
-                        if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY)
+                        if (fromSavedState) null else intent.getStringExtra(KEY_CURRENCY)
                     )
                     if (!isTemplate) {
                         loadDebts()
@@ -537,7 +536,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         parentId = transaction.parentId ?: 0L
         if (isClone) {
             transaction.crStatus = CrStatus.UNRECONCILED
-            transaction.status = DatabaseConstants.STATUS_NONE
+            transaction.status = STATUS_NONE
             transaction.uuid = Model.generateUuid()
             mNewInstance = true
         }
@@ -853,7 +852,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
             forwardDataEntryFromWidget(this)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-            putExtra(DatabaseConstants.KEY_ACCOUNTID, account.id)
+            putExtra(KEY_ACCOUNTID, account.id)
             putExtra(KEY_PARENTID, delegate.rowId)
             putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
             putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
@@ -915,14 +914,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
             SELECT_CATEGORY_REQUEST -> if (intent != null) {
                 (delegate as? CategoryDelegate)?.setCategory(
-                    intent.getStringExtra(DatabaseConstants.KEY_LABEL),
-                    intent.getStringExtra(DatabaseConstants.KEY_ICON),
-                    intent.getLongExtra(DatabaseConstants.KEY_CATID, 0)
+                    intent.getStringExtra(KEY_LABEL),
+                    intent.getStringExtra(KEY_ICON),
+                    intent.getLongExtra(KEY_CATID, 0)
                 )
                 setDirty()
             }
@@ -1115,7 +1115,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                     overridePreferences && autoFillAccountFromExtra || autoFillAccountFromPreference == "always" ||
                             autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, true)) {
-                    dataToLoad.add(DatabaseConstants.KEY_CURRENCY)
+                    dataToLoad.add(KEY_CURRENCY)
                     dataToLoad.add(KEY_AMOUNT)
                 }
                 if (overridePreferences || prefHandler.getBoolean(
@@ -1123,22 +1123,22 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         true
                     )
                 ) {
-                    dataToLoad.add(DatabaseConstants.KEY_CATID)
-                    dataToLoad.add(DatabaseConstants.CAT_AS_LABEL)
-                    dataToLoad.add(DatabaseConstants.CATEGORY_ICON)
+                    dataToLoad.add(KEY_CATID)
+                    dataToLoad.add(CAT_AS_LABEL)
+                    dataToLoad.add(CATEGORY_ICON)
                 }
                 if (overridePreferences || prefHandler.getBoolean(
                         PrefKey.AUTO_FILL_COMMENT,
                         true
                     )
                 ) {
-                    dataToLoad.add(DatabaseConstants.KEY_COMMENT)
+                    dataToLoad.add(KEY_COMMENT)
                 }
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_METHOD, true)) {
-                    dataToLoad.add(DatabaseConstants.KEY_METHODID)
+                    dataToLoad.add(KEY_METHODID)
                 }
                 if (mayLoadAccount) {
-                    dataToLoad.add(DatabaseConstants.KEY_ACCOUNTID)
+                    dataToLoad.add(KEY_ACCOUNTID)
                 }
                 return CursorLoader(
                     this,
