@@ -91,7 +91,6 @@
     <string name="dialog_title_warning_delete_template">टेम्पलेट हटाएं?</string>
     <string name="dialog_title_warning_delete_transaction">लेन-देन हटाएँ?</string>
     <string name="expense">खर्चा</string>
-    <string name="export_expenses">खर्चे निर्यात</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure"> \"%1$s\" फ़ाइल पर निर्यात असफल: %2$s</string>
     <string name="external_storage_unavailable">बाह्य संचयन (एसडी कार्ड) उपलब्ध नहीं है</string>

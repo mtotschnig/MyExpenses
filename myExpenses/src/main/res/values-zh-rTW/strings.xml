@@ -114,7 +114,6 @@
     <string name="dialog_title_warning_delete_template">要刪除模板嗎?</string>
     <string name="dialog_title_warning_delete_transaction">要刪除交易嗎?</string>
     <string name="expense">開支花費</string>
-    <string name="export_expenses">輸出開支花費</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">輸出到檔案\"%1$s\"失敗: %2$s</string>
     <!-- 1$s is replaced with path to file -->

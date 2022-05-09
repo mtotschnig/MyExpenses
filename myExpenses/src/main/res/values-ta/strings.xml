@@ -115,7 +115,6 @@
     <string name="dialog_title_warning_delete_template">வார்ப்புருவை நீக்கவா?</string>
     <string name="dialog_title_warning_delete_transaction">பரிவர்த்தனையை நீக்கவா?</string>
     <string name="expense">செலவு</string>
-    <string name="export_expenses">செலவுகள் ஏற்றுமதி</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">\"%1$s\" கோப்புக்கு ஏற்றுமதி செய்யதல் தோல்வியுற்றது: %2$s</string>
     <!-- 1$s is replaced with path to file -->

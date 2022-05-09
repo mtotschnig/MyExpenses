@@ -115,7 +115,6 @@
     <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
     <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération \?</string>
     <string name="expense">Dépense</string>
-    <string name="export_expenses">Export des dépenses</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">L\'exportation vers « %1$s » a échoué : %2$s</string>
     <!-- 1$s is replaced with path to file -->

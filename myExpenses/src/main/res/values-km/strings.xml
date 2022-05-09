@@ -78,7 +78,6 @@
     <string name="dialog_title_warning_delete_template">លុប​ទិន្នន័យ​គំរូ?</string>
     <string name="dialog_title_warning_delete_transaction">លុប​ប្រតិបត្តិ​ការ?</string>
     <string name="expense">ចំណាយ</string>
-    <string name="export_expenses">នាំយកទិន្នន័យ​ចំណាយចេញ</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">នាំយកទិន្នន័យ​ចំណាយចេញ​ទៅ sdcard អត់បាន %1$s: %2$s</string>
     <!-- 1$s is replaced with path to file -->

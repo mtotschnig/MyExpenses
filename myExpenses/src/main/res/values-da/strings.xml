@@ -85,7 +85,6 @@
     <string name="dialog_title_warning_delete_template">Slet skabelonen?</string>
     <string name="dialog_title_warning_delete_transaction">Slet transaktionen?</string>
     <string name="expense">Udgift</string>
-    <string name="export_expenses">Eksport af udgifter</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Fejl ved eksport til filen \"%1$s\": %2$s</string>
     <!-- 1$s is replaced with path to file -->

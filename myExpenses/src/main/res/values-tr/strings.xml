@@ -115,7 +115,6 @@
     <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
     <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
     <string name="expense">gider</string>
-    <string name="export_expenses">Giderleri dışa aktar</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">\"%1$s\" dosyasına dışa aktarma başarısız oldu: %2$s</string>
     <!-- 1$s is replaced with path to file -->

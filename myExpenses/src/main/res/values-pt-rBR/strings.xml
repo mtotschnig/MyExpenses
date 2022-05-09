@@ -115,7 +115,6 @@
     <string name="dialog_title_warning_delete_template">Apagar o modelo\?</string>
     <string name="dialog_title_warning_delete_transaction">Apagar a transação\?</string>
     <string name="expense">Despesa</string>
-    <string name="export_expenses">Exportar despesas</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Não foi possível exportar para o ficheiro \"%1$s\": %2$s</string>
     <!-- 1$s is replaced with path to file -->

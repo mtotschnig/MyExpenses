@@ -83,7 +83,6 @@
     <string name="dialog_title_warning_delete_template">Izbrisati predložak\?</string>
     <string name="dialog_title_warning_delete_transaction">Izbrisati transakciju\?</string>
     <string name="expense">Trošak</string>
-    <string name="export_expenses">Izvoz troškova</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Izvoz u datoteku „%1$s” nije uspio: %2$s</string>
     <!-- 1$s is replaced with path to file -->

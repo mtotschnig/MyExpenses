@@ -117,7 +117,6 @@
     <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
     <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
     <string name="expense">הוצאה</string>
-    <string name="export_expenses">יצוא הוצאות</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">יצוא קובץ \"%1$s\" נכשל %2$s</string>
     <!-- 1$s is replaced with path to file -->

@@ -65,7 +65,6 @@
     <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
     <string name="dialog_title_warning_delete_transaction">Eliminar transacción?</string>
     <string name="expense">Gasto</string>
-    <string name="export_expenses">Exportar os gastos</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Datos exportados satisfactoriamente ao ficheiro \"%1$s!</string>
     <string name="external_storage_unavailable">O almacenamento externo da tarxeta SD non está dispoñible</string>

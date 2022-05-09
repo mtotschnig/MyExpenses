@@ -290,7 +290,6 @@
     <string name="grisbi_import_categories_loading">Laster inn kategorier fra %1$s</string>
     <string name="ftp_uri_malformed">Feilformatert URI %1$s</string>
     <string name="feedback">Tilbakemeldinger</string>
-    <string name="export_expenses">Utgiftseksport</string>
     <string name="expense">Utgift</string>
     <string name="dialog_title_warning_delete_transaction">Slett overføring\?</string>
     <string name="dialog_title_warning_delete_template">Slett mal\?</string>

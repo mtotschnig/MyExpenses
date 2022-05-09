@@ -115,7 +115,6 @@
     <string name="dialog_title_warning_delete_template">ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಅಳಿಸುವುದೇ?</string>
     <string name="dialog_title_warning_delete_transaction">ವಹಿವಾಟನ್ನು ಅಳಿಸುವುದೇ?</string>
     <string name="expense">ಖರ್ಚು</string>
-    <string name="export_expenses">ರಫ್ತು ವೆಚ್ಚಗಳು</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">\"%1$s\" ಫೈಲ್ಗೆ ರಫ್ತು ವಿಫಲವಾಗಿದೆ: %2$s</string>
     <!-- 1$s is replaced with path to file -->

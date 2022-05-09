@@ -117,7 +117,6 @@
     <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
     <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>
     <string name="expense">Výdaj</string>
-    <string name="export_expenses">Export výdajů</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Export výdajů na sdkartu se nezdařil %1$s: %2$s</string>
     <!-- 1$s is replaced with path to file -->

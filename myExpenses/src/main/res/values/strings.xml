@@ -118,7 +118,6 @@
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
     <string name="dialog_title_warning_delete_party">Delete party?</string>
     <string name="expense">Expense</string>
-    <string name="export_expenses">Expenses export</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Export to file \"%1$s\" failed: %2$s</string>
     <!-- 1$s is replaced with path to file -->
@@ -1037,4 +1036,6 @@
     <!-- This is the title of a preference for the "Purge old backups" feature. If there are more backups found than this number, all but the most recent ones are purged.-->
     <string name="pref_purge_backup_keep_title">Maximum number of most recent backup files to keep</string>
     <string name="pref_purge_backup_require_confirmation_summary">Show confirmation prompt before files are purged</string>
+    <!-- Summary for an entry on the preference screen that prepares a message with log files attached for debugging purposes.  -->
+    <string name="pref_debug_logging_share_summary">Share log files</string>
 </resources>

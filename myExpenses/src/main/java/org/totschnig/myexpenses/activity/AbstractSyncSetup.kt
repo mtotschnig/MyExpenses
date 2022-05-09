@@ -65,8 +65,7 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
 
     abstract fun buildSuccessIntent(folder: Pair<String, String>): Intent
 
-    @SuppressLint("BuildNotImplemented")
-    protected fun showSelectFolderDialog(pairs: List<Pair<String, String>>) {
+    private fun showSelectFolderDialog(pairs: List<Pair<String, String>>) {
         if (supportFragmentManager.findFragmentByTag(DIALOG_TAG_FOLDER_SELECT) == null) {
             idList.clear()
             idList.addAll(pairs.map { pair -> pair.first })
@@ -83,8 +82,7 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
         }
     }
 
-    @SuppressLint("BuildNotImplemented")
-    fun showCreateFolderDialog() {
+    private fun showCreateFolderDialog() {
         if (supportFragmentManager.findFragmentByTag(DIALOG_TAG_FOLDER_CREATE) == null) {
             SimpleInputDialog.build()
                 .title(R.string.menu_create_folder)

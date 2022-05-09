@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment
 
 import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -23,10 +24,20 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.*
+import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.form.Input
+import eltos.simpledialogfragment.form.SimpleFormDialog
+import eltos.simpledialogfragment.list.CustomListDialog
+import eltos.simpledialogfragment.list.SimpleListDialog
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.MyApplication.FEEDBACK_EMAIL
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
+import org.totschnig.myexpenses.activity.RESTORE_REQUEST
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
@@ -38,12 +49,14 @@ import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -56,6 +69,8 @@ import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
+import timber.log.Timber
+import java.io.File
 import java.net.URI
 import java.text.DateFormatSymbols
 import java.time.LocalDate
@@ -68,7 +83,7 @@ import java.util.*
 import javax.inject.Inject
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
-    OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
+    OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener {
 
     @Inject
     lateinit var featureManager: FeatureManager
@@ -543,7 +558,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     }
 
-    fun getKeyInfo(): String {
+    private fun getKeyInfo(): String {
         return "${
             prefHandler.getString(
                 PrefKey.LICENCE_EMAIL,
@@ -623,7 +638,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     }
 
-    fun trackPreferenceClick(preference: Preference) {
+    private fun trackPreferenceClick(preference: Preference) {
         val bundle = Bundle()
         bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.key)
         preferenceActivity.logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle)
@@ -687,6 +702,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 else -> false
             }
         }
+    var pickFolderRequestStart: Long = 0
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -938,7 +954,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return preferenceActivity.getTranslatorsArrayResId(language, country)
     }
 
-    fun configureOpenExchangeRatesPreference(provider: String) {
+    private fun configureOpenExchangeRatesPreference(provider: String) {
         requirePreference<Preference>(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).isEnabled =
             provider == "OPENEXCHANGERATES"
     }
@@ -1042,5 +1058,212 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     fun reportException(e: Exception) {
         preferenceActivity.showSnackBar(e.safeMessage)
         CrashHandler.report(e)
+    }
+
+    override fun onPreferenceClick(preference: Preference): Boolean {
+        trackPreferenceClick(preference)
+        return when {
+            matches(preference, PrefKey.CONTRIB_PURCHASE) -> {
+                if (licenceHandler.isUpgradeable) {
+                    val i = ContribInfoDialogActivity.getIntentFor(preferenceActivity, null)
+                    if (DistributionHelper.isGithub) {
+                        startActivityForResult(
+                            i,
+                            CONTRIB_PURCHASE_REQUEST
+                        )
+                    } else {
+                        startActivity(i)
+                    }
+                } else {
+                    val proPackagesForExtendOrSwitch = licenceHandler.proPackagesForExtendOrSwitch
+                    if (proPackagesForExtendOrSwitch != null) {
+                        if (proPackagesForExtendOrSwitch.size > 1) {
+                            (preference as PopupMenuPreference).showPopupMenu(
+                                { item ->
+                                    contribBuyDo(
+                                        proPackagesForExtendOrSwitch[item.itemId],
+                                        false
+                                    )
+                                    true
+                                },
+                                *proPackagesForExtendOrSwitch.map(licenceHandler::getExtendOrSwitchMessage)
+                                    .toTypedArray()
+                            )
+                        } else {
+                            //Currently we assume that if we have only one item, we switch
+                            contribBuyDo(proPackagesForExtendOrSwitch[0], true)
+                        }
+                    }
+                }
+                true
+            }
+            matches(preference, PrefKey.SEND_FEEDBACK) -> {
+                preferenceActivity.dispatchCommand(R.id.FEEDBACK_COMMAND, null)
+                true
+            }
+            matches(preference, PrefKey.DEBUG_LOG_SHARE) -> {
+                viewModel.logData().observe(this) {
+                    SimpleListDialog.build().choiceMode(CustomListDialog.MULTI_CHOICE)
+                        .title(R.string.pref_debug_logging_share_summary)
+                        .items(it)
+                        .neg()
+                        .pos(android.R.string.ok)
+                        .show(this, DIALOG_SHARE_LOGS)
+                }
+                true
+            }
+            matches(preference, PrefKey.RATE) -> {
+                prefHandler.putLong(PrefKey.NEXT_REMINDER_RATE, -1)
+                preferenceActivity.dispatchCommand(R.id.RATE_COMMAND, null)
+                true
+            }
+            matches(preference, PrefKey.MORE_INFO_DIALOG) -> {
+                preferenceActivity.showDialog(R.id.MORE_INFO_DIALOG)
+                true
+            }
+            matches(preference, PrefKey.RESTORE) -> {
+                startActivityForResult(preference.intent, RESTORE_REQUEST)
+                true
+            }
+            matches(preference, PrefKey.APP_DIR) -> {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                try {
+                    pickFolderRequestStart = System.currentTimeMillis()
+                    startActivityForResult(
+                        intent,
+                        PICK_FOLDER_REQUEST
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    reportException(e)
+                }
+
+                true
+            }
+            handleContrib(PrefKey.IMPORT_CSV, ContribFeature.CSV_IMPORT, preference) -> true
+            matches(preference, PrefKey.NEW_LICENCE) -> {
+                if (licenceHandler.hasValidKey()) {
+                    SimpleDialog.build()
+                        .title(R.string.licence_key)
+                        .msg(getKeyInfo())
+                        .pos(R.string.button_validate)
+                        .neg(R.string.menu_remove)
+                        .show(
+                            this,
+                            DIALOG_MANAGE_LICENCE
+                        )
+                } else {
+                    val licenceKey = prefHandler.getString(PrefKey.NEW_LICENCE, "")
+                    val licenceEmail = prefHandler.getString(PrefKey.LICENCE_EMAIL, "")
+                    SimpleFormDialog.build()
+                        .title(R.string.pref_enter_licence_title)
+                        .fields(
+                            Input.email(KEY_EMAIL)
+                                .required().text(licenceEmail),
+                            Input.plain(KEY_KEY)
+                                .required().hint(R.string.licence_key).text(licenceKey)
+                        )
+                        .pos(R.string.button_validate)
+                        .neut()
+                        .show(
+                            this,
+                            DIALOG_VALIDATE_LICENCE
+                        )
+                }
+                true
+            }
+            matches(preference, PrefKey.PERSONALIZED_AD_CONSENT) -> {
+                preferenceActivity.checkGdprConsent(true)
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun contribBuyDo(selectedPackage: Package, shouldReplaceExisting: Boolean) {
+        startActivity(
+            ContribInfoDialogActivity.getIntentFor(
+                context,
+                selectedPackage,
+                shouldReplaceExisting
+            )
+        )
+    }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
+        when (dialogTag) {
+            DIALOG_VALIDATE_LICENCE -> {
+                if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+                    prefHandler.putString(
+                        PrefKey.NEW_LICENCE,
+                        extras.getString(KEY_KEY)!!.trim()
+                    )
+                    prefHandler.putString(
+                        PrefKey.LICENCE_EMAIL,
+                        extras.getString(KEY_EMAIL)!!.trim()
+                    )
+                    preferenceActivity.validateLicence()
+                }
+            }
+            DIALOG_MANAGE_LICENCE -> {
+                when (which) {
+                    OnDialogResultListener.BUTTON_POSITIVE -> preferenceActivity.validateLicence()
+                    OnDialogResultListener.BUTTON_NEGATIVE -> {
+                        ConfirmationDialogFragment.newInstance(Bundle().apply {
+                            putInt(
+                                ConfirmationDialogFragment.KEY_TITLE,
+                                R.string.dialog_title_information
+                            )
+                            putString(
+                                ConfirmationDialogFragment.KEY_MESSAGE,
+                                getString(R.string.licence_removal_information, 5)
+                            )
+                            putInt(
+                                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                                R.string.menu_remove
+                            )
+                            putInt(
+                                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                                R.id.REMOVE_LICENCE_COMMAND
+                            )
+                        })
+                            .show(parentFragmentManager, "REMOVE_LICENCE")
+                    }
+                }
+            }
+            DIALOG_SHARE_LOGS -> {
+                if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+                    val logDir = File(requireContext().getExternalFilesDir(null), "logs")
+                    startActivity(Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(FEEDBACK_EMAIL))
+                        putExtra(Intent.EXTRA_SUBJECT, "[${getString(R.string.app_name)}]: Logs")
+                        type = "text/plain"
+                        val arrayList = ArrayList(
+                            extras.getStringArrayList(SimpleListDialog.SELECTED_LABELS)!!.map {
+                                getContentUriForFile(
+                                    requireContext(),
+                                    File(logDir, it)
+                                )
+                            })
+                        Timber.d("ATTACHMENTS" + arrayList.joinToString())
+                        putParcelableArrayListExtra(
+                            Intent.EXTRA_STREAM,
+                            arrayList
+                        )
+                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    })
+                }
+            }
+        }
+        return true
+    }
+
+    companion object {
+        const val DIALOG_VALIDATE_LICENCE = "validateLicence"
+        const val DIALOG_MANAGE_LICENCE = "manageLicence"
+        const val DIALOG_SHARE_LOGS = "shareLogs"
+        const val KEY_EMAIL = "email"
+        const val KEY_KEY = "key"
+        const val PICK_FOLDER_REQUEST = 2
+        private const val CONTRIB_PURCHASE_REQUEST = 3
     }
 }

@@ -61,7 +61,6 @@
     <string name="dialog_title_warning_delete_template">要刪除範本？</string>
     <string name="dialog_title_warning_delete_transaction">刪除交易嗎？</string>
     <string name="expense">支出</string>
-    <string name="export_expenses">匯出開支</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">開支匯出到SD卡失敗 %1$s: %2$s</string>
     <!-- 1$s is replaced with path to file -->

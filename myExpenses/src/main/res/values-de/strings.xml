@@ -115,7 +115,6 @@
     <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
     <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
     <string name="expense">Ausgabe</string>
-    <string name="export_expenses">Ausgaben-Export</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Fehler beim Export nach „%1$s“: %2$s</string>
     <!-- 1$s is replaced with path to file -->

@@ -115,7 +115,6 @@
     <string name="dialog_title_warning_delete_template">Eliminare modello ?</string>
     <string name="dialog_title_warning_delete_transaction">Eliminare transazione ?</string>
     <string name="expense">Spesa</string>
-    <string name="export_expenses">Esportazione delle spese</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Esportazione a \"%1$s\" fallita: %2$s</string>
     <!-- 1$s is replaced with path to file -->

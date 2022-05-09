@@ -77,6 +77,7 @@
     <string name="pref_webdav_timeout_key">sync_webdav_timeout</string>
     <string name="pref_debug_key">debug</string>
     <string name="pref_debug_logging_key">debug_logging</string>
+    <string name="pref_debug_logging_share_key">debug_logging</string>
     <string name="pref_crash_reports_key">crash_reports</string>
     <string name="pre_acra_info_key">acra.info</string>
     <string name="pref_sync_notification_key">sync_notification</string>

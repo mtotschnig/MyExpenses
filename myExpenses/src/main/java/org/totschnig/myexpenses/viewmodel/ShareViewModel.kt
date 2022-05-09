@@ -232,7 +232,7 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
             if (emailAddress != null) {
                 intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
             }
-            intent.putExtra(Intent.EXTRA_SUBJECT, R.string.export_expenses)
+            intent.putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.app_name))
             return intent
         }
     }

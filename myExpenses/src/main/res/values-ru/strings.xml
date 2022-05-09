@@ -117,7 +117,6 @@
     <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
     <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
     <string name="expense">Расход</string>
-    <string name="export_expenses">Экспорт расходов</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Экспорт расходов в \"%1$s\" не удался: %2$s</string>
     <!-- 1$s is replaced with path to file -->

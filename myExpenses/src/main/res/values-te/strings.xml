@@ -526,7 +526,6 @@
     <string name="grouping_day">రోజు</string>
     <string name="feedback">అభిప్రాయం</string>
     <string name="external_storage_unavailable">బాహ్య నిల్వ (sdcard) అందుబాటులో లేదు</string>
-    <string name="export_expenses">ఖర్చులు ఎగుమతి</string>
     <string name="expense">ఖర్చు</string>
     <string name="dialog_title_warning_delete_transaction">లావాదేవీని తొలగించాలా\?</string>
     <string name="dialog_title_warning_delete_template">టెంప్లేట్‌ను తొలగించాలా\?</string>

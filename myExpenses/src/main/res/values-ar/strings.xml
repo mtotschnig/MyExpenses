@@ -119,7 +119,6 @@
     <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
     <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
     <string name="expense">الصرف</string>
-    <string name="export_expenses">تصدير المصروفات</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">فشلت عملية تصدير المصروفات للذاكرة %1$s:  %2$s</string>
     <!-- 1$s is replaced with path to file -->
