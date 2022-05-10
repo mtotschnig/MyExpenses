@@ -33,7 +33,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         getApplication<MyApplication>().getExternalFilesDir(null)?.let { dir ->
             File(dir, "logs").listFiles()
                 ?.filter { it.length() > 0 }
-                ?.sortedBy { it.lastModified() }
+                ?.sortedByDescending { it.lastModified() }
                 ?.map { it.name }
                 ?.let {
                     emit(it.toTypedArray())
