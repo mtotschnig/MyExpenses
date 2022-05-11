@@ -1,0 +1,4 @@
+• Purger les anciennes sauvegardes
+• Partage des exportations et des sauvegardes: HTTP
+
+https://github.com/mtotschnig/MyExpenses/projects/67#column-18533219

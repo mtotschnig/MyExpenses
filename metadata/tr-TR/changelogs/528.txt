@@ -1,0 +1,4 @@
+• Eski yedekleri temizle
+• Dışa aktarmaları ve yedeklemeleri paylaş: HTTP
+
+https://github.com/mtotschnig/MyExpenses/projects/67#column-18533219

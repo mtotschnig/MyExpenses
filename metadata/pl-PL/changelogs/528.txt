@@ -1,0 +1,4 @@
+• Wyczyść stare kopie zapasowe
+• Udostępnij eksporty i kopie zapasowe: HTTP
+
+https://github.com/mtotschnig/MyExpenses/projects/67#column-18533219

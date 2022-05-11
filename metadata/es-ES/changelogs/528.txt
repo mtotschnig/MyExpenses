@@ -1,0 +1,4 @@
+• Purgar copias de seguridad antiguas
+• Enviar exportaciones y copias de seguridad: HTTP
+
+https://github.com/mtotschnig/MyExpenses/projects/67#column-18533219

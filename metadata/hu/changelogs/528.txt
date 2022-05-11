@@ -1,0 +1,4 @@
+• Régi biztonsági mentések törlése
+• Az exportált állomány megosztása: HTTP
+
+https://github.com/mtotschnig/MyExpenses/projects/67#column-18533219
