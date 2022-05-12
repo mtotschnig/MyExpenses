@@ -26,6 +26,7 @@ android {
             excludes += ['META-INF/*']
         }
     }
+    namespace 'org.totschnig.webui'
 
 }
 

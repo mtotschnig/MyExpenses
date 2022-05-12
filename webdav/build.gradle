@@ -14,6 +14,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'org.totschnig.webdav'
 }
 
 dependencies {

@@ -181,7 +181,8 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         dataFragment.editAccountColor()
     }
 
-    override fun getSnackBarContainerId(): Int {
-        return binding.viewPager.id
-    }
+    override val snackBarContainerId: Int
+        get() {
+            return binding.viewPager.id
+        }
 }

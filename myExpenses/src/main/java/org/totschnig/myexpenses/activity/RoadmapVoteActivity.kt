@@ -311,9 +311,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         val weightView: TextView = itemView.findViewById(R.id.weight)
     }
 
-    override fun getSnackBarContainerId(): Int {
-        return R.id.container
-    }
+    override val snackBarContainerId: Int = R.id.container
 
     companion object {
         private const val DIALOG_TAG_ISSUE_VOTE = "issueVote"

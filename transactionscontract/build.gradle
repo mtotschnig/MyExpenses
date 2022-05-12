@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
+    namespace 'org.totschnig.myexpenses.contract'
 }
 
 dependencies {

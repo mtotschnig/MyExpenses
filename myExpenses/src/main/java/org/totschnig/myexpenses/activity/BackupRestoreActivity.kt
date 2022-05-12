@@ -346,9 +346,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         }
     }
 
-    override fun getSnackBarContainerId(): Int {
-        return android.R.id.content
-    }
+    override val snackBarContainerId: Int = android.R.id.content
 
     companion object {
         const val FRAGMENT_TAG_RESTORE_SOURCE = "RESTORE_SOURCE"

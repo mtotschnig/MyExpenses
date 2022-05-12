@@ -11,6 +11,7 @@ android {
         minSdk project.minSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    namespace 'org.totschnig.dropbox'
 }
 
 dependencies {

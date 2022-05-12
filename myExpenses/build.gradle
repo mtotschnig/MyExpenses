@@ -156,6 +156,7 @@ android {
         checkDependencies true
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
     }
+    namespace 'org.totschnig.myexpenses'
 }
 
 kotlin.sourceSets.all {

@@ -313,9 +313,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         setDisplay(result)
     }
 
-    override fun getSnackBarContainerId(): Int {
-        return R.id.Calculator
-    }
+    override val snackBarContainerId: Int = R.id.Calculator
 
     companion object {
         const val EXTRA_KEY_INPUT_ID = "input_id"

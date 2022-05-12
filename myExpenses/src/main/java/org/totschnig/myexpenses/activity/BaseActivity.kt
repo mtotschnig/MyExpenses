@@ -279,7 +279,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         snackBarAction: SnackbarAction? = null,
         callback: Snackbar.Callback? = null
     ) {
-        findViewById<View>(getSnackBarContainerId())?.let {
+        findViewById<View>(snackBarContainerId)?.let {
             showSnackBar(message, duration, snackBarAction, callback, it)
         } ?: showSnackBarFallBack(message)
     }
@@ -294,7 +294,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0) {
-        findViewById<View>(getSnackBarContainerId())?.let {
+        findViewById<View>(snackBarContainerId)?.let {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
             if (progress > 0) {
                 snackBar?.setText(displayMessage)
@@ -344,9 +344,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     @IdRes
-    protected open fun getSnackBarContainerId(): Int {
-        return R.id.fragment_container
-    }
+    protected open val snackBarContainerId: Int = R.id.fragment_container
 
     private fun offerTessDataDownload() {
         ocrViewModel.offerTessDataDownload(this)

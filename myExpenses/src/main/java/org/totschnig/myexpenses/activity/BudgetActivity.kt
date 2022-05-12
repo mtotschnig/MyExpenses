@@ -270,6 +270,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         return true
     }
 
+    override val snackBarContainerId: Int = android.R.id.content
+
     override fun onOptionsItemSelected(item: MenuItem) =
         if (sortDelegate.onOptionsItemSelected(item)) {
             invalidateOptionsMenu()

@@ -1,6 +1,5 @@
 <manifest
-    xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="org.totschnig.ocr">
+    xmlns:dist="http://schemas.android.com/apk/distribution">
     <dist:module
         dist:instant="false"
         dist:title="@string/title_scan_receipt_feature">

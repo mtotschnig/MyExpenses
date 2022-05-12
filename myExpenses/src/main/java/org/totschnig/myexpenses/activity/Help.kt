@@ -33,5 +33,5 @@ class Help : ProtectedFragmentActivity() {
         ).show(supportFragmentManager, "HELP")
     }
 
-    override fun getSnackBarContainerId() = R.id.content
+    override val snackBarContainerId get() = R.id.content
 }

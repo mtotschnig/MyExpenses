@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    xmlns:tools="http://schemas.android.com/tools" package="..." >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk tools:overrideLibrary="tools.fastlane.screengrab,android_libs.ub_uiautomator"/>
 </manifest>
