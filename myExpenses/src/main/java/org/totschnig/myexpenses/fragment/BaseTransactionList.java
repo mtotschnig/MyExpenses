@@ -531,7 +531,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
         selection += KEY_PARENTID + " is null";
         cursorLoader = new ProtectedCursorLoader(requireActivity(),
-            mAccount.getExtendedUriForTransactionList(false),
+            mAccount.getExtendedUriForTransactionList(false, true),
             mAccount.getExtendedProjectionForTransactionList(),
             selection,
             selectionArgs, KEY_DATE + " " + mAccount.getSortDirection().name());

@@ -202,7 +202,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         when (id) {
             TRANSACTION_CURSOR -> return CursorLoader(
                 requireActivity(),
-                mAccount.getExtendedUriForTransactionList(type != 0),
+                mAccount.getExtendedUriForTransactionList(type != 0, true),
                 mAccount.extendedProjectionForTransactionList,
                 selection,
                 selectionArgs,

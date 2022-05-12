@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -74,13 +75,20 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         }
 
+        fun shortenComment(projectionIn: Array<String>): Array<String> = projectionIn.map {
+            if (it == KEY_COMMENT)
+                "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $KEY_COMMENT"
+            else
+                it
+        }.toTypedArray()
+
         const val KEY_DEBT_LABEL = "debt"
 
         const val DEBT_LABEL_EXPRESSION = "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
         const val TAG = "TransactionProvider"
     }
 
-    open fun backup(context: Context, backupDir: File): Result<Unit> {
+    fun backup(context: Context, backupDir: File): Result<Unit> {
         val currentDb = File(transactionDatabase.readableDatabase.path)
         transactionDatabase.readableDatabase.beginTransaction()
         return try {

@@ -94,7 +94,6 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Debt;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -920,9 +919,13 @@ public class Account extends Model implements DistributionAccountInfo {
    * @param withType true means, that the query is for either positive (income) or negative (expense) transactions
    *                 in that case, the merge transfer restriction must be skipped, since it is based on only
    *                 selecting the negative part of a transfer
+   * @param shortenComment
    */
-  public Uri getExtendedUriForTransactionList(boolean withType) {
-    return Transaction.EXTENDED_URI;
+  public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
+    return shortenComment ? Transaction.EXTENDED_URI
+            .buildUpon()
+            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")
+            .build() : Transaction.EXTENDED_URI;
   }
 
   public boolean isHomeAggregate() {

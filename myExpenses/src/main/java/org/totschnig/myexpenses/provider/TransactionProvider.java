@@ -203,6 +203,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
   public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
   public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
+  public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
   /**
    * 1 -> mapped objects for each row
    * 2 -> aggregate sums for all mapped objects
@@ -339,6 +340,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         if (projection == null) {
           projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
+        }
+        if (uri.getQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT) != null) {
+          projection = Companion.shortenComment(projection);
         }
         if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
           String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
