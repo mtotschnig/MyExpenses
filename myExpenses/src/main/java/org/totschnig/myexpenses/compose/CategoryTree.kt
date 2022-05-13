@@ -79,6 +79,8 @@ fun Category(
                 },
                 sumCurrency = sumCurrency
             )
+        }
+        if (category.level > 0) {
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
                     verticalArrangement = Arrangement.Center
@@ -98,7 +100,7 @@ fun Category(
                     }
                 }
             }
-        } else {
+        } else if (!withRoot || expansionMode.isExpanded(category.id))  {
             LazyColumn(
                 verticalArrangement = Arrangement.Center
             ) {
