@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
@@ -55,13 +56,17 @@ class AccountWidget :
         }
     }
 
-    fun doAsync(
+    private fun doAsync(
         block: suspend () -> Unit
     ) {
         val pendingResult = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             block()
-            pendingResult.finish()
+            try {
+                pendingResult.finish()
+            } catch (e: Exception) {
+                CrashHandler.report(e)
+            }
         }
     }
 
