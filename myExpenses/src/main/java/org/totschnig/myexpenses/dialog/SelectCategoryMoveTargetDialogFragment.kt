@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.dialog
 
 import android.os.Bundle
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -31,7 +32,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
     @Composable
     override fun BuildContent() {
         val source = requireArguments().getParcelable<Category>(KEY_SOURCE)!!
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(8.dp).fillMaxSize()) {
             val selectionState: MutableState<Category?> = rememberSaveable {
                 mutableStateOf(null)
             }
@@ -82,7 +83,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
         const val KEY_SOURCE = "source"
         fun newInstance(category: Category) = SelectCategoryMoveTargetDialogFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("source", category)
+                putParcelable(KEY_SOURCE, category)
             }
         }
     }
