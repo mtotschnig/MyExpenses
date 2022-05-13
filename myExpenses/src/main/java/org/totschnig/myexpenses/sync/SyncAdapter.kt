@@ -393,8 +393,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         syncResult.databaseError = true
                         notifyDatabaseError(e, account)
                     } catch (e: Exception) {
-                        appendToNotification(
-                            String.format("ERROR (%s): %s ", e.javaClass.simpleName, e.message),
+                        appendToNotification("ERROR (${e.javaClass.simpleName}): ${e.message} ",
                             account, true
                         )
                         report(e)

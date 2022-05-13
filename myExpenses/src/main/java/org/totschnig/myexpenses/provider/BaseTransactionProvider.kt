@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -100,7 +99,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 var sharedPrefFile =
                     File("/dbdata/databases/" + context.packageName + sharedPrefPath)
                 if (!sharedPrefFile.exists()) {
-                    sharedPrefFile = File(getInternalAppDir().getPath() + sharedPrefPath)
+                    sharedPrefFile = File(getInternalAppDir().path + sharedPrefPath)
                     log(sharedPrefFile.path)
                     if (!sharedPrefFile.exists()) {
                         val message = "Unable to find shared preference file at " +
@@ -115,12 +114,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 } else {
                     val message = "Unable to copy preference file from  " +
                             sharedPrefFile.path + " to " + backupPrefFile.path
-                    CrashHandler.report(message)
                     throw Throwable(message)
                 }
             }
         } finally {
-            transactionDatabase.getReadableDatabase().endTransaction()
+            transactionDatabase.readableDatabase.endTransaction()
         }
     }
 

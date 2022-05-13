@@ -270,7 +270,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         return true
     }
 
-    override val snackBarContainerId: Int = android.R.id.content
+    override val snackBarContainerId: Int = R.id.compose_container
 
     override fun onOptionsItemSelected(item: MenuItem) =
         if (sortDelegate.onOptionsItemSelected(item)) {
