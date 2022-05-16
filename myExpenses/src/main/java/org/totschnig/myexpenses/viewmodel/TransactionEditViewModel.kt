@@ -7,7 +7,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.observeQuery
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
@@ -22,6 +26,8 @@ import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
@@ -32,6 +38,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
@@ -51,6 +58,10 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
     private val disposables = CompositeDisposable()
+
+    private val splitParts = MutableLiveData<List<SplitPartListViewModel.Transaction>>()
+    private var loadJob: Job? = null
+    fun getSplitParts(): LiveData<List<SplitPartListViewModel.Transaction>> = splitParts
 
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
@@ -189,6 +200,29 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         liveData(context = coroutineContext()) {
             emit(SplitTransaction.getNewInstance(accountId))
         }
+
+    fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            contentResolver.observeQuery(
+                uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
+                else TransactionProvider.UNCOMMITTED_URI,
+                projection = arrayOf(
+                    KEY_ROWID,
+                    DatabaseConstants.KEY_AMOUNT,
+                    DatabaseConstants.KEY_COMMENT,
+                    FULL_LABEL,
+                    DatabaseConstants.KEY_TRANSFER_ACCOUNT,
+                    if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
+                    DatabaseConstants.KEY_TAGLIST
+                ),
+                selection = "$KEY_PARENTID = ?",
+                selectionArgs = arrayOf(parentId.toString())
+            ).cancellable().mapToList {
+                SplitPartListViewModel.fromCursor(it)
+            }.collect { splitParts.postValue(it) }
+        }
+    }
 }
 
 

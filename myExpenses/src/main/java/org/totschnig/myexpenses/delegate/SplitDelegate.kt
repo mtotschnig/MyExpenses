@@ -1,20 +1,21 @@
 package org.totschnig.myexpenses.delegate
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.ISplit
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.MyTextWatcher
+import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.viewmodel.SplitPartListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
 
 class SplitDelegate(
@@ -29,6 +30,7 @@ class SplitDelegate(
         methodRowBinding,
         isTemplate
     ) {
+
     override val operationType = TransactionsContract.Transactions.TYPE_SPLIT
 
     override val helpVariant: ExpenseEdit.HelpVariant
@@ -37,6 +39,8 @@ class SplitDelegate(
     override val editResId = R.string.menu_edit_split
     override val shouldAutoFill = false
     private var missingRecurrenceFeature: ContribFeature? = null
+    lateinit var adapter: SplitPartRVAdapter
+    private var transactionSum: Long = 0
 
     override fun bind(
         transaction: ISplit?,
@@ -54,10 +58,11 @@ class SplitDelegate(
         )
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
-                host.updateSplitBalance()
+                updateBalance()
             }
         })
         viewBinding.CategoryRow.visibility = View.GONE
+        viewBinding.SplitRow.visibility = View.VISIBLE
         missingRecurrenceFeature = if (!newInstance || prefHandler.getBoolean(
                 PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
                 true
@@ -71,22 +76,52 @@ class SplitDelegate(
     override fun prepareForNew() {
         super.prepareForNew()
         rowId = SplitTransaction.getNewInstance(accountId!!).id
-        host.findSplitPartList()?.updateParent(rowId)
+        host.viewModel.loadSplitParts(rowId, isTemplate)
     }
 
     override fun configureType() {
         super.configureType()
-        host.updateSplitBalance()
+        updateBalance()
     }
 
-    override fun setAccounts(data: List<Account>, currencyExtra: String?) {
-        super.setAccounts(data, currencyExtra)
-        host.addSplitPartList(rowId)
+    private fun updateBalance() {
+        unsplitAmountFormatted?.let {
+            viewBinding.end.text = it
+        }
     }
 
+    val unsplitAmountFormatted: String?
+        get() = unsplitAmount?.let { currencyFormatter.formatMoney(it) }
+
+    val unsplitAmount: Money?
+        get() = host.amount?.let {
+            Money(it.currencyUnit, it.amountMinor - transactionSum)
+        }
+
+    val splitComplete: Boolean
+        get() = host.amount?.amountMinor?.minus(transactionSum) == 0L
+
+    private fun requireAdapter() {
+        if (!::adapter.isInitialized) {
+            adapter = SplitPartRVAdapter(
+                context,
+                currentAccount()!!.currency,
+                currencyFormatter
+            ) { view, _ -> host.openContextMenu(view) }
+            viewBinding.list.adapter = adapter
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun updateAccount(account: Account) {
         super.updateAccount(account)
-        host.updateSplitPartList(account, rowId)
+        requireAdapter()
+        adapter.currencyUnit = account.currency
+        adapter.notifyDataSetChanged()
+        updateBalance()
+        if (adapter.itemCount > 0) { //call background task for moving parts to new account
+            host.startMoveSplitParts(rowId, account.id)
+        }
     }
 
     fun onUncommitedSplitPartsMoved(success: Boolean) {
@@ -110,4 +145,12 @@ class SplitDelegate(
     }
 
     override fun missingRecurrenceFeature() = missingRecurrenceFeature
+
+    fun showSplits(transactions: List<SplitPartListViewModel.Transaction>) {
+        adapter.submitList(transactions)
+        viewBinding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
+        viewBinding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        transactionSum = transactions.sumOf { it.amountRaw }
+        updateBalance()
+    }
 }

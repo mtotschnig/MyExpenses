@@ -32,10 +32,8 @@ import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.lang.ArithmeticException
 import kotlin.math.sign
 
 //Transaction or Split

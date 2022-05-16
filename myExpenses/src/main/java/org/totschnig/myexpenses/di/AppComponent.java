@@ -46,7 +46,6 @@ import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.fragment.PartiesList;
 import org.totschnig.myexpenses.fragment.PlannerFragment;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
-import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
@@ -184,8 +183,6 @@ public interface AppComponent {
   void inject(TemplatesList templatesList);
 
   void inject(BaseTransactionList transactionList);
-
-  void inject(SplitPartList splitPartList);
 
   void inject(TransactionListDialogFragment transactionListDialogFragment);
 

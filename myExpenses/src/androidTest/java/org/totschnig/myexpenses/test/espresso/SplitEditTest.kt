@@ -15,7 +15,6 @@ import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.filters.FlakyTest
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scrollTo
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.assertj.core.api.Assertions.assertThat
@@ -71,7 +70,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun createPartAndSave() {
         activityScenario = ActivityScenario.launch(baseIntent)
         activityScenario.onActivity {
-            assertThat(it.splitPartListUpdateCalled).isEqualTo(1)
+            assertThat(it.setAccountsCalled).isEqualTo(1)
         }
         createParts(5)
         onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent fails with unsplit amount
@@ -84,7 +83,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     private fun createParts(times: Int) {
         activityScenario.onActivity {
-            assertThat(it.splitPartListUpdateCalled).isEqualTo(1)
+            assertThat(it.setAccountsCalled).isEqualTo(1)
         }
         repeat(times) {
             closeSoftKeyboard()
@@ -94,7 +93,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             enterAmountSave("50")
             onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
             activityScenario.onActivity {
-                assertThat(it.splitPartListUpdateCalled).isEqualTo(1)
+                assertThat(it.setAccountsCalled).isEqualTo(1)
             }
         }
     }
