@@ -47,7 +47,6 @@ import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.DisplayName;
 import at.bitfire.dav4android.property.ResourceType;
-import at.bitfire.dav4android.property.GetContentLength;
 import dagger.internal.Preconditions;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;

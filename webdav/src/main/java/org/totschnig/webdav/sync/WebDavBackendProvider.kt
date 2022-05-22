@@ -8,10 +8,8 @@ import android.net.Uri
 import androidx.core.util.Pair
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
-import at.bitfire.dav4android.Property
 import at.bitfire.dav4android.exception.DavException
 import at.bitfire.dav4android.exception.HttpException
-import at.bitfire.dav4android.property.GetContentLength
 import okhttp3.HttpUrl
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
