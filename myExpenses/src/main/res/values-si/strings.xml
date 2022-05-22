@@ -59,7 +59,6 @@
     <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
     <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
     <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
-    <string name="export_expenses">වියදම් අපනයන </string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure"> \"%1$s\"ට  වියදම් අපනයන අසමත් විය: %2$s</string>
     <!-- 1$s is replaced with path to file -->

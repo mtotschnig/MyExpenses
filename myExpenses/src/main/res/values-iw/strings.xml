@@ -1050,4 +1050,6 @@
         <item quantity="many">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
         <item quantity="other">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
     </plurals>
+    <string name="whats_new_340">שדות ההערות מאפשרים ריבוי שורות.</string>
+    <string name="pref_debug_logging_share_summary">שיתוף קובצי יומנים</string>
 </resources>
