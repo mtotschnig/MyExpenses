@@ -140,4 +140,57 @@
     <string name="account_type_cash_plural">Akun tunai</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Diagram lingkaran (Distribusi per kategori)</string>
     <string name="dialog_confirm_discard_new_account">Buang akun baru\?</string>
+    <string name="title_activity_debt_overview">Ringkasan Utang</string>
+    <string name="feature_download_requested">Fitur %s diminta dari Play Store.</string>
+    <string name="pref_feature_uninstall_languages_title">Bahasa</string>
+    <string name="select_package">Silakan piliih lisensi paket.</string>
+    <string name="download_completed">Download (%s) telah selesai.</string>
+    <string name="menu_merge">Gabung</string>
+    <string name="pref_category_title_crash_reports">Laporan crash</string>
+    <string name="dialog_command_disabled_insert_transfer">Transaksi transfer memerlukan akun kedua.</string>
+    <string name="pref_planner_manual_time_noon">12 siang</string>
+    <string name="pref_planner_manual_time_current">Waktu pengajuan</string>
+    <string name="pref_ocr_time_formats_title">Format Waktu</string>
+    <string name="pref_ocr_date_formats_title">Format Tanggal</string>
+    <string name="menu_scan_mode">Mode pindai</string>
+    <string name="button_scan">Pindai</string>
+    <string name="pref_ocr_total_indicators_title">Indikator untuk jumlah total</string>
+    <string name="pref_criterion_future_end_of_day">Akhir hari</string>
+    <string name="pref_criterion_future_current">Waktu saat ini</string>
+    <string name="scan_result_multiple_candidates_dialog_title">Beberapa kandidat ditemukan. Silakan pilih:</string>
+    <string name="scan_result_no_amount">Tidak ada jumlah yang ditemukan</string>
+    <string name="scan_result_no_date">Tidak ada tanggal yang ditemukan</string>
+    <string name="scan_result_no_payee">Tidak ada penerima pembayaran yang ditemukan</string>
+    <string name="button_download">Unduh</string>
+    <string name="pref_feature_uninstall_title">Meminta penghapusan instalasi fitur dan bahasa</string>
+    <string name="cb_label_merge_accounts">Gabungkan akun</string>
+    <string name="pref_mlkit_script_title">Skrip untuk MlKit</string>
+    <string name="whats_new_336_1">Ringkasan utang saham</string>
+    <string name="whats_new_336_2">Tag untuk membelah bagian</string>
+    <string name="setup_completed">Penyiapan selesai</string>
+    <string name="dialog_title_purge_backups">Bersihkan cadangan lama</string>
+    <string name="purge_backups">File cadangan lama berikut ini akan dihapus:</string>
+    <plurals name="purge_backup_success">
+        <item quantity="other">%d file cadangan lama telah dibersihkan.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="other">%d file cadangan lama tidak dapat dihapus.</item>
+    </plurals>
+    <string name="pref_purge_backup_require_confirmation_summary">Tampilkan konfirmasi sebelum file dibersihkan</string>
+    <string name="pref_purge_backup_keep_title">Jumlah maksimum file cadangan terbaru untuk disimpan</string>
+    <string name="dialog_command_disabled_balance">Tidak ada transaksi yang dikliringkan untuk direkonsiliasi.</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="other">%1$d kategori diperbarui dengan ikon.</item>
+    </plurals>
+    <string name="debt">Utang</string>
+    <string name="pref_category_title_features">Fitur</string>
+    <string name="scan_result_no_data">Tidak ada data</string>
+    <string name="feature_downloaded">Fitur %s telah diinstal.</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Pohon kategori</string>
+    <string name="dialog_balance_delete">Hapus transaksi yang direkonsiliasi</string>
+    <string name="pref_tesseract_language_title">Bahasa untuk Tesseract</string>
+    <string name="ocr_recognition_info">Menjalankan pengenalan teks dengan %s</string>
+    <string name="pref_criterion_futur_title">Kriteria untuk transaksi di masa mendatang</string>
+    <string name="title_scan_receipt_feature">Pindai tanda terima</string>
+    <string name="menu_parent_category_selection">Pilih kategori induk dengan ketukan singkat</string>
 </resources>
