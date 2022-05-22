@@ -47,6 +47,7 @@ import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.DisplayName;
 import at.bitfire.dav4android.property.ResourceType;
+import at.bitfire.dav4android.property.GetContentLength;
 import dagger.internal.Preconditions;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -156,6 +157,7 @@ public class WebDavClient {
 
   public Set<DavResource> getFolderMembers(DavResource folder) throws IOException {
     try {
+      //TODO GetContentLength.NAME
       folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
     } catch (DavException | HttpException e) {
       throw new IOException(e);

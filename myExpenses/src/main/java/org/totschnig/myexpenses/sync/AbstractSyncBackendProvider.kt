@@ -250,7 +250,9 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     }
 
     protected fun getSequenceFromFileName(fileName: String): Int {
-        return getNameWithoutExtension(fileName).substring(1).toInt()
+        return try {
+            getNameWithoutExtension(fileName).takeIf { it.isNotEmpty() && it.startsWith("_") }?.substring(1)?.toInt()
+        } catch (e: NumberFormatException) { null } ?: 0
     }
 
     @Throws(IOException::class)

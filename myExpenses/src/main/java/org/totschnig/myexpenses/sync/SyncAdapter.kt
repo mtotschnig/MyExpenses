@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -26,7 +27,6 @@ import org.totschnig.myexpenses.service.SyncNotificationDismissHandler
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateSync
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
 import org.totschnig.myexpenses.sync.SyncBackendProvider.*
-import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.getLegacy
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
@@ -66,6 +66,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         key: String, defaultValue: String
     ): String = accountManager.getUserData(account, key) ?: defaultValue
 
+    @SuppressLint("MissingPermission")
     override fun onPerformSync(
         account: Account, extras: Bundle, authority: String,
         provider: ContentProviderClient, syncResult: SyncResult
@@ -106,10 +107,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             )
             return
         }
-        val backend: SyncBackendProvider
-        try {
-            backend = getLegacy(context, account, false)
-        } catch (throwable: Throwable) {
+        SyncBackendProviderFactory.get(context, account, false).onFailure { throwable ->
             if (throwable is SyncParseException || throwable is EncryptionException) {
                 syncResult.databaseError = true
                 (throwable as? SyncParseException)?.let { report(it) }
@@ -124,9 +122,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                     null,
                     manageSyncBackendsIntent
                 )
-            } else if (handleAuthException(throwable, account)) {
-                return
-            } else {
+            } else if (!handleAuthException(throwable, account)) {
                 if (throwable is IOException) {
                     log().i(throwable, "Error setting up account %s", account)
                 } else {
@@ -144,97 +140,127 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                 )
             }
             return
-        }
-        handleAutoBackupSync(account, provider, backend)
-        var cursor: Cursor?
-        val selectionArgs: Array<String>
-        var selection = DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " = ?"
-        if (uuidFromExtras != null) {
-            selection += " AND " + DatabaseConstants.KEY_UUID + " = ?"
-            selectionArgs = arrayOf(account.name, uuidFromExtras)
-        } else {
-            selectionArgs = arrayOf(account.name)
-        }
-        val projection = arrayOf(DatabaseConstants.KEY_ROWID)
-        try {
-            cursor = provider.query(
-                TransactionProvider.ACCOUNTS_URI,
-                projection,
-                selection + " AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " = 0",
-                selectionArgs,
-                DatabaseConstants.KEY_ROWID
-            )
-        } catch (e: RemoteException) {
-            syncResult.databaseError = true
-            notifyDatabaseError(e, account)
-            return
-        }
-        if (cursor == null) {
-            syncResult.databaseError = true
-            val exception = Exception("Cursor is null")
-            notifyDatabaseError(exception, account)
-            return
-        }
-        if (cursor.moveToFirst()) {
-            do {
-                val accountId = cursor.getLong(0)
-                try {
-                    provider.update(buildInitializationUri(accountId), ContentValues(0), null, null)
-                    //make sure user data did not stick around after a user might have cleared data
-                    accountManager.setUserData(account, KEY_LAST_SYNCED_LOCAL(accountId), null)
-                    accountManager.setUserData(account, KEY_LAST_SYNCED_REMOTE(accountId), null)
-                } catch (e: RemoteException) {
-                    syncResult.databaseError = true
-                    notifyDatabaseError(e, account)
-                    return
-                } catch (e: SQLiteConstraintException) {
-                    syncResult.databaseError = true
-                    notifyDatabaseError(e, account)
-                    return
+        }.onSuccess { backend ->
+
+            handleAutoBackupSync(account, provider, backend)
+            val selectionArgs: Array<String>
+            var selection = DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " = ?"
+            if (uuidFromExtras != null) {
+                selection += " AND " + DatabaseConstants.KEY_UUID + " = ?"
+                selectionArgs = arrayOf(account.name, uuidFromExtras)
+            } else {
+                selectionArgs = arrayOf(account.name)
+            }
+            val projection = arrayOf(DatabaseConstants.KEY_ROWID)
+            try {
+                provider.query(
+                    TransactionProvider.ACCOUNTS_URI,
+                    projection,
+                    selection + " AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " = 0",
+                    selectionArgs,
+                    DatabaseConstants.KEY_ROWID
+                ).also {
+                    if (it == null) {
+                        syncResult.databaseError = true
+                        val exception = Exception("Cursor is null")
+                        notifyDatabaseError(exception, account)
+                        return
+                    }
                 }
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        try {
-            cursor = provider.query(
-                TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,
-                DatabaseConstants.KEY_ROWID
-            )
-        } catch (e: RemoteException) {
-            syncResult.databaseError = true
-            notifyDatabaseError(e, account)
-            return
-        }
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    val accountId = cursor.getLong(0)
-                    val lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId)
-                    val lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId)
-                    var lastSyncedLocal = getUserDataWithDefault(
-                        accountManager, account,
-                        lastLocalSyncKey, "0"
-                    ).toLong()
-                    var lastSyncedRemote = parse(
-                        getUserDataWithDefault(
-                            accountManager, account,
-                            lastRemoteSyncKey, "0"
-                        )
-                    )
-                    val instanceFromDb =
-                        org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId)
-                            ?: // might have been deleted by user in the meantime
-                            continue
-                    syncDelegate.account = instanceFromDb
-                    if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
+            } catch (e: RemoteException) {
+                syncResult.databaseError = true
+                notifyDatabaseError(e, account)
+                return
+            }?.use {
+                if (it.moveToFirst()) {
+                    do {
+                        val accountId = it.getLong(0)
                         try {
-                            backend.resetAccountData(uuidFromExtras)
-                            appendToNotification(
-                                context.getString(
-                                    R.string.sync_success_reset_account_data,
-                                    instanceFromDb.label
-                                ), account, true
+                            provider.update(
+                                buildInitializationUri(accountId),
+                                ContentValues(0),
+                                null,
+                                null
                             )
+                            //make sure user data did not stick around after a user might have cleared data
+                            accountManager.setUserData(account, KEY_LAST_SYNCED_LOCAL(accountId), null)
+                            accountManager.setUserData(account, KEY_LAST_SYNCED_REMOTE(accountId), null)
+                        } catch (e: RemoteException) {
+                            syncResult.databaseError = true
+                            notifyDatabaseError(e, account)
+                            return
+                        } catch (e: SQLiteConstraintException) {
+                            syncResult.databaseError = true
+                            notifyDatabaseError(e, account)
+                            return
+                        }
+                    } while (it.moveToNext())
+                }
+            }
+
+
+            try {
+                provider.query(
+                    TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,
+                    DatabaseConstants.KEY_ROWID
+                )
+            } catch (e: RemoteException) {
+                syncResult.databaseError = true
+                notifyDatabaseError(e, account)
+                return
+            }?.use {
+                if (it.moveToFirst()) {
+                    do {
+                        val accountId = it.getLong(0)
+                        val lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId)
+                        val lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId)
+                        var lastSyncedLocal = getUserDataWithDefault(
+                            accountManager, account,
+                            lastLocalSyncKey, "0"
+                        ).toLong()
+                        var lastSyncedRemote = parse(
+                            getUserDataWithDefault(
+                                accountManager, account,
+                                lastRemoteSyncKey, "0"
+                            )
+                        )
+                        log().i("lastSyncedLocal: $lastSyncedLocal; lastSyncedRemote: $lastSyncedRemote")
+                        val instanceFromDb =
+                            org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId)
+                                ?: // might have been deleted by user in the meantime
+                                continue
+                        syncDelegate.account = instanceFromDb
+                        if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
+                            try {
+                                backend.resetAccountData(uuidFromExtras)
+                                appendToNotification(
+                                    context.getString(
+                                        R.string.sync_success_reset_account_data,
+                                        instanceFromDb.label
+                                    ), account, true
+                                )
+                            } catch (e: IOException) {
+                                log().w(e)
+                                if (handleAuthException(e, account)) {
+                                    return
+                                }
+                                syncResult.stats.numIoExceptions++
+                                syncResult.delayUntil = ioDefaultDelaySeconds
+                                notifyIoException(
+                                    R.string.sync_io_exception_reset_account_data,
+                                    account
+                                )
+                            }
+                            break
+                        }
+                        appendToNotification(
+                            context.getString(
+                                R.string.synchronization_start,
+                                instanceFromDb.label
+                            ), account, true
+                        )
+                        try {
+                            backend.withAccount(instanceFromDb)
                         } catch (e: IOException) {
                             log().w(e)
                             if (handleAuthException(e, account)) {
@@ -243,190 +269,183 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                             syncResult.stats.numIoExceptions++
                             syncResult.delayUntil = ioDefaultDelaySeconds
                             notifyIoException(
-                                R.string.sync_io_exception_reset_account_data,
+                                R.string.sync_io_exception_setup_remote_account,
                                 account
                             )
-                        }
-                        break
-                    }
-                    appendToNotification(
-                        context.getString(
-                            R.string.synchronization_start,
-                            instanceFromDb.label
-                        ), account, true
-                    )
-                    try {
-                        backend.withAccount(instanceFromDb)
-                    } catch (e: IOException) {
-                        log().w(e)
-                        if (handleAuthException(e, account)) {
-                            return
-                        }
-                        syncResult.stats.numIoExceptions++
-                        syncResult.delayUntil = ioDefaultDelaySeconds
-                        notifyIoException(R.string.sync_io_exception_setup_remote_account, account)
-                        continue
-                    }
-                    try {
-                        backend.lock()
-                    } catch (e: IOException) {
-                        log().w(e)
-                        if (handleAuthException(e, account)) {
-                            return
-                        }
-                        notifyIoException(R.string.sync_io_exception_locking, account)
-                        syncResult.stats.numIoExceptions++
-                        syncResult.delayUntil = ioLockDelaySeconds
-                        continue
-                    }
-                    var completedWithoutError = false
-                    var successRemote2Local = 0
-                    var successLocal2Remote = 0
-                    try {
-                        val changeSetSince = backend.getChangeSetSince(lastSyncedRemote, context)
-                        var remoteChanges: List<TransactionChange>
-                        if (changeSetSince != null) {
-                            lastSyncedRemote = changeSetSince.sequenceNumber
-                            remoteChanges = changeSetSince.changes
-                        } else {
-                            remoteChanges = emptyList()
-                        }
-                        var localChanges: MutableList<TransactionChange> = mutableListOf()
-                        var sequenceToTest = lastSyncedLocal
-                        while (true) {
-                            sequenceToTest++
-                            val nextChanges = getLocalChanges(provider, accountId, sequenceToTest)
-                            lastSyncedLocal = if (nextChanges.isNotEmpty()) {
-                                localChanges.addAll(nextChanges)
-                                sequenceToTest
-                            } else {
-                                break
-                            }
-                        }
-                        if (localChanges.isNotEmpty() || remoteChanges.isNotEmpty()) {
-                            var localMetadataChange =
-                                syncDelegate.findMetadataChange(localChanges)
-                            var remoteMetadataChange =
-                                syncDelegate.findMetadataChange(remoteChanges)
-                            if (remoteMetadataChange != null) {
-                                remoteChanges = syncDelegate.removeMetadataChange(remoteChanges)
-                            }
-                            if (localMetadataChange != null && remoteMetadataChange != null) {
-                                if (localMetadataChange.timeStamp() > remoteMetadataChange.timeStamp()) {
-                                    remoteMetadataChange = null
-                                } else {
-                                    localMetadataChange = null
-                                    localChanges = syncDelegate.removeMetadataChange(localChanges).toMutableList()
-                                }
-                            }
-                            if (localMetadataChange != null) {
-                                backend.updateAccount(instanceFromDb)
-                            } else if (remoteMetadataChange != null) {
-                                backend.readAccountMetaData().onSuccess {
-                                    if (updateAccountFromMetadata(provider, it)) {
-                                        successRemote2Local += 1
-                                    } else {
-                                        appendToNotification(
-                                            "Error while writing account metadata to database",
-                                            account,
-                                            false
-                                        )
-                                    }
-                                }
-                            }
-                            if (localChanges.size > 0) {
-                                localChanges = syncDelegate.collectSplits(localChanges).toMutableList()
-                            }
-                            val mergeResult: Pair<List<TransactionChange>, List<TransactionChange>> =
-                                syncDelegate.mergeChangeSets(localChanges, remoteChanges)
-                            localChanges = mergeResult.first.toMutableList()
-                            remoteChanges = mergeResult.second
-                            if (remoteChanges.isNotEmpty()) {
-                                syncDelegate.writeRemoteChangesToDb(provider, remoteChanges)
-                                accountManager.setUserData(
-                                    account,
-                                    lastRemoteSyncKey,
-                                    lastSyncedRemote.toString()
-                                )
-                                successRemote2Local += remoteChanges.size
-                            }
-                            if (localChanges.size > 0) {
-                                lastSyncedRemote =
-                                    backend.writeChangeSet(lastSyncedRemote, localChanges, context)
-                                accountManager.setUserData(
-                                    account,
-                                    lastLocalSyncKey,
-                                    lastSyncedLocal.toString()
-                                )
-                                accountManager.setUserData(
-                                    account,
-                                    lastRemoteSyncKey,
-                                    lastSyncedRemote.toString()
-                                )
-                                successLocal2Remote = localChanges.size
-                            }
-                            if (!BuildConfig.DEBUG) {
-                                // on debug build for auditing purposes, we keep changes in the table
-                                provider.delete(
-                                    TransactionProvider.CHANGES_URI,
-                                    DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
-                                    arrayOf(accountId.toString(), lastSyncedLocal.toString())
-                                )
-                            }
-                        }
-                        completedWithoutError = true
-                    } catch (e: IOException) {
-                        log().w(e)
-                        if (handleAuthException(e, account)) {
-                            return
-                        }
-                        syncResult.stats.numIoExceptions++
-                        syncResult.delayUntil = ioDefaultDelaySeconds
-                        notifyIoException(R.string.sync_io_exception_syncing, account)
-                    } catch (e: RemoteException) {
-                        syncResult.databaseError = true
-                        notifyDatabaseError(e, account)
-                    } catch (e: OperationApplicationException) {
-                        syncResult.databaseError = true
-                        notifyDatabaseError(e, account)
-                    } catch (e: SQLiteException) {
-                        syncResult.databaseError = true
-                        notifyDatabaseError(e, account)
-                    } catch (e: Exception) {
-                        appendToNotification("ERROR (${e.javaClass.simpleName}): ${e.message} ",
-                            account, true
-                        )
-                        report(e)
-                    } finally {
-                        if (successLocal2Remote > 0 || successRemote2Local > 0) {
-                            appendToNotification(
-                                context.getString(
-                                    R.string.synchronization_end_success,
-                                    successRemote2Local,
-                                    successLocal2Remote
-                                ), account, false
-                            )
-                        } else if (completedWithoutError) {
-                            appendToNotification(
-                                context.getString(R.string.synchronization_end_success_none),
-                                account,
-                                false
-                            )
+                            continue
                         }
                         try {
-                            backend.unlock()
+                            backend.lock()
                         } catch (e: IOException) {
                             log().w(e)
-                            if (!handleAuthException(e, account)) {
-                                notifyIoException(R.string.sync_io_exception_unlocking, account)
-                                syncResult.stats.numIoExceptions++
-                                syncResult.delayUntil = ioLockDelaySeconds
+                            if (handleAuthException(e, account)) {
+                                return
+                            }
+                            notifyIoException(R.string.sync_io_exception_locking, account)
+                            syncResult.stats.numIoExceptions++
+                            syncResult.delayUntil = ioLockDelaySeconds
+                            continue
+                        }
+                        var completedWithoutError = false
+                        var successRemote2Local = 0
+                        var successLocal2Remote = 0
+                        try {
+                            val changeSetSince =
+                                backend.getChangeSetSince(lastSyncedRemote, context)
+                            var remoteChanges: List<TransactionChange> = if (changeSetSince != null) {
+                                lastSyncedRemote = changeSetSince.sequenceNumber
+                                log().i("lastSyncedRemote: $lastSyncedRemote")
+                                changeSetSince.changes
+                            } else emptyList()
+                            var localChanges: MutableList<TransactionChange> = mutableListOf()
+                            var sequenceToTest = lastSyncedLocal
+                            while (true) {
+                                sequenceToTest++
+                                val nextChanges =
+                                    getLocalChanges(provider, accountId, sequenceToTest)
+                                lastSyncedLocal = if (nextChanges.isNotEmpty()) {
+                                    localChanges.addAll(nextChanges.filter { !it.isEmpty })
+                                    sequenceToTest
+                                } else {
+                                    break
+                                }
+                            }
+                            log().i("lastSyncedLocal: $lastSyncedLocal")
+                            if (localChanges.isNotEmpty() || remoteChanges.isNotEmpty()) {
+                                var localMetadataChange =
+                                    syncDelegate.findMetadataChange(localChanges)
+                                var remoteMetadataChange =
+                                    syncDelegate.findMetadataChange(remoteChanges)
+                                if (remoteMetadataChange != null) {
+                                    remoteChanges = syncDelegate.removeMetadataChange(remoteChanges)
+                                }
+                                if (localMetadataChange != null && remoteMetadataChange != null) {
+                                    if (localMetadataChange.timeStamp() > remoteMetadataChange.timeStamp()) {
+                                        remoteMetadataChange = null
+                                    } else {
+                                        localMetadataChange = null
+                                        localChanges =
+                                            syncDelegate.removeMetadataChange(localChanges)
+                                                .toMutableList()
+                                    }
+                                }
+                                if (localMetadataChange != null) {
+                                    backend.updateAccount(instanceFromDb)
+                                } else if (remoteMetadataChange != null) {
+                                    backend.readAccountMetaData().onSuccess {
+                                        if (updateAccountFromMetadata(provider, it)) {
+                                            successRemote2Local += 1
+                                        } else {
+                                            appendToNotification(
+                                                "Error while writing account metadata to database",
+                                                account,
+                                                false
+                                            )
+                                        }
+                                    }
+                                }
+                                if (localChanges.size > 0) {
+                                    localChanges =
+                                        syncDelegate.collectSplits(localChanges).toMutableList()
+                                }
+                                val mergeResult: Pair<List<TransactionChange>, List<TransactionChange>> =
+                                    syncDelegate.mergeChangeSets(localChanges, remoteChanges)
+                                localChanges = mergeResult.first.toMutableList()
+                                remoteChanges = mergeResult.second
+                                if (remoteChanges.isNotEmpty()) {
+                                    syncDelegate.writeRemoteChangesToDb(provider, remoteChanges)
+                                    accountManager.setUserData(
+                                        account,
+                                        lastRemoteSyncKey,
+                                        lastSyncedRemote.toString()
+                                    )
+                                    log().i("storing lastSyncedRemote: $lastSyncedRemote")
+                                    successRemote2Local += remoteChanges.size
+                                }
+                                if (localChanges.size > 0) {
+                                    lastSyncedRemote =
+                                        backend.writeChangeSet(
+                                            lastSyncedRemote,
+                                            localChanges,
+                                            context
+                                        )
+                                    accountManager.setUserData(
+                                        account,
+                                        lastLocalSyncKey,
+                                        lastSyncedLocal.toString()
+                                    )
+                                    log().i("storing lastSyncedLocal: $lastSyncedLocal")
+                                    accountManager.setUserData(
+                                        account,
+                                        lastRemoteSyncKey,
+                                        lastSyncedRemote.toString()
+                                    )
+                                    log().i("storing lastSyncedRemote: $lastSyncedRemote")
+                                    successLocal2Remote = localChanges.size
+                                }
+                                if (!BuildConfig.DEBUG) {
+                                    // on debug build for auditing purposes, we keep changes in the table
+                                    provider.delete(
+                                        TransactionProvider.CHANGES_URI,
+                                        DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                                        arrayOf(accountId.toString(), lastSyncedLocal.toString())
+                                    )
+                                }
+                            }
+                            completedWithoutError = true
+                        } catch (e: IOException) {
+                            log().w(e)
+                            if (handleAuthException(e, account)) {
+                                return
+                            }
+                            syncResult.stats.numIoExceptions++
+                            syncResult.delayUntil = ioDefaultDelaySeconds
+                            notifyIoException(R.string.sync_io_exception_syncing, account)
+                        } catch (e: RemoteException) {
+                            syncResult.databaseError = true
+                            notifyDatabaseError(e, account)
+                        } catch (e: OperationApplicationException) {
+                            syncResult.databaseError = true
+                            notifyDatabaseError(e, account)
+                        } catch (e: SQLiteException) {
+                            syncResult.databaseError = true
+                            notifyDatabaseError(e, account)
+                        } catch (e: Exception) {
+                            appendToNotification(
+                                "ERROR (${e.javaClass.simpleName}): ${e.message} ",
+                                account, true
+                            )
+                            report(e)
+                        } finally {
+                            if (successLocal2Remote > 0 || successRemote2Local > 0) {
+                                appendToNotification(
+                                    context.getString(
+                                        R.string.synchronization_end_success,
+                                        successRemote2Local,
+                                        successLocal2Remote
+                                    ), account, false
+                                )
+                            } else if (completedWithoutError) {
+                                appendToNotification(
+                                    context.getString(R.string.synchronization_end_success_none),
+                                    account,
+                                    false
+                                )
+                            }
+                            try {
+                                backend.unlock()
+                            } catch (e: IOException) {
+                                log().w(e)
+                                if (!handleAuthException(e, account)) {
+                                    notifyIoException(R.string.sync_io_exception_unlocking, account)
+                                    syncResult.stats.numIoExceptions++
+                                    syncResult.delayUntil = ioLockDelaySeconds
+                                }
                             }
                         }
-                    }
-                } while (cursor.moveToNext())
+                    } while (it.moveToNext())
+                }
             }
-            cursor.close()
         }
     }
 
@@ -603,7 +622,10 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             builder.setContentIntent(
                 //noinspection InlinedApi
                 PendingIntent.getActivity(
-                    context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    context,
+                    0,
+                    intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             )
         }
@@ -664,51 +686,44 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                 DatabaseConstants.KEY_ROWID + " = ? AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " < ?",
                 arrayOf(accountId.toString(), nextSequence.toString())
             )
-        }
-        if (hasLocalChanges) {
-            val c = provider.query(changesUri, null, null, null, null)
-            if (c != null) {
-                if (c.moveToFirst()) {
+
+            provider.query(changesUri, null, null, null, null)?.use {
+                if (it.moveToFirst()) {
                     do {
-                        var transactionChange = TransactionChange.create(c)
-                        if (!transactionChange.isEmpty) {
-                            if (transactionChange.type() == TransactionChange.Type.created || transactionChange.type() == TransactionChange.Type.updated) {
-                                val tagCursor = provider.query(
-                                    TransactionProvider.TRANSACTIONS_TAGS_URI,
-                                    null,
-                                    String.format(
-                                        "%s = (SELECT %s FROM %s WHERE %s = ?)",
-                                        DatabaseConstants.KEY_TRANSACTIONID,
-                                        DatabaseConstants.KEY_ROWID,
-                                        DatabaseConstants.TABLE_TRANSACTIONS,
-                                        DatabaseConstants.KEY_UUID
-                                    ),
-                                    arrayOf(transactionChange.uuid()),
-                                    null
-                                )
-                                if (tagCursor != null) {
-                                    if (tagCursor.moveToFirst()) {
-                                        val tags: MutableList<String> = ArrayList()
-                                        do {
-                                            tags.add(
-                                                tagCursor.getString(
-                                                    tagCursor.getColumnIndexOrThrow(
-                                                        DatabaseConstants.KEY_LABEL
-                                                    )
+                        var transactionChange = TransactionChange.create(it)
+                        if (transactionChange.type() == TransactionChange.Type.created || transactionChange.type() == TransactionChange.Type.updated) {
+                            provider.query(
+                                TransactionProvider.TRANSACTIONS_TAGS_URI,
+                                null,
+                                String.format(
+                                    "%s = (SELECT %s FROM %s WHERE %s = ?)",
+                                    DatabaseConstants.KEY_TRANSACTIONID,
+                                    DatabaseConstants.KEY_ROWID,
+                                    DatabaseConstants.TABLE_TRANSACTIONS,
+                                    DatabaseConstants.KEY_UUID
+                                ),
+                                arrayOf(transactionChange.uuid()),
+                                null
+                            )?.use { tagCursor ->
+                                if (tagCursor.moveToFirst()) {
+                                    val tags: MutableList<String> = ArrayList()
+                                    do {
+                                        tags.add(
+                                            tagCursor.getString(
+                                                tagCursor.getColumnIndexOrThrow(
+                                                    DatabaseConstants.KEY_LABEL
                                                 )
                                             )
-                                        } while (tagCursor.moveToNext())
-                                        transactionChange =
-                                            transactionChange.toBuilder().setTags(tags).build()
-                                    }
-                                    tagCursor.close()
+                                        )
+                                    } while (tagCursor.moveToNext())
+                                    transactionChange =
+                                        transactionChange.toBuilder().setTags(tags).build()
                                 }
                             }
-                            result.add(transactionChange)
                         }
-                    } while (c.moveToNext())
+                        result.add(transactionChange)
+                    } while (it.moveToNext())
                 }
-                c.close()
             }
         }
         return result
@@ -792,6 +807,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         private val IO_LOCK_DELAY_SECONDS =
             TimeUnit.MINUTES.toSeconds(LOCK_TIMEOUT_MINUTES.toLong())
         const val TAG = "SyncAdapter"
+
         @JvmStatic
         fun KEY_LAST_SYNCED_REMOTE(accountId: Long): String {
             return "last_synced_remote_$accountId"

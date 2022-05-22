@@ -8,8 +8,10 @@ import android.net.Uri
 import androidx.core.util.Pair
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
+import at.bitfire.dav4android.Property
 import at.bitfire.dav4android.exception.DavException
 import at.bitfire.dav4android.exception.HttpException
+import at.bitfire.dav4android.property.GetContentLength
 import okhttp3.HttpUrl
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -148,6 +150,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     ): ChangeSet? {
         val changeSetList: MutableList<ChangeSet> = ArrayList()
         for (davResourcePair in filterDavResources(sequenceNumber)) {
+            //TODO
+            //fix dav4android to report ContentLength
+            //val size: Long? = (davResourcePair.second.properties.get(GetContentLength.NAME) as? GetContentLength)?.contentLength
             changeSetList.add(getChangeSetFromDavResource(davResourcePair))
         }
         return merge(changeSetList)
@@ -180,7 +185,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
                 else webDavClient.getCollection("_$nextShard", accountUuid)
                 if (nextShardResource.exists()) {
                     val finalNextShard = nextShard
-                    webDavClient.getFolderMembers(nextShardResource)
+                    webDavClient.getFolderMembers(nextShardResource).sortedBy { getSequenceFromFileName(it.fileName()) }
                         .filter { davResource: DavResource ->
                             isNewerJsonFile(
                                 startNumber,
