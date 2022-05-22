@@ -1020,4 +1020,6 @@
         <item quantity="one">Eine alte Sicherungsdatei wurde gelöscht.</item>
         <item quantity="other">%d alte Sicherungsdateien wurden gelöscht.</item>
     </plurals>
+    <string name="whats_new_340">Das Feld \"Notizen\" erlaubt mehrere Zeilen.</string>
+    <string name="pref_debug_logging_share_summary">Protokolldateien teilen</string>
 </resources>
