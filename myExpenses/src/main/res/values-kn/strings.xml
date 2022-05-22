@@ -975,4 +975,19 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">ವರ್ಗ ಮರ</string>
     <string name="dialog_contrib_usage_limit_with_dialog">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%1$s), ಈ ಸಂವಾದವನ್ನು ಪ್ರತಿ ಬಳಕೆಯಲ್ಲೂ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="whats_new_338">ನಿರಂಕುಶವಾಗಿ ಆಳವಾದ ವರ್ಗ ಶ್ರೇಣಿ</string>
+    <string name="purge_backups">ಕೆಳಗಿನ ಹಳೆಯ ಬ್ಯಾಕಪ್ ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ:</string>
+    <string name="dialog_title_purge_backups">ಹಳೆಯ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಶುದ್ಧೀಕರಿಸಿ</string>
+    <string name="pref_purge_backup_require_confirmation_summary">ಫೈಲ್‌ಗಳನ್ನು ಶುದ್ಧೀಕರಿಸುವ ಮೊದಲು ದೃಢೀಕರಣ ಪ್ರಾಂಪ್ಟ್ ಅನ್ನು ತೋರಿಸಿ</string>
+    <string name="whats_new_340">ಟಿಪ್ಪಣಿಗಳ ಕ್ಷೇತ್ರವು ಬಹು ಸಾಲುಗಳನ್ನು ಅನುಮತಿಸುತ್ತದೆ.</string>
+    <string name="pref_purge_backup_keep_title">ಇರಿಸಿಕೊಳ್ಳಲು ಇತ್ತೀಚಿನ ಬ್ಯಾಕಪ್ ಫೈಲ್‌ಗಳ ಗರಿಷ್ಠ ಸಂಖ್ಯೆ</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">ಒಂದು ಹಳೆಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಶುದ್ಧೀಕರಿಸಲಾಗಿದೆ.</item>
+        <item quantity="other">%d ಹಳೆಯ ಬ್ಯಾಕಪ್ ಫೈಲ್‌ಗಳನ್ನು ಶುದ್ಧೀಕರಿಸಲಾಗಿದೆ.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">ಒಂದು ಹಳೆಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ.</item>
+        <item quantity="other">%d ಹಳೆಯ ಬ್ಯಾಕಪ್ ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ.</item>
+    </plurals>
+    <string name="pref_debug_logging_share_summary">ಲಾಗ್ ಫೈಲ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="menu_parent_category_selection">ಶಾರ್ಟ್ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಪೋಷಕ ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
 </resources>
