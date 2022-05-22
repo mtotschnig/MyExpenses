@@ -1038,4 +1038,6 @@
     <string name="pref_purge_backup_require_confirmation_summary">Show confirmation prompt before files are purged</string>
     <!-- Summary for an entry on the preference screen that prepares a message with log files attached for debugging purposes.  -->
     <string name="pref_debug_logging_share_summary">Share log files</string>
+    <!-- New feature in version 3.4.0 -->
+    <string name="whats_new_340">Notes field allows multiple lines.</string>
 </resources>
