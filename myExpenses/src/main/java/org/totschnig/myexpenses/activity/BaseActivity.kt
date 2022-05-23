@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import timber.log.Timber
+import java.util.ArrayList
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener, EasyPermissions.PermissionCallbacks {
@@ -382,7 +383,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    fun showVersionDialog(prev_version: Int, showImportantUpgradeInfo: Boolean) {
+    fun showVersionDialog(prev_version: Int, showImportantUpgradeInfo: ArrayList<Int>) {
         lifecycleScope.launchWhenResumed {
             VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
                 .show(supportFragmentManager, "VERSION_INFO")

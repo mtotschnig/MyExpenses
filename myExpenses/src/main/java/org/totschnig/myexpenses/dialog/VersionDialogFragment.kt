@@ -28,9 +28,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.databinding.VersiondialogBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
+import java.util.ArrayList
 import javax.inject.Inject
 
 class VersionDialogFragment : DialogViewBinding<VersiondialogBinding>(), DialogInterface.OnClickListener {
@@ -84,11 +86,12 @@ class VersionDialogFragment : DialogViewBinding<VersiondialogBinding>(), DialogI
                     return row
                 }
             }
-            if (requireArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
+            val upgradeInfo = requireArguments().getIntegerArrayList(KEY_WITH_IMPORTANT_UPGRADE_INFO)
+            if (upgradeInfo?.isNotEmpty() == true) {
                 binding.ImportantUpgradeInfoHeading.visibility = View.VISIBLE
                 with(binding.ImportantUpgradeInfoBody) {
                     visibility = View.VISIBLE
-                    setText(R.string.upgrade_information_cloud_sync_storage_format)
+                    text = TextUtils.concatResStrings(requireContext(), "", *upgradeInfo.toIntArray())
                 }
                 /*      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
       makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.roadmap_particpate, new ClickableSpan() {
@@ -146,11 +149,11 @@ class VersionDialogFragment : DialogViewBinding<VersiondialogBinding>(), DialogI
     companion object {
         private const val KEY_FROM = "from"
         private const val KEY_WITH_IMPORTANT_UPGRADE_INFO = "withImportantUpgradeInfo"
-        fun newInstance(from: Int, withImportantUpgradeInfo: Boolean) =
+        fun newInstance(from: Int, withImportantUpgradeInfo: ArrayList<Int>) =
             VersionDialogFragment().apply {
                 arguments = Bundle().apply {
                     putInt(KEY_FROM, from)
-                    putBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO, withImportantUpgradeInfo)
+                    putIntegerArrayList(KEY_WITH_IMPORTANT_UPGRADE_INFO, withImportantUpgradeInfo)
                 }
                 isCancelable = false
             }

@@ -225,6 +225,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
   public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
+  public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
 
   public static final String KEY_RESULT = "result";
 
@@ -1869,6 +1870,9 @@ public class TransactionProvider extends BaseTransactionProvider {
           result.putInt(KEY_RESULT, db.update(TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null));
         });
         return result;
+      }
+      case METHOD_CHECK_CORRUPTED_DATA_987: {
+        return checkCorruptedData(getTransactionDatabase().getReadableDatabase());
       }
     }
     return null;

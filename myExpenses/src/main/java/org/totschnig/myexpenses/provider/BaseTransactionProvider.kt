@@ -3,11 +3,13 @@ package org.totschnig.myexpenses.provider
 import android.content.ContentProvider
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.os.Bundle
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
@@ -51,7 +53,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
 
-        fun categoryBudgetJoin(joinType: String) = " $joinType JOIN $TABLE_BUDGET_CATEGORIES ON ($KEY_CATID = $TREE_CATEGORIES.$KEY_ROWID AND $TABLE_BUDGET_CATEGORIES.$KEY_BUDGETID = ?)"
+        fun categoryBudgetJoin(joinType: String) =
+            " $joinType JOIN $TABLE_BUDGET_CATEGORIES ON ($KEY_CATID = $TREE_CATEGORIES.$KEY_ROWID AND $TABLE_BUDGET_CATEGORIES.$KEY_BUDGETID = ?)"
 
         /**
          * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
@@ -83,7 +86,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         const val KEY_DEBT_LABEL = "debt"
 
-        const val DEBT_LABEL_EXPRESSION = "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
+        const val DEBT_LABEL_EXPRESSION =
+            "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
         const val TAG = "TransactionProvider"
     }
 
@@ -120,6 +124,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } finally {
             transactionDatabase.readableDatabase.endTransaction()
         }
+    }
+
+    /**
+     * @return false if corrupted data has been detected
+     */
+    fun checkCorruptedData(db: SQLiteDatabase) = Bundle(1).apply {
+        putBoolean(KEY_RESULT, db.rawQuery(
+            "select count(distinct transactions.parent_id) from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
+            null
+        ).use {
+            it.moveToFirst()
+            it.getInt(0)
+        } == 0)
     }
 
     private fun backupDb(backupDb: File, currentDb: File): Result<Unit> {

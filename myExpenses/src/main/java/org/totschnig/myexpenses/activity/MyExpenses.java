@@ -278,13 +278,13 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     ((MyApplication) getApplicationContext()).getAppComponent().inject(roadmapViewModel);
-    viewModel.getHasHiddenAccounts().observe(this,
+    getViewModel().getHasHiddenAccounts().observe(this,
         result -> navigationView().getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
     if (savedInstanceState != null) {
       setup(false);
     } else {
       newVersionCheck();
-      viewModel.initialize().observe(this, result -> {
+      getViewModel().initialize().observe(this, result -> {
         if (result == 0) {
           setup(true);
         } else {
@@ -322,7 +322,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void setup(boolean firstCreate) {
-    viewModel.loadHiddenAccountCount();
+    getViewModel().loadHiddenAccountCount();
     mManager = LoaderManager.getInstance(this);
     if (firstCreate) {
       mManager.initLoader(ACCOUNTS_CURSOR, null, this);
@@ -941,7 +941,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (command == R.id.DELETE_COMMAND_DO) {
       finishActionMode();
       showSnackBarIndefinite(R.string.progress_dialog_deleting);
-      viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS), checked).observe(this, result -> {
+      getViewModel().deleteTransactions(args.getLongArray(KEY_ROW_IDS), checked).observe(this, result -> {
         if (result > 0) {
           if (!checked) {
             showSnackBar(getResources().getQuantityString(R.plurals.delete_success, result, result));
@@ -966,7 +966,7 @@ public class MyExpenses extends BaseMyExpenses implements
       startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.saving);
     } else if (command == R.id.LINK_TRANSFER_COMMAND) {
       finishActionMode();
-      viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS));
+      getViewModel().linkTransfer(args.getLongArray(KEY_ROW_IDS));
     }
   }
 
@@ -1072,7 +1072,7 @@ public class MyExpenses extends BaseMyExpenses implements
     Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
     if (newGrouping != null) {
       if (!item.isChecked()) {
-        viewModel.persistGrouping(accountId, newGrouping);
+        getViewModel().persistGrouping(accountId, newGrouping);
       }
       return true;
     }
@@ -1084,11 +1084,11 @@ public class MyExpenses extends BaseMyExpenses implements
     if (newSortDirection != null) {
       if (!item.isChecked()) {
         if (accountId == Account.HOME_AGGREGATE_ID) {
-          viewModel.persistSortDirectionHomeAggregate(newSortDirection);
+          getViewModel().persistSortDirectionHomeAggregate(newSortDirection);
         } else if (accountId < 0) {
-          viewModel.persistSortDirectionAggregate(getCurrentCurrency(), newSortDirection);
+          getViewModel().persistSortDirectionAggregate(getCurrentCurrency(), newSortDirection);
         } else {
-          viewModel.persistSortDirection(accountId, newSortDirection);
+          getViewModel().persistSortDirection(accountId, newSortDirection);
         }
       }
       return true;
