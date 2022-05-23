@@ -227,6 +227,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
                     if (exists(nextShardPath)) {
                         addAll(
                             mDbxClient.files().listFolder(nextShardPath).entries
+                                .sortedBy { getSequenceFromFileName(it.name) }
                                 .filter { metadata: Metadata ->
                                     isNewerJsonFile(
                                         startNumber,

@@ -115,7 +115,7 @@ class DriveServiceHelper(context: Context, accountName: String) {
             val fileList = mDriveService.files().list().apply {
                 q = queryList.joinToString(" and ")
                 spaces = "drive"
-                fields = "nextPageToken, files(id, name, mimeType, appProperties)"
+                fields = "nextPageToken, files(id, name, mimeType, appProperties, size)"
                 this.pageToken = pageToken
             }.execute()
             pageToken = fileList.nextPageToken

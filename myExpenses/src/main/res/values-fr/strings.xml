@@ -1020,4 +1020,6 @@
         <item quantity="other">%d anciens fichiers de sauvegarde n\'ont pas pu être supprimés.</item>
     </plurals>
     <string name="pref_purge_backup_keep_title">Nombre maximal de fichiers de sauvegarde les plus récents à conserver</string>
+    <string name="whats_new_340">Le champ \"Notes\" autorise plusieurs lignes.</string>
+    <string name="pref_debug_logging_share_summary">Partager les fichiers journaux</string>
 </resources>

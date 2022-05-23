@@ -163,6 +163,9 @@ class LocalFileBackendProvider internal constructor(context: Context?, filePath:
                     if (nextShard == 0) accountDir else File(accountDir, "_$nextShard")
                 if (nextShardDir.isDirectory) {
                     nextShardDir.listFiles { file: File -> isNewerJsonFile(startNumber, file.name) }
+                        ?.also {
+                            it.sortBy { getSequenceFromFileName(it.name) }
+                        }
                         ?.map { file: File -> Pair.create(nextShard, file) }
                         ?.forEach { add(it) }
                     nextShard++

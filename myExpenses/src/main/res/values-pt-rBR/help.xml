@@ -183,4 +183,9 @@
     <string name="help_debt_managment">Associar dívidas aos parceiros, inspecionar a lista de transações e calcular o saldo restante.</string>
     <string name="help_SetupSync_info">Esta tela permite selecionar os dados que você deseja sincronizar entre o dispositivo e o backend. Ela lista todas as contas em seu dispositivo que ainda não estão sincronizadas com outros backends, e todas as contas armazenadas no backend. Clicando em &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; selecionará ou desmarcará uma conta para sincronização. Se você selecionar uma conta que já existe tanto local como remotamente, você precisará decidir se inicialmente os dados em seu dispositivo devem substituir os dados existentes no backend, ou o contrário.</string>
     <string name="cab_ManageCategories_select_help_text">Mapeia a categoria selecionada para a transação e retorna para o formulário de transação.</string>
+    <string name="help_ManageCategories_manage_context">Toque em uma entrada para exibir seu menu de contexto. Um toque longo inicia a seleção múltipla.</string>
+    <string name="help_ManageCategories_select_filter_info">Clique em um item para iniciar a seleção múltipla.</string>
+    <string name="help_ManageCategories_expand_collapse">Toque no ícone &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; para expandir ou contrair uma categoria.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Abre o diálogo para a criação de uma nova subcategoria abaixo da categoria selecionada. Subcategorias podem ser aninhadas com profundidade arbitrária.</string>
+    <string name="cab_ManageCategories_move_help_text">Qualquer categoria (juntamente com suas subcategorias) pode ser movida para uma nova categoria mãe. Subcategorias podem ser transformadas em categorias principais.</string>
 </resources>

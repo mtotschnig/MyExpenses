@@ -57,6 +57,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 t(R.string.dialog_title_purge_backups),
                 "${t(R.string.pref_perform_share_title)}: HTTP"
             )
+            "340" -> arrayOf(
+                t(R.string.whats_new_340),
+                "${t(R.string.bug_fixes)}: ${t(R.string.synchronization)}"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",

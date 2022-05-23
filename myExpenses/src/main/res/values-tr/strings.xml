@@ -631,7 +631,7 @@
     <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
     <string name="contributed_by">Katkıda bulunan: %s</string>
     <string name="pref_sync_notification_summary">Eşzamanlama ilerlemesi hakkında bildirim göster</string>
-    <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem kütüğüne yaz</string>
+    <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem günlüğüne yaz</string>
     <string name="plan_custom_recurrence_info">Lütfen önce şablonu kaydedin. O zaman planlama takvim uygulamasında açılacaktır ve burada özel bir tekrarlama seçebilirsiniz.</string>
     <string name="picture">Resim</string>
     <string name="menu_create_template_for_split">Yeni bölünmüş şablon</string>
@@ -1020,4 +1020,6 @@
         <item quantity="other">%d eski yedekleme dosyası silinemedi.</item>
     </plurals>
     <string name="pref_purge_backup_keep_title">Saklanacak en fazla son yedekleme dosyası sayısı</string>
+    <string name="pref_debug_logging_share_summary">Günlük dosyalarını paylaş</string>
+    <string name="whats_new_340">Notlar alanı birden çok satıra izin verir.</string>
 </resources>

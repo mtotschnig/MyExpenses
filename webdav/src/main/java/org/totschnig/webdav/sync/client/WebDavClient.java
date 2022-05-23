@@ -156,6 +156,7 @@ public class WebDavClient {
 
   public Set<DavResource> getFolderMembers(DavResource folder) throws IOException {
     try {
+      //TODO GetContentLength.NAME
       folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
     } catch (DavException | HttpException e) {
       throw new IOException(e);

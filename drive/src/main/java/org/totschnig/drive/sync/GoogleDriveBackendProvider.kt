@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.StreamReader
+import org.totschnig.myexpenses.util.io.getMimeType
 import timber.log.Timber
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -96,15 +97,14 @@ class GoogleDriveBackendProvider internal constructor(
         driveFolder: File?,
         maybeEncrypt: Boolean
     ) {
-        val `in` = context.contentResolver.openInputStream(uri)
-            ?: throw IOException("Could not read $uri")
-        saveInputStream(
-            fileName,
-            if (maybeEncrypt) maybeEncrypt(`in`) else `in`,
-            getMimeType(fileName),
-            driveFolder
-        )
-        `in`.close()
+        (context.contentResolver.openInputStream(uri) ?: throw IOException("Could not read $uri")).use {
+            saveInputStream(
+                fileName,
+                if (maybeEncrypt) maybeEncrypt(it) else it,
+                getMimeType(fileName),
+                driveFolder
+            )
+        }
     }
 
     @Throws(IOException::class)
@@ -191,9 +191,9 @@ class GoogleDriveBackendProvider internal constructor(
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        val contents = toInputStream(fileContents, maybeEncrypt)
-        saveInputStream(fileName, contents, mimeType, driveFolder)
-        contents.close()
+        toInputStream(fileContents, maybeEncrypt).use {
+            saveInputStream(fileName, it, mimeType, driveFolder)
+        }
     }
 
     @Suppress("SameParameterValue")
@@ -218,7 +218,12 @@ class GoogleDriveBackendProvider internal constructor(
         val file = driveServiceHelper.createFile(
             driveFolder!!.id, fileName, mimeType, null
         )
-        driveServiceHelper.saveFile(file.id, mimeType, contents)
+        try {
+            driveServiceHelper.saveFile(file.id, mimeType, contents)
+        } catch (e: Exception) {
+            driveServiceHelper.delete(file.id)
+            throw e
+        }
     }
 
     @Throws(IOException::class)
@@ -269,12 +274,16 @@ class GoogleDriveBackendProvider internal constructor(
         while (true) {
             val nextShardFolder = if (nextShard == 0) accountFolder else getSubFolder("_$nextShard")
             if (nextShardFolder != null) {
-                val fileList = driveServiceHelper.listChildren(nextShardFolder)
+                val fileList = driveServiceHelper.listChildren(nextShardFolder).sortedBy { getSequenceFromFileName(it.name) }
                 log().i("Getting data from shard %d", nextShard)
                 for (metadata in fileList) {
                     if (isNewerJsonFile(startNumber, metadata.name)) {
-                        log().i("Getting data from file %s", metadata.name)
-                        add(getChangeSetFromMetadata(nextShard, metadata))
+                        if ((metadata.getSize() ?: 0) > 0) {
+                            log().i("Getting data from file %s", metadata.name)
+                            add(getChangeSetFromMetadata(nextShard, metadata))
+                        } else {
+                            log().i("Found 0-size file %s", metadata.name)
+                        }
                     }
                 }
                 nextShard++

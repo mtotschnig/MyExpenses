@@ -1008,4 +1008,16 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Devido ao status atual da sua licença (%1$s), este diálogo será exibido a cada utilização.</string>
     <string name="whats_new_338">Hierarquia de categorias arbitrariamente profunda</string>
     <string name="dialog_title_purge_backups">Expurgar backups antigos</string>
+    <string name="purge_backups">Os seguintes backups antigos serão excluídos:</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Um arquivo de backup antigo foi apagado.</item>
+        <item quantity="other">%d arquivos de backup antigos foram apagados.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Não foi possível excluir um arquivo de backup antigo.</item>
+        <item quantity="other">Não foi possível excluir %d arquivos de backup antigos.</item>
+    </plurals>
+    <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de excluir arquivos</string>
+    <string name="pref_purge_backup_keep_title">Número máximo de backups recentes a serem preservados</string>
+    <string name="menu_parent_category_selection">Selecionar a categoria mãe no toque breve</string>
 </resources>

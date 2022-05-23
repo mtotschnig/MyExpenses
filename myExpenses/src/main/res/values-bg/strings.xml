@@ -1008,5 +1008,16 @@
     <string name="dialog_contrib_usage_limit_with_dialog">При сегашния статус на лиценза (%1$s), този диалог ще се показва при всяка употреба.</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Дърво на категориите</string>
     <string name="menu_parent_category_selection">С кратко докосване избирате родителската категория</string>
-    <string name="dialog_title_purge_backups">Изчистване на стари резервни копия</string>
+    <string name="dialog_title_purge_backups">Изчистване на стари архивни копия</string>
+    <string name="purge_backups">Следните стари архивни файлове ще бъдат изтрити:</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Един стар архивен файл беше изчистен.</item>
+        <item quantity="other">%d стари архивни файла бяха изчистени.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Един стар архивен файл не може да бъде изтрит.</item>
+        <item quantity="other">%d стари архивни файла не може да бъдат изтрити.</item>
+    </plurals>
+    <string name="pref_purge_backup_keep_title">Максимален брой последни архивни файлове, който да бъдат запазени</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Покажи покана за потвърждение преди файловете да бъдат изтрити</string>
 </resources>

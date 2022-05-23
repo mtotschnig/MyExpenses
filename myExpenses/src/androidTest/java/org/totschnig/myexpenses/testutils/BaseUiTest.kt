@@ -40,7 +40,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.viewmodel.data.Category
-import org.totschnig.myexpenses.debug.test.R as RT
+import org.totschnig.myexpenses.test.R as RT
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
 import java.util.concurrent.TimeoutException
