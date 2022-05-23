@@ -88,7 +88,7 @@
     <string name="form_attach_image_help_text"><![CDATA[כפתור <img src=\"android:ic_menu_camera\"> מאפשר לך לצרף תמונה (למשל מהגלריה או מהמצלמה) לאובייקט.]]></string>
     <string name="form_default_action_help_text">עבור כל תבנית, תוכל להגדיר אם לחיצה קצרה עליה ברשימת התבניות תשמור את המופע באופן מיידי או שתזין את טופס העריכה שבו תוכל לשנות אותו לפני השמירה. תמיד תוכל לגשת לשתי הפעולות באמצעות הקשה ארוכה.</string>
     <string name="form_category_help_text">לחצן זה פותח את רשימת הקטגוריות, שבהן תוכל לבחור את הקטגוריה שברצונך למפות לעסקה.</string>
-    <string name="form_split_parts_heading_help_text">השתמש בלחצן הפעולה הצף להזנת חלקים מפוצלים רבים לפי הצורך. ההפרש בין סכום החלקים לעסקה מוצג בתחתית המסך. באפשרותך לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
+    <string name="form_split_parts_heading_help_text_3">באפשרותך לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">נא לבחור קטגוריה לחלק המפוצל.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">הקצה את החשבונות שאליהם מועבר אובייקט זה מ… או אל.</string>
     <string name="form_exchange_rate_help_text">תוכל לציין את התעריף באחת משני הכיוונים של ההעברה. ההיוון ההפוך והסכום המתאים לחלק התלותי של שער החליפין מחושבים באופן אוטומטי.</string>

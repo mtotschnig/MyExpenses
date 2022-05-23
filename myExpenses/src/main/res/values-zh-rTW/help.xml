@@ -5,7 +5,7 @@
   <string name="help_MyExpenses_title">交易清單</string>
   <string name="popup_MyExpenses_toolbar_intro">點擊工具欄上的選項（帳戶標籤或當前餘額）會彈出一個選單，其中包含以下條目：</string>
   <string name="menu_grouping_help_text">您可以把交易按照日、週、月或年進行分組。每一組將會計算並顯示收入、支出和轉帳的總和。當您單擊該組標題時，其交易群組將被收合起來，並且僅顯示標題。再次單擊即可以展開。</string>
-  <string name="form_split_parts_heading_help_text">使用浮動操作鈕可以根據您的需要，輸入盡可能多的分割款項。分割款項的總和與交易項目顯示的金額，兩者之間的差額會顯示在螢幕底部。只有正確地分配分割款項，才能儲存此分割交易。</string>
+  <string name="form_split_parts_heading_help_text_3">只有正確地分配分割款項，才能儲存此分割交易。</string>
   <string name="menu_templates_help_text">打開一個列出所有範本的選單，以便快速的將它們加載到表單中。</string>
   <string name="form_AccountEdit_label_help_text">在賬戶列表中，用來辨識該帳戶的標籤。</string>
   <string name="form_MethodEdit_label_help_text">當您將交易分類到付款方式時，可以用來辨識付款方式的標籤。</string>

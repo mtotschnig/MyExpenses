@@ -107,7 +107,9 @@
     <string name="form_attach_image_help_text"><![CDATA[The <img src="android:ic_menu_camera"> button allows you to attach an image (e.g. from the gallery or the camera) to the object.]]></string>
     <string name="form_default_action_help_text">For each template, you can configure if a short tap on it in the template list will either save the instance immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap.</string>
     <string name="form_category_help_text">This button opens the list of categories, where you can select the category you want to map to the transaction.</string>
-    <string name="form_split_parts_heading_help_text">Use the floating action button for entering as many split parts as needed. The difference between the sum of the parts and the transaction is displayed at the bottom of the screen. You can only save the split transaction, if the transaction amount has been exactly assigned.</string>
+    <string name="form_split_parts_heading_help_text_1">Use the + icon for entering as many split parts as needed.</string>
+    <string name="form_split_parts_heading_help_text_2">The amount field will be automatically updated with the sum of the parts, unless you manually enter an amount, in which case the difference between the sum of the parts and the amount (unsplit amount) will be shown.</string>
+    <string name="form_split_parts_heading_help_text_3">You can only save the split transaction, if the transaction amount has been exactly assigned.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Select a category for this split part.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Assign the accounts where this object is transferred from or to.</string>
     <string name="form_exchange_rate_help_text">You can specify the rate in either of the both directions of the transfer. The inverse rate and the amount corresponding to the dependent part of the exchange rate are calculated automatically.</string>

@@ -241,6 +241,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 null,
                 withAutoFill
             )
+            setHelpVariant(delegate.helpVariant)
             setTitle()
             refreshPlanData()
             floatingActionButton?.show()

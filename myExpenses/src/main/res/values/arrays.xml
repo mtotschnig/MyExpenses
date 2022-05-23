@@ -390,9 +390,16 @@
         <item>exchange_rate</item>
         <item>goal_or_limit</item>
     </string-array>
+
     <string-array name="form_opening_balance_help_text" tools:ignore="UnusedResources">
         <item>form_AccountEdit_amount_switch_help_text</item>
         <item>form_calculator_help_text</item>
+    </string-array>
+
+    <string-array name="form_split_parts_heading_help_text">
+        <item>form_split_parts_heading_help_text_1</item>
+        <item>form_split_parts_heading_help_text_2</item>
+        <item>form_split_parts_heading_help_text_3</item>
     </string-array>
 
     <string-array name="MethodEdit_formfields" tools:ignore="UnusedResources">

@@ -188,8 +188,9 @@
 
                             <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
                                 android:orientation="vertical">
 
 
@@ -197,7 +198,6 @@
                                     android:id="@+id/list"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
                                     android:nestedScrollingEnabled="false"
                                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -210,15 +210,19 @@
                                     android:text="@string/no_split_parts" />
 
                                 <View
+                                    android:id="@+id/unsplit_separator"
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
-                                    android:background="?android:colorForeground" />
+                                    android:background="?android:colorForeground"
+                                    android:visibility="gone" />
 
                                 <RelativeLayout
+                                    android:id="@+id/unsplit_line"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="copyUnsplitAmount"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <TextView
                                         android:id="@+id/label"
@@ -242,7 +246,8 @@
                                     android:id="@+id/BottomLine"
                                     android:layout_width="match_parent"
                                     android:layout_height="4dp"
-                                    android:background="?android:colorForeground" />
+                                    android:background="?android:colorForeground"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -253,7 +258,8 @@
                                 android:layout_gravity="center"
                                 android:focusable="true"
                                 android:onClick="dispatchCommand"
-                                app:srcCompat="@drawable/ic_menu_add" />
+                                app:srcCompat="@drawable/ic_menu_add"
+                                tools:ignore="ContentDescription" />
                         </LinearLayout>
                     </TableRow>
 

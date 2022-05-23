@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
@@ -14,6 +15,7 @@ import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.MyTextWatcher
+import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.SplitPartListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
@@ -42,6 +44,11 @@ class SplitDelegate(
     lateinit var adapter: SplitPartRVAdapter
     private var transactionSum: Long = 0
 
+    @JvmField
+    @State
+    var userSetAmount: Boolean = false
+    var automaticAmountUpdate: Boolean = false
+
     override fun bind(
         transaction: ISplit?,
         newInstance: Boolean,
@@ -58,7 +65,14 @@ class SplitDelegate(
         )
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
-                updateBalance()
+                if (!automaticAmountUpdate) {
+                        if (!isProcessingLinkedAmountInputs) {
+                            userSetAmount = true
+                        }
+                        updateBalance()
+                    } else {
+                        automaticAmountUpdate = false
+                    }
             }
         })
         viewBinding.CategoryRow.visibility = View.GONE
@@ -68,6 +82,11 @@ class SplitDelegate(
                 true
             )
         ) super.missingRecurrenceFeature() else ContribFeature.SPLIT_TEMPLATE
+        viewBinding.CREATEPARTCOMMAND.contentDescription = concatResStrings(
+            context, ". ",
+            R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer
+        )
+
     }
 
     override fun buildMainTransaction(accountId: Long): ISplit =
@@ -85,8 +104,18 @@ class SplitDelegate(
     }
 
     private fun updateBalance() {
-        unsplitAmountFormatted?.let {
-            viewBinding.end.text = it
+        if (userSetAmount) {
+            val unsplitVisibility =
+                if (unsplitAmount?.amountMinor?.equals(0L) == false) View.VISIBLE else View.GONE
+            unsplitAmountFormatted?.let {
+                viewBinding.end.text = it
+            }
+            viewBinding.unsplitSeparator.visibility = unsplitVisibility
+            viewBinding.unsplitLine.visibility = unsplitVisibility
+            viewBinding.BottomLine.visibility = unsplitVisibility
+        } else if (transactionSum != 0L) {
+            automaticAmountUpdate = true
+            viewBinding.Amount.setAmount(Money(adapter.currencyUnit, transactionSum).amountMajor)
         }
     }
 

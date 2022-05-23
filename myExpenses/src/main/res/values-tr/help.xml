@@ -88,7 +88,7 @@
     <string name="form_attach_image_help_text"><![CDATA[ <img src=\"android:ic_menu_camera\"> düğmesi, unsura bir resim eklemenize (mesela galeriden ya da fotoğraf makinesinden) imkân verir.]]></string>
     <string name="form_default_action_help_text">Her şablon için ona şablonar listesinde kısa bir dokunmanın örneklemeyi derhal kaydedeceğini mi veya onu düzenleyebileceğiniz düzenleme formuna mı gireceğini yapılandırabilirsiniz. Her iki eyleme daima uzun bir dokunuş ile erişebilirsiniz.</string>
     <string name="form_category_help_text">Bu düğme kategorilerin listesini açar ve burada muameleyi ilişkilendireceğiniz kategoriyi seçebilirsiniz.</string>
-    <string name="form_split_parts_heading_help_text">Kayan eylem düğmesini ne kadar gerekiyorsa o kadar bölünmüş parça girmek için kullanın. Muamele ile parçaların toplamı arasındaki fark ekranın altında gösterilir. Bölünmüş muameleyi sadece muamele miktarı tam olarak atanmışsa kaydedebilirsiniz.</string>
+    <string name="form_split_parts_heading_help_text_3">Bölünmüş muameleyi sadece muamele miktarı tam olarak atanmışsa kaydedebilirsiniz.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Bu bölünmüş kısım için bir kategori seç.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Bu unsurun aktarıldığı kaynak ya da hedef hesapları atayın.</string>
     <string name="form_exchange_rate_help_text">Döviz kurunu virmanın tek ya da iki yönü için belirtebilirsiniz. Ters oran ve döviz kuru bağımlı kısmına tekabül eden meblağ otomatik olarak hesaplanır.</string>

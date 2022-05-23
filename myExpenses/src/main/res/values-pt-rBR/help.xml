@@ -88,7 +88,7 @@
     <string name="form_attach_image_help_text"><![CDATA[O <img src=\"android:ic_menu_camera\">botão permite que você anexe uma imagem (por exemplo, da galeria ou da câmera) ao objeto.]]></string>
     <string name="form_default_action_help_text">Para cada modelo da lista, você pode configurar o comportamento de um toque curto nele: salvar a instância imediatamente ou entrar em seu formulário de edição onde você pode modificá-lo antes de salvar. Você sempre pode acessar ambas as ações por meio de um toque longo.</string>
     <string name="form_category_help_text">Este botão abre a lista de categorias, onde você pode selecionar a categoria que deseja mapear para a transação.</string>
-    <string name="form_split_parts_heading_help_text">Use o botão de ação flutuante para inserir quantas divisões forem necessárias. A diferença entre a soma das partes e a transação é exibida na parte inferior da tela. Você só pode salvar a transação dividida quando a quantia da transação for totalmente atribuída.</string>
+    <string name="form_split_parts_heading_help_text_3">Você só pode salvar a transação dividida quando a quantia da transação for totalmente atribuída.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selecione uma categoria para esta divisão.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Atribua as contas às quais este objeto é transferido de ou para.</string>
     <string name="form_exchange_rate_help_text">Você pode especificar a taxa em qualquer uma das direções da transferência. A taxa inversa e a quantia correspondente à parte dependente da taxa de câmbio são calculadas automaticamente.</string>

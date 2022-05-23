@@ -79,7 +79,7 @@
   <string name="form_method_help_text">このフィールドは、現在の勘定が何かの支払方法にリンクされた種類の場合にのみ使用可能です。デフォルトでは、銀行口座のみ支払方法 (小切手/手形、クレジットカード、預金、口座引落) にリンクされています。 設定 -&gt; 管理 -&gt; 支払方法、に移動して、勘定の種類と支払方法の間の関連付けを設定します。番号として定義されている方法を選択すると、参照番号を入力するための追加のフィールドが使用可能になります。</string>
   <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\"> ボタンをクリックすると、オブジェクトに (例えばギャラリーやカメラから) 画像を添付することができます。]]></string>
   <string name="form_category_help_text">このボタンは、取引にマップしたい分類を選択できる、分類のリストが表示されます。</string>
-  <string name="form_split_parts_heading_help_text">フローティングアクションボタンを使用して、必要な数の分割部分を入力してください。部分の合計と取引の差は、画面の下部に表示されます。取引金額が正確に割り当てられている場合にのみ、分割取引を保存することができます。</string>
+  <string name="form_split_parts_heading_help_text_3">取引金額が正確に割り当てられている場合にのみ、分割取引を保存することができます。</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">分割部分の分類を選択します。</string>
   <string name="form_transfer_from_account_transfer_to_account_help_text">この対象の振替元または先の勘定を割り当てます。</string>
   <string name="form_exchange_rate_help_text">振替の双方のいずれかのレートを指定することができます。逆のレートと為替レートの依存する部分に相当する金額は自動的に計算されます。</string>
