@@ -32,8 +32,11 @@ import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
@@ -41,6 +44,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories.Companion.KEY_PROTECTION_INFO
@@ -450,6 +454,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         viewModel.getSplitParts().observe(this) { transactions ->
             (delegate as SplitDelegate).showSplits(transactions)
         }
+        observeMoveResult()
     }
 
     private fun loadDebts() {
@@ -652,7 +657,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             updateFab()
         }
         invalidateOptionsMenu()
-        if (transaction is ISplit) {
+        if (operationType == Transactions.TYPE_SPLIT) {
             viewModel.loadSplitParts(transaction.id, isTemplate)
         }
     }
@@ -1046,21 +1051,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             val amount = validateAmountInput(false)
             return if (amount == null) Money(a.currency, 0L) else Money(a.currency, amount)
         }
-/*
-
-    */
-/*
-   * callback of TaskExecutionFragment
-   */
-
-    override fun onPostExecute(taskId: Int, o: Any?) {
-        super.onPostExecute(taskId, o)
-        when (taskId) {
-            TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS -> {
-                (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(o as Boolean)
-            }
-        }
-    }
 
     private fun unsetPicture() {
         setPicture(null)
@@ -1402,7 +1392,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     companion object {
-        private const val SPLIT_PART_LIST = "SPLIT_PART_LIST"
         const val KEY_NEW_TEMPLATE = "newTemplate"
         const val KEY_CLONE = "clone"
         private const val KEY_CACHED_DATA = "cachedData"
@@ -1433,10 +1422,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     fun startMoveSplitParts(rowId: Long, accountId: Long) {
-        startTaskExecution(
-            TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(rowId),
-            accountId,
-            R.string.progress_dialog_updating_split_parts
-        )
+        showSnackBarIndefinite( R.string.progress_dialog_updating_split_parts)
+        viewModel.moveUnCommittedSplitParts(rowId, accountId)
+    }
+
+    private fun observeMoveResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moveResult.collect { result ->
+                    result?.let {
+                        dismissSnackBar()
+                        (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(it)
+                        viewModel.moveResultProcessed()
+                    }
+                }
+            }
+        }
     }
 }

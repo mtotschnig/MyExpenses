@@ -102,28 +102,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
-      case TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS: {
-        //we need to check if there are transfer parts that refer to the account we try to move to,
-        //if yes we cannot move
-        transactionId = (Long) ids[0];
-        Long accountId = (Long) mExtra;
-        boolean success;
-        c = cr.query(TransactionProvider.UNCOMMITTED_URI,
-            new String[]{"count(*)"},
-            DatabaseConstants.KEY_PARENTID + " = ? AND " + DatabaseConstants.KEY_TRANSFER_ACCOUNT + "  = ?",
-            new String[]{String.valueOf(transactionId), String.valueOf(accountId)}, null);
-        success = (c != null && c.moveToFirst() && c.getInt(0) == 0);
-        c.close();
-        if (success) {
-          values = new ContentValues();
-          values.put(DatabaseConstants.KEY_ACCOUNTID, accountId);
-          cr.update(TransactionProvider.TRANSACTIONS_URI, values,
-              DatabaseConstants.KEY_PARENTID + " = ? AND " + KEY_STATUS + " = " + STATUS_UNCOMMITTED,
-              new String[]{String.valueOf(transactionId)});
-          return true;
-        }
-        return false;
-      }
       case TaskExecutionFragment.TASK_REPAIR_PLAN:
         String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
         if (calendarId.equals("-1")) {

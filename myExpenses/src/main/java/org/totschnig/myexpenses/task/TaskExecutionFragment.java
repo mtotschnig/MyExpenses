@@ -68,10 +68,8 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SPLIT = 30;
   public static final int TASK_REVOKE_SPLIT = 31;
   public static final int TASK_SWAP_SORT_KEY = 39;
-  public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;
 
-  public static final int TASK_VALIDATE_LICENCE = 55;
   public static final int TASK_ACCOUNT_SORT = 60;
   public static final int TASK_SET_ACCOUNT_HIDDEN = 63;
 

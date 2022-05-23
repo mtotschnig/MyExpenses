@@ -116,7 +116,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }).use {
             Espresso.checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitRow,
                 R.id.PayeeRow, R.id.AccountRow
             )
             Espresso.checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow)

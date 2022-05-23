@@ -292,7 +292,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             checkEffectiveGone(R.id.OperationType)
             toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
             checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitRow,
                 R.id.PayeeRow, R.id.AccountRow
             )
 
@@ -308,7 +308,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 Assertions.assertThat(activity.isTemplate).isTrue()
             }
             toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_edit_template))))
-            checkEffectiveVisible(R.id.SplitContainer)
+            checkEffectiveVisible(R.id.SplitRow)
             checkEffectiveGone(R.id.OperationType)
             onView(ViewMatchers.withId(R.id.list))
                 .check(matches(ViewMatchers.hasChildCount(1)))
@@ -326,7 +326,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             }
             onView(ViewMatchers.withId(R.id.OperationType))
                 .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_split)))
-            checkEffectiveVisible(R.id.SplitContainer)
+            checkEffectiveVisible(R.id.SplitRow)
             onView(ViewMatchers.withId(R.id.list))
                 .check(matches(ViewMatchers.hasChildCount(1)))
 

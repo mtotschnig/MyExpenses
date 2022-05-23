@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import android.content.ContentValues
 import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +12,10 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
@@ -28,16 +32,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
@@ -62,6 +57,9 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     private val splitParts = MutableLiveData<List<SplitPartListViewModel.Transaction>>()
     private var loadJob: Job? = null
     fun getSplitParts(): LiveData<List<SplitPartListViewModel.Transaction>> = splitParts
+
+    private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val moveResult: StateFlow<Boolean?> = _moveResult
 
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
@@ -121,14 +119,18 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
-        val currency = currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
+        val currency =
+            currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
         return Account(
             cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
             currency,
             cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
             AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
-            adjustExchangeRate(cursor.getDouble(cursor.getColumnIndexOrThrow(KEY_EXCHANGE_RATE)), currency)
+            adjustExchangeRate(
+                cursor.getDouble(cursor.getColumnIndexOrThrow(KEY_EXCHANGE_RATE)),
+                currency
+            )
         )
     }
 
@@ -212,7 +214,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
                     DatabaseConstants.KEY_AMOUNT,
                     DatabaseConstants.KEY_COMMENT,
                     FULL_LABEL,
-                    DatabaseConstants.KEY_TRANSFER_ACCOUNT,
+                    KEY_TRANSFER_ACCOUNT,
                     if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
                     DatabaseConstants.KEY_TAGLIST
                 ),
@@ -221,6 +223,36 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
             ).cancellable().mapToList {
                 SplitPartListViewModel.fromCursor(it)
             }.collect { splitParts.postValue(it) }
+        }
+    }
+
+    fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long) {
+        _moveResult.update {
+            contentResolver.query(
+                TransactionProvider.UNCOMMITTED_URI,
+                arrayOf("count(*)"),
+                "$KEY_PARENTID = ? AND $KEY_TRANSFER_ACCOUNT  = ?",
+                arrayOf(transactionId.toString(), accountId.toString()),
+                null
+            )?.use {
+                if (it.moveToFirst() && it.getInt(0) == 0) {
+                    val values = ContentValues()
+                    values.put(KEY_ACCOUNTID, accountId)
+                    contentResolver.update(
+                        TransactionProvider.TRANSACTIONS_URI,
+                        values,
+                        "$KEY_PARENTID = ? AND $KEY_STATUS = $STATUS_UNCOMMITTED",
+                        arrayOf(transactionId.toString())
+                    )
+                    true
+                } else false
+            } ?: false
+        }
+    }
+
+    fun moveResultProcessed() {
+        _moveResult.update {
+            null
         }
     }
 }
