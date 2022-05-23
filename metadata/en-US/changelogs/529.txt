@@ -1,0 +1,4 @@
+• Notes field allows multiple lines.
+• Bug fixes: Synchronization
+
+https://github.com/mtotschnig/MyExpenses/projects/70#column-18752877
