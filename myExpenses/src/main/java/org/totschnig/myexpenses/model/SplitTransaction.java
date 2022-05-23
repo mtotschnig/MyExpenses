@@ -126,6 +126,11 @@ public class SplitTransaction extends Transaction implements ISplit {
       dateValues.put(KEY_DATE, getDate());
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(dateValues)
           .withSelection(PART_OR_PEER_SELECT, new String[]{idStr, idStr}).build());
+      //verify parts are linked to same account
+      ops.add(ContentProviderOperation.newAssertQuery(TransactionProvider.TRANSACTIONS_URI)
+                      .withSelection(KEY_PARENTID + " = ? AND " + KEY_ACCOUNTID + " != ?",
+                              new String[] {idStr, String.valueOf(getAccountId())})
+              .withExpectedCount(0) .build());
     }
     return ops;
   }

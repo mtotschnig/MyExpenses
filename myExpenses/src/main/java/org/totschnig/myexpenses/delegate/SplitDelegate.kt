@@ -141,16 +141,21 @@ class SplitDelegate(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun updateAccount(account: Account) {
-        super.updateAccount(account)
         requireAdapter()
-        adapter.currencyUnit = account.currency
-        adapter.notifyDataSetChanged()
-        updateBalance()
         if (adapter.itemCount > 0) { //call background task for moving parts to new account
             host.startMoveSplitParts(rowId, account.id)
+        } else {
+            updateAccountDo(account)
         }
+    }
+
+    private fun updateAccountDo(account: Account) {
+        super.updateAccount(account)
+        adapter.currencyUnit = account.currency
+        //noinspection NotifyDataSetChanged
+        adapter.notifyDataSetChanged()
+        updateBalance()
     }
 
     fun onUncommitedSplitPartsMoved(success: Boolean) {
