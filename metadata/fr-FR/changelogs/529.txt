@@ -1,0 +1,4 @@
+• Le champ "Notes" autorise plusieurs lignes.
+• Corrections des erreurs: Synchronisation
+
+https://github.com/mtotschnig/MyExpenses/projects/70#column-18752877

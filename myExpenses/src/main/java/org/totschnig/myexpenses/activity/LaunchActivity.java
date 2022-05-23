@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -50,19 +51,9 @@ import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CAL
 
 public abstract class LaunchActivity extends IapActivity {
 
-  private UpgradeHandlerViewModel upgradeHandlerViewModel;
-
   @Override
   public boolean getShouldQueryIap() {
     return true;
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    upgradeHandlerViewModel = new ViewModelProvider(this).get(UpgradeHandlerViewModel.class);
-    ((MyApplication) getApplicationContext()).getAppComponent().inject(upgradeHandlerViewModel);
   }
 
   @Override
@@ -113,113 +104,6 @@ public abstract class LaunchActivity extends IapActivity {
     }
     if (licenceHandler.getLicenceStatus() == null) {
       checkGdprConsent(false);
-    }
-  }
-
-  /**
-   * check if this is the first invocation of a new version
-   * in which case help dialog is presented
-   * also is used for hooking version specific upgrade procedures
-   * and display information to be presented upon app launch
-   */
-  public void newVersionCheck() {
-    int prev_version = prefHandler.getInt(CURRENT_VERSION, -1);
-    int current_version = DistributionHelper.getVersionNumber();
-    if (prev_version < current_version) {
-      if (prev_version == -1) {
-        return;
-      }
-      upgradeHandlerViewModel.upgrade(prev_version, current_version);
-      boolean showImportantUpgradeInfo = false;
-      prefHandler.putInt(CURRENT_VERSION, current_version);
-      if (prev_version < 19) {
-        prefHandler.putString(SHARE_TARGET, prefHandler.getString("ftp_target", ""));
-        prefHandler.remove("ftp_target");
-      }
-      if (prev_version < 28) {
-        Timber.i("Upgrading to version 28: Purging %d transactions from database",
-            getContentResolver().delete(TransactionProvider.TRANSACTIONS_URI,
-                KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null));
-      }
-      if (prev_version < 30) {
-        if (!"".equals(prefHandler.getString(SHARE_TARGET, ""))) {
-          prefHandler.putBoolean(SHARE_TARGET, true);
-        }
-      }
-      if (prev_version < 40) {
-        //this no longer works since we migrated time to utc format
-        //  DbUtils.fixDateValues(getContentResolver());
-        //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
-        //if they are already above both thresholds, so we set some delay
-        prefHandler.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23);
-      }
-      if (prev_version < 163) {
-        prefHandler.remove("qif_export_file_encoding");
-      }
-      if (prev_version < 199) {
-        //filter serialization format has changed
-        Editor edit = settings.edit();
-        for (Map.Entry<String, ?> entry : settings.getAll().entrySet()) {
-          String key = entry.getKey();
-          String[] keyParts = key.split("_");
-          if (keyParts[0].equals("filter")) {
-            String val = settings.getString(key, "");
-            switch (keyParts[1]) {
-              case "method":
-              case "payee":
-              case "cat":
-                int sepIndex = val.indexOf(";");
-                edit.putString(key, val.substring(sepIndex + 1) + ";" + Criteria.escapeSeparator(val.substring(0, sepIndex)));
-                break;
-              case "cr":
-                edit.putString(key, CrStatus.values()[Integer.parseInt(val)].name());
-                break;
-            }
-          }
-        }
-        edit.apply();
-      }
-      if (prev_version < 202) {
-        String appDir = prefHandler.getString(APP_DIR, null);
-        if (appDir != null) {
-          prefHandler.putString(APP_DIR, Uri.fromFile(new File(appDir)).toString());
-        }
-      }
-      if (prev_version < 221) {
-        prefHandler.putString(SORT_ORDER_LEGACY,
-            prefHandler.getBoolean(CATEGORIES_SORT_BY_USAGES_LEGACY, true) ?
-                "USAGES" : "ALPHABETIC");
-      }
-      if (prev_version < 303) {
-        if (prefHandler.getBoolean(AUTO_FILL_LEGACY, false)) {
-          enableAutoFill(prefHandler);
-        }
-        prefHandler.remove(AUTO_FILL_LEGACY);
-      }
-      if (prev_version < 316) {
-        prefHandler.putString(HOME_CURRENCY, Utils.getHomeCurrency().getCode());
-        invalidateHomeCurrency();
-      }
-      if (prev_version < 354) {
-        showImportantUpgradeInfo = GenericAccountService.getAccounts(this).length > 0;
-      }
-
-      showVersionDialog(prev_version, showImportantUpgradeInfo);
-    } else {
-      if (!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION) &&
-          !prefHandler.getBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, false)) {
-        prefHandler.putBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, true);
-        ContribUtils.showContribNotification(this, ContribFeature.SYNCHRONIZATION);
-      }
-    }
-    checkCalendarPermission();
-  }
-
-  private void checkCalendarPermission() {
-    if (!"-1".equals(prefHandler.getString(PLANNER_CALENDAR_ID, "-1"))) {
-      if (!CALENDAR.hasPermission(this)) {
-        requestPermission(CALENDAR);
-      }
     }
   }
 

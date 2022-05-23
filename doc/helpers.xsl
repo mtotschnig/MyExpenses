@@ -174,6 +174,19 @@
                     select="document($strings)/resources/string[@name='pref_perform_share_title']" />
                 <xsl:text>:&#032;HTTP</xsl:text>
             </xsl:when>
+            <xsl:when test="$version = '3.4.0'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='whats_new_340']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='bug_fixes']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='synchronization']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

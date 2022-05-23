@@ -3,6 +3,12 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.SharedPreferences
 import android.os.Build
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Template
@@ -24,6 +30,9 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
+
+    private val _upgradeInfo: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val upgradeInfo: StateFlow<Int?> = _upgradeInfo
 
     fun upgrade(fromVersion: Int, @Suppress("UNUSED_PARAMETER") toVersion: Int) {
         if (fromVersion < 385) {
@@ -107,6 +116,24 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                 if (getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, true)) remove(PrefKey.DISTRIBUTION_AGGREGATE_TYPES)
                 if (getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) remove(PrefKey.BUDGET_AGGREGATE_TYPES)
             }
+        }
+        if (fromVersion < 531) {
+            viewModelScope.launch(coroutineDispatcher) {
+                if (contentResolver.call(
+                    TransactionProvider.DUAL_URI,
+                    TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
+                )?.getBoolean(TransactionProvider.KEY_RESULT) == false) {
+                    _upgradeInfo.update {
+                        R.string.corrupted_data_detected
+                    }
+                }
+            }
+        }
+    }
+
+    fun messageShown() {
+        _upgradeInfo.update {
+            null
         }
     }
 }

@@ -221,7 +221,11 @@ class GoogleDriveBackendProvider internal constructor(
         try {
             driveServiceHelper.saveFile(file.id, mimeType, contents)
         } catch (e: Exception) {
-            driveServiceHelper.delete(file.id)
+            try {
+                driveServiceHelper.delete(file.id)
+            } catch (e: Exception) {
+                CrashHandler.report(e)
+            }
             throw e
         }
     }

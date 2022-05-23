@@ -7,13 +7,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +28,7 @@ import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
 import icepick.State
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
@@ -35,23 +39,44 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
-import org.totschnig.myexpenses.feature.*
+import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.feature.OcrHost
+import org.totschnig.myexpenses.feature.OcrResult
+import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.fragment.TransactionList
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.Criteria
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
+import org.totschnig.myexpenses.util.ContribUtils
+import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
+import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
 import timber.log.Timber
 import java.io.File
@@ -61,7 +86,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
-import kotlin.Result
 
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
@@ -100,7 +124,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private var currentBalance: String? = null
     var currentPosition = -1
 
-    lateinit var viewModel: MyExpensesViewModel
+    val viewModel: MyExpensesViewModel by viewModels()
+    private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
     protected var pagerAdapter: MyViewPagerAdapter? = null
@@ -121,10 +146,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
-        (applicationContext as MyApplication).appComponent.inject(viewModel)
+        with((applicationContext as MyApplication).appComponent) {
+            inject(viewModel)
+            inject(upgradeHandlerViewModel)
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                upgradeHandlerViewModel.upgradeInfo.collect { info ->
+                    info?.let {
+                        showDismissibleSnackBar(it, object : Snackbar.Callback() {
+                            override fun onDismissed(
+                                transientBottomBar: Snackbar,
+                                event: Int
+                            ) {
+                                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                                    upgradeHandlerViewModel.messageShown()
+                            }
+                        })
+                    }
+                }
+            }
+        }
     }
 
     override fun injectDependencies() {
@@ -704,6 +748,129 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun showExportDisabledCommand() {
         showMessage(R.string.dialog_command_disabled_reset_account)
+    }
+
+    /**
+     * check if this is the first invocation of a new version
+     * in which case help dialog is presented
+     * also is used for hooking version specific upgrade procedures
+     * and display information to be presented upon app launch
+     */
+    fun newVersionCheck() {
+        val prev_version = prefHandler.getInt(PrefKey.CURRENT_VERSION, -1)
+        val current_version = DistributionHelper.versionNumber
+        if (prev_version < current_version) {
+            if (prev_version == -1) {
+                return
+            }
+            upgradeHandlerViewModel.upgrade(prev_version, current_version)
+            val showImportantUpgradeInfo = ArrayList<Int>()
+            prefHandler.putInt(PrefKey.CURRENT_VERSION, current_version)
+            if (prev_version < 19) {
+                prefHandler.putString(PrefKey.SHARE_TARGET, prefHandler.getString("ftp_target", ""))
+                prefHandler.remove("ftp_target")
+            }
+            if (prev_version < 28) {
+                Timber.i(
+                    "Upgrading to version 28: Purging %d transactions from database",
+                    getContentResolver().delete(
+                        TransactionProvider.TRANSACTIONS_URI,
+                        KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null
+                    )
+                )
+            }
+            if (prev_version < 30) {
+                if ("" != prefHandler.getString(PrefKey.SHARE_TARGET, "")) {
+                    prefHandler.putBoolean(PrefKey.SHARE_TARGET, true)
+                }
+            }
+            if (prev_version < 40) {
+                //this no longer works since we migrated time to utc format
+                //  DbUtils.fixDateValues(getContentResolver());
+                //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
+                //if they are already above both thresholds, so we set some delay
+                prefHandler.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23)
+            }
+            if (prev_version < 163) {
+                prefHandler.remove("qif_export_file_encoding")
+            }
+            if (prev_version < 199) {
+                //filter serialization format has changed
+                val edit = settings.edit()
+                for (entry in settings.all.entries) {
+                    val key = entry.key
+                    val keyParts =
+                        key.split(("_").toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                    if (keyParts[0] == "filter") {
+                        val `val` = settings.getString(key, "")!!
+                        when (keyParts[1]) {
+                            "method", "payee", "cat" -> {
+                                val sepIndex = `val`.indexOf(";")
+                                edit.putString(
+                                    key,
+                                    `val`.substring(sepIndex + 1) + ";" + Criteria.escapeSeparator(
+                                        `val`.substring(0, sepIndex)
+                                    )
+                                )
+                            }
+                            "cr" -> edit.putString(
+                                key,
+                                CrStatus.values()[Integer.parseInt(`val`)].name
+                            )
+                        }
+                    }
+                }
+                edit.apply()
+            }
+            if (prev_version < 202) {
+                val appDir = prefHandler.getString(PrefKey.APP_DIR, null)
+                if (appDir != null) {
+                    prefHandler.putString(PrefKey.APP_DIR, Uri.fromFile(File(appDir)).toString())
+                }
+            }
+            if (prev_version < 221) {
+                prefHandler.putString(
+                    PrefKey.SORT_ORDER_LEGACY,
+                    if (prefHandler.getBoolean(PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY, true))
+                        "USAGES"
+                    else
+                        "ALPHABETIC"
+                )
+            }
+            if (prev_version < 303) {
+                if (prefHandler.getBoolean(PrefKey.AUTO_FILL_LEGACY, false)) {
+                    enableAutoFill(prefHandler)
+                }
+                prefHandler.remove(PrefKey.AUTO_FILL_LEGACY)
+            }
+            if (prev_version < 316) {
+                prefHandler.putString(PrefKey.HOME_CURRENCY, Utils.getHomeCurrency().code)
+                invalidateHomeCurrency()
+            }
+            if (prev_version < 354 && GenericAccountService.getAccounts(this).isNotEmpty()) {
+                showImportantUpgradeInfo.add(R.string.upgrade_information_cloud_sync_storage_format)
+            }
+
+            showVersionDialog(prev_version, showImportantUpgradeInfo)
+        } else {
+            if ((!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION) && !prefHandler.getBoolean(
+                    PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN,
+                    false
+                ))
+            ) {
+                prefHandler.putBoolean(PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN, true)
+                ContribUtils.showContribNotification(this, ContribFeature.SYNCHRONIZATION)
+            }
+        }
+        checkCalendarPermission()
+    }
+
+    private fun checkCalendarPermission() {
+        if ("-1" != prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, "-1")) {
+            if (!PermissionHelper.PermissionGroup.CALENDAR.hasPermission(this)) {
+                requestPermission(PermissionHelper.PermissionGroup.CALENDAR)
+            }
+        }
     }
 
     companion object {
