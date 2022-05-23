@@ -12,6 +12,8 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IAccount
+import org.totschnig.myexpenses.delegate.TransactionDelegate
+import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 
@@ -22,7 +24,7 @@ fun withMethod(label: String): Matcher<Any> =
             }
 
             override fun describeTo(description: Description) {
-                description.appendText("with label '${label}'")
+                description.appendText("with method '${label}'")
             }
         }
 
@@ -33,7 +35,7 @@ fun withStatus(status: CrStatus): Matcher<Any> =
             }
 
             override fun describeTo(description: Description) {
-                description.appendText("with label '${status.name}'")
+                description.appendText("with status '${status.name}'")
             }
         }
 
@@ -47,5 +49,16 @@ fun withAccount(content: String): Matcher<Any> =
                 description.appendText("with label '$content'")
             }
         }
+
+fun withOperationType(type: Int): Matcher<Any> =
+    object : BoundedMatcher<Any, OperationType>(OperationType::class.java) {
+        override fun matchesSafely(myObj: OperationType): Boolean {
+            return myObj.type == type
+        }
+
+        override fun describeTo(description: Description) {
+            description.appendText("with operation type '$type'")
+        }
+    }
 
 fun toolbarTitle(): ViewInteraction = onView(allOf(instanceOf(TextView::class.java), withParent(ViewMatchers.withId(R.id.toolbar))))

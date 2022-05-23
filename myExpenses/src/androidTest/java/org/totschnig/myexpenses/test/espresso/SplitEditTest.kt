@@ -5,9 +5,8 @@ import android.content.OperationApplicationException
 import android.os.RemoteException
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBackUnconditionally
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
@@ -18,18 +17,24 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scrollTo
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.CoreMatchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
+import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
+import org.totschnig.myexpenses.testutils.withAccount
+import org.totschnig.myexpenses.testutils.withOperationType
 import java.util.*
 
 class SplitEditTest : BaseExpenseEditTest() {
@@ -53,6 +58,41 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Throws(RemoteException::class, OperationApplicationException::class)
     fun tearDown() {
         Account.delete(account1.id)
+    }
+
+    /*
+    Verify resolution of
+    https://github.com/mtotschnig/MyExpenses/issues/987
+     */
+    @Test
+    fun bug987() {
+        val account2 = Account("Test Account 2", currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
+        activityScenario = ActivityScenario.launch(baseIntent.apply { putExtra(KEY_ACCOUNTID, account1.id) })
+        onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
+        enterAmountSave("50")
+        onView(withId(R.id.OperationType)).perform(click())
+        onData(
+            CoreMatchers.allOf(
+                CoreMatchers.instanceOf(TransactionDelegate.OperationType::class.java),
+                withOperationType(Transactions.TYPE_TRANSFER)
+            )
+        ).perform(click())
+        onView(withId(R.id.TransferAccount)).perform(click())
+        onData(
+            CoreMatchers.allOf(
+                CoreMatchers.instanceOf(IAccount::class.java),
+                withAccount(account2.label)
+            )
+        ).perform(click())
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
+        onView(withId(R.id.Account)).perform(click())
+        onData(
+            CoreMatchers.allOf(
+                CoreMatchers.instanceOf(IAccount::class.java),
+                withAccount(account2.label)
+            )
+        ).perform(click())
+        onView(withId(R.id.Account)).check(matches(withSpinnerText(CoreMatchers.containsString(account1.label))))
     }
 
     @Test
