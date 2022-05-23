@@ -277,8 +277,10 @@ open class CategoryViewModel(
     }
 
     fun moveCategory(source: Long, target: Long?) {
-        _moveResult.update {
-            repository.moveCategory(source, target)
+        viewModelScope.launch(context = coroutineContext()) {
+            _moveResult.update {
+                repository.moveCategory(source, target)
+            }
         }
     }
 
@@ -290,7 +292,7 @@ open class CategoryViewModel(
                     TransactionProvider.METHOD_SETUP_CATEGORIES,
                     null,
                     null
-                )?.getSerializable(TransactionProvider.KEY_RESULT) as? Pair<Int, Int> ?: 0 to 0
+                )?.getSerializable(TransactionProvider.KEY_RESULT) as? Pair<Int, Int> ?: (0 to 0)
             }
         }
     }
