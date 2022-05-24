@@ -945,10 +945,19 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 viewModel.dataCorrupted().observe(this) {
                     if (it > 0) {
-                        requirePreference<Preference>(PrefKey.DEBUG_REPAIR_987).isVisible = true
+                        with(requirePreference<Preference>(PrefKey.DEBUG_REPAIR_987)) {
+                            isVisible = true
+                            title = "Repair Corrupted Data ($it)"
+                        }
                     }
                 }
             }
+        }
+    }
+
+    fun repairBug987() {
+        viewModel.repairBug987().observe(this) {
+            preferenceActivity.showSnackBar("%d split transactions have been repaired.")
         }
     }
 
@@ -1178,6 +1187,25 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             matches(preference, PrefKey.PERSONALIZED_AD_CONSENT) -> {
                 preferenceActivity.checkGdprConsent(true)
+                true
+            }
+            matches(preference, PrefKey.DEBUG_REPAIR_987) -> {
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putString(
+                        ConfirmationDialogFragment.KEY_TITLE_STRING,
+                        "Repair Corrupted Data"
+                    )
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        "Please create a backup of the database before calling Repair."
+                    )
+                    putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REPAIR_COMMAND)
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.button_label_repair
+                    )
+                })
+                    .show(parentFragmentManager, "Repair")
                 true
             }
             else -> false

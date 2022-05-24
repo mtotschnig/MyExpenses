@@ -129,13 +129,27 @@ abstract class BaseTransactionProvider : ContentProvider() {
     /**
      * @return number of corrupted entries
      */
-    fun checkCorruptedData(db: SQLiteDatabase) = Bundle(1).apply {
-        putInt(KEY_RESULT, db.rawQuery(
+    fun checkCorruptedData987() = Bundle(1).apply {
+        putInt(KEY_RESULT, transactionDatabase.readableDatabase.rawQuery(
             "select count(distinct transactions.parent_id) from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
             null
         ).use {
             it.moveToFirst()
             it.getInt(0)
+        })
+    }
+
+    fun repairCorruptedData987(db: SQLiteDatabase) = Bundle(1).apply {
+        putInt(KEY_RESULT, with (transactionDatabase.writableDatabase) {
+            beginTransaction()
+            try {
+                execSQL("update transactions set account_id = (select account_id from transactions children where children.parent_id = transactions._id) where account_id != (select account_id from transactions children where children.parent_id = transactions._id)")
+                val result = db.compileStatement("SELECT changes()").simpleQueryForLong().toInt()
+                setTransactionSuccessful()
+                result
+            } finally {
+                endTransaction()
+            }
         })
     }
 

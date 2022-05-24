@@ -321,6 +321,9 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
             fragment.updateHomeCurrency(tag as String)
             return true
         }
+        if (command == R.id.REPAIR_COMMAND) {
+            fragment.repairBug987()
+        }
         return false
     }
 
