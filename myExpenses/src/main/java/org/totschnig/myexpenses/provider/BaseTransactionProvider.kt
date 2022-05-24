@@ -127,16 +127,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     /**
-     * @return false if corrupted data has been detected
+     * @return number of corrupted entries
      */
     fun checkCorruptedData(db: SQLiteDatabase) = Bundle(1).apply {
-        putBoolean(KEY_RESULT, db.rawQuery(
+        putInt(KEY_RESULT, db.rawQuery(
             "select count(distinct transactions.parent_id) from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
             null
         ).use {
             it.moveToFirst()
             it.getInt(0)
-        } == 0)
+        })
     }
 
     private fun backupDb(backupDb: File, currentDb: File): Result<Unit> {

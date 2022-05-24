@@ -117,14 +117,17 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                 if (getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) remove(PrefKey.BUDGET_AGGREGATE_TYPES)
             }
         }
-        if (fromVersion < 531) {
+        if (fromVersion < 530) {
             viewModelScope.launch(coroutineDispatcher) {
-                if (contentResolver.call(
+                contentResolver.call(
                     TransactionProvider.DUAL_URI,
                     TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
-                )?.getBoolean(TransactionProvider.KEY_RESULT) == false) {
-                    _upgradeInfo.update {
-                        R.string.corrupted_data_detected
+                )?.getInt(TransactionProvider.KEY_RESULT)?.let { corruptedCount ->
+                    if (corruptedCount > 0) {
+                        _upgradeInfo.update {
+                            R.string.corrupted_data_detected
+                        }
+                        CrashHandler.report("Bug 987: $corruptedCount corrupted transactions detected")
                     }
                 }
             }
