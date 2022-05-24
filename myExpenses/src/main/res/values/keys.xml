@@ -251,4 +251,5 @@
     <string name="safe_mode">Safe mode</string>
     <string name="corrupted_data_detected">Corrupted data detected: You can inspect the corrupted records from Settings -> Debug -> Corrupted Data. Contact support@myexpenses.mobi for assistance.</string>
     <string name="pref_debug_repair_987_key">debug_repair_987</string>
+    <string name="button_label_repair">Repair</string>
 </resources>

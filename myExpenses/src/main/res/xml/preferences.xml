@@ -614,7 +614,6 @@
             <Preference
                 android:key="@string/pref_debug_repair_987_key"
                 my:isPreferenceVisible="false"
-                android:title="Repair Corrupted Data"
                 android:summary="https://github.com/mtotschnig/MyExpenses/issues/987" />
         </PreferenceScreen>
         <PreferenceScreen

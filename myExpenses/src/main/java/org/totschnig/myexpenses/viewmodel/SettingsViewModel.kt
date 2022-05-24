@@ -50,6 +50,15 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         }
     }
 
+    fun repairBug987() = liveData(context = coroutineContext()) {
+        emit(
+            contentResolver.call(
+                TransactionProvider.DUAL_URI,
+                TransactionProvider.METHOD_REPAIR_CORRUPTED_DATA_987, null, null
+            )?.getInt(TransactionProvider.KEY_RESULT) ?: 0
+        )
+    }
+
     fun loadAppDirInfo() {
         viewModelScope.launch(context = coroutineContext()) {
             if (AppDirHelper.isExternalStorageAvailable) {
