@@ -22,4 +22,6 @@ class ExchangeRateRepository(private val dao: @NotNull ExchangeRateDao, val pref
                     it.second
                 }
     }
+
+    suspend fun deleteAll() = dao.deleteALL()
 }

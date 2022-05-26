@@ -12,7 +12,7 @@ interface ExchangeRateDao {
     suspend fun getAllRates(): List<ExchangeRate>
 
     @Query("DELETE FROM exchange_rates")
-    fun deleteALL()
+    suspend fun deleteALL(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(exchangeRate: ExchangeRate)

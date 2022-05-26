@@ -2,8 +2,6 @@ package org.totschnig.myexpenses.di;
 
 import android.content.Context;
 
-import androidx.annotation.Nullable;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
@@ -79,6 +77,7 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
+import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
 import org.totschnig.myexpenses.viewmodel.ShareViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -90,6 +89,7 @@ import java.util.Locale;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import androidx.annotation.Nullable;
 import dagger.BindsInstance;
 import dagger.Component;
 import okhttp3.OkHttpClient;
@@ -226,6 +226,8 @@ public interface AppComponent {
   void inject(ContentResolvingAndroidViewModel contentResolvingAndroidViewModel);
 
   void inject(CurrencyViewModel contentResolvingAndroidViewModel);
+
+  void inject(SettingsViewModel settingsViewModel);
 
   void inject(UpgradeHandlerViewModel upgradeHandlerViewModel);
 
