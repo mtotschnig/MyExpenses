@@ -25,5 +25,6 @@
     <string name="calendar">"Календар"</string>
     <string name="permissions_label">"Дозволи"</string>
     <string name="setup">"Налаштування"</string>
+    <string name="clear_cache">"Очистити кеш"</string>
 </resources>
 

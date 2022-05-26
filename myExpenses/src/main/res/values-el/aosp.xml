@@ -24,5 +24,6 @@
     <string name="calendar">"Ημερολόγιο"</string>
     <string name="permissions_label">"Άδειες"</string>
     <string name="setup">"Ρύθμιση"</string>
+    <string name="clear_cache">"Εκκαθάριση προσωρινής μνήμης"</string>
 </resources>
 

@@ -24,5 +24,6 @@
     <string name="calendar">"Kalender"</string>
     <string name="permissions_label">"Berechtigungen"</string>
     <string name="setup">"Einrichtung"</string>
+    <string name="clear_cache">"Cache leeren"</string>
 </resources>
 

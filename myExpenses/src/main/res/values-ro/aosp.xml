@@ -25,5 +25,6 @@
     <string name="calendar">"Calendar"</string>
     <string name="permissions_label">"Permisiuni"</string>
     <string name="setup">"Configurați"</string>
+    <string name="clear_cache">"Goliți memoria cache"</string>
 </resources>
 
