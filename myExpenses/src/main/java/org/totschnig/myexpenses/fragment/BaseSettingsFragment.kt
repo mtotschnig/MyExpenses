@@ -943,6 +943,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                             prefHandler.getString(PrefKey.CRASHLYTICS_USER_ID, null).toString()
                     }
                 }
+                viewModel.dataCorrupted().observe(this) {
+                    if (it > 0) {
+                        requirePreference<Preference>(PrefKey.DEBUG_REPAIR_987).isVisible = true
+                    }
+                }
             }
         }
     }

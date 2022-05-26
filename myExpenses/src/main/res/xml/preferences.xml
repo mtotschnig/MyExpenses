@@ -614,7 +614,11 @@
             <SwitchPreferenceCompat
                 android:key="@string/pref_db_safe_mode_key"
                 android:summary="Database Safe Mode (prevents integer overflow)" />
-
+            <Preference
+                android:key="@string/pref_debug_repair_987_key"
+                my:isPreferenceVisible="false"
+                android:title="Repair Corrupted Data"
+                android:summary="https://github.com/mtotschnig/MyExpenses/issues/987" />
         </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_feature_uninstall_key"
