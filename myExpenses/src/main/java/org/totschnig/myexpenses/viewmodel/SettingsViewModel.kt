@@ -1,21 +1,24 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.File
 import java.io.IOException
+import javax.inject.Inject
 
 class SettingsViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+
+    @Inject
+    lateinit var exchangeRateRepository: ExchangeRateRepository
+
     private val _appDirInfo: MutableLiveData<Result<Pair<String, Boolean>>> = MutableLiveData()
     val appDirInfo: LiveData<Result<Pair<String, Boolean>>> = _appDirInfo
     val hasStaleImages: LiveData<Boolean> by lazy {
@@ -94,5 +97,9 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
             )
                 ?.getInt(TransactionProvider.KEY_RESULT)
         )
+    }
+
+    fun clearExchangeRateCache() = liveData(context = coroutineContext()) {
+        emit(exchangeRateRepository.deleteAll())
     }
 }

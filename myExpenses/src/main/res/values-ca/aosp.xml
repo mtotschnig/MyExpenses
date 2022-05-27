@@ -24,5 +24,6 @@
     <string name="calendar">"Calendari"</string>
     <string name="permissions_label">"Permisos"</string>
     <string name="setup">"Configuració"</string>
+    <string name="clear_cache">"Esborra la memòria cau"</string>
 </resources>
 

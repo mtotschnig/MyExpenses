@@ -39,5 +39,7 @@
     <string name="permissions_label">Permissions</string>
     <!-- MusicFX -->
     <string name="setup">"Setup"</string>
+    <!-- platform_packages_apps_settings/res/values/strings.xml name="clear_cache_btn_text" -->
+    <string name="clear_cache">Clear cache</string>
 </resources>
 

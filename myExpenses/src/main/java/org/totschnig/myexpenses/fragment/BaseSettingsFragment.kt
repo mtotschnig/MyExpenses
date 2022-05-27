@@ -2,10 +2,7 @@ package org.totschnig.myexpenses.fragment
 
 import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Bitmap
 import android.icu.text.ListFormatter
@@ -59,16 +56,10 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.SettingsViewModel
-import org.totschnig.myexpenses.viewmodel.ShareViewModel
+import org.totschnig.myexpenses.viewmodel.*
 import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
-import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
-import org.totschnig.myexpenses.widget.AccountWidget
-import org.totschnig.myexpenses.widget.TemplateWidget
-import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
-import org.totschnig.myexpenses.widget.updateWidgets
+import org.totschnig.myexpenses.widget.*
 import timber.log.Timber
 import java.io.File
 import java.net.URI
@@ -1206,6 +1197,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     )
                 })
                     .show(parentFragmentManager, "Repair")
+                true
+            }
+            matches(preference, PrefKey.EXCHANGE_RATES_CLEAR_CACHE) -> {
+                viewModel.clearExchangeRateCache().observe(this) {
+                    preferenceActivity.showSnackBar("${getString(R.string.clear_cache)} ($it)")
+                }
                 true
             }
             else -> false

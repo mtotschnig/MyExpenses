@@ -25,5 +25,6 @@
     <string name="calendar">"캘린더"</string>
     <string name="permissions_label">"권한"</string>
     <string name="setup">"설정"</string>
+    <string name="clear_cache">"캐시 지우기"</string>
 </resources>
 

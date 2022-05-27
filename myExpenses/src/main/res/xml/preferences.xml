@@ -297,6 +297,9 @@
                 android:key="@string/pref_openexchangerates_app_id_key"
                 android:summary="@string/pref_openexchangerates_app_id_summary"
                 android:title="OpenExchangeRates App ID" />
+            <Preference
+                android:key="@string/pref_exchange_rates_clear_cache_key"
+                android:title="@string/clear_cache" />
         </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_ocr_key"

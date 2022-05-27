@@ -24,5 +24,6 @@
     <string name="calendar">"Lịch"</string>
     <string name="permissions_label">"Quyền"</string>
     <string name="setup">"Thiết lập"</string>
+    <string name="clear_cache">"Xóa bộ nhớ đệm"</string>
 </resources>
 

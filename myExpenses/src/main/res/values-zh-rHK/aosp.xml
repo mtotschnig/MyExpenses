@@ -24,5 +24,6 @@
     <string name="calendar">"日曆"</string>
     <string name="permissions_label">"權限"</string>
     <string name="setup">"設定"</string>
+    <string name="clear_cache">"清除快取"</string>
 </resources>
 

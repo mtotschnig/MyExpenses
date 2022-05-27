@@ -24,5 +24,6 @@
     <string name="calendar">"ប្រតិទិន"</string>
     <string name="permissions_label">"ការអនុញ្ញាត"</string>
     <string name="setup">"ការរៀបចំ"</string>
+    <string name="clear_cache">"សម្អាត​ឃ្លាំងបម្រុង"</string>
 </resources>
 

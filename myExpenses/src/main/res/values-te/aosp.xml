@@ -20,4 +20,5 @@
     <string name="calendar">"క్యాలెండర్"</string>
     <string name="permissions_label">"అనుమతులు"</string>
     <string name="setup">"సెటప్"</string>
+    <string name="clear_cache">"కాష్‌ను క్లియర్ చేయి"</string>
 </resources>
