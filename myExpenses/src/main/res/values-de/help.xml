@@ -88,7 +88,8 @@
     <string name="form_attach_image_help_text"><![CDATA[Über die <img src=\"android:ic_menu_camera\"> Schaltfläche können Sie ein Bild (z. B. aus der Galerie oder mit der Kamera) dem Objekt anfügen.]]></string>
     <string name="form_default_action_help_text">Sie können für jede Vorlage konfigurieren, ob durch kurzes Tippen in der Vorlagenliste die Instanz entweder sofort gespeichert oder in das Bearbeitungsformular eingegeben wird, in dem Sie sie vor dem Speichern ändern können. Sie können jederzeit durch langes Tippen auf beide Aktionen zugreifen.</string>
     <string name="form_category_help_text">Diese Schaltfläche öffnet die Liste der Kategorien, aus der Sie die Kategorie auswählen können, der Sie die Buchung zuordnen möchten.</string>
-    <string name="form_split_parts_heading_help_text">Verwenden Sie die schwebende Aktionsschaltfläche, um Teile nach Bedarf hinzuzufügen. Die Differenz zwischen der Summe der Teile und dem Betrag der Buchung wird am unteren Rand des Bildschirms angezeigt. Die Splittbuchung kann nur gespeichert werden, wenn der Betrag vollständig zugewiesen wurde.</string>
+    <string name="form_split_parts_heading_help_text_1">Verwenden Sie das + Icon, um Teile nach Bedarf hinzuzufügen.</string>
+    <string name="form_split_parts_heading_help_text_3">Die Splittbuchung kann nur gespeichert werden, wenn der Betrag vollständig zugewiesen wurde.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Wählen Sie eine Kategorie für diesen Buchungsteil aus.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Wählen Sie die Konten aus, zwischen denen dieses Objekt übertragen wird.</string>
     <string name="form_exchange_rate_help_text">Sie können den Kurs in jedem der beiden Richtungen der Überweisung angeben. Der reziproke Kurs und die Höhe des abhängigen Teils des Wechselkurses werden automatisch berechnet.</string>

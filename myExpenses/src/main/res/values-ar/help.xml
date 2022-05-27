@@ -86,7 +86,7 @@
   <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\">يتيح لك الزر إرفاق صورة (على سبيل المثال من المعرض أو الكاميرا) بالكائن.]]></string>
   <string name="form_default_action_help_text">لكل قالب ، يمكنك تكوينه إذا كان النقر عليه قصيرًا في قائمة القوالب سيؤدي إما إلى حفظ المثيل على الفور أو إدخال نموذج التحرير الخاص به حيث يمكنك تعديله قبل الحفظ. يمكنك دائمًا الوصول إلى كلا الإجراءين من خلال نقرة طويلة.</string>
   <string name="form_category_help_text">يفتح هذا الزر قائمة الفئات ، حيث يمكنك تحديد الفئة التي تريد تعيينها إلى المعاملة.</string>
-  <string name="form_split_parts_heading_help_text">استخدم زر الإجراء العائم لإدخال العديد من الأجزاء المقسمة حسب الحاجة. يتم عرض الفرق بين مجموع الأجزاء والمعاملة في أسفل الشاشة. يمكنك فقط حفظ المعاملة المقسمة ، إذا تم تعيين مبلغ المعاملة بالضبط.</string>
+  <string name="form_split_parts_heading_help_text_3">  يمكنك فقط حفظ المعاملة المقسمة ، إذا تم تعيين مبلغ المعاملة بالضبط.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">حدد فئة لهذا الجزء المقسم.</string>
   <string name="form_transfer_from_account_transfer_to_account_help_text">قم بتعيين الحسابات التي تم نقل هذا الكائن منها أو إليها.</string>
   <string name="form_exchange_rate_help_text">يمكنك تحديد السعر في أي من كلا الاتجاهين للنقل. يتم احتساب المعدل العكسي والمبلغ المقابل للجزء التابع لسعر الصرف تلقائيًا.</string>

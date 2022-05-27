@@ -173,6 +173,96 @@
                             style="@style/FormField" />
                     </TableRow>
 
+                    <TableRow
+                        android:id="@+id/SplitRow"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/SplitLabel"
+                            style="@style/FormLabel"
+                            android:text="@string/split_parts_heading" />
+
+                        <LinearLayout
+                            style="@style/FormField"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+
+                                <org.totschnig.myexpenses.ui.ContextAwareRecyclerView
+                                    android:id="@+id/list"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:nestedScrollingEnabled="false"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                                <TextView
+                                    android:id="@+id/empty"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="10dp"
+                                    android:text="@string/no_split_parts" />
+
+                                <View
+                                    android:id="@+id/unsplit_separator"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="?android:colorForeground"
+                                    android:visibility="gone" />
+
+                                <RelativeLayout
+                                    android:id="@+id/unsplit_line"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:onClick="copyUnsplitAmount"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <TextView
+                                        android:id="@+id/label"
+                                        style="@style/titleTextStyle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_toStartOf="@+id/end"
+                                        android:text="@string/unsplit_amount" />
+
+                                    <TextView
+                                        android:id="@+id/end"
+                                        style="@style/titleTextStyle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        tools:text="END" />
+                                </RelativeLayout>
+
+                                <View
+                                    android:id="@+id/BottomLine"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="4dp"
+                                    android:background="?android:colorForeground"
+                                    android:visibility="gone" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@id/CREATE_PART_COMMAND"
+                                style="?actionButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:focusable="true"
+                                android:onClick="dispatchCommand"
+                                app:srcCompat="@drawable/ic_menu_add"
+                                tools:ignore="ContentDescription" />
+                        </LinearLayout>
+                    </TableRow>
+
                     <TableRow android:id="@+id/DateTimeRow">
 
                         <TextView

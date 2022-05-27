@@ -2,42 +2,29 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import android.content.ContentValues
 import android.database.Cursor
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.core.database.getStringOrNull
+import androidx.lifecycle.*
+import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.observeQuery
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.ITransaction
-import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import kotlin.collections.set
 import kotlin.math.pow
 import org.totschnig.myexpenses.model.Account as Account_model
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
@@ -51,6 +38,13 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
     private val disposables = CompositeDisposable()
+
+    private val splitParts = MutableLiveData<List<SplitPart>>()
+    private var loadJob: Job? = null
+    fun getSplitParts(): LiveData<List<SplitPart>> = splitParts
+
+    private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val moveResult: StateFlow<Boolean?> = _moveResult
 
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
@@ -110,14 +104,18 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
-        val currency = currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
+        val currency =
+            currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
         return Account(
             cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
             currency,
             cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
             AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
-            adjustExchangeRate(cursor.getDouble(cursor.getColumnIndexOrThrow(KEY_EXCHANGE_RATE)), currency)
+            adjustExchangeRate(
+                cursor.getDouble(cursor.getColumnIndexOrThrow(KEY_EXCHANGE_RATE)),
+                currency
+            )
         )
     }
 
@@ -189,6 +187,82 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         liveData(context = coroutineContext()) {
             emit(SplitTransaction.getNewInstance(accountId))
         }
+
+    fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            contentResolver.observeQuery(
+                uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
+                else TransactionProvider.UNCOMMITTED_URI,
+                projection = arrayOf(
+                    KEY_ROWID,
+                    KEY_AMOUNT,
+                    KEY_COMMENT,
+                    FULL_LABEL,
+                    KEY_TRANSFER_ACCOUNT,
+                    if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
+                    KEY_TAGLIST
+                ),
+                selection = "$KEY_PARENTID = ?",
+                selectionArgs = arrayOf(parentId.toString())
+            ).cancellable().mapToList {
+                SplitPart.fromCursor(it)
+            }.collect { splitParts.postValue(it) }
+        }
+    }
+
+    fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long) {
+        _moveResult.update {
+            contentResolver.query(
+                TransactionProvider.UNCOMMITTED_URI,
+                arrayOf("count(*)"),
+                "$KEY_PARENTID = ? AND $KEY_TRANSFER_ACCOUNT  = ?",
+                arrayOf(transactionId.toString(), accountId.toString()),
+                null
+            )?.use {
+                if (it.moveToFirst() && it.getInt(0) == 0) {
+                    val values = ContentValues()
+                    values.put(KEY_ACCOUNTID, accountId)
+                    contentResolver.update(
+                        TransactionProvider.TRANSACTIONS_URI,
+                        values,
+                        "$KEY_PARENTID = ? AND $KEY_STATUS = $STATUS_UNCOMMITTED",
+                        arrayOf(transactionId.toString())
+                    )
+                    true
+                } else false
+            } ?: false
+        }
+    }
+
+    fun moveResultProcessed() {
+        _moveResult.update {
+            null
+        }
+    }
+
+    data class SplitPart(
+        override val id: Long,
+        override val amountRaw: Long,
+        override val comment: String?,
+        override val label: String?,
+        override val isTransfer: Boolean,
+        override val debtLabel: String?,
+        override val tagList: String?
+    ) : SplitPartRVAdapter.ITransaction {
+        companion object {
+            fun fromCursor(cursor: Cursor) =
+                SplitPart(
+                    cursor.getLong(0),
+                    cursor.getLong(1),
+                    cursor.getStringOrNull(2),
+                    cursor.getStringOrNull(3),
+                    DbUtils.getLongOrNull(cursor, 4) != null,
+                    cursor.getStringOrNull(5),
+                    cursor.getString(6)
+                )
+        }
+    }
 }
 
 

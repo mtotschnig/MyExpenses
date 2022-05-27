@@ -32,7 +32,11 @@ import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
@@ -40,6 +44,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories.Companion.KEY_PROTECTION_INFO
@@ -53,7 +58,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
-import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.Recurrence
@@ -211,6 +215,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         dateEditBinding = DateEditBinding.bind(rootBinding.root)
         methodRowBinding = MethodRowBinding.bind(rootBinding.root)
         setContentView(rootBinding.root)
+        registerForContextMenu(rootBinding.list)
         setupToolbar()
         mManager = LoaderManager.getInstance(this)
         val viewModelProvider = ViewModelProvider(this)
@@ -240,6 +245,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 null,
                 withAutoFill
             )
+            setHelpVariant(delegate.helpVariant)
             setTitle()
             refreshPlanData()
             floatingActionButton?.show()
@@ -392,12 +398,63 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
     }
 
+    override fun onCreateContextMenu(
+        menu: ContextMenu, v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menu.add(0, R.id.EDIT_COMMAND, 0, R.string.menu_edit)
+        menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val info = item.menuInfo as ContextAwareRecyclerView.RecyclerContextMenuInfo
+        return when (item.itemId) {
+            R.id.EDIT_COMMAND -> {
+                startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
+                    putExtra(if (isTemplate) KEY_TEMPLATEID else KEY_ROWID, info.id)
+                }, EDIT_REQUEST)
+                true
+            }
+            R.id.DELETE_COMMAND -> {
+                val resultObserver = Observer { result: Int ->
+                    if (result > 0) {
+                        showSnackBar(
+                            resources.getQuantityString(
+                                R.plurals.delete_success,
+                                result,
+                                result
+                            )
+                        )
+                        setDirty()
+                    } else {
+                        showDeleteFailureFeedback(null)
+                    }
+                }
+                if (isTemplate) {
+                    viewModel.deleteTemplates(longArrayOf(info.id), false)
+                        .observe(this, resultObserver)
+                } else {
+                    viewModel.deleteTransactions(longArrayOf(info.id), false).observe(
+                        this, resultObserver
+                    )
+                }
+                true
+            }
+            else -> super.onContextItemSelected(item)
+        }
+    }
+
     private fun setupObservers(fromSavedState: Boolean) {
         loadAccounts(fromSavedState)
         loadTemplates()
         linkInputsWithLabels()
         loadTags()
         loadCurrencies()
+        viewModel.getSplitParts().observe(this) { transactions ->
+            (delegate as SplitDelegate).showSplits(transactions)
+        }
+        observeMoveResult()
     }
 
     private fun loadDebts() {
@@ -428,25 +485,30 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
     }
 
+    @VisibleForTesting
+    open fun setAccounts(accounts: List<Account>, fromSavedState: Boolean)  {
+        if (accounts.isEmpty()) {
+            abortWithMessage(getString(R.string.warning_no_account))
+        } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
+            abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
+        } else {
+            if (::delegate.isInitialized) {
+                delegate.setAccounts(
+                    accounts,
+                    if (fromSavedState) null else intent.getStringExtra(KEY_CURRENCY)
+                )
+                if (!isTemplate) {
+                    loadDebts()
+                }
+                accountsLoaded = true
+                if (mIsResumed) setupListeners()
+            }
+        }
+    }
+
     private fun loadAccounts(fromSavedState: Boolean) {
         viewModel.getAccounts().observe(this) { accounts ->
-            if (accounts.isEmpty()) {
-                abortWithMessage(getString(R.string.warning_no_account))
-            } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
-                abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
-            } else {
-                if (::delegate.isInitialized) {
-                    delegate.setAccounts(
-                        accounts,
-                        if (fromSavedState) null else intent.getStringExtra(KEY_CURRENCY)
-                    )
-                    if (!isTemplate) {
-                        loadDebts()
-                    }
-                    accountsLoaded = true
-                    if (mIsResumed) setupListeners()
-                }
-            }
+            setAccounts(accounts, fromSavedState)
         }
     }
 
@@ -479,10 +541,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             }
         }
         if (::delegate.isInitialized) delegate.onDestroy()
-    }
-
-    fun updateSplitBalance() {
-        findSplitPartList()?.updateBalance()
     }
 
     private fun populateFromTask(
@@ -599,6 +657,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             updateFab()
         }
         invalidateOptionsMenu()
+        if (operationType == Transactions.TYPE_SPLIT) {
+            viewModel.loadSplitParts(transaction.id, isTemplate)
+        }
     }
 
     private val saveAndNewPrefKey: PrefKey
@@ -776,16 +837,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     override fun doSave(andNew: Boolean) {
-        if (operationType == Transactions.TYPE_SPLIT) {
-            findSplitPartList()?.let {
-                if (!it.splitComplete) {
-                    showSnackBar(
-                        getString(R.string.unsplit_amount_greater_than_zero),
-                        Snackbar.LENGTH_SHORT
-                    )
-                    return
-                }
-            } ?: kotlin.run { return }
+        (delegate as? SplitDelegate)?.let {
+            if (!it.splitComplete) {
+                showSnackBar(
+                    getString(R.string.unsplit_amount_greater_than_zero),
+                    Snackbar.LENGTH_SHORT
+                )
+                return
+            }
         }
         super.doSave(andNew)
     }
@@ -992,21 +1051,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             val amount = validateAmountInput(false)
             return if (amount == null) Money(a.currency, 0L) else Money(a.currency, amount)
         }
-/*
-
-    */
-/*
-   * callback of TaskExecutionFragment
-   */
-
-    override fun onPostExecute(taskId: Int, o: Any?) {
-        super.onPostExecute(taskId, o)
-        when (taskId) {
-            TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS -> {
-                (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(o as Boolean)
-            }
-        }
-    }
 
     private fun unsetPicture() {
         setPicture(null)
@@ -1230,11 +1274,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         super.onPause()
     }
 
-    fun findSplitPartList() =
-        supportFragmentManager.findFragmentByTag(SPLIT_PART_LIST) as SplitPartList?
-
-    override fun getCurrentFragment() = findSplitPartList()
-
     @SuppressLint("NewApi")
     fun showPicturePopupMenu(v: View) {
         val popup = PopupMenu(this, v)
@@ -1334,34 +1373,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         )
     }
 
-    fun addSplitPartList(rowId: Long) {
-        val fm = supportFragmentManager
-        if (findSplitPartList() == null && !fm.isStateSaved) {
-            fm.beginTransaction()
-                .add(
-                    R.id.scrollableContent,
-                    SplitPartList.newInstance(rowId, isTemplate, currentAccount!!.currency),
-                    SPLIT_PART_LIST
-                )
-                .commit()
-            fm.executePendingTransactions()
-        }
-    }
-
-    open fun updateSplitPartList(account: Account, rowId: Long) {
-        findSplitPartList()?.let {
-            it.updateAccount(account)
-            if (it.splitCount > 0) { //call background task for moving parts to new account
-                startTaskExecution(
-                    TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(rowId),
-                    account.id,
-                    R.string.progress_dialog_updating_split_parts
-                )
-                return
-            }
-        }
-    }
-
     fun observePlan(planId: Long) {
         if (pObserver == null) {
             pObserver = PlanObserver().also {
@@ -1381,7 +1392,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     companion object {
-        private const val SPLIT_PART_LIST = "SPLIT_PART_LIST"
         const val KEY_NEW_TEMPLATE = "newTemplate"
         const val KEY_CLONE = "clone"
         private const val KEY_CACHED_DATA = "cachedData"
@@ -1406,8 +1416,27 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     fun copyUnsplitAmount(@Suppress("UNUSED_PARAMETER") view: View) {
-        findSplitPartList()?.unsplitAmountFormatted?.let {
+        (delegate as? SplitDelegate)?.unsplitAmountFormatted?.let {
             copyToClipboard(it)
+        }
+    }
+
+    fun startMoveSplitParts(rowId: Long, accountId: Long) {
+        showSnackBarIndefinite( R.string.progress_dialog_updating_split_parts)
+        viewModel.moveUnCommittedSplitParts(rowId, accountId)
+    }
+
+    private fun observeMoveResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moveResult.collect { result ->
+                    result?.let {
+                        dismissSnackBar()
+                        (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(it)
+                        viewModel.moveResultProcessed()
+                    }
+                }
+            }
         }
     }
 }

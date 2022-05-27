@@ -88,7 +88,8 @@
     <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\"> le permite adjuntar una imagen (por ejemplo, de la galería o la cámara) al objetivo.]]></string>
     <string name="form_default_action_help_text">Para cada plantilla, puede configurar si un breve toque en la lista de plantillas guardará la instancia inmediatamente o introducir su formulario de edición donde podrá modificarla antes de guardarla. Siempre puede acceder a ambas acciones a través de un toque largo.</string>
     <string name="form_category_help_text">Este botón abre la lista de categorías, donde puede seleccionar la categoría que desea asignar a la transacción.</string>
-    <string name="form_split_parts_heading_help_text">Use el botón de acción flotante para ingresar tantas partes divididas como sean necesarias. La diferencia entre la suma de las partes y la transacción se muestra en la parte inferior de la pantalla. Sólo podrá guardar la transacción dividida, si el total de la transacción ha sido asignada de forma exacta.</string>
+    <string name="form_split_parts_heading_help_text_1">Use el icono de \"+\" para ingresar tantas partes divididas como sean necesarias.</string>
+    <string name="form_split_parts_heading_help_text_3">Sólo podrá guardar la transacción dividida, si el total de la transacción ha sido asignada de forma exacta.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Seleccione una categoría para esta parte dividida.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Asignar las cuentas desde o hacia las que se transfiere este objeto.</string>
     <string name="form_exchange_rate_help_text">Puede especificar la tasa de cambio en cualquiera de los dos sentidos de la transferencia. La tasa de cambio inversa y el importe correspondiente a la parte dependiente del tipo de cambio se calculan automáticamente.</string>

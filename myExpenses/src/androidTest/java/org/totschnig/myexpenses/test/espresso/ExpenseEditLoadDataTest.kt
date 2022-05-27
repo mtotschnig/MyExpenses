@@ -10,6 +10,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import org.assertj.core.api.Assertions
@@ -187,7 +188,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     private fun checkTransferDirection(loadFromPeer: Boolean) {
         val account1Spinner = if (loadFromPeer) R.id.TransferAccount else R.id.Account
         val account2Spinner = if (loadFromPeer) R.id.Account else R.id.TransferAccount
-        onView(ViewMatchers.withId(account1Spinner)).check(
+        onView(withId(account1Spinner)).check(
             matches(
                 CoreMatchers.allOf(
                     ViewMatchers.withSpinnerText(
@@ -197,7 +198,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 )
             )
         )
-        onView(ViewMatchers.withId(account2Spinner)).check(
+        onView(withId(account2Spinner)).check(
             matches(
                 CoreMatchers.allOf(
                     ViewMatchers.withSpinnerText(
@@ -231,7 +232,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
             )
-            onView(ViewMatchers.withId(R.id.OperationType))
+            onView(withId(R.id.OperationType))
                 .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_transfer)))
             onView(
                 withIdAndParent(
@@ -292,7 +293,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             checkEffectiveGone(R.id.OperationType)
             toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
             checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
+                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitRow,
                 R.id.PayeeRow, R.id.AccountRow
             )
 
@@ -308,9 +309,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 Assertions.assertThat(activity.isTemplate).isTrue()
             }
             toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_edit_template))))
-            checkEffectiveVisible(R.id.SplitContainer)
+            checkEffectiveVisible(R.id.SplitRow)
             checkEffectiveGone(R.id.OperationType)
-            onView(ViewMatchers.withId(R.id.list))
+            onView(withId(R.id.list))
                 .check(matches(ViewMatchers.hasChildCount(1)))
         }
     }
@@ -324,10 +325,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             it.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat(activity.isTemplate).isFalse()
             }
-            onView(ViewMatchers.withId(R.id.OperationType))
+            onView(withId(R.id.OperationType))
                 .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_split)))
-            checkEffectiveVisible(R.id.SplitContainer)
-            onView(ViewMatchers.withId(R.id.list))
+            checkEffectiveVisible(R.id.SplitRow)
+            onView(withId(R.id.list))
                 .check(matches(ViewMatchers.hasChildCount(1)))
 
         }
@@ -381,7 +382,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     R.id.Amount
                 )
             ).check(matches(withText("7")))
-            onView(ViewMatchers.withId(R.id.Title))
+            onView(withId(R.id.Title))
                 .check(matches(withText("Daily plan")))
 
         }
@@ -430,7 +431,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             putExtra(Transactions.CATEGORY_LABEL, "A")
             putExtra(Transactions.COMMENT, "A note")
         }).use {
-            onView(ViewMatchers.withId(R.id.Account)).check(
+            onView(withId(R.id.Account)).check(
                 matches(
                     ViewMatchers.withSpinnerText(
                         account1.label
@@ -443,11 +444,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     R.id.Amount
                 )
             ).check(matches(withText(formatAmount(1.23f))))
-            onView(ViewMatchers.withId(R.id.Payee))
+            onView(withId(R.id.Payee))
                 .check(matches(withText("John Doe")))
-            onView(ViewMatchers.withId(R.id.Comment))
+            onView(withId(R.id.Comment))
                 .check(matches(withText("A note")))
-            onView(ViewMatchers.withId(R.id.Category))
+            onView(withId(R.id.Category))
                 .check(matches(withText("A")))
         }
     }

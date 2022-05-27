@@ -123,7 +123,7 @@
     <string name="menu_ManageCategories_distribution_grouping_help_text">设置分组类型，并以每天、每月、每周或每年为单位显示分布情况。</string>
     <string name="help_ExpenseEdit_splitPartTransfer_title">转账拆分部分的表单</string>
     <string name="help_ExpenseEdit_templateTransfer_title">用于转账模板的表单</string>
-    <string name="form_split_parts_heading_help_text">根据需要，使用浮动操作按钮输入拆分部分的数量。各个部分之和与交易之间的差额显示在界面底部。只有在交易金额已准确分配的情况下，才能保存拆分的交易。</string>
+    <string name="form_split_parts_heading_help_text_3">只有在交易金额已准确分配的情况下，才能保存拆分的交易。</string>
     <string name="form_exchange_rate_help_text">您可以指定转入或转出的汇率。反向汇率和对应于汇率相关部分的金额会自动计算。</string>
     <string name="form_goal_or_limit_help_text">此字段允许指定数值为正的储蓄目标或数值为负的信用限额。无论是哪种情况，在账户列表中会有进度指示器显示当前余额与目标或限额之间的距离。</string>
     <string name="menu_templates_help_text">打开菜单将所有模板列出，以便快速将模板加载至表单。</string>
