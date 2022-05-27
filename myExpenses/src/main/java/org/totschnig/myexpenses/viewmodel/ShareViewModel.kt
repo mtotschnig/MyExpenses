@@ -213,27 +213,16 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
             fileUris: List<Uri>,
             mimeType: String?,
             emailAddress: String?
-        ): Intent {
-            val intent: Intent
-            if (fileUris.size > 1) {
-                intent = Intent(Intent.ACTION_SEND_MULTIPLE)
-                intent.putParcelableArrayListExtra(
-                    Intent.EXTRA_STREAM,
-                    ArrayList(fileUris.map { uri: Uri -> AppDirHelper.ensureContentUri(uri, ctx) })
-                )
-            } else {
-                intent = Intent(Intent.ACTION_SEND)
-                intent.putExtra(
-                    Intent.EXTRA_STREAM,
-                    AppDirHelper.ensureContentUri(fileUris[0], ctx)
-                )
-            }
-            intent.type = mimeType
+        ) = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+            putParcelableArrayListExtra(
+                Intent.EXTRA_STREAM,
+                ArrayList(fileUris.map { uri: Uri -> AppDirHelper.ensureContentUri(uri, ctx) })
+            )
+            type = mimeType
             if (emailAddress != null) {
-                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
             }
-            intent.putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.app_name))
-            return intent
+            putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.app_name))
         }
     }
 }

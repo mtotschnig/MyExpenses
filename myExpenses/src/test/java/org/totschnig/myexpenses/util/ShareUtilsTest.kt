@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
 class ShareUtilsTest {
     @Test
     @Parameters("ftp://login:password@my.example.org:80/my/directory", "mailto:john@my.example.com")
-    fun shouldParseUri(target: String?) {
-        Assert.assertNotNull(parseUri(target!!))
+    fun shouldParseUri(target: String) {
+        Assert.assertNotNull(parseUri(target))
     }
 }
