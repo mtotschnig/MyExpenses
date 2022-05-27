@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.delegate
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
@@ -17,7 +16,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.viewmodel.SplitPartListViewModel
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
 
 class SplitDelegate(
@@ -180,7 +179,7 @@ class SplitDelegate(
 
     override fun missingRecurrenceFeature() = missingRecurrenceFeature
 
-    fun showSplits(transactions: List<SplitPartListViewModel.Transaction>) {
+    fun showSplits(transactions: List<TransactionEditViewModel.SplitPart>) {
         adapter.submitList(transactions)
         viewBinding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
         viewBinding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE

@@ -4,42 +4,27 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.core.database.getStringOrNull
+import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.ITransaction
-import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.FULL_LABEL
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import kotlin.collections.set
 import kotlin.math.pow
 import org.totschnig.myexpenses.model.Account as Account_model
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
@@ -54,9 +39,9 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     private val disposables = CompositeDisposable()
 
-    private val splitParts = MutableLiveData<List<SplitPartListViewModel.Transaction>>()
+    private val splitParts = MutableLiveData<List<SplitPart>>()
     private var loadJob: Job? = null
-    fun getSplitParts(): LiveData<List<SplitPartListViewModel.Transaction>> = splitParts
+    fun getSplitParts(): LiveData<List<SplitPart>> = splitParts
 
     private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val moveResult: StateFlow<Boolean?> = _moveResult
@@ -211,17 +196,17 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
                 else TransactionProvider.UNCOMMITTED_URI,
                 projection = arrayOf(
                     KEY_ROWID,
-                    DatabaseConstants.KEY_AMOUNT,
-                    DatabaseConstants.KEY_COMMENT,
+                    KEY_AMOUNT,
+                    KEY_COMMENT,
                     FULL_LABEL,
                     KEY_TRANSFER_ACCOUNT,
                     if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
-                    DatabaseConstants.KEY_TAGLIST
+                    KEY_TAGLIST
                 ),
                 selection = "$KEY_PARENTID = ?",
                 selectionArgs = arrayOf(parentId.toString())
             ).cancellable().mapToList {
-                SplitPartListViewModel.fromCursor(it)
+                SplitPart.fromCursor(it)
             }.collect { splitParts.postValue(it) }
         }
     }
@@ -253,6 +238,29 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     fun moveResultProcessed() {
         _moveResult.update {
             null
+        }
+    }
+
+    data class SplitPart(
+        override val id: Long,
+        override val amountRaw: Long,
+        override val comment: String?,
+        override val label: String?,
+        override val isTransfer: Boolean,
+        override val debtLabel: String?,
+        override val tagList: String?
+    ) : SplitPartRVAdapter.ITransaction {
+        companion object {
+            fun fromCursor(cursor: Cursor) =
+                SplitPart(
+                    cursor.getLong(0),
+                    cursor.getLong(1),
+                    cursor.getStringOrNull(2),
+                    cursor.getStringOrNull(3),
+                    DbUtils.getLongOrNull(cursor, 4) != null,
+                    cursor.getStringOrNull(5),
+                    cursor.getString(6)
+                )
         }
     }
 }
