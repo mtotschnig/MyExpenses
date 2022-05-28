@@ -169,6 +169,11 @@ public class AmountInput extends ConstraintLayout {
     exchangeRateEdit().setRate(rate, false);
   }
 
+  @Nullable
+  public BigDecimal getExchangeRate() {
+    return exchangeRateEdit().getRate(false);
+  }
+
   private void updateChildContentDescriptions() {
     //Edit Text does not use content description once it holds content. It is hence needed to point a textView
     //in the neighborhood of this AmountInput directly to amountEdiText with android:labelFor="@id/AmountEditText"
@@ -195,19 +200,9 @@ public class AmountInput extends ConstraintLayout {
   public void setCompoundResultOutListener(CompoundResultOutListener compoundResultOutListener) {
     this.compoundResultInput = null;
     this.compoundResultOutListener = compoundResultOutListener;
-    amountEditText().addTextChangedListener(new TextWatcher() {
+    amountEditText().addTextChangedListener(new MyTextWatcher() {
       @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-      }
-
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-      }
-
-      @Override
-      public void afterTextChanged(Editable s) {
+      public void afterTextChanged(@NonNull Editable s) {
         onCompoundResultOutput();
       }
     });
@@ -347,6 +342,10 @@ public class AmountInput extends ConstraintLayout {
 
   public void disableCurrencySelection() {
     currencySpinner.setEnabled(false);
+  }
+
+  public void disableExchangeRateEdit() {
+    exchangeRateEdit().setEnabled(false);
   }
 
   public void selectAll() {

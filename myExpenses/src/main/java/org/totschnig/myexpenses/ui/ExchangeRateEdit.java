@@ -148,6 +148,13 @@ public class ExchangeRateEdit extends ConstraintLayout {
     }
   }
 
+  @Override
+  public void setEnabled(boolean enabled) {
+    rate1Edit.setEnabled(enabled);
+    rate2Edit.setEnabled(enabled);
+    super.setEnabled(enabled);
+  }
+
   public void setCurrencies(@Nullable CurrencyUnit first, @Nullable CurrencyUnit second) {
     if (first != null) {
       this.firstCurrency = first;

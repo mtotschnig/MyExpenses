@@ -67,18 +67,19 @@ import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.*
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.*
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.*
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlin.collections.set
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 /**
@@ -181,6 +182,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     val parentPayeeId: Long
         get() = intent.getLongExtra(KEY_PAYEEID, 0)
+
+    @Suppress("UNCHECKED_CAST")
+    val parentOriginalAmountExchangeRate: Pair<BigDecimal, Currency>?
+        get() = (intent.getSerializableExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE) as? Pair<BigDecimal, Currency>)
 
     private val isMainTransaction: Boolean
         get() = operationType != TYPE_TRANSFER && !isSplitPartOrTemplate
@@ -486,7 +491,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     @VisibleForTesting
-    open fun setAccounts(accounts: List<Account>, fromSavedState: Boolean)  {
+    open fun setAccounts(accounts: List<Account>, fromSavedState: Boolean) {
         if (accounts.isEmpty()) {
             abortWithMessage(getString(R.string.warning_no_account))
         } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
@@ -793,9 +798,19 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 .setIcon(R.drawable.ic_menu_move)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         } else if (isMainTransaction) {
-            menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount).isCheckable =
+            menu.add(
+                Menu.NONE,
+                R.id.ORIGINAL_AMOUNT_COMMAND,
+                0,
+                R.string.menu_original_amount
+            ).isCheckable =
                 true
-            menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount).isCheckable =
+            menu.add(
+                Menu.NONE,
+                R.id.EQUIVALENT_AMOUNT_COMMAND,
+                0,
+                R.string.menu_equivalent_amount
+            ).isCheckable =
                 true
         }
         return true
@@ -914,6 +929,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             putExtra(KEY_ACCOUNTID, account.id)
             putExtra(KEY_PARENTID, delegate.rowId)
             putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
+            putExtra(KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE, delegate.originalAmountExchangeRate)
             putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
             putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
             putExtra(KEY_INCOME, delegate.isIncome)
@@ -1403,6 +1419,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         const val AUTOFILL_CURSOR = 8
         const val KEY_INCOME = "income"
         const val KEY_PARENT_HAS_DEBT = "parentHasSplit"
+
+        /**
+         * holds pair of rate and currency
+         */
+        const val KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE = "parentOriginalAmountExchangeRate"
     }
 
     fun loadActiveTags(id: Long) {
@@ -1422,7 +1443,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     fun startMoveSplitParts(rowId: Long, accountId: Long) {
-        showSnackBarIndefinite( R.string.progress_dialog_updating_split_parts)
+        showSnackBarIndefinite(R.string.progress_dialog_updating_split_parts)
         viewModel.moveUnCommittedSplitParts(rowId, accountId)
     }
 

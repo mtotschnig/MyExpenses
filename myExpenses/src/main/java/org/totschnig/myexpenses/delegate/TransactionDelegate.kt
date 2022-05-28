@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.CompoundButton
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import com.squareup.picasso.Picasso
 import icepick.Icepick
@@ -18,12 +22,22 @@ import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.*
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -43,7 +57,6 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.lang.ArithmeticException
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
@@ -233,9 +246,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
         setVisibility(viewBinding.toolbar.OperationType, newInstance)
         originTemplateId?.let { host.loadOriginTemplate(it) }
-        if (isSplitPart) {
-            disableAccountSpinner()
-        }
 
         if (isMainTemplate) {
             viewBinding.TitleRow.visibility = View.VISIBLE
@@ -306,6 +316,19 @@ abstract class TransactionDelegate<T : ITransaction>(
                 false
             )
         }
+        if (isSplitPart) {
+            disableAccountSpinner()
+            host.parentOriginalAmountExchangeRate?.let {
+                originalAmountVisible = true
+                originalCurrencyCode = it.second.code
+                with(viewBinding.OriginalAmount) {
+                    exchangeRate = it.first
+                    disableCurrencySelection()
+                    disableExchangeRateEdit()
+                    requestFocus()
+                }
+            }
+        }
 
         if (originalAmountVisible) {
             configureOriginalAmountVisibility()
@@ -358,10 +381,9 @@ abstract class TransactionDelegate<T : ITransaction>(
             configureOriginalAmountVisibility()
             viewBinding.OriginalAmount.setAmount(it.amountMajor)
             originalCurrencyCode = it.currencyUnit.code
+        } ?: run {
+            originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null)
         }
-            ?: kotlin.run {
-                originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null)
-            }
 
         populateOriginalCurrency()
         transaction.equivalentAmount?.let {
@@ -403,7 +425,8 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun populateOriginalCurrency() {
-        viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode?.let { currencyContext[it] } ?: Utils.getHomeCurrency())
+        viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode?.let { currencyContext[it] }
+            ?: Utils.getHomeCurrency())
     }
 
     protected fun setVisibility(view: View, visible: Boolean) {
@@ -436,6 +459,18 @@ abstract class TransactionDelegate<T : ITransaction>(
             viewBinding.OriginalAmount.clear()
         }
     }
+
+    val originalAmountExchangeRate: Pair<BigDecimal, Currency>?
+        get() {
+            if (originalAmountVisible) {
+                val exchangeRate = viewBinding.OriginalAmount.exchangeRate
+                val currency = viewBinding.OriginalAmount.selectedCurrency
+                if (exchangeRate != null && currency != null) {
+                    return exchangeRate to currency
+                }
+            }
+            return null
+        }
 
     fun toggleEquivalentAmount() {
         equivalentAmountVisible = !equivalentAmountVisible
