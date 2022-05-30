@@ -14,7 +14,6 @@
  */
 package org.totschnig.myexpenses.dialog
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
@@ -37,7 +36,6 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
-import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
@@ -45,19 +43,29 @@ import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.task.ExportTask
-import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.postScrollToBottom
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DATE_FORMAT
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DECIMAL_SEPARATOR
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DELETE_P
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DELIMITER
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_ENCODING
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_EXPORT_HANDLE_DELETED
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_FILE_NAME
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_FORMAT
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_MERGE_P
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_NOT_YET_EXPORTED_P
+import java.io.Serializable
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInterface.OnClickListener,
+class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
+    DialogInterface.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
 
-    var currency: String? = null
     private var handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +73,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val args = arguments ?: throw IllegalStateException("Cannot be used without args")
-        val accountId = args.getLong(DatabaseConstants.KEY_ACCOUNTID)
+        val accountInfo = requireArguments().getSerializable(KEY_DATA) as AccountInfo
         var allP = false
         var warningText: String
         val fileName: String
@@ -76,199 +83,188 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
             ExportDialogBinding.inflate(it)
         }
 
-        //TODO Strict mode violation
-        val a = Account.getInstanceFromDb(accountId)
-        if (a == null) {
-            binding.error.visibility = View.VISIBLE
-            binding.Table.visibility = View.GONE
-            binding.exportDelete.visibility = View.GONE
-            binding.error.text = "Unable to instantiate account $accountId"
+        val canReset = !accountInfo.isSealed
+        if (accountInfo.id == Account.HOME_AGGREGATE_ID) {
+            allP = true
+            warningText = getString(R.string.warning_reset_account_all, "")
+            fileName = "export-$now"
         } else {
-            val canReset = !a.isSealed
-            val hasExported = Account.getHasExported(accountId)
-            if (accountId == Account.HOME_AGGREGATE_ID) {
+            if (accountInfo.id < 0L) {
                 allP = true
-                warningText = getString(R.string.warning_reset_account_all, "")
-                fileName = "export-$now"
+                fileName = "export-${accountInfo.currency}-$now"
+                warningText = getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
             } else {
-                if (accountId < 0L) {
-                    allP = true
-                    currency = a.currencyUnit.code
-                    fileName = "export-$currency-$now"
-                    warningText = getString(R.string.warning_reset_account_all, " ($currency)")
-                } else {
-                    fileName = Utils.escapeForFileName(a.label) + "-" + now
-                    warningText = getString(R.string.warning_reset_account)
-                }
+                fileName = Utils.escapeForFileName(accountInfo.label) + "-" + now
+                warningText = getString(R.string.warning_reset_account)
             }
-            if (args.getBoolean(KEY_IS_FILTERED)) {
-                dialogView!!.findViewById<View>(R.id.with_filter).visibility = View.VISIBLE
-                warningText = getString(R.string.warning_reset_account_matched)
+        }
+        if (accountInfo.isFiltered) {
+            dialogView!!.findViewById<View>(R.id.with_filter).visibility = View.VISIBLE
+            warningText = getString(R.string.warning_reset_account_matched)
+        }
+        val dateFormatDefault =
+            (DateFormat.getDateInstance(DateFormat.SHORT) as SimpleDateFormat).toPattern()
+        var dateFormat = prefHandler.getString(PREF_KEY_EXPORT_DATE_FORMAT, "")
+        if (dateFormat == "") dateFormat = dateFormatDefault else {
+            try {
+                SimpleDateFormat(dateFormat, Locale.US)
+            } catch (e: IllegalArgumentException) {
+                dateFormat = dateFormatDefault
             }
-            val dateFormatDefault =
-                (DateFormat.getDateInstance(DateFormat.SHORT) as SimpleDateFormat).toPattern()
-            var dateFormat = prefHandler.getString(PREF_KEY_EXPORT_DATE_FORMAT, "")
-            if (dateFormat == "") dateFormat = dateFormatDefault else {
+        }
+        binding.dateFormat.setText(dateFormat)
+        binding.dateFormat.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
                 try {
-                    SimpleDateFormat(dateFormat, Locale.US)
+                    SimpleDateFormat(s.toString(), Locale.US)
+                    binding.dateFormat.error = null
                 } catch (e: IllegalArgumentException) {
-                    dateFormat = dateFormatDefault
+                    binding.dateFormat.error = getString(R.string.date_format_illegal)
                 }
+                configureButton()
             }
-            binding.dateFormat.setText(dateFormat)
-            binding.dateFormat.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {
-                    try {
-                        SimpleDateFormat(s.toString(), Locale.US)
-                        binding.dateFormat.error = null
-                    } catch (e: IllegalArgumentException) {
-                        binding.dateFormat.error = getString(R.string.date_format_illegal)
-                    }
-                    configureButton()
-                }
 
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            })
-            binding.fileName.setText(fileName)
-            binding.fileName.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {
-                    var error = 0
-                    if (s.toString().isNotEmpty()) {
-                        if (s.toString().indexOf('/') > -1) {
-                            error = R.string.slash_forbidden_in_filename
-                        }
-                    } else {
-                        error = R.string.no_title_given
-                    }
-                    binding.fileName.error = if (error != 0) getString(error) else null
-                    configureButton()
-                }
-
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            })
-            binding.fileName.filters = arrayOf(
-                InputFilter { source: CharSequence, start: Int, end: Int, _: Spanned?, _: Int, _: Int ->
-                    val sb = StringBuilder(end - start)
-                    for (i in start until end) {
-                        val c = source[i]
-                        val type = Character.getType(c)
-                        if (type != Character.SURROGATE.toInt() && type != Character.OTHER_SYMBOL.toInt()) {
-                            sb.append(c)
-                        }
-                    }
-                    sb
-                }
-            )
-            val encoding = prefHandler.getString(PREF_KEY_EXPORT_ENCODING, "UTF-8")
-            binding.Encoding.setSelection(
-                listOf(*resources.getStringArray(R.array.pref_qif_export_file_encoding))
-                    .indexOf(encoding)
-            )
-            binding.format.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
-                binding.DelimiterRow.visibility =
-                    if (checkedId == R.id.csv) View.VISIBLE else View.GONE
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
-            val format = enumValueOrDefault(prefHandler.getString(PrefKey.EXPORT_FORMAT, null), ExportFormat.QIF)
-            binding.format.check(format.resId)
-            val delimiter = prefHandler.getInt(ExportTask.KEY_DELIMITER, ','.code)
-                .toChar()
-            @IdRes val delimiterButtonResId = when (delimiter) {
-                ';' -> R.id.delimiter_semicolon
-                '\t' -> R.id.delimiter_tab
-                ',' -> R.id.delimiter_comma
-                else -> R.id.delimiter_comma
-            }
-            binding.Delimiter.check(delimiterButtonResId)
-            val separator = prefHandler.getInt(
-                ExportTask.KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator().code
-            )
-                .toChar()
-            binding.separator.check(if (separator == ',') R.id.comma else R.id.dot)
-            val radioClickListener = View.OnClickListener { v: View ->
-                val mappedAction =
-                    if (v.id == R.id.create_helper) Account.EXPORT_HANDLE_DELETED_CREATE_HELPER else Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
-                if (handleDeletedAction == mappedAction) {
-                    handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING
-                    binding.handleDeleted.clearCheck()
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+        binding.fileName.setText(fileName)
+        binding.fileName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                var error = 0
+                if (s.toString().isNotEmpty()) {
+                    if (s.toString().indexOf('/') > -1) {
+                        error = R.string.slash_forbidden_in_filename
+                    }
                 } else {
-                    handleDeletedAction = mappedAction
+                    error = R.string.no_title_given
                 }
+                binding.fileName.error = if (error != 0) getString(error) else null
+                configureButton()
             }
-            val updateBalanceRadioButton =
-                dialogView!!.findViewById<RadioButton>(R.id.update_balance)
-            val createHelperRadioButton = dialogView!!.findViewById<RadioButton>(R.id.create_helper)
-            updateBalanceRadioButton.setOnClickListener(radioClickListener)
-            createHelperRadioButton.setOnClickListener(radioClickListener)
-            if (savedInstanceState == null) {
-                handleDeletedAction = prefHandler.getInt(
-                    ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
-                )
-                if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
-                    updateBalanceRadioButton.isChecked = true
-                } else if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-                    createHelperRadioButton.isChecked = true
+
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+        binding.fileName.filters = arrayOf(
+            InputFilter { source: CharSequence, start: Int, end: Int, _: Spanned?, _: Int, _: Int ->
+                val sb = StringBuilder(end - start)
+                for (i in start until end) {
+                    val c = source[i]
+                    val type = Character.getType(c)
+                    if (type != Character.SURROGATE.toInt() && type != Character.OTHER_SYMBOL.toInt()) {
+                        sb.append(c)
+                    }
                 }
+                sb
             }
-            if (canReset) {
-                binding.exportDelete.setOnCheckedChangeListener(this)
+        )
+        val encoding = prefHandler.getString(PREF_KEY_EXPORT_ENCODING, "UTF-8")
+        binding.Encoding.setSelection(
+            listOf(*resources.getStringArray(R.array.pref_qif_export_file_encoding))
+                .indexOf(encoding)
+        )
+        binding.format.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            binding.DelimiterRow.visibility =
+                if (checkedId == R.id.csv) View.VISIBLE else View.GONE
+        }
+        val format = enumValueOrDefault(
+            prefHandler.getString(PrefKey.EXPORT_FORMAT, null),
+            ExportFormat.QIF
+        )
+        binding.format.check(format.resId)
+        val delimiter = prefHandler.getInt(KEY_DELIMITER, ','.code)
+            .toChar()
+        @IdRes val delimiterButtonResId = when (delimiter) {
+            ';' -> R.id.delimiter_semicolon
+            '\t' -> R.id.delimiter_tab
+            ',' -> R.id.delimiter_comma
+            else -> R.id.delimiter_comma
+        }
+        binding.Delimiter.check(delimiterButtonResId)
+        val separator = prefHandler.getInt(
+            KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator().code
+        )
+            .toChar()
+        binding.separator.check(if (separator == ',') R.id.comma else R.id.dot)
+        val radioClickListener = View.OnClickListener { v: View ->
+            val mappedAction =
+                if (v.id == R.id.create_helper) Account.EXPORT_HANDLE_DELETED_CREATE_HELPER else Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
+            if (handleDeletedAction == mappedAction) {
+                handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING
+                binding.handleDeleted.clearCheck()
             } else {
-                binding.exportDelete.visibility = View.GONE
+                handleDeletedAction = mappedAction
             }
-            if (hasExported) {
-                binding.exportNotYetExported.isChecked = true
-                binding.exportNotYetExported.visibility = View.VISIBLE
+        }
+        val updateBalanceRadioButton =
+            dialogView!!.findViewById<RadioButton>(R.id.update_balance)
+        val createHelperRadioButton = dialogView!!.findViewById<RadioButton>(R.id.create_helper)
+        updateBalanceRadioButton.setOnClickListener(radioClickListener)
+        createHelperRadioButton.setOnClickListener(radioClickListener)
+        if (savedInstanceState == null) {
+            handleDeletedAction = prefHandler.getInt(
+                KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
+            )
+            if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+                updateBalanceRadioButton.isChecked = true
+            } else if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
+                createHelperRadioButton.isChecked = true
             }
-            binding.warningReset.text = warningText
-            if (allP) {
-                val mergeAccounts = prefHandler.getBoolean(ExportTask.KEY_MERGE_P, false)
-                setFileNameLabel(false)
-                binding.mergeAccounts.visibility = View.VISIBLE
-                binding.mergeAccounts.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-                    setFileNameLabel(
-                        isChecked
-                    )
-                }
-                binding.mergeAccounts.isChecked = mergeAccounts
+        }
+        if (canReset) {
+            binding.exportDelete.setOnCheckedChangeListener(this)
+        } else {
+            binding.exportDelete.visibility = View.GONE
+        }
+        if (accountInfo.hasExported) {
+            binding.exportNotYetExported.isChecked = true
+            binding.exportNotYetExported.visibility = View.VISIBLE
+        }
+        binding.warningReset.text = warningText
+        if (allP) {
+            val mergeAccounts = prefHandler.getBoolean(KEY_MERGE_P, false)
+            setFileNameLabel(false)
+            binding.mergeAccounts.visibility = View.VISIBLE
+            binding.mergeAccounts.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                setFileNameLabel(
+                    isChecked
+                )
             }
-            val helpIcon = dialogView!!.findViewById<View>(R.id.date_format_help)
-            helpIcon.setOnClickListener {
-                val inflater = LayoutInflater.from(activity)
-                val infoTextView = inflater.inflate(
-                    R.layout.textview_info, null
-                ) as TextView
-                val infoText = buildDateFormatHelpText()
-                val infoWindow = PopupWindow(infoTextView)
-                infoWindow.setBackgroundDrawable(BitmapDrawable())
-                infoWindow.isOutsideTouchable = true
-                infoWindow.isFocusable = true
-                chooseSize(infoWindow, infoText, infoTextView)
-                infoTextView.text = infoText
-                infoTextView.movementMethod = LinkMovementMethod.getInstance()
-                //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
-                infoWindow.showAsDropDown(helpIcon)
-            }
+            binding.mergeAccounts.isChecked = mergeAccounts
+        }
+        val helpIcon = dialogView!!.findViewById<View>(R.id.date_format_help)
+        helpIcon.setOnClickListener {
+            val inflater = LayoutInflater.from(activity)
+            val infoTextView = inflater.inflate(
+                R.layout.textview_info, null
+            ) as TextView
+            val infoText = buildDateFormatHelpText()
+            val infoWindow = PopupWindow(infoTextView)
+            infoWindow.setBackgroundDrawable(BitmapDrawable())
+            infoWindow.isOutsideTouchable = true
+            infoWindow.isFocusable = true
+            chooseSize(infoWindow, infoText, infoTextView)
+            infoTextView.text = infoText
+            infoTextView.movementMethod = LinkMovementMethod.getInstance()
+            //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
+            infoWindow.showAsDropDown(helpIcon)
         }
         builder.setTitle(if (allP) R.string.menu_reset_all else R.string.menu_reset)
             .setNegativeButton(android.R.string.cancel, null)
-        if (a != null) {
-            builder.setPositiveButton(android.R.string.ok, this)
-        }
         return builder.create()
     }
 
@@ -309,13 +305,12 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx: Activity? = activity
-        val args = arguments
-        val accountId = args?.getLong(DatabaseConstants.KEY_ACCOUNTID)
-        if (ctx == null || accountId == null || accountId == 0L) {
+        if (activity == null) {
             return
         }
-        val format = ExportFormat.values().find { it.resId == binding.format.checkedRadioButtonId} ?: ExportFormat.QIF
+        val accountInfo = requireArguments().getSerializable(KEY_DATA) as AccountInfo
+        val format = ExportFormat.values().find { it.resId == binding.format.checkedRadioButtonId }
+            ?: ExportFormat.QIF
         val dateFormat = binding.dateFormat.text.toString()
         val decimalSeparator = if (binding.separator.checkedRadioButtonId == R.id.dot) '.' else ','
         val delimiter = when (binding.Delimiter.checkedRadioButtonId) {
@@ -345,37 +340,33 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
             putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)
             putString(PREF_KEY_EXPORT_ENCODING, encoding)
-            putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator.code)
-            putInt(ExportTask.KEY_DELIMITER, delimiter.code)
-            putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted)
+            putInt(KEY_DECIMAL_SEPARATOR, decimalSeparator.code)
+            putInt(KEY_DELIMITER, delimiter.code)
+            putInt(KEY_EXPORT_HANDLE_DELETED, handleDeleted)
         }
-        AppDirHelper.checkAppDir(requireActivity()).onSuccess {
-            (requireActivity() as MyExpenses).startExport(Bundle().apply {
-                putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                    R.id.START_EXPORT_COMMAND
-                )
-                if (accountId > 0) {
-                    putLong(DatabaseConstants.KEY_ROWID, accountId)
-                } else {
-                    putString(DatabaseConstants.KEY_CURRENCY, currency)
-                    val mergeAccounts = binding.mergeAccounts.isChecked
-                    putBoolean(ExportTask.KEY_MERGE_P, mergeAccounts)
-                    prefHandler.putBoolean(ExportTask.KEY_MERGE_P, mergeAccounts)
-                }
-                putSerializable(TaskExecutionFragment.KEY_FORMAT, format)
-                putBoolean(ExportTask.KEY_DELETE_P, binding.exportDelete.isChecked)
-                putBoolean(ExportTask.KEY_NOT_YET_EXPORTED_P, binding.exportNotYetExported.isChecked)
-                putString(TaskExecutionFragment.KEY_DATE_FORMAT, dateFormat)
-                putChar(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator)
-                putString(TaskExecutionFragment.KEY_ENCODING, encoding)
-                putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted)
-                putString(ExportTask.KEY_FILE_NAME, binding.fileName.text.toString())
-                putChar(ExportTask.KEY_DELIMITER, delimiter)
-            })
-        }.onFailure {
-            showSnackBar(it.safeMessage, Snackbar.LENGTH_LONG, null)
-        }
+        (requireActivity() as MyExpenses).startExport(Bundle().apply {
+            putInt(
+                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                R.id.START_EXPORT_COMMAND
+            )
+            if (accountInfo.id > 0) {
+                putLong(DatabaseConstants.KEY_ROWID, accountInfo.id)
+            } else {
+                putString(DatabaseConstants.KEY_CURRENCY, accountInfo.currency)
+                val mergeAccounts = binding.mergeAccounts.isChecked
+                putBoolean(KEY_MERGE_P, mergeAccounts)
+                prefHandler.putBoolean(KEY_MERGE_P, mergeAccounts)
+            }
+            putSerializable(KEY_FORMAT, format)
+            putBoolean(KEY_DELETE_P, binding.exportDelete.isChecked)
+            putBoolean(KEY_NOT_YET_EXPORTED_P, binding.exportNotYetExported.isChecked)
+            putString(KEY_DATE_FORMAT, dateFormat)
+            putChar(KEY_DECIMAL_SEPARATOR, decimalSeparator)
+            putString(KEY_ENCODING, encoding)
+            putInt(KEY_EXPORT_HANDLE_DELETED, handleDeleted)
+            putString(KEY_FILE_NAME, binding.fileName.text.toString())
+            putChar(KEY_DELIMITER, delimiter)
+        })
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
@@ -416,19 +407,24 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
             Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
     }
 
+    data class AccountInfo(
+        val id: Long,
+        val label: String,
+        val currency: String,
+        val isSealed: Boolean,
+        val hasExported: Boolean,
+        val isFiltered: Boolean
+    ) : Serializable
+
     companion object {
-        private const val KEY_IS_FILTERED = "is_filtered"
+        private const val KEY_DATA = "data"
         const val PREF_KEY_EXPORT_DATE_FORMAT = "export_date_format"
         const val PREF_KEY_EXPORT_ENCODING = "export_encoding"
 
-        @JvmStatic
-        fun newInstance(accountId: Long, isFiltered: Boolean): ExportDialogFragment {
-            val dialogFragment = ExportDialogFragment()
-            val bundle = Bundle()
-            bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId)
-            bundle.putBoolean(KEY_IS_FILTERED, isFiltered)
-            dialogFragment.arguments = bundle
-            return dialogFragment
+        fun newInstance(accountInfo: AccountInfo) = ExportDialogFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(KEY_DATA, accountInfo)
+            }
         }
     }
 }

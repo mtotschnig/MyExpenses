@@ -3,20 +3,16 @@ package org.totschnig.myexpenses.util
 import android.content.Context
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.webkit.MimeTypeMap
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import androidx.core.content.ContextCompat
-import org.totschnig.myexpenses.MyApplication
-import android.webkit.MimeTypeMap
-import android.os.Environment
-import androidx.core.content.FileProvider
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.File
-import java.lang.Exception
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
 

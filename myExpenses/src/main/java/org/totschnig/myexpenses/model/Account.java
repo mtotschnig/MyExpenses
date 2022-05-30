@@ -581,37 +581,6 @@ public class Account extends Model implements DistributionAccountInfo {
     cr().applyBatch(TransactionProvider.AUTHORITY, ops);
   }
 
-  /**
-   * @param accountId id of account or null
-   * @return true if the account with id accountId has transactions marked as exported
-   * if accountId is null returns true if any account has transactions marked as exported
-   */
-  public static boolean getHasExported(Long accountId) {
-    String selection = null;
-    String[] selectionArgs = null;
-    if (accountId != Account.HOME_AGGREGATE_ID) {
-      if (accountId < 0L) {
-        //aggregate account
-        AggregateAccount aa = AggregateAccount.getInstanceFromDb(accountId);
-        selection = KEY_ACCOUNTID + " IN " +
-            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-        if (aa == null) {
-          return false;
-        }
-        selectionArgs = new String[]{aa.getCurrencyUnit().getCode()};
-      } else {
-        selection = KEY_ACCOUNTID + " = ?";
-        selectionArgs = new String[]{String.valueOf(accountId)};
-      }
-    }
-    Cursor c = cr().query(Transaction.CONTENT_URI,
-        new String[]{"max(" + KEY_STATUS + ")"}, selection, selectionArgs, null);
-    c.moveToFirst();
-    long result = c.getLong(0);
-    c.close();
-    return result == 1;
-  }
-
   public static boolean getTransferEnabledGlobal() {
     Cursor cursor = cr().query(
         TransactionProvider.AGGREGATES_COUNT_URI,

@@ -54,7 +54,6 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
-import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.task.QifImportTask;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -72,6 +71,7 @@ import org.totschnig.myexpenses.viewmodel.DebtViewModel;
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
+import org.totschnig.myexpenses.viewmodel.ExportViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
@@ -276,7 +276,7 @@ public interface AppComponent {
 
   void inject(TransferDelegate transactionDelegate);
 
-  void inject(ExportTask exportTask);
+  void inject(ExportViewModel exportViewModel);
 
   void inject(PartiesList partiesList);
 

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.app.ProgressDialog
 import android.content.ComponentName
 import android.content.Intent
 import android.database.Cursor
@@ -45,6 +46,7 @@ import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.fragment.BaseTransactionList
+import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
 import org.totschnig.myexpenses.fragment.TransactionList
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.ContribFeature
@@ -57,14 +59,29 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -75,6 +92,7 @@ import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
+import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
@@ -112,13 +130,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var reviewManager: ReviewManager
 
     var accountsCursor: Cursor? = null
+    fun requireAccountsCursor() = accountsCursor!!
     lateinit var toolbar: Toolbar
 
-    var columnIndexLabel = 0
-    var columnIndexRowId = 0
-    var columnIndexColor = 0
-    var columnIndexCurrency = 0
-    var columnIndexGrouping = 0
     var columnIndexType = 0
 
     private var currentBalance: String? = null
@@ -126,6 +140,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     val viewModel: MyExpensesViewModel by viewModels()
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
+    private val exportViewModel: ExportViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
     protected var pagerAdapter: MyViewPagerAdapter? = null
@@ -144,11 +159,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    private val progressDialogFragment: ProgressDialogFragment?
+        get() = (supportFragmentManager.findFragmentByTag(PROGRESS_TAG) as? ProgressDialogFragment)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
             inject(upgradeHandlerViewModel)
+            inject(exportViewModel)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -165,6 +184,28 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     upgradeHandlerViewModel.messageShown()
                             }
                         })
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                exportViewModel.publishProgress.collect { progress ->
+                    progress?.let {
+                        progressDialogFragment?.appendToMessage(progress)
+                        exportViewModel.messageShown()
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                exportViewModel.result.collect { result ->
+                    result?.let {
+                        progressDialogFragment?.onTaskCompleted()
+                        if (result.second.isNotEmpty()) {
+                            shareExport(result.first, result.second)
+                        }
                     }
                 }
             }
@@ -305,6 +346,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         )
     }
 
+    fun ensureAccountCursorAtCurrentPosition() =
+        accountsCursor?.takeIf { it.moveToPosition(currentPosition) }
+
+
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == OnDialogResultListener.BUTTON_POSITIVE) {
             when (dialogTag) {
@@ -351,8 +396,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val shareTarget: String
         get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim { it <= ' ' }
 
-    fun shareExport(format: ExportFormat, uriList: List<Uri>) {
-        shareViewModel.share(this, uriList,
+    private fun shareExport(format: ExportFormat, uriList: List<Uri>) {
+        shareViewModel.share(
+            this, uriList,
             shareTarget,
             "text/" + format.name.lowercase(Locale.US)
         )
@@ -361,8 +407,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
             true
-        }
-        else when (command) {
+        } else when (command) {
             R.id.SHARE_PDF_COMMAND -> {
                 shareViewModel.share(
                     this, listOf(ensureContentUri(Uri.parse(tag as String?), this)),
@@ -381,7 +426,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         intent.component = ComponentName(it.applicationInfo.packageName, it.name)
                         startActivity(intent)
                     }
-                    ?: run { Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show() }
+                    ?: run {
+                        Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()
+                    }
                 true
             }
             R.id.DELETE_ACCOUNT_COMMAND_DO -> {
@@ -503,11 +550,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     fun setBalance() {
         accountsCursor?.let { cursor ->
             currentCurrencyUnit?.let { currencyUnit ->
-                val balance =
-                    cursor.getLong(cursor.getColumnIndexOrThrow(KEY_CURRENT_BALANCE))
-                val label = cursor.getString(columnIndexLabel)
-                val isHome =
-                    cursor.getInt(cursor.getColumnIndexOrThrow(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
+                val balance = cursor.getLong(KEY_CURRENT_BALANCE)
+                val label = cursor.getString(KEY_LABEL)
+                val isHome = cursor.getInt(KEY_IS_AGGREGATE) == AggregateAccount.AGGREGATE_HOME
                 currentBalance = String.format(
                     Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
                     currencyFormatter.formatMoney(Money(currencyUnit, balance))
@@ -566,7 +611,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     i.putExtra(KEY_ACCOUNTID, accountId)
                     i.putExtra(
                         KEY_GROUPING,
-                        it.getString(columnIndexGrouping)
+                        it.getString(KEY_GROUPING)
                     )
                     if (tag != null) {
                         val year = ((tag as Long?)!! / 1000).toInt()
@@ -583,10 +628,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     it.moveToPosition(currentPosition)
                     val i = Intent(this, HistoryActivity::class.java)
                     i.putExtra(KEY_ACCOUNTID, accountId)
-                    i.putExtra(
-                        KEY_GROUPING,
-                        it.getString(columnIndexGrouping)
-                    )
+                    i.putExtra(KEY_GROUPING, it.getString(KEY_GROUPING))
                     startActivity(i)
                 }
             }
@@ -633,7 +675,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 ), ProtectedFragmentActivity.ASYNC_TAG
                             )
                             .add(
-                                ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing, "PDF")),
+                                ProgressDialogFragment.newInstance(
+                                    getString(
+                                        R.string.progress_dialog_printing,
+                                        "PDF"
+                                    )
+                                ),
                                 ProtectedFragmentActivity.PROGRESS_TAG
                             )
                             .commit()
@@ -725,17 +772,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return binding.accountPanel.expansionContent
     }
 
-    open fun  buildCheckSealedHandler() = CheckSealedHandler(contentResolver)
+    open fun buildCheckSealedHandler() = CheckSealedHandler(contentResolver)
 
     fun doReset() {
         currentFragment?.takeIf { it.hasItems() }?.also { fragment ->
-            AppDirHelper.checkAppDir(this).onSuccess {
-                ExportDialogFragment.newInstance(accountId, fragment.isFiltered)
-                    .show(this.supportFragmentManager, "EXPORT")
-            }.onFailure {
-                showDismissibleSnackBar(it.safeMessage)
+            exportViewModel.checkAppDir().observe(this) { result ->
+                result.onSuccess {
+                    ensureAccountCursorAtCurrentPosition()?.let { cursor ->
+                        val isSealed = cursor.getInt(DatabaseConstants.KEY_SEALED) == 1
+                        val label = cursor.getString(KEY_LABEL)
+                        val currency = cursor.getString(KEY_CURRENCY)
+                        exportViewModel.hasExported(accountId).observe(this) {
+                            ExportDialogFragment.newInstance(
+                                ExportDialogFragment.AccountInfo(
+                                    accountId,
+                                    label,
+                                    currency,
+                                    isSealed,
+                                    it,
+                                    fragment.isFiltered
+                                )
+                            ).show(this.supportFragmentManager, "EXPORT")
+                        }
+                    }
+                }.onFailure {
+                    showDismissibleSnackBar(it.safeMessage)
+                }
             }
-        } ?: kotlin.run {
+        } ?: run {
             showExportDisabledCommand()
         }
     }
@@ -757,50 +821,50 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      * and display information to be presented upon app launch
      */
     fun newVersionCheck() {
-        val prev_version = prefHandler.getInt(PrefKey.CURRENT_VERSION, -1)
-        val current_version = DistributionHelper.versionNumber
-        if (prev_version < current_version) {
-            if (prev_version == -1) {
+        val prevVersion = prefHandler.getInt(PrefKey.CURRENT_VERSION, -1)
+        val currentVersion = DistributionHelper.versionNumber
+        if (prevVersion < currentVersion) {
+            if (prevVersion == -1) {
                 return
             }
-            upgradeHandlerViewModel.upgrade(prev_version, current_version)
+            upgradeHandlerViewModel.upgrade(prevVersion, currentVersion)
             val showImportantUpgradeInfo = ArrayList<Int>()
-            prefHandler.putInt(PrefKey.CURRENT_VERSION, current_version)
-            if (prev_version < 19) {
+            prefHandler.putInt(PrefKey.CURRENT_VERSION, currentVersion)
+            if (prevVersion < 19) {
                 prefHandler.putString(PrefKey.SHARE_TARGET, prefHandler.getString("ftp_target", ""))
                 prefHandler.remove("ftp_target")
             }
-            if (prev_version < 28) {
+            if (prevVersion < 28) {
                 Timber.i(
                     "Upgrading to version 28: Purging %d transactions from database",
-                    getContentResolver().delete(
+                    contentResolver.delete(
                         TransactionProvider.TRANSACTIONS_URI,
-                        KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null
+                        "$KEY_ACCOUNTID not in (SELECT _id FROM accounts)", null
                     )
                 )
             }
-            if (prev_version < 30) {
+            if (prevVersion < 30) {
                 if ("" != prefHandler.getString(PrefKey.SHARE_TARGET, "")) {
                     prefHandler.putBoolean(PrefKey.SHARE_TARGET, true)
                 }
             }
-            if (prev_version < 40) {
+            if (prevVersion < 40) {
                 //this no longer works since we migrated time to utc format
                 //  DbUtils.fixDateValues(getContentResolver());
                 //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
                 //if they are already above both thresholds, so we set some delay
                 prefHandler.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23)
             }
-            if (prev_version < 163) {
+            if (prevVersion < 163) {
                 prefHandler.remove("qif_export_file_encoding")
             }
-            if (prev_version < 199) {
+            if (prevVersion < 199) {
                 //filter serialization format has changed
                 val edit = settings.edit()
                 for (entry in settings.all.entries) {
                     val key = entry.key
                     val keyParts =
-                        key.split(("_").toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                        key.split(("_").toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     if (keyParts[0] == "filter") {
                         val `val` = settings.getString(key, "")!!
                         when (keyParts[1]) {
@@ -822,13 +886,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
                 edit.apply()
             }
-            if (prev_version < 202) {
+            if (prevVersion < 202) {
                 val appDir = prefHandler.getString(PrefKey.APP_DIR, null)
                 if (appDir != null) {
                     prefHandler.putString(PrefKey.APP_DIR, Uri.fromFile(File(appDir)).toString())
                 }
             }
-            if (prev_version < 221) {
+            if (prevVersion < 221) {
                 prefHandler.putString(
                     PrefKey.SORT_ORDER_LEGACY,
                     if (prefHandler.getBoolean(PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY, true))
@@ -837,21 +901,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         "ALPHABETIC"
                 )
             }
-            if (prev_version < 303) {
+            if (prevVersion < 303) {
                 if (prefHandler.getBoolean(PrefKey.AUTO_FILL_LEGACY, false)) {
                     enableAutoFill(prefHandler)
                 }
                 prefHandler.remove(PrefKey.AUTO_FILL_LEGACY)
             }
-            if (prev_version < 316) {
+            if (prevVersion < 316) {
                 prefHandler.putString(PrefKey.HOME_CURRENCY, Utils.getHomeCurrency().code)
                 invalidateHomeCurrency()
             }
-            if (prev_version < 354 && GenericAccountService.getAccounts(this).isNotEmpty()) {
+            if (prevVersion < 354 && GenericAccountService.getAccounts(this).isNotEmpty()) {
                 showImportantUpgradeInfo.add(R.string.upgrade_information_cloud_sync_storage_format)
             }
 
-            showVersionDialog(prev_version, showImportantUpgradeInfo)
+            showVersionDialog(prevVersion, showImportantUpgradeInfo)
         } else {
             if ((!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION) && !prefHandler.getBoolean(
                     PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN,
@@ -871,6 +935,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 requestPermission(PermissionHelper.PermissionGroup.CALENDAR)
             }
         }
+    }
+
+    fun startExport(args: Bundle) {
+        args.putParcelableArrayList(
+            KEY_FILTER,
+            currentFragment!!.filterCriteria
+        )
+        supportFragmentManager.beginTransaction()
+            .add(
+                ProgressDialogFragment.newInstance(
+                    getString(R.string.pref_category_title_export),
+                    null,
+                    ProgressDialog.STYLE_SPINNER,
+                    true
+                ), ProtectedFragmentActivity.PROGRESS_TAG
+            )
+            .commitNow()
+        exportViewModel.startExport(args)
     }
 
     companion object {

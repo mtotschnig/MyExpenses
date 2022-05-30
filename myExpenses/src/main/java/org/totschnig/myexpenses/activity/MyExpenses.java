@@ -15,38 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
-import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
-import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
-import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
-import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -62,17 +30,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.util.Pair;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -86,7 +43,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
@@ -97,13 +53,13 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.ProtectedCursorLoader;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
@@ -121,10 +77,46 @@ import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 import eltos.simpledialogfragment.list.MenuDialog;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
+import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
+import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
+import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 /**
  * This is the main activity where all expenses are listed
@@ -161,8 +153,6 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private ActionBarDrawerToggle mDrawerToggle;
-
-  boolean indexesCalculated = false;
 
   private RoadmapViewModel roadmapViewModel;
 
@@ -393,11 +383,14 @@ public class MyExpenses extends BaseMyExpenses implements
     if (((AdapterView.AdapterContextMenuInfo) menuInfo).id > 0) {
       MenuInflater inflater = getMenuInflater();
       inflater.inflate(R.menu.accounts_context, menu);
-      getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-      final boolean isSealed = getAccountsCursor().getInt(getAccountsCursor().getColumnIndexOrThrow(KEY_SEALED)) == 1;
-      menu.findItem(R.id.CLOSE_ACCOUNT_COMMAND).setVisible(!isSealed);
-      menu.findItem(R.id.REOPEN_ACCOUNT_COMMAND).setVisible(isSealed);
-      menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(!isSealed);
+      Cursor c = getAccountsCursor();
+      if (c != null) {
+        c.moveToPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
+        final boolean isSealed = MoreDbUtilsKt.getInt(c, KEY_SEALED) == 1;
+        menu.findItem(R.id.CLOSE_ACCOUNT_COMMAND).setVisible(!isSealed);
+        menu.findItem(R.id.REOPEN_ACCOUNT_COMMAND).setVisible(isSealed);
+        menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(!isSealed);
+      }
     }
   }
 
@@ -490,22 +483,20 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.BALANCE_COMMAND) {
       tl = getCurrentFragment();
       if (tl != null && hasCleared()) {
-        getAccountsCursor().moveToPosition(getCurrentPosition());
+        Cursor c = ensureAccountCursorAtCurrentPosition();
         CurrencyUnit currency = getCurrentCurrencyUnit();
-        Bundle bundle = new Bundle();
-        bundle.putLong(KEY_ROWID,
-            getAccountsCursor().getLong(getColumnIndexRowId()));
-        bundle.putString(KEY_LABEL,
-            getAccountsCursor().getString(getColumnIndexLabel()));
-        bundle.putString(KEY_RECONCILED_TOTAL,
-            formatMoney(currencyFormatter,
-                new Money(currency,
-                    getAccountsCursor().getLong(getAccountsCursor().getColumnIndexOrThrow(KEY_RECONCILED_TOTAL)))));
-        bundle.putString(KEY_CLEARED_TOTAL, formatMoney(currencyFormatter,
-            new Money(currency,
-                getAccountsCursor().getLong(getAccountsCursor().getColumnIndexOrThrow(KEY_CLEARED_TOTAL)))));
-        BalanceDialogFragment.newInstance(bundle)
-            .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
+        if (c != null && currency != null) {
+          Bundle bundle = new Bundle();
+          bundle.putLong(KEY_ROWID, MoreDbUtilsKt.getLong(c, KEY_ROWID));
+          bundle.putString(KEY_LABEL, MoreDbUtilsKt.getString(c, KEY_LABEL));
+          bundle.putString(KEY_RECONCILED_TOTAL,
+              formatMoney(currencyFormatter,
+                  new Money(currency, MoreDbUtilsKt.getLong(c, KEY_RECONCILED_TOTAL))));
+          bundle.putString(KEY_CLEARED_TOTAL, formatMoney(currencyFormatter,
+              new Money(currency, MoreDbUtilsKt.getLong(c, KEY_CLEARED_TOTAL))));
+          BalanceDialogFragment.newInstance(bundle)
+              .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
+        }
       } else {
         showMessage(R.string.dialog_command_disabled_balance);
       }
@@ -692,17 +683,18 @@ public class MyExpenses extends BaseMyExpenses implements
    * set the Current account to the one in the requested position of mAccountsCursor
    */
   private void setCurrentAccount(int position) {
-    getAccountsCursor().moveToPosition(position);
-    long newAccountId = getAccountsCursor().getLong(getColumnIndexRowId());
+    Cursor c = requireAccountsCursor();
+    c.moveToPosition(position);
+    long newAccountId = MoreDbUtilsKt.getLong(c, KEY_ROWID);
     if (accountId != newAccountId) {
       prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
-    tintSystemUiAndFab(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : getAccountsCursor().getInt(getColumnIndexColor()));
+    tintSystemUiAndFab(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : MoreDbUtilsKt.getInt(c, KEY_COLOR));
 
     accountId = newAccountId;
-    setCurrentCurrency(getAccountsCursor().getString(getColumnIndexCurrency()));
+    setCurrentCurrency(MoreDbUtilsKt.getString(c, KEY_CURRENCY));
     setBalance();
-    if (getAccountsCursor().getInt(getAccountsCursor().getColumnIndexOrThrow(KEY_SEALED)) == 1) {
+    if (MoreDbUtilsKt.getInt(c, KEY_SEALED) == 1) {
       floatingActionButton.hide();
     } else {
       floatingActionButton.show();
@@ -725,15 +717,6 @@ public class MyExpenses extends BaseMyExpenses implements
       long cacheAccountId = accountId;
       setupViewPager(cursor);
       accountId = cacheAccountId;
-      if (!indexesCalculated && cursor != null) {
-        setColumnIndexRowId(cursor.getColumnIndex(KEY_ROWID));
-        setColumnIndexColor(cursor.getColumnIndex(KEY_COLOR));
-        setColumnIndexCurrency(cursor.getColumnIndex(KEY_CURRENCY));
-        setColumnIndexLabel(cursor.getColumnIndex(KEY_LABEL));
-        setColumnIndexGrouping(cursor.getColumnIndex(KEY_GROUPING));
-        setColumnIndexType(cursor.getColumnIndex(KEY_TYPE));
-        indexesCalculated = true;
-      }
       moveToAccount();
       toolbar.setVisibility(View.VISIBLE);
       if (cursor == null) {
@@ -764,7 +747,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (cursor != null && cursor.moveToFirst()) {
       int position = 0;
       while (!cursor.isAfterLast()) {
-        long accountId = cursor.getLong(getColumnIndexRowId());
+        long accountId = MoreDbUtilsKt.getLong(cursor ,KEY_ROWID);
         if (accountId == this.accountId) {
           position = cursor.getPosition();
         }
@@ -856,13 +839,6 @@ public class MyExpenses extends BaseMyExpenses implements
         showSnackBar(result.print(this));
         break;
       }
-      case TASK_EXPORT: {
-        Pair<ExportFormat, List<Uri>> result = (Pair<ExportFormat, List<Uri>>) o;
-        if (result != null && !result.second.isEmpty()) {
-          shareExport(result.first, result.second);
-        }
-        break;
-      }
       case TASK_PRINT: {
         Result<Uri> result = (Result<Uri>) o;
         if (result.isSuccess()) {
@@ -881,12 +857,11 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private boolean hasCleared() {
-    Cursor cursor = getAccountsCursor();
-    //in case we are called before the accounts cursor is loaded, we return false
-    if (cursor == null || cursor.getCount() == 0)
-      return false;
-    cursor.moveToPosition(getCurrentPosition());
-    return cursor.getInt(cursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
+    Cursor cursor = ensureAccountCursorAtCurrentPosition();
+    if (cursor != null) {
+      return cursor.getCount() > 0 && cursor.getInt(cursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
+    }
+    return false;
   }
 
   @Override
@@ -921,17 +896,6 @@ public class MyExpenses extends BaseMyExpenses implements
     }
 
     return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
-  }
-
-  public void startExport(Bundle args) {
-    args.putParcelableArrayList(TransactionList.KEY_FILTER,
-        getCurrentFragment().getFilterCriteria());
-    getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
-            ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(
-            getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
-        .commit();
   }
 
   @Override
@@ -1031,9 +995,9 @@ public class MyExpenses extends BaseMyExpenses implements
           ArrayList<AbstractMap.SimpleEntry<Long, String>> accounts = new ArrayList<>();
           if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-              final long id = cursor.getLong(getColumnIndexRowId());
+              final long id = MoreDbUtilsKt.getLong(cursor, KEY_ROWID);
               if (id > 0) {
-                accounts.add(new AbstractMap.SimpleEntry<>(id, cursor.getString(getColumnIndexLabel())));
+                accounts.add(new AbstractMap.SimpleEntry<>(id, MoreDbUtilsKt.getString(cursor, KEY_LABEL)));
               }
               cursor.moveToNext();
             }
@@ -1094,11 +1058,6 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     }
     return false;
-  }
-
-  @Override
-  protected boolean shouldKeepProgress(int taskId) {
-    return taskId == TASK_EXPORT;
   }
 
   @Override
