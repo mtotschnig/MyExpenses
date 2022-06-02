@@ -190,4 +190,6 @@
     <string name="help_ManageCategories_select_filter_info">Çoklu seçimi başlatmak için bir unsura tıklayın.</string>
     <string name="cab_ManageCategories_select_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
     <string name="menu_parent_category_selection_help_text">Bu seçenekle, alt kategorileri olan bir kategoriye dokunulduğunda ne yapılacağını özelleştirebilirsiniz: İşaretlenirse, kısa dokunmak kategoriyi seçecek; işaretli değilse, kısa dokunmak kategoriyi genişletecek/daraltacaktır. İkinci durumda, içerik menüsünden seçim yapılabilir.</string>
+    <string name="form_split_parts_heading_help_text_1">Gerektiği kadar bölünmüş alt muamele girmek için + simgesini kullanın.</string>
+    <string name="form_split_parts_heading_help_text_2">Miktar alanı, elle bir miktar girmediğiniz sürece, parçaların toplamı ile otomatik olarak güncellenecektir; bu durumda, parçaların toplamı ile tutar (bölünmemiş miktar) arasındaki fark gösterilecektir.</string>
 </resources>
