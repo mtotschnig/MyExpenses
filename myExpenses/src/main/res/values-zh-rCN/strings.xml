@@ -995,7 +995,7 @@
     <string name="setup_completed">设置完成</string>
     <string name="pref_debug_logging_share_summary">分享日志文件</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">类别树</string>
-    <string name="dialog_contrib_usage_limit_with_dialog">当前的许可证状态（%1$s）下，每次使用都将显示此对话框</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">当前的许可证状态（%1$s）下，每次使用都将显示此对话框。</string>
     <string name="dialog_title_warning_delete_party">删除交易对象？</string>
     <string name="menu_parent_category_selection">短按选择父类别</string>
     <string name="object_sealed_debt">对象是指已关闭的债务</string>
