@@ -167,9 +167,9 @@
     <string name="form_default_action_help_text">对于每个模板，你可以配置在模板列表中对其短暂轻按，是立即保存实例，还是进入其编辑表单，以便在保存之前对其进行修改。你总是可以通过长按来访问这两个操作。</string>
     <string name="help_debt_managment">将债务与交易方进行关联，检查交易列表并计算所剩余额。</string>
     <string name="cab_ManageCategories_select_help_text">将选定的类别映射到交易，并返回到交易表单。</string>
-    <string name="help_ManageCategories_select_filter_info">点击任一条目开启多选模式</string>
-    <string name="cab_ManageCategories_move_help_text">任何类别（连同其子类别）都可以移到新的父类别，子类别可以转换为主类别</string>
-    <string name="cab_ManageCategories_create_sub_cat_help_text">打开用于在所选类别下方新建子类别的对话框，子类别可以无限嵌套</string>
+    <string name="help_ManageCategories_select_filter_info">点击任一条目开启多选模式。</string>
+    <string name="cab_ManageCategories_move_help_text">任何类别（连同其子类别）都可以移到新的父类别，子类别可以转换为主类别。</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">打开用于在所选类别下方新建子类别的对话框，子类别可以无限嵌套。</string>
     <string name="help_ManageCategories_expand_collapse">点击 &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; 图标以展开或收起类别</string>
     <string name="help_ManageCategories_manage_context">点击条目显示其上下文菜单，长按进行多选</string>
     <string name="form_split_parts_heading_help_text_1">使用 + 图标可根据需要输入任意数量的拆分部分</string>
