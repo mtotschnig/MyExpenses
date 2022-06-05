@@ -192,4 +192,5 @@
     <string name="cab_ManageCategories_move_help_text">Toute catégorie (ainsi que ses sous-catégories) peut être déplacée vers une nouvelle catégorie mère. Les sous-catégories peuvent être transformées en catégories principales.</string>
     <string name="cab_ManageCategories_select_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
     <string name="menu_parent_category_selection_help_text">Cette option vous permet de personnaliser le tapotement sur une catégorie qui a des catégories enfants : Si elle est cochée, un tapotement court permet de sélectionner la catégorie ; si elle n\'est pas cochée, un tapotement court permet de développer / réduire la catégorie. Dans ce dernier cas, la sélection est disponible dans le menu contextuel.</string>
+    <string name="form_split_parts_heading_help_text_2">Le champ du montant sera automatiquement mis à jour avec la somme des parties, sauf si vous saisissez manuellement un montant, auquel cas la différence entre la somme des parties et le montant (montant non fractionné) sera affichée.</string>
 </resources>
