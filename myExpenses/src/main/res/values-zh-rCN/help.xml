@@ -176,4 +176,20 @@
     <string name="form_split_parts_heading_help_text_2">除非手动输入金额，否则金额字段将自动更新为各部分总和。手动输入情况下，将显示各部分总和与金额（未拆分金额）之间的差额</string>
     <string name="help_CsvImportActivity_info">选择要导入的文件后，需要配置其编码方式（UTF-8 或 ISO-8859-1）、字段分隔符（逗号、分号或制表符）以及日期格式。数据可导入现有账户或新账户，你可以在其中配置币种和账户类型。&lt;br&gt;&lt;br&gt;点击操作栏中的“解析”按钮后，数据将呈现在表格中。正式导入之前，你可以选择要丢弃的行，并且必须将列映射到相应的数据字段。&lt;br&gt;&lt;br&gt;丢弃第一行时，系统会提示你是否希望将其视为标题行，在这种情况下，&lt;i&gt;My Expenses&lt;/i&gt; 将尝试根据标题单元格的内容自动映射列。它还会根据标题行记住你的映射，并在下次导入具有相同标题格式的文件时恢复它。</string>
     <string name="help_ExportDialog_date_format">可以使用单引号 (\') 引用特殊文本，\'\'（两个单引号）代表一个单引号。详情请参阅完整的&lt;a href=http://developer.android.com/reference/java/text/SimpleDateFormat.html&gt;规范&lt;/a&gt;，或联系 support@myexpenses.mobi 寻求帮助</string>
+    <string name="help_ManageSyncBackends_encryption">你可以为每个后端设置不同的密码来加密同步数据。不可将现有后端从未加密切换到加密，遇到这种情况，你需要重新新建一个后端。若使用在同步后端存储自动备份的功能，这些文件不会使用后端特定密码进行加密；相反，你可以在“设置”页面的“安全”部分设置适用于所有备份文件的密码。</string>
+    <string name="cab_sync_download_help_text">下载一个在后端可用的账户，将在本地创建一个账户并配置为与后端同步</string>
+    <string name="help_HistoryActivity_info">此屏幕显示你的现金流，以及支出和收入按年、月、周或天的变化情况</string>
+    <string name="menu_BudgetActivity_back_forward_help_text">将预算与过去和未来某段时间的支出进行比较</string>
+    <string name="cab_show_transactions_help_text">打开对话框会列出映射到当前账号中所选类别的所有交易</string>
+    <string name="form_BudgetEdit_filter_help_text">可以根据类别、交易对象、方式或状态来过滤预算，仅计入与这些过滤器匹配的交易</string>
+    <string name="form_BudgetEdit_accounts_help_text">预算要么仅限于一个账户，要么涵盖所有使用相同币种的账户，或者指所有币种的总和</string>
+    <string name="menu_budget_aggregate_help_text">默认情况下，计算的总和包括支出和收入。如果禁用此选项，则仅考虑支出而忽略收入</string>
+    <string name="cab_sync_link_help_text">为本地和远程都存在的某个账户启动同步，你需要决定是否应在首次同步时保留本地或远程数据</string>
+    <string name="help_Budget_spent_click">点击已花费的金额会列出与当前预算和相应类别相关的所有交易</string>
+    <string name="menu_budget_allocated_only_help_text">通过启用此选项，仅显示已分配一定数额的类别</string>
+    <string name="form_tags_help_text">+ 图标允许选择现有标签以及创建新的标签，每个标签上的 x 图标代表可移除交易和标签之间的映射</string>
+    <string name="help_SetupSync_info">此屏幕允许你选择要在设备和后端之间同步的数据。它列出了你设备上尚未同步到其他后端的所有账户，以及所有存储在后端的账户。点击 &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; 将选择或取消选择一个账号进行同步。若选择一个在本地和远程都已存在的账户，则需要决定设备上的初始数据是否应该覆盖后端的现有数据，或者反过来。</string>
+    <string name="menu_parent_category_selection_help_text">使用此选项，你可以自定义对具有子类别的类别的点击动作：如果子类别已选中，则短按将选择类别；如果未选中，短按将展开/收起类别。在后一种情况下，可以从上下文菜单中进行选择</string>
+    <string name="menu_create_sync_backend_help_text">从子菜单中选择要添加的同步后端的类型，并提供特定于每个的详细信息</string>
+    <string name="form_BudgetEdit_type_help_text">预算定义为定期（每天、每周、每月、每年）或一次性。对于一次性预算，你可以指定其起始的持续时间。可将常规预算（未过滤）设为默认：这意味着交易列表（如果配置为每天、每周、每月或每年分组数据）将显示此预算在每个期间的进度</string>
 </resources>
