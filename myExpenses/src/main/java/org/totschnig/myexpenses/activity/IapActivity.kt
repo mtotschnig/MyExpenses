@@ -1,9 +1,12 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
+import android.content.Intent.ACTION_SEND
+import android.content.Intent.ACTION_SENDTO
 import android.net.Uri
 import android.os.Bundle
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.MyApplication.INVOICES_EMAIL
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.BillingListener
@@ -38,12 +41,6 @@ abstract class IapActivity: ProtectedFragmentActivity(), BillingListener {
             "${getString(R.string.licence_key)}: $packageLabel\n${getString(R.string.full_name)}:\n${
                 getString(R.string.postal_country)
             }: ${userCountry ?: ""}"
-        val mailto = "mailto:${MyApplication.INVOICES_EMAIL}?subject=${Uri.encode(subject)}&body=${
-            Uri.encode(messageBody)
-        }"
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse(mailto)
-        }
-        startActivity(intent, R.string.no_app_handling_email_available, INVOICE_REQUEST)
+        sendEmail(INVOICES_EMAIL, subject, messageBody, INVOICE_REQUEST)
     }
 }

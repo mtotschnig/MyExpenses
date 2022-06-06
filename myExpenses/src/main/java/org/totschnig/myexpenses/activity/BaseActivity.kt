@@ -67,6 +67,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         })
     }
 
+    fun sendEmail(recipient: String, subject: String, body: String, forResultRequestCode: Int? = null) {
+        startActivity(Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, body)
+            selector = Intent(Intent.ACTION_SENDTO).setData(Uri.parse("mailto:$recipient"))
+        }, R.string.no_app_handling_email_available, forResultRequestCode)
+    }
+
 
     fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
         try {

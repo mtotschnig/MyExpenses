@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import static org.totschnig.myexpenses.MyApplication.FEEDBACK_EMAIL;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
@@ -399,25 +400,20 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
           licenceInfo += " (" + purchaseExtraInfo + ")";
         }
       }
-      i = new Intent(Intent.ACTION_SEND);
-      i.setType("text/plain");
-      i.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
-      i.putExtra(Intent.EXTRA_SUBJECT,
-          "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback)
+      sendEmail(FEEDBACK_EMAIL,
+              "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback),
+              String.format(Locale.ROOT,
+                      "APP_VERSION:%s\nFIRST_INSTALL_VERSION:%d (DB_SCHEMA %d)\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
+                      getVersionInfo(this),
+                      prefHandler.getInt(PrefKey.FIRST_INSTALL_VERSION, 0),
+                      prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1),
+                      Build.VERSION.RELEASE,
+                      Build.BRAND,
+                      Build.MODEL,
+                      ConfigurationHelper.configToJson(getResources().getConfiguration()),
+                      licenceInfo),
+              null
       );
-      String messageBody = String.format(Locale.ROOT,
-          "APP_VERSION:%s\nFIRST_INSTALL_VERSION:%d (DB_SCHEMA %d)\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
-          getVersionInfo(this),
-          prefHandler.getInt(PrefKey.FIRST_INSTALL_VERSION, 0),
-          prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1),
-          Build.VERSION.RELEASE,
-          Build.BRAND,
-          Build.MODEL,
-          ConfigurationHelper.configToJson(getResources().getConfiguration()),
-          licenceInfo);
-      Timber.d("Install info: %s", messageBody);
-      i.putExtra(Intent.EXTRA_TEXT, messageBody);
-      startActivity(i, R.string.no_app_handling_email_available, null);
     } else if (command == R.id.CONTRIB_INFO_COMMAND) {
       showContribDialog(null, null);
       return true;
