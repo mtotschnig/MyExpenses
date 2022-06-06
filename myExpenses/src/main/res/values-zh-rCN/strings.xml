@@ -221,7 +221,7 @@
     <string name="image_capture_not_installed">找不到用于拍照的应用程序。</string>
     <string name="no_mapped_transactions">在此期间，没有交易映射到此类别。</string>
     <string name="no_methods">没有付款方法。</string>
-    <string name="no_parties">没有交易对象。</string>
+    <string name="no_parties">无交易对象</string>
     <string name="no_split_parts">没有拆分款项。</string>
     <string name="no_templates">没有模板。</string>
     <string name="no_accounts">没有账户。</string>
