@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
@@ -48,7 +51,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         contentResolver.call(
             TransactionProvider.DUAL_URI,
             TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
-        )?.getInt(TransactionProvider.KEY_RESULT)?.takeIf { it > 0 }?.let {
+        )?.getInt(TransactionProvider.KEY_RESULT)?.let {
             emit(it)
         }
     }

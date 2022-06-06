@@ -950,9 +950,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     fun repairBug987() {
         preferenceActivity.showSnackBar("Repair. Please wait ...", Snackbar.LENGTH_INDEFINITE)
         viewModel.repairBug987().observe(this) {
-            preferenceActivity.showSnackBar("%d split transactions have been repaired.")
+            preferenceActivity.dismissSnackBar()
+            preferenceActivity.showSnackBar("$it split transactions have been repaired.")
         }
-        preferenceActivity.dismissSnackBar()
     }
 
     private fun getTranslatorsArrayResId(): Int {

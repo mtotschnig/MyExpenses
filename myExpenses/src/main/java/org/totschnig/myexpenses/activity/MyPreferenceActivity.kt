@@ -20,7 +20,12 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Pair
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -34,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.SettingsFragment
@@ -54,15 +60,18 @@ import java.util.*
  */
 class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
+    lateinit var binding: SettingsBinding
+
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     private var initialPrefToShow: String? = null
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings)
+        binding = SettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupToolbar(true)
         if (savedInstanceState == null) {
             val ft = supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragment_container, SettingsFragment(), FRAGMENT_TAG)
+            ft.replace(binding.fragmentContainer.id, SettingsFragment(), FRAGMENT_TAG)
             ft.commit()
         }
         initialPrefToShow =
@@ -77,7 +86,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     }
 
     private val fragment: SettingsFragment
-        get() = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as SettingsFragment
+        get() = binding.fragmentContainer.getFragment()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         //currently no help menu
@@ -323,6 +332,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         }
         if (command == R.id.REPAIR_COMMAND) {
             fragment.repairBug987()
+            return true
         }
         return false
     }
