@@ -9,7 +9,6 @@ import com.google.gson.JsonElement
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
-import okhttp3.Cache
 import okhttp3.Call
 import okhttp3.EventListener
 import okhttp3.OkHttpClient
@@ -104,19 +103,10 @@ open class NetworkModule {
         @JvmStatic
         @Provides
         @Singleton
-        fun provideCache(context: MyApplication): Cache? = context.cacheDir?.let {
-            Cache(it, 1024 * 1024)
-        }
-
-        @JvmStatic
-        @Provides
-        @Singleton
         fun provideExchangeRateHost(
             builder: OkHttpClient.Builder,
-            gson: Gson,
-            cache: Cache?
+            gson: Gson
         ): ExchangeRateHost {
-            builder.cache(cache)
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.exchangerate.host/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -130,10 +120,8 @@ open class NetworkModule {
         @Singleton
         fun provideOpenExchangeRates(
             builder: OkHttpClient.Builder,
-            gson: Gson,
-            cache: Cache?
+            gson: Gson
         ): OpenExchangeRates {
-            builder.cache(cache)
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://openexchangerates.org/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
