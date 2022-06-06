@@ -21,6 +21,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.*
+import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
@@ -947,9 +948,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun repairBug987() {
+        preferenceActivity.showSnackBar("Repair. Please wait ...", Snackbar.LENGTH_INDEFINITE)
         viewModel.repairBug987().observe(this) {
             preferenceActivity.showSnackBar("%d split transactions have been repaired.")
         }
+        preferenceActivity.dismissSnackBar()
     }
 
     private fun getTranslatorsArrayResId(): Int {
