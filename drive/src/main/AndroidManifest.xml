@@ -3,6 +3,10 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.totschnig.drive">
+
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
     <application tools:ignore="MissingApplicationIcon">
         <activity android:name=".activity.DriveSetup2"/>
     </application>
