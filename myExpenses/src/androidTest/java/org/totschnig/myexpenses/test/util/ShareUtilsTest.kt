@@ -21,8 +21,8 @@ class ShareUtilsTest {
         assertFileScheme(testFileUri)
         val fileUris = listOf(testFileUri)
         val intent = ShareViewModel.buildIntent(context, fileUris, mimeType, null)
-        val sharedUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-        assertContentScheme(sharedUri)
+        val sharedUri = intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)!!
+        assertContentScheme(sharedUri.first())
     }
 
     @Test
@@ -37,18 +37,18 @@ class ShareUtilsTest {
         fileUris.forEach { uri: Uri -> assertFileScheme(uri) }
         val intent = ShareViewModel.buildIntent(context, fileUris, mimeType, null)
         val sharedUris: List<Uri> = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)!!
-        sharedUris.forEach { uri: Uri? -> assertContentScheme(uri) }
+        sharedUris.forEach { uri: Uri -> assertContentScheme(uri) }
     }
 
     private fun assertFileScheme(uri: Uri) {
         assertScheme(uri, "file")
     }
 
-    private fun assertContentScheme(uri: Uri?) {
+    private fun assertContentScheme(uri: Uri) {
         assertScheme(uri, "content")
     }
 
-    private fun assertScheme(uri: Uri?, scheme: String) {
-        Assert.assertEquals(scheme, uri!!.scheme)
+    private fun assertScheme(uri: Uri, scheme: String) {
+        Assert.assertEquals(scheme, uri.scheme)
     }
 }
