@@ -112,11 +112,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             assertThat(it.setAccountsCalled).isEqualTo(1)
         }
         createParts(5)
-        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent fails with unsplit amount
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-                .check(matches(withText(R.string.unsplit_amount_greater_than_zero)))
-        enterAmountSave("250")
-        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent succeeds
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())//amount is now updated automatically
         assertFinishing()
     }
 
@@ -150,10 +146,6 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
-        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent fails with unsplit amount
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-                .check(matches(withText(R.string.unsplit_amount_greater_than_zero)))
-        onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(replaceText("200"))
         onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent succeeds
         assertFinishing()
     }
@@ -184,14 +176,12 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun create_and_save() {
         activityScenario = ActivityScenario.launch(baseIntent)
         createParts(1)
-        enterAmountSave("50")
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
         onView(withId(R.id.CREATE_COMMAND)).perform(click())
         onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(R.string.save_transaction_and_new_success)))
         waitForSnackbarDismissed()
         createParts(1)
-        enterAmountSave("50")
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new off
         closeKeyboardAndSave()
         assertFinishing()
