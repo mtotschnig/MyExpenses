@@ -190,4 +190,6 @@
     <string name="help_Budget_spent_click">לחיצה על סכומי ההוצאות מציג את כל התנועות המתאימות לתקציב הנוכחי והקטגוריה המתאימה.</string>
     <string name="cab_ManageCategories_select_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
     <string name="menu_parent_category_selection_help_text">עם אפשרות זו אפשר לכוון את הנקישה על קטגוריה שיש לה קטגוריות צאצאיות: אם האפשרות מסומנת, נקישה קצרה תבחר קטגוריה, אם לא מסומנת, נקישה קצרה תרחיב/תצמצם את הקטגוריה. במקרה השני, הבחירה זמינה מתפריט ההקשר.</string>
+    <string name="form_split_parts_heading_help_text_1">יש להשתמש בסמל + כדי למלא כמה חלקים מפוצלים שצריך.</string>
+    <string name="form_split_parts_heading_help_text_2">שדה הכמות יעודכן אוטומטית עם סכום החלקים, למעט אם מילאת את הסכום ידנית, במקרה כזה ההפרש בין הסכום של החלקים והסכום הכללי (שאינו מפוצל) יופיע.</string>
 </resources>

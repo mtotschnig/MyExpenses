@@ -54,7 +54,7 @@
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支历史图表</string>
     <string name="licence_status_free">免费版</string>
     <string name="contrib_key">贡献版密钥(Contrib Key)</string>
-    <string name="extended_key">扩展版密钥(Extended Key)</string>
+    <string name="extended_key">扩展版密钥</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">需要 %1$s.</string>
     <string name="currency">货币</string>
@@ -584,7 +584,7 @@
     <string name="template">模板</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">云同步</string>
     <string name="all_contrib_key_features">贡献版密钥的所有功能</string>
-    <string name="all_extended_key_features">延伸版密钥的所有功能</string>
+    <string name="all_extended_key_features">扩展版密钥的所有功能</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">升级</string>
     <string name="pref_backup_cloud_title">存储在同步后端</string>
@@ -643,8 +643,8 @@
     <string name="valid_until">直到%s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">延长至%1$s只要%2$s</string>
-    <string name="extended_upgrade_goodie_github">已拥有\"延伸版密钥(Extended Key)\"的用户，将被授予一次额外的%d个月</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">已经拥有\"延伸版密钥(Extended Key)\" 的用户在第一年支付正常价格（%s）的50%%。</string>
+    <string name="extended_upgrade_goodie_github">已拥有“扩展版许可证”的用户，可享有一次额外的 %d 个月优惠</string>
+    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">已拥有“扩展版许可证”的用户，可享受首年支付正常价格 (%s) 50%% 的优惠。</string>
     <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">已经拥有\"延伸版密钥(Extended Key)\"的用户，有权从年度订阅的正常价格（%2$s）降低%1$d%%。</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">切换至年度订阅</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">切换到每月订阅</string>
@@ -967,4 +967,40 @@
     <string name="debt_managment">债务管理</string>
     <string name="whats_new_338">任意深的类别层次结构</string>
     <string name="dialog_title_purge_backups">清除旧备份</string>
+    <string name="dialog_title_delete_debt">删除债务？</string>
+    <string name="debt">债务</string>
+    <string name="debts">债务</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="other">已更新 %1$d 个类别的图标</item>
+    </plurals>
+    <plurals name="purge_backup_success">
+        <item quantity="other">已清除 %d 个旧备份文件</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="other">%d 个旧备份文件无法删除</item>
+    </plurals>
+    <string name="pref_purge_backup_keep_title">最大备份文件数量</string>
+    <string name="pref_purge_backup_require_confirmation_summary">清除文件之前显示确认提示</string>
+    <string name="purge_backups">以下旧备份文件将被删除：</string>
+    <string name="menu_new_debt">新债务</string>
+    <string name="debt_I_owe">债主 %s</string>
+    <string name="dialog_confirm_discard_new_debt">舍弃新债务？</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="other">债务“%1$s”有 %2$d 笔映射交易。</item>
+    </plurals>
+    <string name="cb_label_merge_accounts">合并账户</string>
+    <string name="pref_mlkit_script_title">MlKit 脚本</string>
+    <string name="whats_new_336_1">分享债务概览</string>
+    <string name="whats_new_336_2">拆分款项的标签</string>
+    <string name="setup_completed">设置完成</string>
+    <string name="pref_debug_logging_share_summary">分享日志文件</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">类别树</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">当前的许可证状态（%1$s）下，每次使用都将显示此对话框。</string>
+    <string name="dialog_title_warning_delete_party">删除交易对象？</string>
+    <string name="menu_parent_category_selection">短按选择父类别</string>
+    <string name="object_sealed_debt">对象是指已关闭的债务。</string>
+    <string name="title_activity_debt_overview">债务概览</string>
+    <string name="debt_owes_me">欠债人 %s</string>
+    <string name="warning_party_delete_debt">删除该交易对象时，相关的债务也将一并删除。</string>
+    <string name="whats_new_340">支持多行备注</string>
 </resources>

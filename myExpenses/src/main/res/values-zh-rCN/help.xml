@@ -167,4 +167,13 @@
     <string name="form_default_action_help_text">对于每个模板，你可以配置在模板列表中对其短暂轻按，是立即保存实例，还是进入其编辑表单，以便在保存之前对其进行修改。你总是可以通过长按来访问这两个操作。</string>
     <string name="help_debt_managment">将债务与交易方进行关联，检查交易列表并计算所剩余额。</string>
     <string name="cab_ManageCategories_select_help_text">将选定的类别映射到交易，并返回到交易表单。</string>
+    <string name="help_ManageCategories_select_filter_info">点击任一条目开启多选模式。</string>
+    <string name="cab_ManageCategories_move_help_text">任何类别（连同其子类别）都可以移到新的父类别，子类别可以转换为主类别。</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">打开用于在所选类别下方新建子类别的对话框，子类别可以无限嵌套。</string>
+    <string name="help_ManageCategories_expand_collapse">点击 &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; 图标以展开或收起类别</string>
+    <string name="help_ManageCategories_manage_context">点击条目显示其上下文菜单，长按进行多选</string>
+    <string name="form_split_parts_heading_help_text_1">使用 + 图标可根据需要输入任意数量的拆分部分</string>
+    <string name="form_split_parts_heading_help_text_2">除非手动输入金额，否则金额字段将自动更新为各部分总和。手动输入情况下，将显示各部分总和与金额（未拆分金额）之间的差额</string>
+    <string name="help_CsvImportActivity_info">选择要导入的文件后，需要配置其编码方式（UTF-8 或 ISO-8859-1）、字段分隔符（逗号、分号或制表符）以及日期格式。数据可导入现有账户或新账户，你可以在其中配置币种和账户类型。&lt;br&gt;&lt;br&gt;点击操作栏中的“解析”按钮后，数据将呈现在表格中。正式导入之前，你可以选择要丢弃的行，并且必须将列映射到相应的数据字段。&lt;br&gt;&lt;br&gt;丢弃第一行时，系统会提示你是否希望将其视为标题行，在这种情况下，&lt;i&gt;My Expenses&lt;/i&gt; 将尝试根据标题单元格的内容自动映射列。它还会根据标题行记住你的映射，并在下次导入具有相同标题格式的文件时恢复它。</string>
+    <string name="help_ExportDialog_date_format">可以使用单引号 (\') 引用特殊文本，\'\'（两个单引号）代表一个单引号。详情请参阅完整的&lt;a href=http://developer.android.com/reference/java/text/SimpleDateFormat.html&gt;规范&lt;/a&gt;，或联系 support@myexpenses.mobi 寻求帮助</string>
 </resources>

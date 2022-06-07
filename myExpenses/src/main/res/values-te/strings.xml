@@ -883,4 +883,20 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">వర్గం చెట్టు</string>
     <string name="dialog_contrib_usage_limit_with_dialog">మీ ప్రస్తుత లైసెన్స్ స్థితి (%1$s)తో, ఈ డైలాగ్ ప్రతి వినియోగంపై ప్రదర్శించబడుతుంది.</string>
     <string name="setup_completed">సెటప్ పూర్తయింది</string>
+    <string name="whats_new_338">ఏకపక్షంగా లోతైన వర్గం సోపానక్రమం</string>
+    <string name="dialog_title_purge_backups">పాత బ్యాకప్‌లను ప్రక్షాళన చేయండి</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">ఒక పాత బ్యాకప్ ఫైల్ ప్రక్షాళన చేయబడింది.</item>
+        <item quantity="other">%d పాత బ్యాకప్ ఫైల్‌లు ప్రక్షాళన చేయబడ్డాయి.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">ఒక పాత బ్యాకప్ ఫైల్‌ను తొలగించడం సాధ్యపడలేదు.</item>
+        <item quantity="other">%d పాత బ్యాకప్ ఫైల్‌లు తొలగించబడలేదు.</item>
+    </plurals>
+    <string name="pref_purge_backup_keep_title">ఉంచడానికి అత్యంత ఇటీవలి బ్యాకప్ ఫైల్‌ల గరిష్ట సంఖ్య</string>
+    <string name="pref_purge_backup_require_confirmation_summary">ఫైల్‌లను ప్రక్షాళన చేయడానికి ముందు నిర్ధారణ ప్రాంప్ట్‌ను చూపండి</string>
+    <string name="purge_backups">కింది పాత బ్యాకప్ ఫైల్‌లు తొలగించబడతాయి:</string>
+    <string name="pref_debug_logging_share_summary">లాగ్ ఫైల్‌లను భాగస్వామ్యం చేయండి</string>
+    <string name="whats_new_340">గమనికల ఫీల్డ్ బహుళ పంక్తులను అనుమతిస్తుంది.</string>
+    <string name="menu_parent_category_selection">చిన్న ట్యాప్‌లో తల్లిదండ్రుల వర్గాన్ని ఎంచుకోండి</string>
 </resources>
