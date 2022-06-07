@@ -5,17 +5,17 @@ zh-cn:
   privacy_policy_text: "除了应用程序自己的数据库和SD卡上所属的文件夹之外，<i>{app_name}</i>无法访问您设备上其他的任何数据。如果您使用到未来和定期交易计划的功能，应用程序会将这些计划存储在您指定的日历中。"
   hero_main: "Android个人理财管理工具"
   hero_sub:
-    use: "简易的操作使用"
+    use: "易于使用"
     functionality: "丰富的功能"
     source: "开放源代码"
   menu_title:
     more_information: 更多资讯
   sections:
     features: 功能
-    premium: 进入高级版
+    premium: 升级高级版
     participate: 参加
-    faq: 常见问答
-    versionlist: 活动日志
+    faq: FAQ
+    versionlist: 更新日志
     credits: 鸣谢
     licence: 授权
     sourcecode: 源代码
@@ -87,7 +87,7 @@ zh-cn:
   extended-key: 延伸版密钥(Extended Key)
   professional-key: 专业版密钥(Professional Key)
   all_contrib_key_features: '贡献版密钥的所有功能'
-  all_extended_key_features: '延伸版密钥的所有功能'
+  all_extended_key_features: '扩展版密钥的所有功能'
   customer_support: 客户支持
   screenshot_testdata:
     account1Label: 我的钱包
