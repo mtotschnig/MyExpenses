@@ -46,8 +46,10 @@ class SplitPartRVAdapter(
             )
         ).apply {
             onItemClicked?.let { onClick ->
-                itemView.setOnClickListener {
-                    onClick.invoke(it, getItem(bindingAdapterPosition))
+                itemView.setOnClickListener { view ->
+                    bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { pos ->
+                        onClick.invoke(view, getItem(pos))
+                    }
                 }
             }
         }
