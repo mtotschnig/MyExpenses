@@ -22,16 +22,21 @@ import android.accounts.Account
 import android.content.Context
 import com.google.api.client.extensions.android.json.AndroidJsonFactory
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import com.google.api.services.drive.model.File
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
+import java.lang.Exception
 import java.util.*
+import javax.inject.Inject
 
 /**
  * A utility for performing read/write operations on Drive files via the REST API
@@ -41,6 +46,9 @@ const val MIME_TYPE_FOLDER = "application/vnd.google-apps.folder"
 
 class DriveServiceHelper(context: Context, accountName: String) {
     private val mDriveService: Drive
+
+    @Inject
+    lateinit var crashHandler: CrashHandler
 
     init {
         val credential = GoogleAccountCredential.usingOAuth2(
@@ -52,6 +60,8 @@ class DriveServiceHelper(context: Context, accountName: String) {
                 credential)
                 .setApplicationName(context.getString(R.string.app_name))
                 .build()
+        DaggerDriveComponent.builder().appComponent(MyApplication.getInstance().getAppComponent()).build().inject(this);
+
     }
 
     @Throws(IOException::class)
@@ -85,7 +95,12 @@ class DriveServiceHelper(context: Context, accountName: String) {
         val contentStream = InputStreamContent(mimeType, content)
 
         // Update the metadata and contents.
-        mDriveService.files().update(fileId, null, contentStream).execute()
+        try {
+            mDriveService.files().update(fileId, null, contentStream).execute()
+        } catch (e: GoogleJsonResponseException) {
+            crashHandler.putCustomData("GoogleJsonResponseException", e.details.message)
+            throw e
+        }
     }
 
     @Throws(IOException::class)
