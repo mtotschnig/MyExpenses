@@ -38,9 +38,11 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
+import java.lang.IllegalStateException
 import kotlin.math.sign
 
 const val KEY_REPLACE = "replace"
@@ -250,18 +252,23 @@ class TransactionList : BaseTransactionList() {
             var hasNotVoid = false
             for (i in 0 until positions.size()) {
                 if (positions.valueAt(i)) {
-                    mTransactionsCursor.moveToPosition(positions.keyAt(i))
-                    val status = enumValueOrDefault(
-                        mTransactionsCursor.getString(columnIndexCrStatus),
-                        CrStatus.UNRECONCILED
-                    )
-                    if (status == CrStatus.RECONCILED) {
-                        hasReconciled = true
+                    val pos = positions.keyAt(i)
+                    if (mTransactionsCursor.moveToPosition(pos)) {
+                        val status = enumValueOrDefault(
+                            mTransactionsCursor.getString(columnIndexCrStatus),
+                            CrStatus.UNRECONCILED
+                        )
+                        if (status == CrStatus.RECONCILED) {
+                            hasReconciled = true
+                        }
+                        if (status != CrStatus.VOID) {
+                            hasNotVoid = true
+                        }
+                        if (hasNotVoid && hasReconciled) break
+                    } else {
+                        CrashHandler.report(IllegalStateException("Move to position $pos failed (count = ${mTransactionsCursor.count}"))
+                        return true
                     }
-                    if (status != CrStatus.VOID) {
-                        hasNotVoid = true
-                    }
-                    if (hasNotVoid && hasReconciled) break
                 }
             }
             val finalHasReconciled = hasReconciled
