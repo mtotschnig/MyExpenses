@@ -8,7 +8,9 @@ import com.dropbox.core.v2.files.FolderMetadata
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.dropbox.BuildConfig
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
+import java.io.IOException
 import java.util.*
 
 
@@ -40,7 +42,13 @@ class DropboxSetupViewModel(application: Application) : AbstractSetupViewModel(a
 
     override suspend fun createFolderBackground(label: String) = withContext(Dispatchers.IO) {
         mDbxClient?.let { client ->
-            client.files().createFolderV2("/$label").metadata.let { Pair(it.id, it.name) }
+            try {
+                client.files().createFolderV2("/$label")
+            } catch (e: Exception) {
+                throw IOException("Unable to create folder with label $label", e).also {
+                    CrashHandler.report(it)
+                }
+            }.metadata.let { Pair(it.id, it.name) }
         } ?: throw Exception("Dropbox client not set up")
     }
 }
