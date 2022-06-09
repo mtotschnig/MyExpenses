@@ -265,6 +265,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         }
         builder.setTitle(if (allP) R.string.menu_reset_all else R.string.menu_reset)
             .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok, this)
         return builder.create()
     }
 
