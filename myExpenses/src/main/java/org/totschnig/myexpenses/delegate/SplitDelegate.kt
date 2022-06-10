@@ -184,6 +184,8 @@ class SplitDelegate(
         viewBinding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
         viewBinding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
         transactionSum = transactions.sumOf { it.amountRaw }
-        updateBalance()
+        if (host.isDirty) {
+            updateBalance()
+        }
     }
 }
