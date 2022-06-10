@@ -210,10 +210,10 @@
     <string name="menu_split_transaction">转换为拆分款项</string>
     <string name="method">付款方法</string>
     <string name="no_amount_given">您未输入任何金额。</string>
-    <string name="no_app_handling_email_available">没有处理邮件的应用程序可用。</string>
+    <string name="no_app_handling_email_available">无处理电子邮件的应用</string>
     <string name="no_app_handling_ftp_available">没有可处理ftp的应用程序。是否安装<i>Send With FTP</i>？</string>
     <string name="no_app_handling_pdf_available">没有可以处理PDF文件的应用程序。</string>
-    <string name="no_categories">没有类别。</string>
+    <string name="no_categories">无类别</string>
     <string name="no_expenses">未有开支!</string>
     <string name="no_exportable_expenses">没有尚未导出的交易数据。</string>
     <string name="no_filemanager_installed">未安装文件管理应用程序</string>
@@ -221,7 +221,7 @@
     <string name="image_capture_not_installed">找不到用于拍照的应用程序。</string>
     <string name="no_mapped_transactions">在此期间，没有交易映射到此类别。</string>
     <string name="no_methods">没有付款方法。</string>
-    <string name="no_parties">没有交易对象。</string>
+    <string name="no_parties">无交易对象</string>
     <string name="no_split_parts">没有拆分款项。</string>
     <string name="no_templates">没有模板。</string>
     <string name="no_accounts">没有账户。</string>
@@ -328,7 +328,7 @@
     <string name="pref_share_target_title">上载网址</string>
     <string name="pref_shortcut_added">快捷方式已添加到主屏幕</string>
     <string name="pref_shortcut_not_added">没有接受快捷方式的主屏幕可用。</string>
-    <string name="pref_shortcut_summary">将快捷方式添加到主屏幕。</string>
+    <string name="pref_shortcut_summary">将快捷方式添加到主屏幕</string>
     <string name="pref_ui_fontsize_title">字体大小</string>
     <string name="pref_ui_home_screen_shortcuts">主屏快捷方式</string>
     <string name="pref_ui_language_default">应用程序系统默认</string>
@@ -422,12 +422,12 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为除以%d。</string>
     <string name="warning_change_fraction_digits_3">如果金额被更新，您将丢失有关其小数部分的信息。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的金额</string>
-    <string name="import_categories_success">已成功导入 %1$d 个类别。</string>
+    <string name="import_categories_success">已成功导入 %1$d 个类别</string>
     <string name="import_parties_success">已成功导入 %1$s 个交易对象</string>
     <string name="import_accounts_success">已成功导入 %1$s 个账户</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">已成功导入 %1$d 笔交易至账户%2$s</string>
-    <string name="import_accounts_none">没有账户被导入</string>
-    <string name="import_categories_none">没有类别被导入</string>
+    <string name="import_accounts_none">未导入任何账户</string>
+    <string name="import_categories_none">未导入任何类别</string>
     <string name="import_parties_none">没有交易对象(付款人/收款人)的数据被导入</string>
     <string name="import_transactions_none">没有交易被导入账户 %1$s</string>
     <string name="import_source_select_error">请提供 %1$s类型的文件</string>
