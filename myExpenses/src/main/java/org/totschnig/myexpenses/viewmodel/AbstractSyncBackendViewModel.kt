@@ -58,7 +58,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
     }
 
     fun syncUnlink(uuid: String) = liveData(context = coroutineContext()) {
-        emit(if (Account.findByUuid(uuid).takeIf { it != -1 }?.let {
+        emit(if (Account.findByUuid(uuid).takeIf { it != -1L }?.let {
                 Account.getInstanceFromDb(it)
             }?.let { account ->
                 account.syncAccountName?.let { syncAccountName ->
