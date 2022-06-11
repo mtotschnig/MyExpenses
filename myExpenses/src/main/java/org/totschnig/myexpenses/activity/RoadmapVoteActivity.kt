@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView.RecyclerContextMenuInfo
 import org.totschnig.myexpenses.ui.SimpleSeekBarDialog
 import org.totschnig.myexpenses.util.configureSearch
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository.Companion.ROADMAP_URL
 import java.util.*
@@ -170,10 +171,22 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     showSnackBar("Modify your vote, before submitting it again.")
                 } else {
                     val emailIsKnown = email != null
-                    val msg = if (emailIsKnown) R.string.roadmap_update_confirmation else R.string.roadmap_email_rationale
+                    val msg = if (emailIsKnown) {
+                        getString(R.string.roadmap_update_confirmation)
+                    } else {
+                        var rationale = getString(R.string.roadmap_email_rationale)
+                        if (isPro && DistributionHelper.isGithub) {
+                            rationale += " " + getString(R.string.roadmap_email_rationale_pro)
+                        }
+                        rationale
+                    }
                     val simpleFormDialog = SimpleFormDialog.build().msg(msg)
                     if (!emailIsKnown) {
-                        simpleFormDialog.fields(Input.email(KEY_EMAIL).required())
+                        val emailInput = Input.email(KEY_EMAIL).required()
+                        if (isPro && DistributionHelper.isGithub) {
+                            emailInput.text(prefHandler.getString(PrefKey.LICENCE_EMAIL, null))
+                        }
+                        simpleFormDialog.fields(emailInput)
                     }
                     simpleFormDialog.show(this, DIALOG_TAG_SUBMIT_VOTE)
                 }

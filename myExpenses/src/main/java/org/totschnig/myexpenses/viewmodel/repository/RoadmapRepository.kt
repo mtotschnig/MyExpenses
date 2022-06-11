@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.retrofit.Issue
 import org.totschnig.myexpenses.retrofit.RoadmapService
 import org.totschnig.myexpenses.retrofit.Vote
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.StreamReader
 import timber.log.Timber
 import java.io.File
@@ -88,7 +89,7 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
             writeToFile(ISSUE_CACHE, gson.toJson(it))
         }
     } catch (e: Exception) {
-        Timber.i(e)
+        CrashHandler.report(e)
         null
     }
 
@@ -122,7 +123,7 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
                 else -> null
             }
         } catch (e: Exception) {
-            Timber.i(e)
+            CrashHandler.report(e)
             null
         } ?: R.string.roadmap_vote_failure)
     }
