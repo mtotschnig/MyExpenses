@@ -1,0 +1,4 @@
+• Split transaction: Refinement of the user interface
+• Split parts: Original amount
+
+https://github.com/mtotschnig/MyExpenses/projects/69#column-18649612

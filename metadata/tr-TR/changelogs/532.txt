@@ -1,0 +1,4 @@
+• Bölünmüş muamele: Kullanıcı arayüzü iyileştirildi
+• Bölünmüş alt muameleler: Orijinal meblağ
+
+https://github.com/mtotschnig/MyExpenses/projects/69#column-18649612

@@ -1,0 +1,4 @@
+• Mehrteilige Buchung: Verfeinerung der Benutzeroberfläche
+• Teilbeträge: Originalbetrag
+
+https://github.com/mtotschnig/MyExpenses/projects/69#column-18649612

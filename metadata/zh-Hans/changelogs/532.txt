@@ -1,0 +1,4 @@
+• 拆分交易款项: 用户界面的改进
+• 拆分款项部分: 原始金额
+
+https://github.com/mtotschnig/MyExpenses/projects/69#column-18649612
