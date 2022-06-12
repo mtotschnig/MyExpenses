@@ -286,8 +286,8 @@ public class MyExpenses extends BaseMyExpenses implements
       });
     }
     if (savedInstanceState == null) {
-      //voteReminderCheck();
-      voteReminderCheck2();
+      voteReminderCheck();
+      //voteReminderCheck2();
     }
     reviewManager.init(this);
   }
