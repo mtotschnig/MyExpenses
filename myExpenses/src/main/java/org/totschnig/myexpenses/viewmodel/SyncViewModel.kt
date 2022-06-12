@@ -29,17 +29,22 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
+import java.lang.IllegalStateException
 
 open class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     fun syncLinkRemote(account: Account): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             val accountId = Account.findByUuid(account.uuid)
-            emit(deleteAccountsInternal(arrayOf(accountId)).also {
-                it.onSuccess {
-                    account.save()
-                }
-            })
+            if (accountId == -1L) {
+                emit(Result.failure(IllegalStateException("Account with uuid ${account.uuid} not found")))
+            } else {
+                emit(deleteAccountsInternal(arrayOf(accountId)).also {
+                    it.onSuccess {
+                        account.save()
+                    }
+                })
+            }
         }
 
     fun syncLinkLocal(accountName: String, uuid: String): LiveData<Result<Unit>> =
