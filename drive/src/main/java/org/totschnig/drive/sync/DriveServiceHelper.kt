@@ -98,7 +98,7 @@ class DriveServiceHelper(context: Context, accountName: String) {
         try {
             mDriveService.files().update(fileId, null, contentStream).execute()
         } catch (e: GoogleJsonResponseException) {
-            crashHandler.putCustomData("GoogleJsonResponseException", e.details.message)
+            crashHandler.putCustomData("GoogleJsonResponseException", e.details?.message)
             throw e
         }
     }
