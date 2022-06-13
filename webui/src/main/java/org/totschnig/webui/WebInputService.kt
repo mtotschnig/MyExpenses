@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
-import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -43,7 +42,6 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getWifiIpAddress
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import timber.log.Timber
 import java.io.IOException
 import java.net.ServerSocket
 import java.time.LocalDate
@@ -111,9 +109,13 @@ class WebInputService : Service(), IWebInputService {
         get() = "http://${getWifiIpAddress(this)}:$port"
 
 
-    private fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
+    private fun readTextFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
         .use {
             it.readText()
+        }
+
+    private fun readBytesFromAssets(fileName: String) = assets.open(fileName).use {
+            it.readBytes()
         }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -170,7 +172,10 @@ class WebInputService : Service(), IWebInputService {
                                 }
                             }
                             get("/styles.css") {
-                                call.respondText(readFromAssets("styles.css"), ContentType.Text.CSS)
+                                call.respondText(readTextFromAssets("styles.css"), ContentType.Text.CSS)
+                            }
+                            get("/favicon.ico") {
+                                call.respondBytes(readBytesFromAssets("favicon.ico"), ContentType.Image.XIcon)
                             }
                             get("/") {
                                 val categories = contentResolver.query(
@@ -286,7 +291,7 @@ class WebInputService : Service(), IWebInputService {
                                     DEFAULT_SUFFIX,
                                     DEFAULT_ESCAPE
                                 )
-                                val text = stringSubstitutor.replace(readFromAssets("form.html"))
+                                val text = stringSubstitutor.replace(readTextFromAssets("form.html"))
                                 call.respondText(text, ContentType.Text.Html)
                             }
                         }
