@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.annotation.StringRes
+import androidx.core.database.getLongOrNull
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import io.ktor.application.*
@@ -25,7 +26,12 @@ import org.apache.commons.text.lookup.StringLookup
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.feature.*
+import org.totschnig.myexpenses.feature.IWebInputService
+import org.totschnig.myexpenses.feature.START_ACTION
+import org.totschnig.myexpenses.feature.STOP_ACTION
+import org.totschnig.myexpenses.feature.ServerStateObserver
+import org.totschnig.myexpenses.feature.WebUiBinder
+import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -37,6 +43,7 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getWifiIpAddress
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import timber.log.Timber
 import java.io.IOException
 import java.net.ServerSocket
 import java.time.LocalDate
@@ -166,13 +173,32 @@ class WebInputService : Service(), IWebInputService {
                                 call.respondText(readFromAssets("styles.css"), ContentType.Text.CSS)
                             }
                             get("/") {
+                                val categories = contentResolver.query(
+                                    TransactionProvider.CATEGORIES_URI.buildUpon()
+                                        .appendQueryParameter(
+                                            TransactionProvider.QUERY_PARAMETER_HIERARCHICAL,
+                                            "1"
+                                        ).build(),
+                                    arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL, KEY_LEVEL),
+                                    null, null, null
+                                )?.use { cursor ->
+                                    cursor.asSequence.map {
+                                        mapOf(
+                                            "id" to it.getLong(0),
+                                            "parent" to it.getLongOrNull(1),
+                                            "label" to it.getString(2),
+                                            "level" to it.getInt(3)
+                                        )
+                                    }
+                                        .toList()
+                                }
                                 val data = mapOf(
                                     "accounts" to contentResolver.query(
                                         TransactionProvider.ACCOUNTS_BASE_URI,
                                         arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
-                                        KEY_SEALED + " = 0", null, null
-                                    )?.use {
-                                        it.asSequence.map {
+                                        "$KEY_SEALED = 0", null, null
+                                    )?.use { cursor ->
+                                        cursor.asSequence.map {
                                             mapOf(
                                                 "id" to it.getLong(0),
                                                 "label" to it.getString(1),
@@ -184,8 +210,8 @@ class WebInputService : Service(), IWebInputService {
                                         TransactionProvider.PAYEES_URI,
                                         arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
                                         null, null, null
-                                    )?.use {
-                                        it.asSequence.map {
+                                    )?.use { cursor ->
+                                        cursor.asSequence.map {
                                             mapOf(
                                                 "id" to it.getLong(0),
                                                 "name" to it.getString(1)
@@ -193,26 +219,13 @@ class WebInputService : Service(), IWebInputService {
                                         }
                                             .toList()
                                     },
-                                    "categories" to contentResolver.query(
-                                        TransactionProvider.CATEGORIES_URI,
-                                        arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL),
-                                        null, null, null
-                                    )?.use {
-                                        it.asSequence.map {
-                                            mapOf(
-                                                "id" to it.getLong(0),
-                                                "parent" to it.getLong(1),
-                                                "label" to it.getString(2)
-                                            )
-                                        }
-                                            .toList()
-                                    },
+                                    "categories" to categories,
                                     "tags" to contentResolver.query(
                                         TransactionProvider.TAGS_URI,
                                         arrayOf(KEY_ROWID, KEY_LABEL),
                                         null, null, null
-                                    )?.use {
-                                        it.asSequence.map {
+                                    )?.use { cursor ->
+                                        cursor.asSequence.map {
                                             mapOf(
                                                 "id" to it.getLong(0),
                                                 "label" to it.getString(1)
@@ -230,8 +243,8 @@ class WebInputService : Service(), IWebInputService {
                                             KEY_ACCOUNT_TPYE_LIST
                                         ),
                                         null, null, null
-                                    )?.use {
-                                        it.asSequence.map {
+                                    )?.use { cursor ->
+                                        cursor.asSequence.map {
                                             mapOf(
                                                 "id" to it.getLong(0),
                                                 "label" to it.getString(1),
@@ -242,6 +255,12 @@ class WebInputService : Service(), IWebInputService {
                                         }.toList()
                                     },
                                 )
+                                val categoryTreeDepth = categories?.map { it["level"] as Int }?.maxOrNull() ?: 0
+                                val categoryWatchers = if (categoryTreeDepth > 1) {
+                                    (0..categoryTreeDepth-2).joinToString(separator = "\n") {
+                                        "\$watch('categoryPath[$it].id', value => { categoryPath[${it + 1}].id=0 } );"
+                                    }
+                                } else ""
                                 val lookup = StringLookup { key ->
                                     when (key) {
                                         "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
@@ -255,7 +274,9 @@ class WebInputService : Service(), IWebInputService {
                                         "i18n_method" -> t(R.string.method)
                                         "i18n_submit" -> t(R.string.menu_save)
                                         "i18n_number" -> t(R.string.reference_number)
+                                        "category_tree_depth" -> categoryTreeDepth.toString()
                                         "data" -> gson.toJson(data)
+                                        "categoryWatchers" -> categoryWatchers
                                         else -> throw IllegalStateException("Unknown substitution key $key")
                                     }
                                 }
@@ -287,7 +308,12 @@ class WebInputService : Service(), IWebInputService {
                                 0,
                                 getString(R.string.stop),
                                 //noinspection InlinedApi
-                                PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
+                                PendingIntent.getService(
+                                    this,
+                                    0,
+                                    stopIntent,
+                                    FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                                )
                             )
                             .build()
 
