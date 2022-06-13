@@ -922,17 +922,12 @@ abstract class TransactionDelegate<T : ITransaction>(
         setVisibility(dateEditBinding.TimeButton, dateMode == UiUtils.DateMode.DATE_TIME)
         setVisibility(dateEditBinding.Date2Button, dateMode == UiUtils.DateMode.BOOKING_VALUE)
         setVisibility(dateEditBinding.DateLink, dateMode == UiUtils.DateMode.BOOKING_VALUE)
-        var dateLabel: String
-        if (dateMode == UiUtils.DateMode.BOOKING_VALUE) {
-            dateLabel =
-                context.getString(R.string.booking_date) + "/" + context.getString(R.string.value_date)
-        } else {
-            dateLabel = context.getString(R.string.date)
-            if (dateMode == UiUtils.DateMode.DATE_TIME) {
-                dateLabel += " / " + context.getString(R.string.time)
-            }
+
+        viewBinding.DateTimeLabel.text = when (dateMode) {
+            UiUtils.DateMode.BOOKING_VALUE -> context.getString(R.string.booking_date) + "/" + context.getString(R.string.value_date)
+            UiUtils.DateMode.DATE_TIME -> context.getString(R.string.date) + " / " + context.getString(R.string.time)
+            UiUtils.DateMode.DATE -> context.getString(R.string.date)
         }
-        viewBinding.DateTimeLabel.text = dateLabel
     }
 
     open fun setAccount(currencyExtra: String?) {

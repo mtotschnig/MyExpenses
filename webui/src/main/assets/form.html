@@ -32,7 +32,7 @@
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg " for="amount">${i18n_amount}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="amount">${i18n_amount}</label>
                 <div>
                     <label class="switch">
                         <input type="checkbox" name="type" x-model="signum">
@@ -45,17 +45,23 @@
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg "
-                       for="date">${i18n_date}</label>
-                <input class="border py-2 px-3 " type="date" name="date" id="date"
-                       required
-                       x-model="date">
+                <label class="mb-2 uppercase font-bold text-lg" x-text="dateRowLabel(data, account)">${i18n_date}</label>
+                <div class="flex flex-row">
+                    <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date"
+                           required
+                           x-model="date">
+                    <input x-show="currentDateMode(data, account) == dateMode.dateTime" class="grow border py-2 px-3 ml-2" type="time" name="time" id="time"
+                           required>
+                    <input x-show="currentDateMode(data, account) == dateMode.bookingValue"  class="grow border py-2 px-3 mr-2" type="date" name="valueDate" id="valueDate"
+                           required
+                           x-model="date">
+                </div>
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg "
+                <label class="mb-2 uppercase font-bold text-lg"
                        for="payee">${i18n_payee}</label>
-                <input class="border py-2 px-3 " list="payees" name="payee"
+                <input class="border py-2 px-3" list="payees" name="payee"
                        id="payee"
                        x-model="payee">
                 <datalist id="payees">
@@ -66,7 +72,7 @@
             </div>
 
             <div class="flex flex-col mb-4" x-show="data.categories.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg ">${i18n_category}</label>
+                <label class="mb-2 uppercase font-bold text-lg">${i18n_category}</label>
                 <div class="grid grid-cols-${category_tree_depth} gap-2">
                     <template x-for="(category, level) in categoryPath">
                         <select class="h-8" :name="'category_' + level" :id="'category_' + level" x-model="category.id">
@@ -81,7 +87,7 @@
             </div>
 
             <div class="flex flex-col mb-4" x-show="data.tags.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg " for="tags">${i18n_tags}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="tags">${i18n_tags}</label>
                 <select name="tags" id="tags" multiple x-model="selectedTags">
                     <template x-for="item in data.tags" :key="item.id">
                         <option :value="item.id" x-text="item.label"></option>
@@ -91,7 +97,7 @@
 
             <div class="flex flex-col mb-4"
                  x-show="methodsForTypes(data, account, signum).length > 0">
-                <label class="mb-2 uppercase font-bold text-lg " for="tags">${i18n_method}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="tags">${i18n_method}</label>
                 <div class="grid grid-cols-2 gap-2">
                     <select class="h-8" name="method" id="method" x-model="method">
                         <option value="0"></option>
@@ -106,7 +112,7 @@
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg " for="notes">${i18n_notes}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="notes">${i18n_notes}</label>
                 <textarea name="notes" id="notes" x-model="comment"></textarea>
             </div>
 
@@ -125,6 +131,30 @@
 </div>
 
 <script>
+const dateMode = {
+  date: 1,
+  dateTime: 2,
+  bookingValue: 3
+};
+
+function currentDateMode(data, account) {
+    var type = accountType(data, account)
+    if (!(type == "CASH")) {
+      if (${withValueDate}) {
+        return dateMode.bookingValue;
+      }
+    }
+    return ${withTime} ? dateMode.dateTime : dateMode.date;
+}
+
+function dateRowLabel(data, account) {
+    switch(currentDateMode(data, account)) {
+      case dateMode.date: return "${i18n_date}";
+      case dateMode.dateTime: return "${i18n_date} / ${i18n_time}";
+      case dateMode.bookingValue: return "${i18n_booking_date} / ${i18n_value_date}";
+    }
+}
+
 var errorHandler = (error) => alert('Error: ' + error)
 
 function categoriesByParent(array, parent) {
@@ -132,8 +162,11 @@ function categoriesByParent(array, parent) {
 }
 
 function methodsForTypes(data, account, signum) {
-    var type = data.accounts.find(item => item.id == account).type
-    return data.methods.filter(item => item.accountTypes.includes(type) && (item.type == 0 || item.type == (signum ? 1 : -1)))
+    return data.methods.filter(item => item.accountTypes.includes(accountType(data, account)) && (item.type == 0 || item.type == (signum ? 1 : -1)))
+}
+
+function accountType(data, account) {
+    return data.accounts.find(item => item.id == account).type
 }
 
 function terminalNodeFromPath(path) {
