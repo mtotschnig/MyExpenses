@@ -93,7 +93,7 @@
     <string name="grisbi_import_categories_loading">Učitavanje kategorija iz %1$s</string>
     <string name="grisbi_import_parties_loading">Učitavanje stranki iz %1$s</string>
     <string name="grouping_day">Dan</string>
-    <string name="grouping_last_week">Prethodni tjedan</string>
+    <string name="grouping_last_week">Prošli tjedan</string>
     <string name="grouping_month">Mjesec</string>
     <string name="grouping_none">Negrupirano</string>
     <string name="grouping_this_week">Ovaj tjedan</string>
@@ -938,5 +938,26 @@
     <string name="cb_label_merge_accounts">Spoji račune</string>
     <string name="pref_mlkit_script_title">Skripta za MlKit</string>
     <string name="whats_new_338">Proizvoljno duboka hijerarhija kategorija</string>
-    <string name="dialog_title_purge_backups">Čišćenje starih sigurnosnih kopija</string>
+    <string name="dialog_title_purge_backups">Izbriši stare sigurnosne kopije</string>
+    <string name="purge_backups">Izbrisat će se sljedeće stare sigurnosne kopije:</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Prikaži prozor za potvrdu prije brisanja datoteka</string>
+    <string name="setup_completed">Postavljanje je dovršeno</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Izbrisana je %d stara datoteka sigurnosne kopije.</item>
+        <item quantity="few">Izbrisane su %d stare datoteke sigurnosnih kopija.</item>
+        <item quantity="other">Izbrisano je %d starih datoteka sigurnosnih kopija.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">%d stara datoteka sigurnosne kopije nije izbrisana.</item>
+        <item quantity="few">%d stare datoteke sigurnosnih kopija nisu izbrisane.</item>
+        <item quantity="other">%d starih datoteka sigurnosnih kopija nisu izbrisane.</item>
+    </plurals>
+    <string name="pref_debug_logging_share_summary">Dijeli datoteke dnevnika</string>
+    <string name="whats_new_340">Polje za bilješke dopušta više redaka.</string>
+    <string name="whats_new_336_1">Dijeli sažetak dugova</string>
+    <string name="whats_new_336_2">Oznake za podijeljene dijelove</string>
+    <string name="pref_purge_backup_keep_title">Maksimalni broj najnovijih datoteka sigurnosnih kopija koje će se zadržati</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Stablo kategorija</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">S tvojim trenutačnim stanjem licence (%1$s), ovaj će se dijalog prikazati pri svakoj upotrebi.</string>
+    <string name="menu_parent_category_selection">Odaberi nadređenu kategoriju kratkim dodirom</string>
 </resources>
