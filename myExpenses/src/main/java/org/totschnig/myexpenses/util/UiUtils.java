@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
@@ -101,7 +102,7 @@ public class UiUtils {
     DATE, DATE_TIME, BOOKING_VALUE
   }
 
-  public static DateMode getDateMode(AccountType accountType, PrefHandler prefHandler) {
+  public static @NonNull DateMode getDateMode(AccountType accountType, PrefHandler prefHandler) {
     if (!(accountType == AccountType.CASH)) {
       if (prefHandler.getBoolean(TRANSACTION_WITH_VALUE_DATE, false)) {
         return DateMode.BOOKING_VALUE;

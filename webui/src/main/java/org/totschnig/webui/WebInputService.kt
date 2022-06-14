@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.io.IOException
 import java.net.ServerSocket
 import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
@@ -53,6 +54,9 @@ class WebInputService : Service(), IWebInputService {
 
     @Inject
     lateinit var localDateJsonDeserializer: JsonDeserializer<LocalDate>
+
+    @Inject
+    lateinit var localTimeJsonDeserializer: JsonDeserializer<LocalTime>
 
     @Inject
     lateinit var repository: Repository
@@ -143,6 +147,10 @@ class WebInputService : Service(), IWebInputService {
                                 registerTypeAdapter(
                                     LocalDate::class.java,
                                     localDateJsonDeserializer
+                                )
+                                registerTypeAdapter(
+                                    LocalTime::class.java,
+                                    localTimeJsonDeserializer
                                 )
                             }
                         }
@@ -272,6 +280,9 @@ class WebInputService : Service(), IWebInputService {
                                         "i18n_account" -> t(R.string.account)
                                         "i18n_amount" -> t(R.string.amount)
                                         "i18n_date" -> t(R.string.date)
+                                        "i18n_time" -> t(R.string.time)
+                                        "i18n_booking_date" -> t(R.string.booking_date)
+                                        "i18n_value_date" -> t(R.string.value_date)
                                         "i18n_payee" -> t(R.string.payer_or_payee)
                                         "i18n_category" -> t(R.string.category)
                                         "i18n_tags" -> t(R.string.tags)
@@ -282,6 +293,8 @@ class WebInputService : Service(), IWebInputService {
                                         "category_tree_depth" -> categoryTreeDepth.toString()
                                         "data" -> gson.toJson(data)
                                         "categoryWatchers" -> categoryWatchers
+                                        "withValueDate" -> prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false).toString()
+                                        "withTime" -> prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, false).toString()
                                         else -> throw IllegalStateException("Unknown substitution key $key")
                                     }
                                 }

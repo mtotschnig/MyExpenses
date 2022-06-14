@@ -14,9 +14,11 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
+import org.totschnig.myexpenses.util.localDateTime2Epoch
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,9 +42,10 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                             KEY_AMOUNT,
                             Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
                         )
-                        val toEpochSecond = localDate2Epoch(date)
-                        put(KEY_DATE, toEpochSecond)
-                        put(KEY_VALUE_DATE, toEpochSecond)
+                        put(KEY_DATE, time?.let {
+                            localDateTime2Epoch(LocalDateTime.of(date, time))
+                        } ?:localDate2Epoch(date))
+                        put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
                         put(KEY_PAYEEID, findOrWritePayee(payee))
                         put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
                         category.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
