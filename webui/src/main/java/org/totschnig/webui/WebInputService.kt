@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.io.IOException
 import java.net.ServerSocket
 import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
@@ -53,6 +54,9 @@ class WebInputService : Service(), IWebInputService {
 
     @Inject
     lateinit var localDateJsonDeserializer: JsonDeserializer<LocalDate>
+
+    @Inject
+    lateinit var localTimeJsonDeserializer: JsonDeserializer<LocalTime>
 
     @Inject
     lateinit var repository: Repository
@@ -143,6 +147,10 @@ class WebInputService : Service(), IWebInputService {
                                 registerTypeAdapter(
                                     LocalDate::class.java,
                                     localDateJsonDeserializer
+                                )
+                                registerTypeAdapter(
+                                    LocalTime::class.java,
+                                    localTimeJsonDeserializer
                                 )
                             }
                         }

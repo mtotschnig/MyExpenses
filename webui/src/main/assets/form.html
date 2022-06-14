@@ -34,7 +34,7 @@
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg" for="amount">${i18n_amount}</label>
                 <div>
-                    <label class="switch">
+                    <label class="switch mr-2">
                         <input type="checkbox" name="type" x-model="signum">
                         <span class="slider round"></span>
                     </label>
@@ -47,14 +47,12 @@
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg" x-text="dateRowLabel(data, account)">${i18n_date}</label>
                 <div class="flex flex-row">
-                    <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date"
-                           required
-                           x-model="date">
-                    <input x-show="currentDateMode(data, account) == dateMode.dateTime" class="grow border py-2 px-3 ml-2" type="time" name="time" id="time"
+                    <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date" required x-model="date">
+                    <input x-show="currentDateMode(data, account) == dateMode.dateTime" class="grow border py-2 px-3 ml-2" type="time" name="time" id="time" x-model="time"
                            required>
                     <input x-show="currentDateMode(data, account) == dateMode.bookingValue"  class="grow border py-2 px-3 mr-2" type="date" name="valueDate" id="valueDate"
                            required
-                           x-model="date">
+                           x-model="valueDate">
                 </div>
             </div>
 
@@ -118,7 +116,18 @@
 
             <div>
                 <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="amount == ''" @click="submitForm({account: account, amount: signum ? amount : -amount, date: date, payee: payee, category: terminalNodeFromPath(categoryPath) , tags: selectedTags, comment: comment, method: method, number: number}).then(response => {
+                        type="button" :disabled="amount == ''" @click="submitForm({
+                            account: account,
+                            amount: signum ? amount : -amount,
+                            date: date,
+                            time: (currentDateMode(data, account) == dateMode.dateTime) ? time : null,
+                            valueDate: valueDate,
+                            payee: payee,
+                            category: terminalNodeFromPath(categoryPath),
+                            tags: selectedTags,
+                            comment: comment,
+                            method: method,
+                            number: number}).then(response => {
                         resultCode = response.status
     response.text().then(text => resultText = text)
     }).catch(errorHandler)">${i18n_submit}
@@ -174,11 +183,15 @@ function terminalNodeFromPath(path) {
 }
 
 function modelData() {
+    let date = new Date();
+    let dateFormatted = formatDate(date);
     return {
         name: '',
         signum: false,
         amount: '',
-        date: new Date().toISOString().substring(0, 10),
+        date: dateFormatted,
+        valueDate: dateFormatted,
+        time: formatTime(date),
         payee: '',
         account: 0,
         comment: '',
@@ -190,6 +203,23 @@ function modelData() {
         resultCode: 0,
         data: ${data},
     }
+}
+
+function formatPart(number) {
+    return number.toString().padStart(2, '0')
+}
+
+function formatDate(date) {
+  let month = formatPart(date.getMonth() + 1);
+  let day = formatPart(date.getDate());
+  let year = date.getFullYear();
+  return [year, month, day].join('-');
+}
+
+function formatTime(date) {
+  let hours = formatPart(date.getHours());
+  let minutes = formatPart(date.getMinutes());
+  return [hours, minutes].join(':');
 }
 
 function submitForm(data) {

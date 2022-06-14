@@ -34,6 +34,7 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import java.net.Socket
 import java.time.LocalDate
+import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import javax.net.SocketFactory
@@ -155,6 +156,16 @@ open class NetworkModule {
         fun provideLocalDateJsonDeserializer(): JsonDeserializer<LocalDate> =
             JsonDeserializer { json: JsonElement, _: Type?, _: JsonDeserializationContext? ->
                 LocalDate.parse(
+                    json.asJsonPrimitive.asString
+                )
+            }
+
+        @JvmStatic
+        @Provides
+        @Singleton
+        fun provideLocalTimeJsonDeserializer(): JsonDeserializer<LocalTime> =
+            JsonDeserializer { json: JsonElement, _: Type?, _: JsonDeserializationContext? ->
+                LocalTime.parse(
                     json.asJsonPrimitive.asString
                 )
             }

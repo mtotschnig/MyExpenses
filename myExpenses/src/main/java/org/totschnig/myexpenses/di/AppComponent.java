@@ -83,6 +83,7 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Locale;
 
 import javax.inject.Named;
@@ -154,6 +155,8 @@ public interface AppComponent {
   Repository repository();
 
   JsonDeserializer<LocalDate> localDateJsonDeserializer();
+
+  JsonDeserializer<LocalTime> localTimeJsonDeserializer();
 
   Gson gson();
 
