@@ -36,16 +36,6 @@ public class ZipUtils {
   private ZipUtils() {
   }
 
-  /**
-   * convenience method that allows to store the pictures into the backup
-   * without copying them first
-   *
-   * @param cacheDir
-   * @param destZipFile
-   * @param password
-   * @throws IOException
-   * @throws GeneralSecurityException
-   */
   public static void zipBackup(File cacheDir, DocumentFile destZipFile, String password)
       throws IOException, GeneralSecurityException {
     final OutputStream out = MyApplication.getInstance().getContentResolver().openOutputStream(destZipFile.getUri());
@@ -176,11 +166,6 @@ public class ZipUtils {
     }
   }
 
-  /**
-   * @param fileIn
-   * @param dirOut
-   * @param password
-   */
   public static void unzip(InputStream fileIn, File dirOut, @Nullable String password)
       throws IOException, GeneralSecurityException {
     ZipInputStream zin = new ZipInputStream(TextUtils.isEmpty(password) ? fileIn : EncryptionHelper.decrypt(fileIn, password));

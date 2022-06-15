@@ -48,15 +48,15 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                             PrefKey.AUTO_BACKUP_CLOUD,
                             null
                         ) else null
-                    ).mapCatching { pair ->
+                    ).mapCatching { (backupFile, oldBackups) ->
                         val requireConfirmation =
                             prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)
-                        val extraData = if (requireConfirmation || pair.second.isEmpty())
-                            Either.Left(pair.second) else
-                            Either.Right(pair.second.map { it.delete() })
+                        val extraData = if (requireConfirmation || oldBackups.isEmpty())
+                            Either.Left(oldBackups) else
+                            Either.Right(oldBackups.map { it.delete() })
                         Triple(
-                            pair.first,
-                            FileUtils.getPath(getApplication(), pair.first.uri),
+                            backupFile,
+                            FileUtils.getPath(getApplication(), backupFile.uri),
                             extraData
                         )
                     })
