@@ -53,8 +53,8 @@ ext {
     coroutines = '1.6.1'
     mockitoVersion = '3.12.4'
     retrofitVersion = "2.9.0"
-    ktxVersion = "1.7.0"
-    appcompatVersion = "1.4.1"
+    ktxVersion = "1.8.0"
+    appcompatVersion = "1.4.2"
     picassoVersion = "2.71828"
     recyclerview = "1.2.1"
     materialComponents = "1.5.0" //currently using patch
