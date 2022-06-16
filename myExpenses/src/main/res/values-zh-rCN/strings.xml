@@ -35,7 +35,7 @@
     <string name="already_defined">%1$s 已被定义</string>
     <string name="amount">金额</string>
     <string name="app_name">开支助手</string>
-    <string name="backup_success">数据库及喜好设置成功写入到\"%1$s\".</string>
+    <string name="backup_success">数据库与首选项已成功写入“%1$s”</string>
     <string name="category">类别</string>
     <string name="color">颜色</string>
     <string name="comment">备注</string>
@@ -269,7 +269,7 @@
     <string name="pm_type_neutral">借或贷(Neutral)</string>
     <string name="pref_app_dir_title">备份和导出的文件夹</string>
     <string name="pref_auto_fill_summary">为同一收款人/付款人填写上一次交易的资料</string>
-    <string name="pref_backup_summary">创建数据库和首选项的备份。</string>
+    <string name="pref_backup_summary">创建数据库与首选项的备份</string>
     <string name="pref_sort_order_usages">使用次数</string>
     <string name="pref_category_title_advanced">高级设置</string>
     <string name="pref_category_title_export">导出</string>
@@ -319,7 +319,7 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">无需密码即允许此操作。</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">密码是必需的。</string>
     <string name="pref_qif_export_file_encoding_title">字符编码</string>
-    <string name="pref_restore_summary">选择一个备份来还原数据库和首选项。</string>
+    <string name="pref_restore_summary">请选择用于恢复数据库与首选项的备份</string>
     <string name="pref_restore_title">还原</string>
     <string name="pref_security_question_summary">如果您忘记密码，贡献 开支助手 可让您解锁应用程序。</string>
     <string name="pref_security_question_title">安全问题</string>
@@ -350,7 +350,7 @@
     <string name="restore_db_success">数据库已从备份还原。</string>
     <string name="restore_preferences_failure">首选项还原失败</string>
     <string name="restore_backup_file_not_found">在文件夾 \"%2$s\" 中没有找到文件 %1$s </string>
-    <string name="restore_preferences_success">首选项已从备份中还原。</string>
+    <string name="restore_preferences_success">首选项已通过备份恢复</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d计划已从备份中还原</string>
     <string name="save_transaction_and_new_success">保存成功</string>
     <string name="save_transaction_error">无法从模板保存新的交易。</string>
@@ -389,7 +389,7 @@
     <string name="type">类型</string>
     <string name="unsplit_amount">未计算到的拆分金额</string>
     <string name="unsplit_amount_greater_than_zero">还有一些金额没有分。</string>
-    <string name="warning_backup">数据库和首选项将保存到“ %1$s”。</string>
+    <string name="warning_backup">数据库和首选项将保存到“%1$s”</string>
     <string name="continue_confirmation">你要继续吗?</string>
     <string name="warning_delete_account">\"%1$s\"此账户与它的所有交易将被删除。</string>
     <plurals name="warning_delete_main_category">
@@ -414,7 +414,7 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">如果继续，%1$s所有账户和当中的所有交易将从数据库中删除，并且无法还原。</string>
     <string name="warning_reset_account_matched">如果继续，与当前筛选器匹配的交易项目将从数据库中删除，并且无法还原。</string>
-    <string name="warning_restore">数据库和首选项将从文件“ %1$s”中还原。而当前原有的数据将被删除。</string>
+    <string name="warning_restore">数据库与首选项将通过文件“%1$s”恢复，当前数据将被删除</string>
     <string name="warning_splitpartcategory_context">当转账项目是拆分款项的一部分时，它只能在拆分内容里被编辑或删除。</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">请在%1$d和%2$d之间设置一个数字</string>
     <string name="warning_change_fraction_digits_1">需要更新数据库中的金额以匹配新的小数位数。</string>
@@ -612,7 +612,7 @@
     <string name="pref_webdav_timeout_title">WebDAV 超时（以秒为单位）</string>
     <string name="sync_state_restored">已为%d账户恢复了同步状态。</string>
     <string name="sync_state_could_not_be_restored">无法为%d账户恢复同步状态。</string>
-    <string name="onboarding_ui_title">{app_name}适应您的偏好</string>
+    <string name="onboarding_ui_title">{app_name} 适应您的喜好</string>
     <string name="onboarding_data_title">让我们建立您的第一个账户</string>
     <string name="onboarding_get_started">开始吧</string>
     <string name="onboarding_more_options">更多的选择</string>
