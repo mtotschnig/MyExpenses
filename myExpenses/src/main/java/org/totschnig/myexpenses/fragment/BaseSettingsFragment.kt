@@ -156,16 +156,19 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
             }
         }
-        webUiViewModel.getServiceState().observe(this) { result ->
-            findPreference<SwitchPreferenceCompat>(PrefKey.UI_WEB)?.let { preference ->
-                result.onSuccess { serverAddress ->
-                    serverAddress?.let { preference.summaryOn = it }
-                    if (preference.isChecked && serverAddress == null) {
-                        preference.isChecked = false
+        if(matches(preferenceScreen, PrefKey.UI_WEB)) {
+            webUiViewModel.getServiceState().observe(this) { result ->
+                preferenceActivity.supportActionBar?.let { actionBar ->
+                    val switch = actionBar.customView as SwitchCompat
+                    result.onSuccess { serverAddress ->
+                        actionBar.subtitle = serverAddress
+                        if (switch.isChecked && serverAddress == null) {
+                            switch.isChecked = false
+                        }
+                    }.onFailure {
+                        if (switch.isChecked) switch.isChecked = false
+                        preferenceActivity.showSnackBar(it.safeMessage)
                     }
-                }.onFailure {
-                    if (preference.isChecked) preference.isChecked = false
-                    preferenceActivity.showSnackBar(it.safeMessage)
                 }
             }
         }

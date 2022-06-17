@@ -368,9 +368,13 @@
                 android:key="@string/pref_sync_changes_immediately_key"
                 android:summary="@string/pref_sync_changes_immediately_summary" />
         </PreferenceScreen>
-        <SwitchPreferenceCompat
+        <PreferenceScreen
             android:key="@string/pref_web_ui_key"
-            android:title="@string/title_webui" />
+            android:title="@string/title_webui">
+            <org.totschnig.myexpenses.preference.SimplePasswordPreference
+                android:key="@string/pref_web_ui_password_key"
+                android:title="@string/hint_password" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

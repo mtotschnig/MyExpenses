@@ -6,8 +6,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_SWITCH;
-import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_EMAIL;
-import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
@@ -16,6 +14,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.PURGE_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.ROOT_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.SECURITY_QUESTION;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
@@ -24,7 +23,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
@@ -34,7 +32,6 @@ import androidx.preference.PreferenceScreen;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -46,8 +43,6 @@ import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 
 import java.util.Locale;
-
-import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 public class SettingsFragment extends BaseSettingsFragment {
 
@@ -74,7 +69,7 @@ public class SettingsFragment extends BaseSettingsFragment {
     boolean hasMasterSwitch = handleScreenWithMasterSwitch(PERFORM_SHARE) ||
             handleScreenWithMasterSwitch(AUTO_BACKUP) ||
             handleScreenWithMasterSwitch(AUTO_FILL_SWITCH) ||
-            handleScreenWithMasterSwitch(PURGE_BACKUP);
+            handleScreenWithMasterSwitch(PURGE_BACKUP) || handleScreenWithMasterSwitch(UI_WEB);
     if (!hasMasterSwitch) {
       actionBar.setCustomView(null);
     }

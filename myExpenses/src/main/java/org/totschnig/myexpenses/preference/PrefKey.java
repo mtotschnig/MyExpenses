@@ -163,7 +163,8 @@ public enum PrefKey {
   PURGE_BACKUP_REQUIRE_CONFIRMATION(R.string.pref_purge_backup_require_confirmation_key),
   DEBUG_LOG_SHARE(R.string.pref_debug_logging_share_key),
   EXCHANGE_RATES_CLEAR_CACHE(R.string.pref_exchange_rates_clear_cache_key),
-  DEBUG_REPAIR_987(R.string.pref_debug_repair_987_key)
+  DEBUG_REPAIR_987(R.string.pref_debug_repair_987_key),
+  WEBUI_PASSWORD(R.string.pref_web_ui_password_key)
   ;
 
   int resId = 0;

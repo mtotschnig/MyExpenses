@@ -119,6 +119,7 @@
     <string name="pref_ocr_engine_key">ocr_engine</string>
     <string name="pref_group_header_show_details_key">group_header</string>
     <string name="pref_web_ui_key">web_ui</string>
+    <string name="pref_web_ui_password_key">web_ui_password</string>
     <string name="pref_purge_backup_key">purge_backup</string>
     <string name="pref_purge_backup_keep_key">purge_backup_keep</string>
     <string name="pref_purge_backup_require_confirmation_key">purge_backup_require_confirmation</string>

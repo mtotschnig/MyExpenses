@@ -11,15 +11,17 @@ import androidx.annotation.StringRes
 import androidx.core.database.getLongOrNull
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.gson.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.serialization.gson.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.apache.commons.text.StringSubstitutor
 import org.apache.commons.text.StringSubstitutor.*
 import org.apache.commons.text.lookup.StringLookup
@@ -119,8 +121,8 @@ class WebInputService : Service(), IWebInputService {
         }
 
     private fun readBytesFromAssets(fileName: String) = assets.open(fileName).use {
-            it.readBytes()
-        }
+        it.readBytes()
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -134,7 +136,10 @@ class WebInputService : Service(), IWebInputService {
                 }
             }
             START_ACTION -> {
-                if (server == null && try {
+                if (server != null) {
+                    stopServer()
+                }
+                if (try {
                         (9000..9050).first { isAvailable(it) }
                     } catch (e: NoSuchElementException) {
                         serverStateObserver?.postException(IOException("No available port found in range 9000..9050"))
@@ -154,8 +159,25 @@ class WebInputService : Service(), IWebInputService {
                                 )
                             }
                         }
+                        val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
+                            .takeIf { !it.isNullOrBlank() }
+                        passWord?.let {
+                            install(Authentication) {
+                                basic("auth-basic") {
+                                    realm = getString(R.string.app_name)
+                                    validate { credentials ->
+                                        if (credentials.password == it) {
+                                            UserIdPrincipal(credentials.name)
+                                        } else {
+                                            null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         install(StatusPages) {
-                            exception<Throwable> { cause ->
+                            exception<Throwable> { call, cause ->
                                 call.respond(
                                     HttpStatusCode.InternalServerError,
                                     "Internal Server Error"
@@ -164,148 +186,27 @@ class WebInputService : Service(), IWebInputService {
                                 throw cause
                             }
                         }
+
                         routing {
-                            post("/") {
-                                if (repository.createTransaction(call.receive()) != null) {
-                                    count++
-                                    call.respond(
-                                        HttpStatusCode.Created,
-                                        "${getString(R.string.save_transaction_and_new_success)} ($count)"
-                                    )
-                                } else {
-                                    call.respond(
-                                        HttpStatusCode.Conflict,
-                                        "Error while saving transaction."
-                                    )
-                                }
-                            }
+
                             get("/styles.css") {
-                                call.respondText(readTextFromAssets("styles.css"), ContentType.Text.CSS)
+                                call.respondText(
+                                    readTextFromAssets("styles.css"),
+                                    ContentType.Text.CSS
+                                )
                             }
                             get("/favicon.ico") {
-                                call.respondBytes(readBytesFromAssets("favicon.ico"), ContentType.Image.XIcon)
+                                call.respondBytes(
+                                    readBytesFromAssets("favicon.ico"),
+                                    ContentType.Image.XIcon
+                                )
                             }
-                            get("/") {
-                                val categories = contentResolver.query(
-                                    TransactionProvider.CATEGORIES_URI.buildUpon()
-                                        .appendQueryParameter(
-                                            TransactionProvider.QUERY_PARAMETER_HIERARCHICAL,
-                                            "1"
-                                        ).build(),
-                                    arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL, KEY_LEVEL),
-                                    null, null, null
-                                )?.use { cursor ->
-                                    cursor.asSequence.map {
-                                        mapOf(
-                                            "id" to it.getLong(0),
-                                            "parent" to it.getLongOrNull(1),
-                                            "label" to it.getString(2),
-                                            "level" to it.getInt(3)
-                                        )
-                                    }
-                                        .toList()
+                            if (passWord == null) {
+                                serve()
+                            } else {
+                                authenticate("auth-basic") {
+                                    serve()
                                 }
-                                val data = mapOf(
-                                    "accounts" to contentResolver.query(
-                                        TransactionProvider.ACCOUNTS_BASE_URI,
-                                        arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
-                                        "$KEY_SEALED = 0", null, null
-                                    )?.use { cursor ->
-                                        cursor.asSequence.map {
-                                            mapOf(
-                                                "id" to it.getLong(0),
-                                                "label" to it.getString(1),
-                                                "type" to it.getString(2)
-                                            )
-                                        }.toList()
-                                    },
-                                    "payees" to contentResolver.query(
-                                        TransactionProvider.PAYEES_URI,
-                                        arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                                        null, null, null
-                                    )?.use { cursor ->
-                                        cursor.asSequence.map {
-                                            mapOf(
-                                                "id" to it.getLong(0),
-                                                "name" to it.getString(1)
-                                            )
-                                        }
-                                            .toList()
-                                    },
-                                    "categories" to categories,
-                                    "tags" to contentResolver.query(
-                                        TransactionProvider.TAGS_URI,
-                                        arrayOf(KEY_ROWID, KEY_LABEL),
-                                        null, null, null
-                                    )?.use { cursor ->
-                                        cursor.asSequence.map {
-                                            mapOf(
-                                                "id" to it.getLong(0),
-                                                "label" to it.getString(1)
-                                            )
-                                        }
-                                            .toList()
-                                    },
-                                    "methods" to contentResolver.query(
-                                        TransactionProvider.METHODS_URI,
-                                        arrayOf(
-                                            KEY_ROWID,
-                                            KEY_LABEL,
-                                            KEY_IS_NUMBERED,
-                                            KEY_TYPE,
-                                            KEY_ACCOUNT_TPYE_LIST
-                                        ),
-                                        null, null, null
-                                    )?.use { cursor ->
-                                        cursor.asSequence.map {
-                                            mapOf(
-                                                "id" to it.getLong(0),
-                                                "label" to it.getString(1),
-                                                "isNumbered" to (it.getInt(2) > 0),
-                                                "type" to it.getInt(3),
-                                                "accountTypes" to it.getString(4)?.split(',')
-                                            )
-                                        }.toList()
-                                    },
-                                )
-                                val categoryTreeDepth = categories?.map { it["level"] as Int }?.maxOrNull() ?: 0
-                                val categoryWatchers = if (categoryTreeDepth > 1) {
-                                    (0..categoryTreeDepth-2).joinToString(separator = "\n") {
-                                        "\$watch('categoryPath[$it].id', value => { categoryPath[${it + 1}].id=0 } );"
-                                    }
-                                } else ""
-                                val lookup = StringLookup { key ->
-                                    when (key) {
-                                        "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
-                                        "i18n_account" -> t(R.string.account)
-                                        "i18n_amount" -> t(R.string.amount)
-                                        "i18n_date" -> t(R.string.date)
-                                        "i18n_time" -> t(R.string.time)
-                                        "i18n_booking_date" -> t(R.string.booking_date)
-                                        "i18n_value_date" -> t(R.string.value_date)
-                                        "i18n_payee" -> t(R.string.payer_or_payee)
-                                        "i18n_category" -> t(R.string.category)
-                                        "i18n_tags" -> t(R.string.tags)
-                                        "i18n_notes" -> t(R.string.comment)
-                                        "i18n_method" -> t(R.string.method)
-                                        "i18n_submit" -> t(R.string.menu_save)
-                                        "i18n_number" -> t(R.string.reference_number)
-                                        "category_tree_depth" -> categoryTreeDepth.toString()
-                                        "data" -> gson.toJson(data)
-                                        "categoryWatchers" -> categoryWatchers
-                                        "withValueDate" -> prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false).toString()
-                                        "withTime" -> prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, false).toString()
-                                        else -> throw IllegalStateException("Unknown substitution key $key")
-                                    }
-                                }
-                                val stringSubstitutor = StringSubstitutor(
-                                    lookup,
-                                    DEFAULT_PREFIX,
-                                    DEFAULT_SUFFIX,
-                                    DEFAULT_ESCAPE
-                                )
-                                val text = stringSubstitutor.replace(readTextFromAssets("form.html"))
-                                call.respondText(text, ContentType.Text.Html)
                             }
                         }
                     }.also {
@@ -341,6 +242,153 @@ class WebInputService : Service(), IWebInputService {
             }
         }
         return START_NOT_STICKY
+    }
+
+    private fun Route.serve() {
+        post("/") {
+            if (repository.createTransaction(call.receive()) != null) {
+                count++
+                call.respond(
+                    HttpStatusCode.Created,
+                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while saving transaction."
+                )
+            }
+        }
+        get("/") {
+            val categories = contentResolver.query(
+                TransactionProvider.CATEGORIES_URI.buildUpon()
+                    .appendQueryParameter(
+                        TransactionProvider.QUERY_PARAMETER_HIERARCHICAL,
+                        "1"
+                    ).build(),
+                arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL, KEY_LEVEL),
+                null, null, null
+            )?.use { cursor ->
+                cursor.asSequence.map {
+                    mapOf(
+                        "id" to it.getLong(0),
+                        "parent" to it.getLongOrNull(1),
+                        "label" to it.getString(2),
+                        "level" to it.getInt(3)
+                    )
+                }
+                    .toList()
+            }
+            val data = mapOf(
+                "accounts" to contentResolver.query(
+                    TransactionProvider.ACCOUNTS_BASE_URI,
+                    arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
+                    "$KEY_SEALED = 0", null, null
+                )?.use { cursor ->
+                    cursor.asSequence.map {
+                        mapOf(
+                            "id" to it.getLong(0),
+                            "label" to it.getString(1),
+                            "type" to it.getString(2)
+                        )
+                    }.toList()
+                },
+                "payees" to contentResolver.query(
+                    TransactionProvider.PAYEES_URI,
+                    arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
+                    null, null, null
+                )?.use { cursor ->
+                    cursor.asSequence.map {
+                        mapOf(
+                            "id" to it.getLong(0),
+                            "name" to it.getString(1)
+                        )
+                    }
+                        .toList()
+                },
+                "categories" to categories,
+                "tags" to contentResolver.query(
+                    TransactionProvider.TAGS_URI,
+                    arrayOf(KEY_ROWID, KEY_LABEL),
+                    null, null, null
+                )?.use { cursor ->
+                    cursor.asSequence.map {
+                        mapOf(
+                            "id" to it.getLong(0),
+                            "label" to it.getString(1)
+                        )
+                    }
+                        .toList()
+                },
+                "methods" to contentResolver.query(
+                    TransactionProvider.METHODS_URI,
+                    arrayOf(
+                        KEY_ROWID,
+                        KEY_LABEL,
+                        KEY_IS_NUMBERED,
+                        KEY_TYPE,
+                        KEY_ACCOUNT_TPYE_LIST
+                    ),
+                    null, null, null
+                )?.use { cursor ->
+                    cursor.asSequence.map {
+                        mapOf(
+                            "id" to it.getLong(0),
+                            "label" to it.getString(1),
+                            "isNumbered" to (it.getInt(2) > 0),
+                            "type" to it.getInt(3),
+                            "accountTypes" to it.getString(4)?.split(',')
+                        )
+                    }.toList()
+                },
+            )
+            val categoryTreeDepth =
+                categories?.map { it["level"] as Int }?.maxOrNull() ?: 0
+            val categoryWatchers = if (categoryTreeDepth > 1) {
+                (0..categoryTreeDepth - 2).joinToString(separator = "\n") {
+                    "\$watch('categoryPath[$it].id', value => { categoryPath[${it + 1}].id=0 } );"
+                }
+            } else ""
+            val lookup = StringLookup { key ->
+                when (key) {
+                    "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
+                    "i18n_account" -> t(R.string.account)
+                    "i18n_amount" -> t(R.string.amount)
+                    "i18n_date" -> t(R.string.date)
+                    "i18n_time" -> t(R.string.time)
+                    "i18n_booking_date" -> t(R.string.booking_date)
+                    "i18n_value_date" -> t(R.string.value_date)
+                    "i18n_payee" -> t(R.string.payer_or_payee)
+                    "i18n_category" -> t(R.string.category)
+                    "i18n_tags" -> t(R.string.tags)
+                    "i18n_notes" -> t(R.string.comment)
+                    "i18n_method" -> t(R.string.method)
+                    "i18n_submit" -> t(R.string.menu_save)
+                    "i18n_number" -> t(R.string.reference_number)
+                    "category_tree_depth" -> categoryTreeDepth.toString()
+                    "data" -> gson.toJson(data)
+                    "categoryWatchers" -> categoryWatchers
+                    "withValueDate" -> prefHandler.getBoolean(
+                        PrefKey.TRANSACTION_WITH_VALUE_DATE,
+                        false
+                    ).toString()
+                    "withTime" -> prefHandler.getBoolean(
+                        PrefKey.TRANSACTION_WITH_TIME,
+                        false
+                    ).toString()
+                    else -> throw IllegalStateException("Unknown substitution key $key")
+                }
+            }
+            val stringSubstitutor = StringSubstitutor(
+                lookup,
+                DEFAULT_PREFIX,
+                DEFAULT_SUFFIX,
+                DEFAULT_ESCAPE
+            )
+            val text =
+                stringSubstitutor.replace(readTextFromAssets("form.html"))
+            call.respondText(text, ContentType.Text.Html)
+        }
     }
 
     private fun isAvailable(portNr: Int) = try {
