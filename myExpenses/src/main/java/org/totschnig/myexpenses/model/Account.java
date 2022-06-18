@@ -891,6 +891,10 @@ public class Account extends Model implements DistributionAccountInfo {
    * @param shortenComment
    */
   public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
+    return extendedUriForTransactionList(shortenComment);
+  }
+
+  public static Uri extendedUriForTransactionList(boolean shortenComment) {
     return shortenComment ? Transaction.EXTENDED_URI
             .buildUpon()
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")

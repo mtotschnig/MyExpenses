@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
+import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -388,6 +389,9 @@ class WebInputService : Service(), IWebInputService {
             val text =
                 stringSubstitutor.replace(readTextFromAssets("form.html"))
             call.respondText(text, ContentType.Text.Html)
+        }
+        get("/accounts/{id}") {
+            call.respond(repository.loadTransactions(call.parameters["id"]!!.toLong()))
         }
     }
 

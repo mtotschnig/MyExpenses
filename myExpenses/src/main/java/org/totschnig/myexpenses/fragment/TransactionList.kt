@@ -574,7 +574,7 @@ class TransactionList : BaseTransactionList() {
             findItem(R.id.UNDELETE_COMMAND).isVisible = hasVoid
             findItem(R.id.EDIT_COMMAND).isVisible = lv.checkedItemCount == 1 && !hasVoid
             findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible =
-                (activity as? MyExpenses)?.accountCount ?: 0 > 1
+                ((activity as? MyExpenses)?.accountCount ?: 0) > 1
             findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
             findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
             findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer

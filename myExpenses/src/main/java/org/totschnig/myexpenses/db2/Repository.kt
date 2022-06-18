@@ -1,17 +1,27 @@
 package org.totschnig.myexpenses.db2
 
-import android.content.*
+import android.content.ContentProviderOperation
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.util.localDateTime2Epoch
@@ -44,7 +54,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                         )
                         put(KEY_DATE, time?.let {
                             localDateTime2Epoch(LocalDateTime.of(date, time))
-                        } ?:localDate2Epoch(date))
+                        } ?: localDate2Epoch(date))
                         put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
                         put(KEY_PAYEEID, findOrWritePayee(payee))
                         put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
@@ -67,6 +77,18 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                 ops
             )[0].uri?.let { ContentUris.parseId(it) }
         }
+    }
+
+    fun loadTransactions(accountId: Long): List<Transaction> {
+        return contentResolver.query(
+            Account.extendedUriForTransactionList(true),
+            org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED,
+            "$KEY_ACCOUNTID = ?", arrayOf(accountId.toString()), null
+        )?.use { cursor ->
+            cursor.asSequence.map {
+                Transaction.fromCursor(it, accountId)
+            }.toList()
+        } ?: emptyList()
     }
 
     //Payee

@@ -9,6 +9,9 @@
 
     <link href="styles.css" rel="stylesheet">
 
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
+
     <link rel="icon" href="/favicon.ico">
 
     <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
@@ -17,19 +20,43 @@
 <body x-data="modelData()"
       x-init="account = data.accounts[0].id;
       $watch('amount', value => { if (value < 0) amount = -value } );
-      ${categoryWatchers}" class ="bg-white dark:bg-neutral-900"
+      ${categoryWatchers}" class="bg-white dark:bg-neutral-900"
 >
 <div class="flex justify-center">
     <div class="max-w-screen-sm w-full rounded shadow-lg p-8 m-4 text-slate-500 dark:text-white dark:border dark:border-white">
         <form>
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="account">${i18n_account}</label>
-                <select name="account" id="account" x-model="account">
-                    <template x-for="item in data.accounts" :key="item.id">
-                        <option :value="item.id" x-text="item.label"></option>
-                    </template>
-                </select>
+                <label class="mb-2 uppercase font-bold text-lg"
+                       for="account">${i18n_account}</label>
+                <div class="flex flex-row">
+                    <select class="grow mr-2" name="account" id="account" x-model="account">
+                        <template x-for="item in data.accounts" :key="item.id">
+                            <option :value="item.id" x-text="item.label"></option>
+                        </template>
+                    </select>
+                    <button type="button" @click="loadTransactions(account)
+                    .then(response => {
+                        resultCode = response.status;
+                        resultText = resultCode == 200 ? '' : 'ERROR';
+                        response.json().then(data => { transactions = data } );
+                        } );">
+                        <span class="material-symbols-outlined ml-2">folder_open</span>
+                    </button>
+                </div>
             </div>
+
+            <table class="w-full">
+                <template x-for="item in transactions" :key="item.id">
+
+                    <tr>
+                        <td class="w-full" x-html="item.displayHtml"></td>
+                        <td>
+                            <span x-text="item.amount"></span>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+
 
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg" for="amount">${i18n_amount}</label>
@@ -38,19 +65,25 @@
                         <input type="checkbox" name="type" x-model="signum">
                         <span class="slider round"></span>
                     </label>
-                    <input class="border py-2 px-3  align-middle" type="number"
+                    <input class="border py-2 px-3 align-middle" type="number"
                            name="amount" id="amount" step="0.01" min="0" required
                            x-model="amount">
                 </div>
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" x-text="dateRowLabel(data, account)">${i18n_date}</label>
+                <label class="mb-2 uppercase font-bold text-lg"
+                       x-text="dateRowLabel(data, account)">${i18n_date}</label>
                 <div class="flex flex-row">
-                    <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date" required x-model="date">
-                    <input x-show="currentDateMode(data, account) == dateMode.dateTime" class="grow border py-2 px-3 ml-2" type="time" name="time" id="time" x-model="time"
+                    <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date"
+                           required x-model="date">
+                    <input x-show="currentDateMode(data, account) == dateMode.dateTime"
+                           class="grow border py-2 px-3 ml-2" type="time" name="time" id="time"
+                           x-model="time"
                            required>
-                    <input x-show="currentDateMode(data, account) == dateMode.bookingValue"  class="grow border py-2 px-3 mr-2" type="date" name="valueDate" id="valueDate"
+                    <input x-show="currentDateMode(data, account) == dateMode.bookingValue"
+                           class="grow border py-2 px-3 mr-2" type="date" name="valueDate"
+                           id="valueDate"
                            required
                            x-model="valueDate">
                 </div>
@@ -73,10 +106,12 @@
                 <label class="mb-2 uppercase font-bold text-lg">${i18n_category}</label>
                 <div class="grid grid-cols-${category_tree_depth} gap-2">
                     <template x-for="(category, level) in categoryPath">
-                        <select class="h-8" :name="'category_' + level" :id="'category_' + level" x-model="category.id">
+                        <select class="h-8" :name="'category_' + level" :id="'category_' + level"
+                                x-model="category.id">
                             <option value="0"></option>
-                            <template x-for="item in categoriesByParent(data.categories, (level == 0) ? null : categoryPath[level-1].id)"
-                                      :key="item.id">
+                            <template
+                                    x-for="item in categoriesByParent(data.categories, (level == 0) ? null : categoryPath[level-1].id)"
+                                    :key="item.id">
                                 <option :value="item.id" x-text="item.label"></option>
                             </template>
                         </select>
@@ -104,7 +139,9 @@
                             <option :value="item.id" x-text="item.label"></option>
                         </template>
                     </select>
-                    <input class="h-8 border py-2 px-3  align-middle" x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered" placeholder="${i18n_number}"
+                    <input class="h-8 border py-2 px-3  align-middle"
+                           x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered"
+                           placeholder="${i18n_number}"
                            name="number" id="number" x-model="number">
                 </div>
             </div>
@@ -133,7 +170,7 @@
     }).catch(errorHandler)">${i18n_submit}
                 </button>
                 <div x-text="resultText"
-                     :class="resultCode == 201 ? 'text-current' : 'text-red-500'"></div>
+                     :class="resultCode < 300 ? 'text-current' : 'text-red-500'"></div>
             </div>
         </form>
     </div>
@@ -202,6 +239,7 @@ function modelData() {
         resultText: '',
         resultCode: 0,
         data: ${data},
+        transactions: []
     }
 }
 
@@ -231,6 +269,16 @@ function submitForm(data) {
         body: JSON.stringify(data)
     });
 }
+
+function loadTransactions(account) {
+    return fetch("/accounts/"+account, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'GET'
+        });
+}
+
 </script>
 
 </body>
