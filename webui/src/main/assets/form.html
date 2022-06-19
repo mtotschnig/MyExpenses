@@ -15,6 +15,7 @@
     <link rel="icon" href="/favicon.ico">
 
     <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+
 </head>
 
 <body x-data="modelData()"
@@ -44,18 +45,26 @@
                     </button>
                 </div>
             </div>
+            <div class="relative overflow-y-auto max-h-48" x-data="{open:false, activeTransaction:null}" @click.outside="open = false">
+                <table class="w-full border border-spacing-x-px">
+                    <template x-for="item in transactions" :key="item.id">
 
-            <table class="w-full">
-                <template x-for="item in transactions" :key="item.id">
-
-                    <tr>
-                        <td class="w-full" x-html="item.displayHtml"></td>
-                        <td>
-                            <span x-text="item.amount"></span>
-                        </td>
-                    </tr>
-                </template>
-            </table>
+                        <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1"
+                            @click="if (!open) { positionPopup($event, $refs.menu); activeTransaction = item }; open = !open">
+                            <td class="p-1" x-text="item.dateFormatted"></td>
+                            <td class="w-full p-1">
+                                <div x-html="item.displayHtml"></div>
+                            </td>
+                            <td class="text-end p-1" :class="item.amount > 0 ? 'text-green-500' : 'text-red-500'">
+                                <span x-text="item.amountFormatted"></span>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+                <div x-ref="menu" class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900" x-show="open">
+                    <a href="#" @click="open = false; alert('Edit transaction #' + activeTransaction.id)"><span class="material-symbols-outlined mr-1 align-middle">edit</span>Edit</a>
+                </div>
+            </div>
 
 
             <div class="flex flex-col mb-4">
@@ -65,9 +74,10 @@
                         <input type="checkbox" name="type" x-model="signum">
                         <span class="slider round"></span>
                     </label>
-                    <input class="border py-2 px-3 align-middle" type="number"
+                    <input class="border py-2 px-3 align-middle mr-2" type="number"
                            name="amount" id="amount" step="0.01" min="0" required
                            x-model="amount">
+                    <span x-text="accountCurrency(data, account)"></span>
                 </div>
             </div>
 
@@ -215,6 +225,10 @@ function accountType(data, account) {
     return data.accounts.find(item => item.id == account).type
 }
 
+function accountCurrency(data, account) {
+    return data.accounts.find(item => item.id == account).currency
+}
+
 function terminalNodeFromPath(path) {
   return path.reduce((acc, curr) => curr.id == 0 ? acc : curr.id, null);
 }
@@ -277,6 +291,11 @@ function loadTransactions(account) {
             },
             method: 'GET'
         });
+}
+
+function positionPopup(event, menu) {
+    menu.style.top = event.pageY + "px"
+    menu.style.left = event.pageX + "px"
 }
 
 </script>

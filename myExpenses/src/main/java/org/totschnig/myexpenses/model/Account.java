@@ -77,6 +77,7 @@ import android.os.RemoteException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -236,7 +237,7 @@ public class Account extends Model implements DistributionAccountInfo {
    * @return Account object or null if no account with id exists in db
    * TODO: We should no longer allow calling this from the UI thread and consistently load account in the background
    */
-  @Deprecated
+  @WorkerThread
   public static Account getInstanceFromDb(long id) {
     return getInstanceFromDb(id, false);
   }

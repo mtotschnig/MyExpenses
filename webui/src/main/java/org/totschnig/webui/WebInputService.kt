@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
-import org.totschnig.myexpenses.model2.Transaction
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -72,6 +72,9 @@ class WebInputService : Service(), IWebInputService {
 
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
 
     private lateinit var wrappedContext: Context
 
@@ -283,14 +286,15 @@ class WebInputService : Service(), IWebInputService {
             val data = mapOf(
                 "accounts" to contentResolver.query(
                     TransactionProvider.ACCOUNTS_BASE_URI,
-                    arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
+                    arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE, KEY_CURRENCY),
                     "$KEY_SEALED = 0", null, null
                 )?.use { cursor ->
                     cursor.asSequence.map {
                         mapOf(
                             "id" to it.getLong(0),
                             "label" to it.getString(1),
-                            "type" to it.getString(2)
+                            "type" to it.getString(2),
+                            "currency" to currencyContext[it.getString(3)].symbol
                         )
                     }.toList()
                 },

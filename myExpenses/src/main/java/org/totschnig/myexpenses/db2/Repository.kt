@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.util.localDateTime2Epoch
@@ -33,12 +34,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Repository(val contentResolver: ContentResolver, val currencyContext: CurrencyContext) {
-    @Inject
-    constructor(context: Context, currencyContext: CurrencyContext) : this(
-        context.contentResolver,
-        currencyContext
-    )
+class Repository @Inject constructor(val context: Context, val currencyContext: CurrencyContext, val currencyFormatter: CurrencyFormatter) {
+
+    val contentResolver: ContentResolver = context.contentResolver
 
     //Transaction
     fun createTransaction(transaction: Transaction) = with(transaction) {
@@ -79,17 +77,18 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
         }
     }
 
-    fun loadTransactions(accountId: Long): List<Transaction> {
-        return contentResolver.query(
-            Account.extendedUriForTransactionList(true),
-            org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED,
-            "$KEY_ACCOUNTID = ?", arrayOf(accountId.toString()), null
-        )?.use { cursor ->
-            cursor.asSequence.map {
-                Transaction.fromCursor(it, accountId)
-            }.toList()
+    fun loadTransactions(accountId: Long): List<Transaction> =
+        getCurrencyUnitForAccount(accountId)?.let { currencyUnit ->
+            contentResolver.query(
+                Account.extendedUriForTransactionList(true),
+                org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED,
+                "$KEY_ACCOUNTID = ?", arrayOf(accountId.toString()), null
+            )?.use { cursor ->
+                cursor.asSequence.map {
+                    Transaction.fromCursor(it, accountId, currencyUnit, currencyFormatter, Utils.ensureDateFormatWithShortYear(context))
+                }.toList()
+            }
         } ?: emptyList()
-    }
 
     //Payee
     fun findOrWritePayeeInfo(payeeName: String, autoFill: Boolean) = findPayee(payeeName)?.let {
