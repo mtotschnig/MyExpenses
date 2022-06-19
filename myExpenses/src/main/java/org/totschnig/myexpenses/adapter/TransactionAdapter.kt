@@ -20,12 +20,26 @@ import butterknife.OnClick
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.fragment.BaseTransactionList.COMMENT_SEPARATOR
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -182,7 +196,8 @@ open class TransactionAdapter(
             ) else ssb
         }
         tv2.text = catText
-        val status: CrStatus = enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
+        val status: CrStatus =
+            enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
 
         if (onToggleCrStatus == null || cursor.getString(KEY_ACCOUNT_TYPE) == AccountType.CASH.name || status == CrStatus.VOID) {
             viewHolder.colorContainer.visibility = View.GONE
@@ -201,7 +216,9 @@ open class TransactionAdapter(
     }
 
     fun refreshDateFormat() {
+
         dateEms = 3
+
         when (groupingOverride ?: mAccount.grouping) {
             Grouping.DAY -> if (shouldShowTime) {
                 itemDateFormat = localizedTimeFormat
@@ -214,21 +231,15 @@ open class TransactionAdapter(
                 itemDateFormat = SimpleDateFormat("dd", localeFromContext())
                 dateEms = 2
             } else {
-                itemDateFormat = Utils.localizedYearLessDateFormat(
-                    context
-                )
+                itemDateFormat = Utils.localizedYearLessDateFormat(context)
             }
             Grouping.WEEK -> {
                 dateEms = 2
                 itemDateFormat = SimpleDateFormat("EEE", localeFromContext())
             }
-            Grouping.YEAR -> itemDateFormat = Utils.localizedYearLessDateFormat(
-                context
-            )
+            Grouping.YEAR -> itemDateFormat = Utils.localizedYearLessDateFormat(context)
             Grouping.NONE -> {
-                itemDateFormat = Utils.ensureDateFormatWithShortYear(
-                    context
-                )
+                itemDateFormat = Utils.ensureDateFormatWithShortYear(context)
                 dateEms = 4
             }
         }
