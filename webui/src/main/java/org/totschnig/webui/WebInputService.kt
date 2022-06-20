@@ -28,12 +28,15 @@ import org.apache.commons.text.lookup.StringLookup
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.di.LocalDateAdapter
+import org.totschnig.myexpenses.di.LocalTimeAdapter
 import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -54,12 +57,6 @@ import javax.inject.Inject
 private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
 
 class WebInputService : Service(), IWebInputService {
-
-    @Inject
-    lateinit var localDateJsonDeserializer: JsonDeserializer<LocalDate>
-
-    @Inject
-    lateinit var localTimeJsonDeserializer: JsonDeserializer<LocalTime>
 
     @Inject
     lateinit var repository: Repository
@@ -155,11 +152,11 @@ class WebInputService : Service(), IWebInputService {
                             gson {
                                 registerTypeAdapter(
                                     LocalDate::class.java,
-                                    localDateJsonDeserializer
+                                    LocalDateAdapter
                                 )
                                 registerTypeAdapter(
                                     LocalTime::class.java,
-                                    localTimeJsonDeserializer
+                                    LocalTimeAdapter
                                 )
                             }
                         }
@@ -250,7 +247,13 @@ class WebInputService : Service(), IWebInputService {
 
     private fun Route.serve() {
         post("/") {
-            if (repository.createTransaction(call.receive()) != null) {
+            val transaction = call.receive<Transaction>()
+            val success = if (transaction.id == 0L) {
+                repository.createTransaction(transaction) != null
+            } else {
+                repository.updateTransaction(transaction) == 1
+            }
+            if (success) {
                 count++
                 call.respond(
                     HttpStatusCode.Created,

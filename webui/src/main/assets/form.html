@@ -45,12 +45,12 @@
                     </button>
                 </div>
             </div>
-            <div class="relative overflow-y-auto max-h-48" x-data="{open:false, activeTransaction:null}" @click.outside="open = false">
+            <div class="relative overflow-y-auto max-h-48" x-data="{menuOpen:false, activeTransaction:null}" @click.outside="menuOpen = false">
                 <table class="w-full border border-spacing-x-px">
                     <template x-for="item in transactions" :key="item.id">
 
-                        <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1"
-                            @click="if (!open) { positionPopup($event, $refs.menu); activeTransaction = item }; open = !open">
+                        <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1 hover:bg-slate-200 dark:hover:bg-neutral-700"
+                            @click="if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen">
                             <td class="p-1" x-text="item.dateFormatted"></td>
                             <td class="w-full p-1">
                                 <div x-html="item.displayHtml"></div>
@@ -61,8 +61,26 @@
                         </tr>
                     </template>
                 </table>
-                <div x-ref="menu" class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900" x-show="open">
-                    <a href="#" @click="open = false; alert('Edit transaction #' + activeTransaction.id)"><span class="material-symbols-outlined mr-1 align-middle">edit</span>Edit</a>
+                <div x-ref="menu" class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900" x-show="menuOpen">
+                    <a href="#" @click="menuOpen = false;
+                    id = activeTransaction.id
+                    signum = activeTransaction.amount > 0 ? true : false;
+                    amount = activeTransaction.amount;
+                    payee = activeTransaction.payee;
+                    comment = activeTransaction.comment;
+                    number = activeTransaction.number;
+                    date = activeTransaction.date;
+                    time = activeTransaction.time;
+                    valueDate = activeTransaction.valueDate;
+                    let newPath = pathFromTerminalNode(data.categories, activeTransaction.category)
+                    let lastIndex = newPath.length - 1
+                    for (let index = lastIndex; index >= 0; index--) {
+                        categoryPath[lastIndex - index].id = newPath[index].id;
+                        await $nextTick();
+                    }
+                    selectedTags = activeTransaction.tags;
+                    method = activeTransaction.method
+                    "><span class="material-symbols-outlined mr-1 align-middle">edit</span>Edit</a>
                 </div>
             </div>
 
@@ -164,6 +182,7 @@
             <div>
                 <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
                         type="button" :disabled="amount == ''" @click="submitForm({
+                            id: id,
                             account: account,
                             amount: signum ? amount : -amount,
                             date: date,
@@ -233,10 +252,22 @@ function terminalNodeFromPath(path) {
   return path.reduce((acc, curr) => curr.id == 0 ? acc : curr.id, null);
 }
 
+function pathFromTerminalNode(array, category) {
+    let result = [];
+    let node = category;
+    while(true) {
+        result.push( { id: node } );
+        node = array.find(item => item.id == node).parent;
+        if (node == undefined) break;
+    }
+    return result
+}
+
 function modelData() {
     let date = new Date();
     let dateFormatted = formatDate(date);
     return {
+        id: 0,
         name: '',
         signum: false,
         amount: '',

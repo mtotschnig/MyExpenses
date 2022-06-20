@@ -47,10 +47,11 @@ data class Transaction(
             val payee = cursor.getString(KEY_PAYEE_NAME)
             val comment = cursor.getString(KEY_COMMENT)
             val money = Money(currencyUnit, cursor.getLong(KEY_AMOUNT))
+            val number = cursor.getString(KEY_REFERENCE_NUMBER)
             return Transaction(
                 id = cursor.getLong(KEY_ROWID),
                 account = account,
-                amount =  money.amountMajor.toFloat(),
+                amount = money.amountMajor.toFloat(),
                 amountFormatted = currencyFormatter.formatMoney(money),
                 date = dateTime.toLocalDate(),
                 time = dateTime.toLocalTime(),
@@ -61,8 +62,9 @@ data class Transaction(
                 tags = emptyList(),
                 comment = comment,
                 method = cursor.getLong(KEY_METHODID),
-                number = cursor.getString(KEY_REFERENCE_NUMBER),
-                displayHtml = buildList {
+                number = number,
+                displayHtml = (number.takeIf { it.isNotEmpty() }?.let { "($it) " } ?: "")
+                        + buildList {
                     cursor.getString(KEY_LABEL).takeIf { it.isNotEmpty() }?.let {
                         add("<span>$it</span>")
                     }

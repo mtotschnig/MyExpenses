@@ -21,7 +21,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
@@ -34,46 +36,79 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Repository @Inject constructor(val context: Context, val currencyContext: CurrencyContext, val currencyFormatter: CurrencyFormatter) {
+class Repository @Inject constructor(
+    val context: Context,
+    val currencyContext: CurrencyContext,
+    val currencyFormatter: CurrencyFormatter
+) {
 
     val contentResolver: ContentResolver = context.contentResolver
 
+    fun Transaction.toContentValues() = getCurrencyUnitForAccount(account)?.let { currencyUnit ->
+        ContentValues().apply {
+            put(KEY_ACCOUNTID, account)
+            put(
+                KEY_AMOUNT,
+                Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
+            )
+            put(KEY_DATE, time?.let {
+                localDateTime2Epoch(LocalDateTime.of(date, time))
+            } ?: localDate2Epoch(date))
+            put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
+            put(KEY_PAYEEID, findOrWritePayee(payee))
+            put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+            category.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
+            method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
+            put(KEY_REFERENCE_NUMBER, number)
+            put(KEY_COMMENT, comment)
+            put(KEY_UUID, Model.generateUuid())
+        }
+    }
+
     //Transaction
-    fun createTransaction(transaction: Transaction) = with(transaction) {
-        getCurrencyUnitForAccount(account)?.let { currencyUnit ->
-            val ops = ArrayList<ContentProviderOperation>()
-            ops.add(ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
-                .withValues(
-                    ContentValues().apply {
-                        put(KEY_ACCOUNTID, account)
-                        put(
-                            KEY_AMOUNT,
-                            Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
-                        )
-                        put(KEY_DATE, time?.let {
-                            localDateTime2Epoch(LocalDateTime.of(date, time))
-                        } ?: localDate2Epoch(date))
-                        put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
-                        put(KEY_PAYEEID, findOrWritePayee(payee))
-                        put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                        category.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
-                        method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
-                        put(KEY_REFERENCE_NUMBER, number)
-                        put(KEY_COMMENT, comment)
-                        put(KEY_UUID, Model.generateUuid())
-                    }
-                ).build())
-            for (tag in transaction.tags) {
-                ops.add(
-                    ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                        .withValueBackReference(KEY_TRANSACTIONID, 0)
-                        .withValue(KEY_TAGID, tag).build()
-                )
-            }
-            contentResolver.applyBatch(
-                TransactionProvider.AUTHORITY,
-                ops
-            )[0].uri?.let { ContentUris.parseId(it) }
+    fun updateTransaction(transaction: Transaction) = transaction.toContentValues()?.let {
+        val ops = ArrayList<ContentProviderOperation>()
+        ops.add(
+            ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(it)
+                .withSelection("$KEY_ROWID = ?", arrayOf(transaction.id.toString()))
+                .build()
+        )
+        ops.add(
+            ContentProviderOperation.newDelete(TRANSACTIONS_TAGS_URI)
+                .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(transaction.id.toString()))
+                .build()
+        )
+        for (tag in transaction.tags) {
+            ops.add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
+                    .withValue(KEY_TRANSACTIONID, transaction.id)
+                    .withValue(KEY_TAGID, tag).build()
+            )
+        }
+        val results = contentResolver.applyBatch(
+            TransactionProvider.AUTHORITY,
+            ops
+        )
+        results[0].count
+    }
+
+    fun createTransaction(transaction: Transaction) = transaction.toContentValues()?.let { values ->
+        val ops = ArrayList<ContentProviderOperation>()
+        values.put(KEY_UUID, Model.generateUuid())
+        ops.add(
+            ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
+                .withValues(values)
+                .build()
+        )
+        for (tag in transaction.tags) {
+            ops.add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
+                    .withValueBackReference(KEY_TRANSACTIONID, 0)
+                    .withValue(KEY_TAGID, tag).build()
+            )
+        }
+        contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)[0].uri?.let {
+            ContentUris.parseId(it)
         }
     }
 
@@ -85,7 +120,23 @@ class Repository @Inject constructor(val context: Context, val currencyContext: 
                 "$KEY_ACCOUNTID = ?", arrayOf(accountId.toString()), null
             )?.use { cursor ->
                 cursor.asSequence.map {
-                    Transaction.fromCursor(it, accountId, currencyUnit, currencyFormatter, Utils.ensureDateFormatWithShortYear(context))
+                    Transaction.fromCursor(
+                        it,
+                        accountId,
+                        currencyUnit,
+                        currencyFormatter,
+                        Utils.ensureDateFormatWithShortYear(context)
+                    ).copy(
+                        tags = contentResolver.query(
+                            TRANSACTIONS_TAGS_URI,
+                            arrayOf(KEY_ROWID),
+                            "$KEY_TRANSACTIONID = ?",
+                            arrayOf(it.getLong(KEY_ROWID).toString()),
+                            null
+                        )?.use { tagCursor ->
+                            tagCursor.asSequence.map { it.getLong(0) }.toList()
+                        } ?: emptyList()
+                    )
                 }.toList()
             }
         } ?: emptyList()
