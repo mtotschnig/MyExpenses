@@ -10,7 +10,6 @@ import android.os.IBinder
 import androidx.annotation.StringRes
 import androidx.core.database.getLongOrNull
 import com.google.gson.Gson
-import com.google.gson.JsonDeserializer
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -372,7 +371,11 @@ class WebInputService : Service(), IWebInputService {
                     "i18n_notes" -> t(R.string.comment)
                     "i18n_method" -> t(R.string.method)
                     "i18n_submit" -> t(R.string.menu_save)
+                    "i18n_create_transaction" -> t(R.string.menu_create_transaction)
+                    "i18n_edit_transaction" -> t(R.string.menu_edit_transaction)
                     "i18n_number" -> t(R.string.reference_number)
+                    "i18n_edit" -> t(R.string.menu_edit)
+                    "i18n_discard_changes" -> t(R.string.dialog_confirm_discard_changes)
                     "category_tree_depth" -> categoryTreeDepth.toString()
                     "data" -> gson.toJson(data)
                     "categoryWatchers" -> categoryWatchers
