@@ -66,11 +66,11 @@ class Repository @Inject constructor(
     }
 
     //Transaction
-    fun updateTransaction(transaction: Transaction) = transaction.toContentValues()?.let {
+    fun updateTransaction(id: String, transaction: Transaction) = transaction.toContentValues()?.let {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(
             ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(it)
-                .withSelection("$KEY_ROWID = ?", arrayOf(transaction.id.toString()))
+                .withSelection("$KEY_ROWID = ?", arrayOf(id))
                 .build()
         )
         ops.add(

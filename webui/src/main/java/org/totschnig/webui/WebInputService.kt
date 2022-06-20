@@ -245,15 +245,28 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private fun Route.serve() {
-        post("/") {
+        put("/transactions/{id}") {
             val transaction = call.receive<Transaction>()
-            val success = if (transaction.id == 0L) {
-                repository.createTransaction(transaction) != null
-            } else {
-                repository.updateTransaction(transaction) == 1
-            }
-            if (success) {
+            val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
+            if (updated != null && updated > 0) {
                 count++
+                call.respond(
+                    HttpStatusCode.OK,
+                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while saving transaction."
+                )
+            }
+        }
+        post("/transactions") {
+            val transaction = call.receive<Transaction>()
+            val id = repository.createTransaction(transaction)
+            if (id != null) {
+                count++
+                call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
                 call.respond(
                     HttpStatusCode.Created,
                     "${getString(R.string.save_transaction_and_new_success)} ($count)"
@@ -400,8 +413,8 @@ class WebInputService : Service(), IWebInputService {
                 stringSubstitutor.replace(readTextFromAssets("form.html"))
             call.respondText(text, ContentType.Text.Html)
         }
-        get("/accounts/{id}") {
-            call.respond(repository.loadTransactions(call.parameters["id"]!!.toLong()))
+        get("/transactions") {
+            call.respond(repository.loadTransactions(call.request.queryParameters["account_id"]!!.toLong()))
         }
     }
 

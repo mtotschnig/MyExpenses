@@ -186,8 +186,7 @@
 
             <div class="relative">
                 <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="amount == ''" @click="submitForm({
-                            id: id,
+                        type="button" :disabled="amount == ''" @click="submitForm(id, {
                             account: account,
                             amount: signum ? amount : -amount,
                             date: date,
@@ -318,18 +317,20 @@ function formatTime(date) {
   return [hours, minutes].join(':');
 }
 
-function submitForm(data) {
-    return fetch("/", {
+function submitForm(id, data) {
+    let uri = "/transactions" + (id == 0 ? "" : ("/" + id))
+    let method = id == 0 ? "POST" : "PUT"
+    return fetch(uri, {
         headers: {
             'Content-Type': 'application/json'
         },
-        method: 'POST',
+        method: method,
         body: JSON.stringify(data)
     });
 }
 
 function loadTransactions(account) {
-    return fetch("/accounts/"+account, {
+    return fetch("/transactions?account_id="+account, {
             headers: {
                 'Content-Type': 'application/json'
             },
