@@ -18,7 +18,7 @@
 
 </head>
 
-<body x-data="modelData()"
+<body x-data="modelData"
       x-init="account = data.accounts[0].id;
       $watch('amount', value => { if (value < 0) amount = -value } );
       ${categoryWatchers}" class="bg-white dark:bg-neutral-900"
@@ -67,25 +67,11 @@
                 <div x-ref="menu"
                      class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900"
                      x-show="menuOpen">
-                    <a href="#" @click="menuOpen = false;
-                    id = activeTransaction.id
-                    signum = activeTransaction.amount > 0 ? true : false;
-                    amount = activeTransaction.amount;
-                    payee = activeTransaction.payee;
-                    comment = activeTransaction.comment;
-                    number = activeTransaction.number;
-                    date = activeTransaction.date;
-                    time = activeTransaction.time;
-                    valueDate = activeTransaction.valueDate;
-                    let newPath = pathFromTerminalNode(data.categories, activeTransaction.category)
-                    let lastIndex = newPath.length - 1
-                    for (let index = lastIndex; index >= 0; index--) {
-                        categoryPath[lastIndex - index].id = newPath[index].id;
-                        await $nextTick();
-                    }
-                    selectedTags = activeTransaction.tags;
-                    method = activeTransaction.method
-                    "><span class="material-symbols-outlined mr-1 align-middle">edit</span>${i18n_edit}</a>
+                    <ul>
+                        <li><a href="#" @click="menuOpen = false; loadTransaction(activeTransaction); id = activeTransaction.id"><span class="material-symbols-outlined mr-1 align-middle">edit</span>${i18n_edit}</a></li>
+                        <li><a href="#" @click="menuOpen = false; loadTransaction(activeTransaction); id = 0">Clone</a></li>
+                        <li><a href="#">Delete</a></li>
+                    </ul>
                 </div>
             </div>
 
@@ -207,7 +193,7 @@
                     let now = new Date();
                     let dateFormatted = formatDate(now);
                     id = 0; amount = ''; date = dateFormatted; valueDate = dateFormatted; time = formatTime(now); payee = ''; comment = '';
-                    if (categoryPath.length > ß) { categoryPath[0].id = 0; };
+                    if (categoryPath.length > 0) { categoryPath[0].id = 0; };
                     selectedTags = []; method = 0; number = ''; resultText = ''; resultCode = 0;
                  }
 ">Reset</button>
@@ -224,6 +210,50 @@ const dateMode = {
   dateTime: 2,
   bookingValue: 3
 };
+
+document.addEventListener('alpine:init', () => {
+    let date = new Date();
+    let dateFormatted = formatDate(date);
+    Alpine.data('modelData', () => ({
+        id: 0,
+        signum: false,
+        amount: '',
+        date: dateFormatted,
+        valueDate: dateFormatted,
+        time: formatTime(date),
+        payee: '',
+        account: 0,
+        comment: '',
+        categoryPath:  Array.from(Array(${category_tree_depth}), () => { return { id: 0 }; }),
+        selectedTags: [],
+        method: 0,
+        number: '',
+        resultText: '',
+        resultCode: 0,
+        data: ${data},
+        transactions: [],
+        async loadTransaction(transaction){
+            this.signum = transaction.amount > 0 ? true : false;
+            this.amount = transaction.amount;
+            this.payee = transaction.payee;
+            this.comment = transaction.comment;
+            this.number = transaction.number;
+            this.date = transaction.date;
+            this.time = transaction.time;
+            this.valueDate = transaction.valueDate;
+            if (transaction.category > 0) {
+                let newPath = pathFromTerminalNode(this.data.categories, transaction.category)
+                let lastIndex = newPath.length - 1
+                for (let index = lastIndex; index >= 0; index--) {
+                    this.categoryPath[lastIndex - index].id = newPath[index].id;
+                    await this.$nextTick();
+                }
+            }
+            this.selectedTags = transaction.tags;
+            this.method = transaction.method
+        }
+    }))
+})
 
 function currentDateMode(data, account) {
     var type = accountType(data, account)
@@ -274,30 +304,6 @@ function pathFromTerminalNode(array, category) {
         if (node == undefined) break;
     }
     return result
-}
-
-function modelData() {
-    let date = new Date();
-    let dateFormatted = formatDate(date);
-    return {
-        id: 0,
-        signum: false,
-        amount: '',
-        date: dateFormatted,
-        valueDate: dateFormatted,
-        time: formatTime(date),
-        payee: '',
-        account: 0,
-        comment: '',
-        categoryPath:  Array.from(Array(${category_tree_depth}), () => { return { id: 0 }; }),
-        selectedTags: [],
-        method: 0,
-        number: '',
-        resultText: '',
-        resultCode: 0,
-        data: ${data},
-        transactions: []
-    }
 }
 
 function formatPart(number) {

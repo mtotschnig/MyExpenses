@@ -75,13 +75,13 @@ class Repository @Inject constructor(
         )
         ops.add(
             ContentProviderOperation.newDelete(TRANSACTIONS_TAGS_URI)
-                .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(transaction.id.toString()))
+                .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(id))
                 .build()
         )
         for (tag in transaction.tags) {
             ops.add(
                 ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
-                    .withValue(KEY_TRANSACTIONID, transaction.id)
+                    .withValue(KEY_TRANSACTIONID, id)
                     .withValue(KEY_TAGID, tag).build()
             )
         }
