@@ -15,20 +15,17 @@
     <link rel="icon" href="/favicon.ico">
 
     <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
-
+    <script src="data.js"></script>
+    <script src="messages.js"></script>
 </head>
 
-<body x-data="modelData"
-      x-init="account = data.accounts[0].id;
-      $watch('amount', value => { if (value < 0) amount = -value } );
-      ${categoryWatchers}" class="bg-white dark:bg-neutral-900"
->
+<body x-data="modelData" class="bg-white dark:bg-neutral-900">
 <div class="flex justify-center">
     <div class="max-w-screen-sm w-full rounded shadow-lg p-8 m-4 text-slate-500 dark:text-white dark:border dark:border-white">
         <form>
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg"
-                       for="account">${i18n_account}</label>
+                       for="account" x-text="messages.i18n_account"></label>
                 <div class="flex flex-row">
                     <select class="grow mr-2" name="account" id="account" x-model="account">
                         <template x-for="item in data.accounts" :key="item.id">
@@ -68,7 +65,9 @@
                      class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900"
                      x-show="menuOpen">
                     <ul>
-                        <li><a href="#" @click="menuOpen = false; loadTransaction(activeTransaction); id = activeTransaction.id"><span class="material-symbols-outlined mr-1 align-middle">edit</span>${i18n_edit}</a></li>
+                        <li><a href="#" @click="menuOpen = false; loadTransaction(activeTransaction); id = activeTransaction.id"><span class="material-symbols-outlined mr-1 align-middle">edit</span>
+                        <span x-text="messages.i18n_edit"></span>
+                        </a></li>
                         <li><a href="#" @click="menuOpen = false; loadTransaction(activeTransaction); id = 0">Clone</a></li>
                         <li><a href="#">Delete</a></li>
                     </ul>
@@ -77,7 +76,7 @@
 
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="amount">${i18n_amount}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="amount" x-text="messages.i18n_amount"></label>
                 <div>
                     <label class="switch mr-2">
                         <input type="checkbox" name="type" x-model="signum">
@@ -92,7 +91,7 @@
 
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg"
-                       x-text="dateRowLabel(data, account)">${i18n_date}</label>
+                       x-text="dateRowLabel(data, account)"></label>
                 <div class="flex flex-row">
                     <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date"
                            required x-model="date">
@@ -110,7 +109,7 @@
 
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg"
-                       for="payee">${i18n_payee}</label>
+                       for="payee" x-text="messages.i18n_payee"></label>
                 <input class="border py-2 px-3" list="payees" name="payee"
                        id="payee"
                        x-model="payee">
@@ -122,8 +121,8 @@
             </div>
 
             <div class="flex flex-col mb-4" x-show="data.categories.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg">${i18n_category}</label>
-                <div class="grid grid-cols-${category_tree_depth} gap-2">
+                <label class="mb-2 uppercase font-bold text-lg" x-text="messages.i18n_category"></label>
+                <div class="grid gap-2" :class="'grid-cols-'+categoryTreeDepth">
                     <template x-for="(category, level) in categoryPath">
                         <select class="h-8" :name="'category_' + level" :id="'category_' + level"
                                 x-model="category.id">
@@ -139,7 +138,7 @@
             </div>
 
             <div class="flex flex-col mb-4" x-show="data.tags.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg" for="tags">${i18n_tags}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="tags" x-text="messages.i18n_tags"></label>
                 <select name="tags" id="tags" multiple x-model="selectedTags">
                     <template x-for="item in data.tags" :key="item.id">
                         <option :value="item.id" x-text="item.label"></option>
@@ -149,7 +148,7 @@
 
             <div class="flex flex-col mb-4"
                  x-show="methodsForTypes(data, account, signum).length > 0">
-                <label class="mb-2 uppercase font-bold text-lg" for="tags">${i18n_method}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="tags" x-text="messages.i18n_method"></label>
                 <div class="grid grid-cols-2 gap-2">
                     <select class="h-8" name="method" id="method" x-model="method">
                         <option value="0"></option>
@@ -160,36 +159,22 @@
                     </select>
                     <input class="h-8 border py-2 px-3  align-middle"
                            x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered"
-                           placeholder="${i18n_number}"
+                           :placeholder="messages.i18n_number"
                            name="number" id="number" x-model="number">
                 </div>
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="notes">${i18n_notes}</label>
+                <label class="mb-2 uppercase font-bold text-lg" for="notes" x-text="messages.i18n_notes"></label>
                 <textarea name="notes" id="notes" x-model="comment"></textarea>
             </div>
 
             <div class="relative">
                 <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="amount == ''" @click="submitForm(id, {
-                            account: account,
-                            amount: signum ? amount : -amount,
-                            date: date,
-                            time: (currentDateMode(data, account) == dateMode.dateTime) ? time : null,
-                            valueDate: valueDate,
-                            payee: payee,
-                            category: terminalNodeFromPath(categoryPath),
-                            tags: selectedTags,
-                            comment: comment,
-                            method: method,
-                            number: number}).then(response => {
-                        resultCode = response.status
-    response.text().then(text => resultText = text)
-    }).catch(errorHandler)">${i18n_submit}<br><span class="text-xs"
-                                                    x-text="'(' + (id == 0 ? '${i18n_create_transaction}' : '${i18n_edit_transaction}') + ')'"></span>
+                        type="button" :disabled="amount == ''" @click="submitForm"><span x-text="messages.i18n_submit"></span><br><span class="text-xs"
+                                                    x-text="'(' + (id == 0 ? messages.i18n_create_transaction : messages.i18n_edit_transaction) + ')'"></span>
                 </button>
-                <button class="absolute bottom-0 right-0" type="button" @click="if (confirm('${i18n_discard_changes}')) {
+                <button class="absolute bottom-0 right-0" type="button" @click="if (confirm(messages.i18n_discard_changes)) {
                     let now = new Date();
                     let dateFormatted = formatDate(now);
                     id = 0; amount = ''; date = dateFormatted; valueDate = dateFormatted; time = formatTime(now); payee = ''; comment = '';
@@ -203,154 +188,5 @@
              :class="resultCode < 300 ? 'text-current' : 'text-red-500'"></div>
     </div>
 </div>
-
-<script>
-const dateMode = {
-  date: 1,
-  dateTime: 2,
-  bookingValue: 3
-};
-
-document.addEventListener('alpine:init', () => {
-    let date = new Date();
-    let dateFormatted = formatDate(date);
-    Alpine.data('modelData', () => ({
-        id: 0,
-        signum: false,
-        amount: '',
-        date: dateFormatted,
-        valueDate: dateFormatted,
-        time: formatTime(date),
-        payee: '',
-        account: 0,
-        comment: '',
-        categoryPath:  Array.from(Array(${category_tree_depth}), () => { return { id: 0 }; }),
-        selectedTags: [],
-        method: 0,
-        number: '',
-        resultText: '',
-        resultCode: 0,
-        data: ${data},
-        transactions: [],
-        async loadTransaction(transaction){
-            this.signum = transaction.amount > 0 ? true : false;
-            this.amount = transaction.amount;
-            this.payee = transaction.payee;
-            this.comment = transaction.comment;
-            this.number = transaction.number;
-            this.date = transaction.date;
-            this.time = transaction.time;
-            this.valueDate = transaction.valueDate;
-            if (transaction.category > 0) {
-                let newPath = pathFromTerminalNode(this.data.categories, transaction.category)
-                let lastIndex = newPath.length - 1
-                for (let index = lastIndex; index >= 0; index--) {
-                    this.categoryPath[lastIndex - index].id = newPath[index].id;
-                    await this.$nextTick();
-                }
-            }
-            this.selectedTags = transaction.tags;
-            this.method = transaction.method
-        }
-    }))
-})
-
-function currentDateMode(data, account) {
-    var type = accountType(data, account)
-    if (!(type == "CASH")) {
-      if (${withValueDate}) {
-        return dateMode.bookingValue;
-      }
-    }
-    return ${withTime} ? dateMode.dateTime : dateMode.date;
-}
-
-function dateRowLabel(data, account) {
-    switch(currentDateMode(data, account)) {
-      case dateMode.date: return "${i18n_date}";
-      case dateMode.dateTime: return "${i18n_date} / ${i18n_time}";
-      case dateMode.bookingValue: return "${i18n_booking_date} / ${i18n_value_date}";
-    }
-}
-
-var errorHandler = (error) => alert('Error: ' + error)
-
-function categoriesByParent(array, parent) {
-    return array.filter(item => item.parent == parent)
-}
-
-function methodsForTypes(data, account, signum) {
-    return data.methods.filter(item => item.accountTypes.includes(accountType(data, account)) && (item.type == 0 || item.type == (signum ? 1 : -1)))
-}
-
-function accountType(data, account) {
-    return data.accounts.find(item => item.id == account).type
-}
-
-function accountCurrency(data, account) {
-    return data.accounts.find(item => item.id == account).currency
-}
-
-function terminalNodeFromPath(path) {
-  return path.reduce((acc, curr) => curr.id == 0 ? acc : curr.id, null);
-}
-
-function pathFromTerminalNode(array, category) {
-    let result = [];
-    let node = category;
-    while(true) {
-        result.push( { id: node } );
-        node = array.find(item => item.id == node).parent;
-        if (node == undefined) break;
-    }
-    return result
-}
-
-function formatPart(number) {
-    return number.toString().padStart(2, '0')
-}
-
-function formatDate(date) {
-  let month = formatPart(date.getMonth() + 1);
-  let day = formatPart(date.getDate());
-  let year = date.getFullYear();
-  return [year, month, day].join('-');
-}
-
-function formatTime(date) {
-  let hours = formatPart(date.getHours());
-  let minutes = formatPart(date.getMinutes());
-  return [hours, minutes].join(':');
-}
-
-function submitForm(id, data) {
-    let uri = "/transactions" + (id == 0 ? "" : ("/" + id))
-    let method = id == 0 ? "POST" : "PUT"
-    return fetch(uri, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: method,
-        body: JSON.stringify(data)
-    });
-}
-
-function loadTransactions(account) {
-    return fetch("/transactions?account_id="+account, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'GET'
-        });
-}
-
-function positionPopup(event, menu) {
-    menu.style.top = event.pageY + "px"
-    menu.style.left = event.pageX + "px"
-}
-
-
-</script>
-
 </body>
 </html>

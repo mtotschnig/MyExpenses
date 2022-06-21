@@ -201,6 +201,29 @@ class WebInputService : Service(), IWebInputService {
                                     ContentType.Image.XIcon
                                 )
                             }
+                            get("messages.js") {
+                                call.respondText("""
+                                    let messages = {
+                                        "i18n_account" : '${t(R.string.account)}',
+                                        "i18n_amount" : '${t(R.string.amount)}',
+                                        "i18n_date" : '${t(R.string.date)}',
+                                        "i18n_time" : '${t(R.string.time)}',
+                                        "i18n_booking_date" : '${t(R.string.booking_date)}',
+                                        "i18n_value_date" : '${t(R.string.value_date)}',
+                                        "i18n_payee" : '${t(R.string.payer_or_payee)}',
+                                        "i18n_category" : '${t(R.string.category)}',
+                                        "i18n_tags" : '${t(R.string.tags)}',
+                                        "i18n_notes" : '${t(R.string.comment)}',
+                                        "i18n_method" : '${t(R.string.method)}',
+                                        "i18n_submit" : '${t(R.string.menu_save)}',
+                                        "i18n_create_transaction" : '${t(R.string.menu_create_transaction)}',
+                                        "i18n_edit_transaction" : '${t(R.string.menu_edit_transaction)}',
+                                        "i18n_number" : '${t(R.string.reference_number)}',
+                                        "i18n_edit" : '${t(R.string.menu_edit)}',
+                                        "i18n_discard_changes" : '${t(R.string.dialog_confirm_discard_changes)}'
+                                    };
+                                """.trimIndent(), ContentType.Text.JavaScript)
+                            }
                             if (passWord == null) {
                                 serve()
                             } else {
@@ -245,40 +268,7 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private fun Route.serve() {
-        put("/transactions/{id}") {
-            val transaction = call.receive<Transaction>()
-            val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
-            if (updated != null && updated > 0) {
-                count++
-                call.respond(
-                    HttpStatusCode.OK,
-                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
-                )
-            } else {
-                call.respond(
-                    HttpStatusCode.Conflict,
-                    "Error while saving transaction."
-                )
-            }
-        }
-        post("/transactions") {
-            val transaction = call.receive<Transaction>()
-            val id = repository.createTransaction(transaction)
-            if (id != null) {
-                count++
-                call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
-                call.respond(
-                    HttpStatusCode.Created,
-                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
-                )
-            } else {
-                call.respond(
-                    HttpStatusCode.Conflict,
-                    "Error while saving transaction."
-                )
-            }
-        }
-        get("/") {
+        get("data.js") {
             val categories = contentResolver.query(
                 TransactionProvider.CATEGORIES_URI.buildUpon()
                     .appendQueryParameter(
@@ -366,29 +356,11 @@ class WebInputService : Service(), IWebInputService {
                 categories?.map { it["level"] as Int }?.maxOrNull() ?: 0
             val categoryWatchers = if (categoryTreeDepth > 1) {
                 (0..categoryTreeDepth - 2).joinToString(separator = "\n") {
-                    "\$watch('categoryPath[$it].id', value => { categoryPath[${it + 1}].id=0 } );"
+                    "this.\$watch('categoryPath[$it].id', value => { this.categoryPath[${it + 1}].id=0 } );"
                 }
             } else ""
             val lookup = StringLookup { key ->
                 when (key) {
-                    "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
-                    "i18n_account" -> t(R.string.account)
-                    "i18n_amount" -> t(R.string.amount)
-                    "i18n_date" -> t(R.string.date)
-                    "i18n_time" -> t(R.string.time)
-                    "i18n_booking_date" -> t(R.string.booking_date)
-                    "i18n_value_date" -> t(R.string.value_date)
-                    "i18n_payee" -> t(R.string.payer_or_payee)
-                    "i18n_category" -> t(R.string.category)
-                    "i18n_tags" -> t(R.string.tags)
-                    "i18n_notes" -> t(R.string.comment)
-                    "i18n_method" -> t(R.string.method)
-                    "i18n_submit" -> t(R.string.menu_save)
-                    "i18n_create_transaction" -> t(R.string.menu_create_transaction)
-                    "i18n_edit_transaction" -> t(R.string.menu_edit_transaction)
-                    "i18n_number" -> t(R.string.reference_number)
-                    "i18n_edit" -> t(R.string.menu_edit)
-                    "i18n_discard_changes" -> t(R.string.dialog_confirm_discard_changes)
                     "category_tree_depth" -> categoryTreeDepth.toString()
                     "data" -> gson.toJson(data)
                     "categoryWatchers" -> categoryWatchers
@@ -401,6 +373,55 @@ class WebInputService : Service(), IWebInputService {
                         false
                     ).toString()
                     else -> throw IllegalStateException("Unknown substitution key $key")
+                }
+            }
+            val stringSubstitutor = StringSubstitutor(
+                lookup,
+                DEFAULT_PREFIX,
+                DEFAULT_SUFFIX,
+                DEFAULT_ESCAPE
+            )
+            val text = stringSubstitutor.replace(readTextFromAssets("data.js"))
+            call.respondText(text, ContentType.Text.JavaScript)
+        }
+        put("/transactions/{id}") {
+            val transaction = call.receive<Transaction>()
+            val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
+            if (updated != null && updated > 0) {
+                count++
+                call.respond(
+                    HttpStatusCode.OK,
+                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while saving transaction."
+                )
+            }
+        }
+        post("/transactions") {
+            val transaction = call.receive<Transaction>()
+            val id = repository.createTransaction(transaction)
+            if (id != null) {
+                count++
+                call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
+                call.respond(
+                    HttpStatusCode.Created,
+                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while saving transaction."
+                )
+            }
+        }
+        get("/") {
+            val lookup = StringLookup { key ->
+                when (key) {
+                    "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
+                    else -> "TODO"
                 }
             }
             val stringSubstitutor = StringSubstitutor(
