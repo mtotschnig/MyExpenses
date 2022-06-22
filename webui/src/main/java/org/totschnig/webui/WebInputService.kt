@@ -204,24 +204,27 @@ class WebInputService : Service(), IWebInputService {
                             get("messages.js") {
                                 call.respondText("""
                                     let messages = {
-                                        i18n_title : '${tq(R.string.app_name)} ${tq(R.string.title_webui)}',
-                                        i18n_account : '${tq(R.string.account)}',
-                                        i18n_amount : '${tq(R.string.amount)}',
-                                        i18n_date : '${tq(R.string.date)}',
-                                        i18n_time : '${tq(R.string.time)}',
-                                        i18n_booking_date : '${tq(R.string.booking_date)}',
-                                        i18n_value_date : '${tq(R.string.value_date)}',
-                                        i18n_payee : '${tq(R.string.payer_or_payee)}',
-                                        i18n_category : '${tq(R.string.category)}',
-                                        i18n_tags : '${tq(R.string.tags)}',
-                                        i18n_notes : '${tq(R.string.comment)}',
-                                        i18n_method : '${tq(R.string.method)}',
-                                        i18n_submit : '${tq(R.string.menu_save)}',
-                                        i18n_create_transaction : '${tq(R.string.menu_create_transaction)}',
-                                        i18n_edit_transaction : '${tq(R.string.menu_edit_transaction)}',
-                                        i18n_number : '${tq(R.string.reference_number)}',
-                                        i18n_edit : '${tq(R.string.menu_edit)}',
-                                        i18n_discard_changes : '${tq(R.string.dialog_confirm_discard_changes)}'
+                                    ${i18nJson("app_name")},
+                                    ${i18nJson("title_webui")},
+                                    ${i18nJson("account")},
+                                    ${i18nJson("amount")},
+                                    ${i18nJson("date")},
+                                    ${i18nJson("time")},
+                                    ${i18nJson("booking_date")},
+                                    ${i18nJson("value_date")},
+                                    ${i18nJson("payer_or_payee")},
+                                    ${i18nJson("category")},
+                                    ${i18nJson("tags")},
+                                    ${i18nJson("comment")},
+                                    ${i18nJson("method")},
+                                    ${i18nJson("menu_save")},
+                                    ${i18nJson("menu_create_transaction")},
+                                    ${i18nJson("menu_edit_transaction")},
+                                    ${i18nJson("reference_number")},
+                                    ${i18nJson("menu_edit")},
+                                    ${i18nJson("dialog_confirm_discard_changes")},
+                                    ${i18nJson("menu_clone_transaction")},
+                                    ${i18nJson("menu_delete")}
                                     };
                                 """.trimIndent(), ContentType.Text.JavaScript)
                             }
@@ -434,6 +437,9 @@ class WebInputService : Service(), IWebInputService {
     } catch (e: IOException) {
         false
     }
+
+    private fun i18nJson(resourceName: String) =
+        "$resourceName : '${tq(resources.getIdentifier(resourceName, "string", packageName))}'"
 
     private fun tq(@StringRes resId: Int) = wrappedContext.getString(resId).replace("'", "\\'")
 

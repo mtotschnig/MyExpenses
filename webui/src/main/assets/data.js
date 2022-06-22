@@ -5,7 +5,7 @@ const dateMode = {
 };
 
 document.addEventListener('alpine:init', () => {
-    document.title = messages.i18n_title
+    document.title = messages.app_name + " " + messages.title_webui
     let date = new Date();
     let dateFormatted = formatDate(date);
     let categoryTreeDepth = ${category_tree_depth};
@@ -38,7 +38,7 @@ document.addEventListener('alpine:init', () => {
             this.time = transaction.time;
             this.valueDate = transaction.valueDate;
             if (transaction.category > 0) {
-                let newPath = pathFromTerminalNode(this.data.categories, transaction.category)
+                let newPath = this.pathFromTerminalNode(transaction.category)
                 let lastIndex = newPath.length - 1
                 for (let index = lastIndex; index >= 0; index--) {
                     this.categoryPath[lastIndex - index].id = newPath[index].id;
@@ -53,17 +53,17 @@ document.addEventListener('alpine:init', () => {
                 account: this.account,
                 amount: this.signum ? this.amount : -this.amount,
                 date: this.date,
-                time: (currentDateMode(this.data, this.account) == dateMode.dateTime) ? this.time : null,
+                time: this.currentDateMode == dateMode.dateTime ? this.time : null,
                 valueDate: this.valueDate,
                 payee: this.payee,
-                category: terminalNodeFromPath(this.categoryPath),
+                category: this.terminalNodeFromPath(this.categoryPath),
                 tags: this.selectedTags,
                 comment: this.comment,
                 method: this.method,
                 number: this.number
             }
             let uri = "/transactions" + (this.id == 0 ? "" : ("/" + this.id))
-            let method = id == 0 ? "POST" : "PUT"
+            let method = this.id == 0 ? "POST" : "PUT"
             fetch(uri, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -71,9 +71,106 @@ document.addEventListener('alpine:init', () => {
                 method: method,
                 body: JSON.stringify(data)
             }).then(response => {
-                resultCode = response.status
-                response.text().then(text => resultText = text)
+                this.resultCode = response.status
+                response.text().then(text => this.resultText = text)
             }).catch(errorHandler)
+        },
+        reset() {
+            if (confirm(messages.dialog_confirm_discard_changes)) {
+                let now = new Date();
+                let dateFormatted = formatDate(now);
+                this.id = 0;
+                this.amount = '';
+                this.date = dateFormatted;
+                this.valueDate = dateFormatted;
+                this.time = formatTime(now);
+                this.payee = '';
+                this.comment = '';
+                if (this.categoryPath.length > 0) { this.categoryPath[0].id = 0; };
+                this.selectedTags = [];
+                this.method = 0;
+                this.number = '';
+                this.resultText = '';
+                this.resultCode = 0;
+            }
+        },
+        get accountType() {
+            return this.data.accounts.find(item => item.id == this.account).type
+        },
+        get currentDateMode() {
+            if (!(this.accountType == "CASH")) {
+              if (${withValueDate}) {
+                return dateMode.bookingValue;
+              }
+            }
+            return ${withTime} ? dateMode.dateTime : dateMode.date;
+        },
+        get dateRowLabel() {
+            switch(this.currentDateMode) {
+              case dateMode.date: return messages.date;
+              case dateMode.dateTime: return messages.date + " / " + messages.time;
+              case dateMode.bookingValue: return messages.booking_date + " / " + messages.value_date;
+            }
+        },
+        get accountCurrency() {
+            return this.data.accounts.find(item => item.id == this.account).currency;
+        },
+        get methodsForTypes() {
+            return this.data.methods.filter(item => item.accountTypes.includes(this.accountType) && (item.type == 0 || item.type == (this.signum ? 1 : -1)));
+        },
+        categoriesByParent(level) {
+            let parent = level == 0 ? null : this.categoryPath[level-1].id
+            return this.data.categories.filter(item => item.parent == parent)
+        },
+        terminalNodeFromPath(path) {
+          return path.reduce((acc, curr) => curr.id == 0 ? acc : curr.id, null);
+        },
+        pathFromTerminalNode(category) {
+            let result = [];
+            let node = category;
+            while(true) {
+                result.push( { id: node } );
+                node = this.data.categories.find(item => item.id == node).parent;
+                if (node == undefined) break;
+            }
+            return result
+        },
+        loadTransactions() {
+            fetch("/transactions?account_id=" + this.account, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'GET'
+                }
+            ).then(response => {
+                this.resultCode = response.status;
+                this.resultText = this.resultCode == 200 ? '' : 'ERROR';
+                response.json().then(data => { this.transactions = data } );
+                });
+        },
+        menu : [
+            {
+                id: 'edit',
+                icon: 'edit',
+                label: 'menu_edit'
+            },
+            {
+                id: 'clone',
+                icon: 'content_copy',
+                label: 'menu_clone_transaction'
+            },
+            {
+                id: 'delete',
+                icon: 'delete',
+                label: 'menu_delete'
+            }
+        ],
+        contextAction(transaction, menuId) {
+            switch(menuId) {
+                case "edit": { this.loadTransaction(transaction); this.id = transaction.id; break; }
+                case "clone": { this.loadTransaction(transaction); this.id = 0; break; }
+                case "delete": { alert('TODO'); break; }
+            }
         },
         init() {
             this.account = this.data.accounts[0].id;
@@ -83,56 +180,7 @@ document.addEventListener('alpine:init', () => {
     }))
 })
 
-function dateRowLabel(data, account) {
-    switch(currentDateMode(data, account)) {
-      case dateMode.date: return messages.i18n_date;
-      case dateMode.dateTime: return messages.i18n_date + " / " + messages.i18n_time;
-      case dateMode.bookingValue: return messages.i18n_booking_date + " / " + messages.i18n_value_date;
-    }
-}
-
-function currentDateMode(data, account) {
-    var type = accountType(data, account)
-    if (!(type == "CASH")) {
-      if (${withValueDate}) {
-        return dateMode.bookingValue;
-      }
-    }
-    return ${withTime} ? dateMode.dateTime : dateMode.date;
-}
-
 var errorHandler = (error) => alert('Error: ' + error)
-
-function categoriesByParent(array, parent) {
-    return array.filter(item => item.parent == parent)
-}
-
-function methodsForTypes(data, account, signum) {
-    return data.methods.filter(item => item.accountTypes.includes(accountType(data, account)) && (item.type == 0 || item.type == (signum ? 1 : -1)))
-}
-
-function accountType(data, account) {
-    return data.accounts.find(item => item.id == account).type
-}
-
-function accountCurrency(data, account) {
-    return data.accounts.find(item => item.id == account).currency
-}
-
-function terminalNodeFromPath(path) {
-  return path.reduce((acc, curr) => curr.id == 0 ? acc : curr.id, null);
-}
-
-function pathFromTerminalNode(array, category) {
-    let result = [];
-    let node = category;
-    while(true) {
-        result.push( { id: node } );
-        node = array.find(item => item.id == node).parent;
-        if (node == undefined) break;
-    }
-    return result
-}
 
 function formatPart(number) {
     return number.toString().padStart(2, '0')
@@ -149,15 +197,6 @@ function formatTime(date) {
   let hours = formatPart(date.getHours());
   let minutes = formatPart(date.getMinutes());
   return [hours, minutes].join(':');
-}
-
-function loadTransactions(account) {
-    return fetch("/transactions?account_id="+account, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'GET'
-        });
 }
 
 function positionPopup(event, menu) {

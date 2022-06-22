@@ -1,190 +1,182 @@
 <!doctype html>
 <!--suppress HtmlUnknownAttribute -->
 <html style="color-scheme: light dark;">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="styles.css" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
 
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
 
-    <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="/favicon.ico">
 
-    <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
-    <script src="data.js"></script>
-    <script src="messages.js"></script>
-</head>
+        <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+        <script src="data.js"></script>
+        <script src="messages.js"></script>
+    </head>
 
-<body x-data="modelData" class="bg-white dark:bg-neutral-900">
-<div class="flex justify-center">
-    <div class="max-w-screen-sm w-full rounded shadow-lg p-8 m-4 text-slate-500 dark:text-white dark:border dark:border-white">
-        <form>
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg"
-                       for="account" x-text="messages.i18n_account"></label>
-                <div class="flex flex-row">
-                    <select class="grow mr-2" name="account" id="account" x-model="account">
-                        <template x-for="item in data.accounts" :key="item.id">
-                            <option :value="item.id" x-text="item.label"></option>
-                        </template>
-                    </select>
-                    <button type="button" @click="loadTransactions(account)
-                    .then(response => {
-                        resultCode = response.status;
-                        resultText = resultCode == 200 ? '' : 'ERROR';
-                        response.json().then(data => { transactions = data } );
-                        } );">
-                        <span class="material-symbols-outlined ml-2">folder_open</span>
-                    </button>
-                </div>
-            </div>
-            <div class="relative overflow-y-auto max-h-48"
-                 x-data="{menuOpen:false, activeTransaction:null}"
-                 @click.outside="menuOpen = false">
-                <table class="w-full border border-spacing-x-px">
-                    <template x-for="item in transactions" :key="item.id">
+    <body x-data="modelData" class="bg-white dark:bg-neutral-900">
+        <div class="flex justify-center">
+            <div class="max-w-screen-sm w-full rounded shadow-lg px-6 py-4 m-4 text-slate-500 dark:text-white dark:border dark:border-white">
+                <form>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg"
+                               for="account" x-text="messages.account"></label>
+                        <div class="flex flex-row">
+                            <select class="grow mr-2" name="account" id="account" x-model="account">
+                                <template x-for="item in data.accounts" :key="item.id">
+                                    <option :value="item.id" x-text="item.label"></option>
+                                </template>
+                            </select>
+                            <button type="button" @click="loadTransactions">
+                                <span class="material-symbols-outlined ml-2">folder_open</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative overflow-y-auto max-h-48"
+                         x-data="{menuOpen:false, activeTransaction:null}"
+                         @click.outside="menuOpen = false">
+                        <table class="w-full border border-spacing-x-px">
+                            <template x-for="item in transactions" :key="item.id">
 
-                        <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1 hover:bg-slate-200 dark:hover:bg-neutral-700"
-                            @click="if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen">
-                            <td class="p-1" x-text="item.dateFormatted"></td>
-                            <td class="w-full p-1">
-                                <div x-html="item.displayHtml"></div>
-                            </td>
-                            <td class="text-end p-1"
-                                :class="item.amount > 0 ? 'text-green-500' : 'text-red-500'">
-                                <span x-text="item.amountFormatted"></span>
-                            </td>
-                        </tr>
-                    </template>
-                </table>
-                <div x-ref="menu"
-                     class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900"
-                     x-show="menuOpen">
-                    <ul>
-                        <li><a href="#" @click="menuOpen = false; loadTransaction(activeTransaction); id = activeTransaction.id"><span class="material-symbols-outlined mr-1 align-middle">edit</span>
-                        <span x-text="messages.i18n_edit"></span>
-                        </a></li>
-                        <li><a href="#" @click="menuOpen = false; loadTransaction(activeTransaction); id = 0">Clone</a></li>
-                        <li><a href="#">Delete</a></li>
-                    </ul>
-                </div>
-            </div>
+                                <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1 hover:bg-slate-200 dark:hover:bg-neutral-700"
+                                    @click="if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen">
+                                    <td class="p-1" x-text="item.dateFormatted"></td>
+                                    <td class="w-full p-1">
+                                        <div x-html="item.displayHtml"></div>
+                                    </td>
+                                    <td class="text-end p-1"
+                                        :class="item.amount > 0 ? 'text-green-500' : 'text-red-500'">
+                                        <span x-text="item.amountFormatted"></span>
+                                    </td>
+                                </tr>
+                            </template>
+                        </table>
+                        <div x-ref="menu"
+                             class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900"
+                             x-show="menuOpen">
+                            <ul class="divide-y">
+                                <template x-for="item in menu" :key="item.id" hidden>
+                                    <li class="p-1 hover:bg-slate-100 dark:hover:bg-neutral-800"">
+                                        <a href="#" @click="menuOpen = false; contextAction(activeTransaction, item.id)">
+                                            <span class="material-symbols-outlined mr-1 align-middle" x-text="item.icon">edit</span>
+                                            <span x-text="messages[item.label]"></span>
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
 
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg" for="amount"
+                               x-text="messages.amount"></label>
+                        <div>
+                            <label class="switch mr-2">
+                                <input type="checkbox" name="type" x-model="signum">
+                                <span class="slider round"></span>
+                            </label>
+                            <input class="border py-2 px-3 align-middle mr-2" type="number"
+                                   name="amount" id="amount" step="0.01" min="0" required
+                                   x-model="amount">
+                            <span x-text="accountCurrency"></span>
+                        </div>
+                    </div>
 
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="amount" x-text="messages.i18n_amount"></label>
-                <div>
-                    <label class="switch mr-2">
-                        <input type="checkbox" name="type" x-model="signum">
-                        <span class="slider round"></span>
-                    </label>
-                    <input class="border py-2 px-3 align-middle mr-2" type="number"
-                           name="amount" id="amount" step="0.01" min="0" required
-                           x-model="amount">
-                    <span x-text="accountCurrency(data, account)"></span>
-                </div>
-            </div>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg" x-text="dateRowLabel"></label>
+                        <div class="flex flex-row">
+                            <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date"
+                                   required x-model="date">
+                            <input x-show="currentDateMode == dateMode.dateTime"
+                                   class="grow border py-2 px-3 ml-2" type="time" name="time" id="time"
+                                   x-model="time"
+                                   required>
+                            <input x-show="currentDateMode == dateMode.bookingValue"
+                                   class="grow border py-2 px-3 mr-2" type="date" name="valueDate"
+                                   id="valueDate"
+                                   required
+                                   x-model="valueDate">
+                        </div>
+                    </div>
 
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg"
-                       x-text="dateRowLabel(data, account)"></label>
-                <div class="flex flex-row">
-                    <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date"
-                           required x-model="date">
-                    <input x-show="currentDateMode(data, account) == dateMode.dateTime"
-                           class="grow border py-2 px-3 ml-2" type="time" name="time" id="time"
-                           x-model="time"
-                           required>
-                    <input x-show="currentDateMode(data, account) == dateMode.bookingValue"
-                           class="grow border py-2 px-3 mr-2" type="date" name="valueDate"
-                           id="valueDate"
-                           required
-                           x-model="valueDate">
-                </div>
-            </div>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg"
+                               for="payee" x-text="messages.payer_or_payee"></label>
+                        <input class="border py-2 px-3" list="payees" name="payee"
+                               id="payee"
+                               x-model="payee">
+                        <datalist id="payees">
+                            <template x-for="item in data.payees" :key="item.id">
+                                <option x-text="item.name"></option>
+                            </template>
+                        </datalist>
+                    </div>
 
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg"
-                       for="payee" x-text="messages.i18n_payee"></label>
-                <input class="border py-2 px-3" list="payees" name="payee"
-                       id="payee"
-                       x-model="payee">
-                <datalist id="payees">
-                    <template x-for="item in data.payees" :key="item.id">
-                        <option x-text="item.name"></option>
-                    </template>
-                </datalist>
-            </div>
+                    <div class="flex flex-col mb-4" x-show="data.categories.length > 0">
+                        <label class="mb-2 uppercase font-bold text-lg" x-text="messages.category"></label>
+                        <div class="grid gap-2" :class="'grid-cols-'+categoryTreeDepth">
+                            <template x-for="(category, level) in categoryPath">
+                                <select class="h-8" :name="'category_' + level" :id="'category_' + level"
+                                        x-model="category.id">
+                                    <option value="0"></option>
+                                    <template x-for="item in categoriesByParent(level)" :key="item.id">
+                                        <option :value="item.id" x-text="item.label"></option>
+                                    </template>
+                                </select>
+                            </template>
+                        </div>
+                    </div>
 
-            <div class="flex flex-col mb-4" x-show="data.categories.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg" x-text="messages.i18n_category"></label>
-                <div class="grid gap-2" :class="'grid-cols-'+categoryTreeDepth">
-                    <template x-for="(category, level) in categoryPath">
-                        <select class="h-8" :name="'category_' + level" :id="'category_' + level"
-                                x-model="category.id">
-                            <option value="0"></option>
-                            <template
-                                    x-for="item in categoriesByParent(data.categories, (level == 0) ? null : categoryPath[level-1].id)"
-                                    :key="item.id">
+                    <div class="flex flex-col mb-4" x-show="data.tags.length > 0">
+                        <label class="mb-2 uppercase font-bold text-lg" for="tags"
+                               x-text="messages.tags"></label>
+                        <select name="tags" id="tags" multiple x-model="selectedTags">
+                            <template x-for="item in data.tags" :key="item.id">
                                 <option :value="item.id" x-text="item.label"></option>
                             </template>
                         </select>
-                    </template>
-                </div>
-            </div>
+                    </div>
 
-            <div class="flex flex-col mb-4" x-show="data.tags.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg" for="tags" x-text="messages.i18n_tags"></label>
-                <select name="tags" id="tags" multiple x-model="selectedTags">
-                    <template x-for="item in data.tags" :key="item.id">
-                        <option :value="item.id" x-text="item.label"></option>
-                    </template>
-                </select>
-            </div>
+                    <div class="flex flex-col mb-4"
+                         x-show="methodsForTypes.length > 0">
+                        <label class="mb-2 uppercase font-bold text-lg" for="tags"
+                               x-text="messages.method"></label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <select class="h-8" name="method" id="method" x-model="method">
+                                <option value="0"></option>
+                                <template x-for="item in methodsForTypes"
+                                          :key="item.id">
+                                    <option :value="item.id" x-text="item.label"></option>
+                                </template>
+                            </select>
+                            <input class="h-8 border py-2 px-3  align-middle"
+                                   x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered"
+                                   :placeholder="messages.reference_number"
+                                   name="number" id="number" x-model="number">
+                        </div>
+                    </div>
 
-            <div class="flex flex-col mb-4"
-                 x-show="methodsForTypes(data, account, signum).length > 0">
-                <label class="mb-2 uppercase font-bold text-lg" for="tags" x-text="messages.i18n_method"></label>
-                <div class="grid grid-cols-2 gap-2">
-                    <select class="h-8" name="method" id="method" x-model="method">
-                        <option value="0"></option>
-                        <template x-for="item in methodsForTypes(data, account, signum)"
-                                  :key="item.id">
-                            <option :value="item.id" x-text="item.label"></option>
-                        </template>
-                    </select>
-                    <input class="h-8 border py-2 px-3  align-middle"
-                           x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered"
-                           :placeholder="messages.i18n_number"
-                           name="number" id="number" x-model="number">
-                </div>
-            </div>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg" for="notes"
+                               x-text="messages.comment"></label>
+                        <textarea name="notes" id="notes" x-model="comment"></textarea>
+                    </div>
 
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="notes" x-text="messages.i18n_notes"></label>
-                <textarea name="notes" id="notes" x-model="comment"></textarea>
+                    <div class="relative">
+                        <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
+                                type="button" :disabled="amount == ''" @click="submitForm"><span
+                                x-text="messages.menu_save"></span><br>
+                            <span class="text-xs" x-text="'(' + (id == 0 ? messages.menu_create_transaction : messages.menu_edit_transaction) + ')'"></span>
+                        </button>
+                        <input class="absolute bottom-0 right-0 border p-2 hover:bg-slate-100 dark:hover:bg-neutral-800"
+                               type="reset" @click.prevent="reset">
+                    </div>
+                </form>
+                <div x-text="resultText" class="mt-2" :class="resultCode < 300 ? 'text-current' : 'text-red-500'"></div>
             </div>
-
-            <div class="relative">
-                <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="amount == ''" @click="submitForm"><span x-text="messages.i18n_submit"></span><br><span class="text-xs"
-                                                    x-text="'(' + (id == 0 ? messages.i18n_create_transaction : messages.i18n_edit_transaction) + ')'"></span>
-                </button>
-                <button class="absolute bottom-0 right-0" type="button" @click="if (confirm(messages.i18n_discard_changes)) {
-                    let now = new Date();
-                    let dateFormatted = formatDate(now);
-                    id = 0; amount = ''; date = dateFormatted; valueDate = dateFormatted; time = formatTime(now); payee = ''; comment = '';
-                    if (categoryPath.length > 0) { categoryPath[0].id = 0; };
-                    selectedTags = []; method = 0; number = ''; resultText = ''; resultCode = 0;
-                 }
-">Reset</button>
-            </div>
-        </form>
-        <div x-text="resultText"
-             :class="resultCode < 300 ? 'text-current' : 'text-red-500'"></div>
-    </div>
-</div>
-</body>
+        </div>
+    </body>
 </html>
