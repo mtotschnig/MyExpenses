@@ -204,23 +204,24 @@ class WebInputService : Service(), IWebInputService {
                             get("messages.js") {
                                 call.respondText("""
                                     let messages = {
-                                        "i18n_account" : '${t(R.string.account)}',
-                                        "i18n_amount" : '${t(R.string.amount)}',
-                                        "i18n_date" : '${t(R.string.date)}',
-                                        "i18n_time" : '${t(R.string.time)}',
-                                        "i18n_booking_date" : '${t(R.string.booking_date)}',
-                                        "i18n_value_date" : '${t(R.string.value_date)}',
-                                        "i18n_payee" : '${t(R.string.payer_or_payee)}',
-                                        "i18n_category" : '${t(R.string.category)}',
-                                        "i18n_tags" : '${t(R.string.tags)}',
-                                        "i18n_notes" : '${t(R.string.comment)}',
-                                        "i18n_method" : '${t(R.string.method)}',
-                                        "i18n_submit" : '${t(R.string.menu_save)}',
-                                        "i18n_create_transaction" : '${t(R.string.menu_create_transaction)}',
-                                        "i18n_edit_transaction" : '${t(R.string.menu_edit_transaction)}',
-                                        "i18n_number" : '${t(R.string.reference_number)}',
-                                        "i18n_edit" : '${t(R.string.menu_edit)}',
-                                        "i18n_discard_changes" : '${t(R.string.dialog_confirm_discard_changes)}'
+                                        i18n_title : '${tq(R.string.app_name)} ${tq(R.string.title_webui)}',
+                                        i18n_account : '${tq(R.string.account)}',
+                                        i18n_amount : '${tq(R.string.amount)}',
+                                        i18n_date : '${tq(R.string.date)}',
+                                        i18n_time : '${tq(R.string.time)}',
+                                        i18n_booking_date : '${tq(R.string.booking_date)}',
+                                        i18n_value_date : '${tq(R.string.value_date)}',
+                                        i18n_payee : '${tq(R.string.payer_or_payee)}',
+                                        i18n_category : '${tq(R.string.category)}',
+                                        i18n_tags : '${tq(R.string.tags)}',
+                                        i18n_notes : '${tq(R.string.comment)}',
+                                        i18n_method : '${tq(R.string.method)}',
+                                        i18n_submit : '${tq(R.string.menu_save)}',
+                                        i18n_create_transaction : '${tq(R.string.menu_create_transaction)}',
+                                        i18n_edit_transaction : '${tq(R.string.menu_edit_transaction)}',
+                                        i18n_number : '${tq(R.string.reference_number)}',
+                                        i18n_edit : '${tq(R.string.menu_edit)}',
+                                        i18n_discard_changes : '${tq(R.string.dialog_confirm_discard_changes)}'
                                     };
                                 """.trimIndent(), ContentType.Text.JavaScript)
                             }
@@ -418,21 +419,7 @@ class WebInputService : Service(), IWebInputService {
             }
         }
         get("/") {
-            val lookup = StringLookup { key ->
-                when (key) {
-                    "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
-                    else -> "TODO"
-                }
-            }
-            val stringSubstitutor = StringSubstitutor(
-                lookup,
-                DEFAULT_PREFIX,
-                DEFAULT_SUFFIX,
-                DEFAULT_ESCAPE
-            )
-            val text =
-                stringSubstitutor.replace(readTextFromAssets("form.html"))
-            call.respondText(text, ContentType.Text.Html)
+            call.respondText(readTextFromAssets("form.html"), ContentType.Text.Html)
         }
         get("/transactions") {
             call.respond(repository.loadTransactions(call.request.queryParameters["account_id"]!!.toLong()))
@@ -448,7 +435,7 @@ class WebInputService : Service(), IWebInputService {
         false
     }
 
-    private fun t(@StringRes resId: Int) = wrappedContext.getString(resId)
+    private fun tq(@StringRes resId: Int) = wrappedContext.getString(resId).replace("'", "\\'")
 
     override fun onDestroy() {
         stopServer()

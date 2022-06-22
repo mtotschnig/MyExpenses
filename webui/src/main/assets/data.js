@@ -5,6 +5,7 @@ const dateMode = {
 };
 
 document.addEventListener('alpine:init', () => {
+    document.title = messages.i18n_title
     let date = new Date();
     let dateFormatted = formatDate(date);
     let categoryTreeDepth = ${category_tree_depth};
