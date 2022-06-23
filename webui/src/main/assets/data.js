@@ -28,6 +28,7 @@ document.addEventListener('alpine:init', () => {
         resultCode: 0,
         data: ${data},
         transactions: [],
+        activeTransaction :null,
         async loadTransaction(transaction) {
             this.signum = transaction.amount > 0 ? true : false;
             this.amount = transaction.amount;
@@ -165,12 +166,33 @@ document.addEventListener('alpine:init', () => {
                 label: 'menu_delete'
             }
         ],
-        contextAction(transaction, menuId) {
+        contextAction(menuId) {
             switch(menuId) {
-                case "edit": { this.loadTransaction(transaction); this.id = transaction.id; break; }
-                case "clone": { this.loadTransaction(transaction); this.id = 0; break; }
-                case "delete": { alert('TODO'); break; }
+                case "edit": {
+                    this.loadTransaction(this.activeTransaction);
+                    this.id = this.activeTransaction.id;
+                    break;
+                }
+                case "clone": {
+                    this.loadTransaction(this.activeTransaction);
+                    this.id = 0;
+                    break;
+                }
+                case "delete": {
+                    if (confirm(messages.warning_delete_transaction)) {
+                        fetch("/transactions/" + this.activeTransaction.id, {
+                            method: 'DELETE'
+                        }).then(response => {
+                            this.resultCode = response.status;
+                            response.text().then(text => {
+                                this.resultText = (!!text ? text : null) ?? (this.resultCode > 299 ? ('ERROR ' + this.resultCode ) : null);
+                            });
+                        }).catch(errorHandler)
+                    }
+                    break;
+                }
             }
+            this.activeTransaction = null
         },
         init() {
             this.account = this.data.accounts[0].id;

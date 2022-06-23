@@ -36,12 +36,13 @@
                         </div>
                     </div>
                     <div class="relative overflow-y-auto max-h-48"
-                         x-data="{menuOpen:false, activeTransaction:null}"
-                         @click.outside="menuOpen = false">
+                         x-data="{menuOpen:false}"
+                         @click.outside="menuOpen = false; activeTransaction = null">
                         <table class="w-full border border-spacing-x-px">
                             <template x-for="item in transactions" :key="item.id">
 
                                 <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1 hover:bg-slate-200 dark:hover:bg-neutral-700"
+                                    :class="(activeTransaction == item || (activeTransaction == null && item.id == id))  ? 'scale-100 shadow-xl !bg-green-50 dark:!bg-green-900' : ''"
                                     @click="if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen">
                                     <td class="p-1" x-text="item.dateFormatted"></td>
                                     <td class="w-full p-1">
@@ -59,8 +60,8 @@
                              x-show="menuOpen">
                             <ul class="divide-y">
                                 <template x-for="item in menu" :key="item.id" hidden>
-                                    <li class="p-1 hover:bg-slate-100 dark:hover:bg-neutral-800"">
-                                        <a href="#" @click="menuOpen = false; contextAction(activeTransaction, item.id)">
+                                    <li class="p-1 hover:bg-slate-100 dark:hover:bg-neutral-800">
+                                        <a href="#" @click="menuOpen = false; contextAction(item.id);">
                                             <span class="material-symbols-outlined mr-1 align-middle" x-text="item.icon">edit</span>
                                             <span x-text="messages[item.label]"></span>
                                         </a>

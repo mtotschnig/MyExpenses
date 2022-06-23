@@ -7,6 +7,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.core.database.getLongOrNull
 import com.google.gson.Gson
@@ -224,7 +225,8 @@ class WebInputService : Service(), IWebInputService {
                                     ${i18nJson("menu_edit")},
                                     ${i18nJson("dialog_confirm_discard_changes")},
                                     ${i18nJson("menu_clone_transaction")},
-                                    ${i18nJson("menu_delete")}
+                                    ${i18nJson("menu_delete")},
+                                    ${i18nJsonPlurals("warning_delete_transaction")}
                                     };
                                 """.trimIndent(), ContentType.Text.JavaScript)
                             }
@@ -438,10 +440,15 @@ class WebInputService : Service(), IWebInputService {
         false
     }
 
+    private fun i18nJsonPlurals(resourceName: String, quantity: Int = 1) =
+        "$resourceName : '${tqPlurals(resources.getIdentifier(resourceName, "plurals", packageName), quantity)}'"
+
     private fun i18nJson(resourceName: String) =
         "$resourceName : '${tq(resources.getIdentifier(resourceName, "string", packageName))}'"
 
     private fun tq(@StringRes resId: Int) = wrappedContext.getString(resId).replace("'", "\\'")
+
+    private fun tqPlurals(@PluralsRes resId: Int, quantity: Int) = wrappedContext.resources.getQuantityString(resId, quantity, quantity).replace("'", "\\'")
 
     override fun onDestroy() {
         stopServer()
