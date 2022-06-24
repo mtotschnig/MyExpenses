@@ -79,7 +79,9 @@ class WebInputService : Service(), IWebInputService {
 
     private var serverStateObserver: ServerStateObserver? = null
 
-    private var count = 0
+    private var createCount = 0
+    private var deleteCount = 0
+    private var updateCount = 0
 
     private var port: Int = 0
 
@@ -274,6 +276,7 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private fun Route.serve() {
+
         get("data.js") {
             val categories = contentResolver.query(
                 TransactionProvider.CATEGORIES_URI.buildUpon()
@@ -390,14 +393,30 @@ class WebInputService : Service(), IWebInputService {
             val text = stringSubstitutor.replace(readTextFromAssets("data.js"))
             call.respondText(text, ContentType.Text.JavaScript)
         }
+
+        delete("/transactions/{id}") {
+            if (repository.deleteTransaction(call.parameters["id"]!!.toLong())) {
+                deleteCount++
+                call.respond(
+                    HttpStatusCode.OK,
+                    "${getString(R.string.transaction_deleted)} ($deleteCount)"
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while deleting transaction."
+                )
+            }
+        }
+
         put("/transactions/{id}") {
             val transaction = call.receive<Transaction>()
             val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
             if (updated != null && updated > 0) {
-                count++
+                updateCount++
                 call.respond(
                     HttpStatusCode.OK,
-                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
+                    "${getString(R.string.save_transaction_and_new_success)} ($updateCount)"
                 )
             } else {
                 call.respond(
@@ -406,15 +425,16 @@ class WebInputService : Service(), IWebInputService {
                 )
             }
         }
+
         post("/transactions") {
             val transaction = call.receive<Transaction>()
             val id = repository.createTransaction(transaction)
             if (id != null) {
-                count++
+                createCount++
                 call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
                 call.respond(
                     HttpStatusCode.Created,
-                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
+                    "${getString(R.string.save_transaction_and_new_success)} ($createCount)"
                 )
             } else {
                 call.respond(
@@ -423,9 +443,11 @@ class WebInputService : Service(), IWebInputService {
                 )
             }
         }
+
         get("/") {
             call.respondText(readTextFromAssets("form.html"), ContentType.Text.Html)
         }
+
         get("/transactions") {
             call.respond(repository.loadTransactions(call.request.queryParameters["account_id"]!!.toLong()))
         }

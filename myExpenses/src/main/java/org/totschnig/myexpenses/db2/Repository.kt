@@ -20,8 +20,7 @@ import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -244,6 +243,12 @@ class Repository @Inject constructor(
     } catch (e: SQLiteConstraintException) {
         false
     }
+
+    fun deleteTransaction(id: Long) = contentResolver.delete(
+        ContentUris.withAppendedId(TRANSACTIONS_URI, id),
+        null,
+        null
+    ) > 0
 
     fun deleteCategory(id: Long) = contentResolver.delete(
         ContentUris.withAppendedId(CATEGORIES_URI, id),
