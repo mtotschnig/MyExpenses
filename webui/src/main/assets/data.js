@@ -73,8 +73,11 @@ document.addEventListener('alpine:init', () => {
                 body: JSON.stringify(data)
             }).then(response => {
                 this.resultCode = response.status
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
                 response.text().then(text => this.resultText = text)
-            }).catch(errorHandler)
+            }).catch((error) => { this.errorHandler(error); });
         },
         reset() {
             if (confirm(messages.dialog_confirm_discard_changes)) {
@@ -138,16 +141,17 @@ document.addEventListener('alpine:init', () => {
         },
         loadTransactions() {
             fetch("/transactions?account_id=" + this.account, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'GET'
-                }
-            ).then(response => {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'GET'
+            }).then(response => {
                 this.resultCode = response.status;
-                this.resultText = this.resultCode == 200 ? '' : 'ERROR';
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
                 response.json().then(data => { this.transactions = data } );
-                });
+            }).catch((error) => { this.errorHandler(error); });
         },
         menu : [
             {
@@ -184,15 +188,22 @@ document.addEventListener('alpine:init', () => {
                             method: 'DELETE'
                         }).then(response => {
                             this.resultCode = response.status;
+                            if (!response.ok) {
+                                    throw Error(response.statusText);
+                            }
                             response.text().then(text => {
-                                this.resultText = (!!text ? text : null) ?? (this.resultCode > 299 ? ('ERROR ' + this.resultCode ) : null);
+                                this.resultText = text
                             });
-                        }).catch(errorHandler)
+                        }).catch((error) => { this.errorHandler(error); });
                     }
                     break;
                 }
             }
             this.activeTransaction = null
+        },
+        errorHandler(error) {
+             console.error(error);
+             this.resultText = error.message
         },
         init() {
             this.account = this.data.accounts[0].id;
@@ -201,8 +212,6 @@ document.addEventListener('alpine:init', () => {
         }
     }))
 })
-
-var errorHandler = (error) => alert('Error: ' + error)
 
 function formatPart(number) {
     return number.toString().padStart(2, '0')
