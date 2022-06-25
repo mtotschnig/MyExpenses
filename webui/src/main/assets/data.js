@@ -10,6 +10,7 @@ document.addEventListener('alpine:init', () => {
     let dateFormatted = formatDate(date);
     let categoryTreeDepth = ${category_tree_depth};
     Alpine.data('modelData', () => ({
+        loading: false,
         id: 0,
         signum: false,
         amount: '',
@@ -31,7 +32,7 @@ document.addEventListener('alpine:init', () => {
         activeTransaction :null,
         async loadTransaction(transaction) {
             this.signum = transaction.amount > 0 ? true : false;
-            this.amount = transaction.amount;
+            this.amount = Math.abs(transaction.amount);
             this.payee = transaction.payee;
             this.comment = transaction.comment;
             this.number = transaction.number;
@@ -77,6 +78,7 @@ document.addEventListener('alpine:init', () => {
                     throw Error(response.statusText);
                 }
                 response.text().then(text => this.resultText = text)
+                this.loadTransactions();
             }).catch((error) => { this.errorHandler(error); });
         },
         reset() {
@@ -140,12 +142,15 @@ document.addEventListener('alpine:init', () => {
             return result
         },
         loadTransactions() {
+            this.loading = true
+            this.transactions = []
             fetch("/transactions?account_id=" + this.account, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 method: 'GET'
             }).then(response => {
+                this.loading = false;
                 this.resultCode = response.status;
                 if (!response.ok) {
                     throw Error(response.statusText);
@@ -194,6 +199,7 @@ document.addEventListener('alpine:init', () => {
                             response.text().then(text => {
                                 this.resultText = text
                             });
+                            this.loadTransactions();
                         }).catch((error) => { this.errorHandler(error); });
                     }
                     break;
@@ -207,8 +213,10 @@ document.addEventListener('alpine:init', () => {
         },
         init() {
             this.account = this.data.accounts[0].id;
+            this.$watch('account', _ => { this.loadTransactions(); } );
             this.$watch('amount', value => { if (value < 0) amount = -value } );
             ${categoryWatchers}
+            this.loadTransactions();
         }
     }))
 })

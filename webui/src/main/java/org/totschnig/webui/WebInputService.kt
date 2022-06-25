@@ -23,7 +23,9 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.apache.commons.text.StringSubstitutor
-import org.apache.commons.text.StringSubstitutor.*
+import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
+import org.apache.commons.text.StringSubstitutor.DEFAULT_PREFIX
+import org.apache.commons.text.StringSubstitutor.DEFAULT_SUFFIX
 import org.apache.commons.text.lookup.StringLookup
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -39,7 +41,16 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.ui.ContextHelper
@@ -228,6 +239,7 @@ class WebInputService : Service(), IWebInputService {
                                     ${i18nJson("dialog_confirm_discard_changes")},
                                     ${i18nJson("menu_clone_transaction")},
                                     ${i18nJson("menu_delete")},
+,                                   ${i18nJson("no_expenses")},
                                     ${i18nJsonPlurals("warning_delete_transaction")}
                                     };
                                 """.trimIndent(), ContentType.Text.JavaScript)
