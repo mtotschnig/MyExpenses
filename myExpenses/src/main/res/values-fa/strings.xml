@@ -542,7 +542,7 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون گذرواژه مجاز است.</string>
     <string name="reference_number">شماره مرجع</string>
     <string name="status_reconciled">تطبیق یافته</string>
-    <string name="menu_edit_plan_instance">ویرایش برنامه واحد</string>
+    <string name="menu_edit_plan_instance">ویراش رخداد طرح واحد</string>
     <string name="menu_split_transaction">تبدیل به تسهیم</string>
     <string name="no_split_parts">دسته تسهیم وجود ندارد.</string>
     <string name="numbered">شماره گذاری شده</string>
@@ -595,7 +595,7 @@
     <string name="synchronization_none">بدون همگام سازی</string>
     <string name="description_webdav_trust_certificate">این وب سایت از گواهی‌ای استفاده می کند که مورد اعتماد اندروید نیست.</string>
     <string name="hint_url">URL</string>
-    <string name="description_webdav_url">لطفاً URL را به یک پوشه خاص در سرور WebDAV خود وارد کنید. {app_name} داده‌های خود را در این پوشه ذخیره می‌کند، به چیزی خارج از آن دسترسی ندارد.</string>
+    <string name="description_webdav_url">لطفاً URL را در یک پوشه خاص روی سرور WebDAV خود وارد کنید. {app_name} داده‌های خود را در این پوشه ذخیره می‌کند، به چیزی خارج از آن دسترسی ندارد.</string>
     <string name="dialog_confirm_sync_link_local">داده های روی سرور برای این حساب حذف خواهد شد. مطمئن شوید که هیچ دستگاه دیگری به آن متصل نیست.</string>
     <string name="dialog_command_sync_link_remote">بارگیری از سرور</string>
     <string name="dialog_command_sync_link_local">بارگذاری از داده های محلی</string>
@@ -693,4 +693,12 @@
     <string name="button_validate">صحت سنجی</string>
     <string name="feature_deprecated">منسوخ شده</string>
     <string name="menu_history">تاریخچه</string>
+    <string name="template_create_error">خطا هنگام ذخیره الگو</string>
+    <string name="contributed_by">ارائه شده توسط %s</string>
+    <string name="pref_sync_notification_summary">از پیشرفت همگام سازی مطلع شوید</string>
+    <string name="pref_tracking_title">جمع آوری داده های کاربردی</string>
+    <string name="onboarding_ui_title">{app_name} با تنظیمات شما سازگار است</string>
+    <string name="pref_debug_logging_summary">اطلاعات اشکال زدایی را در گزارش سیستم بنویسید</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">دسته بندی درختی</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">با وضعیت مجوز فعلی شما (%1$s)، این گفتگو در هر استفاده، نمایش داده می شود.</string>
 </resources>
