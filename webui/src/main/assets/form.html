@@ -55,7 +55,7 @@
                                     </tr>
                                 </template>
                             </table>
-                            <div class="flex justify-center"><span x-show="transactions.length == 0">No transactions yet.</span></div>
+                            <div class="flex justify-center"><span x-show="transactions.length == 0" x-text="messages.no_expenses"></span></div>
                         </div>
                         <div x-ref="menu"
                              class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900"

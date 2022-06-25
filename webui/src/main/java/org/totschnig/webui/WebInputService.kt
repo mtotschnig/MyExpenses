@@ -239,7 +239,7 @@ class WebInputService : Service(), IWebInputService {
                                     ${i18nJson("dialog_confirm_discard_changes")},
                                     ${i18nJson("menu_clone_transaction")},
                                     ${i18nJson("menu_delete")},
-,                                   ${i18nJson("no_expenses")},
+                                    ${i18nJson("no_expenses")},
                                     ${i18nJsonPlurals("warning_delete_transaction")}
                                     };
                                 """.trimIndent(), ContentType.Text.JavaScript)
