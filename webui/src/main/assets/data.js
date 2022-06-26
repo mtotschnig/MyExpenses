@@ -121,6 +121,9 @@ document.addEventListener('alpine:init', () => {
         get accountCurrency() {
             return this.data.accounts.find(item => item.id == this.account).currency;
         },
+        get accountLabel() {
+            return this.data.accounts.find(item => item.id == this.account).label;
+        },
         get methodsForTypes() {
             return this.data.methods.filter(item => item.accountTypes.includes(this.accountType) && (item.type == 0 || item.type == (this.signum ? 1 : -1)));
         },
@@ -213,7 +216,10 @@ document.addEventListener('alpine:init', () => {
         },
         init() {
             this.account = this.data.accounts[0].id;
-            this.$watch('account', _ => { this.loadTransactions(); } );
+            this.$watch('account', _ => {
+                this.loadTransactions();
+                if (this.id > 0) alert("This transaction will be moved to account " + accountLabel)
+            });
             this.$watch('amount', value => { if (value < 0) amount = -value } );
             ${categoryWatchers}
             this.loadTransactions();

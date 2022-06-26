@@ -90,10 +90,6 @@ class WebInputService : Service(), IWebInputService {
 
     private var serverStateObserver: ServerStateObserver? = null
 
-    private var createCount = 0
-    private var deleteCount = 0
-    private var updateCount = 0
-
     private var port: Int = 0
 
     inner class LocalBinder : WebUiBinder() {
@@ -408,10 +404,9 @@ class WebInputService : Service(), IWebInputService {
 
         delete("/transactions/{id}") {
             if (repository.deleteTransaction(call.parameters["id"]!!.toLong())) {
-                deleteCount++
                 call.respond(
                     HttpStatusCode.OK,
-                    "${getString(R.string.transaction_deleted)} ($deleteCount)"
+                    getString(R.string.transaction_deleted)
                 )
             } else {
                 call.respond(
@@ -425,10 +420,9 @@ class WebInputService : Service(), IWebInputService {
             val transaction = call.receive<Transaction>()
             val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
             if (updated != null && updated > 0) {
-                updateCount++
                 call.respond(
                     HttpStatusCode.OK,
-                    "${getString(R.string.save_transaction_and_new_success)} ($updateCount)"
+                    getString(R.string.save_transaction_and_new_success)
                 )
             } else {
                 call.respond(
@@ -442,11 +436,10 @@ class WebInputService : Service(), IWebInputService {
             val transaction = call.receive<Transaction>()
             val id = repository.createTransaction(transaction)
             if (id != null) {
-                createCount++
                 call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
                 call.respond(
                     HttpStatusCode.Created,
-                    "${getString(R.string.save_transaction_and_new_success)} ($createCount)"
+                    getString(R.string.save_transaction_and_new_success)
                 )
             } else {
                 call.respond(
