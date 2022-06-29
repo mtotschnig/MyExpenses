@@ -69,12 +69,12 @@
     <string name="popup_MyExpenses_toolbar_intro">با ضربه زدن بر روی نوار ابزار (برچسب حساب یا موجودی فعلی) منویی با ورودی های زیر ظاهر می شود:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">موجودی فعلی را در کلیپ بورد کپی کنید.</string>
     <string name="cab_link_help_text">هزینه در یک حساب را می توان با درآمد در حساب دیگر مرتبط کرد. اگر حساب ها دارای ارز یکسانی باشند، دو تراکنش باید دارای مبالغ یکسان باشند.</string>
-    <string name="help_ManageParties_floating_action_button">از دکمه floating action برای افزودن ورودی جدید استفاده کنید.</string>
+    <string name="help_ManageParties_floating_action_button">از دکمه شناور برای افزودن ورودی جدید استفاده کنید.</string>
     <string name="menu_merge_help_text">اگر یک فرد چندین بار در لیست با تغییرات املایی متفاوت ظاهر شود، می توانید آنها را با هم ادغام کنید. از شما خواسته می شود که کدام نوع را انتخاب کنید.</string>
     <string name="help_ManageTemplates_planner_intro">ضربه زدن طولانی بر روی یک نمونه باز، انتخاب چندگانه را آغاز می کند. ضربه زدن روی شروع یا پایان محدوده تاریخ به شما امکان می دهد محدوده را به گذشته یا آینده گسترش دهید.</string>
     <string name="help_ManageTemplates_plans_info">وضعیت یک نمونه با نمادهای زیر نشان داده می شود:&lt;br&gt;&lt;img src=ic_stat_open&gt; نمونه هنوز اعمال نشده است.&lt;br&gt;&lt;img src=ic_stat_applied&gt; نمونه اعمال شده است.&lt;br&gt;&lt;img src =ic_stat_cancelled&gt; نمونه لغو شده است، یعنی شما آن را علامت گذاری کرده اید تا رد شود. هیچ معامله ای برای این مثال ایجاد نخواهد شد.</string>
     <string name="menu_ManageCategories_sort_help_text">فهرست دسته ها را می توان بر اساس عنوان (الفبایی)، تعداد دفعات استفاده، یا آخرین باری که تراکنش به آن نگاشت شده است مرتب کرد.</string>
-    <string name="help_ExpenseEdit_templateSplit_title">فرم تقسیم هزینه ها</string>
+    <string name="help_ExpenseEdit_templateSplit_title">فرم برای تقسیم الگوها</string>
     <string name="help_ExpenseEdit_templateCategory_info">از این فرم برای وارد کردن یک الگوی جدید یا ویرایش یک الگوی موجود استفاده کنید. از منوی کشویی در نوار عمل برای جابه‌جایی بین قالب‌های تراکنش، انتقال و تقسیم استفاده کنید.</string>
     <string name="form_account_help_text">حسابی که تراکنش به آن تعلق دارد را انتخاب کنید.</string>
     <string name="form_date_time_help_text_link">اگر وضعیت &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; در حالت پیوندی باشد، تنظیم تاریخ ارزش یا تاریخ ثبت، تاریخ دیگر را نیز به‌روزرسانی می‌کند.</string>
@@ -112,4 +112,8 @@
     <string name="help_ManageCategories_expand_collapse">روی نماد &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; کلیک کنید تا یک دسته را بزرگ یا کوچک کنید.</string>
     <string name="help_ManageCategories_manage_context">برای نمایش منوی متنی بر روی یک ورودی کلیک کنید. برای شروع انتخاب چندگانه، ضربه بزنید و نگه دارید.</string>
     <string name="cab_ManageCategories_select_help_text">اتصال دسته انتخاب شده به معامله و بازگشت به فرم معامله.</string>
+    <string name="form_method_help_text">این قسمت فقط در صورتی در دسترس است که حساب جاری مرتبط با هر نوع روش پرداخت باشد. به طور پیش فرض فقط حساب های بانکی به روش های پرداخت (چک، کارت اعتباری، سپرده، بدهی مستقیم) مرتبط هستند. برای پیکربندی ارتباط بین انواع حساب و روش‌های پرداخت، به تنظیمات -&gt; مدیریت -&gt; روش‌های پرداخت بروید. هنگامی که روشی را انتخاب می کنید که به عنوان شماره تعریف شده است، یک قسمت اضافی برای وارد کردن شماره مرجع در دسترس خواهد بود.</string>
+    <string name="form_crstatus_help_text">برای تراکنش های متعلق به حساب های بانکی، می توانید وضعیت تراکنش را به پاک شده تغییر دهید. برای تنظیم آن به صورت تطبیق یافته، باید از دستور \"موجودی حساب\" از لیست تراکنش ها استفاده کنید. اگر وضعیت باطل تنظیم شود، تراکنش محاسبه نخواهد شد.</string>
+    <string name="form_split_parts_heading_help_text_2">مبلغ به طور خودکار با مجموع قسمت ها به روز می شود، مگر اینکه مبلغی را به صورت دستی وارد کنید که در این صورت تفاوت بین مجموع قسمت ها و مبلغ (مبلغ تقسیم نشده) نشان داده می شود.</string>
+    <string name="form_split_parts_heading_help_text_1">از نماد + برای وارد کردن قسمت های تقسیم شده به تعداد مورد نیاز استفاده کنید.</string>
 </resources>
