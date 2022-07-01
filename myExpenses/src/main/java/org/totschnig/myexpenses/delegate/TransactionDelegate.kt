@@ -931,8 +931,8 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     open fun setAccount(currencyExtra: String?) {
-        var selected =
-            0 //if the accountId we have been passed does not exist, we select the first entry
+        //if the accountId we have been passed does not exist, we select the first entry
+        var selected = 0
         for (item in mAccounts.indices) {
             val account = mAccounts[item]
             if (account.currency.code == currencyExtra ||

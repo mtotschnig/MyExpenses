@@ -59,8 +59,13 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
             null,
             false
         )
-            .mapToList { buildAccount(it, currencyContext) }
-            .subscribe { liveData.postValue(it) })
+            .mapToList {
+                buildAccount(it, currencyContext)
+            }
+            .subscribe {
+                liveData.postValue(it)
+            }
+        )
         return@lazy liveData
     }
 

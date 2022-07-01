@@ -563,6 +563,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     private fun loadAccounts(fromSavedState: Boolean) {
         viewModel.getAccounts().observe(this) { accounts ->
             setAccounts(accounts, fromSavedState)
+            if (operationType == Transactions.TYPE_SPLIT) {
+                viewModel.loadSplitParts(delegate.rowId, isTemplate)
+            }
         }
     }
 
@@ -711,9 +714,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             updateFab()
         }
         invalidateOptionsMenu()
-        if (operationType == Transactions.TYPE_SPLIT) {
-            viewModel.loadSplitParts(transaction.id, isTemplate)
-        }
     }
 
     private val saveAndNewPrefKey: PrefKey
