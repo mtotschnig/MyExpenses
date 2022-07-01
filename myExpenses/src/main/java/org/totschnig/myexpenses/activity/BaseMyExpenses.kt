@@ -212,6 +212,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    override fun onProgressDialogDismiss() {
+        exportViewModel.resultDismissed()
+    }
+
     override fun injectDependencies() {
         (applicationContext as MyApplication).appComponent.inject(this)
     }

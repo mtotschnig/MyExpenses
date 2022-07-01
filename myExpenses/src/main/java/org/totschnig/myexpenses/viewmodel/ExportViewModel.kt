@@ -210,7 +210,6 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     )
                 }
             }
-
         }
     }
 
@@ -223,6 +222,12 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
 
     fun messageShown() {
         _publishProgress.update {
+            null
+        }
+    }
+
+    fun resultDismissed() {
+        _result.update {
             null
         }
     }
