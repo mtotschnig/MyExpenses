@@ -67,8 +67,8 @@
     <string name="help_ExpenseEdit_transaction_title">Formulário para transações</string>
     <string name="help_ExpenseEdit_transfer_title">Formulário para transferências</string>
     <string name="help_ExpenseEdit_split_title">Formulário para divisões</string>
-    <string name="help_ExpenseEdit_splitPartCategory_title">Formulário para divisões de categorias</string>
-    <string name="help_ExpenseEdit_splitPartTransfer_title">Formulário para divisões de transferências</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">Formulário para categorias das partes da divisão</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">Formulário para partes de transferências divididas</string>
     <string name="help_ExpenseEdit_templateCategory_title">Formulário para modelos de transação</string>
     <string name="help_ExpenseEdit_templateTransfer_title">Formulário para modelos de transferência</string>
     <string name="help_ExpenseEdit_templateSplit_title">Formulário para modelos de divisão</string>
@@ -89,7 +89,7 @@
     <string name="form_default_action_help_text">Para cada modelo da lista, você pode configurar o comportamento de um toque curto nele: salvar a instância imediatamente ou entrar em seu formulário de edição onde você pode modificá-lo antes de salvar. Você sempre pode acessar ambas as ações por meio de um toque longo.</string>
     <string name="form_category_help_text">Este botão abre a lista de categorias, onde você pode selecionar a categoria que deseja mapear para a transação.</string>
     <string name="form_split_parts_heading_help_text_3">Você só pode salvar a transação dividida quando a quantia da transação for totalmente atribuída.</string>
-    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selecione uma categoria para esta divisão.</string>
+    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selecione uma categoria para esta parte da divisão.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Atribua as contas às quais este objeto é transferido de ou para.</string>
     <string name="form_exchange_rate_help_text">Você pode especificar a taxa em qualquer uma das direções da transferência. A taxa inversa e a quantia correspondente à parte dependente da taxa de câmbio são calculadas automaticamente.</string>
     <string name="form_title_help_text">Insira um título que identifique o modelo.</string>
@@ -190,4 +190,6 @@
     <string name="cab_ManageCategories_move_help_text">Qualquer categoria (juntamente com suas subcategorias) pode ser movida para uma nova categoria mãe. Subcategorias podem ser transformadas em categorias principais.</string>
     <string name="help_Budget_spent_click">Ao clicar nos montantes gastos, são listadas todas as transações relevantes para o orçamento atual e a categoria correspondente.</string>
     <string name="menu_parent_category_selection_help_text">Com esta opção você personaliza o toque em uma categoria que tem subcategorias: se estiver marcada, um toque curto selecionará a categoria; se não estiver marcada, um toque curto irá expandir/contrair a categoria. Neste último caso, a seleção estará disponível a partir do menu de contexto.</string>
+    <string name="form_split_parts_heading_help_text_1">Use o ícone + para digitar quantas partes da divisão forem necessárias.</string>
+    <string name="form_split_parts_heading_help_text_2">O campo do montante será automaticamente atualizado com a soma das partes, a menos que você digite manualmente um montante, nesse caso será exibida a diferença entre a soma das partes e o montante (não dividido).</string>
 </resources>
