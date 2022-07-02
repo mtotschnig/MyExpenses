@@ -46,6 +46,8 @@ document.addEventListener('alpine:init', () => {
                     this.categoryPath[lastIndex - index].id = newPath[index].id;
                     await this.$nextTick();
                 }
+            } else {
+                this.resetCategory();
             }
             this.selectedTags = transaction.tags;
             this.method = transaction.method
@@ -92,7 +94,7 @@ document.addEventListener('alpine:init', () => {
                 this.time = formatTime(now);
                 this.payee = '';
                 this.comment = '';
-                if (this.categoryPath.length > 0) { this.categoryPath[0].id = 0; };
+                this.resetCategory();
                 this.selectedTags = [];
                 this.method = 0;
                 this.number = '';
@@ -143,6 +145,9 @@ document.addEventListener('alpine:init', () => {
                 if (node == undefined) break;
             }
             return result
+        },
+        resetCategory() {
+            if (this.categoryPath.length > 0) { this.categoryPath[0].id = 0; };
         },
         loadTransactions() {
             this.loading = true
@@ -218,7 +223,7 @@ document.addEventListener('alpine:init', () => {
             this.account = this.data.accounts[0].id;
             this.$watch('account', _ => {
                 this.loadTransactions();
-                if (this.id > 0) alert("This transaction will be moved to account " + accountLabel)
+                if (this.id > 0) alert(message("webui_warning_move_transaction", {account: this.accountLabel}));
             });
             this.$watch('amount', value => { if (value < 0) amount = -value } );
             ${categoryWatchers}
@@ -247,4 +252,9 @@ function formatTime(date) {
 function positionPopup(event, menu) {
     menu.style.top = event.pageY + "px"
     menu.style.left = event.pageX + "px"
+}
+
+function message(message, data) {
+  const pattern = /{\s*(\w+?)\s*}/g;
+  return messages[message].replace(pattern, (_, token) => data[token] || '');
 }
