@@ -1020,4 +1020,6 @@
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de excluir arquivos</string>
     <string name="pref_purge_backup_keep_title">Número máximo de backups recentes a serem preservados</string>
     <string name="menu_parent_category_selection">Selecionar a categoria mãe no toque breve</string>
+    <string name="whats_new_340">Campos de anotação permitem múltiplas linhas.</string>
+    <string name="pref_debug_logging_share_summary">Compartilhar arquivos de registro</string>
 </resources>
