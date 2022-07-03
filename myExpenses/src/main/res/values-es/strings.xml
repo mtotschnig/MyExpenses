@@ -1003,6 +1003,23 @@
     <string name="dialog_title_warning_delete_party">¿Borrar cuenta\?</string>
     <string name="whats_new_336_1">Resumen de la deuda de las acciones</string>
     <string name="whats_new_336_2">Etiquetas para las partes divididas</string>
-    <string name="whats_new_338">Jerarquía de categorías arbitrariamente profunda</string>
+    <string name="whats_new_338">Jerarquía de categorías arbitraria</string>
     <string name="dialog_title_purge_backups">Purgar copias de seguridad antiguas</string>
+    <string name="pref_purge_backup_keep_title">Número máximo de copias de seguridad recientes a conservar</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Se ha eliminado una copia de seguridad.</item>
+        <item quantity="other">Se han eliminado %d copias de seguridad.</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">No se pudo eliminar una copia de seguridad.</item>
+        <item quantity="other">No se pudieron eliminar %d copias de seguridad.</item>
+    </plurals>
+    <string name="pref_purge_backup_require_confirmation_summary">Mostrar un aviso de confirmación antes de eliminar los archivos</string>
+    <string name="setup_completed">Configuración completada</string>
+    <string name="pref_debug_logging_share_summary">Compartir archivos de registro</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Árbol de categorías</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Este diálogo se mostrará en cada uso con su estado de licencia actual (%1$s).</string>
+    <string name="menu_parent_category_selection">Seleccionar categoría principal con un toque corto</string>
+    <string name="purge_backups">Se eliminarán las siguientes copias de seguridad:</string>
+    <string name="whats_new_340">El campo de notas permite varias líneas.</string>
 </resources>
