@@ -889,7 +889,6 @@ public class Account extends Model implements DistributionAccountInfo {
    * @param withType true means, that the query is for either positive (income) or negative (expense) transactions
    *                 in that case, the merge transfer restriction must be skipped, since it is based on only
    *                 selecting the negative part of a transfer
-   * @param shortenComment
    */
   public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
     return extendedUriForTransactionList(shortenComment);
