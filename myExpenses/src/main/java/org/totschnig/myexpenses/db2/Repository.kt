@@ -17,10 +17,33 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.model2.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -56,7 +79,7 @@ class Repository @Inject constructor(
             put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
             put(KEY_PAYEEID, findOrWritePayee(payee))
             put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-            category.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
+            category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
             method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
             put(KEY_REFERENCE_NUMBER, number)
             put(KEY_COMMENT, comment)
@@ -68,7 +91,7 @@ class Repository @Inject constructor(
     fun updateTransaction(id: String, transaction: Transaction) = transaction.toContentValues()?.let {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(
-            ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(it)
+            ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValues(it)
                 .withSelection("$KEY_ROWID = ?", arrayOf(id))
                 .build()
         )
@@ -95,7 +118,7 @@ class Repository @Inject constructor(
         val ops = ArrayList<ContentProviderOperation>()
         values.put(KEY_UUID, Model.generateUuid())
         ops.add(
-            ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
+            ContentProviderOperation.newInsert(TRANSACTIONS_URI)
                 .withValues(values)
                 .build()
         )
@@ -116,11 +139,12 @@ class Repository @Inject constructor(
             contentResolver.query(
                 Account.extendedUriForTransactionList(true),
                 org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED,
-                "$KEY_ACCOUNTID = ?", arrayOf(accountId.toString()), null
+                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL", arrayOf(accountId.toString()), null
             )?.use { cursor ->
-                cursor.asSequence.map {
+                cursor.asSequence.map { cursor ->
                     Transaction.fromCursor(
-                        it,
+                        context,
+                        cursor,
                         accountId,
                         currencyUnit,
                         currencyFormatter,
@@ -130,7 +154,7 @@ class Repository @Inject constructor(
                             TRANSACTIONS_TAGS_URI,
                             arrayOf(KEY_ROWID),
                             "$KEY_TRANSACTIONID = ?",
-                            arrayOf(it.getLong(KEY_ROWID).toString()),
+                            arrayOf(cursor.getLong(KEY_ROWID).toString()),
                             null
                         )?.use { tagCursor ->
                             tagCursor.asSequence.map { it.getLong(0) }.toList()
@@ -185,7 +209,7 @@ class Repository @Inject constructor(
     //Transaction
     fun getUuidForTransaction(transactionId: Long) =
         contentResolver.query(
-            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, transactionId),
+            ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId),
             arrayOf(KEY_UUID), null, null, null
         )?.use {
             if (it.moveToFirst()) it.getString(0) else null

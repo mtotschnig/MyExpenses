@@ -1,11 +1,27 @@
 package org.totschnig.myexpenses.model2
 
+import android.content.Context
 import android.database.Cursor
 import androidx.annotation.Keep
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
@@ -27,15 +43,17 @@ data class Transaction(
     val dateFormatted: String,
     val valueDate: LocalDate,
     val payee: String,
-    val category: Long,
+    val category: Long?,
     val tags: List<Long>,
     val comment: String,
     val method: Long,
     val number: String,
-    val displayHtml: String
+    val displayHtml: String,
+    val transferPeer: Long?
 ) {
     companion object {
         fun fromCursor(
+            context: Context,
             cursor: Cursor,
             account: Long,
             currencyUnit: CurrencyUnit,
@@ -46,8 +64,11 @@ data class Transaction(
             val dateTime = epoch2ZonedDateTime(date)
             val payee = cursor.getString(KEY_PAYEE_NAME)
             val comment = cursor.getString(KEY_COMMENT)
-            val money = Money(currencyUnit, cursor.getLong(KEY_AMOUNT))
+            val amount = cursor.getLong(KEY_AMOUNT)
+            val money = Money(currencyUnit, amount)
             val number = cursor.getString(KEY_REFERENCE_NUMBER)
+            val category = cursor.getLongOrNull(KEY_CATID)
+            val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
             return Transaction(
                 id = cursor.getLong(KEY_ROWID),
                 account = account,
@@ -58,26 +79,33 @@ data class Transaction(
                 dateFormatted = Utils.convDateTime(date, dateFormat),
                 valueDate = epoch2LocalDate(cursor.getLong(KEY_VALUE_DATE)),
                 payee = payee,
-                category = cursor.getLong(KEY_CATID),
+                category = category,
                 tags = emptyList(),
                 comment = comment,
                 method = cursor.getLong(KEY_METHODID),
                 number = number,
-                displayHtml = (number.takeIf { it.isNotEmpty() }?.let { "($it) " } ?: "")
-                        + buildList {
-                    cursor.getString(KEY_LABEL).takeIf { it.isNotEmpty() }?.let {
-                        add("<span>$it</span>")
-                    }
-                    comment.takeIf { it.isNotEmpty() }?.let {
-                        add("<span class ='italic'>$it</span>")
-                    }
-                    payee.takeIf { it.isNotEmpty() }?.let {
-                        add("<span class='underline'>$it</span>")
-                    }
-                    cursor.getString(KEY_TAGLIST).takeIf { it.isNotEmpty() }?.let {
-                        add("<span class='font-semibold'>$it</span>")
-                    }
-                }.joinToString(separator = " / ")
+                displayHtml = if (category == SPLIT_CATID)
+                    context.getString(R.string.split_transaction)
+                else
+                    (number.takeIf { it.isNotEmpty() }?.let { "($it) " } ?: "")
+                            + buildList {
+                        cursor.getString(KEY_LABEL).takeIf { it.isNotEmpty() }?.let {
+                            val transferIndicator = if (transferPeer == null) "" else {
+                                Transfer.getIndicatorPrefixForLabel(amount)
+                            }
+                            add("<span>$transferIndicator$it</span>")
+                        }
+                        comment.takeIf { it.isNotEmpty() }?.let {
+                            add("<span class ='italic'>$it</span>")
+                        }
+                        payee.takeIf { it.isNotEmpty() }?.let {
+                            add("<span class='underline'>$it</span>")
+                        }
+                        cursor.getString(KEY_TAGLIST).takeIf { it.isNotEmpty() }?.let {
+                            add("<span class='font-semibold'>$it</span>")
+                        }
+                    }.joinToString(separator = " / "),
+                transferPeer = transferPeer
             )
         }
     }

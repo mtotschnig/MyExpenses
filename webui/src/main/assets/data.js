@@ -219,6 +219,9 @@ document.addEventListener('alpine:init', () => {
              console.error(error);
              this.resultText = error.message
         },
+        isEditable(transaction) {
+            return transaction.category != 0 && transaction.transferPeer == undefined
+        },
         init() {
             this.account = this.data.accounts[0].id;
             this.$watch('account', _ => {
