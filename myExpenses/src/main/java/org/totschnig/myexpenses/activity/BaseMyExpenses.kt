@@ -45,7 +45,6 @@ import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
-import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
 import org.totschnig.myexpenses.fragment.TransactionList
 import org.totschnig.myexpenses.model.AggregateAccount
@@ -662,7 +661,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 currentFragment?.let {
                     val args = Bundle()
                     args.putParcelableArrayList(
-                        BaseTransactionList.KEY_FILTER,
+                        KEY_FILTER,
                         it.filterCriteria
                     )
                     args.putLong(KEY_ROWID, accountId)

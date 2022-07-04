@@ -16,7 +16,9 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Payee
+import org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED
 import org.totschnig.myexpenses.model2.Transaction
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
@@ -39,17 +41,20 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.util.localDateTime2Epoch
+import org.totschnig.myexpenses.viewmodel.TransactionListViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
@@ -61,7 +66,8 @@ import javax.inject.Singleton
 class Repository @Inject constructor(
     val context: Context,
     val currencyContext: CurrencyContext,
-    val currencyFormatter: CurrencyFormatter
+    val currencyFormatter: CurrencyFormatter,
+    val prefHandler: PrefHandler
 ) {
 
     val contentResolver: ContentResolver = context.contentResolver
@@ -136,10 +142,21 @@ class Repository @Inject constructor(
 
     fun loadTransactions(accountId: Long): List<Transaction> =
         getCurrencyUnitForAccount(accountId)?.let { currencyUnit ->
+            val filter = FilterPersistence(
+                    prefHandler = prefHandler,
+                    keyTemplate = prefNameForCriteria(accountId),
+                    savedInstanceState = null,
+                    immediatePersist = false,
+                    restoreFromPreferences = true
+                ).whereFilter.takeIf { !it.isEmpty }?.let {
+                    it.getSelectionForParents(VIEW_EXTENDED) to it.getSelectionArgs(false)
+            }
             contentResolver.query(
                 Account.extendedUriForTransactionList(true),
-                org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED,
-                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL", arrayOf(accountId.toString()), null
+                PROJECTION_EXTENDED,
+                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""}",
+                filter?.let { arrayOf(accountId.toString(), *it.second) } ?: arrayOf(accountId.toString()),
+                null
             )?.use { cursor ->
                 cursor.asSequence.map { cursor ->
                     Transaction.fromCursor(
