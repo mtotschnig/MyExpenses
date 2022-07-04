@@ -154,10 +154,6 @@ public interface AppComponent {
 
   Repository repository();
 
-  JsonDeserializer<LocalDate> localDateJsonDeserializer();
-
-  JsonDeserializer<LocalTime> localTimeJsonDeserializer();
-
   Gson gson();
 
   @Nullable

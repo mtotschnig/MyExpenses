@@ -1,237 +1,185 @@
 <!doctype html>
 <!--suppress HtmlUnknownAttribute -->
 <html style="color-scheme: light dark;">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>${i18n_title}</title>
+        <link href="styles.css" rel="stylesheet">
 
-    <link href="styles.css" rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
 
-    <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="/favicon.ico">
 
-    <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
-</head>
+        <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+        <script src="data.js"></script>
+        <script src="messages.js"></script>
+    </head>
 
-<body x-data="modelData()"
-      x-init="account = data.accounts[0].id;
-      $watch('amount', value => { if (value < 0) amount = -value } );
-      ${categoryWatchers}" class ="bg-white dark:bg-neutral-900"
->
-<div class="flex justify-center">
-    <div class="max-w-screen-sm w-full rounded shadow-lg p-8 m-4 text-slate-500 dark:text-white dark:border dark:border-white">
-        <form>
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="account">${i18n_account}</label>
-                <select name="account" id="account" x-model="account">
-                    <template x-for="item in data.accounts" :key="item.id">
-                        <option :value="item.id" x-text="item.label"></option>
-                    </template>
-                </select>
-            </div>
-
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="amount">${i18n_amount}</label>
-                <div>
-                    <label class="switch mr-2">
-                        <input type="checkbox" name="type" x-model="signum">
-                        <span class="slider round"></span>
-                    </label>
-                    <input class="border py-2 px-3  align-middle" type="number"
-                           name="amount" id="amount" step="0.01" min="0" required
-                           x-model="amount">
-                </div>
-            </div>
-
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" x-text="dateRowLabel(data, account)">${i18n_date}</label>
-                <div class="flex flex-row">
-                    <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date" required x-model="date">
-                    <input x-show="currentDateMode(data, account) == dateMode.dateTime" class="grow border py-2 px-3 ml-2" type="time" name="time" id="time" x-model="time"
-                           required>
-                    <input x-show="currentDateMode(data, account) == dateMode.bookingValue"  class="grow border py-2 px-3 mr-2" type="date" name="valueDate" id="valueDate"
-                           required
-                           x-model="valueDate">
-                </div>
-            </div>
-
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg"
-                       for="payee">${i18n_payee}</label>
-                <input class="border py-2 px-3" list="payees" name="payee"
-                       id="payee"
-                       x-model="payee">
-                <datalist id="payees">
-                    <template x-for="item in data.payees" :key="item.id">
-                        <option x-text="item.name"></option>
-                    </template>
-                </datalist>
-            </div>
-
-            <div class="flex flex-col mb-4" x-show="data.categories.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg">${i18n_category}</label>
-                <div class="grid grid-cols-${category_tree_depth} gap-2">
-                    <template x-for="(category, level) in categoryPath">
-                        <select class="h-8" :name="'category_' + level" :id="'category_' + level" x-model="category.id">
-                            <option value="0"></option>
-                            <template x-for="item in categoriesByParent(data.categories, (level == 0) ? null : categoryPath[level-1].id)"
-                                      :key="item.id">
+    <body x-data="modelData" class="bg-white dark:bg-neutral-900">
+        <div class="flex justify-center">
+            <div class="max-w-screen-sm w-full rounded shadow-lg px-6 py-4 m-4 text-slate-500 dark:text-white dark:border dark:border-white">
+                <form>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg"
+                               for="account" x-text="messages.account"></label>
+                        <select name="account" id="account" x-model="account">
+                            <template x-for="item in data.accounts" :key="item.id">
                                 <option :value="item.id" x-text="item.label"></option>
                             </template>
                         </select>
-                    </template>
-                </div>
+                    </div>
+                    <div class="relative overflow-y-auto max-h-48"
+                         x-data="{menuOpen:false}"
+                         @click.outside="menuOpen = false; activeTransaction = null">
+                        <svg class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" x-show="loading">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                        </svg>
+                        <div x-show="!loading">
+                            <table class="w-full border border-spacing-x-px" x-show="transactions.length > 0">
+                                <template x-for="item in transactions" :key="item.id">
+
+                                    <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1 hover:bg-slate-200 dark:hover:bg-neutral-700"
+                                        :class="(activeTransaction == item || (activeTransaction == null && item.id == id))  ? 'scale-100 shadow-xl !bg-green-50 dark:!bg-green-900' : ''"
+                                        @click="if (isEditable(item)) { if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen } else { menuOpen = false }">
+                                        <td class="p-1" x-text="item.dateFormatted"></td>
+                                        <td class="w-full p-1">
+                                            <div x-html="item.displayHtml"></div>
+                                        </td>
+                                        <td class="text-end p-1 whitespace-nowrap"
+                                            :class="item.amount > 0 ? 'text-green-500' : 'text-red-500'">
+                                            <span x-text="item.amountFormatted"></span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </table>
+                            <div class="flex justify-center"><span x-show="transactions.length == 0" x-text="messages.no_expenses"></span></div>
+                        </div>
+                        <div x-ref="menu"
+                             class="fixed top-0 border border-solid border-neutral-500 rounded p-1 bg-white dark:bg-neutral-900"
+                             x-show="menuOpen">
+                            <ul class="divide-y">
+                                <template x-for="item in menu" :key="item.id" hidden>
+                                    <li class="p-1 hover:bg-slate-100 dark:hover:bg-neutral-800">
+                                        <a href="#" @click="menuOpen = false; contextAction(item.id);">
+                                            <span class="material-symbols-outlined mr-1 align-middle" x-text="item.icon">edit</span>
+                                            <span x-text="messages[item.label]"></span>
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg" for="amount"
+                               x-text="messages.amount"></label>
+                        <div>
+                            <label class="switch mr-2">
+                                <input type="checkbox" name="type" x-model="signum">
+                                <span class="slider round"></span>
+                            </label>
+                            <input class="border py-2 px-3 align-middle mr-2" type="number"
+                                   name="amount" id="amount" step="0.01" min="0" required
+                                   x-model="amount">
+                            <span x-text="accountCurrency"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg" x-text="dateRowLabel"></label>
+                        <div class="flex flex-row">
+                            <input class="grow border py-2 px-3 mr-2" type="date" name="date" id="date"
+                                   required x-model="date">
+                            <input x-show="currentDateMode == dateMode.dateTime"
+                                   class="grow border py-2 px-3 ml-2" type="time" name="time" id="time"
+                                   x-model="time"
+                                   required>
+                            <input x-show="currentDateMode == dateMode.bookingValue"
+                                   class="grow border py-2 px-3 mr-2" type="date" name="valueDate"
+                                   id="valueDate"
+                                   required
+                                   x-model="valueDate">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg"
+                               for="payee" x-text="messages.payer_or_payee"></label>
+                        <input class="border py-2 px-3" list="payees" name="payee"
+                               id="payee"
+                               x-model="payee">
+                        <datalist id="payees">
+                            <template x-for="item in data.payees" :key="item.id">
+                                <option x-text="item.name"></option>
+                            </template>
+                        </datalist>
+                    </div>
+
+                    <div class="flex flex-col mb-4" x-show="data.categories.length > 0">
+                        <label class="mb-2 uppercase font-bold text-lg" x-text="messages.category"></label>
+                        <div class="grid gap-2" :class="'grid-cols-'+categoryTreeDepth">
+                            <template x-for="(category, level) in categoryPath">
+                                <select class="h-8" :name="'category_' + level" :id="'category_' + level"
+                                        x-model="category.id">
+                                    <option value="0"></option>
+                                    <template x-for="item in categoriesByParent(level)" :key="item.id">
+                                        <option :value="item.id" x-text="item.label"></option>
+                                    </template>
+                                </select>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mb-4" x-show="data.tags.length > 0">
+                        <label class="mb-2 uppercase font-bold text-lg" for="tags"
+                               x-text="messages.tags"></label>
+                        <select name="tags" id="tags" multiple x-model="selectedTags">
+                            <template x-for="item in data.tags" :key="item.id">
+                                <option :value="item.id" x-text="item.label"></option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col mb-4"
+                         x-show="methodsForTypes.length > 0">
+                        <label class="mb-2 uppercase font-bold text-lg" for="tags"
+                               x-text="messages.method"></label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <select class="h-8" name="method" id="method" x-model="method">
+                                <option value="0"></option>
+                                <template x-for="item in methodsForTypes"
+                                          :key="item.id">
+                                    <option :value="item.id" x-text="item.label"></option>
+                                </template>
+                            </select>
+                            <input class="h-8 border py-2 px-3  align-middle"
+                                   x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered"
+                                   :placeholder="messages.reference_number"
+                                   name="number" id="number" x-model="number">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 uppercase font-bold text-lg" for="notes"
+                               x-text="messages.comment"></label>
+                        <textarea name="notes" id="notes" x-model="comment"></textarea>
+                    </div>
+
+                    <div class="relative">
+                        <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
+                                type="button" :disabled="amount == ''" @click="submitForm"><span
+                                x-text="messages.menu_save"></span><br>
+                            <span class="text-xs" x-text="'(' + (id == 0 ? messages.menu_create_transaction : messages.menu_edit_transaction) + ')'"></span>
+                        </button>
+                        <input class="absolute bottom-0 right-0 border p-2 hover:bg-slate-100 dark:hover:bg-neutral-800"
+                               type="reset" @click.prevent="reset">
+                    </div>
+                </form>
+                <div x-text="resultText" class="mt-2" :class="resultCode < 300 ? 'text-current' : 'text-red-500'"></div>
             </div>
-
-            <div class="flex flex-col mb-4" x-show="data.tags.length > 0">
-                <label class="mb-2 uppercase font-bold text-lg" for="tags">${i18n_tags}</label>
-                <select name="tags" id="tags" multiple x-model="selectedTags">
-                    <template x-for="item in data.tags" :key="item.id">
-                        <option :value="item.id" x-text="item.label"></option>
-                    </template>
-                </select>
-            </div>
-
-            <div class="flex flex-col mb-4"
-                 x-show="methodsForTypes(data, account, signum).length > 0">
-                <label class="mb-2 uppercase font-bold text-lg" for="tags">${i18n_method}</label>
-                <div class="grid grid-cols-2 gap-2">
-                    <select class="h-8" name="method" id="method" x-model="method">
-                        <option value="0"></option>
-                        <template x-for="item in methodsForTypes(data, account, signum)"
-                                  :key="item.id">
-                            <option :value="item.id" x-text="item.label"></option>
-                        </template>
-                    </select>
-                    <input class="h-8 border py-2 px-3  align-middle" x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered" placeholder="${i18n_number}"
-                           name="number" id="number" x-model="number">
-                </div>
-            </div>
-
-            <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg" for="notes">${i18n_notes}</label>
-                <textarea name="notes" id="notes" x-model="comment"></textarea>
-            </div>
-
-            <div>
-                <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="amount == ''" @click="submitForm({
-                            account: account,
-                            amount: signum ? amount : -amount,
-                            date: date,
-                            time: (currentDateMode(data, account) == dateMode.dateTime) ? time : null,
-                            valueDate: valueDate,
-                            payee: payee,
-                            category: terminalNodeFromPath(categoryPath),
-                            tags: selectedTags,
-                            comment: comment,
-                            method: method,
-                            number: number}).then(response => {
-                        resultCode = response.status
-    response.text().then(text => resultText = text)
-    }).catch(errorHandler)">${i18n_submit}
-                </button>
-                <div x-text="resultText"
-                     :class="resultCode == 201 ? 'text-current' : 'text-red-500'"></div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-const dateMode = {
-  date: 1,
-  dateTime: 2,
-  bookingValue: 3
-};
-
-function currentDateMode(data, account) {
-    var type = accountType(data, account)
-    if (!(type == "CASH")) {
-      if (${withValueDate}) {
-        return dateMode.bookingValue;
-      }
-    }
-    return ${withTime} ? dateMode.dateTime : dateMode.date;
-}
-
-function dateRowLabel(data, account) {
-    switch(currentDateMode(data, account)) {
-      case dateMode.date: return "${i18n_date}";
-      case dateMode.dateTime: return "${i18n_date} / ${i18n_time}";
-      case dateMode.bookingValue: return "${i18n_booking_date} / ${i18n_value_date}";
-    }
-}
-
-var errorHandler = (error) => alert('Error: ' + error)
-
-function categoriesByParent(array, parent) {
-    return array.filter(item => item.parent == parent)
-}
-
-function methodsForTypes(data, account, signum) {
-    return data.methods.filter(item => item.accountTypes.includes(accountType(data, account)) && (item.type == 0 || item.type == (signum ? 1 : -1)))
-}
-
-function accountType(data, account) {
-    return data.accounts.find(item => item.id == account).type
-}
-
-function terminalNodeFromPath(path) {
-  return path.reduce((acc, curr) => curr.id == 0 ? acc : curr.id, null);
-}
-
-function modelData() {
-    let date = new Date();
-    let dateFormatted = formatDate(date);
-    return {
-        name: '',
-        signum: false,
-        amount: '',
-        date: dateFormatted,
-        valueDate: dateFormatted,
-        time: formatTime(date),
-        payee: '',
-        account: 0,
-        comment: '',
-        categoryPath:  Array.from(Array(${category_tree_depth}), () => { return { id: 0 }; }),
-        selectedTags: [],
-        method: 0,
-        number: '',
-        resultText: '',
-        resultCode: 0,
-        data: ${data},
-    }
-}
-
-function formatPart(number) {
-    return number.toString().padStart(2, '0')
-}
-
-function formatDate(date) {
-  let month = formatPart(date.getMonth() + 1);
-  let day = formatPart(date.getDate());
-  let year = date.getFullYear();
-  return [year, month, day].join('-');
-}
-
-function formatTime(date) {
-  let hours = formatPart(date.getHours());
-  let minutes = formatPart(date.getMinutes());
-  return [hours, minutes].join(':');
-}
-
-function submitForm(data) {
-    return fetch("/", {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(data)
-    });
-}
-</script>
-
-</body>
+        </div>
+    </body>
 </html>

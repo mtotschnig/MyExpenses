@@ -7,10 +7,10 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.core.database.getLongOrNull
 import com.google.gson.Gson
-import com.google.gson.JsonDeserializer
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -23,19 +23,34 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.apache.commons.text.StringSubstitutor
-import org.apache.commons.text.StringSubstitutor.*
+import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
+import org.apache.commons.text.StringSubstitutor.DEFAULT_PREFIX
+import org.apache.commons.text.StringSubstitutor.DEFAULT_SUFFIX
 import org.apache.commons.text.lookup.StringLookup
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.di.LocalDateAdapter
+import org.totschnig.myexpenses.di.LocalTimeAdapter
 import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.ui.ContextHelper
@@ -55,12 +70,6 @@ private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
 class WebInputService : Service(), IWebInputService {
 
     @Inject
-    lateinit var localDateJsonDeserializer: JsonDeserializer<LocalDate>
-
-    @Inject
-    lateinit var localTimeJsonDeserializer: JsonDeserializer<LocalTime>
-
-    @Inject
     lateinit var repository: Repository
 
     @Inject
@@ -72,13 +81,14 @@ class WebInputService : Service(), IWebInputService {
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
 
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
     private lateinit var wrappedContext: Context
 
     private val binder = LocalBinder()
 
     private var serverStateObserver: ServerStateObserver? = null
-
-    private var count = 0
 
     private var port: Int = 0
 
@@ -151,11 +161,11 @@ class WebInputService : Service(), IWebInputService {
                             gson {
                                 registerTypeAdapter(
                                     LocalDate::class.java,
-                                    localDateJsonDeserializer
+                                    LocalDateAdapter
                                 )
                                 registerTypeAdapter(
                                     LocalTime::class.java,
-                                    localTimeJsonDeserializer
+                                    LocalTimeAdapter
                                 )
                             }
                         }
@@ -201,6 +211,36 @@ class WebInputService : Service(), IWebInputService {
                                     ContentType.Image.XIcon
                                 )
                             }
+                            get("messages.js") {
+                                call.respondText("""
+                                    let messages = {
+                                    ${i18nJson("app_name")},
+                                    ${i18nJson("title_webui")},
+                                    ${i18nJson("account")},
+                                    ${i18nJson("amount")},
+                                    ${i18nJson("date")},
+                                    ${i18nJson("time")},
+                                    ${i18nJson("booking_date")},
+                                    ${i18nJson("value_date")},
+                                    ${i18nJson("payer_or_payee")},
+                                    ${i18nJson("category")},
+                                    ${i18nJson("tags")},
+                                    ${i18nJson("comment")},
+                                    ${i18nJson("method")},
+                                    ${i18nJson("menu_save")},
+                                    ${i18nJson("menu_create_transaction")},
+                                    ${i18nJson("menu_edit_transaction")},
+                                    ${i18nJson("reference_number")},
+                                    ${i18nJson("menu_edit")},
+                                    ${i18nJson("dialog_confirm_discard_changes")},
+                                    ${i18nJson("menu_clone_transaction")},
+                                    ${i18nJson("menu_delete")},
+                                    ${i18nJson("no_expenses")},
+                                    ${i18nJson("webui_warning_move_transaction")}                                    ,
+                                    ${i18nJsonPlurals("warning_delete_transaction")}
+                                    };
+                                """.trimIndent(), ContentType.Text.JavaScript)
+                            }
                             if (passWord == null) {
                                 serve()
                             } else {
@@ -245,21 +285,8 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private fun Route.serve() {
-        post("/") {
-            if (repository.createTransaction(call.receive()) != null) {
-                count++
-                call.respond(
-                    HttpStatusCode.Created,
-                    "${getString(R.string.save_transaction_and_new_success)} ($count)"
-                )
-            } else {
-                call.respond(
-                    HttpStatusCode.Conflict,
-                    "Error while saving transaction."
-                )
-            }
-        }
-        get("/") {
+
+        get("data.js") {
             val categories = contentResolver.query(
                 TransactionProvider.CATEGORIES_URI.buildUpon()
                     .appendQueryParameter(
@@ -282,14 +309,15 @@ class WebInputService : Service(), IWebInputService {
             val data = mapOf(
                 "accounts" to contentResolver.query(
                     TransactionProvider.ACCOUNTS_BASE_URI,
-                    arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
+                    arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE, KEY_CURRENCY),
                     "$KEY_SEALED = 0", null, null
                 )?.use { cursor ->
                     cursor.asSequence.map {
                         mapOf(
                             "id" to it.getLong(0),
                             "label" to it.getString(1),
-                            "type" to it.getString(2)
+                            "type" to it.getString(2),
+                            "currency" to currencyContext[it.getString(3)].symbol
                         )
                     }.toList()
                 },
@@ -346,25 +374,11 @@ class WebInputService : Service(), IWebInputService {
                 categories?.map { it["level"] as Int }?.maxOrNull() ?: 0
             val categoryWatchers = if (categoryTreeDepth > 1) {
                 (0..categoryTreeDepth - 2).joinToString(separator = "\n") {
-                    "\$watch('categoryPath[$it].id', value => { categoryPath[${it + 1}].id=0 } );"
+                    "this.\$watch('categoryPath[$it].id', value => { this.categoryPath[${it + 1}].id=0 } );"
                 }
             } else ""
             val lookup = StringLookup { key ->
                 when (key) {
-                    "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
-                    "i18n_account" -> t(R.string.account)
-                    "i18n_amount" -> t(R.string.amount)
-                    "i18n_date" -> t(R.string.date)
-                    "i18n_time" -> t(R.string.time)
-                    "i18n_booking_date" -> t(R.string.booking_date)
-                    "i18n_value_date" -> t(R.string.value_date)
-                    "i18n_payee" -> t(R.string.payer_or_payee)
-                    "i18n_category" -> t(R.string.category)
-                    "i18n_tags" -> t(R.string.tags)
-                    "i18n_notes" -> t(R.string.comment)
-                    "i18n_method" -> t(R.string.method)
-                    "i18n_submit" -> t(R.string.menu_save)
-                    "i18n_number" -> t(R.string.reference_number)
                     "category_tree_depth" -> categoryTreeDepth.toString()
                     "data" -> gson.toJson(data)
                     "categoryWatchers" -> categoryWatchers
@@ -385,9 +399,63 @@ class WebInputService : Service(), IWebInputService {
                 DEFAULT_SUFFIX,
                 DEFAULT_ESCAPE
             )
-            val text =
-                stringSubstitutor.replace(readTextFromAssets("form.html"))
-            call.respondText(text, ContentType.Text.Html)
+            val text = stringSubstitutor.replace(readTextFromAssets("data.js"))
+            call.respondText(text, ContentType.Text.JavaScript)
+        }
+
+        delete("/transactions/{id}") {
+            if (repository.deleteTransaction(call.parameters["id"]!!.toLong())) {
+                call.respond(
+                    HttpStatusCode.OK,
+                    getString(R.string.transaction_deleted)
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while deleting transaction."
+                )
+            }
+        }
+
+        put("/transactions/{id}") {
+            val transaction = call.receive<Transaction>()
+            val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
+            if (updated != null && updated > 0) {
+                call.respond(
+                    HttpStatusCode.OK,
+                    getString(R.string.save_transaction_and_new_success)
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while saving transaction."
+                )
+            }
+        }
+
+        post("/transactions") {
+            val transaction = call.receive<Transaction>()
+            val id = repository.createTransaction(transaction)
+            if (id != null) {
+                call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
+                call.respond(
+                    HttpStatusCode.Created,
+                    getString(R.string.save_transaction_and_new_success)
+                )
+            } else {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    "Error while saving transaction."
+                )
+            }
+        }
+
+        get("/") {
+            call.respondText(readTextFromAssets("form.html"), ContentType.Text.Html)
+        }
+
+        get("/transactions") {
+            call.respond(repository.loadTransactions(call.request.queryParameters["account_id"]!!.toLong()))
         }
     }
 
@@ -400,7 +468,15 @@ class WebInputService : Service(), IWebInputService {
         false
     }
 
-    private fun t(@StringRes resId: Int) = wrappedContext.getString(resId)
+    private fun i18nJsonPlurals(resourceName: String, quantity: Int = 1) =
+        "$resourceName : '${tqPlurals(resources.getIdentifier(resourceName, "plurals", packageName), quantity)}'"
+
+    private fun i18nJson(resourceName: String) =
+        "$resourceName : '${tq(resources.getIdentifier(resourceName, "string", packageName))}'"
+
+    private fun tq(@StringRes resId: Int) = wrappedContext.getString(resId).replace("'", "\\'")
+
+    private fun tqPlurals(@PluralsRes resId: Int, quantity: Int) = wrappedContext.resources.getQuantityString(resId, quantity, quantity).replace("'", "\\'")
 
     override fun onDestroy() {
         stopServer()

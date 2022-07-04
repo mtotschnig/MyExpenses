@@ -3,9 +3,6 @@ package org.totschnig.myexpenses.di
 import android.net.TrafficStats
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
@@ -29,7 +26,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.io.IOException
-import java.lang.reflect.Type
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.net.Socket
@@ -96,9 +92,10 @@ open class NetworkModule {
         @JvmStatic
         @Provides
         @Singleton
-        fun provideGson(localDateJsonDeserializer: JsonDeserializer<LocalDate?>?): Gson =
+        fun provideGson(): Gson =
             GsonBuilder()
-                .registerTypeAdapter(LocalDate::class.java, localDateJsonDeserializer)
+                .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter)
+                .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter)
                 .create()
 
         @JvmStatic
@@ -149,26 +146,6 @@ open class NetworkModule {
             prefHandler,
             service
         )
-
-        @JvmStatic
-        @Provides
-        @Singleton
-        fun provideLocalDateJsonDeserializer(): JsonDeserializer<LocalDate> =
-            JsonDeserializer { json: JsonElement, _: Type?, _: JsonDeserializationContext? ->
-                LocalDate.parse(
-                    json.asJsonPrimitive.asString
-                )
-            }
-
-        @JvmStatic
-        @Provides
-        @Singleton
-        fun provideLocalTimeJsonDeserializer(): JsonDeserializer<LocalTime> =
-            JsonDeserializer { json: JsonElement, _: Type?, _: JsonDeserializationContext? ->
-                LocalTime.parse(
-                    json.asJsonPrimitive.asString
-                )
-            }
 
         @JvmStatic
         @Provides

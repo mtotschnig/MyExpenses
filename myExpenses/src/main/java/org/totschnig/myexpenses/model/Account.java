@@ -77,6 +77,7 @@ import android.os.RemoteException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -236,7 +237,7 @@ public class Account extends Model implements DistributionAccountInfo {
    * @return Account object or null if no account with id exists in db
    * TODO: We should no longer allow calling this from the UI thread and consistently load account in the background
    */
-  @Deprecated
+  @WorkerThread
   public static Account getInstanceFromDb(long id) {
     return getInstanceFromDb(id, false);
   }
@@ -888,9 +889,12 @@ public class Account extends Model implements DistributionAccountInfo {
    * @param withType true means, that the query is for either positive (income) or negative (expense) transactions
    *                 in that case, the merge transfer restriction must be skipped, since it is based on only
    *                 selecting the negative part of a transfer
-   * @param shortenComment
    */
   public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
+    return extendedUriForTransactionList(shortenComment);
+  }
+
+  public static Uri extendedUriForTransactionList(boolean shortenComment) {
     return shortenComment ? Transaction.EXTENDED_URI
             .buildUpon()
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")

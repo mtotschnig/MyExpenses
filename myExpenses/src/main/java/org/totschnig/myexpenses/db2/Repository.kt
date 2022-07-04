@@ -1,20 +1,60 @@
 package org.totschnig.myexpenses.db2
 
-import android.content.*
+import android.content.ContentProviderOperation
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Payee
+import org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED
 import org.totschnig.myexpenses.model2.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.util.localDateTime2Epoch
+import org.totschnig.myexpenses.viewmodel.TransactionListViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
@@ -23,51 +63,123 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Repository(val contentResolver: ContentResolver, val currencyContext: CurrencyContext) {
-    @Inject
-    constructor(context: Context, currencyContext: CurrencyContext) : this(
-        context.contentResolver,
-        currencyContext
-    )
+class Repository @Inject constructor(
+    val context: Context,
+    val currencyContext: CurrencyContext,
+    val currencyFormatter: CurrencyFormatter,
+    val prefHandler: PrefHandler
+) {
 
-    //Transaction
-    fun createTransaction(transaction: Transaction) = with(transaction) {
-        getCurrencyUnitForAccount(account)?.let { currencyUnit ->
-            val ops = ArrayList<ContentProviderOperation>()
-            ops.add(ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
-                .withValues(
-                    ContentValues().apply {
-                        put(KEY_ACCOUNTID, account)
-                        put(
-                            KEY_AMOUNT,
-                            Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
-                        )
-                        put(KEY_DATE, time?.let {
-                            localDateTime2Epoch(LocalDateTime.of(date, time))
-                        } ?:localDate2Epoch(date))
-                        put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
-                        put(KEY_PAYEEID, findOrWritePayee(payee))
-                        put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                        category.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
-                        method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
-                        put(KEY_REFERENCE_NUMBER, number)
-                        put(KEY_COMMENT, comment)
-                        put(KEY_UUID, Model.generateUuid())
-                    }
-                ).build())
-            for (tag in transaction.tags) {
-                ops.add(
-                    ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                        .withValueBackReference(KEY_TRANSACTIONID, 0)
-                        .withValue(KEY_TAGID, tag).build()
-                )
-            }
-            contentResolver.applyBatch(
-                TransactionProvider.AUTHORITY,
-                ops
-            )[0].uri?.let { ContentUris.parseId(it) }
+    val contentResolver: ContentResolver = context.contentResolver
+
+    fun Transaction.toContentValues() = getCurrencyUnitForAccount(account)?.let { currencyUnit ->
+        ContentValues().apply {
+            put(KEY_ACCOUNTID, account)
+            put(
+                KEY_AMOUNT,
+                Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
+            )
+            put(KEY_DATE, time?.let {
+                localDateTime2Epoch(LocalDateTime.of(date, time))
+            } ?: localDate2Epoch(date))
+            put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
+            put(KEY_PAYEEID, findOrWritePayee(payee))
+            put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+            category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
+            method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
+            put(KEY_REFERENCE_NUMBER, number)
+            put(KEY_COMMENT, comment)
+            put(KEY_UUID, Model.generateUuid())
         }
     }
+
+    //Transaction
+    fun updateTransaction(id: String, transaction: Transaction) = transaction.toContentValues()?.let {
+        val ops = ArrayList<ContentProviderOperation>()
+        ops.add(
+            ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValues(it)
+                .withSelection("$KEY_ROWID = ?", arrayOf(id))
+                .build()
+        )
+        ops.add(
+            ContentProviderOperation.newDelete(TRANSACTIONS_TAGS_URI)
+                .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(id))
+                .build()
+        )
+        for (tag in transaction.tags) {
+            ops.add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
+                    .withValue(KEY_TRANSACTIONID, id)
+                    .withValue(KEY_TAGID, tag).build()
+            )
+        }
+        val results = contentResolver.applyBatch(
+            TransactionProvider.AUTHORITY,
+            ops
+        )
+        results[0].count
+    }
+
+    fun createTransaction(transaction: Transaction) = transaction.toContentValues()?.let { values ->
+        val ops = ArrayList<ContentProviderOperation>()
+        values.put(KEY_UUID, Model.generateUuid())
+        ops.add(
+            ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                .withValues(values)
+                .build()
+        )
+        for (tag in transaction.tags) {
+            ops.add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
+                    .withValueBackReference(KEY_TRANSACTIONID, 0)
+                    .withValue(KEY_TAGID, tag).build()
+            )
+        }
+        contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)[0].uri?.let {
+            ContentUris.parseId(it)
+        }
+    }
+
+    fun loadTransactions(accountId: Long): List<Transaction> =
+        getCurrencyUnitForAccount(accountId)?.let { currencyUnit ->
+            val filter = FilterPersistence(
+                    prefHandler = prefHandler,
+                    keyTemplate = prefNameForCriteria(accountId),
+                    savedInstanceState = null,
+                    immediatePersist = false,
+                    restoreFromPreferences = true
+                ).whereFilter.takeIf { !it.isEmpty }?.let {
+                    it.getSelectionForParents(VIEW_EXTENDED) to it.getSelectionArgs(false)
+            }
+            contentResolver.query(
+                Account.extendedUriForTransactionList(true),
+                PROJECTION_EXTENDED,
+                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""}",
+                filter?.let { arrayOf(accountId.toString(), *it.second) } ?: arrayOf(accountId.toString()),
+                null
+            )?.use { cursor ->
+                cursor.asSequence.map { cursor ->
+                    Transaction.fromCursor(
+                        context,
+                        cursor,
+                        accountId,
+                        currencyUnit,
+                        currencyFormatter,
+                        Utils.ensureDateFormatWithShortYear(context)
+                    ).copy(
+                        tags = contentResolver.query(
+                            TRANSACTIONS_TAGS_URI,
+                            arrayOf(KEY_ROWID),
+                            "$KEY_TRANSACTIONID = ?",
+                            arrayOf(cursor.getLong(KEY_ROWID).toString()),
+                            null
+                        )?.use { tagCursor ->
+                            tagCursor.asSequence.map { it.getLong(0) }.toList()
+                        } ?: emptyList()
+                    )
+                }.toList()
+            }
+        } ?: emptyList()
 
     //Payee
     fun findOrWritePayeeInfo(payeeName: String, autoFill: Boolean) = findPayee(payeeName)?.let {
@@ -114,7 +226,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     //Transaction
     fun getUuidForTransaction(transactionId: Long) =
         contentResolver.query(
-            ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, transactionId),
+            ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId),
             arrayOf(KEY_UUID), null, null, null
         )?.use {
             if (it.moveToFirst()) it.getString(0) else null
@@ -172,6 +284,12 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     } catch (e: SQLiteConstraintException) {
         false
     }
+
+    fun deleteTransaction(id: Long) = contentResolver.delete(
+        ContentUris.withAppendedId(TRANSACTIONS_URI, id),
+        null,
+        null
+    ) > 0
 
     fun deleteCategory(id: Long) = contentResolver.delete(
         ContentUris.withAppendedId(CATEGORIES_URI, id),

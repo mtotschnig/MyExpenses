@@ -1040,4 +1040,6 @@
     <string name="pref_debug_logging_share_summary">Share log files</string>
     <!-- New feature in version 3.4.0 -->
     <string name="whats_new_340">Notes field allows multiple lines.</string>
+    <!-- {account} is replaced with account label -->
+    <string name="webui_warning_move_transaction">The transaction will be moved to account "{account}".</string>
 </resources>
