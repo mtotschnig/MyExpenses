@@ -225,7 +225,7 @@ class GoogleDriveBackendProvider internal constructor(
             try {
                 driveServiceHelper.delete(file.id)
             } catch (e: Exception) {
-                CrashHandler.report(e)
+                log().w(e)
             }
             throw e
         }
