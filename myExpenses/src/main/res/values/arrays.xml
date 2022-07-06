@@ -547,6 +547,12 @@
         <item>date</item>
     </string-array>
 
+    <string-array name="help_WebUI_info">
+        <item>help_WebUI_info_1</item>
+        <item>help_WebUI_info_2</item>
+        <item>help_WebUI_info_3</item>
+    </string-array>
+
     <string-array name="contributors_335" tools:ignore="UnusedResources">
         <item />
         <item>arnaldotecadm</item>

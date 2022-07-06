@@ -207,4 +207,7 @@
     <string name="help_SetupSync_info">This screen allows you to select the data that you want to sync between the device and the backend. It lists all the accounts on your device that are not yet synced to other backends, and all accounts stored on the backend. Clicking on &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; will select or unselect an account for synchronization. If you select an account that already exists both locally and remotely, you need to decide if initially the data on your device should override the existing data on the backend, or the other way round.</string>
     <string name="menu_parent_category_selection_help_text">With this option you customize the tap on a category that has child categories: If it is checked, a short tap will select the category; if it is unchecked, a short tap will expand / collapse the category. In the latter case, selection is available from the context menu.</string>
     <string name="cab_ManageCategories_select_help_text">Map the selected category to the transaction and return to the transaction form.</string>
+    <string name="help_WebUI_info_1">Call the URL displayed in the subtitle from a web browser on your desktop computer.</string>
+    <string name="help_WebUI_info_2">Currently the web user interface does not support transfers or split transactions.</string>
+    <string name="help_WebUI_info_3">You can set a password to protect access. In the dialogue presented by the web browser, only password is taken into account, username is ignored.</string>
 </resources>

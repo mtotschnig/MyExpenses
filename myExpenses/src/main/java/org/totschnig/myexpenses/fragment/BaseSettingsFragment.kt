@@ -2,7 +2,10 @@ package org.totschnig.myexpenses.fragment
 
 import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Bitmap
 import android.icu.text.ListFormatter
@@ -20,7 +23,14 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
-import androidx.preference.*
+import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
+import androidx.preference.MultiSelectListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceGroup
+import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -32,35 +42,54 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.MyApplication.FEEDBACK_EMAIL
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
+import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.activity.RESTORE_REQUEST
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.preference.*
+import org.totschnig.myexpenses.preference.AccountPreference
+import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
+import org.totschnig.myexpenses.preference.PopupMenuPreference
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.*
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.SettingsViewModel
+import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
+import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
-import org.totschnig.myexpenses.widget.*
+import org.totschnig.myexpenses.widget.AccountWidget
+import org.totschnig.myexpenses.widget.TemplateWidget
+import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
+import org.totschnig.myexpenses.widget.updateWidgets
 import timber.log.Timber
 import java.io.File
 import java.net.URI
@@ -123,8 +152,21 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (matches(preferenceScreen, PrefKey.PERFORM_SHARE) && item.itemId == R.id.HELP_COMMAND) {
-            preferenceActivity.startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options")
+        if (item.itemId == R.id.HELP_COMMAND) {
+            when {
+                matches(preferenceScreen, PrefKey.PERFORM_SHARE) -> {
+                    preferenceActivity.startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options")
+                }
+                matches(preferenceScreen, PrefKey.UI_WEB) -> {
+                    startActivity(Intent(requireContext(), Help::class.java).apply {
+                        putExtra(HelpDialogFragment.KEY_CONTEXT, "WebUI")
+                        putExtra(
+                            HelpDialogFragment.KEY_TITLE,
+                            getString(R.string.title_webui)
+                        )
+                    })
+                }
+            }
         }
         return true
     }
@@ -172,7 +214,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
         }
-        setHasOptionsMenu(matches(preferenceScreen, PrefKey.PERFORM_SHARE))
+        setHasOptionsMenu(matches(preferenceScreen, PrefKey.PERFORM_SHARE, PrefKey.UI_WEB))
     }
 
     override fun onStart() {
@@ -296,8 +338,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             true
         } else false
 
-    fun matches(preference: Preference, prefKey: PrefKey) =
-        prefHandler.getKey(prefKey) == preference.key
+    fun matches(preference: Preference, vararg prefKey: PrefKey) =
+        prefKey.any { prefHandler.getKey(it) == preference.key }
 
     fun getKey(prefKey: PrefKey): String {
         return prefHandler.getKey(prefKey)
@@ -534,11 +576,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun setProtectionDependentsState() {
-        if (matches(preferenceScreen, PrefKey.ROOT_SCREEN) || matches(
-                preferenceScreen,
-                PrefKey.PERFORM_PROTECTION_SCREEN
-            )
-        ) {
+        if (matches(preferenceScreen, PrefKey.ROOT_SCREEN, PrefKey.PERFORM_PROTECTION_SCREEN)) {
             val isLegacy = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
             val isProtected =
                 isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
