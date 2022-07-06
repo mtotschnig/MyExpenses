@@ -1022,4 +1022,5 @@
     <string name="pref_purge_backup_keep_title">Saklanacak en fazla son yedekleme dosyası sayısı</string>
     <string name="pref_debug_logging_share_summary">Günlük dosyalarını paylaş</string>
     <string name="whats_new_340">Notlar alanı birden çok satıra izin verir.</string>
+    <string name="webui_warning_move_transaction">Muamele {account} hesabına taşınacak.</string>
 </resources>
