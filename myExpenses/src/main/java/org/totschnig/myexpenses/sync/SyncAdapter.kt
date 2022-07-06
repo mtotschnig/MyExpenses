@@ -6,8 +6,16 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.*
-import android.database.Cursor
+import android.content.AbstractThreadedSyncAdapter
+import android.content.ContentProviderClient
+import android.content.ContentProviderOperation
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.content.OperationApplicationException
+import android.content.SyncResult
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.net.Uri
@@ -26,7 +34,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateSync
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
-import org.totschnig.myexpenses.sync.SyncBackendProvider.*
+import org.totschnig.myexpenses.sync.SyncBackendProvider.AuthException
+import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException
+import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
@@ -540,7 +550,11 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         ), null
                     )
                 } catch (e: Exception) {
-                    report(e)
+                    if (e is IOException) {
+                        log().w(e)
+                    } else {
+                        report(e)
+                    }
                     if (!handleAuthException(e, account)) {
                         notifyUser(
                             context.getString(R.string.pref_auto_backup_title),
