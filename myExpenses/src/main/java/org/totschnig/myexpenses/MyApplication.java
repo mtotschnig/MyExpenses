@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
 import android.os.StrictMode;
-
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Calendars;
 import android.provider.CalendarContract.Events;
@@ -76,6 +75,11 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
@@ -86,7 +90,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_PASSWORD;
 
 public class MyApplication extends Application implements
-    OnSharedPreferenceChangeListener {
+    OnSharedPreferenceChangeListener, DefaultLifecycleObserver {
 
   public static final String DEFAULT_LANGUAGE = "default";
   private AppComponent appComponent;
@@ -157,19 +161,24 @@ public class MyApplication extends Application implements
     crashHandler.initProcess(this, syncService);
     setupLogging();
     if (!syncService) {
-      if (prefHandler.getBoolean(UI_WEB, false)) {
-        if (NetworkUtilsKt.isConnectedWifi(this)) {
-          controlWebUi(true);
-        } else {
-          prefHandler.putBoolean(UI_WEB, false);
-        }
-      }
+      ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
       mSettings.registerOnSharedPreferenceChangeListener(this);
       DailyScheduler.updatePlannerAlarms(this, false, false);
       WidgetObserver.Companion.register(this);
     }
     licenceHandler.init();
     NotificationBuilderWrapper.createChannels(this);
+  }
+
+  @Override
+  public void onStart(@NonNull LifecycleOwner owner) {
+    if (prefHandler.getBoolean(UI_WEB, false)) {
+      if (NetworkUtilsKt.isConnectedWifi(this)) {
+        controlWebUi(true);
+      } else {
+        prefHandler.putBoolean(UI_WEB, false);
+      }
+    }
   }
 
   private void checkAppReplacingState() {

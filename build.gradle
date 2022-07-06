@@ -35,7 +35,7 @@ allprojects {
 ext {
     versionCode = 532
     versionName = '3.4.1'
-    compileSdkVersion = 31
+    compileSdkVersion = 32
     minSdkVersion = 21
     targetSdkVersion = 31
     espressoVersion = "3.4.0"
@@ -47,9 +47,9 @@ ext {
     butterknifeVersion = "10.2.3"
     robolectricVersion = "4.5.1"
     roomVersion = "2.4.2"
-    archLifecycleVersion = '2.4.1'
+    archLifecycleVersion = '2.5.0'
     androidxArchVersion = '2.1.0'
-    fragmentVersion = "1.4.1"
+    fragmentVersion = "1.5.0"
     coroutines = '1.6.2'
     mockitoVersion = '3.12.4'
     retrofitVersion = "2.9.0"
