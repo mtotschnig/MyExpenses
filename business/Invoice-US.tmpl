@@ -61,106 +61,7 @@
 
 \usepackage{pdftexcmds}
 \usepackage{xifthen}
-\newcommand{\ifequals}[3]{\ifthenelse{\equal{#1}{#2}}{#3}{}}
-\newcommand{\case}[2]{#1 #2} % Dummy, so \renewcommand has something to overwrite...
-\newenvironment{switch}[1]{\renewcommand{\case}{\ifequals{#1}}}{}
-\newcommand{\country}{}
-\newcommand{\countryName}{
-    \begin{switch}{\country}
-        \case{de}{Germany}
-        \case{fr}{France}
-        \case{at}{Austria}
-        \case{pl}{Poland}
-        \case{be}{Belgium}
-        \case{bg}{Bulgaria}
-        \case{cz}{Czech Republic}
-        \case{dk}{Denmark}
-        \case{ie}{Ireland}
-        \case{el}{Greece}
-        \case{es}{Spain}
-        \case{hr}{Croatia}
-        \case{it}{Italy}
-        \case{cy}{Cyprus}
-        \case{lv}{Latvia}
-        \case{lt}{Lithuania}
-        \case{lu}{Luxembourg}
-        \case{hu}{Hungary}
-        \case{mt}{Malta}
-        \case{nl}{Netherlands}
-        \case{pt}{Portugal}
-        \case{ro}{Romania}
-        \case{si}{Slovenia}
-        \case{sk}{Slovakia}
-        \case{fi}{Finland}
-        \case{se}{Sweden}
-        \case{uk}{United Kingdom}
-        \case{ee}{Estonia}
-    \end{switch}
-}
-
-% \makeatletter
-% \newcommand{\vatRate}{%
-  % \ifnum\pdf@strcmp{\country}{de}=0
-    % 19%
-  % \else\ifnum\pdf@strcmp{\country}{fr}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{at}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{pl}=0
-    % 23%
-  % \else\ifnum\pdf@strcmp{\country}{be}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{bg}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{cz}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{dk}=0
-    % 25%
-  % \else\ifnum\pdf@strcmp{\country}{ie}=0
-    % 23%
-  % \else\ifnum\pdf@strcmp{\country}{el}=0
-    % 24%
-  % \else\ifnum\pdf@strcmp{\country}{es}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{hr}=0
-    % 25%
-  % \else\ifnum\pdf@strcmp{\country}{it}=0
-    % 22%
-  % \else\ifnum\pdf@strcmp{\country}{cy}=0
-    % 19%
-  % \else\ifnum\pdf@strcmp{\country}{lv}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{lt}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{lu}=0
-    % 17%
-  % \else\ifnum\pdf@strcmp{\country}{hu}=0
-    % 27%
-  % \else\ifnum\pdf@strcmp{\country}{mt}=0
-    % 18%
-  % \else\ifnum\pdf@strcmp{\country}{nl}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{pt}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{ro}=0
-    % 19%
-  % \else\ifnum\pdf@strcmp{\country}{si}=0
-    % 22%
-  % \else\ifnum\pdf@strcmp{\country}{sk}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{fi}=0
-    % 24%
-  % \else\ifnum\pdf@strcmp{\country}{se}=0
-    % 25%
-  % \else\ifnum\pdf@strcmp{\country}{uk}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{ee}=0
-    % 20%
-  % \else
-    % unknown%
-  % \fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi}
-  % \makeatother
-\newcommand{\vatRate}{19}
+\newcommand{\countryName}{United States of America}
 
 %---------------------------------------------------------------------------
 \begin{document}
@@ -190,18 +91,12 @@
 
 % KUNDENDATEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\kunde}{${KUNDE}}                                %
-\renewcommand{\country}{${COUNTRY}}                          %
 \setkomavar{invoice}{${NUMBER}}                              %
 % Rechnungs daten                                            %
 % Extended                                                   %
 \newcommand\key{${KEY}}                                      %
 \newcommand\price{${PRICE}}                                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% VAT calculation
-\FPdiv{\vatFraction}{\vatRate}{100}
-\FPmul{\vatCalc}{\price}{\vatFraction}
-\FPadd{\total}{\price}{\vatCalc}
 
 
 %---------------------------------------------------------------------------
@@ -249,9 +144,9 @@ Bank details \\
 %---------------------------------------------------------------------------
 % Bankverbindung
 \setkomavar{frombank}{Michael Totschnig \\
-IBAN DE91 1101 0101 5860 4157 48 \\
-BIC SOBKDEB2XXX \\
-Solarisbank AG}
+Routing number 084009519 \\
+Account number 9600005072304582 \\
+Wise - 30 W. 26th Street, Sixth Floor - New York NY 10010}
 %---------------------------------------------------------------------------
 %\setkomavar{yourref}{}
 %\setkomavar{yourmail}{}
@@ -277,13 +172,13 @@ Solarisbank AG}
 \vspace{5pt}
 \begin{tabularx}{\textwidth}{Xr}
 %\rowcolor[gray]{.95}
-\key  &  \formatNumber{\price} \EUR \\
-\small{VAT \vatRate\% } & \formatNumber{\vatCalc} \EUR \\ \hline \hline
-\textbf{Total} & \textbf{\formatNumber{\total} \EUR} \\ 
+\key  &  \formatNumber{\price} \$ USD \\
+\hline \hline
+\textbf{Total} & \textbf{\formatNumber{\price} \$ USD} \\
 \hline
 \end{tabularx}
 
-Please transfer \formatNumber{\total} \EUR\ to the account mentioned below.
+Please transfer \formatNumber{\price} \$ USD to the account mentioned below.
 
 Many thanks for your contribution to the further development of My Expenses.
 

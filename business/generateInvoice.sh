@@ -13,31 +13,31 @@ while getopts "p:c:u:" opt; do
         p) case "$OPTARG" in
                History)
                  export KEY="Budgeting"
-                 export PRICE=4.3
+                 export PRICE=${PRICE:=4.3}
                  ;;
                Budget)
                  export KEY="Budgeting"
-                 export PRICE=4.3
+                 export PRICE=${PRICE:=4.3}
                  ;;
                Ocr)
                  export KEY="Scan receipt"
-                 export PRICE=4.3
+                 export PRICE=${PRICE:=4.3}
                  ;;
                Extended)
                  export KEY="My Expenses Extended Licence"
-                 export PRICE=6.7
+                 export PRICE=${PRICE:=6.7}
                  ;;
                Professional_6)
                  export KEY="My Expenses Professional Licence 6 months"
-                 export PRICE=5
+                 export PRICE=${PRICE:=5}
                  ;;
                Professional_12)
                  export KEY="My Expenses Professional Licence 1 year"
-                 export PRICE=8
+                 export PRICE=${PRICE:=8}
                  ;;
                Professional_24)
                  export KEY="My Expenses Professional Licence 2 years"
-                 export PRICE=15
+                 export PRICE=${PRICE:=15}
                  ;;
             esac
            ;;
