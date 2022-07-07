@@ -4,8 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.time.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -27,8 +34,15 @@ fun localDate2Epoch(localDate: LocalDate) =
 fun localDateTime2EpochMillis(localDateTime: LocalDateTime) = localDateTime2Epoch(localDateTime) * 1000
 
 fun getDateTimeFormatter(context: Context): DateTimeFormatter =
-        (Utils.getDateFormatSafe(context) as? SimpleDateFormat)?.let { DateTimeFormatter.ofPattern(it.toPattern()) }
-                ?: DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+        (Utils.getDateFormatSafe(context) as? SimpleDateFormat)?.let {
+            try {
+                DateTimeFormatter.ofPattern(it.toPattern())
+            } catch (e: Exception) {
+                Timber.w("Unable to get DateTimeFormatter from %s", it.toPattern())
+                CrashHandler.report(e)
+                null
+            }
+        } ?: DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
 
 fun LocalDate.toStartOfDayEpoch(): Long = localDateTime2Epoch(this.atTime(LocalTime.MIN))
 fun LocalDate.toEndOfDayEpoch(): Long = localDateTime2Epoch(this.atTime(LocalTime.MAX))
