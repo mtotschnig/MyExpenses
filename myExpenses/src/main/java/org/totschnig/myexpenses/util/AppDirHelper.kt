@@ -35,11 +35,11 @@ object AppDirHelper {
                 return DocumentFile.fromTreeUri(context, pref)
             }
         }
-        val externalFilesDir = context.getExternalFilesDir(null)
+        val externalFilesDir = context.getExternalFilesDirs(null).filterNotNull().firstOrNull()
         return if (externalFilesDir != null) {
             DocumentFile.fromFile(externalFilesDir)
         } else {
-            CrashHandler.report("getExternalFilesDir returned null")
+            CrashHandler.report("no not-null value found in getExternalFilesDirs")
             null
         }
     }
