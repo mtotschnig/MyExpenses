@@ -1,6 +1,11 @@
 package org.totschnig.myexpenses.sync
 
-import android.content.*
+import android.content.ContentProviderClient
+import android.content.ContentProviderOperation
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
+import android.content.OperationApplicationException
 import android.net.Uri
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
@@ -8,7 +13,6 @@ import androidx.core.util.Pair
 import org.apache.commons.collections4.ListUtils
 import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
@@ -205,7 +209,6 @@ class SyncDelegate @JvmOverloads constructor(
         val offset = ops.size
         var tagOpsCount = 0
         val tagIds = change.tags()?.let { extractTagIds(it, tagToId) }
-        @Suppress("NON_EXHAUSTIVE_WHEN")
         when (change.type()) {
             TransactionChange.Type.created -> {
                 val transactionId = resolver(account.id, change.uuid())
@@ -271,6 +274,7 @@ class SyncDelegate @JvmOverloads constructor(
                         .withValue(DatabaseConstants.KEY_UUID, change.referenceNumber())
                         .build())
             }
+            else -> {}
         }
         if (change.isCreateOrUpdate && !skipped) {
             change.splitParts()?.let { splitParts ->

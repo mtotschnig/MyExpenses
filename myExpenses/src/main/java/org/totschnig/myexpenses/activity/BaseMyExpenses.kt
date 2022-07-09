@@ -719,6 +719,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     featureViewModel.requestFeature(this, Feature.OCR)
                 }
             }
+            else -> {}
         }
     }
 
