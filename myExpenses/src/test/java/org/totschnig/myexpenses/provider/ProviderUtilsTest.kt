@@ -12,19 +12,30 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 class ProviderUtilsTest {
     private val repository: Repository = Repository(
-            ApplicationProvider.getApplicationContext<MyApplication>(),
-            Mockito.mock(CurrencyContext::class.java)
-        )
-    
+        ApplicationProvider.getApplicationContext<MyApplication>(),
+        Mockito.mock(CurrencyContext::class.java),
+        Mockito.mock(CurrencyFormatter::class.java),
+        Mockito.mock(PrefHandler::class.java)
+    )
+
     private lateinit var euroAccount: Account
     private lateinit var dollarAccount: Account
+
     @Before
     fun setupAccounts() {
         euroAccount = Account(

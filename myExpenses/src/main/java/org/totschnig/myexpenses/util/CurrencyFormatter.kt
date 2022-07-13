@@ -43,7 +43,7 @@ fun ICurrencyFormatter.convAmount(amount: Long, currency: CurrencyUnit): String 
 }
 
 @Singleton
-class CurrencyFormatter @Inject constructor(
+open class CurrencyFormatter @Inject constructor(
     private val prefHandler: PrefHandler,
     private val userLocaleProvider: UserLocaleProvider
 ): ICurrencyFormatter {

@@ -9,6 +9,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(AndroidJUnit4::class)
@@ -16,7 +18,9 @@ class RepositoryTest {
     private val repository: Repository
         get() = Repository(
             ApplicationProvider.getApplicationContext<MyApplication>(),
-            Mockito.mock(CurrencyContext::class.java)
+            Mockito.mock(CurrencyContext::class.java),
+            Mockito.mock(CurrencyFormatter::class.java),
+            Mockito.mock(PrefHandler::class.java)
         )
 
     @Test

@@ -13,9 +13,10 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.TransactionChange
-import java.util.*
+import org.totschnig.myexpenses.util.CurrencyFormatter
 
 @RunWith(RobolectricTestRunner::class)
 class SyncAdapterWriteToDbTest {
@@ -41,7 +42,9 @@ class SyncAdapterWriteToDbTest {
     private val featureManager = Mockito.mock(FeatureManager::class.java)
     private val repository = Repository(
         ApplicationProvider.getApplicationContext<MyApplication>(),
-        currencyContext
+        currencyContext,
+        Mockito.mock(CurrencyFormatter::class.java),
+        Mockito.mock(PrefHandler::class.java)
     )
 
     @Test

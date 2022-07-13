@@ -29,11 +29,28 @@ import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.saveTagLinks
+import org.totschnig.myexpenses.model.write
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,7 +77,7 @@ class ExportTest {
     @Suppress("DEPRECATION")
     private var base = Date(117, 11, 15, 12, 0, 0)
     private var baseSinceEpoch = base.time / 1000
-    var date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
+    private var date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
     private lateinit var outFile: File
 
     @Before
@@ -72,7 +89,10 @@ class ExportTest {
         get() = ApplicationProvider.getApplicationContext()
 
     private val repository: Repository
-        get() = Repository(context, Mockito.mock(CurrencyContext::class.java))
+        get() = Repository(context,
+            Mockito.mock(CurrencyContext::class.java),
+            Mockito.mock(CurrencyFormatter::class.java),
+            Mockito.mock(PrefHandler::class.java))
 
     @get:Rule
     val expect: Expect = Expect.create()
@@ -582,7 +602,7 @@ class ExportTest {
         )
     }
 
-    val lazyFile = lazy { Result.success(DocumentFile.fromFile(outFile)) }
+    private val lazyFile = lazy { Result.success(DocumentFile.fromFile(outFile)) }
 
     companion object {
         private const val FILE_NAME = "TEST"

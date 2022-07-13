@@ -1,17 +1,24 @@
 package org.totschnig.myexpenses.sync
 
-import android.content.ContentResolver
+import androidx.test.core.app.ApplicationProvider
+import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.sync.json.TransactionChange
+import org.totschnig.myexpenses.util.CurrencyFormatter
 
 open class SyncAdapterBaseTest {
     private val currencyContext = Mockito.mock(CurrencyContext::class.java)
     private val repository: Repository = Repository(
-        Mockito.mock(ContentResolver::class.java),
-        currencyContext
+        ApplicationProvider.getApplicationContext<MyApplication>(),
+        currencyContext,
+        Mockito.mock(CurrencyFormatter::class.java),
+        Mockito.mock(PrefHandler::class.java)
     )
     val syncDelegate = SyncDelegate(
         currencyContext, Mockito.mock(

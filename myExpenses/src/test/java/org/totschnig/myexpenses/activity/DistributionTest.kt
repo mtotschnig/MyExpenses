@@ -4,8 +4,11 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
-import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -26,8 +29,15 @@ import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.util.*
 
@@ -37,16 +47,18 @@ class DistributionTest {
     private lateinit var scenario: ActivityScenario<DistributionActivity>
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
-    val targetContext: Context
+    private val targetContext: Context
         get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     private val repository: Repository
         get() = Repository(
             ApplicationProvider.getApplicationContext<MyApplication>(),
-            Mockito.mock(CurrencyContext::class.java)
+            Mockito.mock(CurrencyContext::class.java),
+            Mockito.mock(CurrencyFormatter::class.java),
+            Mockito.mock(PrefHandler::class.java)
         )
 
-    val currency = CurrencyUnit.DebugInstance
+    private val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
     private var categoryId: Long = 0
 

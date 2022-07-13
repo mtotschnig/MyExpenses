@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-sdk tools:overrideLibrary="tools.fastlane.screengrab,android_libs.ub_uiautomator"/>
+    <application>
+
+        <uses-library
+            android:name="android.test.runner"
+            android:required="false" />
+    </application>
+    <uses-sdk tools:overrideLibrary="tools.fastlane.screengrab,android_libs.ub_uiautomator" />
 </manifest>

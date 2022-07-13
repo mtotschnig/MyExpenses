@@ -38,12 +38,14 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
-import org.totschnig.myexpenses.test.R as RT
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
 import java.util.concurrent.TimeoutException
+import org.totschnig.myexpenses.test.R as RT
 
 abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
     private var isLarge = false
@@ -175,7 +177,9 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
     protected val repository: Repository
         get() = Repository(
             ApplicationProvider.getApplicationContext<MyApplication>(),
-            Mockito.mock(CurrencyContext::class.java)
+            Mockito.mock(CurrencyContext::class.java),
+            Mockito.mock(CurrencyFormatter::class.java),
+            Mockito.mock(PrefHandler::class.java)
         )
 
     @Throws(TimeoutException::class)
