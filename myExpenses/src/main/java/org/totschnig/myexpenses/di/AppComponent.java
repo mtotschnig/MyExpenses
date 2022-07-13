@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.di;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -82,8 +81,6 @@ import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Locale;
 
 import javax.inject.Named;
@@ -125,6 +122,8 @@ public interface AppComponent {
     Builder uiModule(UiModule uiModule);
 
     Builder networkModule(NetworkModule networkModule);
+
+    Builder appmodule(AppModule appModule);
 
     AppComponent build();
   }

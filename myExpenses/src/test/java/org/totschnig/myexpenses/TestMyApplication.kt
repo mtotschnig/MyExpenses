@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses
 
 import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.di.AppModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
 import org.totschnig.myexpenses.di.DaggerAppComponent
+import org.totschnig.myexpenses.di.NoOpTracker
 import org.totschnig.myexpenses.di.UiModule
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.MockLicenceModule
@@ -32,6 +34,9 @@ class TestMyApplication : MyApplication() {
             })
             .crashHandlerModule(object: CrashHandlerModule() {
                 override fun providesCrashHandler(prefHandler: PrefHandler) = CrashHandler.NO_OP
+            })
+            .appmodule(object : AppModule() {
+                override fun provideTracker() = NoOpTracker
             })
             .build()
     }
