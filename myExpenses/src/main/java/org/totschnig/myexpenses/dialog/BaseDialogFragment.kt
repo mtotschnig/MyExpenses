@@ -55,14 +55,6 @@ abstract class BaseDialogFragment : DialogFragment() {
         CrashHandler.report(e)
     }
 
-    override fun show(manager: FragmentManager, tag: String?) {
-        if (activity?.isFinishing == false) {
-            super.show(manager, tag)
-        } else {
-            report(IllegalStateException())
-        }
-    }
-
     override fun dismiss() {
         try {
             super.dismiss()

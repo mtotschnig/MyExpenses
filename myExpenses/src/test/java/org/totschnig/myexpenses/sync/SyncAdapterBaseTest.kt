@@ -1,9 +1,7 @@
 package org.totschnig.myexpenses.sync
 
 import androidx.test.core.app.ApplicationProvider
-import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
