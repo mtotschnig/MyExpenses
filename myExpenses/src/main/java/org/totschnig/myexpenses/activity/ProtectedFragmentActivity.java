@@ -352,9 +352,13 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   public boolean onCreateOptionsMenu(@NonNull Menu menu) {
     super.onCreateOptionsMenu(menu);
+    inflateHelpMenu(menu);
+    return true;
+  }
+
+  protected void inflateHelpMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.help, menu);
-    return true;
   }
 
   @Override

@@ -88,9 +88,8 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     private val fragment: SettingsFragment
         get() = binding.fragmentContainer.getFragment()
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun inflateHelpMenu(menu: Menu?) {
         //currently no help menu
-        return true
     }
 
     private fun observeLicenceApiResult() {
