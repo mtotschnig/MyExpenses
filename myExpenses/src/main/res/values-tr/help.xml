@@ -195,4 +195,5 @@
     <string name="help_WebUI_info_1">Masaüstü bilgisayarınızdaki bir web tarayıcısından alt başlıkta görüntülenen URL\'yi arayın.</string>
     <string name="help_WebUI_info_2">Şu anda web kullanıcı arayüzü transferleri veya bölünmüş muameleleri desteklememektedir.</string>
     <string name="help_WebUI_info_3">Erişimi korumak için bir parola belirleyebilirsiniz. Web tarayıcısı tarafından sunulan iletişim kutusunda yalnızca parola dikkate alınır, kullanıcı adı göz ardı edilir.</string>
+    <string name="help_WebUI_info_4">Seçilen hesap için muameleleri görüntülerken, web kullanıcı arayüzü Android aygıttaki uygulama ile ayarladığınız filtrelerin aynısını kullanacaktır.</string>
 </resources>
