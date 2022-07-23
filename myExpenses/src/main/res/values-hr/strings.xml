@@ -730,13 +730,13 @@
     <string name="pref_criterion_futur_title">Kriterij za buduće transakcije</string>
     <string name="pref_ocr_time_formats_title">Formati vremena</string>
     <string name="pref_ocr_date_formats_title">Formati datuma</string>
-    <string name="pref_ocr_total_indicators_summary">Popis nizova koji identificiraju ukupnu vrijednost u potvrdi. Stavi svaku vrijednost u novi redak. Ostavi prazno za vraćanje na standardnu vrijednost.</string>
+    <string name="pref_ocr_total_indicators_summary">Popis nizova koji identificiraju ukupnu vrijednost u računu. Stavi svaku vrijednost u novi redak. Ostavi prazno za vraćanje na standardnu vrijednost.</string>
     <string name="pref_ocr_total_indicators_title">Indikatori za ukupni iznos</string>
     <string name="button_scan">Skeniraj</string>
     <string name="menu_scan_mode">Modus skeniranja</string>
     <string name="feature_downloaded">Funkcija %s je instalirana.</string>
     <string name="feature_download_requested">Funkcija %s je zatražena na Play Store.</string>
-    <string name="title_scan_receipt_feature">Skeniraj potvrdu</string>
+    <string name="title_scan_receipt_feature">Skeniraj račun</string>
     <string name="pref_planner_manual_time_current">Vrijeme primjene</string>
     <string name="pref_planner_manual_time_noon">12 h (podne)</string>
     <string name="pref_planner_manual_time_title">Vrijeme za ručno primijenjenu planiranu transakciju</string>
@@ -960,4 +960,5 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Stablo kategorija</string>
     <string name="dialog_contrib_usage_limit_with_dialog">S tvojim trenutačnim stanjem licence (%1$s), ovaj će se dijalog prikazati pri svakoj upotrebi.</string>
     <string name="menu_parent_category_selection">Odaberi nadređenu kategoriju kratkim dodirom</string>
+    <string name="webui_warning_move_transaction">Transakcija će se premjestiti na račun {account}.</string>
 </resources>
