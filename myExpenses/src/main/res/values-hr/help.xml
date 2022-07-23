@@ -10,4 +10,25 @@
     <string name="menu_distribution_help_text">Prikaži distribuciju troškova po kategoriji. Dugim pritiskom na zaglavlje grupe prikazuje se raspodjela za određeno razdoblje.</string>
     <string name="menu_manage_plans_help_text">Otvara popis predložaka i planova gdje možeš primjeniti, urediti ili izbrisati te odrediti planove za buduće i periodične transakcije. </string>
     <string name="help_form_fields">Polja obrasca</string>
+    <string name="help_MyExpenses_info">Ovaj ekran prikazuje sve transakcije za tekući račun. Koristi plutajući gumb radnji za otvaranje obrasca za stvaranje nove transakcije.</string>
+    <string name="help_MyExpenses_fab_long_press">Dugi pritisak na plutajući gumb radnji otvara izbornik koji omogućuje pripremu obrasca za prijenos, podijeljenu transakciju ili prihod.</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">Kopiraj trenutačni saldo u međuspremnik.</string>
+    <string name="help_contextual_actions_help">Izbornik za kontekstualne radnje prikazuje se dugim dodirom na unos popisa.</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">Izračunaj razliku između trenutačnog salda i nove vrijednosti.</string>
+    <string name="menu_sort_direction_help_text">Transakcije se mogu razvrstati uzlazno (najprije najstarije) ili silazno (najprije najnovije).</string>
+    <string name="menu_history_help_text">Prikaži dijagram novčanog toka: Kako su se tvoji rashodi i prihodi razvijali tijekom dana, tjedana, mjeseci ili godina\?</string>
+    <string name="cab_clone_transaction_help_text">Odabrane transakcije će se duplicirati s trenutačnim datumom i vremenom. Prije spremanja kopije možeš izvršiti promjene.</string>
+    <string name="cab_split_help_text">Za stvaranje dodatnih dijelova prema potrebi, transkakciju možeš urediti kasnije.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Potvrdi odabrane predloške i odmah ih spremi.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Potvrdi odabrani predložak i unesi njegov obrazac za uređivanje gdje ga možeš promijeniti prije spremanja.</string>
+    <string name="cab_ManageTemplates_delete_help_text">Izbriši odabrane predloške i sve pridružene planove.</string>
+    <string name="cab_ManageTemplates_edit_help_text">Uredi odabrani predložak i stvori ili uredi pridruženi plan.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Stvori transakcije u vrijeme odabranih instanci događaja i odmah ih spremi.</string>
+    <string name="help_ManageCategories_select_filter_info">Pritisni na unos za pokretanje višestrukog odabira.</string>
+    <string name="help_ManageCategories_manage_context">Pritisni na unos za prikaz kontekstualnog izbornika. Dugim dodirom pokreni višestruki odabir.</string>
+    <string name="help_ManageCategories_expand_collapse">Pritisni ikonu &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; za rasklapanje ili sklapanje kategorije.</string>
+    <string name="popup_MyExpenses_toolbar_intro">Dodirom na alatnoj traci (oznaka računa ili trenutačni saldo) otvara se izbornik sa sljedećim unosima:</string>
+    <string name="menu_budget_help_text">Upravljaj dnevnim, tjednim, mjesečnim ili godišnjim proračunima za trenutačno prikazani račun.</string>
+    <string name="menu_print_help_text">Generira prikaz ispisa trenutačno prikazanih transakcija.</string>
+    <string name="cab_create_template_from_transaction_help_text">Definiraj novi predložak na temelju odabrane transakcije. Morat ćeš zadati naslov predloška.</string>
 </resources>
