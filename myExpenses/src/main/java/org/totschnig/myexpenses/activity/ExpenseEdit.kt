@@ -901,16 +901,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     override fun doSave(andNew: Boolean) {
-        (delegate as? SplitDelegate)?.let {
-            if (!it.splitComplete) {
-                showSnackBar(
-                    getString(R.string.unsplit_amount_greater_than_zero),
-                    Snackbar.LENGTH_SHORT
-                )
-                return
+        if (::delegate.isInitialized) {
+            (delegate as? SplitDelegate)?.let {
+                if (!it.splitComplete) {
+                    showSnackBar(
+                        getString(R.string.unsplit_amount_greater_than_zero),
+                        Snackbar.LENGTH_SHORT
+                    )
+                    return
+                }
             }
+            super.doSave(andNew)
         }
-        super.doSave(andNew)
     }
 
     override fun doHome() {
