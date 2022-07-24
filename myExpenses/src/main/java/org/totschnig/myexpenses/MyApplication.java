@@ -758,6 +758,9 @@ public class MyApplication extends Application implements
     StrictMode.VmPolicy.Builder vmPolicyBuilder = new StrictMode.VmPolicy.Builder()
         .detectAll()
         .penaltyLog();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      vmPolicyBuilder.detectNonSdkApiUsage();
+    }
     StrictMode.setVmPolicy(vmPolicyBuilder.build());
   }
 }
