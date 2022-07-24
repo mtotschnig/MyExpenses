@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 function show_help() {
 cat << EOF
    Usage: ${0##*/} [-p PACKAGE] [-l LANG] [-s] EMAIL
@@ -47,7 +47,7 @@ then
 fi
 
 available_locales='ar bg cs de el en es eu fr he it ja kn ms pl pt ru tr vi'
-available_addons='SplitTemplate History Budget Ocr WebUi'
+available_addons='SplitTemplate History Budget Ocr WebUi CategoryTree'
 
 if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
 then
