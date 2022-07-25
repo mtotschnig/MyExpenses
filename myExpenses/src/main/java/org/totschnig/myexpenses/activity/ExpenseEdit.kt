@@ -108,6 +108,7 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getEnumFromPreferencesWithDefault
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -506,7 +507,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         loadTags()
         loadCurrencies()
         viewModel.getSplitParts().observe(this) { transactions ->
-            (delegate as SplitDelegate).showSplits(transactions)
+            (delegate as? SplitDelegate)?.also {
+                it.showSplits(transactions)
+            } ?: run { CrashHandler.report(java.lang.IllegalStateException("expected SplitDelegate, found ${delegate::class.java.name}")) }
         }
         observeMoveResult()
     }
