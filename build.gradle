@@ -67,6 +67,6 @@ ext {
     commonsText = "1.9"
     ktor = "2.0.2"
     desugarVersion = "1.1.5"
-    mlkitTextRecognition = "16.0.0-beta3"
+    mlkitTextRecognition = "16.0.0-beta4"
     truthVersion = "1.1.3"
 }

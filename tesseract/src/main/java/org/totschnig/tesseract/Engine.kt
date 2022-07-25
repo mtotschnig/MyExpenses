@@ -161,7 +161,7 @@ object Engine : TesseractEngine {
                 setVariable("load_bigram_dawg", TessBaseAPI.VAR_FALSE)
                 setVariable("load_fixed_length_dawgs", TessBaseAPI.VAR_FALSE)
                 pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO_OSD
-                var bitmap = with(FastBitmap(file.path)) {
+                val bitmap = with(FastBitmap(file.path)) {
                     toGrayscale()
                     val g: IApplyInPlace = BradleyLocalThreshold()
                     g.applyInPlace(this)
@@ -183,10 +183,11 @@ object Engine : TesseractEngine {
                             getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE)
                         val elements = mutableListOf<Element>()
                         do {
-                            val wordText = getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD)
-                            val wordBoundingRect =
-                                getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_WORD)
-                            elements.add(Element(wordText, wordBoundingRect))
+                            getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD)?.let {
+                                val wordBoundingRect =
+                                    getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_WORD)
+                                elements.add(Element(it, wordBoundingRect))
+                            }
                         } while (!isAtFinalElement(
                                 TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE,
                                 TessBaseAPI.PageIteratorLevel.RIL_WORD
