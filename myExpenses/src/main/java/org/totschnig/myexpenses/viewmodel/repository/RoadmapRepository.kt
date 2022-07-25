@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
@@ -88,7 +89,9 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
             Timber.i("Loaded %d issues (version %s) from network", it.size, version)
             writeToFile(ISSUE_CACHE, gson.toJson(it))
         }
-    } catch (e: Exception) {
+    } catch (ex: CancellationException) {
+        throw ex // Must let the CancellationException propagate
+    }  catch (e: Exception) {
         CrashHandler.report(e)
         null
     }
@@ -122,7 +125,9 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
                 }
                 else -> null
             }
-        } catch (e: Exception) {
+        } catch (ex: CancellationException) {
+            throw ex // Must let the CancellationException propagate
+        }  catch (e: Exception) {
             CrashHandler.report(e)
             null
         } ?: R.string.roadmap_vote_failure)
