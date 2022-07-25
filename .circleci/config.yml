@@ -1,28 +1,29 @@
 version: 2.1
 
 orbs:
-  android: circleci/android@0.2.3
+  android: circleci/android@2.1.2
 jobs:
   build:
-    docker:
-      - image: circleci/android:api-29-ndk
-    environment:
-      JVM_OPTS: -Xmx2048m
-      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+    executor:
+      name: android/android-machine
+      resource-class: xlarge
     steps:
       - checkout
+      - android/restore-gradle-cache
       - android/restore-build-cache
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+      - android/run-tests:
+          test-command: ./gradlew lintExternDebug testExternDebug assembleExternDebugAndroidTest :myExpenses:packageExternReleaseUniversalApk
+      - android/save-gradle-cache
       - android/save-build-cache
       - run:
-          name: Lint Test Package
-          command: ./gradlew lintExternDebug testExternDebug assembleExternDebugAndroidTest :myExpenses:packageExternReleaseUniversalApk --no-daemon
-      - store_artifacts:
-          path: myExpenses/build/reports
-          destination: reports
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
       - store_test_results:
-          path: myExpenses/build/test-results
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
 
 
