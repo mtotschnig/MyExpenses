@@ -36,7 +36,6 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     private lateinit var binding: RoadmapBinding
     private var dataSet: List<Issue>? = null
     private var dataSetFiltered: List<Issue>? = null
-    private var voteMenuItem: MenuItem? = null
     private lateinit var voteWeights: MutableMap<Int, Int>
     private var lastVote: Vote? = null
     private lateinit var roadmapAdapter: RoadmapAdapter
@@ -103,7 +102,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             issue2.number.compareTo(issue1.number)
         }
         filterData()
-        updateVoteMenuItem()
+        invalidateOptionsMenu()
     }
 
     private fun validateWeights() {
@@ -127,11 +126,22 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         val inflater = menuInflater
         inflater.inflate(R.menu.search, menu)
         configureSearch(this, menu, ::onQueryTextChange)
-        voteMenuItem = menu.add(Menu.NONE, R.id.ROADMAP_SUBMIT_VOTE, 0, "").apply {
+        menu.add(Menu.NONE, R.id.ROADMAP_SUBMIT_VOTE, 0, "").apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
         inflater.inflate(R.menu.vote, menu)
         inflater.inflate(R.menu.help_with_icon, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.ROADMAP_SUBMIT_VOTE)?.let {
+            val currentTotalWeight = currentTotalWeight
+            val enabled = currentTotalWeight == totalAvailableWeight
+            it.title = if (enabled) "Submit" else String.format(Locale.ROOT, "%d/%d", currentTotalWeight, totalAvailableWeight)
+            it.isEnabled = enabled
+        }
         return true
     }
 
@@ -199,15 +209,6 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     private val email: String?
         get() = lastVote?.email
 
-    private fun updateVoteMenuItem() {
-        voteMenuItem?.let {
-            val currentTotalWeight = currentTotalWeight
-            val enabled = currentTotalWeight == totalAvailableWeight
-            it.title = if (enabled) "Submit" else String.format(Locale.ROOT, "%d/%d", currentTotalWeight, totalAvailableWeight)
-            it.isEnabled = enabled
-        }
-    }
-
     private val currentTotalWeight: Int
         get() {
             var currentTotalWeight = 0
@@ -266,7 +267,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                         voteWeights.remove(issueId)
                     }
                     validateAndUpdateUi()
-                    updateVoteMenuItem()
+                    invalidateOptionsMenu()
                     return true
                 }
                 DIALOG_TAG_SUBMIT_VOTE -> {
