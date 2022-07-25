@@ -4,9 +4,8 @@ orbs:
   android: circleci/android@2.1.2
 jobs:
   build:
-    executor:
-      name: android/android-machine
-      resource-class: xlarge
+    machine:
+      image: android-default
     steps:
       - checkout
       - android/restore-gradle-cache
