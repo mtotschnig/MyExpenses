@@ -129,6 +129,186 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.4.2
+    - "2022-07-20"
+    -
+      ar: |
+        واجهة مستخدم الويب 2.0
+      bg: |
+        Уеб потребителски интерфейс 2.0
+      cs: |
+        Webové uživatelské rozhraní 2.0
+      de: |
+        Web-Benutzeroberfläche 2.0
+      es: |
+        Interfaz de usuario web 2.0
+      fr: |
+        Interface utilisateur Web 2.0
+      hr: |
+        Internetsko korisničko sučelje 2.0
+      hu: |
+        Webes felhasználói kezelőfelület 2.0
+      it: |
+        Interfaccia utente Web 2.0
+      iw: |
+        ממשק משתמש באינטרנט 2.0
+      kn: |
+        ವೆಬ್ ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ 2.0
+      pt: |
+        Interface web do utilizador 2.0
+      ru: |
+        Веб-интерфейс пользователя 2.0
+      ta: |
+        வலை பயனர் இடைமுகம் 2.0
+      tr: |
+        İnternet Kullanıcı Arayüzü 2.0
+      zh: |
+        网络的用户界面 2.0
+      zh-TW: |
+        網頁版的使用者介面 2.0
+      en: |
+        Web User Interface 2.0
+  -
+    - 3.4.1
+    - "2022-06-10"
+    -
+      ar: |
+        تقسيم العمليات: صقل واجهة المستخدم. تقسيم: المبلغ الأصلي
+      bg: |
+        Разпределяне на транзакция: Подобрения в потребителския интерфейс. Разпределени суми: Оригинална сума
+      ca: |
+        Operació repartida: Refinament de la interfície d'usuari. Particions:
+      cs: |
+        Rozdělení transakce: Zdokonalení uživatelského rozhraní. Rozdělení stran: Původní částka
+      da: |
+        Splittede postering: Forbedring af brugergrænsefladen. Splittede delbeløb:
+      de: |
+        Mehrteilige Buchung: Verfeinerung der Benutzeroberfläche. Teilbeträge: Originalbetrag
+      el: |
+        Διαιρεμένη συναλλαγή: Βελτίωση του περιβάλλοντος εργασίας χρήστη. Διαχωρισμός, διάσπαση των μερών : Αρχικό ποσό
+      es: |
+        Transacción dividida: Interfaz de usuario mejorada. Partes divididas: Cantidad original
+      eu: |
+        Banatu transakzioa: Erabiltzaile-interfazea hobetzea. Banaketaren zatiak:
+      fr: |
+        Opération ventilée: Raffinement de l'interface utilisateur. Sous-opérations: Montant original
+      hr: |
+        Višedjelna transakcija: Poboljšanje korisničkog sučelja. Dijelovi višedjelne transakcije: Izvorni iznos
+      hu: |
+        Tranzakció felosztása: A felhasználói felület finomítása. Részletösszegek: Eredeti összeg
+      it: |
+        Operazione frazionata: Miglioramento dell'interfaccia utente. Importi frazionati: Importo originario
+      iw: |
+        עסקה מפוצלת: חידוד ממשק המשתמש. חלקים מפוצלים: סכום מקורי
+      ja: |
+        取引を分割: ユーザーインターフェースの洗練. 分割パート: 当初金額
+      kn: |
+        ವಿಭಜಿತ ವಹಿವಾಟು: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ. ಭಾಗಗಳನ್ನು ವಿಭಜಿಸಿ: ಮೂಲ ಮೊತ್ತ
+      ko: |
+        거래 내역을 분할하기: 사용자 인터페이스 의 개선. 분할 거래의 일부분:
+      ms: |
+        Transaksi pengasingan: Penghalusan antaramuka pengguna. Bahagian pengasingan: Amaun asal
+      km: |
+        ញែក​​ប្រតិបត្តិការ: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ. ញែក​ផ្នែក:
+      pl: |
+        Podział transakcji: Dopracowanie interfejsu użytkownika. Części podziału: Pierwotna kwota
+      pt: |
+        Transação dividida: Melhorias na interface do usuário. Divisões: Quantia original
+      ro: |
+        Tranzacţie repartizată: Perfecționarea interfeței cu utilizatorul. Repartizări:
+      ru: |
+        Разделённая операция: Усовершенствование пользовательского интерфейса. Разделённые части: Начальный баланс
+      si: |
+        විභේදනය වූ ගනුදෙනු: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම. කොටස් බෙදන්න :
+      ta: |
+        பிரிவு பரிவர்த்தனை: பயனர் இடைமுகத்தை மெருகேற்றுதல். பிரிவு பகுதிகள்: அசல் தொகை
+      tr: |
+        Bölünmüş muamele: Kullanıcı arayüzü iyileştirildi. Bölünmüş alt muameleler: Orijinal meblağ
+      vi: |
+        GD phân tách: Cải tiến giao diện người dùng. Tách thành từng phần: Khoản gốc
+      zh: |
+        拆分交易款项: 用户界面的改进. 拆分款项部分: 原始金额
+      zh-TW: |
+        分割交易: 完善用户界面. 分割款項: 原始金額
+      en: |
+        Split transaction: Refinement of the user interface. Split parts: Original amount
+  -
+    - 3.4.0
+    - "2022-05-23"
+    -
+      de: |
+        Das Feld "Notizen" erlaubt mehrere Zeilen. Bugs behoben: Synchronisierung
+      es: |
+        El campo de notas permite varias líneas. Corrección de errores: Sincronización
+      fr: |
+        Le champ "Notes" autorise plusieurs lignes. Corrections des erreurs: Synchronisation
+      hr: |
+        Polje za bilješke dopušta više redaka. Popravci grešaka: Sinkronizacija
+      iw: |
+        שדות ההערות מאפשרים ריבוי שורות.. תיקוני באגים: סנכרון
+      kn: |
+        ಟಿಪ್ಪಣಿಗಳ ಕ್ಷೇತ್ರವು ಬಹು ಸಾಲುಗಳನ್ನು ಅನುಮತಿಸುತ್ತದೆ.. ದೋಷ ಪರಿಹಾರಗಳನ್ನು: ಸಿಂಕ್ರೊನೈಸೇಶನ್
+      pt: |
+        Campos de anotação permitem múltiplas linhas.. Correções de erros: Sincronização
+      tr: |
+        Notlar alanı birden çok satıra izin verir.. Hata düzeltmeleri: Eşzamanla
+      zh: |
+        支持多行备注. 错误修复: 同步
+      en: |
+        Notes field allows multiple lines.. Bug fixes: Synchronization
+  -
+    - 3.3.9
+    - "2022-05-06"
+    -
+      ar: |
+        تطهير النسخ الاحتياطية القديمة. مشاركة النسخ الاحتياطية والملفات المصدّرة: HTTP
+      bg: |
+        Изчистване на стари архивни копия. Споделяне на експорт и архив: HTTP
+      ca: |
+        Elimina les còpies de seguretat antigues. Envia l'exportació: HTTP
+      cs: |
+        Vyčištění starých záloh. Sdílet soubor pro export: HTTP
+      da: |
+        Rens gamle sikkerhedskopier. Del eksport og backup: HTTP
+      de: |
+        Alte Backups löschen. Exporte und Sicherungskopie versenden: HTTP
+      el: |
+        Εκκαθάριση παλαιών αντιγράφων ασφαλείας. Μοιραστείτε αρχείο  εξαγωγής: HTTP
+      es: |
+        Purgar copias de seguridad antiguas. Enviar exportaciones y copias de seguridad: HTTP
+      eu: |
+        Garbitu babeskopia zaharrak. Elkarbanatu esportazioak eta babeskopiak: HTTP
+      fr: |
+        Purger les anciennes sauvegardes. Partage des exportations et des sauvegardes: HTTP
+      hr: |
+        Izbriši stare sigurnosne kopije. Dijeli izvoze i sigurnosne kopije: HTTP
+      hu: |
+        Régi biztonsági mentések törlése. Az exportált állomány megosztása: HTTP
+      it: |
+        Eliminare i vecchi backup. Condividi esportazioni e backup: HTTP
+      iw: |
+        ניפוי גיבויים ישנים. שתף את היצוא ואת הגיבויים: HTTP
+      ja: |
+        古いバックアップをパージする. エクスポートとバックアップを共有: HTTP
+      kn: |
+        ಹಳೆಯ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಶುದ್ಧೀಕರಿಸಿ. ರಫ್ತು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ: HTTP
+      pl: |
+        Wyczyść stare kopie zapasowe. Udostępnij eksporty i kopie zapasowe: HTTP
+      pt: |
+        Expurgar backups antigos. Compartilhar exportações e backups: HTTP
+      ro: |
+        Elimină copiile de rezervă vechi. Partajaţi exporturile şi backup-urile: HTTP
+      tr: |
+        Eski yedekleri temizle. Dışa aktarmaları ve yedeklemeleri paylaş: HTTP
+      vi: |
+        Thanh lọc các bản sao lưu cũ. Chia sẻ tập tin xuất dữ liệu: HTTP
+      zh: |
+        清除旧备份. 分享导出的备份文件: HTTP
+      zh-TW: |
+        清除旧的备份. 共享匯出的備份檔: HTTP
+      en: |
+        Purge old backups. Share exports and backups: HTTP
+  -
     - 3.3.8
     - "2022-04-19"
     -
