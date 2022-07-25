@@ -221,7 +221,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         tracker.setEnabled(enabled)
     }
 
-    fun logEvent(event: String?, params: Bundle?) {
+    fun logEvent(event: String, params: Bundle?) {
         tracker.logEvent(event, params)
     }
 

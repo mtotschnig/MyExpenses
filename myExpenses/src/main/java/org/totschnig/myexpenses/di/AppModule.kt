@@ -23,7 +23,7 @@ object NoOpTracker: Tracker {
         //noop
     }
 
-    override fun logEvent(eventName: String, params: Bundle) {
+    override fun logEvent(eventName: String, params: Bundle?) {
         Timber.d("Event %s (%s)", eventName, params)
     }
 
