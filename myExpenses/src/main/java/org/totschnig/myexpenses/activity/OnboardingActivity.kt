@@ -43,6 +43,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         setContentView(binding.root)
         pagerAdapter = MyPagerAdapter(supportFragmentManager)
         binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.offscreenPageLimit = 2
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
