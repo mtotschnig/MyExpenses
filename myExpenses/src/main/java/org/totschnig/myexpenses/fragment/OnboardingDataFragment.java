@@ -99,7 +99,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   @Override
   protected void onNextButtonClicked() {
     prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().getCode());
-    ((OnboardingActivity) getActivity()).finishOnboarding();
+    ((OnboardingActivity) requireActivity()).finishOnboarding();
   }
 
   @Override

@@ -64,10 +64,10 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         super.onBackPressed()
     }
 
-    private val dataFragment: OnboardingDataFragment
+    private val dataFragment: OnboardingDataFragment?
         get() = supportFragmentManager.findFragmentByTag(
             pagerAdapter.getFragmentName(pagerAdapter.count - 1)
-        ) as OnboardingDataFragment
+        ) as? OnboardingDataFragment
 
     fun finishOnboarding() {
         @Suppress("DEPRECATION")
@@ -75,7 +75,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     override fun getObject(): Model {
-        return dataFragment.buildAccount()
+        return dataFragment!!.buildAccount()
     }
 
     override fun onPostExecute(result: Uri?) {
@@ -103,7 +103,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
         lifecycleScope.launchWhenResumed {
-            dataFragment.setupMenu()
+            dataFragment?.setupMenu()
             accountName = data.accountName
             if (data.backups.isNotEmpty() || data.remoteAccounts.isNotEmpty()) {
                 if (checkForDuplicateUuids(data.remoteAccounts)) {
@@ -178,7 +178,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun editAccountColor(view: View) {
-        dataFragment.editAccountColor()
+        dataFragment?.editAccountColor()
     }
 
     override val snackBarContainerId: Int
