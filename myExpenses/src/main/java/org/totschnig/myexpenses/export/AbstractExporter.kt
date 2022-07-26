@@ -2,14 +2,21 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.net.Uri
+import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.fullLabel
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
 import java.io.IOException
@@ -34,21 +41,30 @@ abstract class AbstractExporter
     private val decimalSeparator: Char,
     private val encoding: String
 ) {
+
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
 
     abstract val format: ExportFormat
 
-    abstract fun header(context: Context): String?
+    abstract fun header(context: Context, options: Bundle): String?
 
-    abstract fun TransactionDTO.marshall(): String
+    abstract fun TransactionDTO.marshall(options: Bundle, categoryPaths: Map<Long, List<String>>): String
+
+    val categoryTree: MutableMap<Long, Pair<String, Long>> = mutableMapOf()
+    val categoryPaths: MutableMap<Long, List<String>> = mutableMapOf()
 
     @Throws(IOException::class)
-    fun export(
+    open fun export(
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
-        append: Boolean
+        append: Boolean,
+        options: Bundle = Bundle()
     ): Result<Uri> {
         Timber.i("now starting export")
+        context.contentResolver.query(TransactionProvider.CATEGORIES_URI,
+            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID), null, null, null)?.asSequence?.forEach {
+            categoryTree[it.getLong(0)] = it.getString(1) to it.getLong(2)
+        }
         //first we check if there are any exportable transactions
         var selection =
             "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null"
@@ -69,8 +85,7 @@ abstract class AbstractExporter
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_PICTURE_URI,
-            KEY_TRANSFER_PEER,
-            fullLabel(":")
+            TRANSFER_ACCOUNT_LABEL
         )
         return context.contentResolver.query(
             Transaction.EXTENDED_URI,
@@ -80,13 +95,30 @@ abstract class AbstractExporter
             if (cursor.count == 0) {
                 Result.failure(Exception(context.getString(R.string.no_exportable_expenses)))
             } else {
+                cursor.asSequence.forEach {
+                    val categoryId = it.getLong(KEY_CATID)
+                    categoryPaths.computeIfAbsent(categoryId) {
+                        var catId: Long? = categoryId
+                        buildList {
+                            while (catId != null) {
+                                val pair = categoryTree[catId]
+                                if (pair == null) {
+                                    catId = null
+                                } else {
+                                    add(pair.first)
+                                    catId = pair.second
+                                }
+                            }
+                        }.reversed()
+                    }
+                }
                 val uri = outputStream.value.getOrThrow().uri
                 (context.contentResolver.openOutputStream(uri, if (append) "wa" else "w")
                     ?: throw IOException("openOutputStream returned null")).use { outputStream ->
                     OutputStreamWriter(outputStream, encoding).use { out ->
                         cursor.moveToFirst()
                         val formatter = SimpleDateFormat(dateFormat, Locale.US)
-                        header(context)?.let { out.write(it) }
+                        header(context, options)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
                             val catId = DbUtils.getLongOrNull(cursor, KEY_CATID)
                             val rowId =
@@ -124,7 +156,7 @@ abstract class AbstractExporter
                                     account.currencyUnit,
                                     splitCursor,
                                     tagList
-                                ).marshall()
+                                ).marshall(options, categoryPaths)
                             )
                             splitCursor?.close()
 

@@ -4,10 +4,10 @@ import android.content.Context
 import android.database.Cursor
 import androidx.annotation.Keep
 import org.apache.commons.lang3.StringUtils
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -15,11 +15,11 @@ import java.util.*
 
 @Keep
 data class TransactionDTO(
-    val id: String,
     val dateStr: String,
     val payee: String,
     val amount: BigDecimal,
-    val fullLabel: String,
+    val catId: Long?,
+    val transferAccount: String?,
     val comment: String,
     val methodLabel: String?,
     val status: CrStatus?,
@@ -29,6 +29,13 @@ data class TransactionDTO(
     val splits: List<TransactionDTO>?
 ) {
 
+    fun fullLabel(categoryPaths: Map<Long, List<String>>) =
+        transferAccount?.let { "[$it]" } ?: catId?.let { cat ->
+            categoryPaths[cat]?.joinToString(":") { label ->
+                label.replace("/","\\u002F").replace(":","\\u003A")
+            }
+        }
+
     companion object {
         fun fromCursor(
             context: Context, cursor: Cursor, formatter: SimpleDateFormat,
@@ -37,13 +44,8 @@ data class TransactionDTO(
         ): TransactionDTO {
             //split transactions take their full_label from the first split part
             val readCat = splitCursor?.takeIf { it.moveToFirst() } ?: cursor
-            val transferPeer = DbUtils.getLongOrNull(readCat, KEY_TRANSFER_PEER)
-            val fullLabel = DbUtils.getString(readCat, KEY_LABEL).let {
-                if (transferPeer != null) "[$it]" else it
-            }
 
             return TransactionDTO(
-                cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)).toString(),
                 formatter.format(
                     Date(
                         cursor.getLong(
@@ -54,7 +56,8 @@ data class TransactionDTO(
                 DbUtils.getString(cursor, KEY_PAYEE_NAME),
                 Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)))
                     .amountMajor,
-                fullLabel,
+                DbUtils.getLongOrNull(readCat, KEY_CATID),
+                readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 DbUtils.getString(cursor, KEY_COMMENT),
                 if (isPart) null else cursor.getString(cursor.getColumnIndexOrThrow(KEY_METHOD_LABEL)),
                 if (isPart) null else

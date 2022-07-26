@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
+import android.os.Bundle
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
@@ -17,7 +18,7 @@ class QifExporter(
 ) :
     AbstractExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding) {
     override val format = ExportFormat.QIF
-    override fun header(context: Context) = StringBuilderWrapper().append("!Account\nN")
+    override fun header(context: Context, options: Bundle) = StringBuilderWrapper().append("!Account\nN")
         .append(account.label)
         .append("\nT")
         .append(account.type.toQifName())
@@ -25,7 +26,7 @@ class QifExporter(
         .append(account.type.toQifName())
         .append("\n").toString()
 
-    override fun TransactionDTO.marshall() = StringBuilderWrapper().apply {
+    override fun TransactionDTO.marshall(options: Bundle, categoryPaths: Map<Long, List<String>>) = StringBuilderWrapper().apply {
         append("D")
             .append(dateStr)
             .append("\nT")
@@ -33,7 +34,7 @@ class QifExporter(
         comment.takeIf { it.isNotEmpty() }?.let {
             append("\nM").append(it)
         }
-        fullLabel.takeIf { it.isNotEmpty() }?.let {
+        fullLabel(categoryPaths)?.takeIf { it.isNotEmpty() }?.let {
             append("\nL").append(it)
         }
         payee.takeIf { it.isNotEmpty() }?.let {
@@ -47,7 +48,7 @@ class QifExporter(
         }
 
         splits?.forEach { split ->
-            append("\n").append("S").append(split.fullLabel)
+            append("\n").append("S").append(split.fullLabel(categoryPaths))
             split.comment.takeIf { it.isNotEmpty() }?.let {
                 append("\nE").append(it)
             }

@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.export
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
@@ -103,11 +104,8 @@ class ExportTest {
     private fun insertData1(): Account {
         val tag1Id = write("Tag One")
         val tag2Id = write("Tags, Tags, Tags")
-        val account1 = Account("Account 1", openingBalance, "Account 1")
-        account1.type = AccountType.BANK
-        account1.save()
-        val account2 = Account("Account 2", openingBalance, "Account 2")
-        account2.save()
+        val account1 = buildAccount1()
+        val account2 = buildAccount2()
         val cat1Id = writeCategory("Main")
         val cat2Id = writeCategory("Sub", cat1Id)
         val op = Transaction.getNewInstance(account1.id) ?: throw IllegalStateException()
@@ -175,29 +173,36 @@ class ExportTest {
     }
 
     private fun insertData2(account: Account) {
-        val op = Transaction.getNewInstance(account.id) ?: throw IllegalStateException()
-        op.amount = Money(account.currencyUnit, -expense3)
-        op.methodId = PaymentMethod.find("CHEQUE")
-        op.comment = "Expense inserted after first export"
-        op.referenceNumber = "3"
-        op.date = baseSinceEpoch
-        op.save()
-        op.amount = Money(account.currencyUnit, income3)
-        op.comment = "Income inserted after first export"
-        op.payee = "N.N."
-        op.methodId = null
-        op.referenceNumber = null
-        op.date = baseSinceEpoch + 1
-        op.saveAsNew()
+        with (Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+            amount = Money(account.currencyUnit, -expense3)
+            methodId = PaymentMethod.find("CHEQUE")
+            comment = "Expense inserted after first export"
+            referenceNumber = "3"
+            date = baseSinceEpoch
+            save()
+            amount = Money(account.currencyUnit, income3)
+            comment = "Income inserted after first export"
+            payee = "N.N."
+            methodId = null
+            referenceNumber = null
+            date = baseSinceEpoch + 1
+            saveAsNew()
+        }
+    }
+
+    private fun buildAccount1() = Account("Account 1", openingBalance, "Account 1").apply {
+        type = AccountType.BANK
+        save()
+    }
+
+    private fun buildAccount2() = Account("Account 2", openingBalance, "Account 2").apply {
+        save()
     }
 
     private fun insertData3(): Pair<Account, Account> {
         var op: Transaction?
-        val account1 = Account("Account 1", openingBalance, "Account 1")
-        account1.type = AccountType.BANK
-        account1.save()
-        val account2 = Account("Account 2", openingBalance, "Account 2")
-        account2.save()
+        val account1 = buildAccount1()
+        val account2 = buildAccount2()
         op = Transaction.getNewInstance(account1.id)
         if (op == null) {
             throw IllegalStateException()
@@ -218,8 +223,39 @@ class ExportTest {
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
         op.save()
-        return Pair(account1, account2)
+        return account1 to account2
     }
+
+    private fun insertData4(): Account {
+        val account = buildAccount1()
+        val transferAccount = buildAccount2()
+        val cat1Id = writeCategory("A")
+        val cat2Id = writeCategory("B", cat1Id)
+        val cat3Id = writeCategory("C", cat2Id)
+        with (Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+            amount = Money(account.currencyUnit, income1)
+            date = baseSinceEpoch
+            catId = cat1Id
+            save()
+            catId = cat2Id
+            date = baseSinceEpoch + 1
+            saveAsNew()
+            catId = cat3Id
+            date = baseSinceEpoch + 2
+            saveAsNew()
+            catId = null
+            date = baseSinceEpoch + 3
+            saveAsNew()
+        }
+        with(Transfer.getNewInstance(account.id, transferAccount.id)
+            ?: throw IllegalStateException()) {
+            setAmount(Money(account.currencyUnit, transferP))
+            date = baseSinceEpoch + 4
+            save()
+        }
+        return account
+    }
+
 
     @Test
     fun testExportQIF() {
@@ -532,6 +568,33 @@ class ExportTest {
         }
     }
 
+    @Test
+    fun testSplitCategoryLevels() {
+        val linesCSV = arrayOf(
+            csvHeader(';', false, 3),
+            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"A\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"A\";\"B\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"A\";\"B\";\"C\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"\";\"0.50\";\"0\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\""
+        )
+        try {
+            expect.that(
+                exportAll(
+                    insertData4(),
+                    ExportFormat.CSV,
+                    notYetExportedP = false,
+                    append = false,
+                    withAccountColumn = false,
+                    options = Bundle().apply { putBoolean(CsvExporter.KEY_SPLIT_CATEGORY_LEVELS, true) }
+                ).isSuccess
+            ).isTrue()
+            compare(linesCSV)
+        } catch (e: IOException) {
+            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
+        }
+    }
+
     private fun compare(lines: Array<String>) {
         FileInputStream(outFile).use { inputStream ->
             BufferedReader(InputStreamReader(inputStream)).use { reader ->
@@ -547,28 +610,35 @@ class ExportTest {
         }
     }
 
-    private fun csvHeader(separator: Char, withAccountColumn: Boolean): String {
+    private fun csvHeader(separator: Char, withAccountColumn: Boolean, numberOfCategoryColumns: Int? = null): String {
         val sb = StringBuilder()
-        val resArray = intArrayOf(
-            R.string.split_transaction,
-            R.string.date, R.string.payer_or_payee,
-            R.string.income,
-            R.string.expense,
-            R.string.category,
-            R.string.comment,
-            R.string.method,
-            R.string.status,
-            R.string.reference_number,
-            R.string.picture,
-            R.string.tags
-        )
+        val columns = buildList {
+            add(context.getString(R.string.split_transaction))
+            add(context.getString(R.string.date))
+            add(context.getString(R.string.payer_or_payee))
+            add(context.getString(R.string.income))
+            add(context.getString(R.string.expense))
+            if (numberOfCategoryColumns != null) {
+                repeat(numberOfCategoryColumns) {
+                    add(context.getString(R.string.category) + " " + (it +1))
+                }
+            } else {
+                add(context.getString(R.string.category))
+            }
+            add(context.getString(R.string.comment))
+            add(context.getString(R.string.method))
+            add(context.getString(R.string.status))
+            add(context.getString(R.string.reference_number))
+            add(context.getString(R.string.picture))
+            add(context.getString(R.string.tags))
+        }
         if (withAccountColumn) {
             sb.append('"').append(context.getString(R.string.account)).append('"').append(separator)
         }
-        val iterator = resArray.iterator()
+        val iterator = columns.iterator()
         while (iterator.hasNext()) {
-            val res = iterator.next()
-            sb.append('"').append(context.getString(res)).append('"')
+            val column = iterator.next()
+            sb.append('"').append(column).append('"')
             if (iterator.hasNext()) {
                 sb.append(separator)
             }
@@ -582,7 +652,8 @@ class ExportTest {
         format: ExportFormat,
         notYetExportedP: Boolean,
         append: Boolean,
-        withAccountColumn: Boolean
+        withAccountColumn: Boolean,
+        options: Bundle = Bundle()
     ): Result<*> {
         val exporter = if (format == ExportFormat.CSV) CsvExporter(
             account,
@@ -598,7 +669,8 @@ class ExportTest {
         return exporter.export(
             context,
             lazyFile,
-            append
+            append,
+            options
         )
     }
 
