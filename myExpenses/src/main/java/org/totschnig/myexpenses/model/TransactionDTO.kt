@@ -2,20 +2,17 @@ package org.totschnig.myexpenses.model
 
 import android.content.Context
 import android.database.Cursor
-import androidx.annotation.Keep
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
-import java.util.*
 
-@Keep
 data class TransactionDTO(
     val date: ZonedDateTime,
     val payee: String,
@@ -27,27 +24,46 @@ data class TransactionDTO(
     val status: CrStatus?,
     val referenceNumber: String?,
     val pictureFileName: String?,
-    val tagList: String?,
+    val tagList: List<String>?,
     val splits: List<TransactionDTO>?
 ) {
 
-
-
     fun fullLabel(categoryPaths: Map<Long, List<String>>) =
-        transferAccount?.let { "[$it]" } ?: catId?.let { cat ->
-            categoryPaths[cat]?.joinToString(":") { label ->
-                label.replace("/","\\u002F").replace(":","\\u003A")
-            }
+        transferAccount?.let { "[$it]" } ?: categoryPath(categoryPaths)
+
+    fun categoryPath(categoryPaths: Map<Long, List<String>>) = catId?.let { cat ->
+        categoryPaths[cat]?.joinToString(":") { label ->
+            label.replace("/","\\u002F").replace(":","\\u003A")
         }
+    }
 
     companion object {
         fun fromCursor(
-            context: Context, cursor: Cursor,
-            currencyUnit: CurrencyUnit, splitCursor: Cursor?, tagList: String?,
+            context: Context,
+            cursor: Cursor,
+            projection: Array<String>,
+            currencyUnit: CurrencyUnit,
             isPart: Boolean = false
         ): TransactionDTO {
-            //split transactions take their full_label from the first split part
+            val rowId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)).toString()
+            val catId = DbUtils.getLongOrNull(cursor, KEY_CATID)
+            val isSplit = SPLIT_CATID == catId
+            val splitCursor = if (isSplit) context.contentResolver.query(
+                Transaction.CONTENT_URI,
+                projection,
+                "$KEY_PARENTID = ?",
+                arrayOf(rowId),
+                null
+            ) else null
             val readCat = splitCursor?.takeIf { it.moveToFirst() } ?: cursor
+
+            val tagList = context.contentResolver.query(
+                TransactionProvider.TRANSACTIONS_TAGS_URI,
+                arrayOf(KEY_LABEL),
+                "$KEY_TRANSACTIONID = ?",
+                arrayOf(rowId),
+                null
+            )?.use { tagCursor -> tagCursor.asSequence.map { it.getString(0) }.toList() }?.takeIf { it.isNotEmpty() }
 
             return TransactionDTO(
                 epoch2ZonedDateTime(cursor.getLong(
@@ -74,9 +90,8 @@ data class TransactionDTO(
                                 fromCursor(
                                     context,
                                     it,
+                                    projection,
                                     currencyUnit,
-                                    null,
-                                    null,
                                     isPart = true
                                 )
                             )

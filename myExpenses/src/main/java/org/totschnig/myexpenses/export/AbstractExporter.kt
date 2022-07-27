@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.net.Uri
-import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
@@ -21,9 +20,7 @@ import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
-import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 abstract class AbstractExporter
 /**
@@ -45,7 +42,7 @@ abstract class AbstractExporter
 
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
 
-    val dateFormatter = DateTimeFormatter.ofPattern(dateFormat)
+    val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat)
 
     abstract val format: ExportFormat
 
@@ -60,8 +57,7 @@ abstract class AbstractExporter
     open fun export(
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
-        append: Boolean,
-        options: Bundle = Bundle()
+        append: Boolean
     ): Result<Uri> {
         Timber.i("now starting export")
         context.contentResolver.query(TransactionProvider.CATEGORIES_URI,
@@ -105,11 +101,11 @@ abstract class AbstractExporter
                         buildList {
                             while (catId != null) {
                                 val pair = categoryTree[catId]
-                                if (pair == null) {
-                                    catId = null
+                                catId = if (pair == null) {
+                                    null
                                 } else {
                                     add(pair.first)
-                                    catId = pair.second
+                                    pair.second
                                 }
                             }
                         }.reversed()
@@ -122,44 +118,14 @@ abstract class AbstractExporter
                         cursor.moveToFirst()
                         header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
-                            val catId = DbUtils.getLongOrNull(cursor, KEY_CATID)
-                            val rowId =
-                                cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-                            val isSplit = SPLIT_CATID == catId
-                            val splitCursor = if (isSplit) context.contentResolver.query(
-                                Transaction.CONTENT_URI,
-                                projection,
-                                "$KEY_PARENTID = ?",
-                                arrayOf(rowId.toString()),
-                                null
-                            ) else null
-                            val tagList = context.contentResolver.query(
-                                TransactionProvider.TRANSACTIONS_TAGS_URI,
-                                arrayOf(KEY_LABEL),
-                                "$KEY_TRANSACTIONID = ?",
-                                arrayOf(rowId.toString()),
-                                null
-                            )?.use { tagCursor ->
-                                if (tagCursor.moveToFirst())
-                                    sequence {
-                                        while (!tagCursor.isAfterLast) {
-                                            yield(tagCursor.getString(0).let {
-                                                if (it.contains(',')) "'$it'" else it
-                                            })
-                                            tagCursor.moveToNext()
-                                        }
-                                    }.joinToString(", ") else null
-                            } ?: ""
                             out.write(
                                 TransactionDTO.fromCursor(
                                     context,
                                     cursor,
-                                    account.currencyUnit,
-                                    splitCursor,
-                                    tagList
+                                    projection,
+                                    account.currencyUnit
                                 ).marshall(categoryPaths)
                             )
-                            splitCursor?.close()
 
                             recordDelimiter(cursor.position == cursor.count - 1)?.let { out.write(it) }
 

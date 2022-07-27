@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.net.Uri
-import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
@@ -50,8 +49,7 @@ class CsvExporter(
     override fun export(
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
-        append: Boolean,
-        options: Bundle
+        append: Boolean
     ): Result<Uri> {
         numberOfCategoryColumns = context.contentResolver.query(
             TransactionProvider.CATEGORIES_URI
@@ -64,7 +62,7 @@ class CsvExporter(
             it.moveToFirst()
             it.getInt(0)
         } ?: numberOfCategoryColumns
-        return super.export(context, outputStream, append, options)
+        return super.export(context, outputStream, append)
     }
 
     override val format = ExportFormat.CSV
@@ -156,6 +154,12 @@ class CsvExporter(
         }
     }
 
+    private fun TransactionDTO.handleTags(stringBuilderWrapper: StringBuilderWrapper) {
+        with(stringBuilderWrapper) {
+            appendQ(tagList?.joinToString(", ") { if (it.contains(',')) "'$it'" else it } ?: "")
+        }
+    }
+
     override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>) =
         StringBuilderWrapper().apply {
             if (withAccountColumn) {
@@ -179,7 +183,7 @@ class CsvExporter(
             append(delimiter)
             appendQ(pictureFileName ?: "")
             append(delimiter)
-            appendQ(tagList ?: "")
+            handleTags(this)
             splits?.forEach {
                 append("\n")
                 if (withAccountColumn) {
@@ -203,7 +207,7 @@ class CsvExporter(
                     append(delimiter)
                     appendQ(pictureFileName ?: "")
                     append(delimiter)
-                    appendQ("")
+                    handleTags(this@apply)
                 }
             }
         }.toString()

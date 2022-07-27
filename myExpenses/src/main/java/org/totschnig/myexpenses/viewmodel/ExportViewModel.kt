@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -36,7 +35,6 @@ import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 class ExportViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     companion object {
@@ -52,9 +50,6 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         const val KEY_DELIMITER = "export_delimiter"
         const val KEY_MERGE_P = "export_merge_accounts"
     }
-
-    @Inject
-    lateinit var gson: Gson
 
     private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
     private val _result: MutableStateFlow<Pair<ExportFormat, List<Uri>>?> = MutableStateFlow(null)
@@ -162,8 +157,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             notYetExportedP,
                                             dateFormat,
                                             decimalSeparator,
-                                            encoding,
-                                            gson
+                                            encoding
                                         )
                                     }
                                     val result = exporter.export(context, lazy {

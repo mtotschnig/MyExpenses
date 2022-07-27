@@ -21,7 +21,6 @@ import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
-import com.google.gson.Gson
 import com.google.gson.JsonParser
 import org.apache.commons.text.translate.UnicodeEscaper
 import org.junit.Before
@@ -30,7 +29,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
@@ -94,14 +92,13 @@ class ExportTest {
     private val context: Context
         get() = ApplicationProvider.getApplicationContext()
 
-    private val gson: Gson
-        get() = (context as MyApplication).appComponent.gson()
-
     private val repository: Repository
-        get() = Repository(context,
+        get() = Repository(
+            context,
             Mockito.mock(CurrencyContext::class.java),
             Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java))
+            Mockito.mock(PrefHandler::class.java)
+        )
 
     @get:Rule
     val expect: Expect = Expect.create()
@@ -175,13 +172,17 @@ class ExportTest {
         part.amount = Money(account1.currencyUnit, part2)
         part.catId = cat2Id
         part.saveAsNew()
+        context.contentResolver.applyBatch(
+            TransactionProvider.AUTHORITY,
+            saveTagLinks(listOf(tag1Id, tag2Id), part.id, null, true)
+        )
         split.status = DatabaseConstants.STATUS_NONE
         split.save(true)
         return account1
     }
 
     private fun insertData2(account: Account) {
-        with (Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+        with(Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
             amount = Money(account.currencyUnit, expense3)
             methodId = PaymentMethod.find("CHEQUE")
             comment = "Expense inserted after first export"
@@ -240,7 +241,7 @@ class ExportTest {
         val cat1Id = writeCategory("A")
         val cat2Id = writeCategory("B", cat1Id)
         val cat3Id = writeCategory("C", cat2Id)
-        with (Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+        with(Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
             amount = Money(account.currencyUnit, income1)
             date = baseSinceEpoch
             catId = cat1Id
@@ -256,8 +257,10 @@ class ExportTest {
             amount = Money(account.currencyUnit, expense1)
             saveAsNew()
         }
-        with(Transfer.getNewInstance(account.id, transferAccount.id)
-            ?: throw IllegalStateException()) {
+        with(
+            Transfer.getNewInstance(account.id, transferAccount.id)
+                ?: throw IllegalStateException()
+        ) {
             setAmount(Money(account.currencyUnit, transferP))
             date = baseSinceEpoch + 4
             save()
@@ -344,7 +347,7 @@ class ExportTest {
             "\"\";\"$date\";\"\";\"0\";\"0.60\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"\""
+            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"Tag One, 'Tags, Tags, Tags'\""
         )
         try {
             expect.that(
@@ -374,11 +377,12 @@ class ExportTest {
                     withAccountColumn = false
                 ).isSuccess
             ).isTrue()
-            expect.that(
-                JsonParser.parseString("""
-                [{"id":"1","dateStr":"15/12/2017","payee":"","amount":-0.10,"fullLabel":"","comment":"","methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","pictureFileName":"","tagList":"Tag One, \u0027Tags, Tags, Tags\u0027"},{"id":"2","dateStr":"15/12/2017","payee":"N.N.","amount":-0.20,"fullLabel":"Main","comment":"","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2","pictureFileName":"","tagList":""},{"id":"3","dateStr":"15/12/2017","payee":"","amount":0.30,"fullLabel":"Main:Sub","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"picture.png","tagList":""},{"id":"4","dateStr":"15/12/2017","payee":"","amount":0.40,"fullLabel":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"5","dateStr":"15/12/2017","payee":"","amount":0.50,"fullLabel":"[Account 2]","comment":"","status":"RECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"7","dateStr":"15/12/2017","payee":"","amount":-0.60,"fullLabel":"[Account 2]","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"9","dateStr":"15/12/2017","payee":"","amount":0.70,"fullLabel":"Main","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":"","splits":[{"id":"10","dateStr":"15/12/2017","payee":"","amount":0.40,"fullLabel":"Main","comment":"","pictureFileName":""},{"id":"11","dateStr":"15/12/2017","payee":"","amount":0.30,"fullLabel":"Main:Sub","comment":"","pictureFileName":""}]}]
-            """)).isEqualTo(
-                JsonParser.parseReader(FileReader(outFile))
+            expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
+                JsonParser.parseString(
+                    """
+[{"date":"15/12/2017","payee":"","amount":-0.10,"comment":"","methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","pictureFileName":"","tags":["Tag One","Tags, Tags, Tags"]},{"date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":"Main","comment":"","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2","pictureFileName":""},{"date":"15/12/2017","payee":"","amount":0.30,"category":"Main:Sub","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"picture.png"},{"date":"15/12/2017","payee":"","amount":0.40,"category":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":""},{"date":"15/12/2017","payee":"","amount":0.50,"transferAccount":"Account 2","comment":"","status":"RECONCILED","referenceNumber":"","pictureFileName":""},{"date":"15/12/2017","payee":"","amount":-0.60,"transferAccount":"Account 2","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":""},{"date":"15/12/2017","payee":"","amount":0.70,"category":"Main","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","splits":[{"date":"15/12/2017","payee":"","amount":0.40,"category":"Main","comment":"","pictureFileName":""},{"date":"15/12/2017","payee":"","amount":0.30,"category":"Main:Sub","comment":"","pictureFileName":"","tags":["Tag One","Tags, Tags, Tags"]}]}]
+                         """
+                )
             )
         } catch (e: IOException) {
             expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
@@ -402,7 +406,7 @@ class ExportTest {
             "\"\",\"$date\",\"\",\"0\",\"0,60\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
             "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
             "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"\""
+            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"Tag One, 'Tags, Tags, Tags'\""
         )
         try {
             expect.that(
@@ -603,7 +607,7 @@ class ExportTest {
     @Test
     fun testSplitCategoryLevels() {
         val linesCSV = arrayOf(
-            csvHeader(';', false, 3, false, true),
+            csvHeader(';', false, 3, splitAmount = false, splitDateTime = true),
             "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"B\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"B\";\"C\";\"\";\"\";\"\";\"\";\"\";\"\"",
@@ -665,7 +669,7 @@ class ExportTest {
             add(context.getString(R.string.split_transaction))
             add(context.getString(R.string.date))
             if (splitDateTime)
-            add(context.getString(R.string.time))
+                add(context.getString(R.string.time))
             add(context.getString(R.string.payer_or_payee))
             if (splitAmount) {
                 add(context.getString(R.string.income))
@@ -675,7 +679,7 @@ class ExportTest {
             }
             if (numberOfCategoryColumns != null) {
                 repeat(numberOfCategoryColumns) {
-                    add(context.getString(R.string.category) + " " + (it +1))
+                    add(context.getString(R.string.category) + " " + (it + 1))
                 }
             } else {
                 add(context.getString(R.string.category))
@@ -721,8 +725,22 @@ class ExportTest {
                 ';',
                 withAccountColumn
             )
-            ExportFormat.QIF -> QifExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
-            ExportFormat.JSON -> JSONExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", gson)
+            ExportFormat.QIF -> QifExporter(
+                account,
+                null,
+                notYetExportedP,
+                "dd/MM/yyyy",
+                '.',
+                "UTF-8"
+            )
+            ExportFormat.JSON -> JSONExporter(
+                account,
+                null,
+                notYetExportedP,
+                "dd/MM/yyyy",
+                '.',
+                "UTF-8"
+            )
         }
         return exporter.export(
             context,
