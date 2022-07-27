@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -54,9 +56,9 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
     @Inject
     lateinit var gson: Gson
 
-    private val _publishProgress: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
     private val _result: MutableStateFlow<Pair<ExportFormat, List<Uri>>?> = MutableStateFlow(null)
-    val publishProgress: StateFlow<String?> = _publishProgress
+    val publishProgress: SharedFlow<String?> = _publishProgress
     val result: StateFlow<Pair<ExportFormat, List<Uri>>?> = _result
 
     fun startExport(args: Bundle) {
@@ -228,17 +230,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         }
     }
 
-    private fun publishProgress(string: String) {
-        _publishProgress.update {
-            string
-        }
-
-    }
-
-    fun messageShown() {
-        _publishProgress.update {
-            null
-        }
+    private suspend fun publishProgress(string: String) {
+        _publishProgress.emit(string)
     }
 
     fun resultDismissed() {
