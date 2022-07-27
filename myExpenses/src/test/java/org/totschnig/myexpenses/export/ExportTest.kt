@@ -21,6 +21,8 @@ import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import org.apache.commons.text.translate.UnicodeEscaper
 import org.junit.Before
 import org.junit.Rule
@@ -28,6 +30,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
@@ -50,6 +53,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
@@ -89,6 +93,9 @@ class ExportTest {
 
     private val context: Context
         get() = ApplicationProvider.getApplicationContext()
+
+    private val gson: Gson
+        get() = (context as MyApplication).appComponent.gson()
 
     private val repository: Repository
         get() = Repository(context,
@@ -350,6 +357,29 @@ class ExportTest {
                 ).isSuccess
             ).isTrue()
             compare(linesCSV)
+        } catch (e: IOException) {
+            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
+        }
+    }
+
+    @Test
+    fun testExportJson() {
+        try {
+            expect.that(
+                exportAll(
+                    insertData1(),
+                    ExportFormat.JSON,
+                    notYetExportedP = false,
+                    append = false,
+                    withAccountColumn = false
+                ).isSuccess
+            ).isTrue()
+            expect.that(
+                JsonParser.parseString("""
+                [{"id":"1","dateStr":"15/12/2017","payee":"","amount":-0.10,"fullLabel":"","comment":"","methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","pictureFileName":"","tagList":"Tag One, \u0027Tags, Tags, Tags\u0027"},{"id":"2","dateStr":"15/12/2017","payee":"N.N.","amount":-0.20,"fullLabel":"Main","comment":"","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2","pictureFileName":"","tagList":""},{"id":"3","dateStr":"15/12/2017","payee":"","amount":0.30,"fullLabel":"Main:Sub","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"picture.png","tagList":""},{"id":"4","dateStr":"15/12/2017","payee":"","amount":0.40,"fullLabel":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"5","dateStr":"15/12/2017","payee":"","amount":0.50,"fullLabel":"[Account 2]","comment":"","status":"RECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"7","dateStr":"15/12/2017","payee":"","amount":-0.60,"fullLabel":"[Account 2]","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"9","dateStr":"15/12/2017","payee":"","amount":0.70,"fullLabel":"Main","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":"","splits":[{"id":"10","dateStr":"15/12/2017","payee":"","amount":0.40,"fullLabel":"Main","comment":"","pictureFileName":""},{"id":"11","dateStr":"15/12/2017","payee":"","amount":0.30,"fullLabel":"Main:Sub","comment":"","pictureFileName":""}]}]
+            """)).isEqualTo(
+                JsonParser.parseReader(FileReader(outFile))
+            )
         } catch (e: IOException) {
             expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
         }
@@ -679,17 +709,21 @@ class ExportTest {
         append: Boolean,
         withAccountColumn: Boolean
     ): Result<Uri> {
-        val exporter = if (format == ExportFormat.CSV) CsvExporter(
-            account,
-            null,
-            notYetExportedP,
-            "dd/MM/yyyy",
-            '.',
-            "UTF-8",
-            !append,
-            ';',
-            withAccountColumn
-        ) else QifExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
+        val exporter = when (format) {
+            ExportFormat.CSV -> CsvExporter(
+                account,
+                null,
+                notYetExportedP,
+                "dd/MM/yyyy",
+                '.',
+                "UTF-8",
+                !append,
+                ';',
+                withAccountColumn
+            )
+            ExportFormat.QIF -> QifExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
+            ExportFormat.JSON -> JSONExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", gson)
+        }
         return exporter.export(
             context,
             lazyFile,
