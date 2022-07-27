@@ -89,7 +89,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                         var selection: String? = null
                         var selectionArgs: Array<String>? = null
                         if (currency != null) {
-                            selection = DatabaseConstants.KEY_CURRENCY + " = ?"
+                            selection = DatabaseConstants.KEY_CURRENCY + " = ? AND " + DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS + " = 0"
                             selectionArgs = arrayOf(currency)
                         }
                         application.contentResolver.query(
