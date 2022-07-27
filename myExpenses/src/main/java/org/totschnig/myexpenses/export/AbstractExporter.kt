@@ -22,6 +22,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 abstract class AbstractExporter
@@ -44,11 +45,13 @@ abstract class AbstractExporter
 
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
 
+    val dateFormatter = DateTimeFormatter.ofPattern(dateFormat)
+
     abstract val format: ExportFormat
 
-    abstract fun header(context: Context, options: Bundle): String?
+    abstract fun header(context: Context): String?
 
-    abstract fun TransactionDTO.marshall(options: Bundle, categoryPaths: Map<Long, List<String>>): String
+    abstract fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String
 
     val categoryTree: MutableMap<Long, Pair<String, Long>> = mutableMapOf()
     val categoryPaths: MutableMap<Long, List<String>> = mutableMapOf()
@@ -117,8 +120,7 @@ abstract class AbstractExporter
                     ?: throw IOException("openOutputStream returned null")).use { outputStream ->
                     OutputStreamWriter(outputStream, encoding).use { out ->
                         cursor.moveToFirst()
-                        val formatter = SimpleDateFormat(dateFormat, Locale.US)
-                        header(context, options)?.let { out.write(it) }
+                        header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
                             val catId = DbUtils.getLongOrNull(cursor, KEY_CATID)
                             val rowId =
@@ -152,11 +154,10 @@ abstract class AbstractExporter
                                 TransactionDTO.fromCursor(
                                     context,
                                     cursor,
-                                    formatter,
                                     account.currencyUnit,
                                     splitCursor,
                                     tagList
-                                ).marshall(options, categoryPaths)
+                                ).marshall(categoryPaths)
                             )
                             splitCursor?.close()
 

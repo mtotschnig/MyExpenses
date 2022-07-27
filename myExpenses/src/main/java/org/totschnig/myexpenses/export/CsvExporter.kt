@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.StringBuilderWrapper
+import java.time.format.DateTimeFormatter
 
 /**
  * @param account          Account to print
@@ -33,17 +34,18 @@ class CsvExporter(
     encoding: String,
     private val withHeader: Boolean,
     private val delimiter: Char,
-    private val withAccountColumn: Boolean
+    private val withAccountColumn: Boolean,
+    private val splitCategoryLevels: Boolean = false,
+    private val splitAmount: Boolean = true,
+    timeFormat: String? = null
 ) :
     AbstractExporter(
         account, filter, notYetExportedP, dateFormat,
         decimalSeparator, encoding
     ) {
-    var numberOfCategoryColumns = 2
+    private val timeFormatter: DateTimeFormatter? = timeFormat?.let { DateTimeFormatter.ofPattern(it)  }
 
-    companion object {
-        const val KEY_SPLIT_CATEGORY_LEVELS = "split_category_levels"
-    }
+    private var numberOfCategoryColumns = 2
 
     override fun export(
         context: Context,
@@ -66,14 +68,21 @@ class CsvExporter(
     }
 
     override val format = ExportFormat.CSV
-    override fun header(context: Context, options: Bundle) = if (withHeader) {
+    override fun header(context: Context) = if (withHeader) {
         val columns = buildList {
             add(context.getString(R.string.split_transaction))
             add(context.getString(R.string.date))
+            if (timeFormatter != null) {
+                add(context.getString(R.string.time))
+            }
             add(context.getString(R.string.payer_or_payee))
-            add(context.getString(R.string.income))
-            add(context.getString(R.string.expense))
-            if (options.getBoolean(KEY_SPLIT_CATEGORY_LEVELS)) {
+            if (splitAmount) {
+                add(context.getString(R.string.income))
+                add(context.getString(R.string.expense))
+            } else {
+                add(context.getString(R.string.amount))
+            }
+            if (splitCategoryLevels) {
                 repeat(numberOfCategoryColumns) {
                     add(context.getString(R.string.category) + " " + (it +1))
                 }
@@ -103,12 +112,9 @@ class CsvExporter(
         }.toString()
     } else null
 
-    private fun TransactionDTO.handleLabel(
-        stringBuilderWrapper: StringBuilderWrapper,
-        splitLevels: Boolean
-    ) {
+    private fun TransactionDTO.handleLabel(stringBuilderWrapper: StringBuilderWrapper) {
         with(stringBuilderWrapper) {
-            if (splitLevels) {
+            if (splitCategoryLevels) {
                 val path = catId?.let { categoryPaths[catId] }
                 repeat(numberOfCategoryColumns) {
                     if (transferAccount != null) {
@@ -125,24 +131,44 @@ class CsvExporter(
         }
     }
 
-    override fun TransactionDTO.marshall(options: Bundle, categoryPaths: Map<Long, List<String>>) =
+    private fun TransactionDTO.handleAmount(stringBuilderWrapper: StringBuilderWrapper) {
+        with(stringBuilderWrapper) {
+            if (splitAmount) {
+                val amountAbsCSV = nfFormat.format(amount.abs())
+                appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
+                append(delimiter)
+                appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
+            } else {
+                appendQ(nfFormat.format(amount))
+            }
+            append(delimiter)
+        }
+    }
+
+    private fun TransactionDTO.handleDateTime(stringBuilderWrapper: StringBuilderWrapper) {
+        with(stringBuilderWrapper) {
+            appendQ(dateFormatter.format(date))
+            append(delimiter)
+            if (timeFormatter != null) {
+                appendQ(timeFormatter.format(date))
+                append(delimiter)
+            }
+        }
+    }
+
+    override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>) =
         StringBuilderWrapper().apply {
             if (withAccountColumn) {
                 appendQ(account.label).append(delimiter)
             }
             val splitIndicator = if (splits != null) SplitTransaction.CSV_INDICATOR else ""
-            val amountAbsCSV = nfFormat.format(amount.abs())
             appendQ(splitIndicator)
             append(delimiter)
-            appendQ(dateStr)
-            append(delimiter)
+            handleDateTime(this)
             appendQ(payee)
             append(delimiter)
-            appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
-            append(delimiter)
-            appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
-            append(delimiter)
-            handleLabel(this, options.getBoolean(KEY_SPLIT_CATEGORY_LEVELS))
+            handleAmount(this)
+            handleLabel(this)
             appendQ(comment)
             append(delimiter)
             appendQ(methodLabel ?: "")
@@ -160,18 +186,13 @@ class CsvExporter(
                     appendQ("").append(delimiter)
                 }
                 with(it) {
-                    val amountAbsCSV = nfFormat.format(amount.abs())
                     appendQ(SplitTransaction.CSV_PART_INDICATOR)
                     append(delimiter)
-                    appendQ(dateStr)
-                    append(delimiter)
+                    handleDateTime(this@apply)
                     appendQ(payee)
                     append(delimiter)
-                    appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
-                    append(delimiter)
-                    appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
-                    append(delimiter)
-                    handleLabel(this@apply, options.getBoolean(KEY_SPLIT_CATEGORY_LEVELS))
+                    handleAmount(this@apply)
+                    handleLabel(this@apply)
                     appendQ(comment)
                     append(delimiter)
                     appendQ("")

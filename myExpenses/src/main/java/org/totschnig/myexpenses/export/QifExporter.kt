@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
-import android.os.Bundle
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
@@ -18,7 +17,7 @@ class QifExporter(
 ) :
     AbstractExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding) {
     override val format = ExportFormat.QIF
-    override fun header(context: Context, options: Bundle) = StringBuilderWrapper().append("!Account\nN")
+    override fun header(context: Context) = StringBuilderWrapper().append("!Account\nN")
         .append(account.label)
         .append("\nT")
         .append(account.type.toQifName())
@@ -26,9 +25,9 @@ class QifExporter(
         .append(account.type.toQifName())
         .append("\n").toString()
 
-    override fun TransactionDTO.marshall(options: Bundle, categoryPaths: Map<Long, List<String>>) = StringBuilderWrapper().apply {
+    override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>) = StringBuilderWrapper().apply {
         append("D")
-            .append(dateStr)
+            .append(dateFormatter.format(date))
             .append("\nT")
             .append(nfFormat.format(amount))
         comment.takeIf { it.isNotEmpty() }?.let {

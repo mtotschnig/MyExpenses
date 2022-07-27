@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
-import android.os.Bundle
 import com.google.gson.Gson
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
@@ -31,9 +30,9 @@ class JSONExporter(
     ) {
     override val format = ExportFormat.JSON
 
-    override fun header(context: Context, options: Bundle) = "["
+    override fun header(context: Context) = "["
 
-    override fun TransactionDTO.marshall(options: Bundle, categoryPaths: Map<Long, List<String>>): String = gson.toJson(this)
+    override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String = gson.toJson(this)
 
     override fun recordDelimiter(isLastLine: Boolean) = if (isLastLine) null else ","
 

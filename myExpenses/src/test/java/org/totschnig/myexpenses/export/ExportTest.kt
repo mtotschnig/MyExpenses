@@ -17,7 +17,7 @@ package org.totschnig.myexpenses.export
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import android.os.Bundle
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
@@ -59,17 +59,17 @@ import java.util.*
 @RunWith(RobolectricTestRunner::class)
 class ExportTest {
     private val openingBalance = 100L
-    private val expense1 = 10L
+    private val expense1 = -10L
 
     //status cleared
-    private val expense2 = 20L
+    private val expense2 = -20L
     private val income1 = 30L
     private val income2 = 40L
     private val transferP = 50L
 
     //status reconciled
     private val transferN = 60L
-    private val expense3 = 100L
+    private val expense3 = -100L
     private val income3 = 100L
     private val split1 = 70L
     private val part1 = 40L
@@ -79,6 +79,7 @@ class ExportTest {
     private var base = Date(117, 11, 15, 12, 0, 0)
     private var baseSinceEpoch = base.time / 1000
     private var date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
+    private var time: String = SimpleDateFormat("HH:mm", Locale.US).format(base)
     private lateinit var outFile: File
 
     @Before
@@ -109,7 +110,7 @@ class ExportTest {
         val cat1Id = writeCategory("Main")
         val cat2Id = writeCategory("Sub", cat1Id)
         val op = Transaction.getNewInstance(account1.id) ?: throw IllegalStateException()
-        op.amount = Money(account1.currencyUnit, -expense1)
+        op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
@@ -119,7 +120,7 @@ class ExportTest {
             TransactionProvider.AUTHORITY,
             saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true)
         )
-        op.amount = (Money(account1.currencyUnit, -expense2))
+        op.amount = (Money(account1.currencyUnit, expense2))
         op.catId = cat1Id
         op.payee = "N.N."
         op.crStatus = CrStatus.UNRECONCILED
@@ -174,7 +175,7 @@ class ExportTest {
 
     private fun insertData2(account: Account) {
         with (Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
-            amount = Money(account.currencyUnit, -expense3)
+            amount = Money(account.currencyUnit, expense3)
             methodId = PaymentMethod.find("CHEQUE")
             comment = "Expense inserted after first export"
             referenceNumber = "3"
@@ -207,7 +208,7 @@ class ExportTest {
         if (op == null) {
             throw IllegalStateException()
         }
-        op.amount = Money(account1.currencyUnit, -expense1)
+        op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
@@ -217,7 +218,7 @@ class ExportTest {
         if (op == null) {
             throw IllegalStateException()
         }
-        op.amount = Money(account1.currencyUnit, -expense1)
+        op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
@@ -245,6 +246,7 @@ class ExportTest {
             saveAsNew()
             catId = null
             date = baseSinceEpoch + 3
+            amount = Money(account.currencyUnit, expense1)
             saveAsNew()
         }
         with(Transfer.getNewInstance(account.id, transferAccount.id)
@@ -571,23 +573,34 @@ class ExportTest {
     @Test
     fun testSplitCategoryLevels() {
         val linesCSV = arrayOf(
-            csvHeader(';', false, 3),
-            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"A\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"A\";\"B\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"A\";\"B\";\"C\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"\";\"$date\";\"\";\"0.30\";\"0\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"\";\"$date\";\"\";\"0.50\";\"0\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\""
+            csvHeader(';', false, 3, false, true),
+            "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"B\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"B\";\"C\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"-0.10\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"0.50\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\""
         )
         try {
             expect.that(
-                exportAll(
+                CsvExporter(
                     insertData4(),
-                    ExportFormat.CSV,
-                    notYetExportedP = false,
-                    append = false,
-                    withAccountColumn = false,
-                    options = Bundle().apply { putBoolean(CsvExporter.KEY_SPLIT_CATEGORY_LEVELS, true) }
-                ).isSuccess
+                    null,
+                    false,
+                    "dd/MM/yyyy",
+                    '.',
+                    "UTF-8",
+                    true,
+                    ';',
+                    false,
+                    splitCategoryLevels = true,
+                    splitAmount = false,
+                    timeFormat = "HH:mm"
+                )
+                    .export(
+                        context,
+                        lazy { Result.success(DocumentFile.fromFile(outFile)) },
+                        false
+                    ).isSuccess
             ).isTrue()
             compare(linesCSV)
         } catch (e: IOException) {
@@ -610,14 +623,26 @@ class ExportTest {
         }
     }
 
-    private fun csvHeader(separator: Char, withAccountColumn: Boolean, numberOfCategoryColumns: Int? = null): String {
+    private fun csvHeader(
+        separator: Char,
+        withAccountColumn: Boolean,
+        numberOfCategoryColumns: Int? = null,
+        splitAmount: Boolean = true,
+        splitDateTime: Boolean = false
+    ): String {
         val sb = StringBuilder()
         val columns = buildList {
             add(context.getString(R.string.split_transaction))
             add(context.getString(R.string.date))
+            if (splitDateTime)
+            add(context.getString(R.string.time))
             add(context.getString(R.string.payer_or_payee))
-            add(context.getString(R.string.income))
-            add(context.getString(R.string.expense))
+            if (splitAmount) {
+                add(context.getString(R.string.income))
+                add(context.getString(R.string.expense))
+            } else {
+                add(context.getString(R.string.amount))
+            }
             if (numberOfCategoryColumns != null) {
                 repeat(numberOfCategoryColumns) {
                     add(context.getString(R.string.category) + " " + (it +1))
@@ -652,9 +677,8 @@ class ExportTest {
         format: ExportFormat,
         notYetExportedP: Boolean,
         append: Boolean,
-        withAccountColumn: Boolean,
-        options: Bundle = Bundle()
-    ): Result<*> {
+        withAccountColumn: Boolean
+    ): Result<Uri> {
         val exporter = if (format == ExportFormat.CSV) CsvExporter(
             account,
             null,
@@ -669,8 +693,7 @@ class ExportTest {
         return exporter.export(
             context,
             lazyFile,
-            append,
-            options
+            append
         )
     }
 

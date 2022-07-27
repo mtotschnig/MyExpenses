@@ -40,6 +40,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
     companion object {
         const val KEY_FORMAT = "format"
         const val KEY_DATE_FORMAT = "dateFormat"
+        const val KEY_TIME_FORMAT = "timeFormat"
         const val KEY_ENCODING = "encoding"
         const val KEY_DECIMAL_SEPARATOR = "export_decimal_separator"
         const val KEY_NOT_YET_EXPORTED_P = "notYetExportedP"
@@ -69,6 +70,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val notYetExportedP = args.getBoolean(KEY_NOT_YET_EXPORTED_P)
                     val mergeP = args.getBoolean(KEY_MERGE_P)
                     val dateFormat = args.getString(KEY_DATE_FORMAT)!!
+                    val timeFormat = args.getString(KEY_TIME_FORMAT)
                     val decimalSeparator: Char = args.getChar(KEY_DECIMAL_SEPARATOR)
                     val accountId = args.getLong(DatabaseConstants.KEY_ROWID)
                     val currency = args.getString(DatabaseConstants.KEY_CURRENCY)
@@ -139,7 +141,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             encoding,
                                             !append,
                                             delimiter,
-                                            mergeP
+                                            mergeP,
+                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_CATEGORIES, false),
+                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_AMOUNT, true),
+                                            timeFormat
                                         )
                                         ExportFormat.QIF -> QifExporter(
                                             account,

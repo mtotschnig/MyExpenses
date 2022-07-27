@@ -255,4 +255,9 @@
     <string name="pref_exchange_rates_clear_cache_key">exchange_rates_clear_cache</string>
     <string name="pref_debug_repair_987_key">debug_repair_987</string>
     <string name="button_label_repair">Repair</string>
+    <string name="pref_csv_export_key">csv_export</string>
+    <string name="pref_csv_export_split_categories_key">csv_export_split_categories</string>
+    <string name="pref_csv_export_split_amount_key">csv_export_split_amount</string>
+    <string name="pref_csv_export_split_date_time_key">csv_export_split_date_time</string>
+    <string name="date_format_a">am/pm</string>
 </resources>

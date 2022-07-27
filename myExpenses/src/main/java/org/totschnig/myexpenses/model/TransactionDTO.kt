@@ -9,13 +9,15 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
 import java.util.*
 
 @Keep
 data class TransactionDTO(
-    val dateStr: String,
+    val date: ZonedDateTime,
     val payee: String,
     val amount: BigDecimal,
     val catId: Long?,
@@ -29,6 +31,8 @@ data class TransactionDTO(
     val splits: List<TransactionDTO>?
 ) {
 
+
+
     fun fullLabel(categoryPaths: Map<Long, List<String>>) =
         transferAccount?.let { "[$it]" } ?: catId?.let { cat ->
             categoryPaths[cat]?.joinToString(":") { label ->
@@ -38,7 +42,7 @@ data class TransactionDTO(
 
     companion object {
         fun fromCursor(
-            context: Context, cursor: Cursor, formatter: SimpleDateFormat,
+            context: Context, cursor: Cursor,
             currencyUnit: CurrencyUnit, splitCursor: Cursor?, tagList: String?,
             isPart: Boolean = false
         ): TransactionDTO {
@@ -46,13 +50,8 @@ data class TransactionDTO(
             val readCat = splitCursor?.takeIf { it.moveToFirst() } ?: cursor
 
             return TransactionDTO(
-                formatter.format(
-                    Date(
-                        cursor.getLong(
-                            cursor.getColumnIndexOrThrow(KEY_DATE)
-                        ) * 1000
-                    )
-                ),
+                epoch2ZonedDateTime(cursor.getLong(
+                    cursor.getColumnIndexOrThrow(KEY_DATE))),
                 DbUtils.getString(cursor, KEY_PAYEE_NAME),
                 Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)))
                     .amountMajor,
@@ -75,7 +74,6 @@ data class TransactionDTO(
                                 fromCursor(
                                     context,
                                     it,
-                                    formatter,
                                     currencyUnit,
                                     null,
                                     null,

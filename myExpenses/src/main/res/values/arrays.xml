@@ -608,6 +608,7 @@
         <item>d</item>
         <item>H</item>
         <item>m</item>
+        <item>a</item>
     </string-array>
 
     <string-array name="help_ExportDialog_date_format_components">
@@ -616,6 +617,7 @@
         <item>@string/grouping_day</item>
         <item>@string/date_format_hour</item>
         <item>@string/date_format_minute</item>
+        <item>@string/date_format_a</item>
     </string-array>
 
     <string-array name="pref_auto_fill_account_entries">
