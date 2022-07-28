@@ -24,6 +24,7 @@
     <string name="add_widget">"Dodavanje widgeta"</string>
     <string name="calendar">"Kalendar"</string>
     <string name="permissions_label">"Dopuštenja"</string>
+    <string name="time_format">"Format vremena"</string>
     <string name="setup">"Postavljanje"</string>
     <string name="clear_cache">"Isprazni predmemoriju"</string>
 </resources>

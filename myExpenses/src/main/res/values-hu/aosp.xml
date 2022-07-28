@@ -23,6 +23,7 @@
     <string name="add_widget">"Modul hozzáadása"</string>
     <string name="calendar">"Naptár"</string>
     <string name="permissions_label">"Engedélyek"</string>
+    <string name="time_format">"Időformátum"</string>
     <string name="setup">"Beállítás"</string>
     <string name="clear_cache">"A gyorsítótár törlése"</string>
 </resources>

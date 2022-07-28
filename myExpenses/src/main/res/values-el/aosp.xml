@@ -23,6 +23,7 @@
     <string name="add_widget">"Προσθήκη γραφικού στοιχείου"</string>
     <string name="calendar">"Ημερολόγιο"</string>
     <string name="permissions_label">"Άδειες"</string>
+    <string name="time_format">"Μορφή ώρας"</string>
     <string name="setup">"Ρύθμιση"</string>
     <string name="clear_cache">"Εκκαθάριση προσωρινής μνήμης"</string>
 </resources>

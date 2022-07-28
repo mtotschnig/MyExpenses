@@ -19,6 +19,7 @@
     <string name="add_widget">"විජටය එක් කරන්න"</string>
     <string name="calendar">"දින දර්ශනය"</string>
     <string name="permissions_label">"අවසර"</string>
+    <string name="time_format">"වේලා ආකෘතිය:"</string>
     <string name="setup">"පිහිටුවීම"</string>
     <string name="clear_cache">"හැඹිලිය හිස් කරන්න"</string>
 </resources>

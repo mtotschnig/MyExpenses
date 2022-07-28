@@ -23,6 +23,7 @@
     <string name="add_widget">"Thêm tiện ích"</string>
     <string name="calendar">"Lịch"</string>
     <string name="permissions_label">"Quyền"</string>
+    <string name="time_format">"Định dạng thời gian"</string>
     <string name="setup">"Thiết lập"</string>
     <string name="clear_cache">"Xóa bộ nhớ đệm"</string>
 </resources>

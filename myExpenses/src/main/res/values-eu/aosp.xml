@@ -24,6 +24,7 @@
     <string name="add_widget">"Gehitu widgeta"</string>
     <string name="calendar">"Egutegia"</string>
     <string name="permissions_label">"Baimenak"</string>
+    <string name="time_format">"Ordu-formatua"</string>
     <string name="setup">"Konfigurazioa"</string>
     <string name="clear_cache">"Garbitu cachea"</string>
 </resources>

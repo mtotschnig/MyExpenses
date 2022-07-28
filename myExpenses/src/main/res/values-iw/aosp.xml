@@ -24,6 +24,7 @@
     <string name="add_widget">"הוספת ווידג\'ט"</string>
     <string name="calendar">"יומן"</string>
     <string name="permissions_label">"הרשאות"</string>
+    <string name="time_format">"פורמט זמן"</string>
     <string name="setup">"הגדרה"</string>
     <string name="clear_cache">"ניקוי המטמון"</string>
 </resources>
