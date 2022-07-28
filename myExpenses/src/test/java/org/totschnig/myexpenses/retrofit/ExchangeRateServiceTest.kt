@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.retrofit
 
 import com.google.common.truth.Truth
+import org.junit.Assume
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.totschnig.myexpenses.BuildConfig
@@ -23,6 +24,7 @@ class ExchangeRateServiceTest {
 
     @Test
     fun openExchangeRateIsAlive() {
+        Assume.assumeFalse(BuildConfig.OPEN_EXCHANGE_RATES_API_KEY.isEmpty())
         val configuration = Configuration(ExchangeRateSource.OPENEXCHANGERATES, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY)
         val rate = service.getRate(configuration, date, "USD", "EUR")
         Truth.assertThat(rate.first).isEqualTo(date)
