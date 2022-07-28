@@ -52,7 +52,7 @@ class JSONExporter(
     override val format = ExportFormat.JSON
 
     override fun header(context: Context) =
-        "$preamble{\"label\":${gson.toJson(account.label)},\"currency\":${gson.toJson(account.currency.code)},\"openingBalance\":${gson.toJson(account.openingBalance.amountMajor)},\"transactions\": ["
+        "$preamble{\"uuid\":${gson.toJson(account.uuid)},\"label\":${gson.toJson(account.label)},\"currency\":${gson.toJson(account.currency.code)},\"openingBalance\":${gson.toJson(account.openingBalance.amountMajor)},\"transactions\": ["
 
     override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String =
         gson.toJson(convert(this))
@@ -63,6 +63,7 @@ class JSONExporter(
 
     private fun convert(dto: TransactionDTO) : Transaction = with(dto) {
         Transaction(
+            uuid = uuid,
             date = date,
             payee = payee,
             amount = amount,
@@ -80,15 +81,8 @@ class JSONExporter(
 }
 
 @Keep
-data class Account(
-    val label: String,
-    val currency: String,
-    val openingBalance: BigDecimal,
-    val transactions: List<Transaction>
-)
-
-@Keep
 data class Transaction(
+    val uuid: String,
     val date: ZonedDateTime,
     val payee: String?,
     val amount: BigDecimal,

@@ -74,6 +74,7 @@ abstract class AbstractExporter
             selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         val projection = arrayOf(
+            KEY_UUID,
             KEY_ROWID,
             KEY_CATID,
             KEY_DATE,

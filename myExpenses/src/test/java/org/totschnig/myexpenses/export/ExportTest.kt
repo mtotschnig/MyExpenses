@@ -78,11 +78,12 @@ class ExportTest {
     private val part2 = 30L
 
     @Suppress("DEPRECATION")
-    private var base = Date(117, 11, 15, 12, 0, 0)
-    private var baseSinceEpoch = base.time / 1000
-    private var date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
-    private var time: String = SimpleDateFormat("HH:mm", Locale.US).format(base)
+    private val base = Date(117, 11, 15, 12, 0, 0)
+    private val baseSinceEpoch = base.time / 1000
+    private val date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
+    private val time: String = SimpleDateFormat("HH:mm", Locale.US).format(base)
     private lateinit var outFile: File
+    private val uuidList: MutableList<String> = mutableListOf()
 
     @Before
     fun setUp() {
@@ -120,6 +121,7 @@ class ExportTest {
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
         op.save()
+        uuidList.add(op.uuid!!)
         context.contentResolver.applyBatch(
             TransactionProvider.AUTHORITY,
             saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true)
@@ -131,6 +133,7 @@ class ExportTest {
         op.referenceNumber = "2"
         op.date = baseSinceEpoch + 1
         op.saveAsNew()
+        uuidList.add(op.uuid!!)
         op.amount = Money(account1.currencyUnit, income1)
         op.catId = cat2Id
         op.payee = null
@@ -138,6 +141,7 @@ class ExportTest {
         op.referenceNumber = null
         op.date = baseSinceEpoch + 2
         op.saveAsNew()
+        uuidList.add(op.uuid!!)
         val contentValues = ContentValues(1)
         contentValues.put(DatabaseConstants.KEY_PICTURE_URI, "file://sdcard/picture.png")
         context.contentResolver.update(
@@ -150,16 +154,19 @@ class ExportTest {
         op.comment = "Note for myself with \"quote\""
         op.date = baseSinceEpoch + 3
         op.saveAsNew()
+        uuidList.add(op.uuid!!)
         val transfer = Transfer.getNewInstance(account1.id, account2.id)
             ?: throw IllegalStateException()
         transfer.setAmount(Money(account1.currencyUnit, transferP))
         transfer.crStatus = CrStatus.RECONCILED
         transfer.date = baseSinceEpoch + 4
         transfer.save()
+        uuidList.add(transfer.uuid!!)
         transfer.crStatus = CrStatus.UNRECONCILED
         transfer.setAmount(Money(account1.currencyUnit, -transferN))
         transfer.date = baseSinceEpoch + 5
         transfer.saveAsNew()
+        uuidList.add(transfer.uuid!!)
         val split = SplitTransaction.getNewInstance(account1.id) ?: throw IllegalStateException()
         split.amount = Money(account1.currencyUnit, split1)
         split.date = baseSinceEpoch + 6
@@ -169,15 +176,18 @@ class ExportTest {
         part.catId = cat1Id
         part.status = DatabaseConstants.STATUS_UNCOMMITTED
         part.save()
+        uuidList.add(part.uuid!!)
         part.amount = Money(account1.currencyUnit, part2)
         part.catId = cat2Id
         part.saveAsNew()
+        uuidList.add(part.uuid!!)
         context.contentResolver.applyBatch(
             TransactionProvider.AUTHORITY,
             saveTagLinks(listOf(tag1Id, tag2Id), part.id, null, true)
         )
         split.status = DatabaseConstants.STATUS_NONE
         split.save(true)
+        uuidList.add(split.uuid!!)
         return account1
     }
 
@@ -368,9 +378,10 @@ class ExportTest {
     @Test
     fun testExportJson() {
         try {
+            val account = insertData1()
             expect.that(
                 exportAll(
-                    insertData1(),
+                    account,
                     ExportFormat.JSON,
                     notYetExportedP = false,
                     append = false,
@@ -380,7 +391,7 @@ class ExportTest {
             expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
                 JsonParser.parseString(
                     """
-{"label":"Account 1","currency":"USD","openingBalance":1.00,"transactions":[{"date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":"Main","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"date":"15/12/2017","amount":0.30,"category":"Main:Sub","status":"UNRECONCILED","pictureFileName":"picture.png"},{"date":"15/12/2017","amount":0.40,"category":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"date":"15/12/2017","amount":0.70,"category":"Main","status":"UNRECONCILED","splits":[{"date":"15/12/2017","amount":0.40,"category":"Main"},{"date":"15/12/2017","amount":0.30,"category":"Main:Sub","tags":["Tag One","Tags, Tags, Tags"]}]}]}
+{"uuid":"${account.uuid}","label":"Account 1","currency":"USD","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":"Main","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub","status":"UNRECONCILED","pictureFileName":"picture.png"},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","amount":0.70,"category":"Main","status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":"Main"},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub","tags":["Tag One","Tags, Tags, Tags"]}]}]}
                          """
                 )
             )

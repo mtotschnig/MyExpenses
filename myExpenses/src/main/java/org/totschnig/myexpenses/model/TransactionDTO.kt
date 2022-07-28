@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
@@ -14,6 +15,7 @@ import java.math.BigDecimal
 import java.time.ZonedDateTime
 
 data class TransactionDTO(
+    val uuid: String,
     val date: ZonedDateTime,
     val payee: String?,
     val amount: BigDecimal,
@@ -66,6 +68,7 @@ data class TransactionDTO(
             )?.use { tagCursor -> tagCursor.asSequence.map { it.getString(0) }.toList() }?.takeIf { it.isNotEmpty() }
 
             return TransactionDTO(
+                cursor.getString(KEY_UUID),
                 epoch2ZonedDateTime(cursor.getLong(
                     cursor.getColumnIndexOrThrow(KEY_DATE))),
                 cursor.getStringOrNull(KEY_PAYEE_NAME),
