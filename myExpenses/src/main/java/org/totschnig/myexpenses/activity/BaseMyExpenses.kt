@@ -192,7 +192,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 exportViewModel.publishProgress.collect { progress ->
                     progress?.let {
                         progressDialogFragment?.appendToMessage(progress)
-                        exportViewModel.messageShown()
                     }
                 }
             }

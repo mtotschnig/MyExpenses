@@ -169,6 +169,7 @@
             <TableRow android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/DateFormatLabel"
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
                     android:text="@string/date_format" />
@@ -177,6 +178,14 @@
 
                     <EditText
                         android:id="@+id/date_format"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="text"
+                        tools:ignore="TextFields" />
+
+                    <EditText
+                        android:id="@+id/time_format"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

@@ -23,6 +23,7 @@
     <string name="add_widget">"Добавить виджет"</string>
     <string name="calendar">"Календарь"</string>
     <string name="permissions_label">"Разрешения"</string>
+    <string name="time_format">"Формат времени"</string>
     <string name="setup">"Настройка"</string>
     <string name="clear_cache">"Очистить кеш"</string>
 </resources>

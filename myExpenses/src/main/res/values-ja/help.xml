@@ -118,7 +118,7 @@
   <string name="menu_up_help_text">現在のフォルダーの親に移動します。</string>
   <string name="help_ManageStaleImages_info">この画面は、削除された取引から残っている画像ファイルを扱うことができます。エントリー上で長押しして、削除するか、または (おそらく内部) ストレージフォルダーから、外部ストレージのバックアップフォルダー (Android/data/org.totschnig.mxexpenses/files/images.old) に移動します。</string>
   <string name="help_CsvImportActivity_info"><![CDATA[インポートしたいファイルを選択した後、ファイルのエンコード (UTF-8 または ISO-8859-1)、フィールドの区切り文字 (カンマ、セミコロン、またはタブ) 、そして日付の書式を設定する必要があります。データは、既存または新しい勘定にインポートすることができ、通貨と勘定の種類を設定することができます。<br><br>アクションバーから解析ボタンを押した後、テーブルにデータが表示されます。アクションバーにあるボタンからインポートを実行する前に、破棄したい行を選択することができ、対応するデータフィールドに列をマップする必要があります。<br><br>最初の行を破棄するとき、ヘッダー行として扱うべきかを訊ねられます。この場合、<i>マイ エクスペンス</i> は自動的にヘッダーセルの内容に基づいて列をマップしようとします。また、ヘッダー行に基づいたマッピングを記憶し、次回同じヘッダー形式でファイルをインポートするときに、それを復元します。]]></string>
-  <string name="help_ExportDialog_date_format"><![CDATA[テキストが解釈されるのを避けるために単一引用符 (\') で囲むことができます。 \'\' (2 つの単一引用符) は、単一引用符を表します。 さらに詳細は、すべての <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">仕様</a> を参照するか、 support@myexpenses.mobi にご連絡ください。]]></string>
+  <string name="help_ExportDialog_date_format"><![CDATA[テキストが解釈されるのを避けるために単一引用符 (\') で囲むことができます。 \'\' (2 つの単一引用符) は、単一引用符を表します。 さらに詳細は、すべての <a href="%s">仕様</a> を参照するか、 support@myexpenses.mobi にご連絡ください。]]></string>
   <string name="help_NavigationDrawer_info">勘定リストは、エントリをクリックするだけで、簡単に勘定間を移動することができます。</string>
   <string name="menu_create_account_help_text">新しい勘定を作成します。無料版は5つの勘定に制限されています。</string>
   <string name="menu_NavigationDrawer_sort_help_text">勘定のリストは、タイトル (アルファベット順)、使用頻度、または取引が作成された最後の時間によってソートすることができます。</string>

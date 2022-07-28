@@ -37,6 +37,8 @@
     <string name="calendar">Calendar</string>
     <!-- platform_packages_apps_settings/res/values/strings.xml -->
     <string name="permissions_label">Permissions</string>
+    <!-- name = time_format_category_title -->
+    <string name="time_format">Time format</string>
     <!-- MusicFX -->
     <string name="setup">"Setup"</string>
     <!-- platform_packages_apps_settings/res/values/strings.xml name="clear_cache_btn_text" -->

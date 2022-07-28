@@ -4,18 +4,23 @@ import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.fullLabel
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.format.DateTimeFormatter
 
 abstract class AbstractExporter
 /**
@@ -34,21 +39,31 @@ abstract class AbstractExporter
     private val decimalSeparator: Char,
     private val encoding: String
 ) {
+
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
+
+    val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat)
 
     abstract val format: ExportFormat
 
     abstract fun header(context: Context): String?
 
-    abstract fun TransactionDTO.marshall(): String
+    abstract fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String
+
+    val categoryTree: MutableMap<Long, Pair<String, Long>> = mutableMapOf()
+    val categoryPaths: MutableMap<Long, List<String>> = mutableMapOf()
 
     @Throws(IOException::class)
-    fun export(
+    open fun export(
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
         append: Boolean
     ): Result<Uri> {
         Timber.i("now starting export")
+        context.contentResolver.query(TransactionProvider.CATEGORIES_URI,
+            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID), null, null, null)?.asSequence?.forEach {
+            categoryTree[it.getLong(0)] = it.getString(1) to it.getLong(2)
+        }
         //first we check if there are any exportable transactions
         var selection =
             "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null"
@@ -59,6 +74,7 @@ abstract class AbstractExporter
             selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         val projection = arrayOf(
+            KEY_UUID,
             KEY_ROWID,
             KEY_CATID,
             KEY_DATE,
@@ -69,8 +85,7 @@ abstract class AbstractExporter
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_PICTURE_URI,
-            KEY_TRANSFER_PEER,
-            fullLabel(":")
+            TRANSFER_ACCOUNT_LABEL
         )
         return context.contentResolver.query(
             Transaction.EXTENDED_URI,
@@ -80,53 +95,38 @@ abstract class AbstractExporter
             if (cursor.count == 0) {
                 Result.failure(Exception(context.getString(R.string.no_exportable_expenses)))
             } else {
+                cursor.asSequence.forEach {
+                    val categoryId = it.getLong(KEY_CATID)
+                    categoryPaths.computeIfAbsent(categoryId) {
+                        var catId: Long? = categoryId
+                        buildList {
+                            while (catId != null) {
+                                val pair = categoryTree[catId]
+                                catId = if (pair == null) {
+                                    null
+                                } else {
+                                    add(pair.first)
+                                    pair.second
+                                }
+                            }
+                        }.reversed()
+                    }
+                }
                 val uri = outputStream.value.getOrThrow().uri
                 (context.contentResolver.openOutputStream(uri, if (append) "wa" else "w")
                     ?: throw IOException("openOutputStream returned null")).use { outputStream ->
                     OutputStreamWriter(outputStream, encoding).use { out ->
                         cursor.moveToFirst()
-                        val formatter = SimpleDateFormat(dateFormat, Locale.US)
                         header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
-                            val catId = DbUtils.getLongOrNull(cursor, KEY_CATID)
-                            val rowId =
-                                cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-                            val isSplit = SPLIT_CATID == catId
-                            val splitCursor = if (isSplit) context.contentResolver.query(
-                                Transaction.CONTENT_URI,
-                                projection,
-                                "$KEY_PARENTID = ?",
-                                arrayOf(rowId.toString()),
-                                null
-                            ) else null
-                            val tagList = context.contentResolver.query(
-                                TransactionProvider.TRANSACTIONS_TAGS_URI,
-                                arrayOf(KEY_LABEL),
-                                "$KEY_TRANSACTIONID = ?",
-                                arrayOf(rowId.toString()),
-                                null
-                            )?.use { tagCursor ->
-                                if (tagCursor.moveToFirst())
-                                    sequence {
-                                        while (!tagCursor.isAfterLast) {
-                                            yield(tagCursor.getString(0).let {
-                                                if (it.contains(',')) "'$it'" else it
-                                            })
-                                            tagCursor.moveToNext()
-                                        }
-                                    }.joinToString(", ") else null
-                            } ?: ""
                             out.write(
                                 TransactionDTO.fromCursor(
                                     context,
                                     cursor,
-                                    formatter,
-                                    account.currencyUnit,
-                                    splitCursor,
-                                    tagList
-                                ).marshall()
+                                    projection,
+                                    account.currencyUnit
+                                ).marshall(categoryPaths)
                             )
-                            splitCursor?.close()
 
                             recordDelimiter(cursor.position == cursor.count - 1)?.let { out.write(it) }
 

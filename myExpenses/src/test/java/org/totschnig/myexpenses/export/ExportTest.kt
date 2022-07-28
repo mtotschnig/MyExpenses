@@ -17,10 +17,10 @@ package org.totschnig.myexpenses.export
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
-import com.google.gson.Gson
 import com.google.gson.JsonParser
 import org.apache.commons.text.translate.UnicodeEscaper
 import org.junit.Before
@@ -29,7 +29,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
@@ -62,27 +61,29 @@ import java.util.*
 @RunWith(RobolectricTestRunner::class)
 class ExportTest {
     private val openingBalance = 100L
-    private val expense1 = 10L
+    private val expense1 = -10L
 
     //status cleared
-    private val expense2 = 20L
+    private val expense2 = -20L
     private val income1 = 30L
     private val income2 = 40L
     private val transferP = 50L
 
     //status reconciled
     private val transferN = 60L
-    private val expense3 = 100L
+    private val expense3 = -100L
     private val income3 = 100L
     private val split1 = 70L
     private val part1 = 40L
     private val part2 = 30L
 
     @Suppress("DEPRECATION")
-    private var base = Date(117, 11, 15, 12, 0, 0)
-    private var baseSinceEpoch = base.time / 1000
-    private var date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
+    private val base = Date(117, 11, 15, 12, 0, 0)
+    private val baseSinceEpoch = base.time / 1000
+    private val date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
+    private val time: String = SimpleDateFormat("HH:mm", Locale.US).format(base)
     private lateinit var outFile: File
+    private val uuidList: MutableList<String> = mutableListOf()
 
     @Before
     fun setUp() {
@@ -92,14 +93,13 @@ class ExportTest {
     private val context: Context
         get() = ApplicationProvider.getApplicationContext()
 
-    private val gson: Gson
-        get() = (context as MyApplication).appComponent.gson()
-
     private val repository: Repository
-        get() = Repository(context,
+        get() = Repository(
+            context,
             Mockito.mock(CurrencyContext::class.java),
             Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java))
+            Mockito.mock(PrefHandler::class.java)
+        )
 
     @get:Rule
     val expect: Expect = Expect.create()
@@ -110,31 +110,30 @@ class ExportTest {
     private fun insertData1(): Account {
         val tag1Id = write("Tag One")
         val tag2Id = write("Tags, Tags, Tags")
-        val account1 = Account("Account 1", openingBalance, "Account 1")
-        account1.type = AccountType.BANK
-        account1.save()
-        val account2 = Account("Account 2", openingBalance, "Account 2")
-        account2.save()
+        val account1 = buildAccount1()
+        val account2 = buildAccount2()
         val cat1Id = writeCategory("Main")
         val cat2Id = writeCategory("Sub", cat1Id)
         val op = Transaction.getNewInstance(account1.id) ?: throw IllegalStateException()
-        op.amount = Money(account1.currencyUnit, -expense1)
+        op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
         op.save()
+        uuidList.add(op.uuid!!)
         context.contentResolver.applyBatch(
             TransactionProvider.AUTHORITY,
             saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true)
         )
-        op.amount = (Money(account1.currencyUnit, -expense2))
+        op.amount = (Money(account1.currencyUnit, expense2))
         op.catId = cat1Id
         op.payee = "N.N."
         op.crStatus = CrStatus.UNRECONCILED
         op.referenceNumber = "2"
         op.date = baseSinceEpoch + 1
         op.saveAsNew()
+        uuidList.add(op.uuid!!)
         op.amount = Money(account1.currencyUnit, income1)
         op.catId = cat2Id
         op.payee = null
@@ -142,6 +141,7 @@ class ExportTest {
         op.referenceNumber = null
         op.date = baseSinceEpoch + 2
         op.saveAsNew()
+        uuidList.add(op.uuid!!)
         val contentValues = ContentValues(1)
         contentValues.put(DatabaseConstants.KEY_PICTURE_URI, "file://sdcard/picture.png")
         context.contentResolver.update(
@@ -154,16 +154,19 @@ class ExportTest {
         op.comment = "Note for myself with \"quote\""
         op.date = baseSinceEpoch + 3
         op.saveAsNew()
+        uuidList.add(op.uuid!!)
         val transfer = Transfer.getNewInstance(account1.id, account2.id)
             ?: throw IllegalStateException()
         transfer.setAmount(Money(account1.currencyUnit, transferP))
         transfer.crStatus = CrStatus.RECONCILED
         transfer.date = baseSinceEpoch + 4
         transfer.save()
+        uuidList.add(transfer.uuid!!)
         transfer.crStatus = CrStatus.UNRECONCILED
         transfer.setAmount(Money(account1.currencyUnit, -transferN))
         transfer.date = baseSinceEpoch + 5
         transfer.saveAsNew()
+        uuidList.add(transfer.uuid!!)
         val split = SplitTransaction.getNewInstance(account1.id) ?: throw IllegalStateException()
         split.amount = Money(account1.currencyUnit, split1)
         split.date = baseSinceEpoch + 6
@@ -173,43 +176,57 @@ class ExportTest {
         part.catId = cat1Id
         part.status = DatabaseConstants.STATUS_UNCOMMITTED
         part.save()
+        uuidList.add(part.uuid!!)
         part.amount = Money(account1.currencyUnit, part2)
         part.catId = cat2Id
         part.saveAsNew()
+        uuidList.add(part.uuid!!)
+        context.contentResolver.applyBatch(
+            TransactionProvider.AUTHORITY,
+            saveTagLinks(listOf(tag1Id, tag2Id), part.id, null, true)
+        )
         split.status = DatabaseConstants.STATUS_NONE
         split.save(true)
+        uuidList.add(split.uuid!!)
         return account1
     }
 
     private fun insertData2(account: Account) {
-        val op = Transaction.getNewInstance(account.id) ?: throw IllegalStateException()
-        op.amount = Money(account.currencyUnit, -expense3)
-        op.methodId = PaymentMethod.find("CHEQUE")
-        op.comment = "Expense inserted after first export"
-        op.referenceNumber = "3"
-        op.date = baseSinceEpoch
-        op.save()
-        op.amount = Money(account.currencyUnit, income3)
-        op.comment = "Income inserted after first export"
-        op.payee = "N.N."
-        op.methodId = null
-        op.referenceNumber = null
-        op.date = baseSinceEpoch + 1
-        op.saveAsNew()
+        with(Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+            amount = Money(account.currencyUnit, expense3)
+            methodId = PaymentMethod.find("CHEQUE")
+            comment = "Expense inserted after first export"
+            referenceNumber = "3"
+            date = baseSinceEpoch
+            save()
+            amount = Money(account.currencyUnit, income3)
+            comment = "Income inserted after first export"
+            payee = "N.N."
+            methodId = null
+            referenceNumber = null
+            date = baseSinceEpoch + 1
+            saveAsNew()
+        }
+    }
+
+    private fun buildAccount1() = Account("Account 1", openingBalance, "Account 1").apply {
+        type = AccountType.BANK
+        save()
+    }
+
+    private fun buildAccount2() = Account("Account 2", openingBalance, "Account 2").apply {
+        save()
     }
 
     private fun insertData3(): Pair<Account, Account> {
         var op: Transaction?
-        val account1 = Account("Account 1", openingBalance, "Account 1")
-        account1.type = AccountType.BANK
-        account1.save()
-        val account2 = Account("Account 2", openingBalance, "Account 2")
-        account2.save()
+        val account1 = buildAccount1()
+        val account2 = buildAccount2()
         op = Transaction.getNewInstance(account1.id)
         if (op == null) {
             throw IllegalStateException()
         }
-        op.amount = Money(account1.currencyUnit, -expense1)
+        op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
@@ -219,14 +236,48 @@ class ExportTest {
         if (op == null) {
             throw IllegalStateException()
         }
-        op.amount = Money(account1.currencyUnit, -expense1)
+        op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
         op.save()
-        return Pair(account1, account2)
+        return account1 to account2
     }
+
+    private fun insertData4(): Account {
+        val account = buildAccount1()
+        val transferAccount = buildAccount2()
+        val cat1Id = writeCategory("A")
+        val cat2Id = writeCategory("B", cat1Id)
+        val cat3Id = writeCategory("C", cat2Id)
+        with(Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+            amount = Money(account.currencyUnit, income1)
+            date = baseSinceEpoch
+            catId = cat1Id
+            save()
+            catId = cat2Id
+            date = baseSinceEpoch + 1
+            saveAsNew()
+            catId = cat3Id
+            date = baseSinceEpoch + 2
+            saveAsNew()
+            catId = null
+            date = baseSinceEpoch + 3
+            amount = Money(account.currencyUnit, expense1)
+            saveAsNew()
+        }
+        with(
+            Transfer.getNewInstance(account.id, transferAccount.id)
+                ?: throw IllegalStateException()
+        ) {
+            setAmount(Money(account.currencyUnit, transferP))
+            date = baseSinceEpoch + 4
+            save()
+        }
+        return account
+    }
+
 
     @Test
     fun testExportQIF() {
@@ -306,7 +357,7 @@ class ExportTest {
             "\"\";\"$date\";\"\";\"0\";\"0.60\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"\""
+            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"Tag One, 'Tags, Tags, Tags'\""
         )
         try {
             expect.that(
@@ -327,20 +378,22 @@ class ExportTest {
     @Test
     fun testExportJson() {
         try {
+            val account = insertData1()
             expect.that(
                 exportAll(
-                    insertData1(),
+                    account,
                     ExportFormat.JSON,
                     notYetExportedP = false,
                     append = false,
                     withAccountColumn = false
                 ).isSuccess
             ).isTrue()
-            expect.that(
-                JsonParser.parseString("""
-                [{"id":"1","dateStr":"15/12/2017","payee":"","amount":-0.10,"fullLabel":"","comment":"","methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","pictureFileName":"","tagList":"Tag One, \u0027Tags, Tags, Tags\u0027"},{"id":"2","dateStr":"15/12/2017","payee":"N.N.","amount":-0.20,"fullLabel":"Main","comment":"","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2","pictureFileName":"","tagList":""},{"id":"3","dateStr":"15/12/2017","payee":"","amount":0.30,"fullLabel":"Main:Sub","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"picture.png","tagList":""},{"id":"4","dateStr":"15/12/2017","payee":"","amount":0.40,"fullLabel":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"5","dateStr":"15/12/2017","payee":"","amount":0.50,"fullLabel":"[Account 2]","comment":"","status":"RECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"7","dateStr":"15/12/2017","payee":"","amount":-0.60,"fullLabel":"[Account 2]","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":""},{"id":"9","dateStr":"15/12/2017","payee":"","amount":0.70,"fullLabel":"Main","comment":"","status":"UNRECONCILED","referenceNumber":"","pictureFileName":"","tagList":"","splits":[{"id":"10","dateStr":"15/12/2017","payee":"","amount":0.40,"fullLabel":"Main","comment":"","pictureFileName":""},{"id":"11","dateStr":"15/12/2017","payee":"","amount":0.30,"fullLabel":"Main:Sub","comment":"","pictureFileName":""}]}]
-            """)).isEqualTo(
-                JsonParser.parseReader(FileReader(outFile))
+            expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
+                JsonParser.parseString(
+                    """
+{"uuid":"${account.uuid}","label":"Account 1","currency":"USD","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":"Main","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub","status":"UNRECONCILED","pictureFileName":"picture.png"},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","amount":0.70,"category":"Main","status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":"Main"},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub","tags":["Tag One","Tags, Tags, Tags"]}]}]}
+                         """
+                )
             )
         } catch (e: IOException) {
             expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
@@ -364,7 +417,7 @@ class ExportTest {
             "\"\",\"$date\",\"\",\"0\",\"0,60\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
             "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
             "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"\""
+            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"Tag One, 'Tags, Tags, Tags'\""
         )
         try {
             expect.that(
@@ -562,6 +615,44 @@ class ExportTest {
         }
     }
 
+    @Test
+    fun testSplitCategoryLevels() {
+        val linesCSV = arrayOf(
+            csvHeader(';', false, 3, splitAmount = false, splitDateTime = true),
+            "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"B\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"0.30\";\"A\";\"B\";\"C\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"-0.10\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"\";\"$date\";\"$time\";\"\";\"0.50\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\""
+        )
+        try {
+            expect.that(
+                CsvExporter(
+                    insertData4(),
+                    null,
+                    false,
+                    "dd/MM/yyyy",
+                    '.',
+                    "UTF-8",
+                    true,
+                    ';',
+                    false,
+                    splitCategoryLevels = true,
+                    splitAmount = false,
+                    timeFormat = "HH:mm"
+                )
+                    .export(
+                        context,
+                        lazy { Result.success(DocumentFile.fromFile(outFile)) },
+                        false
+                    ).isSuccess
+            ).isTrue()
+            compare(linesCSV)
+        } catch (e: IOException) {
+            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
+        }
+    }
+
     private fun compare(lines: Array<String>) {
         FileInputStream(outFile).use { inputStream ->
             BufferedReader(InputStreamReader(inputStream)).use { reader ->
@@ -577,28 +668,47 @@ class ExportTest {
         }
     }
 
-    private fun csvHeader(separator: Char, withAccountColumn: Boolean): String {
+    private fun csvHeader(
+        separator: Char,
+        withAccountColumn: Boolean,
+        numberOfCategoryColumns: Int? = null,
+        splitAmount: Boolean = true,
+        splitDateTime: Boolean = false
+    ): String {
         val sb = StringBuilder()
-        val resArray = intArrayOf(
-            R.string.split_transaction,
-            R.string.date, R.string.payer_or_payee,
-            R.string.income,
-            R.string.expense,
-            R.string.category,
-            R.string.comment,
-            R.string.method,
-            R.string.status,
-            R.string.reference_number,
-            R.string.picture,
-            R.string.tags
-        )
+        val columns = buildList {
+            add(context.getString(R.string.split_transaction))
+            add(context.getString(R.string.date))
+            if (splitDateTime)
+                add(context.getString(R.string.time))
+            add(context.getString(R.string.payer_or_payee))
+            if (splitAmount) {
+                add(context.getString(R.string.income))
+                add(context.getString(R.string.expense))
+            } else {
+                add(context.getString(R.string.amount))
+            }
+            if (numberOfCategoryColumns != null) {
+                repeat(numberOfCategoryColumns) {
+                    add(context.getString(R.string.category) + " " + (it + 1))
+                }
+            } else {
+                add(context.getString(R.string.category))
+            }
+            add(context.getString(R.string.comment))
+            add(context.getString(R.string.method))
+            add(context.getString(R.string.status))
+            add(context.getString(R.string.reference_number))
+            add(context.getString(R.string.picture))
+            add(context.getString(R.string.tags))
+        }
         if (withAccountColumn) {
             sb.append('"').append(context.getString(R.string.account)).append('"').append(separator)
         }
-        val iterator = resArray.iterator()
+        val iterator = columns.iterator()
         while (iterator.hasNext()) {
-            val res = iterator.next()
-            sb.append('"').append(context.getString(res)).append('"')
+            val column = iterator.next()
+            sb.append('"').append(column).append('"')
             if (iterator.hasNext()) {
                 sb.append(separator)
             }
@@ -613,7 +723,7 @@ class ExportTest {
         notYetExportedP: Boolean,
         append: Boolean,
         withAccountColumn: Boolean
-    ): Result<*> {
+    ): Result<Uri> {
         val exporter = when (format) {
             ExportFormat.CSV -> CsvExporter(
                 account,
@@ -626,8 +736,22 @@ class ExportTest {
                 ';',
                 withAccountColumn
             )
-            ExportFormat.QIF -> QifExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
-            ExportFormat.JSON -> JSONExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", gson)
+            ExportFormat.QIF -> QifExporter(
+                account,
+                null,
+                notYetExportedP,
+                "dd/MM/yyyy",
+                '.',
+                "UTF-8"
+            )
+            ExportFormat.JSON -> JSONExporter(
+                account,
+                null,
+                notYetExportedP,
+                "dd/MM/yyyy",
+                '.',
+                "UTF-8"
+            )
         }
         return exporter.export(
             context,

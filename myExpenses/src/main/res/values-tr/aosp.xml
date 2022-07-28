@@ -23,6 +23,7 @@
     <string name="add_widget">"Widget ekleyin"</string>
     <string name="calendar">"Takvim"</string>
     <string name="permissions_label">"İzinler"</string>
+    <string name="time_format">"Saat biçimi"</string>
     <string name="setup">"Kur"</string>
     <string name="clear_cache">"Önbelleği temizle"</string>
 </resources>

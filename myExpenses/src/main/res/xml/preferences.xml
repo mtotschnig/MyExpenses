@@ -375,6 +375,22 @@
                 android:key="@string/pref_web_ui_password_key"
                 android:title="@string/hint_password" />
         </PreferenceScreen>
+        <PreferenceScreen
+            android:key="@string/pref_csv_export_key"
+            android:title="CSV Export">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="@string/pref_csv_export_split_categories_key"
+                android:summary="@string/pref_csv_export_split_categories_summary" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="@string/pref_csv_export_split_amount_key"
+                android:summary="@string/pref_csv_export_split_amount_summary" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="@string/pref_csv_export_split_date_time_key"
+                android:summary="@string/pref_csv_export_split_date_time_summary" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

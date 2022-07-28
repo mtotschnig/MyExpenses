@@ -24,6 +24,7 @@
     <string name="add_widget">"விட்ஜெட்டைச் சேர்க்கவும்"</string>
     <string name="calendar">"கேலெண்டர்"</string>
     <string name="permissions_label">"அனுமதிகள்"</string>
+    <string name="time_format">"நேர வடிவமைப்பு"</string>
     <string name="setup">"அமைவு"</string>
     <string name="clear_cache">"தற்காலிகச் சேமிப்பை அழி"</string>
 </resources>

@@ -1,11 +1,20 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
+import androidx.annotation.Keep
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import java.lang.reflect.Type
+import java.math.BigDecimal
+import java.time.ZonedDateTime
 
 /**
  * @param account          Account to print
@@ -22,19 +31,68 @@ class JSONExporter(
     dateFormat: String,
     decimalSeparator: Char,
     encoding: String,
-    val gson: Gson
+    private val preamble: String = "",
+    private val appendix: String = ""
 ) :
     AbstractExporter(
         account, filter, notYetExportedP, dateFormat,
         decimalSeparator, encoding
     ) {
+
+    val gson: Gson =  GsonBuilder()
+        .registerTypeAdapter(ZonedDateTime::class.java, object: JsonSerializer<ZonedDateTime> {
+            override fun serialize(
+                zonedDateTime: ZonedDateTime,
+                typeOfSrc: Type,
+                context: JsonSerializationContext
+            ) = JsonPrimitive(dateFormatter.format(zonedDateTime))
+        })
+        .create()
+
     override val format = ExportFormat.JSON
 
-    override fun header(context: Context) = "["
+    override fun header(context: Context) =
+        "$preamble{\"uuid\":${gson.toJson(account.uuid)},\"label\":${gson.toJson(account.label)},\"currency\":${gson.toJson(account.currency.code)},\"openingBalance\":${gson.toJson(account.openingBalance.amountMajor)},\"transactions\": ["
 
-    override fun TransactionDTO.marshall(): String = gson.toJson(this)
+    override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String =
+        gson.toJson(convert(this))
 
     override fun recordDelimiter(isLastLine: Boolean) = if (isLastLine) null else ","
 
-    override fun footer(): String = "]"
+    override fun footer(): String = "]}$appendix"
+
+    private fun convert(dto: TransactionDTO) : Transaction = with(dto) {
+        Transaction(
+            uuid = uuid,
+            date = date,
+            payee = payee,
+            amount = amount,
+            category = categoryPath(categoryPaths),
+            transferAccount = transferAccount,
+            comment = comment,
+            methodLabel = methodLabel,
+            status = status,
+            referenceNumber = referenceNumber,
+            pictureFileName = pictureFileName,
+            tags = tagList,
+            splits = splits?.map(::convert)
+        )
+    }
 }
+
+@Keep
+data class Transaction(
+    val uuid: String,
+    val date: ZonedDateTime,
+    val payee: String?,
+    val amount: BigDecimal,
+    val category: String?,
+    val transferAccount: String?,
+    val comment: String?,
+    val methodLabel: String?,
+    val status: CrStatus?,
+    val referenceNumber: String?,
+    val pictureFileName: String?,
+    val tags: List<String>?,
+    val splits: List<Transaction>?
+)

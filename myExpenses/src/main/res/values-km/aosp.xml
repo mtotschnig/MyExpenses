@@ -23,6 +23,7 @@
     <string name="add_widget">"បន្ថែម​ធាតុ​ក្រាហ្វិក​។"</string>
     <string name="calendar">"ប្រតិទិន"</string>
     <string name="permissions_label">"ការអនុញ្ញាត"</string>
+     <string name="time_format">"ទម្រង់​ម៉ោង"</string>
     <string name="setup">"ការរៀបចំ"</string>
     <string name="clear_cache">"សម្អាត​ឃ្លាំងបម្រុង"</string>
 </resources>

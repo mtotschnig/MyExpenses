@@ -23,6 +23,7 @@
     <string name="add_widget">"إضافة أداة"</string>
     <string name="calendar">"التقويم"</string>
     <string name="permissions_label">"الأذونات"</string>
+    <string name="time_format">"تنسيق الوقت"</string>
     <string name="setup">"الإعداد"</string>
     <string name="clear_cache">"محو ذاكرة التخزين المؤقت"</string>
 </resources>

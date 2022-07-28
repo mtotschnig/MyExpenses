@@ -25,18 +25,18 @@ class QifExporter(
         .append(account.type.toQifName())
         .append("\n").toString()
 
-    override fun TransactionDTO.marshall() = StringBuilderWrapper().apply {
+    override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>) = StringBuilderWrapper().apply {
         append("D")
-            .append(dateStr)
+            .append(dateFormatter.format(date))
             .append("\nT")
             .append(nfFormat.format(amount))
-        comment.takeIf { it.isNotEmpty() }?.let {
+        comment?.takeIf { it.isNotEmpty() }?.let {
             append("\nM").append(it)
         }
-        fullLabel.takeIf { it.isNotEmpty() }?.let {
+        fullLabel(categoryPaths)?.takeIf { it.isNotEmpty() }?.let {
             append("\nL").append(it)
         }
-        payee.takeIf { it.isNotEmpty() }?.let {
+        payee?.takeIf { it.isNotEmpty() }?.let {
             append("\nP").append(it)
         }
         status?.symbol?.takeIf { it != "" }?.let {
@@ -47,8 +47,8 @@ class QifExporter(
         }
 
         splits?.forEach { split ->
-            append("\n").append("S").append(split.fullLabel)
-            split.comment.takeIf { it.isNotEmpty() }?.let {
+            append("\n").append("S").append(split.fullLabel(categoryPaths))
+            split.comment?.takeIf { it.isNotEmpty() }?.let {
                 append("\nE").append(it)
             }
             append("\n$").append(nfFormat.format(split.amount))

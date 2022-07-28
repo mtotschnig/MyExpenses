@@ -29,6 +29,7 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -36,6 +37,7 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
@@ -57,9 +59,13 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_FILE_NAM
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_FORMAT
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_MERGE_P
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_NOT_YET_EXPORTED_P
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_TIME_FORMAT
 import java.io.Serializable
-import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.chrono.IsoChronology
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.FormatStyle
 import java.util.*
 
 class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
@@ -92,7 +98,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             if (accountInfo.id < 0L) {
                 allP = true
                 fileName = "export-${accountInfo.currency}-$now"
-                warningText = getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
+                warningText =
+                    getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
             } else {
                 fileName = Utils.escapeForFileName(accountInfo.label) + "-" + now
                 warningText = getString(R.string.warning_reset_account)
@@ -102,38 +109,65 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             dialogView!!.findViewById<View>(R.id.with_filter).visibility = View.VISIBLE
             warningText = getString(R.string.warning_reset_account_matched)
         }
-        val dateFormatDefault =
-            (DateFormat.getDateInstance(DateFormat.SHORT) as SimpleDateFormat).toPattern()
-        var dateFormat = prefHandler.getString(PREF_KEY_EXPORT_DATE_FORMAT, "")
-        if (dateFormat == "") dateFormat = dateFormatDefault else {
-            try {
-                SimpleDateFormat(dateFormat, Locale.US)
-            } catch (e: IllegalArgumentException) {
-                dateFormat = dateFormatDefault
-            }
+
+        binding.format.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            binding.DelimiterRow.visibility =
+                if (checkedId == R.id.csv) View.VISIBLE else View.GONE
+            configureDateTimeFormat()
         }
-        binding.dateFormat.setText(dateFormat)
-        binding.dateFormat.addTextChangedListener(object : TextWatcher {
+        val format = enumValueOrDefault(
+            prefHandler.getString(PrefKey.EXPORT_FORMAT, null),
+            ExportFormat.QIF
+        )
+        binding.format.check(format.resId)
+
+        class DateFormatWatcher(val editText: EditText) : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 try {
-                    SimpleDateFormat(s.toString(), Locale.US)
-                    binding.dateFormat.error = null
+                    DateTimeFormatter.ofPattern(s.toString())
+                    editText.error = null
                 } catch (e: IllegalArgumentException) {
-                    binding.dateFormat.error = getString(R.string.date_format_illegal)
+                    editText.error = getString(R.string.date_format_illegal)
                 }
                 configureButton()
             }
 
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+        }
+
+        val dateFormat = prefHandler.getString(PREF_KEY_EXPORT_DATE_FORMAT, "")
+            ?.takeIf {
+                it.isNotEmpty() && (try {
+                    DateTimeFormatter.ofPattern(it)
+                } catch (e: IllegalArgumentException) {
+                    null
+                }) != null
+            } ?: DateTimeFormatterBuilder.getLocalizedDateTimePattern(
+            FormatStyle.SHORT,
+            null,
+            IsoChronology.INSTANCE, Locale.getDefault()
+        )
+        binding.dateFormat.setText(dateFormat)
+        binding.dateFormat.addTextChangedListener(DateFormatWatcher(binding.dateFormat))
+
+        val timeFormat = prefHandler.getString(PREF_KEY_EXPORT_TIME_FORMAT, "")
+            ?.takeIf {
+                it.isNotEmpty() && (try {
+                    DateTimeFormatter.ofPattern(it)
+                } catch (e: IllegalArgumentException) {
+                    null
+                }) != null
+            } ?: DateTimeFormatterBuilder.getLocalizedDateTimePattern(
+            null,
+            FormatStyle.SHORT,
+            IsoChronology.INSTANCE, Locale.getDefault()
+        )
+        binding.timeFormat.setText(timeFormat)
+        binding.timeFormat.addTextChangedListener(DateFormatWatcher(binding.timeFormat))
+        configureDateTimeFormat()
+
         binding.fileName.setText(fileName)
         binding.fileName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
@@ -172,20 +206,13 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 sb
             }
         )
+
         val encoding = prefHandler.getString(PREF_KEY_EXPORT_ENCODING, "UTF-8")
         binding.Encoding.setSelection(
             listOf(*resources.getStringArray(R.array.pref_qif_export_file_encoding))
                 .indexOf(encoding)
         )
-        binding.format.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
-            binding.DelimiterRow.visibility =
-                if (checkedId == R.id.csv) View.VISIBLE else View.GONE
-        }
-        val format = enumValueOrDefault(
-            prefHandler.getString(PrefKey.EXPORT_FORMAT, null),
-            ExportFormat.QIF
-        )
-        binding.format.check(format.resId)
+
         val delimiter = prefHandler.getInt(KEY_DELIMITER, ','.code)
             .toChar()
         @IdRes val delimiterButtonResId = when (delimiter) {
@@ -269,6 +296,18 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         return builder.create()
     }
 
+    private val splitDateTime: Boolean
+        get() = prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_DATE_TIME, false) &&
+                binding.format.checkedRadioButtonId == R.id.csv
+
+    private fun configureDateTimeFormat() {
+        with(splitDateTime) {
+            binding.timeFormat.isVisible = this
+            binding.DateFormatLabel.text = getString(R.string.date_format) +
+                    if (this) " / " + getString(R.string.time_format) else ""
+        }
+    }
+
     private fun setFileNameLabel(oneFile: Boolean) {
         binding.fileNameLabel.setText(if (oneFile) R.string.file_name else R.string.folder_name)
     }
@@ -299,7 +338,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         return TextUtils.concat(
             sb,
             HtmlCompat.fromHtml(
-                getString(R.string.help_ExportDialog_date_format),
+                getString(R.string.help_ExportDialog_date_format, "https://developer.android.com/reference/java/time/format/DateTimeFormatter"),
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
         )
@@ -313,6 +352,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         val format = ExportFormat.values().find { it.resId == binding.format.checkedRadioButtonId }
             ?: ExportFormat.QIF
         val dateFormat = binding.dateFormat.text.toString()
+        val timeFormat = binding.timeFormat.text.toString()
         val decimalSeparator = if (binding.separator.checkedRadioButtonId == R.id.dot) '.' else ','
         val delimiter = when (binding.Delimiter.checkedRadioButtonId) {
             R.id.delimiter_tab -> {
@@ -340,6 +380,9 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         with(prefHandler) {
             putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)
+            if (splitDateTime) {
+                putString(PREF_KEY_EXPORT_TIME_FORMAT, timeFormat)
+            }
             putString(PREF_KEY_EXPORT_ENCODING, encoding)
             putInt(KEY_DECIMAL_SEPARATOR, decimalSeparator.code)
             putInt(KEY_DELIMITER, delimiter.code)
@@ -362,6 +405,9 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             putBoolean(KEY_DELETE_P, binding.exportDelete.isChecked)
             putBoolean(KEY_NOT_YET_EXPORTED_P, binding.exportNotYetExported.isChecked)
             putString(KEY_DATE_FORMAT, dateFormat)
+            if (splitDateTime) {
+                putString(KEY_TIME_FORMAT, timeFormat)
+            }
             putChar(KEY_DECIMAL_SEPARATOR, decimalSeparator)
             putString(KEY_ENCODING, encoding)
             putInt(KEY_EXPORT_HANDLE_DELETED, handleDeleted)
@@ -395,7 +441,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
 
     private fun configureButton() {
         (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
-            binding.dateFormat.error == null &&
+            binding.dateFormat.error == null && binding.timeFormat.error == null &&
                     binding.fileName.error == null
     }
 
@@ -420,6 +466,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
     companion object {
         private const val KEY_DATA = "data"
         const val PREF_KEY_EXPORT_DATE_FORMAT = "export_date_format"
+        const val PREF_KEY_EXPORT_TIME_FORMAT = "export_time_format"
         const val PREF_KEY_EXPORT_ENCODING = "export_encoding"
 
         fun newInstance(accountInfo: AccountInfo) = ExportDialogFragment().apply {

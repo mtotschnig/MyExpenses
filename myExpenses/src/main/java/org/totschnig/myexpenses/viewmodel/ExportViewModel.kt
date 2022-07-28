@@ -5,8 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -34,12 +35,12 @@ import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 class ExportViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     companion object {
         const val KEY_FORMAT = "format"
         const val KEY_DATE_FORMAT = "dateFormat"
+        const val KEY_TIME_FORMAT = "timeFormat"
         const val KEY_ENCODING = "encoding"
         const val KEY_DECIMAL_SEPARATOR = "export_decimal_separator"
         const val KEY_NOT_YET_EXPORTED_P = "notYetExportedP"
@@ -50,12 +51,9 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         const val KEY_MERGE_P = "export_merge_accounts"
     }
 
-    @Inject
-    lateinit var gson: Gson
-
-    private val _publishProgress: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
     private val _result: MutableStateFlow<Pair<ExportFormat, List<Uri>>?> = MutableStateFlow(null)
-    val publishProgress: StateFlow<String?> = _publishProgress
+    val publishProgress: SharedFlow<String?> = _publishProgress
     val result: StateFlow<Pair<ExportFormat, List<Uri>>?> = _result
 
     fun startExport(args: Bundle) {
@@ -69,6 +67,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val notYetExportedP = args.getBoolean(KEY_NOT_YET_EXPORTED_P)
                     val mergeP = args.getBoolean(KEY_MERGE_P)
                     val dateFormat = args.getString(KEY_DATE_FORMAT)!!
+                    val timeFormat = args.getString(KEY_TIME_FORMAT)
                     val decimalSeparator: Char = args.getChar(KEY_DECIMAL_SEPARATOR)
                     val accountId = args.getLong(DatabaseConstants.KEY_ROWID)
                     val currency = args.getString(DatabaseConstants.KEY_CURRENCY)
@@ -85,7 +84,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                         var selection: String? = null
                         var selectionArgs: Array<String>? = null
                         if (currency != null) {
-                            selection = DatabaseConstants.KEY_CURRENCY + " = ?"
+                            selection = DatabaseConstants.KEY_CURRENCY + " = ? AND " + DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS + " = 0"
                             selectionArgs = arrayOf(currency)
                         }
                         application.contentResolver.query(
@@ -139,7 +138,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             encoding,
                                             !append,
                                             delimiter,
-                                            mergeP
+                                            mergeP,
+                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_CATEGORIES, false),
+                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_AMOUNT, true),
+                                            timeFormat
                                         )
                                         ExportFormat.QIF -> QifExporter(
                                             account,
@@ -156,7 +158,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             dateFormat,
                                             decimalSeparator,
                                             encoding,
-                                            gson
+                                            preamble = if (mergeP && i == 0) "[" else "",
+                                            appendix = if (mergeP) if (i < accountIds.size - 1) "," else "]" else ""
                                         )
                                     }
                                     val result = exporter.export(context, lazy {
@@ -223,17 +226,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         }
     }
 
-    private fun publishProgress(string: String) {
-        _publishProgress.update {
-            string
-        }
-
-    }
-
-    fun messageShown() {
-        _publishProgress.update {
-            null
-        }
+    private suspend fun publishProgress(string: String) {
+        _publishProgress.emit(string)
     }
 
     fun resultDismissed() {
