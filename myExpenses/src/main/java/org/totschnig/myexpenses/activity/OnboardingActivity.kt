@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -20,12 +19,14 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.task.RestoreTask
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.distribution
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_BACKUP_FROM_SYNC
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_RESTORE_PLAN_STRATEGY
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 
 class OnboardingActivity : SyncBackendSetupActivity() {
@@ -119,13 +120,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
     }
 
-    override fun onPostRestoreTask(@Suppress("DEPRECATION") result: org.totschnig.myexpenses.util.Result<*>) {
+    override fun onPostRestoreTask(@Suppress("DEPRECATION") result: Result<Unit>) {
         super.onPostRestoreTask(result)
-        val msg = result.print(this)
-        if (!TextUtils.isEmpty(msg)) {
-            showSnackBar(msg)
-        }
-        if (result.isSuccess) {
+        result.onSuccess {
             restartAfterRestore()
         }
     }
@@ -133,9 +130,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     fun setupFromBackup(backup: String?, restorePlanStrategy: Int, password: String?) {
         val arguments = Bundle(4)
         arguments.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
-        arguments.putString(RestoreTask.KEY_BACKUP_FROM_SYNC, backup)
-        arguments.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
-        arguments.putString(RestoreTask.KEY_PASSWORD, password)
+        arguments.putString(KEY_BACKUP_FROM_SYNC, backup)
+        arguments.putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
+        arguments.putString(KEY_PASSWORD, password)
         doRestore(arguments)
     }
 

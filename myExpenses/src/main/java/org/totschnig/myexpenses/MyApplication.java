@@ -648,9 +648,9 @@ public class MyApplication extends Application implements
    * we did not find (2.2 if no, user should have been asked to select a target
    * calendar where we will store the recreated events)
    *
-   * @return Result with success true
+   * @return number of restored plans
    */
-  public Result restorePlanner() {
+  public int restorePlanner() {
     ContentResolver cr = getContentResolver();
     String calendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID);
     String calendarPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "");
@@ -737,7 +737,7 @@ public class MyApplication extends Application implements
         c.close();
       }
     }
-    return Result.ofSuccess(R.string.restore_calendar_success, null, restoredPlansCount);
+    return restoredPlansCount;
   }
 
   public void markDataDirty() {

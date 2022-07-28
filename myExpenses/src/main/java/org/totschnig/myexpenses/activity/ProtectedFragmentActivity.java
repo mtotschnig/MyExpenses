@@ -112,7 +112,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
 import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo;
@@ -542,26 +541,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
         }
         break;
       }
-      case TASK_RESTORE: {
-        onPostRestoreTask(((Result) o));
-        break;
-      }
-    }
-  }
-
-  protected void onPostRestoreTask(Result result) {
-    if (result.isSuccess()) {
-      licenceHandler.reset();
-      // if the backup is password protected, we want to force the password
-      // check
-      // is it not enough to set mLastPause to zero, since it would be
-      // overwritten by the callings activity onpause
-      // hence we need to set isLocked if necessary
-      final MyApplication myApplication = requireApplication();
-      myApplication.resetLastPause();
-      if (myApplication.shouldLock(this)) {
-        myApplication.setLocked(true);
-      }
     }
   }
 
@@ -768,13 +747,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void onPositive(Bundle args, boolean checked) {
     dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),
         args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE));
-  }
-
-  protected void doRestore(Bundle args) {
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(getString(R.string.pref_restore_title), true), PROGRESS_TAG).commit();
   }
 
   @Override

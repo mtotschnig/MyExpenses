@@ -33,16 +33,19 @@ import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChange
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
-import org.totschnig.myexpenses.task.RestoreTask
-import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState.Running
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_FILE_PATH
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_RESTORE_PLAN_STRATEGY
 
-class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogListener,
+class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
     OnDialogResultListener {
     private val backupViewModel: BackupViewModel by viewModels()
 
@@ -215,7 +218,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         bundle.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title)
         val message = (getString(
             R.string.warning_restore,
-            DialogUtils.getDisplayName(bundle.getParcelable(TaskExecutionFragment.KEY_FILE_PATH))
+            DialogUtils.getDisplayName(bundle.getParcelable(KEY_FILE_PATH))
         )
                 + " " + getString(R.string.continue_confirmation))
         bundle.putString(
@@ -233,16 +236,15 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     }
 
     private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int) = Bundle().apply {
-        putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
-        putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri)
+        putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
+        putParcelable(KEY_FILE_PATH, fileUri)
     }
 
     override fun shouldKeepProgress(taskId: Int) = true
 
-    override fun onPostRestoreTask(result: Result<*>) {
+    override fun onPostRestoreTask(result: Result<Unit>) {
         super.onPostRestoreTask(result)
-        onProgressUpdate(result)
-        if (result.isSuccess) {
+        result.onSuccess {
             taskResult = RESULT_RESTORE_OK
         }
     }
@@ -268,7 +270,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                 if (it) {
                     SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
                         .fields(
-                            Input.password(RestoreTask.KEY_PASSWORD)
+                            Input.password(KEY_PASSWORD)
                                 .text(prefHandler.getString(PrefKey.EXPORT_PASSWORD, "")).required()
                         )
                         .extra(args)

@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.SubMenu
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -26,11 +27,11 @@ import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
 import java.io.File
 
-abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextDialogListener,
+abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListener,
     OnDialogResultListener {
 
     private lateinit var backendProviders: List<BackendService>
-    protected lateinit var viewModel: SyncViewModel
+    protected val viewModel: SyncViewModel by viewModels()
     private var isResumed = false
 
     @JvmField
@@ -40,7 +41,6 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         backendProviders = BackendService.allAvailable(this)
-        viewModel = ViewModelProvider(this)[SyncViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
     }
 

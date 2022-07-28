@@ -58,7 +58,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;
   public static final int TASK_QIF_IMPORT = 20;
-  public static final int TASK_RESTORE = 23;
   public static final int TASK_BALANCE = 24;
   public static final int TASK_PRINT = 25;
   public static final int TASK_UPDATE_SORT_KEY = 27;
@@ -194,9 +193,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_QIF_IMPORT:
         new QifImportTask(this, args).execute();
-        break;
-      case TASK_RESTORE:
-        new RestoreTask(this, args).execute();
         break;
       case TASK_PRINT:
         new PrintTask(this, args).execute();

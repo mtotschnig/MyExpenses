@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.Account
@@ -56,6 +57,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             onDownloadComplete()
         }
     }
+
+    val progressDialogFragment: ProgressDialogFragment?
+        get() = (supportFragmentManager.findFragmentByTag(LaunchActivity.PROGRESS_TAG) as? ProgressDialogFragment)
 
     fun copyToClipboard(text: String) {
         showSnackBar(try {
