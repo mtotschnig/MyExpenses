@@ -157,7 +157,9 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             notYetExportedP,
                                             dateFormat,
                                             decimalSeparator,
-                                            encoding
+                                            encoding,
+                                            preamble = if (mergeP && i == 0) "[" else "",
+                                            appendix = if (mergeP) if (i < accountIds.size - 1) "," else "]" else ""
                                         )
                                     }
                                     val result = exporter.export(context, lazy {

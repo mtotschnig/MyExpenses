@@ -31,6 +31,8 @@ class JSONExporter(
     dateFormat: String,
     decimalSeparator: Char,
     encoding: String,
+    private val preamble: String = "",
+    private val appendix: String = ""
 ) :
     AbstractExporter(
         account, filter, notYetExportedP, dateFormat,
@@ -49,14 +51,15 @@ class JSONExporter(
 
     override val format = ExportFormat.JSON
 
-    override fun header(context: Context) = "["
+    override fun header(context: Context) =
+        "$preamble{\"label\":${gson.toJson(account.label)},\"currency\":${gson.toJson(account.currency.code)},\"openingBalance\":${gson.toJson(account.openingBalance.amountMajor)},\"transactions\": ["
 
     override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String =
         gson.toJson(convert(this))
 
     override fun recordDelimiter(isLastLine: Boolean) = if (isLastLine) null else ","
 
-    override fun footer(): String = "]"
+    override fun footer(): String = "]}$appendix"
 
     private fun convert(dto: TransactionDTO) : Transaction = with(dto) {
         Transaction(
@@ -77,13 +80,21 @@ class JSONExporter(
 }
 
 @Keep
+data class Account(
+    val label: String,
+    val currency: String,
+    val openingBalance: BigDecimal,
+    val transactions: List<Transaction>
+)
+
+@Keep
 data class Transaction(
     val date: ZonedDateTime,
-    val payee: String,
+    val payee: String?,
     val amount: BigDecimal,
     val category: String?,
     val transferAccount: String?,
-    val comment: String,
+    val comment: String?,
     val methodLabel: String?,
     val status: CrStatus?,
     val referenceNumber: String?,

@@ -15,11 +15,11 @@ import java.time.ZonedDateTime
 
 data class TransactionDTO(
     val date: ZonedDateTime,
-    val payee: String,
+    val payee: String?,
     val amount: BigDecimal,
     val catId: Long?,
     val transferAccount: String?,
-    val comment: String,
+    val comment: String?,
     val methodLabel: String?,
     val status: CrStatus?,
     val referenceNumber: String?,
@@ -68,20 +68,20 @@ data class TransactionDTO(
             return TransactionDTO(
                 epoch2ZonedDateTime(cursor.getLong(
                     cursor.getColumnIndexOrThrow(KEY_DATE))),
-                DbUtils.getString(cursor, KEY_PAYEE_NAME),
+                cursor.getStringOrNull(KEY_PAYEE_NAME),
                 Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)))
                     .amountMajor,
                 DbUtils.getLongOrNull(readCat, KEY_CATID),
                 readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
-                DbUtils.getString(cursor, KEY_COMMENT),
+                cursor.getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },
                 if (isPart) null else cursor.getString(cursor.getColumnIndexOrThrow(KEY_METHOD_LABEL)),
                 if (isPart) null else
                     enumValueOrDefault(
                         cursor.getString(cursor.getColumnIndexOrThrow(KEY_CR_STATUS)),
                         CrStatus.UNRECONCILED
                     ),
-                if (isPart) null else DbUtils.getString(cursor, KEY_REFERENCE_NUMBER),
-                StringUtils.substringAfterLast(DbUtils.getString(cursor, KEY_PICTURE_URI), "/"),
+                if (isPart) null else cursor.getStringOrNull(KEY_REFERENCE_NUMBER)?.takeIf { it.isNotEmpty() },
+                StringUtils.substringAfterLast(cursor.getStringOrNull(KEY_PICTURE_URI), "/"),
                 tagList,
                 splitCursor?.let {
                     sequence {

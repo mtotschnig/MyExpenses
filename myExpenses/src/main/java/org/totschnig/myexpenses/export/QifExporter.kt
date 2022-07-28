@@ -30,13 +30,13 @@ class QifExporter(
             .append(dateFormatter.format(date))
             .append("\nT")
             .append(nfFormat.format(amount))
-        comment.takeIf { it.isNotEmpty() }?.let {
+        comment?.takeIf { it.isNotEmpty() }?.let {
             append("\nM").append(it)
         }
         fullLabel(categoryPaths)?.takeIf { it.isNotEmpty() }?.let {
             append("\nL").append(it)
         }
-        payee.takeIf { it.isNotEmpty() }?.let {
+        payee?.takeIf { it.isNotEmpty() }?.let {
             append("\nP").append(it)
         }
         status?.symbol?.takeIf { it != "" }?.let {
@@ -48,7 +48,7 @@ class QifExporter(
 
         splits?.forEach { split ->
             append("\n").append("S").append(split.fullLabel(categoryPaths))
-            split.comment.takeIf { it.isNotEmpty() }?.let {
+            split.comment?.takeIf { it.isNotEmpty() }?.let {
                 append("\nE").append(it)
             }
             append("\n$").append(nfFormat.format(split.amount))
