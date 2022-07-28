@@ -120,7 +120,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
     }
 
-    override fun onPostRestoreTask(@Suppress("DEPRECATION") result: Result<Unit>) {
+    override fun onPostRestoreTask(result: Result<Unit>) {
         super.onPostRestoreTask(result)
         result.onSuccess {
             restartAfterRestore()

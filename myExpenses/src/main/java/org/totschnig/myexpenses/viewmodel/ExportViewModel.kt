@@ -230,7 +230,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         _publishProgress.emit(string)
     }
 
-    fun resultDismissed() {
+    fun resultProcessed() {
         _result.update {
             null
         }

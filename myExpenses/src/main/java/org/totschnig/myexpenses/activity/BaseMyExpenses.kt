@@ -201,14 +201,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         if (result.second.isNotEmpty()) {
                             shareExport(result.first, result.second)
                         }
+                        exportViewModel.resultProcessed()
                     }
                 }
             }
         }
-    }
-
-    override fun onProgressDialogDismiss() {
-        exportViewModel.resultDismissed()
     }
 
     override fun injectDependencies() {

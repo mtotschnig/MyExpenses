@@ -80,6 +80,12 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
         _publishProgress.emit(getString(resId, *formatArgs))
     }
 
+    fun resultProcessed() {
+        _result.update {
+            null
+        }
+    }
+
     fun startRestore(args: Bundle) {
         viewModelScope.launch(coroutineDispatcher) {
             val restorePlanStrategy: Int = args.getInt(KEY_RESTORE_PLAN_STRATEGY)

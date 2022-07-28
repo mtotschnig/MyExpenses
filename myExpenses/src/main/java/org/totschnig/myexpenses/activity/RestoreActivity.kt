@@ -38,6 +38,7 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
                         }
                         progressDialogFragment?.onTaskCompleted()
                         onPostRestoreTask(it)
+                        restoreViewModel.resultProcessed()
                     }
                 }
             }
