@@ -27,5 +27,6 @@
     <string name="time_format">"Ordu-formatua"</string>
     <string name="setup">"Konfigurazioa"</string>
     <string name="clear_cache">"Garbitu cachea"</string>
+    <string name="customize">"Pertsonalizatua"</string>
 </resources>
 

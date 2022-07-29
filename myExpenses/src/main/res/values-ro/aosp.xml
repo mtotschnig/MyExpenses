@@ -27,5 +27,6 @@
     <string name="time_format">"Formatul orei"</string>
     <string name="setup">"Configurați"</string>
     <string name="clear_cache">"Goliți memoria cache"</string>
+    <string name="customize">"Personalizați"</string>
 </resources>
 

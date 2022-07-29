@@ -27,5 +27,6 @@
     <string name="time_format">"Format vremena"</string>
     <string name="setup">"Postavljanje"</string>
     <string name="clear_cache">"Isprazni predmemoriju"</string>
+    <string name="customize">"Prilagodi"</string>
 </resources>
 

@@ -26,5 +26,6 @@
     <string name="time_format">"时间格式"</string>
     <string name="setup">"设置"</string>
     <string name="clear_cache">"清除缓存"</string>
+    <string name="customize">"自定义"</string>
 </resources>
 

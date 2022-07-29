@@ -27,5 +27,6 @@
     <string name="time_format">"Формат часу"</string>
     <string name="setup">"Налаштування"</string>
     <string name="clear_cache">"Очистити кеш"</string>
+    <string name="customize">"Налаштувати"</string>
 </resources>
 

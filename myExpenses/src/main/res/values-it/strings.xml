@@ -497,7 +497,7 @@
     <string name="menu_undelete_transaction">Annullare l\'eliminazione</string>
     <string name="slash_forbidden_in_filename">Carattere / non consentito nei nomi dei file</string>
     <string name="io_error_unable_to_create_file">Impossibile creare il file %1$s nella cartella %2$s</string>
-    <string name="menu_categories_export">Esporta in formato QIF</string>
+    <string name="export_to_format">Esportazione in formato %s</string>
     <string name="pref_csv_import_delimiter">Delimitatore</string>
     <string name="csv_import_preview">Anteprima</string>
     <string name="menu_parse">Analisi</string>

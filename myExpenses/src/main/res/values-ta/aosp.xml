@@ -27,5 +27,6 @@
     <string name="time_format">"நேர வடிவமைப்பு"</string>
     <string name="setup">"அமைவு"</string>
     <string name="clear_cache">"தற்காலிகச் சேமிப்பை அழி"</string>
+    <string name="customize">"பிரத்தியேகமாக்கு"</string>
 </resources>
 

@@ -757,10 +757,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.RESTORE).title =
                     getString(R.string.pref_restore_title) + " (ZIP)"
 
-                this.requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DECIMAL_FORMAT).onValidationErrorListener =
+                requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
+                    getString(R.string.export_to_format, "CSV")
+
+                requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DECIMAL_FORMAT).onValidationErrorListener =
                     this
 
-                this.requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DATE_FORMAT).onValidationErrorListener =
+                requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DATE_FORMAT).onValidationErrorListener =
                     this
 
                 loadAppDirSummary()
@@ -984,6 +987,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         }
                     }
                 }
+            }
+            getKey(PrefKey.CSV_EXPORT) -> {
+                preferenceScreen.title = getString(R.string.export_to_format, "CSV")
             }
         }
     }

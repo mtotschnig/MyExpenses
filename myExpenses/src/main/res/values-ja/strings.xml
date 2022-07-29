@@ -486,7 +486,7 @@
     <string name="menu_undelete_transaction">削除の取消</string>
     <string name="slash_forbidden_in_filename">/ の文字はファイル名に使用できません</string>
     <string name="io_error_unable_to_create_file">ファイル %1$s を、フォルダー %2$s に作成できません</string>
-    <string name="menu_categories_export">QIF にエクスポート</string>
+    <string name="export_to_format">%s にエクスポート</string>
     <string name="pref_csv_import_delimiter">デリミタ</string>
     <string name="csv_import_preview">プレビュー</string>
     <string name="menu_parse">解析</string>

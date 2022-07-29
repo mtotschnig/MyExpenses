@@ -26,5 +26,6 @@
     <string name="time_format">"Format godziny"</string>
     <string name="setup">"Konfiguracja"</string>
     <string name="clear_cache">"Wyczyść pamięć podręczną"</string>
+    <string name="customize">"Dostosuj"</string>
 </resources>
 

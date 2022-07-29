@@ -500,7 +500,7 @@
     <string name="menu_undelete_transaction">Cofnij usunięcie</string>
     <string name="slash_forbidden_in_filename">Znak / nie jest dozwolony w nazwach plików</string>
     <string name="io_error_unable_to_create_file">Nie znaleziono pliku %1$s w folderze \"%2$s\"</string>
-    <string name="menu_categories_export">Eksport do QIF</string>
+    <string name="export_to_format">Eksport do %s</string>
     <string name="pref_csv_import_delimiter">Delimiter</string>
     <string name="csv_import_preview">Podgląd</string>
     <string name="menu_parse">Analia</string>

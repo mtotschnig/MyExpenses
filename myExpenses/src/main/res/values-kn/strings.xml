@@ -494,7 +494,7 @@
     <string name="menu_undelete_transaction">ಅಳಿಸಬೇಡಿ</string>
     <string name="slash_forbidden_in_filename">ಫೈಲ್ ಹೆಸರುಗಳಲ್ಲಿ / ಅಕ್ಷರವನ್ನು ಅನುಮತಿಸಲಾಗುವುದಿಲ್ಲ</string>
     <string name="io_error_unable_to_create_file">%2$s ಫೋಲ್ಡರ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಅನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
-    <string name="menu_categories_export">QIF ಗೆ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="export_to_format">%s ಗೆ ರಫ್ತು ಮಾಡಿ</string>
     <string name="pref_csv_import_delimiter">ಡಿಲಿಮಿಟರ್</string>
     <string name="csv_import_preview">ಮುನ್ನೋಟ</string>
     <string name="menu_parse">ಪಾರ್ಸ್</string>

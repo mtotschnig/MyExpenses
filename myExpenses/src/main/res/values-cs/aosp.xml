@@ -26,5 +26,6 @@
     <string name="time_format">"Formát času"</string>
     <string name="setup">"Nastavit"</string>
     <string name="clear_cache">"Vymazat mezipaměť"</string>
+    <string name="customize">"Přizpůsobit"</string>
 </resources>
 

@@ -43,5 +43,7 @@
     <string name="setup">"Setup"</string>
     <!-- platform_packages_apps_settings/res/values/strings.xml name="clear_cache_btn_text" -->
     <string name="clear_cache">Clear cache</string>
+    <!--TvSettings/Settings/res/values/strings.xml restricted_profile_customize_restrictions -->
+    <string name="customize">Customize</string>
 </resources>
 

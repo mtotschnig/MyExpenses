@@ -26,5 +26,6 @@
     <string name="time_format">"Format masa"</string>
     <string name="setup">"Persediaan"</string>
     <string name="clear_cache">"Kosongkan cache"</string>
+    <string name="customize">"Sesuaikan"</string>
 </resources>
 

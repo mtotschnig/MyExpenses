@@ -503,7 +503,8 @@
     <string name="menu_undelete_transaction">Undelete</string>
     <string name="slash_forbidden_in_filename">/ character is not allowed in filenames</string>
     <string name="io_error_unable_to_create_file">Unable to create file %1$s in folder %2$s</string>
-    <string name="menu_categories_export">Export to QIF</string>
+    <!-- %s is replaced with format (QIF, JSON, CSV) - This represents the concept of "Export", not the action of exporting  -->
+    <string name="export_to_format">Export to %s</string>
     <string name="pref_csv_import_delimiter">Delimiter</string>
     <string name="csv_import_preview">Preview</string>
     <string name="menu_parse">Parse</string>

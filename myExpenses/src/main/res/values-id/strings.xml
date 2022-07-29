@@ -86,7 +86,7 @@
     <string name="csv_import_delimiter_tab">Tab</string>
     <string name="csv_import_delimiter_semicolon">Titik koma</string>
     <string name="csv_import_delimiter_comma">Koma</string>
-    <string name="menu_categories_export">Ekspor ke QIF</string>
+    <string name="export_to_format">Ekspor ke %s</string>
     <string name="pref_custom_decimal_format_title">Format nomor</string>
     <string name="dialog_title_select_target">Pilih target</string>
     <string name="plan_instance_state_applied">diterapkan</string>

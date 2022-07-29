@@ -484,7 +484,7 @@
     <string name="menu_undelete_transaction">Nyahpadam</string>
     <string name="slash_forbidden_in_filename">Aksara / tidak dibenarkan dalam nama fail</string>
     <string name="io_error_unable_to_create_file">Tidak boleh cipta fail %1$s dalam folder %2$s</string>
-    <string name="menu_categories_export">Eksport ke QIF</string>
+    <string name="export_to_format">Eksport ke %s</string>
     <string name="pref_csv_import_delimiter">Pembatas</string>
     <string name="csv_import_preview">Pratonton</string>
     <string name="menu_parse">Hurai</string>

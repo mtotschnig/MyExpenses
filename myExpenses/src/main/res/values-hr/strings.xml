@@ -642,7 +642,7 @@
     <string name="menu_parse">Obradi</string>
     <string name="csv_import_preview">Pregled</string>
     <string name="pref_csv_import_delimiter">Znak razdvajanja</string>
-    <string name="menu_categories_export">Izvezi u QIF</string>
+    <string name="export_to_format">Izvezi u %s</string>
     <string name="io_error_unable_to_create_file">Neuspjelo stvaranje datoteke %1$s u mapi %2$s</string>
     <string name="slash_forbidden_in_filename">Kosa crta (/) se ne smije koristiti u imenima datoteka</string>
     <string name="menu_undelete_transaction">Poništi brisanje</string>

@@ -492,7 +492,7 @@
     <string name="menu_undelete_transaction">Αναίρεση διαγραφής</string>
     <string name="slash_forbidden_in_filename">/ χαρακτήρας δεν επιτρέπετε σε όνομα αρχείων</string>
     <string name="io_error_unable_to_create_file">Δεν είναι δυνατή η δημιουργία του αρχείου %1$s στο φάκελο %2$s</string>
-    <string name="menu_categories_export">Εξαγωγή σε QIF</string>
+    <string name="export_to_format">Εξαγωγή σε %s</string>
     <string name="pref_csv_import_delimiter">Οριοθέτης</string>
     <string name="csv_import_preview">Προεπισκόπηση</string>
     <string name="menu_parse">Ανάλυση</string>

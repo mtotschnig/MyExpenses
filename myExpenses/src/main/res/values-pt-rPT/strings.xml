@@ -471,7 +471,7 @@
     <string name="menu_undelete_transaction">Recuperar exclusão</string>
     <string name="slash_forbidden_in_filename">Não é permitido usar o caractere / em nomes de ficheiros</string>
     <string name="io_error_unable_to_create_file">Não é possível criar ficheiro %1$s na pasta %2$s</string>
-    <string name="menu_categories_export">Exportar para QIF</string>
+    <string name="export_to_format">Exportação para %s</string>
     <string name="pref_csv_import_delimiter">Delimitador</string>
     <string name="csv_import_preview">Visualizar</string>
     <string name="menu_parse">Analisar</string>

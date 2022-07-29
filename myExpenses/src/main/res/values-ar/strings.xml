@@ -523,7 +523,7 @@
     <string name="menu_undelete_transaction">تراجع عن الحذف</string>
     <string name="slash_forbidden_in_filename">/ رمز غير مسموح به في اسماء الملفات</string>
     <string name="io_error_unable_to_create_file">غير قادر على إنشاء الملف %1$s في المجلد %2$s</string>
-    <string name="menu_categories_export">تصدير لصيغة QIF</string>
+    <string name="export_to_format">تصدير لصيغة %s</string>
     <string name="pref_csv_import_delimiter">المحدد</string>
     <string name="csv_import_preview">معاينة</string>
     <string name="menu_parse">تحليل</string>

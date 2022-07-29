@@ -496,7 +496,7 @@
     <string name="menu_undelete_transaction">Cancelar la eliminación</string>
     <string name="slash_forbidden_in_filename">El carácter / no está autorizado en los nombres de archivo</string>
     <string name="io_error_unable_to_create_file">No se puedo crear el archivo %1$s en la carpeta %2$s</string>
-    <string name="menu_categories_export">Exportar a QIF</string>
+    <string name="export_to_format">Exportar a %s</string>
     <string name="pref_csv_import_delimiter">Delimitador</string>
     <string name="csv_import_preview">Vista previa</string>
     <string name="menu_parse">Análisis</string>

@@ -496,7 +496,7 @@
     <string name="menu_undelete_transaction">Das Löschen rückgängig machen</string>
     <string name="slash_forbidden_in_filename">Das Zeichen / ist in Dateinamen nicht zulässig</string>
     <string name="io_error_unable_to_create_file">Konnte Datei %1$s im Ordner %2$s nicht erstellen</string>
-    <string name="menu_categories_export">Export nach QIF</string>
+    <string name="export_to_format">Export nach %s</string>
     <string name="pref_csv_import_delimiter">Trennzeichen</string>
     <string name="csv_import_preview">Vorschau</string>
     <string name="menu_parse">Analysieren</string>

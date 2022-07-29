@@ -489,7 +489,7 @@
     <string name="menu_undelete_transaction">取消删除</string>
     <string name="slash_forbidden_in_filename">\" / \" 符号不允许作为文件名</string>
     <string name="io_error_unable_to_create_file">无法在文件夹%2$s中创建文件%1$s</string>
-    <string name="menu_categories_export">导出为 QIF</string>
+    <string name="export_to_format">导出为 %s</string>
     <string name="pref_csv_import_delimiter">分隔符</string>
     <string name="csv_import_preview">预览</string>
     <string name="menu_parse">分析</string>

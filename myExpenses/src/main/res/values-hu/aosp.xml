@@ -26,5 +26,6 @@
     <string name="time_format">"Időformátum"</string>
     <string name="setup">"Beállítás"</string>
     <string name="clear_cache">"A gyorsítótár törlése"</string>
+    <string name="customize">"Személyre szabás"</string>
 </resources>
 

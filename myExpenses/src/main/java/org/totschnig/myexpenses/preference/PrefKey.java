@@ -165,6 +165,7 @@ public enum PrefKey {
   EXCHANGE_RATES_CLEAR_CACHE(R.string.pref_exchange_rates_clear_cache_key),
   DEBUG_REPAIR_987(R.string.pref_debug_repair_987_key),
   WEBUI_PASSWORD(R.string.pref_web_ui_password_key),
+  CSV_EXPORT(R.string.pref_csv_export_key),
   CSV_EXPORT_SPLIT_CATEGORIES(R.string.pref_csv_export_split_categories_key),
   CSV_EXPORT_SPLIT_AMOUNT(R.string.pref_csv_export_split_amount_key),
   CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key)

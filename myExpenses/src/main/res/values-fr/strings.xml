@@ -496,7 +496,7 @@
     <string name="menu_undelete_transaction">Annuler la suppression</string>
     <string name="slash_forbidden_in_filename">Le caractère / n\'est pas autorisé dans les noms de fichiers</string>
     <string name="io_error_unable_to_create_file">Impossible de créer le fichier %1$s dans le dossier %2$s</string>
-    <string name="menu_categories_export">Exporter au format QIF</string>
+    <string name="export_to_format">Export au format %s</string>
     <string name="pref_csv_import_delimiter">Marqueur</string>
     <string name="csv_import_preview">Prévisualisation</string>
     <string name="menu_parse">Analyse</string>

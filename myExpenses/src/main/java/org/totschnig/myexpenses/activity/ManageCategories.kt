@@ -78,10 +78,12 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
+            val exportMenu = menu.findItem(R.id.EXPORT_COMMAND)
             Utils.menuItemSetEnabledAndVisible(
-                menu.findItem(R.id.EXPORT_COMMAND),
+                exportMenu,
                 action == Action.MANAGE
             )
+            exportMenu.title = getString(R.string.export_to_format, "QIF")
             Utils.menuItemSetEnabledAndVisible(
                 menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP),
                 action == Action.SELECT_MAPPING
@@ -590,7 +592,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     }
 
     private fun exportCats(encoding: String) {
-        showDismissibleSnackBar(R.string.menu_categories_export)
+        showDismissibleSnackBar(getString(R.string.export_to_format, "QIF"))
         viewModel.exportCats(encoding)
     }
 

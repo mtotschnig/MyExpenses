@@ -496,7 +496,7 @@
     <string name="menu_undelete_transaction">மீட்டெடு</string>
     <string name="slash_forbidden_in_filename">கோப்பு பெயரில் / வரியுரு அனுமதிக்கப்படாது</string>
     <string name="io_error_unable_to_create_file">கோப்புறை %2$s-இல் %1$s கோப்பை உருவாக்க முடியவில்லை</string>
-    <string name="menu_categories_export">QIF ஆக ஏற்றுமதி செய்</string>
+    <string name="export_to_format">%s ஆக ஏற்றுமதி செய்</string>
     <string name="pref_csv_import_delimiter">வரம்புச் சுட்டி</string>
     <string name="csv_import_preview">முன்னோட்டம்</string>
     <string name="menu_parse">பாகுபடுத்து</string>

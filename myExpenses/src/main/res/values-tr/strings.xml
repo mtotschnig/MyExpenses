@@ -496,7 +496,7 @@
     <string name="menu_undelete_transaction">Silmeyi geri al</string>
     <string name="slash_forbidden_in_filename">/ karakterine dosya isimlerinde müsaade edilmez</string>
     <string name="io_error_unable_to_create_file">%2$s klasöründe %1$s dosyası oluşturulamadı</string>
-    <string name="menu_categories_export">QIF olarak dışa aktar</string>
+    <string name="export_to_format">%s olarak dışa aktar</string>
     <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
     <string name="csv_import_preview">Önizle</string>
     <string name="menu_parse">Çözümle</string>

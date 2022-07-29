@@ -496,7 +496,7 @@
     <string name="menu_undelete_transaction">Възстанови</string>
     <string name="slash_forbidden_in_filename">Символът \' / \' не е разрешен в име на файл</string>
     <string name="io_error_unable_to_create_file">Не мога да създам файл %1$s в папка %2$s</string>
-    <string name="menu_categories_export">Експорт в QIF</string>
+    <string name="export_to_format">Експорт в %s</string>
     <string name="pref_csv_import_delimiter">Разделител</string>
     <string name="csv_import_preview">Предварителен оглед</string>
     <string name="menu_parse">Анализирай</string>

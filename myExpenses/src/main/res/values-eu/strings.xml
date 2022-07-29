@@ -491,7 +491,7 @@
     <string name="menu_undelete_transaction">Desezabatu</string>
     <string name="slash_forbidden_in_filename">/ karakterea ezin da erabili fitxategi izenetan</string>
     <string name="io_error_unable_to_create_file">Ezin izan da %1$s fitxategia sortu %2$s karpetan</string>
-    <string name="menu_categories_export">Esportatu QIF fitxategira</string>
+    <string name="export_to_format">Esportatu %s fitxategira</string>
     <string name="pref_csv_import_delimiter">Bereizlea</string>
     <string name="csv_import_preview">Aurreikusi</string>
     <string name="menu_parse">Prozesatu</string>

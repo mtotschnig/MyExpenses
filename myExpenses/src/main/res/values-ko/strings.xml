@@ -449,7 +449,7 @@
     <string name="menu_undelete_transaction">삭제 취소</string>
     <string name="slash_forbidden_in_filename">/ (슬래시 기호)는 파일 제목으로 사용할 수 없습니다</string>
     <string name="io_error_unable_to_create_file">%2$s 폴더에 %1$s 파일을 만들 수 없습니다</string>
-    <string name="menu_categories_export">QIF로 내보내기</string>
+    <string name="export_to_format">%s로 내보내기</string>
     <string name="pref_csv_import_delimiter">구획 문자</string>
     <string name="csv_import_preview">미리보기</string>
     <string name="menu_parse">분석</string>

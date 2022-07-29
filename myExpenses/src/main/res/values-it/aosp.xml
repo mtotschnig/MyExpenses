@@ -26,5 +26,6 @@
     <string name="time_format">"Formato dell\'ora"</string>
     <string name="setup">"Configura"</string>
     <string name="clear_cache">"Svuota cache"</string>
+    <string name="customize">"Personalizza"</string>
 </resources>
 

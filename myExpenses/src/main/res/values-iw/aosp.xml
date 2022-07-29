@@ -27,5 +27,6 @@
     <string name="time_format">"פורמט זמן"</string>
     <string name="setup">"הגדרה"</string>
     <string name="clear_cache">"ניקוי המטמון"</string>
+    <string name="customize">"התאמה אישית"</string>
 </resources>
 

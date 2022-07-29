@@ -376,8 +376,7 @@
                 android:title="@string/hint_password" />
         </PreferenceScreen>
         <PreferenceScreen
-            android:key="@string/pref_csv_export_key"
-            android:title="CSV Export">
+            android:key="@string/pref_csv_export_key">
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="@string/pref_csv_export_split_categories_key"

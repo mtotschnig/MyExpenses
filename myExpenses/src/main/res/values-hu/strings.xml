@@ -496,7 +496,7 @@
     <string name="menu_undelete_transaction">Törlés visszavonása</string>
     <string name="slash_forbidden_in_filename">A / karakter nem használható fájlnevekben</string>
     <string name="io_error_unable_to_create_file">%1$s fájl nem hozható létre %2$s mappában</string>
-    <string name="menu_categories_export">Exportálás QIF-be </string>
+    <string name="export_to_format">Exportálás %s-be </string>
     <string name="pref_csv_import_delimiter">Elválasztó</string>
     <string name="csv_import_preview">Előnézet</string>
     <string name="menu_parse">Elemzés</string>
