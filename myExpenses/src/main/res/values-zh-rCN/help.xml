@@ -175,7 +175,7 @@
     <string name="form_split_parts_heading_help_text_1">使用 + 图标可根据需要输入任意数量的拆分部分</string>
     <string name="form_split_parts_heading_help_text_2">除非手动输入金额，否则金额字段将自动更新为各部分总和。手动输入情况下，将显示各部分总和与金额（未拆分金额）之间的差额</string>
     <string name="help_CsvImportActivity_info">选择要导入的文件后，需要配置其编码方式（UTF-8 或 ISO-8859-1）、字段分隔符（逗号、分号或制表符）以及日期格式。数据可导入现有账户或新账户，你可以在其中配置币种和账户类型。&lt;br&gt;&lt;br&gt;点击操作栏中的“解析”按钮后，数据将呈现在表格中。正式导入之前，你可以选择要丢弃的行，并且必须将列映射到相应的数据字段。&lt;br&gt;&lt;br&gt;丢弃第一行时，系统会提示你是否希望将其视为标题行，在这种情况下，&lt;i&gt;My Expenses&lt;/i&gt; 将尝试根据标题单元格的内容自动映射列。它还会根据标题行记住你的映射，并在下次导入具有相同标题格式的文件时恢复它。</string>
-    <string name="help_ExportDialog_date_format">可以使用单引号 (\') 引用特殊文本，\'\'（两个单引号）代表一个单引号。详情请参阅完整的&lt;a href=%s&gt;规范&lt;/a&gt;，或联系 support@myexpenses.mobi 寻求帮助</string>
+    <string name="help_ExportDialog_date_format">可以使用单引号 (\') 引用文本避免诠释。\'\'（两个单引号）代表一个单引号。详情请参阅完整的&lt;a href=%s&gt;规范&lt;/a&gt;，或联系 support@myexpenses.mobi 寻求帮助。</string>
     <string name="help_ManageSyncBackends_encryption">你可以为每个后端设置不同的密码来加密同步数据。不可将现有后端从未加密切换到加密，遇到这种情况，你需要重新新建一个后端。若使用在同步后端存储自动备份的功能，这些文件不会使用后端特定密码进行加密；相反，你可以在“设置”页面的“安全”部分设置适用于所有备份文件的密码。</string>
     <string name="cab_sync_download_help_text">下载一个在后端可用的账户，将在本地创建一个账户并配置为与后端同步</string>
     <string name="help_HistoryActivity_info">此屏幕显示你的现金流，以及支出和收入按年、月、周或天的变化情况</string>
