@@ -1020,4 +1020,10 @@
     </plurals>
     <string name="pref_purge_backup_keep_title">Максимален брой последни архивни файлове, който да бъдат запазени</string>
     <string name="pref_purge_backup_require_confirmation_summary">Покажи покана за потвърждение преди файловете да бъдат изтрити</string>
+    <string name="pref_csv_export_split_date_time_summary">Използвай отделни колони за дата и време</string>
+    <string name="pref_csv_export_split_categories_summary">Използвай отделна колона за всяко ниво в йерархията на категориите</string>
+    <string name="pref_csv_export_split_amount_summary">Използвай отделни колони за приходи и разходи</string>
+    <string name="pref_debug_logging_share_summary">Споделяне на файловете дневници за дебъг</string>
+    <string name="whats_new_340">Полето Бележки позволява няколко абзаца.</string>
+    <string name="webui_warning_move_transaction">Транзакцията ще бъде преместена в сметка {account}.</string>
 </resources>
