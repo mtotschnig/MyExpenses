@@ -17,25 +17,19 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Html.ImageGetter
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.ArrayRes
-import androidx.annotation.StringRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
+import org.totschnig.myexpenses.util.HelpDialogHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 
 /**
  * A Dialog Fragment that displays help information. The content is constructed from resources
@@ -43,7 +37,9 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
  *
  * @author Michael Totschnig
  */
-class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
+class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
+
+    lateinit var helper: HelpDialogHelper
 
     companion object {
         const val KEY_VARIANT = "variant"
@@ -136,10 +132,10 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
     private var variant: String? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val ctx = activity
+        val ctx = requireActivity()
         val res = resources
-        val title: String
         val args = requireArguments()
+        helper = HelpDialogHelper(ctx)
         context = args.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
         val builder = initBuilder {
@@ -147,10 +143,10 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
         }
         try {
             var resIdString = "help_" + context + "_info"
-            var screenInfo = resolveStringOrArray(resIdString, true)
+            var screenInfo = helper.resolveStringOrArray(resIdString, true)
             if (variant != null) {
                 resIdString = "help_" + context + "_" + variant + "_info"
-                val variantInfo = resolveStringOrArray(resIdString, true)
+                val variantInfo = helper.resolveStringOrArray(resIdString, true)
                 if (!TextUtils.isEmpty(variantInfo)) {
                     screenInfo = if (!TextUtils.isEmpty(screenInfo)) {
                         TextUtils.concat(
@@ -205,28 +201,28 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
                 binding.cabCommandsHelp.visibility = View.GONE
             }
             val titleResId =
-                if (variant != null) resolveString("help_" + context + "_" + variant + "_title") else 0
-            title = args.getString(KEY_TITLE) ?:
+                if (variant != null) helper.resolveString("help_" + context + "_" + variant + "_title") else 0
+            val title = args.getString(KEY_TITLE) ?:
                 if (titleResId == 0) {
-                resolveStringOrThrowIf0("help_" + context + "_title")
+                    helper.resolveStringOrThrowIf0("help_" + context + "_title")
             } else {
                 getString(titleResId)
             }
+            return builder.setTitle(title)
+                .setIcon(R.drawable.ic_menu_help)
+                .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
+                    if (activity == null) {
+                        return@setPositiveButton
+                    }
+                    requireActivity().finish()
+                }
+                .create()
         } catch (e: Resources.NotFoundException) {
             CrashHandler.report(e)
-            return MaterialAlertDialogBuilder(ctx!!)
+            return MaterialAlertDialogBuilder(ctx)
                 .setMessage("Error generating Help dialog")
                 .create()
         }
-        return builder.setTitle(title)
-            .setIcon(R.drawable.ic_menu_help)
-            .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                if (activity == null) {
-                    return@setPositiveButton
-                }
-                requireActivity().finish()
-            }
-            .create()
     }
 
     private fun showLongTapHint(componentName: String) =
@@ -240,8 +236,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
             .contains(componentName)
 
     private fun findComponentArray(type: String) =
-        resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
-            ?: resolveArray(context + "_" + type)
+        helper.resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
+            ?: helper.resolveArray(context + "_" + type)
 
     private fun buildComponentName(type: String): String {
         return if (variant != null) context + "_" + variant + "_" + type else context + "_" + type
@@ -264,12 +260,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
         for (item in menuItems) {
             val rowBinding =
                 HelpDialogActionRowBinding.inflate(materialLayoutInflater, container, false)
-            var title = ""
-            //this allows us to map an item like "date.time" to the concatenation of translations for date and for time
-            for (resIdPart in item.split(".").toTypedArray()) {
-                if (title != "") title += "/"
-                title += resolveStringOrThrowIf0((if (prefix == "form") "" else "menu_") + resIdPart)
-            }
+            val title =  helper.resolveTitle(item, prefix)
             rowBinding.title.text = title
             if (prefix != "form") {
                 if (iconMap.containsKey(item)) {
@@ -291,16 +282,16 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
             //and last a generic one
             //We look for an array first, which allows us to compose messages of parts
             var helpText: CharSequence?
-            helpText = resolveStringOrArray(
+            helpText = helper.resolveStringOrArray(
                 prefix + "_" + context + "_" + variant + "_" + item + "_help_text",
                 false
             )
             if (TextUtils.isEmpty(helpText)) {
                 helpText =
-                    resolveStringOrArray(prefix + "_" + context + "_" + item + "_help_text", false)
+                    helper.resolveStringOrArray(prefix + "_" + context + "_" + item + "_help_text", false)
                 if (TextUtils.isEmpty(helpText)) {
                     resIdString = prefix + "_" + item + "_help_text"
-                    helpText = resolveStringOrArray(resIdString, false)
+                    helpText = helper.resolveStringOrArray(resIdString, false)
                     if (TextUtils.isEmpty(helpText)) {
                         throw Resources.NotFoundException(resIdString)
                     }
@@ -311,152 +302,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
         }
     }
 
-    private fun resolveStringOrArray(
-        resString: String,
-        separateComponentsByLineFeeds: Boolean
-    ): CharSequence? {
-        val resIdString = resString.replace('.', '_')
-        val arrayId = resolveArray(resIdString)
-        return if (arrayId == 0) {
-            val stringId = resolveString(resIdString)
-            if (stringId == 0) {
-                null
-            } else {
-                HtmlCompat.fromHtml(getStringSafe(stringId), FROM_HTML_MODE_LEGACY, this, null)
-            }
-        } else {
-            val linefeed: CharSequence = HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY)
-
-            val components = resources.getStringArray(arrayId)
-                .filter { component -> !shouldSkip(component) }
-                .map { component -> handle(component) }
-            val resolvedComponents = ArrayList<CharSequence>()
-            for (i in components.indices) {
-                resolvedComponents.add(
-                    HtmlCompat.fromHtml(
-                        components[i],
-                        FROM_HTML_MODE_LEGACY,
-                        this,
-                        null
-                    )
-                )
-                if (i < components.size - 1) {
-                    resolvedComponents.add(if (separateComponentsByLineFeeds) linefeed else " ")
-                }
-            }
-            TextUtils.concat(*resolvedComponents.toTypedArray())
-        }
-    }
-
-    private fun handle(component: String): String {
-        return if (component.startsWith("popup")) {
-            resolveName(component + "_intro") + " " + resources.getStringArray(
-                resolveArray(
-                    component + "_items"
-                )
-            ).joinToString(" ") {
-                "<b>${resolveName(it)}</b>: ${resolveName(component + "_" + it)}"
-            }
-        } else {
-            resolveName(component)
-        }
-    }
-
-    private fun resolveName(name: String) = getStringSafe(resolveString(name))
-
-    private fun shouldSkip(component: String): Boolean {
-        when (component) {
-            "help_ManageSyncBackends_drive" -> return isGithub
-        }
-        return false
-    }
-
-    @StringRes
-    private fun resolveString(resIdString: String): Int {
-        return resolve(resIdString, "string")
-    }
-
-    /**
-     * @throws Resources.NotFoundException if there is no resource for the given String. On the contrary, if the
-     * String does exist in an alternate locale, but not in the default one,
-     * the resulting exception is caught and empty String is returned.
-     */
-    @Throws(Resources.NotFoundException::class)
-    private fun resolveStringOrThrowIf0(resIdString: String): String {
-        val resId = resolveString(resIdString)
-        if (resId == 0) {
-            throw Resources.NotFoundException(resIdString)
-        }
-        return getStringSafe(resId)
-    }
-
-    private fun getStringSafe(resId: Int): String {
-        return try {
-            resources.getString(resId)
-        } catch (e: Resources.NotFoundException) { //if resource does exist in an alternate locale, but not in the default one
-            ""
-        }
-    }
-
-    @ArrayRes
-    private fun resolveArray(resIdString: String): Int {
-        return resolve(resIdString, "array")
-    }
-
-    private fun resolve(resIdString: String, defType: String): Int {
-        return resolve(resources, resIdString, defType, requireActivity().packageName)
-    }
-
-    private fun resolveSystem(
-        resIdString: String,
-        @Suppress("SameParameterValue") defType: String
-    ): Int {
-        return resolve(Resources.getSystem(), resIdString, defType, "android")
-    }
-
-    private fun resolve(
-        resources: Resources,
-        resIdString: String,
-        defType: String,
-        packageName: String
-    ): Int {
-        return resources.getIdentifier(resIdString, defType, packageName)
-    }
-
     override fun onCancel(dialog: DialogInterface) {
         requireActivity().finish()
-    }
-
-    override fun getDrawable(name: String): Drawable? {
-        val theme = requireActivity().theme
-        return try {
-            //Keeping the legacy attribute reference in order to not have to update all translations, where
-            //it appears
-            val resId = if (name.startsWith("?")) {
-                with(name.substring(1)) {
-                    when (this) {
-                        "calcIcon" -> R.drawable.ic_action_equal
-                        else -> {
-                            val value = TypedValue()
-                            theme.resolveAttribute(resolve(this, "attr"), value, true)
-                            value.resourceId
-                        }
-                    }
-                }
-            } else {
-                if (name.startsWith("android:")) {
-                    resolveSystem(name.substring(8), "drawable")
-                } else {
-                    resolve(name, "drawable")
-                }
-            }
-            val dimensionPixelSize =
-                resources.getDimensionPixelSize(R.dimen.help_text_inline_icon_size)
-            return ResourcesCompat.getDrawable(resources, resId, theme)?.apply {
-                setBounds(0, 0, dimensionPixelSize, dimensionPixelSize)
-            }
-        } catch (e: Resources.NotFoundException) {
-            null
-        }
     }
 }
