@@ -67,10 +67,13 @@ data class TransactionDTO(
                 null
             )?.use { tagCursor -> tagCursor.asSequence.map { it.getString(0) }.toList() }?.takeIf { it.isNotEmpty() }
 
-            return TransactionDTO(
+            val transactionDTO = TransactionDTO(
                 cursor.getString(KEY_UUID),
-                epoch2ZonedDateTime(cursor.getLong(
-                    cursor.getColumnIndexOrThrow(KEY_DATE))),
+                epoch2ZonedDateTime(
+                    cursor.getLong(
+                        cursor.getColumnIndexOrThrow(KEY_DATE)
+                    )
+                ),
                 cursor.getStringOrNull(KEY_PAYEE_NAME),
                 Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)))
                     .amountMajor,
@@ -83,7 +86,8 @@ data class TransactionDTO(
                         cursor.getString(cursor.getColumnIndexOrThrow(KEY_CR_STATUS)),
                         CrStatus.UNRECONCILED
                     ),
-                if (isPart) null else cursor.getStringOrNull(KEY_REFERENCE_NUMBER)?.takeIf { it.isNotEmpty() },
+                if (isPart) null else cursor.getStringOrNull(KEY_REFERENCE_NUMBER)
+                    ?.takeIf { it.isNotEmpty() },
                 StringUtils.substringAfterLast(cursor.getStringOrNull(KEY_PICTURE_URI), "/"),
                 tagList,
                 splitCursor?.let {
@@ -103,6 +107,8 @@ data class TransactionDTO(
                     }.toList()
                 }
             )
+            splitCursor?.close()
+            return transactionDTO
         }
     }
 }

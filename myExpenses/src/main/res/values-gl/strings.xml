@@ -236,7 +236,7 @@
     <string name="restore_calendar_handling_ignore">Non restaurar plans</string>
     <string name="file_name">Nome do ficheiro</string>
     <string name="folder_name">Nome do cartafol</string>
-    <string name="export_to_format">Exportación a QIF</string>
+    <string name="export_to_format">Exportación a %s</string>
     <string name="csv_import_delimiter_comma">Coma</string>
     <string name="csv_import_delimiter_semicolon">Punto e coma</string>
     <string name="menu_show_transactions">Mostrar transaccións</string>

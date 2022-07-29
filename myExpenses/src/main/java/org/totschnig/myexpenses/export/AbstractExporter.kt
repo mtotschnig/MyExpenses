@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
@@ -60,9 +59,13 @@ abstract class AbstractExporter
         append: Boolean
     ): Result<Uri> {
         Timber.i("now starting export")
-        context.contentResolver.query(TransactionProvider.CATEGORIES_URI,
-            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID), null, null, null)?.asSequence?.forEach {
-            categoryTree[it.getLong(0)] = it.getString(1) to it.getLong(2)
+        context.contentResolver.query(
+            TransactionProvider.CATEGORIES_URI,
+            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID), null, null, null
+        )?.use {
+            it.asSequence.forEach {
+                categoryTree[it.getLong(0)] = it.getString(1) to it.getLong(2)
+            }
         }
         //first we check if there are any exportable transactions
         var selection =
@@ -81,7 +84,10 @@ abstract class AbstractExporter
             KEY_PAYEE_NAME,
             KEY_AMOUNT,
             KEY_COMMENT,
-            PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
+            PaymentMethod.localizedLabelSqlColumn(
+                context,
+                KEY_METHOD_LABEL
+            ) + " AS " + KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_PICTURE_URI,
