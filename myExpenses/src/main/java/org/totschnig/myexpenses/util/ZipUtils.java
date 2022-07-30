@@ -173,6 +173,10 @@ public class ZipUtils {
     while ((ze = zin.getNextEntry()) != null) {
       Timber.v("Unzipping %s", ze.getName());
       File newFile = new File(dirOut, ze.getName());
+      String canonicalPath = newFile.getCanonicalPath();
+      if (!canonicalPath.startsWith(dirOut.getCanonicalPath())) {
+        throw new SecurityException("Path Traversal Vulnerability");
+      }
       newFile.getParentFile().mkdirs();
       if (ze.isDirectory()) {
         newFile.mkdir();
