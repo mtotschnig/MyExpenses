@@ -211,6 +211,20 @@
                     select="document($strings)/resources/string[@name='title_webui']" />
                 <xsl:text> 2.0</xsl:text>
             </xsl:when>
+            <xsl:when test="$version = '3.4.3'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($aosp)/resources/string[@name='customize']" />
+                <xsl:text>: </xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="my:simpleFormatRes(document($strings)/resources/string[@name='export_to_format'], 'CSV')" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="my:simpleFormatRes(document($strings)/resources/string[@name='export_to_format'], 'JSON')" />
+                <xsl:text> 2.0</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>
@@ -305,5 +319,10 @@
     <xsl:function name="my:githubBoardResourceName">
         <xsl:param name="version" />
         <xsl:value-of select="concat('project_board_',replace($version,'\.',''))" />
+    </xsl:function>
+    <xsl:function name="my:simpleFormatRes">
+        <xsl:param name="format" />
+        <xsl:param name="arg" />
+        <xsl:value-of select="replace($format,'%s',$arg)" />
     </xsl:function>
 </xsl:stylesheet>
