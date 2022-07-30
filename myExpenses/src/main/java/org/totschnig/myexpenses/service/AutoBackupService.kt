@@ -113,20 +113,15 @@ class AutoBackupService : JobIntentService() {
                             )
                             notify(builder.build())
                         } else {
-                            val failedDelete = pair.second.filter {
-                                !it.delete()
-                            }.size
-                            if (failedDelete > 0) {
-                                notify(
-                                    buildMessage(
-                                        resources.getQuantityString(
-                                            R.plurals.purge_backup_failure,
-                                            failedDelete,
-                                            failedDelete
-                                        )
-                                    ).build()
-                                )
-                            }
+                            notify(
+                                buildMessage(
+                                    BackupViewModel.purgeResult2Message(this,
+                                        pair.second.map {
+                                            it.delete()
+                                        }
+                                    )
+                                ).build()
+                            )
                         }
                     }
                 }.onFailure {
