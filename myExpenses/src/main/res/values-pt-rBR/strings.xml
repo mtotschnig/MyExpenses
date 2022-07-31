@@ -1022,4 +1022,8 @@
     <string name="menu_parent_category_selection">Selecionar a categoria mãe no toque breve</string>
     <string name="whats_new_340">Campos de anotação permitem múltiplas linhas.</string>
     <string name="pref_debug_logging_share_summary">Compartilhar arquivos de registro</string>
+    <string name="pref_csv_export_split_amount_summary">Usa colunas separadas para receitas e despesas</string>
+    <string name="pref_csv_export_split_categories_summary">Usa colunas separadas para cada nível da hierarquia de categoria</string>
+    <string name="pref_csv_export_split_date_time_summary">Usa colunas separadas para data e hora</string>
+    <string name="webui_warning_move_transaction">A transação será movida para a conta {account}.</string>
 </resources>
