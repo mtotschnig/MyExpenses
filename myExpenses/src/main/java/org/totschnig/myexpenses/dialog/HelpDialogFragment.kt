@@ -91,6 +91,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "vote" to null,
             "refresh" to R.drawable.ic_sync,
             "result" to R.drawable.ic_web,
+            "clear" to R.drawable.ic_menu_close_clear_cancel,
             "learn_more" to null,
             "set_weight" to null,
             "original_amount" to null,

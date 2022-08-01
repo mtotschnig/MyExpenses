@@ -20,12 +20,17 @@
         android:id="@id/SYNC_COMMAND"
         android:icon="@drawable/ic_sync"
         android:title="@string/menu_refresh"
-        app:showAsAction="never">
-    </item>
+        app:showAsAction="never" />
     <item
         android:id="@id/ROADMAP_RESULT_COMMAND"
         android:icon="@drawable/ic_web"
         android:title="@string/menu_result"
-        app:showAsAction="never">
-    </item>
+        app:showAsAction="never" />
+    <item
+        android:id="@id/ROADMAP_CLEAR_COMMAND"
+        android:icon="@drawable/ic_menu_close_clear_cancel"
+        android:title="@string/menu_clear"
+        app:showAsAction="never"
+
+        />
 </menu>

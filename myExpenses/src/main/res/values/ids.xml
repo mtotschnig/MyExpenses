@@ -50,6 +50,8 @@
     <item name="TEMPLATE_TITLE_DIALOG" type="id" />
     <item name="WEB_COMMAND" type="id" />
     <item name="ROADMAP_RESULT_COMMAND" type="id" />
+    <item name="ROADMAP_CLEAR_COMMAND" type="id" />
+    <item name="ROADMAP_CLEAR_COMMAND_DO" type="id" />
     <item name="CREATE_INSTANCE_EDIT_COMMAND" type="id" />
     <item name="CREATE_INSTANCE_SAVE_COMMAND" type="id" />
     <item name="CREATE_PLAN_INSTANCE_EDIT_COMMAND" type="id" />

@@ -19,6 +19,7 @@ import eltos.simpledialogfragment.form.SimpleFormDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.RoadmapBinding
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -166,15 +167,39 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         if (super.dispatchCommand(command, tag)) {
             return true
         }
-        when (command) {
+        return when (command) {
             R.id.ROADMAP_RESULT_COMMAND -> {
                 startActionView(ROADMAP_URL + "issues.html")
-                return true
+                true
+            }
+            R.id.ROADMAP_CLEAR_COMMAND_DO -> {
+                voteWeights.clear()
+                validateAndUpdateUi()
+                true
+            }
+            R.id.ROADMAP_CLEAR_COMMAND -> {
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putString(
+                        ConfirmationDialogFragment.KEY_TITLE_STRING,
+                        "Clear Vote"
+                    )
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        getString(R.string.menu_RoadmapVoteActivity_clear_help_text)
+                    )
+                    putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.ROADMAP_CLEAR_COMMAND_DO)
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.menu_clear
+                    )
+                })
+                    .show(supportFragmentManager, "Clear")
+                true
             }
             R.id.SYNC_COMMAND -> {
                 showIsLoading()
                 roadmapViewModel.loadData(true)
-                return true
+                true
             }
             R.id.ROADMAP_SUBMIT_VOTE -> {
                 if (lastVote?.let { it.vote == voteWeights && it.version == versionFromPref } == true) {
@@ -200,9 +225,9 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     }
                     simpleFormDialog.show(this, DIALOG_TAG_SUBMIT_VOTE)
                 }
-                return true
+                true
             }
-            else -> return false
+            else -> false
         }
     }
 

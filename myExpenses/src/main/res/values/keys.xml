@@ -218,6 +218,7 @@
     <string name="vote_reminder_action">Vote</string>
     <string name="menu_set_weight">Set weight</string>
     <string name="menu_result">Result</string>
+    <string name="menu_clear">Clear</string>
     <string name="menu_color">@string/color</string>
     <string name="roadmap_intro">We have launched a new iteration of the Roadmap Vote. Please help us define priorities for the upcoming year.</string>
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>

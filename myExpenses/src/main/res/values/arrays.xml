@@ -486,6 +486,7 @@
         <item>vote</item>
         <item>refresh</item>
         <item>result</item>
+        <item>clear</item>
     </string-array>
 
     <string-array name="RoadmapVoteActivity_cabitems" tools:ignore="UnusedResources">

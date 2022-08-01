@@ -34,6 +34,7 @@
     <string name="menu_RoadmapVoteActivity_vote_help_text">Once you have distributed all your points, this button will allow to submit your vote.</string>
     <string name="menu_RoadmapVoteActivity_refresh_help_text">The list of issues is cached locally. Fetch list again from the Internet.</string>
     <string name="menu_RoadmapVoteActivity_result_help_text">Display the current voting results.</string>
+    <string name="menu_RoadmapVoteActivity_clear_help_text">All weights will be reset to 0.</string>
     <string name="cab_RoadmapVoteActivity_learn_more_help_text">Learn more about the ticket by reading its page on Github.</string>
     <string name="cab_RoadmapVoteActivity_set_weight_help_text">Select the amount of points that corresponds to how relevant the issue is for you.</string>
     <string name="menu_budget_aggregate">@string/menu_distribution_aggreate</string>
