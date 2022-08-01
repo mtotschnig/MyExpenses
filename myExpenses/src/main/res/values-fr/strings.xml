@@ -1023,4 +1023,7 @@
     <string name="whats_new_340">Le champ \"Notes\" autorise plusieurs lignes.</string>
     <string name="pref_debug_logging_share_summary">Partager les fichiers journaux</string>
     <string name="webui_warning_move_transaction">La transaction sera déplacée vers le compte {account}.</string>
+    <string name="pref_csv_export_split_categories_summary">Utiliser des colonnes distinctes pour chaque niveau de la hiérarchie des catégories</string>
+    <string name="pref_csv_export_split_amount_summary">Utiliser des colonnes distinctes pour les revenus et les dépenses</string>
+    <string name="pref_csv_export_split_date_time_summary">Utiliser des colonnes distinctes pour la date et l\'heure</string>
 </resources>

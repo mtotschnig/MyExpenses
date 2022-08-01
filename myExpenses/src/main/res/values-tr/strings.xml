@@ -1023,4 +1023,7 @@
     <string name="pref_debug_logging_share_summary">Günlük dosyalarını paylaş</string>
     <string name="whats_new_340">Notlar alanı birden çok satıra izin verir.</string>
     <string name="webui_warning_move_transaction">Muamele {account} hesabına taşınacak.</string>
+    <string name="pref_csv_export_split_amount_summary">Gelir ve giderler için ayrı sütunlar kullanın</string>
+    <string name="pref_csv_export_split_categories_summary">Kategori hiyerarşisinin her seviyesi için ayrı sütunlar kullanın</string>
+    <string name="pref_csv_export_split_date_time_summary">Tarih ve saat için ayrı sütunlar kullanın</string>
 </resources>
