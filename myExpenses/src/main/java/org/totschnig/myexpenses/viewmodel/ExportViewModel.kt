@@ -81,10 +81,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val accountIds: Array<Long> = if (accountId > 0L) {
                         arrayOf(accountId)
                     } else {
-                        var selection: String? = null
+                        var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
                         var selectionArgs: Array<String>? = null
-                        if (currency != null) {
-                            selection = DatabaseConstants.KEY_CURRENCY + " = ? AND " + DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS + " = 0"
+                        if (currency != null && currency != AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE) {
+                            selection = " AND ${DatabaseConstants.KEY_CURRENCY} = ?"
                             selectionArgs = arrayOf(currency)
                         }
                         application.contentResolver.query(
