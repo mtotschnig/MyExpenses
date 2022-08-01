@@ -447,10 +447,11 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   protected boolean doHelp(String variant) {
     Intent i;
     i = new Intent(this, Help.class);
+    i.putExtra(HelpDialogFragment.KEY_CONTEXT, this.getClass().getSimpleName());
     i.putExtra(HelpDialogFragment.KEY_VARIANT,
         variant != null ? variant : getHelpVariant());
     //for result is needed since it allows us to inspect the calling activity
-    startActivityForResult(i, 0);
+    startActivity(i);
     return true;
   }
 

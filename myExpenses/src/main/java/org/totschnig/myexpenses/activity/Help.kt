@@ -26,8 +26,7 @@ class Help : ProtectedFragmentActivity() {
 
         newInstance(
             context = intent.getStringExtra(HelpDialogFragment.KEY_CONTEXT)
-                ?: callingActivity?.let { Utils.getSimpleClassNameFromComponentName(it) }
-                ?: getString(R.string.app_name),
+                ?: throw java.lang.IllegalArgumentException("context extra missing"),
             variant = intent.getStringExtra(HelpDialogFragment.KEY_VARIANT),
             title = intent.getStringExtra(HelpDialogFragment.KEY_TITLE)
         ).show(supportFragmentManager, "HELP")
