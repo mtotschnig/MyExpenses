@@ -5,16 +5,16 @@ import org.totschnig.myexpenses.export.qif.QifBufferedReader
 import org.totschnig.myexpenses.export.qif.QifUtils
 import java.io.IOException
 
-data class CategoryInfo(val name: String?, val income: Boolean) {
+data class CategoryInfo(val name: String, val income: Boolean = false) {
     companion object {
         //originally based on Financisto
         @JvmStatic
         @Throws(IOException::class)
-        fun readFrom(r: QifBufferedReader): CategoryInfo {
-            var line: String
+        fun readFrom(r: QifBufferedReader): CategoryInfo? {
             var name: String? = null
             var isIncome = false
-            while (r.readLine().also { line = it } != null) {
+            while (true) {
+                val line = r.readLine() ?: break
                 if (line.startsWith("^")) {
                     break
                 }
@@ -24,7 +24,7 @@ data class CategoryInfo(val name: String?, val income: Boolean) {
                     isIncome = true
                 }
             }
-            return CategoryInfo(name, isIncome)
+            return name?.let { CategoryInfo(it, isIncome) }
         }
     }
 }

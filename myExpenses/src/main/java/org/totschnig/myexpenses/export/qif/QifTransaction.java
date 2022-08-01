@@ -23,6 +23,8 @@ import static org.totschnig.myexpenses.export.qif.QifUtils.parseDate;
 import static org.totschnig.myexpenses.export.qif.QifUtils.parseMoney;
 import static org.totschnig.myexpenses.export.qif.QifUtils.trimFirstChar;
 
+import androidx.annotation.Nullable;
+
 /**
  * Created by IntelliJ IDEA. User: Denis Solonenko Date: 2/8/11 12:52 AM
  */
@@ -31,9 +33,12 @@ public class QifTransaction {
   public long id;
   public Date date;
   public BigDecimal amount = new BigDecimal(0);
+  @Nullable
   public String payee;
   public String memo;
+  @Nullable
   public String category;
+  @Nullable
   public String categoryClass;
   public String toAccount;
   public String project;
