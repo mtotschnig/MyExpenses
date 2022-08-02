@@ -96,17 +96,15 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     }
 
     private fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.setFilter(
-            if (newText.isNullOrEmpty()) {
-                ""
-                //configureImportButton(true)
-            } else {
-                newText
-                // if a filter results in an empty list,
-                // we do not want to show the setup default categories button
-                //configureImportButton(false)
-            }
-        )
+        viewModel.filter = if (newText.isNullOrEmpty()) {
+            ""
+            //configureImportButton(true)
+        } else {
+            newText
+            // if a filter results in an empty list,
+            // we do not want to show the setup default categories button
+            //configureImportButton(false)
+        }
         return true
     }
 
@@ -115,7 +113,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
         menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
             it.isChecked = parentSelectionOnTap.value
         }
-        prepareSearch(menu, viewModel.getFilter())
+        prepareSearch(menu, viewModel.filter)
         return true
     }
 
