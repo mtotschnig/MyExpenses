@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.OnBoardingViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -58,6 +59,15 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             inject(currencyViewModel)
             inject(viewModel)
         }
+        viewModel.accountSave.observe(this) {
+            if (it) {
+                (requireActivity() as OnboardingActivity).start()
+            }  else {
+                val message = "Unknown error while setting up account"
+                CrashHandler.report(message)
+                (requireActivity() as OnboardingActivity).showSnackBar(message)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -79,7 +89,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     override fun onNextButtonClicked() {
         prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().code)
-        (requireActivity() as OnboardingActivity).finishOnboarding()
+        viewModel.saveAccount(buildAccount())
     }
 
     override fun getMenuResId(): Int {

@@ -71,27 +71,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
             pagerAdapter.getFragmentName(pagerAdapter.count - 1)
         ) as? OnboardingDataFragment
 
-    fun finishOnboarding() {
-        @Suppress("DEPRECATION")
-        startDbWriteTask()
-    }
-
-    override fun getObject(): Model {
-        return dataFragment!!.buildAccount()
-    }
-
-    override fun onPostExecute(result: Uri?) {
-        super.onPostExecute(result)
-        if (result != null) {
-            start()
-        } else {
-            val message = "Unknown error while setting up account"
-            CrashHandler.report(message)
-            showSnackBar(message)
-        }
-    }
-
-    private fun start() {
+    fun start() {
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
         val intent = Intent(this, MyExpenses::class.java)
