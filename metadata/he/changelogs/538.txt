@@ -1,0 +1,4 @@
+• התאמה אישית: יצא ל- CSV
+• יצא ל- JSON 2.0
+
+https://github.com/mtotschnig/MyExpenses/projects/73#column-19080863

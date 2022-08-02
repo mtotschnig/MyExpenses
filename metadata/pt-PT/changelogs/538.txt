@@ -1,0 +1,4 @@
+• Personalizar: Exportação para CSV
+• Exportação para JSON 2.0
+
+https://github.com/mtotschnig/MyExpenses/projects/73#column-19080863

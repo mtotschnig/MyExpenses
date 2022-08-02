@@ -1,0 +1,4 @@
+• 自定义: 导出为 CSV
+• 导出为 JSON 2.0
+
+https://github.com/mtotschnig/MyExpenses/projects/73#column-19080863

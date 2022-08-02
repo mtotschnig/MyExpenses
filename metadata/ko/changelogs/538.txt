@@ -1,0 +1,4 @@
+• 맞춤설정: CSV로 내보내기
+• JSON로 내보내기 2.0
+
+https://github.com/mtotschnig/MyExpenses/projects/73#column-19080863

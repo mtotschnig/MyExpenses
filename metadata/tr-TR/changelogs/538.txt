@@ -1,0 +1,4 @@
+• Özelleştir: CSV olarak dışa aktar
+• JSON olarak dışa aktar 2.0
+
+https://github.com/mtotschnig/MyExpenses/projects/73#column-19080863
