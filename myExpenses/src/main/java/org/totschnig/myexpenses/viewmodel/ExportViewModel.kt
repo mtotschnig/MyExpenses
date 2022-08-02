@@ -84,7 +84,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                         var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
                         var selectionArgs: Array<String>? = null
                         if (currency != null && currency != AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE) {
-                            selection = " AND ${DatabaseConstants.KEY_CURRENCY} = ?"
+                            selection += " AND ${DatabaseConstants.KEY_CURRENCY} = ?"
                             selectionArgs = arrayOf(currency)
                         }
                         application.contentResolver.query(
