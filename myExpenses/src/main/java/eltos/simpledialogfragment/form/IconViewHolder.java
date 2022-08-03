@@ -23,12 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.SimpleIconDialog;
 
 import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
-import eltos.simpledialogfragment.list.SimpleIconDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 
@@ -113,7 +113,8 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
     if ((ICON_PICKER_DIALOG_TAG + field.resultKey).equals(dialogTag)) {
       if (which == BUTTON_POSITIVE) {
         selected = extras.getString(KEY_ICON);
-        updateIcon(selected, extras.getInt(SimpleIconDialog.KEY_RESID));
+        //TODO
+        //updateIcon(selected, extras.getInt(SimpleIconDialog.KEY_RESID));
         updateViewVisibility();
       } else if (which == BUTTON_NEGATIVE) {
         selected = null;
@@ -132,9 +133,7 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
   }
 
   private void onClick(final SimpleFormDialog.DialogActions actions) {
-    final SimpleIconDialog iconDialog = SimpleIconDialog.build()
-        .icons(field.iconArray)
-        .neut();
+    final SimpleIconDialog iconDialog = new SimpleIconDialog();
     if(selected != null) {
       iconDialog.neg(R.string.menu_remove);
     }
