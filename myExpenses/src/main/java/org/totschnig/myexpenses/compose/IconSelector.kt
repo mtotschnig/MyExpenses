@@ -1,21 +1,31 @@
 package org.totschnig.myexpenses.compose
 
-import android.widget.Toast
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Tab
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -23,52 +33,77 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
-import timber.log.Timber
-
-data class IconInfo(val unicode: String, val label: String, val isBrand: Boolean)
-
-fun LazyGridScope.header(content: String) {
-    item(span = { GridItemSpan(this.maxLineSpan) }) {
-        Text(text = content, style = MaterialTheme.typography.h6)
-    }
-}
+import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
+import org.totschnig.myexpenses.viewmodel.data.IconInfo
 
 @Composable
 fun IconSelector(
     categories: Array<String>,
     labelForCategory: (String) -> String,
-    iconsForCategory: (String) -> Array<IconInfo>
+    iconsForCategory: (String) -> Map<String, IconInfo>,
+    iconsForSearch: (String) -> Map<String, IconInfo>,
+    onIconSelected: (String) -> Unit
 ) {
     val faFontFamilyBrand = FontFamily(Font(R.font.fa_brands_400, FontWeight.Normal))
     val faFontFamilySolid = FontFamily(Font(R.font.fa_solid_900, FontWeight.Normal))
-    val ctx = LocalContext.current
-    LazyVerticalGrid(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = dimensionResource(R.dimen.activity_horizontal_margin))
-            .padding(top = 12.dp, bottom = 4.dp),
-        columns = GridCells.Adaptive(40.dp)
-    ) {
-        for (category in categories) {
-            Timber.d(category)
-            header(labelForCategory(category))
-            val icons = iconsForCategory(category)
-/*            for (icon in icons) {
+    var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
+    var searchTerm by rememberSaveable { mutableStateOf("") }
+    val icons = derivedStateOf {
+        if (selectedTabIndex > 0)
+            iconsForCategory(categories[selectedTabIndex - 1])
+        else
+            if (searchTerm.isNotEmpty()) iconsForSearch(searchTerm) else emptyMap()
+    }
+    val localFocusManager = LocalFocusManager.current
+    Column {
+        ScrollableTabRow(selectedTabIndex = selectedTabIndex) {
+            Tab(modifier = Modifier.width(100.dp), selected = selectedTabIndex == 0, onClick = { selectedTabIndex = 0 }) {
+                TextField(
+                    modifier = Modifier
+                        .onFocusChanged {
+                            if (it.isFocused) {
+                                selectedTabIndex = 0
+                            }
+                        },
+                    value = searchTerm,
+                    onValueChange = { searchTerm = it },
+                    placeholder = { Text("Search") },
+                    maxLines = 1
+                )
+            }
+            categories.forEachIndexed { tabIndex, category ->
+                val effectiveIndex = tabIndex + 1
+                Tab(selected = selectedTabIndex == effectiveIndex,
+                    onClick = { selectedTabIndex = effectiveIndex; localFocusManager.clearFocus() },
+                    text = { Text(text = labelForCategory(category)) }
+                )
+            }
+        }
+        LazyVerticalGrid(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .padding(top = 12.dp, bottom = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            columns = GridCells.Fixed(3)
+        ) {
+            for (icon in icons.value) {
                 item {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                            .pointerInput(Unit) {
-                                detectTapGestures(
-                                    onLongPress = { Toast.makeText(ctx, icon.label, Toast.LENGTH_LONG).show() }
-                                )
-                            },
-                        text = icon.unicode,
-                        fontFamily = if(icon.isBrand) faFontFamilyBrand else faFontFamilySolid,
-                        fontSize = 24.sp,
-                        color = LocalColors.current.iconTint
-                    )
+                    Column(
+                        modifier = Modifier.clickable {
+                                onIconSelected(icon.key)
+                        }.padding(vertical = 10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = icon.value.unicode.toString(),
+                            fontFamily = if (icon.value.isBrand) faFontFamilyBrand else faFontFamilySolid,
+                            fontSize = 24.sp,
+                            color = LocalColors.current.iconTint
+                        )
+                        Text(modifier = Modifier.horizontalScroll(rememberScrollState()), text = stringResource(id = icon.value.label), maxLines = 1)
+                    }
                 }
-            }*/
+            }
         }
     }
 }
@@ -76,16 +111,17 @@ fun IconSelector(
 @Preview
 @Composable
 fun Preview() {
-    val ctx = LocalContext.current
     IconSelector(
         stringArrayResource(id = R.array.categories),
         labelForCategory = {
             "Accessibility"
         },
         iconsForCategory = {
-            Array(5) {
-                IconInfo(ctx.getString(R.string.fa_audio_description_unicode), it.toString(), false)
-            }
-        }
+            FontAwesomeIcons
+        },
+        iconsForSearch = {
+           emptyMap()
+        },
+        onIconSelected = {}
     )
 }

@@ -15,6 +15,8 @@
 
 package eltos.simpledialogfragment.form;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -22,15 +24,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.SimpleIconDialog;
+import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIconsKt;
+import org.totschnig.myexpenses.viewmodel.data.IconInfo;
 
-import androidx.annotation.NonNull;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 
 /**
  * The ViewHolder class for {@link ColorField}
@@ -47,7 +53,7 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
   @BindView(R.id.label)
   TextView label;
   @BindView(R.id.icon)
-  ImageView icon;
+  TextView icon;
   @BindView(R.id.select)
   Button select;
 
@@ -73,14 +79,16 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
     select.setOnClickListener(v -> onClick(actions));
     icon.setOnClickListener(v -> onClick(actions));
     if (selected != null) {
-      updateIcon(selected, context.getResources().getIdentifier(selected, "drawable", context.getPackageName()));
+      updateIcon(selected);
     }
     updateViewVisibility();
   }
 
-  private void updateIcon(String label, int resId) {
-    icon.setContentDescription(label);
-    icon.setImageResource(resId);
+  private void updateIcon(String result) {
+    IconInfo iconInfo = Objects.requireNonNull(FontAwesomeIconsKt.getFontAwesomeIcons().get(result));
+    icon.setTypeface(ResourcesCompat.getFont(icon.getContext(), iconInfo.isBrand() ? R.font.fa_brands_400 : R.font.fa_solid_900));
+    icon.setText(String.valueOf(iconInfo.getUnicode()));
+    icon.setContentDescription(icon.getContext().getString(iconInfo.getLabel()));
   }
 
   @Override
@@ -113,8 +121,7 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
     if ((ICON_PICKER_DIALOG_TAG + field.resultKey).equals(dialogTag)) {
       if (which == BUTTON_POSITIVE) {
         selected = extras.getString(KEY_ICON);
-        //TODO
-        //updateIcon(selected, extras.getInt(SimpleIconDialog.KEY_RESID));
+        updateIcon(selected);
         updateViewVisibility();
       } else if (which == BUTTON_NEGATIVE) {
         selected = null;
@@ -133,7 +140,8 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
   }
 
   private void onClick(final SimpleFormDialog.DialogActions actions) {
-    final SimpleIconDialog iconDialog = new SimpleIconDialog();
+    final SimpleIconDialog iconDialog = new SimpleIconDialog()
+            .neut();
     if(selected != null) {
       iconDialog.neg(R.string.menu_remove);
     }

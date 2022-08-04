@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.ui.platform.ComposeView
@@ -9,10 +10,15 @@ import eltos.simpledialogfragment.SimpleDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.IconInfo
 import org.totschnig.myexpenses.compose.IconSelector
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
 
 class SimpleIconDialog : SimpleDialog<SimpleIconDialog>() {
+
+    init {
+        pos(null)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
         val ctx = requireContext()
@@ -24,45 +30,40 @@ class SimpleIconDialog : SimpleDialog<SimpleIconDialog>() {
                             IconSelector(
                                 categories = stringArrayResource(id = R.array.categories),
                                 labelForCategory = {
-                                    ctx.getString(
-                                        ctx.resources.getIdentifier(
+                                    getString(
+                                        resources.getIdentifier(
                                             "category_${it}_label",
                                             "string",
-                                            ctx.packageName
+                                            requireContext().packageName
                                         )
                                     )
                                 },
                                 iconsForCategory = { category ->
-                                    ctx.getStringArray(
-                                        ctx.resources.getIdentifier(
-                                            "category_${category}_icons", "array", ctx.packageName
+                                    buildMap {
+                                        ctx.getStringArray(
+                                            resources.getIdentifier(
+                                                "category_${category}_icons", "array", ctx.packageName
+                                            )
+                                        ).forEach {
+                                            put(it, FontAwesomeIcons[it] ?: throw IllegalArgumentException("no icon $it"))
+                                        }
+                                    }
+                                },
+                                iconsForSearch = { search ->
+                                    FontAwesomeIcons.filter {
+                                        getString(it.value.label).contains(
+                                            search,
+                                            true
                                         )
-                                    ).map { icon ->
-                                        IconInfo(
-                                            unicode = ctx.getString(
-                                                ctx.resources.getIdentifier(
-                                                    "fa_${icon}_unicode",
-                                                    "string",
-                                                    ctx.packageName
-                                                )
-                                            ),
-                                            label = ctx.getString(
-                                                ctx.resources.getIdentifier(
-                                                    "fa_${icon}_label",
-                                                    "string",
-                                                    ctx.packageName
-                                                )
-                                            ),
-                                            isBrand = ctx.resources.getInteger(
-                                                ctx.resources.getIdentifier(
-                                                    "fa_${icon}_style",
-                                                    "integer",
-                                                    ctx.packageName
-                                                )
-                                            ) == 1
-                                        )
-                                    }.toTypedArray()
-                                })
+                                    }
+                                },
+                                onIconSelected = {
+                                    callResultListener(DialogInterface.BUTTON_POSITIVE, Bundle(1).apply {
+                                        putString(KEY_ICON, it)
+                                    })
+                                    dismiss()
+                                }
+                            )
                         }
                     }
                 }
