@@ -20,7 +20,6 @@ import android.os.Parcel;
 public class SelectIconField extends FormElement<SelectIconField, IconViewHolder> {
 
   String preset;
-  String[] iconArray;
 
   private SelectIconField(String resultKey) {
     super(resultKey);
@@ -36,7 +35,6 @@ public class SelectIconField extends FormElement<SelectIconField, IconViewHolder
   }
 
   public SelectIconField icons(String[] iconArray) {
-    this.iconArray = iconArray;
     return this;
   }
 
@@ -48,14 +46,12 @@ public class SelectIconField extends FormElement<SelectIconField, IconViewHolder
   protected SelectIconField(Parcel in) {
     super(in);
     preset = in.readString();
-    iconArray = in.createStringArray();
   }
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
     dest.writeString(preset);
-    dest.writeStringArray(iconArray);
   }
 
   @Override

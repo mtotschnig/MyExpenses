@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
-import java.util.Date;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -2218,6 +2217,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 127) {
         createOrRefreshViews(db);
+      }
+      if (oldVersion < 128) {
+        upgradeTo128(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

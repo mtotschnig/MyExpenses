@@ -15,6 +15,15 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         tools:ignore="LabelFor" />
 
+    <ImageView
+        android:id="@+id/icon_extra"
+        android:layout_width="@dimen/category_icon_size"
+        android:layout_height="@dimen/category_icon_size"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:visibility="gone"
+        android:contentDescription="@string/select"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/icon"

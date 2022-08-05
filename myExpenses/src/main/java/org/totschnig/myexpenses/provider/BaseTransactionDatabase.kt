@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor
 import timber.log.Timber
 
-const val DATABASE_VERSION = 127
+const val DATABASE_VERSION = 128
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -198,6 +198,63 @@ abstract class BaseTransactionDatabase(
                     arrayOf(it.getLong(0).toString())
                 )
             }
+        }
+    }
+    fun upgradeTo128(db: SQLiteDatabase) {
+        db.execSQL("UPDATE categories SET icon = replace(icon,'_','-')")
+        mapOf(
+            "apple-alt" to "apple-whole",
+            "balance-scale" to "scale-balanced",
+            "birthday-cake" to "cake-candles",
+            "blind" to "person-walking-with-cane",
+            "burn" to "fire-flame-simple",
+            "car-crash" to "car-burst",
+            "cocktail" to "martini-glass-citrus",
+            "concierge-bell" to "bell-concierge",
+            "cut" to "scissors",
+            "donate" to "circle-dollar-to-slot",
+            "dot-circle" to "circle-dot",
+            "funnel-dollar" to "filter-circle-dollar",
+            "glass-whiskey" to "whiskey-glass",
+            "hand-holding-usd" to "hand-holding-dollar",
+            "hands-helping" to "handshake-angle",
+            "heart-broken" to "heart-crack",
+            "home" to "house",
+            "house-damage" to "house-chimney-crack",
+            "medkit" to "suitcase-medical",
+            "parking" to "square-parking",
+            "portrait" to "image-portrait",
+            "prescription-bottle-alt" to "prescription-bottle-medical",
+            "running" to "person-running",
+            "search-dollar" to "magnifying-glass-dollar",
+            "search-plus" to "magnifying-glass-plus",
+            "shield-alt" to "shield-halved",
+            "shopping-basket" to "basket-shopping",
+            "shopping-cart" to "cart-shopping",
+            "sign-in-alt" to "right-to-bracket",
+            "sign-out-alt" to "right-from-bracket",
+            "subway" to "train-subway",
+            "table-tennis" to "table-tennis-paddle-ball",
+            "tools" to "screwdriver-wrench",
+            "tram" to "cable-car",
+            "tshirt" to "shirt",
+            "university" to "building-columns",
+            "user-cog" to "user-gear",
+            "user-md" to "user-doctor",
+            "walking" to "person-walking",
+            "premium" to "award",
+            "retirement" to "person-cane",
+            "ic-check" to "check",
+            "ic-expand-more" to "angle-down"
+        ).forEach {
+            db.update(
+                "categories",
+                ContentValues(1).apply {
+                    put("icon", it.value)
+                },
+                "icon = ?",
+                arrayOf(it.key)
+            )
         }
     }
 

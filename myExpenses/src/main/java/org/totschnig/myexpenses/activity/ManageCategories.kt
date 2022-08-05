@@ -644,8 +644,7 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
             .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
 
     private fun buildIconField(preset: String?) =
-        SelectIconField.picker(KEY_ICON).icons(BuildConfig.CATEGORY_ICONS)
-            .preset(preset).label(R.string.icon)
+        SelectIconField.picker(KEY_ICON).preset(preset).label(R.string.icon)
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
         if ((DIALOG_NEW_CATEGORY == dialogTag || DIALOG_EDIT_CATEGORY == dialogTag)

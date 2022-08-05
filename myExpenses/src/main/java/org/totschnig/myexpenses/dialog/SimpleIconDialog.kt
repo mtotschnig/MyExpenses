@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.IconSelector
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.viewmodel.data.ExtraIcons
 import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
 
 class SimpleIconDialog : SimpleDialog<SimpleIconDialog>() {
@@ -42,15 +43,32 @@ class SimpleIconDialog : SimpleDialog<SimpleIconDialog>() {
                                     buildMap {
                                         ctx.getStringArray(
                                             resources.getIdentifier(
-                                                "category_${category}_icons", "array", ctx.packageName
+                                                "category_${category}_icons",
+                                                "array",
+                                                ctx.packageName
                                             )
                                         ).forEach {
-                                            put(it, FontAwesomeIcons[it] ?: throw IllegalArgumentException("no icon $it"))
+                                            put(
+                                                it,
+                                                FontAwesomeIcons[it]
+                                                    ?: throw IllegalArgumentException("no icon $it")
+                                            )
+                                        }
+                                        resources.getIdentifier(
+                                            "extra_${category}_icons", "array", ctx.packageName
+                                        ).takeIf { it != 0 }?.let { resId ->
+                                            ctx.getStringArray(resId).forEach {
+                                                put(
+                                                    it,
+                                                    ExtraIcons[it]
+                                                        ?: throw IllegalArgumentException("no icon $it")
+                                                )
+                                            }
                                         }
                                     }
                                 },
                                 iconsForSearch = { search ->
-                                    FontAwesomeIcons.filter {
+                                    (FontAwesomeIcons + ExtraIcons).filter {
                                         getString(it.value.label).contains(
                                             search,
                                             true
@@ -58,9 +76,11 @@ class SimpleIconDialog : SimpleDialog<SimpleIconDialog>() {
                                     }
                                 },
                                 onIconSelected = {
-                                    callResultListener(DialogInterface.BUTTON_POSITIVE, Bundle(1).apply {
-                                        putString(KEY_ICON, it)
-                                    })
+                                    callResultListener(
+                                        DialogInterface.BUTTON_POSITIVE,
+                                        Bundle(1).apply {
+                                            putSerializable(KEY_ICON, it.key to it.value)
+                                        })
                                     dismiss()
                                 }
                             )

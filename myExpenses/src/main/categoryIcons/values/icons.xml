@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
     <string-array name="Cat_1_Icons">
-        <item>sign_in_alt</item>
+        <item>right-to-bracket</item>
         <item>unemployment</item>
         <item>family</item>
-        <item>hand_holding_usd</item>
+        <item>hand-holding-dollar</item>
         <item>dice</item>
-        <item>hands_helping</item>
-        <item>user_shield</item>
+        <item>handshake-angle</item>
+        <item>user-shield</item>
     </string-array>
     <string-array name="Cat_2_Icons">
-        <item>retirement</item>
-        <item>retirement_2</item>
-        <item>search_dollar</item>
-        <item>search_plus</item>
+        <item>person-cane</item>
+        <item>retirement-2</item>
+        <item>magnifying-glass-dollar</item>
+        <item>magnifying-glass-plus</item>
     </string-array>
     <string-array name="Cat_3_Icons">
         <item>funding</item>
         <item>divide</item>
         <item>percent</item>
-        <item>chart_line</item>
+        <item>chart-line</item>
     </string-array>
     <string-array name="Cat_4_Icons">
         <item>envelope</item>
-        <item>business_time</item>
-        <item>calendar_minus</item>
-        <item>premium</item>
-        <item>thumbs_up</item>
+        <item>business-time</item>
+        <item>calendar-minus</item>
+        <item>award</item>
+        <item>thumbs-up</item>
         <item>envelope</item>
     </string-array>
     <string-array name="Cat_5_Icons">
-        <item>sign_in_alt</item>
+        <item>right-to-bracket</item>
         <item>gift</item>
         <item>retweet</item>
         <item>recycle</item>
     </string-array>
     <string-array name="Cat_6_Icons">
-        <item>pizza_slice</item>
-        <item>glass_whiskey</item>
-        <item>bread_slice</item>
+        <item>pizza-slice</item>
+        <item>whiskey-glass</item>
+        <item>bread-slice</item>
         <item>tray</item>
-        <item>candy_cane</item>
-        <item>shopping_basket</item>
+        <item>candy-cane</item>
+        <item>basket-shopping</item>
         <item>utensils</item>
-        <item>concierge_bell</item>
-        <item>shopping_cart</item>
+        <item>bell-concierge</item>
+        <item>cart-shopping</item>
     </string-array>
     <string-array name="Cat_7_Icons">
         <item>paw</item>
         <item>bone</item>
-        <item>parachute_box</item>
+        <item>parachute-box</item>
         <item>comb</item>
         <item>syringe</item>
     </string-array>
     <string-array name="Cat_8_Icons">
-        <item>shield_alt</item>
-        <item>car_crash</item>
-        <item>notes_medical</item>
-        <item>house_damage</item>
-        <item>heart_broken</item>
-        <item>user_shield</item>
+        <item>shield-alt</item>
+        <item>car-crash</item>
+        <item>notes-medical</item>
+        <item>house-chimney-crack</item>
+        <item>heart-crack</item>
+        <item>user-shield</item>
     </string-array>
     <string-array name="Cat_9_Icons">
         <item>car</item>
-        <item>gas_pump</item>
-        <item>tools</item>
-        <item>car_battery</item>
-        <item>parking</item>
+        <item>gas-pump</item>
+        <item>screwdriver-wrench</item>
+        <item>car-battery</item>
+        <item>square-parking</item>
         <item>gavel</item>
     </string-array>
     <string-array name="Cat_10_Icons">
@@ -78,21 +78,21 @@
         <item>school</item>
     </string-array>
     <string-array name="Cat_12_Icons">
-        <item>university</item>
+        <item>building-columns</item>
         <item>podium</item>
-        <item>user_graduate</item>
+        <item>user-graduate</item>
         <item>book</item>
     </string-array>
     <string-array name="Cat_13_Icons">
-        <item>sign_out_alt</item>
-        <item>piggy_bank</item>
+        <item>right-from-bracket</item>
+        <item>piggy-bank</item>
         <item>mortgage</item>
-        <item>battery_three_quarters</item>
+        <item>battery-three-quarters</item>
         <item>retweet</item>
     </string-array>
     <string-array name="Cat_14_Icons">
-        <item>user_tie</item>
-        <item>retweet_cancel</item>
+        <item>user-tie</item>
+        <item>retweet-cancel</item>
         <item>retweet</item>
     </string-array>
     <string-array name="Cat_15_Icons">
@@ -102,36 +102,36 @@
         <item>plus</item>
     </string-array>
     <string-array name="Cat_16_Icons">
-        <item>home</item>
+        <item>house</item>
         <item>hotel</item>
         <item>key</item>
         <item>tv</item>
         <item>couch</item>
-        <item>battery_three_quarters</item>
+        <item>battery-three-quarters</item>
         <item>fire</item>
         <item>decoration</item>
         <item>water</item>
         <item>bolt</item>
         <item>appliance</item>
         <item>blender</item>
-        <item>burn</item>
+        <item>fire-flame-simple</item>
         <item>garden</item>
-        <item>user_cog</item>
+        <item>user-gear</item>
         <item>phone</item>
         <item>mobile</item>
     </string-array>
     <string-array name="Cat_17_Icons">
-        <item>chess_board</item>
-        <item>dot_circle</item>
-        <item>bowling_ball</item>
+        <item>chess-board</item>
+        <item>circle-dot</item>
+        <item>bowling-ball</item>
         <item>film</item>
-        <item>cocktail</item>
+        <item>martini-glass-citrus</item>
         <item>gamepad</item>
         <item>dice</item>
         <item>book</item>
-        <item>cloud_sun</item>
+        <item>cloud-sun</item>
         <item>music</item>
-        <item>table_tennis</item>
+        <item>table-tennis-paddle-ball</item>
         <item>video</item>
         <item>route</item>
         <item>campground</item>
@@ -139,37 +139,37 @@
     </string-array>
     <string-array name="Cat_18_Icons">
         <item>mortgage</item>
-        <item>money_bill</item>
+        <item>money-bill</item>
     </string-array>
     <string-array name="Cat_19_Icons">
-        <item>medkit</item>
-        <item>notes_medical</item>
+        <item>suitcase-medical</item>
+        <item>notes-medical</item>
         <item>tooth</item>
         <item>hospital</item>
-        <item>walking</item>
-        <item>user_md</item>
+        <item>person-walking</item>
+        <item>user-doctor</item>
         <item>glasses</item>
         <item>hands</item>
-        <item>prescription_bottle_alt</item>
-        <item>user_shield</item>
+        <item>prescription-bottle-medical</item>
+        <item>user-shield</item>
     </string-array>
     <string-array name="Cat_20_Icons">
-        <item>portrait</item>
-        <item>cut</item>
-        <item>tshirt</item>
+        <item>image-portrait</item>
+        <item>scissors</item>
+        <item>shirt</item>
     </string-array>
     <string-array name="Cat_21_Icons">
         <item>route</item>
         <item>bus</item>
-        <item>subway</item>
+        <item>train-subway</item>
         <item>toll</item>
         <item>train</item>
-        <item>tram</item>
+        <item>cable-car</item>
         <item>plane</item>
     </string-array>
     <string-array name="Cat_22_Icons">
-        <item>birthday_cake</item>
-        <item>home</item>
+        <item>cake-candles</item>
+        <item>house</item>
         <item>monument</item>
         <item>route</item>
     </string-array>

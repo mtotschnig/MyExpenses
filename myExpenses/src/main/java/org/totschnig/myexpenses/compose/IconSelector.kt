@@ -26,26 +26,20 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
-import org.totschnig.myexpenses.viewmodel.data.IconInfo
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
 @Composable
 fun IconSelector(
     categories: Array<String>,
     labelForCategory: (String) -> String,
-    iconsForCategory: (String) -> Map<String, IconInfo>,
-    iconsForSearch: (String) -> Map<String, IconInfo>,
-    onIconSelected: (String) -> Unit
+    iconsForCategory: (String) -> Map<String, IIconInfo>,
+    iconsForSearch: (String) -> Map<String, IIconInfo>,
+    onIconSelected: (Map.Entry<String, IIconInfo>) -> Unit
 ) {
-    val faFontFamilyBrand = FontFamily(Font(R.font.fa_brands_400, FontWeight.Normal))
-    val faFontFamilySolid = FontFamily(Font(R.font.fa_solid_900, FontWeight.Normal))
     var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
     var searchTerm by rememberSaveable { mutableStateOf("") }
     val icons = derivedStateOf {
@@ -91,15 +85,10 @@ fun IconSelector(
                 item {
                     Column(
                         modifier = Modifier.clickable {
-                                onIconSelected(icon.key)
+                                onIconSelected(icon)
                         }.padding(vertical = 10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = icon.value.unicode.toString(),
-                            fontFamily = if (icon.value.isBrand) faFontFamilyBrand else faFontFamilySolid,
-                            fontSize = 24.sp,
-                            color = LocalColors.current.iconTint
-                        )
+                        Icon(icon.value)
                         Text(modifier = Modifier.horizontalScroll(rememberScrollState()), text = stringResource(id = icon.value.label), maxLines = 1)
                     }
                 }

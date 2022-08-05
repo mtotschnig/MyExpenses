@@ -6,7 +6,16 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -18,7 +27,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,14 +43,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.expand
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -100,7 +119,7 @@ fun Category(
                     }
                 }
             }
-        } else if (!withRoot || expansionMode.isExpanded(category.id))  {
+        } else if (!withRoot || expansionMode.isExpanded(category.id)) {
             LazyColumn(
                 verticalArrangement = Arrangement.Center
             ) {
@@ -211,18 +230,13 @@ fun CategoryRenderer(
             }
         }
         if (category.icon != null) {
-            val context = LocalContext.current
-            val drawable = AppCompatResources.getDrawable(
-                context,
-                context.resources.getIdentifier(category.icon, "drawable", context.packageName)
-            )
-            Icon(
+            Box(
                 modifier = Modifier
-                    .size(24.dp)
-                    .padding(end = 6.dp),
-                painter = rememberDrawablePainter(drawable = drawable),
-                contentDescription = category.icon
-            )
+                    .size(48.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(iconInfo = IIconInfo.resolveIcon(category.icon))
+            }
         } else {
             Spacer(modifier = Modifier.width(24.dp))
         }
