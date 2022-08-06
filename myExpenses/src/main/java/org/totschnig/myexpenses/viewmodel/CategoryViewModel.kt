@@ -6,14 +6,18 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import androidx.annotation.StringRes
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -63,6 +67,20 @@ open class CategoryViewModel(
     val importResult: StateFlow<Pair<Int, Int>?> = _importResult
     val exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
     val defaultSort = Sort.USAGES
+
+    sealed class DialogState
+    object NoShow : DialogState()
+    data class Show(
+        val id: Long? = null,
+        val parentId: Long? = null,
+        val label: String? = null,
+        val selectIcon: Boolean = false,
+        val saving: Boolean = false,
+        val error: Boolean = false
+    ): DialogState()
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var dialogState: DialogState by savedStateHandle.saveable { mutableStateOf(NoShow) }
 
     sealed class DeleteResult {
         class OperationPending(
@@ -175,10 +193,27 @@ open class CategoryViewModel(
         }
     }
 
-    fun saveCategory(category: Category) =
-        liveData(context = coroutineContext()) {
-            emit(repository.saveCategory(category))
+    fun saveCategory(label: String) {
+        viewModelScope.launch(context = coroutineContext()) {
+            dialogState.let {
+                if (it is Show) {
+                    val category = Category(
+                        id = it.id ?: 0,
+                        label = label,
+                        parentId = it.parentId
+                    )
+                    dialogState = it.copy(saving = true)
+                    dialogState = if (repository.saveCategory(category) == null) {
+                        it.copy(error = true)
+                    } else {
+                        NoShow
+                    }
+                } else {
+                    throw java.lang.IllegalStateException("SaveCategory called without dialogState")
+                }
+            }
         }
+    }
 
     fun deleteCategories(ids: List<Long>) {
         viewModelScope.launch(context = coroutineContext()) {

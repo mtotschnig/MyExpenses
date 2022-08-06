@@ -308,6 +308,7 @@ dependencies {
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$archLifecycleVersion"
 
     androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
 

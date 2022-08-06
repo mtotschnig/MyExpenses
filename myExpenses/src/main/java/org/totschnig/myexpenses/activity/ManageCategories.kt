@@ -3,14 +3,17 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -19,7 +22,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PlaylistAdd
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -30,15 +37,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
-import eltos.simpledialogfragment.SimpleDialog
-import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
-import eltos.simpledialogfragment.form.Input
-import eltos.simpledialogfragment.form.SelectColorField
-import eltos.simpledialogfragment.form.SelectIconField
-import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
@@ -51,7 +51,11 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.configureSearch
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.prepareSearch
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
@@ -62,7 +66,7 @@ enum class Action {
     SELECT_MAPPING, SELECT_FILTER, MANAGE
 }
 
-open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialogResultListener,
+open class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
     enum class HelpVariant {
         manage, select_mapping, select_filter
@@ -193,6 +197,13 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
+                CategoryEdit(
+                    dialogState = viewModel.dialogState,
+                    onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
+                    onSave = {
+                        viewModel.saveCategory(it)
+                    }
+                )
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         when {
@@ -599,73 +610,15 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
      * if label is already used, shows an error
      */
     open fun createCat(parentId: Long?) {
-        SimpleFormDialog.build()
-            .title(if (parentId == null) R.string.menu_create_main_cat else R.string.menu_create_sub_cat)
-            .cancelable(false)
-            .fields(buildLabelField(null), buildIconField(null))
-            .pos(R.string.dialog_button_add)
-            .neut()
-            .extra(Bundle().apply {
-                parentId?.let { putLong(KEY_PARENTID, it) }
-            })
-            .show(this, DIALOG_NEW_CATEGORY)
+        viewModel.dialogState = CategoryViewModel.Show(parentId = parentId)
     }
 
     /**
      * presents AlertDialog for editing an existing category
      */
     open fun editCat(category: Category) {
-        val args = Bundle().apply {
-            putLong(KEY_ROWID, category.id)
-        }
-        val formElements = buildList {
-            add(buildLabelField(category.label))
-            if (category.level == 1 && category.color != null) {
-                add(
-                    SelectColorField.picker(KEY_COLOR).label(R.string.color)
-                        .color(category.color)
-                )
-            }
-            add(buildIconField(category.icon))
-        }.toTypedArray()
-
-        SimpleFormDialog.build()
-            .title(R.string.menu_edit_cat)
-            .cancelable(false)
-            .fields(*formElements)
-            .pos(R.string.menu_save)
-            .neut()
-            .extra(args)
-            .show(this, DIALOG_EDIT_CATEGORY)
+        viewModel.dialogState = CategoryViewModel.Show(id = category.id, label = category.label)
     }
-
-    private fun buildLabelField(text: String?) =
-        Input.plain(KEY_LABEL).required().hint(R.string.label).text(text)
-            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-
-    private fun buildIconField(preset: String?) =
-        SelectIconField.picker(KEY_ICON).preset(preset).label(R.string.icon)
-
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-        if ((DIALOG_NEW_CATEGORY == dialogTag || DIALOG_EDIT_CATEGORY == dialogTag)
-            && which == BUTTON_POSITIVE
-        ) {
-            val label = extras.getString(KEY_LABEL)!!
-            viewModel.saveCategory(
-                Category(
-                    id = extras.getLong(KEY_ROWID),
-                    label = label,
-                    parentId = extras.getLong(KEY_PARENTID).takeIf { it != 0L },
-                    color = extras.getInt(KEY_COLOR),
-                    icon = extras.getString(KEY_ICON)
-                )
-            ).observe(this) { result ->
-                if (result == null) {
-                    showSnackBar(getString(R.string.already_defined, label))
-                }
-            }
-            true
-        } else false
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (feature == ContribFeature.CATEGORY_TREE) {
@@ -678,8 +631,6 @@ open class ManageCategories : ProtectedFragmentActivity(), SimpleDialog.OnDialog
     val action get() = enumValueOrDefault(intent.action, Action.SELECT_MAPPING)
 
     companion object {
-        const val DIALOG_NEW_CATEGORY = "dialogNewCat"
-        const val DIALOG_EDIT_CATEGORY = "dialogEditCat"
         const val KEY_PROTECTION_INFO = "protection_info"
     }
 
