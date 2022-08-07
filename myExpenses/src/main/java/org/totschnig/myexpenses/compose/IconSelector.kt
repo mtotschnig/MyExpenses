@@ -5,16 +5,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -56,7 +58,11 @@ fun IconSelector(
 
     Column(modifier = modifier) {
         ScrollableTabRow(selectedTabIndex = selectedTabIndex) {
-            Tab(modifier = Modifier.width(100.dp), selected = selectedTabIndex == 0, onClick = { selectedTabIndex = 0 }) {
+            Tab(
+                modifier = Modifier.width(100.dp),
+                selected = selectedTabIndex == 0,
+                onClick = { selectedTabIndex = 0 }) {
+                val onSurfaceColor = contentColorFor(MaterialTheme.colors.onSurface)
                 TextField(
                     modifier = Modifier
                         .onFocusChanged {
@@ -67,6 +73,7 @@ fun IconSelector(
                     value = searchTerm,
                     onValueChange = { searchTerm = it },
                     placeholder = { Text("Search") },
+                    colors = TextFieldDefaults.textFieldColors(placeholderColor = onSurfaceColor, cursorColor = onSurfaceColor),
                     maxLines = 1
                 )
             }
@@ -88,12 +95,18 @@ fun IconSelector(
             for (icon in icons.value) {
                 item {
                     Column(
-                        modifier = Modifier.clickable {
+                        modifier = Modifier
+                            .clickable {
                                 onIconSelected(icon)
-                        }.padding(vertical = 10.dp),
+                            }
+                            .padding(vertical = 10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(icon.value)
-                        Text(modifier = Modifier.horizontalScroll(rememberScrollState()), text = stringResource(id = icon.value.label), maxLines = 1)
+                        Text(
+                            modifier = Modifier.horizontalScroll(rememberScrollState()),
+                            text = stringResource(id = icon.value.label),
+                            maxLines = 1
+                        )
                     }
                 }
             }
@@ -105,14 +118,14 @@ fun IconSelector(
 @Composable
 fun Preview() {
     IconSelector(
-        labelForCategory = { _,_ ->
+        labelForCategory = { _, _ ->
             "Accessibility"
         },
-        iconsForCategory = { _,_ ->
+        iconsForCategory = { _, _ ->
             FontAwesomeIcons
         },
-        iconsForSearch = { _,_ ->
-           emptyMap()
+        iconsForSearch = { _, _ ->
+            emptyMap()
         },
         onIconSelected = {}
     )
