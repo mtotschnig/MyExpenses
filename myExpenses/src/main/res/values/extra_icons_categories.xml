@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="extra_household_icons">
+        <item>appliance</item>
+        <item>comb</item>
+        <item>family</item>
+        <item>garden</item>
+        <item>tray</item>
+    </string-array>
+    <string-array name="extra_childhood_icons">
+        <item>bottle</item>
+        <item>toys</item>
+    </string-array>
+    <string-array name="extra_clothing_fashion_icons">
+        <item>clothing</item>
+        <item>pocket</item>
+        <item>shoe</item>
+    </string-array>
+    <string-array name="extra_social_icons">
+        <item>decoration</item>
+        <item>town-hall</item>
+        <item>unemployment</item>
+    </string-array>
+    <string-array name="exta_users_people_icons">
+        <item>family</item>
+        <item>retirement-2</item>
+    </string-array>
+    <string-array name="extra_nature_icons">
+        <item>fence</item>
+        <item>garden</item>
+    </string-array>
+    <string-array name="extra_money_icons">
+        <item>funding</item>
+        <item>mortgage</item>
+        <item>pocket</item>
+        <item>property</item>
+        <item>retirement-2</item>
+        <item>taxes</item>
+        <item>toll</item>
+        <item>unemployment</item>
+        <item>card-travel</item>
+    </string-array>
+    <string-array name="extra_buildings_icons">
+        <item>mortgage</item>
+        <item>property</item>
+        <item>toll</item>
+        <item>town-hall</item>
+    </string-array>
+    <string-array name="extra_political_icons">
+        <item>town-hall</item>
+    </string-array>
+    <string-array name="extra_travel_hotel_icons">
+        <item>tray</item>
+        <item>card-travel</item>
+    </string-array>
+    <string-array name="extra_business_icons">
+        <item>unemployment</item>
+        <item>card-travel</item>
+    </string-array>
+    <string-array name="extra_gaming_icons">
+        <item>toys</item>
+    </string-array>
+    <string-array name="extra_shopping_icons">
+        <item>retweet-cancel</item>
+    </string-array>
+    <string-array name="extra_security_icons">
+        <item>fence</item>
+    </string-array>
+</resources>
