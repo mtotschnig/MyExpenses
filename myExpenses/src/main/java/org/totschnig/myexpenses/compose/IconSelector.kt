@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -34,22 +36,25 @@ import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
 @Composable
 fun IconSelector(
-    categories: Array<String>,
-    labelForCategory: (String) -> String,
-    iconsForCategory: (String) -> Map<String, IIconInfo>,
-    iconsForSearch: (String) -> Map<String, IIconInfo>,
+    modifier: Modifier = Modifier,
+    labelForCategory: (Context, String) -> String = IIconInfo.Companion::resolveLabelForCategory,
+    iconsForCategory: (Context, String) -> Map<String, IIconInfo> = IIconInfo.Companion::resolveIconsForCategory,
+    iconsForSearch: (Context, String) -> Map<String, IIconInfo> = IIconInfo.Companion::searchIcons,
     onIconSelected: (Map.Entry<String, IIconInfo>) -> Unit
 ) {
+    val context = LocalContext.current
+    val categories = stringArrayResource(id = R.array.categories)
     var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
     var searchTerm by rememberSaveable { mutableStateOf("") }
     val icons = derivedStateOf {
         if (selectedTabIndex > 0)
-            iconsForCategory(categories[selectedTabIndex - 1])
+            iconsForCategory(context, categories[selectedTabIndex - 1])
         else
-            if (searchTerm.isNotEmpty()) iconsForSearch(searchTerm) else emptyMap()
+            if (searchTerm.isNotEmpty()) iconsForSearch(context, searchTerm) else emptyMap()
     }
     val localFocusManager = LocalFocusManager.current
-    Column {
+
+    Column(modifier = modifier) {
         ScrollableTabRow(selectedTabIndex = selectedTabIndex) {
             Tab(modifier = Modifier.width(100.dp), selected = selectedTabIndex == 0, onClick = { selectedTabIndex = 0 }) {
                 TextField(
@@ -69,13 +74,12 @@ fun IconSelector(
                 val effectiveIndex = tabIndex + 1
                 Tab(selected = selectedTabIndex == effectiveIndex,
                     onClick = { selectedTabIndex = effectiveIndex; localFocusManager.clearFocus() },
-                    text = { Text(text = labelForCategory(category)) }
+                    text = { Text(text = labelForCategory(context, category)) }
                 )
             }
         }
         LazyVerticalGrid(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(horizontal = 16.dp)
                 .padding(top = 12.dp, bottom = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
@@ -101,14 +105,13 @@ fun IconSelector(
 @Composable
 fun Preview() {
     IconSelector(
-        stringArrayResource(id = R.array.categories),
-        labelForCategory = {
+        labelForCategory = { _,_ ->
             "Accessibility"
         },
-        iconsForCategory = {
+        iconsForCategory = { _,_ ->
             FontAwesomeIcons
         },
-        iconsForSearch = {
+        iconsForSearch = { _,_ ->
            emptyMap()
         },
         onIconSelected = {}

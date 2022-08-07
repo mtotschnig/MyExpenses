@@ -74,7 +74,7 @@ open class CategoryViewModel(
         val id: Long? = null,
         val parentId: Long? = null,
         val label: String? = null,
-        val selectIcon: Boolean = false,
+        val icon: String? = null,
         val saving: Boolean = false,
         val error: Boolean = false
     ): DialogState()
@@ -193,13 +193,14 @@ open class CategoryViewModel(
         }
     }
 
-    fun saveCategory(label: String) {
+    fun saveCategory(label: String, icon: String?) {
         viewModelScope.launch(context = coroutineContext()) {
             dialogState.let {
                 if (it is Show) {
                     val category = Category(
                         id = it.id ?: 0,
                         label = label,
+                        icon = icon,
                         parentId = it.parentId
                     )
                     dialogState = it.copy(saving = true)

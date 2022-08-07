@@ -200,9 +200,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                 CategoryEdit(
                     dialogState = viewModel.dialogState,
                     onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
-                    onSave = {
-                        viewModel.saveCategory(it)
-                    }
+                    onSave = viewModel::saveCategory
                 )
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
                     Box(modifier = Modifier.fillMaxSize()) {
@@ -617,7 +615,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
      * presents AlertDialog for editing an existing category
      */
     open fun editCat(category: Category) {
-        viewModel.dialogState = CategoryViewModel.Show(id = category.id, label = category.label)
+        viewModel.dialogState = CategoryViewModel.Show(id = category.id, label = category.label, icon = category.icon)
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
