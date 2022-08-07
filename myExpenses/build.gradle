@@ -83,10 +83,6 @@ android {
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
             buildConfigField "boolean", "BETA", getPropertyIfDefined("BETA", "false")
         }
-        beta {
-            initWith debug
-            matchingFallbacks = ['debug']
-        }
     }
 
     buildTypes.each { type ->
@@ -104,13 +100,6 @@ android {
             dimension "textRecognition"
         }
     }
-
-    sourceSets {
-        beta.res.srcDirs += 'src/release/res'
-
-        main.res.srcDirs += 'src/main/categoryIcons'
-    }
-
 
     packagingOptions {
         resources {
