@@ -619,9 +619,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             ContribFeature.HISTORY -> {
-                accountsCursor?.let {
+                ensureAccountCursorAtCurrentPosition()?.let {
                     recordUsage(feature)
-                    it.moveToPosition(currentPosition)
                     val i = Intent(this, HistoryActivity::class.java)
                     i.putExtra(KEY_ACCOUNTID, accountId)
                     i.putExtra(KEY_GROUPING, it.getString(KEY_GROUPING))
@@ -655,31 +654,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             ContribFeature.PRINT -> {
-                currentFragment?.let {
-                    val args = Bundle()
-                    args.putParcelableArrayList(
-                        KEY_FILTER,
-                        it.filterCriteria
-                    )
-                    args.putLong(KEY_ROWID, accountId)
-                    if (!supportFragmentManager.isStateSaved) {
-                        supportFragmentManager.beginTransaction()
-                            .add(
-                                TaskExecutionFragment.newInstanceWithBundle(
-                                    args,
-                                    TaskExecutionFragment.TASK_PRINT
-                                ), ProtectedFragmentActivity.ASYNC_TAG
-                            )
-                            .add(
-                                ProgressDialogFragment.newInstance(
-                                    getString(
-                                        R.string.progress_dialog_printing,
-                                        "PDF"
-                                    )
-                                ),
-                                ProtectedFragmentActivity.PROGRESS_TAG
-                            )
-                            .commit()
+                ensureAccountCursorAtCurrentPosition()?.let { cursor ->
+                    currentFragment?.let {
+                        val args = Bundle()
+                        args.putParcelableArrayList(
+                            KEY_FILTER,
+                            it.filterCriteria
+                        )
+                        args.putLong(KEY_ROWID, accountId)
+                        args.putLong(KEY_CURRENT_BALANCE, cursor.getLong(KEY_CURRENT_BALANCE))
+                        if (!supportFragmentManager.isStateSaved) {
+                            supportFragmentManager.beginTransaction()
+                                .add(
+                                    TaskExecutionFragment.newInstanceWithBundle(
+                                        args,
+                                        TaskExecutionFragment.TASK_PRINT
+                                    ), ProtectedFragmentActivity.ASYNC_TAG
+                                )
+                                .add(
+                                    ProgressDialogFragment.newInstance(
+                                        getString(
+                                            R.string.progress_dialog_printing,
+                                            "PDF"
+                                        )
+                                    ),
+                                    ProtectedFragmentActivity.PROGRESS_TAG
+                                )
+                                .commit()
+                        }
                     }
                 }
             }

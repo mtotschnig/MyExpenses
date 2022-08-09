@@ -3,18 +3,24 @@ package org.totschnig.myexpenses.provider
 import android.content.ContentProvider
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteQueryBuilder
 import android.os.Bundle
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import timber.log.Timber
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -91,6 +97,191 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val TAG = "TransactionProvider"
     }
 
+    fun buildAccountQuery(
+        qb: SQLiteQueryBuilder,
+        minimal: Boolean,
+        mergeAggregate: String?,
+        projection: Array<String>?,
+        selection: String?,
+        sortOrder: String?
+    ): String {
+        val homeCurrency = Utils.getHomeCurrency(context, prefHandler)
+        val aggregateFunction = TransactionProvider.aggregateFunction(
+            prefHandler.getBoolean(
+                PrefKey.DB_SAFE_MODE,
+                false
+            )
+        )
+        val cte = accountQueryCTE(
+            homeCurrency,
+            prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day") == "current",
+            aggregateFunction
+        )
+        if (mergeAggregate != null && projection != null) {
+            CrashHandler.report(
+                "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored "
+            )
+        }
+        val joinWithAggregates = "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = $KEY_ACCOUNTID"
+        qb.tables = if (minimal) TABLE_ACCOUNTS else joinWithAggregates
+        val query = if (mergeAggregate == null) {
+            qb.buildQuery(
+               projection ?: Account.PROJECTION_BASE, selection, null,
+                null, null, null
+            )
+        } else {
+            val subQueries: MutableList<String> = ArrayList()
+            if (mergeAggregate == "1") {
+                subQueries.add(
+                    qb.buildQuery(
+                        if (minimal) arrayOf(
+                            KEY_ROWID,
+                            KEY_LABEL,
+                            KEY_CURRENCY,
+                            "0 AS $KEY_IS_AGGREGATE"
+                        ) else Account.PROJECTION_FULL, selection, null,
+                        null, null, null
+                    )
+                )
+            }
+            //Currency query
+            if (mergeAggregate != Account.HOME_AGGREGATE_ID.toString()) {
+                qb.tables =
+                    "$joinWithAggregates LEFT JOIN $TABLE_CURRENCIES on $KEY_CODE = $KEY_CURRENCY"
+
+                val rowIdColumn = "0 - $TABLE_CURRENCIES.$KEY_ROWID AS $KEY_ROWID"
+                val labelColumn = "$KEY_CURRENCY AS $KEY_LABEL"
+                val aggregateColumn = "1 AS $KEY_IS_AGGREGATE"
+                val currencyProjection = if (minimal) arrayOf(
+                    rowIdColumn,
+                    labelColumn,
+                    KEY_CURRENCY,
+                    aggregateColumn
+                ) else {
+                    val openingBalanceSum = "$aggregateFunction($KEY_OPENING_BALANCE)"
+                    arrayOf(
+                        rowIdColumn,  //we use negative ids for aggregate accounts
+                        labelColumn,
+                        "'' AS $KEY_DESCRIPTION",
+                        "$openingBalanceSum AS $KEY_OPENING_BALANCE",
+                        KEY_CURRENCY,
+                        "-1 AS $KEY_COLOR",
+                        "$TABLE_CURRENCIES.$KEY_GROUPING",
+                        "'AGGREGATE' AS $KEY_TYPE",
+                        "0 AS $KEY_SORT_KEY",
+                        "0 AS $KEY_EXCLUDE_FROM_TOTALS",
+                        "null AS $KEY_SYNC_ACCOUNT_NAME",
+                        "null AS $KEY_UUID",
+                        "'DESC' AS $KEY_SORT_DIRECTION",
+                        "1 AS $KEY_EXCHANGE_RATE",
+                        "0 AS $KEY_CRITERION",
+                        "0 AS $KEY_SEALED",
+                        "$openingBalanceSum + $aggregateFunction($KEY_CURRENT) AS $KEY_CURRENT_BALANCE",
+                        "$aggregateFunction($KEY_SUM_INCOME) AS $KEY_SUM_INCOME",
+                        "$aggregateFunction($KEY_SUM_EXPENSES) AS $KEY_SUM_EXPENSES",
+                        "$aggregateFunction($KEY_SUM_TRANSFERS) AS $KEY_SUM_TRANSFERS",
+                        "$openingBalanceSum + $aggregateFunction($KEY_TOTAL) AS $KEY_TOTAL",
+                        "0 AS $KEY_CLEARED_TOTAL",  //we do not calculate cleared and reconciled totals for aggregate accounts
+                        "0 AS $KEY_RECONCILED_TOTAL",
+                        "0 AS $KEY_USAGES",
+                        aggregateColumn,
+                        "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
+                        "0 AS $KEY_HAS_CLEARED",
+                        "0 AS $KEY_SORT_KEY_TYPE",
+                        "0 AS $KEY_LAST_USED"
+                    )
+                }
+                subQueries.add(qb.buildQuery(
+                    currencyProjection,
+                    "$KEY_EXCLUDE_FROM_TOTALS = 0",
+                    KEY_CURRENCY,
+                    if (mergeAggregate == "1") "count(*) > 1" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
+                            mergeAggregate.substring(1),
+                    null,
+                    null
+                ))
+            }
+            //home query
+            if (mergeAggregate == Account.HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
+                qb.tables = joinWithAggregates
+
+                val grouping = prefHandler.getString(AggregateAccount.GROUPING_AGGREGATE, "NONE")
+                val rowIdColumn = Account.HOME_AGGREGATE_ID.toString() + " AS " + KEY_ROWID
+                val labelColumn = "'' AS $KEY_LABEL"
+                val currencyColumn =
+                    "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY
+                val aggregateColumn =
+                    AggregateAccount.AGGREGATE_HOME.toString() + " AS " + KEY_IS_AGGREGATE
+                val homeProjection = if (minimal) {
+                    arrayOf(
+                        rowIdColumn,
+                        labelColumn,
+                        currencyColumn,
+                        aggregateColumn
+                    )
+                } else {
+                    val openingBalanceSum = "$aggregateFunction($KEY_OPENING_BALANCE * $KEY_EXCHANGE_RATE)"
+                    arrayOf(
+                        rowIdColumn,
+                        labelColumn,
+                        "'' AS $KEY_DESCRIPTION",
+                        "$openingBalanceSum AS $KEY_OPENING_BALANCE",
+                        currencyColumn,
+                        "-1 AS $KEY_COLOR",
+                        "'$grouping' AS $KEY_GROUPING",
+                        "'AGGREGATE' AS $KEY_TYPE",
+                        "0 AS $KEY_SORT_KEY",
+                        "0 AS $KEY_EXCLUDE_FROM_TOTALS",
+                        "null AS $KEY_SYNC_ACCOUNT_NAME",
+                        "null AS $KEY_UUID",
+                        "'DESC' AS $KEY_SORT_DIRECTION",
+                        "1 AS $KEY_EXCHANGE_RATE",
+                        "0 AS $KEY_CRITERION",
+                        "0 AS $KEY_SEALED",
+                        "$openingBalanceSum + $aggregateFunction(equivalent_current) AS $KEY_CURRENT_BALANCE",
+                        "$aggregateFunction(equivalent_income) AS $KEY_SUM_INCOME",
+                        "$aggregateFunction(equivalent_expense) AS $KEY_SUM_EXPENSES",
+                        "0 AS $KEY_SUM_TRANSFERS",
+                        "$openingBalanceSum + $aggregateFunction(equivalent_total) AS $KEY_TOTAL",
+                        "0 AS $KEY_CLEARED_TOTAL",  //we do not calculate cleared and reconciled totals for aggregate accounts
+                        "0 AS $KEY_RECONCILED_TOTAL",
+                        "0 AS $KEY_USAGES",
+                        aggregateColumn,
+                        "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
+                        "0 AS $KEY_HAS_CLEARED",
+                        "0 AS $KEY_SORT_KEY_TYPE",
+                        "0 AS $KEY_LAST_USED"
+                    )
+                }
+                subQueries.add(qb.buildQuery(
+                    homeProjection,
+                    "$KEY_EXCLUDE_FROM_TOTALS = 0 AND (select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0",
+                    null, null, null, null))
+            }
+            val grouping = if (!minimal) {
+                when (try {
+                    AccountGrouping.valueOf(
+                        prefHandler.getString(
+                            PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name
+                        )!!
+                    )
+                } catch (e: IllegalArgumentException) {
+                    AccountGrouping.TYPE
+                }) {
+                    AccountGrouping.CURRENCY -> "$KEY_CURRENCY,$KEY_IS_AGGREGATE"
+                    AccountGrouping.TYPE -> "$KEY_IS_AGGREGATE,$KEY_SORT_KEY_TYPE"
+                    else -> KEY_IS_AGGREGATE
+                }
+            } else KEY_IS_AGGREGATE
+            qb.buildUnionQuery(
+                subQueries.toTypedArray(),
+                "$grouping,$sortOrder",
+                null
+            )
+        }
+        return "$cte\n$query"
+    }
+
     fun backup(context: Context, backupDir: File): Result<Unit> {
         val currentDb = File(transactionDatabase.readableDatabase.path)
         transactionDatabase.readableDatabase.beginTransaction()
@@ -140,7 +331,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun repairCorruptedData987(db: SQLiteDatabase) = Bundle(1).apply {
-        putInt(KEY_RESULT, with (transactionDatabase.writableDatabase) {
+        putInt(KEY_RESULT, with(transactionDatabase.writableDatabase) {
             beginTransaction()
             try {
                 execSQL("update transactions set account_id = (select account_id from transactions children where children.parent_id = transactions._id) where account_id != (select account_id from transactions children where children.parent_id = transactions._id)")

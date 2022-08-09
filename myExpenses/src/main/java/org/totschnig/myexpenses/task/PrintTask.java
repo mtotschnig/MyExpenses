@@ -18,17 +18,20 @@ import org.totschnig.myexpenses.util.Result;
 import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
   private final TaskExecutionFragment taskExecutionFragment;
   private long accountId;
   private WhereFilter filter;
+  private long currentBalance;
 
   PrintTask(TaskExecutionFragment taskExecutionFragment, Bundle extras) {
     this.taskExecutionFragment = taskExecutionFragment;
     accountId = extras.getLong(KEY_ROWID);
     filter = new WhereFilter(extras.getParcelableArrayList(TransactionList.KEY_FILTER));
+    currentBalance = extras.getLong(KEY_CURRENT_BALANCE);
   }
 
   /*
@@ -60,7 +63,7 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
     }
     account = Account.getInstanceFromDb(accountId);
     try {
-      return new PdfPrinter(account, appDir, filter).print(context);
+      return new PdfPrinter(account, appDir, filter, currentBalance).print(context);
     } catch (Exception e) {
       Timber.e(e, "Error while printing");
       return Result.ofFailure(R.string.export_sdcard_failure, appDir.getName(), e.getMessage());

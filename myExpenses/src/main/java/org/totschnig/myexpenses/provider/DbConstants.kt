@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider
 
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
 fun checkSealedWithAlias(baseTable: String, innerTable: String) =
@@ -165,3 +166,60 @@ const val FULL_LABEL =
 
 const val TRANSFER_ACCOUNT_LABEL =
     "CASE WHEN  $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS  $KEY_TRANSFER_ACCOUNT_LABEL"
+
+fun accountQueryCTE(homeCurrency: String, futureStartsNow: Boolean, aggregateFunction: String): String {
+    val futureCriterion =
+        if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
+
+    return """
+WITH now as (
+    SELECT
+        cast(strftime('%s', $futureCriterion) as integer) AS now
+), amounts AS (
+    SELECT
+        $KEY_AMOUNT,
+        $KEY_TRANSFER_PEER,
+        $KEY_CR_STATUS,
+        $KEY_DATE,
+        coalesce($KEY_EXCHANGE_RATE, 1) AS $KEY_EXCHANGE_RATE,
+        coalesce(
+            CASE
+                WHEN $KEY_PARENTID
+                THEN (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT FROM $TABLE_TRANSACTIONS
+                    WHERE $KEY_ROWID = $VIEW_WITH_ACCOUNT.$KEY_PARENTID
+                  ) * $KEY_AMOUNT
+                ELSE $KEY_EQUIVALENT_AMOUNT
+            END,
+            coalesce($KEY_EXCHANGE_RATE, 1) * amount
+        ) AS $KEY_EQUIVALENT_AMOUNT,
+        $VIEW_WITH_ACCOUNT.$KEY_ACCOUNTID 
+    FROM ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
+    WHERE $KEY_PARENTID IS NULL AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
+), aggregates AS (
+    SELECT
+        $KEY_ACCOUNTID,
+        $KEY_EXCHANGE_RATE,
+        $aggregateFunction($KEY_AMOUNT) as $KEY_TOTAL,
+        $aggregateFunction($KEY_EQUIVALENT_AMOUNT) as equivalent_total,
+        $aggregateFunction(CASE WHEN $KEY_AMOUNT > 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_INCOME,
+        $aggregateFunction(CASE WHEN $KEY_AMOUNT > 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_income,
+        $aggregateFunction(CASE WHEN $KEY_AMOUNT < 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_EXPENSES,
+        $aggregateFunction(CASE WHEN $KEY_AMOUNT < 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_expense,
+        $aggregateFunction(CASE WHEN $KEY_TRANSFER_PEER is NULL THEN 0 ELSE $KEY_AMOUNT END) as $KEY_SUM_TRANSFERS,
+        $aggregateFunction(CASE WHEN $KEY_DATE <= (select now from now) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CURRENT,
+        $aggregateFunction(CASE WHEN $KEY_DATE <= (select now from now) THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_current,
+        $aggregateFunction(CASE WHEN $KEY_CR_STATUS IN ( 'RECONCILED', 'CLEARED' ) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CLEARED_TOTAL,
+        $aggregateFunction(CASE WHEN $KEY_CR_STATUS = 'RECONCILED' THEN $KEY_AMOUNT ELSE 0 END) as $KEY_RECONCILED_TOTAL,
+        max(CASE WHEN $KEY_CR_STATUS = 'CLEARED' THEN 1 ELSE 0 END) as $KEY_HAS_CLEARED,
+        max($KEY_DATE) > (select now from now) as $KEY_HAS_FUTURE
+   from amounts group by $KEY_ACCOUNTID
+)
+"""
+}
+
+fun exchangeRateJoin(table: String, colum: String, homeCurrency: String) = """
+    $table LEFT JOIN $TABLE_ACCOUNT_EXCHANGE_RATES
+        ON $table.$colum = $TABLE_ACCOUNT_EXCHANGE_RATES.$KEY_ACCOUNTID
+        AND $KEY_CURRENCY_SELF = $table.$KEY_CURRENCY
+        AND $KEY_CURRENCY_OTHER = '$homeCurrency'
+""".trimIndent()

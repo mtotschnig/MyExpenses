@@ -7,7 +7,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
@@ -27,7 +26,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
@@ -91,16 +89,18 @@ public class PdfPrinter {
   private final Account account;
   private final DocumentFile destDir;
   private final WhereFilter filter;
+  private final long currentBalance;
 
   @Inject
   CurrencyFormatter currencyFormatter;
   @Inject
   UserLocaleProvider userLocaleProvider;
 
-  public PdfPrinter(Account account, DocumentFile destDir, WhereFilter filter) {
+  public PdfPrinter(Account account, DocumentFile destDir, WhereFilter filter, long currentBalance) {
     this.account = account;
     this.destDir = destDir;
     this.filter = filter;
+    this.currentBalance = currentBalance;
     MyApplication.getInstance().getAppComponent().inject(this);
   }
 
@@ -162,27 +162,6 @@ public class PdfPrinter {
 
   private void addHeader(Document document, PdfHelper helper, Context context)
       throws DocumentException, IOException {
-    String selection, column;
-    String[] selectionArgs;
-    if (account.getId() < 0) {
-      column = "sum(" + Account.CURRENT_BALANCE_EXPR + ")";
-      selection = KEY_ROWID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[]{account.getCurrencyUnit().getCode()};
-    } else {
-      column = Account.CURRENT_BALANCE_EXPR;
-      selection = KEY_ROWID + " = ?";
-      selectionArgs = new String[]{String.valueOf(account.getId())};
-    }
-    Cursor accountCursor = Model.cr().query(
-        Account.CONTENT_URI,
-        new String[]{column},
-        selection,
-        selectionArgs,
-        null);
-    accountCursor.moveToFirst();
-    long currentBalance = accountCursor.getLong(0);
-    accountCursor.close();
     PdfPTable preface = new PdfPTable(1);
 
     preface.addCell(helper.printToCell(account.getLabel(), FontType.TITLE));

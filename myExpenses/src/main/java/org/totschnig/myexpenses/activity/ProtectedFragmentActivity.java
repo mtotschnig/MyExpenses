@@ -784,7 +784,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     currencyContext.invalidateHomeCurrency();
     currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
     Transaction.buildProjection(this);
-    Account.buildProjection(prefHandler.getBoolean(PrefKey.DB_SAFE_MODE, false));
+    Account.buildProjection();
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 

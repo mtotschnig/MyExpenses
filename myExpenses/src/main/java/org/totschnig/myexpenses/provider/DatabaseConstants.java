@@ -42,8 +42,6 @@ public class DatabaseConstants {
   private static String COUNT_FROM_WEEK_START_ZERO;
   private static String WEEK_START_JULIAN;
   private static String WEEK_MAX;
-  private static String WHERE_IN_PAST;
-  private static String HAS_FUTURE;
 
   //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
   private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
@@ -52,11 +50,6 @@ public class DatabaseConstants {
   }
 
   public static void buildLocalized(Locale locale) {
-    boolean futureStartsNow = PrefKey.CRITERION_FUTURE.getString("end_of_day").equals("current");
-    String futureCriterion = futureStartsNow ? "strftime('%s','now')" :  "strftime('%s', 'now', 'localtime', 'start of day', '+1 day', 'utc')";
-    WHERE_IN_PAST = KEY_DATE + " <= " + futureCriterion;
-    HAS_FUTURE = "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
-            + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_DATE + " > " + futureCriterion + "  LIMIT 1)) AS " + KEY_HAS_FUTURE;
     weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale);
     monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     int monthDelta = monthStartsOn - 1;
@@ -158,6 +151,7 @@ public class DatabaseConstants {
   public static final String KEY_MAX_VALUE = "max_value";
   public static final String KEY_CURRENT_BALANCE = "current_balance";
   public static final String KEY_TOTAL = "total";
+  public static final String KEY_CURRENT = "current";
   public static final String KEY_CLEARED_TOTAL = "cleared_total";
   public static final String KEY_RECONCILED_TOTAL = "reconciled_total";
   public static final String KEY_SUM_EXPENSES = "sum_expenses";
@@ -246,12 +240,6 @@ public class DatabaseConstants {
    * if of a drawable resource representing a category
    */
   public static final String KEY_ICON = "icon";
-
-  /**
-   * used in CategoryList to query number of children of main category
-   * we cannot rely just on the categories returned, because children could be filtered out by query
-   */
-  public static final String KEY_CHILD_COUNT = "childCount";
 
   public static final String KEY_HAS_DESCENDANTS = "hasDescendants";
 
@@ -367,18 +355,8 @@ public class DatabaseConstants {
   public static final String WHERE_TRANSFER =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
 
-  public static final String getTransferSum(String aggregateFunction) {
+  public static String getTransferSum(String aggregateFunction) {
     return aggregateFunction + "(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END)";
-  }
-  public static final String HAS_CLEARED =
-      "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
-          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "' LIMIT 1)) AS " + KEY_HAS_CLEARED;
-
-  public static final String getSelectAmountSum(String aggregateFunction) {
-    return "SELECT coalesce(" + aggregateFunction + "(" + KEY_AMOUNT + "),0) FROM "
-            + VIEW_COMMITTED
-            + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID
-            + " AND " + WHERE_NOT_VOID;
   }
 
   //exclude split_catid
@@ -407,16 +385,6 @@ public class DatabaseConstants {
   public static String getYearOfWeekStart() {
     ensureLocalized();
     return YEAR_OF_WEEK_START;
-  }
-
-  public static String getWhereInPast() {
-    ensureLocalized();
-    return WHERE_IN_PAST;
-  }
-
-  public static String getHasFuture() {
-    ensureLocalized();
-    return HAS_FUTURE;
   }
 
   public static String getYearOfMonthStart() {

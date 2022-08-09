@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SortDirection;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -126,9 +127,16 @@ public class Utils {
     //TODO provide home currency in a cleaner way
     final MyApplication context = MyApplication.getInstance();
     AppComponent appComponent = context.getAppComponent();
-    String home = appComponent.prefHandler().getString(PrefKey.HOME_CURRENCY, null);
-    final CurrencyContext currencyContext = appComponent.currencyContext();
-    return currencyContext.get(home != null ? home : getLocalCurrency(context).getCurrencyCode());
+    return getHomeCurrency(context, appComponent.prefHandler(), appComponent.currencyContext());
+  }
+
+  public static CurrencyUnit getHomeCurrency(Context context, PrefHandler prefHandler, CurrencyContext currencyContext) {
+    return currencyContext.get(getHomeCurrency(context, prefHandler));
+  }
+
+  public static String getHomeCurrency(Context context, PrefHandler prefHandler) {
+    String home = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
+    return home != null ? home : getLocalCurrency(context).getCurrencyCode();
   }
 
   public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit) {
