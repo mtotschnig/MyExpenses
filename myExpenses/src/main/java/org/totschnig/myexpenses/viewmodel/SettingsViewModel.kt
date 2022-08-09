@@ -8,10 +8,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.File
 import java.io.IOException
@@ -47,23 +54,39 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         }
     }
 
+    private fun corruptedIdList(): LongArray? = contentResolver.call(
+        TransactionProvider.DUAL_URI,
+        TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
+    )?.getLongArray(TransactionProvider.KEY_RESULT)
+
     fun dataCorrupted() = liveData(context = coroutineContext()) {
-        contentResolver.call(
-            TransactionProvider.DUAL_URI,
-            TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
-        )?.getInt(TransactionProvider.KEY_RESULT)?.let {
-            emit(it)
+        corruptedIdList()?.let {
+            emit(it.size)
         }
     }
 
-    fun repairBug987() = liveData(context = coroutineContext()) {
-        emit(
-            contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_REPAIR_CORRUPTED_DATA_987, null, null
-            )?.getInt(TransactionProvider.KEY_RESULT) ?: 0
-        )
-    }
+    fun prettyPrintCorruptedData(currencyFormatter: CurrencyFormatter) =
+        liveData(context = coroutineContext()) {
+            corruptedIdList()?.let { longs ->
+                contentResolver.query(
+                    Transaction.EXTENDED_URI,
+                    arrayOf(KEY_DATE, KEY_AMOUNT, KEY_CURRENCY, KEY_ACCOUNT_LABEL),
+                    "$KEY_ROWID ${Operation.IN.getOp(longs.size)}",
+                    longs.map { it.toString() }.toTypedArray(), null
+                )?.use { cursor ->
+                    cursor.asSequence.joinToString("\n") {
+                        "(${it.getString(3)}): " +
+                                Utils.convDateTime(
+                                    it.getLong(0),
+                                    Utils.ensureDateFormatWithShortYear(getApplication())
+                                ) + " " + currencyFormatter.convAmount(
+                            it.getLong(1),
+                            currencyContext.get(it.getString(2))
+                        )
+                    }
+                }?.let { emit(it) }
+            }
+        }
 
     fun loadAppDirInfo() {
         viewModelScope.launch(context = coroutineContext()) {

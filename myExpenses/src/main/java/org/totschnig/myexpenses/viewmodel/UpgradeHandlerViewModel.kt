@@ -117,12 +117,12 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                 if (getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) remove(PrefKey.BUDGET_AGGREGATE_TYPES)
             }
         }
-        if (fromVersion < 530) {
+        if (fromVersion < 539) {
             viewModelScope.launch(coroutineDispatcher) {
                 contentResolver.call(
                     TransactionProvider.DUAL_URI,
                     TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
-                )?.getInt(TransactionProvider.KEY_RESULT)?.let { corruptedCount ->
+                )?.getLongArray(TransactionProvider.KEY_RESULT)?.size?.let { corruptedCount ->
                     if (corruptedCount > 0) {
                         _upgradeInfo.update {
                             R.string.corrupted_data_detected

@@ -31,7 +31,6 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreferenceCompat
-import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
@@ -983,7 +982,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     if (it > 0) {
                         with(requirePreference<Preference>(PrefKey.DEBUG_REPAIR_987)) {
                             isVisible = true
-                            title = "Repair Corrupted Data ($it)"
+                            title = "Inspect Corrupted Data ($it)"
                         }
                     }
                 }
@@ -991,14 +990,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.CSV_EXPORT) -> {
                 preferenceScreen.title = getString(R.string.export_to_format, "CSV")
             }
-        }
-    }
-
-    fun repairBug987() {
-        preferenceActivity.showSnackBar("Repair. Please wait ...", Snackbar.LENGTH_INDEFINITE)
-        viewModel.repairBug987().observe(this) {
-            preferenceActivity.dismissSnackBar()
-            preferenceActivity.showSnackBar("$it split transactions have been repaired.")
         }
     }
 
@@ -1231,22 +1222,16 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
             matches(preference, PrefKey.DEBUG_REPAIR_987) -> {
-                ConfirmationDialogFragment.newInstance(Bundle().apply {
-                    putString(
-                        ConfirmationDialogFragment.KEY_TITLE_STRING,
-                        "Repair Corrupted Data"
+                viewModel.prettyPrintCorruptedData(currencyFormatter).observe(this) { message ->
+                    MessageDialogFragment.newInstance(
+                        "Inspect Corrupted Data",
+                        message,
+                        MessageDialogFragment.okButton(),
+                        null,
+                        null
                     )
-                    putString(
-                        ConfirmationDialogFragment.KEY_MESSAGE,
-                        "Please create a backup of the database before calling Repair."
-                    )
-                    putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REPAIR_COMMAND)
-                    putInt(
-                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                        R.string.button_label_repair
-                    )
-                })
-                    .show(parentFragmentManager, "Repair")
+                        .show(parentFragmentManager, "INSPECT")
+                }
                 true
             }
             matches(preference, PrefKey.EXCHANGE_RATES_CLEAR_CACHE) -> {

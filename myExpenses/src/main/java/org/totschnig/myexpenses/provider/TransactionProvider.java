@@ -227,7 +227,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
   public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
   public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
-  public static final String METHOD_REPAIR_CORRUPTED_DATA_987 = "repairCorruptedData";
 
   public static final String KEY_RESULT = "result";
 
@@ -1674,9 +1673,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_CHECK_CORRUPTED_DATA_987: {
         return checkCorruptedData987();
-      }
-      case METHOD_REPAIR_CORRUPTED_DATA_987: {
-        return repairCorruptedData987(getTransactionDatabase().getWritableDatabase());
       }
     }
     return null;

@@ -195,5 +195,4 @@
     <item name="DELETE_DEBT_COMMAND" type="id" />
     <item name="TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP" type="id" />
     <item name="PURGE_BACKUPS_COMMAND" type="id" />
-    <item name="REPAIR_COMMAND" type="id" />
 </resources>
