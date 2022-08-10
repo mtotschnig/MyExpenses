@@ -1498,7 +1498,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     fun startMoveSplitParts(rowId: Long, accountId: Long) {
         showSnackBarIndefinite(R.string.progress_dialog_updating_split_parts)
-        viewModel.moveUnCommittedSplitParts(rowId, accountId)
+        viewModel.moveUnCommittedSplitParts(rowId, accountId, isTemplate)
     }
 
     private fun observeMoveResult() {

@@ -299,7 +299,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     if (plan != null) {
       return plan.getDtStart() / 1000;
     } else
-    return template.getDate();
+      return template.getDate();
   }
 
   /**
@@ -548,7 +548,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
         plan.updateCustomAppUri(buildCustomAppUri(getId()));
       }
     } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
+      String idStr = String.valueOf(getId());
+      uri = CONTENT_URI.buildUpon().appendPath(idStr).build();
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(initialValues).build());
       if (withLinkedTransaction != null) {
         ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
@@ -558,6 +559,10 @@ public class Template extends Transaction implements ITransfer, ISplit {
             .build());
       }
       addCommitOperations(CONTENT_URI, ops);
+      ops.add(ContentProviderOperation.newAssertQuery(TransactionProvider.TEMPLATES_URI)
+              .withSelection(KEY_PARENTID + " = ? AND " + KEY_ACCOUNTID + " != ?",
+                      new String[] {idStr, String.valueOf(getAccountId())})
+              .withExpectedCount(0) .build());
       try {
         cr().applyBatch(TransactionProvider.AUTHORITY, ops);
       } catch (RemoteException | OperationApplicationException | SQLiteConstraintException e) {

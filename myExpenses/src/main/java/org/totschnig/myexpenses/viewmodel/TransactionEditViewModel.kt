@@ -216,10 +216,10 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         }
     }
 
-    fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long) {
+    fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
         _moveResult.update {
             contentResolver.query(
-                TransactionProvider.UNCOMMITTED_URI,
+                if (isTemplate)  TransactionProvider.TEMPLATES_UNCOMMITTED_URI else TransactionProvider.UNCOMMITTED_URI,
                 arrayOf("count(*)"),
                 "$KEY_PARENTID = ? AND $KEY_TRANSFER_ACCOUNT  = ?",
                 arrayOf(transactionId.toString(), accountId.toString()),
@@ -229,7 +229,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
                     val values = ContentValues()
                     values.put(KEY_ACCOUNTID, accountId)
                     contentResolver.update(
-                        TransactionProvider.TRANSACTIONS_URI,
+                        if (isTemplate) TransactionProvider.TEMPLATES_URI else TransactionProvider.TRANSACTIONS_URI,
                         values,
                         "$KEY_PARENTID = ? AND $KEY_STATUS = $STATUS_UNCOMMITTED",
                         arrayOf(transactionId.toString())
