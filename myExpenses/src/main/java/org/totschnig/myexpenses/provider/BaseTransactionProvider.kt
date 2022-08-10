@@ -275,8 +275,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 }
                 subQueries.add(qb.buildQuery(
                     homeProjection,
-                    "$KEY_EXCLUDE_FROM_TOTALS = 0 AND (select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0",
-                    null, null, null, null))
+                    "$KEY_EXCLUDE_FROM_TOTALS = 0",
+                    "1", "(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0", null, null))
             }
             val grouping = if (!minimal) {
                 when (try {
