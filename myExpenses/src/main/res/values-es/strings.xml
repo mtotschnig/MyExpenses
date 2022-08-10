@@ -1022,4 +1022,8 @@
     <string name="menu_parent_category_selection">Seleccionar categoría principal con un toque corto</string>
     <string name="purge_backups">Se eliminarán las siguientes copias de seguridad:</string>
     <string name="whats_new_340">El campo de notas permite varias líneas.</string>
+    <string name="pref_csv_export_split_categories_summary">Utilizar columnas separadas para cada nivel de jerarquía de categoría</string>
+    <string name="pref_csv_export_split_amount_summary">Utilizar columnas separadas para ingresos y gastos</string>
+    <string name="pref_csv_export_split_date_time_summary">Utilizar columnas separadas para fecha y hora</string>
+    <string name="webui_warning_move_transaction">La transacción será trasladada a la cuenta {cuenta}.</string>
 </resources>
