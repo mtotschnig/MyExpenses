@@ -45,7 +45,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         it.setView(dialogView)
     }
 
-    fun report(e: IllegalStateException?) {
+    fun report(e: IllegalStateException) {
         activity?.also {
             Timber.w("Activity is finishing?: %b", it.isFinishing)
         } ?: run {

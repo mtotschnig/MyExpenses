@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.Result
 
 object AppDirHelper {
     /**
@@ -46,9 +47,9 @@ object AppDirHelper {
 
     @JvmStatic
     fun cacheDir(context: Context): File {
-            val external = ContextCompat.getExternalCacheDirs(context)[0]
-            return if (external != null && external.canWrite()) external else context.cacheDir
-        }
+        val external = ContextCompat.getExternalCacheDirs(context)[0]
+        return if (external != null && external.canWrite()) external else context.cacheDir
+    }
 
     /**
      * @return creates a file object in parentDir, with a timestamp appended to
@@ -70,7 +71,7 @@ object AppDirHelper {
     }
 
     fun buildFile(
-        parentDir: DocumentFile, fileName: String?,
+        parentDir: DocumentFile, fileName: String,
         mimeType: String, allowExisting: Boolean,
         supplementExtension: Boolean
     ): DocumentFile? {
@@ -97,15 +98,17 @@ object AppDirHelper {
         }
         var result: DocumentFile? = null
         try {
-            result = parentDir.createFile(mimeType, fileNameToCreate!!)
+            result = parentDir.createFile(mimeType, fileNameToCreate)
             if (result == null || !result.canWrite()) {
                 val message =
                     if (result == null) "createFile returned null" else "createFile returned unwritable file"
-                val customData: MutableMap<String, String?> = HashMap()
-                customData["mimeType"] = mimeType
-                customData["name"] = fileName
-                customData["parent"] = parentDir.uri.toString()
-                CrashHandler.report(Exception(message), customData)
+                CrashHandler.report(
+                    Throwable(message), mapOf(
+                        "mimeType" to mimeType,
+                        "name" to fileName,
+                        "parent" to parentDir.uri.toString()
+                    )
+                )
             }
         } catch (e: SecurityException) {
             CrashHandler.report(e)
@@ -140,26 +143,28 @@ object AppDirHelper {
      * @return either positive Result or negative Result with problem description
      */
     @JvmStatic
-    fun checkAppDir(context: Context): kotlin.Result<DocumentFile> {
+    fun checkAppDir(context: Context): Result<DocumentFile> {
         if (!isExternalStorageAvailable) {
-            return kotlin.Result.failure(context, R.string.external_storage_unavailable)
+            return Result.failure(context, R.string.external_storage_unavailable)
         }
         val appDir = getAppDir(context)
-            ?: return kotlin.Result.failure(context, R.string.io_error_appdir_null)
+            ?: return Result.failure(context, R.string.io_error_appdir_null)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val uri = appDir.uri
             if ("file" == uri.scheme) {
                 try {
                     getContentUriForFile(context, File(File(uri.path!!), "test"))
                 } catch (e: IllegalArgumentException) {
-                    return kotlin.Result.failure(context,
+                    return Result.failure(
+                        context,
                         R.string.app_dir_not_compatible_with_nougat,
                         uri.toString()
                     )
                 }
             }
         }
-        return if (isWritableDirectory(appDir)) kotlin.Result.success(appDir) else kotlin.Result.failure(context,
+        return if (isWritableDirectory(appDir)) Result.success(appDir) else Result.failure(
+            context,
             R.string.app_dir_not_accessible, FileUtils.getPath(context, appDir.uri)
         )
     }

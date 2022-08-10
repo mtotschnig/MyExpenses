@@ -34,7 +34,7 @@ class AcraCrashHandler : CrashHandler() {
         }
     }
 
-    public override fun setupLoggingDo(context: Context) {
+    override fun setupLoggingDo(context: Context) {
         setKeys(context)
     }
 

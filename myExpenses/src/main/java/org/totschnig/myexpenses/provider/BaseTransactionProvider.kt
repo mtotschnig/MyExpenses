@@ -105,22 +105,25 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
 
 
-        private val fullAccountProjection = Account.PROJECTION_BASE.copyOf(Account.PROJECTION_BASE.size + 13).also {
-        val baseLength = Account.PROJECTION_BASE.size
-        it[baseLength] = "$KEY_OPENING_BALANCE + $KEY_CURRENT AS $KEY_CURRENT_BALANCE";
-        it[baseLength + 1] = KEY_SUM_INCOME;
-        it[baseLength + 2] = KEY_SUM_EXPENSES;
-        it[baseLength + 3] = KEY_SUM_TRANSFERS;
-        it[baseLength + 4] = "$KEY_OPENING_BALANCE + $KEY_TOTAL AS $KEY_TOTAL";
-        it[baseLength + 5] = "$KEY_OPENING_BALANCE + $KEY_CLEARED_TOTAL AS $KEY_CLEARED_TOTAL";
-        it[baseLength + 6] = "$KEY_OPENING_BALANCE + $KEY_RECONCILED_TOTAL AS $KEY_RECONCILED_TOTAL";
-        it[baseLength + 7] = KEY_USAGES;
-        it[baseLength + 8] = "0 AS $KEY_IS_AGGREGATE";//this is needed in the union with the aggregates to sort real accounts first
-        it[baseLength + 9] = KEY_HAS_FUTURE;
-        it[baseLength + 10] = KEY_HAS_CLEARED;
-        it[baseLength + 11] = AccountType.sqlOrderExpression();
-        it[baseLength + 12] = KEY_LAST_USED;
-    }
+    private val fullAccountProjection =
+        Account.PROJECTION_BASE.copyOf(Account.PROJECTION_BASE.size + 13).also {
+            val baseLength = Account.PROJECTION_BASE.size
+            it[baseLength] = "$KEY_OPENING_BALANCE + $KEY_CURRENT AS $KEY_CURRENT_BALANCE"
+            it[baseLength + 1] = KEY_SUM_INCOME
+            it[baseLength + 2] = KEY_SUM_EXPENSES
+            it[baseLength + 3] = KEY_SUM_TRANSFERS
+            it[baseLength + 4] = "$KEY_OPENING_BALANCE + $KEY_TOTAL AS $KEY_TOTAL"
+            it[baseLength + 5] = "$KEY_OPENING_BALANCE + $KEY_CLEARED_TOTAL AS $KEY_CLEARED_TOTAL"
+            it[baseLength + 6] =
+                "$KEY_OPENING_BALANCE + $KEY_RECONCILED_TOTAL AS $KEY_RECONCILED_TOTAL"
+            it[baseLength + 7] = KEY_USAGES
+            it[baseLength + 8] =
+                "0 AS $KEY_IS_AGGREGATE"//this is needed in the union with the aggregates to sort real accounts first
+            it[baseLength + 9] = KEY_HAS_FUTURE
+            it[baseLength + 10] = KEY_HAS_CLEARED
+            it[baseLength + 11] = AccountType.sqlOrderExpression()
+            it[baseLength + 12] = KEY_LAST_USED
+        }
 
     fun buildAccountQuery(
         qb: SQLiteQueryBuilder,
@@ -142,7 +145,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day") == "current",
             aggregateFunction
         )
-        val joinWithAggregates = "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = $KEY_ACCOUNTID"
+        val joinWithAggregates =
+            "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = $KEY_ACCOUNTID"
         qb.tables = if (minimal) TABLE_ACCOUNTS else joinWithAggregates
         val query = if (mergeAggregate == null) {
             qb.buildQuery(
@@ -211,15 +215,17 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_LAST_USED"
                     )
                 }
-                subQueries.add(qb.buildQuery(
-                    currencyProjection,
-                    "$KEY_EXCLUDE_FROM_TOTALS = 0",
-                    KEY_CURRENCY,
-                    if (mergeAggregate == "1") "count(*) > 1" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
-                            mergeAggregate.substring(1),
-                    null,
-                    null
-                ))
+                subQueries.add(
+                    qb.buildQuery(
+                        currencyProjection,
+                        "$KEY_EXCLUDE_FROM_TOTALS = 0",
+                        KEY_CURRENCY,
+                        if (mergeAggregate == "1") "count(*) > 1" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
+                                mergeAggregate.substring(1),
+                        null,
+                        null
+                    )
+                )
             }
             //home query
             if (mergeAggregate == Account.HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
@@ -240,7 +246,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         aggregateColumn
                     )
                 } else {
-                    val openingBalanceSum = "$aggregateFunction($KEY_OPENING_BALANCE * $KEY_EXCHANGE_RATE)"
+                    val openingBalanceSum =
+                        "$aggregateFunction($KEY_OPENING_BALANCE * $KEY_EXCHANGE_RATE)"
                     arrayOf(
                         rowIdColumn,
                         labelColumn,
@@ -273,10 +280,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_LAST_USED"
                     )
                 }
-                subQueries.add(qb.buildQuery(
-                    homeProjection,
-                    "$KEY_EXCLUDE_FROM_TOTALS = 0",
-                    "1", "(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0", null, null))
+                subQueries.add(
+                    qb.buildQuery(
+                        homeProjection,
+                        "$KEY_EXCLUDE_FROM_TOTALS = 0",
+                        "1",
+                        "(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0",
+                        null,
+                        null
+                    )
+                )
             }
             val grouping = if (!minimal) {
                 when (try {
@@ -319,7 +332,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     if (!sharedPrefFile.exists()) {
                         val message = "Unable to find shared preference file at " +
                                 sharedPrefFile.path
-                        CrashHandler.report(message)
+                        report(message)
                         throw Throwable(message)
                     }
                 }
@@ -369,5 +382,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun log(message: String, vararg args: Any) {
         Timber.tag(TAG).i(message, *args)
+    }
+
+    fun report(e: String) {
+        CrashHandler.report(e, TAG)
     }
 }

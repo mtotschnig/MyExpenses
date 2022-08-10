@@ -242,7 +242,7 @@ public class MyApplication extends Application implements
         CrashHandler.report(e);
       }
     }
-    crashHandler.setupLogging(this);
+    crashHandler.setupLogging(this, prefHandler);
   }
 
   @Deprecated

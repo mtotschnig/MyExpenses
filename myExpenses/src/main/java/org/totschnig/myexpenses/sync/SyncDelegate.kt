@@ -72,7 +72,7 @@ class SyncDelegate @JvmOverloads constructor(
         val opsSize = ops.size
         val resultsSize = contentProviderResults.size
         if (opsSize != resultsSize) {
-            CrashHandler.reportWithTag(String.format(Locale.ROOT, "applied %d operations, received %d results",
+            CrashHandler.report(String.format(Locale.ROOT, "applied %d operations, received %d results",
                     opsSize, resultsSize), SyncAdapter.TAG)
         }
     }

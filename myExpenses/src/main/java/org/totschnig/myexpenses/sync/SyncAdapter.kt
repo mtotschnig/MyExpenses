@@ -511,7 +511,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         val opsSize = ops.size
         val resultsSize = contentProviderResults.size
         if (opsSize != resultsSize) {
-            CrashHandler.reportWithTag(
+            CrashHandler.report(
                 String.format(
                     Locale.ROOT, "applied %d operations, received %d results",
                     opsSize, resultsSize

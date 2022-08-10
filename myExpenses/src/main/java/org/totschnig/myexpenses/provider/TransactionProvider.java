@@ -546,7 +546,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (mergeAggregate != null || withSums) {
           if (projection != null) {
             CrashHandler.throwOrReport(
-                    "When calling accounts cursor with sums or aggregates, projection is ignored "
+                    "When calling accounts cursor with sums or aggregates, projection is ignored ", TAG
             );
           }
           String sql = buildAccountQuery(qb, minimal, mergeAggregate, selection, sortOrder);
@@ -702,7 +702,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               VIEW_TEMPLATES_EXTENDED, TABLE_PLAN_INSTANCE_STATUS, KEY_ROWID, KEY_TEMPLATEID, KEY_INSTANCEID, instanceId,
               TABLE_TRANSACTIONS, KEY_TRANSACTIONID));
           if (projection != null) {
-            CrashHandler.report("When calling templates cursor with QUERY_PARAMETER_WITH_INSTANCE, projection is ignored ");
+            report("When calling templates cursor with QUERY_PARAMETER_WITH_INSTANCE, projection is ignored ");
           }
           projection = new String[]{KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY,
               String.format(Locale.ROOT, "coalesce(%1$s.%2$s, %3$s.%2$s) AS %2$s", TABLE_TRANSACTIONS, KEY_AMOUNT, VIEW_TEMPLATES_EXTENDED),
@@ -1461,7 +1461,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
             db.setTransactionSuccessful();
           } catch (Exception e) {
-            CrashHandler.report(e);
+            CrashHandler.report(e, TAG);
             throw e;
           } finally {
             db.endTransaction();
@@ -1625,7 +1625,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           Map<String, String> customData = new HashMap<>();
           customData.put("i", String.valueOf(i));
           customData.put("operation", contentProviderOperation.toString());
-          CrashHandler.report(e, customData);
+          CrashHandler.report(e, customData, TAG);
           throw e;
         }
       }

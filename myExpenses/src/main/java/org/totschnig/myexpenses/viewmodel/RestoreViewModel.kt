@@ -155,11 +155,12 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                 }
             } catch (e: Exception) {
-                val customData: MutableMap<String, String?> = HashMap()
-                customData["fileUri"] = if (fileUri != null) fileUri.toString() else "null"
-                customData["syncAccountName"] = syncAccountName
-                customData["backupFromSync"] = backupFromSync
-                CrashHandler.report(e, customData)
+                CrashHandler.report(e, mapOf(
+                        "fileUri" to (fileUri?.toString() ?: "null"),
+                        "syncAccountName" to (syncAccountName ?: "null"),
+                        "backupFromSync" to (backupFromSync ?: "null")
+                    )
+                )
                 failureResult(e)
                 return@launch
             }

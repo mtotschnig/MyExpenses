@@ -224,8 +224,8 @@ class Plan private constructor(
         }
 
         @JvmStatic
-        fun prettyTimeInfo(ctx: Context, rRule: String?, start: Long?): String {
-            return if (!TextUtils.isEmpty(rRule)) {
+        fun prettyTimeInfo(ctx: Context, rRule: String?, start: Long): String {
+            return  rRule?.takeIf { it.isNotEmpty() }?.let {
                 val eventRecurrence = EventRecurrence()
                 try {
                     eventRecurrence.parse(rRule)
@@ -234,14 +234,12 @@ class Plan private constructor(
                     return e.safeMessage
                 }
                 val date = Time()
-                date.set(start!!)
+                date.set(start)
                 eventRecurrence.setStartDate(date)
                 EventRecurrenceFormatter.getRepeatString(ctx, ctx.resources, eventRecurrence, true)
-            } else {
-                DateFormat
-                    .getDateInstance(DateFormat.FULL)
-                    .format(Date(start!!))
-            }
+            } ?:  DateFormat
+                .getDateInstance(DateFormat.FULL)
+                .format(Date(start))
         }
 
         @JvmStatic
