@@ -25,7 +25,7 @@ abstract class CrashHandler {
         }
     }
 
-    protected fun setKeys(context: Context) {
+    open fun setKeys(context: Context) {
         putCustomData("Distribution", getVersionInfo(context))
         putCustomData(
             "Installer",
@@ -51,7 +51,7 @@ abstract class CrashHandler {
         }
     }
 
-    open fun initProcess(context: Context?, syncService: Boolean) {}
+    open fun initProcess(context: Context, syncService: Boolean) {}
 
     companion object {
         private const val CUSTOM_DATA_KEY_BREADCRUMB = "Breadcrumb"

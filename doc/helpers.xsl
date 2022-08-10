@@ -225,6 +225,14 @@
                     select="my:simpleFormatRes(document($strings)/resources/string[@name='export_to_format'], 'JSON')" />
                 <xsl:text> 2.0</xsl:text>
             </xsl:when>
+            <xsl:when test="$version = '3.4.4'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='whats_new_344']" />
+                <xsl:text> 2.0</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>
