@@ -187,8 +187,10 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 }
             }
 
-            if (contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size) {
+            val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+            if (result.size == ops.size) {
                 if (isSplitParent) {
+                    t.updateFromResult(result)
                     splitParent = t.id
                 }
                 if (!isSplitPart) {

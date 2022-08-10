@@ -244,7 +244,7 @@ public class Transfer extends Transaction implements ITransfer {
   }
 
   @Override
-  protected void updateFromResult(ContentProviderResult[] result) {
+  public void updateFromResult(ContentProviderResult[] result) {
     super.updateFromResult(result);
     setTransferPeer(ContentUris.parseId(result[1].uri));
   }

@@ -752,25 +752,12 @@ public class Transaction extends Model implements ITransaction {
   /**
    * updates the payee string to a new value
    * it will me mapped to an existing or new row in payee table during save
-   *
-   * @param payee
    */
   public void setPayee(String payee) {
     if (!this.payee.equals(payee)) {
       this.setPayeeId(null);
     }
     this.payee = payee;
-  }
-
-  /**
-   * updates the payee to a row that already exists in the DB
-   *
-   * @param payee
-   * @param payeeId
-   */
-  public void updatePayeeWithId(String payee, Long payeeId) {
-    this.setPayee(payee);
-    this.setPayeeId(payeeId);
   }
 
   @Override
@@ -814,7 +801,7 @@ public class Transaction extends Model implements ITransaction {
     return uri;
   }
 
-  protected void updateFromResult(ContentProviderResult[] result) {
+  public void updateFromResult(ContentProviderResult[] result) {
     setId(ContentUris.parseId(result[0].uri));
   }
 
@@ -922,7 +909,7 @@ public class Transaction extends Model implements ITransaction {
    * @param offset              Number of operations that are already added to the batch, needed for calculating back references
    * @param parentOffset        if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
    *                            Is used from SyncAdapter for creating split transactions
-   * @param callerIsSyncAdapter
+   * @param callerIsSyncAdapter true if called from sync adapter
    * @param withCommit          change state from uncommitted to committed
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
