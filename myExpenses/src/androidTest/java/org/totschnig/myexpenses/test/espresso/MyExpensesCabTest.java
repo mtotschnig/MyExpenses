@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
 import java.util.concurrent.TimeoutException;
@@ -42,11 +43,12 @@ public final class MyExpensesCabTest extends BaseMyExpensesCabTest {
 
   @Before
   public void fixture() {
-    account = new Account("Test account 1", new CurrencyUnit(Currency.getInstance("EUR")), 0, "",
+    CurrencyUnit home = Utils.getHomeCurrency();
+    account = new Account("Test account 1", home, 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     Transaction op0 = Transaction.getNewInstance(account.getId());
-    op0.setAmount(new Money(new CurrencyUnit(Currency.getInstance("USD")), -1200L));
+    op0.setAmount(new Money(home, -1200L));
     op0.save();
     int times = 5;
     for (int i = 0; i < times; i++) {

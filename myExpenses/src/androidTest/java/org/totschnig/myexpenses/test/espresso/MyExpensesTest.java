@@ -20,10 +20,13 @@ import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.Espresso;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
 import java.util.Locale;
@@ -63,6 +66,7 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
 public final class MyExpensesTest extends BaseUiTest<MyExpenses> {
   private Account account;
@@ -71,7 +75,7 @@ public final class MyExpensesTest extends BaseUiTest<MyExpenses> {
 
   @Before
   public void fixture() {
-    account = new Account("Test account 1", CurrencyUnit.Companion.getDebugInstance(), 0, "",
+    account = new Account("Test account 1", Utils.getHomeCurrency(), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     Intent i = new Intent(getTargetContext(), MyExpenses.class);
@@ -273,8 +277,10 @@ public final class MyExpensesTest extends BaseUiTest<MyExpenses> {
   }
 
   private void checkTitle() {
+    CurrencyFormatter currencyFormatter = getApp().getAppComponent().currencyFormatter();
+    String balance = formatMoney(currencyFormatter, new Money(account.getCurrencyUnit(), 0));
     onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText("Test account 1"))).check(matches(isDisplayed()));
-    onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText("0,00 €"))).check(matches(isDisplayed()));
+    onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText(balance))).check(matches(isDisplayed()));
   }
 
   @NonNull
