@@ -690,6 +690,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 transaction.valueDate = it
             }
         }
+        operationType = transaction.operationType()
         delegate = TransactionDelegate.create(
             transaction,
             rootBinding,
@@ -710,7 +711,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
         setHelpVariant(delegate.helpVariant)
         setTitle()
-        operationType = transaction.operationType()
         shouldShowCreateTemplate = transaction.originTemplateId == null
         if (!isTemplate) {
             createNew = mNewInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
