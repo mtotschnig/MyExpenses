@@ -670,6 +670,21 @@ class QifParserTest {
     }
 
     @Test
+    fun should_parse_account_with_opening_balance_without_account_name() {
+        parseQif(
+            """
+                !Type:Bank
+                D12/03/95
+                T4,706.57
+                CX
+                POpening Balance
+                ^
+            """.trimIndent()
+        )
+        Assert.assertEquals(BigDecimal("4706.57"), p.accounts[0].openinBalance)
+    }
+
+    @Test
     fun should_not_add_cat_if_cat_list_is_empty() {
         parseQif(
             """
@@ -726,7 +741,7 @@ class QifParserTest {
         Assert.assertEquals(1, p.accounts.size.toLong())
         val a = p.accounts[0]
         Assert.assertEquals("My Account Name", a.memo)
-        Assert.assertEquals(a.openinBalance, BigDecimal("222.22"))
+        Assert.assertEquals(BigDecimal("222.22"), a.openinBalance)
         Assert.assertEquals(1, a.transactions.size.toLong())
     }
 

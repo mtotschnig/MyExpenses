@@ -94,7 +94,7 @@ class QifParser(
                 t.readFrom(r, dateFormat, currency)
                 if (t.isOpeningBalance) {
                     account.openinBalance = t.amount
-                    if (t.toAccount.isNotEmpty()) account.memo = t.toAccount
+                    if (!t.toAccount.isNullOrEmpty()) account.memo = t.toAccount
                 } else {
                     addPayeeFromTransaction(t)
                     addCategoryFromTransaction(t)
