@@ -1009,4 +1009,5 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Al tuo attuale stato di licenza (%1$s), questa finestra verrà visualizzato ad ogni utilizzo.</string>
     <string name="whats_new_338">Gerarchia di categorie arbitrariamente profonda</string>
     <string name="dialog_title_purge_backups">Eliminare i vecchi backup</string>
+    <string name="whats_new_344">Icone per le categorie</string>
 </resources>

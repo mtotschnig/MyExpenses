@@ -1026,4 +1026,5 @@
     <string name="pref_debug_logging_share_summary">Споделяне на файловете дневници за дебъг</string>
     <string name="whats_new_340">Полето Бележки позволява няколко абзаца.</string>
     <string name="webui_warning_move_transaction">Транзакцията ще бъде преместена в сметка {account}.</string>
+    <string name="whats_new_344">Икони за категориите</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
+        <item>539;3.4.4</item>
         <item>538;3.4.3</item>
         <item>534;3.4.2</item>
         <item>532;3.4.1</item>
@@ -106,6 +107,7 @@
     <string name="project_board_341">69#column-18649612</string>
     <string name="project_board_342">71#column-18889056</string>
     <string name="project_board_343">73#column-19080863</string>
+    <string name="project_board_344">74#column-19103001</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>

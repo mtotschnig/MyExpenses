@@ -1026,4 +1026,5 @@
     <string name="pref_csv_export_split_categories_summary">Usa colunas separadas para cada nível da hierarquia de categoria</string>
     <string name="pref_csv_export_split_date_time_summary">Usa colunas separadas para data e hora</string>
     <string name="webui_warning_move_transaction">A transação será movida para a conta {account}.</string>
+    <string name="whats_new_344">Ícones para categorias</string>
 </resources>

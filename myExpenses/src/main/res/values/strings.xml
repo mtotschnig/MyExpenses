@@ -1046,4 +1046,6 @@
     <string name="pref_csv_export_split_categories_summary">Use separate columns for each level of category hierarchy</string>
     <string name="pref_csv_export_split_amount_summary">Use separate columns for income and expenses</string>
     <string name="pref_csv_export_split_date_time_summary">Use separate columns for date and time</string>
+    <!-- New feature in version 3.4.4 -->
+    <string name="whats_new_344">Icons for categories</string>
 </resources>

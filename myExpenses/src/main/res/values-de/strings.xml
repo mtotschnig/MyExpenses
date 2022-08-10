@@ -1026,4 +1026,5 @@
     <string name="pref_csv_export_split_amount_summary">Verwendung getrennter Spalten für Einkommen und Ausgaben</string>
     <string name="pref_csv_export_split_date_time_summary">Verwendung getrennter Spalten für Datum und Zeit</string>
     <string name="webui_warning_move_transaction">Die Buchung wird in das Konto {Konto} verschoben.</string>
+    <string name="whats_new_344">Symbole für Kategorien</string>
 </resources>
