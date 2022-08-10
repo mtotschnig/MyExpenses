@@ -339,9 +339,7 @@ abstract class MainDelegate<T : ITransaction>(
                 if (isChecked) {
                     when (debts.size) {
                         0 -> { /*should not happen*/ CrashHandler.throwOrReport(
-                            java.lang.IllegalStateException(
-                                "Debt checked without applicable debt"
-                            )
+                            "Debt checked without applicable debt"
                         )
                         }
                         else -> {

@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.Category
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
@@ -108,10 +109,12 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
 
     protected fun handleContribDialog(contribFeature: ContribFeature?) {
         if (!app.appComponent.licenceHandler().hasAccessTo(contribFeature!!)) {
-            try {
-                //without play service a billing setup error dialog is displayed
-                onView(ViewMatchers.withText(android.R.string.ok)).perform(ViewActions.click())
-            } catch (ignored: Exception) {
+            if (DistributionHelper.isPlay) {
+                try {
+                    //without play service a billing setup error dialog is displayed
+                    onView(ViewMatchers.withText(android.R.string.ok)).perform(ViewActions.click())
+                } catch (ignored: Exception) {
+                }
             }
             onView(ViewMatchers.withText(R.string.dialog_title_contrib_feature)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             onView(ViewMatchers.withText(R.string.dialog_contrib_no)).perform(ViewActions.scrollTo(), ViewActions.click())

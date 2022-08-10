@@ -39,7 +39,11 @@ public abstract class CrashHandler {
     report(e);
   }
 
-  public static void throwOrReport(Throwable e) throws Throwable {
+  public static void throwOrReport(String message) throws RuntimeException {
+    throwOrReport(new IllegalStateException(message));
+  }
+
+  public static void throwOrReport(RuntimeException e) {
     if (BuildConfig.DEBUG) {
       throw e;
     } else {

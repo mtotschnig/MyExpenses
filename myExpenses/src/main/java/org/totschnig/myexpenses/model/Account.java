@@ -18,40 +18,27 @@ package org.totschnig.myexpenses.model;
 import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
@@ -161,7 +148,7 @@ public class Account extends Model implements DistributionAccountInfo {
     return currencyUnit;
   }
 
-  public static String[] PROJECTION_BASE, PROJECTION_FULL;
+  public static String[] PROJECTION_BASE;
 
   static {
     buildProjection();
@@ -187,22 +174,6 @@ public class Account extends Model implements DistributionAccountInfo {
         KEY_SEALED
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_FULL = new String[baseLength + 13];
-    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_FULL, 0, baseLength);
-    PROJECTION_FULL[baseLength] = KEY_OPENING_BALANCE + " + " + KEY_CURRENT + " AS " + KEY_CURRENT_BALANCE;
-    PROJECTION_FULL[baseLength + 1] = KEY_SUM_INCOME;
-    PROJECTION_FULL[baseLength + 2] = KEY_SUM_EXPENSES;
-    PROJECTION_FULL[baseLength + 3] = KEY_SUM_TRANSFERS;
-    PROJECTION_FULL[baseLength + 4] = KEY_OPENING_BALANCE + " + " + KEY_TOTAL + " AS " + KEY_TOTAL;
-    PROJECTION_FULL[baseLength + 5] = KEY_OPENING_BALANCE + " + " + KEY_CLEARED_TOTAL + " AS " + KEY_CLEARED_TOTAL;
-    PROJECTION_FULL[baseLength + 6] = KEY_OPENING_BALANCE + " + " + KEY_RECONCILED_TOTAL + " AS " + KEY_RECONCILED_TOTAL;
-    PROJECTION_FULL[baseLength + 7] = KEY_USAGES;
-    PROJECTION_FULL[baseLength + 8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
-    PROJECTION_FULL[baseLength + 9] = KEY_HAS_FUTURE;
-    PROJECTION_FULL[baseLength + 10] = KEY_HAS_CLEARED;
-    PROJECTION_FULL[baseLength + 11] = AccountType.sqlOrderExpression();
-    PROJECTION_FULL[baseLength + 12] = KEY_LAST_USED;
-
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;

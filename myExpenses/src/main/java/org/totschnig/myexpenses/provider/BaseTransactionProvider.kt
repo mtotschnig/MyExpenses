@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -20,7 +21,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import timber.log.Timber
 import java.io.File
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -97,14 +97,39 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val TAG = "TransactionProvider"
     }
 
+    val accountsWithExchangeRate: String
+        get() = exchangeRateJoin(
+            TABLE_ACCOUNTS, KEY_ROWID, Utils.getHomeCurrency(
+                context, prefHandler
+            )
+        )
+
+
+        private val fullAccountProjection = Account.PROJECTION_BASE.copyOf(Account.PROJECTION_BASE.size + 13).also {
+        val baseLength = Account.PROJECTION_BASE.size
+        it[baseLength] = "$KEY_OPENING_BALANCE + $KEY_CURRENT AS $KEY_CURRENT_BALANCE";
+        it[baseLength + 1] = KEY_SUM_INCOME;
+        it[baseLength + 2] = KEY_SUM_EXPENSES;
+        it[baseLength + 3] = KEY_SUM_TRANSFERS;
+        it[baseLength + 4] = "$KEY_OPENING_BALANCE + $KEY_TOTAL AS $KEY_TOTAL";
+        it[baseLength + 5] = "$KEY_OPENING_BALANCE + $KEY_CLEARED_TOTAL AS $KEY_CLEARED_TOTAL";
+        it[baseLength + 6] = "$KEY_OPENING_BALANCE + $KEY_RECONCILED_TOTAL AS $KEY_RECONCILED_TOTAL";
+        it[baseLength + 7] = KEY_USAGES;
+        it[baseLength + 8] = "0 AS $KEY_IS_AGGREGATE";//this is needed in the union with the aggregates to sort real accounts first
+        it[baseLength + 9] = KEY_HAS_FUTURE;
+        it[baseLength + 10] = KEY_HAS_CLEARED;
+        it[baseLength + 11] = AccountType.sqlOrderExpression();
+        it[baseLength + 12] = KEY_LAST_USED;
+    }
+
     fun buildAccountQuery(
         qb: SQLiteQueryBuilder,
         minimal: Boolean,
         mergeAggregate: String?,
-        projection: Array<String>?,
         selection: String?,
         sortOrder: String?
     ): String {
+
         val homeCurrency = Utils.getHomeCurrency(context, prefHandler)
         val aggregateFunction = TransactionProvider.aggregateFunction(
             prefHandler.getBoolean(
@@ -117,16 +142,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
             prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day") == "current",
             aggregateFunction
         )
-        if (mergeAggregate != null && projection != null) {
-            CrashHandler.report(
-                "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored "
-            )
-        }
         val joinWithAggregates = "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = $KEY_ACCOUNTID"
         qb.tables = if (minimal) TABLE_ACCOUNTS else joinWithAggregates
         val query = if (mergeAggregate == null) {
             qb.buildQuery(
-               projection ?: Account.PROJECTION_BASE, selection, null,
+                fullAccountProjection, selection, null,
                 null, null, null
             )
         } else {
@@ -139,7 +159,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                             KEY_LABEL,
                             KEY_CURRENCY,
                             "0 AS $KEY_IS_AGGREGATE"
-                        ) else Account.PROJECTION_FULL, selection, null,
+                        ) else fullAccountProjection, selection, null,
                         null, null, null
                     )
                 )

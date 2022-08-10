@@ -155,6 +155,11 @@ configurations.all {
     exclude group: "com.google.android.material", module: "material"
 }
 
+//uncomment if you want to have Android log in stdout
+tasks.withType(Test) {
+    systemProperty "robolectric.logging", "stdout"
+}
+
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(':transactionscontract')

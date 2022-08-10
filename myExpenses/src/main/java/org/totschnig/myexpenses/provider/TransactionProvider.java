@@ -78,6 +78,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -93,7 +94,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       Uri.parse("content://" + AUTHORITY + "/accountsbase");
   public static final Uri ACCOUNTS_AGGREGATE_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
-  //returns accounts with aggregates, limited to id and label
+  //returns accounts with aggregate accounts, limited to id and label
   public static final Uri ACCOUNTS_MINIMAL_URI =
       Uri.parse("content://" + AUTHORITY + "/accountsMinimal");
   public static final Uri TRANSACTIONS_URI =
@@ -184,6 +185,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
+  public static final String QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS = "fullProjectionWithSums";
+  //uses full projection with sums for each account
+  public static final Uri ACCOUNTS_FULL_URI = ACCOUNTS_URI.buildUpon()
+          .appendQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS, "1").build();
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_GROUP_BY = "groupBy";
@@ -533,15 +538,28 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_BASE:
       case ACCOUNTS_MINIMAL:
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
+        final boolean withSums = Objects.equals(uri.getQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS), "1");
         final String mergeAggregate = minimal ? "1" : uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
           sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL);
         }
-        String sql = buildAccountQuery(qb, minimal, mergeAggregate, projection, selection, sortOrder);
-        log("Query : %s", sql);
-        c = db.rawQuery(sql, null);
-        c.setNotificationUri(getContext().getContentResolver(), uri);
-        return c;
+        if (mergeAggregate != null || withSums) {
+          if (projection != null) {
+            CrashHandler.throwOrReport(
+                    "When calling accounts cursor with sums or aggregates, projection is ignored "
+            );
+          }
+          String sql = buildAccountQuery(qb, minimal, mergeAggregate, selection, sortOrder);
+          log("Query : %s", sql);
+          c = db.rawQuery(sql, null);
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
+        } else {
+          qb.setTables(getAccountsWithExchangeRate());
+          if (projection == null)
+            projection = Account.PROJECTION_BASE;
+          break;
+        }
 
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
@@ -589,7 +607,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         break;
       case ACCOUNT_ID:
-        qb.setTables(exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, Utils.getHomeCurrency(getContext(), prefHandler)));
+        qb.setTables(getAccountsWithExchangeRate());
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       case AGGREGATES_COUNT:

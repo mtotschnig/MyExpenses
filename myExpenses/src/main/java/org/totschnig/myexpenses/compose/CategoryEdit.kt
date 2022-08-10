@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -81,6 +82,7 @@ fun CategoryEdit(
                         style = MaterialTheme.typography.subtitle1
                     )
                     OutlinedTextField(
+                        modifier = Modifier.testTag("editText"),
                         label = { Text(stringResource(id = R.string.label)) },
                         value = label,
                         isError = isError.value != null,
@@ -117,6 +119,7 @@ fun CategoryEdit(
                             Text(stringResource(id = android.R.string.cancel))
                         }
                         TextButton(
+                            modifier = Modifier.testTag("positive"),
                             enabled = !dialogState.saving,
                             onClick = {
                                 shouldValidate = true

@@ -7,9 +7,11 @@ import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performSemanticsAction
+import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -150,9 +152,9 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
         launch().use {
             composeTestRule.onNodeWithText("TestCategory").performClick()
             onContextMenu(R.string.subcategory)
-            onView(withId(R.id.editText))
-                .perform(replaceText("Subcategory"), closeSoftKeyboard())
-            onView(withId(android.R.id.button1)).perform(click())
+            composeTestRule.onNodeWithTag("editText")
+                .performTextInput("Subcategory")
+            composeTestRule.onNodeWithTag("positive").performClick()
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI,
                 "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(categoryId.toString()))).isEqualTo(1)
         }

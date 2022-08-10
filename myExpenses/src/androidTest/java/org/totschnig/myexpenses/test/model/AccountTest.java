@@ -83,7 +83,6 @@ public class AccountTest extends ModelTest {
     op1.saveAsNew();
   }
 
-
   public void testAccount() throws RemoteException, OperationApplicationException {
     Account account, restored;
     long openingBalance = (long) 100;
@@ -126,8 +125,8 @@ public class AccountTest extends ModelTest {
     cursor.close();
 
     cursor = getMockContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
-        Account.PROJECTION_FULL,            // get all the columns
+        TransactionProvider.ACCOUNTS_FULL_URI,  // the URI for the main data table
+        null,            // get all the columns
         null,                       // no selection columns, get all the records
         null,                       // no selection criteria
         null                        // use default the sort order
@@ -138,8 +137,8 @@ public class AccountTest extends ModelTest {
     cursor.close();
 
     cursor = getMockContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
-        Account.PROJECTION_FULL,            // get all the columns
+        TransactionProvider.ACCOUNTS_FULL_URI,  // the URI for the main data table
+        null,            // get all the columns
         KEY_ROWID + "=" + account1.getId(),
         null,                       // no selection criteria
         null                        // use default the sort order
@@ -159,8 +158,8 @@ public class AccountTest extends ModelTest {
     cursor.close();
 
     cursor = getMockContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
-        Account.PROJECTION_FULL,            // get all the columns
+        TransactionProvider.ACCOUNTS_FULL_URI,  // the URI for the main data table
+        null,            // get all the columns
         KEY_ROWID + "=" + account2.getId(),
         null,                       // no selection criteria
         null                        // use default the sort order

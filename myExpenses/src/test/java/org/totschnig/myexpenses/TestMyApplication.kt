@@ -40,6 +40,4 @@ class TestMyApplication : MyApplication() {
             })
             .build()
     }
-
-    override fun setupLogging() {}
 }
