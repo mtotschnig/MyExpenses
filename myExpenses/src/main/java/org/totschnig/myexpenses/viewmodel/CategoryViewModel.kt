@@ -68,7 +68,7 @@ open class CategoryViewModel(
     val exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
     val defaultSort = Sort.USAGES
 
-    sealed class DialogState
+    sealed class DialogState: java.io.Serializable
     object NoShow : DialogState()
     data class Show(
         val id: Long? = null,
