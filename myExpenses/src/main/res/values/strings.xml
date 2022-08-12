@@ -1048,4 +1048,6 @@
     <string name="pref_csv_export_split_date_time_summary">Use separate columns for date and time</string>
     <!-- New feature in version 3.4.4 -->
     <string name="whats_new_344">Icons for categories</string>
+    <!-- Shown after validation of a form below a required text field if user did not provide value -->
+    <string name="required">Required</string>
 </resources>
