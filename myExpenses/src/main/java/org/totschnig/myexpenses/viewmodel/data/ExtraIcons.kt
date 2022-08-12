@@ -16,6 +16,7 @@ val ExtraIcons: Map<String, ExtraIcon> = mapOf(
     "lease" to ExtraIcon(R.drawable.lease, R.string.icon_lease_label),
     "mortgage" to ExtraIcon(R.drawable.mortgage, R.string.icon_mortgage_label),
     "pocket" to ExtraIcon(R.drawable.pocket, R.string.icon_pocket_label),
+    "podium" to ExtraIcon(R.drawable.podium, R.string.icon_podium_label),
     "property" to ExtraIcon(R.drawable.property, R.string.icon_property_label),
     "retirement-2" to ExtraIcon(R.drawable.retirement_2, R.string.icon_retirement_2_label),
     "retweet-cancel" to ExtraIcon(R.drawable.retweet_cancel, R.string.icon_retweet_cancel_label),

@@ -235,7 +235,7 @@ fun CategoryRenderer(
                     .size(48.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(iconInfo = IIconInfo.resolveIcon(category.icon))
+                Icon(category.icon)
             }
         } else {
             Spacer(modifier = Modifier.width(24.dp))

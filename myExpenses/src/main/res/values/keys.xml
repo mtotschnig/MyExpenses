@@ -147,6 +147,7 @@
         <item>@drawable/lease</item>
         <item>@drawable/mortgage</item>
         <item>@drawable/pocket</item>
+        <item>@drawable/podium</item>
         <item>@drawable/property</item>
         <item>@drawable/retirement_2</item>
         <item>@drawable/shoe</item>
@@ -168,6 +169,7 @@
         <item>Lease by Phạm Thanh Lộc</item>
         <item>Mortgage by Adrien Coquet</item>
         <item>pocket by Christopher T. Howlett</item>
+        <item>podium by Deylotus Creative Design</item>
         <item>property by Vectors Market</item>
         <item>retirement by Phạm Thanh Lộc</item>
         <item>Shoe by Andrejs Kirma</item>

@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -18,6 +19,16 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcon
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconInfo
+
+@Composable
+fun Icon(icon: String) {
+    val iconInfo = IIconInfo.resolveIcon(icon)
+    if (iconInfo == null) {
+        Text(color = Color.Red, text = icon)
+    } else {
+        Icon(iconInfo)
+    }
+}
 
 @Composable
 fun Icon(iconInfo: IIconInfo) {

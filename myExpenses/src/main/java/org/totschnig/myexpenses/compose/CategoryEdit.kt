@@ -101,7 +101,7 @@ fun CategoryEdit(
                     Text(stringResource(id = R.string.icon))
                     Button(onClick = { showIconSelection = true }) {
                         icon?.let {
-                            Icon(IIconInfo.resolveIcon(it))
+                            Icon(it)
                         } ?: Text(stringResource(id = R.string.select))
                     }
 

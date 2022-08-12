@@ -13,6 +13,7 @@
     <string name="icon_lease_label">Car Lease</string>
     <string name="icon_mortgage_label">House Mortgage</string>
     <string name="icon_pocket_label">Pocket</string>
+    <string name="icon_podium_label">Podium</string>
     <string name="icon_property_label">House Property</string>
     <string name="icon_retirement_2_label">Retirement</string>
     <string name="icon_retweet_cancel_label">Non refundable</string>

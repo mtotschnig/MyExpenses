@@ -9,9 +9,8 @@ sealed interface IIconInfo {
     val label: Int
 
     companion object {
-        fun resolveIcon(icon: String): IIconInfo =
+        fun resolveIcon(icon: String): IIconInfo? =
             FontAwesomeIcons[icon] ?: ExtraIcons[icon]
-            ?: throw IllegalArgumentException("no icon $icon")
 
         fun resolveLabelForCategory(context: Context, category: String) =
             context.getString(
