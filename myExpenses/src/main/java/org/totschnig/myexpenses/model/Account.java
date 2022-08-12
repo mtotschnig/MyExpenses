@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.data.Debt;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
@@ -476,7 +477,7 @@ public class Account extends Model implements DistributionAccountInfo {
    * @param handleDelete  if equals {@link #EXPORT_HANDLE_DELETED_UPDATE_BALANCE} opening balance will
    *                      be adjusted to account for the deleted expenses,
    *                      if equals {@link #EXPORT_HANDLE_DELETED_CREATE_HELPER} a helper transaction
-   * @param helperComment
+   * @param helperComment comment used for the helper transaction
    */
   public void reset(WhereFilter filter, int handleDelete, String helperComment) throws OperationApplicationException, RemoteException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
@@ -723,6 +724,7 @@ public class Account extends Model implements DistributionAccountInfo {
       }
       return Result.SUCCESS;
     } catch (Exception e) {
+      CrashHandler.report(e);
       return Result.ofFailure(e.getMessage());
     }
   }
