@@ -238,6 +238,9 @@ private fun findSubCategory(database: SQLiteDatabase, parentId: Long, label: Str
 private fun findMainCategory(database: SQLiteDatabase, label: String) =
     findCategory(database, "$KEY_PARENTID is null and $KEY_LABEL = ?" , arrayOf(label))
 
+/**
+ * requires the Cursor to be positioned BEFORE first row
+ */
 val Cursor.asSequence: Sequence<Cursor>
     get() = generateSequence { takeIf { it.moveToNext() } }
 

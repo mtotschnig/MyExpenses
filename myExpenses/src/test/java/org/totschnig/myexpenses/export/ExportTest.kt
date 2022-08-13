@@ -114,6 +114,8 @@ class ExportTest {
         val account2 = buildAccount2()
         val cat1Id = writeCategory("Main")
         val cat2Id = writeCategory("Sub", cat1Id)
+        val cat3Id = writeCategory("Sub2", cat1Id)
+        val cat4Id = writeCategory("Sub3", cat1Id)
         val op = Transaction.getNewInstance(account1.id) ?: throw IllegalStateException()
         op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
@@ -173,12 +175,12 @@ class ExportTest {
         val part = Transaction.getNewInstance(account1.id, split.id)
             ?: throw IllegalStateException()
         part.amount = Money(account1.currencyUnit, part1)
-        part.catId = cat1Id
+        part.catId = cat3Id
         part.status = DatabaseConstants.STATUS_UNCOMMITTED
         part.save()
         uuidList.add(part.uuid!!)
         part.amount = Money(account1.currencyUnit, part2)
-        part.catId = cat2Id
+        part.catId = cat4Id
         part.saveAsNew()
         uuidList.add(part.uuid!!)
         context.contentResolver.applyBatch(
@@ -318,10 +320,10 @@ class ExportTest {
             "^",
             "D$date",
             "T0.70",
-            "LMain",
-            "SMain",
+            "LMain:Sub2",
+            "SMain:Sub2",
             "$0.40",
-            "SMain:Sub",
+            "SMain:Sub3",
             "$0.30",
             "^"
         )
@@ -355,9 +357,9 @@ class ExportTest {
             "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main:Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"\";\"$date\";\"\";\"0.50\";\"0\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\";\"\"",
             "\"\";\"$date\";\"\";\"0\";\"0.60\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub\";\"\";\"\";\"\";\"\";\"\";\"Tag One, 'Tags, Tags, Tags'\""
+            "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main:Sub2\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main:Sub2\";\"\";\"\";\"\";\"\";\"\";\"\"",
+            "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main:Sub3\";\"\";\"\";\"\";\"\";\"\";\"Tag One, 'Tags, Tags, Tags'\""
         )
         try {
             expect.that(
@@ -391,7 +393,7 @@ class ExportTest {
             expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
                 JsonParser.parseString(
                     """
-{"uuid":"${account.uuid}","label":"Account 1","currency":"USD","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":"Main","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub","status":"UNRECONCILED","pictureFileName":"picture.png"},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","amount":0.70,"category":"Main","status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":"Main"},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub","tags":["Tag One","Tags, Tags, Tags"]}]}]}
+{"uuid":"${account.uuid}","label":"Account 1","currency":"USD","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":"Main","methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub","status":"UNRECONCILED","pictureFileName":"picture.png"},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":"Main:Sub","comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","amount":0.70,"category":"Main:Sub2","status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":"Main:Sub2"},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":"Main:Sub3","tags":["Tag One","Tags, Tags, Tags"]}]}]}
                          """
                 )
             )
@@ -415,9 +417,9 @@ class ExportTest {
             "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main:Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
             "\"\",\"$date\",\"\",\"0,50\",\"0\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\",\"\"",
             "\"\",\"$date\",\"\",\"0\",\"0,60\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
-            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub\",\"\",\"\",\"\",\"\",\"\",\"Tag One, 'Tags, Tags, Tags'\""
+            "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main:Sub2\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main:Sub2\",\"\",\"\",\"\",\"\",\"\",\"\"",
+            "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main:Sub3\",\"\",\"\",\"\",\"\",\"\",\"Tag One, 'Tags, Tags, Tags'\""
         )
         try {
             expect.that(
