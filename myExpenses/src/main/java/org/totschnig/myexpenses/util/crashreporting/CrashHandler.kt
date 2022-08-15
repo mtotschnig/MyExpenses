@@ -102,7 +102,7 @@ abstract class CrashHandler {
         fun reportWithFormat(format: String, vararg args: Any) {
             val e = Exception(String.format(format, *args))
             e.fillInStackTrace()
-            e.dropFirst()
+            e.prepare()
             report(e)
         }
 
@@ -111,12 +111,12 @@ abstract class CrashHandler {
         fun report(message: String?, tag: String? = null) {
             val e = Exception(message)
             e.fillInStackTrace()
-            e.dropFirst()
+            e.prepare()
             report(e, tag)
         }
 
-        private fun Exception.dropFirst() {
-            stackTrace = stackTrace.drop(1).toTypedArray()
+        private fun Exception.prepare() {
+            stackTrace = stackTrace.dropWhile { it.className.contains(CrashHandler::class.java.name) }.toTypedArray()
         }
 
         var NO_OP: CrashHandler = object : CrashHandler() {
