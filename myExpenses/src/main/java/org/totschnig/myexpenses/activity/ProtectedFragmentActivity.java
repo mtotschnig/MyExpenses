@@ -340,6 +340,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
                                         String key) {
     if (prefHandler.matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY, DB_SAFE_MODE,
         PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT, CRITERION_FUTURE)) {
+      userLocaleProvider.invalidate();
       scheduledRestart = true;
     }
   }

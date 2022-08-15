@@ -30,11 +30,11 @@ class SelectedSumTest : BaseUiTest<MyExpenses>() {
 
     @Before
     fun fixture() {
-        val account = Account("Test account 1", CurrencyUnit(Currency.getInstance("EUR")), 0, "",
+        val account = Account("Test account 1", CurrencyUnit.DebugInstance, 0, "",
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         val op0 = Transaction.getNewInstance(account.id)
-        op0.amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
+        op0.amount = Money(CurrencyUnit.DebugInstance, -1200L)
         op0.save()
         val times = 5
         for (i in 0 until times) {
