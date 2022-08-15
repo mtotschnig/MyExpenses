@@ -318,9 +318,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
 
     fun configureOcrEnginePrefs() {
-        val tesseract = requirePreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
-        val mlkit = requirePreference<ListPreference>(PrefKey.MLKIT_SCRIPT)
-        preferenceActivity.ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
+        val tesseract = findPreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
+        val mlkit = findPreference<ListPreference>(PrefKey.MLKIT_SCRIPT)
+        if (tesseract != null && mlkit != null) {
+            preferenceActivity.ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
+        }
     }
 
     fun requireApplication(): MyApplication {
