@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.util.locale
 
+import android.content.Context
 import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import java.util.*
 
 interface UserLocaleProvider {
     fun getPreferredLanguage(): String
     fun getUserPreferredLocale(): Locale
+    fun wrapContext(context: Context): Context
+    fun getLocalCurrency(context: Context): Currency
     var systemLocale: Locale
 
     companion object {

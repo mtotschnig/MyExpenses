@@ -302,8 +302,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   @Inject
   CurrencyContext currencyContext;
-  @Inject
-  UserLocaleProvider userLocaleProvider;
 
   @Override
   public boolean onCreate() {
@@ -551,7 +549,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
           String sql = buildAccountQuery(qb, minimal, mergeAggregate, selection, sortOrder);
           log("Query : %s", sql);
-          c = db.rawQuery(sql, null);
+          c = db.rawQuery(sql, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
@@ -887,7 +885,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   private Context wrappedContext() {
-    return ContextHelper.wrap(getContext(), userLocaleProvider.getUserPreferredLocale());
+    return userLocaleProvider.wrapContext(getContext());
   }
 
   @Override

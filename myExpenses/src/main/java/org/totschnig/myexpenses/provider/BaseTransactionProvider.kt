@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -41,6 +42,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @set:Inject
     var cursorFactory: SQLiteDatabase.CursorFactory? = null
+
+    @Inject
+    lateinit var userLocaleProvider: UserLocaleProvider
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -97,12 +101,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val TAG = "TransactionProvider"
     }
 
+    val homeCurrency: String
+    get() = Utils.getHomeCurrency(context, prefHandler, userLocaleProvider)
+
     val accountsWithExchangeRate: String
-        get() = exchangeRateJoin(
-            TABLE_ACCOUNTS, KEY_ROWID, Utils.getHomeCurrency(
-                context, prefHandler
-            )
-        )
+        get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)
 
 
     private val fullAccountProjection =
@@ -133,7 +136,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         sortOrder: String?
     ): String {
 
-        val homeCurrency = Utils.getHomeCurrency(context, prefHandler)
         val aggregateFunction = TransactionProvider.aggregateFunction(
             prefHandler.getBoolean(
                 PrefKey.DB_SAFE_MODE,

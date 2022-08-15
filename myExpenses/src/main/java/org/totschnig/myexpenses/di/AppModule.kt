@@ -67,14 +67,14 @@ open class AppModule {
     @Provides
     @Singleton
     fun provideCurrencyContext(
-        prefHandler: PrefHandler?,
-        userLocaleProvider: UserLocaleProvider?
+        prefHandler: PrefHandler,
+        userLocaleProvider: UserLocaleProvider
     ): CurrencyContext = PreferencesCurrencyContext(prefHandler, userLocaleProvider)
 
     @Provides
     @Singleton
-    fun provideUserLocaleProvider(
-        prefHandler: PrefHandler?,
-        locale: Locale?
-    ): UserLocaleProvider = UserLocaleProviderImpl(prefHandler!!, locale!!)
+    open fun provideUserLocaleProvider(
+        prefHandler: PrefHandler,
+        locale: Locale
+    ): UserLocaleProvider = UserLocaleProviderImpl(prefHandler, locale)
 }

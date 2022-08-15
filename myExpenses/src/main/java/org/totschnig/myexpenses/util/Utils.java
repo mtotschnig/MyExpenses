@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -127,36 +128,29 @@ public class Utils {
     //TODO provide home currency in a cleaner way
     final MyApplication context = MyApplication.getInstance();
     AppComponent appComponent = context.getAppComponent();
-    return getHomeCurrency(context, appComponent.prefHandler(), appComponent.currencyContext());
+    return getHomeCurrency(context,
+            appComponent.prefHandler(),
+            appComponent.currencyContext(),
+            appComponent.userLocaleProvider()
+            );
   }
 
-  public static CurrencyUnit getHomeCurrency(Context context, PrefHandler prefHandler, CurrencyContext currencyContext) {
-    return currencyContext.get(getHomeCurrency(context, prefHandler));
+  public static CurrencyUnit getHomeCurrency(Context context,
+                                             PrefHandler prefHandler,
+                                             CurrencyContext currencyContext,
+                                             UserLocaleProvider userLocaleProvider
+                                             ) {
+    return currencyContext.get(getHomeCurrency(context, prefHandler, userLocaleProvider));
   }
 
-  public static String getHomeCurrency(Context context, PrefHandler prefHandler) {
+  public static String getHomeCurrency(Context context, PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
     String home = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
-    return home != null ? home : getLocalCurrency(context).getCurrencyCode();
+    return home != null ? home : userLocaleProvider.getLocalCurrency(context).getCurrencyCode();
   }
 
   public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit) {
     int minorUnitDelta = currencyUnit.getFractionDigits() - Utils.getHomeCurrency().getFractionDigits();
     return raw * Math.pow(10, minorUnitDelta);
-  }
-
-  private static Currency getLocalCurrency(Context context) {
-    Currency result = null;
-    String userCountry = getCountryFromTelephonyManager(context);
-    if (!TextUtils.isEmpty(userCountry)) {
-      try {
-        result = Currency.getInstance(new Locale("", userCountry));
-      } catch (Exception ignore) {
-      }
-    }
-    if (result == null) {
-      result = getSaveDefault();
-    }
-    return result;
   }
 
   public static List<Map<String, String>> getProjectDependencies(Context context) {
