@@ -47,7 +47,6 @@ zh-cn:
       distribution: "<b>饼状统计图</b>：可视化不同时期（年、月、周、天）中，每个类别的交易统计分布"
       split_transaction: "<b>拆分交易</b>：单个交易可以拆分成多个部分（转账或分属于不同的类别）"
       print: <b>打印</b>：可以将交易清单打印成PDF文件
-      attach_picture: "<b>附加图片</b>：通过相机拍摄或从图库中选择图片附件"
       ad_free: <b>无广告</b>
       csv_import: 可自定义复杂的<b>CSV导入文件</b>（电子表格应用程序）
       auto_backup: 每日<b>自动备份</b>并上载到自选的云盘/云服务

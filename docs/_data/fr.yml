@@ -65,8 +65,6 @@ fr:
       split_transaction: "<b>Opération ventilée</b> : une seule opération peut être\
         \ divisée en plusieurs parties (catégories et transferts)"
       print: <b>Imprimer</b> la liste des opérations dans un fichier PDF
-      attach_picture: "<b>Image jointe</b> : Capture par caméra ou sélection dans\
-        \ la galerie"
       ad_free: <b>Sans publicité</b>
       csv_import: <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
       auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif

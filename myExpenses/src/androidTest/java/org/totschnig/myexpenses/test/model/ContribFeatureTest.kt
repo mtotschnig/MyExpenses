@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 
 class ContribFeatureTest : ModelTest() {
     fun testRecordUsage() {
-        val feature = ContribFeature.ATTACH_PICTURE
+        val feature = ContribFeature.DISTRIBUTION
         val appComponent = (context.applicationContext as MyApplication).appComponent
         val licenceHandler = appComponent.licenceHandler() as MockLicenceHandler
         val prefHandler = appComponent.prefHandler()

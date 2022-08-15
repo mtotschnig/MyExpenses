@@ -16,7 +16,6 @@ contrib:
     csv_import: <b>Importação de CSV</b> sofisticada e personalizável (aplicativos
       de planilha)
     ad_free: <b>Sem anúncios</b>
-    attach_picture: '<b>Anexo de imagem</b>: capture via câmera ou selecione da galeria'
     print: <b>Imprima</b> a lista de transações em um arquivo PDF
     split_transaction: '<b>Transação dividida</b>: uma transação única pode ser dividida
       em várias partes (categorias e transferências)'

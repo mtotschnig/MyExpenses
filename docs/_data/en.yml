@@ -47,7 +47,6 @@ en:
       distribution: "<b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)"
       split_transaction: "<b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)"
       print: <b>Print</b> the transaction list to a PDF file
-      attach_picture: "<b>Image attachment</b>: Capture via camera or select from gallery"
       ad_free: <b>No ads</b>
       csv_import: Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)
       auto_backup: Daily <b>automated backup</b> with optional upload to cloud storage

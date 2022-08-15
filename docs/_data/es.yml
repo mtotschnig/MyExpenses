@@ -63,8 +63,6 @@ es:
       split_transaction: "<b>Transacción dividida</b>: una transacción puede separarse\
         \ en diferentes partes (categorías y transferencias)"
       print: <b>Imprima</b> la lista de transacciones en un archivo PDF
-      attach_picture: "<b>Adjuntar imagen</b>: tomada desde la cámara o seleccionada\
-        \ desde galería"
       ad_free: <b>Sin anuncios</b>
       csv_import: Una sofisticada y personalizable <b>importación a CSV</b> (para
         aplicaciones de hojas de cálculo)

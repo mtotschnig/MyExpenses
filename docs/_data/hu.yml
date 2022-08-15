@@ -23,8 +23,6 @@ hu:
     feature:
       webui: <b>Webes felhasználói kezelőfelület</b>
       roadmap_voting: Szavazási jog a <b>fejlesztési ütemtervre</b>
-      attach_picture: '<b>Képmelléklet</b>: Felvétel a kamerával vagy kiválasztás
-        a galériából'
       csv_import: Kifinomult, testreszabható <b>CSV import</b> (táblázatkezelő alkalmazások)
       distribution: '<b> Kördiagram </b>: A tranzakciók kategóriánkénti statisztikai
         eloszlásának szemléltetése különböző időszakokban (évek, hónapok, hetek, napok)'

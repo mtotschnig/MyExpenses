@@ -64,8 +64,6 @@ eu:
       split_transaction: "<b>Banatutako transakzio</b>: transakzio bat banatu daiteke\
         \ hainbat zatitan (kategoriak eta transferentziak)"
       print: <b>Inprimatu</b> transakzioen zerrenda PDF fitxategi baten bidez
-      attach_picture: "<b>Irudi eranskina</b>: egin kaptura kameraren bidez edo hautatu\
-        \ irudia galeriatik"
       ad_free: <b>iragarkirik ez</b>
       csv_import: <b>CSV inportazio</b> sofistikatu eta pertsonalizagarria (kalkulu
         orrien aplikazioak)

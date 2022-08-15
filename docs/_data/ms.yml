@@ -62,8 +62,6 @@ ms:
       split_transaction: "<b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan\
         \ menjadi berbilang bahagian (kategori dan pemindahan)"
       print: <b>Cetak</b> senarai transaksi ke dalam fail PDF
-      attach_picture: "<b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih\
-        \ dari galeri"
       ad_free: <b>Tanpa iklan</b>
       csv_import: <b>Import CSV import</b> (spreadsheet applications) yang canggih
         dan boleh disuaikan.

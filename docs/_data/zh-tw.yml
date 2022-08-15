@@ -85,7 +85,6 @@ zh-tw:
       distribution: <b>餅狀統計圖</b>：可視化不同時期（年、月、週、天）中，每個類別的交易統計分佈
       split_transaction: <b>拆分交易</b>：單個交易可以拆分成多個部分（轉賬或分屬於不同的類別）
       print: <b>打印</b>：可以將交易清單打印成PDF文件
-      attach_picture: <b>附加圖片</b>：通過相機拍攝或從圖庫中選擇圖片附件
       ad_free: <b>無廣告</b>
       csv_import: 可自定義復雜的<b>CSV導入文件</b>（電子表格應用程序）
       auto_backup: 每日<b>自動備份</b>並上載到自選的雲盤/雲服務

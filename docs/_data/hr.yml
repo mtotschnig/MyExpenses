@@ -37,8 +37,6 @@ hr:
       csv_import: Sofisticiran, prilagodljiv <b>CSV uvoz</b> (programi proračunskih
         tablica)
       ad_free: <b>Bez oglasa</b>
-      attach_picture: '<b>Slikovni privitak</b>: Snimi sliku pomoću kamere ili odaberi
-        sliku iz galerije'
       print: <b>Ispiši</b> popisa transakcija u PDF datoteku
       split_transaction: '<b>Podijeljena transakcija</b>: Pojedinačna transakcija
         može se podijeliti na više dijelova (kategorije i prijenosi)'

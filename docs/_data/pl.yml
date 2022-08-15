@@ -48,8 +48,6 @@ pl:
       split_transaction: "<b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może\
         \ być podzielona na wiele części (kategorie i transfery)"
       print: <b>Drukuj</b> listę transakcji do pliku PDF
-      attach_picture: "<b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz\
-        \ z galerii"
       ad_free: <b>Brak reklam</b>
       csv_import: Wyrafinowany, dostosowywany <b>import CSV</b> (aplikacje do arkuszy
         kalkulacyjnych)

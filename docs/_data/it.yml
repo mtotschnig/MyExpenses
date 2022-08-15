@@ -65,8 +65,6 @@ it:
       split_transaction: "<b> Transazione frazionata </b>: una singola transazione\
         \ può essere suddivisa in più parti (categorie e trasferimenti)"
       print: <b> Esporta </b>l'elenco delle transazioni in un file PDF
-      attach_picture: "<b> Allega immagine </b>: acquisisci tramite fotocamera o seleziona\
-        \ dalla galleria"
       ad_free: <b>Nessun annuncio</b>
       csv_import: <b> Importazione CSV </b> sofisticata e personalizzabile (applicazioni
         per fogli di calcolo)

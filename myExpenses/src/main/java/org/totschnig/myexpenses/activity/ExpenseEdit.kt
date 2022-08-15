@@ -191,7 +191,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private var mIsResumed = false
     private var accountsLoaded = false
-    private var shouldRecordAttachPictureFeature = false
     private var pObserver: ContentObserver? = null
     private lateinit var currencyViewModel: CurrencyViewModel
     override fun getDate(): LocalDate {
@@ -1127,7 +1126,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun setPicture(pictureUri: Uri?) {
-        shouldRecordAttachPictureFeature = true
         delegate.setPicture(pictureUri)
     }
 
@@ -1185,9 +1183,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         } else {
             if (operationType == Transactions.TYPE_SPLIT) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
-            }
-            if (shouldRecordAttachPictureFeature) {
-                recordUsage(ContribFeature.ATTACH_PICTURE)
             }
             if (createNew) {
                 delegate.prepareForNew()
@@ -1296,9 +1291,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (feature === ContribFeature.ATTACH_PICTURE) {
-            startMediaChooserDo()
-        } else if (feature === ContribFeature.SPLIT_TRANSACTION) {
+        if (feature === ContribFeature.SPLIT_TRANSACTION) {
             restartWithType(Transactions.TYPE_SPLIT)
         }
     }
@@ -1369,7 +1362,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     fun startMediaChooser(@Suppress("UNUSED_PARAMETER") v: View?) {
-        contribFeatureRequested(ContribFeature.ATTACH_PICTURE, null)
+        startMediaChooserDo()
     }
 
     override fun contribFeatureRequested(feature: ContribFeature, @Nullable tag: Serializable?) {

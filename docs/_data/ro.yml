@@ -36,8 +36,6 @@ ro:
     feature:
       distribution: '<b>Graficul de plăcintă</b>: Vizualizați distribuția statistică
         a tranzacțiilor pe categorii pe diferite perioade (ani, luni, săptămâni, zile)'
-      attach_picture: '<b>Arhivă atașată</b>: Capturați prin intermediul aparatului
-        foto sau selectați din galerie'
       email_support: <b>Suport prin e-mail</b> cu răspuns garantat în 2 zile lucrătoare
       roadmap_voting: Votul de dreapta pe <b>foaia de dezvoltare</b>
       history_chart: <b>Grafic istoric</b> (Flux de numerar)

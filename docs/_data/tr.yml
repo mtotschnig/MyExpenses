@@ -60,7 +60,6 @@ tr:
       split_transaction: "<b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara\
         \ ayrılabilir (kategoriler ve havaleler)"
       print: Muamele listesini bir PDF dosyasına <b>yazdırma</b>
-      attach_picture: "<b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme"
       ad_free: <b>Reklamsız</b>
       csv_import: Gelişmiş, özelleştirilebilen <b>CSV içe aktarma</b> (tablolama uygulamaları)
       auto_backup: Günlük <b>otomatik yedekleme</b> ve seçime bağlı bulut depolama

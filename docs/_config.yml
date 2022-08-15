@@ -25,7 +25,6 @@ contrib:
   - print
   - plans_unlimited
   - split_transaction
-  - attach_picture
   - ad_free
 extended:
   - csv_import

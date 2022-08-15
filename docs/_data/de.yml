@@ -65,8 +65,6 @@ de:
       split_transaction: "<b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in\
         \ mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden"
       print: <b>Drucken</b> der Buchungsliste in eine PDF-Datei
-      attach_picture: "<b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie\
-        \ auswählen"
       ad_free: <b>Keine Werbung</b>
       csv_import: Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
       auto_backup: Tägliche <b>automatische Sicherung</b> mit optionalem Upload in
