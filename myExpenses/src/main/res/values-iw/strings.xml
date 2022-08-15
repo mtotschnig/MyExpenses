@@ -1056,4 +1056,5 @@
     <string name="pref_csv_export_split_amount_summary">להשתמש בעמודות נפרדות להכנסות והוצאות</string>
     <string name="pref_csv_export_split_date_time_summary">להשתמש בעמודות נפרדות לתאריך ולשעה</string>
     <string name="whats_new_344">סמלים לקטגוריות</string>
+    <string name="required">חובה</string>
 </resources>
