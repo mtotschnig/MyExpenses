@@ -516,7 +516,6 @@
     <string name="pref_auto_backup_title">Attivare il backup automatico</string>
     <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono stati modificati).</string>
     <string name="pref_auto_backup_time_title">Ora di backup automatico</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Dopo %d backup automatici con successo, il backup automatico verrà disattivato.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> richiede l\'autorizzazione per accedere al calendario, al fine di creare piani per operazione future e ricorrenti.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Concedere l\'accesso</string>
     <string name="switch_on_text">Attivo</string>

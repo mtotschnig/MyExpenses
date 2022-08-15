@@ -523,7 +523,6 @@
     <string name="pref_auto_backup_title">Auto-backup</string>
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">After %d successful automatic backups, auto-backup will be deactivated.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Grant access</string>
     <string name="switch_on_text">On</string>

@@ -519,7 +519,6 @@
     <string name="pref_auto_backup_title">Włącz automatyczną kopię zapasową</string>
     <string name="pref_auto_backup_summary">Wykonaj kopię zapasowa bazy danych codziennie o określonej godzinie (tylko wtedy, gdy dane nie zmieniły)</string>
     <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Po %d udanych automatycznych kopii zapasowych, automatyczne tworzenie kopii zapasowych zostanie dezaktywowane.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> potrzebuje uprawnień dostępu do Twojego kalendarza, aby tworzyć plany dla przyszłych i cyklicznych transakcji.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Udziel dostęp</string>
     <string name="switch_on_text">Wł.</string>

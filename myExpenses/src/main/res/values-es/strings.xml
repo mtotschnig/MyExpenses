@@ -515,7 +515,6 @@
     <string name="pref_auto_backup_title">Copia de seguridad automática</string>
     <string name="pref_auto_backup_summary">Copia de seguridad diaria a una hora determinada (sólo si hay cambios).</string>
     <string name="pref_auto_backup_time_title">Hora para la copia de seguridad automática</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Después de %d copias de seguridad automáticas realizadas con éxito, las copias de seguridad automática serán desactivadas.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> necesita permiso para acceder a su calendario, con el fin de crear proyectos para futuras transacciones y transacciones recurrentes.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Otorgar acceso</string>
     <string name="switch_on_text">Activado</string>

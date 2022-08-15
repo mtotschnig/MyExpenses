@@ -468,7 +468,6 @@
     <string name="pref_auto_backup_title">자동 백업 활성화</string>
     <string name="pref_auto_backup_summary">데이터베이스를 매일 정해진 시간에 백업합니다(데이터가 변경된 경우에만).</string>
     <string name="pref_auto_backup_time_title">자동 백업 시간</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
     <string name="calendar_permission_required"><i>{app_name}</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">접근 허용</string>
     <string name="switch_on_text">사용</string>

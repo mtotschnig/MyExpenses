@@ -623,7 +623,6 @@
     <string name="menu_move">Premjesti</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Dozvoli pristup</string>
     <string name="calendar_permission_required"><i>{app_name}</i> treba dozvolu za pristup tvom kalendaru kako bi se stvorili planovi za buduće i ponavljajuće transakcije.</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nakon %d uspješnih automatskih spremanja sigurnosnih kopija, automatsko spremanje sigurnosnih kopija bit će deaktivirano.</string>
     <string name="pref_auto_backup_time_title">Vrijeme automatske sigurnosne kopije</string>
     <string name="pref_auto_backup_summary">Dnevno spremi sigurnosnu kopiju baze podataka u određeno vrijeme (samo ako se podaci promijene).</string>
     <string name="pref_auto_backup_title">Automatska sigurnosna kopija</string>

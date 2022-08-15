@@ -245,7 +245,6 @@
     <string name="switch_on_text">పై</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">ప్రవేశాన్ని ఆమోదించండి</string>
     <string name="calendar_permission_required"><i> {app_name} </i> భవిష్యత్ మరియు పునరావృత లావాదేవీల కోసం ప్రణాళికలను రూపొందించడానికి మీ క్యాలెండర్‌ను యాక్సెస్ చేయడానికి అనుమతి అవసరం.</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d విజయవంతమైన ఆటోమేటిక్ బ్యాకప్ తరువాత, ఆటో-బ్యాకప్ క్రియారహితం అవుతుంది.</string>
     <string name="pref_auto_backup_time_title">ఆటో-బ్యాకప్ సమయం</string>
     <string name="pref_auto_backup_summary">పేర్కొన్న సమయంలో ప్రతిరోజూ బ్యాకప్ డేటాబేస్ (డేటా మారినట్లయితే మాత్రమే).</string>
     <string name="pref_auto_backup_title">ఆటో-బ్యాకప్</string>

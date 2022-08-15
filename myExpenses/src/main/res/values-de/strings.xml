@@ -515,7 +515,6 @@
     <string name="pref_auto_backup_title">Automatische Datensicherung</string>
     <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben).</string>
     <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Zugriff gewähren</string>
     <string name="switch_on_text">An</string>

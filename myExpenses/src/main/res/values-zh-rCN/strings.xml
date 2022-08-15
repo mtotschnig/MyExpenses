@@ -508,7 +508,6 @@
     <string name="pref_auto_backup_title">启用自动备份</string>
     <string name="pref_auto_backup_summary">每天在指定时间备份数据库（仅当数据已变更时）。</string>
     <string name="pref_auto_backup_time_title">自动备份的时间</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">成功完成自动备份%d次后，将停用自动备份的功能。</string>
     <string name="calendar_permission_required"><i>{app_name}</i>需要获得访问日历的权限，才能为将来和定期的交易创建计划。</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">授权访问</string>
     <string name="switch_on_text">开启</string>

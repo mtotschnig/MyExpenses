@@ -130,4 +130,28 @@ sealed class AddOnPackage(val feature: ContribFeature, defaultPrice: Long = 430)
     @Parcelize
     @Keep
     object CategoryTree : AddOnPackage(ContribFeature.CATEGORY_TREE)
+    @Parcelize
+    @Keep
+    object AccountsUnlimited : AddOnPackage(ContribFeature.ACCOUNTS_UNLIMITED)
+    @Parcelize
+    @Keep
+    object PlansUnlimited : AddOnPackage(ContribFeature.PLANS_UNLIMITED)
+    @Parcelize
+    @Keep
+    object SplitTransaction : AddOnPackage(ContribFeature.SPLIT_TRANSACTION)
+    @Parcelize
+    @Keep
+    object Distribution : AddOnPackage(ContribFeature.DISTRIBUTION)
+    @Parcelize
+    @Keep
+    object Print : AddOnPackage(ContribFeature.PRINT)
+    @Parcelize
+    @Keep
+    object AdFree : AddOnPackage(ContribFeature.AD_FREE)
+    @Parcelize
+    @Keep
+    object CsvImport : AddOnPackage(ContribFeature.CSV_IMPORT)
+    @Parcelize
+    @Keep
+    object Synchronization : AddOnPackage(ContribFeature.SYNCHRONIZATION)
 }

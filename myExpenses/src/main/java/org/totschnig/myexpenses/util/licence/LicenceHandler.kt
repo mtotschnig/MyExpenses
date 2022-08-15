@@ -394,9 +394,6 @@ open class LicenceHandler(
         }?.let { addFeatures(it) }
     }
 
-    open fun supportSingleFeaturePurchase(feature: ContribFeature) =
-        feature.licenceStatus == LicenceStatus.PROFESSIONAL
-
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"
         protected const val LICENSE_FEATURES = "licence_features"

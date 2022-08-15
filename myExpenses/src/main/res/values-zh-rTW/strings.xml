@@ -509,7 +509,6 @@
     <string name="pref_auto_backup_title">啟動自動備份</string>
     <string name="pref_auto_backup_summary">每天在指定時間備份資料庫(僅當資料有變更時)。</string>
     <string name="pref_auto_backup_time_title">自動備份的時間</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">成功完成自動備份%d次後，將停用自動備份的功能。</string>
     <string name="calendar_permission_required"><i>{app_name}</i>此應用程式需要日曆的存取權限，才能新建未來交易計畫與定期交易計畫。</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">授予存取權限</string>
     <string name="switch_on_text">開啟</string>

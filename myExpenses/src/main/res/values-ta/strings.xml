@@ -515,7 +515,6 @@
     <string name="pref_auto_backup_title">தன்னியக்க காப்புப்பிரதி</string>
     <string name="pref_auto_backup_summary">குறிப்பிட்ட காலப்பொழுதில் தினசரி தரவுத்தளத்தை காப்புப்பதிவு எடுக்கவும் (தரவு மாற்றப்பட்டால் மட்டுமே).</string>
     <string name="pref_auto_backup_time_title">தன்னியக்க காப்புப்பிரதி காலப்பொழுது</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d வெற்றிகரமான தன்னியக்க காப்புப்பிரதிகளுக்குப் பிறகு, தன்னியக்க காப்புப்பிரதி எடுத்தல் செயலிழக்கப்படும்.</string>
     <string name="calendar_permission_required"><i> {app_name} </i> -க்கு எதிர்காலத்திற்கான திட்டங்கள் மற்றும் மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகள் உருவாக்க, உங்களுடைய நாட்காட்டியை அணுக அனுமதி தேவை.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">அனுமதி வழங்கு</string>
     <string name="switch_on_text">இயக்கு</string>

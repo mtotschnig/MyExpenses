@@ -503,7 +503,6 @@
     <string name="pref_auto_backup_title">Benarkan auto-sandar</string>
     <string name="pref_auto_backup_summary">Sandar pangkalan data harian pada masa yang ditetapkan (hanya jika data telah berubah).</string>
     <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Beri capaian</string>
     <string name="switch_on_text">Dihidupkan</string>

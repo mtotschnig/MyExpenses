@@ -498,7 +498,6 @@
     <string name="pref_auto_backup_title">Tự động sao lưu</string>
     <string name="pref_auto_backup_summary">Sao lưu cơ sở dữ liệu tại một thời điểm nhất định (nếu dữ liệu có sự thay đổi).</string>
     <string name="pref_auto_backup_time_title">Thời điểm tự động sao lưu</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Sau %d lần sao lưu tự động thành công, chức năng tự sao lưu sẽ bị vô hiệu hoá</string>
     <string name="calendar_permission_required"><i>{app_name}</i> cần sự cho phép của bạn để truy cập vào lịch, từ đó tạo các kế hoạch cho giao dịch trong tương lai và giao dịch lặp lại.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Cấp phép truy cập</string>
     <string name="switch_on_text">Bật</string>

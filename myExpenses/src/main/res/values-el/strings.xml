@@ -511,7 +511,6 @@
     <string name="pref_auto_backup_title">Ενεργοποίηση της αυτόματης δημιουργίας αντιγράφων ασφαλείας</string>
     <string name="pref_auto_backup_summary">Δημιουργία αντιγράφων ασφαλείας της βάσης δεδομένων καθημερινά την καθορισμένη ώρα (μόνο αν τα δεδομένα έχουν αλλάξει).</string>
     <string name="pref_auto_backup_time_title">Χρόνος αυτόματης δημιουργίας του αντιγράφου ασφαλείας</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Μετά από %d επιτυχημένα αυτόματα αντίγραφα ασφαλείας, η λειτουργία αυτόματου αντίγραφου ασφαλείας θα απενεργοποιηθεί.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> χρειάζεται άδεια για πρόσβαση στο ημερολόγιό σας, προκειμένου να δημιουργήσει σχέδια για μελλοντικές και επαναλαμβανόμενες συναλλαγές.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Παραχώρηση πρόσβασης</string>
     <string name="switch_on_text">Ενεργό</string>

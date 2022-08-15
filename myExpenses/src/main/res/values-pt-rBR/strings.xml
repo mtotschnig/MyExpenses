@@ -515,7 +515,6 @@
     <string name="pref_auto_backup_title">Backup automático</string>
     <string name="pref_auto_backup_summary">Efetuar o backup do banco de dados diariamente, no horário especificado (apenas se os dados foram alterados).</string>
     <string name="pref_auto_backup_time_title">Horário do backup automático</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Após %d backups automáticos bem sucedidos, o backup automático será desativado.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> precisa de permissão para acessar sua agenda, à fim de criar planos para transações futuras e recorrentes.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Conceder acesso</string>
     <string name="switch_on_text">On</string>

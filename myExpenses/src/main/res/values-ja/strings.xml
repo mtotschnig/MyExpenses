@@ -505,7 +505,6 @@
     <string name="pref_auto_backup_title">自動バックアップを有効にする</string>
     <string name="pref_auto_backup_summary">毎日指定した時間にデータベースをバックアップします (データが変更された場合のみ)。</string>
     <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
     <string name="calendar_permission_required"><i>{app_name}</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">アクセスを許可</string>
     <string name="switch_on_text">ON</string>

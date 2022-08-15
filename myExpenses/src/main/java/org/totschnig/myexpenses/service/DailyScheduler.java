@@ -45,9 +45,7 @@ public class DailyScheduler {
     final LicenceHandler licenceHandler = getLicenceHandler(context);
     if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false) &&
         prefHandler.getBoolean(PrefKey.AUTO_BACKUP_DIRTY, true)) {
-      if (licenceHandler.hasTrialAccessTo(ContribFeature.AUTO_BACKUP)) {
-        scheduleAutoBackup(context);
-      }
+      scheduleAutoBackup(context);
     } else {
       cancelAutoBackup(context);
     }

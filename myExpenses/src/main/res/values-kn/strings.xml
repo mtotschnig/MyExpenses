@@ -513,7 +513,6 @@
     <string name="pref_auto_backup_title">ಸ್ವಯಂ ಬ್ಯಾಕಪ್</string>
     <string name="pref_auto_backup_summary">ನಿಗದಿತ ಸಮಯದಲ್ಲಿ ಪ್ರತಿದಿನ ಬ್ಯಾಕಪ್ ಡೇಟಾಬೇಸ್ (ಡೇಟಾ ಬದಲಾದರೆ ಮಾತ್ರ).</string>
     <string name="pref_auto_backup_time_title">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಸಮಯ</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d ಯಶಸ್ವಿ ಸ್ವಯಂಚಾಲಿತ ಬ್ಯಾಕಪ್‌ಗಳ ನಂತರ, ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="calendar_permission_required">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟುಗಳ ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು <i>{app_name}</i> ಗೆ ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರ್ ಪ್ರವೇಶಿಸಲು ಅನುಮತಿ ಅಗತ್ಯವಿದೆ.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">ಪ್ರವೇಶವನ್ನು ನೀಡಿ</string>
     <string name="switch_on_text">ಆನ್</string>

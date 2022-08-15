@@ -510,7 +510,6 @@
     <string name="pref_auto_backup_title">Babeskopia automatikoa</string>
     <string name="pref_auto_backup_summary">Egin egunero datu-basearen babeskopia zehaztutako orduan (soilik datuak aldatu badira)</string>
     <string name="pref_auto_backup_time_title">Babeskopia automatikoaren ordua</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d babeskopia automatikoen ondoren, babeskopia automatikoa desgaituko da.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> zure egutegia atzitzeko baimena behar du, etorkizunerako planak eta transakzio errepikakorrak sortu ahal izateko.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Baimena eman</string>
     <string name="switch_on_text">Bai</string>

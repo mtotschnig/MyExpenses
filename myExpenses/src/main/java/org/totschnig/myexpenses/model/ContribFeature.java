@@ -59,14 +59,6 @@ public enum ContribFeature {
   PRINT,
   AD_FREE(TrialMode.NONE),
   CSV_IMPORT(TrialMode.NUMBER_OF_TIMES, EXTENDED),
-  AUTO_BACKUP(TrialMode.NUMBER_OF_TIMES, EXTENDED) {
-    @Override
-    public String buildUsagesLeftString(Context ctx, PrefHandler prefHandler) {
-      int usagesLeft = usagesLeft(prefHandler);
-      return usagesLeft > 0 ? ctx.getString(R.string.warning_auto_backup_limited_trial, usagesLeft) :
-          getLimitReachedWarning(ctx);
-    }
-  },
   SYNCHRONIZATION(TrialMode.DURATION, EXTENDED),
   SPLIT_TEMPLATE(TrialMode.NONE, PROFESSIONAL) {
     @Override

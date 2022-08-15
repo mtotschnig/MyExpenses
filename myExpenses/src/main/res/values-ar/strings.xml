@@ -542,7 +542,6 @@
     <string name="pref_auto_backup_title">نسخ احتياطي آلي</string>
     <string name="pref_auto_backup_summary">نسخ احتياطي لقاعدة البيانات يوميا في وقت محدد (فقط في حالة تغير البيانات).</string>
     <string name="pref_auto_backup_time_title">وقت النسخ الاحتياطي الآلي</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">بعد %d نسخ احتياطي آلي ناجح، سيتم إيقاف النسخ الاحتياطي الآلي.</string>
     <string name="calendar_permission_required">يحتاج <i>{app_name}</i> إلى الأذن بالوصول إلى التقويم الخاص بك، من أجل وضع خطط للمعاملات المستقبلية والمتكررة.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">منح حق الوصول</string>
     <string name="switch_on_text">تشغيل</string>

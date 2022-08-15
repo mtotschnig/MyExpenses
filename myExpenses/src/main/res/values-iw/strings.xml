@@ -529,7 +529,6 @@
     <string name="pref_auto_backup_title">גיבוי אוטומטי</string>
     <string name="pref_auto_backup_summary">גיבוי יומי למסד נתונים בשעה שצוין (רק אם הנתונים השתנו).</string>
     <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">לאחר %d גיבויים אוטומטיים מוצלחים, גיבוי אוטומטי יופסק.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">זכה בגישה</string>
     <string name="switch_on_text">מופעל</string>

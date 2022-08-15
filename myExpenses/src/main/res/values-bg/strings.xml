@@ -515,7 +515,6 @@
     <string name="pref_auto_backup_title">Автоматично архивиране</string>
     <string name="pref_auto_backup_summary">Ежедневно архивиране на базата данни в определено време (само ако има промяна в данните).</string>
     <string name="pref_auto_backup_time_title">Време за автоматично архивиране</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">След  %d успешни архивирания, автоматичното запазване ще се деактивира.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставен достъп</string>
     <string name="switch_on_text">Включено</string>

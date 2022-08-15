@@ -71,11 +71,6 @@ class AutoBackupService : JobIntentService() {
                 val result: Result<Pair<DocumentFile, List<DocumentFile>>> =
                     doBackup(this, prefHandler, syncAccount)
                 result.onSuccess { pair ->
-                    val remaining =
-                        ContribFeature.AUTO_BACKUP.recordUsage(prefHandler, licenceHandler)
-                    if (remaining < 1) {
-                        ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP)
-                    }
                     if (pair.second.isNotEmpty()) {
                         val requireConfirmation =
                             prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)

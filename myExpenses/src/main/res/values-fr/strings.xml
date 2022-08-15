@@ -515,7 +515,6 @@
     <string name="pref_auto_backup_title">Sauvegarde automatique</string>
     <string name="pref_auto_backup_summary">Sauvegarde de la base de données quotidiennement à l\'heure spécifiée (seulement si les données ont changé).</string>
     <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
     <string name="calendar_permission_required">&lt;i&gt;{app_name} &lt;/i&gt; requiert votre permission d\'accéder à votre calendrier , dans le but de créer des échéances pour des opérations futures et répétitives.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Autoriser l\'accès</string>
     <string name="switch_on_text">Activé</string>

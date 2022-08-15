@@ -527,7 +527,6 @@
     <string name="pref_auto_backup_title">Автоматическая резервная копия</string>
     <string name="pref_auto_backup_summary">Создавать резервную копию базы данных ежедневно в указанное время (только если данные были изменены).</string>
     <string name="pref_auto_backup_time_title">Время автоматического резервного копирования</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">После успешных автоматических резервных копий %d автоматическое резервное копирование будет отключено.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставить доступ</string>
     <string name="switch_on_text">ВКЛ</string>
