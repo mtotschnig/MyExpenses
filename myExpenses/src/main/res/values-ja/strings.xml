@@ -640,8 +640,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%1$s から %2$s まで延長</string>
     <string name="extended_upgrade_goodie_github">追加の %d ヶ月は延長ライセンスを所有するユーザーに１度付与されます</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">すでに延長ライセンスを所有するユーザーは、最初の年に標準価格 (%s) の 50%%お支払いください。</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">既に延長ライセンスを所有しているユーザーは、年間契約の通常価格 (%2$s) から %1$d%% に減額されます。</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">年間サブスクリプションに切り替える</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">月間サブスクリプションに切り替える</string>
     <string name="extend_validity">有効期限を延長する</string>

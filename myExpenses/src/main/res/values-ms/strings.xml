@@ -636,8 +636,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Dilanjutkan sehingga %1$s untuk %2$s</string>
     <string name="extended_upgrade_goodie_github">%d bulan tambahan diberi sebaik sahaja pengguna sudah memiliki Lesen Lanjutannya sendiri</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Pengguna yang sudah memiliki Lesen Lanjutan boleh membaya 50%% dari harga asal (%s) pada tahun pertama.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Pengguna yang sudah memiliki Lesen Lanjutan layak mendapat%1$dpengurangan %% dari harga biasa (%2$s) langganan tahunan.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Bertukar ke langganan tahunan</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Bertukar ke langganan bulanan</string>
     <string name="extend_validity">Lanjutkan pengesahan</string>

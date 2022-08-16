@@ -645,8 +645,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Продовжити до %1$s для %2$s</string>
     <string name="extended_upgrade_goodie_github">%d додаткових місяців надається користувачам, що вже мають Розширену ліцензію</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Користувачі, що вже мають Розширену ліцензію, платять 50%% звичайної ціни (%s) протягом першого року.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Користувачі, що вже мають Розширену ліцензію, мають право на знижку %1$d%% від звичайної вартості (%2$s) щорічної підписки.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Перейти до щорічної підписки</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Перейти до щомісячної підписки</string>
     <string name="extend_validity">Подовжити термін дії</string>

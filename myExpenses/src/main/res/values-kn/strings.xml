@@ -648,8 +648,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%2$s ಗಾಗಿ %1$s ವರೆಗೆ ವಿಸ್ತರಿಸಿ</string>
     <string name="extended_upgrade_goodie_github">ವಿಸ್ತೃತ ಲೈಸೆನ್ಸ್ಯನ್ನು ಈಗಾಗಲೇ ಹೊಂದಿರುವ ಬಳಕೆದಾರರಿಗೆ ಹೆಚ್ಚುವರಿ %d ತಿಂಗಳುಗಳನ್ನು ಒಮ್ಮೆ ನೀಡಲಾಗುತ್ತದೆ</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">ಈಗಾಗಲೇ ವಿಸ್ತೃತ ಪರವಾನಗಿ ಹೊಂದಿರುವ ಬಳಕೆದಾರರು ಮೊದಲ ವರ್ಷದಲ್ಲಿ ನಿಯಮಿತ ಬೆಲೆಯ 50%% ಅನ್ನು ಪಾವತಿಸುತ್ತಾರೆ (%s).</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">ಈಗಾಗಲೇ ವಿಸ್ತೃತ ಲೈಸೆನ್ಸ್ಯನ್ನು ಹೊಂದಿರುವ ಬಳಕೆದಾರರು ವಾರ್ಷಿಕ ಚಂದಾದಾರಿಕೆಯ ನಿಯಮಿತ ಬೆಲೆಯಿಂದ (%2$s) %1$d%% ಕಡಿತಕ್ಕೆ ಅರ್ಹರಾಗಿರುತ್ತಾರೆ.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">ವಾರ್ಷಿಕ ಚಂದಾದಾರಿಕೆಗೆ ಬದಲಿಸಿ</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">ಮಾಸಿಕ ಚಂದಾದಾರಿಕೆಗೆ ಬದಲಿಸಿ</string>
     <string name="extend_validity">ಸಿಂಧುತ್ವವನ್ನು ವಿಸ್ತರಿಸಿ</string>

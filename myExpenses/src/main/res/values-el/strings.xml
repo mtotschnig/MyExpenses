@@ -628,8 +628,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Επέκταση μέχρι %1$s για %2$s</string>
     <string name="extended_upgrade_goodie_github">Επιπλέον %d μήνες χορηγούνται για μια φορά σε χρήστες που κατέχουν ήδη την Εκτεταμένη Άδεια</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Οι χρήστες που κατέχουν ήδη την Εκτεταμένη Άδεια πληρώνουν 50%% από την κανονική τιμή (%s) κατά το πρώτο έτος.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Οι χρήστες που κατέχουν ήδη την Εκτεταμένη Άδεια δικαιούνται μείωση %1$d%% από την κανονική τιμή (%2$s) της ετήσιας συνδρομής.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Μετάβαση σε ετήσια συνδρομή</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Μετάβαση σε μηνιαία συνδρομή</string>
     <string name="extend_validity">Επέκταση ισχύος</string>

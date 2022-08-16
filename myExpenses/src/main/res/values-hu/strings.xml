@@ -651,9 +651,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%1$s-ig való meghosszabbítás %2$s esetében</string>
     <string name="extended_upgrade_goodie_github">További %d hónap van biztosítva egyszer azoknak a felhasználóknak, akik már rendelkeznek a Kibővített Licenccel</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Azok a felhasználók, akik már rendelkeznek a kibővített licenccel, az első évben a normál ár (%s) 50%%-át fizetik.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Azok a felhasználók, akik már rendelkeznek kibővített licenccel, %1$d%% kedvezményben részesülnek az éves előfizetés szokásos árából (%2$s).
-</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Váltás éves előfizetésre</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Váltson havi előfizetésre</string>
     <string name="extend_validity">Érvényesség meghosszabbítása</string>

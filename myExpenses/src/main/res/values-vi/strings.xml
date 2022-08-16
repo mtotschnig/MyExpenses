@@ -627,8 +627,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Mở rộng cho tới %1$s trong %2$s</string>
     <string name="extended_upgrade_goodie_github">Thêm %d tháng nữa. bạn sẽ được tiếp tục sử dụng bản quyền Mở rộng</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Người dùng đã sở hữu bản quyền Mở rộng trả 50%% giá gốc (%s) trong năm đầu tiên.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Người dùng đã sở hữu bản quyền Mở rộng được miễn %1$d%% so với giá gốc (%2$s) của suất đăng ký hàng năm.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Chuyển sang trả theo năm</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Chuyển sang trả theo tháng</string>
     <string name="extend_validity">Gia hạn tính hợp lệ</string>

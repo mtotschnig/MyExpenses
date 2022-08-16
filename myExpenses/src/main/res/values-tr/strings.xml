@@ -650,8 +650,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%1$s tarihine kadar %2$s fiyatına yenile</string>
     <string name="extended_upgrade_goodie_github">%d ek ay bir defalık olmak üzere zaten Genişletilmiş Lisansa sahip olan kullanıcılara verilmiştir</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Genişletilmiş Lisansa zaten sahip olan kullanıcılar ilk sene normal fiyatın (%s) %%50\'sini öderler.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Genişletilmiş lisansa zaten sahip olan kullanıcıların, senelik aboneliğin normal fiyatından (%2$s) %%%1$d oranında tenzilata hakları vardır.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Senelik aboneliğe geç</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Aylık aboneliğe geç</string>
     <string name="extend_validity">Geçerliliği uzat</string>

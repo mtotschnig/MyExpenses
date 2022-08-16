@@ -677,8 +677,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">تمديد حتى %1$s لـ %2$s</string>
     <string name="extended_upgrade_goodie_github">يتم منح %d شهراً إضافياً مرة واحدة للمستخدمين الذين يمتلكون بالفعل الترخيص الممتد</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">يدفع المستخدمون الذين يمتلكون بالفعل الترخيص الممتد 50%% من السعر العادي (%s) في السنة الأولى.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">يحق للمستخدمين الذين يمتلكون بالفعل الترخيص الموسع الحصول على تخفيض بنسبة %1$d%% من السعر العادي (%2$s) للاشتراك السنوي.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">قم بالتبديل إلى الاشتراك السنوي</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">التبديل إلى الاشتراك الشهري</string>
     <string name="extend_validity">مدد الصلاحية</string>

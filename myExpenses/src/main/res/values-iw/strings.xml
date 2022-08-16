@@ -664,8 +664,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">הארכה עד %1$s למשך %2$s</string>
     <string name="extended_upgrade_goodie_github">%d חודשים נוספים ניתנים חד פעמי למשתמשים שכבר נמצא ברשותם  רישיון מורחב</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">משתמשים שכבר מחזיקים ברישיון המורחב משלמים 50 %% מהמחיר הרגיל (%s) בשנה הראשונה.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">משתמשים שכבר מחזיקים ברישיון המורחב זכאים להפחתה של %1$d%% מהמחיר הרגיל (%2$s) של המנוי השנתי.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">עבור למנוי שנתי</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">עבור למנוי חודשי</string>
     <string name="extend_validity">הארכת תוקף</string>

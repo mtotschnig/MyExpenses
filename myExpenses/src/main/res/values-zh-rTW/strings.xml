@@ -644,8 +644,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">延長至%1$s只要%2$s</string>
     <string name="extended_upgrade_goodie_github">已擁有\"延伸版金鑰(Extended Key)\"的使用者，將被授予一次額外的%d個月</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">已經擁有\"延伸版金鑰(Extended Key)\" 的使用者在第一年支付正常價格（%s）的50%%。</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">已經擁有\"延伸版金鑰(Extended Key)\"的使用者，有權從年度訂閱的正常價格（%2$s）降低%1$d%%。</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">切換至年度訂閱</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">切換到每月訂閱</string>
     <string name="extend_validity">延長有效期</string>

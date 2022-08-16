@@ -447,7 +447,6 @@
         <item quantity="few">%1$d višedjelne transakcije su uspješno razgrupirane.</item>
         <item quantity="other">%1$d višedjelnih transakcija je uspješno razgrupirano.</item>
     </plurals>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Korisnici koji već posjeduju proširenu licencu imaju pravo na 50%% smanjenju cijenu od redovne cijene (%s) u prvoj godini.</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Izbrisati %1$d račun\?</item>
         <item quantity="few">Izbrisati %1$d računa\?</item>
@@ -504,7 +503,6 @@
     <string name="extend_validity">Produlji valjanost</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Promijeni na mjesečnu pretplatu</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Promijeni na godišnju pretplatu</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Korisnici koji već posjeduju proširenu licencu imaju pravo na %1$d %% smanjenju cijenu od redovne cijene (%2$s) godišnje pretplate.</string>
     <string name="extended_upgrade_goodie_github">Korisnicima koji već posjeduju proširenu licencu jednom se dodijeljuje dodatnih %d mjeseci</string>
     <string name="extend_until">Produlji do %1$s za %2$s</string>
     <string name="valid_until">Do %s</string>

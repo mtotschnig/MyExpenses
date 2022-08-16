@@ -650,8 +650,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%2$sசெலவில் %1$s வரை நீட்டிக்கவும்</string>
     <string name="extended_upgrade_goodie_github">விரிவாக்கப்பட்ட திறவுகோலை சொந்தமாகக் கொண்ட பயனர்களுக்கு கூடுதலாக %d மாதங்கள் வழங்கப்படுகிறது</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">விரிவாக்கப்பட்ட திறவுகோலை எற்கனவே சொந்தமாகக் கொண்ட பயனர்கள் முதல் வருடத்தில் வழக்கமான விலையின் (%s) 50%% ஐ செலுத்துவார்கள்.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">விரிவாக்கப்பட்ட திறவுகோலை எற்கனவே சொந்தமாகக் கொண்ட பயனர்களுக்கு வருடாந்திர சந்தாவின் வழக்கமான விலையிலிருந்து (%2$s) %1$d%% குறைப்புக்கு தகுதி உண்டு.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">வருடாந்திர சந்தாவிற்கு மாறவும்</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">மாதாந்திர சந்தாவிற்கு மாறவும்</string>
     <string name="extend_validity">செல்லுபடியாகும் காலத்தை நீட்டு</string>

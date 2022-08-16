@@ -114,9 +114,7 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">రిమోట్ బ్యాకెండ్ నుండి డేటాను పొందడం. దీనికి కొంత సమయం పడుతుంది.</string>
     <string name="extend_validity">చెల్లుబాటును విస్తరించండి</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">నెలవారీ సభ్యత్వానికి మారండి</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">ఇప్పటికే విస్తరించిన లైసెన్స్‌ను కలిగి ఉన్న వినియోగదారులు వార్షిక చందా యొక్క సాధారణ ధర (%2$s) నుండి %1$d%% తగ్గింపుకు అర్హులు.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">వార్షిక సభ్యత్వానికి మారండి</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">ఇప్పటికే విస్తరించిన లైసెన్స్‌ను కలిగి ఉన్న వినియోగదారులు మొదటి సంవత్సరంలో సాధారణ ధర (%s) లో 50 %% చెల్లిస్తారు.</string>
     <string name="extended_upgrade_goodie_github">ఇప్పటికే విస్తరించిన లైసెన్స్ కలిగి ఉన్న వినియోగదారులకు అదనపు %d నెలలు ఒకసారి మంజూరు చేయబడతాయి</string>
     <string name="export_sdcard_failure">\"%%1$s%1$s1$s\" ఫైల్‌కు ఎగుమతి విఫలమైంది:%2$s</string>
     <string name="extend_until">%2$s కోసం %1$s వరకు విస్తరించండి</string>

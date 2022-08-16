@@ -651,8 +651,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Estendere fino a %1$s per %2$s</string>
     <string name="extended_upgrade_goodie_github">Ulteriori mesi %d sono concessi una volta agli utenti che già possiedono la Licenza Ampliata</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Gli utenti che possiedono già la Licenza Ampliata pagano 50%% del prezzo normale (%s) nel primo anno.</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Gli utenti che possiedono già la Licenza Ampliata hanno diritto a una riduzione %1$d%% dal prezzo normale (%2$s) dell\'abbonamento annuale.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Passa all\'abbonamento annuale</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Passa all\'abbonamento mensile</string>
     <string name="extend_validity">Estendere la validità</string>

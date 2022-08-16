@@ -664,8 +664,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Prodloužit do %1$s za %2$s</string>
     <string name="extended_upgrade_goodie_github">Uživatelům, kteří již vlastní Rozšířenou licenci, je jednou přiděleno dalších %d měsíců</string>
-    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Uživatelé, kteří již vlastní Rozšířenou licenci, v prním roce zaplatí 50%% z běžné ceny (%s).</string>
-    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Uživatelé, kteří již vlastní Rozšířenou licenci, jsou oprávněni ke %1$d%% snížení běžné ceny (%2$s) za roční předplatné.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Přepnout na roční předplatné</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Přepnout na měsíční předplatné</string>
     <string name="extend_validity">Prodloužit platnost</string>
