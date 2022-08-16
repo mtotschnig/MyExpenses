@@ -42,8 +42,8 @@ zh-cn:
       您的捐款赞助“开支助手”的进一步发展。谢谢您！
     feature-list-title: "请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:"
     feature:
-      accounts_unlimited: 可创建无限数量的<b>账户</b>
-      plans_unlimited: 可创建无限数量的<b>定期交易计划</b>
+      accounts_unlimited: 解锁创建多于 5 个账户的能力
+      plans_unlimited: 解锁创建 3 个以上循环交易计划的能力
       distribution: "<b>饼状统计图</b>：可视化不同时期（年、月、周、天）中，每个类别的交易统计分布"
       split_transaction: "<b>拆分交易</b>：单个交易可以拆分成多个部分（转账或分属于不同的类别）"
       print: <b>打印</b>：可以将交易清单打印成PDF文件
