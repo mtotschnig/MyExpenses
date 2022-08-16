@@ -45,3 +45,6 @@ da:
     history: Historik om din økonomiske situation
     export: Eksport til PDF, QIF og CSV
     sync: Cloud synkronisering
+  contrib:
+    feature:
+      csv_import: Sofistikeret, brugerdefinerbar <b>CSV import</b> (regnearksprogrammer)
