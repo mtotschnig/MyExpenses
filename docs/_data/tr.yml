@@ -53,8 +53,9 @@ tr:
     feature-list-title: "Lütfen <i>{app_name}</i>'ı yükselterek katkıda bulunun ve\
       \ aşağıdaki işlevlere sınırsız erişim elde edin:"
     feature:
-      accounts_unlimited: Sınırsız sayıda <b>hesap</b>
-      plans_unlimited: <b>Tekrarlanan</b> muameleler için sınırsız planlama sayısı
+      accounts_unlimited: Beşten fazla hesap oluşturma özelliğinin kilidini açın
+      plans_unlimited: Tekrar eden muameleler için üçten fazla plan oluşturma özelliğinin
+        kilidini açın
       distribution: "<b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay,\
         \ hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin"
       split_transaction: "<b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara\
