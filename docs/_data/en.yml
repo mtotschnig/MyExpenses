@@ -42,8 +42,8 @@ en:
       Your contribution supports the further development of My Expenses. Thank you!
     feature-list-title: "Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:"
     feature:
-      accounts_unlimited: Unlimited number of <b>accounts</b>
-      plans_unlimited: Unlimited number of plans for <b>recurring</b> transactions
+      accounts_unlimited: Unlock the ability to create more than five accounts
+      plans_unlimited: Unlock the ability to create more than three plans for recurring transactions
       distribution: "<b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)"
       split_transaction: "<b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)"
       print: <b>Print</b> the transaction list to a PDF file

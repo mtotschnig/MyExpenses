@@ -20,11 +20,10 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.http.HttpTransport
 import com.google.api.client.json.JsonFactory
-import com.google.api.client.json.jackson2.JacksonFactory
+import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.androidpublisher.AndroidPublisher
 import com.google.api.services.androidpublisher.AndroidPublisherScopes
 import org.apache.commons.logging.LogFactory
-import java.io.File
 import java.io.IOException
 import java.security.GeneralSecurityException
 
@@ -45,7 +44,7 @@ object AndroidPublisherHelper {
     private const val SRC_RESOURCES_KEY_P12 = "/api-5950718857839288276-239934-55c93989bd9c.p12"
 
     /** Global instance of the JSON factory.  */
-    private val JSON_FACTORY: JsonFactory = JacksonFactory.getDefaultInstance()
+    private val JSON_FACTORY: JsonFactory = GsonFactory.getDefaultInstance()
 
     /** Global instance of the HTTP transport.  */
     private var HTTP_TRANSPORT: HttpTransport? = null

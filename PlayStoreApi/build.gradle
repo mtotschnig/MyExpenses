@@ -1,14 +1,20 @@
 plugins {
-    id 'java-library'
+    id 'application'
     id 'kotlin'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
+
+application {
+    mainClass.set('org.totschnig.playstoreapi.Main')
+}
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'com.google.apis:google-api-services-androidpublisher:v3-rev20201125-1.31.0'
+    implementation 'com.google.apis:google-api-services-androidpublisher:v3-rev20220704-2.0.0'
+    implementation 'com.google.http-client:google-http-client-gson:1.42.2'
 }
