@@ -21,7 +21,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.exchangeRateJoin;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
@@ -51,8 +50,6 @@ import androidx.annotation.VisibleForTesting;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountGrouping;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
@@ -64,12 +61,10 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -323,7 +318,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     Cursor c;
 
-    log("Query for URL: %s", uri);
     String groupBy = uri.getQueryParameter(QUERY_PARAMETER_GROUP_BY);
     String having = null;
     String limit = null;
@@ -505,8 +499,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
         if (mappedObjects != null) {
           String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
-          log(sql);
-          c = db.rawQuery(sql, selectionArgs);
+          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           return c;
         }
         if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
@@ -515,8 +508,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                   uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
           String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression,
                   uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR));
-          log(sql);
-          c = db.rawQuery(sql, selectionArgs);
+          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
@@ -548,8 +540,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             );
           }
           String sql = buildAccountQuery(qb, minimal, mergeAggregate, selection, sortOrder);
-          log("Query : %s", sql);
-          c = db.rawQuery(sql, selectionArgs);
+          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
@@ -866,15 +857,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         throw unknownUri(uri);
     }
 
-    if (BuildConfig.DEBUG) {
-      String qs = qb.buildQuery(projection, selection, groupBy, null, sortOrder, limit);
-      log("Query : %s", qs);
-      log("SelectionArgs : %s", Arrays.toString(selectionArgs));
-    }
-    //long startTime = System.nanoTime();
-    c = qb.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
-    //long endTime = System.nanoTime();
-    //Log.d("TIMER",uri.toString() + Arrays.toString(selectionArgs) + " : "+(endTime-startTime));
+    c = measureAndLogQuery(qb, uri, db, projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {
@@ -1591,7 +1574,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   private void notifyChange(Uri uri, boolean syncToNetwork) {
     if (!bulkInProgress) {
-      log("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
       getContext().getContentResolver().notifyChange(uri, null,
           syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true));
     }

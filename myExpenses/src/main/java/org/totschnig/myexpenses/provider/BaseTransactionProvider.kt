@@ -2,9 +2,12 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteQueryBuilder
+import android.net.Uri
 import android.os.Bundle
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.Account
@@ -22,6 +25,8 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.io.File
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -102,7 +107,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     val homeCurrency: String
-    get() = Utils.getHomeCurrency(context, prefHandler, userLocaleProvider)
+        get() = Utils.getHomeCurrency(context, prefHandler, userLocaleProvider)
 
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)
@@ -384,6 +389,60 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun log(message: String, vararg args: Any) {
         Timber.tag(TAG).i(message, *args)
+    }
+
+    fun SQLiteQueryBuilder.measureAndLogQuery(
+        uri: Uri,
+        db: SQLiteDatabase,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        groupBy: String?,
+        having: String?,
+        sortOrder: String?,
+        limit: String?
+    ): Cursor = measure(block = {
+        query(
+            db,
+            projection,
+            selection,
+            selectionArgs,
+            groupBy,
+            having,
+            sortOrder,
+            limit
+        )
+    }) {
+        "$uri - ${
+            buildQuery(
+                projection,
+                selection,
+                groupBy,
+                having,
+                sortOrder,
+                limit
+            )
+        } - (${selectionArgs?.joinToString()})"
+    }
+
+    fun SQLiteDatabase.measureAndLogQuery(
+        uri: Uri,
+        selection: String?,
+        sql: String,
+        selectionArgs: Array<String>?
+    ): Cursor = measure(block = { rawQuery(sql, selectionArgs) }) {
+        "$uri - $selection - $sql - (${selectionArgs?.joinToString()})"
+    }
+
+    private fun <T : Any> measure(block: () -> T, lazyMessage: () -> String): T {
+        val startTime = Instant.now()
+        val result = block()
+        if (BuildConfig.DEBUG) {
+            val endTime = Instant.now()
+            val duration = Duration.between(startTime, endTime)
+            log("${lazyMessage()} : $duration")
+        }
+        return result
     }
 
     fun report(e: String) {
