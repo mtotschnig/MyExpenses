@@ -20,7 +20,10 @@ ca_ES:
     links: Enllaços
   contrib:
     thank_you: |
-        La vostra contribució ens permet seguir desenvolupant Les meves despeses. Gràcies!
+      La vostra contribució ens permet seguir desenvolupant Les meves despeses. Gràcies!
+    feature:
+      csv_import: Importació sofisticada i personalitzable <b>CSV</b> (aplicacions
+        de full de càlcul)
   permissions:
     internet:
       explanation_crash_reporting: Reports sobre penjades de l'aplicació
