@@ -66,7 +66,7 @@ de:
         \ mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden"
       print: <b>Drucken</b> der Buchungsliste in eine PDF-Datei
       ad_free: <b>Keine Werbung</b>
-      csv_import: Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
+      csv_import: Ausgefeilter, anpassbarer <b>CSV-Import</b> (Tabellenkalkulationsanwendungen)
       auto_backup: Tägliche <b>automatische Sicherung</b> mit optionalem Upload in
         den Cloud-Speicher
       cloud_sync: "<b>Cloud-Synchronisierung</b>: Daten können zwischen mehreren Geräten\

@@ -47,7 +47,7 @@
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV Import</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl an Vorlagen für mehrteilige Buchungen</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stimmrecht zum <b>Entwicklungsfahrplan</b></string>
