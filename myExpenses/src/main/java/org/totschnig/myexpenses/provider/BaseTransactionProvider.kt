@@ -116,14 +116,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
     private val fullAccountProjection =
         Account.PROJECTION_BASE.copyOf(Account.PROJECTION_BASE.size + 13).also {
             val baseLength = Account.PROJECTION_BASE.size
-            it[baseLength] = "$KEY_OPENING_BALANCE + $KEY_CURRENT AS $KEY_CURRENT_BALANCE"
+            it[baseLength] =
+                "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE"
             it[baseLength + 1] = KEY_SUM_INCOME
             it[baseLength + 2] = KEY_SUM_EXPENSES
             it[baseLength + 3] = KEY_SUM_TRANSFERS
-            it[baseLength + 4] = "$KEY_OPENING_BALANCE + $KEY_TOTAL AS $KEY_TOTAL"
-            it[baseLength + 5] = "$KEY_OPENING_BALANCE + $KEY_CLEARED_TOTAL AS $KEY_CLEARED_TOTAL"
+            it[baseLength + 4] = "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL"
+            it[baseLength + 5] =
+                "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL"
             it[baseLength + 6] =
-                "$KEY_OPENING_BALANCE + $KEY_RECONCILED_TOTAL AS $KEY_RECONCILED_TOTAL"
+                "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL"
             it[baseLength + 7] = KEY_USAGES
             it[baseLength + 8] =
                 "0 AS $KEY_IS_AGGREGATE"//this is needed in the union with the aggregates to sort real accounts first
@@ -207,11 +209,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "1 AS $KEY_EXCHANGE_RATE",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
-                        "$openingBalanceSum + $aggregateFunction($KEY_CURRENT) AS $KEY_CURRENT_BALANCE",
+                        "$openingBalanceSum + coalesce($aggregateFunction($KEY_CURRENT),0) AS $KEY_CURRENT_BALANCE",
                         "$aggregateFunction($KEY_SUM_INCOME) AS $KEY_SUM_INCOME",
                         "$aggregateFunction($KEY_SUM_EXPENSES) AS $KEY_SUM_EXPENSES",
                         "$aggregateFunction($KEY_SUM_TRANSFERS) AS $KEY_SUM_TRANSFERS",
-                        "$openingBalanceSum + $aggregateFunction($KEY_TOTAL) AS $KEY_TOTAL",
+                        "$openingBalanceSum + coalesce($aggregateFunction($KEY_TOTAL),0) AS $KEY_TOTAL",
                         "0 AS $KEY_CLEARED_TOTAL",  //we do not calculate cleared and reconciled totals for aggregate accounts
                         "0 AS $KEY_RECONCILED_TOTAL",
                         "0 AS $KEY_USAGES",
@@ -272,11 +274,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "1 AS $KEY_EXCHANGE_RATE",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
-                        "$openingBalanceSum + $aggregateFunction(equivalent_current) AS $KEY_CURRENT_BALANCE",
+                        "$openingBalanceSum + coalesce($aggregateFunction(equivalent_current),0) AS $KEY_CURRENT_BALANCE",
                         "$aggregateFunction(equivalent_income) AS $KEY_SUM_INCOME",
                         "$aggregateFunction(equivalent_expense) AS $KEY_SUM_EXPENSES",
                         "0 AS $KEY_SUM_TRANSFERS",
-                        "$openingBalanceSum + $aggregateFunction(equivalent_total) AS $KEY_TOTAL",
+                        "$openingBalanceSum + coalesce($aggregateFunction(equivalent_total),0) AS $KEY_TOTAL",
                         "0 AS $KEY_CLEARED_TOTAL",  //we do not calculate cleared and reconciled totals for aggregate accounts
                         "0 AS $KEY_RECONCILED_TOTAL",
                         "0 AS $KEY_USAGES",
