@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.provider.BaseTransactionProvider;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
@@ -208,7 +209,7 @@ public interface AppComponent {
 
   void inject(EditCurrencyDialog editCurrencyDialog);
 
-  void inject(TransactionProvider transactionProvider);
+  void inject(BaseTransactionProvider transactionProvider);
 
   void inject(OnboardingDataFragment onboardingDataFragment);
 

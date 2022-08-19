@@ -295,16 +295,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   private boolean bulkInProgress = false;
 
-  @Inject
-  CurrencyContext currencyContext;
-
-  @Override
-  public boolean onCreate() {
-    MyApplication.getInstance().getAppComponent().inject(this);
-    initOpenHelper();
-    return true;
-  }
-
   public static String aggregateFunction(boolean safeMode) {
     return safeMode ? "total" : "sum";
   }

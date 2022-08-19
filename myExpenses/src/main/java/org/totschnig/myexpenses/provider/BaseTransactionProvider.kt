@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -53,6 +54,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
+    private var shouldLog = false
 
     companion object {
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
@@ -437,17 +443,25 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     private fun <T : Any> measure(block: () -> T, lazyMessage: () -> String): T {
-        val startTime = Instant.now()
-        val result = block()
-        if (BuildConfig.DEBUG) {
+        if (shouldLog) {
+            val startTime = Instant.now()
+            val result = block()
             val endTime = Instant.now()
             val duration = Duration.between(startTime, endTime)
             log("${lazyMessage()} : $duration")
+            return result
         }
-        return result
+        return block()
     }
 
     fun report(e: String) {
         CrashHandler.report(e, TAG)
+    }
+
+    override fun onCreate(): Boolean {
+        MyApplication.getInstance().appComponent.inject(this)
+        shouldLog = prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
+        initOpenHelper()
+        return true
     }
 }
