@@ -60,7 +60,7 @@ public class ShortcutHelper {
     if (contribEnabled) {
       intent = createIntentForNewSplit(context);
     } else {
-      intent = ContribInfoDialogActivity.getIntentFor(context, ContribFeature.SPLIT_TRANSACTION);
+      intent = ContribInfoDialogActivity.Companion.getIntentFor(context, ContribFeature.SPLIT_TRANSACTION);
     }
     ShortcutInfo shortcut = new ShortcutInfo.Builder(context, "split")
         .setShortLabel(context.getString(R.string.split_transaction))

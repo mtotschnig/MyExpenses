@@ -1,17 +1,13 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.Intent
-import android.content.Intent.ACTION_SEND
-import android.content.Intent.ACTION_SENDTO
-import android.net.Uri
 import android.os.Bundle
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.MyApplication.INVOICES_EMAIL
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.BillingListener
 import org.totschnig.myexpenses.util.licence.BillingManager
 import org.totschnig.myexpenses.util.licence.Package
+import java.util.*
 
 abstract class IapActivity: ProtectedFragmentActivity(), BillingListener {
     var billingManager: BillingManager? = null
@@ -42,5 +38,20 @@ abstract class IapActivity: ProtectedFragmentActivity(), BillingListener {
                 getString(R.string.postal_country)
             }: ${userCountry ?: ""}"
         sendEmail(INVOICES_EMAIL, subject, messageBody, INVOICE_REQUEST)
+    }
+
+    fun onPurchaseCancelled() {
+        showMessage(getString(R.string.premium_failed_or_canceled))
+    }
+
+    fun onPurchaseFailed(code: Int) {
+        showMessage(
+            String.format(
+                Locale.ROOT,
+                "%s (%d)",
+                getString(R.string.premium_failed_or_canceled),
+                code
+            )
+        )
     }
 }

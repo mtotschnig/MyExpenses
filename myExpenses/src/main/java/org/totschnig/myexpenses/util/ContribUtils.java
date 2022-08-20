@@ -21,7 +21,7 @@ public class ContribUtils {
         feature.getLimitReachedWarning(context), " ",
         feature.buildRemoveLimitation(context, true));
 
-    Intent contribIntent = ContribInfoDialogActivity.getIntentFor(context, feature);
+    Intent contribIntent = ContribInfoDialogActivity.Companion.getIntentFor(context, feature);
     //noinspection InlinedApi
     NotificationBuilderWrapper builder =
         NotificationBuilderWrapper.defaultBigTextStyleBuilder(context, notifTitle, content)

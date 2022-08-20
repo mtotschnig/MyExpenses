@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util.licence
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.net.Uri
@@ -13,6 +12,7 @@ import kotlinx.coroutines.launch
 import org.apache.commons.lang3.time.DateUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.IapActivity
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -92,7 +92,7 @@ open class LicenceHandler(
     }
 
     open fun isEnabledFor(licenceStatus: LicenceStatus) =
-        this.licenceStatus?.compareTo(licenceStatus) ?: -1 >= 0
+        (this.licenceStatus?.compareTo(licenceStatus) ?: -1) >= 0
 
     val isUpgradeable: Boolean
         get() = licenceStatus?.isUpgradeable ?: true
@@ -367,11 +367,11 @@ open class LicenceHandler(
         )
     }
 
-    open fun initBillingManager(activity: Activity, query: Boolean): BillingManager? {
+    open fun initBillingManager(activity: IapActivity, query: Boolean): BillingManager? {
         return null
     }
 
-    open fun launchPurchase(
+    open suspend fun launchPurchase(
         aPackage: Package,
         shouldReplaceExisting: Boolean,
         billingManager: BillingManager

@@ -440,7 +440,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void showContribDialog(@Nullable ContribFeature feature, @Nullable Serializable tag) {
-    Intent i = ContribInfoDialogActivity.getIntentFor(this, feature);
+    Intent i = ContribInfoDialogActivity.Companion.getIntentFor(this, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
     startActivityForResult(i, CONTRIB_REQUEST);
   }
