@@ -223,3 +223,14 @@ fun exchangeRateJoin(table: String, colum: String, homeCurrency: String) = """
         AND $KEY_CURRENCY_SELF = $table.$KEY_CURRENCY
         AND $KEY_CURRENCY_OTHER = '$homeCurrency'
 """.trimIndent()
+
+fun transactionMappedObjectQuery(selection: String): String = """
+with data as
+ (select $KEY_ROWID, $KEY_CATID, $KEY_METHODID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_TAGID from $TABLE_TRANSACTIONS left join $TABLE_TRANSACTIONS_TAGS on $KEY_TRANSACTIONID = $KEY_ROWID where $KEY_CR_STATUS != '${CrStatus.VOID.name}' AND $selection)
+ SELECT
+       exists(select 1 from data where $KEY_CATID > 0) AS $KEY_MAPPED_CATEGORIES,
+       exists(select 1 from data where $KEY_METHODID > 0) AS $KEY_MAPPED_METHODS,
+       exists(select 1 from data where $KEY_PAYEEID > 0) AS $KEY_MAPPED_PAYEES,
+       exists(select 1 from data where $KEY_TRANSFER_ACCOUNT > 0) AS $KEY_HAS_TRANSFERS,
+       exists(select 1 from data where $KEY_TAGID is not null) AS $KEY_MAPPED_TAGS
+""".trimIndent()

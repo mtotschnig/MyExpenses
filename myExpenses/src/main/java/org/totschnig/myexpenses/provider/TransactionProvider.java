@@ -21,6 +21,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
@@ -318,7 +319,13 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     final Context wrappedContext = wrappedContext();
     switch (uriMatch) {
-      case TRANSACTIONS:
+      case TRANSACTIONS: {
+        String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
+        if (mappedObjects != null) {
+          String sql = transactionMappedObjectQuery(selection);
+          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
+          return c;
+        }
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
         qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
@@ -335,11 +342,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
           String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
-              " != 1 OR " + KEY_AMOUNT + " < 0";
+                  " != 1 OR " + KEY_AMOUNT + " < 0";
           selection = selection == null ? mergeTransferSelection :
-              selection + " AND (" + mergeTransferSelection + ")";
+                  selection + " AND (" + mergeTransferSelection + ")";
         }
         break;
+      }
       case UNCOMMITTED:
         qb.setTables(VIEW_UNCOMMITTED);
         if (projection == null)

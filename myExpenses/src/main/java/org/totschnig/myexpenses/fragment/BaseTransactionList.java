@@ -536,11 +536,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             selection,
             selectionArgs, KEY_DATE + " " + mAccount.getSortDirection().name());
         break;
-      //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
       case SUM_CURSOR:
         cursorLoader = new ProtectedCursorLoader(requireActivity(),
-            TransactionProvider.TRANSACTIONS_URI,
-            new String[]{MAPPED_CATEGORIES, MAPPED_METHODS, MAPPED_PAYEES, HAS_TRANSFERS, MAPPED_TAGS},
+            TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS, "1").build(),
+            null,
             selection,
             selectionArgs, null);
         break;
