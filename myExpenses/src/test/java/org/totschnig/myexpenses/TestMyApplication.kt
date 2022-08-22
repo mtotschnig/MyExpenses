@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.AppModule
+import org.totschnig.myexpenses.di.CoroutineModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.di.NoOpTracker
@@ -37,6 +40,9 @@ class TestMyApplication : MyApplication() {
             })
             .appmodule(object : AppModule() {
                 override fun provideTracker() = NoOpTracker
+            })
+            .coroutineModule(object: CoroutineModule() {
+                override fun provideCoroutineDispatcher() = Dispatchers.Main.immediate
             })
             .build()
     }

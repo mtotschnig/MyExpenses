@@ -58,7 +58,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;
   public static final int TASK_QIF_IMPORT = 20;
-  public static final int TASK_BALANCE = 24;
   public static final int TASK_PRINT = 25;
   public static final int TASK_UPDATE_SORT_KEY = 27;
   public static final int TASK_SET_EXCLUDE_FROM_TOTALS = 29;

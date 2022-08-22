@@ -958,7 +958,7 @@ public class Transaction extends Model implements ITransaction {
     }
   }
 
-  ContentValues buildInitialValues() {
+  public ContentValues buildInitialValues() {
     ContentValues initialValues = new ContentValues();
 
     Long payeeStore;

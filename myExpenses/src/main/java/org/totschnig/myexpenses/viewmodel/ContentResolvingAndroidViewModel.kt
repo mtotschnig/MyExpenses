@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
-import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -30,8 +31,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.checkForSealedDebt
-import org.totschnig.myexpenses.ui.ContextHelper
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -193,6 +195,54 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                     debts.postValue(it)
                 }
         }
+    }
+
+    /**
+     * deletes all expenses and updates account according to value of handleDelete
+     *
+     * @param filter        if not null only expenses matched by filter will be deleted
+     * @param handleDelete  if equals [.EXPORT_HANDLE_DELETED_UPDATE_BALANCE] opening balance will
+     * be adjusted to account for the deleted expenses,
+     * if equals [.EXPORT_HANDLE_DELETED_CREATE_HELPER] a helper transaction
+     * @param helperComment comment used for the helper transaction
+     */
+    fun reset(account: Account, filter: WhereFilter?, handleDelete: Int, helperComment: String?) {
+        val ops = ArrayList<ContentProviderOperation>()
+        var handleDeleteOperation: ContentProviderOperation? = null
+        val sum = account.getTransactionSum(filter)
+        if (handleDelete == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+            val currentBalance: Long = account.openingBalance.amountMinor + sum
+            handleDeleteOperation = ContentProviderOperation.newUpdate(
+                Account.CONTENT_URI.buildUpon().appendPath(account.id.toString()).build()
+            )
+                .withValue(KEY_OPENING_BALANCE, currentBalance)
+                .build()
+        } else if (handleDelete == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
+            val helper = Transaction(account.id, Money(account.currencyUnit, sum))
+            helper.comment = helperComment
+            helper.status = STATUS_HELPER
+            handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
+                .withValues(helper.buildInitialValues()).build()
+        }
+        val rowSelect = Account.buildTransactionRowSelect(filter)
+        var selectionArgs: Array<String>? = arrayOf(account.id.toString())
+        if (filter != null && !filter.isEmpty) {
+            selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
+        }
+        account.updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs)
+        ops.add(
+            ContentProviderOperation.newDelete(
+                Transaction.CONTENT_URI
+            )
+                .withSelection(
+                    "$KEY_ROWID IN ($rowSelect)",
+                    selectionArgs
+                )
+                .build()
+        )
+        //needs to be last, otherwise helper transaction would be deleted
+        if (handleDeleteOperation != null) ops.add(handleDeleteOperation)
+        contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
     }
 
 /*    fun loadDebugDebts(count: Int = 10) {

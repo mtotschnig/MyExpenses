@@ -202,7 +202,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                 try {
                                     if (deleteP) {
                                         check(!a.isSealed) { "Trying to reset account that is sealed" }
-                                        a.reset(filter, handleDelete, fileName)
+                                        reset(a, filter, handleDelete, fileName)
                                     } else {
                                         a.markAsExported(filter)
                                     }

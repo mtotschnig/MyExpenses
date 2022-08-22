@@ -21,7 +21,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
@@ -41,7 +40,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_P
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
@@ -72,14 +70,11 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.data.Debt;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
@@ -174,7 +169,6 @@ public class Account extends Model implements DistributionAccountInfo {
         KEY_CRITERION,
         KEY_SEALED
     };
-    int baseLength = PROJECTION_BASE.length;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
@@ -417,39 +411,6 @@ public class Account extends Model implements DistributionAccountInfo {
   }
 
   /**
-   * @return the sum of opening balance and all cleared and reconciled transactions for the account
-   */
-  @VisibleForTesting
-  public Money getClearedBalance() {
-    WhereFilter filter = WhereFilter.empty();
-    filter.put(new CrStatusCriteria(CrStatus.RECONCILED.name(), CrStatus.CLEARED.name()));
-    return new Money(currencyUnit,
-        openingBalance.getAmountMinor() +
-            getTransactionSum(filter));
-  }
-
-  /**
-   * @return the sum of opening balance and all reconciled transactions for the account
-   */
-  @VisibleForTesting
-  public Money getReconciledBalance() {
-    return new Money(currencyUnit,
-        openingBalance.getAmountMinor() +
-            getTransactionSum(reconciledFilter()));
-  }
-
-  /**
-   * @param filter if not null only transactions matched by current filter will be taken into account
-   *               if null all transactions are taken into account
-   * @return the sum of opening balance and all transactions for the account
-   */
-  public Money getFilteredBalance(WhereFilter filter) {
-    return new Money(currencyUnit,
-        openingBalance.getAmountMinor() +
-            getTransactionSum(filter));
-  }
-
-  /**
    * @return sum of all transactions
    */
   public long getTransactionSum(WhereFilter filter) {
@@ -468,49 +429,6 @@ public class Account extends Model implements DistributionAccountInfo {
     long result = c.getLong(0);
     c.close();
     return result;
-  }
-
-  /**
-   * deletes all expenses and updates account according to value of handleDelete
-   *
-   * @param filter        if not null only expenses matched by filter will be deleted
-   * @param handleDelete  if equals {@link #EXPORT_HANDLE_DELETED_UPDATE_BALANCE} opening balance will
-   *                      be adjusted to account for the deleted expenses,
-   *                      if equals {@link #EXPORT_HANDLE_DELETED_CREATE_HELPER} a helper transaction
-   * @param helperComment comment used for the helper transaction
-   */
-  public void reset(WhereFilter filter, int handleDelete, String helperComment) throws OperationApplicationException, RemoteException {
-    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    ContentProviderOperation handleDeleteOperation = null;
-    if (handleDelete == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
-      long currentBalance = getFilteredBalance(filter).getAmountMinor();
-      openingBalance = new Money(openingBalance.getCurrencyUnit(), currentBalance);
-      handleDeleteOperation = newUpdate(
-          CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
-          .withValue(KEY_OPENING_BALANCE, currentBalance)
-          .build();
-    } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-      Transaction helper = new Transaction(getId(), new Money(currencyUnit, getTransactionSum(filter)));
-      helper.setComment(helperComment);
-      helper.setStatus(STATUS_HELPER);
-      handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
-          .withValues(helper.buildInitialValues()).build();
-    }
-    String rowSelect = buildTransactionRowSelect(filter);
-    String[] selectionArgs = new String[]{String.valueOf(getId())};
-    if (filter != null && !filter.isEmpty()) {
-      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
-    }
-    updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs);
-    ops.add(ContentProviderOperation.newDelete(
-        Transaction.CONTENT_URI)
-        .withSelection(
-            KEY_ROWID + " IN (" + rowSelect + ")",
-            selectionArgs)
-        .build());
-    //needs to be last, otherwise helper transaction would be deleted
-    if (handleDeleteOperation != null) ops.add(handleDeleteOperation);
-    cr().applyBatch(TransactionProvider.AUTHORITY, ops);
   }
 
   public void markAsExported(WhereFilter filter) throws OperationApplicationException, RemoteException {
@@ -537,16 +455,7 @@ public class Account extends Model implements DistributionAccountInfo {
     cr().applyBatch(TransactionProvider.AUTHORITY, ops);
   }
 
-  public static boolean getTransferEnabledGlobal() {
-    Cursor cursor = cr().query(
-        TransactionProvider.AGGREGATES_COUNT_URI,
-        null, null, null, null);
-    boolean result = cursor.getCount() > 0;
-    cursor.close();
-    return result;
-  }
-
-  private static String buildTransactionRowSelect(WhereFilter filter) {
+  public static String buildTransactionRowSelect(WhereFilter filter) {
     String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
     if (filter != null && !filter.isEmpty()) {
       rowSelect += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
@@ -554,7 +463,7 @@ public class Account extends Model implements DistributionAccountInfo {
     return rowSelect;
   }
 
-  private void updateTransferPeersForTransactionDelete(
+  public void updateTransferPeersForTransactionDelete(
       ArrayList<ContentProviderOperation> ops, String rowSelect, String[] selectionArgs) {
     ops.add(newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1).withSelection(KEY_SEALED + " = 1", null).build());
     ContentValues args = new ContentValues();
@@ -706,36 +615,6 @@ public class Account extends Model implements DistributionAccountInfo {
   }
 
   /**
-   * mark cleared transactions as reconciled
-   *
-   * @param resetP if true immediately delete reconciled transactions
-   *               and reset opening balance
-   */
-  public Result balance(boolean resetP) {
-    try {
-      ContentValues args = new ContentValues();
-      args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name());
-      cr().update(Transaction.CONTENT_URI, args,
-          KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
-              KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
-          new String[]{String.valueOf(getId())});
-      if (resetP) {
-        reset(reconciledFilter(), EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
-      }
-      return Result.SUCCESS;
-    } catch (Exception e) {
-      CrashHandler.report(e);
-      return Result.ofFailure(e.getMessage());
-    }
-  }
-
-  private WhereFilter reconciledFilter() {
-    WhereFilter filter = WhereFilter.empty();
-    filter.put(new CrStatusCriteria(CrStatus.RECONCILED.name()));
-    return filter;
-  }
-
-  /**
    * Returns the first account which uses the passed in currency, order is undefined
    *
    * @param currency ISO 4217 currency code
@@ -803,9 +682,6 @@ public class Account extends Model implements DistributionAccountInfo {
   /**
    * return an Account or AggregateAccount that matches the one found in the cursor at the row it is
    * positioned at. Either the one found in the cache is returned or it is extracted from the cursor
-   *
-   * @param cursor
-   * @return
    */
   public static Account fromCursor(Cursor cursor) {
     long accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID));

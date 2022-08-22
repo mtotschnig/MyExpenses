@@ -11,16 +11,19 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 const val ERROR_INIT_DOWNGRADE = -1
@@ -131,4 +134,24 @@ class MyExpensesViewModel(application: Application) :
             )
         }
     }
+
+    fun balanceAccount(accountId: Long, reset: Boolean): LiveData<Result<Unit>> =
+        liveData(context = coroutineContext()) {
+            emit(runCatching {
+                val args = ContentValues()
+                args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name)
+                Model.cr().update(
+                    Transaction.CONTENT_URI,
+                    args,
+                    "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_CR_STATUS = '${CrStatus.CLEARED.name}'",
+                    arrayOf(accountId.toString())
+                )
+                if (reset) {
+                    reset(Account.getInstanceFromDb(accountId), WhereFilter.empty().apply {
+                        put(CrStatusCriteria(CrStatus.RECONCILED.name))
+                    }, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
+                }
+                Unit
+            })
+        }
 }

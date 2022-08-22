@@ -15,6 +15,33 @@
 
 package org.totschnig.myexpenses.activity;
 
+import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
+import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
+import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
+import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -29,6 +56,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -78,45 +115,8 @@ import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.viewpager.widget.ViewPager;
 import eltos.simpledialogfragment.list.MenuDialog;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
-import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
-import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
-import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
-import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
-import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 /**
  * This is the main activity where all expenses are listed
@@ -819,13 +819,6 @@ public class MyExpenses extends BaseMyExpenses implements
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TASK_BALANCE: {
-        Result result = (Result) o;
-        if (!result.isSuccess()) {
-          showSnackBar(result.print(this));
-        }
-        break;
-      }
       case TASK_SPLIT: {
         Result result = (Result) o;
         if (((Result) o).isSuccess()) {
@@ -917,9 +910,7 @@ public class MyExpenses extends BaseMyExpenses implements
         }
       });
     } else if (command == R.id.BALANCE_COMMAND_DO) {
-      startTaskExecution(TASK_BALANCE,
-          new Long[]{args.getLong(KEY_ROWID)},
-          checked, 0);
+      balance(args.getLong(KEY_ROWID), checked);
     } else if (command == R.id.REMAP_COMMAND) {
       getCurrentFragment().remap(args, checked);
     } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
