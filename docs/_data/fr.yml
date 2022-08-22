@@ -56,9 +56,9 @@ fr:
     feature-list-title: "S'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i>\
       \ et vous aurez accès sans restriction aux caractéristiques suivantes :"
     feature:
-      accounts_unlimited: Nombre illimité de <b>comptes</b>
-      plans_unlimited: Nombre illimité d'échéances dans l'échéancier pour les opérations
-        <b>périodiques</b>
+      accounts_unlimited: Déverrouiller la possibilité de créer plus de cinq comptes
+      plans_unlimited: Déverrouiller la possibilité de créer plus de trois plans pour
+        les transactions récurrentes
       distribution: "<b>Diagramme circulaire</b> : Visualisez la distribution statistique\
         \ des opérations par catégorie sur différentes périodes (années, mois, semaines,\
         \ jours)"
