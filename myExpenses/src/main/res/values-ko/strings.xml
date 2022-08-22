@@ -189,7 +189,6 @@
     <string name="menu_share">친구에게 알려주기</string>
     <string name="menu_split_transaction">분할 거래로 바꾸기</string>
     <string name="method">지불 방법</string>
-    <string name="no_amount_given">금액을 입력하지 않으셨습니다.</string>
     <string name="no_app_handling_email_available">이메일을 다룰 수 있는 앱이 없습니다.</string>
     <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
     <string name="no_app_handling_pdf_available">PDF 파일을 다룰 수 있는 앱이 없습니다.</string>
@@ -203,7 +202,6 @@
     <string name="no_parties">구성원이 없습니다.</string>
     <string name="no_split_parts">분할 거래의 일부분이 없습니다.</string>
     <string name="no_templates">템플릿이 없습니다.</string>
-    <string name="no_title_given">제목을 입력하지 않으셨습니다.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">%1$d 항목이 거래 내역에 배치되었으며 삭제할 수 없습니다.</item>
     </plurals>

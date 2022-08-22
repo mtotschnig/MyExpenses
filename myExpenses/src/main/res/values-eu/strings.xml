@@ -210,7 +210,6 @@
     <string name="button_label_close">Itxi</string>
     <string name="menu_split_transaction">Bihurtu banaketara</string>
     <string name="method">Ordainketa metodoa</string>
-    <string name="no_amount_given">Ez duzu kopururik idatzi</string>
     <string name="no_app_handling_email_available">Ez dago posta elektronikoa kudeatu dezaken aplikaziorik.</string>
     <string name="no_app_handling_ftp_available">Ez dago FTP kudeatzeko gai den aplikaziorik erabilgarri. Instalatu <i>Send With FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Ez dago PDF fitxategiak kudeatzeko aplikaziorik</string>
@@ -225,7 +224,6 @@
     <string name="no_split_parts">Ez dago banaketaren zatirik</string>
     <string name="no_templates">Txantiloirik ez.</string>
     <string name="no_accounts">Konturik ez.</string>
-    <string name="no_title_given">Ez duzu izenbururik idatzi</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Aukeratutako objektua transakzio batetara lotuta dago eta ezin da ezabatu.</item>
         <item quantity="other">%1$d objektu transakzioetara lotuta daude eta ezin dira ezabatu.</item>

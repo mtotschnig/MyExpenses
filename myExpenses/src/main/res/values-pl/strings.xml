@@ -206,7 +206,6 @@
     <string name="button_label_close">Zamknij</string>
     <string name="menu_split_transaction">Zamień w podział</string>
     <string name="method">Metoda płatności</string>
-    <string name="no_amount_given">Nie wprowadziłeś żadnej kwoty.</string>
     <string name="no_app_handling_email_available">Nie posiadasz aplikacji do obsługi E-mail</string>
     <string name="no_app_handling_ftp_available">Brak obsługi aplikacji dla FTP. Zainstalować <i>Send With FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Brak aplikacji do obsługi PDF.</string>
@@ -222,7 +221,6 @@
     <string name="no_split_parts">Brak części podziałów</string>
     <string name="no_templates">Brak szablonów.</string>
     <string name="no_accounts">Brak kont</string>
-    <string name="no_title_given">Nie wprowadziłeś tytułu.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Wybrany obiekt jest zmapowany do transakcji i nie może zostać usunięty.</item>
         <item quantity="few">%1$d obiekty są zmapowane do transakcji i nie mogą zostać usunięte.</item>

@@ -195,7 +195,6 @@
     <string name="menu_share">Indique a um amigo</string>
     <string name="menu_split_transaction">Transformar em transação dividida</string>
     <string name="method">Forma de pagamento</string>
-    <string name="no_amount_given">Você não digitou nenhuma quantia.</string>
     <string name="no_app_handling_email_available">Nenhum app de e-mail disponível.</string>
     <string name="no_app_handling_ftp_available">Nenhum app de FTP disponível. Instalar o <i>Enviar com FTP</i>\?</string>
     <string name="no_app_handling_pdf_available">Nenhum app de PDF disponível.</string>
@@ -209,7 +208,6 @@
     <string name="no_parties">Nenhum parceiro.</string>
     <string name="no_split_parts">Nenhuma divisão.</string>
     <string name="no_templates">Nenhum modelo.</string>
-    <string name="no_title_given">Você não digitou nenhum título.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">O objeto selecionado está mapeado em uma transação e não pode ser excluído.</item>
         <item quantity="other">%1$d objetos estão mapeados em transações e não podem ser excluídos.</item>

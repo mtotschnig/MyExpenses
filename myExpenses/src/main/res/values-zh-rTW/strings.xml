@@ -209,7 +209,6 @@
     <string name="button_label_close">關閉</string>
     <string name="menu_split_transaction">轉變成分割款項</string>
     <string name="method">付款方式</string>
-    <string name="no_amount_given">您沒有輸入任何金額</string>
     <string name="no_app_handling_email_available">沒有可應用電子郵件的程式。</string>
     <string name="no_app_handling_ftp_available">沒有可處理ftp的應用程式。安裝<i>Send With FTP</i>？</string>
     <string name="no_app_handling_pdf_available">沒有可以處理PDF檔案的應用程式</string>
@@ -225,7 +224,6 @@
     <string name="no_split_parts">沒有分割款項</string>
     <string name="no_templates">沒有範本</string>
     <string name="no_accounts">沒有帳戶</string>
-    <string name="no_title_given">您尚未輸入任何文字。</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">有交易項目對應到%1$d，所以無法刪除。</item>
     </plurals>

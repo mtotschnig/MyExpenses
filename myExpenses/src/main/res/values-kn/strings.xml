@@ -210,7 +210,6 @@
     <string name="button_label_close">ಮುಚ್ಚಿ</string>
     <string name="menu_split_transaction">ವಿಭಜನೆಗೆ ರೂಪಾಂತರ</string>
     <string name="method">ಪಾವತಿ ವಿಧಾನ</string>
-    <string name="no_amount_given">ನೀವು ಯಾವುದೇ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿಲ್ಲ.</string>
     <string name="no_app_handling_email_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ನಿರ್ವಹಣಾ ಇಮೇಲ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="no_app_handling_ftp_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಹ್ಯಾಂಡ್ಲಿಂಗ್ ftp ಲಭ್ಯವಿಲ್ಲ. ಸ್ಥಾಪಿಸಿ <i> ಎಫ್‌ಟಿಪಿ ಯೊಂದಿಗೆ ಕಳುಹಿಸಿ </i>\?</string>
     <string name="no_app_handling_pdf_available">ಪಿಡಿಎಫ್ ಫೈಲ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
@@ -225,7 +224,6 @@
     <string name="no_split_parts">ವಿಭಜಿತ ಭಾಗಗಳಿಲ್ಲ.</string>
     <string name="no_templates">ಟೆಂಪ್ಲೆಟ್ಗಳಿಲ್ಲ.</string>
     <string name="no_accounts">ಖಾತೆಗಳಿಲ್ಲ.</string>
-    <string name="no_title_given">ನೀವು ಯಾವುದೇ ಶೀರ್ಷಿಕೆಯನ್ನು ನಮೂದಿಸಿಲ್ಲ.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">ಆಯ್ದ ವಸ್ತುವನ್ನು ವ್ಯವಹಾರಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅದನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
         <item quantity="other">%1$d ವಸ್ತುಗಳನ್ನು ವಹಿವಾಟಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>

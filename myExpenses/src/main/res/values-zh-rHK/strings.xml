@@ -135,7 +135,6 @@
     <string name="menu_settings">設定</string>
     <string name="button_label_close">關閉</string>
     <string name="method">付款方法</string>
-    <string name="no_amount_given">你未輸入任何金額。</string>
     <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>
     <string name="no_app_handling_ftp_available">沒有被應用程序處理的ftp可用。安裝 <i>使用FTP發送</i> ？</string>
     <string name="no_categories">沒有分類。</string>
@@ -146,7 +145,6 @@
     <string name="no_parties">沒有貿易夥伴。</string>
     <string name="no_split_parts">沒有分裂部分。</string>
     <string name="no_templates">沒有範本</string>
-    <string name="no_title_given">你未輸入任何文字。</string>
     <string name="numbered">編號</string>
     <string name="opening_balance">金額</string>
     <string name="parse_error_file_not_found">未能找到檔案 %1$s</string>

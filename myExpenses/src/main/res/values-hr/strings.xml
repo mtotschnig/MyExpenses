@@ -174,7 +174,6 @@
     <string name="menu_settings">Postavke</string>
     <string name="menu_share">Preporuči prijatelju</string>
     <string name="method">Način plaćanja</string>
-    <string name="no_amount_given">Nisi upisao/la nijedan iznos.</string>
     <string name="no_app_handling_email_available">Nema programa za email.</string>
     <string name="no_app_handling_ftp_available">Nema programa za podršku ftp-a. Instalirati <i>Send With FTP</i>\?</string>
     <string name="no_app_handling_pdf_available">Nema programa za čitanje PDF datoteka.</string>
@@ -187,7 +186,6 @@
     <string name="no_parties">Nema stranki.</string>
     <string name="no_split_parts">Nema dijelova višedjelne transakcije.</string>
     <string name="no_templates">Nema predložaka.</string>
-    <string name="no_title_given">Nisi upisao/la nijedan naslov.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">%1$d odabrani predmet je povezan s transakcijom i ne može se isbrisati.</item>
         <item quantity="few">%1$d predmeta su povezana s transakcijama i ne mogu se isbrisati.</item>

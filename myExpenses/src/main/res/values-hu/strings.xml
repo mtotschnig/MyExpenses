@@ -210,7 +210,6 @@
     <string name="button_label_close">Bezár</string>
     <string name="menu_split_transaction">Átalakítás osztásra</string>
     <string name="method">Fizetési mód</string>
-    <string name="no_amount_given">Nem adott meg értéket.</string>
     <string name="no_app_handling_email_available">Nincs elérhető email kezelő alkalmazás.</string>
     <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot áruházból?</string>
     <string name="no_app_handling_pdf_available">Nincs elérhető PDF-fájlokat kezelő alkalmazás.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">Nincsenek részletösszegek.</string>
     <string name="no_templates">Nincsenek sablonok.</string>
     <string name="no_accounts">Nincs fiók.</string>
-    <string name="no_title_given">Nem adott meg címet.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">A kijelölt objektum egy tranzakcióhoz van hozzárendelve, és nem törölhető.</item>
         <item quantity="other">%1$d objektum van hozzárendelve a tranzakciókhoz, és nem törölhető.</item>

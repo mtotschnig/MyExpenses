@@ -203,7 +203,6 @@
     <string name="button_label_close">Закрити</string>
     <string name="menu_split_transaction">Поділити</string>
     <string name="method">Спосіб оплати</string>
-    <string name="no_amount_given">Ви не ввели ніякої суми.</string>
     <string name="no_app_handling_email_available">Відсутня програма для роботи з поштою.</string>
     <string name="no_app_handling_ftp_available">Відсутня програма для роботи з FTP. Встановити <i>Send With FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Відсутня програма для роботи з PDF-файлами.</string>
@@ -217,7 +216,6 @@
     <string name="no_parties">Немає учасників.</string>
     <string name="no_split_parts">Немає частин поділу.</string>
     <string name="no_templates">Немає шаблонів.</string>
-    <string name="no_title_given">Ви не ввели жодної назви.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Обраний об\'єкт не може бути видалено через наявність зв\'язку з операціями.</item>
         <item quantity="few">%1$d об\'єкти не може бути видалено через наявність зв\'язку з операціями.</item>

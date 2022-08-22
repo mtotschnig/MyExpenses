@@ -210,7 +210,6 @@
     <string name="button_label_close">Затвори</string>
     <string name="menu_split_transaction">Преобразувай в разпределена</string>
     <string name="method">Начин на плащане</string>
-    <string name="no_amount_given">Не сте въвели сума.</string>
     <string name="no_app_handling_email_available">Няма приложение за електронна поща.</string>
     <string name="no_app_handling_ftp_available">Няма приложение за работа с ftp. Ще инсталирате ли <i>Send With FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Няма приложение за PDF файлове.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">Няма разпределени части.</string>
     <string name="no_templates">Няма шаблони.</string>
     <string name="no_accounts">Няма сметки.</string>
-    <string name="no_title_given">Не сте въвели име.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Избраният обект е свързан с транзакция и не може да бъде изтрит.</item>
         <item quantity="other">%1$d обекта са свързани с транзакции и не могат да бъдат изтрити.</item>

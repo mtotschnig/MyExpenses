@@ -212,7 +212,6 @@
     <string name="button_label_close">סגור</string>
     <string name="menu_split_transaction">הפוך למפוצל</string>
     <string name="method">אמצעי תשלום</string>
-    <string name="no_amount_given">לא הוזן סכום כלשהו.</string>
     <string name="no_app_handling_email_available">אין ישום המטפל בדוא\"ל.</string>
     <string name="no_app_handling_ftp_available">אין ישום זמין המטפל ב- FTP . האם להתקין <i>שלח עם FTP</i>?</string>
     <string name="no_app_handling_pdf_available">אין אפליקציה זמינה המטפלת בקבצי PDF.</string>
@@ -228,7 +227,6 @@
     <string name="no_split_parts">אין חלק מפוצל.</string>
     <string name="no_templates">אין תבניות.</string>
     <string name="no_accounts">אין חשבונות.</string>
-    <string name="no_title_given">לא מילאת כותרת.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
         <item quantity="two">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>

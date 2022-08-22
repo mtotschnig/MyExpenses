@@ -101,7 +101,7 @@ public class AmountEditText extends AppCompatEditText {
     String strAmount = getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)
-        setError(getContext().getString(R.string.no_amount_given));
+        setError(getContext().getString(R.string.required));
       return null;
     }
     BigDecimal amount = Utils.validateNumber(getNumberFormat(), strAmount);

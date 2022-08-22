@@ -177,7 +177,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                         error = R.string.slash_forbidden_in_filename
                     }
                 } else {
-                    error = R.string.no_title_given
+                    error = R.string.required
                 }
                 binding.fileName.error = if (error != 0) getString(error) else null
                 configureButton()

@@ -224,14 +224,12 @@
     <string name="parse_error_parse_exception">Kunne ikke tolke fil</string>
     <string name="parse_error_other_exception">En feil inntraff: %1$s</string>
     <string name="parse_error_file_not_found">Fant ikke filen %1$s</string>
-    <string name="no_title_given">Du har ikke skrevet inn noen tittel.</string>
     <string name="no_templates">Ingen maler.</string>
     <string name="no_accounts">Ingen kontoer.</string>
     <string name="no_methods">Ingen betalingsmetoder.</string>
     <string name="no_filemanager_installed">Ingen filbehandler instalert</string>
     <string name="no_categories">Ingen kategorier enda.</string>
     <string name="no_expenses">Ingen utgifter enda.</string>
-    <string name="no_amount_given">Du skrev ikke inn noe beløp.</string>
     <string name="method">Betalingsmetode</string>
     <string name="button_label_close">Lukk</string>
     <string name="button_label_share_file">Del</string>

@@ -803,7 +803,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     viewBinding.Title.text.toString().let {
                         if (it == "") {
                             if (forSave) {
-                                viewBinding.Title.error = context.getString(R.string.no_title_given)
+                                viewBinding.Title.error = context.getString(R.string.required)
                                 return null
                             }
                         }

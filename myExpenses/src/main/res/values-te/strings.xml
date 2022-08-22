@@ -648,7 +648,6 @@
         <item quantity="one">ఎంచుకున్న వస్తువు లావాదేవీకి మ్యాప్ చేయబడింది మరియు తొలగించబడదు.</item>
         <item quantity="other">%1$d వస్తువులు లావాదేవీలకు మ్యాప్ చేయబడతాయి మరియు తొలగించబడవు.</item>
     </plurals>
-    <string name="no_title_given">మీరు ఏ శీర్షికను నమోదు చేయలేదు.</string>
     <string name="no_accounts">ఖాతాలు లేవు.</string>
     <string name="no_templates">టెంప్లేట్లు లేవు.</string>
     <string name="no_split_parts">స్ప్లిట్ భాగాలు లేవు.</string>
@@ -664,7 +663,6 @@
     <string name="no_app_handling_pdf_available">PDF ఫైల్‌లను నిర్వహించే అనువర్తనం అందుబాటులో లేదు.</string>
     <string name="no_app_handling_ftp_available">అనువర్తన నిర్వహణ ftp అందుబాటులో లేదు. ఇన్‌స్టాల్ చేయండి <i> FTP తో పంపండి </i>\?</string>
     <string name="no_app_handling_email_available">అనువర్తన నిర్వహణ ఇమెయిల్ అందుబాటులో లేదు.</string>
-    <string name="no_amount_given">మీరు ఏ మొత్తాన్ని నమోదు చేయలేదు.</string>
     <string name="method">చెల్లింపు విధానము</string>
     <string name="menu_split_transaction">విడిపోవడానికి రూపాంతరం</string>
     <string name="button_label_close">దగ్గరగా</string>

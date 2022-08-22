@@ -210,7 +210,6 @@
     <string name="button_label_close">Kapat</string>
     <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
     <string name="method">Ödeme yöntemi</string>
-    <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
     <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
     <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
     <string name="no_app_handling_pdf_available">PDF dosyalarını yönetecek hiçbir uygulama yok.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">Hiçbir alt muamele yok.</string>
     <string name="no_templates">Şablon yok.</string>
     <string name="no_accounts">Hesap yok.</string>
-    <string name="no_title_given">Hiçbir metin girmediniz.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Seçilen unsur bir muameleyle ilişkilidir ve silinemez.</item>
         <item quantity="other">%1$d unsur muamelelerle ilişkilidir ve silinemez.</item>

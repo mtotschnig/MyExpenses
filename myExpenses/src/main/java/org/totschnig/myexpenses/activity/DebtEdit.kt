@@ -90,7 +90,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     override fun saveState() {
         val label = binding.Label.text.toString()
         if (label == "") {
-            binding.Label.error = getString(R.string.no_title_given)
+            binding.Label.error = getString(R.string.required)
             return
         }
         binding.Amount.selectedCurrency?.let {

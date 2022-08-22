@@ -208,7 +208,6 @@
     <string name="button_label_close">閉じる</string>
     <string name="menu_split_transaction">変換して分割</string>
     <string name="method">支払方法</string>
-    <string name="no_amount_given">金額が入力されていません。</string>
     <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
     <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
     <string name="no_app_handling_pdf_available">PDF を利用可能なアプリがありません。</string>
@@ -223,7 +222,6 @@
     <string name="no_split_parts">分割パートがありません。</string>
     <string name="no_templates">テンプレートがありません。</string>
     <string name="no_accounts">勘定がありません。</string>
-    <string name="no_title_given">タイトル/科目が入力されていません。</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">%1$d オブジェクトが取引に配置されています。削除できません。</item>
     </plurals>

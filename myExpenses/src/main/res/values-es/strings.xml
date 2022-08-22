@@ -210,7 +210,6 @@
     <string name="button_label_close">Cerrar</string>
     <string name="menu_split_transaction">Transformarlo en una división</string>
     <string name="method">Método de pago</string>
-    <string name="no_amount_given">No ha introducido ningún importe.</string>
     <string name="no_app_handling_email_available">No se ha encontrado una aplicación para enviar un correo electrónico.</string>
     <string name="no_app_handling_ftp_available">No se ha encontrado una aplicación para FTP. ¿Desea instalar <i>Enviar con FTP</i>?</string>
     <string name="no_app_handling_pdf_available">No se ha encontrado una aplicación para abrir archivos PDF.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">No hay partes divididas.</string>
     <string name="no_templates">No hay plantillas.</string>
     <string name="no_accounts">Sin cuentas.</string>
-    <string name="no_title_given">No ha introducido ningún título.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">El objeto seleccionado está asignado a una transacción y no se puede eliminar.</item>
         <item quantity="other">%1$d objetos seleccionados están asignados a transacciones y no se pueden eliminar.</item>

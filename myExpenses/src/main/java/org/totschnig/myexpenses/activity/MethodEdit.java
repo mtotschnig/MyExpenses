@@ -130,7 +130,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
   protected void saveState() {
     String label = mLabelText.getText().toString();
     if (label.equals("")) {
-      mLabelText.setError(getString(R.string.no_title_given));
+      mLabelText.setError(getString(R.string.required));
       return;
     }
 

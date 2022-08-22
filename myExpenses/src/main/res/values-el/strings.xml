@@ -210,7 +210,6 @@
     <string name="button_label_close">Κλείσιμο</string>
     <string name="menu_split_transaction">Μετασχηματισμός για να διαιρεθεί</string>
     <string name="method">Μέθοδος πληρωμής</string>
-    <string name="no_amount_given">Δεν έγινε καμία εισαγωγή οποιουδήποτε ποσού.</string>
     <string name="no_app_handling_email_available">Δεν υπάρχει app διαθέσιμο για χειρισμό email.</string>
     <string name="no_app_handling_ftp_available">Δεν είναι διαθέσιμο app για χειρισμό ftp. Εγκαταστήσετε <i>Αποστολή με FTP</i>;</string>
     <string name="no_app_handling_pdf_available">Δεν υπάρχει διαθέσιμη εφαρμογή για το χειρισμό αρχείων PDF.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">Κανένας διαχωρισμός των μερών.</string>
     <string name="no_templates">Δεν υπαρχουν πρότυπα.</string>
     <string name="no_accounts">Δεν υπάρχουν λογαριασμοί.</string>
-    <string name="no_title_given">Δεν έγινε καμία εισαγωγή τίτλου κυριότητας.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Το επιλεγμένο αντικείμενο έχει καταχωρηθεί σε μια συναλλαγή και δεν μπορεί να διαγραφεί.</item>
         <item quantity="other">%1$d αντικείμενα καταχωρούνται σε συναλλαγές και δεν μπορούν να διαγραφούν.</item>

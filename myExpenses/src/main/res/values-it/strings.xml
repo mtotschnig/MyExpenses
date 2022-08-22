@@ -210,7 +210,6 @@
     <string name="button_label_close">Chiudere</string>
     <string name="menu_split_transaction">Frazionare</string>
     <string name="method">Metodo di pagamento</string>
-    <string name="no_amount_given">Non hai scritto nessuno importo.</string>
     <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail.</string>
     <string name="no_app_handling_ftp_available">Nessuna applicazione per ftp disponibile. Installare <i>Invia via FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Nessuna applicazione che gestisce i file PDF è disponibile.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">Nessun frazionamento.</string>
     <string name="no_templates">Non ci sono modelli.</string>
     <string name="no_accounts">Nessun conto.</string>
-    <string name="no_title_given">Non hai inserito nessun titolo.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">L\'oggetto selezionato viene mappato a una operazione e non può essere cancellato.</item>
         <item quantity="other">%1$d oggetti selezionati vengono mappati alle operazioni e non possono essere cancellati.</item>

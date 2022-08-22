@@ -209,7 +209,6 @@
     <string name="button_label_close">Tutup</string>
     <string name="menu_split_transaction">Ubah untuk diasingkan</string>
     <string name="method">Kaedah pembayaran</string>
-    <string name="no_amount_given">Anda tidak masukkan apa-apa amaun.</string>
     <string name="no_app_handling_email_available">Tiada emel pengendalian apl tersedia.</string>
     <string name="no_app_handling_ftp_available">Tiada apl pengendalian ftp tersedia. Pasang <i>Hantar Dengan FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Tiada apl pengendalian fail PDF tersedia.</string>
@@ -223,7 +222,6 @@
     <string name="no_parties">Tiada pihak.</string>
     <string name="no_split_parts">Tiada bahagian pengasingan.</string>
     <string name="no_templates">Tiada templat.</string>
-    <string name="no_title_given">Anda tidak masukkan sebarang tajuk.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">%1$d objek telah dipetakan ke transaksi dan tidak boleh dipadam.</item>
     </plurals>

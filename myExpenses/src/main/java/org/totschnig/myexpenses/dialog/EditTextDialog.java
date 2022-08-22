@@ -94,7 +94,7 @@ public class EditTextDialog extends BaseDialogFragment implements OnEditorAction
         Bundle args = getArguments();
         String result = mEditText.getText().toString();
         if (result.equals("")) {
-          showSnackBar(R.string.no_title_given);
+          showSnackBar(R.string.required);
         } else {
           args.putString(KEY_RESULT, result);
           activity.onFinishEditDialog(args);

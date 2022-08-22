@@ -210,7 +210,6 @@
     <string name="button_label_close">Schließen</string>
     <string name="menu_split_transaction">Zu mehrteiliger Buchung zusammenfassen</string>
     <string name="method">Zahlungsweise</string>
-    <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
     <string name="no_app_handling_email_available">Keine Anwendung für das Versenden von E-Mails gefunden.</string>
     <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
     <string name="no_app_handling_pdf_available">Keine App für das Öffnen von PDF Dateien gefunden.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">Keine Teilbeträge.</string>
     <string name="no_templates">Keine Vorlagen.</string>
     <string name="no_accounts">Keine Konten.</string>
-    <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Das ausgewählte Objekt ist mit einer Buchung verknüpft und kann nicht gelöscht werden.</item>
         <item quantity="other">%1$d ausgewählte Objekte sind mit Buchungen verknüpft und können nicht gelöscht werden.</item>

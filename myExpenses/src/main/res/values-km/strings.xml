@@ -167,7 +167,6 @@
     <string name="menu_settings">ការកំណត់</string>
     <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
     <string name="method">វិធី​សា​ស្រ្ត​ទូទាត់</string>
-    <string name="no_amount_given">អ្នកមិនបានបញ្ចូលចំនួនទឹកប្រាក់ណាមួយឡើយ។</string>
     <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
     <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>
     <string name="no_categories">គ្មាន​ចំណាត់ថ្នាក់​កំណត់។</string>
@@ -179,7 +178,6 @@
     <string name="no_parties">គ្មានទិន្នន័យភាគីទេ។</string>
     <string name="no_split_parts">គ្មាន​ផ្នែក​ណា​​ត្រូវបាន​​ញែកទេ។</string>
     <string name="no_templates">គ្មានពុម្ពគំរូទេ។</string>
-    <string name="no_title_given">អ្នកមិនបានបញ្ចូលចំណងជើងណាមួយឡើយ។</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ប្រតិបត្តិការ និង​មិន​អាច​លុប​បានទេ។</item>
     </plurals>

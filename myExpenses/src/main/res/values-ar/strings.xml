@@ -214,7 +214,6 @@
     <string name="button_label_close">إغلاق</string>
     <string name="menu_split_transaction">التحويل إلى معاملة مجزأة</string>
     <string name="method">طريقة الدفع او السداد</string>
-    <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
     <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
     <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
     <string name="no_app_handling_pdf_available">لا يوجد تطبيق لمعاينة ملفات الPDF.</string>
@@ -230,7 +229,6 @@
     <string name="no_split_parts">لا يوجد أجزاء مقسمة.</string>
     <string name="no_templates">لا يوجد نماذج.</string>
     <string name="no_accounts">لا توجد حسابات.</string>
-    <string name="no_title_given">لم تقم بإدخال عنوان.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="zero">تم تعيين %1$d كائنات إلى المعاملات ولا يمكن حذفها.</item>
         <item quantity="one">تم تعيين الكائن المحدد لمعاملة ولا يمكن حذفه.</item>

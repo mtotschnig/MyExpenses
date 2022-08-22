@@ -212,7 +212,6 @@
     <string name="button_label_close">Zavřít</string>
     <string name="menu_split_transaction">Převést na rozdělení</string>
     <string name="method">Způsob platby</string>
-    <string name="no_amount_given">Nezadali jste žádnou částku.</string>
     <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
     <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Nejsou k dispozici žádné aplikace pro zpracování souborů PDF.</string>
@@ -228,7 +227,6 @@
     <string name="no_split_parts">Žádné rozdělené oddíly.</string>
     <string name="no_templates">Nebyly nalezeny žádné šablony.</string>
     <string name="no_accounts">Žádné účty.</string>
-    <string name="no_title_given">Nezadali jste název.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Vybraný předmět je zmapován pro transakci a není možné jej smazat.</item>
         <item quantity="few">%1$d předměty jsou zmapovány pro transakce a není možné je smazat.</item>

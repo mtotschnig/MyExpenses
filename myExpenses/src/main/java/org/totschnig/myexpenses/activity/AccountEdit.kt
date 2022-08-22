@@ -272,7 +272,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun saveState() {
         val label = binding.Label.text.toString()
         if (label == "") {
-            binding.Label.error = getString(R.string.no_title_given)
+            binding.Label.error = getString(R.string.required)
             return
         }
         val openingBalance: BigDecimal = validateAmountInput(true) ?: return

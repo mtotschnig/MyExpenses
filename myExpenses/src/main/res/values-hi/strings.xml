@@ -173,7 +173,6 @@
     <string name="menu_search">खोजें</string>
     <string name="menu_settings">सेटिंग्स</string>
     <string name="menu_share">दोस्त को बताओ</string>
-    <string name="no_amount_given">आपने कोई राशि नहीं डाली.</string>
     <string name="no_app_handling_email_available">ईमेल सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
     <string name="no_app_handling_pdf_available">पीडीऍफ़ सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
     <string name="no_categories">कोई श्रेणी नहीं</string>
@@ -183,7 +182,6 @@
     <string name="no_methods">कोई भुगतान विधियां नहीं</string>
     <string name="no_parties">कोई पार्टियां नहीं</string>
     <string name="no_templates">कोई टेम्पलेट नहीं</string>
-    <string name="no_title_given">आपने किसी भी शीर्षक को दर्ज नहीं किया।</string>
     <string name="numbered">क्रमांकित</string>
     <string name="opening_balance">प्रारंभिक रकम</string>
     <string name="parse_error_file_not_found">%1$s फ़ाइल नहीं मिली</string>

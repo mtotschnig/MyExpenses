@@ -197,7 +197,6 @@
     <string name="button_label_share_file">اشتراک گذاری</string>
     <string name="button_label_close">بستن</string>
     <string name="method">روش پرداخت</string>
-    <string name="no_amount_given">شما هیچ مقداری وارد نکردید</string>
     <string name="no_app_handling_email_available">هیچ اپلیکیشنی برای استفاده از ایمیل دردسترس نیست</string>
     <string name="no_app_handling_ftp_available">هیچ اپلیکیشنی برای استفاده از اف‌تی‌پی دردسترس نیست. <i>Send With FTP</i> نصب شود؟</string>
     <string name="no_app_handling_pdf_available">هیچ اپلیکیشنی برای استفاده از فایل‌های پی‌دی‌اف دردسترس نیست.</string>
@@ -208,7 +207,6 @@
     <string name="no_calendar_app_installed">هیچ اپلیکیشنی برای ویرایش کردن رویدادهای تقویم پیدا نشد.</string>
     <string name="no_templates">بدون قالب</string>
     <string name="no_accounts">بدون حساب</string>
-    <string name="no_title_given">شما هیچ عنوانی وارد نکردید.</string>
     <string name="opening_balance">تراز باز</string>
     <string name="parse_error_file_not_found">فایل %1$s پیدا نشد</string>
     <string name="parse_error_grisbi_version_not_supported">نسخه فایل Grisbi پشتیبانی نشده است: %1$s</string>

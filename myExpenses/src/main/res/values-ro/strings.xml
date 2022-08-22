@@ -192,7 +192,6 @@
     <string name="button_label_close">Închide</string>
     <string name="menu_split_transaction">Transformă in repartizare</string>
     <string name="method">Modalitate de plată</string>
-    <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
     <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
     <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
     <string name="no_app_handling_pdf_available">Nici o aplicaţie disponibilă pentru fişiere PDF</string>
@@ -205,7 +204,6 @@
     <string name="no_parties">Nici un terţ.</string>
     <string name="no_split_parts">Nici o repartizare</string>
     <string name="no_templates">Nici un şablon.</string>
-    <string name="no_title_given">Nu aţi introdus nici un titlu.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Obiectul selectat este mapat la o tranzacţie şi nu poate fi şters.</item>
         <item quantity="few">%1$d  obiecte sunt mapate la tranzacţii şi nu pot fi şterse.</item>

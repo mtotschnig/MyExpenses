@@ -178,7 +178,6 @@
     <string name="menu_share">Fortæl en ven</string>
     <string name="menu_split_transaction">Opsplit</string>
     <string name="method">Betalingsmetode</string>
-    <string name="no_amount_given">Du har ikke angivet noget beløb.</string>
     <string name="no_app_handling_email_available">Der findes ingen app til håndtering af e-mail.</string>
     <string name="no_app_handling_ftp_available">Der findes ingen app til håndtering af ftp. Installer <i>Send via FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Der findes Ingen app til håndtering af PDF-filer.</string>
@@ -191,7 +190,6 @@
     <string name="no_parties">Ingen parter.</string>
     <string name="no_split_parts">Ingen split dele.</string>
     <string name="no_templates">Ingen skabeloner.</string>
-    <string name="no_title_given">Du har ikke angivet nogen titel.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Det markerede objekt er knyttet til en transaktion og kan ikke slettes.</item>
         <item quantity="other">%1$d valgte objekter er knyttet til posteringer og kan ikke slettes.</item>

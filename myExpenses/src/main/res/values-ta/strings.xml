@@ -210,7 +210,6 @@
     <string name="button_label_close">மூடு</string>
     <string name="menu_split_transaction">பிரிவாக மாற்று</string>
     <string name="method">கட்டணம் செலுத்தும் முறை</string>
-    <string name="no_amount_given">நீங்கள் எந்த தொகையும் பதிவு செய்யவில்லை.</string>
     <string name="no_app_handling_email_available">மின்னஞ்சல் கையாளும் செயலி ஏதும் இல்லை.</string>
     <string name="no_app_handling_ftp_available">FTP கையாளும் செயலி ஏதும் இல்லை. <i>Send with FTP</i> நிறுவலாமா?</string>
     <string name="no_app_handling_pdf_available">PDF கோப்புகள் கையாளும் செயலி ஏதும் இல்லை.</string>
@@ -226,7 +225,6 @@
     <string name="no_split_parts">பிரிவு பகுதிகள் ஏதும் இல்லை.</string>
     <string name="no_templates">வார்ப்புருக்கள் ஏதும் இல்லை.</string>
     <string name="no_accounts">கணக்குகள் இல்லை</string>
-    <string name="no_title_given">நீங்கள் எந்த தலைப்பையும் பதிவு செய்யவில்லை.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பொருள் பரிவர்த்தனைக்கு மாப் செய்யப்பட்டது மற்றும் நீக்கப்பட முடியாது.</item>
         <item quantity="other">%1$d பொருட்கள் பரிவர்த்தனையுடன் தொடர்புள்ளதால் அவைகளை நீக்க முடியாது.</item>

@@ -133,13 +133,11 @@
     <string name="menu_save">Gardar</string>
     <string name="menu_settings">Axustes</string>
     <string name="menu_share">Dillo a unha amizade</string>
-    <string name="no_amount_given">Non introduciches cantidade ningunha.</string>
     <string name="no_categories">Sen categorías.</string>
     <string name="no_expenses">Sen gastos aínda!</string>
     <string name="no_filemanager_installed">Ningún xestor de ficheiros instalado</string>
     <string name="no_methods">Ningún método de pagamento.</string>
     <string name="no_templates">Sen modelos.</string>
-    <string name="no_title_given">Non introduciches título ningún.</string>
     <string name="parse_error_file_not_found">Non se puido atopar o ficheiro %1$s</string>
     <string name="parse_error_other_exception">Produciuse un erro: %1$s</string>
     <string name="password_lost">Contrasinal perdido</string>
