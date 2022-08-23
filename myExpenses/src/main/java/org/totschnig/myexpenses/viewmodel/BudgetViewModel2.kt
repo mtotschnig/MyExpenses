@@ -90,9 +90,14 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 null,
                 true
             ).mapToOne(mapper = budgetCreatorFunction).collect { budget ->
-                _groupingInfo.tryEmit(null)
+                val oldGroupingInfo = groupingInfo
+                groupingInfo = null
                 _accountInfo.tryEmit(budget)
-                setGrouping(budget.grouping)
+                if (oldGroupingInfo?.grouping == budget.grouping) {
+                    groupingInfo = oldGroupingInfo
+                } else {
+                    setGrouping(budget.grouping)
+                }
                 _filterPersistence.update {
                     FilterPersistence(
                         prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
@@ -111,7 +116,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         _accountInfo.filterNotNull(),
         _aggregateTypes,
         _allocatedOnly,
-        _groupingInfo,
+        groupingInfoFlow,
         _filterPersistence
     ) { accountInfo, aggregateTypes, allocatedOnly, grouping, filterPersistence ->
         grouping?.let {

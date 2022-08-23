@@ -9,7 +9,6 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
@@ -17,7 +16,6 @@ import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -55,7 +53,7 @@ import timber.log.Timber
 
 open class CategoryViewModel(
     application: Application,
-    private val savedStateHandle: SavedStateHandle
+    protected val savedStateHandle: SavedStateHandle
 ) :
     ContentResolvingAndroidViewModel(application) {
     private val _deleteResult: MutableStateFlow<Result<DeleteResult>?> = MutableStateFlow(null)

@@ -173,13 +173,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
             inject(viewModel)
         }
         viewModel.initWithAccount(intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0))
-        val grouping = enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE)
-        val groupingYear = intent.getIntExtra(DatabaseConstants.KEY_YEAR, 0)
-        val groupingSecond = intent.getIntExtra(DatabaseConstants.KEY_SECOND_GROUP, 0)
-        if (groupingYear == 0 && groupingSecond == 0) {
-            viewModel.setGrouping(grouping)
-        } else {
-            viewModel.setGroupingInfo(DistributionViewModelBase.GroupingInfo(grouping, groupingYear, groupingSecond))
+        if (savedInstanceState == null) {
+            val grouping = enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE)
+            val groupingYear = intent.getIntExtra(DatabaseConstants.KEY_YEAR, 0)
+            val groupingSecond = intent.getIntExtra(DatabaseConstants.KEY_SECOND_GROUP, 0)
+            if (groupingYear == 0 && groupingSecond == 0) {
+                viewModel.setGrouping(grouping)
+            } else {
+                viewModel.groupingInfo =
+                    DistributionViewModelBase.GroupingInfo(grouping, groupingYear, groupingSecond)
+            }
         }
 
         lifecycleScope.launch {
