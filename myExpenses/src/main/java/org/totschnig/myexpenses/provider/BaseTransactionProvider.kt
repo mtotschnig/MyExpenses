@@ -74,9 +74,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
 
-        fun categoryBudgetJoin(joinType: String) =
-            " $joinType JOIN $TABLE_BUDGET_CATEGORIES ON ($KEY_CATID = $TREE_CATEGORIES.$KEY_ROWID AND $TABLE_BUDGET_CATEGORIES.$KEY_BUDGETID = ?)"
-
         /**
          * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
          */

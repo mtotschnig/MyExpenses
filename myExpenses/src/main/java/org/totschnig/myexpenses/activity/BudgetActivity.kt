@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.ChipGroup
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.form.Check
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -170,7 +171,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 buildAmountField(
                     amount, max?.let { Money(currencyUnit, it).amountMajor },
                     Money(currencyUnit, min).amountMajor, category.level, this
-                )
+                ),
+                Check.box(DatabaseConstants.KEY_ONE_TIME).label(getString(R.string.budget_only_current_period, supportActionBar?.subtitle))
             )
             .show(this, EDIT_BUDGET_DIALOG)
     }
@@ -186,7 +188,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 viewModel.updateBudget(
                     budget.id,
                     extras.getLong(DatabaseConstants.KEY_CATID),
-                    amount
+                    amount,
+                    extras.getBoolean(DatabaseConstants.KEY_ONE_TIME)
                 )
                 return true
             }

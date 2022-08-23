@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
 
@@ -132,11 +133,15 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         .filterNotNull()
         .flatMapLatest { (accountInfo, incomeType, allocatedOnly, grouping, filterPersistence) ->
             categoryTreeWithSum(
-                accountInfo,
-                incomeType,
-                grouping,
-                if (allocatedOnly) TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY else null,
-                filterPersistence
+                accountInfo = accountInfo,
+                incomeType = incomeType,
+                groupingInfo = grouping,
+                queryParameter = buildMap {
+                    put(DatabaseConstants.KEY_YEAR, grouping.year.toString())
+                    put(DatabaseConstants.KEY_SECOND_GROUP, grouping.second.toString())
+                },
+                filterPersistence = filterPersistence,
+                selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL" else null
             )
         }
 
@@ -148,20 +153,25 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     override val defaultDisplayTitle: String?
         get() = accountInfo.value?.durationPrettyPrint()
 
-    fun updateBudget(budgetId: Long, categoryId: Long, amount: Money) {
-        val contentValues = ContentValues(1).apply {
-            put(DatabaseConstants.KEY_BUDGET, amount.amountMinor)
-        }
-        val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
-        viewModelScope.launch(context = coroutineContext()) {
-            contentResolver.update(
-                if (categoryId == 0L) budgetUri else ContentUris.withAppendedId(
-                    budgetUri,
-                    categoryId
-                ),
-                contentValues, null, null
-            )
-        }
+    fun updateBudget(budgetId: Long, categoryId: Long, amount: Money, oneTime: Boolean) {
+        groupingInfo?.also {
+            val contentValues = ContentValues(1).apply {
+                put(DatabaseConstants.KEY_BUDGET, amount.amountMinor)
+                put(DatabaseConstants.KEY_YEAR, it.year)
+                put(DatabaseConstants.KEY_SECOND_GROUP, it.second)
+                put(DatabaseConstants.KEY_ONE_TIME, oneTime)
+            }
+            val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
+            viewModelScope.launch(context = coroutineContext()) {
+                contentResolver.update(
+                    if (categoryId == 0L) budgetUri else ContentUris.withAppendedId(
+                        budgetUri,
+                        categoryId
+                    ),
+                    contentValues, null, null
+                )
+            }
+        } ?: run { CrashHandler.report("Trying to update budget while groupingInfo is not set") }
     }
 
     fun deleteBudget(budgetId: Long) = liveData(context = coroutineContext()) {

@@ -19,6 +19,7 @@ import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CUR
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
@@ -200,7 +201,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_SECTIONS = "sections";
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
-  public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
   public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
@@ -501,10 +501,9 @@ public class TransactionProvider extends BaseTransactionProvider {
           return c;
         }
         if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
-          final boolean withBudget = projection != null && Arrays.asList(projection).contains(FQCN_CATEGORIES_BUDGET);
-          final String joinExpression = withBudget ? Companion.categoryBudgetJoin(
-                  uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT" : "INNER") : "";
-          String sql = categoryTreeSelect(sortOrder, selection, projection, null, null, joinExpression,
+          final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);
+          String sql = withBudget ? categoryTreeWithBudget(sortOrder, selection, projection, uri.getQueryParameter(KEY_YEAR), uri.getQueryParameter(KEY_SECOND_GROUP)) :
+                  categoryTreeSelect(sortOrder, selection, projection, null, null,
                   uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR));
           c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);

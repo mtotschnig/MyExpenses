@@ -164,12 +164,8 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             }
             selection += DatabaseConstants.KEY_CATID + " IN (" +
                     categoryTreeSelect(
-                        sortOrder = null,
-                        matches = null,
                         projection = arrayOf(KEY_ROWID),
-                        selection = null,
-                        rootExpression = WhereFilter.Operation.IN.getOp(1),
-                        tableJoin = ""
+                        rootExpression = WhereFilter.Operation.IN.getOp(1)
                     ) + ")"
             val catSelect = catId.toString()
             selectionArgs = accountSelect?.let { arrayOf(it, catSelect) }

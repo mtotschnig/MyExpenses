@@ -1045,4 +1045,6 @@
     <string name="whats_new_344">Icons for categories</string>
     <!-- Shown after validation of a form below a required text field if user did not provide value -->
     <string name="required">Required</string>
+    <!-- This is the label for a checkbox allowing to modify a budget only for one period (year, month, week, day). %s will be replaced by the description of the period, e.g. August 2022 -->
+    <string name="budget_only_current_period">Set only for %s</string>
 </resources>

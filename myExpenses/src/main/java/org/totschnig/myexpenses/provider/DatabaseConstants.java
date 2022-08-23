@@ -244,6 +244,11 @@ public class DatabaseConstants {
   public static final String KEY_HAS_DESCENDANTS = "hasDescendants";
 
   /**
+   * flag for budget amounts that only apply to one period
+   */
+  public static final String KEY_ONE_TIME = "oneTime";
+
+  /**
    * No special status
    */
   public static final int STATUS_NONE = 0;
@@ -304,11 +309,6 @@ public class DatabaseConstants {
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 
   public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
-
-  /**
-   * fully qualified column name for categories budget table
-   */
-  public static final String FQCN_CATEGORIES_BUDGET = TABLE_BUDGET_CATEGORIES + "." + KEY_BUDGET;
 
   public static final String TRANSFER_PEER_PARENT =
       "(SELECT " + KEY_PARENTID

@@ -434,8 +434,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
           + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_YEAR + " integer, "
+          + KEY_SECOND_GROUP + " integer, "
           + KEY_BUDGET + " integer not null, "
-          + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "));";
+          + KEY_ONE_TIME + " boolean default 0, "
+          + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "," + KEY_YEAR + "," + KEY_SECOND_GROUP + "));";
 
 
   private static final String SELECT_SEQUENCE_NUMBER_TEMPLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";

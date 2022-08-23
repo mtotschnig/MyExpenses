@@ -64,7 +64,7 @@ public class CategoryCriteria extends IdCriteria {
     if (operation == WhereFilter.Operation.ISNULL) {
       return super.getSelection();
     }
-    return getColumn() + " IN (" + DbConstantsKt.categoryTreeSelect(null, null, new String[] { KEY_ROWID }, null, WhereFilter.Operation.IN.getOp(values.length), "", null)  + ")";
+    return getColumn() + " IN (" + DbConstantsKt.categoryTreeSelect(null, null, new String[] { KEY_ROWID }, null, WhereFilter.Operation.IN.getOp(values.length), null)  + ")";
   }
 
   public static final Parcelable.Creator<CategoryCriteria> CREATOR = new Parcelable.Creator<CategoryCriteria>() {

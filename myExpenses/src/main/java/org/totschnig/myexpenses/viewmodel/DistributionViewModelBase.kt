@@ -255,16 +255,17 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         accountInfo: T,
         incomeType: Boolean?,
         groupingInfo: GroupingInfo,
-        queryParameter: String? = null,
+        queryParameter: Map<String, String> = emptyMap(),
         filterPersistence: FilterPersistence? = null,
-        keepCriteria: ((Category) -> Boolean)? = null
+        selection: String? = null,
+        keepCriteria: ((Category) -> Boolean)? = null,
     ): Flow<Category> =
         categoryTree(
-            filter = null,
+            selection = selection,
             projection = buildList {
                 add("$TREE_CATEGORIES.*")
                 add(sumColumn(accountInfo, incomeType, groupingInfo, filterPersistence))
-                if (accountInfo is Budget) add(FQCN_CATEGORIES_BUDGET)
+                if (accountInfo is Budget) add(KEY_BUDGET)
             }.toTypedArray(),
             additionalSelectionArgs = (filterPersistence?.whereFilter?.getSelectionArgs(true)
                 ?: emptyArray<String>()) +

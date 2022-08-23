@@ -35,14 +35,37 @@ fun categoryTreeSelect(
     projection: Array<String>? = null,
     selection: String? = null,
     rootExpression: String? = null,
-    tableJoin: String = "",
     categorySeparator: String? = null
 ) = categoryTreeCTE(
     rootExpression = rootExpression,
     sortOrder = sortOrder,
     matches = matches,
     categorySeparator = categorySeparator
-) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree $tableJoin  ${selection?.let { "WHERE $it" } ?: ""}"
+) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+
+fun categoryTreeWithBudget(
+    sortOrder: String? = null,
+    selection: String? = null,
+    projection: Array<String>,
+    year: String,
+    second: String
+): String {
+    val map = projection.map {
+        when (it) {
+            KEY_BUDGET -> """
+                coalesce(
+                (SELECT $KEY_BUDGET from Allocations WHERE $KEY_YEAR = $year and $KEY_SECOND_GROUP = $second),
+                (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND coalesce($KEY_YEAR,0) <= $year AND coalesce($KEY_SECOND_GROUP,0) < $second ORDER BY $KEY_YEAR DESC, $KEY_SECOND_GROUP DESC LIMIT 1),
+                (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 ORDER BY $KEY_YEAR ASC, $KEY_SECOND_GROUP ASC LIMIT 1)
+                ) AS $KEY_BUDGET
+            """.trimIndent()
+            else -> it
+        }
+    }
+    return categoryTreeCTE(sortOrder = sortOrder) +
+            ", Allocations as (select budget, year, second, oneTime from budget_categories where cat_id = Tree._id and budget_id = ?)" +
+            " SELECT ${map.joinToString()} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+}
 
 fun categoryTreeWithMappedObjects(
     selection: String,
@@ -82,9 +105,11 @@ fun categoryTreeWithMappedObjects(
         """.trimIndent()
 }
 
-fun labelEscapedForQif(tableName: String) = "replace(replace($tableName.$KEY_LABEL,'/','\\u002F'), ':','\\u003A')"
+fun labelEscapedForQif(tableName: String) =
+    "replace(replace($tableName.$KEY_LABEL,'/','\\u002F'), ':','\\u003A')"
 
-fun maybeEscapeLabel(categorySeparator: String?, tableName: String) = if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
+fun maybeEscapeLabel(categorySeparator: String?, tableName: String) =
+    if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
 
 val categoryTreeForView = """
     WITH Tree as (
@@ -125,7 +150,12 @@ WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
 UNION ALL
 SELECT
     subtree.$KEY_LABEL,
-    Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${maybeEscapeLabel(categorySeparator, "subtree")},
+    Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${
+    maybeEscapeLabel(
+        categorySeparator,
+        "subtree"
+    )
+},
     subtree.$KEY_COLOR,
     subtree.$KEY_ICON,
     subtree.$KEY_ROWID,
@@ -141,12 +171,8 @@ ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
 """.trimIndent()
 
 fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
-    null,
-    null,
-    arrayOf(KEY_PATH),
-    "$KEY_ROWID = $KEY_CATID",
-    null,
-    "",
+    projection = arrayOf(KEY_PATH),
+    selection = "$KEY_ROWID = $KEY_CATID",
     categorySeparator = categorySeparator
 ) + ")"
 
@@ -167,7 +193,11 @@ const val FULL_LABEL =
 const val TRANSFER_ACCOUNT_LABEL =
     "CASE WHEN  $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS  $KEY_TRANSFER_ACCOUNT_LABEL"
 
-fun accountQueryCTE(homeCurrency: String, futureStartsNow: Boolean, aggregateFunction: String): String {
+fun accountQueryCTE(
+    homeCurrency: String,
+    futureStartsNow: Boolean,
+    aggregateFunction: String
+): String {
     val futureCriterion =
         if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
 
