@@ -18,10 +18,12 @@ package org.totschnig.myexpenses.provider;
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.parseBudgetCategoryUri;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -78,6 +80,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Inject;
+
+import kotlin.Pair;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
@@ -804,8 +808,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         projection = new String[]{KEY_EXCHANGE_RATE};
         break;
       case BUDGETS:
-        qb.setTables(TABLE_BUDGETS + " LEFT JOIN " + TABLE_ACCOUNTS + " ON (" + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
+        qb.setTables(getBudgetTableJoin());
         break;
+      case BUDGET_CATEGORY: {
+        String sql = budgetAllocation(uri);
+        c = measureAndLogQuery(db, uri, null, sql, null);
+        return c;
+      }
       case TAGS:
         boolean withCount = uri.getQueryParameter(QUERY_PARAMETER_WITH_COUNT) != null;
         qb.setTables(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")" : TABLE_TAGS);
@@ -958,7 +967,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case BUDGETS: {
+        long budget = values.getAsLong(KEY_BUDGET);
+        values.remove(KEY_BUDGET);
         id = db.insertOrThrow(TABLE_BUDGETS, null, values);
+        ContentValues budgetInitialAmount = new ContentValues(2);
+        budgetInitialAmount.put(KEY_BUDGETID, id);
+        budgetInitialAmount.put(KEY_BUDGET, budget);
+        db.insertOrThrow(TABLE_BUDGET_CATEGORIES, null, budgetInitialAmount);
         newUri = BUDGETS_URI + "/" + id;
         break;
       }
@@ -1504,9 +1519,17 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case BUDGET_CATEGORY: {
-        values.put(KEY_BUDGETID, uri.getPathSegments().get(1));
-        values.put(KEY_CATID, uri.getPathSegments().get(2));
-        count = db.replace(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        Pair<String, String> ids = parseBudgetCategoryUri(uri);
+        values.put(KEY_BUDGETID, ids.getFirst());
+        if (!ids.getSecond().equals("0")) {
+          values.put(KEY_CATID, ids.getSecond());
+          count = db.replace(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        } else {
+          db.delete(TABLE_BUDGET_CATEGORIES, KEY_BUDGETID + "=? AND " + KEY_CATID + " IS NULL AND " + KEY_YEAR + "=? AND " + KEY_SECOND_GROUP + "=?",
+                new String[] {ids.getFirst(), values.getAsString(KEY_YEAR), values.getAsString(KEY_SECOND_GROUP)}
+          );
+          count = db.insert(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        }
         break;
       }
       case CURRENCIES_CODE: {

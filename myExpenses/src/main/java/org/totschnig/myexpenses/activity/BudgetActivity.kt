@@ -107,7 +107,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             )
                             Budget(
                                 category = category.copy(
-                                    budget = budget.amount.amountMinor,
                                     sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,
                                 ).let {
                                     when (sort.value) {

@@ -48,7 +48,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
     }
 
     override fun postBudget(budget: Budget) {
-        budgetAmount.postValue(budget.amount)
+      //TODO  //budgetAmount.postValue(budget.amount)
     }
 
     fun cloneAndRemap(transactionIds: LongArray, column: String, rowId: Long) {

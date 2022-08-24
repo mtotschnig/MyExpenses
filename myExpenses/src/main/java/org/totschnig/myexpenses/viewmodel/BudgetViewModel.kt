@@ -5,41 +5,22 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
+import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToOne
+import app.cash.copper.flow.observeQuery
+import arrow.core.Tuple4
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flattenConcat
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
@@ -55,8 +36,9 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
      * provides id of budget on success, -1 on error
      */
     val databaseResult = MutableLiveData<Long>()
-    val spent = MutableLiveData<Pair<Int, Long>>()
-    private var spentDisposables = CompositeDisposable()
+
+    val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
+
     @Inject
     lateinit var licenceHandler: LicenceHandler
     private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
@@ -73,7 +55,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)),
                 cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
                 currencyUnit,
-                Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_BUDGET))),
                 grouping,
                 cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
                 cursor.getString(cursor.getColumnIndexOrThrow(KEY_START)),
@@ -87,8 +68,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         disposable = createQuery(null, null)
                 .mapToList(budgetCreatorFunction)
                 .subscribe {
-                    spentDisposables.dispose()
-                    spentDisposables = CompositeDisposable()
                     data.postValue(it)
                 }
     }
@@ -106,11 +85,13 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         this.budget.postValue(budget)
     }
 
-    fun loadBudgetSpend(position: Int, budget: Budget) {
+    @OptIn(FlowPreview::class)
+    val spent: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map {
+        val (position, budget) = it
         val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
-                    .build()
+                .build()
         }
         val isTotalAccount = budget.accountId == AggregateAccount.HOME_AGGREGATE_ID
         if (!isTotalAccount) {
@@ -129,22 +110,49 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         } else {
             selectionArgs = null
         }
-        spentDisposables.add(briteContentResolver.createQuery(builder.build(),
+        combine(
+            contentResolver.observeQuery(builder.build(),
                 null, filterClause, selectionArgs, null, true)
-                .mapToOne { cursor -> cursor.getLong(0) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { spent.value = Pair(position, it) })
+                .mapToOne { cursor -> cursor.getLong(0) },
+            contentResolver.observeQuery(
+                uri = ContentUris.withAppendedId(
+                    ContentUris.withAppendedId(
+                        TransactionProvider.BUDGETS_URI,
+                        budget.id
+                    ),
+                    0
+                ).buildUpon()
+                    .appendQueryParameter(KEY_YEAR, THIS_YEAR)
+                    .appendQueryParameter(KEY_SECOND_GROUP, thisSecond(budget.grouping))
+                    .build()
+            ).mapToOne(0) { it.getLong(0) }
+        )  { spent, allocated ->
+            Tuple4(position, budget.id, spent, allocated)
+        }
+    }.flattenConcat()
+
+    fun loadBudgetSpend(position: Int, budget: Budget) {
+        viewModelScope.launch {
+            budgetLoaderFlow.emit(position to budget)
+        }
     }
 
     private fun buildDateFilterClause(budget: Budget): String {
         val year = "$YEAR = $THIS_YEAR"
         return when (budget.grouping) {
             Grouping.YEAR -> year
-            Grouping.DAY -> "$year AND $DAY = $THIS_DAY"
-            Grouping.WEEK -> getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + getThisWeek()
-            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfMonthStart() + " AND " + getMonth() + " = " + getThisMonth()
+            Grouping.DAY -> "$year AND $DAY = ${thisSecond(budget.grouping)}"
+            Grouping.WEEK -> getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + thisSecond(budget.grouping)
+            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfMonthStart() + " AND " + getMonth() + " = " + thisSecond(budget.grouping)
             else -> budget.durationAsSqlFilter()
         }
+    }
+
+    private fun thisSecond(grouping: Grouping) = when(grouping) {
+        Grouping.DAY -> THIS_DAY
+        Grouping.WEEK -> getThisWeek()
+        Grouping.MONTH -> getThisMonth()
+        else -> ""
     }
 
     fun createQuery(selection: String?, selectionArgs: Array<String>?) =
@@ -168,11 +176,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 contentValues, null, null)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        spentDisposables.clear()
-    }
-
     fun getDefault(accountId: Long, grouping: Grouping) = prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
 
     companion object {
@@ -186,7 +189,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 q(KEY_DESCRIPTION),
                 "coalesce(%1\$s.%2\$s, %3\$s.%2\$s) AS %2\$s"
                         .format(TABLE_BUDGETS, KEY_CURRENCY, TABLE_ACCOUNTS),
-                KEY_BUDGET,
                 q(KEY_GROUPING),
                 KEY_COLOR,
                 KEY_START,

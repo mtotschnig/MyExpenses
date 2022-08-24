@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider
 
+import android.net.Uri
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
@@ -43,6 +44,14 @@ fun categoryTreeSelect(
     categorySeparator = categorySeparator
 ) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
+fun budgetColumn(year: String, second: String) = """
+    coalesce(
+    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_YEAR = $year and $KEY_SECOND_GROUP = $second),
+    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND coalesce($KEY_YEAR,0) <= $year AND coalesce($KEY_SECOND_GROUP,0) < $second ORDER BY $KEY_YEAR DESC, $KEY_SECOND_GROUP DESC LIMIT 1),
+    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 ORDER BY $KEY_YEAR ASC, $KEY_SECOND_GROUP ASC LIMIT 1)
+    ) AS $KEY_BUDGET
+    """.trimIndent()
+
 fun categoryTreeWithBudget(
     sortOrder: String? = null,
     selection: String? = null,
@@ -52,19 +61,26 @@ fun categoryTreeWithBudget(
 ): String {
     val map = projection.map {
         when (it) {
-            KEY_BUDGET -> """
-                coalesce(
-                (SELECT $KEY_BUDGET from Allocations WHERE $KEY_YEAR = $year and $KEY_SECOND_GROUP = $second),
-                (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND coalesce($KEY_YEAR,0) <= $year AND coalesce($KEY_SECOND_GROUP,0) < $second ORDER BY $KEY_YEAR DESC, $KEY_SECOND_GROUP DESC LIMIT 1),
-                (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 ORDER BY $KEY_YEAR ASC, $KEY_SECOND_GROUP ASC LIMIT 1)
-                ) AS $KEY_BUDGET
-            """.trimIndent()
+            KEY_BUDGET -> budgetColumn(year, second)
             else -> it
         }
     }
     return categoryTreeCTE(sortOrder = sortOrder) +
-            ", Allocations as (select budget, year, second, oneTime from budget_categories where cat_id = Tree._id and budget_id = ?)" +
+            ", ${budgetAllocationsCTE("= Tree.$KEY_ROWID", "= ?")}" +
             " SELECT ${map.joinToString()} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+}
+
+fun budgetAllocationsCTE(categoryReference: String, budgetReference: String) =
+    "Allocations as (select budget, year, second, oneTime from budget_categories where cat_id $categoryReference and budget_id $budgetReference)"
+
+fun parseBudgetCategoryUri(uri: Uri) = uri.pathSegments.let { it[1] to it[2] }
+
+fun budgetAllocation(uri: Uri): String {
+    val (budgetId, categoryId) = parseBudgetCategoryUri(uri)
+    val categoryReference = if (categoryId == "0") "IS NULL" else "= $categoryId"
+    val year = uri.getQueryParameter(KEY_YEAR)!!
+    val second = uri.getQueryParameter(KEY_SECOND_GROUP)!!
+    return "WITH ${budgetAllocationsCTE(categoryReference, "= $budgetId")} SELECT ${budgetColumn(year, second)}"
 }
 
 fun categoryTreeWithMappedObjects(

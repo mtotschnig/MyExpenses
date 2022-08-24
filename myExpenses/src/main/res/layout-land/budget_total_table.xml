@@ -16,25 +16,12 @@
             android:layout_marginEnd="@dimen/budget_table_padding"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="@dimen/budget_container_cell_width_landscape"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/budget_table_header_budgeted" />
-
-                <TextView
-                    android:id="@+id/allocatedLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/budget_table_header_allocated" />
-
-            </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:gravity="end"
+                android:text="@string/budget_table_header_budgeted" />
 
             <TextView
                 android:layout_width="@dimen/budget_container_cell_width_landscape"
@@ -61,31 +48,15 @@
             android:layout_width="@dimen/budget_container_width_landscape"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:orientation="horizontal"
-            tools:showIn="@layout/budget_row">
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/totalBudget"
                 android:layout_width="@dimen/budget_container_cell_width_landscape"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/totalBudget"
-                    style="@style/BudgetButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    tools:text="1000000" />
-
-                <TextView
-                    android:id="@+id/totalAllocated"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="@dimen/budget_table_padding"
-                    tools:text="1000000" />
-
-            </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:gravity="end"
+                tools:text="1000000" />
 
             <TextView
                 android:id="@+id/totalAmount"

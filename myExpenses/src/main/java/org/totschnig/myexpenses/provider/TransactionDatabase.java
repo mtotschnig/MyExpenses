@@ -424,7 +424,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TITLE + " text not null default '', "
           + KEY_DESCRIPTION + " text not null, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
-          + KEY_BUDGET + " integer not null, "
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CURRENCY + " text, "
           + KEY_START + " datetime, "

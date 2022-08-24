@@ -248,7 +248,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     ) { accountInfo, aggregateTypes, incomeType, grouping ->
         Triple(accountInfo, if (aggregateTypes) null else incomeType, grouping)
     }.flatMapLatest { (accountInfo, incomeType, grouping) ->
-        categoryTreeWithSum(accountInfo, incomeType, grouping) { it.sum != 0L }
+        categoryTreeWithSum(
+            accountInfo = accountInfo,
+            incomeType = incomeType,
+            groupingInfo = grouping,
+            keepCriteria = { it.sum != 0L }
+        )
     }.map { it.sortChildrenBySumRecursive() }
 
     fun categoryTreeWithSum(
@@ -258,7 +263,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         queryParameter: Map<String, String> = emptyMap(),
         filterPersistence: FilterPersistence? = null,
         selection: String? = null,
-        keepCriteria: ((Category) -> Boolean)? = null,
+        keepCriteria: ((Category) -> Boolean)? = null
     ): Flow<Category> =
         categoryTree(
             selection = selection,

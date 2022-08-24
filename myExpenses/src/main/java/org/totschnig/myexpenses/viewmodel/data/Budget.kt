@@ -27,10 +27,10 @@ import org.totschnig.myexpenses.util.toStartOfDayEpoch
 
 data class Budget(
     val id: Long, override val accountId: Long, val title: String, val description: String?,
-    override val currency: CurrencyUnit, val amount: Money, val grouping: Grouping, override val color: Int,
+    override val currency: CurrencyUnit, val grouping: Grouping, override val color: Int,
     val start: LocalDate?, val end: LocalDate?, val accountName: String?, val default: Boolean) : DistributionAccountInfo {
-    constructor(id: Long, accountId: Long, title: String, description: String?, currency: CurrencyUnit, amount: Money, grouping: Grouping, color: Int, start: String?, end: String?, accountName: String?, default: Boolean) : this(
-            id, accountId, title, description, currency, amount, grouping, color, start?.let { LocalDate.parse(it) }, end?.let { LocalDate.parse(it) }, accountName, default)
+    constructor(id: Long, accountId: Long, title: String, description: String?, currency: CurrencyUnit, grouping: Grouping, color: Int, start: String?, end: String?, accountName: String?, default: Boolean) : this(
+            id, accountId, title, description, currency, grouping, color, start?.let { LocalDate.parse(it) }, end?.let { LocalDate.parse(it) }, accountName, default)
 
     init {
         when (grouping) {
@@ -47,7 +47,6 @@ data class Budget(
         put(KEY_TITLE, title)
         put(KEY_DESCRIPTION, description)
         put(KEY_GROUPING, grouping.name)
-        put(KEY_BUDGET, amount.amountMinor)
         if (accountId > 0) {
             put(KEY_ACCOUNTID, accountId)
             putNull(KEY_CURRENCY)

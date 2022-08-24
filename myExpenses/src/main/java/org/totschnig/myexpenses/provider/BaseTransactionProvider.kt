@@ -115,6 +115,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)
 
+    val budgetTableJoin =
+        "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"
 
     private val fullAccountProjection =
         Account.PROJECTION_BASE.copyOf(Account.PROJECTION_BASE.size + 13).also {

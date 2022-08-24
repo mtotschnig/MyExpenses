@@ -11,7 +11,13 @@ import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple5
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
@@ -35,8 +41,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     val allocatedOnly: Boolean
         get() = _allocatedOnly.value
 
-/*    private val _budget = MutableStateFlow<Budget?>(null)
-    val budget: Flow<Budget?> = _budget*/
+    private lateinit var budgetFlow: Flow<Long>
+    lateinit var categoryTreeForBudget: Flow<Category>
 
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency =
@@ -59,10 +65,6 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_TITLE)),
             cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_DESCRIPTION)),
             currencyUnit,
-            Money(
-                currencyUnit,
-                cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_BUDGET))
-            ),
             grouping,
             cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_COLOR)),
             cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_START)),
@@ -80,6 +82,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     )
 
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun initWithBudget(budgetId: Long) {
 
         viewModelScope.launch {
@@ -91,12 +94,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 null,
                 true
             ).mapToOne(mapper = budgetCreatorFunction).collect { budget ->
-                val oldGroupingInfo = groupingInfo
-                groupingInfo = null
                 _accountInfo.tryEmit(budget)
-                if (oldGroupingInfo?.grouping == budget.grouping) {
-                    groupingInfo = oldGroupingInfo
-                } else {
+                if (groupingInfo == null) {
                     setGrouping(budget.grouping)
                 }
                 _filterPersistence.update {
@@ -110,40 +109,57 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 }
             }
         }
-    }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeForBudget: Flow<Category> = combine(
-        _accountInfo.filterNotNull(),
-        _aggregateTypes,
-        _allocatedOnly,
-        groupingInfoFlow,
-        _filterPersistence
-    ) { accountInfo, aggregateTypes, allocatedOnly, grouping, filterPersistence ->
-        grouping?.let {
+        budgetFlow = groupingInfoFlow.filterNotNull().flatMapLatest { info ->
+            contentResolver.observeQuery(
+                uri = budgetAllocationUri(budgetId, 0).buildUpon()
+                    .appendQueryParameter(DatabaseConstants.KEY_YEAR, info.year.toString())
+                    .appendQueryParameter(
+                        DatabaseConstants.KEY_SECOND_GROUP,
+                        info.second.toString()
+                    )
+                    .build()
+            ).mapToOne(0) { it.getLong(0) }
+        }
+
+        categoryTreeForBudget = combine(
+            _accountInfo.filterNotNull(),
+            _aggregateTypes,
+            _allocatedOnly,
+            groupingInfoFlow.filterNotNull(),
+            _filterPersistence
+        ) { accountInfo, aggregateTypes, allocatedOnly, grouping, filterPersistence ->
             Tuple5(
                 accountInfo,
                 if (aggregateTypes) null else false,
                 allocatedOnly,
-                it,
+                grouping,
                 filterPersistence
             )
-        }
+        }.combine(budgetFlow) { tuple, budget -> tuple to budget }
+            .flatMapLatest { (tuple, budget) ->
+                val (accountInfo, incomeType, allocatedOnly, grouping, filterPersistence) = tuple
+                categoryTreeWithSum(
+                    accountInfo = accountInfo,
+                    incomeType = incomeType,
+                    groupingInfo = grouping,
+                    queryParameter = buildMap {
+                        put(DatabaseConstants.KEY_YEAR, grouping.year.toString())
+                        put(DatabaseConstants.KEY_SECOND_GROUP, grouping.second.toString())
+                    },
+                    filterPersistence = filterPersistence,
+                    selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL" else null,
+                ).map { it.copy(budget = budget) }
+            }
     }
-        .filterNotNull()
-        .flatMapLatest { (accountInfo, incomeType, allocatedOnly, grouping, filterPersistence) ->
-            categoryTreeWithSum(
-                accountInfo = accountInfo,
-                incomeType = incomeType,
-                groupingInfo = grouping,
-                queryParameter = buildMap {
-                    put(DatabaseConstants.KEY_YEAR, grouping.year.toString())
-                    put(DatabaseConstants.KEY_SECOND_GROUP, grouping.second.toString())
-                },
-                filterPersistence = filterPersistence,
-                selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL" else null
-            )
-        }
+
+    fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppendedId(
+        ContentUris.withAppendedId(
+            TransactionProvider.BUDGETS_URI,
+            budgetId
+        ),
+        categoryId
+    )
 
     override fun dateFilterClause(groupingInfo: GroupingInfo): String? {
         return if (groupingInfo.grouping == Grouping.NONE) accountInfo.value?.durationAsSqlFilter() else
@@ -161,14 +177,12 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 put(DatabaseConstants.KEY_SECOND_GROUP, it.second)
                 put(DatabaseConstants.KEY_ONE_TIME, oneTime)
             }
-            val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
             viewModelScope.launch(context = coroutineContext()) {
                 contentResolver.update(
-                    if (categoryId == 0L) budgetUri else ContentUris.withAppendedId(
-                        budgetUri,
-                        categoryId
-                    ),
-                    contentValues, null, null
+                    budgetAllocationUri(budgetId, categoryId),
+                    contentValues,
+                    null,
+                    null
                 )
             }
         } ?: run { CrashHandler.report("Trying to update budget while groupingInfo is not set") }
