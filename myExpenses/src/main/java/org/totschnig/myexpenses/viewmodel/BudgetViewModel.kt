@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
-import android.content.ContentValues
 import android.database.Cursor
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -37,11 +35,10 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
      */
     val databaseResult = MutableLiveData<Long>()
 
-    val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
+    private val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
-    private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
         val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
@@ -86,8 +83,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     }
 
     @OptIn(FlowPreview::class)
-    val spent: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map {
-        val (position, budget) = it
+    val spent: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map { pair ->
+        val (position, budget) = pair
         val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
@@ -159,27 +156,9 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
                     PROJECTION, selection, selectionArgs, null, true)
 
-    fun deleteBudget(budgetId: Long) {
-        databaseHandler.startDelete(TOKEN, object: DatabaseHandler.DeleteListener {
-            override fun onDeleteComplete(token: Int, result: Int) {
-                databaseResult.postValue(if (result == 1) budgetId else -1)
-            }
-        }, TransactionProvider.BUDGETS_URI, "$KEY_ROWID = ?", arrayOf(budgetId.toString()))
-    }
-
-    fun updateBudget(budgetId: Long, categoryId: Long, amount: Money) {
-        val contentValues = ContentValues(1)
-        contentValues.put(KEY_BUDGET, amount.amountMinor)
-        val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
-        databaseHandler.startUpdate(TOKEN, null,
-                if (categoryId == 0L) budgetUri else ContentUris.withAppendedId(budgetUri, categoryId),
-                contentValues, null, null)
-    }
-
     fun getDefault(accountId: Long, grouping: Grouping) = prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
 
     companion object {
-        private const val TOKEN = 0
         val PROJECTION = arrayOf(
                 q(KEY_ROWID),
                 "coalesce(%1\$s, -(select %2\$s from %3\$s where %4\$s = %5\$s), %6\$d) AS %1\$s"
