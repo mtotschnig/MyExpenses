@@ -109,7 +109,7 @@ open class TransactionAdapter(
         viewHolder.date.setEms(dateEms)
         val date = cursor.getLong(KEY_DATE)
         (view as FrameLayout).foreground =
-            if (date > futureCriterion) ColorDrawable(
+            if (date >= futureCriterion) ColorDrawable(
                 ResourcesCompat.getColor(
                     context.resources,
                     R.color.future_background,
