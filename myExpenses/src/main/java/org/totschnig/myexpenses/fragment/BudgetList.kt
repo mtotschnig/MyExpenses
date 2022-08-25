@@ -82,7 +82,7 @@ class BudgetList : Fragment() {
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.spent.collect { tuple ->
+                viewModel.amounts.collect { tuple ->
                     val (position, id, spent, allocated) = tuple
                     budgetAmounts[id] = spent to allocated
                     adapter.notifyItemChanged(position)

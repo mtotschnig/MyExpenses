@@ -69,7 +69,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         )
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
         val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
-        viewModel.initWithBudget(budgetId)
+        val groupingYear = intent.getIntExtra(DatabaseConstants.KEY_YEAR, 0)
+        val groupingSecond = intent.getIntExtra(DatabaseConstants.KEY_SECOND_GROUP, 0)
+        viewModel.initWithBudget(budgetId, groupingYear, groupingSecond)
 
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {

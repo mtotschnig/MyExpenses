@@ -19,6 +19,7 @@ import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CUR
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
@@ -811,9 +812,15 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.setTables(getBudgetTableJoin());
         break;
       case BUDGET_CATEGORY: {
-        String sql = budgetAllocation(uri);
-        c = measureAndLogQuery(db, uri, null, sql, null);
-        return c;
+        if (projection == null) {
+          String sql = budgetAllocation(uri);
+          c = measureAndLogQuery(db, uri, null, sql, null);
+          return c;
+        } else {
+          qb.setTables(TABLE_BUDGET_CATEGORIES);
+          qb.appendWhere(budgetSelect(uri));
+          break;
+        }
       }
       case TAGS:
         boolean withCount = uri.getQueryParameter(QUERY_PARAMETER_WITH_COUNT) != null;

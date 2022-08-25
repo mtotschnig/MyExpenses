@@ -60,7 +60,7 @@ open class BudgetViewModel(application: Application) :
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_START)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_END)),
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
-            getDefault(accountId, grouping) == budgetId
+            getDefaultBudget(accountId, grouping) == budgetId
         )
     }
 
@@ -86,7 +86,7 @@ open class BudgetViewModel(application: Application) :
     }
 
     @OptIn(FlowPreview::class)
-    val spent: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map { pair ->
+    val amounts: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map { pair ->
         val (position, budget) = pair
         val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
@@ -182,7 +182,7 @@ open class BudgetViewModel(application: Application) :
             PROJECTION, selection, selectionArgs, null, true
         )
 
-    fun getDefault(accountId: Long, grouping: Grouping) =
+    fun getDefaultBudget(accountId: Long, grouping: Grouping) =
         prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
 
     companion object {

@@ -66,21 +66,23 @@ fun categoryTreeWithBudget(
         }
     }
     return categoryTreeCTE(sortOrder = sortOrder) +
-            ", ${budgetAllocationsCTE("= Tree.$KEY_ROWID", "= ?")}" +
+            ", ${budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = ?")}" +
             " SELECT ${map.joinToString()} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 }
 
-fun budgetAllocationsCTE(categoryReference: String, budgetReference: String) =
-    "Allocations as (select budget, year, second, oneTime from budget_categories where cat_id $categoryReference and budget_id $budgetReference)"
+fun budgetAllocationsCTE(budgetSelect: String) =
+    "Allocations AS (SELECT $KEY_BUDGET, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ONE_TIME FROM $TABLE_BUDGET_CATEGORIES WHERE $budgetSelect)"
 
 fun parseBudgetCategoryUri(uri: Uri) = uri.pathSegments.let { it[1] to it[2] }
 
+fun budgetSelect(uri: Uri) = with(parseBudgetCategoryUri(uri)) {
+    "$KEY_CATID ${if (second == "0") "IS NULL" else "= $second"} AND $KEY_BUDGETID = $first"
+}
+
 fun budgetAllocation(uri: Uri): String {
-    val (budgetId, categoryId) = parseBudgetCategoryUri(uri)
-    val categoryReference = if (categoryId == "0") "IS NULL" else "= $categoryId"
     val year = uri.getQueryParameter(KEY_YEAR)
     val second = uri.getQueryParameter(KEY_SECOND_GROUP)
-    val cte = budgetAllocationsCTE(categoryReference, "= $budgetId")
+    val cte = budgetAllocationsCTE(budgetSelect(uri))
     return if (year != null) "WITH $cte SELECT ${budgetColumn(year, second)}" else "WITH $cte SELECT $KEY_BUDGET FROM allocations"
 }
 

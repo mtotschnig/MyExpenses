@@ -83,7 +83,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun initWithBudget(budgetId: Long) {
+    fun initWithBudget(budgetId: Long, groupingYear: Int, groupingSecond: Int) {
 
         viewModelScope.launch {
             contentResolver.observeQuery(
@@ -96,7 +96,11 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             ).mapToOne(mapper = budgetCreatorFunction).collect { budget ->
                 _accountInfo.tryEmit(budget)
                 if (groupingInfo == null) {
-                    setGrouping(budget.grouping)
+                    if (groupingYear == 0 && groupingSecond == 0) {
+                        setGrouping(budget.grouping)
+                    } else {
+                        groupingInfo = GroupingInfo(budget.grouping, groupingYear, groupingSecond)
+                    }
                 }
                 _filterPersistence.update {
                     FilterPersistence(
@@ -164,7 +168,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             }
     }
 
-    fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppendedId(
+    private fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppendedId(
         ContentUris.withAppendedId(
             TransactionProvider.BUDGETS_URI,
             budgetId
