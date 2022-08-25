@@ -78,9 +78,10 @@ fun parseBudgetCategoryUri(uri: Uri) = uri.pathSegments.let { it[1] to it[2] }
 fun budgetAllocation(uri: Uri): String {
     val (budgetId, categoryId) = parseBudgetCategoryUri(uri)
     val categoryReference = if (categoryId == "0") "IS NULL" else "= $categoryId"
-    val year = uri.getQueryParameter(KEY_YEAR)!!
-    val second = uri.getQueryParameter(KEY_SECOND_GROUP)!!
-    return "WITH ${budgetAllocationsCTE(categoryReference, "= $budgetId")} SELECT ${budgetColumn(year, second)}"
+    val year = uri.getQueryParameter(KEY_YEAR)
+    val second = uri.getQueryParameter(KEY_SECOND_GROUP)
+    val cte = budgetAllocationsCTE(categoryReference, "= $budgetId")
+    return if (year != null && second != null) "WITH $cte SELECT ${budgetColumn(year, second)}" else "WITH $cte SELECT $KEY_BUDGET FROM allocations"
 }
 
 fun categoryTreeWithMappedObjects(

@@ -173,9 +173,11 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         groupingInfo?.also {
             val contentValues = ContentValues(1).apply {
                 put(DatabaseConstants.KEY_BUDGET, amount.amountMinor)
-                put(DatabaseConstants.KEY_YEAR, it.year)
-                put(DatabaseConstants.KEY_SECOND_GROUP, it.second)
-                put(DatabaseConstants.KEY_ONE_TIME, oneTime)
+                if (it.grouping != Grouping.NONE) {
+                    put(DatabaseConstants.KEY_YEAR, it.year)
+                    put(DatabaseConstants.KEY_SECOND_GROUP, it.second)
+                    put(DatabaseConstants.KEY_ONE_TIME, oneTime)
+                }
             }
             viewModelScope.launch(context = coroutineContext()) {
                 contentResolver.update(

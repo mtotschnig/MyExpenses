@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
@@ -123,7 +124,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                     showEditBudgetDialog(
                                         cat,
                                         parent,
-                                        budget.currency
+                                        budget.currency,
+                                        budget.grouping != Grouping.NONE
                                     )
                                 },
                                 onShowTransactions = ::showTransactions
@@ -138,7 +140,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     private fun showEditBudgetDialog(
         category: Category,
         parentItem: Category?,
-        currencyUnit: CurrencyUnit
+        currencyUnit: CurrencyUnit,
+        withOneTimeCheck: Boolean
     ) {
         val simpleFormDialog = SimpleFormDialog.build()
             .title(if (category.level > 0) category.label else getString(R.string.dialog_title_edit_budget))
@@ -167,11 +170,14 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         } else null
         simpleFormDialog
             .fields(
-                buildAmountField(
-                    amount, max?.let { Money(currencyUnit, it).amountMajor },
-                    Money(currencyUnit, min).amountMajor, category.level, this
-                ),
-                Check.box(DatabaseConstants.KEY_ONE_TIME).label(getString(R.string.budget_only_current_period, supportActionBar?.subtitle))
+                *buildList {
+                    add(buildAmountField(
+                        amount, max?.let { Money(currencyUnit, it).amountMajor },
+                        Money(currencyUnit, min).amountMajor, category.level, this@BudgetActivity
+                    ))
+                    if (withOneTimeCheck)
+                        add(Check.box(DatabaseConstants.KEY_ONE_TIME).label(getString(R.string.budget_only_current_period, supportActionBar?.subtitle)))
+                }.toTypedArray()
             )
             .show(this, EDIT_BUDGET_DIALOG)
     }

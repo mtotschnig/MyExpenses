@@ -342,19 +342,29 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             if (duration != null && duration.second < duration.first) {
                 showDismissibleSnackBar(R.string.budget_date_end_after_start)
             } else {
-                val account: AccountMinimal = selectedAccount()
-                val currencyUnit = currencyContext[account.currency]
-                val initialAmount = if (budgetId == 0L) {
-                    Money(currencyUnit, validateAmountInput(binding.Amount, false)).amountMinor
-                } else null
+                val allocation = validateAmountInput(binding.Amount, budgetId == 0L)
+                if (allocation != null || budgetId != 0L) {
+                    val account: AccountMinimal = selectedAccount()
+                    val currencyUnit = currencyContext[account.currency]
+                    val initialAmount = if (budgetId == 0L) {
+                        Money(currencyUnit, allocation).amountMinor
+                    } else null
 
-                val budget = Budget(budgetId, account.id,
-                    binding.Title.text.toString(), binding.Description.text.toString(), currencyUnit,
-                    grouping,
-                    -1,
-                    duration?.first,
-                    duration?.second, null, binding.DefaultBudget.isChecked)
-                viewModel.saveBudget(budget, initialAmount,  filterPersistence.whereFilter)
+                    val budget = Budget(
+                        budgetId,
+                        account.id,
+                        binding.Title.text.toString(),
+                        binding.Description.text.toString(),
+                        currencyUnit,
+                        grouping,
+                        -1,
+                        duration?.first,
+                        duration?.second,
+                        null,
+                        binding.DefaultBudget.isChecked
+                    )
+                    viewModel.saveBudget(budget, initialAmount, filterPersistence.whereFilter)
+                }
             }
 
             return true

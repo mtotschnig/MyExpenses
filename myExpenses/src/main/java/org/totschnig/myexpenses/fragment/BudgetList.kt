@@ -124,7 +124,7 @@ class BudgetList : Fragment() {
                 with(holder.binding) {
                     Title.text = budget.titleComplete(context)
                     val (spent, allocated) = budgetAmounts[budget.id] ?: run {
-                        viewModel.loadBudgetSpend(position, budget)
+                        viewModel.loadBudgetAmounts(position, budget)
                         0L to 0L
                     }
                     budgetSummary.bind(budget, -spent, allocated, currencyFormatter)

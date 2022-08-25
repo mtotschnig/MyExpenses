@@ -1521,15 +1521,20 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGET_CATEGORY: {
         Pair<String, String> ids = parseBudgetCategoryUri(uri);
         values.put(KEY_BUDGETID, ids.getFirst());
-        if (!ids.getSecond().equals("0")) {
-          values.put(KEY_CATID, ids.getSecond());
-          count = db.replace(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
-        } else {
-          db.delete(TABLE_BUDGET_CATEGORIES, KEY_BUDGETID + "=? AND " + KEY_CATID + " IS NULL AND " + KEY_YEAR + "=? AND " + KEY_SECOND_GROUP + "=?",
-                new String[] {ids.getFirst(), values.getAsString(KEY_YEAR), values.getAsString(KEY_SECOND_GROUP)}
-          );
-          count = db.insert(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        String catId = ids.getSecond();
+        String year = values.getAsString(KEY_YEAR);
+        String second = values.getAsString(KEY_SECOND_GROUP);
+        boolean isTopLevelAllocation = catId.equals("0");
+        String catSelection = KEY_CATID + (isTopLevelAllocation ? " IS NULL" : (" = " + catId));
+        String yearSelection = KEY_YEAR + (year == null ? " IS NULL" : (" = " + year));
+        String secondSelection = KEY_SECOND_GROUP + (second == null ? " IS NULL" : (" = " + second));
+        db.delete(TABLE_BUDGET_CATEGORIES, KEY_BUDGETID + "= ? AND " + catSelection + " AND " + yearSelection + " AND " + secondSelection,
+                new String[] {ids.getFirst()}
+        );
+        if (!isTopLevelAllocation) {
+          values.put(KEY_CATID, catId);
         }
+        count = db.insert(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
         break;
       }
       case CURRENCIES_CODE: {

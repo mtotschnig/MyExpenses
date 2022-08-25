@@ -12,7 +12,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flattenConcat
+import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AggregateAccount
@@ -27,9 +27,11 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
 import javax.inject.Inject
 
-open class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+open class BudgetViewModel(application: Application) :
+    ContentResolvingAndroidViewModel(application) {
     val data = MutableLiveData<List<Budget>>()
     val budget = MutableLiveData<Budget>()
+
     /**
      * provides id of budget on success, -1 on error
      */
@@ -45,37 +47,38 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             Utils.getHomeCurrency() else currencyContext.get(currency)
         val budgetId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
         val accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ACCOUNTID))
-        val grouping = Grouping.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GROUPING)))
+        val grouping =
+            Grouping.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GROUPING)))
         Budget(
-                budgetId,
-                accountId,
-                cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
-                currencyUnit,
-                grouping,
-                cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
-                cursor.getString(cursor.getColumnIndexOrThrow(KEY_START)),
-                cursor.getString(cursor.getColumnIndexOrThrow(KEY_END)),
-                cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
-                getDefault(accountId, grouping) == budgetId
+            budgetId,
+            accountId,
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
+            currencyUnit,
+            grouping,
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_START)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_END)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
+            getDefault(accountId, grouping) == budgetId
         )
     }
 
     fun loadAllBudgets() {
         disposable = createQuery(null, null)
-                .mapToList(budgetCreatorFunction)
-                .subscribe {
-                    data.postValue(it)
-                }
+            .mapToList(budgetCreatorFunction)
+            .subscribe {
+                data.postValue(it)
+            }
     }
 
     fun loadBudget(budgetId: Long, once: Boolean) {
         disposable = createQuery("${q(KEY_ROWID)} = ?", arrayOf(budgetId.toString()))
-                .mapToOne(budgetCreatorFunction)
-                .subscribe {
-                    postBudget(it)
-                    if (once) dispose()
-                }
+            .mapToOne(budgetCreatorFunction)
+            .subscribe {
+                postBudget(it)
+                if (once) dispose()
+            }
     }
 
     open fun postBudget(budget: Budget) {
@@ -85,50 +88,63 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     @OptIn(FlowPreview::class)
     val spent: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map { pair ->
         val (position, budget) = pair
-        val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+        val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
-            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
+            sumBuilder.appendQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES,
+                "1"
+            )
                 .build()
         }
         val isTotalAccount = budget.accountId == AggregateAccount.HOME_AGGREGATE_ID
         if (!isTotalAccount) {
             if (budget.accountId < 0) {
-                builder.appendQueryParameter(KEY_CURRENCY, budget.currency.code)
+                sumBuilder.appendQueryParameter(KEY_CURRENCY, budget.currency.code)
             } else {
-                builder.appendQueryParameter(KEY_ACCOUNTID, budget.accountId.toString())
+                sumBuilder.appendQueryParameter(KEY_ACCOUNTID, budget.accountId.toString())
             }
         }
-        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budget.id), null, false)
+        val filterPersistence =
+            FilterPersistence(prefHandler, prefNameForCriteria(budget.id), null, false)
         var filterClause = buildDateFilterClause(budget)
         val selectionArgs: Array<String>?
         if (!filterPersistence.whereFilter.isEmpty) {
-            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(VIEW_WITH_ACCOUNT)
+            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(
+                VIEW_WITH_ACCOUNT
+            )
             selectionArgs = filterPersistence.whereFilter.getSelectionArgs(true)
         } else {
             selectionArgs = null
         }
+
+        val allocationBuilder = ContentUris.withAppendedId(
+            ContentUris.withAppendedId(
+                TransactionProvider.BUDGETS_URI,
+                budget.id
+            ),
+            0
+        ).buildUpon()
+        if (budget.grouping != Grouping.NONE) {
+            allocationBuilder
+                .appendQueryParameter(KEY_YEAR, THIS_YEAR)
+                .appendQueryParameter(KEY_SECOND_GROUP, thisSecond(budget.grouping))
+        }
+
         combine(
-            contentResolver.observeQuery(builder.build(),
-                null, filterClause, selectionArgs, null, true)
+            contentResolver.observeQuery(
+                sumBuilder.build(),
+                null, filterClause, selectionArgs, null, true
+            )
                 .mapToOne { cursor -> cursor.getLong(0) },
             contentResolver.observeQuery(
-                uri = ContentUris.withAppendedId(
-                    ContentUris.withAppendedId(
-                        TransactionProvider.BUDGETS_URI,
-                        budget.id
-                    ),
-                    0
-                ).buildUpon()
-                    .appendQueryParameter(KEY_YEAR, THIS_YEAR)
-                    .appendQueryParameter(KEY_SECOND_GROUP, thisSecond(budget.grouping))
-                    .build()
+                uri = allocationBuilder.build()
             ).mapToOne(0) { it.getLong(0) }
-        )  { spent, allocated ->
+        ) { spent, allocated ->
             Tuple4(position, budget.id, spent, allocated)
         }
-    }.flattenConcat()
+    }.flattenMerge()
 
-    fun loadBudgetSpend(position: Int, budget: Budget) {
+    fun loadBudgetAmounts(position: Int, budget: Budget) {
         viewModelScope.launch {
             budgetLoaderFlow.emit(position to budget)
         }
@@ -139,13 +155,17 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         return when (budget.grouping) {
             Grouping.YEAR -> year
             Grouping.DAY -> "$year AND $DAY = ${thisSecond(budget.grouping)}"
-            Grouping.WEEK -> getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + thisSecond(budget.grouping)
-            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfMonthStart() + " AND " + getMonth() + " = " + thisSecond(budget.grouping)
+            Grouping.WEEK -> getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + thisSecond(
+                budget.grouping
+            )
+            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfMonthStart() + " AND " + getMonth() + " = " + thisSecond(
+                budget.grouping
+            )
             else -> budget.durationAsSqlFilter()
         }
     }
 
-    private fun thisSecond(grouping: Grouping) = when(grouping) {
+    private fun thisSecond(grouping: Grouping) = when (grouping) {
         Grouping.DAY -> THIS_DAY
         Grouping.WEEK -> getThisWeek()
         Grouping.MONTH -> getThisMonth()
@@ -153,34 +173,39 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     }
 
     fun createQuery(selection: String?, selectionArgs: Array<String>?) =
-            briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
-                    PROJECTION, selection, selectionArgs, null, true)
+        briteContentResolver.createQuery(
+            TransactionProvider.BUDGETS_URI,
+            PROJECTION, selection, selectionArgs, null, true
+        )
 
-    fun getDefault(accountId: Long, grouping: Grouping) = prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
+    fun getDefault(accountId: Long, grouping: Grouping) =
+        prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
 
     companion object {
         val PROJECTION = arrayOf(
-                q(KEY_ROWID),
-                "coalesce(%1\$s, -(select %2\$s from %3\$s where %4\$s = %5\$s), %6\$d) AS %1\$s"
-                        .format(Locale.ROOT, KEY_ACCOUNTID, KEY_ROWID, TABLE_CURRENCIES, KEY_CODE,
-                                q(KEY_CURRENCY), AggregateAccount.HOME_AGGREGATE_ID),
-                KEY_TITLE,
-                q(KEY_DESCRIPTION),
-                "coalesce(%1\$s.%2\$s, %3\$s.%2\$s) AS %2\$s"
-                        .format(TABLE_BUDGETS, KEY_CURRENCY, TABLE_ACCOUNTS),
-                q(KEY_GROUPING),
-                KEY_COLOR,
-                KEY_START,
-                KEY_END,
-                "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL"
+            q(KEY_ROWID),
+            "coalesce(%1\$s, -(select %2\$s from %3\$s where %4\$s = %5\$s), %6\$d) AS %1\$s"
+                .format(
+                    Locale.ROOT, KEY_ACCOUNTID, KEY_ROWID, TABLE_CURRENCIES, KEY_CODE,
+                    q(KEY_CURRENCY), AggregateAccount.HOME_AGGREGATE_ID
+                ),
+            KEY_TITLE,
+            q(KEY_DESCRIPTION),
+            "coalesce(%1\$s.%2\$s, %3\$s.%2\$s) AS %2\$s"
+                .format(TABLE_BUDGETS, KEY_CURRENCY, TABLE_ACCOUNTS),
+            q(KEY_GROUPING),
+            KEY_COLOR,
+            KEY_START,
+            KEY_END,
+            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL"
         )
 
-        fun q(column:String) = "$TABLE_BUDGETS.$column"
+        fun q(column: String) = "$TABLE_BUDGETS.$column"
 
         fun prefNameForCriteria(budgetId: Long): String =
-                "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)
+            "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)
 
         fun prefNameForDefaultBudget(accountId: Long, grouping: Grouping): String =
-                "defaultBudget_%d_%s".format(Locale.ROOT, accountId, grouping)
+            "defaultBudget_%d_%s".format(Locale.ROOT, accountId, grouping)
     }
 }
