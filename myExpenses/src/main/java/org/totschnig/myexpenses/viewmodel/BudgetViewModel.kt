@@ -125,9 +125,13 @@ open class BudgetViewModel(application: Application) :
             0
         ).buildUpon()
         if (budget.grouping != Grouping.NONE) {
-            allocationBuilder
-                .appendQueryParameter(KEY_YEAR, THIS_YEAR)
-                .appendQueryParameter(KEY_SECOND_GROUP, thisSecond(budget.grouping))
+            allocationBuilder.appendQueryParameter(KEY_YEAR, THIS_YEAR)
+            if (budget.grouping != Grouping.YEAR) {
+                allocationBuilder.appendQueryParameter(
+                    KEY_SECOND_GROUP,
+                    thisSecond(budget.grouping)
+                )
+            }
         }
 
         combine(

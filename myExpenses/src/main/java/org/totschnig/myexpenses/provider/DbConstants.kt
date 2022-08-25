@@ -44,11 +44,11 @@ fun categoryTreeSelect(
     categorySeparator = categorySeparator
 ) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
-fun budgetColumn(year: String, second: String) = """
+fun budgetColumn(year: String, second: String?) = """
     coalesce(
-    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_YEAR = $year and $KEY_SECOND_GROUP = $second),
-    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND coalesce($KEY_YEAR,0) <= $year AND coalesce($KEY_SECOND_GROUP,0) < $second ORDER BY $KEY_YEAR DESC, $KEY_SECOND_GROUP DESC LIMIT 1),
-    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 ORDER BY $KEY_YEAR ASC, $KEY_SECOND_GROUP ASC LIMIT 1)
+    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_YEAR = $year ${second?.let { "AND $KEY_SECOND_GROUP = $it" } ?: ""}) ,
+    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND coalesce($KEY_YEAR,0) <= $year ${second?.let { "AND coalesce($KEY_SECOND_GROUP,0) < $it" } ?: ""} ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1),
+    (SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 ORDER BY $KEY_YEAR ASC ${if (second == null) "" else ", $KEY_SECOND_GROUP ASC"} LIMIT 1)
     ) AS $KEY_BUDGET
     """.trimIndent()
 
@@ -56,12 +56,12 @@ fun categoryTreeWithBudget(
     sortOrder: String? = null,
     selection: String? = null,
     projection: Array<String>,
-    year: String,
-    second: String
+    year: String?,
+    second: String?
 ): String {
     val map = projection.map {
         when (it) {
-            KEY_BUDGET -> budgetColumn(year, second)
+            KEY_BUDGET -> if (year == null) "(SELECT $KEY_BUDGET FROM allocations) AS $KEY_BUDGET" else budgetColumn(year, second)
             else -> it
         }
     }
@@ -81,7 +81,7 @@ fun budgetAllocation(uri: Uri): String {
     val year = uri.getQueryParameter(KEY_YEAR)
     val second = uri.getQueryParameter(KEY_SECOND_GROUP)
     val cte = budgetAllocationsCTE(categoryReference, "= $budgetId")
-    return if (year != null && second != null) "WITH $cte SELECT ${budgetColumn(year, second)}" else "WITH $cte SELECT $KEY_BUDGET FROM allocations"
+    return if (year != null) "WITH $cte SELECT ${budgetColumn(year, second)}" else "WITH $cte SELECT $KEY_BUDGET FROM allocations"
 }
 
 fun categoryTreeWithMappedObjects(

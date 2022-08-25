@@ -111,14 +111,21 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         }
 
         budgetFlow = groupingInfoFlow.filterNotNull().flatMapLatest { info ->
-            contentResolver.observeQuery(
-                uri = budgetAllocationUri(budgetId, 0).buildUpon()
-                    .appendQueryParameter(DatabaseConstants.KEY_YEAR, info.year.toString())
-                    .appendQueryParameter(
+            val builder = budgetAllocationUri(budgetId, 0).buildUpon()
+            if (info.grouping != Grouping.NONE) {
+                builder.appendQueryParameter(
+                    DatabaseConstants.KEY_YEAR,
+                    info.year.toString()
+                )
+                if (info.grouping != Grouping.YEAR) {
+                    builder.appendQueryParameter(
                         DatabaseConstants.KEY_SECOND_GROUP,
                         info.second.toString()
                     )
-                    .build()
+                }
+            }
+            contentResolver.observeQuery(
+                uri = builder.build()
             ).mapToOne(0) { it.getLong(0) }
         }
 
@@ -144,8 +151,12 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                     incomeType = incomeType,
                     groupingInfo = grouping,
                     queryParameter = buildMap {
-                        put(DatabaseConstants.KEY_YEAR, grouping.year.toString())
-                        put(DatabaseConstants.KEY_SECOND_GROUP, grouping.second.toString())
+                        if (grouping.grouping != Grouping.NONE) {
+                            put(DatabaseConstants.KEY_YEAR, grouping.year.toString())
+                            if (grouping.grouping != Grouping.YEAR) {
+                                put(DatabaseConstants.KEY_SECOND_GROUP, grouping.second.toString())
+                            }
+                        }
                     },
                     filterPersistence = filterPersistence,
                     selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL" else null,
@@ -175,7 +186,9 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 put(DatabaseConstants.KEY_BUDGET, amount.amountMinor)
                 if (it.grouping != Grouping.NONE) {
                     put(DatabaseConstants.KEY_YEAR, it.year)
-                    put(DatabaseConstants.KEY_SECOND_GROUP, it.second)
+                    if (it.grouping != Grouping.YEAR) {
+                        put(DatabaseConstants.KEY_SECOND_GROUP, it.second)
+                    }
                     put(DatabaseConstants.KEY_ONE_TIME, oneTime)
                 }
             }
