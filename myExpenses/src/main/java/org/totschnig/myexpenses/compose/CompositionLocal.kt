@@ -11,13 +11,15 @@ import java.time.format.DateTimeFormatter
 data class Colors(
     val income: Color,
     val expense: Color,
-    val iconTint: Color
+    val iconTint: Color,
+    val budgetRollOver: Color
 )
 
 val LocalColors = compositionLocalOf { Colors(
         income = Color.Red,
         expense = Color.Green,
-        iconTint = Color.DarkGray
+        iconTint = Color.DarkGray,
+        budgetRollOver = Color.Yellow
     ) }
 
 val LocalAmountFormatter = staticCompositionLocalOf<AmountFormatter> {

@@ -227,6 +227,18 @@ public class DatabaseConstants {
   public static final String KEY_BUDGET = "budget";
 
   /**
+   * For each budget allocation, we also store a potential rollover from the previous period
+   */
+  public static final String KEY_BUDGET_ROLLOVER_PREVIOUS = "rollOverPrevious";
+
+  /**
+   * Rollover amounts are stored redundantly, both for the period with the leftover, and for the next
+   * period where it rolls to. Thus we can display this information for both periods, without
+   * needing to calculate or lookup
+   */
+  public static final String KEY_BUDGET_ROLLOVER_NEXT = "rollOverNext";
+
+  /**
    * boolean flag for accounts: An archived account is not displayed
    */
   public static final String KEY_HIDDEN = "hidden";

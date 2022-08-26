@@ -25,9 +25,11 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHandle) :
@@ -41,7 +43,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     val allocatedOnly: Boolean
         get() = _allocatedOnly.value
 
-    private lateinit var budgetFlow: Flow<Long>
+    private lateinit var budgetFlow: Flow<BudgetAllocation>
     lateinit var categoryTreeForBudget: Flow<Category>
 
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
@@ -130,7 +132,13 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             }
             contentResolver.observeQuery(
                 uri = builder.build()
-            ).mapToOne(0) { it.getLong(0) }
+            ).mapToOne(BudgetAllocation.EMPTY) {
+                BudgetAllocation(
+                    budget = it.getLong(DatabaseConstants.KEY_BUDGET),
+                    rollOverPrevious = it.getLong(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS),
+                    rollOverNext = it.getLong(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT)
+                )
+            }
         }
 
         categoryTreeForBudget = combine(

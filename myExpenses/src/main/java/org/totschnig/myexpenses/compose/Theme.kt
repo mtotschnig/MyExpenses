@@ -28,7 +28,8 @@ fun AppTheme(
             LocalColors provides Colors(
                 income = colorResource(id = R.color.colorIncome),
                 expense = colorResource(id = R.color.colorExpense),
-                iconTint = Color(UiUtils.getColor(activity, R.attr.colorControlNormal))
+                iconTint = Color(UiUtils.getColor(activity, R.attr.colorControlNormal)),
+                budgetRollOver = colorResource(id = R.color.appDefault)
             )
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.body2, content = content)

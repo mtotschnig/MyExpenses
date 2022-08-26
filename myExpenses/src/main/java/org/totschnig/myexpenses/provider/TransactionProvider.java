@@ -24,7 +24,6 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.parseBudgetCategoryUri;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -56,7 +55,6 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -79,10 +77,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-
-import javax.inject.Inject;
-
-import kotlin.Pair;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
@@ -980,6 +974,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         ContentValues budgetInitialAmount = new ContentValues(2);
         budgetInitialAmount.put(KEY_BUDGETID, id);
         budgetInitialAmount.put(KEY_BUDGET, budget);
+        budgetInitialAmount.put(KEY_CATID, 0);
         db.insertOrThrow(TABLE_BUDGET_CATEGORIES, null, budgetInitialAmount);
         newUri = BUDGETS_URI + "/" + id;
         break;
@@ -1526,22 +1521,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case BUDGET_CATEGORY: {
-        Pair<String, String> ids = parseBudgetCategoryUri(uri);
-        values.put(KEY_BUDGETID, ids.getFirst());
-        String catId = ids.getSecond();
-        String year = values.getAsString(KEY_YEAR);
-        String second = values.getAsString(KEY_SECOND_GROUP);
-        boolean isTopLevelAllocation = catId.equals("0");
-        String catSelection = KEY_CATID + (isTopLevelAllocation ? " IS NULL" : (" = " + catId));
-        String yearSelection = KEY_YEAR + (year == null ? " IS NULL" : (" = " + year));
-        String secondSelection = KEY_SECOND_GROUP + (second == null ? " IS NULL" : (" = " + second));
-        db.delete(TABLE_BUDGET_CATEGORIES, KEY_BUDGETID + "= ? AND " + catSelection + " AND " + yearSelection + " AND " + secondSelection,
-                new String[] {ids.getFirst()}
-        );
-        if (!isTopLevelAllocation) {
-          values.put(KEY_CATID, catId);
-        }
-        count = db.insert(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        count = budgetCategoryUpsert(db, uri, values);
         break;
       }
       case CURRENCIES_CODE: {

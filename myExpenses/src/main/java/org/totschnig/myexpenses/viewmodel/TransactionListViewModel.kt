@@ -44,10 +44,22 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                         ),
                         0
                     ),
-                    projection = arrayOf(KEY_YEAR, KEY_SECOND_GROUP, KEY_BUDGET, KEY_ONE_TIME),
+                    projection = arrayOf(
+                        KEY_YEAR,
+                        KEY_SECOND_GROUP,
+                        KEY_BUDGET,
+                        KEY_BUDGET_ROLLOVER_PREVIOUS,
+                        KEY_ONE_TIME
+                    ),
                     sortOrder = "$KEY_YEAR, $KEY_SECOND_GROUP"
                 )
-                    .mapToList { Triple(calculateGroupId(it.getInt(0), it.getInt(1)), it.getLong(2), it.getInt(3) == 1) }
+                    .mapToList {
+                        Triple(
+                            calculateGroupId(it.getInt(0), it.getInt(1)),
+                            it.getLong(2) + it.getLong(3),
+                            it.getInt(4) == 1
+                        )
+                    }
                     .collect {
                         budgetAmountInternal.postValue(it)
                     }

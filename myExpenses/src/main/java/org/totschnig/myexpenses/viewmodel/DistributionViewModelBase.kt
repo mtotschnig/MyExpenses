@@ -270,7 +270,11 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             projection = buildList {
                 add("$TREE_CATEGORIES.*")
                 add(sumColumn(accountInfo, incomeType, groupingInfo, filterPersistence))
-                if (accountInfo is Budget) add(KEY_BUDGET)
+                if (accountInfo is Budget) {
+                    add(KEY_BUDGET)
+                    add(KEY_BUDGET_ROLLOVER_PREVIOUS)
+                    add(KEY_BUDGET_ROLLOVER_NEXT)
+                }
             }.toTypedArray(),
             additionalSelectionArgs = (filterPersistence?.whereFilter?.getSelectionArgs(true)
                 ?: emptyArray<String>()) +

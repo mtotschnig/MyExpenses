@@ -3,7 +3,16 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Divider
@@ -17,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -233,32 +243,42 @@ private fun RowScope.BudgetNumbers(
     onShowTransactions: () -> Unit
 ) {
     val allocation =
-        if (category.children.isEmpty()) category.budget else category.children.sumOf { it.budget }
-    if (allocation != category.budget) {
-        Column(modifier = Modifier.numberColumn(this)) {
+        if (category.children.isEmpty()) category.budget.budget else category.children.sumOf { it.budget.budget }
+    Column(modifier = Modifier.numberColumn(this)) {
+        Text(
+            modifier = Modifier
+                .clickable(onClick = onBudgetEdit)
+                .fillMaxWidth(),
+            text = LocalAmountFormatter.current(category.budget.budget, currency),
+            textAlign = TextAlign.End,
+            textDecoration = TextDecoration.Underline
+        )
+        if (category.budget.rollOverPrevious != 0L) {
             Text(
                 modifier = Modifier
-                    .clickable(onClick = onBudgetEdit)
                     .fillMaxWidth(),
-                text = LocalAmountFormatter.current(category.budget, currency),
+                text = LocalAmountFormatter.current(category.budget.rollOverPrevious, currency),
                 textAlign = TextAlign.End,
-                textDecoration = TextDecoration.Underline
+                color = LocalColors.current.budgetRollOver
             )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = " = " + LocalAmountFormatter.current(
+                    category.budget.budget + category.budget.rollOverPrevious,
+                    currency
+                ),
+                textAlign = TextAlign.End,
+                color = LocalColors.current.budgetRollOver
+            )
+        }
+        if (allocation != category.budget.totalAllocated && allocation != 0L) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "(${LocalAmountFormatter.current(allocation, currency)})",
                 textAlign = TextAlign.End
             )
         }
-    } else {
-        Text(
-            modifier = Modifier
-                .numberColumn(this)
-                .clickable(onClick = onBudgetEdit),
-            text = LocalAmountFormatter.current(category.budget, currency),
-            textAlign = TextAlign.End,
-            textDecoration = TextDecoration.Underline
-        )
     }
     VerticalDivider()
     val aggregateSum = category.aggregateSum
@@ -275,12 +295,60 @@ private fun RowScope.BudgetNumbers(
         modifier = Modifier
             .numberColumn(this)
     ) {
-        ColoredAmountText(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            amount = category.budget + aggregateSum,
-            currency = currency,
-            textAlign = TextAlign.End,
-            withBorder = true
-        )
+        val rollOverFromChildren = category.aggregateRollOverNext
+        val remainder = category.budget.totalAllocated + aggregateSum
+        if (category.budget.rollOverNext == 0L && rollOverFromChildren == 0L) {
+            ColoredAmountText(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                amount = remainder,
+                currency = currency,
+                textAlign = TextAlign.End,
+                withBorder = true
+            )
+        } else {
+            val remainderPlusRollover =
+                remainder + category.budget.rollOverNext + rollOverFromChildren
+            val color = with(remainderPlusRollover) {
+                when {
+                    this > 0 -> LocalColors.current.income
+                    this < 0 -> LocalColors.current.expense
+                    else -> Color.Unspecified
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .amountBorder(color),
+                horizontalAlignment = Alignment.End
+            ) {
+                ColoredAmountText(
+                    amount = remainder,
+                    currency = currency,
+                    textAlign = TextAlign.End
+                )
+                if (category.budget.rollOverNext != 0L) {
+                    Text(
+                        text = LocalAmountFormatter.current(category.budget.rollOverNext, currency),
+                        textAlign = TextAlign.End,
+                        color = LocalColors.current.budgetRollOver
+                    )
+                }
+                if (rollOverFromChildren != 0L) {
+                    Text(
+                        text = "(" + LocalAmountFormatter.current(
+                            rollOverFromChildren,
+                            currency
+                        ) + ")",
+                        textAlign = TextAlign.End,
+                        color = LocalColors.current.budgetRollOver
+                    )
+                }
+                Text(
+                    text = "= " + LocalAmountFormatter.current(remainderPlusRollover, currency),
+                    textAlign = TextAlign.End,
+                    color = color
+                )
+            }
+        }
     }
 }

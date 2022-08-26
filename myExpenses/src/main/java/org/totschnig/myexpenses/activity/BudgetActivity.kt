@@ -148,16 +148,16 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         val simpleFormDialog = SimpleFormDialog.build()
             .title(if (category.level > 0) category.label else getString(R.string.dialog_title_edit_budget))
             .neg()
-        val amount = Money(currencyUnit, category.budget)
-        val min = category.children.sumOf { it.budget }
+        val amount = Money(currencyUnit, category.budget.budget)
+        val min = category.children.sumOf { it.budget.totalAllocated } - category.budget.rollOverPrevious
         val max = if (category.level > 0) {
             val bundle = Bundle(1).apply {
                 putLong(DatabaseConstants.KEY_CATID, category.id)
             }
             simpleFormDialog.extra(bundle)
-            val allocated = parentItem?.children?.sumOf { it.budget } ?: category.budget
-            val allocatable = parentItem?.budget?.minus(allocated)
-            val maxLong = allocatable?.plus(category.budget)
+            val allocated: Long = parentItem?.children?.sumOf { it.budget.totalAllocated } ?: category.budget.totalAllocated
+            val allocatable = parentItem?.budget?.totalAllocated?.minus(allocated)
+            val maxLong = allocatable?.plus(category.budget.totalAllocated)
             if (maxLong != null && maxLong <= 0) {
                 showSnackBar(
                     concatResStrings(

@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 
@@ -394,6 +395,11 @@ open class CategoryViewModel(
                             ?.let { cursor.getLong(it) } ?: 0L
                         val nextBudget = cursor.getColumnIndex(KEY_BUDGET).takeIf { it != -1 }
                             ?.let { cursor.getLong(it) } ?: 0L
+                        val nextBudgetRollOverPrevious = cursor.getColumnIndex(
+                            KEY_BUDGET_ROLLOVER_PREVIOUS).takeIf { it != -1 }
+                            ?.let { cursor.getLong(it) } ?: 0L
+                        val nextBudgetRollOverNext = cursor.getColumnIndex(KEY_BUDGET_ROLLOVER_NEXT).takeIf { it != -1 }
+                            ?.let { cursor.getLong(it) } ?: 0L
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()
@@ -415,7 +421,7 @@ open class CategoryViewModel(
                                     nextColor,
                                     nextIcon,
                                     nextSum,
-                                    nextBudget
+                                    BudgetAllocation(nextBudget, nextBudgetRollOverPrevious, nextBudgetRollOverNext)
                                 )
                             )
                             index++

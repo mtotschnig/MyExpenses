@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -362,6 +363,27 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } finally {
             transactionDatabase.readableDatabase.endTransaction()
         }
+    }
+
+    fun budgetCategoryUpsert(db: SQLiteDatabase, uri: Uri, values: ContentValues): Int {
+        val (budgetId, catId) = parseBudgetCategoryUri(uri)
+        val year: String = values.getAsString(KEY_YEAR)
+        val second: String = values.getAsString(KEY_SECOND_GROUP)
+        val budget: String = values.getAsString(KEY_BUDGET)
+        val oneTime: String = values.getAsString(KEY_ONE_TIME)
+        val statement = db.compileStatement(
+            """
+                INSERT OR REPLACE INTO $TABLE_BUDGET_CATEGORIES ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME)
+                VALUES (?,?,?,?,
+                (select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_CATEGORIES where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),
+                (select $KEY_BUDGET_ROLLOVER_NEXT from $TABLE_BUDGET_CATEGORIES  where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),
+                ?,?
+                )
+            """.trimIndent()
+        )
+        val args = arrayOf(budgetId, catId, year, second)
+        statement.bindAllArgsAsStrings(args + args + args + budget + oneTime)
+        return statement.executeUpdateDelete();
     }
 
     /**
