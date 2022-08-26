@@ -18,21 +18,21 @@
       xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
     <item
+        android:id="@id/BACK_COMMAND"
+        android:icon="@drawable/ic_menu_back"
+        android:title="@string/menu_back"
+        app:showAsAction="always"/>
+    <item
+        android:id="@id/FORWARD_COMMAND"
+        android:icon="@drawable/ic_menu_forward"
+        android:title="@string/menu_forward"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/switchId"
         android:title=""
         app:showAsAction="always"
         app:actionLayout="@layout/switch_layout"
         tools:ignore="AlwaysShowAction"/>
-    <item
-        android:id="@+id/BACK_COMMAND"
-        android:icon="@drawable/ic_menu_back"
-        android:title="@string/menu_back"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/FORWARD_COMMAND"
-        android:icon="@drawable/ic_menu_forward"
-        android:title="@string/menu_forward"
-        app:showAsAction="never"/>
     <item
         android:id="@id/TOGGLE_CHART_COMMAND"
         app:showAsAction="never"
