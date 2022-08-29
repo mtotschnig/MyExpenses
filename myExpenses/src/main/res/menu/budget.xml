@@ -30,6 +30,13 @@
             </group>
         </menu>
     </item>
+    <item android:id="@+id/ROLLOVER_COMMAND" android:title="Rollover" app:showAsAction="never" android:enabled="false">
+        <menu>
+            <item android:id="@+id/ROLLOVER_TOTAL" android:title="Total"/>
+            <item android:id="@+id/ROLLOVER_CATEGORIES" android:title="Categories"/>
+            <item android:id="@+id/ROLLOVER_EDIT" android:title="@string/menu_edit"/>
+        </menu>
+    </item>
     <item
         android:id="@id/MANAGE_CATEGORIES_COMMAND"
         android:title="@string/menu_manage_categories"

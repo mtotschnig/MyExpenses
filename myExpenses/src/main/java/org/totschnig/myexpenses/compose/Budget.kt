@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -26,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -48,7 +46,8 @@ fun Budget(
     startPadding: Dp = 0.dp,
     parent: Category? = null,
     onBudgetEdit: (category: Category, parent: Category?) -> Unit,
-    onShowTransactions: (category: Category) -> Unit
+    onShowTransactions: (category: Category) -> Unit,
+    hasRolloverNext: Boolean
 ) {
     Column(
         modifier = modifier.then(
@@ -71,7 +70,8 @@ fun Budget(
                 expansionMode = expansionMode,
                 startPadding = startPadding,
                 onBudgetEdit = doEdit,
-                onShowTransactions = doShow
+                onShowTransactions = doShow,
+                hasRolloverNext = hasRolloverNext
             )
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
@@ -85,13 +85,14 @@ fun Budget(
                             startPadding = startPadding + 12.dp,
                             parent = category,
                             onBudgetEdit = onBudgetEdit,
-                            onShowTransactions = onShowTransactions
+                            onShowTransactions = onShowTransactions,
+                            hasRolloverNext = hasRolloverNext
                         )
                     }
                 }
             }
         } else {
-            Header()
+            Header(withRollOverColumn = hasRolloverNext)
             Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
             LazyColumn(
                 verticalArrangement = Arrangement.Center
@@ -101,7 +102,8 @@ fun Budget(
                         category,
                         currency,
                         doEdit,
-                        doShow
+                        doShow,
+                        hasRolloverNext
                     )
                     Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
                 }
@@ -113,7 +115,8 @@ fun Budget(
                             expansionMode = expansionMode,
                             currency = currency,
                             onBudgetEdit = onBudgetEdit,
-                            onShowTransactions = onShowTransactions
+                            onShowTransactions = onShowTransactions,
+                            hasRolloverNext = hasRolloverNext
                         )
                     }
                 }
@@ -127,7 +130,8 @@ private fun Summary(
     category: Category,
     currency: CurrencyUnit,
     onBudgetEdit: () -> Unit,
-    onShowTransactions: () -> Unit
+    onShowTransactions: () -> Unit,
+    hasRolloverNext: Boolean
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -139,7 +143,7 @@ private fun Summary(
             text = stringResource(id = R.string.menu_aggregates)
         )
         VerticalDivider()
-        BudgetNumbers(category, currency, onBudgetEdit, onShowTransactions)
+        BudgetNumbers(category, currency, onBudgetEdit, onShowTransactions, hasRolloverNext)
     }
 }
 
@@ -171,7 +175,7 @@ private fun Modifier.numberColumn(scope: RowScope): Modifier =
         .padding(horizontal = 8.dp)
 
 @Composable
-private fun Header() {
+private fun Header(withRollOverColumn: Boolean) {
     @Composable
     fun RowScope.HeaderCell(stringRes: Int) {
         Text(
@@ -194,6 +198,10 @@ private fun Header() {
         HeaderCell(R.string.budget_table_header_spent)
         VerticalDivider()
         HeaderCell(R.string.budget_table_header_remainder)
+        if (withRollOverColumn) {
+            VerticalDivider()
+            HeaderCell(R.string.budget_table_header_rollover)
+        }
     }
 }
 
@@ -204,7 +212,8 @@ private fun BudgetCategoryRenderer(
     expansionMode: ExpansionMode,
     startPadding: Dp,
     onBudgetEdit: () -> Unit,
-    onShowTransactions: () -> Unit
+    onShowTransactions: () -> Unit,
+    hasRolloverNext: Boolean
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -231,7 +240,7 @@ private fun BudgetCategoryRenderer(
             }
         }
         VerticalDivider()
-        BudgetNumbers(category = category, currency = currency, onBudgetEdit, onShowTransactions)
+        BudgetNumbers(category = category, currency = currency, onBudgetEdit, onShowTransactions, hasRolloverNext)
     }
 }
 
@@ -240,8 +249,10 @@ private fun RowScope.BudgetNumbers(
     category: Category,
     currency: CurrencyUnit,
     onBudgetEdit: () -> Unit,
-    onShowTransactions: () -> Unit
+    onShowTransactions: () -> Unit,
+    hasRolloverNext: Boolean
 ) {
+    //Allocation
     val allocation =
         if (category.children.isEmpty()) category.budget.budget else category.children.sumOf { it.budget.budget }
     Column(modifier = Modifier.numberColumn(this)) {
@@ -280,7 +291,10 @@ private fun RowScope.BudgetNumbers(
             )
         }
     }
+
     VerticalDivider()
+
+    //Spent
     val aggregateSum = category.aggregateSum
     Text(
         modifier = Modifier
@@ -290,63 +304,42 @@ private fun RowScope.BudgetNumbers(
         textAlign = TextAlign.End,
         textDecoration = TextDecoration.Underline
     )
+
     VerticalDivider()
-    Box(
-        modifier = Modifier
-            .numberColumn(this)
-    ) {
-        val rollOverFromChildren = category.aggregateRollOverNext
-        val remainder = category.budget.totalAllocated + aggregateSum
-        if (category.budget.rollOverNext == 0L && rollOverFromChildren == 0L) {
-            ColoredAmountText(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                amount = remainder,
-                currency = currency,
-                textAlign = TextAlign.End,
-                withBorder = true
-            )
-        } else {
-            val remainderPlusRollover =
-                remainder + category.budget.rollOverNext + rollOverFromChildren
-            val color = with(remainderPlusRollover) {
-                when {
-                    this > 0 -> LocalColors.current.income
-                    this < 0 -> LocalColors.current.expense
-                    else -> Color.Unspecified
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .amountBorder(color),
-                horizontalAlignment = Alignment.End
-            ) {
-                ColoredAmountText(
-                    amount = remainder,
-                    currency = currency,
-                    textAlign = TextAlign.End
-                )
-                if (category.budget.rollOverNext != 0L) {
-                    Text(
-                        text = LocalAmountFormatter.current(category.budget.rollOverNext, currency),
-                        textAlign = TextAlign.End,
-                        color = LocalColors.current.budgetRollOver
-                    )
-                }
-                if (rollOverFromChildren != 0L) {
-                    Text(
-                        text = "(" + LocalAmountFormatter.current(
-                            rollOverFromChildren,
-                            currency
-                        ) + ")",
-                        textAlign = TextAlign.End,
-                        color = LocalColors.current.budgetRollOver
-                    )
-                }
+
+    //Remainder
+    val remainder = category.budget.totalAllocated + aggregateSum
+    ColoredAmountText(
+        modifier = Modifier.numberColumn(this),
+        amount = remainder,
+        currency = currency,
+        textAlign = TextAlign.End,
+        withBorder = true
+    )
+
+    //Rollover
+    if (hasRolloverNext) {
+        VerticalDivider()
+        Column(
+            modifier = Modifier.numberColumn(this),
+            horizontalAlignment = Alignment.End
+        ) {
+            if (category.budget.rollOverNext != 0L) {
                 Text(
-                    text = "= " + LocalAmountFormatter.current(remainderPlusRollover, currency),
+                    text = LocalAmountFormatter.current(category.budget.rollOverNext, currency),
                     textAlign = TextAlign.End,
-                    color = color
+                    color = LocalColors.current.budgetRollOver
+                )
+            }
+            val rollOverFromChildren = category.aggregateRollOverNext
+            if (rollOverFromChildren != 0L) {
+                Text(
+                    text = "(" + LocalAmountFormatter.current(
+                        rollOverFromChildren,
+                        currency
+                    ) + ")",
+                    textAlign = TextAlign.End,
+                    color = LocalColors.current.budgetRollOver
                 )
             }
         }

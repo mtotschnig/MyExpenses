@@ -1047,4 +1047,6 @@
     <string name="required">Required</string>
     <!-- This is the label for a checkbox allowing to modify a budget only for one period (year, month, week, day). %s will be replaced by the description of the period, e.g. August 2022 -->
     <string name="budget_only_current_period">Set only for %s</string>
+
+    <string name="budget_table_header_rollover">Rollover</string>
 </resources>

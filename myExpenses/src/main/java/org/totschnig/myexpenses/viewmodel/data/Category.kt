@@ -74,6 +74,9 @@ data class Category(
     val aggregateRollOverNext: Long
         get() = children.sumOf { it.budget.rollOverNext +  it.aggregateRollOverNext }
 
+    val hasRolloverNext: Boolean
+        get() = budget.rollOverNext != 0L || children.any { it.budget.rollOverNext != 0L }
+
     companion object {
         val LOADING = Category(label = "EMPTY")
         const val NO_CATEGORY_ASSIGNED_LABEL = "—"

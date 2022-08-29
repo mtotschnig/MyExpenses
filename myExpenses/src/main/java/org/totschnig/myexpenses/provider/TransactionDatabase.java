@@ -435,7 +435,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_CATID + " integer not null references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_YEAR + " integer, "
           + KEY_SECOND_GROUP + " integer, "
-          + KEY_BUDGET + " integer not null, "
+          + KEY_BUDGET + " integer, "
           + KEY_BUDGET_ROLLOVER_PREVIOUS + " integer, "
           + KEY_BUDGET_ROLLOVER_NEXT + " integer, "
           + KEY_ONE_TIME + " boolean default 0, "

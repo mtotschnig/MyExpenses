@@ -11,7 +11,17 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
@@ -23,7 +33,12 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.viewmodel.data.*
+import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import org.totschnig.myexpenses.viewmodel.data.DateInfo2
+import org.totschnig.myexpenses.viewmodel.data.DateInfo3
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import java.util.*
 
 private const val KEY_GROUPING_INFO = "groupingInfo"
@@ -95,21 +110,32 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
     }
 
+    fun GroupingInfo.next(dateInfo: DateInfo3): GroupingInfo {
+        val nextSecond = second + 1
+        val overflow = nextSecond > dateInfo.maxValue
+        return copy(
+            year = if (overflow) year + 1 else year,
+            second = if (overflow) grouping.minValue else nextSecond
+        )
+    }
+
+    fun GroupingInfo.previous(dateInfo: DateInfo3): GroupingInfo {
+        val nextSecond = second - 1
+        val underflow = nextSecond < grouping.minValue
+        return copy(
+            year = if (underflow) year - 1 else year,
+            second = if (underflow) dateInfo.maxValue else nextSecond
+        )
+    }
+
     fun forward() {
         groupingInfo?.let { info ->
             if (info.grouping == Grouping.YEAR) {
                 groupingInfo = info.copy(year = info.year + 1)
             } else {
                 viewModelScope.launch {
-                    dateInfoExtra.filterNotNull().take(1).collect {
-                        val nextSecond = info.second + 1
-                        val currentYear = info.year
-                        val overflow = nextSecond > it.maxValue
-                        groupingInfo = info.copy(
-                            year = if (overflow) currentYear + 1 else currentYear,
-                            second = if (overflow) grouping.minValue else nextSecond
-                        )
-                    }
+                    val dateInfo = dateInfoExtra.filterNotNull().first()
+                    groupingInfo = info.next(dateInfo)
                 }
             }
         }
@@ -121,15 +147,8 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 groupingInfo = info.copy(year = info.year - 1)
             } else {
                 viewModelScope.launch {
-                    dateInfoExtra.filterNotNull().take(1).collect {
-                        val nextSecond = info.second - 1
-                        val currentYear = info.year
-                        val underflow = nextSecond < grouping.minValue
-                        groupingInfo = info.copy(
-                            year = if (underflow) currentYear - 1 else currentYear,
-                            second = if (underflow) it.maxValue else nextSecond
-                        )
-                    }
+                    val dateInfo = dateInfoExtra.filterNotNull().first()
+                    groupingInfo = info.previous(dateInfo)
                 }
             }
         }

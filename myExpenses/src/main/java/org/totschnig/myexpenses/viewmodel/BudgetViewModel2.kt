@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -45,6 +47,10 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     private lateinit var budgetFlow: Flow<BudgetAllocation>
     lateinit var categoryTreeForBudget: Flow<Category>
+
+    val sum: Flow<Long> = combine(sums, _aggregateTypes) { sums, aggregate ->
+        if (aggregate) (sums.first - sums.second) else -sums.second
+    }
 
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency =
@@ -171,7 +177,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                         }
                     },
                     filterPersistence = filterPersistence,
-                    selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL" else null,
+                    selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL OR ${DatabaseConstants.KEY_SUM} IS NOT NULL" else null,
                 ).map { it.copy(budget = budget) }
             }
     }
@@ -192,15 +198,19 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     override val defaultDisplayTitle: String?
         get() = accountInfo.value?.durationPrettyPrint()
 
+    val GroupingInfo.asContentValues: ContentValues
+        get() = ContentValues().also {
+            if (grouping != Grouping.NONE) {
+                it.put(DatabaseConstants.KEY_YEAR, year)
+                it.put(DatabaseConstants.KEY_SECOND_GROUP, second)
+            }
+        }
+
     fun updateBudget(budgetId: Long, categoryId: Long, amount: Money, oneTime: Boolean) {
         groupingInfo?.also {
-            val contentValues = ContentValues(1).apply {
+            val contentValues = it.asContentValues.apply {
                 put(DatabaseConstants.KEY_BUDGET, amount.amountMinor)
                 if (it.grouping != Grouping.NONE) {
-                    put(DatabaseConstants.KEY_YEAR, it.year)
-                    if (it.grouping != Grouping.YEAR) {
-                        put(DatabaseConstants.KEY_SECOND_GROUP, it.second)
-                    }
                     put(DatabaseConstants.KEY_ONE_TIME, oneTime)
                 }
             }
@@ -224,5 +234,26 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 ), null, null
             ) == 1
         )
+    }
+
+    fun rollOverTotal() {
+        viewModelScope.launch {
+            val budget = accountInfo.value!!
+            val rollOver = categoryTreeForBudget.first().budget.totalAllocated + sum.first()
+            val budgetAllocationUri = budgetAllocationUri(budget.id, 0)
+            val nextGrouping = groupingInfo!!.next(dateInfoExtra.filterNotNull().first())
+            val ops = arrayListOf(
+                ContentProviderOperation.newUpdate(budgetAllocationUri)
+                    .withValues(groupingInfo!!.asContentValues.apply {
+                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT, rollOver)
+                    }).build(),
+                ContentProviderOperation.newUpdate(budgetAllocationUri)
+                    .withValues(nextGrouping.asContentValues.apply {
+                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
+                    }).build(),
+
+                )
+            contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+        }
     }
 }

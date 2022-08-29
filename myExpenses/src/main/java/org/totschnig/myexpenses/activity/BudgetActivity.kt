@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -37,6 +41,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
@@ -83,7 +88,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 val category =
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value
-                val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                 val sort = viewModel.sortOrder.collectAsState()
                 val filterPersistence = viewModel.filterPersistence.collectAsState().value
                 Box(modifier = Modifier.fillMaxSize()) {
@@ -110,7 +114,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             )
                             Budget(
                                 category = category.copy(
-                                    sum = if (viewModel.aggregateTypes) sums.first - sums.second else -sums.second,
+                                    sum = viewModel.sum.collectAsState(initial = 0L).value,
                                 ).let {
                                     when (sort.value) {
                                         Sort.SPENT -> it.sortChildrenBySumRecursive()
@@ -130,7 +134,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                         budget.grouping != Grouping.NONE
                                     )
                                 },
-                                onShowTransactions = ::showTransactions
+                                onShowTransactions = ::showTransactions,
+                                hasRolloverNext = category.hasRolloverNext
                             )
                         }
                     }
@@ -259,6 +264,10 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
                 true
             }
+            R.id.ROLLOVER_TOTAL -> {
+                viewModel.rollOverTotal()
+                true
+            }
             else -> false
         }
 
@@ -277,6 +286,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
             it.isChecked = viewModel.allocatedOnly
         }
+        val grouped = viewModel.grouping != Grouping.NONE
+        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ROLLOVER_COMMAND), grouped)
         return true
     }
 
