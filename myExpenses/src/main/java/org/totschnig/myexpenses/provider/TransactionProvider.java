@@ -156,6 +156,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
 
+  public static final Uri BUDGET_ALLOCATIONS_URI = Uri.parse("content://" + AUTHORITY + "/budgets/allocations");
+
   public static final Uri TAGS_URI = Uri.parse("content://" + AUTHORITY + "/tags");
 
   public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/tags");
@@ -292,6 +294,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int ACCOUNTS_TAGS = 62;
   private static final int DEBTS = 63;
   private static final int DEBT_ID = 64;
+  private static final int BUDGET_ALLOCATIONS = 65;
 
   private boolean bulkInProgress = false;
 
@@ -1524,6 +1527,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = budgetCategoryUpsert(db, uri, values);
         break;
       }
+      case BUDGET_ALLOCATIONS: {
+        count = db.update(TABLE_BUDGET_CATEGORIES, values, where, whereArgs);
+        break;
+      }
       case CURRENCIES_CODE: {
         final String currency = uri.getLastPathSegment();
         count = db.update(TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
@@ -1574,6 +1581,10 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     if (uriMatch == BUDGET_CATEGORY) {
       notifyChange(CATEGORIES_URI, false);
+    }
+    if (uriMatch == BUDGET_ALLOCATIONS) {
+      notifyChange(CATEGORIES_URI, false);
+      notifyChange(BUDGETS_URI, false);
     }
     if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
       notifyChange(ACCOUNTS_BASE_URI, false);
@@ -1754,6 +1765,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
   }
 
   /**

@@ -412,7 +412,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val statement = db.compileStatement(statementBuilder.toString())
         statement.bindAllArgsAsStrings(argsList.toTypedArray())
         log("$statement - ${argsList.joinToString()}")
-        return statement.executeUpdateDelete();
+        return statement.executeUpdateDelete()
     }
 
     /**

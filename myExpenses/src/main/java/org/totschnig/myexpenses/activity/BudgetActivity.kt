@@ -268,6 +268,14 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 viewModel.rollOverTotal()
                 true
             }
+            R.id.ROLLOVER_CLEAR -> {
+                viewModel.rollOverClear()
+                true
+            }
+            R.id.ROLLOVER_CATEGORIES -> {
+                viewModel.rollOverCategories()
+                true
+            }
             else -> false
         }
 
