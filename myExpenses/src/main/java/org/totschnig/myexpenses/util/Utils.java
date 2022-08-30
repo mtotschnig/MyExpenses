@@ -205,7 +205,7 @@ public class Utils {
    * @return the float retrieved from the string or null if parse did not
    * succeed
    */
-  public static BigDecimal validateNumber(DecimalFormat df, String strFloat) {
+  public static @Nullable BigDecimal validateNumber(DecimalFormat df, String strFloat) {
     ParsePosition pp;
     pp = new ParsePosition(0);
     pp.setIndex(0);

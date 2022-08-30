@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -57,6 +60,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     override val viewModel: BudgetViewModel2 by viewModels()
     private lateinit var sortDelegate: SortDelegate
     override val prefKey = PrefKey.BUDGET_AGGREGATE_TYPES
+
+    private val editRollOver = mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +140,10 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                     )
                                 },
                                 onShowTransactions = ::showTransactions,
-                                hasRolloverNext = category.hasRolloverNext
+                                hasRolloverNext = category.hasRolloverNext,
+                                editRollOver = if (editRollOver.value) {
+                                    remember { mutableStateMapOf() }
+                                } else null
                             )
                         }
                     }
@@ -276,6 +284,16 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 viewModel.rollOverCategories()
                 true
             }
+            R.id.ROLLOVER_EDIT -> {
+                invalidateOptionsMenu()
+                editRollOver.value = true
+                true
+            }
+            R.id.ROLLOVER_EDIT_CANCEL -> {
+                invalidateOptionsMenu()
+                editRollOver.value = false
+                true
+            }
             else -> false
         }
 
@@ -283,19 +301,25 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.budget, menu)
-        super.onCreateOptionsMenu(menu)
+        if (editRollOver.value) {
+            menuInflater.inflate(R.menu.budget_rollover_edit, menu)
+        } else {
+            menuInflater.inflate(R.menu.budget, menu)
+            super.onCreateOptionsMenu(menu)
+        }
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        sortDelegate.onPrepareOptionsMenu(menu)
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
-            it.isChecked = viewModel.allocatedOnly
+        if (!editRollOver.value) {
+            sortDelegate.onPrepareOptionsMenu(menu)
+            super.onPrepareOptionsMenu(menu)
+            menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
+                it.isChecked = viewModel.allocatedOnly
+            }
+            val grouped = viewModel.grouping != Grouping.NONE
+            Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ROLLOVER_COMMAND), grouped)
         }
-        val grouped = viewModel.grouping != Grouping.NONE
-        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ROLLOVER_COMMAND), grouped)
         return true
     }
 

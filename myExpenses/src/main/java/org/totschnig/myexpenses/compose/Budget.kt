@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @Composable
@@ -47,7 +49,8 @@ fun Budget(
     parent: Category? = null,
     onBudgetEdit: (category: Category, parent: Category?) -> Unit,
     onShowTransactions: (category: Category) -> Unit,
-    hasRolloverNext: Boolean
+    hasRolloverNext: Boolean,
+    editRollOver: SnapshotStateMap<Long, Long>?
 ) {
     Column(
         modifier = modifier.then(
@@ -71,7 +74,8 @@ fun Budget(
                 startPadding = startPadding,
                 onBudgetEdit = doEdit,
                 onShowTransactions = doShow,
-                hasRolloverNext = hasRolloverNext
+                hasRolloverNext = hasRolloverNext,
+                editRollOver = editRollOver
             )
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
@@ -86,7 +90,8 @@ fun Budget(
                             parent = category,
                             onBudgetEdit = onBudgetEdit,
                             onShowTransactions = onShowTransactions,
-                            hasRolloverNext = hasRolloverNext
+                            hasRolloverNext = hasRolloverNext,
+                            editRollOver = editRollOver
                         )
                     }
                 }
@@ -103,7 +108,8 @@ fun Budget(
                         currency,
                         doEdit,
                         doShow,
-                        hasRolloverNext
+                        hasRolloverNext,
+                        editRollOver
                     )
                     Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
                 }
@@ -116,7 +122,8 @@ fun Budget(
                             currency = currency,
                             onBudgetEdit = onBudgetEdit,
                             onShowTransactions = onShowTransactions,
-                            hasRolloverNext = hasRolloverNext
+                            hasRolloverNext = hasRolloverNext,
+                            editRollOver = editRollOver
                         )
                     }
                 }
@@ -131,7 +138,8 @@ private fun Summary(
     currency: CurrencyUnit,
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
-    hasRolloverNext: Boolean
+    hasRolloverNext: Boolean,
+    editRollOver: SnapshotStateMap<Long, Long>?
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -143,7 +151,14 @@ private fun Summary(
             text = stringResource(id = R.string.menu_aggregates)
         )
         VerticalDivider()
-        BudgetNumbers(category, currency, onBudgetEdit, onShowTransactions, hasRolloverNext)
+        BudgetNumbers(
+            category,
+            currency,
+            onBudgetEdit,
+            onShowTransactions,
+            hasRolloverNext,
+            editRollOver
+        )
     }
 }
 
@@ -213,7 +228,8 @@ private fun BudgetCategoryRenderer(
     startPadding: Dp,
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
-    hasRolloverNext: Boolean
+    hasRolloverNext: Boolean,
+    editRollOver: SnapshotStateMap<Long, Long>?
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -240,7 +256,14 @@ private fun BudgetCategoryRenderer(
             }
         }
         VerticalDivider()
-        BudgetNumbers(category = category, currency = currency, onBudgetEdit, onShowTransactions, hasRolloverNext)
+        BudgetNumbers(
+            category = category,
+            currency = currency,
+            onBudgetEdit,
+            onShowTransactions,
+            hasRolloverNext,
+            editRollOver
+        )
     }
 }
 
@@ -250,7 +273,8 @@ private fun RowScope.BudgetNumbers(
     currency: CurrencyUnit,
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
-    hasRolloverNext: Boolean
+    hasRolloverNext: Boolean,
+    editRollOver: SnapshotStateMap<Long, Long>?
 ) {
     //Allocation
     val allocation =
@@ -318,30 +342,49 @@ private fun RowScope.BudgetNumbers(
     )
 
     //Rollover
-    if (hasRolloverNext) {
+    if (hasRolloverNext || editRollOver != null) {
         VerticalDivider()
         Column(
             modifier = Modifier.numberColumn(this),
             horizontalAlignment = Alignment.End
         ) {
-            if (category.budget.rollOverNext != 0L) {
+            if (editRollOver != null && (remainder != 0L)) {
+                val rollOver =
+                    editRollOver.getOrDefault(category.id, category.budget.rollOverNext).let {
+                        Money(currency, it).amountMajor
+                    }
+                AmountEdit(
+                    value = rollOver,
+                    onValueChange = {
+                        editRollOver[category.id] = Money(currency, it).amountMinor
+                    },
+                    fractionDigits = currency.fractionDigits
+                )
+            } else if (category.budget.rollOverNext != 0L) {
                 Text(
                     text = LocalAmountFormatter.current(category.budget.rollOverNext, currency),
                     textAlign = TextAlign.End,
                     color = LocalColors.current.budgetRollOver
                 )
             }
-            val rollOverFromChildren = category.aggregateRollOverNext
-            if (rollOverFromChildren != 0L) {
-                Text(
-                    text = "(" + LocalAmountFormatter.current(
-                        rollOverFromChildren,
-                        currency
-                    ) + ")",
-                    textAlign = TextAlign.End,
-                    color = LocalColors.current.budgetRollOver
-                )
-            }
         }
+        val rollOverFromChildren = category.aggregateRollOverNext(editRollOver)
+        if (rollOverFromChildren != 0L) {
+            Text(
+                text = "(" + LocalAmountFormatter.current(
+                    rollOverFromChildren,
+                    currency
+                ) + ")",
+                textAlign = TextAlign.End,
+                color = LocalColors.current.budgetRollOver
+            )
+        }
+    }
+}
+
+fun Category.aggregateRollOverNext(rollOverMap: Map<Long, Long>?): Long {
+    return children.sumOf {
+        (rollOverMap?.getOrDefault(it.id, it.budget.rollOverNext) ?: it.budget.rollOverNext) +
+                it.aggregateRollOverNext(rollOverMap)
     }
 }

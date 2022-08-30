@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Immutable
 @Parcelize
-class BudgetAllocation(val budget: Long, val rollOverPrevious: Long, val rollOverNext: Long) :
+data class BudgetAllocation(val budget: Long, val rollOverPrevious: Long, val rollOverNext: Long) :
     Parcelable {
     @IgnoredOnParcel
     val totalAllocated = budget + rollOverPrevious

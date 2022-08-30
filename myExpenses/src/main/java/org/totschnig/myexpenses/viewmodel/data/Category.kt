@@ -70,10 +70,6 @@ data class Category(
     val aggregateSum: Long
         get() = sum + if (level == 0) 0 else children.sumOf { it.aggregateSum }
 
-    @IgnoredOnParcel
-    val aggregateRollOverNext: Long
-        get() = children.sumOf { it.budget.rollOverNext +  it.aggregateRollOverNext }
-
     val hasRolloverNext: Boolean
         get() = budget.rollOverNext != 0L || children.any { it.budget.rollOverNext != 0L }
 
