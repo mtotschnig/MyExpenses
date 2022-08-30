@@ -50,7 +50,7 @@ fun Budget(
     onBudgetEdit: (category: Category, parent: Category?) -> Unit,
     onShowTransactions: (category: Category) -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Long>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
     Column(
         modifier = modifier.then(
@@ -139,7 +139,7 @@ private fun Summary(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Long>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -229,7 +229,7 @@ private fun BudgetCategoryRenderer(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Long>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -274,7 +274,7 @@ private fun RowScope.BudgetNumbers(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Long>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
     //Allocation
     val allocation =
@@ -344,40 +344,40 @@ private fun RowScope.BudgetNumbers(
     //Rollover
     if (hasRolloverNext || editRollOver != null) {
         VerticalDivider()
+        val rollOverFromChildren = category.aggregateRollOverNext(editRollOver?.mapValues { it.value.first })
         Column(
             modifier = Modifier.numberColumn(this),
             horizontalAlignment = Alignment.End
         ) {
             if (editRollOver != null && (remainder != 0L)) {
-                val rollOver =
-                    editRollOver.getOrDefault(category.id, category.budget.rollOverNext).let {
-                        Money(currency, it).amountMajor
-                    }
+                val rollOver = editRollOver.getOrDefault(category.id, category.budget.rollOverNext to false)
+                val isError = rollOver.first + rollOverFromChildren > remainder
+                editRollOver[category.id] = rollOver.first to isError
+
                 AmountEdit(
-                    value = rollOver,
+                    value = Money(currency, rollOver.first).amountMajor,
                     onValueChange = {
-                        editRollOver[category.id] = Money(currency, it).amountMinor
+                        val newRollOver = Money(currency, it).amountMinor
+                        editRollOver[category.id] = newRollOver to (newRollOver + rollOverFromChildren > remainder)
                     },
-                    fractionDigits = currency.fractionDigits
+                    fractionDigits = currency.fractionDigits,
+                    isError = isError
                 )
             } else if (category.budget.rollOverNext != 0L) {
                 Text(
                     text = LocalAmountFormatter.current(category.budget.rollOverNext, currency),
-                    textAlign = TextAlign.End,
-                    color = LocalColors.current.budgetRollOver
+                    textAlign = TextAlign.End
                 )
             }
-        }
-        val rollOverFromChildren = category.aggregateRollOverNext(editRollOver)
-        if (rollOverFromChildren != 0L) {
-            Text(
-                text = "(" + LocalAmountFormatter.current(
-                    rollOverFromChildren,
-                    currency
-                ) + ")",
-                textAlign = TextAlign.End,
-                color = LocalColors.current.budgetRollOver
-            )
+            if (rollOverFromChildren != 0L) {
+                Text(
+                    text = "(" + LocalAmountFormatter.current(
+                        rollOverFromChildren,
+                        currency
+                    ) + ")",
+                    textAlign = TextAlign.End
+                )
+            }
         }
     }
 }

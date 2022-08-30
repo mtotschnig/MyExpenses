@@ -1049,4 +1049,5 @@
     <string name="budget_only_current_period">Set only for %s</string>
 
     <string name="budget_table_header_rollover">Rollover</string>
+    <string name="rollover_edit_invalid">The sum of the rollover assigned to a category and the rollovers assigned to subcategories cannot exceed the remainder.</string>
 </resources>

@@ -325,7 +325,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SimpleImageActivity" />
-        <activity android:name=".activity.BudgetActivity" />
+        <activity android:name=".activity.BudgetActivity" android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.ManageTags"
             android:theme="@style/EditDialog" />

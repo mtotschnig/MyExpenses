@@ -5,6 +5,8 @@ import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -36,6 +38,12 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 
 class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHandle) :
     DistributionViewModelBase<Budget>(application, savedStateHandle) {
+
+    val editRollOver = mutableStateOf(false)
+    val editRollOverMap = SnapshotStateMap<Long, Pair<Long, Boolean>>()
+    val editRollOverInValid: Boolean
+        get() = editRollOverMap.any { it.value.second }
+
     private val _allocatedOnly = MutableStateFlow(false)
 
     fun setAllocatedOnly(newValue: Boolean) {
