@@ -18,6 +18,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
@@ -26,7 +27,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +41,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.viewmodel.data.Category
+import kotlin.math.absoluteValue
+import kotlin.math.sign
 
 @Composable
 fun Budget(
@@ -289,12 +294,13 @@ private fun RowScope.BudgetNumbers(
             textDecoration = TextDecoration.Underline
         )
         if (category.budget.rollOverPrevious != 0L) {
-            Text(
+            ColoredAmountText(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = LocalAmountFormatter.current(category.budget.rollOverPrevious, currency),
+                amount = category.budget.rollOverPrevious,
+                currency = currency,
                 textAlign = TextAlign.End,
-                color = LocalColors.current.budgetRollOver
+                prefix = if (category.budget.rollOverPrevious > 0) "+" else ""
             )
             Text(
                 modifier = Modifier
@@ -303,15 +309,18 @@ private fun RowScope.BudgetNumbers(
                     category.budget.budget + category.budget.rollOverPrevious,
                     currency
                 ),
-                textAlign = TextAlign.End,
-                color = LocalColors.current.budgetRollOver
+                textAlign = TextAlign.End
             )
         }
         if (allocation != category.budget.totalAllocated && allocation != 0L) {
+            val isError = allocation > category.budget.totalAllocated
+            val errorIndication = if (isError) "!" else ""
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "(${LocalAmountFormatter.current(allocation, currency)})",
-                textAlign = TextAlign.End
+                text = errorIndication + "(${LocalAmountFormatter.current(allocation, currency)})" + errorIndication,
+                textAlign = TextAlign.End,
+                color = if (isError)
+                    colorResource(id = R.color.colorErrorDialog) else Color.Unspecified
             )
         }
     }
@@ -351,7 +360,8 @@ private fun RowScope.BudgetNumbers(
         ) {
             if (editRollOver != null && (remainder != 0L)) {
                 val rollOver = editRollOver.getOrDefault(category.id, category.budget.rollOverNext to false)
-                val isError = rollOver.first + rollOverFromChildren > remainder
+                val rollOverTotal = rollOver.first + rollOverFromChildren
+                val isError = rollOverTotal.sign * remainder.sign == -1 ||  rollOverTotal.absoluteValue > remainder.absoluteValue
                 editRollOver[category.id] = rollOver.first to isError
 
                 AmountEdit(
@@ -364,18 +374,19 @@ private fun RowScope.BudgetNumbers(
                     isError = isError
                 )
             } else if (category.budget.rollOverNext != 0L) {
-                Text(
-                    text = LocalAmountFormatter.current(category.budget.rollOverNext, currency),
+                ColoredAmountText(
+                    amount = category.budget.rollOverNext,
+                    currency = currency,
                     textAlign = TextAlign.End
                 )
             }
             if (rollOverFromChildren != 0L) {
-                Text(
-                    text = "(" + LocalAmountFormatter.current(
-                        rollOverFromChildren,
-                        currency
-                    ) + ")",
-                    textAlign = TextAlign.End
+                ColoredAmountText(
+                    amount = rollOverFromChildren,
+                    currency = currency,
+                    textAlign = TextAlign.End,
+                    prefix = "(",
+                    postFix = ")"
                 )
             }
         }

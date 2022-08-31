@@ -52,7 +52,7 @@ fun budgetColumn(year: String?, second: String?): String {
         false
     )
     return (if (year == null) mainSelect else "coalesce($mainSelect," +
-            "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND coalesce($KEY_YEAR,0) <= $year ${second?.let { "AND coalesce($KEY_SECOND_GROUP,0) < $it" } ?: ""} ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1)," +
+            "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND (coalesce($KEY_YEAR,0) < $year ${second?.let { " OR (coalesce($KEY_YEAR,0) = $year AND coalesce($KEY_SECOND_GROUP,0) < $it)" } ?: ""}) ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1)," +
             "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 ORDER BY $KEY_YEAR ASC ${if (second == null) "" else ", $KEY_SECOND_GROUP ASC"} LIMIT 1))") +
             " AS $KEY_BUDGET"
 }

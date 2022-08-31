@@ -39,7 +39,19 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHandle) :
     DistributionViewModelBase<Budget>(application, savedStateHandle) {
 
-    val editRollOver = mutableStateOf(false)
+    private val editRollOver = mutableStateOf(false)
+    private var duringRollOverSave = false
+    fun startRollOverEdit(): Boolean {
+        if (duringRollOverSave) return false
+        editRollOver.value = true
+        return true
+    }
+    fun stopRollOverEdit() {
+        editRollOver.value = false
+    }
+    val duringRollOverEdit: Boolean
+        get() = editRollOver.value
+
     val editRollOverMap = SnapshotStateMap<Long, Pair<Long, Boolean>>()
     val editRollOverInValid: Boolean
         get() = editRollOverMap.any { it.value.second }
@@ -244,31 +256,6 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         )
     }
 
-    fun rollOverTotal() {
-        viewModelScope.launch(context = coroutineContext()) {
-            val budget = accountInfo.value!!
-            val rollOver = categoryTreeForBudget.first().budget.totalAllocated + sum.first()
-            val budgetAllocationUri = budgetAllocationUri(budget.id, 0)
-            val nextGrouping = groupingInfo!!.next(dateInfoExtra.filterNotNull().first())
-            val ops = arrayListOf(
-                ContentProviderOperation.newUpdate(budgetAllocationUri)
-                    .withValues(groupingInfo!!.asContentValues.apply {
-                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT, rollOver)
-                    }).build(),
-                ContentProviderOperation.newUpdate(budgetAllocationUri)
-                    .withValues(nextGrouping.asContentValues.apply {
-                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
-                    }).build(),
-
-                )
-            val updateCount =
-                contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).sumOf { it.count!! }
-            if (updateCount != 2) {
-                CrashHandler.throwOrReport("Expected update count of 2, but actual is $updateCount")
-            }
-        }
-    }
-
     fun rollOverClear() {
         viewModelScope.launch(context = coroutineContext()) {
             val budget = accountInfo.value!!
@@ -299,44 +286,75 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                     .withValues(ContentValues().apply { putNull(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS) })
                     .build()
             )
-            val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
-            val updateCurrent = result[0].count
-            val updateNext = result[1].count
-            if (updateCurrent != updateNext) {
-                CrashHandler.throwOrReport("Expected to update equal rows for next period but actual is $updateNext compared to $updateCurrent")
+            contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+        }
+    }
+
+    private suspend fun saveRollOverList(rollOverList: List<Pair<Long, Long>>) {
+        val budget = accountInfo.value!!
+        val nextGrouping = groupingInfo!!.next(dateInfoExtra.filterNotNull().first())
+        val ops = ArrayList<ContentProviderOperation>()
+        rollOverList.forEach {
+            val (categoryId, rollOver) = it
+            val budgetAllocationUri = budgetAllocationUri(budget.id, categoryId)
+            ops.add(
+                ContentProviderOperation.newUpdate(budgetAllocationUri)
+                    .withValues(groupingInfo!!.asContentValues.apply {
+                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT, rollOver)
+                    }).build()
+            )
+            ops.add(
+                ContentProviderOperation.newUpdate(budgetAllocationUri)
+                    .withValues(nextGrouping.asContentValues.apply {
+                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
+                    }).build()
+            )
+        }
+        val updateCount =
+            contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).sumOf { it.count!! }
+        if (updateCount != rollOverList.size * 2) {
+            CrashHandler.throwOrReport("Expected update count 2 times ${rollOverList.size}, but actual is $updateCount")
+        }
+    }
+
+    fun rollOverTotal() {
+        viewModelScope.launch(context = coroutineContext()) {
+            val tree = categoryTreeForBudget.first()
+            if (tree.hasRolloverNext) {
+                CrashHandler.throwOrReport("Rollovers already exist")
+            } else {
+                saveRollOverList(
+                    listOf(
+                        0L to tree.budget.totalAllocated + sum.first()
+                    )
+                )
             }
         }
     }
 
     fun rollOverCategories() {
         viewModelScope.launch(context = coroutineContext()) {
-            val budget = accountInfo.value!!
-            val nextGrouping = groupingInfo!!.next(dateInfoExtra.filterNotNull().first())
-            val rolloverList = categoryTreeForBudget.first().children.mapNotNull { category ->
-                (category.budget.totalAllocated + category.aggregateSum).takeIf { it != 0L }?.let {
-                    category.id to it
-                }
+            val tree = categoryTreeForBudget.first()
+            if (tree.hasRolloverNext) {
+                CrashHandler.throwOrReport("Rollovers already exist")
+            } else {
+                saveRollOverList(tree.children.mapNotNull { category ->
+                    (category.budget.totalAllocated + category.aggregateSum).takeIf { it != 0L }?.let {
+                        category.id to it
+                    }
+                })
             }
-            val ops = ArrayList<ContentProviderOperation>()
-            rolloverList.forEach {
-                val (categoryId, rollOver) = it
-                val budgetAllocationUri = budgetAllocationUri(budget.id, categoryId)
-                ops.add(ContentProviderOperation.newUpdate(budgetAllocationUri)
-                    .withValues(groupingInfo!!.asContentValues.apply {
-                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT, rollOver)
-                    }).build()
-                )
-                ops.add(ContentProviderOperation.newUpdate(budgetAllocationUri)
-                    .withValues(nextGrouping.asContentValues.apply {
-                        put(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
-                    }).build()
-                )
-            }
-            val updateCount =
-                contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).sumOf { it.count!! }
-            if (updateCount != rolloverList.size * 2) {
-                CrashHandler.throwOrReport("Expected update count 2 times ${rolloverList.size}, but actual is $updateCount")
-            }
+        }
+    }
+
+    fun rollOverSave() {
+        duringRollOverSave = true
+        viewModelScope.launch(context = coroutineContext()) {
+            check(!editRollOverInValid)
+            saveRollOverList(
+                editRollOverMap.map { it.key to it.value.first }
+            )
+            duringRollOverSave = false
         }
     }
 }

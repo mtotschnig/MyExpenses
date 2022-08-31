@@ -31,7 +31,9 @@ fun ColoredAmountText(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight? = null,
     textAlign: TextAlign? = null,
-    withBorder: Boolean = false
+    withBorder: Boolean = false,
+    prefix: String = "",
+    postFix: String = ""
 ) {
     val color = when {
         amount > 0 -> LocalColors.current.income
@@ -42,7 +44,7 @@ fun ColoredAmountText(
         modifier = if (withBorder) modifier.amountBorder(color) else modifier,
         fontWeight = fontWeight,
         textAlign = textAlign,
-        text = LocalAmountFormatter.current(amount, currency),
+        text = prefix + LocalAmountFormatter.current(amount, currency) + postFix,
         color = color
     )
 }

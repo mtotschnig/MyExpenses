@@ -624,7 +624,7 @@ class TransactionList : BaseTransactionList() {
     override fun resolveBudget(headerId: Int): Long? {
         return budgetAmounts?.let { budgetAmounts ->
             budgetAmounts.find { it.first == headerId } ?:
-            budgetAmounts.last { !it.third && it.first < headerId }
+            budgetAmounts.last { !it.third && it.first < headerId } ?:
             budgetAmounts.first { !it.third }
         }?.second
     }
