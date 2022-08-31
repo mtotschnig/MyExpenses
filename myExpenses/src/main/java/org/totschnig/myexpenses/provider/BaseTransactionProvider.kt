@@ -374,7 +374,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val rollOverPrevious: String? = values.getAsString(KEY_BUDGET_ROLLOVER_PREVIOUS)
         val rollOverNext: String? = values.getAsString(KEY_BUDGET_ROLLOVER_NEXT)
         check(
-            (budget != null && oneTime != null && rollOverNext == null && rollOverPrevious == null) ||
+            (budget != null && rollOverNext == null && rollOverPrevious == null) ||
                     (budget == null && oneTime == null && year != "-1" &&
                             (rollOverNext != null).xor(rollOverPrevious != null)
                             )
@@ -399,10 +399,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             statementBuilder.append("?,")
             argsList.add(rollOverNext)
         }
-        if (budget != null && oneTime != null) {
+        if (budget != null) {
             statementBuilder.append("?,?)")
             argsList.add(budget)
-            argsList.add(oneTime)
+            argsList.add(oneTime ?: "1")
         } else {
             statementBuilder.append("(select $KEY_BUDGET from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
             statementBuilder.append("(select $KEY_ONE_TIME from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?))")

@@ -16,7 +16,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
     private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
 
     fun saveBudget(budget: Budget, initialAmount: Long?, whereFilter: WhereFilter) {
-        val contentValues = budget.toContentValues()
+        val contentValues = budget.toContentValues(initialAmount)
         if (budget.id == 0L) {
             databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
                 override fun onInsertComplete(token: Int, uri: Uri?) {
@@ -24,9 +24,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
                     if (result > -1) persistPreferences(result, whereFilter, budget)
                     databaseResult.postValue(result)
                 }
-            }, TransactionProvider.BUDGETS_URI, contentValues.apply {
-                put(DatabaseConstants.KEY_BUDGET, initialAmount)
-            })
+            }, TransactionProvider.BUDGETS_URI, contentValues)
         } else {
             databaseHandler.startUpdate(TOKEN, object : DatabaseHandler.UpdateListener {
                 override fun onUpdateComplete(token: Int, resultCount: Int) {
