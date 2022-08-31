@@ -128,6 +128,100 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.4.4
+    - "2022-08-12"
+    -
+      ar: |
+        ايقونات الفئات 2.0
+      bg: |
+        Икони за категориите 2.0
+      de: |
+        Symbole für Kategorien 2.0
+      es: |
+        Iconos por categorías 2.0
+      fr: |
+        Icônes pour les catégories 2.0
+      hr: |
+        Ikone za kategorije 2.0
+      it: |
+        Icone per le categorie 2.0
+      iw: |
+        סמלים לקטגוריות 2.0
+      ja: |
+        分類のアイコン 2.0
+      kn: |
+        ವರ್ಗಗಳಿಗೆ ಚಿಹ್ನೆಗಳು 2.0
+      ms: |
+        Ikon-ikon untuk kategori-kategori 2.0
+      pt: |
+        Ícones para categorias 2.0
+      ru: |
+        Иконки для категорий 2.0
+      ta: |
+        வகைகளுக்கான ஐகான்கள் 2.0
+      tr: |
+        Kategoriler için ikonlar 2.0
+      en: |
+        Icons for categories 2.0
+  -
+    - 3.4.3
+    - "2022-08-01"
+    -
+      ar: |
+        تخصيص: تصدير لصيغة CSV. تصدير لصيغة JSON 2.0
+      bg: |
+        Персонализиране: Експорт в CSV. Експорт в JSON 2.0
+      cs: |
+        Přizpůsobit: Exportovat do souboru CSV. Exportovat do souboru JSON 2.0
+      da: |
+        Tilpas: Eksporter til CSV. Eksporter til JSON 2.0
+      de: |
+        Anpassen: Export nach CSV. Export nach JSON 2.0
+      el: |
+        Προσαρμογή: Εξαγωγή σε CSV. Εξαγωγή σε JSON 2.0
+      es: |
+        Personalizar: Exportar a CSV. Exportar a JSON 2.0
+      eu: |
+        Pertsonalizatua: Esportatu CSV fitxategira. Esportatu JSON fitxategira 2.0
+      fr: |
+        Personnaliser: Export au format CSV. Export au format JSON 2.0
+      hr: |
+        Prilagodi: Izvezi u CSV. Izvezi u JSON 2.0
+      hu: |
+        Személyre szabás: Exportálás CSV-be . Exportálás JSON-be  2.0
+      it: |
+        Personalizza: Esportazione in formato CSV. Esportazione in formato JSON 2.0
+      iw: |
+        התאמה אישית: יצא ל- CSV. יצא ל- JSON 2.0
+      ja: |
+        カスタマイズ: CSV にエクスポート. JSON にエクスポート 2.0
+      kn: |
+        ಕಸ್ಟಮೈಸ್: CSV ಗೆ ರಫ್ತು ಮಾಡಿ. JSON ಗೆ ರಫ್ತು ಮಾಡಿ 2.0
+      ko: |
+        맞춤설정: CSV로 내보내기. JSON로 내보내기 2.0
+      ms: |
+        Sesuaikan: Eksport ke CSV. Eksport ke JSON 2.0
+      pl: |
+        Dostosuj: Eksport do CSV. Eksport do JSON 2.0
+      pt: |
+        Personalizar: Exportação para CSV. Exportação para JSON 2.0
+      ro: |
+        Personalizați: Export ca CSV. Export ca JSON 2.0
+      ru: |
+        Другой: Экспорт в CSV. Экспорт в JSON 2.0
+      ta: |
+        பிரத்தியேகமாக்கு: CSV ஆக ஏற்றுமதி செய். JSON ஆக ஏற்றுமதி செய் 2.0
+      tr: |
+        Özelleştir: CSV olarak dışa aktar. JSON olarak dışa aktar 2.0
+      vi: |
+        Tùy chỉnh: Xuất ra dạng CSV. Xuất ra dạng JSON 2.0
+      zh: |
+        自定义: 导出为 CSV. 导出为 JSON 2.0
+      zh-TW: |
+        自訂: 以CSV檔匯出. 以JSON檔匯出 2.0
+      en: |
+        Customize: Export to CSV. Export to JSON 2.0
+  -
     - 3.4.2
     - "2022-07-20"
     -
