@@ -314,7 +314,7 @@ public class DatabaseConstants {
   public static final String TABLE_EVENT_CACHE = "event_cache";
 
   public static final String TABLE_BUDGETS = "budgets";
-  public static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
+  public static final String TABLE_BUDGET_ALLOCATIONS = "budget_allocations";
 
   public static final String TABLE_DEBTS = "debts";
 

@@ -88,7 +88,7 @@ fun categoryTreeWithBudget(
 }
 
 fun budgetAllocationsCTE(budgetSelect: String) =
-    "Allocations AS (SELECT $KEY_BUDGET, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ONE_TIME, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT FROM $TABLE_BUDGET_CATEGORIES WHERE $budgetSelect)"
+    "Allocations AS (SELECT $KEY_BUDGET, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ONE_TIME, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT FROM $TABLE_BUDGET_ALLOCATIONS WHERE $budgetSelect)"
 
 fun parseBudgetCategoryUri(uri: Uri) = uri.pathSegments.let { it[1] to it[2] }
 
@@ -128,7 +128,7 @@ fun categoryTreeWithMappedObjects(
         when (it) {
             KEY_MAPPED_TRANSACTIONS -> subQuery(TABLE_TRANSACTIONS, it, aggregate)
             KEY_MAPPED_TEMPLATES -> subQuery(TABLE_TEMPLATES, it, aggregate)
-            KEY_MAPPED_BUDGETS -> subQuery(TABLE_BUDGET_CATEGORIES, it, aggregate)
+            KEY_MAPPED_BUDGETS -> subQuery(TABLE_BUDGET_ALLOCATIONS, it, aggregate)
             KEY_HAS_DESCENDANTS -> wrapQuery(
                 "(select count(*) FROM $TREE_CATEGORIES) > 1",
                 it,

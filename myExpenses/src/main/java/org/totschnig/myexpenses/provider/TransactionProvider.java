@@ -814,7 +814,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           c = measureAndLogQuery(db, uri, null, sql, null);
           return c;
         } else {
-          qb.setTables(TABLE_BUDGET_CATEGORIES);
+          qb.setTables(TABLE_BUDGET_ALLOCATIONS);
           qb.appendWhere(budgetSelect(uri));
           break;
         }
@@ -978,7 +978,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         budgetInitialAmount.put(KEY_BUDGETID, id);
         budgetInitialAmount.put(KEY_BUDGET, budget);
         budgetInitialAmount.put(KEY_CATID, 0);
-        db.insertOrThrow(TABLE_BUDGET_CATEGORIES, null, budgetInitialAmount);
+        db.insertOrThrow(TABLE_BUDGET_ALLOCATIONS, null, budgetInitialAmount);
         newUri = BUDGETS_URI + "/" + id;
         break;
       }
@@ -1528,7 +1528,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case BUDGET_ALLOCATIONS: {
-        count = db.update(TABLE_BUDGET_CATEGORIES, values, where, whereArgs);
+        count = db.update(TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
         break;
       }
       case CURRENCIES_CODE: {

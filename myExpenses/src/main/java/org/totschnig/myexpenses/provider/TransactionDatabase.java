@@ -430,7 +430,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_END + " datetime)";
 
   private static final String BUDGETS_CATEGORY_CREATE =
-      "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
+      "CREATE TABLE " + TABLE_BUDGET_ALLOCATIONS + " ( "
           + KEY_BUDGETID + " integer not null references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CATID + " integer not null references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_YEAR + " integer, "
@@ -783,7 +783,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshAccountMetadataTrigger(db);
     db.execSQL(BUDGETS_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
-    db.execSQL("CREATE INDEX budget_categories_cat_id_index on " + TABLE_BUDGET_CATEGORIES + "(" + KEY_CATID + ")");
+    db.execSQL("CREATE INDEX budget_allocations_cat_id_index on " + TABLE_BUDGET_ALLOCATIONS + "(" + KEY_CATID + ")");
 
     db.execSQL(TAGS_CREATE);
     db.execSQL(TRANSACTIONS_TAGS_CREATE);
@@ -1867,7 +1867,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             + "currency text)");
         db.execSQL("CREATE TABLE budget_categories ( "
             + "budget_id integer references budgets(_id) ON DELETE CASCADE, "
-            + "cat_id integer references categories(_id) not null, "
+            + "cat_id integer references categories(_id), "
             + "budget integer not null, "
             + "primary key (budget_id,cat_id));");
         db.execSQL("ALTER TABLE currency add column grouping text not null check (grouping in " +
@@ -2224,6 +2224,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 128) {
         upgradeTo128(db);
+      }
+      if (oldVersion < 128) {
+        upgradeTo129(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
