@@ -2225,7 +2225,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 128) {
         upgradeTo128(db);
       }
-      if (oldVersion < 128) {
+      if (oldVersion < 129) {
         upgradeTo129(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
