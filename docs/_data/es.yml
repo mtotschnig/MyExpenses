@@ -55,8 +55,9 @@ es:
     feature-list-title: "Por favor, contribuya actualizando <i>{app_name}</i> y obtenga\
       \ acceso sin limitaciones a las siguientes características:"
     feature:
-      accounts_unlimited: Número de <b>cuentas</b> ilimitadas
-      plans_unlimited: Número de proyectos ilimitados para transacciones <b>recurrentes</b>
+      accounts_unlimited: Desbloquear la capacidad de crear más de cinco cuentas
+      plans_unlimited: Desbloquear la capacidad de crear más de tres planes para operaciones
+        recurrentes
       distribution: "<b>Gráfico de sectores</b>: visualice la distribución estadística\
         \ de transacciones por categoría entre diferentes periodos (años, meses, semanas,\
         \ días)"
