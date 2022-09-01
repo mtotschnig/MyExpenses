@@ -1042,8 +1042,10 @@ abstract class TransactionDelegate<T : ITransaction>(
     open fun prepareForNew() {
         rowId = 0L
         uuid = null
+        _crStatus = CrStatus.UNRECONCILED
         resetRecurrence()
         resetAmounts()
+        populateStatusSpinner()
     }
 
     open fun onDestroy() {
