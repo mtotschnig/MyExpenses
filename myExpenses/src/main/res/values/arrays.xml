@@ -203,9 +203,10 @@
     </string-array>
 
     <string-array name="BudgetActivity_menuitems" tools:ignore="UnusedResources">
-        <item>edit</item>
-        <item>manage_categories</item>
         <item>back.forward</item>
+        <item>edit</item>
+        <item>rollover</item>
+        <item>manage_categories</item>
         <item>budget_aggregate</item>
         <item>budget_allocated_only</item>
         <item>delete</item>

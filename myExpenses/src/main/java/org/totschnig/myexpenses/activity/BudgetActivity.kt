@@ -55,8 +55,9 @@ import java.math.BigDecimal
 
 class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogResultListener {
     companion object {
-        const val EDIT_BUDGET_DIALOG = "EDIT_BUDGET"
+        private const val EDIT_BUDGET_DIALOG = "EDIT_BUDGET"
         private const val DELETE_BUDGET_DIALOG = "DELETE_BUDGET"
+        private const val DELETE_ROLLOVER_DIALOG = "DELETE_ROLLOVER"
     }
 
     override val viewModel: BudgetViewModel2 by viewModels()
@@ -216,30 +217,36 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == OnDialogResultListener.BUTTON_POSITIVE) {
-            val budget = viewModel.accountInfo.value
-            if (budget != null && dialogTag == EDIT_BUDGET_DIALOG) {
-                val amount = Money(
-                    budget.currency,
-                    (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal?)!!
-                )
-                viewModel.updateBudget(
-                    budget.id,
-                    extras.getLong(DatabaseConstants.KEY_CATID),
-                    amount,
-                    extras.getBoolean(DatabaseConstants.KEY_ONE_TIME)
-                )
-                return true
-            }
-            if (budget != null && dialogTag == DELETE_BUDGET_DIALOG) {
-                viewModel.deleteBudget(budget.id).observe(this) {
-                    if (it) {
-                        setResult(Activity.RESULT_FIRST_USER)
-                        finish()
-                    } else {
-                        showDeleteFailureFeedback()
-                    }
+            val budget = viewModel.accountInfo.value ?: return false
+            when (dialogTag) {
+                EDIT_BUDGET_DIALOG -> {
+                    val amount = Money(
+                        budget.currency,
+                        (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal?)!!
+                    )
+                    viewModel.updateBudget(
+                        budget.id,
+                        extras.getLong(DatabaseConstants.KEY_CATID),
+                        amount,
+                        extras.getBoolean(DatabaseConstants.KEY_ONE_TIME)
+                    )
+                    return true
                 }
-                return true
+                DELETE_BUDGET_DIALOG -> {
+                    viewModel.deleteBudget(budget.id).observe(this) {
+                        if (it) {
+                            setResult(Activity.RESULT_FIRST_USER)
+                            finish()
+                        } else {
+                            showDeleteFailureFeedback()
+                        }
+                    }
+                    return true
+                }
+                DELETE_ROLLOVER_DIALOG -> {
+                    viewModel.rollOverClear()
+                    return true
+                }
             }
         }
         return false
@@ -294,7 +301,15 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 true
             }
             R.id.ROLLOVER_CLEAR -> {
-                viewModel.rollOverClear()
+                SimpleDialog.build()
+                    .title(supportActionBar?.subtitle?.toString())
+                    .msg(
+                        getString(R.string.dialog_confirm_rollover_delete) + " " +
+                                getString(R.string.continue_confirmation)
+                    )
+                    .pos(R.string.menu_delete)
+                    .neg(android.R.string.cancel)
+                    .show(this, DELETE_ROLLOVER_DIALOG)
                 true
             }
             R.id.ROLLOVER_CATEGORIES -> {

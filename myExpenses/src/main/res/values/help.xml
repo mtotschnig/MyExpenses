@@ -185,6 +185,10 @@
     <string name="menu_budget_aggregate_help_text">By default, the calculated sums include both expenses and income. If you deactivate this option, income is ignored, only expenses are taken into account.</string>
     <string name="menu_budget_allocated_only_help_text">By activating this option, only categories, for which some amount has been allocated, are displayed.</string>
     <string name="menu_BudgetActivity_delete_help_text">The currently displayed budget will be deleted.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">If you underspend or overspend on your budget, you can rollover the difference to the next period, so that the amount that you can allocate there is either increased or decreased. There are three options:</string>
+    <string name="menu_BudgetActivity_rollover_total">Only the remainder for the total budget is rolled over, so that only the total budget of the next period is increased or decreased.</string>
+    <string name="menu_BudgetActivity_rollover_categories">The remainder for each category is rolled over, and the corresponding allocation in the next period will be affected.</string>
+    <string name="menu_BudgetActivity_rollover_edit">This option allows you to precisely configure the rollover. For example, you can set partial rollovers only for some categories or sub-categories, and rollover the remaining part on the total budget.</string>
     <string name="help_ManageBudgets_title">List of all budgets</string>
     <string name="help_ManageBudgets_info">This screen shows a summary of all budgets you have created. Use the floating action button to create a new budget. Clicking on a list entry displays a single budget.</string>
     <string name="help_BudgetEdit_title">Form for budgets</string>

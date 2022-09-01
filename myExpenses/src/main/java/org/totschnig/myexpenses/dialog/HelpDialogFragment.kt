@@ -111,7 +111,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "link" to R.drawable.ic_hchain,
             "merge" to R.drawable.ic_menu_split_transaction,
             "parties.debts" to R.drawable.balance_scale,
-            "debts" to R.drawable.balance_scale
+            "debts" to R.drawable.balance_scale,
+            "rollover" to null
         )
 
         @JvmStatic

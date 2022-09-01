@@ -30,7 +30,7 @@
             </group>
         </menu>
     </item>
-    <item android:id="@id/ROLLOVER_COMMAND" android:title="@string/budget_table_header_rollover" app:showAsAction="never" android:enabled="false">
+    <item android:id="@id/ROLLOVER_COMMAND" android:title="@string/budget_table_header_rollover" app:showAsAction="ifRoom" android:enabled="false">
         <menu>
             <item android:id="@id/ROLLOVER_TOTAL" android:title="@string/menu_aggregates"/>
             <item android:id="@id/ROLLOVER_CATEGORIES" android:title="@string/pref_manage_categories_title"/>

@@ -102,7 +102,7 @@ fun Budget(
                 }
             }
         } else {
-            Header(withRollOverColumn = hasRolloverNext)
+            Header(withRollOverColumn = hasRolloverNext || editRollOver != null)
             Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
             LazyColumn(
                 verticalArrangement = Arrangement.Center
