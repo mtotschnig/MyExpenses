@@ -88,9 +88,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             viewModel.accountInfo.filterNotNull().collect {
                 supportActionBar?.title = it.title
             }
-            viewModel.categoryTreeForBudget.collect {
-
-            }
         }
         binding.composeView.setContent {
             AppTheme(this) {
@@ -178,6 +175,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             .title(if (category.level > 0) category.label else getString(R.string.dialog_title_edit_budget))
             .neg()
         val amount = Money(currencyUnit, category.budget.budget)
+        //The rollOver reduces the amount we need to allocate specific for this period
         val min = category.children.sumOf { it.budget.totalAllocated } - category.budget.rollOverPrevious
         val max = if (category.level > 0) {
             val bundle = Bundle(1).apply {

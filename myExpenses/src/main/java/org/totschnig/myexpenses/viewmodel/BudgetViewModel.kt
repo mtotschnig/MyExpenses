@@ -188,15 +188,10 @@ open class BudgetViewModel(application: Application) :
     companion object {
         val PROJECTION = arrayOf(
             q(KEY_ROWID),
-            "coalesce(%1\$s, -(select %2\$s from %3\$s where %4\$s = %5\$s), %6\$d) AS %1\$s"
-                .format(
-                    Locale.ROOT, KEY_ACCOUNTID, KEY_ROWID, TABLE_CURRENCIES, KEY_CODE,
-                    q(KEY_CURRENCY), AggregateAccount.HOME_AGGREGATE_ID
-                ),
+            "coalesce($KEY_ACCOUNTID, -(select $KEY_ROWID from $TABLE_CURRENCIES where $KEY_CODE = $TABLE_BUDGETS.$KEY_CURRENCY), ${AggregateAccount.HOME_AGGREGATE_ID}) AS $KEY_ACCOUNTID",
             KEY_TITLE,
             q(KEY_DESCRIPTION),
-            "coalesce(%1\$s.%2\$s, %3\$s.%2\$s) AS %2\$s"
-                .format(TABLE_BUDGETS, KEY_CURRENCY, TABLE_ACCOUNTS),
+            "coalesce($TABLE_BUDGETS.$KEY_CURRENCY, $TABLE_ACCOUNTS.$KEY_CURRENCY) AS $KEY_CURRENCY",
             q(KEY_GROUPING),
             KEY_COLOR,
             KEY_START,

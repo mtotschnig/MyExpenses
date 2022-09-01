@@ -366,7 +366,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                     viewModel.saveBudget(budget, initialAmount, filterPersistence.whereFilter)
                 }
             }
-
             return true
         }
         return super.dispatchCommand(command, tag)
