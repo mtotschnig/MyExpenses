@@ -1,7 +1,7 @@
 ca_ES:
   imprint: Impressió
   privacy_policy_heading: Política de privacitat
-  hero_main: "Gestor de finances personals per Android "
+  hero_main: "Gestor de finances personals per Android"
   hero_sub:
     use: "Fàcil d'usar"
     functionality: "Moltes funcions"
@@ -20,16 +20,53 @@ ca_ES:
     links: Enllaços
   contrib:
     thank_you: |
-      La vostra contribució ens permet seguir desenvolupant Les meves despeses. Gràcies!
+      La vostra contribució ens permet seguir desenvolupant Les Meves Despeses. Gràcies!
     feature:
-      csv_import: Importació sofisticada i personalitzable <b>CSV</b> (aplicacions
+      csv_import: <b>Importació CSV</b> sofisticada i personalitzable (aplicacions
         de full de càlcul)
+      accounts_unlimited: Desbloqueja la possiblitat de crear més de cinc comptes
+      plans_unlimited: Desbloqueja la possibilitat de crear més de tres plans de transaccions
+        habituals
+      distribution: '<b>Diagrama de sectors</b>: Visualitzi la distribució estadística
+        de les transaccions per categoria en diferents períodes (anys, mesos, setmanes,
+        dies)'
+      print: <b>Imprimeixi</b> el llistat de transaccions en un fitxer PDF
+      ad_free: <b>Sense publicitat</b>
+      cloud_sync: '<b>Sincronització amb el núvol</b>: Les dades es poden sincronitzar
+        entre múltiples dispositius'
+      roadmap_voting: Dret de vot en el <b>full de ruta del desenvolupament</b>
+      history_chart: <b>Gràfica històrica</b> (flux de caixa)
+      budgeting: '<b>Pressupostar</b>: Compari els límits de despesa que ha fixat
+        per categoria amb base diària, setmanal, mensual o anual.'
+      scan_receipt: '<b>Escanejar rebuts</b>: Obtingui automàticament la quantitat,
+        data i beneficiari'
+      webui: <b>Interfície Web d'Usuari</b>
+      split_template: Nombre i·limitat de <b>plantilles amb plans per repartir transaccions</b>
+      email_support: <b>Assistència per correu electrònic</b> amb resposta garantitzada
+        en 2 dies laborables
+      auto_backup: <b>Còpia de seguretat automatitzada</b> diària amb opció de carregar-la
+        al vostre núvol d'emmagatzematge
+      split_transaction: '<b>Reparteixi transacció</b>: Una sola transacció pot ser
+        repartida en diferents parts (categories i transferències)'
+    feature-list-title: 'Si us plau contribïu millorant <i>{app_name}</i> i obtenint
+      accés a sense límit a les funcions següents:'
+    one-time-payment: Pagament únic
+    subscription: Subscripció
   permissions:
     internet:
       explanation_crash_reporting: Reports sobre penjades de l'aplicació
       explanation_cloud_sync: Sincronització del núvol
+      label: Internet
+      explanation_usage_tracking: Ús de seguiment anònim
+      explanation_key_validation: Validació de clau de llicència
     accounts:
       label: Comptes
+      explanation: Sincronització de dispositius via serveis al núvol.
+    heading: <i>{app_name}</i> requereix els següents <u>permisos</u>
+    calendar:
+      label: Calendari
+      explanation: Plans pel futur i transaccions recurrents es desen o bé al calendari
+        local o bé a qualsevol altre calendari que assigneu.
   contrib-key: Clau del Contribuïdor
   extended-key: Clau estesa
   professional-key: Clau professional
@@ -52,3 +89,51 @@ ca_ES:
     history: Historial de la vostra situació financera
     export: Exporta a PDF, QIF i CSV
     sync: Sincronització del núvol
+  imprint_text: Responsable del contingut d'aquesta web, del desenvolupament, manteniment
+    i distribucció de <i>{app_name}</i>
+  privacy_policy_text: <i>{app_name}</i> no accedeix a les dades del teu dispositiu
+    que no siguin la seva pròpia base de dades, els seus propis fitxer a la targeta
+    SD. Si utilitzes la funció plans de futur i transaccions recurrents, assignant-ho
+    al calendari, aquests plans s'hi desen.
+  screenshots:
+    history: Entengui com evouciona la seva situació financera amb el pas del temps
+    group: Agrupi les seves transaccions per dia, setmana, mes i any
+    summarize: Sumi tots els seus comptes (tractament sofisticat dels tipus de canvis
+      per compte i transacció)
+    export: Imprimeixi PDF i intercanviï via QIF i CSV.
+    sync: Sincronitzi dades encriptades del compte en múltiples dispositius via serveis
+      al núvol públics o privats.
+    budget: Defineixi quant vol gastar en pressupostos anuals, mensuals o setmanals
+    split: Reparteixi una operació en múltiples categories
+    distribution: Visualitzi la distribució per categoria
+  features:
+    manage_accounts: Fins a cinc comptes amb <b>transferències</b> (també entre diferents
+      divises)
+    plans: Nombre il·limitat de <b>plantilles</b> i fins a tres plans per les transaccions
+      <b>periòdiques</b>
+    export: <b>Exporta</b> a QIF i CSV. <b>Importa</b> des de QIF
+    password: Les dades es poden protegir amb <b>contrassenya</b> del disposistiu
+      o <b>bloqueig de pantalla</b>
+    light_theme: <b>Tema</b> (fosc i clar) i <b>mida de lletra</b> es poden personalitzar
+    reconciliation: "<b>Reconciliacions</b>: Compari fàcilment l'estat de les transaccions\
+      \ i els teus extractes bancaris"
+    homescreen: A la pantalla inicial, <b>widget</b> i <b>dreceres</b> permeten entrar
+      dades ràpidament
+  store:
+    full_description_contrib_amazon: 'Moltes funcions addiciconals es desbloquegen
+      en adquirir una de les claus de llicència, per exemple:'
+    highlight_1: Estigues al corrent de les teves despeses i ingressos amb diversos
+      comptes, plantilles i categories
+    highlight_3: Resumeix la teva situació finanacera diària, setmanal, mensual o
+      anual
+    full_description_intro: '{app_name} registra les vostres despeses i ingressos,
+      directament al telèfon o tauleta.'
+    full_description_contrib: 'Les funcions Premium es desbloquegen adquirint una
+      de les següents claus de llicència:'
+    short_description: 'Gestió de finances personal accessible: ric en funcionalitats
+      i de Codi Obert'
+    highlight_2: Comparteix les teves dades en diverses tauletes o telèfons via WebDAV
+      i GoogleDrive
+  customer_support: Atenció al client
+  all_contrib_key_features: Totes les funcions de Clau Contrib
+  all_extended_key_features: Totes les funcions de Clau Ampliada
