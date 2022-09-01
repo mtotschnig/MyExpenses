@@ -110,7 +110,7 @@
     <string name="project_board_342">71#column-18889056</string>
     <string name="project_board_343">73#column-19080863</string>
     <string name="project_board_344">74#column-19103001</string>
-    <string name="project_board_3441">75#column-19114410</string>
+    <string name="project_board_345">76#column-19128229</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
@@ -128,11 +128,4 @@
         <item>@string/whats_new_336_1</item>
         <item>@string/whats_new_336_2</item>
     </string-array>
-    <string-array name="whats_new_3441">
-        <item>@string/bug_fixes</item>
-    </string-array>
-    <string-array name="whats_new_3442">
-        <item>@string/performance_enhancement</item>
-    </string-array>
-
 </resources>
