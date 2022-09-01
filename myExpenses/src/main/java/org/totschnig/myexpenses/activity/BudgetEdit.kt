@@ -266,8 +266,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         binding.Title.setText(budget.title)
         binding.Description.setText(budget.description)
         populateAccount(budget.accountId)
-        binding.Amount.setAmount(budget.amount.amountMajor)
-        typeSpinnerHelper.setSelection(budget.grouping.ordinal)
+        if (!mNewInstance) {
+            binding.AmountRow.isVisible = false
+            typeSpinnerHelper.isEnabled = false
+        }
         configureTypeDependents(budget.grouping)
         binding.DefaultBudget.isChecked = budget.default
         if (resumedP) setupListeners()
@@ -335,25 +337,34 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (command == R.id.CREATE_COMMAND) {
-            validateAmountInput(binding.Amount, true)?.let { amount ->
-                val grouping = typeSpinnerHelper.selectedItem as Grouping
-                val start = if (grouping == Grouping.NONE) binding.DurationFrom.getDate() else null
-                val end = if (grouping == Grouping.NONE) binding.DurationTo.getDate() else null
-                if (end != null && start != null && end < start) {
-                    showDismissibleSnackBar(R.string.budget_date_end_after_start)
-                } else {
+            val grouping = typeSpinnerHelper.selectedItem as Grouping
+            val duration = if (grouping == Grouping.NONE) binding.DurationFrom.getDate() to binding.DurationTo.getDate() else null
+            if (duration != null && duration.second < duration.first) {
+                showDismissibleSnackBar(R.string.budget_date_end_after_start)
+            } else {
+                val allocation = validateAmountInput(binding.Amount, budgetId == 0L)
+                if (allocation != null || budgetId != 0L) {
                     val account: AccountMinimal = selectedAccount()
                     val currencyUnit = currencyContext[account.currency]
-                    val budget = Budget(budgetId, account.id,
-                            binding.Title.text.toString(), binding.Description.text.toString(), currencyUnit,
-                            Money(currencyUnit, amount),
-                            grouping,
-                            -1,
-                            start,
-                            end, null, binding.DefaultBudget.isChecked)
-                    viewModel.saveBudget(budget, filterPersistence.whereFilter)
-                }
+                    val initialAmount = if (budgetId == 0L) {
+                        Money(currencyUnit, allocation).amountMinor
+                    } else null
 
+                    val budget = Budget(
+                        budgetId,
+                        account.id,
+                        binding.Title.text.toString(),
+                        binding.Description.text.toString(),
+                        currencyUnit,
+                        grouping,
+                        -1,
+                        duration?.first,
+                        duration?.second,
+                        null,
+                        binding.DefaultBudget.isChecked
+                    )
+                    viewModel.saveBudget(budget, initialAmount, filterPersistence.whereFilter)
+                }
             }
             return true
         }

@@ -424,18 +424,22 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TITLE + " text not null default '', "
           + KEY_DESCRIPTION + " text not null, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
-          + KEY_BUDGET + " integer not null, "
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CURRENCY + " text, "
           + KEY_START + " datetime, "
           + KEY_END + " datetime)";
 
   private static final String BUDGETS_CATEGORY_CREATE =
-      "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
-          + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_BUDGET + " integer not null, "
-          + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "));";
+      "CREATE TABLE " + TABLE_BUDGET_ALLOCATIONS + " ( "
+          + KEY_BUDGETID + " integer not null references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_CATID + " integer not null references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_YEAR + " integer, "
+          + KEY_SECOND_GROUP + " integer, "
+          + KEY_BUDGET + " integer, "
+          + KEY_BUDGET_ROLLOVER_PREVIOUS + " integer, "
+          + KEY_BUDGET_ROLLOVER_NEXT + " integer, "
+          + KEY_ONE_TIME + " boolean default 0, "
+          + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "," + KEY_YEAR + "," + KEY_SECOND_GROUP + "));";
 
 
   private static final String SELECT_SEQUENCE_NUMBER_TEMPLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
@@ -779,7 +783,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshAccountMetadataTrigger(db);
     db.execSQL(BUDGETS_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
-    db.execSQL("CREATE INDEX budget_categories_cat_id_index on " + TABLE_BUDGET_CATEGORIES + "(" + KEY_CATID + ")");
+    db.execSQL("CREATE INDEX budget_allocations_cat_id_index on " + TABLE_BUDGET_ALLOCATIONS + "(" + KEY_CATID + ")");
 
     db.execSQL(TAGS_CREATE);
     db.execSQL(TRANSACTIONS_TAGS_CREATE);
@@ -2220,6 +2224,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 128) {
         upgradeTo128(db);
+      }
+      if (oldVersion < 129) {
+        upgradeTo129(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

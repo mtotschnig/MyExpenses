@@ -30,7 +30,6 @@ import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_POS
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -60,10 +59,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.filter.ConstantsKt.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
@@ -74,17 +69,14 @@ import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -135,7 +127,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -171,6 +162,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -179,6 +171,8 @@ import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
 import icepick.State;
+import kotlin.Pair;
+import kotlin.Triple;
 import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
@@ -255,10 +249,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   protected int columnIndexCurrency;
   private boolean indexesCalculated = false;
   protected Account mAccount;
-  private Money budget = null;
-  protected TransactionListViewModel viewModel;
   @Nullable
-  private ContentObserver budgetsObserver;
+  protected List<Triple<Integer, Long, Boolean>> budgetAmounts = null;
+  protected TransactionListViewModel viewModel;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -304,10 +297,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       Utils.requireLoader(mManager, SECTION_CURSOR, null, BaseTransactionList.this);
     });
     viewModel.getBudgetAmount().observe(this, budget -> {
-      if (this.budget != budget) {
-        this.budget = budget;
-        refresh(false);
-      }
+      this.budgetAmounts = budget;
+      refresh(false);
     });
     viewModel.getCloneAndRemapProgress().observe(this, result -> {
       ProtectedFragmentActivity context = (ProtectedFragmentActivity) getActivity();
@@ -328,38 +319,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       }
     });
     firstLoadCompleted = (savedInstanceState != null);
-    if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
-      budgetsObserver = new BudgetObserver();
-      requireContext().getContentResolver().registerContentObserver(
-          TransactionProvider.BUDGETS_URI,
-          true, budgetsObserver);
-    }
-  }
-
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    if (budgetsObserver != null) {
-      try {
-        ContentResolver cr = getContext().getContentResolver();
-        cr.unregisterContentObserver(budgetsObserver);
-      } catch (IllegalStateException ise) {
-        // Do Nothing.  Observer has already been unregistered.
-      }
-    }
-  }
-
-  private class BudgetObserver extends ContentObserver {
-    public BudgetObserver() {
-      super(new Handler());
-    }
-
-    @Override
-    public void onChange(boolean selfChange) {
-      if (mAccount != null) {
-        viewModel.loadBudget(mAccount);
-      }
-    }
   }
 
   private void setGrouping() {
@@ -706,7 +665,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (grouping.equals(Grouping.NONE)) {
       return 1;
     }
-    return year * 1000 + second;
+    return viewModel.calculateGroupId(year, second);
   }
 
   private int calculateHeaderId(int year, int second) {
@@ -740,6 +699,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   public boolean hasMappedCategories() {
     return mappedCategories;
   }
+
+  abstract @Nullable Long resolveBudget(int headerId);
 
   private class MyGroupedAdapter extends TransactionAdapter implements SectionIndexingStickyListHeadersAdapter {
     private final LayoutInflater inflater;
@@ -784,8 +745,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       HeaderViewHolder holder = null;
       final int headerId = getHeaderIdInt(position);
-      final boolean withBudget = BaseTransactionList.this.getFilter().isEmpty() &&
-          budget != null;
+      final Long budget = licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET) ? resolveBudget(headerId) : null;
+      final boolean withBudget = BaseTransactionList.this.getFilter().isEmpty() && budget != null;
 
       if (convertView != null) {
         holder = (HeaderViewHolder) convertView.getTag();
@@ -831,7 +792,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       Cursor c = getCursor();
       if (c != null) {
         c.moveToPosition(position);
-        fillSums(holder, headerId);
+        fillSums(holder, headerId, budget);
         holder.text().setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c),
             DateInfo.fromCursor(c), userLocaleProvider.getUserPreferredLocale()));
       }
@@ -839,7 +800,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
 
     @SuppressLint("SetTextI18n")
-    private void fillSums(HeaderViewHolder holder, long headerId) {
+    private void fillSums(HeaderViewHolder holder, int headerId, Long budget) {
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
         holder.sumIncome().setText("⊕ " + convAmount(currencyFormatter, data[0], mAccount.getCurrencyUnit()));
@@ -856,12 +817,17 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
                 convAmount(currencyFormatter, data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
         final DonutProgress budgetProgress = holder.budgetProgress();
-        if (budgetProgress != null && budget != null) {
-          long budgetAmountMinor = budget.getAmountMinor();
-          int progress = budgetAmountMinor == 0 ? 100 : Math.round(expensesSum * 100F / budgetAmountMinor);
-          UiUtils.configureProgress(budgetProgress, progress);
-          budgetProgress.setFinishedStrokeColor(mAccount.color);
-          budgetProgress.setUnfinishedStrokeColor(getComplementColor(mAccount.color));
+        if (budgetProgress != null) {
+          if (budget != null) {
+            int progress = budget == 0L ? 100 : Math.round(expensesSum * 100F / budget);
+            UiUtils.configureProgress(budgetProgress, progress);
+            budgetProgress.setFinishedStrokeColor(mAccount.color);
+            budgetProgress.setUnfinishedStrokeColor(getComplementColor(mAccount.color));
+            budgetProgress.setOnClickListener(v -> {
+              ((ProtectedFragmentActivity) requireActivity()).contribFeatureRequested(ContribFeature.BUDGET,
+                      new Pair<>(viewModel.getDefaultBudget(mAccount.getAccountId(), mAccount.getGrouping()), headerId));
+            });
+          }
         }
       }
     }

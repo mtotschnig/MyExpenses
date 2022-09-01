@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -14,8 +15,8 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 class BudgetEditViewModel(application: Application) : BudgetViewModel(application) {
     private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
 
-    fun saveBudget(budget: Budget, whereFilter: WhereFilter) {
-        val contentValues = budget.toContentValues()
+    fun saveBudget(budget: Budget, initialAmount: Long?, whereFilter: WhereFilter) {
+        val contentValues = budget.toContentValues(initialAmount)
         if (budget.id == 0L) {
             databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
                 override fun onInsertComplete(token: Int, uri: Uri?) {

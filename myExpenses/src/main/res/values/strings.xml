@@ -1045,4 +1045,10 @@
     <string name="whats_new_344">Icons for categories</string>
     <!-- Shown after validation of a form below a required text field if user did not provide value -->
     <string name="required">Required</string>
+    <!-- This is the label for a checkbox allowing to modify a budget only for one period (year, month, week, day). %s will be replaced by the description of the period, e.g. August 2022 -->
+    <string name="budget_only_current_period">Set only for %s</string>
+    <!-- Rollover refers to the rollover of a budget from one period to the next, e.g. for a monthly budget from one month to the next. -->
+    <string name="budget_table_header_rollover">Rollover</string>
+    <string name="rollover_edit_invalid">The sum of the rollover assigned to a category and the rollovers assigned to subcategories cannot exceed the remainder.</string>
+    <string name="dialog_confirm_rollover_delete">All rollover amounts for this period will be deleted.</string>
 </resources>

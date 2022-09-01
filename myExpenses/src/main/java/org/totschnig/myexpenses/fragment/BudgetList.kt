@@ -9,42 +9,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import eltos.simpledialogfragment.SimpleDialog
-import eltos.simpledialogfragment.form.SimpleFormDialog
 import icepick.State
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
-import org.totschnig.myexpenses.activity.BudgetActivity.Companion.EDIT_BUDGET_DIALOG
 import org.totschnig.myexpenses.databinding.BudgetListRowBinding
 import org.totschnig.myexpenses.databinding.BudgetsBinding
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.addChipsBulk
-import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
-import java.math.BigDecimal
 import javax.inject.Inject
 
-class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
+class BudgetList : Fragment() {
     private var _binding: BudgetsBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: BudgetViewModel
-    private var position2Spent: Array<Long?>? = null
+    private var budgetAmounts: MutableMap<Long, Pair<Long, Long>?> = mutableMapOf()
 
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
+
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -52,7 +49,11 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
     @JvmField
     var lastClickedPosition: Int? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = BudgetsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -74,18 +75,20 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                 addItemDecoration(DividerItemDecoration(activity, it.orientation))
             }
         }
-        viewModel.data.observe(viewLifecycleOwner, {
-            position2Spent = arrayOfNulls(it.size)
+        viewModel.data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.empty.isVisible = it.isEmpty()
             binding.recyclerView.isVisible = it.isNotEmpty()
-        })
-        viewModel.spent.observe(viewLifecycleOwner, { spent ->
-            position2Spent?.takeIf { it.size > spent.first  }?.let {
-                it[spent.first] = spent.second
-                adapter.notifyItemChanged(spent.first)
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.amounts.collect { tuple ->
+                    val (position, id, spent, allocated) = tuple
+                    budgetAmounts[id] = spent to allocated
+                    adapter.notifyItemChanged(position)
+                }
             }
-        })
+        }
         binding.recyclerView.adapter = adapter
         viewModel.loadAllBudgets()
     }
@@ -93,15 +96,6 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if (which == SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE && dialogTag == EDIT_BUDGET_DIALOG) {
-            val amount = Money(extras.getSerializable(KEY_CURRENCY) as CurrencyUnit, extras.getSerializable(KEY_AMOUNT) as BigDecimal)
-            viewModel.updateBudget(extras.getLong(KEY_ROWID), 0L, amount)
-            return true
-        }
-        return false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,7 +108,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
     }
 
     inner class BudgetsAdapter(val context: Context) :
-            ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
+        ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
 
         init {
             setHasStableIds(true)
@@ -129,27 +123,26 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
             getItem(position).let { budget ->
                 with(holder.binding) {
                     Title.text = budget.titleComplete(context)
-                    val spent = position2Spent?.get(position) ?: run {
-                        viewModel.loadBudgetSpend(position, budget)
-                        0L
+                    val (spent, allocated) = budgetAmounts[budget.id] ?: run {
+                        viewModel.loadBudgetAmounts(position, budget)
+                        0L to 0L
                     }
-                    budgetSummary.bind(budget, -spent, currencyFormatter)
-                    budgetSummary.setOnBudgetClickListener {
-                        SimpleFormDialog.build()
-                                .title(getString(R.string.dialog_title_edit_budget))
-                                .neg()
-                                .extra(Bundle(2).apply {
-                                    putSerializable(KEY_CURRENCY, budget.currency)
-                                    putLong(KEY_ROWID, budget.id)
-                                })
-                                .fields(buildAmountField(budget.amount, context))
-                                .show(this@BudgetList, EDIT_BUDGET_DIALOG)
-                    }
+                    budgetSummary.bind(budget, -spent, allocated, currencyFormatter)
 
                     val filterList = mutableListOf<String>()
                     filterList.add(budget.label(requireContext()))
-                    val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, immediatePersist = false, restoreFromPreferences = true)
-                    filterPersistence.whereFilter.criteria.forEach { criterion -> filterList.add(criterion.prettyPrint(context)) }
+                    val filterPersistence = FilterPersistence(
+                        prefHandler,
+                        BudgetViewModel.prefNameForCriteria(budget.id),
+                        null,
+                        immediatePersist = false,
+                        restoreFromPreferences = true
+                    )
+                    filterPersistence.whereFilter.criteria.forEach { criterion ->
+                        filterList.add(
+                            criterion.prettyPrint(context)
+                        )
+                    }
                     filter.addChipsBulk(filterList)
                     root.setOnClickListener {
                         val i = Intent(context, BudgetActivity::class.java)

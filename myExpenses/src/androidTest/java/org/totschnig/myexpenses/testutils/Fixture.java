@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -260,8 +261,8 @@ public class Fixture {
     if (templateuri == null)
       throw new RuntimeException("Could not save template");
 
-    Budget budget = new Budget(0L, account1.getId(), testContext.getString(R.string.testData_account1Description), "DESCRIPTION", defaultCurrency, new Money(defaultCurrency, 200000L), Grouping.MONTH, -1, (LocalDate) null, (LocalDate) null, account1.getLabel(), true);
-    long budgetId = ContentUris.parseId(appContext.getContentResolver().insert(TransactionProvider.BUDGETS_URI, budget.toContentValues()));
+    Budget budget = new Budget(0L, account1.getId(), testContext.getString(R.string.testData_account1Description), "DESCRIPTION", defaultCurrency, Grouping.MONTH, -1, (LocalDate) null, (LocalDate) null, account1.getLabel(), true);
+    long budgetId = ContentUris.parseId(appContext.getContentResolver().insert(TransactionProvider.BUDGETS_URI, budget.toContentValues(200000L)));
     setCategoryBudget(budgetId, mainCat1, 50000);
     setCategoryBudget(budgetId, mainCat2, 40000);
     setCategoryBudget(budgetId, mainCat3, 30000);
@@ -271,6 +272,9 @@ public class Fixture {
   public void setCategoryBudget(long budgetId, long categoryId, long amount) {
     ContentValues contentValues = new ContentValues(1);
     contentValues.put(KEY_BUDGET, amount);
+    LocalDate now = LocalDate.now();
+    contentValues.put(DatabaseConstants.KEY_YEAR, now.getYear());
+    contentValues.put(DatabaseConstants.KEY_SECOND_GROUP, now.getMonthValue() -1);
     final Uri budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId);
     int result = appContext.getContentResolver().update(ContentUris.withAppendedId(budgetUri, categoryId),
         contentValues, null, null);

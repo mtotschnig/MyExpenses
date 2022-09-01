@@ -25,7 +25,6 @@
         android:id="@+id/budgetSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:withAllocated="false"
         app:layout_constraintTop_toBottomOf="@+id/filter"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

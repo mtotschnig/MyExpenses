@@ -21,7 +21,7 @@ data class Category(
     val color: Int? = null,
     val icon: String? = null,
     val sum: Long = 0L,
-    val budget: Long = 0L
+    val budget: BudgetAllocation = BudgetAllocation.EMPTY
 ) : Parcelable, Serializable {
 
     fun flatten(): List<Category> = buildList {
@@ -51,7 +51,7 @@ data class Category(
 
 
     fun sortChildrenByBudgetRecursive(): Category = if (children.isEmpty()) this else
-        copy(children = children.sortedByDescending { it.budget }.map {
+        copy(children = children.sortedByDescending { it.budget.totalAllocated }.map {
             it.sortChildrenByBudgetRecursive()
         })
 
@@ -69,6 +69,9 @@ data class Category(
     @IgnoredOnParcel
     val aggregateSum: Long
         get() = sum + if (level == 0) 0 else children.sumOf { it.aggregateSum }
+
+    val hasRolloverNext: Boolean
+        get() = budget.rollOverNext != 0L || children.any { it.budget.rollOverNext != 0L }
 
     companion object {
         val LOADING = Category(label = "EMPTY")

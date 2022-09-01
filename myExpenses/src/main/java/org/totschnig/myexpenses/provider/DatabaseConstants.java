@@ -227,6 +227,18 @@ public class DatabaseConstants {
   public static final String KEY_BUDGET = "budget";
 
   /**
+   * For each budget allocation, we also store a potential rollover from the previous period
+   */
+  public static final String KEY_BUDGET_ROLLOVER_PREVIOUS = "rollOverPrevious";
+
+  /**
+   * Rollover amounts are stored redundantly, both for the period with the leftover, and for the next
+   * period where it rolls to. Thus we can display this information for both periods, without
+   * needing to calculate or lookup
+   */
+  public static final String KEY_BUDGET_ROLLOVER_NEXT = "rollOverNext";
+
+  /**
    * boolean flag for accounts: An archived account is not displayed
    */
   public static final String KEY_HIDDEN = "hidden";
@@ -242,6 +254,11 @@ public class DatabaseConstants {
   public static final String KEY_ICON = "icon";
 
   public static final String KEY_HAS_DESCENDANTS = "hasDescendants";
+
+  /**
+   * flag for budget amounts that only apply to one period
+   */
+  public static final String KEY_ONE_TIME = "oneTime";
 
   /**
    * No special status
@@ -297,18 +314,13 @@ public class DatabaseConstants {
   public static final String TABLE_EVENT_CACHE = "event_cache";
 
   public static final String TABLE_BUDGETS = "budgets";
-  public static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
+  public static final String TABLE_BUDGET_ALLOCATIONS = "budget_allocations";
 
   public static final String TABLE_DEBTS = "debts";
 
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 
   public static final String TRANSFER_ACCOUNT_UUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
-
-  /**
-   * fully qualified column name for categories budget table
-   */
-  public static final String FQCN_CATEGORIES_BUDGET = TABLE_BUDGET_CATEGORIES + "." + KEY_BUDGET;
 
   public static final String TRANSFER_PEER_PARENT =
       "(SELECT " + KEY_PARENTID

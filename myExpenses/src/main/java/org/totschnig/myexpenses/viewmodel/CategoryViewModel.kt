@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 
@@ -112,8 +113,15 @@ open class CategoryViewModel(
         Timber.d("new emission: $filter/$sort")
         filter to sort
     }.flatMapLatest { (filter, sortOrder) ->
+        val (selection, selectionArgs) = if (filter.isNotBlank()) {
+            val selectionArgs =
+                arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
+            //The filter is applied twice in the CTE
+            "$KEY_LABEL_NORMALIZED LIKE ?" to selectionArgs + selectionArgs
+        } else null to emptyArray()
         categoryTree(
-            filter = filter,
+            selection = selection,
+            selectionArgs = selectionArgs,
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort),
             projection = null,
             keepCriteria = null,
@@ -123,24 +131,18 @@ open class CategoryViewModel(
         .stateIn(viewModelScope, SharingStarted.Lazily, Category.LOADING)
 
     val categoryTreeForSelect: Flow<Category>
-        get() = categoryTree("", sortOrder.value.toOrderByWithDefault(defaultSort))
+        get() = categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort))
 
     fun categoryTree(
-        filter: String?,
+        selection: String? = null,
+        selectionArgs: Array<String> = emptyArray(),
         sortOrder: String? = null,
         projection: Array<String>? = null,
         additionalSelectionArgs: Array<String>? = null,
-        queryParameter: String? = null,
+        queryParameter: Map<String, String> = emptyMap(),
         keepCriteria: ((Category) -> Boolean)? = null,
         withColors: Boolean = true
     ): Flow<Category> {
-        val (selection, selectionArgs) = if (filter?.isNotBlank() == true) {
-            val selectionArgs =
-                arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
-            //The filter is applied twice in the CTE
-            "$KEY_LABEL_NORMALIZED LIKE ?" to selectionArgs + selectionArgs
-        } else null to emptyArray()
-
         return contentResolver.observeQuery(
             categoryUri(queryParameter),
             projection,
@@ -151,12 +153,12 @@ open class CategoryViewModel(
         ).mapToTree(keepCriteria, withColors)
     }
 
-    private fun categoryUri(queryParameter: String?): Uri =
+    private fun categoryUri(queryParameter: Map<String, String>): Uri =
         TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
             .apply {
-                queryParameter?.let {
-                    appendQueryParameter(it, "1")
+                queryParameter.forEach {
+                    appendQueryParameter(it.key, it.value)
                 }
             }
             .build()
@@ -393,6 +395,13 @@ open class CategoryViewModel(
                             ?.let { cursor.getLong(it) } ?: 0L
                         val nextBudget = cursor.getColumnIndex(KEY_BUDGET).takeIf { it != -1 }
                             ?.let { cursor.getLong(it) } ?: 0L
+                        val nextBudgetRollOverPrevious = cursor.getColumnIndex(
+                            KEY_BUDGET_ROLLOVER_PREVIOUS).takeIf { it != -1 }
+                            ?.let { cursor.getLong(it) } ?: 0L
+                        val nextBudgetRollOverNext = cursor.getColumnIndex(KEY_BUDGET_ROLLOVER_NEXT).takeIf { it != -1 }
+                            ?.let { cursor.getLong(it) } ?: 0L
+                        val nextBudgetOneTime = cursor.getColumnIndex(KEY_ONE_TIME).takeIf { it != -1 }
+                            ?.let { cursor.getInt(it) != 0 } ?: false
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()
@@ -414,7 +423,7 @@ open class CategoryViewModel(
                                     nextColor,
                                     nextIcon,
                                     nextSum,
-                                    nextBudget
+                                    BudgetAllocation(nextBudget, nextBudgetRollOverPrevious, nextBudgetRollOverNext, nextBudgetOneTime)
                                 )
                             )
                             index++

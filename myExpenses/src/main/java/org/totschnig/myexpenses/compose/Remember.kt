@@ -19,6 +19,19 @@ fun <T> rememberMutableStateListOf(vararg elements: T): SnapshotStateList<T> {
     }
 }
 
+// Currently not needed, but might be in the future
+/*@Composable
+fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>) : SnapshotStateMap<K, V> {
+    return rememberSaveable(
+        saver = listSaver(
+            save = { it.toList() },
+            restore = { it.toMutableStateMap() }
+        )
+    ) {
+        pairs.toList().toMutableStateMap()
+    }
+}*/
+
 /**
  * true if element was added, false if it was removed
  */

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider
 
+import android.net.Uri
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
@@ -35,14 +36,78 @@ fun categoryTreeSelect(
     projection: Array<String>? = null,
     selection: String? = null,
     rootExpression: String? = null,
-    tableJoin: String = "",
     categorySeparator: String? = null
 ) = categoryTreeCTE(
     rootExpression = rootExpression,
     sortOrder = sortOrder,
     matches = matches,
     categorySeparator = categorySeparator
-) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree $tableJoin  ${selection?.let { "WHERE $it" } ?: ""}"
+) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+
+fun budgetColumn(year: String?, second: String?): String {
+    val mainSelect = subSelectFromAllocations(
+        KEY_BUDGET,
+        year,
+        second,
+        false
+    )
+    return (if (year == null) mainSelect else "coalesce($mainSelect," +
+            "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND (coalesce($KEY_YEAR,0) < $year ${second?.let { " OR (coalesce($KEY_YEAR,0) = $year AND coalesce($KEY_SECOND_GROUP,0) < $it)" } ?: ""}) ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1))") +
+            " AS $KEY_BUDGET"
+}
+
+fun subSelectFromAllocations(
+    column: String,
+    year: String?,
+    second: String?,
+    withAlias: Boolean = true
+) =
+    "(SELECT $column from Allocations ${budgetSelectForGroup(year, second)})" +
+            if (withAlias) " AS $column" else ""
+
+
+fun categoryTreeWithBudget(
+    sortOrder: String? = null,
+    selection: String? = null,
+    projection: Array<String>,
+    year: String?,
+    second: String?
+): String {
+    val map = projection.map {
+        when (it) {
+            KEY_BUDGET -> budgetColumn(year, second)
+            KEY_BUDGET_ROLLOVER_NEXT, KEY_BUDGET_ROLLOVER_PREVIOUS, KEY_ONE_TIME ->
+                subSelectFromAllocations(it, year, second)
+            else -> it
+        }
+    }
+    return categoryTreeCTE(sortOrder = sortOrder) +
+            ", ${budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = ?")}" +
+            " SELECT ${map.joinToString()} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+}
+
+fun budgetAllocationsCTE(budgetSelect: String) =
+    "Allocations AS (SELECT $KEY_BUDGET, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ONE_TIME, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT FROM $TABLE_BUDGET_ALLOCATIONS WHERE $budgetSelect)"
+
+fun parseBudgetCategoryUri(uri: Uri) = uri.pathSegments.let { it[1] to it[2] }
+
+fun budgetSelect(uri: Uri) = with(parseBudgetCategoryUri(uri)) {
+    "$KEY_CATID ${"= $second"} AND $KEY_BUDGETID = $first"
+}
+
+fun budgetSelectForGroup(year: String?, second: String?) =
+    if (year == null) "" else "WHERE $KEY_YEAR = $year ${second?.let { "AND $KEY_SECOND_GROUP = $it" } ?: ""}"
+
+fun budgetAllocation(uri: Uri): String {
+    val year = uri.getQueryParameter(KEY_YEAR)
+    val second = uri.getQueryParameter(KEY_SECOND_GROUP)
+    val cte = budgetAllocationsCTE(budgetSelect(uri))
+    return "WITH $cte SELECT " +
+            budgetColumn(year, second) + "," +
+            subSelectFromAllocations(KEY_BUDGET_ROLLOVER_PREVIOUS, year, second) + "," +
+            subSelectFromAllocations(KEY_BUDGET_ROLLOVER_NEXT, year, second) + "," +
+            subSelectFromAllocations(KEY_ONE_TIME, year, second)
+}
 
 fun categoryTreeWithMappedObjects(
     selection: String,
@@ -63,7 +128,7 @@ fun categoryTreeWithMappedObjects(
         when (it) {
             KEY_MAPPED_TRANSACTIONS -> subQuery(TABLE_TRANSACTIONS, it, aggregate)
             KEY_MAPPED_TEMPLATES -> subQuery(TABLE_TEMPLATES, it, aggregate)
-            KEY_MAPPED_BUDGETS -> subQuery(TABLE_BUDGET_CATEGORIES, it, aggregate)
+            KEY_MAPPED_BUDGETS -> subQuery(TABLE_BUDGET_ALLOCATIONS, it, aggregate)
             KEY_HAS_DESCENDANTS -> wrapQuery(
                 "(select count(*) FROM $TREE_CATEGORIES) > 1",
                 it,
@@ -82,9 +147,11 @@ fun categoryTreeWithMappedObjects(
         """.trimIndent()
 }
 
-fun labelEscapedForQif(tableName: String) = "replace(replace($tableName.$KEY_LABEL,'/','\\u002F'), ':','\\u003A')"
+fun labelEscapedForQif(tableName: String) =
+    "replace(replace($tableName.$KEY_LABEL,'/','\\u002F'), ':','\\u003A')"
 
-fun maybeEscapeLabel(categorySeparator: String?, tableName: String) = if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
+fun maybeEscapeLabel(categorySeparator: String?, tableName: String) =
+    if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
 
 val categoryTreeForView = """
     WITH Tree as (
@@ -125,7 +192,12 @@ WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
 UNION ALL
 SELECT
     subtree.$KEY_LABEL,
-    Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${maybeEscapeLabel(categorySeparator, "subtree")},
+    Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${
+    maybeEscapeLabel(
+        categorySeparator,
+        "subtree"
+    )
+},
     subtree.$KEY_COLOR,
     subtree.$KEY_ICON,
     subtree.$KEY_ROWID,
@@ -141,12 +213,8 @@ ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
 """.trimIndent()
 
 fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
-    null,
-    null,
-    arrayOf(KEY_PATH),
-    "$KEY_ROWID = $KEY_CATID",
-    null,
-    "",
+    projection = arrayOf(KEY_PATH),
+    selection = "$KEY_ROWID = $KEY_CATID",
     categorySeparator = categorySeparator
 ) + ")"
 
@@ -167,7 +235,11 @@ const val FULL_LABEL =
 const val TRANSFER_ACCOUNT_LABEL =
     "CASE WHEN  $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS  $KEY_TRANSFER_ACCOUNT_LABEL"
 
-fun accountQueryCTE(homeCurrency: String, futureStartsNow: Boolean, aggregateFunction: String): String {
+fun accountQueryCTE(
+    homeCurrency: String,
+    futureStartsNow: Boolean,
+    aggregateFunction: String
+): String {
     val futureCriterion =
         if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
 

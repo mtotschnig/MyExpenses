@@ -13,14 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:minHeight="48dp"
             android:text="@string/budget_table_header_budgeted" />
-
-        <TextView
-            android:id="@+id/allocatedLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/budget_table_header_allocated" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,19 +33,10 @@
         android:id="@+id/budgetContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:showIn="@layout/budget_row">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/totalBudget"
-            style="@style/BudgetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            tools:text="1000000" />
-
-        <TextView
-            android:id="@+id/totalAllocated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

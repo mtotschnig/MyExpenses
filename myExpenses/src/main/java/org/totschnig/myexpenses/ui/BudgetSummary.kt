@@ -23,30 +23,11 @@ class BudgetSummary @JvmOverloads constructor(
     private val binding = BudgetSummaryBinding.inflate(LayoutInflater.from(context), this)
     private val tableBinding = BudgetTotalTableBinding.bind(binding.root)
 
-    init {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.BudgetSummary)
-        val withAllocated = ta.getBoolean(R.styleable.BudgetSummary_withAllocated, true)
-        ta.recycle()
-        if (!withAllocated) {
-            tableBinding.allocatedLabel.isVisible = false
-            tableBinding.totalAllocated.isVisible = false
-        }
-    }
-
-    fun setOnBudgetClickListener(listener: OnClickListener) {
-        tableBinding.totalBudget.setOnClickListener(listener)
-    }
-
-    fun setAllocated(allocated: String) {
-        tableBinding.totalAllocated.text = allocated
-    }
-
-    fun bind(budget: Budget, spent: Long, currencyFormatter: CurrencyFormatter) {
+    fun bind(budget: Budget, spent: Long, allocated: Long, currencyFormatter: CurrencyFormatter) {
         binding.budgetProgressTotal.finishedStrokeColor = budget.color
         binding.budgetProgressTotal.unfinishedStrokeColor = getComplementColor(budget.color)
-        tableBinding.totalBudget.text = currencyFormatter.formatMoney(budget.amount)
+        tableBinding.totalBudget.text = currencyFormatter.formatMoney(Money(budget.currency, allocated))
         tableBinding.totalAmount.text = currencyFormatter.formatMoney(Money(budget.currency, -spent))
-        val allocated = budget.amount.amountMinor
         val available = allocated - spent
         tableBinding.totalAvailable.text = currencyFormatter.formatMoney(Money(budget.currency, available))
         val onBudget = available >= 0

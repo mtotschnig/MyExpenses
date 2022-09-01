@@ -162,6 +162,8 @@
     <item name="COLOR_COMMAND" type="id" />
     <item name="BUDGET_COMMAND" type="id" />
     <item name="MANAGE_CATEGORIES_COMMAND" type="id" />
+    <item name="BACK_COMMAND" type="id" />
+    <item name="FORWARD_COMMAND" type="id" />
     <item name="ROADMAP_COMMAND" type="id" />
     <item name="HIDE_ACCOUNT_COMMAND" type="id" />
     <item name="CLOSE_ACCOUNT_COMMAND" type="id" />
@@ -195,4 +197,9 @@
     <item name="DELETE_DEBT_COMMAND" type="id" />
     <item name="TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP" type="id" />
     <item name="PURGE_BACKUPS_COMMAND" type="id" />
+    <item name="ROLLOVER_COMMAND" type="id" />
+    <item name="ROLLOVER_TOTAL" type="id" />
+    <item name="ROLLOVER_CATEGORIES" type="id" />
+    <item name="ROLLOVER_EDIT" type="id" />
+    <item name="ROLLOVER_CLEAR" type="id" />
 </resources>

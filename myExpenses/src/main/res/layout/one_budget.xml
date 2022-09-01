@@ -78,7 +78,7 @@
                         tools:targetApi="o" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow android:id="@+id/AmountRow">
 
                     <TextView
                         android:id="@+id/AmountLabel"

@@ -203,9 +203,10 @@
     </string-array>
 
     <string-array name="BudgetActivity_menuitems" tools:ignore="UnusedResources">
-        <item>edit</item>
-        <item>manage_categories</item>
         <item>back.forward</item>
+        <item>edit</item>
+        <item>rollover</item>
+        <item>manage_categories</item>
         <item>budget_aggregate</item>
         <item>budget_allocated_only</item>
         <item>delete</item>
@@ -397,7 +398,7 @@
     </string-array>
 
     <string-array name="form_split_parts_heading_help_text">
-        <item>form_split_parts_heading_help_text_1</item>
+        <item tools:ignore="Typos">form_split_parts_heading_help_text_1</item>
         <item>form_split_parts_heading_help_text_2</item>
         <item>form_split_parts_heading_help_text_3</item>
     </string-array>
@@ -504,12 +505,12 @@
     <string-array name="help_BudgetActivity_info" tools:ignore="UnusedResources">
         <item>help_BudgetActivity_info</item>
         <item>help_Budget_amount_click</item>
+        <item tools:ignore="Typos">help_Budget_amount_click_1</item>
         <item>help_Budget_spent_click</item>
     </string-array>
 
     <string-array name="help_ManageBudgets_info" tools:ignore="UnusedResources">
         <item>help_ManageBudgets_info</item>
-        <item>help_Budget_amount_click</item>
     </string-array>
 
     <string-array name="help_ManageTags_select_mapping_info" tools:ignore="UnusedResources">
@@ -549,7 +550,7 @@
     </string-array>
 
     <string-array name="help_WebUI_info">
-        <item>help_WebUI_info_1</item>
+        <item tools:ignore="Typos">help_WebUI_info_1</item>
         <item>help_WebUI_info_2</item>
         <item>help_WebUI_info_3</item>
         <item>help_WebUI_info_4</item>

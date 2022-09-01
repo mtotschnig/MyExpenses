@@ -192,7 +192,7 @@ class TransactionList : BaseTransactionList() {
         val ctx = requireActivity() as MyExpenses
         headerData?.get(headerId)?.get(6)?.let {
             if (it > 0) {
-                ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId)
+                ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId.toInt())
             } else {
                 ctx.showSnackBar(R.string.no_mapped_transactions)
             }
@@ -618,6 +618,16 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
+    /**
+     * reimplement DbConstants.budgetColumn outside of Database
+     */
+    override fun resolveBudget(headerId: Int): Long? {
+        return budgetAmounts?.let { budgetAmounts ->
+            budgetAmounts.find { it.first == headerId } ?:
+            budgetAmounts.last { !it.third && it.first < headerId } ?:
+            budgetAmounts.first { !it.third }
+        }?.second
+    }
 }
 
 class ConfirmTagDialogFragment : DialogFragment() {

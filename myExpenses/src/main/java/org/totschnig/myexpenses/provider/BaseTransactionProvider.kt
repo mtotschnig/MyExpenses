@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -74,9 +75,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
 
-        fun categoryBudgetJoin(joinType: String) =
-            " $joinType JOIN $TABLE_BUDGET_CATEGORIES ON ($KEY_CATID = $TREE_CATEGORIES.$KEY_ROWID AND $TABLE_BUDGET_CATEGORIES.$KEY_BUDGETID = ?)"
-
         /**
          * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
          */
@@ -118,6 +116,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)
 
+    val budgetTableJoin =
+        "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"
 
     private val fullAccountProjection =
         Account.PROJECTION_BASE.copyOf(Account.PROJECTION_BASE.size + 13).also {
@@ -363,6 +363,56 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } finally {
             transactionDatabase.readableDatabase.endTransaction()
         }
+    }
+
+    fun budgetCategoryUpsert(db: SQLiteDatabase, uri: Uri, values: ContentValues): Int {
+        val (budgetId, catId) = parseBudgetCategoryUri(uri)
+        val year: String = values.getAsString(KEY_YEAR)
+        val second: String = values.getAsString(KEY_SECOND_GROUP)
+        val budget: String? = values.getAsString(KEY_BUDGET)
+        val oneTime: String? = values.getAsBoolean(KEY_ONE_TIME)?.let { if (it) "1" else "0" }
+        val rollOverPrevious: String? = values.getAsString(KEY_BUDGET_ROLLOVER_PREVIOUS)
+        val rollOverNext: String? = values.getAsString(KEY_BUDGET_ROLLOVER_NEXT)
+        check(
+            (budget != null && rollOverNext == null && rollOverPrevious == null) ||
+                    (budget == null && oneTime == null && year != "-1" &&
+                            (rollOverNext != null).xor(rollOverPrevious != null)
+                            )
+        )
+        val statementBuilder = StringBuilder()
+        statementBuilder.append("INSERT OR REPLACE INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) ")
+        statementBuilder.append("VALUES (?,?,?,?,")
+        val baseArgs = listOf(budgetId, catId, year, second)
+        val argsList = mutableListOf<String>()
+        argsList.addAll(baseArgs)
+        if (rollOverPrevious == null) {
+            statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
+            argsList.addAll(baseArgs)
+        } else {
+            statementBuilder.append("?,")
+            argsList.add(rollOverPrevious)
+        }
+        if (rollOverNext == null) {
+            statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_NEXT from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
+            argsList.addAll(baseArgs)
+        } else {
+            statementBuilder.append("?,")
+            argsList.add(rollOverNext)
+        }
+        if (budget != null) {
+            statementBuilder.append("?,?)")
+            argsList.add(budget)
+            argsList.add(oneTime ?: "1")
+        } else {
+            statementBuilder.append("(select $KEY_BUDGET from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
+            statementBuilder.append("(select $KEY_ONE_TIME from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?))")
+            argsList.addAll(baseArgs)
+            argsList.addAll(baseArgs)
+        }
+        val statement = db.compileStatement(statementBuilder.toString())
+        statement.bindAllArgsAsStrings(argsList.toTypedArray())
+        log("$statement - ${argsList.joinToString()}")
+        return statement.executeUpdateDelete()
     }
 
     /**

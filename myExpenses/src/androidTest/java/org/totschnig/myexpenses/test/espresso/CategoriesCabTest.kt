@@ -83,14 +83,16 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
 
     private fun fixtureWithMappedBudget() {
         baseFixture()
-        val budget = Budget(0L, account.id, "TITLE", "DESCRIPTION", currency, Money(currency, 200000L), Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.label, true)
-        val budgetId = ContentUris.parseId(contentResolver.insert(TransactionProvider.BUDGETS_URI, budget.toContentValues())!!)
+        val budget = Budget(0L, account.id, "TITLE", "DESCRIPTION", currency, Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.label, true)
+        val budgetId = ContentUris.parseId(contentResolver.insert(TransactionProvider.BUDGETS_URI, budget.toContentValues(200000L))!!)
         setCategoryBudget(budgetId, categoryId, 50000)
     }
 
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, @Suppress("SameParameterValue") amount: Long) {
         with(ContentValues(1)) {
             put(DatabaseConstants.KEY_BUDGET, amount)
+            put(DatabaseConstants.KEY_YEAR, 2022)
+            put(DatabaseConstants.KEY_SECOND_GROUP, 7)
             contentResolver.update(appendId(appendId(TransactionProvider.BUDGETS_URI.buildUpon(), budgetId), categoryId).build(),
                     this, null, null)
         }

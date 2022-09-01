@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@id/BACK_COMMAND"
+        android:icon="@drawable/ic_menu_back"
+        android:title="@string/menu_back"
+        app:showAsAction="always"/>
+    <item
+        android:id="@id/FORWARD_COMMAND"
+        android:icon="@drawable/ic_menu_forward"
+        android:title="@string/menu_forward"
+        app:showAsAction="always"/>
+    <item
         android:id="@id/EDIT_COMMAND"
         android:icon="@drawable/ic_menu_edit"
         app:showAsAction="ifRoom"
@@ -20,19 +30,17 @@
             </group>
         </menu>
     </item>
+    <item android:id="@id/ROLLOVER_COMMAND" android:title="@string/budget_table_header_rollover" app:showAsAction="ifRoom" android:enabled="false">
+        <menu>
+            <item android:id="@id/ROLLOVER_TOTAL" android:title="@string/menu_aggregates"/>
+            <item android:id="@id/ROLLOVER_CATEGORIES" android:title="@string/pref_manage_categories_title"/>
+            <item android:id="@id/ROLLOVER_EDIT" android:title="@string/menu_edit"/>
+            <item android:id="@id/ROLLOVER_CLEAR" android:title="@string/menu_delete"/>
+        </menu>
+    </item>
     <item
-        android:id="@+id/MANAGE_CATEGORIES_COMMAND"
+        android:id="@id/MANAGE_CATEGORIES_COMMAND"
         android:title="@string/menu_manage_categories"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/BACK_COMMAND"
-        android:icon="@drawable/ic_menu_back"
-        android:title="@string/menu_back"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/FORWARD_COMMAND"
-        android:icon="@drawable/ic_menu_forward"
-        android:title="@string/menu_forward"
         app:showAsAction="never"/>
     <item
         android:id="@id/TOGGLE_AGGREGATE_TYPES"

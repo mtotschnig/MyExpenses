@@ -12,9 +12,6 @@ import java.util.*
 fun getBackgroundForAvailable(onBudget: Boolean): Int {
     return if (onBudget) R.drawable.round_background_income else R.drawable.round_background_expense
 }
-fun buildAmountField(amount: Money, context: Context): AmountEdit? {
-    return buildAmountField(amount, null, null, 0, context)
-}
 
 fun buildAmountField(
     amount: Money, max: BigDecimal?, min: BigDecimal?,

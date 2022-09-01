@@ -584,26 +584,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         invalidateOptionsMenu()
     }
 
+    private fun Intent.fillIntentForGroupingFromTag(tag: Int) {
+        val year = (tag / 1000).toInt()
+        val groupingSecond = (tag % 1000).toInt()
+        putExtra(KEY_YEAR, year)
+        putExtra(KEY_SECOND_GROUP, groupingSecond)
+    }
+
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         @Suppress("NON_EXHAUSTIVE_WHEN")
         when (feature) {
             ContribFeature.DISTRIBUTION -> {
-                accountsCursor?.let {
-                    it.moveToPosition(currentPosition)
+                ensureAccountCursorAtCurrentPosition()?.let {
                     recordUsage(feature)
-                    val i = Intent(this, DistributionActivity::class.java)
-                    i.putExtra(KEY_ACCOUNTID, accountId)
-                    i.putExtra(
-                        KEY_GROUPING,
-                        it.getString(KEY_GROUPING)
-                    )
-                    if (tag != null) {
-                        val year = ((tag as Long?)!! / 1000).toInt()
-                        val groupingSecond = ((tag as Long?)!! % 1000).toInt()
-                        i.putExtra(KEY_YEAR, year)
-                        i.putExtra(KEY_SECOND_GROUP, groupingSecond)
-                    }
-                    startActivity(i)
+                    startActivity(Intent(this, DistributionActivity::class.java).apply {
+                        putExtra(KEY_ACCOUNTID, accountId)
+                        putExtra(KEY_GROUPING, it.getString(KEY_GROUPING))
+                        (tag as? Int)?.let { tag -> fillIntentForGroupingFromTag(tag) }
+                    })
                 }
             }
             ContribFeature.HISTORY -> {
@@ -674,7 +672,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             ContribFeature.BUDGET -> {
-                if (accountId != 0L && currentCurrency != null) {
+                if (tag != null) {
+                    val (budgetId, headerId) = tag as Pair<Long, Int>
+                    startActivity(Intent(this, BudgetActivity::class.java).apply {
+                        putExtra(KEY_ROWID, budgetId)
+                        fillIntentForGroupingFromTag(headerId)
+                    })
+                } else if (accountId != 0L && currentCurrency != null) {
                     recordUsage(feature)
                     val i = Intent(this, ManageBudgets::class.java)
                     startActivity(i)

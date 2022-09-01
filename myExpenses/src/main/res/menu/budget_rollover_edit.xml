@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/menu_save" android:id="@+id/ROLLOVER_EDIT_SAVE" android:icon="@drawable/ic_menu_done" app:showAsAction="always" />
+    <item android:title="@android:string/cancel" android:id="@+id/ROLLOVER_EDIT_CANCEL" android:icon="@drawable/ic_menu_close_clear_cancel" app:showAsAction="always"/>
+</menu>
