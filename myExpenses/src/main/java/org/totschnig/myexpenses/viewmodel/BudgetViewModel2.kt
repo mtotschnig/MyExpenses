@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -162,7 +163,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 BudgetAllocation(
                     budget = it.getLong(DatabaseConstants.KEY_BUDGET),
                     rollOverPrevious = it.getLong(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS),
-                    rollOverNext = it.getLong(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT)
+                    rollOverNext = it.getLong(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT),
+                    oneTime = it.getInt(DatabaseConstants.KEY_ONE_TIME) != 0
                 )
             }
         }

@@ -52,8 +52,7 @@ fun budgetColumn(year: String?, second: String?): String {
         false
     )
     return (if (year == null) mainSelect else "coalesce($mainSelect," +
-            "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND (coalesce($KEY_YEAR,0) < $year ${second?.let { " OR (coalesce($KEY_YEAR,0) = $year AND coalesce($KEY_SECOND_GROUP,0) < $it)" } ?: ""}) ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1)," +
-            "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 ORDER BY $KEY_YEAR ASC ${if (second == null) "" else ", $KEY_SECOND_GROUP ASC"} LIMIT 1))") +
+            "(SELECT $KEY_BUDGET from Allocations WHERE $KEY_ONE_TIME = 0 AND (coalesce($KEY_YEAR,0) < $year ${second?.let { " OR (coalesce($KEY_YEAR,0) = $year AND coalesce($KEY_SECOND_GROUP,0) < $it)" } ?: ""}) ORDER BY $KEY_YEAR DESC ${if (second == null) "" else ", $KEY_SECOND_GROUP DESC"} LIMIT 1))") +
             " AS $KEY_BUDGET"
 }
 
@@ -77,7 +76,7 @@ fun categoryTreeWithBudget(
     val map = projection.map {
         when (it) {
             KEY_BUDGET -> budgetColumn(year, second)
-            KEY_BUDGET_ROLLOVER_NEXT, KEY_BUDGET_ROLLOVER_PREVIOUS ->
+            KEY_BUDGET_ROLLOVER_NEXT, KEY_BUDGET_ROLLOVER_PREVIOUS, KEY_ONE_TIME ->
                 subSelectFromAllocations(it, year, second)
             else -> it
         }
@@ -106,7 +105,8 @@ fun budgetAllocation(uri: Uri): String {
     return "WITH $cte SELECT " +
             budgetColumn(year, second) + "," +
             subSelectFromAllocations(KEY_BUDGET_ROLLOVER_PREVIOUS, year, second) + "," +
-            subSelectFromAllocations(KEY_BUDGET_ROLLOVER_NEXT, year, second)
+            subSelectFromAllocations(KEY_BUDGET_ROLLOVER_NEXT, year, second) + "," +
+            subSelectFromAllocations(KEY_ONE_TIME, year, second)
 }
 
 fun categoryTreeWithMappedObjects(

@@ -293,6 +293,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     add(KEY_BUDGET)
                     add(KEY_BUDGET_ROLLOVER_PREVIOUS)
                     add(KEY_BUDGET_ROLLOVER_NEXT)
+                    add(KEY_ONE_TIME)
                 }
             }.toTypedArray(),
             additionalSelectionArgs = (filterPersistence?.whereFilter?.getSelectionArgs(true)

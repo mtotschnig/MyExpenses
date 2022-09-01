@@ -205,7 +205,10 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                         Money(currencyUnit, min).amountMajor, category.level, this@BudgetActivity
                     ))
                     if (withOneTimeCheck)
-                        add(Check.box(DatabaseConstants.KEY_ONE_TIME).label(getString(R.string.budget_only_current_period, supportActionBar?.subtitle)))
+                        add(Check.box(DatabaseConstants.KEY_ONE_TIME)
+                            .label(getString(R.string.budget_only_current_period, supportActionBar?.subtitle))
+                            .check(category.budget.oneTime)
+                        )
                 }.toTypedArray()
             )
             .show(this, EDIT_BUDGET_DIALOG)

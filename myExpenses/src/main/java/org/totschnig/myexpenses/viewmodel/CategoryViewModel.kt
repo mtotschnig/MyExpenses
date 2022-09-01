@@ -400,6 +400,8 @@ open class CategoryViewModel(
                             ?.let { cursor.getLong(it) } ?: 0L
                         val nextBudgetRollOverNext = cursor.getColumnIndex(KEY_BUDGET_ROLLOVER_NEXT).takeIf { it != -1 }
                             ?.let { cursor.getLong(it) } ?: 0L
+                        val nextBudgetOneTime = cursor.getColumnIndex(KEY_ONE_TIME).takeIf { it != -1 }
+                            ?.let { cursor.getInt(it) != 0 } ?: false
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()
@@ -421,7 +423,7 @@ open class CategoryViewModel(
                                     nextColor,
                                     nextIcon,
                                     nextSum,
-                                    BudgetAllocation(nextBudget, nextBudgetRollOverPrevious, nextBudgetRollOverNext)
+                                    BudgetAllocation(nextBudget, nextBudgetRollOverPrevious, nextBudgetRollOverNext, nextBudgetOneTime)
                                 )
                             )
                             index++
