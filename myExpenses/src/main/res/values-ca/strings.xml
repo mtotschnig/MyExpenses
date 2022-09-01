@@ -357,4 +357,6 @@
     <string name="menu_budget">Pressupost</string>
     <string name="whats_new_338">Jerarquia de categories arbitràriament profunda</string>
     <string name="dialog_title_purge_backups">Elimina les còpies de seguretat antigues</string>
+    <string name="all_extended_key_features">Totes les funcions de Clau Ampliada</string>
+    <string name="all_contrib_key_features">Totes les funcions de Clau Contrib</string>
 </resources>
