@@ -1022,4 +1022,5 @@
     <string name="pref_csv_export_split_date_time_summary">Utilizar columnas separadas para fecha y hora</string>
     <string name="webui_warning_move_transaction">La transacción será trasladada a la cuenta {cuenta}.</string>
     <string name="whats_new_344">Iconos por categorías</string>
+    <string name="required">Requerido</string>
 </resources>
