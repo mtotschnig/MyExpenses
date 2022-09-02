@@ -21,7 +21,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     val localizedContext: Context
         get() = if (::userLocaleProvider.isInitialized) ContextHelper.wrap(getApplication(), userLocaleProvider.getUserPreferredLocale()) else {
-            CrashHandler.report("Missing inject call on viewModel of type ${this::class.java}")
+            CrashHandler.report(Exception("Missing inject call on viewModel of type ${this::class.java}"))
             getApplication()
         }
 

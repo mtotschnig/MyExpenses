@@ -64,7 +64,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
                 (requireActivity() as OnboardingActivity).start()
             }  else {
                 val message = "Unknown error while setting up account"
-                CrashHandler.report(message)
+                CrashHandler.report(Exception(message))
                 (requireActivity() as OnboardingActivity).showSnackBar(message)
             }
         }

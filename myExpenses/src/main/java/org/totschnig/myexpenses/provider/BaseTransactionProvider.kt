@@ -505,7 +505,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun report(e: String) {
-        CrashHandler.report(e, TAG)
+        CrashHandler.report(Exception(e), TAG)
     }
 
     override fun onCreate(): Boolean {

@@ -127,7 +127,7 @@ public class DbWriteFragment extends Fragment {
     @Override
     protected Uri doInBackground(Model... object) {
       if (object[0] == null) {
-        CrashHandler.report("DbWriteFragment called from an activity that did not provide an object");
+        CrashHandler.report(new Exception("DbWriteFragment called from an activity that did not provide an object"));
         return null;
       }
       return object[0].save();

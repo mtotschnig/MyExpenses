@@ -40,7 +40,7 @@ object AppDirHelper {
         return if (externalFilesDir != null) {
             DocumentFile.fromFile(externalFilesDir)
         } else {
-            CrashHandler.report("no not-null value found in getExternalFilesDirs")
+            CrashHandler.report(Exception("no not-null value found in getExternalFilesDirs"))
             null
         }
     }

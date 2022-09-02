@@ -93,9 +93,9 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
         (typeParts[1].equals("zip") || typeParts[1].equals("octet-stream")))
       return true;
     if (extension.equals("zip") || extension.equals("enc")) {
-      CrashHandler.report(String.format(
+      CrashHandler.report(new Exception(String.format(
           "Found resource with extension %s and unexpeceted mime type %s/%s",
-          extension, typeParts[0], typeParts[1]));
+          extension, typeParts[0], typeParts[1])));
       return true;
     }
     return false;

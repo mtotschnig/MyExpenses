@@ -81,12 +81,7 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
     backend?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }?.let {
         var backupFileName = backupFile.name
         if (backupFileName == null) {
-            CrashHandler.report(
-                String.format(
-                    "Could not get name from uri %s",
-                    backupFile.uri
-                )
-            )
+            CrashHandler.report(Exception("Could not get name from uri ${backupFile.uri}"))
             backupFileName = "backup-" + SimpleDateFormat("yyyMMdd", Locale.US)
                 .format(Date())
         }

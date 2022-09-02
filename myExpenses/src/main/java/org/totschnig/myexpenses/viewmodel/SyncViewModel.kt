@@ -139,7 +139,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             cursor.asSequence.mapNotNull {
                 val uuid = it.getString(2)
                 if (uuid == null) {
-                    CrashHandler.report("Account with null uuid")
+                    CrashHandler.report(Exception("Account with null uuid"))
                     null
                 } else {
                     LocalAccount(

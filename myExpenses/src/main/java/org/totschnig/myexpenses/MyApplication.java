@@ -335,14 +335,14 @@ public class MyApplication extends Application implements
         Calendars._ID + " = ?", new String[]{calendarId}, null);
     boolean result = true;
     if (c == null) {
-      CrashHandler.report("Received null cursor while checking calendar");
+      CrashHandler.report(new Exception("Received null cursor while checking calendar"));
       return null;
     } else {
       if (c.moveToFirst()) {
         String found = DbUtils.getString(c, 0);
         String expected = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "");
         if (!found.equals(expected)) {
-          CrashHandler.report("found calendar, but path did not match");
+          CrashHandler.report(new Exception("found calendar, but path did not match"));
           result = false;
         } else {
           int syncEvents = c.getInt(1);
@@ -363,7 +363,7 @@ public class MyApplication extends Application implements
           }
         }
       } else {
-        CrashHandler.report(String.format("configured calendar %s has been deleted: ", calendarId));
+        CrashHandler.report(new Exception(String.format("configured calendar %s has been deleted: ", calendarId)));
         result = false;
       }
       c.close();
@@ -419,7 +419,7 @@ public class MyApplication extends Application implements
         new String[]{Calendars._ID}, Calendars.NAME + " = ?",
         new String[]{PLANNER_CALENDAR_NAME}, null);
     if (c == null) {
-      CrashHandler.report("Searching for planner calendar failed, Calendar app not installed?");
+      CrashHandler.report(new Exception("Searching for planner calendar failed, Calendar app not installed?"));
       return INVALID_CALENDAR_ID;
     }
     if (c.moveToFirst()) {
@@ -448,13 +448,13 @@ public class MyApplication extends Application implements
         return INVALID_CALENDAR_ID;
       }
       if (uri == null) {
-        CrashHandler.report("Inserting planner calendar failed, uri is null");
+        CrashHandler.report(new Exception("Inserting planner calendar failed, uri is null"));
         return INVALID_CALENDAR_ID;
       }
       plannerCalendarId = uri.getLastPathSegment();
       if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
-        CrashHandler.report(String.format(Locale.US,
-            "Inserting planner calendar failed, last path segment is %s", plannerCalendarId));
+        CrashHandler.report(new Exception(String.format(Locale.US,
+            "Inserting planner calendar failed, last path segment is %s", plannerCalendarId)));
         return INVALID_CALENDAR_ID;
       }
       Timber.i("successfully set up new calendar: %s", plannerCalendarId);
@@ -533,7 +533,7 @@ public class MyApplication extends Application implements
         componentName = startService(intent);
       }
       if (componentName == null) {
-        CrashHandler.report("Start of Web User Interface failed");
+        CrashHandler.report(new Exception("Start of Web User Interface failed"));
         prefHandler.putBoolean(UI_WEB, false);
       }
     } else {

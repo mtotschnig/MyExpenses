@@ -244,7 +244,9 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                     null
                 )
             }
-        } ?: run { CrashHandler.report("Trying to update budget while groupingInfo is not set") }
+        } ?: run {
+            CrashHandler.report(Exception("Trying to update budget while groupingInfo is not set"))
+        }
     }
 
     fun deleteBudget(budgetId: Long) = liveData(context = coroutineContext()) {

@@ -87,7 +87,7 @@ class ContribInfoDialogActivity : IapActivity() {
     }
 
     fun complain(message: String) {
-        report(String.format("**** InAppPurchase Error: %s", message))
+        report(Exception("**** InAppPurchase Error: $message"))
         showMessage(message)
     }
 

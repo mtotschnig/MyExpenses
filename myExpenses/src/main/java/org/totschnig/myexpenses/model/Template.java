@@ -711,7 +711,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     if (isTransfer()) {
       return template.getTransferAccountId();
     }
-    CrashHandler.report("Tried to get transfer account for a template that is no transfer");
+    CrashHandler.report(new Exception("Tried to get transfer account for a template that is no transfer"));
     return null;
   }
 
@@ -720,7 +720,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     if (isTransfer()) {
       template.setTransferAccountId(transferAccountId);
     } else {
-      CrashHandler.report("Tried to set transfer account for a template that is no transfer");
+      CrashHandler.report(new Exception("Tried to set transfer account for a template that is no transfer"));
     }
   }
 

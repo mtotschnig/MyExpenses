@@ -85,10 +85,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                     ctx.packageName
                 ) //new based on name
                 if (resId == 0) {
-                    CrashHandler.reportWithFormat(
-                        "missing change log entry for version %d",
-                        code
-                    )
+                    CrashHandler.report(Exception("missing change log entry for version $code"))
                     null
                 } else {
                     res.getStringArray(resId)

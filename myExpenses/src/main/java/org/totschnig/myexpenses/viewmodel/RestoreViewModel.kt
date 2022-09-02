@@ -208,10 +208,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             sharedPrefsDir.mkdir()
             if (!sharedPrefsDir.isDirectory) {
                 CrashHandler.report(
-                    String.format(
-                        Locale.US, "Could not access shared preferences directory at %s",
-                        sharedPrefsDir.absolutePath
-                    )
+                    Exception("Could not access shared preferences directory at ${sharedPrefsDir.absolutePath}")
                 )
                 failureResult(R.string.restore_preferences_failure)
                 return@launch
@@ -401,10 +398,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                     )
                                 ) {
                                     CrashHandler.report(
-                                        String.format(
-                                            "Could not restore file %s from backup",
-                                            fromBackup
-                                        )
+                                        Exception("Could not restore file $fromBackup from backup")
                                     )
                                 } else {
                                     restored =
@@ -415,10 +409,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 }
                             } else {
                                 CrashHandler.report(
-                                    String.format(
-                                        "Could not restore file %s from backup",
-                                        fromBackup
-                                    )
+                                    Exception("Could not restore file $fromBackup from backup")
                                 )
                             }
                             if (restored != null) {

@@ -92,7 +92,7 @@ public abstract class IdCriteria extends Criteria {
   public static <T extends IdCriteria> T fromStringExtra(String extra, Class<T> clazz) {
     String[] extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP);
     if (extraParts.length < 2) {
-      CrashHandler.report(String.format("Unparsable string extra %s for %s", Arrays.toString(extraParts), clazz.getName()));
+      CrashHandler.report(new Exception(String.format("Unparsable string extra %s for %s", Arrays.toString(extraParts), clazz.getName())));
       return null;
     };
     String[] ids = Arrays.copyOfRange(extraParts, 1, extraParts.length);

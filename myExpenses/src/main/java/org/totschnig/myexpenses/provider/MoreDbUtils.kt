@@ -153,7 +153,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Pair
         val categories = resources.getStringArray(categoriesResId)
         val icons = resources.getStringArray(iconsResId)
         if (categories.size != icons.size) {
-            CrashHandler.report("Inconsistent category definitions")
+            CrashHandler.report(Exception("Inconsistent category definitions"))
             continue
         }
         val mainLabel = categories[0]

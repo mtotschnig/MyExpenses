@@ -303,7 +303,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun reportMissingSnackBarContainer() {
-        CrashHandler.report(String.format("Class %s is unable to display snackBar", javaClass))
+        CrashHandler.report(Exception("Class $javaClass is unable to display snackBar"))
     }
 
     fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0) {

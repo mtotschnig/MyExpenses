@@ -30,7 +30,7 @@ public class ImportFileResultHandler {
         if (displayName == null) {
           //SecurityException raised during getDisplayName
           errorMsg = "Error while retrieving document";
-          CrashHandler.report(errorMsg);
+          CrashHandler.report(new Exception(errorMsg));
           handleError(errorMsg, fileNameEditText);
         } else {
           String type = context.getContentResolver().getType(uri);

@@ -236,7 +236,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                     updatePartyFilters(it, keepId)
                     updatePartyBudgets(it, keepId)
                 } else {
-                    CrashHandler.report("Unexpected result while merging Parties, result size is : $size")
+                    CrashHandler.report(Exception("Unexpected result while merging Parties, result size is : $size"))
                 }
             }
         }

@@ -74,7 +74,7 @@
     <string name="dialog_confirm_discard_new_method">放弃新建的付款方法?</string>
     <string name="dialog_command_disabled_balance">没有已结算或已入帐的交易需要去对帐。</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二个账户才可以互相转账。</string>
-    <string name="dialog_command_disabled_reset_account">没有交易数据可被导出.</string>
+    <string name="dialog_command_disabled_reset_account">没有交易数据可被导出。</string>
     <string name="dialog_command_disabled_distribution">此账户中，没有交易映射到此类别。</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">试用高级功能</string>

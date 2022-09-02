@@ -99,26 +99,6 @@ abstract class CrashHandler {
             Timber.e(e)
         }
 
-        fun reportWithFormat(format: String, vararg args: Any) {
-            val e = Exception(String.format(format, *args))
-            e.fillInStackTrace()
-            e.prepare()
-            report(e)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun report(message: String?, tag: String? = null) {
-            val e = Exception(message)
-            e.fillInStackTrace()
-            e.prepare()
-            report(e, tag)
-        }
-
-        private fun Exception.prepare() {
-            stackTrace = stackTrace.dropWhile { it.className.contains(CrashHandler::class.java.name) }.toTypedArray()
-        }
-
         var NO_OP: CrashHandler = object : CrashHandler() {
             override fun onAttachBaseContext(application: MyApplication) {}
             override fun setupLoggingDo(context: Context) {}

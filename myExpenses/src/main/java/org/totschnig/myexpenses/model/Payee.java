@@ -71,7 +71,7 @@ public class Payee extends Model {
       final Payee payee = new Payee(0L, name);
       Uri uri = payee.save();
       if (uri == null) {
-        CrashHandler.report(String.format("unable to save party %s", name));
+        CrashHandler.report(new Exception(String.format("unable to save party %s", name)));
         return null;
       } else {
         return payee.getId();

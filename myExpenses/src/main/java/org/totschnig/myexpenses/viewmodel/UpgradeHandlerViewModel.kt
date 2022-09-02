@@ -127,7 +127,7 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                         _upgradeInfo.update {
                             R.string.corrupted_data_detected
                         }
-                        CrashHandler.report("Bug 987: $corruptedCount corrupted transactions detected")
+                        CrashHandler.report(Exception("Bug 987: $corruptedCount corrupted transactions detected"))
                     }
                 }
             }

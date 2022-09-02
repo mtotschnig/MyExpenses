@@ -512,11 +512,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         val resultsSize = contentProviderResults.size
         if (opsSize != resultsSize) {
             CrashHandler.report(
-                String.format(
-                    Locale.ROOT, "applied %d operations, received %d results",
-                    opsSize, resultsSize
-                ), TAG
-            )
+                Exception("applied $opsSize operations, received $resultsSize results"), TAG)
             return false
         }
         return true
@@ -534,7 +530,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                 var fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME)
                 try {
                     if (fileName == null) {
-                        CrashHandler.report("KEY_UPLOAD_AUTO_BACKUP_NAME empty")
+                        CrashHandler.report(Exception("KEY_UPLOAD_AUTO_BACKUP_NAME empty"))
                         fileName = "backup-" + SimpleDateFormat("yyyMMdd", Locale.US).format(Date())
                     }
                     log().i("Storing backup %s (%s)", fileName, autoBackupFileUri)

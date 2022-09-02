@@ -86,7 +86,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
         (exception instanceof MissingAppIdException ? getContext().getString(R.string.pref_openexchangerates_app_id_summary) :
             exception.getMessage())));
     } else {
-      CrashHandler.report("No LifecycleOwner found");
+      CrashHandler.report(new Exception("No LifecycleOwner found"));
     }
   }
 

@@ -52,7 +52,7 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
         (supportFragmentManager.findFragmentByTag(fragmentTag) as? T)?.apply {
             attachListener(this)
         } ?: kotlin.run {
-            CrashHandler.report("reAttachListener failed")
+            CrashHandler.report(Exception("reAttachListener failed"))
         }
     }
 

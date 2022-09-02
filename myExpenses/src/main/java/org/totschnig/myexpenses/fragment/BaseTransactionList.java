@@ -1171,7 +1171,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
       }
     } else {
-      CrashHandler.report("Search menu not found");
+      CrashHandler.report(new Exception("Search menu not found"));
     }
 
     MenuItem groupingItem = menu.findItem(R.id.GROUPING_COMMAND);

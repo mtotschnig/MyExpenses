@@ -162,7 +162,7 @@ object QifUtils {
                     } catch (ignored: ParseException) {
                         BigDecimal(0)
                     }
-                    CrashHandler.reportWithFormat("Could not parse money %s", sMoney)
+                    CrashHandler.report(Exception("Could not parse money $sMoney"))
                 }
             } else {
                 result = BigDecimal(0)

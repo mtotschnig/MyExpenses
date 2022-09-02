@@ -53,7 +53,7 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                             if (success) {
                                 contentResolver.delete(staleImageUri, null, null)
                             } else {
-                                CrashHandler.reportWithFormat("Unable to move file %s", imageFileUri.toString())
+                                CrashHandler.report(Exception("Unable to move file $imageFileUri"))
                             }
                         }
                     }
@@ -81,7 +81,7 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                             if (success) {
                                 Timber.d("Successfully deleted file %s", imageFileUri.toString())
                             } else {
-                                CrashHandler.reportWithFormat("Unable to delete file %s ", imageFileUri.toString())
+                                CrashHandler.report(Exception("Unable to delete file $imageFileUri"))
                             }
                         } else {
                             Timber.d("%s not deleted since it might still be in use", imageFileUri.toString())

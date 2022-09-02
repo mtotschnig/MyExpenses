@@ -230,8 +230,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         Account dbAccount = Account.getInstanceFromDb(accountId);
         parser.accounts.get(0).dbAccount = dbAccount;
         if (dbAccount == null) {
-          CrashHandler.report("Exception during QIF import. Did not get instance from DB for id "
-              + accountId);
+          CrashHandler.report(new Exception("Exception during QIF import. Did not get instance from DB for id "
+              + accountId));
         }
       }
       insertTransactions(parser.accounts, context);
@@ -282,8 +282,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         Account dbAccount = Account.getInstanceFromDb(dbAccountId);
         account.dbAccount = dbAccount;
         if (dbAccount == null) {
-          CrashHandler.report("Exception during QIF import. Did not get instance from DB for id " +
-              dbAccountId);
+          CrashHandler.report(new Exception("Exception during QIF import. Did not get instance from DB for id " +
+              dbAccountId));
         }
       } else {
         Account a = account.toAccount(currencyUnit);

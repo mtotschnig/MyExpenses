@@ -114,7 +114,7 @@ public class PictureDirHelper {
     switch (pathDomain) {
       case "external-files":
         if (!pathSegments.get(1).equals(Environment.DIRECTORY_PICTURES)) {
-          CrashHandler.report("Access to external-files outside pictures");
+          CrashHandler.report(new Exception("Access to external-files outside pictures"));
         }
         return new File(getPictureDir(false), pathSegments.get(2));
       case "images":
