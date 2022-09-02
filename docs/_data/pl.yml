@@ -40,7 +40,7 @@ pl:
     feature-list-title: "Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj\
       \ nieograniczony dostęp do następujących funkcji:"
     feature:
-      accounts_unlimited: Nielimitowana liczba <b>kont</b>
+      accounts_unlimited: Odblokowanie możliwości tworzenia więcej niż pięciu kont
       plans_unlimited: Nieograniczona liczba planów dla <b>powtarzających się</b>
         transakcji
       distribution: "<b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji\
