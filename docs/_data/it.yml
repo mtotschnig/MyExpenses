@@ -56,7 +56,7 @@ it:
     feature-list-title: "Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere\
       \ l'accesso illimitato alle seguenti caratteristiche:"
     feature:
-      accounts_unlimited: Numero illimitato di <b>conti</b>
+      accounts_unlimited: Sbloccare la possibilità di creare più di cinque conti
       plans_unlimited: Numero illimitato di piani per le transazioni <b> ricorrenti
         </b>
       distribution: "<b> Grafico a torta </b>: visualizza la distribuzione statistica\
