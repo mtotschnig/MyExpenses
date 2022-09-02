@@ -80,7 +80,7 @@ zh-tw:
     thank_you: "您的捐款贊助“開支助手”的進一步發展。謝謝您！\n"
     feature-list-title: '請透過升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能:'
     feature:
-      accounts_unlimited: 可創建無限數量的<b>賬戶</b>
+      accounts_unlimited: 解锁创建五个以上账户的能力
       plans_unlimited: 可創建無限數量的<b>定期交易計劃</b>
       distribution: <b>餅狀統計圖</b>：可視化不同時期（年、月、週、天）中，每個類別的交易統計分佈
       split_transaction: <b>拆分交易</b>：單個交易可以拆分成多個部分（轉賬或分屬於不同的類別）

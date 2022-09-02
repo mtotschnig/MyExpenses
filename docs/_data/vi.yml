@@ -25,6 +25,7 @@ vi:
         2 ngày làm việc
       roadmap_voting: Có quyền bầu chọn đối với <b>quá trình phát triển ứng dụng</b>
       csv_import: Tinh vi, có thể tùy chỉnh <b> Nhập CSV </b> (ứng dụng bảng tính)
+      accounts_unlimited: Mở khóa khả năng tạo nhiều hơn năm tài khoản
   permissions:
     internet:
       explanation_crash_reporting: Báo cáo lỗi

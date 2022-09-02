@@ -28,6 +28,8 @@ el:
       roadmap_voting: Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b>
       csv_import: Εκλεπτυσμένη, προσαρμόσιμη εισαγωγή <b>CSV</b> (εφαρμογές λογιστικών
         φύλλων)
+      accounts_unlimited: Ξεκλειδώστε τη δυνατότητα δημιουργίας περισσότερων από πέντε
+        λογαριασμών
   permissions:
     internet:
       explanation_crash_reporting: Αναφορές σφαλμάτων

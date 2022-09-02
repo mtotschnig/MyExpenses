@@ -55,7 +55,7 @@ ms:
     feature-list-title: "Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i>\
       \ dan peroleh capaian tanpa had fitur-fitur berikut:"
     feature:
-      accounts_unlimited: Bilangan <b>akaun</b> tanpa had
+      accounts_unlimited: Buka kunci keupayaan untuk membuat lebih daripada lima akaun
       plans_unlimited: Bilangan plan tanpa had untuk transaksi <b>berulang</b>
       distribution: "<b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi\
         \ per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)"

@@ -27,6 +27,7 @@ cs:
         dnů
       webui: <b>Webové uživatelské rozhraní</b>
       csv_import: Propracovaný a přizpůsobitelný import <b>CSV</b> (tabulkové aplikace)
+      accounts_unlimited: Odemknutí možnosti vytvořit více než pět účtů
   permissions:
     internet:
       explanation_crash_reporting: Hlášení o pádech

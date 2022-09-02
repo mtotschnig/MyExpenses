@@ -2,7 +2,8 @@ ko:
   imprint: 각인
   imprint_text: 이 웹 사이트의 내용과 <i>{app_name}</i> 의 개발, 유지 보수 및 배포에 대한 책임
   privacy_policy_heading: 개인 정보 정책
-  privacy_policy_text: "<i>{app_name}</i> 은 (는) 자체 데이터베이스, SD 카드의 자체 폴더 이외의 기기 데이터에 액세스하지 않습니다. 향후 및 반복 트랜잭션에 계획 기능을 사용하는 경우 계획이 저장되는 달력을 지정합니다."
+  privacy_policy_text: "<i>{app_name}</i> 은 (는) 자체 데이터베이스, SD 카드의 자체 폴더 이외의 기기 데이터에\
+    \ 액세스하지 않습니다. 향후 및 반복 트랜잭션에 계획 기능을 사용하는 경우 계획이 저장되는 달력을 지정합니다."
   hero_main: "Android용 개인 재무 관리 앱"
   hero_sub:
     use: "사용하기 쉽습니다"
@@ -39,10 +40,10 @@ ko:
     homescreen: 빠른 데이터 입력을위한 홈 화면 <b>위젯</b> 및 <b>바로 가기</b>
   contrib:
     thank_you: |
-        기부를 하시면 My Expenses의 개발을 후원하게 됩니다. 감사합니다!
+      기부를 하시면 My Expenses의 개발을 후원하게 됩니다. 감사합니다!
     feature-list-title: "<i>{app_name}</i> 을 (를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오."
     feature:
-      accounts_unlimited: 무제한 <b>계정</b>
+      accounts_unlimited: 다섯 개 이상의 계정을 만들 수 있는 기능 잠금 해제
       plans_unlimited: <b>반복</b> 거래에 대한 무제한 계획
       distribution: "<b>원형 차트</b> : 여러 기간 (년, 월, 주, 일)에 따른 카테고리 별 트랜잭션의 통계적 분포를 시각화합니다."
       split_transaction: "<b>거래 분할</b> : 단일 거래를 여러 부분 (카테고리 및 전송)으로 분할 할 수 있습니다."

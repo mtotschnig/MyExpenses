@@ -22,6 +22,7 @@ si:
       ඔබගේ දායකත්වය මයි එක්ස්පෙන්සස් තවදුරටත් සංවර්ධනය කිරීමට සහාය වේ. ඔබට ස්තුතියි!
     feature:
       csv_import: නවීන, අභිරුචිකරණය කළ හැකි <b>CSV ආනයනය</b> (පැතුරුම්පත් යෙදුම්)
+      accounts_unlimited: ගිණුම් පහකට වඩා සෑදීමේ හැකියාව අගුළු හරින්න
   permissions:
     internet:
       explanation_crash_reporting: ''

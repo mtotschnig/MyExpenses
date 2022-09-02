@@ -48,3 +48,4 @@ da:
   contrib:
     feature:
       csv_import: Sofistikeret, brugerdefinerbar <b>CSV import</b> (regnearksprogrammer)
+      accounts_unlimited: Lås op for muligheden for at oprette mere end fem konti
