@@ -89,7 +89,7 @@
             tools:replace="android:theme" />
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@android:style/Theme.NoDisplay"
+            android:theme="@style/Starting"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

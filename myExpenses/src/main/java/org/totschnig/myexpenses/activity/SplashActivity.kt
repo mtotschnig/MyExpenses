@@ -13,6 +13,5 @@ class SplashActivity : Activity() {
         intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
         startActivity(intent)
         finish()
-        return
     }
 }
