@@ -41,7 +41,7 @@ ro:
       history_chart: <b>Grafic istoric</b> (Flux de numerar)
       scan_receipt: '<b>Scanează chitanțele</b>: Extrageți automat suma, data și beneficiarul
         plății'
-      accounts_unlimited: Număr nelimitat de <b>conturi</b>
+      accounts_unlimited: Deblocați posibilitatea de a crea mai mult de cinci conturi
       ad_free: <b>Nici o reclamă</b>
       auto_backup: Copie de rezervă zilnică <b>automată</b> cu încărcare opțională
         în cloud storage
