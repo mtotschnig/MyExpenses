@@ -57,8 +57,10 @@ de:
     feature-list-title: "Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i>\
       \ und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:"
     feature:
-      accounts_unlimited: Unbegrenzte Anzahl von <b>Konten</b>
-      plans_unlimited: Unbegrenzte Anzahl von Plänen für <b>wiederkehrende</b> Buchungen
+      accounts_unlimited: Schalten Sie die Möglichkeit frei, mehr als fünf Konten
+        zu erstellen
+      plans_unlimited: Schalten Sie die Möglichkeit frei, mehr als drei Pläne für
+        wiederkehrende Buchungen zu erstellen
       distribution: "<b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung\
         \ der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen,\
         \ Tage)"
