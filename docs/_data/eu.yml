@@ -56,7 +56,8 @@ eu:
     feature-list-title: "Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu\
       \ murriztu gabeko sarbidea ondorengo eginbideetara:"
     feature:
-      accounts_unlimited: <b>kontuak</b> kopuru mugagabean
+      accounts_unlimited: Bost kontu baino gehiago sortzeko gaitasuna desblokeatu
+        du
       plans_unlimited: Plan pilo bat <b>errepikakor</b> diren transakzioetarako
       distribution: "<b>Tarta grafikoa</b> : ikusi transakzioen banaketa estatistikoa\
         \ kategoria bakoitzeko aldi desberdinetan zehar (urteak, hilabeteak, asteak,\
