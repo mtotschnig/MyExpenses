@@ -14,6 +14,7 @@ class Main {
 
         private const val PACKAGE_NAME = "org.totschnig.myexpenses"
 
+        //@formatter:off
         private val SKU_category = "categorytree" to mapOf(
             "en-US" to ("Category Tree" to "Arbitrarily deep category hierarchy"),
             "bg" to ("Дърво на категориите" to "Произволно дълбока йерархия на категориите"),
@@ -32,9 +33,9 @@ class Main {
 
         private val SKU_csv_import = "csvimport" to mapOf(
             "en-US" to ("CSV import" to "Sophisticated, customizable CSV import (spreadsheet applications)"),
-            "ar" to ("إستيراد ملف CSV" to "استيراد CSV متطور وقابل للتخصيص (تطبيقات جداول البيانات)"),
-            "bg" to ("Импорт от CSV" to "Удобен, персонализируем импорт от CSV файл (приложения за електронни таблици)"),
-            "ca" to ("Importació CSV" to " Importació sofisticada i personalitzable CSV (aplicacions de full de càlcul)"),
+            "ar"    to ("إستيراد ملف CSV" to "استيراد CSV متطور وقابل للتخصيص (تطبيقات جداول البيانات)"),
+            "bg"    to ("Импорт от CSV" to "Удобен, персонализируем импорт от CSV файл (приложения за електронни таблици)"),
+            "ca"    to ("Importació CSV" to " Importació sofisticada i personalitzable CSV (aplicacions de full de càlcul)"),
             "cs-CZ" to ("Import CSV souboru" to "Propracovaný a přizpůsobitelný import CSV (tabulkové aplikace)"),
             "da-DK" to ("CSV import" to "Sofistikeret, brugerdefinerbar CSV import (regnearksprogrammer)"),
             "de-DE" to ("CSV Import" to "Ausgefeilter, anpassbarer CSV-Import (Tabellenkalkulationsanwendungen)"),
@@ -42,7 +43,7 @@ class Main {
             "es-ES" to ("Importar desde CSV" to "Una sofisticada y personalizable importación a CSV (para aplicaciones de hojas de cálculo)"),
             "eu-ES" to ("CSV inportazioa" to "CSV inportazio sofistikatu eta pertsonalizagarria (kalkulu orrien aplikazioak)"),
             "fr-FR" to ("Import CSV" to "Import CSV sophistiqué et personnalisable (applications tableur)"),
-            "hr" to ("CSV uvoz" to "Sofisticiran, prilagodljiv CSV uvoz (programi proračunskih tablica)"),
+            "hr"    to ("CSV uvoz" to "Sofisticiran, prilagodljiv CSV uvoz (programi proračunskih tablica)"),
             "hu-HU" to ("CSV-importálás" to "Kifinomult, testreszabható CSV import (táblázatkezelő alkalmazások)"),
             "it-IT" to ("Importa CSV" to "Importazione CSV sofisticata e personalizzabile (applicazioni per fogli di calcolo)"),
             "iw-IL" to ("ייבוא CSV" to "מתוחכם וניתן להתאמה אישית  יבוא CSV   (יישומי גיליון אלקטרוני)"),
@@ -50,16 +51,16 @@ class Main {
             "km-KH" to ("ការនាំចូលស៊ីអេសវី" to "ទំនើប ប្ដូរតាមបំណង ការនាំចូល CSV (កម្មវិធីសៀវភៅបញ្ជី)"),
             "kn-IN" to ("ಸಿಎಸ್ವಿ ಆಮದು" to "ಅತ್ಯಾಧುನಿಕ, ಗ್ರಾಹಕೀಯಗೊಳಿಸಬಹುದಾದ CSV ಆಮದು (ಸ್ಪ್ರೆಡ್‌ಶೀಟ್ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು)"),
             "ko-KR" to ("CSV 가져오기" to "정교하고 사용자 정의 가능한 CSV 가져 오기 (스프레드 시트 응용 프로그램)"),
-            "ms" to ("Import CSV" to "Import CSV import (spreadsheet applications) yang canggih dan boleh disuaikan."),
+            "ms"    to ("Import CSV" to "Import CSV import (spreadsheet applications) yang canggih dan boleh disuaikan."),
             "pl-PL" to ("Import CSV" to "Wyrafinowany, dostosowywany import CSV (aplikacje do arkuszy kalkulacyjnych)"),
             "pt-PT" to (" Importação CSV" to "Importação de CSV sofisticada e personalizável (aplicativos de planilha)"),
-            "ro" to ("CSV import" to "Import sofisticat și personalizabil CSV (aplicații de foi de calcul)"),
+            "ro"    to ("CSV import" to "Import sofisticat și personalizabil CSV (aplicații de foi de calcul)"),
             "ru-RU" to ("Импорт данных в формате CSV" to "Сложный, настраиваемый импорт CSV (приложения для работы с электронными таблицами)"),
             "si-LK" to ("අ.වි.අ. (CSV) ආයාත කරන්න" to "නවීන, අභිරුචිකරණය කළ හැකි CSV ආනයනය (පැතුරුම්පත් යෙදුම්)"),
             "ta-IN" to ("CSV இறக்குமதி" to "அதிநவீன, தனிப்பயனாக்கக்கூடிய CSV இறக்குமதி (விரிதாள் செயலிகள்)"),
             "te-IN" to ("CSV దిగుమతి" to "అధునాతన, అనుకూలీకరించదగిన CSV దిగుమతి (స్ప్రెడ్‌షీట్ అనువర్తనాలు)"),
             "tr-TR" to ("CSV içe aktar" to "Gelişmiş, özelleştirilebilen CSV içe aktarma (tablolama uygulamaları)"),
-            "vi" to ("Nhập CSV" to "Tinh vi, có thể tùy chỉnh  Nhập CSV  (ứng dụng bảng tính)"),
+            "vi"    to ("Nhập CSV" to "Tinh vi, có thể tùy chỉnh  Nhập CSV  (ứng dụng bảng tính)"),
             "zh-CN" to ("导入 CSV" to "可自定义复杂的CSV导入文件（电子表格应用程序）"),
             "zh-TW" to ("以CSV的檔案型式輸入" to "可自定義復雜的CSV導入文件（電子表格應用程序）"),
         )
@@ -131,6 +132,41 @@ class Main {
             "zh-CN" to ("无广告" to "无广告。"),
             "zh-TW" to ("無廣告" to "無廣告。")
         )
+        private val SKU_accounts_unlimited = "accountsunlimited" to mapOf(
+            "en-US" to ("Unlimited number of accounts" to "Unlock the ability to create more than five accounts."),
+            "ar"    to ("عدد حسابات غير محدود" to "فتح القدرة على إنشاء أكثر من خمسة حسابات."),
+            "bg"    to ("Неограничен брой сметки" to "Отключване на възможността за създаване на повече от пет акаунта."),
+            "ca"    to ("Nombre il·limitat de comptes" to "Desbloqueja la possiblitat de crear més de cinc comptes."),
+            "cs-CZ" to ("Neomezený počet účtů" to "Odemknutí možnosti vytvořit více než pět účtů."),
+            "da-DK" to ("Ubegrænset antal konti" to "Lås op for muligheden for at oprette mere end fem konti."),
+            "de-DE" to ("Unbegrenzte Anzahl von Konten" to "Schalten Sie die Möglichkeit frei, mehr als fünf Konten zu erstellen."),
+            "el-gr" to ("Απεριόριστος αριθμός λογαριασμών" to "Ξεκλειδώστε τη δυνατότητα δημιουργίας περισσότερων από πέντε λογαριασμών."),
+            "es-ES" to ("Número de cuentas ilimitadas" to "Desbloquear la capacidad de crear más de cinco cuentas."),
+            "eu-ES" to ("Kontu kopuru mugagabea" to "Bost kontu baino gehiago sortzeko gaitasuna desblokeatu du."),
+            "fr-FR" to ("Nombre illimité de comptes" to "Déverrouiller la possibilité de créer plus de cinq comptes."),
+            "hr"    to ("Neograničen broj računa" to "Otključavanje mogućnosti stvaranja više od pet računa."),
+            "hu-HU" to ("Korlátlan számú számla" to "Több mint öt fiók létrehozásának feloldása."),
+            "it-IT" to ("Numero illimitato di conti" to "Sbloccare la possibilità di creare più di cinque conti."),
+            "iw-IL" to ("מספר חשבונות בלתי מוגבל" to "נפתחה האפשרות ליצור יותר מחמישה חשבונות."),
+            "ja-JP" to ("無制限の勘定数" to "5つ以上のアカウントを作成する機能のアンロック"),
+            "km-KH" to ("ចំនួន​គណនី​គ្មាន​ដែន​កំណត់" to "ដោះសោ សមត្ថភាព បង្កើត គណនី ជាង ៥."),
+            "kn-IN" to ("ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು" to "ಐದಕ್ಕಿಂತ ಹೆಚ್ಚು ಖಾತೆಗಳನ್ನು ರಚಿಸುವ ಸಾಮರ್ಥ್ಯವನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ."),
+            "ko-KR" to ("개수 제한 없는 계좌" to "다섯 개 이상의 계정을 만들 수 있는 기능 잠금 해제."),
+            "ms"    to ("Bilangan akaun tidak terhad" to "Buka kunci keupayaan untuk membuat lebih daripada lima akaun."),
+            "pl-PL" to ("Nieskończona ilość kont" to "Odblokowanie możliwości tworzenia więcej niż pięciu kont."),
+            "pt-PT" to ("Número ilimitado de contas" to "Desbloquear a capacidade de criar mais de cinco contas."),
+            "ro"    to ("Număr nelimitat de conturi" to "Deblocați posibilitatea de a crea mai mult de cinci conturi."),
+            "ru-RU" to ("Неограниченное количество счетов" to "Разблокировать возможность создания более пяти учетных записей."),
+            "si-LK" to ("සීමා රහිත ගිණුම් ගණනක්" to "ගිණුම් පහකට වඩා සෑදීමේ හැකියාව අගුළු හරින්න."),
+            "ta-IN" to ("கணக்குகளுக்கு வரம்பில்லை" to "ஐந்துக்கும் மேற்பட்ட கணக்குகளை உருவாக்கும் திறனைத் திறக்கவும்."),
+            "te-IN" to ("అపరిమిత సంఖ్యలో ఖాతాలు" to "ఐదు కంటే ఎక్కువ ఖాతాలను సృష్టించగల సామర్థ్యాన్ని అన్‌లాక్ చేయండిఐదు కంటే ఎక్కువ ఖాతాలను సృష్టించగల సామర్థ్యాన్ని అన్‌లాక్ చేయండి."),
+            "tr-TR" to ("Sınırsız sayıda hesap" to "Beşten fazla hesap oluşturma özelliğinin kilidini açın."),
+            "vi"    to ("Số lượng không giới hạn các tài khoản" to "Mở khóa khả năng tạo nhiều hơn năm tài khoản."),
+            "zh-CN" to ("无限数量的账户" to "解锁创建多于五个账户的能力"),
+            "zh-TW" to ("無限數量的帳戶" to "解锁创建五个以上账户的能力")
+        )
+
+        //@formatter:on
 
         const val SERVICE_ACCOUNT_EMAIL =
             "fastlane@api-5950718857839288276-239934.iam.gserviceaccount.com"
@@ -139,7 +175,7 @@ class Main {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val sku = SKU_adfree
+            val sku = SKU_accounts_unlimited
             try {
                 // Create the API service.
                 val service: AndroidPublisher = AndroidPublisherHelper.init()
