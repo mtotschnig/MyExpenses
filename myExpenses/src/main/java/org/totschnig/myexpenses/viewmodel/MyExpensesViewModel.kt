@@ -154,4 +154,15 @@ class MyExpensesViewModel(application: Application) :
                 Unit
             })
         }
+
+    fun setAccountVisibility(hidden: Boolean, vararg itemIds: Long) {
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.update(
+                ACCOUNTS_URI,
+                ContentValues().apply { put(KEY_HIDDEN, hidden) },
+                "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(itemIds.size)}",
+                itemIds.map { it.toString() }.toTypedArray()
+            )
+        }
+    }
 }

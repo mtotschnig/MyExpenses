@@ -35,7 +35,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
@@ -605,10 +604,7 @@ public class MyExpenses extends BaseMyExpenses implements
       long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
       //do nothing if accidentally we are positioned at an aggregate account
       if (accountId > 0) {
-        startTaskExecution(
-            TASK_SET_ACCOUNT_HIDDEN,
-            new Long[]{accountId},
-            true, 0);
+        getViewModel().setAccountVisibility(true, accountId);
       }
       return true;
     } else if (command == R.id.HIDDEN_ACCOUNTS_COMMAND) {
@@ -653,7 +649,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   @Override
-  public void contribFeatureNotCalled(ContribFeature feature) {
+  public void contribFeatureNotCalled(@NonNull ContribFeature feature) {
     if (!DistributionHelper.isGithub() && feature == ContribFeature.AD_FREE) {
       finish();
     }

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.task;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -11,15 +10,12 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.provider.CalendarContract;
 
-import com.annimon.stream.Stream;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -93,10 +89,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
             values, null, null);
         return null;
-      case TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS:
-        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS) ? Result.SUCCESS : Result.FAILURE;
-      case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
-        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_REPAIR_PLAN:
         String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
         if (calendarId.equals("-1")) {
@@ -121,16 +113,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return true;
     }
     return null;
-  }
-
-  private boolean updateBooleanAccountFieldFromExtra(ContentResolver cr, Long[] accountIds, String key) {
-    ContentValues values;
-    values = new ContentValues();
-    values.put(key, (Boolean) mExtra);
-    return cr.update(
-        TransactionProvider.ACCOUNTS_URI, values,
-        String.format("%s %s", KEY_ROWID, WhereFilter.Operation.IN.getOp(accountIds.length)),
-        Stream.of(accountIds).map(String::valueOf).toArray(String[]::new)) == accountIds.length;
   }
 
   @Override
