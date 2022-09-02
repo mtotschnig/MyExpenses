@@ -32,7 +32,7 @@ hu:
         korlátokkal napi, heti, havi vagy éves szinten.'
       plans_unlimited: Korlátlan számú terv a <b>ismétlődő</b> tranzakciókhoz
       ad_free: <b>Nincs hirdetés</b>
-      accounts_unlimited: Korlátlan számú <b>fiók</b>
+      accounts_unlimited: Több mint öt fiók létrehozásának feloldása
       split_transaction: '<b>Tranzakció szétválasztása</b>: Egy tranzakció több részre
         (kategóriákra és átutalásokra) osztható'
       auto_backup: Napi <b>automatizált biztonsági mentés</b> opcionális feltöltéssel
