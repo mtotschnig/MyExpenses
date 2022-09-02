@@ -54,7 +54,7 @@ pt:
     feature-list-title: "Por favor, contribua atualizando o <i>{app_name}</i> e ganhe\
       \ acesso irrestrito aos seguintes recursos:"
     feature:
-      accounts_unlimited: Número ilimitado de <b>contas</b>
+      accounts_unlimited: Desbloquear a capacidade de criar mais de cinco contas
       plans_unlimited: Número ilimitado de planos para transações <b>recorrentes</b>
       distribution: "<b>Gráfico de pizza</b>: visualize a distribuição estatística\
         \ de transações por categoria em diferentes períodos (anos, meses, semanas,\
