@@ -243,7 +243,7 @@
                 <xsl:value-of select="$separator" />
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='title_webui']" />
-                <xsl:text> https</xsl:text>
+                <xsl:text>: https</xsl:text>
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
