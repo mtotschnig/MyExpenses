@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.delegate
 
+import android.content.res.Resources.NotFoundException
 import android.database.Cursor
 import android.os.Bundle
 import android.text.TextUtils
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class CategoryDelegate(
     viewBinding: OneExpenseBinding,
@@ -108,12 +110,16 @@ class CategoryDelegate(
             viewBinding.ClearCategory.visibility = View.VISIBLE
 
         }
-        viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            if (categoryIcon != null) UiUtils.resolveIcon(
-                viewBinding.root.context,
-                categoryIcon
-            ) else 0, 0, 0, 0
-        )
+        try {
+            viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                if (categoryIcon != null) UiUtils.resolveIcon(
+                    viewBinding.root.context,
+                    categoryIcon
+                ) else 0, 0, 0, 0
+            )
+        } catch (e: NotFoundException) {
+            categoryIcon?.let { CrashHandler.report(e, mapOf("icon" to it)) }
+        }
     }
 
     override fun populateFields(transaction: ITransaction, withAutoFill: Boolean) {
