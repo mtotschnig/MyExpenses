@@ -1043,7 +1043,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
      * @param prefKey PrefKey of screen
      * @return true if we have handle the given key as a subScreen
      */
-    fun handleScreenWithMasterSwitch(prefKey: PrefKey): Boolean {
+    fun handleScreenWithMasterSwitch(prefKey: PrefKey, disableDependents: Boolean): Boolean {
         if (matches(preferenceScreen, prefKey)) {
             preferenceActivity.supportActionBar?.let { actionBar ->
                 val status = prefHandler.getBoolean(prefKey, false)
@@ -1058,9 +1058,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 actionBarSwitch.isChecked = status
                 actionBarSwitch.setOnCheckedChangeListener { _, isChecked ->
                     prefHandler.putBoolean(prefKey, isChecked)
-                    updateDependents(isChecked)
+                    if (disableDependents) {
+                        updateDependents(isChecked)
+                    }
                 }
-                updateDependents(status)
+                if (disableDependents) {
+                    updateDependents(status)
+                }
             }
             return true
         } else if (matches(preferenceScreen, PrefKey.ROOT_SCREEN)) {

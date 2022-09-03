@@ -46,9 +46,13 @@ dependencies {
     androidTestImplementation "androidx.annotation:annotation:$annotations"
 
     implementation "io.ktor:ktor-server-core:$ktor"
+    implementation "io.ktor:ktor-server-netty:$ktor"
     implementation "io.ktor:ktor-server-cio:$ktor"
     implementation "io.ktor:ktor-serialization-gson:$ktor"
     implementation "io.ktor:ktor-server-auth:$ktor"
     implementation "io.ktor:ktor-server-content-negotiation:$ktor"
     implementation "io.ktor:ktor-server-status-pages:$ktor"
+    implementation "io.ktor:ktor-network-tls-certificates:$ktor"
+    implementation "org.bouncycastle:bcpkix-jdk18on:$bouncycastle"
+    implementation "org.bouncycastle:bcprov-jdk18on:$bouncycastle"
 }

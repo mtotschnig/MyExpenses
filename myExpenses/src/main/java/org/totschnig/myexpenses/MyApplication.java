@@ -87,6 +87,7 @@ import static org.totschnig.myexpenses.feature.WebUiFeatureKt.START_ACTION;
 import static org.totschnig.myexpenses.feature.WebUiFeatureKt.STOP_ACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
+import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_HTTPS;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_PASSWORD;
 
 public class MyApplication extends Application implements
@@ -550,7 +551,9 @@ public class MyApplication extends Application implements
     if (key.equals(prefHandler.getKey(DEBUG_LOGGING))) {
       setupLogging();
     }
-    else if (key.equals(prefHandler.getKey(UI_WEB)) || key.equals(prefHandler.getKey(WEBUI_PASSWORD))) {
+    else if (key.equals(prefHandler.getKey(UI_WEB)) ||
+            key.equals(prefHandler.getKey(WEBUI_PASSWORD)) ||
+            key.equals(prefHandler.getKey(WEBUI_HTTPS))) {
       controlWebUi(sharedPreferences.getBoolean(prefHandler.getKey(UI_WEB), false));
     }
     // TODO: move to TaskExecutionFragment

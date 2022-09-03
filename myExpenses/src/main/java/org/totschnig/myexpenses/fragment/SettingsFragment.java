@@ -66,10 +66,10 @@ public class SettingsFragment extends BaseSettingsFragment {
         concatResStrings(activity, " ", R.string.app_name, R.string.menu_settings) :
         screen.getTitle();
     actionBar.setTitle(title);
-    boolean hasMasterSwitch = handleScreenWithMasterSwitch(PERFORM_SHARE) ||
-            handleScreenWithMasterSwitch(AUTO_BACKUP) ||
-            handleScreenWithMasterSwitch(AUTO_FILL_SWITCH) ||
-            handleScreenWithMasterSwitch(PURGE_BACKUP) || handleScreenWithMasterSwitch(UI_WEB);
+    boolean hasMasterSwitch = handleScreenWithMasterSwitch(PERFORM_SHARE, true) ||
+            handleScreenWithMasterSwitch(AUTO_BACKUP, true) ||
+            handleScreenWithMasterSwitch(AUTO_FILL_SWITCH, true) ||
+            handleScreenWithMasterSwitch(PURGE_BACKUP, true) || handleScreenWithMasterSwitch(UI_WEB, false);
     if (!hasMasterSwitch) {
       actionBar.setCustomView(null);
     }

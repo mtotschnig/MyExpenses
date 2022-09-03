@@ -168,7 +168,8 @@ public enum PrefKey {
   CSV_EXPORT(R.string.pref_csv_export_key),
   CSV_EXPORT_SPLIT_CATEGORIES(R.string.pref_csv_export_split_categories_key),
   CSV_EXPORT_SPLIT_AMOUNT(R.string.pref_csv_export_split_amount_key),
-  CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key)
+  CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key),
+  WEBUI_HTTPS(R.string.pref_web_ui_https_key)
   ;
 
   int resId = 0;

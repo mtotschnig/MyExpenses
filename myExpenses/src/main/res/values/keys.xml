@@ -260,4 +260,5 @@
     <string name="pref_csv_export_split_amount_key">csv_export_split_amount</string>
     <string name="pref_csv_export_split_date_time_key">csv_export_split_date_time</string>
     <string name="date_format_a">am/pm</string>
+    <string name="pref_web_ui_https_key">web_ui_https</string>
 </resources>

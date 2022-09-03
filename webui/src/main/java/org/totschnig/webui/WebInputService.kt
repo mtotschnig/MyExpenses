@@ -17,16 +17,16 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
+import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.apache.commons.text.StringSubstitutor
-import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
-import org.apache.commons.text.StringSubstitutor.DEFAULT_PREFIX
-import org.apache.commons.text.StringSubstitutor.DEFAULT_SUFFIX
+import org.apache.commons.text.StringSubstitutor.*
 import org.apache.commons.text.lookup.StringLookup
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
@@ -41,16 +41,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.ui.ContextHelper
@@ -61,6 +52,7 @@ import org.totschnig.myexpenses.util.io.getWifiIpAddress
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.io.IOException
 import java.net.ServerSocket
+import java.security.Security
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -92,6 +84,8 @@ class WebInputService : Service(), IWebInputService {
 
     private var port: Int = 0
 
+    private var useHttps: Boolean = false
+
     inner class LocalBinder : WebUiBinder() {
         override fun getService() = this@WebInputService
     }
@@ -121,8 +115,11 @@ class WebInputService : Service(), IWebInputService {
         this.serverStateObserver = null
     }
 
+    private val protocol: String
+        get() = if (useHttps) "https" else "http"
+
     private val address: String
-        get() = "http://${getWifiIpAddress(this)}:$port"
+        get() = "$protocol://${getWifiIpAddress(this)}:$port"
 
 
     private fun readTextFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
@@ -149,6 +146,7 @@ class WebInputService : Service(), IWebInputService {
                 if (server != null) {
                     stopServer()
                 }
+                useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
                 if (try {
                         (9000..9050).first { isAvailable(it) }
                     } catch (e: NoSuchElementException) {
@@ -156,63 +154,80 @@ class WebInputService : Service(), IWebInputService {
                         0
                     }.let { port = it; it != 0 }
                 ) {
-                    server = embeddedServer(CIO, port, watchPaths = emptyList()) {
-                        install(ContentNegotiation) {
-                            gson {
-                                registerTypeAdapter(
-                                    LocalDate::class.java,
-                                    LocalDateAdapter
-                                )
-                                registerTypeAdapter(
-                                    LocalTime::class.java,
-                                    LocalTimeAdapter
-                                )
+                    val environment = applicationEngineEnvironment {
+                        if (useHttps) {
+                            val keystore = generateCertificate(keyAlias = "myKey")
+                            sslConnector(
+                                keyStore = keystore,
+                                keyAlias = "myKey",
+                                keyStorePassword = { charArrayOf() },
+                                privateKeyPassword = { charArrayOf() }) {
+                                port = this@WebInputService.port
+                            }
+                        } else {
+                            connector {
+                                port = this@WebInputService.port
                             }
                         }
-                        val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
-                            .takeIf { !it.isNullOrBlank() }
-                        passWord?.let {
-                            install(Authentication) {
-                                basic("auth-basic") {
-                                    realm = getString(R.string.app_name)
-                                    validate { credentials ->
-                                        if (credentials.password == it) {
-                                            UserIdPrincipal(credentials.name)
-                                        } else {
-                                            null
+                        watchPaths = emptyList()
+                        module {
+                            install(ContentNegotiation) {
+                                gson {
+                                    registerTypeAdapter(
+                                        LocalDate::class.java,
+                                        LocalDateAdapter
+                                    )
+                                    registerTypeAdapter(
+                                        LocalTime::class.java,
+                                        LocalTimeAdapter
+                                    )
+                                }
+                            }
+                            val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
+                                .takeIf { !it.isNullOrBlank() }
+                            passWord?.let {
+                                install(Authentication) {
+                                    basic("auth-basic") {
+                                        realm = getString(R.string.app_name)
+                                        validate { credentials ->
+                                            if (credentials.password == it) {
+                                                UserIdPrincipal(credentials.name)
+                                            } else {
+                                                null
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        install(StatusPages) {
-                            exception<Throwable> { call, cause ->
-                                call.respond(
-                                    HttpStatusCode.InternalServerError,
-                                    "Internal Server Error"
-                                )
-                                CrashHandler.report(cause)
-                                throw cause
+                            install(StatusPages) {
+                                exception<Throwable> { call, cause ->
+                                    call.respond(
+                                        HttpStatusCode.InternalServerError,
+                                        "Internal Server Error"
+                                    )
+                                    CrashHandler.report(cause)
+                                    throw cause
+                                }
                             }
-                        }
 
-                        routing {
+                            routing {
 
-                            get("/styles.css") {
-                                call.respondText(
-                                    readTextFromAssets("styles.css"),
-                                    ContentType.Text.CSS
-                                )
-                            }
-                            get("/favicon.ico") {
-                                call.respondBytes(
-                                    readBytesFromAssets("favicon.ico"),
-                                    ContentType.Image.XIcon
-                                )
-                            }
-                            get("messages.js") {
-                                call.respondText("""
+                                get("/styles.css") {
+                                    call.respondText(
+                                        readTextFromAssets("styles.css"),
+                                        ContentType.Text.CSS
+                                    )
+                                }
+                                get("/favicon.ico") {
+                                    call.respondBytes(
+                                        readBytesFromAssets("favicon.ico"),
+                                        ContentType.Image.XIcon
+                                    )
+                                }
+                                get("messages.js") {
+                                    call.respondText(
+                                        """
                                     let messages = {
                                     ${i18nJson("app_name")},
                                     ${i18nJson("title_webui")},
@@ -239,17 +254,21 @@ class WebInputService : Service(), IWebInputService {
                                     ${i18nJson("webui_warning_move_transaction")}                                    ,
                                     ${i18nJsonPlurals("warning_delete_transaction")}
                                     };
-                                """.trimIndent(), ContentType.Text.JavaScript)
-                            }
-                            if (passWord == null) {
-                                serve()
-                            } else {
-                                authenticate("auth-basic") {
+                                """.trimIndent(), ContentType.Text.JavaScript
+                                    )
+                                }
+                                if (passWord == null) {
                                     serve()
+                                } else {
+                                    authenticate("auth-basic") {
+                                        serve()
+                                    }
                                 }
                             }
                         }
-                    }.also {
+                    }
+
+                    server = embeddedServer(if (useHttps) Netty else CIO, environment).also {
                         it.start(wait = false)
                     }
 
@@ -370,8 +389,7 @@ class WebInputService : Service(), IWebInputService {
                     }.toList()
                 },
             )
-            val categoryTreeDepth =
-                categories?.map { it["level"] as Int }?.maxOrNull() ?: 0
+            val categoryTreeDepth = categories?.maxOfOrNull { it["level"] as Int } ?: 0
             val categoryWatchers = if (categoryTreeDepth > 1) {
                 (0..categoryTreeDepth - 2).joinToString(separator = "\n") {
                     "this.\$watch('categoryPath[$it].id', value => { this.categoryPath[${it + 1}].id=0 } );"
@@ -460,23 +478,27 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private fun isAvailable(portNr: Int) = try {
-        ServerSocket(portNr).let {
-            it.close()
-            true
-        }
+        ServerSocket(portNr).close()
+        true
     } catch (e: IOException) {
         false
     }
 
     private fun i18nJsonPlurals(resourceName: String, quantity: Int = 1) =
-        "$resourceName : '${tqPlurals(resources.getIdentifier(resourceName, "plurals", packageName), quantity)}'"
+        "$resourceName : '${
+            tqPlurals(
+                resources.getIdentifier(resourceName, "plurals", packageName),
+                quantity
+            )
+        }'"
 
     private fun i18nJson(resourceName: String) =
         "$resourceName : '${tq(resources.getIdentifier(resourceName, "string", packageName))}'"
 
     private fun tq(@StringRes resId: Int) = wrappedContext.getString(resId).replace("'", "\\'")
 
-    private fun tqPlurals(@PluralsRes resId: Int, quantity: Int) = wrappedContext.resources.getQuantityString(resId, quantity, quantity).replace("'", "\\'")
+    private fun tqPlurals(@PluralsRes resId: Int, quantity: Int) =
+        wrappedContext.resources.getQuantityString(resId, quantity, quantity).replace("'", "\\'")
 
     override fun onDestroy() {
         stopServer()
@@ -489,4 +511,11 @@ class WebInputService : Service(), IWebInputService {
         stopForeground(true)
         true
     } else false
+
+    companion object {
+        init {
+            Security.removeProvider("BC")
+            Security.addProvider(BouncyCastleProvider())
+        }
+    }
 }
