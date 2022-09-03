@@ -240,6 +240,10 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='menu_budget']" />
                 <xsl:text> 3.0</xsl:text>
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='title_webui']" />
+                <xsl:text> https</xsl:text>
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
