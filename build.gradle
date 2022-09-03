@@ -43,14 +43,14 @@ ext {
     androidxTextExtJunit = "1.1.3"
     daggerVersion = "2.42"
     okHttpVersion = "4.9.3"
-    acraVersion = "5.8.4"
+    acraVersion = "5.9.6"
     butterknifeVersion = "10.2.3"
     robolectricVersion = "4.8.1"
     roomVersion = "2.4.3"
     archLifecycleVersion = '2.5.1'
     androidxArchVersion = '2.1.0'
     fragmentVersion = "1.5.2"
-    coroutines = '1.6.3'
+    coroutines = '1.6.4'
     mockitoVersion = '3.12.4'
     retrofitVersion = "2.9.0"
     ktxVersion = "1.8.0"
@@ -68,6 +68,6 @@ ext {
     ktor = "2.1.0"
     bouncycastle = "1.71.1"
     desugarVersion = "1.1.5"
-    mlkitTextRecognition = "16.0.0-beta4"
+    mlkitTextRecognition = "16.0.0-beta5"
     truthVersion = "1.1.3"
 }
