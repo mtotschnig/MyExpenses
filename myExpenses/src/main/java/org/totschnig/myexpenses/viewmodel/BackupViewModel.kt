@@ -82,22 +82,24 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
 
     fun purgeBackups() {
         viewModelScope.launch(coroutineDispatcher) {
-            backupState.postValue(
-                BackupState.Purged(
-                    runCatching {
-                        @Suppress("DEPRECATION")
-                        (backupState.value as BackupState.Completed).result.getOrThrow().third.fold(
-                            ifLeft = { list ->
-                                list.sumBy {
-                                    if (it.delete()) 1 else 0
+            (backupState.value as? BackupState.Completed)?.let {
+                backupState.postValue(
+                    BackupState.Purged(
+                        runCatching {
+                            @Suppress("DEPRECATION")
+                            it.result.getOrThrow().third.fold(
+                                ifLeft = { list ->
+                                    list.sumBy {
+                                        if (it.delete()) 1 else 0
+                                    }
+                                },
+                                ifRight = {
+                                    throw IllegalStateException()
                                 }
-                            },
-                            ifRight = {
-                                throw IllegalStateException()
-                            }
-                        )
-                    }
-                ))
+                            )
+                        }
+                    ))
+            }
         }
     }
 
