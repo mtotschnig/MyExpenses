@@ -336,7 +336,7 @@ abstract class MainDelegate<T : ITransaction>(
     fun setupDebtChangedListener() {
         viewBinding.DebtCheckBox.setOnCheckedChangeListener { _, isChecked ->
             applicableDebts.let { debts ->
-                if (isChecked) {
+                if (isChecked && !host.isFinishing) {
                     when (debts.size) {
                         0 -> { /*should not happen*/ CrashHandler.throwOrReport(
                             "Debt checked without applicable debt"
