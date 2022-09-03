@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ContribDialogFragment
@@ -78,8 +79,10 @@ class ContribInfoDialogActivity : IapActivity() {
                             billingManager!!
                         )
                     } catch (e: IllegalStateException) {
-                        report(e)
-                        showMessage(e.safeMessage)
+                        if (e !is CancellationException) {
+                            report(e)
+                            showMessage(e.safeMessage)
+                        }
                     }
                 }
             else -> contribBuyGithub(aPackage)
