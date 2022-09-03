@@ -2,7 +2,10 @@
 # otherwise the stack traces are pretty useless
 -keepattributes SourceFile, LineNumberTable, InnerClasses
 
-#-keep class org.bouncycastle.** { *; }
+# WebUI https: https://youtrack.jetbrains.com/issue/KTOR-4730
+-keep class org.bouncycastle.jcajce.provider.** { *; }
+-keep class org.bouncycastle.jce.provider.** { *; }
+
 -keep class com.itextpdf.** { *; }
 -dontwarn org.bouncycastle.**
 -dontwarn com.itextpdf.**
@@ -77,7 +80,3 @@
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
 
-#https://issuetracker.google.com/issues/181878999
--keep class androidx.exifinterface.media.ExifInterface$OsApi21Impl {
-  <methods>;
-}
