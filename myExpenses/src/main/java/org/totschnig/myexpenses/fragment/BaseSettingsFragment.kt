@@ -628,8 +628,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             licenceKeyPref?.isVisible = false
         }
         val contribPurchaseTitle: String = licenceHandler.prettyPrintStatus(requireContext())
-            ?: getString(R.string.pref_contrib_purchase_title) + (if (licenceHandler.doesUseIAP)
-                " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else "")
+            ?: (getString(R.string.pref_contrib_purchase_title) + (if (licenceHandler.doesUseIAP)
+                " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else ""))
         var contribPurchaseSummary: String
         val licenceStatus = licenceHandler.licenceStatus
         if (licenceStatus == null && licenceHandler.addOnFeatures.isEmpty()) {
