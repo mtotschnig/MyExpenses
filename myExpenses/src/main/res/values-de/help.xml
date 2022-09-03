@@ -196,4 +196,9 @@
     <string name="help_WebUI_info_2">Derzeit unterstützt die Web-Benutzeroberfläche keine Überweisungen oder mehrteilige Buchungen.</string>
     <string name="help_WebUI_info_4">Bei der Anzeige der Buchungen für das ausgewählte Konto verwendet die Web-Benutzeroberfläche die gleichen Filter, die Sie mit der App auf dem Android-Gerät eingestellt haben.</string>
     <string name="help_WebUI_info_3">Sie können ein Passwort festlegen, um den Zugang zu schützen. In dem vom Webbrowser angezeigten Dialog wird nur das Passwort berücksichtigt, der Benutzername wird ignoriert.</string>
+    <string name="help_Budget_amount_click_1">Die Änderung eines Betrags wirkt sich niemals auf vergangene Zeiträume aus. Sofern Sie sich nicht entscheiden, es nur für den aktuellen Zeitraum festzulegen, wirkt es sich auf zukünftige Zeiträume aus.</string>
+    <string name="menu_BudgetActivity_rollover_total">Nur der Rest des Gesamtbudgets wird übertragen, so dass nur das Gesamtbudget für den nächsten Zeitraum erhöht oder verringert wird.</string>
+    <string name="menu_BudgetActivity_rollover_categories">Der Restbetrag für jede Kategorie wird übertragen und wirkt sich auf die entsprechende Zuweisung im nächsten Zeitraum aus.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">Wenn Sie Ihr Budget unter- oder überschreiten, können Sie die Differenz auf die nächste Periode übertragen, so dass der Betrag, den Sie dort bereitstellen können, entweder erhöht oder verringert wird. Es gibt drei Möglichkeiten:</string>
+    <string name="menu_BudgetActivity_rollover_edit">Mit dieser Option können Sie die Überträge genau konfigurieren. So können Sie zum Beispiel nur für einige Kategorien oder Unterkategorien einen Teil des Budgets übertragen und den restlichen Teil auf das Gesamtbudget übertragen.</string>
 </resources>
