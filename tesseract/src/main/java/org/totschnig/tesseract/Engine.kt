@@ -193,7 +193,9 @@ object Engine : TesseractEngine {
                                 TessBaseAPI.PageIteratorLevel.RIL_WORD
                             ) && next(TessBaseAPI.PageIteratorLevel.RIL_WORD)
                         )
-                        lines.add(Line(lineText, lineBoundingRect, elements))
+                        if (lineText != null) {
+                            lines.add(Line(lineText, lineBoundingRect, elements))
+                        }
                     } while (next(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE))
                     delete()
                 }
