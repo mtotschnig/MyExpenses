@@ -1057,9 +1057,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 actionBar.customView = actionBarSwitch
                 actionBarSwitch.isChecked = status
                 actionBarSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    prefHandler.putBoolean(prefKey, isChecked)
-                    if (disableDependents) {
-                        updateDependents(isChecked)
+                    if (onPreferenceChange(preferenceScreen, isChecked)) {
+                        prefHandler.putBoolean(prefKey, isChecked)
+                        if (disableDependents) {
+                            updateDependents(isChecked)
+                        }
+                    } else {
+                        actionBarSwitch.isChecked  = !isChecked
                     }
                 }
                 if (disableDependents) {
