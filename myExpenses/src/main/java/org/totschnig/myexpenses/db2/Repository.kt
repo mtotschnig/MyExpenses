@@ -83,7 +83,7 @@ class Repository @Inject constructor(
                 localDateTime2Epoch(LocalDateTime.of(date, time))
             } ?: localDate2Epoch(date))
             put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
-            put(KEY_PAYEEID, findOrWritePayee(payee))
+            payee.takeIf { it.isNotEmpty() }?.let {  put(KEY_PAYEEID, findOrWritePayee(it)) }
             put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
             category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
             method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
