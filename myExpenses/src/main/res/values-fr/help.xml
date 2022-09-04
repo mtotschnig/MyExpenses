@@ -197,4 +197,9 @@
     <string name="help_WebUI_info_3">Vous pouvez définir un mot de passe pour protéger l\'accès. Dans le dialogue présenté par le navigateur web, seul le mot de passe est pris en compte, le nom d\'utilisateur est ignoré.</string>
     <string name="help_WebUI_info_2">Actuellement, l\'interface utilisateur Web ne prend pas en charge les transferts ou les transactions fractionnées.</string>
     <string name="help_WebUI_info_4">Lorsqu\'elle affiche les transactions du compte sélectionné, l\'interface utilisateur Web utilise les mêmes filtres que ceux que vous avez définis avec l\'application sur l\'appareil Android.</string>
+    <string name="menu_BudgetActivity_rollover_edit">Cette option vous permet de configurer précisément les reports. Par exemple, vous pouvez définir des reports partiels uniquement pour certaines catégories ou sous-catégories, et reporter la partie restante sur le budget total.</string>
+    <string name="help_Budget_amount_click_1">La modification d\'un montant n\'affectera jamais les périodes passées. À moins que vous ne décidiez de le définir uniquement pour la période en cours, il affectera les périodes futures.</string>
+    <string name="menu_BudgetActivity_rollover_categories">Le reliquat de chaque catégorie est reconduit, et l\'allocation correspondante de la période suivante en sera affectée.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">Si votre budget est inférieur ou supérieur aux prévisions, vous pouvez reporter la différence sur la période suivante, de sorte que le montant que vous pouvez y allouer soit augmenté ou diminué. Il existe trois options :</string>
+    <string name="menu_BudgetActivity_rollover_total">Seul le reste du budget total est reconduit, de sorte que seul le budget total de la période suivante est augmenté ou diminué.</string>
 </resources>
