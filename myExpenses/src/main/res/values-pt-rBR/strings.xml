@@ -1023,4 +1023,6 @@
     <string name="webui_warning_move_transaction">A transação será movida para a conta {account}.</string>
     <string name="whats_new_344">Ícones para categorias</string>
     <string name="required">Obrigatório</string>
+    <string name="budget_only_current_period">Definido somente para %s</string>
+    <string name="budget_table_header_rollover">Rolar</string>
 </resources>
