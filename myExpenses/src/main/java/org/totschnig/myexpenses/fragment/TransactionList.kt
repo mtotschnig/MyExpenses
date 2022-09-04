@@ -20,13 +20,32 @@ import icepick.State
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.*
+import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.activity.BaseMyExpenses
+import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
+import org.totschnig.myexpenses.activity.FILTER_CATEGORY_REQUEST
+import org.totschnig.myexpenses.activity.FILTER_PAYEE_REQUEST
+import org.totschnig.myexpenses.activity.FILTER_TAGS_REQUEST
+import org.totschnig.myexpenses.activity.MAP_ACCOUNT_REQUEST
+import org.totschnig.myexpenses.activity.MAP_CATEGORY_REQUEST
+import org.totschnig.myexpenses.activity.MAP_METHOD_REQUEST
+import org.totschnig.myexpenses.activity.MAP_PAYEE_REQUEST
+import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
+import org.totschnig.myexpenses.activity.ManageCategories
+import org.totschnig.myexpenses.activity.ManageParties
+import org.totschnig.myexpenses.activity.ManageTags
+import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DateFilterDialog
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
-import org.totschnig.myexpenses.dialog.select.*
+import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment.Companion.newInstance
+import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
@@ -35,14 +54,17 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
+import org.totschnig.myexpenses.util.asTrueSequence
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
-import java.lang.IllegalStateException
 import kotlin.math.sign
 
 const val KEY_REPLACE = "replace"
@@ -623,9 +645,17 @@ class TransactionList : BaseTransactionList() {
      */
     override fun resolveBudget(headerId: Int): Long? {
         return budgetAmounts?.let { budgetAmounts ->
-            budgetAmounts.find { it.first == headerId } ?:
-            budgetAmounts.last { !it.third && it.first < headerId } ?:
-            budgetAmounts.first { !it.third }
+            if (budgetAmounts.isEmpty()) {
+                CrashHandler.report(IllegalStateException("empty budgetAmounts list"))
+                null
+            } else {
+                val triple = budgetAmounts.find { it.first == headerId }
+                    ?: budgetAmounts.lastOrNull { !it.third && it.first < headerId }
+                if (triple == null) {
+                    CrashHandler.report(IllegalStateException("budgetAmounts without default allocation: " + budgetAmounts.map { it.first }.joinToString(",")))
+                }
+                triple
+            }
         }?.second
     }
 }
