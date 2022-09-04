@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.math.BigDecimal
@@ -233,7 +234,10 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     return true
                 }
                 DELETE_BUDGET_DIALOG -> {
-                    viewModel.deleteBudget(budget.id).observe(this) {
+                    viewModel.deleteBudget(
+                        budgetId = budget.id,
+                        if (budget.default) BudgetViewModel.prefNameForDefaultBudget(budget.accountId, budget.grouping) else null
+                    ).observe(this) {
                         if (it) {
                             setResult(Activity.RESULT_FIRST_USER)
                             finish()

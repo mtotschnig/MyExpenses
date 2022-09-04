@@ -643,21 +643,11 @@ class TransactionList : BaseTransactionList() {
     /**
      * reimplement DbConstants.budgetColumn outside of Database
      */
-    override fun resolveBudget(headerId: Int): Long? {
-        return budgetAmounts?.let { budgetAmounts ->
-            if (budgetAmounts.isEmpty()) {
-                CrashHandler.report(IllegalStateException("empty budgetAmounts list"))
-                null
-            } else {
-                val triple = budgetAmounts.find { it.first == headerId }
-                    ?: budgetAmounts.lastOrNull { !it.third && it.first < headerId }
-                if (triple == null) {
-                    CrashHandler.report(IllegalStateException("budgetAmounts without default allocation: " + budgetAmounts.map { it.first }.joinToString(",")))
-                }
-                triple
-            }
+    override fun resolveBudget(headerId: Int) =
+        budgetAmounts?.takeIf { it.isNotEmpty() }?.let { budgetAmounts ->
+            budgetAmounts.find { it.first == headerId } ?:
+            budgetAmounts.lastOrNull { !it.third && it.first < headerId }
         }?.second
-    }
 }
 
 class ConfirmTagDialogFragment : DialogFragment() {

@@ -249,7 +249,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         }
     }
 
-    fun deleteBudget(budgetId: Long) = liveData(context = coroutineContext()) {
+    fun deleteBudget(budgetId: Long, defaultKey: String?) = liveData(context = coroutineContext()) {
         emit(
             contentResolver.delete(
                 ContentUris.withAppendedId(
@@ -258,6 +258,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 ), null, null
             ) == 1
         )
+        defaultKey?.let { prefHandler.remove(it) }
     }
 
     fun rollOverClear() {
