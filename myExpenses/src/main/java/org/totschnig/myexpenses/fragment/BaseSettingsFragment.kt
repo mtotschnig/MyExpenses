@@ -228,7 +228,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun activateWebUi() {
-        findPreference<SwitchPreferenceCompat>(PrefKey.UI_WEB)?.isChecked = true
+        (preferenceActivity.supportActionBar?.customView as? SwitchCompat)?.isChecked = true
     }
 
     override fun onStop() {

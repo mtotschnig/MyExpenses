@@ -375,7 +375,6 @@
                 android:key="@string/pref_web_ui_password_key"
                 android:title="@string/hint_password" />
             <SwitchPreferenceCompat
-                android:defaultValue="false"
                 android:key="@string/pref_web_ui_https_key"
                 android:summary="https" />
         </PreferenceScreen>
