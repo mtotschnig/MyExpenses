@@ -10,6 +10,8 @@ import android.os.IBinder
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.core.database.getLongOrNull
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
@@ -23,6 +25,8 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.apache.commons.text.StringSubstitutor
 import org.apache.commons.text.StringSubstitutor.*
 import org.apache.commons.text.lookup.StringLookup
@@ -59,7 +63,7 @@ import javax.inject.Inject
 
 private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
 
-class WebInputService : Service(), IWebInputService {
+class WebInputService : LifecycleService(), IWebInputService {
 
     @Inject
     lateinit var repository: Repository
@@ -98,6 +102,7 @@ class WebInputService : Service(), IWebInputService {
     }
 
     override fun onBind(intent: Intent): IBinder {
+        super.onBind(intent)
         return binder
     }
 
@@ -269,7 +274,9 @@ class WebInputService : Service(), IWebInputService {
                     }
 
                     server = embeddedServer(if (useHttps) Netty else CIO, environment).also {
-                        it.start(wait = false)
+                        lifecycleScope.launch(Dispatchers.Default) {
+                            it.start(wait = false)
+                        }
                     }
 
                     val stopIntent = Intent(this, WebInputService::class.java).apply {

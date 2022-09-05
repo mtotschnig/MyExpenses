@@ -18,6 +18,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
+import android.widget.CompoundButton
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
@@ -133,6 +134,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     private val currencyViewModel: CurrencyViewModel by viewModels()
     private val viewModel: SettingsViewModel by viewModels()
 
+    private var masterSwitchChangeLister: CompoundButton.OnCheckedChangeListener? = null
+
     //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
     private val storeInDatabaseChangeListener =
         Preference.OnPreferenceChangeListener { preference, newValue ->
@@ -228,7 +231,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun activateWebUi() {
-        (preferenceActivity.supportActionBar?.customView as? SwitchCompat)?.isChecked = true
+        prefHandler.putBoolean(PrefKey.UI_WEB, true)
+        (preferenceActivity.supportActionBar?.customView as? SwitchCompat)?.let {
+            it.setOnCheckedChangeListener(null)
+            it.isChecked = true
+            it.setOnCheckedChangeListener(masterSwitchChangeLister)
+        }
     }
 
     override fun onStop() {
@@ -1056,16 +1064,17 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
                 actionBar.customView = actionBarSwitch
                 actionBarSwitch.isChecked = status
-                actionBarSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    if (onPreferenceChange(preferenceScreen, isChecked)) {
-                        prefHandler.putBoolean(prefKey, isChecked)
-                        if (disableDependents) {
-                            updateDependents(isChecked)
+                masterSwitchChangeLister = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+                        if (onPreferenceChange(preferenceScreen, isChecked)) {
+                            prefHandler.putBoolean(prefKey, isChecked)
+                            if (disableDependents) {
+                                updateDependents(isChecked)
+                            }
+                        } else {
+                            actionBarSwitch.isChecked = !isChecked
                         }
-                    } else {
-                        actionBarSwitch.isChecked  = !isChecked
                     }
-                }
+                actionBarSwitch.setOnCheckedChangeListener(masterSwitchChangeLister)
                 if (disableDependents) {
                     updateDependents(status)
                 }
