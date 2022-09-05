@@ -6,6 +6,11 @@
 -keep class org.bouncycastle.jcajce.provider.** { *; }
 -keep class org.bouncycastle.jce.provider.** { *; }
 
+-keep class io.netty.buffer.AdvancedLeakAwareByteBuf { *; }
+-keep class io.netty.buffer.AbstractByteBufAllocator { *; }
+-keep class io.netty.util.ReferenceCountUtil { *; }
+
+
 -keep class com.itextpdf.** { *; }
 -dontwarn org.bouncycastle.**
 -dontwarn com.itextpdf.**
