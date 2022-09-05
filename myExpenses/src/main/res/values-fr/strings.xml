@@ -109,7 +109,8 @@
     <string name="dialog_title_contrib_feature">Fonction Premium</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Supprimer le compte \?</item>
-        <item quantity="other">Supprimer %1$dcomptes \?</item>
+        <item quantity="many">Supprimer %1$d comptes \?</item>
+        <item quantity="other">Supprimer %1$d comptes \?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Supprimer la catégorie \?</string>
     <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
@@ -227,10 +228,12 @@
     <string name="no_accounts">Pas de comptes.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">L\'objet sélectionné est attribué à une opération et ne peut pas être supprimé.</item>
+        <item quantity="many">%1$d objets sélectionnés sont attribués à plusieurs opérations et ne peuvent pas être supprimés.</item>
         <item quantity="other">%1$d objets sélectionnés sont attribués à plusieurs opérations et ne peuvent pas être supprimés.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">L\'objet sélectionné est attribué à un modèle et ne peut pas être supprimé.</item>
+        <item quantity="many">%1$d objets sélectionnés sont attribués à plusieurs opérations et ne peuvent pas être supprimés.</item>
         <item quantity="other">%1$d objets sélectionnés sont attribués à plusieurs modèles et ne peuvent pas être supprimés.</item>
     </plurals>
     <string name="numbered">numérotation</string>
@@ -357,6 +360,7 @@
     <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Nouvelle transaction enregistrée à partir du modèle.</item>
+        <item quantity="many">%1$d opérations enregistrées avec succès à partir des modèles.</item>
         <item quantity="other">%1$d opérations enregistrées avec succès à partir des modèles.</item>
     </plurals>
     <string name="save_transaction_template_deleted">Le modèle a été supprimé</string>
@@ -396,15 +400,18 @@
     <string name="warning_delete_account">Le compte « %1$s » sera effacé ainsi que toutes ses opérations.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">La catégorie sélectionnée possède des sous-catégories, qui seront aussi supprimées.</item>
+        <item quantity="many">%1$d catégories sélectionnées possèdent des sous-catégories, qui seront aussi supprimées.</item>
         <item quantity="other">%1$d catégories sélectionnées possèdent des sous-catégories, qui seront aussi supprimées.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">Pour au moins une catégorie sélectionnée, il existe des affectations budgétaires, qui seront également supprimées.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">Le modèle sélectionné sera supprimé.</item>
+        <item quantity="many">%1$d modèles sélectionnés seront supprimés.</item>
         <item quantity="other">%1$d modèles sélectionnés seront supprimés.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">L\'opération sélectionnée sera supprimée.</item>
+        <item quantity="many">%1$d opérations sélectionnées seront supprimées.</item>
         <item quantity="other">%1$d opérations sélectionnées seront supprimées.</item>
     </plurals>
     <string name="move_category_success">Une catégorie a été correctement déplacée.</string>
@@ -664,7 +671,8 @@
     <string name="sync_loading_accounts_from_backend">Chargement des comptes disponible à partir du backend.</string>
     <plurals name="delete_success">
         <item quantity="one">Un objet a été supprimé avec succès.</item>
-        <item quantity="other">%dobjets ont été supprimés avec succès.</item>
+        <item quantity="many">%d objets ont été supprimés avec succès.</item>
+        <item quantity="other">%d objets ont été supprimés avec succès.</item>
     </plurals>
     <string name="feature_deprecated">Déconseillé</string>
     <string name="pref_protection_device_lock_screen_title">Écran de verrouillage de l\'appareil</string>
@@ -690,6 +698,7 @@
     <string name="menu_ungroup_split_transaction">Dissocier la ventilation</string>
     <plurals name="ungroup_split_transaction_success">
         <item quantity="one">La transaction partagée a été dissociée avec succès.</item>
+        <item quantity="many">%1$d opérations ventilées ont été dissociées avec succès.</item>
         <item quantity="other">%1$d opérations ventilées ont été dissociées avec succès.</item>
     </plurals>
     <string name="ungroup_split_transaction_failure">En dissociant les opérations ventilées, %1$d sur %2$d ont échoué.</string>
@@ -865,6 +874,7 @@
     <string name="dialog_multi_tag_clear">Toutes les étiquettes seront supprimées des opérations sélectionnées.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">La balise %1$s est mise en correspondance avec une opération. Doit-elle être supprimée \?</item>
+        <item quantity="many">L\'étiquette %1$s est mise en correspondance avec %2$d opérations. Doit-elle être supprimée \?</item>
         <item quantity="other">L\'étiquette %1$s est mise en correspondance avec %2$d opérations. Doit-elle être supprimée \?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Ajouter les nouvelles étiquettes aux étiquettes existantes</string>
@@ -978,6 +988,7 @@
     <string name="object_sealed_debt">L\'objet fait référence à une dette fermée.</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">La dette %1$s a %2$d une transaction mappée.</item>
+        <item quantity="many">La dette %1$s a %2$d transactions mappées.</item>
         <item quantity="other">La dette %1$s a %2$d transactions mappées.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Supprimer la dette \?</string>
@@ -994,6 +1005,7 @@
     <string name="pref_mlkit_script_title">Script pour MlKit</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Une catégorie a été mise à jour avec une icône.</item>
+        <item quantity="many">%1$d catégories ont été mises à jour avec une icône.</item>
         <item quantity="other">%1$d catégories ont été mises à jour avec une icône.</item>
     </plurals>
     <string name="whats_new_336_1">Partager le résumé de la dette</string>
@@ -1008,10 +1020,12 @@
     <string name="purge_backups">Les anciens fichiers de sauvegarde suivants seront supprimés :</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Un ancien fichier de sauvegarde a été purgé.</item>
+        <item quantity="many">%d anciens fichiers de sauvegarde ont été purgés.</item>
         <item quantity="other">%d anciens fichiers de sauvegarde ont été purgés.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">Un ancien fichier de sauvegarde n\'a pas pu être supprimé.</item>
+        <item quantity="many">%d anciens fichiers de sauvegarde n\'ont pas pu être supprimés.</item>
         <item quantity="other">%d anciens fichiers de sauvegarde n\'ont pas pu être supprimés.</item>
     </plurals>
     <string name="pref_purge_backup_keep_title">Nombre maximal de fichiers de sauvegarde les plus récents à conserver</string>
