@@ -29,6 +29,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -71,7 +72,7 @@ public final class MyExpensesCommentSearchFilterTest extends BaseUiTest<MyExpens
     commentIsDisplayed(comment2);
     onView(withId(R.id.SEARCH_COMMAND)).perform(click());
     onView(withText(R.string.comment)).perform(click());
-    onView(withId(R.id.editText)).perform(typeText(comment1));
+    onView(withId(R.id.editText)).perform(typeText(comment1), closeSoftKeyboard());
     onView(withId(android.R.id.button1)).perform(click());
     commentIsDisplayed(comment1);
     commentIsNotDisplayed(comment2);

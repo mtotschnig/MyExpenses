@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -20,6 +20,8 @@ import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
 
 import android.database.Cursor;
 
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.CursorMatchers;
 
 import org.junit.Before;
@@ -83,11 +85,10 @@ public final class MyExpensesCabTest extends BaseMyExpensesCabTest {
     clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, true);
     onView(withText(containsString(getString(R.string.menu_create_template))))
         .check(matches(isDisplayed()));
-    onView(withId(R.id.editText))
-        .perform(typeText(templateTitle));
-    closeSoftKeyboard();
+    onView(withId(R.id.editText)).perform(closeSoftKeyboard(), typeText(templateTitle), closeSoftKeyboard());
+    Espresso.closeSoftKeyboard();
     onView(withText(R.string.dialog_button_add)).perform(click());
-    closeSoftKeyboard();
+    Espresso.closeSoftKeyboard();
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
 
     clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND);

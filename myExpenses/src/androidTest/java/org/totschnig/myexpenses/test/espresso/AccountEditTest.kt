@@ -6,6 +6,7 @@ import android.os.RemoteException
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import org.assertj.core.api.Assertions.assertThat
@@ -39,7 +40,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         activityScenario = ActivityScenario.launch(i)
         Espresso.onView(ViewMatchers.withId(R.id.Currency)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.Currency)).perform(wait(withListSize(Matchers.greaterThan(0)), 1000))
-        Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL))
+        Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
         Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
         assertFinishing()
         assertThat(Account.findAnyOpen(LABEL) > -1).isTrue
