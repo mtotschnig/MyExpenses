@@ -203,15 +203,16 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         if(matches(preferenceScreen, PrefKey.UI_WEB)) {
             webUiViewModel.getServiceState().observe(this) { result ->
                 preferenceActivity.supportActionBar?.let { actionBar ->
-                    val switch = actionBar.customView as SwitchCompat
-                    result.onSuccess { serverAddress ->
-                        actionBar.subtitle = serverAddress
-                        if (switch.isChecked && serverAddress == null) {
-                            switch.isChecked = false
+                    (actionBar.customView as? SwitchCompat)?.let { switch ->
+                        result.onSuccess { serverAddress ->
+                            actionBar.subtitle = serverAddress
+                            if (switch.isChecked && serverAddress == null) {
+                                switch.isChecked = false
+                            }
+                        }.onFailure {
+                            if (switch.isChecked) switch.isChecked = false
+                            preferenceActivity.showSnackBar(it.safeMessage)
                         }
-                    }.onFailure {
-                        if (switch.isChecked) switch.isChecked = false
-                        preferenceActivity.showSnackBar(it.safeMessage)
                     }
                 }
             }
@@ -537,10 +538,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             matches(pref, PrefKey.UI_WEB) -> {
                 return if (value as Boolean) {
-                    if (!isConnectedWifi(requireContext())) {
+                   /* if (!isConnectedWifi(requireContext())) {
                         preferenceActivity.showSnackBar(getString(R.string.no_network) + " (WIFI)")
                         return false
-                    }
+                    }*/
                     if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && preferenceActivity.featureViewModel.isFeatureAvailable(
                             preferenceActivity,
                             Feature.WEBUI
