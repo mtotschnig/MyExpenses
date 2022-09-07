@@ -65,8 +65,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_REPAIR_PLAN = 41;
 
-  public static final int TASK_ACCOUNT_SORT = 60;
-
   /**
    * Callback interface through which the fragment will report the task's
    * progress and results back to the Activity.
@@ -198,9 +196,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_REVOKE_SPLIT:
         new RevokeSplitCommandTask(this, taskId).execute(args);
-        break;
-      case TASK_ACCOUNT_SORT:
-        new AccountSortTask(this, taskId).execute(args);
         break;
       default:
         try {

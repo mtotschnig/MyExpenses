@@ -1049,9 +1049,7 @@ public class MyExpenses extends BaseMyExpenses implements
 
   @Override
   public void onSortOrderConfirmed(long[] sortedIds) {
-    Bundle extras = new Bundle(1);
-    extras.putLongArray(KEY_SORT_KEY, sortedIds);
-    startTaskExecution(TaskExecutionFragment.TASK_ACCOUNT_SORT, extras, R.string.saving);
+    getViewModel().sortAccounts(sortedIds);
   }
 
   public void clearFilter(View view) {

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -162,6 +163,19 @@ class MyExpensesViewModel(application: Application) :
                 ContentValues().apply { put(KEY_HIDDEN, hidden) },
                 "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(itemIds.size)}",
                 itemIds.map { it.toString() }.toTypedArray()
+            )
+        }
+    }
+
+    fun sortAccounts(sortedIds: LongArray) {
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.call(
+                TransactionProvider.DUAL_URI,
+                TransactionProvider.METHOD_SORT_ACCOUNTS,
+                null,
+                Bundle(1).apply {
+                    putLongArray(KEY_SORT_KEY, sortedIds)
+                }
             )
         }
     }
