@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
+import org.totschnig.myexpenses.provider.frameworkSupportsWindowingFunctions
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -429,6 +430,17 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     featureManager.requestFeature(Feature.OCR, preferenceActivity)
                 }
                 configureOcrEnginePrefs()
+            }
+            getKey(PrefKey.RUNNING_BALANCE) -> {
+                //Prior to API 30, the native sqlite does not support windowing functions.
+                //We need to restart app, in order to use the bundled sqlite library
+                if (sharedPreferences.getBoolean(key, false) && !frameworkSupportsWindowingFunctions) {
+                    if (featureManager.isFeatureInstalled(Feature.REQUERY, preferenceActivity)) {
+                        preferenceActivity.showRestartInfo()
+                    } else {
+                        featureManager.requestFeature(Feature.REQUERY, preferenceActivity)
+                    }
+                }
             }
         }
     }

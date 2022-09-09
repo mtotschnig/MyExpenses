@@ -237,6 +237,13 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         if (feature == Feature.OCR) {
             fragment.configureOcrEnginePrefs()
         }
+        if (feature == Feature.REQUERY) {
+            showRestartInfo()
+        }
+    }
+
+    fun showRestartInfo() {
+        showSnackBar(R.string.app_restart_required)
     }
 
     private fun activateWebUi() {

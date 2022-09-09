@@ -4,14 +4,12 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.os.Bundle
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
@@ -59,6 +57,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
 
     private var shouldLog = false
 
@@ -422,7 +423,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun initOpenHelper() {
-        helper = FrameworkSQLiteOpenHelperFactory().create(SupportSQLiteOpenHelper.Configuration.builder(context!!)
+        helper = openHelperFactory.create(SupportSQLiteOpenHelper.Configuration.builder(context!!)
             .name(databaseName).callback(
                 TransactionDatabase()
             ).build()).also {

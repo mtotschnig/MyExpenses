@@ -8,6 +8,7 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
+import android.os.Build
 import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.database.getIntOrNull
@@ -371,10 +372,10 @@ fun suggestNewCategoryColor(db: SupportSQLiteDatabase) = db.query(
     ),
     orderBy = "count ASC",
     limit = "1"
-)?.use {
+).use {
     it.moveToFirst()
     it.getInt(0)
-} ?: 0
+}
 
 fun buildUnionQuery(
     subQueries: Array<String?>,
@@ -404,6 +405,9 @@ fun computeWhere(selection: String?, whereClause: java.lang.StringBuilder): Stri
         null
     }
 }
+
+val frameworkSupportsWindowingFunctions
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 
 fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<Unit> {
     cacheEventData(context, prefHandler)
