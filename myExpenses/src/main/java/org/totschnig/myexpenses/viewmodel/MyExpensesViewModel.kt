@@ -8,6 +8,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
@@ -26,6 +29,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.adapter.Account as DataAccount
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -37,6 +41,21 @@ class MyExpensesViewModel(application: Application) :
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts
+    }
+
+    //TODO Safe mode
+/*    if (cursor == null) {
+        showSnackBar("Data loading failed", Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.safe_mode, v -> {
+            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true);
+            rebuildAccountProjection();
+            mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
+        }));
+    }*/
+    val accountData: Flow<List<DataAccount>> = contentResolver.observeQuery(
+        uri = ACCOUNTS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1").build(),
+        selection = "$KEY_HIDDEN = 0"
+    ).mapToList {
+        DataAccount.fromCursor(it, currencyContext)
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {

@@ -251,8 +251,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 val labelColumn = "'' AS $KEY_LABEL"
                 val currencyColumn =
                     "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY
-                val aggregateColumn =
-                    AggregateAccount.AGGREGATE_HOME.toString() + " AS " + KEY_IS_AGGREGATE
+                val aggregateColumn = "${AggregateAccount.AGGREGATE_HOME} AS $KEY_IS_AGGREGATE"
                 val homeProjection = if (minimal) {
                     arrayOf(
                         rowIdColumn,

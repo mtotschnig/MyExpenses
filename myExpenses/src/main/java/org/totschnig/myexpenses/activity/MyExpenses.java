@@ -23,15 +23,12 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
@@ -44,7 +41,6 @@ import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_I
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -52,19 +48,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -73,7 +64,6 @@ import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
-import org.totschnig.myexpenses.adapter.MyViewPagerAdapter;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -83,7 +73,6 @@ import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
-import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
@@ -96,15 +85,11 @@ import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
-import org.totschnig.myexpenses.provider.ProtectedCursorLoader;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -123,14 +108,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  * are called
  */
 public class MyExpenses extends BaseMyExpenses implements
-    ViewPager.OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     ConfirmationDialogListener, SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
-  public static final int ACCOUNTS_CURSOR = -1;
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
   private static final String DIALOG_TAG_SORTING = "SORTING";
-
-  private LoaderManager mManager;
 
   private MyGroupedAdapter mDrawerListAdapter;
   private int mAccountCount = 0;
@@ -159,16 +140,15 @@ public class MyExpenses extends BaseMyExpenses implements
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    final ViewGroup adContainer = findViewById(R.id.adContainer);
     accountGrouping = readAccountGroupingFromPref();
     accountSort = readAccountSortFromPref();
-    adHandler = adHandlerFactory.create(adContainer, this);
-    adContainer.getViewTreeObserver().addOnGlobalLayoutListener(
+    adHandler = adHandlerFactory.create(binding.viewPagerMain.adContainer, this);
+    binding.viewPagerMain.adContainer.getViewTreeObserver().addOnGlobalLayoutListener(
         new ViewTreeObserver.OnGlobalLayoutListener() {
 
           @Override
           public void onGlobalLayout() {
-            adContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            binding.viewPagerMain.adContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             adHandler.startBanner();
           }
         });
@@ -191,9 +171,10 @@ public class MyExpenses extends BaseMyExpenses implements
          */
         public void onDrawerClosed(View view) {
           super.onDrawerClosed(view);
-          TransactionList tl = getCurrentFragment();
+          //TODO
+/*          TransactionList tl = getCurrentFragment();
           if (tl != null)
-            tl.onDrawerClosed();
+            tl.onDrawerClosed();*/
         }
 
         /**
@@ -201,9 +182,10 @@ public class MyExpenses extends BaseMyExpenses implements
          */
         public void onDrawerOpened(View drawerView) {
           super.onDrawerOpened(drawerView);
-          TransactionList tl = getCurrentFragment();
+          //TODO
+         /* TransactionList tl = getCurrentFragment();
           if (tl != null)
-            tl.onDrawerOpened();
+            tl.onDrawerOpened();*/
         }
 
         @Override
@@ -217,21 +199,21 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler, currencyContext);
 
-    navigationView().setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
-    View navigationMenuView = navigationView().getChildAt(0);
+    getNavigationView().setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
+    View navigationMenuView = getNavigationView().getChildAt(0);
     if (navigationMenuView != null) {
       navigationMenuView.setVerticalScrollBarEnabled(false);
     }
 
-    accountList().setAdapter(mDrawerListAdapter);
-    accountList().setAreHeadersSticky(false);
-    accountList().setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
+    getAccountList().setAdapter(mDrawerListAdapter);
+    getAccountList().setAreHeadersSticky(false);
+    getAccountList().setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
       @Override
       public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
-        if (accountList().isHeaderCollapsed(headerId)) {
-          accountList().expand(headerId);
+        if (getAccountList().isHeaderCollapsed(headerId)) {
+          getAccountList().expand(headerId);
         } else {
-          accountList().collapse(headerId);
+          getAccountList().collapse(headerId);
         }
         persistCollapsedHeaderIds();
       }
@@ -241,14 +223,14 @@ public class MyExpenses extends BaseMyExpenses implements
         return false;
       }
     });
-    accountList().setOnItemClickListener((parent, view, position, id) -> {
+    getAccountList().setOnItemClickListener((parent, view, position, id) -> {
       if (accountId != id) {
         moveToPosition(position);
         closeDrawer();
       }
     });
-    registerForContextMenu(accountList());
-    accountList().setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
+    registerForContextMenu(getAccountList());
+    getAccountList().setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     updateFab();
     setupFabSubMenu();
@@ -268,14 +250,14 @@ public class MyExpenses extends BaseMyExpenses implements
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     ((MyApplication) getApplicationContext()).getAppComponent().inject(roadmapViewModel);
     getViewModel().getHasHiddenAccounts().observe(this,
-        result -> navigationView().getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
+        result -> getNavigationView().getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
     if (savedInstanceState != null) {
-      setup(false);
+      setup();
     } else {
       newVersionCheck();
       getViewModel().initialize().observe(this, result -> {
         if (result == 0) {
-          setup(true);
+          setup();
         } else {
           showMessage(result == ERROR_INIT_DOWNGRADE ? "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." :
                   "Database upgrade failed. Please contact support@myexpenses.mobi !", new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
@@ -303,19 +285,15 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), accountList().getCollapsedHeaderIds());
+    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), getAccountList().getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {
     return "collapsedHeadersDrawer_" + accountGrouping.name();
   }
 
-  private void setup(boolean firstCreate) {
+  private void setup() {
     getViewModel().loadHiddenAccountCount();
-    mManager = LoaderManager.getInstance(this);
-    if (firstCreate) {
-      mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-    }
   }
 
   private void voteReminderCheck() {
@@ -353,10 +331,10 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void moveToPosition(int position) {
-    if (viewPager().getCurrentItem() == position)
+    if (getViewPager().getCurrentItem() == position)
       setCurrentAccount(position);
     else
-      viewPager().setCurrentItem(position, false);
+      getViewPager().setCurrentItem(position, false);
   }
 
   private AccountGrouping readAccountGroupingFromPref() {
@@ -434,10 +412,11 @@ public class MyExpenses extends BaseMyExpenses implements
 
   @Override
   public void addFilterCriteria(@NotNull Criteria c) {
-    TransactionList tl = getCurrentFragment();
+    //TODO
+    /*TransactionList tl = getCurrentFragment();
     if (tl != null) {
       tl.addFilterCriteria(c);
-    }
+    }*/
   }
 
   /**
@@ -448,12 +427,12 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     }
     Intent i;
-    TransactionList tl;
+    TransactionList tl = null;
     if (command == R.id.BUDGET_COMMAND) {
       contribFeatureRequested(ContribFeature.BUDGET, null);
       return true;
     } else if (command == R.id.DISTRIBUTION_COMMAND) {
-      tl = getCurrentFragment();
+      //tl = getCurrentFragment(); TODO
       if (tl != null && tl.hasMappedCategories()) {
         contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
       } else {
@@ -461,7 +440,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       return true;
     } else if (command == R.id.HISTORY_COMMAND) {
-      tl = getCurrentFragment();
+      //tl = getCurrentFragment(); TODO
       if (tl != null && tl.hasItems()) {
         contribFeatureRequested(ContribFeature.HISTORY, null);
       } else {
@@ -480,7 +459,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       return true;
     } else if (command == R.id.BALANCE_COMMAND) {
-      tl = getCurrentFragment();
+      //tl = getCurrentFragment(); TODO
       if (tl != null && hasCleared()) {
         Cursor c = ensureAccountCursorAtCurrentPosition();
         CurrencyUnit currency = getCurrentCurrencyUnit();
@@ -580,7 +559,8 @@ public class MyExpenses extends BaseMyExpenses implements
           .show(this, DIALOG_TAG_SORTING);
       return true;
     } else if (command == R.id.CLEAR_FILTER_COMMAND) {
-      getCurrentFragment().clearFilter();
+      //TODO
+      //getCurrentFragment().clearFilter();
       return true;
     } else if (command == R.id.ROADMAP_COMMAND) {
       Intent intent = new Intent(this, RoadmapVoteActivity.class);
@@ -633,18 +613,12 @@ public class MyExpenses extends BaseMyExpenses implements
     if (binding.drawer != null) binding.drawer.closeDrawers();
   }
 
-  @Override
-  public void onPageSelected(int position) {
-    finishActionMode();
-    setCurrentPosition(position);
-    setCurrentAccount(position);
-  }
-
   public void finishActionMode() {
     if (getCurrentPosition() != -1) {
-      ContextualActionBarFragment f = getCurrentFragment();
+      //TODO
+     /* ContextualActionBarFragment f = getCurrentFragment();
       if (f != null)
-        f.finishActionMode();
+        f.finishActionMode();*/
     }
   }
 
@@ -664,42 +638,7 @@ public class MyExpenses extends BaseMyExpenses implements
     return true;
   }
 
-  @NonNull
-  @Override
-  public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    if (id == ACCOUNTS_CURSOR) {
-      Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
-      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
-      return new ProtectedCursorLoader(this, builder.build(), null, KEY_HIDDEN + " = 0", null, null);
-    }
-    throw new IllegalStateException("Unknown loader id " + id);
-  }
-
-  /**
-   * set the Current account to the one in the requested position of mAccountsCursor
-   */
-  private void setCurrentAccount(int position) {
-    Cursor c = requireAccountsCursor();
-    c.moveToPosition(position);
-    long newAccountId = MoreDbUtilsKt.getLong(c, KEY_ROWID);
-    if (accountId != newAccountId) {
-      prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
-    }
-    tintSystemUiAndFab(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : MoreDbUtilsKt.getInt(c, KEY_COLOR));
-
-    accountId = newAccountId;
-    setCurrentCurrency(MoreDbUtilsKt.getString(c, KEY_CURRENCY));
-    setBalance();
-    if (MoreDbUtilsKt.getInt(c, KEY_SEALED) == 1) {
-      floatingActionButton.hide();
-    } else {
-      floatingActionButton.show();
-    }
-    accountList().setItemChecked(position, true);
-    supportInvalidateOptionsMenu();
-  }
-
-  @Override
+/*  @Override
   public void onLoadFinished(@NonNull Loader<Cursor> loader, @Nullable Cursor cursor) {
     if (loader.getId() == ACCOUNTS_CURSOR) {
       mAccountCount = 0;
@@ -715,27 +654,20 @@ public class MyExpenses extends BaseMyExpenses implements
       accountId = cacheAccountId;
       moveToAccount();
       toolbar.setVisibility(View.VISIBLE);
-      if (cursor == null) {
-        showSnackBar("Data loading failed", Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.safe_mode, v -> {
-          prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true);
-          rebuildAccountProjection();
-          mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-        }));
-      }
     }
-  }
+  }*/
 
-  public void setupViewPager(Cursor cursor) {
+  /*public void setupViewPager(Cursor cursor) {
     if (getPagerAdapter() == null) {
-      setPagerAdapter(new MyViewPagerAdapter(this, getSupportFragmentManager(), cursor));
-      viewPager().setAdapter(getPagerAdapter());
-      viewPager().addOnPageChangeListener(this);
-      viewPager().setPageMargin(UiUtils.dp2Px(10, getResources()));
-      viewPager().setPageMarginDrawable(new ColorDrawable(UiUtils.getColor(this, R.attr.colorOnSurface)));
+      //setPagerAdapter(new MyViewPagerAdapter());
+      //viewPager().setAdapter(getPagerAdapter());
+      //viewPager().addOnPageChangeListener(this);
+      //viewPager().setPageMargin(UiUtils.dp2Px(10, getResources()));
+      //viewPager().setPageMarginDrawable(new ColorDrawable(UiUtils.getColor(this, R.attr.colorOnSurface)));
     } else {
-      getPagerAdapter().swapCursor(cursor);
+      //getPagerAdapter().swapCursor(cursor);
     }
-  }
+  }*/
 
 
   public void moveToAccount() {
@@ -773,30 +705,10 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  @Override
-  public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-    if (loader.getId() == ACCOUNTS_CURSOR) {
-      getPagerAdapter().swapCursor(null);
-      mDrawerListAdapter.swapCursor(null);
-      onNoData();
-      setAccountsCursor(null);
-    }
-  }
-
   public void onNoData() {
     setTitle(R.string.app_name);
     toolbar.setSubtitle(null);
     setCurrentPosition(-1);
-  }
-
-  @Override
-  public void onPageScrollStateChanged(int arg0) {
-    // noop
-  }
-
-  @Override
-  public void onPageScrolled(int arg0, float arg1, int arg2) {
-    // noop
   }
 
   @Override
@@ -854,12 +766,6 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   @Override
-  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-  }
-
-  @Override
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -908,7 +814,8 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.BALANCE_COMMAND_DO) {
       balance(args.getLong(KEY_ROWID), checked);
     } else if (command == R.id.REMAP_COMMAND) {
-      getCurrentFragment().remap(args, checked);
+      //TODO
+      //getCurrentFragment().remap(args, checked);
     } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
       finishActionMode();
       startTaskExecution(TASK_SPLIT, args, R.string.saving);
@@ -966,12 +873,6 @@ public class MyExpenses extends BaseMyExpenses implements
       if (!newSort.equals(accountSort)) {
         accountSort = newSort;
         prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name());
-
-        if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset()) {
-          mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-        } else {
-          mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-        }
       }
       result = true;
       if (itemId == R.id.SORT_CUSTOM_COMMAND) {
@@ -1009,11 +910,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (newGrouping != null && !newGrouping.equals(accountGrouping)) {
       accountGrouping = newGrouping;
       prefHandler.putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name());
-
-      if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
-        mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-      else
-        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
       return true;
     }
     return false;

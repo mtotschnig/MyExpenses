@@ -15,10 +15,11 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -33,11 +34,11 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
+import org.totschnig.myexpenses.adapter.Account
 import org.totschnig.myexpenses.adapter.MyViewPagerAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
@@ -45,9 +46,8 @@ import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
-import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
-import org.totschnig.myexpenses.fragment.TransactionList
-import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -58,12 +58,9 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.task.TaskExecutionFragment
@@ -130,7 +127,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val exportViewModel: ExportViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
-    protected var pagerAdapter: MyViewPagerAdapter? = null
+    lateinit var pagerAdapter: MyViewPagerAdapter
+    private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            currentPosition = position
+            setCurrentAccount(position)
+        }
+    }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -146,6 +149,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewPager.unregisterOnPageChangeCallback(pageChangeCallback)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with((applicationContext as MyApplication).appComponent) {
@@ -154,6 +162,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             inject(exportViewModel)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
+        pagerAdapter = MyViewPagerAdapter()
+        viewPager.adapter = pagerAdapter
+        viewPager.registerOnPageChangeCallback(pageChangeCallback)
         setContentView(binding.root)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -192,6 +203,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         exportViewModel.resultProcessed()
                     }
                 }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.accountData.collect {
+                toolbar.isVisible = true
+                pagerAdapter.setData(it)
             }
         }
     }
@@ -490,10 +507,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.expenses, menu)
+        menuInflater.inflate(R.menu.grouping, menu)
+        return true
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
             it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
         }
+        val account = pagerAdapter.getItem(viewPager.currentItem)
+        menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
+            Utils.configureGroupingMenu(it, account.grouping)
+        }
+
+        menu.findItem(R.id.SORT_DIRECTION_COMMAND)?.subMenu?.let {
+            Utils.configureSortDirectionMenu(it, account.sortDirection)
+        }
+
+        menu.findItem(R.id.BALANCE_COMMAND)?.let {
+            Utils.menuItemSetEnabledAndVisible(it, account.type != AccountType.CASH && !account.sealed)
+        }
+
+        menu.findItem(R.id.SYNC_COMMAND)?.let {
+            Utils.menuItemSetEnabledAndVisible(it, account.syncAccountName != null)
+        }
+
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -531,28 +572,43 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun setBalance() {
-        accountsCursor?.let { cursor ->
-            currentCurrencyUnit?.let { currencyUnit ->
-                val balance = cursor.getLong(KEY_CURRENT_BALANCE)
-                val label = cursor.getString(KEY_LABEL)
-                val isHome = cursor.getInt(KEY_IS_AGGREGATE) == AggregateAccount.AGGREGATE_HOME
-                currentBalance = String.format(
-                    Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
-                    currencyFormatter.formatMoney(Money(currencyUnit, balance))
-                )
-                title = if (isHome) getString(R.string.grand_total) else label
-                toolbar.subtitle = currentBalance
-                toolbar.setSubtitleTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        if (balance < 0) R.color.colorExpense else R.color.colorIncome,
-                        null
-                    )
-                )
-            }
+    fun setCurrentAccount(position: Int) {
+        val account = pagerAdapter.getItem(position)
+        val newAccountId = account.id
+        if (accountId != newAccountId) {
+            prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId)
         }
+        tintSystemUiAndFab(
+            if (newAccountId < 0) ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
+            else account.color
+        )
+        accountId = newAccountId
+        currentCurrency = account.currency.code
+        setBalance(account)
+        if (account.sealed) {
+            floatingActionButton!!.hide()
+        } else {
+            floatingActionButton!!.show()
+        }
+        accountList.setItemChecked(position, true)
+        invalidateOptionsMenu()
+    }
 
+    private fun setBalance(account: Account) {
+        val isHome = account.id == HOME_AGGREGATE_ID
+        currentBalance = String.format(
+            Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
+            currencyFormatter.formatMoney(Money(account.currency, account.currentBalance))
+        )
+        title = if (isHome) getString(R.string.grand_total) else account.label
+        toolbar.subtitle = currentBalance
+        toolbar.setSubtitleTextColor(
+            ResourcesCompat.getColor(
+                resources,
+                if (account.currentBalance < 0) R.color.colorExpense else R.color.colorIncome,
+                null
+            )
+        )
     }
 
     private fun copyToClipBoard() {
@@ -585,8 +641,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun Intent.fillIntentForGroupingFromTag(tag: Int) {
-        val year = (tag / 1000).toInt()
-        val groupingSecond = (tag % 1000).toInt()
+        val year = (tag / 1000)
+        val groupingSecond = (tag % 1000)
         putExtra(KEY_YEAR, year)
         putExtra(KEY_SECOND_GROUP, groupingSecond)
     }
@@ -640,8 +696,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             ContribFeature.PRINT -> {
+                //TODO
                 ensureAccountCursorAtCurrentPosition()?.let { cursor ->
-                    currentFragment?.let {
+                    //TODO
+                    /*currentFragment?.let {
                         val args = Bundle()
                         args.putParcelableArrayList(
                             KEY_FILTER,
@@ -668,7 +726,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 )
                                 .commit()
                         }
-                    }
+                    }*/
                 }
             }
             ContribFeature.BUDGET -> {
@@ -742,7 +800,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 } else {
                     showSnackBar(
                         getString(R.string.warning_synced_account_cannot_be_closed),
-                        Snackbar.LENGTH_LONG, null, null, accountList()
+                        Snackbar.LENGTH_LONG, null, null, accountList
                     )
                 }
             }
@@ -751,22 +809,26 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun accountList(): ExpandableStickyListHeadersListView {
-        return binding.accountPanel.accountList
-    }
+    val accountList: ExpandableStickyListHeadersListView
+        get() {
+            return binding.accountPanel.accountList
+        }
 
-    fun viewPager(): ViewPager {
-        return binding.viewPagerMain.viewPager
-    }
+    val viewPager: ViewPager2
+        get() {
+            return binding.viewPagerMain.viewPager
+        }
 
-    fun navigationView(): NavigationView {
-        return binding.accountPanel.expansionContent
-    }
+    val navigationView: NavigationView
+        get() {
+            return binding.accountPanel.expansionContent
+        }
 
     open fun buildCheckSealedHandler() = CheckSealedHandler(contentResolver)
 
     fun doReset() {
-        currentFragment?.takeIf { it.hasItems() }?.also { fragment ->
+        //TODO
+        /*currentFragment?.takeIf { it.hasItems() }?.also { fragment ->
             exportViewModel.checkAppDir().observe(this) { result ->
                 result.onSuccess {
                     ensureAccountCursorAtCurrentPosition()?.let { cursor ->
@@ -792,13 +854,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         } ?: run {
             showExportDisabledCommand()
-        }
-    }
-
-    override fun getCurrentFragment() = pagerAdapter?.let {
-        supportFragmentManager.findFragmentByTag(
-            it.getFragmentName(currentPosition)
-        ) as TransactionList?
+        }*/
     }
 
     fun showExportDisabledCommand() {
@@ -939,10 +995,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun startExport(args: Bundle) {
-        args.putParcelableArrayList(
+        //TODO
+        /*args.putParcelableArrayList(
             KEY_FILTER,
             currentFragment!!.filterCriteria
-        )
+        )*/
         supportFragmentManager.beginTransaction()
             .add(
                 ProgressDialogFragment.newInstance(
