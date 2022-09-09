@@ -12,6 +12,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.TransactionInfo
+import org.totschnig.myexpenses.provider.insert
+import org.totschnig.myexpenses.provider.update
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.util.*
@@ -31,35 +33,29 @@ class TransactionDebtTest: BaseDbTest() {
         super.setUp()
         val testAccount = AccountInfo("Test account", AccountType.CASH, 0)
         testAccountId =
-            mDb.insertOrThrow(TABLE_ACCOUNTS, null, testAccount.contentValues)
-        payeeId1 = mDb.insertOrThrow(
+            mDb.insert(TABLE_ACCOUNTS, testAccount.contentValues)
+        payeeId1 = mDb.insert(
             TABLE_PAYEES,
-            null,
             PayeeInfo("A.A.").contentValues
         )
-        payeeId2 = mDb.insertOrThrow(
+        payeeId2 = mDb.insert(
             TABLE_PAYEES,
-            null,
             PayeeInfo("B.B.").contentValues
         )
-        debt1 = mDb.insertOrThrow(
+        debt1 = mDb.insert(
             TABLE_DEBTS,
-            null,
             Debt(0, "Debt 1", "", payeeId1, 100000, currency, System.currentTimeMillis() / 1000).toContentValues()
         )
-        debt2 = mDb.insertOrThrow(
+        debt2 = mDb.insert(
             TABLE_DEBTS,
-            null,
             Debt(0, "Debt 2", "", payeeId2, 100000, currency, System.currentTimeMillis() / 1000).toContentValues()
         )
-        closedDebt = mDb.insertOrThrow(
+        closedDebt = mDb.insert(
             TABLE_DEBTS,
-            null,
             Debt(0, "Closed debt", "", payeeId1, 100000, currency, System.currentTimeMillis() / 1000).toContentValues()
         )
-        closedTransaction = mDb.insertOrThrow(
+        closedTransaction = mDb.insert(
             DatabaseConstants.TABLE_TRANSACTIONS,
-            null,
             TransactionInfo("Transaction closed", Date(), 0, testAccountId, payeeId1, closedDebt).contentValues
         )
         mDb.update(TABLE_DEBTS, ContentValues(1).apply { put(KEY_SEALED, 1) },
@@ -95,9 +91,8 @@ class TransactionDebtTest: BaseDbTest() {
         val testTransaction = TransactionInfo("Transaction 0", Date(), 0, testAccountId, payeeId1, closedDebt)
 
         try {
-            mDb.insertOrThrow(
+            mDb.insert(
                 DatabaseConstants.TABLE_TRANSACTIONS,
-                null,
                 testTransaction.contentValues
             )
             kotlin.test.fail("Insert into closed debt dit no raise SQLiteConstraintException")

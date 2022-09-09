@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 
@@ -57,7 +58,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     mAccount3.save();
     ContentValues values = new ContentValues(1);
     values.put(DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL, 1);
-    getProvider().getOpenHelperForTest().getWritableDatabase().update(DatabaseConstants.TABLE_ACCOUNTS, values, null, null);
+    MoreDbUtilsKt.update(getProvider().getOpenHelperForTest().getWritableDatabase(), DatabaseConstants.TABLE_ACCOUNTS, values, null, null);
   }
 
   public void testTransaction() {

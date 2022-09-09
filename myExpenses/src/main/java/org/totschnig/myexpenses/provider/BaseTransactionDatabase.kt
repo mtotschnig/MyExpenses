@@ -1,15 +1,14 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
-import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor
 import timber.log.Timber
 
 const val DATABASE_VERSION = 129
@@ -84,20 +83,18 @@ CREATE TRIGGER category_label_unique_update
 END
 """
 
-abstract class BaseTransactionDatabase(
-    context: Context,
-    databaseName: String,
-    cursorFactory: SQLiteDatabase.CursorFactory?
-) :
-    SQLiteOpenHelper(context, databaseName, cursorFactory, DATABASE_VERSION) {
 
-    fun upgradeTo117(db: SQLiteDatabase) {
+
+abstract class BaseTransactionDatabase :
+    SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
+
+    fun upgradeTo117(db: SupportSQLiteDatabase) {
         migrateCurrency(db, "VEB", CurrencyEnum.VES)
         migrateCurrency(db, "MRO", CurrencyEnum.MRU)
         migrateCurrency(db, "STD", CurrencyEnum.STN)
     }
 
-    fun upgradeTo118(db: SQLiteDatabase) {
+    fun upgradeTo118(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old")
         //make sure we have only one instance per template
         db.execSQL(
@@ -116,7 +113,7 @@ abstract class BaseTransactionDatabase(
         db.execSQL("DROP TABLE planinstance_transaction_old")
     }
 
-    fun upgradeTo119(db: SQLiteDatabase) {
+    fun upgradeTo119(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE transactions add column debt_id integer references debts (_id) ON DELETE SET NULL")
         db.execSQL(
             "CREATE TABLE debts (_id integer primary key autoincrement, payee_id integer references payee(_id) ON DELETE CASCADE, date datetime not null, label text not null, amount integer, currency text not null, description text, sealed boolean default 0);"
@@ -124,14 +121,14 @@ abstract class BaseTransactionDatabase(
         createOrRefreshTransactionDebtTriggers(db)
     }
 
-    fun upgradeTo120(db: SQLiteDatabase) {
+    fun upgradeTo120(db: SupportSQLiteDatabase) {
         with(db) {
             execSQL("DROP TRIGGER IF EXISTS transaction_debt_insert")
             execSQL("DROP TRIGGER IF EXISTS transaction_debt_update")
         }
     }
 
-    fun upgradeTo122(db: SQLiteDatabase) {
+    fun upgradeTo122(db: SupportSQLiteDatabase) {
         //repair transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/921
         repairWithSealedAccountsAndDebts(db) {
             db.execSQL(
@@ -142,7 +139,7 @@ abstract class BaseTransactionDatabase(
         db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
     }
 
-    fun upgradeTo124(db: SQLiteDatabase) {
+    fun upgradeTo124(db: SupportSQLiteDatabase) {
         repairWithSealedAccounts(db) {
             db.query("accounts", arrayOf("_id"), "uuid is null", null, null, null, null)
                 .use { cursor ->
@@ -156,7 +153,7 @@ abstract class BaseTransactionDatabase(
         }
     }
 
-    fun upgradeTo125(db: SQLiteDatabase) {
+    fun upgradeTo125(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE categories RENAME to categories_old")
         db.execSQL(
             "CREATE TABLE categories (_id integer primary key autoincrement, label text not null, label_normalized text, parent_id integer references categories(_id) ON DELETE CASCADE, usages integer default 0, last_used datetime, color integer, icon string, UNIQUE (label,parent_id));"
@@ -167,7 +164,7 @@ abstract class BaseTransactionDatabase(
         createOrRefreshCategoryHierarchyTrigger(db)
     }
 
-    fun upgradeTo126(db: SQLiteDatabase) {
+    fun upgradeTo126(db: SupportSQLiteDatabase) {
         //trigger caused a hanging query, because it did not check if parent_id was updated
         createOrRefreshCategoryHierarchyTrigger(db)
         //subcategories should not have a color
@@ -201,7 +198,7 @@ abstract class BaseTransactionDatabase(
         }
     }
 
-    fun upgradeTo128(db: SQLiteDatabase) {
+    fun upgradeTo128(db: SupportSQLiteDatabase) {
         db.execSQL("UPDATE categories SET icon = replace(icon,'_','-')")
         mapOf(
             "apple-alt" to "apple-whole",
@@ -259,7 +256,7 @@ abstract class BaseTransactionDatabase(
         }
     }
 
-    fun upgradeTo129(db: SQLiteDatabase) {
+    fun upgradeTo129(db: SupportSQLiteDatabase) {
         db.execSQL("CREATE TABLE budgets_neu ( _id integer primary key autoincrement, title text not null default '', description text not null, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')), account_id integer references accounts(_id) ON DELETE CASCADE, currency text, start datetime, `end` datetime)")
         db.execSQL("CREATE TABLE budget_allocations ( budget_id integer not null references budgets(_id) ON DELETE CASCADE, cat_id integer not null references categories(_id) ON DELETE CASCADE, year integer, second integer, budget integer, rollOverPrevious integer, rollOverNext integer, oneTime boolean default 0, primary key (budget_id,cat_id,year,second))")
         db.execSQL("INSERT INTO budgets_neu (_id, title, description, grouping, account_id, currency, start, `end`) SELECT _id, title, coalesce(description,''), grouping, account_id, currency, start, `end` FROM budgets")
@@ -271,12 +268,12 @@ abstract class BaseTransactionDatabase(
         db.execSQL("CREATE INDEX budget_allocations_cat_id_index on budget_allocations(cat_id)")
     }
 
-    override fun onCreate(db: SQLiteDatabase?) {
+    override fun onCreate(db: SupportSQLiteDatabase) {
         PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION.putInt(DATABASE_VERSION)
     }
 
     private fun migrateCurrency(
-        db: SQLiteDatabase,
+        db: SupportSQLiteDatabase,
         oldCurrency: String,
         newCurrency: CurrencyEnum
     ) {
@@ -298,14 +295,14 @@ abstract class BaseTransactionDatabase(
             Timber.d("Currency %s deleted", oldCurrency)
         }
         //if new currency is already defined, error is logged
-        if (db.insert("currency", null, ContentValues().apply {
+        if (db.insert("currency", SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
                 put("code", newCurrency.name)
             }) != -1L) {
             Timber.d("Currency %s inserted", newCurrency.name)
         }
     }
 
-    fun createOrRefreshTransactionDebtTriggers(db: SQLiteDatabase) {
+    fun createOrRefreshTransactionDebtTriggers(db: SupportSQLiteDatabase) {
         with(db) {
             execSQL("DROP TRIGGER IF EXISTS sealed_debt_update")
             execSQL("DROP TRIGGER IF EXISTS sealed_debt_transaction_insert")
@@ -318,13 +315,13 @@ abstract class BaseTransactionDatabase(
         }
     }
 
-    fun repairWithSealedAccounts(db: SQLiteDatabase, run: Runnable) {
+    fun repairWithSealedAccounts(db: SupportSQLiteDatabase, run: Runnable) {
         db.execSQL("update accounts set sealed = -1 where sealed = 1")
         run.run()
         db.execSQL("update accounts set sealed = 1 where sealed = -1")
     }
 
-    fun repairWithSealedAccountsAndDebts(db: SQLiteDatabase, run: Runnable) {
+    fun repairWithSealedAccountsAndDebts(db: SupportSQLiteDatabase, run: Runnable) {
         db.execSQL("update accounts set sealed = -1 where sealed = 1")
         db.execSQL("update debts set sealed = -1 where sealed = 1")
         run.run()
@@ -332,14 +329,14 @@ abstract class BaseTransactionDatabase(
         db.execSQL("update debts set sealed = 1 where sealed = -1")
     }
 
-    fun createOrRefreshCategoryHierarchyTrigger(db: SQLiteDatabase) {
+    fun createOrRefreshCategoryHierarchyTrigger(db: SupportSQLiteDatabase) {
         with(db) {
             execSQL("DROP TRIGGER IF EXISTS category_hierarchy_update")
             execSQL(CATEGORY_HIERARCHY_TRIGGER)
         }
     }
 
-    fun createOrRefreshCategoryMainCategoryUniqueLabel(db: SQLiteDatabase) {
+    fun createOrRefreshCategoryMainCategoryUniqueLabel(db: SupportSQLiteDatabase) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && "robolectric" != Build.FINGERPRINT) {
             db.execSQL("DROP INDEX if exists categories_label")
             db.execSQL(CATEGORY_LABEL_INDEX_CREATE)
@@ -352,5 +349,5 @@ abstract class BaseTransactionDatabase(
             }
         }
     }
-
 }
+

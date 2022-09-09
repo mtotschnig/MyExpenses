@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.provider;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseDbTest;
 
@@ -20,9 +21,8 @@ public class CurrencyTest extends BaseDbTest {
   }
 
   public void testShouldDeleteUnUsedCurrency() {
-    mDb.insertOrThrow(
+    MoreDbUtilsKt.insert(mDb,
         DatabaseConstants.TABLE_CURRENCIES,
-        null,
         TEST_CURRENCY.getContentValues()
     );
     int result = getMockContentResolver().delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(), null, null);
@@ -30,14 +30,12 @@ public class CurrencyTest extends BaseDbTest {
   }
 
   public void testShouldNotDeleteUsedCurrency() {
-    mDb.insertOrThrow(
+    MoreDbUtilsKt.insert(mDb,
         DatabaseConstants.TABLE_CURRENCIES,
-        null,
         TEST_CURRENCY.getContentValues()
     );
-    mDb.insertOrThrow(
+    MoreDbUtilsKt.insert(mDb,
         DatabaseConstants.TABLE_ACCOUNTS,
-        null,
         TEST_ACCOUNT.getContentValues()
     );
     int result = getMockContentResolver().delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(), null, null);

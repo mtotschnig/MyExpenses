@@ -6,6 +6,7 @@ import android.database.Cursor;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionInfo;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseDbTest;
@@ -43,10 +44,8 @@ public class AutoFillTest extends BaseDbTest {
 
     // Sets up test data
     for (TransactionInfo TEST_TRANSACTION : TEST_TRANSACTIONS) {
-
-      mDb.insertOrThrow(
+      MoreDbUtilsKt.insert(mDb,
           DatabaseConstants.TABLE_TRANSACTIONS,
-          null,
           TEST_TRANSACTION.getContentValues()
       );
     }
@@ -56,16 +55,16 @@ public class AutoFillTest extends BaseDbTest {
   protected void setUp() throws Exception {
     super.setUp();
     AccountInfo testAccount = new AccountInfo("Test account", AccountType.CASH, 0, "USD");
-    testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
+    testAccountId =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_ACCOUNTS, testAccount.getContentValues());
     String PAYEE_NAME = "N.N";
-    payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME).getContentValues());
-    catId = mDb.insertOrThrow(DatabaseConstants.TABLE_CATEGORIES, null,  new CategoryInfo("Main", null).getContentValues());
+    payeeId =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_PAYEES, new PayeeInfo(PAYEE_NAME).getContentValues());
+    catId =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_CATEGORIES,  new CategoryInfo("Main", null).getContentValues());
     methodChequeId = PaymentMethod.find(PaymentMethod.PreDefined.CHEQUE.name());
     methodCreditCardId = PaymentMethod.find(PaymentMethod.PreDefined.CREDITCARD.name());
 
     String PAYEE_NAME1 = "y.y";
-    payeeId1 = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME1).getContentValues());
-    catId1 = mDb.insertOrThrow(DatabaseConstants.TABLE_CATEGORIES, null,  new CategoryInfo("Main 1", null).getContentValues());
+    payeeId1 =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_PAYEES, new PayeeInfo(PAYEE_NAME1).getContentValues());
+    catId1 =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_CATEGORIES,  new CategoryInfo("Main 1", null).getContentValues());
 
     insertData();
   }

@@ -27,7 +27,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
@@ -36,7 +35,6 @@ import androidx.annotation.VisibleForTesting;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.service.DailyScheduler;
-import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
@@ -187,21 +185,6 @@ public class DbUtils {
       if (cursor.moveToFirst()) {
         result = cursor.getString(0);
       }
-      cursor.close();
-    }
-    return result;
-  }
-
-  static int suggestNewCategoryColor(SQLiteDatabase db) {
-    String[] projection = new String[]{
-        "color",
-        "(select count(*) from categories where parent_id is null and color=t.color) as count"
-    };
-    Cursor cursor = db.query(ColorUtils.MAIN_COLORS_AS_TABLE, projection, null, null, null, null, "count ASC", "1");
-    int result = 0;
-    if (cursor != null) {
-      cursor.moveToFirst();
-      result = cursor.getInt(0);
       cursor.close();
     }
     return result;

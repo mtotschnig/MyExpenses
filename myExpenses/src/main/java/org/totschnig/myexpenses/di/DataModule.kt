@@ -34,7 +34,4 @@ open class DataModule {
     @Provides
     open fun provideSharedPreferences(application: MyApplication, @Named(AppComponent.DATABASE_NAME) databaseName: String): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
-    @Singleton
-    @Provides
-    open fun provideCursorFactory() : SQLiteDatabase.CursorFactory? = null //TrackingCursorFactory()
 }

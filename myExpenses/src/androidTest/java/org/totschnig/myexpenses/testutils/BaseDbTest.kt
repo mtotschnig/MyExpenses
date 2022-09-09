@@ -2,13 +2,13 @@
 
 package org.totschnig.myexpenses.testutils
 
-import android.database.sqlite.SQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 
 open class BaseDbTest : BaseProviderTest() {
     // Contains an SQLite database, used as test data
-    lateinit var mDb: SQLiteDatabase
+    lateinit var mDb: SupportSQLiteDatabase
 
     @Throws(Exception::class)
     override fun setUp() {

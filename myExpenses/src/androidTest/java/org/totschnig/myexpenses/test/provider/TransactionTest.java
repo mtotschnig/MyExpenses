@@ -25,6 +25,7 @@ import android.net.Uri;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionInfo;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseDbTest;
@@ -45,8 +46,8 @@ public class TransactionTest extends BaseDbTest {
     super.setUp();
 
     AccountInfo testAccount = new AccountInfo("Test account", AccountType.CASH, 0);
-    testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
-    payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME).getContentValues());
+    testAccountId = MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_ACCOUNTS, testAccount.getContentValues());
+    payeeId =MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_PAYEES, new PayeeInfo(PAYEE_NAME).getContentValues());
   }
 
   /**
@@ -64,9 +65,8 @@ public class TransactionTest extends BaseDbTest {
     for (TransactionInfo TEST_TRANSACTION : TEST_TRANSACTIONS) {
 
       // Adds a record to the database.
-      mDb.insertOrThrow(
-          DatabaseConstants.TABLE_TRANSACTIONS,             // the table name for the insert
-          null,      // column set to null if empty values map
+      MoreDbUtilsKt.insert(mDb,
+              DatabaseConstants.TABLE_TRANSACTIONS,             // the table name for the insert
           TEST_TRANSACTION.getContentValues()  // the values map to insert
       );
     }

@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import timber.log.Timber
 import java.time.LocalDateTime
@@ -26,9 +27,9 @@ class PlanInfoTest : BaseDbTest() {
     private val weeklyPlan = Plan(2, "FREQ=WEEKLY")
     private val monthlyPlan = Plan(3, "FREQ=MONTHLY")
     private val templateInfos: Array<TemplateInfo> by lazy {
-        val testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null,
+        val testAccountId = mDb.insert(DatabaseConstants.TABLE_ACCOUNTS,
                 AccountInfo("Test account", AccountType.CASH, 0).contentValues)
-        val payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, PayeeInfo("N.N").contentValues)
+        val payeeId = mDb.insert(DatabaseConstants.TABLE_PAYEES, PayeeInfo("N.N").contentValues)
         arrayOf(TemplateInfo(testAccountId, "Template monthly", 150, payeeId, monthlyPlan.id),
                 TemplateInfo(testAccountId, "Template weekly", 200, payeeId, weeklyPlan.id),
                 TemplateInfo(testAccountId, "Template daily", 100, payeeId, dailyPlan.id))
@@ -63,9 +64,8 @@ class PlanInfoTest : BaseDbTest() {
     private fun insertData() {
         for (transactionInfo in templateInfos) {
 
-            mDb.insertOrThrow(
+            mDb.insert(
                     DatabaseConstants.TABLE_TEMPLATES,
-                    null,
                     transactionInfo.contentValues
             )
         }
@@ -150,9 +150,8 @@ class PlanInfoTest : BaseDbTest() {
             mockContentResolver.addProvider(CalendarProviderProxy.AUTHORITY, it)
         }
         //we only need/must add one row
-        mDb.insertOrThrow(
+        mDb.insert(
                 DatabaseConstants.TABLE_TEMPLATES,
-                null,
                 templateInfos[0].contentValues
         )
         mockContentResolver.query(

@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.util.ColorUtils
 
@@ -30,17 +31,17 @@ class CategoryTest : BaseDbTest() {
     private fun insertData() {
         testCategories = buildList {
             CategoryInfo("Main 1", null).let {
-                add(mDb.insertOrThrow(TABLE_CATEGORIES, null, it.contentValues) to it)
+                add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
             val main1Id = get(0).first
             CategoryInfo("Main 2", null).let {
-                add(mDb.insertOrThrow(TABLE_CATEGORIES, null, it.contentValues) to it)
+                add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
             CategoryInfo("Sub 1", main1Id).let {
-                add(mDb.insertOrThrow(TABLE_CATEGORIES, null, it.contentValues) to it)
+                add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
             CategoryInfo("Sub 2", main1Id).let {
-                add(mDb.insertOrThrow(TABLE_CATEGORIES, null, it.contentValues) to it)
+                add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
         }
     }
