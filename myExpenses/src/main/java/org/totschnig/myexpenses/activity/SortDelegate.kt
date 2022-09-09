@@ -17,12 +17,7 @@ class SortDelegate(
     val prefHandler: PrefHandler
 ) {
     fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.SORT_COMMAND)?.let {
-            val currentItem = it.subMenu.findItem(currentSortOrder.commandId)
-            if (currentItem != null) {
-                currentItem.isChecked = true
-            }
-        }
+        menu.findItem(R.id.SORT_COMMAND)?.subMenu?.findItem(currentSortOrder.commandId)?.isChecked = true
     }
 
     fun onOptionsItemSelected(item: MenuItem) = Sort.fromCommandId(item.itemId)?.let {

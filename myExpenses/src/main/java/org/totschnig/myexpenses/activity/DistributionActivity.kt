@@ -80,12 +80,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.distribution, menu)
         menuInflater.inflate(R.menu.grouping, menu)
-        val typeButton: SwitchCompat =
-            menu.findItem(R.id.switchId).actionView.findViewById(R.id.TaType)
-        typeButton.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            prefHandler.putBoolean(prefKey, isChecked)
-            viewModel.setIncomeType(isChecked)
-            reset()
+        (menu.findItem(R.id.switchId).actionView?.findViewById(R.id.TaType) as? SwitchCompat)?.let {
+            it.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                prefHandler.putBoolean(prefKey, isChecked)
+                viewModel.setIncomeType(isChecked)
+                reset()
+            }
         }
         super.onCreateOptionsMenu(menu)
         return true
@@ -106,7 +106,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
         val item = menu.findItem(R.id.switchId)
         Utils.menuItemSetEnabledAndVisible(item, !viewModel.aggregateTypes)
         if (!viewModel.aggregateTypes) {
-            (item.actionView.findViewById<View>(R.id.TaType) as SwitchCompat).isChecked =
+            (item.actionView?.findViewById<View>(R.id.TaType) as? SwitchCompat)?.isChecked =
                 viewModel.incomeType
         }
         return true
@@ -339,7 +339,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
             })
     }
 
-    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         mDetector?.let {
             if (viewModel.grouping != Grouping.NONE && it.onTouchEvent(event)) {
                 return true

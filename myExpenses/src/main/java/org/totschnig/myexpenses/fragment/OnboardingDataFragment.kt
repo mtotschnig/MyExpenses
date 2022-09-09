@@ -97,12 +97,12 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     }
 
     public override fun setupMenu() {
-        val menu = toolbar.menu
-        val subMenu = menu.findItem(R.id.SetupFromRemote).subMenu
-        subMenu.clear()
-        (requireActivity() as SyncBackendSetupActivity).addSyncProviderMenuEntries(subMenu)
-        for (account in getAccountNames(requireActivity())) {
-            subMenu.add(Menu.NONE, Menu.NONE, Menu.NONE, account)
+        toolbar.menu.findItem(R.id.SetupFromRemote).subMenu?.let {
+            it.clear()
+            (requireActivity() as SyncBackendSetupActivity).addSyncProviderMenuEntries(it)
+            for (account in getAccountNames(requireActivity())) {
+                it.add(Menu.NONE, Menu.NONE, Menu.NONE, account)
+            }
         }
         toolbar.setOnMenuItemClickListener { item: MenuItem -> onRestoreMenuItemSelected(item) }
     }

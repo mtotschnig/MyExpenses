@@ -203,24 +203,18 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         inflater.inflate(R.menu.history, menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPrepareOptionsMenu(menu: Menu) {
-        val subMenu = menu.findItem(R.id.GROUPING_COMMAND).subMenu
-        subMenu.findItem(R.id.GROUPING_NONE_COMMAND).isVisible = false
-        Utils.configureGroupingMenu(subMenu, grouping)
-        var m = menu.findItem(R.id.TOGGLE_BALANCE_COMMAND)
-        if (m != null) {
-            m.isChecked = showBalance
+        menu.findItem(R.id.GROUPING_COMMAND).subMenu?.let {
+            it.findItem(R.id.GROUPING_NONE_COMMAND).isVisible = false
+            Utils.configureGroupingMenu(it, grouping)
         }
-        m = menu.findItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND)
-        if (m != null) {
-            m.isChecked = includeTransfers
-        }
-        m = menu.findItem(R.id.TOGGLE_TOTALS_COMMAND)
-        if (m != null) {
-            m.isChecked = showTotals
-        }
+        menu.findItem(R.id.TOGGLE_BALANCE_COMMAND)?.isChecked = showBalance
+        menu.findItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND)?.isChecked = includeTransfers
+        menu.findItem(R.id.TOGGLE_TOTALS_COMMAND)?.isChecked = showTotals
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (handleGrouping(item)) return true
         when (item.itemId) {

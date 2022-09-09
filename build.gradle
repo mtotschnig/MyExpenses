@@ -35,7 +35,7 @@ allprojects {
 ext {
     versionCode = 554
     versionName = '3.4.5'
-    compileSdkVersion = 32
+    compileSdkVersion = 33
     minSdkVersion = 21
     targetSdkVersion = 31
     espressoVersion = "3.5.0-alpha07"
@@ -54,7 +54,7 @@ ext {
     mockitoVersion = '3.12.4'
     retrofitVersion = "2.9.0"
     ktxVersion = "1.8.0"
-    appcompatVersion = "1.5.0"
+    appcompatVersion = "1.5.1"
     picassoVersion = "2.71828"
     recyclerview = "1.2.1"
     materialComponents = "1.5.0" //currently using patch

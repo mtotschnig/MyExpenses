@@ -39,7 +39,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.sync_backend, menu)
-        addSyncProviderMenuEntries(menu.findItem(R.id.CREATE_COMMAND).subMenu)
+        menu.findItem(R.id.CREATE_COMMAND).subMenu?.let { addSyncProviderMenuEntries(it) }
         return super.onCreateOptionsMenu(menu)
     }
 
