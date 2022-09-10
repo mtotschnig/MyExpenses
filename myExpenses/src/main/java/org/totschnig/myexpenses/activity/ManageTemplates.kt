@@ -96,14 +96,14 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
     }
 
     override fun doHome() {
-        val upIntent = NavUtils.getParentActivityIntent(this)
         if (isTaskRoot) {
+            val upIntent = NavUtils.getParentActivityIntent(this)
             // create new task
             TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent!!)
                 .startActivities()
         } else {
             // Stay in same task
-            NavUtils.navigateUpTo(this, upIntent!!)
+           super.doHome()
         }
     }
 
