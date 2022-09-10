@@ -185,6 +185,10 @@
             android:defaultValue="true"
             android:key="@string/pref_group_header_show_details_key"
             android:summary="@string/pref_group_header_show_details_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_running_balance_key"
+            android:summary="Running balance" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_import">

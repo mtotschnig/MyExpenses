@@ -25,7 +25,8 @@ enum class Feature(@StringRes val labelResId: Int) {
     MLKIT_LATN(R.string.title_mlkit_latn),
     DRIVE(R.string.title_drive),
     DROPBOX(R.string.title_dropbox),
-    WEBDAV(R.string.title_webdav)
+    WEBDAV(R.string.title_webdav),
+    REQUERY(R.string.title_requery)
     ;
 
     val moduleName

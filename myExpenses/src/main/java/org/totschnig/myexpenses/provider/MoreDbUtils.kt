@@ -8,11 +8,15 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteStatement
+import android.os.Build
 import android.provider.CalendarContract
+import android.text.TextUtils
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteQueryBuilder
+import androidx.sqlite.db.SupportSQLiteStatement
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -23,13 +27,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
+import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.File
 
-fun safeUpdateWithSealed(db: SQLiteDatabase, runnable: Runnable) {
+fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
     db.beginTransaction()
     try {
         ContentValues(1).apply {
@@ -55,7 +60,7 @@ fun safeUpdateWithSealed(db: SQLiteDatabase, runnable: Runnable) {
     }
 }
 
-fun linkTransfers(db: SQLiteDatabase, uuid1: String, uuid2: String, writeChange: Boolean): Int {
+fun linkTransfers(db: SupportSQLiteDatabase, uuid1: String, uuid2: String, writeChange: Boolean): Int {
     db.beginTransaction()
     var count = 0
     try {
@@ -64,10 +69,10 @@ fun linkTransfers(db: SQLiteDatabase, uuid1: String, uuid2: String, writeChange:
             "UPDATE $TABLE_TRANSACTIONS SET $KEY_CATID = null, $KEY_PAYEEID = null, $KEY_UUID = ?," +
                     "$KEY_TRANSFER_PEER = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)," +
                     "$KEY_TRANSFER_ACCOUNT = (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?) WHERE $KEY_UUID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS where $KEY_UUID = ?)"
-        val statement: SQLiteStatement = db.compileStatement(sql)
-        statement.bindAllArgsAsStrings(arrayOf(uuid1, uuid2, uuid2, uuid1, uuid2))
+        val statement: SupportSQLiteStatement = db.compileStatement(sql)
+        statement.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid2, uuid1, uuid2))
         count += statement.executeUpdateDelete()
-        statement.bindAllArgsAsStrings(arrayOf(uuid1, uuid1, uuid1, uuid2, uuid1))
+        statement.bindAllArgsAsStrings(listOf(uuid1, uuid1, uuid1, uuid2, uuid1))
         count += statement.executeUpdateDelete()
         if (writeChange) {
             // This is a hack, we abuse the number field of the changes table for storing uuid of transfer_peer
@@ -77,9 +82,9 @@ fun linkTransfers(db: SQLiteDatabase, uuid1: String, uuid2: String, writeChange:
                 "INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_REFERENCE_NUMBER) " +
                         "SELECT '${TransactionChange.Type.link.name}', $KEY_ROWID, $KEY_SYNC_SEQUENCE_LOCAL, ?, ? FROM " +
                         "$TABLE_ACCOUNTS WHERE $KEY_ROWID IN ((SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?), (SELECT $KEY_TRANSFER_ACCOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)) AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL"
-            val updateStatement: SQLiteStatement = db.compileStatement(updateSql)
+            val updateStatement: SupportSQLiteStatement = db.compileStatement(updateSql)
             //we write identical changes for the two accounts, so that on the other end of the synchronization we know which part of the transfer keeps its uuid
-            updateStatement.bindAllArgsAsStrings(arrayOf(uuid1, uuid2, uuid1, uuid1))
+            updateStatement.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid1, uuid1))
             updateStatement.execute()
         }
         db.setTransactionSuccessful()
@@ -87,6 +92,12 @@ fun linkTransfers(db: SQLiteDatabase, uuid1: String, uuid2: String, writeChange:
         db.endTransaction()
     }
     return count
+}
+
+fun SupportSQLiteStatement.bindAllArgsAsStrings(argsList: List<String>) {
+    argsList.forEachIndexed { index, arg ->
+        bindString(index+1, arg)
+    }
 }
 
 fun groupByForPaymentMethodQuery(projection: Array<String>?) =
@@ -112,7 +123,7 @@ fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context): Array<S
     }.toTypedArray()
 }
 
-fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Pair<Int, Int> {
+fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources): Pair<Int, Int> {
     var totalInserted = 0
     var totalUpdated = 0
     var catIdMain: Long
@@ -168,7 +179,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Pair
             stmt.bindString(1, mainLabel)
             stmt.bindString(2, Utils.normalize(mainLabel))
             stmt.bindNull(3)
-            stmt.bindLong(4, DbUtils.suggestNewCategoryColor(database).toLong())
+            stmt.bindLong(4, suggestNewCategoryColor(database).toLong())
             stmt.bindString(5, mainIcon)
             catIdMain = stmt.executeInsert()
             if (catIdMain != -1L) {
@@ -215,7 +226,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Pair
     return totalInserted to totalUpdated
 }
 
-private fun findCategory(database: SQLiteDatabase, selection: String, selectionArgs: Array<String>) =
+private fun findCategory(database: SupportSQLiteDatabase, selection: String, selectionArgs: Array<Any>) =
     database.query(
         TABLE_CATEGORIES,
         arrayOf(KEY_ROWID),
@@ -232,10 +243,10 @@ private fun findCategory(database: SQLiteDatabase, selection: String, selectionA
         }
     }
 
-private fun findSubCategory(database: SQLiteDatabase, parentId: Long, label: String) =
+private fun findSubCategory(database: SupportSQLiteDatabase, parentId: Long, label: String) =
     findCategory(database, "$KEY_PARENTID = ? and $KEY_LABEL = ?" , arrayOf(parentId.toString(), label))
 
-private fun findMainCategory(database: SQLiteDatabase, label: String) =
+private fun findMainCategory(database: SupportSQLiteDatabase, label: String) =
     findCategory(database, "$KEY_PARENTID is null and $KEY_LABEL = ?" , arrayOf(label))
 
 /**
@@ -324,6 +335,80 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
         }
     }
 }
+
+fun SupportSQLiteDatabase.update(
+    table: String,
+    values: ContentValues,
+    whereClause: String?,
+    whereArgs: Array<Any>?
+) = update(table, SQLiteDatabase.CONFLICT_NONE, values, whereClause, whereArgs)
+
+fun SupportSQLiteDatabase.insert(table: String, values: ContentValues): Long =
+    insert(table, SQLiteDatabase.CONFLICT_NONE, values)
+
+fun SupportSQLiteDatabase.query(
+    table: String,
+    columns: Array<String>,
+    selection: String? = null,
+    selectionArgs: Array<Any>? = null,
+    groupBy: String? = null,
+    having: String? = null,
+    orderBy: String? = null,
+    limit: String? = null
+): Cursor = query(
+    SupportSQLiteQueryBuilder.builder(table)
+        .columns(columns)
+        .selection(selection, selectionArgs)
+        .groupBy(groupBy)
+        .having(having)
+        .orderBy(orderBy)
+        .limit(limit)
+        .create())
+
+fun suggestNewCategoryColor(db: SupportSQLiteDatabase) = db.query(
+    table = ColorUtils.MAIN_COLORS_AS_TABLE,
+    columns = arrayOf(
+        "color",
+        "(select count(*) from categories where parent_id is null and color=t.color) as count"
+    ),
+    orderBy = "count ASC",
+    limit = "1"
+).use {
+    it.moveToFirst()
+    it.getInt(0)
+}
+
+fun buildUnionQuery(
+    subQueries: Array<String?>,
+    sortOrder: String? = null,
+    limit: String? = null,
+    distinct: Boolean = false
+): String = subQueries.joinToString(if (distinct) " UNION " else " UNION ALL ") +
+        (if (sortOrder != null) " ORDER BY $sortOrder" else "") +
+        if (limit != null) " LIMIT $limit" else ""
+
+fun computeWhere(selection: String?, whereClause: java.lang.StringBuilder): String? {
+    val hasInternal = !TextUtils.isEmpty(whereClause)
+    val hasExternal = !TextUtils.isEmpty(selection)
+    return if (hasInternal || hasExternal) {
+        val where = StringBuilder()
+        if (hasInternal) {
+            where.append('(').append(whereClause).append(')')
+        }
+        if (hasInternal && hasExternal) {
+            where.append(" AND ")
+        }
+        if (hasExternal) {
+            where.append('(').append(selection).append(')')
+        }
+        where.toString()
+    } else {
+        null
+    }
+}
+
+val frameworkSupportsWindowingFunctions
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 
 fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<Unit> {
     cacheEventData(context, prefHandler)

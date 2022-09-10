@@ -4,10 +4,12 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 import android.os.Bundle
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteOpenHelper
+import androidx.sqlite.db.SupportSQLiteQueryBuilder
+import androidx.sqlite.db.SupportSQLiteStatement
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
@@ -41,14 +43,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
             field = value
         }
 
-    lateinit var transactionDatabase: TransactionDatabase
+    lateinit var helper: SupportSQLiteOpenHelper
 
     @Inject
     @Named(AppComponent.DATABASE_NAME)
     lateinit var databaseName: String
-
-    @set:Inject
-    var cursorFactory: SQLiteDatabase.CursorFactory? = null
 
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
@@ -58,6 +57,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
 
     private var shouldLog = false
 
@@ -142,7 +144,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
 
     fun buildAccountQuery(
-        qb: SQLiteQueryBuilder,
         minimal: Boolean,
         mergeAggregate: String?,
         selection: String?,
@@ -162,32 +163,28 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
         val joinWithAggregates =
             "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = $KEY_ACCOUNTID"
-        qb.tables = if (minimal) TABLE_ACCOUNTS else joinWithAggregates
+        val accountQueryBuilder = SupportSQLiteQueryBuilder.builder(if (minimal) TABLE_ACCOUNTS else joinWithAggregates)
         val query = if (mergeAggregate == null) {
-            qb.buildQuery(
-                fullAccountProjection, selection, null,
-                null, null, null
-            )
+            accountQueryBuilder.columns(fullAccountProjection).selection(selection, emptyArray()).create().sql
         } else {
             val subQueries: MutableList<String> = ArrayList()
             if (mergeAggregate == "1") {
                 subQueries.add(
-                    qb.buildQuery(
+                    accountQueryBuilder.columns(
                         if (minimal) arrayOf(
                             KEY_ROWID,
                             KEY_LABEL,
                             KEY_CURRENCY,
                             "0 AS $KEY_IS_AGGREGATE"
-                        ) else fullAccountProjection, selection, null,
-                        null, null, null
+                        ) else fullAccountProjection)
+                        .selection(selection, emptyArray()).create().sql
                     )
-                )
             }
             //Currency query
             if (mergeAggregate != Account.HOME_AGGREGATE_ID.toString()) {
-                qb.tables =
+                val qb = SupportSQLiteQueryBuilder.builder(
                     "$joinWithAggregates LEFT JOIN $TABLE_CURRENCIES on $KEY_CODE = $KEY_CURRENCY"
-
+                )
                 val rowIdColumn = "0 - $TABLE_CURRENCIES.$KEY_ROWID AS $KEY_ROWID"
                 val labelColumn = "$KEY_CURRENCY AS $KEY_LABEL"
                 val aggregateColumn = "1 AS $KEY_IS_AGGREGATE"
@@ -231,20 +228,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     )
                 }
                 subQueries.add(
-                    qb.buildQuery(
-                        currencyProjection,
-                        "$KEY_EXCLUDE_FROM_TOTALS = 0",
-                        KEY_CURRENCY,
-                        if (mergeAggregate == "1") "count(*) > 1" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
-                                mergeAggregate.substring(1),
-                        null,
-                        null
+                    qb.columns(currencyProjection)
+                        .selection("$KEY_EXCLUDE_FROM_TOTALS = 0", emptyArray())
+                        .groupBy(KEY_CURRENCY)
+                        .having(if (mergeAggregate == "1") "count(*) > 1" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
+                                mergeAggregate.substring(1)).create().sql
                     )
-                )
             }
             //home query
             if (mergeAggregate == Account.HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
-                qb.tables = joinWithAggregates
+                val qb = SupportSQLiteQueryBuilder.builder(joinWithAggregates)
 
                 val grouping = prefHandler.getString(AggregateAccount.GROUPING_AGGREGATE, "NONE")
                 val rowIdColumn = Account.HOME_AGGREGATE_ID.toString() + " AS " + KEY_ROWID
@@ -295,15 +288,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     )
                 }
                 subQueries.add(
-                    qb.buildQuery(
-                        homeProjection,
-                        "$KEY_EXCLUDE_FROM_TOTALS = 0",
-                        "1",
-                        "(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0",
-                        null,
-                        null
+                    qb.columns(homeProjection)
+                        .selection("$KEY_EXCLUDE_FROM_TOTALS = 0", emptyArray())
+                        .groupBy("1")
+                        .having("(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0").create().sql
                     )
-                )
             }
             val grouping = if (!minimal) {
                 when (try {
@@ -320,18 +309,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     else -> KEY_IS_AGGREGATE
                 }
             } else KEY_IS_AGGREGATE
-            qb.buildUnionQuery(
-                subQueries.toTypedArray(),
-                "$grouping,$sortOrder",
-                null
-            )
+            buildUnionQuery(subQueries.toTypedArray(), "$grouping,$sortOrder")
         }
         return "$cte\n$query"
     }
 
     fun backup(context: Context, backupDir: File): Result<Unit> {
-        val currentDb = File(transactionDatabase.readableDatabase.path)
-        transactionDatabase.readableDatabase.beginTransaction()
+        val currentDb = File(helper.readableDatabase.path)
+        helper.readableDatabase.beginTransaction()
         return try {
             backupDb(getBackupDbFile(backupDir), currentDb).mapCatching {
                 val backupPrefFile = getBackupPrefFile(backupDir)
@@ -360,11 +345,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 }
             }
         } finally {
-            transactionDatabase.readableDatabase.endTransaction()
+            helper.readableDatabase.endTransaction()
         }
     }
 
-    fun budgetCategoryUpsert(db: SQLiteDatabase, uri: Uri, values: ContentValues): Int {
+    fun budgetCategoryUpsert(db: SupportSQLiteDatabase, uri: Uri, values: ContentValues): Int {
         val (budgetId, catId) = parseBudgetCategoryUri(uri)
         val year: String = values.getAsString(KEY_YEAR)
         val second: String = values.getAsString(KEY_SECOND_GROUP)
@@ -408,8 +393,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             argsList.addAll(baseArgs)
             argsList.addAll(baseArgs)
         }
-        val statement = db.compileStatement(statementBuilder.toString())
-        statement.bindAllArgsAsStrings(argsList.toTypedArray())
+        val statement: SupportSQLiteStatement = db.compileStatement(statementBuilder.toString())
+        statement.bindAllArgsAsStrings(argsList)
         log("$statement - ${argsList.joinToString()}")
         return statement.executeUpdateDelete()
     }
@@ -418,7 +403,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
      * @return number of corrupted entries
      */
     fun checkCorruptedData987() = Bundle(1).apply {
-        putLongArray(KEY_RESULT, transactionDatabase.readableDatabase.rawQuery(
+        putLongArray(KEY_RESULT, helper.readableDatabase.query(
             "select distinct transactions.parent_id from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
             null
         ).use { cursor ->
@@ -437,7 +422,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun initOpenHelper() {
-        transactionDatabase = TransactionDatabase(context, databaseName, cursorFactory)
+        helper = openHelperFactory.create(SupportSQLiteOpenHelper.Configuration.builder(context!!)
+            .name(databaseName).callback(
+                TransactionDatabase()
+            ).build()).also {
+                it.setWriteAheadLoggingEnabled(false)
+        }
     }
 
     fun getInternalAppDir(): File {
@@ -448,9 +438,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         Timber.tag(TAG).i(message, *args)
     }
 
-    fun SQLiteQueryBuilder.measureAndLogQuery(
+    fun SupportSQLiteQueryBuilder.measureAndLogQuery(
         uri: Uri,
-        db: SQLiteDatabase,
+        db: SupportSQLiteDatabase,
         projection: Array<String>?,
         selection: String?,
         selectionArgs: Array<String>?,
@@ -458,50 +448,32 @@ abstract class BaseTransactionProvider : ContentProvider() {
         having: String?,
         sortOrder: String?,
         limit: String?
-    ): Cursor = measure(block = {
-        query(
-            db,
-            projection,
-            selection,
-            selectionArgs,
-            groupBy,
-            having,
-            sortOrder,
-            limit
-        )
-    }) {
-        "$uri - ${
-            buildQuery(
-                projection,
-                selection,
-                groupBy,
-                having,
-                sortOrder,
-                limit
-            )
-        } - (${selectionArgs?.joinToString()})"
+    ): Cursor {
+        val query = columns(projection).selection(selection, selectionArgs).groupBy(groupBy).having(having).orderBy(sortOrder).limit(limit).create()
+        return measure(block = {
+            db.query(query)
+        }) {
+            "$uri - ${query.sql} - (${selectionArgs?.joinToString()})"
+        }
     }
 
-    fun SQLiteDatabase.measureAndLogQuery(
+    fun SupportSQLiteDatabase.measureAndLogQuery(
         uri: Uri,
         selection: String?,
         sql: String,
         selectionArgs: Array<String>?
-    ): Cursor = measure(block = { rawQuery(sql, selectionArgs) }) {
+    ): Cursor = measure(block = { query(sql, selectionArgs) }) {
         "$uri - $selection - $sql - (${selectionArgs?.joinToString()})"
     }
 
-    private fun <T : Any> measure(block: () -> T, lazyMessage: () -> String): T {
-        if (shouldLog) {
-            val startTime = Instant.now()
-            val result = block()
-            val endTime = Instant.now()
-            val duration = Duration.between(startTime, endTime)
-            log("${lazyMessage()} : $duration")
-            return result
-        }
-        return block()
-    }
+    private fun <T : Any> measure(block: () -> T, lazyMessage: () -> String): T = if (shouldLog) {
+        val startTime = Instant.now()
+        val result = block()
+        val endTime = Instant.now()
+        val duration = Duration.between(startTime, endTime)
+        log("${lazyMessage()} : $duration")
+        result
+    } else block()
 
     fun report(e: String) {
         CrashHandler.report(Exception(e), TAG)
