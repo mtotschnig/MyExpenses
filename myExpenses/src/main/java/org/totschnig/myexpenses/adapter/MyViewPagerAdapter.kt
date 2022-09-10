@@ -5,16 +5,19 @@ import android.database.Cursor
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.AbstractComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.cancellable
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -28,29 +31,25 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 
-class MyViewPagerAdapter(val loader: (Long) -> Flow<List<Transaction>>) : ListAdapter<Account, TransactionListViewHolder>(DIFF_CALLBACK) {
+class MyViewPagerAdapter(val loader: (Long) -> PagingSource<Int, Transaction>) :
+    ListAdapter<Account, TransactionListViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionListViewHolder {
         return TransactionListViewHolder(
             ComposeTransactionList(parent.context).apply {
-                layoutParams =
-                    RecyclerView.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    )
+                layoutParams = RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
             }
         )
     }
 
     override fun onBindViewHolder(holder: TransactionListViewHolder, position: Int) {
         getItem(position).let {
-            holder.composeView.transactionList = loader(getItem(position).id)
+            holder.composeView.pagingSource = loader(getItem(position).id)
         }
-    }
-
-    override fun onViewDetachedFromWindow(holder: TransactionListViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        holder.composeView.transactionList.cancellable()
     }
 
     public override fun getItem(position: Int): Account {
@@ -68,13 +67,14 @@ class MyViewPagerAdapter(val loader: (Long) -> Flow<List<Transaction>>) : ListAd
             }
 
             override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
         }
     }
 }
 
-class TransactionListViewHolder(val composeView: ComposeTransactionList) : RecyclerView.ViewHolder(composeView)
+class TransactionListViewHolder(val composeView: ComposeTransactionList) :
+    RecyclerView.ViewHolder(composeView)
 
 data class Account(
     val id: Long,
@@ -117,14 +117,23 @@ class ComposeTransactionList @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : AbstractComposeView(context, attrs, defStyle) {
-    lateinit var transactionList: Flow<List<Transaction>>
+    lateinit var pagingSource: PagingSource<Int, Transaction>
 
     @Composable
     override fun Content() {
-        val list = transactionList.collectAsState(initial = emptyList())
+        val pager = remember {
+            Pager(
+                PagingConfig(
+                    pageSize = 100,
+                    enablePlaceholders = true,
+                    maxSize = 300,
+                )
+            ) { pagingSource }
+        }
+        val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
         LazyColumn {
-            itemsIndexed(list.value) { _, item ->
-                Text(item.amount.toString())
+            items(lazyPagingItems) {
+                Text("Item is $it")
             }
         }
     }

@@ -114,7 +114,6 @@ public class MyExpenses extends BaseMyExpenses implements
   private static final String DIALOG_TAG_SORTING = "SORTING";
 
   private MyGroupedAdapter mDrawerListAdapter;
-  private int mAccountCount = 0;
 
   private AdHandler adHandler;
   private AccountGrouping accountGrouping;
@@ -448,7 +447,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       return true;
     } else if (command == R.id.CREATE_COMMAND) {
-      if (mAccountCount == 0) {
+      if (getAccountCount() == 0) {
         showSnackBar(R.string.warning_no_account);
       } else {
         if (isScanMode()) {
@@ -492,11 +491,7 @@ public class MyExpenses extends BaseMyExpenses implements
       startActivity(i);
       return true;
     } else if (command == R.id.CREATE_ACCOUNT_COMMAND) {
-      if (getAccountsCursor() == null) {
-        complainAccountsNotLoaded();
-      }
-      //we need the accounts to be loaded in order to evaluate if the limit has been reached
-      else if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
+      if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || getAccountCount() < ContribFeature.FREE_ACCOUNTS) {
         closeDrawer();
         i = new Intent(this, AccountEdit.class);
         if (tag != null)
@@ -671,7 +666,7 @@ public class MyExpenses extends BaseMyExpenses implements
 
 
   public void moveToAccount() {
-    Cursor cursor = getAccountsCursor();
+    /*Cursor cursor = getAccountsCursor();
     if (cursor != null && cursor.moveToFirst()) {
       int position = 0;
       while (!cursor.isAfterLast()) {
@@ -688,7 +683,7 @@ public class MyExpenses extends BaseMyExpenses implements
       moveToPosition(getCurrentPosition());
     } else {
       onNoData();
-    }
+    }*/
   }
 
   @Override
@@ -953,9 +948,5 @@ public class MyExpenses extends BaseMyExpenses implements
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.clear_all_filters));
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND);
     ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "CLEAR_FILTER");
-  }
-
-  public int getAccountCount() {
-    return mAccountCount;
   }
 }

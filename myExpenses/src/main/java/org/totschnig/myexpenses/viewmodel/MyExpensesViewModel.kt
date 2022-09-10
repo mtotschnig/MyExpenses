@@ -8,11 +8,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingSource
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CrStatus
@@ -59,12 +61,8 @@ class MyExpensesViewModel(application: Application) :
         DataAccount.fromCursor(it, currencyContext)
     }
 
-    fun loadTransactions(accountId: Long): Flow<List<org.totschnig.myexpenses.adapter.Transaction>> = contentResolver.observeQuery(
-        uri = TRANSACTIONS_URI,
-        selection = "$KEY_ACCOUNTID = ?",
-        selectionArgs = arrayOf(accountId.toString())
-    ).mapToList {
-       org.totschnig.myexpenses.adapter.Transaction(it.getLong(KEY_ROWID), it.getLong(KEY_AMOUNT))
+    fun loadTransactions(accountId: Long): PagingSource<Int, org.totschnig.myexpenses.adapter.Transaction> {
+        return TransactionPagingSource(contentResolver, accountId)
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {

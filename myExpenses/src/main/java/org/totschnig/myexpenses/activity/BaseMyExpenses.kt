@@ -128,6 +128,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var binding: ActivityMainBinding
     lateinit var pagerAdapter: MyViewPagerAdapter
+
+    var accountCount = 0
     private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             currentPosition = position
@@ -209,6 +211,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.accountData.collect {
                 toolbar.isVisible = true
                 pagerAdapter.setData(it)
+                accountCount = it.count { it.id > 0 }
             }
         }
     }
@@ -518,21 +521,26 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
             it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
         }
-        val account = pagerAdapter.getItem(viewPager.currentItem)
-        menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
-            Utils.configureGroupingMenu(it, account.grouping)
-        }
+        if (accountCount > 0) {
+            val account = pagerAdapter.getItem(viewPager.currentItem)
+            menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
+                Utils.configureGroupingMenu(it, account.grouping)
+            }
 
-        menu.findItem(R.id.SORT_DIRECTION_COMMAND)?.subMenu?.let {
-            Utils.configureSortDirectionMenu(it, account.sortDirection)
-        }
+            menu.findItem(R.id.SORT_DIRECTION_COMMAND)?.subMenu?.let {
+                Utils.configureSortDirectionMenu(it, account.sortDirection)
+            }
 
-        menu.findItem(R.id.BALANCE_COMMAND)?.let {
-            Utils.menuItemSetEnabledAndVisible(it, account.type != AccountType.CASH && !account.sealed)
-        }
+            menu.findItem(R.id.BALANCE_COMMAND)?.let {
+                Utils.menuItemSetEnabledAndVisible(
+                    it,
+                    account.type != AccountType.CASH && !account.sealed
+                )
+            }
 
-        menu.findItem(R.id.SYNC_COMMAND)?.let {
-            Utils.menuItemSetEnabledAndVisible(it, account.syncAccountName != null)
+            menu.findItem(R.id.SYNC_COMMAND)?.let {
+                Utils.menuItemSetEnabledAndVisible(it, account.syncAccountName != null)
+            }
         }
 
         return super.onPrepareOptionsMenu(menu)
