@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.adapter.Account as DataAccount
 
@@ -56,6 +57,14 @@ class MyExpensesViewModel(application: Application) :
         selection = "$KEY_HIDDEN = 0"
     ).mapToList {
         DataAccount.fromCursor(it, currencyContext)
+    }
+
+    fun loadTransactions(accountId: Long): Flow<List<org.totschnig.myexpenses.adapter.Transaction>> = contentResolver.observeQuery(
+        uri = TRANSACTIONS_URI,
+        selection = "$KEY_ACCOUNTID = ?",
+        selectionArgs = arrayOf(accountId.toString())
+    ).mapToList {
+       org.totschnig.myexpenses.adapter.Transaction(it.getLong(KEY_ROWID), it.getLong(KEY_AMOUNT))
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {

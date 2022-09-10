@@ -162,7 +162,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             inject(exportViewModel)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
-        pagerAdapter = MyViewPagerAdapter()
+        pagerAdapter = MyViewPagerAdapter(viewModel::loadTransactions)
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(pageChangeCallback)
         setContentView(binding.root)

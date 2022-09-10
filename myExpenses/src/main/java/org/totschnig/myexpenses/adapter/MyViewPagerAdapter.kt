@@ -1,12 +1,20 @@
 package org.totschnig.myexpenses.adapter
 
+import android.content.Context
 import android.database.Cursor
+import android.util.AttributeSet
 import android.view.ViewGroup
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
-import androidx.compose.ui.platform.ComposeView
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.AbstractComposeView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.cancellable
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -19,12 +27,12 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import java.io.Serializable
 
-class MyViewPagerAdapter : ListAdapter<Account, TransactionListViewHolder>(DIFF_CALLBACK) {
+class MyViewPagerAdapter(val loader: (Long) -> Flow<List<Transaction>>) : ListAdapter<Account, TransactionListViewHolder>(DIFF_CALLBACK) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionListViewHolder {
         return TransactionListViewHolder(
-            ComposeView(parent.context).apply {
+            ComposeTransactionList(parent.context).apply {
                 layoutParams =
                     RecyclerView.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -36,10 +44,13 @@ class MyViewPagerAdapter : ListAdapter<Account, TransactionListViewHolder>(DIFF_
 
     override fun onBindViewHolder(holder: TransactionListViewHolder, position: Int) {
         getItem(position).let {
-            holder.composeView.setContent {
-                Text(text = it.label)
-            }
+            holder.composeView.transactionList = loader(getItem(position).id)
         }
+    }
+
+    override fun onViewDetachedFromWindow(holder: TransactionListViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.composeView.transactionList.cancellable()
     }
 
     public override fun getItem(position: Int): Account {
@@ -63,10 +74,10 @@ class MyViewPagerAdapter : ListAdapter<Account, TransactionListViewHolder>(DIFF_
     }
 }
 
-class TransactionListViewHolder(val composeView: ComposeView) : RecyclerView.ViewHolder(composeView)
+class TransactionListViewHolder(val composeView: ComposeTransactionList) : RecyclerView.ViewHolder(composeView)
 
 data class Account(
-    override val id: Long,
+    val id: Long,
     val label: String,
     val currency: CurrencyUnit,
     val color: Int = -1,
@@ -78,11 +89,7 @@ data class Account(
     val sortDirection: SortDirection,
     val syncAccountName: String?
 
-) : IAccount,
-    Serializable {
-    override fun toString(): String {
-        return label
-    }
+) {
     companion object {
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = Account(
             cursor.getLong(KEY_ROWID),
@@ -97,5 +104,28 @@ data class Account(
             enumValueOrDefault(cursor.getString(KEY_SORT_DIRECTION), SortDirection.DESC),
             cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME)
         )
+    }
+}
+
+data class Transaction(
+    val id: Long,
+    val amount: Long
+)
+
+class ComposeTransactionList @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AbstractComposeView(context, attrs, defStyle) {
+    lateinit var transactionList: Flow<List<Transaction>>
+
+    @Composable
+    override fun Content() {
+        val list = transactionList.collectAsState(initial = emptyList())
+        LazyColumn {
+            itemsIndexed(list.value) { _, item ->
+                Text(item.amount.toString())
+            }
+        }
     }
 }
