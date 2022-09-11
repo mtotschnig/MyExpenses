@@ -61,9 +61,8 @@ class MyExpensesViewModel(application: Application) :
         DataAccount.fromCursor(it, currencyContext)
     }
 
-    fun loadTransactions(accountId: Long): PagingSource<Int, org.totschnig.myexpenses.adapter.Transaction> {
-        return TransactionPagingSource(contentResolver, accountId)
-    }
+    fun loadTransactions(accountId: Long): () -> PagingSource<Int, org.totschnig.myexpenses.adapter.Transaction> =
+        { TransactionPagingSource(contentResolver, accountId) }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
         try {

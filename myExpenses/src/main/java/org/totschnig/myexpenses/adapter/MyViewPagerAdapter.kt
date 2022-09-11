@@ -31,7 +31,7 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 
-class MyViewPagerAdapter(val loader: (Long) -> PagingSource<Int, Transaction>) :
+class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transaction>) :
     ListAdapter<Account, TransactionListViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionListViewHolder {
@@ -48,7 +48,7 @@ class MyViewPagerAdapter(val loader: (Long) -> PagingSource<Int, Transaction>) :
 
     override fun onBindViewHolder(holder: TransactionListViewHolder, position: Int) {
         getItem(position).let {
-            holder.composeView.pagingSource = loader(getItem(position).id)
+            holder.composeView.pagingSourceFactory = loader(getItem(position).id)
         }
     }
 
@@ -117,7 +117,7 @@ class ComposeTransactionList @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : AbstractComposeView(context, attrs, defStyle) {
-    lateinit var pagingSource: PagingSource<Int, Transaction>
+    lateinit var pagingSourceFactory: () -> PagingSource<Int, Transaction>
 
     @Composable
     override fun Content() {
@@ -125,10 +125,10 @@ class ComposeTransactionList @JvmOverloads constructor(
             Pager(
                 PagingConfig(
                     pageSize = 100,
-                    enablePlaceholders = true,
-                    maxSize = 300,
-                )
-            ) { pagingSource }
+                    enablePlaceholders = false
+                ),
+                pagingSourceFactory = pagingSourceFactory
+            )
         }
         val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
         LazyColumn {

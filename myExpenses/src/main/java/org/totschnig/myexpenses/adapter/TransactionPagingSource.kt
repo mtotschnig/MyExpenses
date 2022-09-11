@@ -2,6 +2,9 @@ package org.totschnig.myexpenses.adapter
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.database.ContentObserver
+import android.os.Handler
+import android.os.Looper
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +17,18 @@ import timber.log.Timber
 
 class TransactionPagingSource(val contentResolver: ContentResolver, val accountId: Long) :
     PagingSource<Int, Transaction>() {
+
+    init {
+        val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean) {
+                invalidate()
+                contentResolver.unregisterContentObserver(this)
+            }
+        }
+
+        contentResolver.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, false, observer)
+    }
+
     override fun getRefreshKey(state: PagingState<Int, Transaction>): Int? {
         return null
     }
@@ -21,6 +36,7 @@ class TransactionPagingSource(val contentResolver: ContentResolver, val accountI
     @SuppressLint("InlinedApi")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction> {
         val pageNumber = params.key ?: 0
+        Timber.i("Requesting pageNumber %d", pageNumber)
         val data = withContext(Dispatchers.IO) {
             contentResolver.query(
                 TransactionProvider.TRANSACTIONS_URI.buildUpon()
@@ -30,7 +46,7 @@ class TransactionPagingSource(val contentResolver: ContentResolver, val accountI
                 emptyArray(),
                 "${DatabaseConstants.KEY_ACCOUNTID} = ?",
                 arrayOf(accountId.toString()),
-                null, null
+                DatabaseConstants.KEY_ROWID, null
             )?.use {
                 Timber.i("Cursor size %d", it.count)
                 it.asSequence.map {
@@ -41,10 +57,13 @@ class TransactionPagingSource(val contentResolver: ContentResolver, val accountI
                 }.toList()
             } ?: emptyList()
         }
+        val prevKey = if (pageNumber > 0) pageNumber - 1 else null
+        val nextKey = if (data.isEmpty()) null else pageNumber + 1
+        Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
         return LoadResult.Page(
             data = data,
-            prevKey = if (pageNumber > 0) pageNumber - 1 else null,
-            nextKey = if (data.isEmpty()) null else pageNumber + 1
+            prevKey = prevKey,
+            nextKey = nextKey
         )
     }
 }
