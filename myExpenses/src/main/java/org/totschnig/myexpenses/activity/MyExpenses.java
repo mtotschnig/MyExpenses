@@ -158,9 +158,6 @@ public class MyExpenses extends BaseMyExpenses implements
       CrashHandler.report(e);
     }
 
-    toolbar = setupToolbar(false);
-    toolbar.setVisibility(View.INVISIBLE);
-    setupToolbarPopupMenu();
     if (binding.drawer != null) {
       mDrawerToggle = new ActionBarDrawerToggle(this, binding.drawer,
           toolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -204,7 +201,7 @@ public class MyExpenses extends BaseMyExpenses implements
       navigationMenuView.setVerticalScrollBarEnabled(false);
     }
 
-    getAccountList().setAdapter(mDrawerListAdapter);
+    /*getAccountList().setAdapter(mDrawerListAdapter);
     getAccountList().setAreHeadersSticky(false);
     getAccountList().setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
       @Override
@@ -230,7 +227,7 @@ public class MyExpenses extends BaseMyExpenses implements
     });
     registerForContextMenu(getAccountList());
     getAccountList().setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
-
+*/
     updateFab();
     setupFabSubMenu();
     if (!isScanMode()) {
@@ -284,7 +281,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), getAccountList().getCollapsedHeaderIds());
+    //PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), getAccountList().getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {

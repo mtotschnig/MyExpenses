@@ -37,16 +37,9 @@
         app:elevation="0dp"
         app:menu="@menu/accounts" />
 
-    <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
+    <androidx.compose.ui.platform.ComposeView
         android:id="@+id/accountList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/drawerBackground"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="2dp"
-        android:fastScrollEnabled="false"
-        android:listSelector="@android:color/transparent"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical" />
+        android:background="@color/drawerBackground" />
 </org.totschnig.myexpenses.ui.ExpansionPanel>

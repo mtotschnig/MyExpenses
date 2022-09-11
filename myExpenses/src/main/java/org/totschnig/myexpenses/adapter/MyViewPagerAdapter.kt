@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.adapter
 
+import android.content.ClipDescription
 import android.content.Context
 import android.database.Cursor
 import android.util.AttributeSet
@@ -79,12 +80,17 @@ class TransactionListViewHolder(val composeView: ComposeTransactionList) :
 data class Account(
     val id: Long,
     val label: String,
+    val description: String,
     val currency: CurrencyUnit,
     val color: Int = -1,
     val type: AccountType = AccountType.CASH,
     val exchangeRate: Double = 1.0,
     val sealed: Boolean,
+    val openingBalance: Long,
     val currentBalance: Long,
+    val sumIncome: Long,
+    val sumExpense: Long,
+    val sumTransfer: Long,
     val grouping: Grouping,
     val sortDirection: SortDirection,
     val syncAccountName: String?
@@ -92,17 +98,22 @@ data class Account(
 ) {
     companion object {
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = Account(
-            cursor.getLong(KEY_ROWID),
-            cursor.getString(KEY_LABEL),
-            currencyContext.get(cursor.getString(KEY_CURRENCY)),
-            cursor.getInt(KEY_COLOR),
-            enumValueOrDefault(cursor.getString(KEY_TYPE), AccountType.CASH),
-            cursor.getDouble(KEY_EXCHANGE_RATE),
-            cursor.getInt(KEY_SEALED) == 1,
-            cursor.getLong(KEY_CURRENT_BALANCE),
-            enumValueOrDefault(cursor.getString(KEY_GROUPING), Grouping.NONE),
-            enumValueOrDefault(cursor.getString(KEY_SORT_DIRECTION), SortDirection.DESC),
-            cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME)
+            id = cursor.getLong(KEY_ROWID),
+            label = cursor.getString(KEY_LABEL),
+            description = cursor.getString(KEY_DESCRIPTION),
+            currency = currencyContext.get(cursor.getString(KEY_CURRENCY)),
+            color = cursor.getInt(KEY_COLOR),
+            type = enumValueOrDefault(cursor.getString(KEY_TYPE), AccountType.CASH),
+            exchangeRate = cursor.getDouble(KEY_EXCHANGE_RATE),
+            sealed = cursor.getInt(KEY_SEALED) == 1,
+            openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
+            currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
+            sumIncome = cursor.getLong(KEY_SUM_INCOME),
+            sumExpense = cursor.getLong(KEY_SUM_EXPENSES),
+            sumTransfer = cursor.getLong(KEY_SUM_TRANSFERS),
+            grouping = enumValueOrDefault(cursor.getString(KEY_GROUPING), Grouping.NONE),
+            sortDirection = enumValueOrDefault(cursor.getString(KEY_SORT_DIRECTION), SortDirection.DESC),
+            syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME)
         )
     }
 }

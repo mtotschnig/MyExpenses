@@ -7,12 +7,15 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
@@ -36,6 +39,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.adapter.Account
 import org.totschnig.myexpenses.adapter.MyViewPagerAdapter
+import org.totschnig.myexpenses.compose.AccountList
+import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -79,7 +84,6 @@ import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
 import timber.log.Timber
 import java.io.File
 import java.io.Serializable
@@ -168,6 +172,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(pageChangeCallback)
         setContentView(binding.root)
+        toolbar = setupToolbar(false)
+        toolbar.visibility = View.INVISIBLE
+        setupToolbarPopupMenu()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 upgradeHandlerViewModel.upgradeInfo.collect { info ->
@@ -212,6 +219,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 toolbar.isVisible = true
                 pagerAdapter.setData(it)
                 accountCount = it.count { it.id > 0 }
+            }
+        }
+        accountList.setContent {
+            AppTheme(this) {
+                AccountList(viewModel.accountData.collectAsState(initial = emptyList()))
             }
         }
     }
@@ -598,7 +610,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         } else {
             floatingActionButton!!.show()
         }
-        accountList.setItemChecked(position, true)
+        //accountList.setItemChecked(position, true)
         invalidateOptionsMenu()
     }
 
@@ -817,7 +829,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    val accountList: ExpandableStickyListHeadersListView
+    val accountList: ComposeView
         get() {
             return binding.accountPanel.accountList
         }

@@ -12,6 +12,8 @@ import androidx.paging.PagingSource
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
@@ -59,7 +61,7 @@ class MyExpensesViewModel(application: Application) :
         selection = "$KEY_HIDDEN = 0"
     ).mapToList {
         DataAccount.fromCursor(it, currencyContext)
-    }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     fun loadTransactions(accountId: Long): () -> PagingSource<Int, org.totschnig.myexpenses.adapter.Transaction> =
         { TransactionPagingSource(contentResolver, accountId) }
