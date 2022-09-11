@@ -9,7 +9,6 @@ import android.os.Bundle
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
-import androidx.sqlite.db.SupportSQLiteStatement
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
@@ -351,15 +350,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun budgetCategoryUpsert(db: SupportSQLiteDatabase, uri: Uri, values: ContentValues): Int {
         val (budgetId, catId) = parseBudgetCategoryUri(uri)
-        val year: String = values.getAsString(KEY_YEAR)
-        val second: String = values.getAsString(KEY_SECOND_GROUP)
+        val year: String? = values.getAsString(KEY_YEAR)
+        val second: String? = values.getAsString(KEY_SECOND_GROUP)
         val budget: String? = values.getAsString(KEY_BUDGET)
         val oneTime: String? = values.getAsBoolean(KEY_ONE_TIME)?.let { if (it) "1" else "0" }
         val rollOverPrevious: String? = values.getAsString(KEY_BUDGET_ROLLOVER_PREVIOUS)
         val rollOverNext: String? = values.getAsString(KEY_BUDGET_ROLLOVER_NEXT)
         check(
             (budget != null && rollOverNext == null && rollOverPrevious == null) ||
-                    (budget == null && oneTime == null && year != "-1" &&
+                    (budget == null && oneTime == null && year != null &&
                             (rollOverNext != null).xor(rollOverPrevious != null)
                             )
         )
@@ -367,7 +366,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         statementBuilder.append("INSERT OR REPLACE INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) ")
         statementBuilder.append("VALUES (?,?,?,?,")
         val baseArgs = listOf(budgetId, catId, year, second)
-        val argsList = mutableListOf<String>()
+        val argsList = mutableListOf<String?>()
         argsList.addAll(baseArgs)
         if (rollOverPrevious == null) {
             statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
@@ -393,8 +392,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
             argsList.addAll(baseArgs)
             argsList.addAll(baseArgs)
         }
-        val statement: SupportSQLiteStatement = db.compileStatement(statementBuilder.toString())
-        statement.bindAllArgsAsStrings(argsList)
+        val statement = db.compileStatement(statementBuilder.toString())
+        argsList.forEachIndexed { index, arg ->
+            val bindIndex = index + 1
+            if (arg != null) {
+                statement.bindString(bindIndex, arg)
+            } else {
+                statement.bindNull(bindIndex)
+            }
+        }
         log("$statement - ${argsList.joinToString()}")
         return statement.executeUpdateDelete()
     }
