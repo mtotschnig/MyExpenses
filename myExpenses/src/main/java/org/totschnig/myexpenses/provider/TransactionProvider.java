@@ -37,6 +37,7 @@ import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CAL
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -350,6 +351,14 @@ public class TransactionProvider extends BaseTransactionProvider {
                   " != 1 OR " + KEY_AMOUNT + " < 0";
           selection = selection == null ? mergeTransferSelection :
                   selection + " AND (" + mergeTransferSelection + ")";
+        }
+        //noinspection InlinedApi
+        String queryParameterLimit = uri.getQueryParameter(ContentResolver.QUERY_ARG_LIMIT);
+        if (queryParameterLimit != null) {
+          //noinspection InlinedApi
+          String queryParameterOffset = uri.getQueryParameter(ContentResolver.QUERY_ARG_OFFSET);
+          limit = queryParameterOffset + "," + queryParameterLimit;
+          log("limit %s", limit);
         }
         break;
       }
