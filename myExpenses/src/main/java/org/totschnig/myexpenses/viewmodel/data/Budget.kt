@@ -51,7 +51,9 @@ data class Budget(
     fun toContentValues(budget: Long?) = ContentValues().apply {
         put(KEY_TITLE, title)
         put(KEY_DESCRIPTION, description)
-        put(KEY_GROUPING, grouping.name)
+        if (id == 0L) {
+            put(KEY_GROUPING, grouping.name)
+        }
         if (accountId > 0) {
             put(KEY_ACCOUNTID, accountId)
             putNull(KEY_CURRENCY)
@@ -67,7 +69,7 @@ data class Budget(
             putNull(KEY_END)
         }
         budget?.let {
-            put(DatabaseConstants.KEY_BUDGET, it)
+            put(KEY_BUDGET, it)
         }
     }
 

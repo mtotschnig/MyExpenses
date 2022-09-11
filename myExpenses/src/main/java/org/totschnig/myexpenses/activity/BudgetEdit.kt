@@ -262,14 +262,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun populateData(budget: Budget) {
+        check(!mNewInstance)
         this.budget = budget
         binding.Title.setText(budget.title)
         binding.Description.setText(budget.description)
         populateAccount(budget.accountId)
-        if (!mNewInstance) {
-            binding.AmountRow.isVisible = false
-            typeSpinnerHelper.isEnabled = false
-        }
+        binding.AmountRow.isVisible = false
+        typeSpinnerHelper.setSelection(budget.grouping.ordinal)
+        typeSpinnerHelper.isEnabled = false
         configureTypeDependents(budget.grouping)
         binding.DefaultBudget.isChecked = budget.default
         if (resumedP) setupListeners()
