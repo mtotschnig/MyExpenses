@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.os.Bundle
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -32,7 +34,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.adapter.Account as DataAccount
 
@@ -43,6 +44,8 @@ class MyExpensesViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
+
+    val selectedAccount: MutableState<Long> = mutableStateOf(0L)
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts

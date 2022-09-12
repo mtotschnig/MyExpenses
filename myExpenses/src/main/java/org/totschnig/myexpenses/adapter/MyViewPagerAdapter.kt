@@ -57,10 +57,6 @@ class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transacti
         return super.getItem(position)
     }
 
-    fun setData(data: List<Account>) {
-        submitList(data)
-    }
-
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Account>() {
             override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean {

@@ -231,17 +231,14 @@ public class MyExpenses extends BaseMyExpenses implements
     updateFab();
     setupFabSubMenu();
     if (!isScanMode()) {
-      floatingActionButton.setVisibility(View.INVISIBLE);
+      getFloatingActionButton().setVisibility(View.INVISIBLE);
     }
     if (savedInstanceState == null) {
       Bundle extras = getIntent().getExtras();
       if (extras != null) {
-        accountId = Utils.getFromExtra(extras, KEY_ROWID, 0);
+        setAccountId(Utils.getFromExtra(extras, KEY_ROWID, 0));
         showTransactionFromIntent(extras);
       }
-    }
-    if (accountId == 0) {
-      accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L);
     }
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     ((MyApplication) getApplicationContext()).getAppComponent().inject(roadmapViewModel);
@@ -327,9 +324,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void moveToPosition(int position) {
-    if (getViewPager().getCurrentItem() == position)
-      setCurrentAccount(position);
-    else
+    if (getViewPager().getCurrentItem() != position)
       getViewPager().setCurrentItem(position, false);
   }
 
@@ -351,28 +346,6 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-    if (((AdapterView.AdapterContextMenuInfo) menuInfo).id > 0) {
-      MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.menu.accounts_context, menu);
-      Cursor c = getAccountsCursor();
-      if (c != null) {
-        c.moveToPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-        final boolean isSealed = MoreDbUtilsKt.getInt(c, KEY_SEALED) == 1;
-        menu.findItem(R.id.CLOSE_ACCOUNT_COMMAND).setVisible(!isSealed);
-        menu.findItem(R.id.REOPEN_ACCOUNT_COMMAND).setVisible(isSealed);
-        menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(!isSealed);
-      }
-    }
-  }
-
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    dispatchCommand(item.getItemId(), item.getMenuInfo());
-    return true;
-  }
-
   /* (non-Javadoc)
    * check if we should show one of the reminderDialogs
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -382,7 +355,7 @@ public class MyExpenses extends BaseMyExpenses implements
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_REQUEST) {
-      floatingActionButton.show();
+      getFloatingActionButton().show();
       if (resultCode == RESULT_OK) {
         if (!adHandler.onEditTransactionResult()) {
           reviewManager.onEditTransactionResult(this);
@@ -390,9 +363,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
-      //navigating to the new account currently does not work, due to the way LoaderManager behaves
-      //since its implementation is based on MutableLiveData
-      accountId = intent.getLongExtra(KEY_ROWID, 0);
+      setAccountId(intent.getLongExtra(KEY_ROWID, 0));
     }
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
@@ -498,9 +469,6 @@ public class MyExpenses extends BaseMyExpenses implements
         showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null);
       }
       return true;
-    } else if (command == R.id.DELETE_ACCOUNT_COMMAND_DO) {//reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
-
-      return true;
     } else if (command == R.id.SHARE_COMMAND) {
       i = new Intent();
       i.setAction(Intent.ACTION_SEND);
@@ -518,23 +486,6 @@ public class MyExpenses extends BaseMyExpenses implements
       i.setDataAndType(data, "application/pdf");
       i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       startActivity(i, R.string.no_app_handling_pdf_available, null);
-      return true;
-    } else if (command == R.id.EDIT_ACCOUNT_COMMAND) {
-      closeDrawer();
-      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-      if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
-        i = new Intent(this, AccountEdit.class);
-        i.putExtra(KEY_ROWID, accountId);
-        startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
-      }
-      return true;
-    } else if (command == R.id.DELETE_ACCOUNT_COMMAND) {
-      closeDrawer();
-      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-      //do nothing if accidentally we are positioned at an aggregate account
-      if (accountId > 0) {
-        confirmAccountDelete(accountId);
-      }
       return true;
     } else if (command == R.id.GROUPING_ACCOUNTS_COMMAND) {
       MenuDialog.build()
@@ -558,27 +509,6 @@ public class MyExpenses extends BaseMyExpenses implements
       Intent intent = new Intent(this, RoadmapVoteActivity.class);
       startActivity(intent);
       return true;
-    } else if (command == R.id.CLOSE_ACCOUNT_COMMAND) {
-      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-      //do nothing if accidentally we are positioned at an aggregate account
-      if (accountId > 0) {
-        setAccountSealed(accountId, true);
-      }
-      return true;
-    } else if (command == R.id.REOPEN_ACCOUNT_COMMAND) {
-      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-      //do nothing if accidentally we are positioned at an aggregate account
-      if (accountId > 0) {
-        setAccountSealed(accountId, false);
-      }
-      return true;
-    } else if (command == R.id.HIDE_ACCOUNT_COMMAND) {
-      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-      //do nothing if accidentally we are positioned at an aggregate account
-      if (accountId > 0) {
-        getViewModel().setAccountVisibility(true, accountId);
-      }
-      return true;
     } else if (command == R.id.HIDDEN_ACCOUNTS_COMMAND) {
       SelectHiddenAccountDialogFragment.newInstance().show(getSupportFragmentManager(),
           MANAGE_HIDDEN_FRAGMENT_TAG);
@@ -599,10 +529,6 @@ public class MyExpenses extends BaseMyExpenses implements
 
   private void complainAccountsNotLoaded() {
     showSnackBar(R.string.account_list_not_yet_loaded);
-  }
-
-  private void closeDrawer() {
-    if (binding.drawer != null) binding.drawer.closeDrawers();
   }
 
   public void finishActionMode() {
@@ -688,11 +614,7 @@ public class MyExpenses extends BaseMyExpenses implements
     super.onNewIntent(intent);
     Bundle extras = intent.getExtras();
     if (extras != null) {
-      long accountId = extras.getLong(KEY_ROWID);
-      if (accountId != this.accountId) {
-        this.accountId = accountId;
-        moveToAccount();
-      }
+      setAccountId(extras.getLong(KEY_ROWID));
       showTransactionFromIntent(extras);
     }
   }
@@ -911,7 +833,7 @@ public class MyExpenses extends BaseMyExpenses implements
     Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
     if (newGrouping != null) {
       if (!item.isChecked()) {
-        getViewModel().persistGrouping(accountId, newGrouping);
+        getViewModel().persistGrouping(getAccountId(), newGrouping);
       }
       return true;
     }
@@ -922,12 +844,12 @@ public class MyExpenses extends BaseMyExpenses implements
     SortDirection newSortDirection = Utils.getSortDirectionFromMenuItemId(item.getItemId());
     if (newSortDirection != null) {
       if (!item.isChecked()) {
-        if (accountId == Account.HOME_AGGREGATE_ID) {
+        if (getAccountId() == Account.HOME_AGGREGATE_ID) {
           getViewModel().persistSortDirectionHomeAggregate(newSortDirection);
-        } else if (accountId < 0) {
+        } else if (getAccountId() < 0) {
           getViewModel().persistSortDirectionAggregate(getCurrentCurrency(), newSortDirection);
         } else {
-          getViewModel().persistSortDirection(accountId, newSortDirection);
+          getViewModel().persistSortDirection(getAccountId(), newSortDirection);
         }
       }
       return true;

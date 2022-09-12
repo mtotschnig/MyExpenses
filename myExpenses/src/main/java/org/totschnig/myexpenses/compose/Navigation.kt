@@ -91,6 +91,12 @@ data class MenuEntry<T>(
             label = stringResource(id = R.string.menu_edit),
             action = action
         )
+        @Composable
+        fun <T> toggle(isSealed: Boolean, action: (T) -> Unit) = MenuEntry(
+            icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
+            label = stringResource(id = if (isSealed) R.string.menu_reopen else R.string.menu_close),
+            action = action
+        )
     }
 }
 typealias GenericMenuEntry = MenuEntry<Unit>

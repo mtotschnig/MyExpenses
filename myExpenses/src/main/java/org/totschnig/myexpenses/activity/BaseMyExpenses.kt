@@ -102,9 +102,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @State
     var scanFile: File? = null
 
-    @JvmField
-    @State
-    var accountId: Long = 0
+    var accountId: Long
+        get() = viewModel.selectedAccount.value
+        set(value) {
+            viewModel.selectedAccount.value = value
+        }
 
     var currentCurrency: String? = null
 
@@ -144,7 +146,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            floatingActionButton?.let {
+            floatingActionButton.let {
                 discoveryHelper.discover(
                     this,
                     it,
@@ -167,6 +169,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             inject(upgradeHandlerViewModel)
             inject(exportViewModel)
         }
+        accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         binding = ActivityMainBinding.inflate(layoutInflater)
         pagerAdapter = MyViewPagerAdapter(viewModel::loadTransactions)
         viewPager.adapter = pagerAdapter
@@ -215,16 +218,47 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         }
         lifecycleScope.launch {
-            viewModel.accountData.collect {
+            viewModel.accountData.collect { data ->
                 toolbar.isVisible = true
-                pagerAdapter.setData(it)
-                accountCount = it.count { it.id > 0 }
+                pagerAdapter.submitList(data) {
+                    viewPager.setCurrentItem(data.indexOfFirst { it.id == accountId }, false)
+                }
+                accountCount = data.count { it.id > 0 }
             }
         }
         accountList.setContent {
             AppTheme(this) {
-                AccountList(viewModel.accountData.collectAsState(initial = emptyList()))
+                AccountList(
+                    accountData = viewModel.accountData.collectAsState(initial = emptyList()),
+                    selectedAccount = accountId,
+                    onSelected = {
+                        viewPager.currentItem = it
+                        closeDrawer()
+                    },
+                    onEdit = {
+                        closeDrawer()
+                        startActivityForResult(Intent(this, AccountEdit::class.java).apply {
+                            putExtra(KEY_ROWID, it)
+                        }, EDIT_ACCOUNT_REQUEST)
+                    },
+                    onDelete = {
+                        closeDrawer()
+                        confirmAccountDelete(it)
+                    },
+                    onHide = {
+                        viewModel.setAccountVisibility(true, it)
+                    },
+                    onToggleSealed = { id, isSealed ->
+                        setAccountSealed(id, isSealed)
+                    }
+                )
             }
+        }
+    }
+
+    fun closeDrawer() {
+        binding.drawer?.let {
+            it.closeDrawers()
         }
     }
 
@@ -348,7 +382,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun startEdit(intent: Intent?) {
-        floatingActionButton?.hide()
+        floatingActionButton.hide()
         startActivityForResult(intent, EDIT_REQUEST)
     }
 
@@ -451,7 +485,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
                 val accountIds = tag as Array<Long>
                 if (accountIds.any { it == accountId }) {
-                    accountId = 0
+                    accountId = 0L
                 }
                 val manageHiddenFragment =
                     supportFragmentManager.findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG)
@@ -484,7 +518,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
 
     fun setupFabSubMenu() {
-        floatingActionButton?.setOnLongClickListener { fab ->
+        floatingActionButton.setOnLongClickListener { fab ->
             discoveryHelper.markDiscovered(DiscoveryHelper.Feature.fab_long_press)
             val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
@@ -533,7 +567,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
             it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
         }
-        if (accountCount > 0) {
+        if (pagerAdapter.itemCount > 0) {
             val account = pagerAdapter.getItem(viewPager.currentItem)
             menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
                 Utils.configureGroupingMenu(it, account.grouping)
@@ -558,7 +592,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun setupToolbarPopupMenu() {
+    private fun setupToolbarPopupMenu() {
         toolbar.setOnClickListener {
             if (currentPosition > -1) {
                 val popup = PopupMenu(this, toolbar)
@@ -596,21 +630,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         val account = pagerAdapter.getItem(position)
         val newAccountId = account.id
         if (accountId != newAccountId) {
+            accountId = account.id
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId)
         }
         tintSystemUiAndFab(
             if (newAccountId < 0) ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
             else account.color
         )
-        accountId = newAccountId
         currentCurrency = account.currency.code
         setBalance(account)
         if (account.sealed) {
-            floatingActionButton!!.hide()
+            floatingActionButton.hide()
         } else {
-            floatingActionButton!!.show()
+            floatingActionButton.show()
         }
-        //accountList.setItemChecked(position, true)
         invalidateOptionsMenu()
     }
 
@@ -637,7 +670,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun updateFab() {
         val scanMode = isScanMode()
-        requireFloatingActionButtonWithContentDescription(
+        configureFloatingActionButton(
             if (scanMode)
                 getString(R.string.contrib_feature_ocr_label)
             else
@@ -649,7 +682,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     R.string.menu_create_split
                 )
         )
-        floatingActionButton!!.setImageResource(if (scanMode) R.drawable.ic_scan else R.drawable.ic_menu_add_fab)
+        floatingActionButton.setImageResource(if (scanMode) R.drawable.ic_scan else R.drawable.ic_menu_add_fab)
     }
 
     fun isScanMode(): Boolean = prefHandler.getBoolean(PrefKey.OCR, false)

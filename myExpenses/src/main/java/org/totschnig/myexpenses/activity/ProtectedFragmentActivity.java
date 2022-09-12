@@ -39,7 +39,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.annimon.stream.Optional;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -133,8 +132,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   private boolean scheduledRestart = false;
   private Optional<Boolean> confirmCredentialResult = Optional.empty();
   protected ColorStateList textColorSecondary;
-  @Nullable
-  protected FloatingActionButton floatingActionButton;
 
   @Inject
   protected AdHandlerFactory adHandlerFactory;
@@ -227,30 +224,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void injectDependencies() {
     ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
-  }
-
-  protected void configureFloatingActionButton(int fabDescription) {
-    configureFloatingActionButton(fabDescription, 0);
-  }
-
-  protected void configureFloatingActionButton(int fabDescription, int icon) {
-    if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
-    if (icon != 0) {
-      floatingActionButton.setImageResource(icon);
-    }
-  }
-
-  protected boolean requireFloatingActionButton() {
-    floatingActionButton = findViewById(R.id.CREATE_COMMAND);
-    return floatingActionButton != null;
-  }
-
-  protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {
-    boolean found = requireFloatingActionButton();
-    if (found) {
-      floatingActionButton.setContentDescription(fabDescription);
-    }
-    return found;
   }
 
   protected Toolbar setupToolbar(boolean withHome) {
@@ -498,7 +471,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public void tintSystemUiAndFab(int color) {
     tintSystemUi(color);
-    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
+    UiUtils.setBackgroundTintListOnFab(getFloatingActionButton(), color);
   }
 
   public void tintSystemUi(int color) {
@@ -719,14 +692,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    if (floatingActionButton != null) {
-      floatingActionButton.setEnabled(true);
-    }
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-  }
-
-  @Override
   public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
     if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
       DailyScheduler.updatePlannerAlarms(this, false, true);
@@ -735,14 +700,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public void requestCalendarPermission() {
     requestPermission(PermissionGroup.CALENDAR);
-  }
-
-  @Override
-  public void requestPermission(@NonNull PermissionGroup permissionGroup) {
-    if (floatingActionButton != null) {
-      floatingActionButton.setEnabled(false);
-    }
-    super.requestPermission(permissionGroup);
   }
 
   @Override

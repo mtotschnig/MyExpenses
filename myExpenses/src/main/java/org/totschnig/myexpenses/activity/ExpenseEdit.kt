@@ -258,7 +258,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-        floatingActionButton?.show()
+        floatingActionButton.show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -302,7 +302,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             setHelpVariant(delegate.helpVariant)
             setTitle()
             refreshPlanData()
-            floatingActionButton?.show()
+            floatingActionButton.show()
         } else {
             areDatesLinked = prefHandler.getBoolean(PrefKey.DATES_ARE_LINKED, false)
             updateDateLink()
@@ -1409,7 +1409,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun updateFab() {
-        floatingActionButton?.let {
+        floatingActionButton.let {
             it.setImageResource(if (createNew) R.drawable.ic_action_save_new else R.drawable.ic_menu_done)
             it.contentDescription =
                 getString(if (createNew) R.string.menu_save_and_new_content_description else R.string.menu_save_help_text)

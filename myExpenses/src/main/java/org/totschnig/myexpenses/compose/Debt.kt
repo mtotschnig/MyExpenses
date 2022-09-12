@@ -168,10 +168,7 @@ fun DebtRenderer(
                             })
                         }
                         add(
-                            MenuEntry(
-                                icon = if (debt.isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
-                                label = stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close)
-                            ) {
+                            MenuEntry.toggle(debt.isSealed) {
                                 onToggle(it)
                             }
                         )

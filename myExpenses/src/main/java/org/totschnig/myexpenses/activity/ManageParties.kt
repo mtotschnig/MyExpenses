@@ -33,7 +33,7 @@ class ManageParties : DebtActivity() {
     }
 
     fun setFabEnabled(enabled: Boolean) {
-        floatingActionButton?.isEnabled = enabled
+        floatingActionButton.isEnabled = enabled
     }
 
     enum class HelpVariant {

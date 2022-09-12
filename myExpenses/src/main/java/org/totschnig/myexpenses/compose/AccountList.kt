@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.compose
 import android.graphics.Color
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +14,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -35,11 +38,19 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 const val EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_"
 
 @Composable
-fun AccountList(accountData: State<List<Account>>) {
+fun AccountList(
+    accountData: State<List<Account>>,
+    selectedAccount: Long,
+    onSelected: (Int) -> Unit,
+    onEdit: (Long) -> Unit,
+    onDelete: (Long) -> Unit,
+    onHide: (Long) -> Unit,
+    onToggleSealed: (Long, Boolean) -> Unit
+) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        accountData.value.forEach { account ->
+        accountData.value.forEachIndexed { index, account ->
             item {
                 //TODO migrate from legacy preferences
                 val isExpanded = rememberBooleanPreference(
@@ -51,7 +62,16 @@ fun AccountList(accountData: State<List<Account>>) {
                     initialValue = null,
                     defaultValue = true
                 )
-                AccountCard(account, isExpanded, account.id == 1L)
+                AccountCard(
+                    account = account,
+                    isExpanded = isExpanded,
+                    isSelected = account.id == selectedAccount,
+                    onSelected = { onSelected(index) },
+                    onEdit = onEdit,
+                    onDelete = onDelete,
+                    onHide = onHide,
+                    onToggleSealed = onToggleSealed
+                )
             }
         }
     }
@@ -61,16 +81,25 @@ fun AccountList(accountData: State<List<Account>>) {
 fun AccountCard(
     account: Account,
     isExpanded: MutableState<Boolean?>,
-    isSelected: Boolean = false
+    isSelected: Boolean = false,
+    onSelected: () -> Unit = {},
+    onEdit: (Long) -> Unit = {},
+    onDelete: (Long) -> Unit = {},
+    onHide: (Long) -> Unit = {},
+    onToggleSealed: (Long, Boolean) -> Unit =  { _,_ -> }
 ) {
     val format = LocalAmountFormatter.current
+    val showMenu = remember { mutableStateOf(false) }
     isExpanded.value?.let {
         Column(
             modifier = (if (isSelected)
                 Modifier.background(colorResource(id = R.color.activatedBackground))
-            else Modifier).padding(
-                start = dimensionResource(id = R.dimen.drawer_padding)
-            )
+            else Modifier)
+                .clickable {
+                    showMenu.value = true
+                }
+                .padding(start = dimensionResource(id = R.dimen.drawer_padding))
+
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -102,7 +131,36 @@ fun AccountCard(
                 ExpansionHandle(isExpanded = it) {
                     isExpanded.value = !it
                 }
+                val menu: Menu<Account> = Menu(
+                    buildList {
+                        add(MenuEntry(
+                            icon = Icons.Filled.List,
+                            label = stringResource(id = R.string.menu_show_transactions)
+                        ) {
+                            onSelected()
+                        })
+                        if (account.id > 0) {
+                            if (!account.sealed) {
+                                add(MenuEntry.edit { onEdit(it.id) })
+                            }
+                            add(MenuEntry.delete { onDelete(it.id) })
+                            add(MenuEntry(
+                                icon = Icons.Filled.VisibilityOff,
+                                label = stringResource(id = R.string.menu_hide)
+                            ) {
+                                onHide(it.id) }
+                            )
+                            add(
+                                MenuEntry.toggle(account.sealed) {
+                                    onToggleSealed(it.id, !it.sealed)
+                                }
+                            )
+                        }
+                    }
+                )
+                HierarchicalMenu(showMenu, menu, account)
             }
+
             AnimatedVisibility(visible = it) {
                 Column(modifier = Modifier.padding(end = 16.dp)) {
 
