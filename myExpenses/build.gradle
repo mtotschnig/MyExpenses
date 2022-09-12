@@ -229,6 +229,7 @@ dependencies {
     api 'com.github.mtotschnig:material-components-android:bug_1913_1.5-SNAPSHOT'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'dev.burnoo:compose-remember-preference:0.3.5'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

@@ -85,15 +85,15 @@ data class Account(
     val color: Int = -1,
     val type: AccountType = AccountType.CASH,
     val exchangeRate: Double = 1.0,
-    val sealed: Boolean,
+    val sealed: Boolean = false,
     val openingBalance: Long,
     val currentBalance: Long,
     val sumIncome: Long,
     val sumExpense: Long,
-    val sumTransfer: Long,
-    val grouping: Grouping,
-    val sortDirection: SortDirection,
-    val syncAccountName: String?
+    val sumTransfer: Long = 0L,
+    val grouping: Grouping = Grouping.NONE,
+    val sortDirection: SortDirection = SortDirection.DESC,
+    val syncAccountName: String? = null
 
 ) {
     companion object {

@@ -53,6 +53,8 @@
         android:name="android.hardware.wifi"
         android:required="false" />
 
+    <uses-sdk tools:overrideLibrary="dev.burnoo.compose.rememberpreference"/>
+
     <queries>
         <intent>
             <action android:name="org.totschnig.ocr.action.RECOGNIZE" />

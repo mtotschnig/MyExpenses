@@ -232,7 +232,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                 val expansionMode = object : ExpansionMode.Single(expansionState) {
                     override fun toggle(category: Category) {
                         super.toggle(category)
-                        //when we collapse a category, we want it to be selected, when expand the first child should be selected
+                        // when we collapse a category, we want it to be selected;
+                        // when we expand, the first child should be selected
                         if (isExpanded(category.id)) {
                             selectionState.value = category.children.firstOrNull()
                         } else {
