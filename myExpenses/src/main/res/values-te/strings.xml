@@ -16,7 +16,6 @@
     <string name="menu_reopen">తిరిగి తెరవండి</string>
     <string name="menu_close">దగ్గరగా</string>
     <string name="menu_hide">దాచు</string>
-    <string name="pref_account_list_fast_scroll_summary">ఖాతా జాబితా కోసం వేగవంతమైన స్క్రోల్‌ను ప్రారంభించండి. కొన్ని పరికరాల్లో తప్పు ప్రదర్శనకు దారితీయవచ్చు</string>
     <string name="joining_or">లేదా</string>
     <string name="button_label_no_encryption">గుప్తీకరణ లేకుండా</string>
     <string name="input_label_passphrase">పాస్ఫ్రేజ్</string>

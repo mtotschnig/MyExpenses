@@ -748,7 +748,6 @@
     <string name="button_label_no_encryption">Tanpa penyulitan</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">atau</string>
-    <string name="pref_account_list_fast_scroll_summary">Benarkan tatal pantas untuk senarai akaun. Boleh mengakibatkan paparan salah pada sesetengah peranti</string>
     <string name="menu_hide">Sembunyi</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Tutup</string>

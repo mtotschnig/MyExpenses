@@ -785,7 +785,6 @@
     <string name="button_label_no_encryption">Sans cryptage</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">ou</string>
-    <string name="pref_account_list_fast_scroll_summary">Activer le défilement rapide pour la liste des comptes. Peut entraîner un affichage incorrect sur certains appareils</string>
     <string name="menu_hide">Cacher</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Fermer</string>

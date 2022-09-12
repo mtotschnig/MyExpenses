@@ -809,7 +809,6 @@
     <string name="menu_reopen">Otvori ponovo</string>
     <string name="menu_close">Zatvori</string>
     <string name="menu_hide">Sakrij</string>
-    <string name="pref_account_list_fast_scroll_summary">Aktiviraj brzo pomicanje za popis računa. Može dovesti do pogrešnog prikaza na nekim uređajima</string>
     <string name="joining_or">ili</string>
     <string name="button_label_no_encryption">Bez šifriranja</string>
     <string name="input_label_passphrase">Dugačka lozinka</string>

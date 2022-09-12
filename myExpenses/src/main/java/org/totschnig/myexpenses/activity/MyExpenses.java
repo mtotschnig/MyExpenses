@@ -59,7 +59,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -106,8 +105,6 @@ public class MyExpenses extends BaseMyExpenses implements
 
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
   private static final String DIALOG_TAG_SORTING = "SORTING";
-
-  private MyGroupedAdapter mDrawerListAdapter;
 
   private AdHandler adHandler;
 
@@ -183,7 +180,6 @@ public class MyExpenses extends BaseMyExpenses implements
       // Set the drawer toggle as the DrawerListener
       binding.drawer.addDrawerListener(mDrawerToggle);
     }
-    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler, currencyContext);
 
     getNavigationView().setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
     View navigationMenuView = getNavigationView().getChildAt(0);

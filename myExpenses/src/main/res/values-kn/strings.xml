@@ -774,7 +774,6 @@
     <string name="button_label_no_encryption">ಗೂ ry ಲಿಪೀಕರಣವಿಲ್ಲದೆ</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">ಅಥವಾ</string>
-    <string name="pref_account_list_fast_scroll_summary">ಖಾತೆ ಪಟ್ಟಿಗಾಗಿ ವೇಗದ ಸ್ಕ್ರಾಲ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ಕೆಲವು ಸಾಧನಗಳಲ್ಲಿ ತಪ್ಪಾದ ಪ್ರದರ್ಶನಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು</string>
     <string name="menu_hide">ಮರೆಮಾಡಿ</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">ಮುಚ್ಚಿ</string>

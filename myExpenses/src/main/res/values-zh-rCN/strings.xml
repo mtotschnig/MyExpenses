@@ -767,7 +767,6 @@
     <string name="button_label_no_encryption">没有加密</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">或</string>
-    <string name="pref_account_list_fast_scroll_summary">启用账户列表快速滚动。在某些设备上可能导致显示不正确</string>
     <string name="menu_hide">隐藏</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">关闭</string>
