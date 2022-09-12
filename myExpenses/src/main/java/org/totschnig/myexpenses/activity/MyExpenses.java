@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -28,7 +27,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
@@ -43,13 +41,11 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -83,7 +79,6 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.ui.SnackbarAction;
@@ -100,7 +95,6 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 import eltos.simpledialogfragment.list.MenuDialog;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * This is the main activity where all expenses are listed
@@ -116,8 +110,6 @@ public class MyExpenses extends BaseMyExpenses implements
   private MyGroupedAdapter mDrawerListAdapter;
 
   private AdHandler adHandler;
-  private AccountGrouping accountGrouping;
-  private Sort accountSort;
 
   public void toggleScanMode() {
     final boolean oldMode = prefHandler.getBoolean(OCR, false);
@@ -139,8 +131,6 @@ public class MyExpenses extends BaseMyExpenses implements
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    accountGrouping = readAccountGroupingFromPref();
-    accountSort = readAccountSortFromPref();
     adHandler = adHandlerFactory.create(binding.viewPagerMain.adContainer, this);
     binding.viewPagerMain.adContainer.getViewTreeObserver().addOnGlobalLayoutListener(
         new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -328,24 +318,6 @@ public class MyExpenses extends BaseMyExpenses implements
       getViewPager().setCurrentItem(position, false);
   }
 
-  private AccountGrouping readAccountGroupingFromPref() {
-    try {
-      return AccountGrouping.valueOf(
-          prefHandler.getString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name()));
-    } catch (IllegalArgumentException e) {
-      return AccountGrouping.TYPE;
-    }
-  }
-
-  private Sort readAccountSortFromPref() {
-    try {
-      return Sort.valueOf(
-          prefHandler.getString(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES.name()));
-    } catch (IllegalArgumentException e) {
-      return Sort.USAGES;
-    }
-  }
-
   /* (non-Javadoc)
    * check if we should show one of the reminderDialogs
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -490,7 +462,7 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.GROUPING_ACCOUNTS_COMMAND) {
       MenuDialog.build()
           .menu(this, R.menu.accounts_grouping)
-          .choiceIdPreset(accountGrouping.commandId)
+          .choiceIdPreset(accountGrouping.getCommandId())
           .title(R.string.menu_grouping)
           .show(this, DIALOG_TAG_GROUPING);
       return true;
@@ -788,6 +760,7 @@ public class MyExpenses extends BaseMyExpenses implements
         accountSort = newSort;
         prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name());
       }
+      getViewModel().triggerAccountListRefresh();
       result = true;
       if (itemId == R.id.SORT_CUSTOM_COMMAND) {
         Cursor cursor = getAccountsCursor();
@@ -824,6 +797,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (newGrouping != null && !newGrouping.equals(accountGrouping)) {
       accountGrouping = newGrouping;
       prefHandler.putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name());
+      getViewModel().triggerAccountListRefresh();
       return true;
     }
     return false;

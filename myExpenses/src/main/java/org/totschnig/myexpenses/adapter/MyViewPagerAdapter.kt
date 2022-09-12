@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.enumValueOrNull
 
 class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transaction>) :
     ListAdapter<Account, TransactionListViewHolder>(DIFF_CALLBACK) {
@@ -79,7 +80,7 @@ data class Account(
     val description: String,
     val currency: CurrencyUnit,
     val color: Int = -1,
-    val type: AccountType = AccountType.CASH,
+    val type: AccountType? = null,
     val exchangeRate: Double = 1.0,
     val sealed: Boolean = false,
     val openingBalance: Long,
@@ -99,7 +100,7 @@ data class Account(
             description = cursor.getString(KEY_DESCRIPTION),
             currency = currencyContext.get(cursor.getString(KEY_CURRENCY)),
             color = cursor.getInt(KEY_COLOR),
-            type = enumValueOrDefault(cursor.getString(KEY_TYPE), AccountType.CASH),
+            type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
             exchangeRate = cursor.getDouble(KEY_EXCHANGE_RATE),
             sealed = cursor.getInt(KEY_SEALED) == 1,
             openingBalance = cursor.getLong(KEY_OPENING_BALANCE),

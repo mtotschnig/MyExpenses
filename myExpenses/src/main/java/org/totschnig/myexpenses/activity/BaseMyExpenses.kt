@@ -52,12 +52,14 @@ import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
@@ -123,8 +125,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     fun requireAccountsCursor() = accountsCursor!!
     lateinit var toolbar: Toolbar
 
-    var columnIndexType = 0
-
     private var currentBalance: String? = null
     var currentPosition = -1
 
@@ -136,6 +136,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var pagerAdapter: MyViewPagerAdapter
 
     var accountCount = 0
+
+    lateinit var accountGrouping: AccountGrouping
+    lateinit var accountSort: Sort
+
     private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             currentPosition = position
@@ -164,6 +168,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        accountGrouping = readAccountGroupingFromPref()
+        accountSort = readAccountSortFromPref()
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
             inject(upgradeHandlerViewModel)
@@ -229,7 +235,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         accountList.setContent {
             AppTheme(this) {
                 AccountList(
-                    accountData = viewModel.accountData.collectAsState(initial = emptyList()),
+                    accountData = viewModel.accountData.collectAsState(initial = emptyList()).value,
+                    grouping = accountGrouping,
                     selectedAccount = accountId,
                     onSelected = {
                         viewPager.currentItem = it
@@ -254,6 +261,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 )
             }
         }
+    }
+
+    private fun readAccountGroupingFromPref() = try {
+        AccountGrouping.valueOf(
+            prefHandler.requireString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name)
+        )
+    } catch (e: IllegalArgumentException) {
+        AccountGrouping.TYPE
+    }
+
+    private fun readAccountSortFromPref() = try {
+        Sort.valueOf(
+            prefHandler.requireString(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES.name)
+        )
+    } catch (e: IllegalArgumentException) {
+        Sort.USAGES
     }
 
     fun closeDrawer() {

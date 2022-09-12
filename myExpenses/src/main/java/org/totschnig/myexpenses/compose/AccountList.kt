@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.content.Context
 import android.graphics.Color
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -11,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
@@ -19,27 +22,32 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.burnoo.compose.rememberpreference.rememberBooleanPreference
+import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.Account
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.viewmodel.data.Currency
 
 const val EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_"
 
 @Composable
 fun AccountList(
-    accountData: State<List<Account>>,
+    accountData: List<Account>,
+    grouping: AccountGrouping,
     selectedAccount: Long,
     onSelected: (Int) -> Unit,
     onEdit: (Long) -> Unit,
@@ -47,34 +55,108 @@ fun AccountList(
     onHide: (Long) -> Unit,
     onToggleSealed: (Long, Boolean) -> Unit
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        accountData.value.forEachIndexed { index, account ->
-            item {
-                //TODO migrate from legacy preferences
-                val isExpanded = rememberBooleanPreference(
-                    keyName = EXPANSION_PREF_PREFIX + when {
-                        account.id > 0 -> account.id
-                        account.id == AggregateAccount.HOME_AGGREGATE_ID -> AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
-                        else -> account.currency.code
-                    },
-                    initialValue = null,
-                    defaultValue = true
-                )
-                AccountCard(
-                    account = account,
-                    isExpanded = isExpanded,
-                    isSelected = account.id == selectedAccount,
-                    onSelected = { onSelected(index) },
-                    onEdit = onEdit,
-                    onDelete = onDelete,
-                    onHide = onHide,
-                    onToggleSealed = onToggleSealed
-                )
+    val context = LocalContext.current
+    val collapsedHeaders = rememberStringSetPreference(
+        keyName = "collapsedHeadersDrawer_" + grouping.name,
+        initialValue = null,
+        defaultValue = emptySet()
+    )
+    collapsedHeaders.value?.let { set ->
+
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            var isGroupHidden = false
+            accountData.forEachIndexed { index, account ->
+                getHeader(context, grouping, account, accountData.getOrNull(index - 1))?.let {
+                    item {
+                        Header(it.second) {
+                            if (set.contains(it.first)) {
+                                collapsedHeaders.value = set - it.first
+                            } else {
+                                collapsedHeaders.value = set + it.first
+                            }
+                        }
+                    }
+                    isGroupHidden = collapsedHeaders.value?.contains(it.first) ?: true
+                }
+                if (!isGroupHidden) {
+                    item {
+                        //TODO migrate from legacy preferences
+                        val isExpanded = rememberBooleanPreference(
+                            keyName = EXPANSION_PREF_PREFIX + when {
+                                account.id > 0 -> account.id
+                                account.id == AggregateAccount.HOME_AGGREGATE_ID -> AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
+                                else -> account.currency.code
+                            },
+                            initialValue = null,
+                            defaultValue = true
+                        )
+                        AccountCard(
+                            account = account,
+                            isExpanded = isExpanded,
+                            isSelected = account.id == selectedAccount,
+                            onSelected = { onSelected(index) },
+                            onEdit = onEdit,
+                            onDelete = onDelete,
+                            onHide = onHide,
+                            onToggleSealed = onToggleSealed
+                        )
+                    }
+                }
             }
         }
     }
+}
+
+@Composable
+private fun Header(header: String, onHeaderClick: () -> Unit) {
+    Divider(color = colorResource(id = R.color.material_grey_300), thickness = 2.dp)
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onHeaderClick)
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.drawer_padding),
+                vertical = 4.dp
+            ),
+        text = header,
+        style = MaterialTheme.typography.subtitle1,
+        color = colorResource(id = R.color.material_grey)
+    )
+}
+
+private fun getHeader(
+    context: Context,
+    grouping: AccountGrouping,
+    account: Account,
+    previous: Account?
+): Pair<String, String>? {
+    val needsHeader = previous == null ||
+            when (grouping) {
+                AccountGrouping.NONE -> account.id < 0 && previous.id > 0
+                AccountGrouping.TYPE -> account.type != previous.type
+                AccountGrouping.CURRENCY -> account.id == AggregateAccount.HOME_AGGREGATE_ID || account.currency != previous.currency
+            }
+    return if (needsHeader) {
+        when (grouping) {
+            AccountGrouping.NONE -> {
+                val id =
+                    if (account.id > 0) R.string.pref_manage_accounts_title else R.string.menu_aggregates
+                id.toString() to context.getString(id)
+            }
+            AccountGrouping.TYPE -> {
+                val id = account.type?.toStringResPlural() ?: R.string.menu_aggregates
+                id.toString() to context.getString(id)
+            }
+            AccountGrouping.CURRENCY -> {
+                if (account.id == AggregateAccount.HOME_AGGREGATE_ID)
+                    AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE to context.getString(R.string.menu_aggregates)
+                else account.currency.code to Currency.create(account.currency.code, context)
+                    .toString()
+            }
+        }
+    } else null
 }
 
 @Composable
@@ -86,7 +168,7 @@ fun AccountCard(
     onEdit: (Long) -> Unit = {},
     onDelete: (Long) -> Unit = {},
     onHide: (Long) -> Unit = {},
-    onToggleSealed: (Long, Boolean) -> Unit =  { _,_ -> }
+    onToggleSealed: (Long, Boolean) -> Unit = { _, _ -> }
 ) {
     val format = LocalAmountFormatter.current
     val showMenu = remember { mutableStateOf(false) }
@@ -148,7 +230,8 @@ fun AccountCard(
                                 icon = Icons.Filled.VisibilityOff,
                                 label = stringResource(id = R.string.menu_hide)
                             ) {
-                                onHide(it.id) }
+                                onHide(it.id)
+                            }
                             )
                             add(
                                 MenuEntry.toggle(account.sealed) {

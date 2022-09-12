@@ -102,7 +102,7 @@ class MyExpensesViewModel(application: Application) :
         viewModelScope.launch(context = coroutineContext()) {
             if (accountId == Account.HOME_AGGREGATE_ID) {
                 AggregateAccount.persistGroupingHomeAggregate(prefHandler, grouping)
-                contentResolver.notifyChange(ACCOUNTS_URI, null, false)
+                triggerAccountListRefresh()
             } else {
                 contentResolver.update(
                     ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, accountId)
@@ -127,11 +127,15 @@ class MyExpensesViewModel(application: Application) :
 
     fun persistSortDirectionAggregate(currency: String, sortDirection: SortDirection) {
         AggregateAccount.persistSortDirectionAggregate(prefHandler, currency, sortDirection)
-        contentResolver.notifyChange(ACCOUNTS_URI, null, false)
+        triggerAccountListRefresh()
     }
 
     fun persistSortDirectionHomeAggregate(sortDirection: SortDirection) {
         AggregateAccount.persistSortDirectionHomeAggregate(prefHandler, sortDirection)
+        triggerAccountListRefresh()
+    }
+
+    fun triggerAccountListRefresh() {
         contentResolver.notifyChange(ACCOUNTS_URI, null, false)
     }
 
