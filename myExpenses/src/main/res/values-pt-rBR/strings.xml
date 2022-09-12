@@ -108,8 +108,9 @@
     <string name="dialog_title_balance_account">Balanço de %1$s</string>
     <string name="dialog_title_contrib_feature">Recurso premium</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Apagar a conta\?</item>
-        <item quantity="other">Apagar %1$d contas\?</item>
+        <item quantity="one">Excluir a conta\?</item>
+        <item quantity="many"></item>
+        <item quantity="other">Excluir %1$d contas\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Apagar a categoria\?</string>
     <string name="dialog_title_warning_delete_template">Apagar o modelo\?</string>
@@ -226,12 +227,14 @@
     <string name="no_templates">Nenhum modelo.</string>
     <string name="no_accounts">Não há contas.</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="one">O objeto selecionado está mapeado numa transação e não pode ser apagada.</item>
-        <item quantity="other">%1$d objetos estão mapeados em transações e não podem ser apagadas.</item>
+        <item quantity="one">O objeto selecionado está mapeado em uma transação e não pode ser excluído.</item>
+        <item quantity="many">%1$d objetos estão mapeados em transações e não podem ser excluídos.</item>
+        <item quantity="other">%1$d objetos estão mapeados em transações e não podem ser excluídos.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
-        <item quantity="one">O objeto selecionado é mapeado num modelo e não pode ser apagado.</item>
-        <item quantity="other">%1$d objetos estão mapeados em modelos e não podem ser apagados.</item>
+        <item quantity="one">O objeto selecionado é mapeado em um modelo e não pode ser excluído.</item>
+        <item quantity="many">%1$d objetos estão mapeados em modelos e não podem ser excluídos.</item>
+        <item quantity="other">%1$d objetos estão mapeados em modelos e não podem ser excluídos.</item>
     </plurals>
     <string name="numbered">numeradas</string>
     <string name="opening_balance">Saldo inicial</string>
@@ -356,8 +359,9 @@
     <string name="save_transaction_and_new_success">Salvo com sucesso</string>
     <string name="save_transaction_error">Não foi possível salvar a nova transação do modelo.</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">A nova transação foi salva do modelo com sucesso.</item>
-        <item quantity="other">%1$d novas transações salvas do modelo com sucesso.</item>
+        <item quantity="one">A nova transação foi salva, com sucesso, do modelo.</item>
+        <item quantity="many">%1$d novas transações foram salvas, com sucesso, de modelos.</item>
+        <item quantity="other">%1$d novas transações foram salvas, com sucesso, de modelos.</item>
     </plurals>
     <string name="save_transaction_template_deleted">O modelo foi apagado</string>
     <string name="select">Selecionar</string>
@@ -395,13 +399,15 @@
     <string name="continue_confirmation">Deseja continuar?</string>
     <string name="warning_delete_account">A conta \"%1$s\" será apagada com todas as suas transações.</string>
     <plurals name="warning_delete_main_category">
-        <item quantity="one">A categoria selecionada contém subcategorias, que também serão apagadas.</item>
-        <item quantity="other">A categoria %1$d selecionada contém subcategorias, que também serão apagadas.</item>
+        <item quantity="one">Uma categoria selecionada contém subcategorias, que também serão excluídas.</item>
+        <item quantity="many">%1$d categorias selecionadas contém subcategorias, que também serão excluídas.</item>
+        <item quantity="other">%1$d categorias selecionadas contém subcategorias, que também serão excluídas.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">Para pelo menos uma categoria selecionada, há alocações de orçamento, que também serão apagadas.</string>
     <plurals name="warning_delete_template">
-        <item quantity="one">O modelo selecionado será apagado.</item>
-        <item quantity="other">Os %1$d modelos selecionados serão apagados.</item>
+        <item quantity="one">O modelo selecionado será excluído.</item>
+        <item quantity="many">%1$d modelos selecionados serão excluídos.</item>
+        <item quantity="other">%1$d modelos selecionados serão excluídos.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">A transação selecionada será apagada.</item>
@@ -1024,5 +1030,7 @@
     <string name="whats_new_344">Ícones para categorias</string>
     <string name="required">Obrigatório</string>
     <string name="budget_only_current_period">Definido somente para %s</string>
-    <string name="budget_table_header_rollover">Rolar</string>
+    <string name="budget_table_header_rollover">Prorrogar</string>
+    <string name="rollover_edit_invalid">A soma da prorrogação atribuída a uma categoria e das prorrogações atribuídas às subcategorias não pode exceder o restante.</string>
+    <string name="dialog_confirm_rollover_delete">Todos os montantes de prorrogações para este período serão excluídos.</string>
 </resources>
