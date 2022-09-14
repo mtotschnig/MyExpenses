@@ -13,8 +13,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingSource
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.adapter.Account as DataAccount
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -59,11 +59,11 @@ class MyExpensesViewModel(application: Application) :
             mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
         }));
     }*/
-    val accountData: Flow<List<DataAccount>> = contentResolver.observeQuery(
+    val accountData: StateFlow<List<FullAccount>> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1").build(),
         selection = "$KEY_HIDDEN = 0"
     ).mapToList {
-        DataAccount.fromCursor(it, currencyContext)
+        FullAccount.fromCursor(it, currencyContext)
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     fun loadTransactions(accountId: Long): () -> PagingSource<Int, org.totschnig.myexpenses.adapter.Transaction> =

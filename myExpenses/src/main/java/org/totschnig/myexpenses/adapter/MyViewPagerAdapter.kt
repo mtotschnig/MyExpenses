@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.adapter
 
-import android.content.ClipDescription
 import android.content.Context
-import android.database.Cursor
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,22 +17,10 @@ import androidx.paging.compose.items
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.getDouble
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.enumValueOrNull
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transaction>) :
-    ListAdapter<Account, TransactionListViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<FullAccount, TransactionListViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionListViewHolder {
         return TransactionListViewHolder(
@@ -54,17 +40,17 @@ class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transacti
         }
     }
 
-    public override fun getItem(position: Int): Account {
+    public override fun getItem(position: Int): FullAccount {
         return super.getItem(position)
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Account>() {
-            override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FullAccount>() {
+            override fun areItemsTheSame(oldItem: FullAccount, newItem: FullAccount): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean {
+            override fun areContentsTheSame(oldItem: FullAccount, newItem: FullAccount): Boolean {
                 return oldItem.id == newItem.id
             }
         }
@@ -73,47 +59,6 @@ class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transacti
 
 class TransactionListViewHolder(val composeView: ComposeTransactionList) :
     RecyclerView.ViewHolder(composeView)
-
-data class Account(
-    val id: Long,
-    val label: String,
-    val description: String,
-    val currency: CurrencyUnit,
-    val color: Int = -1,
-    val type: AccountType? = null,
-    val exchangeRate: Double = 1.0,
-    val sealed: Boolean = false,
-    val openingBalance: Long,
-    val currentBalance: Long,
-    val sumIncome: Long,
-    val sumExpense: Long,
-    val sumTransfer: Long = 0L,
-    val grouping: Grouping = Grouping.NONE,
-    val sortDirection: SortDirection = SortDirection.DESC,
-    val syncAccountName: String? = null
-
-) {
-    companion object {
-        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = Account(
-            id = cursor.getLong(KEY_ROWID),
-            label = cursor.getString(KEY_LABEL),
-            description = cursor.getString(KEY_DESCRIPTION),
-            currency = currencyContext.get(cursor.getString(KEY_CURRENCY)),
-            color = cursor.getInt(KEY_COLOR),
-            type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
-            exchangeRate = cursor.getDouble(KEY_EXCHANGE_RATE),
-            sealed = cursor.getInt(KEY_SEALED) == 1,
-            openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
-            currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
-            sumIncome = cursor.getLong(KEY_SUM_INCOME),
-            sumExpense = cursor.getLong(KEY_SUM_EXPENSES),
-            sumTransfer = cursor.getLong(KEY_SUM_TRANSFERS),
-            grouping = enumValueOrDefault(cursor.getString(KEY_GROUPING), Grouping.NONE),
-            sortDirection = enumValueOrDefault(cursor.getString(KEY_SORT_DIRECTION), SortDirection.DESC),
-            syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME)
-        )
-    }
-}
 
 data class Transaction(
     val id: Long,

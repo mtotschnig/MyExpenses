@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import dev.burnoo.compose.rememberpreference.rememberBooleanPreference
 import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.adapter.Account
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -46,7 +45,7 @@ const val EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_"
 
 @Composable
 fun AccountList(
-    accountData: List<Account>,
+    accountData: List<FullAccount>,
     grouping: AccountGrouping,
     selectedAccount: Long,
     onSelected: (Int) -> Unit,
@@ -129,8 +128,8 @@ private fun Header(header: String, onHeaderClick: () -> Unit) {
 private fun getHeader(
     context: Context,
     grouping: AccountGrouping,
-    account: Account,
-    previous: Account?
+    account: FullAccount,
+    previous: FullAccount?
 ): Pair<String, String>? {
     val needsHeader = previous == null ||
             when (grouping) {
@@ -161,7 +160,7 @@ private fun getHeader(
 
 @Composable
 fun AccountCard(
-    account: Account,
+    account: FullAccount,
     isExpanded: MutableState<Boolean?>,
     isSelected: Boolean = false,
     onSelected: () -> Unit = {},
@@ -213,7 +212,7 @@ fun AccountCard(
                 ExpansionHandle(isExpanded = it) {
                     isExpanded.value = !it
                 }
-                val menu: Menu<Account> = Menu(
+                val menu: Menu<FullAccount> = Menu(
                     buildList {
                         add(MenuEntry(
                             icon = Icons.Filled.List,
@@ -306,7 +305,7 @@ fun AccountPreview() {
         mutableStateOf<Boolean?>(true)
     }
     AccountCard(
-        account = Account(
+        account = FullAccount(
             id = 1,
             label = "Account",
             description = "Description",

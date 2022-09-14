@@ -14,7 +14,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -32,12 +34,13 @@ import eltos.simpledialogfragment.form.AmountEdit
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
+import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
+import eltos.simpledialogfragment.list.MenuDialog
 import icepick.State
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
-import org.totschnig.myexpenses.adapter.Account
 import org.totschnig.myexpenses.adapter.MyViewPagerAdapter
 import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
@@ -46,6 +49,7 @@ import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
@@ -60,6 +64,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
@@ -86,6 +91,7 @@ import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
 import java.io.File
 import java.io.Serializable
@@ -137,10 +143,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     var accountCount = 0
 
-    lateinit var accountGrouping: AccountGrouping
+    val accountGrouping: MutableState<AccountGrouping> = mutableStateOf(AccountGrouping.TYPE)
+
     lateinit var accountSort: Sort
 
-    private val pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
+    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             currentPosition = position
             setCurrentAccount(position)
@@ -168,7 +175,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        accountGrouping = readAccountGroupingFromPref()
+        readAccountGroupingFromPref()
         accountSort = readAccountSortFromPref()
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
@@ -236,7 +243,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             AppTheme(this) {
                 AccountList(
                     accountData = viewModel.accountData.collectAsState(initial = emptyList()).value,
-                    grouping = accountGrouping,
+                    grouping = accountGrouping.value,
                     selectedAccount = accountId,
                     onSelected = {
                         viewPager.currentItem = it
@@ -263,12 +270,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun readAccountGroupingFromPref() = try {
-        AccountGrouping.valueOf(
-            prefHandler.requireString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name)
-        )
-    } catch (e: IllegalArgumentException) {
-        AccountGrouping.TYPE
+    private fun readAccountGroupingFromPref() {
+        accountGrouping.value = try {
+            AccountGrouping.valueOf(
+                prefHandler.requireString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name)
+            )
+        } catch (e: IllegalArgumentException) {
+            AccountGrouping.TYPE
+        }
     }
 
     private fun readAccountSortFromPref() = try {
@@ -280,9 +289,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun closeDrawer() {
-        binding.drawer?.let {
-            it.closeDrawers()
-        }
+        binding.drawer?.closeDrawers()
     }
 
     override fun injectDependencies() {
@@ -426,6 +433,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == OnDialogResultListener.BUTTON_POSITIVE) {
             when (dialogTag) {
+                DIALOG_TAG_GROUPING -> {
+                    return handleAccountsGrouping(extras.getLong(SELECTED_SINGLE_ID).toInt())
+                }
+                DIALOG_TAG_SORTING -> {
+                    return handleSortOption(extras.getLong(SELECTED_SINGLE_ID).toInt())
+                }
                 DIALOG_TAG_OCR_DISAMBIGUATE -> {
                     startEditFromOcrResult(
                         extras.getParcelable<OcrResult>(KEY_OCR_RESULT)!!.selectCandidates(
@@ -477,10 +490,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         )
     }
 
+    /**
+     * if (command == R.id.GROUPING_ACCOUNTS_COMMAND) {
+    MenuDialog.build()
+    .menu(this, R.menu.accounts_grouping)
+    .choiceIdPreset(accountGrouping.getCommandId())
+    .title(R.string.menu_grouping)
+    .show(this, DIALOG_TAG_GROUPING);
+    return true;
+    } else
+     */
+
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
             true
         } else when (command) {
+            R.id.GROUPING_ACCOUNTS_COMMAND -> {
+                MenuDialog.build()
+                    .menu(this, R.menu.accounts_grouping)
+                    .choiceIdPreset(accountGrouping.value.commandId.toLong())
+                    .title(R.string.menu_grouping)
+                    .show(this, DIALOG_TAG_GROUPING)
+                true
+            }
             R.id.SHARE_PDF_COMMAND -> {
                 shareViewModel.share(
                     this, listOf(ensureContentUri(Uri.parse(tag as String?), this)),
@@ -670,7 +702,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         invalidateOptionsMenu()
     }
 
-    private fun setBalance(account: Account) {
+    private fun setBalance(account: FullAccount) {
         val isHome = account.id == HOME_AGGREGATE_ID
         currentBalance = String.format(
             Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
@@ -1089,7 +1121,46 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         exportViewModel.startExport(args)
     }
 
+    private fun handleAccountsGrouping(itemId: Int): Boolean {
+        val newGrouping: AccountGrouping? = when (itemId) {
+            R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND -> AccountGrouping.CURRENCY
+            R.id.GROUPING_ACCOUNTS_TYPE_COMMAND -> AccountGrouping.TYPE
+            R.id.GROUPING_ACCOUNTS_NONE_COMMAND -> AccountGrouping.NONE
+            else -> null
+        }
+        return if (newGrouping != null && newGrouping != accountGrouping.value) {
+            accountGrouping.value = newGrouping
+            prefHandler.putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name)
+            viewModel.triggerAccountListRefresh()
+            true
+        } else false
+    }
+
+    private fun handleSortOption(itemId: Int): Boolean {
+        val newSort = fromCommandId(itemId)
+        var result = false
+        if (newSort != null) {
+            if (newSort != accountSort) {
+                accountSort = newSort
+                prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name)
+            }
+            viewModel.triggerAccountListRefresh()
+            result = true
+            if (itemId == R.id.SORT_CUSTOM_COMMAND) {
+                SortUtilityDialogFragment.newInstance(
+                    ArrayList(viewModel.accountData.value
+                    .filter { it.id > 0}
+                    .map { AbstractMap.SimpleEntry(it.id, it.label) }
+                ))
+                    .show(supportFragmentManager, "SORT_ACCOUNTS")
+            }
+        }
+        return result
+    }
+
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
+        const val DIALOG_TAG_GROUPING = "GROUPING"
+        const val DIALOG_TAG_SORTING = "SORTING"
     }
 }

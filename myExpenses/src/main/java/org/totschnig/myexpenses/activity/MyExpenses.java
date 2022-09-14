@@ -34,7 +34,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
-import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -70,12 +69,10 @@ import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
@@ -90,9 +87,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-
 import eltos.simpledialogfragment.list.MenuDialog;
 
 /**
@@ -102,9 +96,6 @@ import eltos.simpledialogfragment.list.MenuDialog;
  */
 public class MyExpenses extends BaseMyExpenses implements
     ConfirmationDialogListener, SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
-
-  private static final String DIALOG_TAG_GROUPING = "GROUPING";
-  private static final String DIALOG_TAG_SORTING = "SORTING";
 
   private AdHandler adHandler;
 
@@ -261,14 +252,6 @@ public class MyExpenses extends BaseMyExpenses implements
           .show(fm, TransactionDetailFragment.class.getName());
       getIntent().removeExtra(KEY_TRANSACTIONID);
     }
-  }
-
-  public void persistCollapsedHeaderIds() {
-    //PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), getAccountList().getCollapsedHeaderIds());
-  }
-
-  private String collapsedHeaderIdsPrefKey() {
-    return "collapsedHeadersDrawer_" + accountGrouping.name();
   }
 
   private void setup() {
@@ -455,13 +438,6 @@ public class MyExpenses extends BaseMyExpenses implements
       i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       startActivity(i, R.string.no_app_handling_pdf_available, null);
       return true;
-    } else if (command == R.id.GROUPING_ACCOUNTS_COMMAND) {
-      MenuDialog.build()
-          .menu(this, R.menu.accounts_grouping)
-          .choiceIdPreset(accountGrouping.getCommandId())
-          .title(R.string.menu_grouping)
-          .show(this, DIALOG_TAG_GROUPING);
-      return true;
     } else if (command == R.id.SORT_COMMAND) {
       MenuDialog.build()
           .menu(this, R.menu.accounts_sort)
@@ -591,18 +567,6 @@ public class MyExpenses extends BaseMyExpenses implements
     setTitle(R.string.app_name);
     toolbar.setSubtitle(null);
     setCurrentPosition(-1);
-  }
-
-  @Override
-  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (which != BUTTON_POSITIVE) return false;
-    if (DIALOG_TAG_SORTING.equals(dialogTag)) {
-      return handleSortOption((int) extras.getLong(SELECTED_SINGLE_ID));
-    }
-    if (DIALOG_TAG_GROUPING.equals(dialogTag)) {
-      return handleAccountsGrouping((int) extras.getLong(SELECTED_SINGLE_ID));
-    }
-    return super.onResult(dialogTag, which, extras);
   }
 
   @Override
@@ -746,57 +710,6 @@ public class MyExpenses extends BaseMyExpenses implements
     } else {
       super.onBackPressed();
     }
-  }
-
-  protected boolean handleSortOption(int itemId) {
-    Sort newSort = Sort.fromCommandId(itemId);
-    boolean result = false;
-    if (newSort != null) {
-      if (!newSort.equals(accountSort)) {
-        accountSort = newSort;
-        prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name());
-      }
-      getViewModel().triggerAccountListRefresh();
-      result = true;
-      if (itemId == R.id.SORT_CUSTOM_COMMAND) {
-        Cursor cursor = getAccountsCursor();
-        if (cursor == null) {
-          complainAccountsNotLoaded();
-        } else {
-          ArrayList<AbstractMap.SimpleEntry<Long, String>> accounts = new ArrayList<>();
-          if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-              final long id = MoreDbUtilsKt.getLong(cursor, KEY_ROWID);
-              if (id > 0) {
-                accounts.add(new AbstractMap.SimpleEntry<>(id, MoreDbUtilsKt.getString(cursor, KEY_LABEL)));
-              }
-              cursor.moveToNext();
-            }
-          }
-          SortUtilityDialogFragment.newInstance(accounts).show(getSupportFragmentManager(), "SORT_ACCOUNTS");
-        }
-      }
-    }
-    return result;
-  }
-
-  protected boolean handleAccountsGrouping(int itemId) {
-    AccountGrouping newGrouping = null;
-
-    if (itemId == R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND) {
-      newGrouping = AccountGrouping.CURRENCY;
-    } else if (itemId == R.id.GROUPING_ACCOUNTS_TYPE_COMMAND) {
-      newGrouping = AccountGrouping.TYPE;
-    } else if (itemId == R.id.GROUPING_ACCOUNTS_NONE_COMMAND) {
-      newGrouping = AccountGrouping.NONE;
-    }
-    if (newGrouping != null && !newGrouping.equals(accountGrouping)) {
-      accountGrouping = newGrouping;
-      prefHandler.putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name());
-      getViewModel().triggerAccountListRefresh();
-      return true;
-    }
-    return false;
   }
 
   protected boolean handleGrouping(MenuItem item) {
