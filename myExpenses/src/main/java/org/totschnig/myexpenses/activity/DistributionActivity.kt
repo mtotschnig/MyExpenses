@@ -165,9 +165,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityComposeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setupToolbar(true)
+        val binding = setupView()
         showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)

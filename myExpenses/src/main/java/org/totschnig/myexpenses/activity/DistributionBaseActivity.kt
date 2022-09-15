@@ -5,6 +5,7 @@ import android.view.Menu
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
@@ -27,6 +28,15 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
         }
         setAggregateTypesFromPreferences()
     }
+
+    fun setupView(): ActivityComposeBinding {
+        val binding = ActivityComposeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupToolbar(true)
+        return binding
+    }
+
+    override val snackBarContainerId: Int = R.id.compose_container
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES)?.let {
