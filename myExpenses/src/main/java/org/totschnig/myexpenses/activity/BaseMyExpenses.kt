@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.activity
 import android.app.ProgressDialog
 import android.content.ComponentName
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -46,7 +45,9 @@ import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
+import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
@@ -55,6 +56,7 @@ import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
@@ -73,11 +75,11 @@ import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -116,6 +118,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.selectedAccount.value = value
         }
 
+    val currentAccount: FullAccount
+        get() = pagerAdapter.getItem(viewPager.currentItem)
+
     var currentCurrency: String? = null
 
     val currentCurrencyUnit: CurrencyUnit?
@@ -127,8 +132,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @Inject
     lateinit var reviewManager: ReviewManager
 
-    var accountsCursor: Cursor? = null
-    fun requireAccountsCursor() = accountsCursor!!
     lateinit var toolbar: Toolbar
 
     private var currentBalance: String? = null
@@ -389,9 +392,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         Intent(this, ExpenseEdit::class.java).apply {
             putExtra(Transactions.OPERATION_TYPE, type)
             putExtra(ExpenseEdit.KEY_INCOME, isIncome)
-            //if we are called from an aggregate cursor, we also hand over the currency
+            //if we are called from an aggregate account, we also hand over the currency
             if (accountId < 0) {
-                putExtra(KEY_CURRENCY, currentCurrency)
+                putExtra(KEY_CURRENCY, currentAccount.currency.code)
                 putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
             } else {
                 //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
@@ -426,10 +429,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         )
     }
 
-    fun ensureAccountCursorAtCurrentPosition() =
-        accountsCursor?.takeIf { it.moveToPosition(currentPosition) }
-
-
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == OnDialogResultListener.BUTTON_POSITIVE) {
             when (dialogTag) {
@@ -450,29 +449,19 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     return true
                 }
                 DIALOG_TAG_NEW_BALANCE -> {
-                    if (currentPosition > -1) {
-                        accountsCursor?.let { cursor ->
-                            currentCurrencyUnit?.let { currencyUnit ->
-                                cursor.moveToPosition(currentPosition)
-                                startEdit(
-                                    createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
-                                        putExtra(
-                                            KEY_AMOUNT,
-                                            (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
-                                                    Money(
-                                                        currencyUnit,
-                                                        cursor.getLong(
-                                                            cursor.getColumnIndexOrThrow(
-                                                                KEY_CURRENT_BALANCE
-                                                            )
-                                                        )
-                                                    ).amountMajor
-                                        )
-                                    }
-                                )
-                            }
+                    startEdit(
+                        createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
+                            putExtra(
+                                KEY_AMOUNT,
+                                (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
+                                        Money(
+                                            currentAccount.currency,
+                                            currentAccount.currentBalance
+                                        ).amountMajor
+                            )
                         }
-                    }
+                    )
+                    return true
                 }
             }
         }
@@ -569,6 +558,45 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
                 true
             }
+            R.id.PRINT_COMMAND -> {
+                //if (hasItems) { //TODO
+                if (true) {
+                    AppDirHelper.checkAppDir(this).onSuccess {
+                        contribFeatureRequested(ContribFeature.PRINT, null)
+                    }.onFailure {
+                        showDismissibleSnackBar(it.safeMessage)
+                    }
+                } else {
+                    showExportDisabledCommand()
+                }
+                true
+            }
+            R.id.BALANCE_COMMAND -> {
+                with(currentAccount) {
+                    if (hasCleared) {
+                        BalanceDialogFragment.newInstance(Bundle().apply {
+
+                            putLong(KEY_ROWID, id)
+                            putString(KEY_LABEL, label)
+                            putString(
+                                KEY_RECONCILED_TOTAL,
+                                currencyFormatter.formatMoney(
+                                    Money(currency, reconciledTotal)
+                                )
+                            )
+                            putString(
+                                KEY_CLEARED_TOTAL,
+                                currencyFormatter.formatMoney(
+                                    Money(currency, clearedTotal)
+                                )
+                            )
+                        }).show(supportFragmentManager, "BALANCE_ACCOUNT")
+                    } else {
+                        showMessage(R.string.dialog_command_disabled_balance)
+                    }
+                }
+                true
+            }
             else -> false
         }
 
@@ -623,24 +651,25 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
         }
         if (pagerAdapter.itemCount > 0) {
-            val account = pagerAdapter.getItem(viewPager.currentItem)
-            menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
-                Utils.configureGroupingMenu(it, account.grouping)
-            }
+            with(currentAccount) {
+                menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
+                    Utils.configureGroupingMenu(it, grouping)
+                }
 
-            menu.findItem(R.id.SORT_DIRECTION_COMMAND)?.subMenu?.let {
-                Utils.configureSortDirectionMenu(it, account.sortDirection)
-            }
+                menu.findItem(R.id.SORT_DIRECTION_COMMAND)?.subMenu?.let {
+                    Utils.configureSortDirectionMenu(it, sortDirection)
+                }
 
-            menu.findItem(R.id.BALANCE_COMMAND)?.let {
-                Utils.menuItemSetEnabledAndVisible(
-                    it,
-                    account.type != AccountType.CASH && !account.sealed
-                )
-            }
+                menu.findItem(R.id.BALANCE_COMMAND)?.let {
+                    Utils.menuItemSetEnabledAndVisible(
+                        it,
+                        type != AccountType.CASH && !sealed
+                    )
+                }
 
-            menu.findItem(R.id.SYNC_COMMAND)?.let {
-                Utils.menuItemSetEnabledAndVisible(it, account.syncAccountName != null)
+                menu.findItem(R.id.SYNC_COMMAND)?.let {
+                    Utils.menuItemSetEnabledAndVisible(it, syncAccountName != null)
+                }
             }
         }
 
@@ -759,23 +788,19 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         @Suppress("NON_EXHAUSTIVE_WHEN")
         when (feature) {
             ContribFeature.DISTRIBUTION -> {
-                ensureAccountCursorAtCurrentPosition()?.let {
-                    recordUsage(feature)
-                    startActivity(Intent(this, DistributionActivity::class.java).apply {
-                        putExtra(KEY_ACCOUNTID, accountId)
-                        putExtra(KEY_GROUPING, it.getString(KEY_GROUPING))
-                        (tag as? Int)?.let { tag -> fillIntentForGroupingFromTag(tag) }
-                    })
-                }
+                recordUsage(feature)
+                startActivity(Intent(this, DistributionActivity::class.java).apply {
+                    putExtra(KEY_ACCOUNTID, accountId)
+                    putExtra(KEY_GROUPING, currentAccount.grouping.name)
+                    (tag as? Int)?.let { tag -> fillIntentForGroupingFromTag(tag) }
+                })
             }
             ContribFeature.HISTORY -> {
-                ensureAccountCursorAtCurrentPosition()?.let {
-                    recordUsage(feature)
-                    val i = Intent(this, HistoryActivity::class.java)
-                    i.putExtra(KEY_ACCOUNTID, accountId)
-                    i.putExtra(KEY_GROUPING, it.getString(KEY_GROUPING))
-                    startActivity(i)
-                }
+                recordUsage(feature)
+                startActivity(Intent(this, HistoryActivity::class.java).apply {
+                    putExtra(KEY_ACCOUNTID, accountId)
+                    putExtra(KEY_GROUPING, currentAccount.grouping.name)
+                })
             }
             ContribFeature.SPLIT_TRANSACTION -> {
                 if (tag != null) {
@@ -804,37 +829,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             ContribFeature.PRINT -> {
-                //TODO
-                ensureAccountCursorAtCurrentPosition()?.let { cursor ->
-                    //TODO
-                    /*currentFragment?.let {
-                        val args = Bundle()
-                        args.putParcelableArrayList(
-                            KEY_FILTER,
-                            it.filterCriteria
+                val args = Bundle().apply {
+
+                    putParcelableArrayList(
+                        KEY_FILTER,
+                        //TODO //it.filterCriteria
+                        arrayListOf()
+                    )
+                    putLong(KEY_ROWID, accountId)
+                    putLong(KEY_CURRENT_BALANCE, currentAccount.currentBalance)
+                }
+                if (!supportFragmentManager.isStateSaved) {
+                    supportFragmentManager.beginTransaction()
+                        .add(
+                            TaskExecutionFragment.newInstanceWithBundle(
+                                args,
+                                TaskExecutionFragment.TASK_PRINT
+                            ), ProtectedFragmentActivity.ASYNC_TAG
                         )
-                        args.putLong(KEY_ROWID, accountId)
-                        args.putLong(KEY_CURRENT_BALANCE, cursor.getLong(KEY_CURRENT_BALANCE))
-                        if (!supportFragmentManager.isStateSaved) {
-                            supportFragmentManager.beginTransaction()
-                                .add(
-                                    TaskExecutionFragment.newInstanceWithBundle(
-                                        args,
-                                        TaskExecutionFragment.TASK_PRINT
-                                    ), ProtectedFragmentActivity.ASYNC_TAG
+                        .add(
+                            ProgressDialogFragment.newInstance(
+                                getString(
+                                    R.string.progress_dialog_printing,
+                                    "PDF"
                                 )
-                                .add(
-                                    ProgressDialogFragment.newInstance(
-                                        getString(
-                                            R.string.progress_dialog_printing,
-                                            "PDF"
-                                        )
-                                    ),
-                                    ProtectedFragmentActivity.PROGRESS_TAG
-                                )
-                                .commit()
-                        }
-                    }*/
+                            ),
+                            ProtectedFragmentActivity.PROGRESS_TAG
+                        )
+                        .commit()
                 }
             }
             ContribFeature.BUDGET -> {
@@ -936,33 +958,31 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun doReset() {
         //TODO
-        /*currentFragment?.takeIf { it.hasItems() }?.also { fragment ->
+        //if (hasItems) {
+        if (true) {
             exportViewModel.checkAppDir().observe(this) { result ->
                 result.onSuccess {
-                    ensureAccountCursorAtCurrentPosition()?.let { cursor ->
-                        val isSealed = cursor.getInt(DatabaseConstants.KEY_SEALED) == 1
-                        val label = cursor.getString(KEY_LABEL)
-                        val currency = cursor.getString(KEY_CURRENCY)
-                        exportViewModel.hasExported(accountId).observe(this) {
+                    with(currentAccount) {
+                        exportViewModel.hasExported(accountId).observe(this@BaseMyExpenses) { hasExported ->
                             ExportDialogFragment.newInstance(
                                 ExportDialogFragment.AccountInfo(
-                                    accountId,
+                                    id,
                                     label,
-                                    currency,
-                                    isSealed,
-                                    it,
-                                    fragment.isFiltered
+                                    currency.code,
+                                    sealed,
+                                    hasExported,
+                                    false // TODO fragment.isFiltered
                                 )
-                            ).show(this.supportFragmentManager, "EXPORT")
+                            ).show(supportFragmentManager, "EXPORT")
                         }
                     }
                 }.onFailure {
                     showDismissibleSnackBar(it.safeMessage)
                 }
             }
-        } ?: run {
+        } else {
             showExportDisabledCommand()
-        }*/
+        }
     }
 
     fun showExportDisabledCommand() {

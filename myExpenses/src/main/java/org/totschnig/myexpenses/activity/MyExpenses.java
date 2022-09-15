@@ -21,23 +21,17 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -58,7 +52,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
@@ -70,12 +63,9 @@ import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
@@ -292,11 +282,6 @@ public class MyExpenses extends BaseMyExpenses implements
     });
   }
 
-  private void moveToPosition(int position) {
-    if (getViewPager().getCurrentItem() != position)
-      getViewPager().setCurrentItem(position, false);
-  }
-
   /* (non-Javadoc)
    * check if we should show one of the reminderDialogs
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -351,7 +336,8 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     } else if (command == R.id.DISTRIBUTION_COMMAND) {
       //tl = getCurrentFragment(); TODO
-      if (tl != null && tl.hasMappedCategories()) {
+      //if (tl != null && tl.hasMappedCategories()) {
+      if (true) {
         contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
       } else {
         showMessage(R.string.dialog_command_disabled_distribution);
@@ -359,7 +345,8 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     } else if (command == R.id.HISTORY_COMMAND) {
       //tl = getCurrentFragment(); TODO
-      if (tl != null && tl.hasItems()) {
+      //if (tl != null && tl.hasItems()) {
+      if (true) {
         contribFeatureRequested(ContribFeature.HISTORY, null);
       } else {
         showMessage(R.string.no_expenses);
@@ -374,27 +361,6 @@ public class MyExpenses extends BaseMyExpenses implements
         } else {
           createRowDo(TYPE_TRANSACTION, false);
         }
-      }
-      return true;
-    } else if (command == R.id.BALANCE_COMMAND) {
-      //tl = getCurrentFragment(); TODO
-      if (tl != null && hasCleared()) {
-        Cursor c = ensureAccountCursorAtCurrentPosition();
-        CurrencyUnit currency = getCurrentCurrencyUnit();
-        if (c != null && currency != null) {
-          Bundle bundle = new Bundle();
-          bundle.putLong(KEY_ROWID, MoreDbUtilsKt.getLong(c, KEY_ROWID));
-          bundle.putString(KEY_LABEL, MoreDbUtilsKt.getString(c, KEY_LABEL));
-          bundle.putString(KEY_RECONCILED_TOTAL,
-              formatMoney(currencyFormatter,
-                  new Money(currency, MoreDbUtilsKt.getLong(c, KEY_RECONCILED_TOTAL))));
-          bundle.putString(KEY_CLEARED_TOTAL, formatMoney(currencyFormatter,
-              new Money(currency, MoreDbUtilsKt.getLong(c, KEY_CLEARED_TOTAL))));
-          BalanceDialogFragment.newInstance(bundle)
-              .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
-        }
-      } else {
-        showMessage(R.string.dialog_command_disabled_balance);
       }
       return true;
     } else if (command == R.id.RESET_COMMAND) {
@@ -471,10 +437,6 @@ public class MyExpenses extends BaseMyExpenses implements
     return false;
   }
 
-  private void complainAccountsNotLoaded() {
-    showSnackBar(R.string.account_list_not_yet_loaded);
-  }
-
   public void finishActionMode() {
     if (getCurrentPosition() != -1) {
       //TODO
@@ -500,59 +462,6 @@ public class MyExpenses extends BaseMyExpenses implements
     return true;
   }
 
-/*  @Override
-  public void onLoadFinished(@NonNull Loader<Cursor> loader, @Nullable Cursor cursor) {
-    if (loader.getId() == ACCOUNTS_CURSOR) {
-      mAccountCount = 0;
-      setAccountsCursor(cursor);
-
-      mDrawerListAdapter.setGrouping(accountGrouping);
-      accountList().setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
-      mDrawerListAdapter.swapCursor(cursor);
-      //swapping the cursor is altering the accountId, if the
-      //sort order has changed, but we want to move to the same account as before
-      long cacheAccountId = accountId;
-      setupViewPager(cursor);
-      accountId = cacheAccountId;
-      moveToAccount();
-      toolbar.setVisibility(View.VISIBLE);
-    }
-  }*/
-
-  /*public void setupViewPager(Cursor cursor) {
-    if (getPagerAdapter() == null) {
-      //setPagerAdapter(new MyViewPagerAdapter());
-      //viewPager().setAdapter(getPagerAdapter());
-      //viewPager().addOnPageChangeListener(this);
-      //viewPager().setPageMargin(UiUtils.dp2Px(10, getResources()));
-      //viewPager().setPageMarginDrawable(new ColorDrawable(UiUtils.getColor(this, R.attr.colorOnSurface)));
-    } else {
-      //getPagerAdapter().swapCursor(cursor);
-    }
-  }*/
-
-
-  public void moveToAccount() {
-    /*Cursor cursor = getAccountsCursor();
-    if (cursor != null && cursor.moveToFirst()) {
-      int position = 0;
-      while (!cursor.isAfterLast()) {
-        long accountId = MoreDbUtilsKt.getLong(cursor ,KEY_ROWID);
-        if (accountId == this.accountId) {
-          position = cursor.getPosition();
-        }
-        if (accountId > 0) {
-          mAccountCount++;
-        }
-        cursor.moveToNext();
-      }
-      setCurrentPosition(position);
-      moveToPosition(getCurrentPosition());
-    } else {
-      onNoData();
-    }*/
-  }
-
   @Override
   protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
@@ -563,6 +472,7 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
+  //TODO
   public void onNoData() {
     setTitle(R.string.app_name);
     toolbar.setSubtitle(null);
@@ -601,14 +511,6 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
     }
-  }
-
-  private boolean hasCleared() {
-    Cursor cursor = ensureAccountCursorAtCurrentPosition();
-    if (cursor != null) {
-      return cursor.getCount() > 0 && cursor.getInt(cursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
-    }
-    return false;
   }
 
   @Override
