@@ -961,4 +961,5 @@
     <string name="pref_csv_export_split_date_time_summary">Koristi zasebne stupce za datum i vrijeme</string>
     <string name="whats_new_344">Ikone za kategorije</string>
     <string name="required">Obavezno</string>
+    <string name="budget_only_current_period">Postavi samo za %s</string>
 </resources>
