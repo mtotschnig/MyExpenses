@@ -296,9 +296,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     add(KEY_ONE_TIME)
                 }
             }.toTypedArray(),
-            additionalSelectionArgs = (filterPersistence?.whereFilter?.getSelectionArgs(true)
-                ?: emptyArray<String>()) +
-                    ((accountInfo as? Budget)?.id?.let { arrayOf(it.toString()) } ?: emptyArray()),
+            additionalSelectionArgs = buildList {
+                (accountInfo as? Budget)?.id?.let { add(it.toString()) }
+                filterPersistence?.whereFilter?.getSelectionArgs(true)?.let {
+                    addAll(it)
+                }
+            }.toTypedArray(),
             queryParameter = queryParameter,
             keepCriteria = keepCriteria
         )
