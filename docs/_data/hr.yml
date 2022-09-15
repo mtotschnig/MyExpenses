@@ -19,7 +19,7 @@ hr:
     links: Poveznice
   contrib:
     thank_you: |
-      Tvoj doprinos omogućava daljnji razvoj programa „Moji troškovi”. Hvala ti!
+      Tvoj doprinos podržava daljnji razvoj programa „Moji troškovi”. Hvala ti!
     feature:
       roadmap_voting: Pravo glasa na <b>razvojnom putu</b>
       webui: <b>Internetsko korisničko sučelje</b>
@@ -42,8 +42,9 @@ hr:
         može se podijeliti na više dijelova (kategorije i prijenosi)'
       distribution: '<b>Kružni dijagram</b>: Vizualiziraj statističku raspodjelu transakcija
         po kategorijama kroz različita razdoblja (godine, mjeseci, tjedni, dani)'
-      plans_unlimited: Neograničen broj planova za <b>ponavljajuće</b> transakcije
-      accounts_unlimited: Otključavanje mogućnosti stvaranja više od pet računa
+      plans_unlimited: Otključaj mogućnosti stvaranja više od tri tarifa za ponavljajuće
+        transakcije
+      accounts_unlimited: Otključaj mogućnosti stvaranja više od pet računa
     subscription: Pretplata
     one-time-payment: Jednokratno plaćanje
     feature-list-title: 'Doprinesi nadogradnjom programa <i>{app_name}</i> i dobij
