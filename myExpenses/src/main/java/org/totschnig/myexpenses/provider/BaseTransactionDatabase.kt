@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor
 import timber.log.Timber
 
-const val DATABASE_VERSION = 129
+const val DATABASE_VERSION = 130
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -203,7 +203,7 @@ abstract class BaseTransactionDatabase(
 
     fun upgradeTo128(db: SQLiteDatabase) {
         db.execSQL("UPDATE categories SET icon = replace(icon,'_','-')")
-        mapOf(
+        upgradeIcons(db, mapOf(
             "apple-alt" to "apple-whole",
             "balance-scale" to "scale-balanced",
             "birthday-cake" to "cake-candles",
@@ -247,16 +247,7 @@ abstract class BaseTransactionDatabase(
             "retirement" to "person-cane",
             "ic-check" to "check",
             "ic-expand-more" to "angle-down"
-        ).forEach {
-            db.update(
-                "categories",
-                ContentValues(1).apply {
-                    put("icon", it.value)
-                },
-                "icon = ?",
-                arrayOf(it.key)
-            )
-        }
+        ))
     }
 
     fun upgradeTo129(db: SQLiteDatabase) {
@@ -271,8 +262,25 @@ abstract class BaseTransactionDatabase(
         db.execSQL("CREATE INDEX budget_allocations_cat_id_index on budget_allocations(cat_id)")
     }
 
-    override fun onCreate(db: SQLiteDatabase?) {
+    fun upgradeTo130(db: SQLiteDatabase) {
+        upgradeIcons(db, mapOf("car-crash" to "car-burst"))
+    }
+
+    override fun onCreate(db: SQLiteDatabase) {
         PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION.putInt(DATABASE_VERSION)
+    }
+
+    private fun upgradeIcons(db: SQLiteDatabase, map: Map<String, String>) {
+        map.forEach {
+            db.update(
+                "categories",
+                ContentValues(1).apply {
+                    put("icon", it.value)
+                },
+                "icon = ?",
+                arrayOf(it.key)
+            )
+        }
     }
 
     private fun migrateCurrency(
