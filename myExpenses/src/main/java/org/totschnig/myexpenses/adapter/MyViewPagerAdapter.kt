@@ -6,11 +6,13 @@ import androidx.paging.PagingSource
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.compose.ComposeTransactionList
-import org.totschnig.myexpenses.viewmodel.data.Transaction
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
-class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transaction>) :
+class MyViewPagerAdapter(val loader: (Long) ->  Pair<() -> PagingSource<Int, Transaction2>, StateFlow<Map<Int, HeaderData>>>) :
     ListAdapter<FullAccount, TransactionListViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionListViewHolder {
@@ -26,8 +28,11 @@ class MyViewPagerAdapter(val loader: (Long) -> () -> PagingSource<Int, Transacti
     }
 
     override fun onBindViewHolder(holder: TransactionListViewHolder, position: Int) {
-        getItem(position).let {
-            holder.composeView.pagingSourceFactory = loader(getItem(position).id)
+        with(holder.composeView) {
+            with(loader(getItem(position).id)) {
+                pagingSourceFactory = first
+                headerData = second
+            }
         }
     }
 

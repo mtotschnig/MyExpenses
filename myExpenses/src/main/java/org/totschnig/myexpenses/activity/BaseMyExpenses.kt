@@ -187,7 +187,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        pagerAdapter = MyViewPagerAdapter(viewModel::loadTransactions)
+        pagerAdapter = MyViewPagerAdapter(viewModel::loadData)
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(pageChangeCallback)
         setContentView(binding.root)

@@ -2,6 +2,12 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 
 /**
@@ -33,18 +39,30 @@ data class HeaderData(
     val expenseSum: Long,
     val transferSum: Long,
     val previousBalance: Long,
-    val interimBalance: Long,
     val mappedCategories: Boolean
 ) {
     val delta: Long = incomeSum + expenseSum + transferSum
+    val interimBalance = previousBalance + delta
 
     companion object {
-        fun fromCursor(cursor: Cursor) = HeaderData(
-            incomeSum = cursor.getLong(DatabaseConstants.KEY_SUM_INCOME),
-            expenseSum = cursor.getLong(DatabaseConstants.KEY_SUM_EXPENSES),
-            transferSum = cursor.getLong(DatabaseConstants.KEY_SUM_TRANSFERS),
-            previousBalance = 0, //TODO
-            interimBalance = 0, //TODO
+        fun fromSequence(openingBalance: Long, sequence: Sequence<Cursor>) = buildMap {
+            var previousBalance = openingBalance
+            for (cursor in sequence) {
+                val value = rowFromCursor(previousBalance, cursor)
+                put(calculateGroupId(cursor.getInt(KEY_YEAR), cursor.getInt(KEY_SECOND_GROUP)), value)
+                previousBalance = value.interimBalance
+            }
+        }
+
+        private fun calculateGroupId(year: Int, second: Int) = year * 1000 + second
+
+        fun calculateGroupId(transaction: Transaction2?) = 1
+
+        private fun rowFromCursor(previousBalance: Long, cursor: Cursor) = HeaderData(
+            incomeSum = cursor.getLong(KEY_SUM_INCOME),
+            expenseSum = cursor.getLong(KEY_SUM_EXPENSES),
+            transferSum = cursor.getLong(KEY_SUM_TRANSFERS),
+            previousBalance = previousBalance,
             mappedCategories = cursor.getLong(DatabaseConstants.KEY_MAPPED_CATEGORIES) > 0
         )
     }

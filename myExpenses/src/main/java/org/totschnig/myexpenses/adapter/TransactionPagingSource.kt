@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.adapter
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
-import android.content.Context
 import android.database.ContentObserver
 import android.os.Handler
 import android.os.Looper
@@ -15,11 +14,11 @@ import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.viewmodel.data.Transaction
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 
 class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
-    PagingSource<Int, Transaction>() {
+    PagingSource<Int, Transaction2>() {
 
     val contentResolver: ContentResolver
         get() = context.contentResolver
@@ -35,12 +34,12 @@ class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
         contentResolver.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, false, observer)
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Transaction>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Transaction2>): Int? {
         return null
     }
 
     @SuppressLint("InlinedApi")
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         val pageNumber = params.key ?: 0
         Timber.i("Requesting pageNumber %d", pageNumber)
         val data = withContext(Dispatchers.IO) {
@@ -49,14 +48,14 @@ class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
                     .appendQueryParameter(ContentResolver.QUERY_ARG_LIMIT, params.loadSize.toString())
                     .appendQueryParameter(ContentResolver.QUERY_ARG_OFFSET, (pageNumber * params.loadSize).toString())
                     .build(),
-                Transaction.projection(context),
+                Transaction2.projection(context),
                 "${DatabaseConstants.KEY_ACCOUNTID} = ?",
                 arrayOf(accountId.toString()),
                 DatabaseConstants.KEY_ROWID, null
             )?.use { cursor ->
                 Timber.i("Cursor size %d", cursor.count)
                 cursor.asSequence.map {
-                    Transaction.fromCursor(context, it, context.appComponent.currencyContext())
+                    Transaction2.fromCursor(context, it, context.appComponent.currencyContext())
                 }.toList()
             } ?: emptyList()
         }

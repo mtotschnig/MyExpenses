@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingSource
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,7 +26,14 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -72,8 +78,8 @@ class MyExpensesViewModel(application: Application) :
         FullAccount.fromCursor(it, currencyContext)
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun loadTransactions(accountId: Long): () -> PagingSource<Int, org.totschnig.myexpenses.viewmodel.data.Transaction> =
-        { TransactionPagingSource(getApplication(), accountId) }
+    fun loadData(accountId: Long): Pair<() -> TransactionPagingSource, StateFlow<Map<Int, HeaderData>>> =
+        { TransactionPagingSource(getApplication(), accountId) } to headerData(accountId, Grouping.MONTH)
 
     fun headerData(accountId: Long, grouping: Grouping): StateFlow<Map<Int, HeaderData>> {
         val groupingUri = Transaction.CONTENT_URI.buildUpon()
@@ -82,13 +88,9 @@ class MyExpensesViewModel(application: Application) :
             .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
             .build()
         return contentResolver.observeQuery(uri = groupingUri).map { query ->
-            buildMap {
-                query.run()?.use { cursor ->
-                    cursor.asSequence.forEach {
-                        put(1, HeaderData(1, 1, 1, 1, 1, false))
-                    }
-                }
-            }
+            query.run()?.use { cursor ->
+                HeaderData.fromSequence(0L, cursor.asSequence) //TODO pass in opening balance
+            } ?: emptyMap()
         }.stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
     }
 
