@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
@@ -397,7 +398,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
         accountInfo: DistributionAccountInfo?,
         sums: Pair<Long, Long>
     ) {
-        val accountFormatter = LocalAmountFormatter.current
+        val accountFormatter = LocalCurrencyFormatter.current
         accountInfo?.let {
             Divider(
                 modifier = Modifier.padding(top = 4.dp),
@@ -414,12 +415,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                     Text("∑ :")
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "+" + accountFormatter(sums.first, it.currency),
+                        text = "+" + accountFormatter.convAmount(sums.first, it.currency),
                         textAlign = TextAlign.End
                     )
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "-" + accountFormatter(sums.second, it.currency),
+                        text = "-" + accountFormatter.convAmount(sums.second, it.currency),
                         textAlign = TextAlign.End
                     )
                 }

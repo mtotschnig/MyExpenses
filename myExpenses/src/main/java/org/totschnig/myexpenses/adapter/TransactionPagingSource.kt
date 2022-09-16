@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.adapter
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.Context
 import android.database.ContentObserver
 import android.os.Handler
 import android.os.Looper
@@ -9,14 +10,19 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.viewmodel.data.Transaction
 import timber.log.Timber
 
-class TransactionPagingSource(val contentResolver: ContentResolver, val accountId: Long) :
+class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
     PagingSource<Int, Transaction>() {
+
+    val contentResolver: ContentResolver
+        get() = context.contentResolver
 
     init {
         val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
@@ -39,21 +45,18 @@ class TransactionPagingSource(val contentResolver: ContentResolver, val accountI
         Timber.i("Requesting pageNumber %d", pageNumber)
         val data = withContext(Dispatchers.IO) {
             contentResolver.query(
-                TransactionProvider.TRANSACTIONS_URI.buildUpon()
+                EXTENDED_URI.buildUpon()
                     .appendQueryParameter(ContentResolver.QUERY_ARG_LIMIT, params.loadSize.toString())
                     .appendQueryParameter(ContentResolver.QUERY_ARG_OFFSET, (pageNumber * params.loadSize).toString())
                     .build(),
-                emptyArray(),
+                Transaction.projection(context),
                 "${DatabaseConstants.KEY_ACCOUNTID} = ?",
                 arrayOf(accountId.toString()),
                 DatabaseConstants.KEY_ROWID, null
-            )?.use {
-                Timber.i("Cursor size %d", it.count)
-                it.asSequence.map {
-                    Transaction(
-                        it.getLong(DatabaseConstants.KEY_ROWID),
-                        it.getLong(DatabaseConstants.KEY_AMOUNT)
-                    )
+            )?.use { cursor ->
+                Timber.i("Cursor size %d", cursor.count)
+                cursor.asSequence.map {
+                    Transaction.fromCursor(context, it, context.appComponent.currencyContext())
                 }.toList()
             } ?: emptyList()
         }

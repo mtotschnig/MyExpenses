@@ -15,6 +15,7 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -32,10 +33,12 @@ import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailed
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.HeaderData
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -60,14 +63,34 @@ class MyExpensesViewModel(application: Application) :
         }));
     }*/
     val accountData: StateFlow<List<FullAccount>> = contentResolver.observeQuery(
-        uri = ACCOUNTS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1").build(),
+        uri = ACCOUNTS_URI.buildUpon().appendQueryParameter(
+            TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES,
+            "1"
+        ).build(),
         selection = "$KEY_HIDDEN = 0"
     ).mapToList {
         FullAccount.fromCursor(it, currencyContext)
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun loadTransactions(accountId: Long): () -> PagingSource<Int, org.totschnig.myexpenses.adapter.Transaction> =
-        { TransactionPagingSource(contentResolver, accountId) }
+    fun loadTransactions(accountId: Long): () -> PagingSource<Int, org.totschnig.myexpenses.viewmodel.data.Transaction> =
+        { TransactionPagingSource(getApplication(), accountId) }
+
+    fun headerData(accountId: Long, grouping: Grouping): StateFlow<Map<Int, HeaderData>> {
+        val groupingUri = Transaction.CONTENT_URI.buildUpon()
+            .appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
+            .appendPath(grouping.name)
+            .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
+            .build()
+        return contentResolver.observeQuery(uri = groupingUri).map { query ->
+            buildMap {
+                query.run()?.use { cursor ->
+                    cursor.asSequence.forEach {
+                        put(1, HeaderData(1, 1, 1, 1, 1, false))
+                    }
+                }
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
+    }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
         try {

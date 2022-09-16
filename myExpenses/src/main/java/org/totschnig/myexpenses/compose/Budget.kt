@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.absoluteValue
 import kotlin.math.sign
@@ -288,7 +289,7 @@ private fun RowScope.BudgetNumbers(
             modifier = Modifier
                 .clickable(onClick = onBudgetEdit)
                 .fillMaxWidth(),
-            text = LocalAmountFormatter.current(category.budget.budget, currency),
+            text = LocalCurrencyFormatter.current.convAmount(category.budget.budget, currency),
             textAlign = TextAlign.End,
             textDecoration = TextDecoration.Underline
         )
@@ -304,7 +305,7 @@ private fun RowScope.BudgetNumbers(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = " = " + LocalAmountFormatter.current(
+                text = " = " + LocalCurrencyFormatter.current.convAmount(
                     category.budget.budget + category.budget.rollOverPrevious,
                     currency
                 ),
@@ -316,7 +317,7 @@ private fun RowScope.BudgetNumbers(
             val errorIndication = if (isError) "!" else ""
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = errorIndication + "(${LocalAmountFormatter.current(allocation, currency)})" + errorIndication,
+                text = errorIndication + "(${LocalCurrencyFormatter.current.convAmount(allocation, currency)})" + errorIndication,
                 textAlign = TextAlign.End,
                 color = if (isError)
                     colorResource(id = R.color.colorErrorDialog) else Color.Unspecified
@@ -332,7 +333,7 @@ private fun RowScope.BudgetNumbers(
         modifier = Modifier
             .numberColumn(this)
             .clickable(onClick = onShowTransactions),
-        text = LocalAmountFormatter.current(aggregateSum, currency),
+        text = LocalCurrencyFormatter.current.convAmount(aggregateSum, currency),
         textAlign = TextAlign.End,
         textDecoration = TextDecoration.Underline
     )

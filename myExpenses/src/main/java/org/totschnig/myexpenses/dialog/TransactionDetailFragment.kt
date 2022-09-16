@@ -240,13 +240,10 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                         ZoneId.systemDefault()
                     ).format(dateFormatter)
                 }
-                val dateTime = ZonedDateTime.ofInstant(
-                    Instant.ofEpochSecond(transaction.date),
-                    ZoneId.systemDefault()
-                )
-                var dateText = dateTime.format(dateFormatter)
+
+                var dateText = transaction.date.format(dateFormatter)
                 if (dateMode == DateMode.DATE_TIME) {
-                    dateText += " " + dateTime.format(timeFormatter)
+                    dateText += " " + transaction.date.format(timeFormatter)
                 }
                 binding.Date.text = dateText
                 if (transaction.comment != "") {

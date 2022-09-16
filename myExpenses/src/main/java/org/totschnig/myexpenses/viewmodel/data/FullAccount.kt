@@ -32,9 +32,9 @@ data class FullAccount(
     val grouping: Grouping = Grouping.NONE,
     val sortDirection: SortDirection = SortDirection.DESC,
     val syncAccountName: String? = null,
-    val reconciledTotal: Long,
-    val clearedTotal: Long,
-    val hasCleared: Boolean
+    val reconciledTotal: Long = 0L,
+    val clearedTotal: Long = 0L,
+    val hasCleared: Boolean = false
 
 ) {
     companion object {

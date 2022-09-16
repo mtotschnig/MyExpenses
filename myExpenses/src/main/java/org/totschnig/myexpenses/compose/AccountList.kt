@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 
 const val EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_"
@@ -169,7 +170,7 @@ fun AccountCard(
     onHide: (Long) -> Unit = {},
     onToggleSealed: (Long, Boolean) -> Unit = { _, _ -> }
 ) {
-    val format = LocalAmountFormatter.current
+    val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
     isExpanded.value?.let {
         Column(
@@ -204,7 +205,7 @@ fun AccountCard(
                     Text(text = account.label)
                     AnimatedVisibility(visible = !it) {
                         Text(
-                            text = format(account.currentBalance, account.currency)
+                            text = format.convAmount(account.currentBalance, account.currency)
                         )
                     }
 
@@ -253,7 +254,7 @@ fun AccountCard(
                     ) {
                         Text(stringResource(id = R.string.opening_balance))
                         Text(
-                            text = format(account.openingBalance, account.currency)
+                            text = format.convAmount(account.openingBalance, account.currency)
                         )
                     }
                     Row(
@@ -262,7 +263,7 @@ fun AccountCard(
                     ) {
                         Text(stringResource(id = R.string.sum_income))
                         Text(
-                            text = format(account.sumIncome, account.currency)
+                            text = format.convAmount(account.sumIncome, account.currency)
                         )
                     }
                     Row(
@@ -271,7 +272,7 @@ fun AccountCard(
                     ) {
                         Text(stringResource(id = R.string.sum_expenses))
                         Text(
-                            text = format(account.sumExpense, account.currency)
+                            text = format.convAmount(account.sumExpense, account.currency)
                         )
                     }
                     Row(
@@ -280,7 +281,7 @@ fun AccountCard(
                     ) {
                         Text(stringResource(id = R.string.sum_transfer))
                         Text(
-                            text = format(account.sumTransfer, account.currency)
+                            text = format.convAmount(account.sumTransfer, account.currency)
                         )
                     }
                     Row(
@@ -289,7 +290,7 @@ fun AccountCard(
                     ) {
                         Text(stringResource(id = R.string.current_balance))
                         Text(
-                            text = format(account.currentBalance, account.currency)
+                            text = format.convAmount(account.currentBalance, account.currency)
                         )
                     }
                 }

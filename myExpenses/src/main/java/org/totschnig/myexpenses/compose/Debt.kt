@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
@@ -214,7 +215,7 @@ fun TransactionRenderer(
             Text(
                 modifier = Modifier.weight(1F),
                 textAlign = TextAlign.End,
-                text = LocalAmountFormatter.current(it, currency)
+                text = LocalCurrencyFormatter.current.convAmount(it, currency)
             )
         }
 

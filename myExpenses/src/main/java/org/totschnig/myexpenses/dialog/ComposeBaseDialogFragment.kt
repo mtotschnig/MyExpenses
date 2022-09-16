@@ -16,7 +16,7 @@ abstract class ComposeBaseDialogFragment: BaseDialogFragment() {
         super.initBuilder().apply {
             setView(ComposeView(context).apply {
                 setContent {
-                    AppTheme(activity = requireActivity() as ProtectedFragmentActivity) {
+                    AppTheme(context = requireContext()) {
                         BuildContent()
                     }
                 }
