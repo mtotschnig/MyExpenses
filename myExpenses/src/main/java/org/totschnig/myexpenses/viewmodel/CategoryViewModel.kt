@@ -354,13 +354,13 @@ open class CategoryViewModel(
                 if (destDir != null) {
                     CategoryExporter.export(getApplication(), encoding,
                         lazy {
-                            Result.success(
-                                AppDirHelper.timeStampedFile(
-                                    destDir,
-                                    fileName,
-                                    ExportFormat.QIF.mimeType, "qif"
-                                ) ?: throw createFileFailure(context, destDir, fileName)
-                            )
+                            AppDirHelper.timeStampedFile(
+                                destDir,
+                                fileName,
+                                ExportFormat.QIF.mimeType, "qif"
+                            ) ?.let {
+                                Result.success(it)
+                            } ?: Result.failure(createFileFailure(context, destDir, fileName))
                         }
                     ).mapCatching {
                         it to FileUtils.getPath(context, it)
