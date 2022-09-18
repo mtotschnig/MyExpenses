@@ -56,7 +56,8 @@ data class HeaderData(
 
         private fun calculateGroupId(year: Int, second: Int) = year * 1000 + second
 
-        fun calculateGroupId(transaction: Transaction2?) = 1
+        fun calculateGroupId(transaction: Transaction2) =
+            calculateGroupId(transaction.year, transaction.month)
 
         private fun rowFromCursor(previousBalance: Long, cursor: Cursor) = HeaderData(
             incomeSum = cursor.getLong(KEY_SUM_INCOME),

@@ -51,7 +51,7 @@ class ComposeTransactionList @JvmOverloads constructor(
                     // Gets item without notifying Paging of the item access,
                     // which would otherwise trigger page loads
                     val transaction = lazyPagingItems.peek(index)
-                    val headerId = HeaderData.calculateGroupId(transaction)
+                    val headerId = transaction?.let { HeaderData.calculateGroupId(it) }
 
                     if (transaction !== null && headerId  != lastHeader) {
                         stickyHeader(key = headerId) {
