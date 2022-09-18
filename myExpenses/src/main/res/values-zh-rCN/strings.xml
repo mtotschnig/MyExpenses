@@ -998,4 +998,5 @@
     <string name="debt_owes_me">欠债人 %s</string>
     <string name="warning_party_delete_debt">删除该交易对象时，相关的债务也将一并删除。</string>
     <string name="whats_new_340">支持多行备注</string>
+    <string name="webui_warning_move_transaction">交易将移至账户 {account}</string>
 </resources>
