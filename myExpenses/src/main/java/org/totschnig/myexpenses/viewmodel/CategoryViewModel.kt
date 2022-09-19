@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
@@ -166,8 +167,8 @@ open class CategoryViewModel(
     private fun Flow<Query>.mapToTree(
         keepCriteria: ((Category) -> Boolean)?,
         withColors: Boolean
-    ): Flow<Category> = transform { query ->
-        val value = withContext(Dispatchers.IO) {
+    ): Flow<Category> = mapNotNull { query ->
+        withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
                 Category(
@@ -187,9 +188,6 @@ open class CategoryViewModel(
                     icon = null
                 ).pruneNonMatching(keepCriteria)
             }
-        }
-        if (value != null) {
-            emit(value)
         }
     }
 

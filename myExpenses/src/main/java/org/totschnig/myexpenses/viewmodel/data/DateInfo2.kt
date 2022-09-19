@@ -16,6 +16,7 @@ data class DateInfo2(
     val yearOfWeekStart: Int, val yearOfMonthStart: Int
 ) {
     companion object {
+        val EMPTY = DateInfo2(0, 0, 0 ,0, 0, 0)
         fun fromCursor(cursor: Cursor) = with(cursor) {
             DateInfo2(
                 safeGet(KEY_THIS_DAY),

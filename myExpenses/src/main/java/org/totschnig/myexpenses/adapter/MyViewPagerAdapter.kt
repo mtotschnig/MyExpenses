@@ -6,13 +6,13 @@ import androidx.paging.PagingSource
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.compose.ComposeTransactionList
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
-class MyViewPagerAdapter(val loader: (Long) ->  Pair<() -> PagingSource<Int, Transaction2>, StateFlow<Map<Int, HeaderData>>>) :
+class MyViewPagerAdapter(val loader: (FullAccount) ->  Pair<() -> PagingSource<Int, Transaction2>, Flow<HeaderData>>) :
     ListAdapter<FullAccount, TransactionListViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionListViewHolder {
@@ -29,9 +29,11 @@ class MyViewPagerAdapter(val loader: (Long) ->  Pair<() -> PagingSource<Int, Tra
 
     override fun onBindViewHolder(holder: TransactionListViewHolder, position: Int) {
         with(holder.composeView) {
-            with(loader(getItem(position).id)) {
+            val account = getItem(position)
+            with(loader(account)) {
                 pagingSourceFactory = first
                 headerData = second
+                accountId = account.id
             }
         }
     }
@@ -47,7 +49,7 @@ class MyViewPagerAdapter(val loader: (Long) ->  Pair<() -> PagingSource<Int, Tra
             }
 
             override fun areContentsTheSame(oldItem: FullAccount, newItem: FullAccount): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
         }
     }

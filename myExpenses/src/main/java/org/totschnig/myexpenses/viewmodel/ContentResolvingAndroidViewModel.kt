@@ -15,6 +15,9 @@ import app.cash.copper.flow.observeQuery
 import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.CompositeException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -36,6 +39,7 @@ import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
+import org.totschnig.myexpenses.viewmodel.data.DateInfo2
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
 import kotlin.collections.set
@@ -44,7 +48,7 @@ const val KEY_ROW_IDS = "rowIds"
 
 object AccountSealedException : IllegalStateException()
 
-abstract class ContentResolvingAndroidViewModel(application: Application) :
+abstract class ContentResolvingAndroidViewModel(application: Application, ) :
     BaseViewModel(application) {
     @Inject
     lateinit var briteContentResolver: BriteContentResolver
@@ -64,6 +68,24 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         get() = getApplication<MyApplication>().contentResolver
 
     private val debts = MutableLiveData<List<Debt>>()
+    val dateInfo: kotlinx.coroutines.flow.Flow<DateInfo2> = flow {
+        contentResolver.query(
+            TransactionProvider.DUAL_URI,
+            arrayOf(
+                "${getThisYearOfWeekStart()} AS $KEY_THIS_YEAR_OF_WEEK_START",
+                "${getThisYearOfMonthStart()} AS $KEY_THIS_YEAR_OF_MONTH_START",
+                "$THIS_YEAR AS $KEY_THIS_YEAR",
+                "${getThisMonth()} AS $KEY_THIS_MONTH",
+                "${getThisWeek()} AS $KEY_THIS_WEEK",
+                "$THIS_DAY AS $KEY_THIS_DAY"
+            ),
+            null, null, null, null
+        )?.use { cursor ->
+            cursor.moveToFirst()
+            emit(DateInfo2.fromCursor(cursor))
+        }
+    }.flowOn(Dispatchers.Default)
+
     fun getDebts(): LiveData<List<Debt>> = debts
 
     protected fun accountsMinimal(withHidden: Boolean = true): LiveData<List<AccountMinimal>> {

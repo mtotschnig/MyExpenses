@@ -51,7 +51,7 @@ class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
                 Transaction2.projection(context),
                 "${DatabaseConstants.KEY_ACCOUNTID} = ?",
                 arrayOf(accountId.toString()),
-                DatabaseConstants.KEY_ROWID, null
+                DatabaseConstants.KEY_DATE, null
             )?.use { cursor ->
                 Timber.i("Cursor size %d", cursor.count)
                 cursor.asSequence.map {

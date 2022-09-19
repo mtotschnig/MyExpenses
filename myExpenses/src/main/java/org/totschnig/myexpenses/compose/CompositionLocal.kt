@@ -10,12 +10,14 @@ import java.time.format.DateTimeFormatter
 data class Colors(
     val income: Color,
     val expense: Color,
+    val transfer: Color,
     val iconTint: Color
 )
 
 val LocalColors = compositionLocalOf { Colors(
         income = Color.Red,
         expense = Color.Green,
+        transfer = Color.Unspecified,
         iconTint = Color.DarkGray
     ) }
 

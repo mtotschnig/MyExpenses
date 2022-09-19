@@ -12,8 +12,10 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -26,14 +28,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -45,6 +40,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.HeaderRow
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -78,20 +74,22 @@ class MyExpensesViewModel(application: Application) :
         FullAccount.fromCursor(it, currencyContext)
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun loadData(accountId: Long): Pair<() -> TransactionPagingSource, StateFlow<Map<Int, HeaderData>>> =
-        { TransactionPagingSource(getApplication(), accountId) } to headerData(accountId, Grouping.MONTH)
+    fun loadData(account: FullAccount): Pair<() -> TransactionPagingSource, Flow<HeaderData>> =
+        { TransactionPagingSource(getApplication(), account.id) } to headerData(account)
 
-    fun headerData(accountId: Long, grouping: Grouping): StateFlow<Map<Int, HeaderData>> {
+    fun headerData(account: FullAccount): Flow<HeaderData> {
         val groupingUri = Transaction.CONTENT_URI.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-            .appendPath(grouping.name)
-            .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
+            .appendPath(account.grouping.name)
+            .appendQueryParameter(KEY_ACCOUNTID, account.id.toString())
             .build()
         return contentResolver.observeQuery(uri = groupingUri).map { query ->
             query.run()?.use { cursor ->
-                HeaderData.fromSequence(0L, cursor.asSequence) //TODO pass in opening balance
+                HeaderData.fromSequence(account, cursor.asSequence)
             } ?: emptyMap()
-        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
+        }.combine(dateInfo) { headerData, dateInfo ->
+            HeaderData(account.grouping, headerData, dateInfo)
+        }
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {

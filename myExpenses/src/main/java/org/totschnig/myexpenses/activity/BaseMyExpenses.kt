@@ -237,7 +237,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.accountData.collect { data ->
                 toolbar.isVisible = true
                 pagerAdapter.submitList(data) {
-                    viewPager.setCurrentItem(data.indexOfFirst { it.id == accountId }, false)
+                    val currentIndex = data.indexOfFirst { it.id == accountId }
+                    if (viewPager.currentItem != currentIndex) {
+                        viewPager.setCurrentItem(currentIndex, false)
+                    } else {
+                        setCurrentAccount(currentIndex)
+                    }
                 }
                 accountCount = data.count { it.id > 0 }
             }
@@ -478,17 +483,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             "text/" + format.name.lowercase(Locale.US)
         )
     }
-
-    /**
-     * if (command == R.id.GROUPING_ACCOUNTS_COMMAND) {
-    MenuDialog.build()
-    .menu(this, R.menu.accounts_grouping)
-    .choiceIdPreset(accountGrouping.getCommandId())
-    .title(R.string.menu_grouping)
-    .show(this, DIALOG_TAG_GROUPING);
-    return true;
-    } else
-     */
 
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {

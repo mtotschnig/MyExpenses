@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 data class DateInfo(
     val thisDay: Int, val thisWeek: Int, val thisMonth: Int, val thisYear: Int,
     val thisYearOfWeekStart: Int, val thisYearOfMonthStart: Int,
-    val maxValue: Int, val weekStart: Int, val weekEnd: Int
+    val weekStart: Int, val weekEnd: Int
 ) {
     companion object {
         @JvmStatic
@@ -26,7 +26,6 @@ data class DateInfo(
                 safeGet(KEY_THIS_YEAR),
                 safeGet(KEY_THIS_YEAR_OF_WEEK_START),
                 safeGet(KEY_THIS_YEAR_OF_MONTH_START),
-                safeGet(KEY_MAX_VALUE),
                 safeGet(KEY_WEEK_START),
                 safeGet(KEY_WEEK_END)
             )

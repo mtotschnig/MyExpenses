@@ -21,13 +21,14 @@ import org.totschnig.myexpenses.R
 
 @Composable
 fun ExpansionHandle(
+    modifier: Modifier = Modifier,
     isExpanded: Boolean,
     toggle: () -> Unit
 ) {
     val rotationAngle by animateFloatAsState(
         targetValue = if (isExpanded) 0F else 180F
     )
-    IconButton(onClick = toggle) {
+    IconButton(modifier = modifier, onClick = toggle) {
         androidx.compose.material.Icon(
             modifier = Modifier.rotate(rotationAngle),
             imageVector = Icons.Default.ExpandLess,

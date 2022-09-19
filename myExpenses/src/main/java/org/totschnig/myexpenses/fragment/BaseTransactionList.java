@@ -794,7 +794,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         c.moveToPosition(position);
         fillSums(holder, headerId, budget);
         holder.text().setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c),
-            DateInfo.fromCursor(c), userLocaleProvider.getUserPreferredLocale()));
+            DateInfo.fromCursor(c)));
       }
       return convertView;
     }

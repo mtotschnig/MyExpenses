@@ -1,70 +1,92 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 
-/**
- * maps header to an array that holds an array of following sums:
- * [0] incomeSum
- * [1] expenseSum
- * [2] transferSum
- * [3] previousBalance
- * [4] delta (incomSum - expenseSum + transferSum)
- * [5] interimBalance
- * [6] mappedCategories
- *
- * long previousBalance = mAccount.openingBalance.getAmountMinor();
-do {
-long sumIncome = c.getLong(columnIndexGroupSumIncome);
-long sumExpense = c.getLong(columnIndexGroupSumExpense);
-long sumTransfer = c.getLong(columnIndexGroupSumTransfer);
-long delta = sumIncome + sumExpense + sumTransfer;
-long interimBalance = previousBalance + delta;
-long mappedCategories = c.getLong(columnIndexGroupMappedCategories);
-headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear), c.getInt(columnIndexGroupSecond)),
-new Long[]{sumIncome, sumExpense, sumTransfer, previousBalance, delta, interimBalance, mappedCategories});
-previousBalance = interimBalance;
-} while (c.moveToNext());
- */
+data class HeaderData(val grouping: Grouping, val groups: Map<Int, HeaderRow>, val dateInfo: DateInfo2) {
 
-data class HeaderData(
-    val incomeSum: Long,
-    val expenseSum: Long,
-    val transferSum: Long,
-    val previousBalance: Long,
-    val mappedCategories: Boolean
-) {
-    val delta: Long = incomeSum + expenseSum + transferSum
-    val interimBalance = previousBalance + delta
+    fun calculateGroupId(transaction: Transaction2) = grouping.calculateGroupId(transaction.year, getSecond(transaction))
+
+    private fun getSecond(transaction: Transaction2) = when(grouping) {
+        Grouping.DAY -> transaction.day
+        Grouping.WEEK -> transaction.week
+        Grouping.MONTH -> transaction.month
+        else -> 0
+    }
 
     companion object {
-        fun fromSequence(openingBalance: Long, sequence: Sequence<Cursor>) = buildMap {
-            var previousBalance = openingBalance
-            for (cursor in sequence) {
-                val value = rowFromCursor(previousBalance, cursor)
-                put(calculateGroupId(cursor.getInt(KEY_YEAR), cursor.getInt(KEY_SECOND_GROUP)), value)
-                previousBalance = value.interimBalance
+        fun fromSequence(account: FullAccount, sequence: Sequence<Cursor>): Map<Int, HeaderRow> =
+            buildMap {
+                var previousBalance = account.openingBalance
+                for (cursor in sequence) {
+                    val value = HeaderRow.rowFromCursor(previousBalance, account.currency, cursor)
+                    put(account.grouping.calculateGroupId(value.year, value.second), value)
+                    previousBalance = value.interimBalance.amountMinor
+                }
             }
+
+        val EMPTY = HeaderData(grouping = Grouping.NONE, groups = emptyMap(), dateInfo = DateInfo2.EMPTY)
+    }
+}
+
+data class HeaderRow(
+    val year: Int,
+    val second: Int,
+    val incomeSum: Money,
+    val expenseSum: Money,
+    val transferSum: Money,
+    val previousBalance: Money,
+    val delta: Money,
+    val interimBalance: Money,
+    val mappedCategories: Boolean,
+    val weekStart: Int = 0,
+    val weekEnd: Int = 0
+) {
+
+    companion object {
+
+        fun create(
+            year: Int,
+            second: Int,
+            currency: CurrencyUnit,
+            incomeSum: Long,
+            expenseSum: Long,
+            transferSum: Long,
+            previousBalance: Long,
+            mappedCategories: Boolean,
+            weekStart: Int = 0,
+            weekEnd: Int = 0
+        ): HeaderRow {
+            val delta = incomeSum + expenseSum + transferSum
+            return HeaderRow(
+                year,
+                second,
+                Money(currency, incomeSum),
+                Money(currency, expenseSum),
+                Money(currency, transferSum),
+                Money(currency, previousBalance),
+                Money(currency, delta),
+                Money(currency, previousBalance + delta),
+                mappedCategories,
+                weekStart,
+                weekEnd
+            )
         }
 
-        private fun calculateGroupId(year: Int, second: Int) = year * 1000 + second
-
-        fun calculateGroupId(transaction: Transaction2) =
-            calculateGroupId(transaction.year, transaction.month)
-
-        private fun rowFromCursor(previousBalance: Long, cursor: Cursor) = HeaderData(
+        fun rowFromCursor(previousBalance: Long, currency: CurrencyUnit, cursor: Cursor) = create(
+            year = cursor.getInt(KEY_YEAR),
+            second = cursor.getInt(KEY_SECOND_GROUP),
+            currency = currency,
             incomeSum = cursor.getLong(KEY_SUM_INCOME),
             expenseSum = cursor.getLong(KEY_SUM_EXPENSES),
             transferSum = cursor.getLong(KEY_SUM_TRANSFERS),
             previousBalance = previousBalance,
-            mappedCategories = cursor.getLong(DatabaseConstants.KEY_MAPPED_CATEGORIES) > 0
+            mappedCategories = cursor.getLong(KEY_MAPPED_CATEGORIES) > 0
         )
     }
 }

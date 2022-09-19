@@ -26,6 +26,7 @@ fun AppTheme(
             LocalColors provides Colors(
                 income = colorResource(id = R.color.colorIncome),
                 expense = colorResource(id = R.color.colorExpense),
+                transfer = colorResource(id = R.color.colorTransfer),
                 iconTint = Color(UiUtils.getColor(context, R.attr.colorControlNormal))
             )
         ) {
