@@ -177,6 +177,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
     implementation "androidx.paging:paging-compose:1.0.0-alpha16"
     implementation "com.google.accompanist:accompanist-drawablepainter:0.23.1"
+    implementation "com.google.accompanist:accompanist-pager:0.25.1"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -222,7 +223,6 @@ dependencies {
     implementation 'com.github.tony19:logback-android:2.0.0'
 
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation 'androidx.cardview:cardview:1.0.0'

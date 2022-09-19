@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </FrameLayout>
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.compose.ui.platform.ComposeView
         android:layout_below="@id/adContainer"
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

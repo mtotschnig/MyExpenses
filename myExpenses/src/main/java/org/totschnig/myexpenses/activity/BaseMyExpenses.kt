@@ -6,24 +6,25 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.Alignment
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.viewpager2.widget.ViewPager2
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -40,9 +41,9 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
-import org.totschnig.myexpenses.adapter.MyViewPagerAdapter
 import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.ComposeTransactionList
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
@@ -94,6 +95,7 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import timber.log.Timber
 import java.io.File
 import java.io.Serializable
@@ -118,8 +120,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.selectedAccount.value = value
         }
 
+    @OptIn(ExperimentalPagerApi::class)
     val currentAccount: FullAccount
-        get() = pagerAdapter.getItem(viewPager.currentItem)
+        get() = viewModel.accountData.value[pagerState.currentPage]
 
     var currentCurrency: String? = null
 
@@ -142,20 +145,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val exportViewModel: ExportViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
-    lateinit var pagerAdapter: MyViewPagerAdapter
 
-    var accountCount = 0
+    val accountCount
+        get() = viewModel.accountData.value.count()
 
-    val accountGrouping: MutableState<AccountGrouping> = mutableStateOf(AccountGrouping.TYPE)
+    private val accountGrouping: MutableState<AccountGrouping> = mutableStateOf(AccountGrouping.TYPE)
 
     lateinit var accountSort: Sort
 
-    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            currentPosition = position
-            setCurrentAccount(position)
-        }
-    }
+    @OptIn(ExperimentalPagerApi::class)
+    private val pagerState = PagerState(0)
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -171,11 +170,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewPager.unregisterOnPageChangeCallback(pageChangeCallback)
-    }
-
+    @OptIn(ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readAccountGroupingFromPref()
@@ -187,12 +182,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        pagerAdapter = MyViewPagerAdapter(viewModel::loadData)
-        viewPager.adapter = pagerAdapter
-        viewPager.registerOnPageChangeCallback(pageChangeCallback)
         setContentView(binding.root)
+        binding.viewPagerMain.viewPager.setContent {
+            val accountData = viewModel.accountData.collectAsState()
+            AppTheme(context = this@BaseMyExpenses) {
+                LaunchedEffect(pagerState.currentPage, accountData.value) {
+                    setCurrentAccount(pagerState.currentPage)
+                }
+                HorizontalPager(
+                    verticalAlignment = Alignment.Top,
+                    count = accountData.value.count(),
+                    state = pagerState
+                ) { page ->
+                    val account = accountData.value[page]
+                    val data = viewModel.loadData(account)
+                    ComposeTransactionList(
+                        pagingSourceFactory = data.first,
+                        headerData = data.second.collectAsState(HeaderData.EMPTY).value,
+                        accountId = account.id
+                    )
+                }
+            }
+        }
         toolbar = setupToolbar(false)
-        toolbar.visibility = View.INVISIBLE
         setupToolbarPopupMenu()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -233,28 +245,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
-        lifecycleScope.launch {
-            viewModel.accountData.collect { data ->
-                toolbar.isVisible = true
-                pagerAdapter.submitList(data) {
-                    val currentIndex = data.indexOfFirst { it.id == accountId }
-                    if (viewPager.currentItem != currentIndex) {
-                        viewPager.setCurrentItem(currentIndex, false)
-                    } else {
-                        setCurrentAccount(currentIndex)
-                    }
-                }
-                accountCount = data.count { it.id > 0 }
-            }
-        }
-        accountList.setContent {
+        binding.accountPanel.accountList.setContent {
             AppTheme(this) {
                 AccountList(
                     accountData = viewModel.accountData.collectAsState(initial = emptyList()).value,
                     grouping = accountGrouping.value,
                     selectedAccount = accountId,
                     onSelected = {
-                        viewPager.currentItem = it
+                        lifecycleScope.launch {
+                            pagerState.scrollToPage(it)
+                        }
                         closeDrawer()
                     },
                     onEdit = {
@@ -644,7 +644,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
             it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
         }
-        if (pagerAdapter.itemCount > 0) {
+        if (viewModel.accountData.value.isNotEmpty()) {
             with(currentAccount) {
                 menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
                     Utils.configureGroupingMenu(it, grouping)
@@ -704,25 +704,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun setCurrentAccount(position: Int) {
-        val account = pagerAdapter.getItem(position)
-        val newAccountId = account.id
-        if (accountId != newAccountId) {
-            accountId = account.id
-            prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId)
+    private fun setCurrentAccount(position: Int) {
+        viewModel.accountData.value.getOrNull(position)?.let { account ->
+            val newAccountId = account.id
+            if (accountId != newAccountId) {
+                accountId = account.id
+                prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId)
+            }
+            tintSystemUiAndFab(
+                if (newAccountId < 0) ResourcesCompat.getColor(
+                    resources,
+                    R.color.colorAggregate,
+                    null
+                )
+                else account.color
+            )
+            currentCurrency = account.currency.code
+            setBalance(account)
+            if (account.sealed) {
+                floatingActionButton.hide()
+            } else {
+                floatingActionButton.show()
+            }
+            invalidateOptionsMenu()
         }
-        tintSystemUiAndFab(
-            if (newAccountId < 0) ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
-            else account.color
-        )
-        currentCurrency = account.currency.code
-        setBalance(account)
-        if (account.sealed) {
-            floatingActionButton.hide()
-        } else {
-            floatingActionButton.show()
-        }
-        invalidateOptionsMenu()
     }
 
     private fun setBalance(account: FullAccount) {
@@ -924,7 +929,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 } else {
                     showSnackBar(
                         getString(R.string.warning_synced_account_cannot_be_closed),
-                        Snackbar.LENGTH_LONG, null, null, accountList
+                        Snackbar.LENGTH_LONG, null, null, binding.accountPanel.accountList
                     )
                 }
             }
@@ -932,16 +937,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.setSealed(accountId, false)
         }
     }
-
-    val accountList: ComposeView
-        get() {
-            return binding.accountPanel.accountList
-        }
-
-    val viewPager: ViewPager2
-        get() {
-            return binding.viewPagerMain.viewPager
-        }
 
     val navigationView: NavigationView
         get() {
@@ -957,18 +952,19 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             exportViewModel.checkAppDir().observe(this) { result ->
                 result.onSuccess {
                     with(currentAccount) {
-                        exportViewModel.hasExported(accountId).observe(this@BaseMyExpenses) { hasExported ->
-                            ExportDialogFragment.newInstance(
-                                ExportDialogFragment.AccountInfo(
-                                    id,
-                                    label,
-                                    currency.code,
-                                    sealed,
-                                    hasExported,
-                                    false // TODO fragment.isFiltered
-                                )
-                            ).show(supportFragmentManager, "EXPORT")
-                        }
+                        exportViewModel.hasExported(accountId)
+                            .observe(this@BaseMyExpenses) { hasExported ->
+                                ExportDialogFragment.newInstance(
+                                    ExportDialogFragment.AccountInfo(
+                                        id,
+                                        label,
+                                        currency.code,
+                                        sealed,
+                                        hasExported,
+                                        false // TODO fragment.isFiltered
+                                    )
+                                ).show(supportFragmentManager, "EXPORT")
+                            }
                     }
                 }.onFailure {
                     showDismissibleSnackBar(it.safeMessage)
@@ -1163,9 +1159,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             if (itemId == R.id.SORT_CUSTOM_COMMAND) {
                 SortUtilityDialogFragment.newInstance(
                     ArrayList(viewModel.accountData.value
-                    .filter { it.id > 0}
-                    .map { AbstractMap.SimpleEntry(it.id, it.label) }
-                ))
+                        .filter { it.id > 0 }
+                        .map { AbstractMap.SimpleEntry(it.id, it.label) }
+                    ))
                     .show(supportFragmentManager, "SORT_ACCOUNTS")
             }
         }

@@ -12,13 +12,16 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.model.Account
@@ -84,9 +87,11 @@ class MyExpensesViewModel(application: Application) :
             .appendQueryParameter(KEY_ACCOUNTID, account.id.toString())
             .build()
         return contentResolver.observeQuery(uri = groupingUri).map { query ->
-            query.run()?.use { cursor ->
-                HeaderData.fromSequence(account, cursor.asSequence)
-            } ?: emptyMap()
+            withContext(Dispatchers.IO) {
+                query.run()?.use { cursor ->
+                    HeaderData.fromSequence(account, cursor.asSequence)
+                } ?: emptyMap()
+            }
         }.combine(dateInfo) { headerData, dateInfo ->
             HeaderData(account.grouping, headerData, dateInfo)
         }

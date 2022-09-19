@@ -16,6 +16,7 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.CompositeException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.take
@@ -68,7 +69,8 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
         get() = getApplication<MyApplication>().contentResolver
 
     private val debts = MutableLiveData<List<Debt>>()
-    val dateInfo: kotlinx.coroutines.flow.Flow<DateInfo2> = flow {
+
+    val dateInfo: Flow<DateInfo2> = flow {
         contentResolver.query(
             TransactionProvider.DUAL_URI,
             arrayOf(
@@ -84,7 +86,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
             cursor.moveToFirst()
             emit(DateInfo2.fromCursor(cursor))
         }
-    }.flowOn(Dispatchers.Default)
+    }.flowOn(Dispatchers.IO)
 
     fun getDebts(): LiveData<List<Debt>> = debts
 
