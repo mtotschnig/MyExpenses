@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -43,7 +42,6 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
-import org.totschnig.myexpenses.viewmodel.data.HeaderRow
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -72,13 +70,14 @@ class MyExpensesViewModel(application: Application) :
             TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES,
             "1"
         ).build(),
-        selection = "$KEY_HIDDEN = 0"
+        selection = "$KEY_HIDDEN = 0",
+        notifyForDescendants = true
     ).mapToList {
         FullAccount.fromCursor(it, currencyContext)
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun loadData(account: FullAccount): Pair<() -> TransactionPagingSource, Flow<HeaderData>> =
-        { TransactionPagingSource(getApplication(), account.id) } to headerData(account)
+    fun loadData(account: FullAccount): () -> TransactionPagingSource =
+        { TransactionPagingSource(getApplication(), account) }
 
     fun headerData(account: FullAccount): Flow<HeaderData> {
         val groupingUri = Transaction.CONTENT_URI.buildUpon()

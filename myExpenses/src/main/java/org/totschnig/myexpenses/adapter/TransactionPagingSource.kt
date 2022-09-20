@@ -14,10 +14,11 @@ import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 
-class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
+class TransactionPagingSource(val context: MyApplication, val account: FullAccount) :
     PagingSource<Int, Transaction2>() {
 
     val contentResolver: ContentResolver
@@ -30,7 +31,6 @@ class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
                 contentResolver.unregisterContentObserver(this)
             }
         }
-
         contentResolver.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, false, observer)
     }
 
@@ -50,8 +50,8 @@ class TransactionPagingSource(val context: MyApplication, val accountId: Long) :
                     .build(),
                 Transaction2.projection(context),
                 "${DatabaseConstants.KEY_ACCOUNTID} = ?",
-                arrayOf(accountId.toString()),
-                DatabaseConstants.KEY_DATE, null
+                arrayOf(account.id.toString()),
+                "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
             )?.use { cursor ->
                 Timber.i("Cursor size %d", cursor.count)
                 cursor.asSequence.map {

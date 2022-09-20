@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
@@ -52,7 +53,7 @@ fun ComposeTransactionList(
     headerData: HeaderData,
     accountId: Long
 ) {
-    val pager = remember {
+    val pager = remember(pagingSourceFactory) {
         Pager(
             PagingConfig(
                 pageSize = 100,
@@ -68,7 +69,7 @@ fun ComposeTransactionList(
         defaultValue = emptySet()
     )
     val itemCount = lazyPagingItems.itemCount
-    if (itemCount == 0) {
+    if (itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
         Text(modifier = Modifier.fillMaxSize().wrapContentSize(), text = stringResource(id = R.string.no_expenses))
     } else {
         LazyColumn(modifier = Modifier.padding(horizontal = 12.dp)) {
@@ -87,6 +88,7 @@ fun ComposeTransactionList(
                         headerData.groups[headerId]
                             ?.let {
                                 HeaderRenderer(
+                                    //modifier = Modifier.animateItemPlacement(),
                                     headerData.grouping,
                                     it,
                                     headerData.dateInfo,
@@ -107,7 +109,10 @@ fun ComposeTransactionList(
                     item(key = transaction?.id) {
                         // Gets item, triggering page loads if needed
                         lazyPagingItems[index]?.let {
-                            TransactionRenderer(it)
+                            TransactionRenderer(
+                                modifier = Modifier.animateItemPlacement(),
+                                transaction = it
+                            )
                         }
                     }
                 }
@@ -118,8 +123,11 @@ fun ComposeTransactionList(
     }
 }
 
+//currently we are not using animateItemPlacement modifier on Headers
+//due to bug https://issuetracker.google.com/issues/209947592
 @Composable
 fun HeaderRenderer(
+    //modifier: Modifier,
     grouping: Grouping,
     headerRow: HeaderRow,
     dateInfo: DateInfo2,
@@ -188,7 +196,7 @@ fun HeaderRenderer(
 }
 
 @Composable
-fun TransactionRenderer(transaction: Transaction2) {
+fun TransactionRenderer(modifier: Modifier, transaction: Transaction2) {
     val description = buildAnnotatedString {
         transaction.referenceNumber.takeIf { it.isNotEmpty() }?.let {
             append("($it) ")
@@ -222,7 +230,7 @@ fun TransactionRenderer(transaction: Transaction2) {
             }
         }
     }
-    Row {
+    Row(modifier = modifier) {
         Text(text = LocalDateFormatter.current.format(transaction.date))
         Text(
             modifier = Modifier

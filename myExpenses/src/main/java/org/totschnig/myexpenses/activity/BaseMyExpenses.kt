@@ -15,7 +15,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -209,12 +212,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     count = accountData.value.count(),
                     state = pagerState
                 ) { page ->
-                    val account = accountData.value[page]
-                    val data = viewModel.loadData(account)
+                    val account = derivedStateOf { accountData.value[page] }
+                    val data = remember(account.value.sortDirection) { viewModel.loadData(account.value) }
+                    val headerData = viewModel.headerData(account.value)
                     ComposeTransactionList(
-                        pagingSourceFactory = data.first,
-                        headerData = data.second.collectAsState(HeaderData.EMPTY).value,
-                        accountId = account.id
+                        pagingSourceFactory = data,
+                        headerData = headerData.collectAsState(HeaderData.EMPTY).value,
+                        accountId = account.value.id
                     )
                 }
             }
