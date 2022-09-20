@@ -68,9 +68,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityComposeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setupToolbar(true)
+        val binding = setupView()
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
         }
@@ -374,8 +372,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
         return true
     }
-
-    override val snackBarContainerId: Int = R.id.compose_container
 
     override fun onOptionsItemSelected(item: MenuItem) =
         if (sortDelegate.onOptionsItemSelected(item)) {

@@ -4,13 +4,17 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 sealed interface IIconInfo {
     val label: Int
 
     companion object {
         fun resolveIcon(icon: String): IIconInfo? =
-            FontAwesomeIcons[icon] ?: ExtraIcons[icon]
+            FontAwesomeIcons[icon] ?: ExtraIcons[icon] ?: kotlin.run {
+                CrashHandler.report(Exception("Unable to resolve icon $icon"))
+                null
+            }
 
         fun resolveLabelForCategory(context: Context, category: String) =
             context.getString(

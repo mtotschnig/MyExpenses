@@ -94,8 +94,7 @@ public enum ContribFeature {
   public static final int FREE_PLANS = 3;
   public static final int FREE_ACCOUNTS = 5;
   public static final int FREE_SPLIT_TEMPLATES = 1;
-  private final int TRIAL_DURATION_DAYS = 30;
-  private final long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000L;
+  private final int TRIAL_DURATION_DAYS = 60;
 
   private final TrialMode trialMode;
   private final LicenceStatus licenceStatus;
@@ -141,7 +140,8 @@ public enum ContribFeature {
   }
 
   private long getEndOfTrial(long defaultValue, PrefHandler prefHandler) {
-    return getStartOfTrial(defaultValue, prefHandler) + TRIAL_DURATION_MILLIS;
+    long trialDurationMillis = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000L;
+    return getStartOfTrial(defaultValue, prefHandler) + trialDurationMillis;
   }
 
   private String getPrefKey() {
@@ -177,7 +177,7 @@ public enum ContribFeature {
 
   @VisibleForTesting
   public int getLabelResId(Context ctx) {
-    String name = "contrib_feature_" + toString() + "_label";
+    String name = "contrib_feature_" + this + "_label";
     return ctx.getResources().getIdentifier(name, "string", ctx.getPackageName());
   }
 

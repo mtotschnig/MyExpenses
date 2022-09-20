@@ -1255,7 +1255,6 @@ public class TransactionProvider extends BaseTransactionProvider {
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case TEMPLATES:
-        //TODO should not support bulk update of categories
         count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
         break;
       case TEMPLATE_ID:

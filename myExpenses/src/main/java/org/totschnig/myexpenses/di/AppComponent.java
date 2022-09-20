@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.BaseMyExpenses;
@@ -54,6 +55,7 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.task.QifImportTask;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -290,5 +292,7 @@ public interface AppComponent {
   void inject(LicenceValidationViewModel licenceValidationViewModel);
 
   void inject(ShareViewModel shareViewModel);
+
+  void inject(SyncAdapter sSyncAdapter);
 
 }
