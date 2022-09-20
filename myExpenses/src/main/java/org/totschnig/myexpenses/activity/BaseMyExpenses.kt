@@ -109,6 +109,7 @@ import javax.inject.Inject
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
+@OptIn(ExperimentalPagerApi::class)
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
     @JvmField
     @State
@@ -118,9 +119,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         get() = viewModel.selectedAccount.value
         set(value) {
             viewModel.selectedAccount.value = value
+            moveToAccount()
         }
 
-    @OptIn(ExperimentalPagerApi::class)
+    private fun moveToAccount() {
+        viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }?.let {
+            if (pagerState.currentPage != it) {
+                lifecycleScope.launch {
+                    pagerState.scrollToPage(it)
+                }
+            } else {
+                setCurrentAccount(it)
+            }
+        }
+    }
+
     val currentAccount: FullAccount
         get() = viewModel.accountData.value[pagerState.currentPage]
 
@@ -153,7 +166,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var accountSort: Sort
 
-    @OptIn(ExperimentalPagerApi::class)
     private val pagerState = PagerState(0)
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -170,7 +182,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    @OptIn(ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readAccountGroupingFromPref()
@@ -186,8 +197,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         binding.viewPagerMain.viewPager.setContent {
             val accountData = viewModel.accountData.collectAsState()
             AppTheme(context = this@BaseMyExpenses) {
-                LaunchedEffect(pagerState.currentPage, accountData.value) {
+                LaunchedEffect(pagerState.currentPage) {
                     setCurrentAccount(pagerState.currentPage)
+                }
+                LaunchedEffect(accountData.value) {
+                    moveToAccount()
                 }
                 HorizontalPager(
                     verticalAlignment = Alignment.Top,
