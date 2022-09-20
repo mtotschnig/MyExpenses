@@ -191,9 +191,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             inject(upgradeHandlerViewModel)
             inject(exportViewModel)
         }
-        accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        toolbar = setupToolbar(false)
+        accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         binding.viewPagerMain.viewPager.setContent {
             val accountData = viewModel.accountData.collectAsState()
             AppTheme(context = this@BaseMyExpenses) {
@@ -218,7 +219,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
-        toolbar = setupToolbar(false)
         setupToolbarPopupMenu()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
