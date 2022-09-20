@@ -123,7 +123,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
 
     private fun moveToAccount() {
-        viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }?.let {
+        (viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 } ?: 0).let {
             if (pagerState.currentPage != it) {
                 lifecycleScope.launch {
                     pagerState.scrollToPage(it)
@@ -160,7 +160,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var binding: ActivityMainBinding
 
     val accountCount
-        get() = viewModel.accountData.value.count()
+        get() = viewModel.accountData.value.count { it.id > 0 }
 
     private val accountGrouping: MutableState<AccountGrouping> = mutableStateOf(AccountGrouping.TYPE)
 
