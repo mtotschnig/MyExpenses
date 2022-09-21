@@ -80,12 +80,7 @@ class MyExpensesViewModel(application: Application) :
         { TransactionPagingSource(getApplication(), account) }
 
     fun headerData(account: FullAccount): Flow<HeaderData> {
-        val groupingUri = Transaction.CONTENT_URI.buildUpon()
-            .appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-            .appendPath(account.grouping.name)
-            .appendQueryParameter(KEY_ACCOUNTID, account.id.toString())
-            .build()
-        return contentResolver.observeQuery(uri = groupingUri).map { query ->
+        return contentResolver.observeQuery(uri = account.groupingUri()).map { query ->
             withContext(Dispatchers.IO) {
                 query.run()?.use { cursor ->
                     HeaderData.fromSequence(account, cursor.asSequence)

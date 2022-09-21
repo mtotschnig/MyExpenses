@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.adapter
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.database.ContentObserver
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.paging.PagingSource
@@ -10,7 +11,6 @@ import androidx.paging.PagingState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
@@ -23,15 +23,29 @@ class TransactionPagingSource(val context: MyApplication, val account: FullAccou
 
     val contentResolver: ContentResolver
         get() = context.contentResolver
+    private val uri: Uri
+    private val projection: Array<String>
+    private val selection: String
+    private val selectionArgs: Array<String>?
 
     init {
+        account.loadingInfo(context).also {
+            uri = it.first
+            projection = it.second
+            selection = it.third
+            selectionArgs = it.fourth
+        }
         val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean) {
                 invalidate()
                 contentResolver.unregisterContentObserver(this)
             }
         }
-        contentResolver.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, false, observer)
+        contentResolver.registerContentObserver(
+            TransactionProvider.TRANSACTIONS_URI,
+            false,
+            observer
+        )
     }
 
     override fun getRefreshKey(state: PagingState<Int, Transaction2>): Int? {
@@ -44,13 +58,19 @@ class TransactionPagingSource(val context: MyApplication, val account: FullAccou
         Timber.i("Requesting pageNumber %d", pageNumber)
         val data = withContext(Dispatchers.IO) {
             contentResolver.query(
-                EXTENDED_URI.buildUpon()
-                    .appendQueryParameter(ContentResolver.QUERY_ARG_LIMIT, params.loadSize.toString())
-                    .appendQueryParameter(ContentResolver.QUERY_ARG_OFFSET, (pageNumber * params.loadSize).toString())
+                uri.buildUpon()
+                    .appendQueryParameter(
+                        ContentResolver.QUERY_ARG_LIMIT,
+                        params.loadSize.toString()
+                    )
+                    .appendQueryParameter(
+                        ContentResolver.QUERY_ARG_OFFSET,
+                        (pageNumber * params.loadSize).toString()
+                    )
                     .build(),
-                Transaction2.projection(context),
-                "${DatabaseConstants.KEY_ACCOUNTID} = ?",
-                arrayOf(account.id.toString()),
+                projection,
+                selection,
+                selectionArgs,
                 "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
             )?.use { cursor ->
                 Timber.i("Cursor size %d", cursor.count)

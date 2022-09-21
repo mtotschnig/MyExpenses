@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -136,7 +137,7 @@ fun HeaderRenderer(
 ) {
     val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
-    Box {
+    Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
         if (grouping != Grouping.NONE) {
             ExpansionHandle(
                 modifier = Modifier.align(Alignment.TopEnd),
