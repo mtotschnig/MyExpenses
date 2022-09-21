@@ -196,4 +196,9 @@
     <string name="menu_BudgetActivity_rollover_help_text">如果您的预算不足或超支，您可以将差额转存到下一个期间，这样可分配的金额更有弹性。有三个选项：</string>
     <string name="menu_BudgetActivity_rollover_categories">每个类别的余额都会被转存，下一期间的相应分配额将受到影响</string>
     <string name="menu_BudgetActivity_rollover_total">只有总预算的剩余部分被转存，即只有下一个期间的总预算会增加或减少</string>
+    <string name="menu_BudgetActivity_rollover_edit">此选项用于精确配置展期金额。例如，您可以只为某些类别或子类别设置部分展期金额，并将剩余部分转存到总预算上</string>
+    <string name="help_WebUI_info_2">目前网页版不支持转账或拆分交易</string>
+    <string name="help_WebUI_info_3">您可以设置安全访问密码。在网页浏览器显示的对话框中，只需输入密码，不用考虑用户名</string>
+    <string name="help_WebUI_info_4">显示选定账户的交易信息时，网页版将直接使用您在 Android 设备上为本应用设置的相同过滤器</string>
+    <string name="help_WebUI_info_1">从电脑上的网页浏览器调用字幕中显示的链接</string>
 </resources>
