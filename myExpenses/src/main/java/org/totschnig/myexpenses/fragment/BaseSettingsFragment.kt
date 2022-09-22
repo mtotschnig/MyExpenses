@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -360,6 +361,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         key: String
     ) {
         when (key) {
+            getKey(PrefKey.CRASHREPORT_USEREMAIL) -> {
+                crashHandler.setUserEmail(sharedPreferences.getString(key, null))
+            }
+            getKey(PrefKey.CRASHREPORT_ENABLED) -> {
+                preferenceActivity.showSnackBar(R.string.app_restart_required)
+            }
+            getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
+                configureOpenExchangeRatesPreference(sharedPreferences.getString(key, ExchangeRateSource.defaultSource.name))
+            }
+            getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
+                currencyFormatter.invalidateAll(requireContext().contentResolver)
+            }
             getKey(PrefKey.UI_LANGUAGE) -> {
                 featureManager.requestLocale(preferenceActivity)
             }
@@ -487,18 +500,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         }
                     }
                 }
-            }
-            matches(pref, PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
-                currencyFormatter.invalidateAll(requireContext().contentResolver)
-            }
-            matches(pref, PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                configureOpenExchangeRatesPreference((value as String))
-            }
-            matches(pref, PrefKey.CRASHREPORT_USEREMAIL) -> {
-                crashHandler.setUserEmail(value as String)
-            }
-            matches(pref, PrefKey.CRASHREPORT_ENABLED) -> {
-                preferenceActivity.showSnackBar(R.string.app_restart_required)
             }
             matches(pref, PrefKey.OCR_DATE_FORMATS) -> {
                 if (!isEmpty(value as String)) {
@@ -901,10 +902,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     context,
                     R.string.crash_reports_user_info
                 )
-                requirePreference<Preference>(PrefKey.CRASHREPORT_ENABLED).onPreferenceChangeListener =
-                    this
-                requirePreference<Preference>(PrefKey.CRASHREPORT_USEREMAIL).onPreferenceChangeListener =
-                    this
             }
             getKey(PrefKey.OCR) -> {
                 if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
@@ -964,12 +961,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 configureUninstallPrefs()
             }
             getKey(PrefKey.EXCHANGE_RATES) -> {
-                requirePreference<Preference>(PrefKey.EXCHANGE_RATE_PROVIDER).onPreferenceChangeListener =
-                    this
                 configureOpenExchangeRatesPreference(
                     prefHandler.requireString(
                         PrefKey.EXCHANGE_RATE_PROVIDER,
-                        "EXCHANGE_RATE_HOST"
+                        ExchangeRateSource.defaultSource.name
                     )
                 )
             }
@@ -1006,7 +1001,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return preferenceActivity.getTranslatorsArrayResId(language, country)
     }
 
-    private fun configureOpenExchangeRatesPreference(provider: String) {
+    private fun configureOpenExchangeRatesPreference(provider: String?) {
         requirePreference<Preference>(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).isEnabled =
             provider == "OPENEXCHANGERATES"
     }
