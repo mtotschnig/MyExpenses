@@ -262,6 +262,8 @@ fun Cursor.getDouble(column: String) = getDouble(getColumnIndexOrThrow(column))
 fun Cursor.getStringOrNull(column: String) = getStringOrNull(getColumnIndexOrThrow(column))
 fun Cursor.getIntOrNull(column: String) = getIntOrNull(getColumnIndexOrThrow(column))
 fun Cursor.getLongOrNull(column: String) = getLongOrNull(getColumnIndexOrThrow(column))
+fun Cursor.getIntIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getInt(it) } ?: 0
+fun Cursor.getLongIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
 
 fun cacheSyncState(context: Context) {
     val accountManager = AccountManager.get(context)

@@ -202,7 +202,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
-  public static final String QUERY_PARAMETER_WITH_START = "withStart";
+  public static final String QUERY_PARAMETER_WITH_JULIAN_START = "withJulianStart";
   public static final String QUERY_PARAMETER_SECTIONS = "sections";
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
@@ -431,7 +431,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
 
         // the start value is only needed for WEEK and DAY
-        boolean withStart = uri.getQueryParameter(QUERY_PARAMETER_WITH_START) != null && (group == Grouping.WEEK || group == Grouping.DAY);
+        boolean withJulianStart = uri.getQueryParameter(QUERY_PARAMETER_WITH_JULIAN_START) != null && (group == Grouping.WEEK || group == Grouping.DAY);
         boolean includeTransfers = uri.getQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS) != null;
         String yearExpression;
         switch (group) {
@@ -473,11 +473,14 @@ public class TransactionProvider extends BaseTransactionProvider {
           projectionSize = 2;
         } else {
           projectionSize = 5;
-          if (withStart) {
+          if (withJulianStart) {
             projectionSize += 1;
           }
           if (!includeTransfers) {
             projectionSize += 1;
+          }
+          if (group == Grouping.WEEK) {
+            projectionSize += 2;
           }
         }
         projection = new String[projectionSize];
@@ -493,9 +496,13 @@ public class TransactionProvider extends BaseTransactionProvider {
             projection[index++] = (forHome ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
           }
           projection[index++] = MAPPED_CATEGORIES;
-          if (withStart) {
-            projection[index] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
+          if (withJulianStart) {
+            projection[index++] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
                 + " AS " + KEY_GROUP_START;
+          }
+          if (group == Grouping.WEEK) {
+            projection[index++] = getWeekStart() + " AS " + KEY_WEEK_START;
+            projection[index] = getWeekEnd() + " AS " + KEY_WEEK_END;
           }
         }
         selection = accountSelectionQuery

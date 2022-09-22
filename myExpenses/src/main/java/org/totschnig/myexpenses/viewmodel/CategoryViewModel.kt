@@ -38,8 +38,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -388,17 +390,11 @@ open class CategoryViewModel(
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
-                        val nextSum = cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudget = cursor.getColumnIndex(KEY_BUDGET).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudgetRollOverPrevious = cursor.getColumnIndex(
-                            KEY_BUDGET_ROLLOVER_PREVIOUS).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudgetRollOverNext = cursor.getColumnIndex(KEY_BUDGET_ROLLOVER_NEXT).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudgetOneTime = cursor.getColumnIndex(KEY_ONE_TIME).takeIf { it != -1 }
-                            ?.let { cursor.getInt(it) != 0 } ?: false
+                        val nextSum = cursor.getLongIfExists(KEY_SUM)
+                        val nextBudget = cursor.getLongIfExists(KEY_BUDGET)
+                        val nextBudgetRollOverPrevious = cursor.getLongIfExists(KEY_BUDGET_ROLLOVER_PREVIOUS)
+                        val nextBudgetRollOverNext = cursor.getLongIfExists(KEY_BUDGET_ROLLOVER_NEXT)
+                        val nextBudgetOneTime = cursor.getIntIfExists(KEY_ONE_TIME)
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()

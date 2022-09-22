@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_MONT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
+import org.totschnig.myexpenses.provider.getIntIfExists
 
 data class DateInfo(
     val thisDay: Int, val thisWeek: Int, val thisMonth: Int, val thisYear: Int,
@@ -20,19 +21,15 @@ data class DateInfo(
         @JvmStatic
         fun fromCursor(cursor: Cursor) = with(cursor) {
             DateInfo(
-                safeGet(KEY_THIS_DAY),
-                safeGet(KEY_THIS_WEEK),
-                safeGet(KEY_THIS_MONTH),
-                safeGet(KEY_THIS_YEAR),
-                safeGet(KEY_THIS_YEAR_OF_WEEK_START),
-                safeGet(KEY_THIS_YEAR_OF_MONTH_START),
-                safeGet(KEY_WEEK_START),
-                safeGet(KEY_WEEK_END)
+                getIntIfExists(KEY_THIS_DAY),
+                getIntIfExists(KEY_THIS_WEEK),
+                getIntIfExists(KEY_THIS_MONTH),
+                getIntIfExists(KEY_THIS_YEAR),
+                getIntIfExists(KEY_THIS_YEAR_OF_WEEK_START),
+                getIntIfExists(KEY_THIS_YEAR_OF_MONTH_START),
+                getIntIfExists(KEY_WEEK_START),
+                getIntIfExists(KEY_WEEK_END)
             )
         }
-
-        private fun Cursor.safeGet(key: String) =
-            getColumnIndex(key).takeIf { it != -1 }?.let { getInt(it) }
-                ?: 0
     }
 }

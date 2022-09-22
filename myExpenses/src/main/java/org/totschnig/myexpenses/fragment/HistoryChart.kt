@@ -280,7 +280,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 }
             }
             if (shouldUseGroupStart()) {
-                builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_START, "1")
+                builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_START, "1")
             }
             if (includeTransfers) {
                 builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS, "1")
