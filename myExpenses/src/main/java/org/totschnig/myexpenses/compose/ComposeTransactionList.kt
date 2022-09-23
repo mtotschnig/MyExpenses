@@ -2,22 +2,31 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -52,7 +61,9 @@ import kotlin.math.absoluteValue
 fun ComposeTransactionList(
     pagingSourceFactory: () -> PagingSource<Int, Transaction2>,
     headerData: HeaderData,
-    accountId: Long
+    accountId: Long,
+    selectionHandler: SelectionHandler,
+    menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
 ) {
     val pager = remember(pagingSourceFactory) {
         Pager(
@@ -69,15 +80,19 @@ fun ComposeTransactionList(
         initialValue = emptySet(),
         defaultValue = emptySet()
     )
-    val itemCount = lazyPagingItems.itemCount
-    if (itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
-        Text(modifier = Modifier.fillMaxSize().wrapContentSize(), text = stringResource(id = R.string.no_expenses))
+
+    if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
+        Text(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
+        )
     } else {
         LazyColumn(modifier = Modifier.padding(horizontal = 12.dp)) {
 
             var lastHeader: Int? = null
 
-            for (index in 0 until itemCount) {
+            for (index in 0 until lazyPagingItems.itemCount) {
                 // Gets item without notifying Paging of the item access,
                 // which would otherwise trigger page loads
                 val transaction = lazyPagingItems.peek(index)
@@ -112,7 +127,9 @@ fun ComposeTransactionList(
                         lazyPagingItems[index]?.let {
                             TransactionRenderer(
                                 modifier = Modifier.animateItemPlacement(),
-                                transaction = it
+                                transaction = it,
+                                selectionHandler = selectionHandler,
+                                menuGenerator = menuGenerator
                             )
                         }
                     }
@@ -196,16 +213,24 @@ fun HeaderRenderer(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TransactionRenderer(modifier: Modifier, transaction: Transaction2) {
+fun TransactionRenderer(
+    modifier: Modifier,
+    transaction: Transaction2,
+    selectionHandler: SelectionHandler,
+    menuGenerator: (Transaction2) -> Menu<Transaction2>?
+) {
+    val showMenu = remember { mutableStateOf(false) }
     val description = buildAnnotatedString {
         transaction.referenceNumber.takeIf { it.isNotEmpty() }?.let {
             append("($it) ")
         }
         if (transaction.transferPeer != null) {
+            transaction.accountLabel?.let { append("$it ") }
             append(Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor))
-        }
-        if (transaction.catId == DatabaseConstants.SPLIT_CATID) {
+            transaction.label?.let { append(it) }
+        } else if (transaction.catId == DatabaseConstants.SPLIT_CATID) {
             append(stringResource(id = R.string.split_transaction))
         } else if (transaction.catId == null && transaction.status != DatabaseConstants.STATUS_HELPER) {
             append(NO_CATEGORY_ASSIGNED_LABEL)
@@ -231,7 +256,32 @@ fun TransactionRenderer(modifier: Modifier, transaction: Transaction2) {
             }
         }
     }
-    Row(modifier = modifier) {
+    Row(modifier = modifier
+        .height(IntrinsicSize.Min)
+        .combinedClickable(
+            onLongClick = { selectionHandler.toggle(transaction) },
+            onClick = {
+                if (selectionHandler.selectionCount == 0) {
+                    showMenu.value = true
+                } else {
+                    selectionHandler.toggle(transaction)
+                }
+            }
+        )
+        .then(
+            if (selectionHandler.isSelected(transaction))
+                Modifier.background(colorResource(id = R.color.activatedBackground))
+            else Modifier
+        )
+    ) {
+        transaction.color?.let {
+            Divider(
+                color = Color(it),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(2.dp)
+            )
+        }
         Text(text = LocalDateFormatter.current.format(transaction.date))
         Text(
             modifier = Modifier
@@ -239,5 +289,16 @@ fun TransactionRenderer(modifier: Modifier, transaction: Transaction2) {
                 .weight(1f), text = description
         )
         ColoredAmountText(money = transaction.amount)
+        if (showMenu.value) {
+            remember(transaction.id) { menuGenerator(transaction) }?.let {
+                HierarchicalMenu(showMenu, it, transaction)
+            }
+        }
     }
+}
+
+interface SelectionHandler {
+    fun toggle(transaction: Transaction2)
+    fun isSelected(transaction: Transaction2): Boolean
+    val selectionCount: Int
 }

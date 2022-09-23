@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import arrow.core.Tuple4
@@ -27,7 +28,7 @@ data class FullAccount(
     val description: String,
     val currency: CurrencyUnit,
     val color: Int = -1,
-    val type: AccountType? = null,
+    val type: AccountType?,
     val exchangeRate: Double = 1.0,
     val sealed: Boolean = false,
     val openingBalance: Long,
@@ -45,14 +46,19 @@ data class FullAccount(
 ) {
 
     //Tuple4 of Uri / projection / selection / selectionArgs
-    fun loadingInfo(context: MyApplication): Tuple4<Uri, Array<String>, String, Array<String>?> {
+    fun loadingInfo(context: Context): Tuple4<Uri, Array<String>, String, Array<String>?> {
         val builder = Transaction.EXTENDED_URI.buildUpon()
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")
         if (id < 0) {
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, "1")
         }
         val uri = builder.build()
-        val projection = Transaction2.projection(context)
+        val projection = when {
+            id > 0 -> Transaction2.projection(context)
+            isHomeAggregate() -> Transaction2.projection(context) +
+                    Transaction2.additionalAggregateColumns + Transaction2.additionGrandTotalColumns
+            else -> Transaction2.projection(context) + Transaction2.additionalAggregateColumns
+        }
         val selection = when {
             id > 0 -> "$KEY_ACCOUNTID = ?"
             isHomeAggregate() -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"

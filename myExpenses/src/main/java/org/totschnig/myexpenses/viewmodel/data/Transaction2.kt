@@ -8,50 +8,22 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
+import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOr0L
 import org.totschnig.myexpenses.provider.DbUtils.getString
 import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.io.File
 import java.time.ZonedDateTime
@@ -75,11 +47,11 @@ data class Transaction2(
     val referenceNumber: String,
     val currency: CurrencyUnit,
     val pictureUri: Uri?,
-    val color: Int,
+    val color: Int?,
     val transferPeerParent: Long?,
     val status: Int,
-    val accountLabel: String,
-    val accountType: AccountType,
+    val accountLabel: String?,
+    val accountType: AccountType?,
     val tagList: String? = null,
     val year: Int,
     val month: Int,
@@ -101,24 +73,31 @@ data class Transaction2(
             KEY_TRANSFER_ACCOUNT,
             KEY_ACCOUNTID,
             KEY_METHODID,
-            PaymentMethod.localizedLabelSqlColumn(
-                context, KEY_METHOD_LABEL
-            ) + " AS " + KEY_METHOD_LABEL,
+            localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_CURRENCY,
             KEY_PICTURE_URI,
-            KEY_COLOR,
             "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT",
             KEY_STATUS,
-            KEY_ACCOUNT_LABEL,
-            KEY_ACCOUNT_TYPE,
             KEY_TAGLIST,
             KEY_PARENTID,
             "$YEAR AS $KEY_YEAR",
             "${getMonth()} AS $KEY_MONTH",
             "${getWeek()} AS $KEY_WEEK",
             "$DAY AS $KEY_DAY"
+        )
+
+        val additionalAggregateColumns = arrayOf(
+            KEY_COLOR,
+            KEY_ACCOUNT_LABEL,
+            KEY_ACCOUNT_TYPE,
+            "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
+        )
+
+        val additionGrandTotalColumns = arrayOf(
+            KEY_CURRENCY,
+            "${getAmountHomeEquivalent(VIEW_EXTENDED)} AS $KEY_EQUIVALENT_AMOUNT"
         )
 
         fun fromCursor(
@@ -166,14 +145,13 @@ data class Transaction2(
                     CrStatus.UNRECONCILED
                 ),
                 referenceNumber = getString(cursor, KEY_REFERENCE_NUMBER),
-                accountLabel = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
-                accountType = enumValueOrDefault(
-                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_TYPE)),
-                    AccountType.CASH
+                accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL),
+                accountType = enumValueOrNull<AccountType>(
+                    cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT),
                 tagList = cursor.getStringOrNull(KEY_TAGLIST),
-                color = cursor.getInt(KEY_COLOR),
+                color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
                 year = cursor.getInt(KEY_YEAR),
                 month = cursor.getInt(KEY_MONTH),

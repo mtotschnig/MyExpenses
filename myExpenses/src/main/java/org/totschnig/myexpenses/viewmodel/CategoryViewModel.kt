@@ -38,10 +38,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongIfExists
+import org.totschnig.myexpenses.provider.getLongIfExistsOr0
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -390,11 +390,11 @@ open class CategoryViewModel(
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
-                        val nextSum = cursor.getLongIfExists(KEY_SUM)
-                        val nextBudget = cursor.getLongIfExists(KEY_BUDGET)
-                        val nextBudgetRollOverPrevious = cursor.getLongIfExists(KEY_BUDGET_ROLLOVER_PREVIOUS)
-                        val nextBudgetRollOverNext = cursor.getLongIfExists(KEY_BUDGET_ROLLOVER_NEXT)
-                        val nextBudgetOneTime = cursor.getIntIfExists(KEY_ONE_TIME)
+                        val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)
+                        val nextBudget = cursor.getLongIfExistsOr0(KEY_BUDGET)
+                        val nextBudgetRollOverPrevious = cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_PREVIOUS)
+                        val nextBudgetRollOverNext = cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_NEXT)
+                        val nextBudgetOneTime = cursor.getIntIfExistsOr0(KEY_ONE_TIME) != 0
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()

@@ -6,19 +6,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -47,6 +51,12 @@ import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ComposeTransactionList
+import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
+import org.totschnig.myexpenses.compose.SelectionHandler
+import org.totschnig.myexpenses.compose.rememberMutableStateListOf
+import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
@@ -88,17 +98,23 @@ import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
+import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.io.File
 import java.io.Serializable
@@ -107,6 +123,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.sign
 
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
@@ -126,7 +143,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
 
     private fun moveToAccount() {
-        (viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 } ?: 0).let {
+        (viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }
+            ?: 0).let {
             if (pagerState.currentPage != it) {
                 lifecycleScope.launch {
                     pagerState.scrollToPage(it)
@@ -165,11 +183,83 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     val accountCount
         get() = viewModel.accountData.value.count { it.id > 0 }
 
-    private val accountGrouping: MutableState<AccountGrouping> = mutableStateOf(AccountGrouping.TYPE)
+    private val accountGrouping: MutableState<AccountGrouping> =
+        mutableStateOf(AccountGrouping.TYPE)
 
     lateinit var accountSort: Sort
 
     private val pagerState = PagerState(0)
+
+    private var actionMode: ActionMode? = null
+
+    fun finishActionMode() {
+        actionMode?.finish()
+    }
+
+    private val formattedSelectedTransactionSum
+        get() = currencyFormatter.convAmount(
+            viewModel.selectedTransactionSum,
+            currentAccount.currency
+        ).withAmountColor(
+            resources,
+            viewModel.selectedTransactionSum.sign
+        )
+
+    private fun updateActionModeTitle(selectionState: SnapshotStateList<Transaction2>) {
+        actionMode?.title = if (selectionState.size > 1) {
+            android.text.TextUtils.concat(
+                selectionState.size.toString(),
+                " (Σ: ",
+                formattedSelectedTransactionSum,
+                ")"
+            )
+        } else selectionState.size.toString()
+    }
+
+    private fun startActionMode(selectionState: SnapshotStateList<Transaction2>) {
+        if (actionMode == null) {
+            actionMode = startSupportActionMode(object : ActionMode.Callback {
+                override fun onCreateActionMode(
+                    mode: ActionMode,
+                    menu: Menu
+                ): Boolean {
+                    if(!currentAccount.sealed) {
+                        menu.add(
+                            Menu.NONE,
+                            R.id.DELETE_COMMAND,
+                            0,
+                            R.string.menu_delete
+                        ).setIcon(R.drawable.ic_menu_delete)
+                    }
+                    return true
+                }
+
+                override fun onPrepareActionMode(
+                    mode: ActionMode,
+                    menu: Menu
+                ): Boolean = true
+
+                override fun onActionItemClicked(
+                    mode: ActionMode,
+                    item: MenuItem
+                ): Boolean {
+                    return when (item.itemId) {
+                        R.id.DELETE_COMMAND -> {
+                            delete(selectionState)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+                override fun onDestroyActionMode(mode: ActionMode) {
+                    actionMode = null
+                    selectionState.clear()
+                }
+
+            })
+        }
+    }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -202,7 +292,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             val accountData = viewModel.accountData.collectAsState()
             AppTheme(context = this@BaseMyExpenses) {
                 LaunchedEffect(pagerState.currentPage) {
-                    setCurrentAccount(pagerState.currentPage)
+                    if (setCurrentAccount(pagerState.currentPage)) {
+                        finishActionMode()
+                        viewModel.selectedTransactionSum = 0L
+                    }
                 }
                 LaunchedEffect(accountData.value) {
                     moveToAccount()
@@ -213,12 +306,56 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     state = pagerState
                 ) { page ->
                     val account = derivedStateOf { accountData.value[page] }
-                    val data = remember(account.value.sortDirection) { viewModel.loadData(account.value) }
+                    val data =
+                        remember(account.value.sortDirection) { viewModel.loadData(account.value) }
                     val headerData = viewModel.headerData(account.value)
+                    val selectionState = rememberMutableStateListOf<Transaction2>()
+                    if (page == currentPage) {
+                        LaunchedEffect(selectionState.size) {
+                            if (selectionState.isNotEmpty()) {
+                                startActionMode(selectionState)
+                                updateActionModeTitle(selectionState)
+                            } else {
+                                finishActionMode()
+                            }
+                        }
+                    }
                     ComposeTransactionList(
                         pagingSourceFactory = data,
                         headerData = headerData.collectAsState(HeaderData.EMPTY).value,
-                        accountId = account.value.id
+                        accountId = account.value.id,
+                        selectionHandler = object : SelectionHandler {
+                            override fun toggle(transaction: Transaction2) {
+                                if (selectionState.toggle(transaction)) {
+                                    viewModel.selectedTransactionSum += transaction.amount.amountMinor
+                                } else {
+                                    viewModel.selectedTransactionSum -= transaction.amount.amountMinor
+                                }
+                            }
+
+                            override fun isSelected(transaction: Transaction2) = selectionState.contains(transaction)
+
+                            override val selectionCount: Int
+                                get() = selectionState.size
+
+                        },
+                        menuGenerator = remember {
+                            { transaction ->
+                                if (currentAccount.sealed) null else org.totschnig.myexpenses.compose.Menu(
+                                    listOfNotNull(
+                                        if (transaction.crStatus != CrStatus.VOID)
+                                            this@BaseMyExpenses.edit { edit(transaction) } else null,
+                                        MenuEntry(
+                                            icon = Icons.Filled.ContentCopy,
+                                            label = getString(R.string.menu_clone_transaction)
+                                        ) {
+                                            edit(transaction, true)
+                                        },
+                                        this@BaseMyExpenses.delete { delete(listOf(transaction)) }
+                                    )
+                                )
+                            }
+                        }
                     )
                 }
             }
@@ -293,6 +430,65 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                 )
             }
+        }
+    }
+
+    private fun edit(transaction: Transaction2, clone: Boolean = false) {
+        val isTransferPartPeer =
+            false //TODO DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null
+        checkSealed(listOf(transaction.id)) {
+            if (isTransferPartPeer) {
+                showSnackBar(R.string.warning_splitpartcategory_context)
+            } else {
+                val i = Intent(this, ExpenseEdit::class.java)
+                i.putExtra(KEY_ROWID, transaction.id)
+                if (clone) {
+                    i.putExtra(ExpenseEdit.KEY_CLONE, true)
+                }
+                startActivityForResult(i, EDIT_REQUEST)
+            }
+        }
+    }
+
+    private fun delete(transactions: List<Transaction2>) {
+        val hasReconciled = transactions.any { it.crStatus == CrStatus.RECONCILED }
+        val hasNotVoid = transactions.any { it.crStatus != CrStatus.VOID}
+        val itemIds = transactions.map { it.id }
+        checkSealed(itemIds) {
+            var message = resources.getQuantityString(
+                R.plurals.warning_delete_transaction,
+                transactions.size,
+                transactions.size
+            )
+            if (hasReconciled) {
+                message += " " + getString(R.string.warning_delete_reconciled)
+            }
+            val b = Bundle().apply {
+                putInt(
+                    ConfirmationDialogFragment.KEY_TITLE,
+                    R.string.dialog_title_warning_delete_transaction
+                )
+                putString(ConfirmationDialogFragment.KEY_MESSAGE, message)
+                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO)
+                putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                    R.id.CANCEL_CALLBACK_COMMAND
+                )
+                if (hasNotVoid) {
+                    putString(
+                        ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                        getString(R.string.mark_void_instead_of_delete)
+                    )
+                }
+                putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
+            }
+            showConfirmationDialog(b, "DELETE_TRANSACTION")
+        }
+    }
+
+    private fun showConfirmationDialog(bundle: Bundle?, tag: String) {
+        lifecycleScope.launchWhenResumed {
+            ConfirmationDialogFragment.newInstance(bundle).show(supportFragmentManager, tag)
         }
     }
 
@@ -722,13 +918,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun setCurrentAccount(position: Int) {
-        viewModel.accountData.value.getOrNull(position)?.let { account ->
+    /**
+     *  @return true if we have moved to a new account
+     */
+    private fun setCurrentAccount(position: Int): Boolean {
+        return viewModel.accountData.value.getOrNull(position)?.let { account ->
             val newAccountId = account.id
-            if (accountId != newAccountId) {
+            val changed = if (accountId != newAccountId) {
                 accountId = account.id
                 prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId)
-            }
+                true
+            } else false
             tintSystemUiAndFab(
                 if (newAccountId < 0) ResourcesCompat.getColor(
                     resources,
@@ -745,7 +945,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 floatingActionButton.show()
             }
             invalidateOptionsMenu()
-        }
+            changed
+        } ?: false
     }
 
     private fun setBalance(account: FullAccount) {
@@ -915,7 +1116,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun confirmAccountDelete(accountId: Long) {
+    private fun confirmAccountDelete(accountId: Long) {
         viewModel.account(accountId, once = true).observe(this) { account ->
             MessageDialogFragment.newInstance(
                 resources.getQuantityString(
@@ -939,7 +1140,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun setAccountSealed(accountId: Long, isSealed: Boolean) {
+    private fun setAccountSealed(accountId: Long, isSealed: Boolean) {
         if (isSealed) {
             viewModel.account(accountId, once = true).observe(this) { account ->
                 if (account.syncAccountName == null) {
@@ -961,7 +1162,37 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             return binding.accountPanel.expansionContent
         }
 
-    open fun buildCheckSealedHandler() = CheckSealedHandler(contentResolver)
+    open fun buildCheckSealedHandler() = lazy { CheckSealedHandler(contentResolver) }.value
+
+    private fun checkSealed(itemIds: List<Long>, onChecked: Runnable) {
+        buildCheckSealedHandler().check(itemIds) { result ->
+            lifecycleScope.launchWhenResumed {
+                result.onSuccess {
+                    if (it.first && it.second) {
+                        onChecked.run()
+                    } else {
+                        warnSealedAccount(!it.first, !it.second, itemIds.size > 1)
+                    }
+                }.onFailure {
+                    showSnackBar(it.safeMessage)
+                }
+            }
+        }
+    }
+
+    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean, multiple: Boolean) {
+        val resIds = mutableListOf<Int>()
+        if (multiple) {
+            resIds.add(R.string.warning_account_for_transaction_is_closed)
+        }
+        if (sealedAccount) {
+            resIds.add(R.string.object_sealed)
+        }
+        if (sealedDebt) {
+            resIds.add(R.string.object_sealed_debt)
+        }
+        showSnackBar(TextUtils.concatResStrings(this, " ", *resIds.toIntArray()))
+    }
 
     fun doReset() {
         //TODO

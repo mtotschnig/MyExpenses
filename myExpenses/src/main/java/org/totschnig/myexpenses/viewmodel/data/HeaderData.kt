@@ -6,8 +6,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getIntIfExists
-import org.totschnig.myexpenses.provider.getIntOrNull
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 
 data class HeaderData(val grouping: Grouping, val groups: Map<Int, HeaderRow>, val dateInfo: DateInfo2) {
@@ -89,8 +88,8 @@ data class HeaderRow(
             transferSum = cursor.getLong(KEY_SUM_TRANSFERS),
             previousBalance = previousBalance,
             mappedCategories = cursor.getLong(KEY_MAPPED_CATEGORIES) > 0,
-            weekStart = cursor.getIntIfExists(KEY_WEEK_START),
-            weekEnd = cursor.getIntIfExists(KEY_WEEK_END)
+            weekStart = cursor.getIntIfExistsOr0(KEY_WEEK_START),
+            weekEnd = cursor.getIntIfExistsOr0(KEY_WEEK_END)
         )
     }
 }

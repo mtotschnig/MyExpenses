@@ -48,7 +48,7 @@ fun Category(
     modifier: Modifier = Modifier,
     category: Category,
     expansionMode: ExpansionMode,
-    menuGenerator: @Composable (Category) -> Menu<Category>? = { null },
+    menuGenerator: (Category) -> Menu<Category>? = { null },
     selectedAncestor: Category? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
@@ -131,14 +131,14 @@ fun CategoryRenderer(
     category: Category,
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
-    menuGenerator: @Composable (Category) -> Menu<Category>?,
+    menuGenerator: (Category) -> Menu<Category>?,
     startPadding: Dp,
     onToggleSelection: () -> Unit,
     sumCurrency: CurrencyUnit?
 ) {
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
-    val menu = menuGenerator(category)
+    val menu = remember { menuGenerator(category) }
     Row(
         modifier = Modifier
             .height(48.dp)

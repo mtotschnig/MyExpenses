@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.compose
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -79,22 +80,21 @@ data class MenuEntry<T>(
         Either.Right(subMenu)
     )
     companion object {
-        @Composable
-        fun <T> delete(action: (T) -> Unit) = MenuEntry(
+        fun <T> Context.delete(action: (T) -> Unit) = MenuEntry(
             icon = Icons.Filled.Delete,
-            label = stringResource(id = R.string.menu_delete),
+            label = getString(R.string.menu_delete),
             action = action
         )
-        @Composable
-        fun <T> edit(action: (T) -> Unit) = MenuEntry(
+
+        fun <T> Context.edit(action: (T) -> Unit) = MenuEntry(
             icon = Icons.Filled.Edit,
-            label = stringResource(id = R.string.menu_edit),
+            label = getString(R.string.menu_edit),
             action = action
         )
-        @Composable
-        fun <T> toggle(isSealed: Boolean, action: (T) -> Unit) = MenuEntry(
+
+        fun <T> Context.toggle(isSealed: Boolean, action: (T) -> Unit) = MenuEntry(
             icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
-            label = stringResource(id = if (isSealed) R.string.menu_reopen else R.string.menu_close),
+            label = getString(if (isSealed) R.string.menu_reopen else R.string.menu_close),
             action = action
         )
     }

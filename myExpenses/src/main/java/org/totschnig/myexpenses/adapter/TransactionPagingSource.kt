@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.adapter
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.Context
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
@@ -18,7 +19,7 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 
-class TransactionPagingSource(val context: MyApplication, val account: FullAccount) :
+class TransactionPagingSource(val context: Context, val account: FullAccount) :
     PagingSource<Int, Transaction2>() {
 
     val contentResolver: ContentResolver
@@ -75,7 +76,7 @@ class TransactionPagingSource(val context: MyApplication, val account: FullAccou
             )?.use { cursor ->
                 Timber.i("Cursor size %d", cursor.count)
                 cursor.asSequence.map {
-                    Transaction2.fromCursor(context, it, context.appComponent.currencyContext())
+                    Transaction2.fromCursor(context, it, (context.applicationContext as MyApplication).appComponent.currencyContext())
                 }.toList()
             } ?: emptyList()
         }

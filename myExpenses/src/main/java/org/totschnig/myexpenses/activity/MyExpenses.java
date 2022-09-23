@@ -437,15 +437,6 @@ public class MyExpenses extends BaseMyExpenses implements
     return false;
   }
 
-  public void finishActionMode() {
-    if (getCurrentPosition() != -1) {
-      //TODO
-     /* ContextualActionBarFragment f = getCurrentFragment();
-      if (f != null)
-        f.finishActionMode();*/
-    }
-  }
-
   @Override
   public void contribFeatureNotCalled(@NonNull ContribFeature feature) {
     if (!DistributionHelper.isGithub() && feature == ContribFeature.AD_FREE) {

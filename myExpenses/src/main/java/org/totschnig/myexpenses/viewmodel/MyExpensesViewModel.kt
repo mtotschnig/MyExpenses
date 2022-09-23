@@ -51,6 +51,8 @@ class MyExpensesViewModel(application: Application) :
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
+    var selectedTransactionSum: Long = 0
+
     val selectedAccount: MutableState<Long> = mutableStateOf(0L)
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
@@ -77,7 +79,7 @@ class MyExpensesViewModel(application: Application) :
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     fun loadData(account: FullAccount): () -> TransactionPagingSource =
-        { TransactionPagingSource(getApplication(), account) }
+        { TransactionPagingSource(localizedContext, account) }
 
     fun headerData(account: FullAccount): Flow<HeaderData> {
         return contentResolver.observeQuery(uri = account.groupingUri()).map { query ->

@@ -369,7 +369,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                             add(
                                 MenuEntry(
                                     Icons.Filled.List,
-                                    stringResource(id = R.string.menu_show_transactions),
+                                    getString(R.string.menu_show_transactions),
                                     ::showTransactions
                                 )
                             )
@@ -378,7 +378,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                             add(
                                 MenuEntry(
                                     Icons.Filled.Palette,
-                                    stringResource(id = R.string.color)
+                                    getString(R.string.color)
                                 ) { category -> category.color?.let { editCategoryColor(category.id, it) } }
                             )
                     }

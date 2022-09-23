@@ -17,7 +17,7 @@ open class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
         fun onResult(result: Result<Pair<Boolean, Boolean>>)
     }
 
-    open fun check(itemIds: LongArray, listener: ResultListener) {
+    open fun check(itemIds: List<Long>, listener: ResultListener) {
         startQuery(
             TOKEN,
             listener,

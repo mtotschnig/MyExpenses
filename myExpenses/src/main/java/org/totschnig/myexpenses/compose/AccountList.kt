@@ -35,12 +35,16 @@ import androidx.compose.ui.unit.dp
 import dev.burnoo.compose.rememberpreference.rememberBooleanPreference
 import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 const val EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_"
 
@@ -172,6 +176,7 @@ fun AccountCard(
 ) {
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
+    val context = LocalContext.current
     isExpanded.value?.let {
         Column(
             modifier = (if (isSelected)
@@ -223,9 +228,9 @@ fun AccountCard(
                         })
                         if (account.id > 0) {
                             if (!account.sealed) {
-                                add(MenuEntry.edit { onEdit(it.id) })
+                                add(context.edit { onEdit(it.id) })
                             }
-                            add(MenuEntry.delete { onDelete(it.id) })
+                            add(context.delete { onDelete(it.id) })
                             add(MenuEntry(
                                 icon = Icons.Filled.VisibilityOff,
                                 label = stringResource(id = R.string.menu_hide)
@@ -234,7 +239,7 @@ fun AccountCard(
                             }
                             )
                             add(
-                                MenuEntry.toggle(account.sealed) {
+                                context.toggle(account.sealed) {
                                     onToggleSealed(it.id, !it.sealed)
                                 }
                             )
@@ -316,7 +321,8 @@ fun AccountPreview() {
             currentBalance = 1000,
             sumIncome = 2000,
             sumExpense = 1000,
-            sealed = true
+            sealed = true,
+            type = AccountType.CASH
         ),
         isExpanded = isExpanded
     )

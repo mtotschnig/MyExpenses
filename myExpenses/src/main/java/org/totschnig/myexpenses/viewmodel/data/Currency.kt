@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.util.Utils
 import java.io.Serializable
 import java.util.*
@@ -43,7 +43,7 @@ data class Currency(val code: String, val displayName: String, val usages: Int =
         fun create(cursor: Cursor, locale: Locale): Currency {
             val code = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CODE))
             val label = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL))
-            val usages = cursor.getIntIfExists(DatabaseConstants.KEY_USAGES)
+            val usages = cursor.getIntIfExistsOr0(DatabaseConstants.KEY_USAGES)
             return Currency(code, label ?: findDisplayName(code, locale), usages)
         }
 

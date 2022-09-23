@@ -42,6 +42,8 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
@@ -247,51 +249,57 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                     expansionMode = ExpansionMode.DefaultCollapsed(
                                         rememberMutableStateListOf()
                                     ),
-                                    menuGenerator = {
-                                        if (action == Action.SELECT_FILTER) null else Menu(
-                                            listOfNotNull(
-                                                if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false)
-                                                    MenuEntry(
-                                                        icon = Icons.Filled.Check,
-                                                        label = stringResource(id = R.string.select)
-                                                    ) {
-                                                        doSingleSelection(it)
-                                                    }
-                                                else null,
-                                                MenuEntry.edit { editCat(it) },
-                                                MenuEntry.delete { category ->
-                                                    if (category.flatten().map { it.id }
-                                                            .contains(protectionInfo?.id)) {
-                                                        showSnackBar(
-                                                            resources.getQuantityString(
-                                                                if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
-                                                                1,
-                                                                1
+                                    menuGenerator = remember {
+                                        {
+                                            if (action == Action.SELECT_FILTER) null else Menu(
+                                                listOfNotNull(
+                                                    if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false)
+                                                        MenuEntry(
+                                                            icon = Icons.Filled.Check,
+                                                            label = getString(R.string.select)
+                                                        ) {
+                                                            doSingleSelection(it)
+                                                        }
+                                                    else null,
+                                                    edit { editCat(it) },
+                                                    delete { category ->
+                                                        if (category.flatten().map { it.id }
+                                                                .contains(protectionInfo?.id)) {
+                                                            showSnackBar(
+                                                                resources.getQuantityString(
+                                                                    if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
+                                                                    1,
+                                                                    1
+                                                                )
                                                             )
-                                                        )
-                                                    } else {
-                                                        viewModel.deleteCategories(listOf(category.id))
-                                                    }
-                                                },
-                                                MenuEntry(
-                                                    icon = Icons.Filled.Add,
-                                                    label = stringResource(id = R.string.subcategory)
-                                                ) {
-                                                    if (it.level > 1) {
-                                                        contribFeatureRequested(
-                                                            ContribFeature.CATEGORY_TREE,
-                                                            it.id
-                                                        )
-                                                    } else {
-                                                        createCat(it.id)
-                                                    }
-                                                },
-                                                MenuEntry(
-                                                    icon = myiconpack.ArrowsAlt,
-                                                    label = stringResource(id = R.string.menu_move)
-                                                ) { showMoveTargetDialog(it) }
+                                                        } else {
+                                                            viewModel.deleteCategories(
+                                                                listOf(
+                                                                    category.id
+                                                                )
+                                                            )
+                                                        }
+                                                    },
+                                                    MenuEntry(
+                                                        icon = Icons.Filled.Add,
+                                                        label = getString(R.string.subcategory)
+                                                    ) {
+                                                        if (it.level > 1) {
+                                                            contribFeatureRequested(
+                                                                ContribFeature.CATEGORY_TREE,
+                                                                it.id
+                                                            )
+                                                        } else {
+                                                            createCat(it.id)
+                                                        }
+                                                    },
+                                                    MenuEntry(
+                                                        icon = myiconpack.ArrowsAlt,
+                                                        label = getString(R.string.menu_move)
+                                                    ) { showMoveTargetDialog(it) }
+                                                )
                                             )
-                                        )
+                                        }
                                     },
                                     choiceMode = choiceMode
                                 )
@@ -615,7 +623,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
      * presents AlertDialog for editing an existing category
      */
     open fun editCat(category: Category) {
-        viewModel.dialogState = CategoryViewModel.Show(id = category.id, label = category.label, icon = category.icon)
+        viewModel.dialogState =
+            CategoryViewModel.Show(id = category.id, label = category.label, icon = category.icon)
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {

@@ -243,7 +243,7 @@ class TransactionList : BaseTransactionList() {
     }
 
     override fun checkSealed(itemIds: LongArray, onChecked: Runnable) {
-        (requireActivity() as BaseMyExpenses).buildCheckSealedHandler().check(itemIds) { result ->
+       /* (requireActivity() as BaseMyExpenses).buildCheckSealedHandler().check(itemIds) { result ->
             lifecycleScope.launchWhenResumed {
                 result.onSuccess {
                     if (it.first && it.second) {
@@ -253,7 +253,7 @@ class TransactionList : BaseTransactionList() {
                     }
                 }.onFailure(showFailure)
             }
-        }
+        }*/
     }
 
     val showFailure: (exception: Throwable) -> Unit = {
