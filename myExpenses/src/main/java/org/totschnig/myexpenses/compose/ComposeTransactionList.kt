@@ -223,7 +223,7 @@ fun TransactionRenderer(
 ) {
     val showMenu = remember { mutableStateOf(false) }
     val description = buildAnnotatedString {
-        transaction.referenceNumber.takeIf { it.isNotEmpty() }?.let {
+        transaction.referenceNumber?.takeIf { it.isNotEmpty() }?.let {
             append("($it) ")
         }
         if (transaction.transferPeer != null) {

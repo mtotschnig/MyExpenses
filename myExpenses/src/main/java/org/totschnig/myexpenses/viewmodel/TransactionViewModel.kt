@@ -27,7 +27,7 @@ open class TransactionViewModel(application: Application) : TagHandlingViewModel
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId)
             InstantiationTask.FROM_INTENT_EXTRAS -> Pair(ProviderUtils.buildFromExtras(repository, extras!!), emptyList())
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(Transaction.getInstanceFromDb(transactionId))  {
-                Pair(Template(this, extras!!.getString(KEY_LABEL)), this.loadTags())
+                Pair(Template(this, payee ?: label), this.loadTags())
             }
         }?.also { pair ->
             if (forEdit) {

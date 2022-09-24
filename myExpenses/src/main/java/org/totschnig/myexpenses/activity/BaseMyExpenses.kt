@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -17,12 +16,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.core.content.res.ResourcesCompat
@@ -42,7 +36,6 @@ import eltos.simpledialogfragment.form.AmountEdit
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
-import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
 import icepick.State
@@ -50,40 +43,18 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
-import org.totschnig.myexpenses.compose.AccountList
-import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.ComposeTransactionList
-import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
-import org.totschnig.myexpenses.compose.SelectionHandler
-import org.totschnig.myexpenses.compose.rememberMutableStateListOf
-import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
-import org.totschnig.myexpenses.dialog.BalanceDialogFragment
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.ExportDialogFragment
-import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment
-import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
-import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.OcrHost
-import org.totschnig.myexpenses.feature.OcrResult
-import org.totschnig.myexpenses.feature.OcrResultFlat
+import org.totschnig.myexpenses.dialog.*
+import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.requireString
@@ -95,23 +66,12 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
-import org.totschnig.myexpenses.util.ContribUtils
-import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
-import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.viewmodel.AccountSealedException
-import org.totschnig.myexpenses.viewmodel.ExportViewModel
-import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
-import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
-import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
+import org.totschnig.myexpenses.viewmodel.*
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -125,10 +85,8 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.sign
 
-
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
-const val NEW_TEMPLATE_DIALOG = "dialogNewTempl"
 
 @OptIn(ExperimentalPagerApi::class)
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
@@ -439,31 +397,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun createTemplate(transaction: Transaction2) {
-        val label = transaction.payee ?: transaction.label
-        checkSealed(
-            listOf(transaction.id),
-            Runnable {
-                if (transaction.isSplit && !prefHandler.getBoolean(
-                        PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
-                        true
-                    )
-                ) {
-                    showContribDialog(ContribFeature.SPLIT_TEMPLATE, null)
-                } else {
-                    val args = Bundle()
-                    args.putLong(KEY_ROWID, transaction.id)
-                    SimpleInputDialog.build()
-                        .title(R.string.menu_create_template)
-                        .cancelable(false)
-                        .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                        .hint(R.string.title)
-                        .text(label)
-                        .extra(args)
-                        .pos(R.string.dialog_button_add)
-                        .neut()
-                        .show(this, NEW_TEMPLATE_DIALOG)
-                }
-            })
+        checkSealed(listOf(transaction.id)) {
+            if (transaction.isSplit && !prefHandler.getBoolean(
+                    PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
+                    true
+                )
+            ) {
+                showContribDialog(ContribFeature.SPLIT_TEMPLATE, null)
+            } else {
+                startActivity(Intent(this, ExpenseEdit::class.java).apply {
+                    putExtra(KEY_ROWID, transaction.id)
+                    putExtra(ExpenseEdit.KEY_TEMPLATE_FROM_TRANSACTION, true)
+                })
+            }
+        }
     }
 
     private fun edit(transaction: Transaction2, clone: Boolean = false) {
@@ -560,7 +507,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
         (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.first).toString()
 
-    override fun processOcrResult(result: Result<OcrResult>) {
+    override fun processOcrResult(result: kotlin.Result<OcrResult>) {
         result.onSuccess {
             if (it.needsDisambiguation()) {
                 SimpleFormDialog.build()
@@ -714,13 +661,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     )
                     return true
-                }
-                NEW_TEMPLATE_DIALOG -> {
-                    startActivity(Intent(this, ExpenseEdit::class.java).apply {
-                        putExtra(KEY_ROWID, extras.getLong(KEY_ROWID))
-                        putExtra(KEY_LABEL, extras.getString(SimpleInputDialog.TEXT))
-                        putExtra(ExpenseEdit.KEY_TEMPLATE_FROM_TRANSACTION, true)
-                    })
                 }
             }
         }
