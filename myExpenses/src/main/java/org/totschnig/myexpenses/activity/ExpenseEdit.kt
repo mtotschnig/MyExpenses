@@ -118,10 +118,7 @@ import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
 import org.totschnig.myexpenses.viewmodel.ERROR_WHILE_SAVING_TAGS
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.FROM_INTENT_EXTRAS
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TEMPLATE
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.*
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
@@ -320,7 +317,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                     }
                 }
             } else {
-                task = TRANSACTION
+                task = if (intent.getBooleanExtra(KEY_TEMPLATE_FROM_TRANSACTION, false)) TEMPLATE_FROM_TRANSACTION else TRANSACTION
             }
             mNewInstance = mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE
             //were we called from a notification
@@ -619,6 +616,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                     TRANSACTION, TEMPLATE -> "Object has been deleted from db"
                     TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
                     FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
+                    TEMPLATE_FROM_TRANSACTION -> "Unable to build template from transaction"
                 }
             )
         }
@@ -1457,6 +1455,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     companion object {
         const val KEY_NEW_TEMPLATE = "newTemplate"
         const val KEY_CLONE = "clone"
+        const val KEY_TEMPLATE_FROM_TRANSACTION = "templateFromTransaction"
         private const val KEY_CACHED_DATA = "cachedData"
         private const val KEY_CACHED_RECURRENCE = "cachedRecurrence"
         private const val KEY_CACHED_PICTURE_URI = "cachedPictureUri"

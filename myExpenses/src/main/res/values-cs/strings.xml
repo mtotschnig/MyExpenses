@@ -639,7 +639,6 @@
     <string name="onboarding_restore_from_cloud_backup">Zálohy</string>
     <string name="onboarding_restore_from_local">Obnovit místní zálohovací soubor</string>
     <string name="dialog_button_add">Přidat</string>
-    <string name="template_create_error">Chyba při ukládání šablony</string>
     <string name="contributed_by">Přispěno %s</string>
     <string name="pref_sync_notification_summary">Upozornit na průběh synchronizace</string>
     <string name="pref_debug_logging_summary">Zápis informací ladění do systémového protokolu</string>

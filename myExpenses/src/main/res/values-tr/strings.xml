@@ -625,7 +625,6 @@
     <string name="onboarding_restore_from_cloud_backup">Yedeklemeler</string>
     <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
     <string name="dialog_button_add">Ekle</string>
-    <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
     <string name="contributed_by">Katkıda bulunan: %s</string>
     <string name="pref_sync_notification_summary">Eşzamanlama ilerlemesi hakkında bildirim göster</string>
     <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem günlüğüne yaz</string>

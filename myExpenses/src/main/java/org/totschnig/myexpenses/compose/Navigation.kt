@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.compose
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -65,36 +64,36 @@ fun Navigation(
 data class Menu<T>(val entries: List<MenuEntry<T>>)
 data class MenuEntry<T>(
     val icon: ImageVector? = null,
-    val label: String,
+    val label: Int,
     val content: Either<(T) -> Unit, Menu<T>>
 ) {
-    constructor(icon: ImageVector? = null, label: String, action: (T) -> Unit) : this(
+    constructor(icon: ImageVector? = null, label: Int, action: (T) -> Unit) : this(
         icon,
         label,
         Either.Left(action)
     )
 
-    constructor(icon: ImageVector? = null, label: String, subMenu: Menu<T>) : this(
+    constructor(icon: ImageVector? = null, label: Int, subMenu: Menu<T>) : this(
         icon,
         label,
         Either.Right(subMenu)
     )
     companion object {
-        fun <T> Context.delete(action: (T) -> Unit) = MenuEntry(
+        fun <T> delete(action: (T) -> Unit) = MenuEntry(
             icon = Icons.Filled.Delete,
-            label = getString(R.string.menu_delete),
+            label = R.string.menu_delete,
             action = action
         )
 
-        fun <T> Context.edit(action: (T) -> Unit) = MenuEntry(
+        fun <T> edit(action: (T) -> Unit) = MenuEntry(
             icon = Icons.Filled.Edit,
-            label = getString(R.string.menu_edit),
+            label = R.string.menu_edit,
             action = action
         )
 
-        fun <T> Context.toggle(isSealed: Boolean, action: (T) -> Unit) = MenuEntry(
+        fun <T> toggle(isSealed: Boolean, action: (T) -> Unit) = MenuEntry(
             icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
-            label = getString(if (isSealed) R.string.menu_reopen else R.string.menu_close),
+            label = if (isSealed) R.string.menu_reopen else R.string.menu_close,
             action = action
         )
     }
@@ -143,13 +142,15 @@ private fun RowScope.EntryContent(entry: MenuEntry<*>, offset: Dp = 0.dp) {
     Spacer(modifier = Modifier.width(offset))
     entry.icon?.let {
         Icon(
-            modifier = Modifier.padding(end = 5.dp).size(24.dp),
+            modifier = Modifier
+                .padding(end = 5.dp)
+                .size(24.dp),
             imageVector = it,
             tint = LocalColors.current.iconTint,
             contentDescription = null
         )
     }
-    Text(text = entry.label, modifier = Modifier.weight(1f))
+    Text(text = stringResource(entry.label), modifier = Modifier.weight(1f))
 }
 
 @Composable
@@ -202,10 +203,10 @@ fun Activity() {
 fun EntryContent() {
     Column {
         DropdownMenuItem(onClick = {}) {
-            EntryContent(GenericMenuEntry(icon = Icons.Filled.Edit, label = "Edit") {})
+            EntryContent(GenericMenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit) {})
         }
         DropdownMenuItem(onClick = {}) {
-            EntryContent(GenericMenuEntry(icon = myiconpack.ArrowsAlt, label = "Move") {})
+            EntryContent(GenericMenuEntry(icon = myiconpack.ArrowsAlt, label = R.string.menu_move) {})
         }
     }
 }
@@ -213,16 +214,16 @@ fun EntryContent() {
 @Preview
 @Composable
 fun Overflow() {
-    fun emptyEntry(label: String) = GenericMenuEntry(label = label) {}
+    fun emptyEntry(label: Int) = GenericMenuEntry(label = label) {}
     OverFlowMenu(
         menu = Menu(
             entries = listOf(
-                emptyEntry("Option 1"),
+                emptyEntry(R.string.menu_learn_more),
                 MenuEntry(
-                    label = "Option 2", subMenu = Menu(
+                    label = R.string.menu_hide, subMenu = Menu(
                         entries = listOf(
-                            MenuEntry(icon = Icons.Filled.Edit, label = "Edit") {},
-                            MenuEntry(icon = myiconpack.ArrowsAlt, label = "Move") {}
+                            MenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit) {},
+                            MenuEntry(icon = myiconpack.ArrowsAlt, label = R.string.menu_move) {}
                         )
                     )
                 )

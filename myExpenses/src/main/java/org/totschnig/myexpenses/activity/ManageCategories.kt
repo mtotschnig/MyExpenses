@@ -256,7 +256,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                     if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false)
                                                         MenuEntry(
                                                             icon = Icons.Filled.Check,
-                                                            label = getString(R.string.select)
+                                                            label = R.string.select
                                                         ) {
                                                             doSingleSelection(it)
                                                         }
@@ -282,7 +282,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                     },
                                                     MenuEntry(
                                                         icon = Icons.Filled.Add,
-                                                        label = getString(R.string.subcategory)
+                                                        label = R.string.subcategory
                                                     ) {
                                                         if (it.level > 1) {
                                                             contribFeatureRequested(
@@ -295,7 +295,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                     },
                                                     MenuEntry(
                                                         icon = myiconpack.ArrowsAlt,
-                                                        label = getString(R.string.menu_move)
+                                                        label = R.string.menu_move
                                                     ) { showMoveTargetDialog(it) }
                                                 )
                                             )

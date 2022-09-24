@@ -45,18 +45,13 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
-import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
-import org.totschnig.myexpenses.util.ColorUtils
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -369,7 +364,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                             add(
                                 MenuEntry(
                                     Icons.Filled.List,
-                                    getString(R.string.menu_show_transactions),
+                                    R.string.menu_show_transactions,
                                     ::showTransactions
                                 )
                             )
@@ -378,7 +373,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                             add(
                                 MenuEntry(
                                     Icons.Filled.Palette,
-                                    getString(R.string.color)
+                                    R.string.color
                                 ) { category -> category.color?.let { editCategoryColor(category.id, it) } }
                             )
                     }

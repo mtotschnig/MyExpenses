@@ -1307,7 +1307,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         final Transaction transaction = Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID));
         Uri uri = transaction == null ? null : new Template(transaction, label).save();
         if (uri == null) {
-          ctx.showSnackBar(R.string.template_create_error);
+          //ctx.showSnackBar(R.string.template_create_error);
         } else {
           // show template edit activity
           Intent i = new Intent(ctx, ExpenseEdit.class);

@@ -262,4 +262,6 @@
     <string name="pref_web_ui_https_key">web_ui_https</string>
     <string name="pref_running_balance_key">running_balance</string>
     <string name="title_requery">Requery SQLite</string>
+    <string name="html">HTML</string>
+    <string name="txt">TXT</string>
 </resources>

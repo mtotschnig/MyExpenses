@@ -627,7 +627,6 @@
     <string name="onboarding_restore_from_cloud_backup">Kopie zapasowe</string>
     <string name="onboarding_restore_from_local">Przywróć lokalną kopię</string>
     <string name="dialog_button_add">Dodaj</string>
-    <string name="template_create_error">Błąd podczas zapisywania szablonu</string>
     <string name="contributed_by">Wniesione przez %s</string>
     <string name="pref_sync_notification_summary">Powiadamiaj o postępie synchronizacji</string>
     <string name="pref_debug_logging_summary">Zapisuj informacje debugowania w dzienniku systemowym</string>

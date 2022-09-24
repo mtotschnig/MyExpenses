@@ -111,7 +111,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                     menu = Menu(
                         listOf(
                             MenuEntry(
-                                label = stringResource(id = R.string.menu_help)
+                                label = R.string.menu_help
                             ) {
                                 startActivity(Intent(requireContext(), Help::class.java).apply {
                                     putExtra(HelpDialogFragment.KEY_CONTEXT, "SetupSync")

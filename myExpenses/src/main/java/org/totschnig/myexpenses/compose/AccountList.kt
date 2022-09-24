@@ -176,7 +176,7 @@ fun AccountCard(
 ) {
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
-    val context = LocalContext.current
+
     isExpanded.value?.let {
         Column(
             modifier = (if (isSelected)
@@ -222,24 +222,24 @@ fun AccountCard(
                     buildList {
                         add(MenuEntry(
                             icon = Icons.Filled.List,
-                            label = stringResource(id = R.string.menu_show_transactions)
+                            label = R.string.menu_show_transactions
                         ) {
                             onSelected()
                         })
                         if (account.id > 0) {
                             if (!account.sealed) {
-                                add(context.edit { onEdit(it.id) })
+                                add(edit { onEdit(it.id) })
                             }
-                            add(context.delete { onDelete(it.id) })
+                            add(delete { onDelete(it.id) })
                             add(MenuEntry(
                                 icon = Icons.Filled.VisibilityOff,
-                                label = stringResource(id = R.string.menu_hide)
+                                label = R.string.menu_hide
                             ) {
                                 onHide(it.id)
                             }
                             )
                             add(
-                                context.toggle(account.sealed) {
+                                toggle(account.sealed) {
                                     onToggleSealed(it.id, !it.sealed)
                                 }
                             )

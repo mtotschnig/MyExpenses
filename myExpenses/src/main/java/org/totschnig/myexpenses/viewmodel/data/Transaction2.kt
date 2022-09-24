@@ -3,24 +3,10 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.DbUtils.getLongOr0L
-import org.totschnig.myexpenses.provider.DbUtils.getString
-import org.totschnig.myexpenses.provider.FULL_LABEL
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getIntIfExists
-import org.totschnig.myexpenses.provider.getIntIfExistsOr0
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringIfExists
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
@@ -44,7 +30,7 @@ data class Transaction2(
     val methodId: Long?,
     val methodLabel: String?,
     val crStatus: CrStatus,
-    val referenceNumber: String,
+    val referenceNumber: String?,
     val currency: CurrencyUnit,
     val pictureUri: Uri?,
     val color: Int?,
@@ -58,6 +44,9 @@ data class Transaction2(
     val week: Int,
     val day: Int
 ) {
+
+    val isSplit: Boolean
+        get() = catId == SPLIT_CATID
 
     companion object {
         fun projection(context: Context) = arrayOf(
@@ -113,7 +102,7 @@ data class Transaction2(
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
 
             return Transaction2(
-                id = getLongOr0L(cursor, KEY_ROWID),
+                id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
                 amount = money,
                 date = epoch2ZonedDateTime(date),
                 valueDate = epoch2ZonedDateTime(valueDate),
@@ -144,7 +133,7 @@ data class Transaction2(
                     cursor.getString(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED
                 ),
-                referenceNumber = getString(cursor, KEY_REFERENCE_NUMBER),
+                referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
                 accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL),
                 accountType = enumValueOrNull<AccountType>(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),

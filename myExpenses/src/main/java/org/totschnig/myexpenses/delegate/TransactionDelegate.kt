@@ -765,6 +765,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     //TODO make getTypedNewInstance return non-null
+    //TODO Strict mode violation
     protected fun buildTemplate(accountId: Long) =
         Template.getTypedNewInstance(operationType, accountId, false, parentId)!!
 

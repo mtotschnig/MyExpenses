@@ -652,7 +652,6 @@
     <string name="onboarding_restore_from_cloud_backup">النسخ الاحتياطية</string>
     <string name="onboarding_restore_from_local">استعادة ملف النسخ الاحتياطي المحلي</string>
     <string name="dialog_button_add">إضافة</string>
-    <string name="template_create_error">خطأ أثناء حفظ النموذج</string>
     <string name="contributed_by">تمت المساهمة بواسطة %s</string>
     <string name="pref_sync_notification_summary">قم بالإخطار حول تقدم المزامنة المُحرز</string>
     <string name="pref_debug_logging_summary">اكتب معلومات التصحيح في سجل النظام</string>

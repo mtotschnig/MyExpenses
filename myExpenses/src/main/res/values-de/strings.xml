@@ -625,7 +625,6 @@
     <string name="onboarding_restore_from_cloud_backup">Datensicherungen</string>
     <string name="onboarding_restore_from_local">Wiederherstellung einer lokalen Sicherungsdatei</string>
     <string name="dialog_button_add">Hinzufügen</string>
-    <string name="template_create_error">Fehler beim Speichern der Vorlage</string>
     <string name="contributed_by">Beigetragen von %s</string>
     <string name="pref_sync_notification_summary">Über Fortschritt der Synchronisierung benachrichtigen</string>
     <string name="pref_debug_logging_summary">Debugging-Informationen in das Systemprotokoll schreiben</string>

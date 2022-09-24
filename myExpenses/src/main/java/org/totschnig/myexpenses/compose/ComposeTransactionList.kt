@@ -230,7 +230,7 @@ fun TransactionRenderer(
             transaction.accountLabel?.let { append("$it ") }
             append(Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor))
             transaction.label?.let { append(it) }
-        } else if (transaction.catId == DatabaseConstants.SPLIT_CATID) {
+        } else if (transaction.isSplit) {
             append(stringResource(id = R.string.split_transaction))
         } else if (transaction.catId == null && transaction.status != DatabaseConstants.STATUS_HELPER) {
             append(NO_CATEGORY_ASSIGNED_LABEL)
