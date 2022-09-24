@@ -56,15 +56,14 @@ fun Category(
     startPadding: Dp = 0.dp,
     sumCurrency: CurrencyUnit? = null
 ) {
+    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
+
     Column(
-        modifier = modifier.then(
-            if (choiceMode.isTreeSelected(category.id)) Modifier
-                .padding(2.dp)
-                .clip(RoundedCornerShape(15.dp))
-                .background(
-                    colorResource(id = R.color.activatedBackground)
-                ) else Modifier
-        )
+        modifier = modifier.conditional(choiceMode.isTreeSelected(category.id)) {
+            padding(2.dp)
+            .clip(RoundedCornerShape(15.dp))
+            .background(activatedBackgroundColor)
+        }
     ) {
         val filteredChildren =
             if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
@@ -136,6 +135,7 @@ fun CategoryRenderer(
     onToggleSelection: () -> Unit,
     sumCurrency: CurrencyUnit?
 ) {
+    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
     val menu = remember { menuGenerator(category) }
@@ -144,10 +144,9 @@ fun CategoryRenderer(
             .height(48.dp)
             .fillMaxWidth()
             .then(if (menu == null) {
-
-                if (choiceMode.isSelectable(category.id)) Modifier.clickable(
-                    onClick = onToggleSelection
-                ) else Modifier
+                Modifier.conditional(choiceMode.isSelectable(category.id)) {
+                    clickable(onClick = onToggleSelection)
+                }
             } else {
 
                 when (choiceMode) {
@@ -177,11 +176,9 @@ fun CategoryRenderer(
                 }
             }
             )
-            .then(
-                if (choiceMode.isNodeSelected(category.id))
-                    Modifier.background(colorResource(id = R.color.activatedBackground))
-                else Modifier
-            )
+            .conditional(choiceMode.isNodeSelected(category.id)) {
+                background(activatedBackgroundColor)
+            }
             .padding(end = 24.dp, start = startPadding)
             .semantics {
                 if (isExpanded) {

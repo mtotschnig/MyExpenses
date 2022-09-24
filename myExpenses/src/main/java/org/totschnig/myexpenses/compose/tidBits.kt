@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -54,3 +55,17 @@ fun ColorCircle(modifier: Modifier = Modifier, color: Color) {
             .background(color)
     )
 }
+fun Modifier.conditional(condition : Boolean, block : Modifier.() -> Modifier) = if (condition) {
+        then(block(this))
+    } else {
+        this
+    }
+
+fun Modifier.conditionalComposed(condition : Boolean, block : @Composable Modifier.() -> Modifier)  =
+    composed {
+        if (condition) {
+            then(block(this))
+        } else {
+            this
+        }
+    }

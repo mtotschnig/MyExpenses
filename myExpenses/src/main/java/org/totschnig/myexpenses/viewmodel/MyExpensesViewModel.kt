@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -237,4 +238,16 @@ class MyExpensesViewModel(application: Application) :
             )
         }
     }
+
+    fun undeleteTransactions(itemId: Long): LiveData<Int> =
+        liveData(context = coroutineContext()) {
+            emit(try {
+                    Transaction.undelete(itemId)
+                    1
+                } catch (e: SQLiteConstraintException) {
+                    CrashHandler.reportWithDbSchema(e)
+                    0
+                }
+            )
+        }
 }

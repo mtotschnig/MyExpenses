@@ -30,10 +30,7 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
-import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.compose.Menu
-import org.totschnig.myexpenses.compose.MenuEntry
-import org.totschnig.myexpenses.compose.OverFlowMenu
+import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel.SyncSource
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
@@ -234,9 +231,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                     Spacer(modifier = cell(1))
                 }
                 Icon(
-                    modifier = cell(2).then(
-                        if (linkState.value == SyncSource.COMPLETED) Modifier else Modifier.clickable {
-
+                    modifier = cell(2).conditional(linkState.value == SyncSource.COMPLETED) {
+                        clickable {
                             if (linkState.value == null) {
                                 if (item.isLocal && item.isRemote) {
                                     SimpleDialog.build()
@@ -256,8 +252,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                             } else {
                                 linkState.value = null
                             }
-                        },
-                    ),
+                        }
+                    },
                     painter = painterResource(id = if (linkState.value != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
                     contentDescription = stringResource(id = R.string.menu_sync_link)
                 )

@@ -3,18 +3,7 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -24,8 +13,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -43,17 +35,14 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.BaseTransactionList
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.viewmodel.data.*
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
-import org.totschnig.myexpenses.viewmodel.data.DateInfo
-import org.totschnig.myexpenses.viewmodel.data.DateInfo2
-import org.totschnig.myexpenses.viewmodel.data.HeaderData
-import org.totschnig.myexpenses.viewmodel.data.HeaderRow
-import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -256,6 +245,8 @@ fun TransactionRenderer(
             }
         }
     }
+    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
+    val voidMarkerHeight = with(LocalDensity.current) { 2.dp.toPx() }
     Row(modifier = modifier
         .height(IntrinsicSize.Min)
         .combinedClickable(
@@ -268,11 +259,15 @@ fun TransactionRenderer(
                 }
             }
         )
-        .then(
-            if (selectionHandler.isSelected(transaction))
-                Modifier.background(colorResource(id = R.color.activatedBackground))
-            else Modifier
-        )
+        .conditional(selectionHandler.isSelected(transaction)) {
+            background(activatedBackgroundColor)
+        }
+        .conditional(transaction.crStatus == CrStatus.VOID) {
+            drawWithContent {
+                drawContent()
+                drawLine(Color.Red, Offset(0F, size.height/2), Offset(size.width, size.height/2), voidMarkerHeight)
+            }
+        }
     ) {
         transaction.color?.let {
             Divider(

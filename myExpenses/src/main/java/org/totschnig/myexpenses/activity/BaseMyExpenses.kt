@@ -16,6 +16,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -314,7 +315,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         MenuEntry(
                                             icon = myiconpack.IcActionTemplateAdd,
                                             label = R.string.menu_create_template_from_transaction
-                                        ) { createTemplate(transaction) }
+                                        ) { createTemplate(transaction) },
+                                        if (transaction.crStatus == CrStatus.VOID)
+                                            MenuEntry(
+                                                icon = Icons.Filled.RestoreFromTrash,
+                                                label = R.string.menu_undelete_transaction
+                                            ) { undelete(transaction) } else null
                                     )
                                 )
                             }
@@ -392,6 +398,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         setAccountSealed(id, isSealed)
                     }
                 )
+            }
+        }
+    }
+
+    private fun undelete(transaction: Transaction2) {
+        checkSealed(listOf(transaction.id)) {
+            viewModel.undeleteTransactions(transaction.id).observe(this) { result: Int ->
+                if (result == 0) showDeleteFailureFeedback(null)
             }
         }
     }
