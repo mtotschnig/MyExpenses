@@ -1243,9 +1243,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
         addFilterCriteria(new TagCriteria(label, tagIds));
       }
-    } else if (requestCode == MAP_CATEGORY_REQUEST || requestCode == MAP_PAYEE_REQUEST
-        || requestCode == MAP_METHOD_REQUEST || requestCode == MAP_ACCOUNT_REQUEST) {
-      Bundle b = new Bundle();
+    } else if (false/*requestCode == MAP_CATEGORY_REQUEST || requestCode == MAP_PAYEE_REQUEST
+        || requestCode == MAP_METHOD_REQUEST || requestCode == MAP_ACCOUNT_REQUEST*/) {
+ /*       Bundle b = new Bundle();
       int columnStringResId, confirmationStringResId;
       String column;
       String intentKey = KEY_ROWID;
@@ -1268,7 +1268,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           confirmationStringResId = R.string.remap_method;
           break;
         }
-        case MAP_ACCOUNT_REQUEST: {
+      case MAP_ACCOUNT_REQUEST: {
           column = KEY_ACCOUNTID;
           columnStringResId = R.string.account;
           confirmationStringResId = R.string.remap_account;
@@ -1287,6 +1287,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       b.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, getString(R.string.menu_clone_transaction));
       b.putInt(KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
       showConfirmationDialog(b, REMAP_DIALOG);
+  */
     }
   }
 

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
@@ -14,23 +15,12 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AggregateAccount
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -43,6 +33,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -55,6 +46,8 @@ class MyExpensesViewModel(application: Application) :
     var selectedTransactionSum: Long = 0
 
     val selectedAccount: MutableState<Long> = mutableStateOf(0L)
+
+    val selectionState: MutableState<List<Transaction2>> = mutableStateOf(emptyList())
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts
@@ -249,5 +242,60 @@ class MyExpensesViewModel(application: Application) :
                     0
                 }
             )
+        }
+
+    private val cloneAndRemapProgressInternal = MutableLiveData<Pair<Int, Int>>()
+    val cloneAndRemapProgress: LiveData<Pair<Int, Int>>
+        get() = cloneAndRemapProgressInternal
+
+    fun cloneAndRemap(transactionIds: List<Long>, column: String, rowId: Long) {
+        viewModelScope.launch(coroutineDispatcher) {
+            var successCount = 0
+            var failureCount = 0
+            for (id in transactionIds) {
+                val transaction = Transaction.getInstanceFromDb(id)
+                transaction.prepareForEdit(true, false)
+                val ops = transaction.buildSaveOperations(true)
+                val newUpdate =
+                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
+                if (transaction.isSplit) {
+                    newUpdate.withSelection("$KEY_ROWID = ?", arrayOf(transaction.id.toString()))
+                } else {
+                    newUpdate.withSelection(
+                        "$KEY_ROWID = ?",
+                        arrayOf("")
+                    )//replaced by back reference
+                        .withSelectionBackReference(0, 0)
+                }
+                ops.add(newUpdate.build())
+                if (contentResolver.applyBatch(
+                        TransactionProvider.AUTHORITY,
+                        ops
+                    ).size == ops.size
+                ) {
+                    successCount++
+                } else {
+                    failureCount++
+                }
+                cloneAndRemapProgressInternal.postValue(Pair(successCount, failureCount))
+            }
+        }
+    }
+
+    fun remap(transactionIds: List<Long>, column: String, rowId: Long): LiveData<Int> =
+        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            emit(run {
+                val list = transactionIds.joinToString()
+                var selection = "$KEY_ROWID IN ($list)"
+                if (column == KEY_ACCOUNTID) {
+                    selection += " OR $KEY_PARENTID IN ($list)"
+                }
+                contentResolver.update(
+                    TRANSACTIONS_URI,
+                    ContentValues().apply { put(column, rowId) },
+                    selection,
+                    null
+                )
+            })
         }
 }

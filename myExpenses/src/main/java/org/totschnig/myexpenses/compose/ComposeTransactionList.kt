@@ -285,7 +285,7 @@ fun TransactionRenderer(
         )
         ColoredAmountText(money = transaction.amount)
         if (showMenu.value) {
-            remember(transaction.id) { menuGenerator(transaction) }?.let {
+            remember { menuGenerator(transaction) }?.let {
                 HierarchicalMenu(showMenu, it, transaction)
             }
         }

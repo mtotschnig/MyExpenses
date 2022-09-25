@@ -18,10 +18,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -50,8 +50,10 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.*
+import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
 import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
@@ -60,6 +62,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
+import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria
@@ -152,6 +155,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private var actionMode: ActionMode? = null
 
+    val selectionState
+        get() = viewModel.selectionState.value
+
     fun finishActionMode() {
         actionMode?.finish()
     }
@@ -165,7 +171,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.selectedTransactionSum.sign
         )
 
-    private fun updateActionModeTitle(selectionState: SnapshotStateList<Transaction2>) {
+    private fun updateActionModeTitle() {
         actionMode?.title = if (selectionState.size > 1) {
             android.text.TextUtils.concat(
                 selectionState.size.toString(),
@@ -176,7 +182,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         } else selectionState.size.toString()
     }
 
-    private fun startActionMode(selectionState: SnapshotStateList<Transaction2>) {
+    private fun startActionMode() {
         if (actionMode == null) {
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
@@ -184,12 +190,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     menu: Menu
                 ): Boolean {
                     if(!currentAccount.sealed) {
-                        menu.add(
-                            Menu.NONE,
-                            R.id.DELETE_COMMAND,
-                            0,
-                            R.string.menu_delete
-                        ).setIcon(R.drawable.ic_menu_delete)
+                        menuInflater.inflate(R.menu.transactionlist_context, menu)
                     }
                     return true
                 }
@@ -197,7 +198,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 override fun onPrepareActionMode(
                     mode: ActionMode,
                     menu: Menu
-                ): Boolean = true
+                ): Boolean {
+                    with(menu) {
+                        findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = accountCount > 1
+                        val hasTransfer = selectionState.any { it.isTransfer }
+                        val hasSplit = selectionState.any { it.isSplit }
+                        findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
+                        findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
+                        findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer
+                    }
+                    return true
+                }
 
                 override fun onActionItemClicked(
                     mode: ActionMode,
@@ -208,16 +219,128 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             delete(selectionState)
                             true
                         }
+                        R.id.REMAP_ACCOUNT_COMMAND -> {
+                            remapAccount(selectionState)
+                            true
+                        }
                         else -> false
                     }
                 }
 
                 override fun onDestroyActionMode(mode: ActionMode) {
                     actionMode = null
-                    selectionState.clear()
+                    viewModel.selectionState.value = emptyList()
                 }
 
             })
+        }
+    }
+
+    private fun remapAccount(transactions: List<Transaction2>) {
+        val itemIds = transactions.map { it.id }
+        checkSealed(itemIds) {
+            val transferAccountIds = transactions.mapNotNull { it.transferAccount }
+            val excludedIds = if (currentAccount.id > 0) transferAccountIds + currentAccount.id
+            else transferAccountIds
+            val splitIds = transactions.filter { it.isSplit }.map { it.id }
+            CheckTransferAccountOfSplitPartsHandler(contentResolver).check(splitIds) { result ->
+                lifecycleScope.launchWhenResumed {
+                    result.onSuccess {
+                        val dialogFragment =
+                            SelectSingleAccountDialogFragment.newInstance(
+                                R.string.menu_remap,
+                                R.string.remap_empty_list,
+                                excludedIds + it
+                            )
+                        dialogFragment.show(supportFragmentManager,"REMAP_ACCOUNT")
+                    }.onFailure {
+                        showSnackBar(it.safeMessage)
+                    }
+                }
+            }
+        }
+    }
+
+    private val mapFragmentResultListener =
+        FragmentResultListener { requestKey, result ->
+            val columnStringResId: Int
+            val confirmationStringResId: Int
+            val column: String
+            var intentKey = KEY_ROWID
+            when (requestKey) {
+                MAP_CATEGORY_REQUEST -> {
+                    intentKey = KEY_CATID
+                    column = intentKey
+                    columnStringResId = R.string.category
+                    confirmationStringResId = R.string.remap_category
+                }
+                MAP_PAYEE_REQUEST -> {
+                    intentKey = KEY_PAYEEID
+                    column = intentKey
+                    columnStringResId = R.string.payer_or_payee
+                    confirmationStringResId = R.string.remap_payee
+                }
+                MAP_METHOD_REQUEST -> {
+                    column = KEY_METHODID
+                    columnStringResId = R.string.method
+                    confirmationStringResId = R.string.remap_method
+                }
+                MAP_ACCOUNT_REQUEST -> {
+                    column = KEY_ACCOUNTID
+                    columnStringResId = R.string.account
+                    confirmationStringResId = R.string.remap_account
+                }
+                else -> throw IllegalStateException("Unexpected value: $requestKey")
+            }
+            showConfirmationDialog(Bundle().apply {
+                putString(BaseTransactionList.KEY_COLUMN, column)
+                putLong(KEY_ROWID, result.getLong(intentKey, 0))
+                putString(
+                    ConfirmationDialogFragment.KEY_TITLE_STRING,
+                    getString(R.string.dialog_title_confirm_remap, getString(columnStringResId))
+                )
+                putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap)
+                putInt(
+                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_CHECKED_LABEL,
+                    R.string.button_label_clone_and_remap
+                )
+                putInt(
+                    ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
+                    android.R.string.cancel
+                )
+                putString(
+                    ConfirmationDialogFragment.KEY_MESSAGE, getString(
+                        confirmationStringResId, result.getString(KEY_LABEL)
+                    ) + " " + getString(R.string.continue_confirmation)
+                )
+                putString(
+                    ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                    getString(R.string.menu_clone_transaction)
+                )
+                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND)
+            }, BaseTransactionList.REMAP_DIALOG)
+        }
+
+    open fun remap(extras: Bundle, shouldClone: Boolean) {
+        val checkedItemIds = selectionState.map { it.id }
+        val column = extras.getString(BaseTransactionList.KEY_COLUMN) ?: return
+        if (shouldClone) {
+            val progressDialog = ProgressDialogFragment.newInstance(
+                getString(R.string.saving), null, ProgressDialog.STYLE_HORIZONTAL, false
+            )
+            progressDialog.max = checkedItemIds.size
+            supportFragmentManager
+                .beginTransaction()
+                .add(progressDialog, PROGRESS_TAG)
+                .commit()
+            viewModel.cloneAndRemap(checkedItemIds, column, extras.getLong(KEY_ROWID))
+        } else {
+            viewModel.remap(checkedItemIds, column, extras.getLong(KEY_ROWID))
+                .observe(this, androidx.lifecycle.Observer { result: Int ->
+                    val message =
+                        if (result > 0) getString(R.string.remapping_result) else "No transactions were mapped"
+                    showSnackBar(message)
+                })
         }
     }
 
@@ -269,12 +392,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     val data =
                         remember(account.value.sortDirection) { viewModel.loadData(account.value) }
                     val headerData = viewModel.headerData(account.value)
-                    val selectionState = rememberMutableStateListOf<Transaction2>()
                     if (page == currentPage) {
                         LaunchedEffect(selectionState.size) {
                             if (selectionState.isNotEmpty()) {
-                                startActionMode(selectionState)
-                                updateActionModeTitle(selectionState)
+                                startActionMode()
+                                updateActionModeTitle()
                             } else {
                                 finishActionMode()
                             }
@@ -286,7 +408,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         accountId = account.value.id,
                         selectionHandler = object : SelectionHandler {
                             override fun toggle(transaction: Transaction2) {
-                                if (selectionState.toggle(transaction)) {
+                                if (viewModel.selectionState.toggle(transaction)) {
                                     viewModel.selectedTransactionSum += transaction.amount.amountMinor
                                 } else {
                                     viewModel.selectedTransactionSum -= transaction.amount.amountMinor
@@ -301,7 +423,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         },
                         menuGenerator = remember {
                             { transaction ->
-                                if (currentAccount.sealed) null else org.totschnig.myexpenses.compose.Menu(
+                                if (viewModel.accountData.value.first { it.id == transaction.accountId }.sealed) null else Menu(
                                     listOfNotNull(
                                         if (transaction.crStatus != CrStatus.VOID)
                                             edit { edit(transaction) } else null,
@@ -398,6 +520,33 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         setAccountSealed(id, isSealed)
                     }
                 )
+            }
+        }
+        supportFragmentManager.setFragmentResultListener(MAP_ACCOUNT_REQUEST, this, mapFragmentResultListener)
+        viewModel.cloneAndRemapProgress.observe(
+            this
+        ) { (first, second): Pair<Int, Int> ->
+            val progressDialog =
+                supportFragmentManager.findFragmentByTag(PROGRESS_TAG) as? ProgressDialogFragment
+            val totalProcessed = first + second
+            if (progressDialog != null) {
+                if (totalProcessed < progressDialog.max) {
+                    progressDialog.setProgress(totalProcessed)
+                } else {
+                    if (second == 0) {
+                        showSnackBar(R.string.clone_and_remap_result)
+                    } else {
+                        showSnackBar(
+                            String.format(
+                                Locale.ROOT,
+                                "%d out of %d failed",
+                                second,
+                                totalProcessed
+                            )
+                        )
+                    }
+                    supportFragmentManager.beginTransaction().remove(progressDialog).commit()
+                }
             }
         }
     }

@@ -369,21 +369,21 @@ class TransactionList : BaseTransactionList() {
             checkSealed(itemIds) {
                 val i = Intent(activity, ManageCategories::class.java)
                 i.action = ACTION_SELECT_MAPPING
-                startActivityForResult(i, MAP_CATEGORY_REQUEST)
+                //startActivityForResult(i, MAP_CATEGORY_REQUEST)
             }
             return true
         } else if (command == R.id.MAP_TAG_COMMAND) {
             checkSealed(itemIds) {
                 val i = Intent(activity, ManageTags::class.java)
                 i.action = ACTION_SELECT_MAPPING
-                startActivityForResult(i, MAP_TAG_REQUEST)
+                //startActivityForResult(i, MAP_TAG_REQUEST)
             }
             return true
         } else if (command == R.id.REMAP_PAYEE_COMMAND) {
             checkSealed(itemIds) {
                 val i = Intent(activity, ManageParties::class.java)
                 i.action = ACTION_SELECT_MAPPING
-                startActivityForResult(i, MAP_PAYEE_REQUEST)
+                //startActivityForResult(i, MAP_PAYEE_REQUEST)
             }
             return true
         } else if (command == R.id.REMAP_METHOD_COMMAND) {
@@ -417,7 +417,7 @@ class TransactionList : BaseTransactionList() {
                         accountTypes.toTypedArray(),
                         type
                     )
-                    dialogFragment.setTargetFragment(this@TransactionList, MAP_METHOD_REQUEST)
+                    //dialogFragment.setTargetFragment(this@TransactionList, MAP_METHOD_REQUEST)
                     dialogFragment.show(requireActivity().supportFragmentManager, "REMAP_METHOD")
                 }
             }
@@ -465,10 +465,10 @@ class TransactionList : BaseTransactionList() {
                                     R.string.remap_empty_list,
                                     excludedIds
                                 )
-                            dialogFragment.setTargetFragment(
+/*                            dialogFragment.setTargetFragment(
                                 this@TransactionList,
                                 MAP_ACCOUNT_REQUEST
-                            )
+                            )*/
                             dialogFragment.show(
                                 requireActivity().supportFragmentManager,
                                 "REMAP_ACCOUNT"

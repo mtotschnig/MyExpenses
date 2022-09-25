@@ -48,6 +48,9 @@ data class Transaction2(
     val isSplit: Boolean
         get() = catId == SPLIT_CATID
 
+    val isTransfer: Boolean
+        get() = transferPeer != null
+
     companion object {
         fun projection(context: Context) = arrayOf(
             KEY_ROWID,

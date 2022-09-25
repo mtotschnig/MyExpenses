@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -40,5 +41,13 @@ fun <T> MutableList<T>.toggle(element: T) = if (contains(element)) {
     false
 } else {
     add(element)
+    true
+}
+
+fun <T> MutableState<List<T>>.toggle(element: T) = if (value.contains(element)) {
+    value = value - element
+    false
+} else {
+    value = value + element
     true
 }

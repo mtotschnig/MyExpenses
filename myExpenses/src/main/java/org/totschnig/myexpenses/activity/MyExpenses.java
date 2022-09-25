@@ -553,8 +553,7 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.BALANCE_COMMAND_DO) {
       balance(args.getLong(KEY_ROWID), checked);
     } else if (command == R.id.REMAP_COMMAND) {
-      //TODO
-      //getCurrentFragment().remap(args, checked);
+      remap(args, checked);
     } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
       finishActionMode();
       startTaskExecution(TASK_SPLIT, args, R.string.saving);

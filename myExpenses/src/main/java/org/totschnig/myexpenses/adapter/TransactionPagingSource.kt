@@ -70,7 +70,7 @@ class TransactionPagingSource(val context: Context, val account: FullAccount) :
                     )
                     .build(),
                 projection,
-                selection,
+                "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
                 selectionArgs,
                 "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
             )?.use { cursor ->
