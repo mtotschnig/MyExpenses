@@ -315,11 +315,7 @@ public class MyExpenses extends BaseMyExpenses implements
 
   @Override
   public void addFilterCriteria(@NotNull Criteria c) {
-    //TODO
-    /*TransactionList tl = getCurrentFragment();
-    if (tl != null) {
-      tl.addFilterCriteria(c);
-    }*/
+    getViewModel().addFilterCriteria(c, getCurrentAccount().getId());
   }
 
   /**

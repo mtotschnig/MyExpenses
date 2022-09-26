@@ -59,17 +59,19 @@ data class FullAccount(
                     Transaction2.additionalAggregateColumns + Transaction2.additionGrandTotalColumns
             else -> Transaction2.projection(context) + Transaction2.additionalAggregateColumns
         }
-        val selection = when {
-            !isAggregate -> "$KEY_ACCOUNTID = ?"
-            isHomeAggregate -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"
-            else -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_EXCLUDE_FROM_TOTALS = 0)"
-        }
-        val selectionArgs = when {
-            !isAggregate -> arrayOf(id.toString())
-            isHomeAggregate -> null
-            else -> arrayOf(currency.code)
-        }
         return Tuple4(uri, projection, selection, selectionArgs)
+    }
+
+    val selection = when {
+        !isAggregate -> "$KEY_ACCOUNTID = ?"
+        isHomeAggregate -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"
+        else -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_EXCLUDE_FROM_TOTALS = 0)"
+    }
+
+    val selectionArgs = when {
+        !isAggregate -> arrayOf(id.toString())
+        isHomeAggregate -> null
+        else -> arrayOf(currency.code)
     }
 
     fun groupingUri(): Uri =

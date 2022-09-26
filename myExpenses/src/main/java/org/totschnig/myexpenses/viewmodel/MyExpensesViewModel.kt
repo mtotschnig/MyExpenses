@@ -8,11 +8,15 @@ import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -28,6 +32,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
+import org.totschnig.myexpenses.provider.filter.Criteria
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -38,21 +44,44 @@ import org.totschnig.myexpenses.viewmodel.data.Transaction2
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
 
-class MyExpensesViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+class MyExpensesViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
-    var selectedTransactionSum: Long = 0
-
-    val selectedAccount: MutableState<Long> = mutableStateOf(0L)
+    var selectedTransactionSum: Long
+        get() = savedStateHandle["selectedTransactionSum"] ?: 0
+        set(value)  { savedStateHandle["selectedTransactionSum"] = value }
 
     @OptIn(SavedStateHandleSaveableApi::class)
-    var selectionState: MutableState<List<Transaction2>> = savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
+    val selectedAccount: MutableState<Long> = savedStateHandle.saveable("selectedAccount") { mutableStateOf(0L) }
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    val selectionState: MutableState<List<Transaction2>> = savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts
     }
+
+    @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
+    val pagerState = savedStateHandle.saveable("pagerState",
+        saver = Saver(
+            save = { it.currentPage },
+            restore = { PagerState(it) }
+        )
+    ) {
+        PagerState(0) }
+
+    val filterPersistence: Map<Long, MutableStateFlow<FilterPersistence>> =
+        lazyMap {
+            MutableStateFlow(FilterPersistence(
+                prefHandler,
+                keyTemplate = prefNameForCriteria(accountId = it),
+                savedInstanceState = null,
+                immediatePersist = true,
+                restoreFromPreferences = true
+            ))
+        }
 
     //TODO Safe mode
 /*    if (cursor == null) {
@@ -73,11 +102,14 @@ class MyExpensesViewModel(application: Application, val savedStateHandle: SavedS
         FullAccount.fromCursor(it, currencyContext)
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun loadData(account: FullAccount): () -> TransactionPagingSource =
-        { TransactionPagingSource(localizedContext, account) }
+    fun loadData(account: FullAccount): () -> TransactionPagingSource {
+        return { TransactionPagingSource(localizedContext, account,
+            filterPersistence.getValue(account.id), viewModelScope
+        ) }
+    }
 
-    fun headerData(account: FullAccount): Flow<HeaderData> {
-        return contentResolver.observeQuery(uri = account.groupingUri()).map { query ->
+    fun headerData(account: FullAccount): Flow<HeaderData> =
+        contentResolver.observeQuery(uri = account.groupingUri()).map { query ->
             withContext(Dispatchers.IO) {
                 query.run()?.use { cursor ->
                     HeaderData.fromSequence(account, cursor.asSequence)
@@ -86,6 +118,13 @@ class MyExpensesViewModel(application: Application, val savedStateHandle: SavedS
         }.combine(dateInfo) { headerData, dateInfo ->
             HeaderData(account.grouping, headerData, dateInfo)
         }
+
+    fun sumInfo(account: FullAccount): Flow<SumInfo> = contentResolver.observeQuery(
+        uri = TRANSACTIONS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS, "1").build(),
+        selection = account.selection,
+        selectionArgs = account.selectionArgs
+    ).mapToOne {
+        SumInfoLoaded.fromCursor(it)
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
@@ -311,4 +350,17 @@ class MyExpensesViewModel(application: Application, val savedStateHandle: SavedS
         }
     }
 
+    fun addFilterCriteria(c: Criteria, id: Long) {
+        filterPersistence[id]?.let {
+            it.update {
+                it.also {
+                    it.addCriteria(c)
+                }
+            }
+        }
+    }
+
+    companion object {
+        fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
+    }
 }

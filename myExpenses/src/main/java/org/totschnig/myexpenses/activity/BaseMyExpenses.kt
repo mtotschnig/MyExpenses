@@ -26,7 +26,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -101,25 +100,25 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             moveToAccount()
         }
 
-    private fun moveToAccount() {
-        (viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }
-            ?: 0).let {
-            if (pagerState.currentPage != it) {
+    private fun moveToAccount(): Boolean {
+        return viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }?.let {
+            if (viewModel.pagerState.currentPage != it) {
                 lifecycleScope.launch {
-                    pagerState.scrollToPage(it)
+                    viewModel.pagerState.scrollToPage(it)
                 }
             } else {
                 setCurrentAccount(it)
             }
-        }
+            true
+        } ?: false
     }
 
     val currentAccount: FullAccount
-        get() = viewModel.accountData.value[pagerState.currentPage]
+        get() = viewModel.accountData.value[viewModel.pagerState.currentPage]
 
     var currentCurrency: String? = null
 
-    val currentCurrencyUnit: CurrencyUnit?
+    private val currentCurrencyUnit: CurrencyUnit?
         get() = currentCurrency?.let { currencyContext.get(it) }
 
     @Inject
@@ -147,8 +146,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var accountSort: Sort
 
-    private val pagerState = PagerState(0)
-
     private var actionMode: ActionMode? = null
 
     var selectionState
@@ -157,8 +154,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.selectionState.value = value
         }
 
+    private var sumInfo: SumInfo = SumInfoUnknown
+        set(value) {
+            field = value
+            invalidateOptionsMenu()
+        }
+
     fun finishActionMode() {
-        actionMode?.finish()
+        actionMode?.let {
+            it.finish()
+            viewModel.selectedTransactionSum = 0L
+        }
     }
 
     private val formattedSelectedTransactionSum
@@ -260,23 +266,32 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         toolbar = setupToolbar(false)
-        accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
+        if (savedInstanceState == null) {
+            accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
+        }
         binding.viewPagerMain.viewPager.setContent {
             val accountData = viewModel.accountData.collectAsState()
             AppTheme(context = this@BaseMyExpenses) {
-                LaunchedEffect(pagerState.currentPage) {
-                    if (setCurrentAccount(pagerState.currentPage)) {
+                LaunchedEffect(viewModel.pagerState.currentPage) {
+                    if (setCurrentAccount(viewModel.pagerState.currentPage)) {
                         finishActionMode()
-                        viewModel.selectedTransactionSum = 0L
+                        sumInfo = SumInfoUnknown
+                        viewModel.sumInfo(currentAccount).collect {
+                            sumInfo = it
+                        }
                     }
                 }
                 LaunchedEffect(accountData.value) {
-                    moveToAccount()
+                    if (moveToAccount()) {
+                        viewModel.sumInfo(currentAccount).collect {
+                            sumInfo = it
+                        }
+                    }
                 }
                 HorizontalPager(
                     verticalAlignment = Alignment.Top,
                     count = accountData.value.count(),
-                    state = pagerState
+                    state = viewModel.pagerState
                 ) { page ->
                     val account = derivedStateOf { accountData.value[page] }
                     val data =
@@ -390,7 +405,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     selectedAccount = accountId,
                     onSelected = {
                         lifecycleScope.launch {
-                            pagerState.scrollToPage(it)
+                            viewModel.pagerState.scrollToPage(it)
                         }
                         closeDrawer()
                     },
@@ -916,7 +931,49 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+        val searchMenu = menu.findItem(R.id.SEARCH_COMMAND)
 
+        val sumInfoIsLoaded = sumInfo is SumInfoLoaded
+        Utils.menuItemSetEnabledAndVisible(searchMenu, sumInfoIsLoaded)
+
+        (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
+            //searchMenu.isChecked = !getFilter().isEmpty()
+            checkMenuIcon(searchMenu)
+            val filterMenu = searchMenu.subMenu!!
+            for (i in 0 until filterMenu.size()) {
+                val filterItem = filterMenu.getItem(i)
+                var enabled = true
+                when (filterItem.itemId) {
+                    R.id.FILTER_CATEGORY_COMMAND -> {
+                        enabled = sumInfo.mappedCategories
+                    }
+                    R.id.FILTER_STATUS_COMMAND -> {
+                        enabled = currentAccount.isAggregate || currentAccount.type != AccountType.CASH
+                    }
+                    R.id.FILTER_PAYEE_COMMAND -> {
+                        enabled = sumInfo.mappedPayees
+                    }
+                    R.id.FILTER_METHOD_COMMAND -> {
+                        enabled = sumInfo.mappedMethods
+                    }
+                    R.id.FILTER_TRANSFER_COMMAND -> {
+                        enabled = sumInfo.hasTransfers
+                    }
+                    R.id.FILTER_TAG_COMMAND -> {
+                        enabled = sumInfo.hasTags
+                    }
+                    R.id.FILTER_ACCOUNT_COMMAND -> {
+                        enabled = currentAccount.isAggregate
+                    }
+                }
+                val c: Criteria? = null //getFilter().get(filterItem.itemId)
+                Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null)
+                if (c != null) {
+                    filterItem.isChecked = true
+                    filterItem.title = c.prettyPrint(this)
+                }
+            }
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -957,8 +1014,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     /**
      *  @return true if we have moved to a new account
      */
-    private fun setCurrentAccount(position: Int): Boolean {
-        return viewModel.accountData.value.getOrNull(position)?.let { account ->
+    private fun setCurrentAccount(position: Int) =
+        viewModel.accountData.value.getOrNull(position)?.let { account ->
             val newAccountId = account.id
             val changed = if (accountId != newAccountId) {
                 accountId = account.id
@@ -983,7 +1040,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             invalidateOptionsMenu()
             changed
         } ?: false
-    }
 
     private fun setBalance(account: FullAccount) {
         val isHome = account.id == HOME_AGGREGATE_ID

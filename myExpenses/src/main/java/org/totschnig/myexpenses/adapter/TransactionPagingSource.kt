@@ -7,27 +7,39 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 
-class TransactionPagingSource(val context: Context, val account: FullAccount) :
+class TransactionPagingSource(
+    val context: Context,
+    val account: FullAccount,
+    val filterPersistence: StateFlow<FilterPersistence>,
+    val coroutineScope: CoroutineScope
+    ) :
     PagingSource<Int, Transaction2>() {
 
     val contentResolver: ContentResolver
         get() = context.contentResolver
     private val uri: Uri
     private val projection: Array<String>
-    private val selection: String
-    private val selectionArgs: Array<String>?
+    private var selection: String
+    private var selectionArgs: Array<String>?
 
     init {
         account.loadingInfo(context).also {
@@ -47,6 +59,11 @@ class TransactionPagingSource(val context: Context, val account: FullAccount) :
             true,
             observer
         )
+        coroutineScope.launch {
+            filterPersistence.drop(1).collect {
+                invalidate()
+            }
+        }
     }
 
     override fun getRefreshKey(state: PagingState<Int, Transaction2>): Int? {
@@ -57,6 +74,15 @@ class TransactionPagingSource(val context: Context, val account: FullAccount) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         val pageNumber = params.key ?: 0
         Timber.i("Requesting pageNumber %d", pageNumber)
+        val filter = filterPersistence.value?.whereFilter
+        if (filter?.isEmpty == false) {
+            val selectionForParents = filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
+            if (selectionForParents.isNotEmpty()) {
+                selection += " AND "
+                selection += selectionForParents
+                selectionArgs = (selectionArgs ?: emptyArray()) + filter.getSelectionArgs(false)
+            }
+        }
         val data = withContext(Dispatchers.IO) {
             contentResolver.query(
                 uri.buildUpon()

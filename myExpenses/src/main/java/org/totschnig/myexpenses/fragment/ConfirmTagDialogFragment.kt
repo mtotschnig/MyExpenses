@@ -7,7 +7,6 @@ import androidx.fragment.app.setFragmentResult
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.TagHandler.Companion.CONFIRM_MAP_TAG_REQUEST
 import org.totschnig.myexpenses.viewmodel.data.Tag
 

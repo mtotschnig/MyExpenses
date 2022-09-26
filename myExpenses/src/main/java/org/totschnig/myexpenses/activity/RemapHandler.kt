@@ -126,6 +126,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                         showSnackBar(message)
                     }
             }
+            finishActionMode()
         }
     }
 
