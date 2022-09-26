@@ -7,11 +7,11 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
@@ -34,11 +34,13 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadWriteProperty
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
 
-class MyExpensesViewModel(application: Application) :
+class MyExpensesViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
@@ -47,7 +49,8 @@ class MyExpensesViewModel(application: Application) :
 
     val selectedAccount: MutableState<Long> = mutableStateOf(0L)
 
-    val selectionState: MutableState<List<Transaction2>> = mutableStateOf(emptyList())
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var selectionState: MutableState<List<Transaction2>> = savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts

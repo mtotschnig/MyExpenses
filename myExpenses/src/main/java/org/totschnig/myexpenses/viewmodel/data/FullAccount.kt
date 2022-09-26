@@ -54,19 +54,19 @@ data class FullAccount(
         }
         val uri = builder.build()
         val projection = when {
-            id > 0 -> Transaction2.projection(context)
-            isHomeAggregate() -> Transaction2.projection(context) +
+            !isAggregate -> Transaction2.projection(context)
+            isHomeAggregate -> Transaction2.projection(context) +
                     Transaction2.additionalAggregateColumns + Transaction2.additionGrandTotalColumns
             else -> Transaction2.projection(context) + Transaction2.additionalAggregateColumns
         }
         val selection = when {
-            id > 0 -> "$KEY_ACCOUNTID = ?"
-            isHomeAggregate() -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"
+            !isAggregate -> "$KEY_ACCOUNTID = ?"
+            isHomeAggregate -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"
             else -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_EXCLUDE_FROM_TOTALS = 0)"
         }
         val selectionArgs = when {
-            id > 0 -> arrayOf(id.toString())
-            isHomeAggregate() -> null
+            !isAggregate -> arrayOf(id.toString())
+            isHomeAggregate -> null
             else -> arrayOf(currency.code)
         }
         return Tuple4(uri, projection, selection, selectionArgs)
@@ -77,14 +77,14 @@ data class FullAccount(
                 .appendPath(grouping.name).apply {
                     if (id > 0) {
                         appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                    } else if (!isHomeAggregate()) {
+                    } else if (!isHomeAggregate) {
                         appendQueryParameter(KEY_CURRENCY, currency.code)
                     }
                 }.build()
 
-    private fun isHomeAggregate(): Boolean {
-        return id == Account.HOME_AGGREGATE_ID
-    }
+    val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
+
+    val isAggregate get() = id < 0
 
     companion object {
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = FullAccount(

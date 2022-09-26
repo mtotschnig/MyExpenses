@@ -185,12 +185,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 FILTER_CATEGORY_REQUEST -> {
                     intent?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
-                            intent.getLongExtra(KEY_CATID, 0).takeIf { it > 0 }?.let {
+                            intent.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
                                 addCategoryFilter(label, it)
                             }
                         }
                         if (resultCode == Activity.RESULT_FIRST_USER) {
-                            intent.getLongArrayExtra(KEY_CATID)?.let {
+                            intent.getLongArrayExtra(KEY_ROWID)?.let {
                                 addCategoryFilter(label, *it)
                             }
                         }
@@ -206,12 +206,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 FILTER_PAYEE_REQUEST -> {
                     intent?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
-                            intent.getLongExtra(KEY_PAYEEID, 0).takeIf { it > 0 }?.let {
+                            intent.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
                                 addPayeeFilter(label, it)
                             }
                         }
                         if (resultCode == Activity.RESULT_FIRST_USER) {
-                            intent.getLongArrayExtra(KEY_PAYEEID)?.let {
+                            intent.getLongArrayExtra(KEY_ROWID)?.let {
                                 addPayeeFilter(label, *it)
                             }
                         }

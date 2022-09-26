@@ -21,7 +21,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -50,10 +49,8 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.*
-import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
 import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
-import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
@@ -62,7 +59,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
-import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria
@@ -155,8 +151,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private var actionMode: ActionMode? = null
 
-    val selectionState
+    var selectionState
         get() = viewModel.selectionState.value
+        set(value) {
+            viewModel.selectionState.value = value
+        }
 
     fun finishActionMode() {
         actionMode?.finish()
@@ -189,7 +188,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     mode: ActionMode,
                     menu: Menu
                 ): Boolean {
-                    if(!currentAccount.sealed) {
+                    if (!currentAccount.sealed) {
                         menuInflater.inflate(R.menu.transactionlist_context, menu)
                     }
                     return true
@@ -198,151 +197,39 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 override fun onPrepareActionMode(
                     mode: ActionMode,
                     menu: Menu
-                ): Boolean {
-                    with(menu) {
-                        findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = accountCount > 1
-                        val hasTransfer = selectionState.any { it.isTransfer }
-                        val hasSplit = selectionState.any { it.isSplit }
-                        findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
-                        findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
-                        findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer
-                    }
-                    return true
+                ) = with(menu) {
+                    findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = accountCount > 1
+                    val hasTransfer = selectionState.any { it.isTransfer }
+                    val hasSplit = selectionState.any { it.isSplit }
+                    val noMethods = currentAccount.type == AccountType.CASH ||
+                            (currentAccount.isAggregate && selectionState.any { it.accountType == AccountType.CASH })
+                    findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
+                    findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
+                    findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer && !noMethods
+                    true
                 }
 
                 override fun onActionItemClicked(
                     mode: ActionMode,
                     item: MenuItem
-                ): Boolean {
-                    return when (item.itemId) {
-                        R.id.DELETE_COMMAND -> {
-                            delete(selectionState)
-                            true
-                        }
-                        R.id.REMAP_ACCOUNT_COMMAND -> {
-                            remapAccount(selectionState)
-                            true
-                        }
-                        else -> false
+                ) = remapHandler.handleActionItemClick(item.itemId) || when (item.itemId) {
+                    R.id.DELETE_COMMAND -> {
+                        delete(selectionState)
+                        true
                     }
+                    else -> false
                 }
 
                 override fun onDestroyActionMode(mode: ActionMode) {
                     actionMode = null
-                    viewModel.selectionState.value = emptyList()
+                    selectionState = emptyList()
                 }
 
             })
-        }
+        } else actionMode?.invalidate()
     }
 
-    private fun remapAccount(transactions: List<Transaction2>) {
-        val itemIds = transactions.map { it.id }
-        checkSealed(itemIds) {
-            val transferAccountIds = transactions.mapNotNull { it.transferAccount }
-            val excludedIds = if (currentAccount.id > 0) transferAccountIds + currentAccount.id
-            else transferAccountIds
-            val splitIds = transactions.filter { it.isSplit }.map { it.id }
-            CheckTransferAccountOfSplitPartsHandler(contentResolver).check(splitIds) { result ->
-                lifecycleScope.launchWhenResumed {
-                    result.onSuccess {
-                        val dialogFragment =
-                            SelectSingleAccountDialogFragment.newInstance(
-                                R.string.menu_remap,
-                                R.string.remap_empty_list,
-                                excludedIds + it
-                            )
-                        dialogFragment.show(supportFragmentManager,"REMAP_ACCOUNT")
-                    }.onFailure {
-                        showSnackBar(it.safeMessage)
-                    }
-                }
-            }
-        }
-    }
-
-    private val mapFragmentResultListener =
-        FragmentResultListener { requestKey, result ->
-            val columnStringResId: Int
-            val confirmationStringResId: Int
-            val column: String
-            var intentKey = KEY_ROWID
-            when (requestKey) {
-                MAP_CATEGORY_REQUEST -> {
-                    intentKey = KEY_CATID
-                    column = intentKey
-                    columnStringResId = R.string.category
-                    confirmationStringResId = R.string.remap_category
-                }
-                MAP_PAYEE_REQUEST -> {
-                    intentKey = KEY_PAYEEID
-                    column = intentKey
-                    columnStringResId = R.string.payer_or_payee
-                    confirmationStringResId = R.string.remap_payee
-                }
-                MAP_METHOD_REQUEST -> {
-                    column = KEY_METHODID
-                    columnStringResId = R.string.method
-                    confirmationStringResId = R.string.remap_method
-                }
-                MAP_ACCOUNT_REQUEST -> {
-                    column = KEY_ACCOUNTID
-                    columnStringResId = R.string.account
-                    confirmationStringResId = R.string.remap_account
-                }
-                else -> throw IllegalStateException("Unexpected value: $requestKey")
-            }
-            showConfirmationDialog(Bundle().apply {
-                putString(BaseTransactionList.KEY_COLUMN, column)
-                putLong(KEY_ROWID, result.getLong(intentKey, 0))
-                putString(
-                    ConfirmationDialogFragment.KEY_TITLE_STRING,
-                    getString(R.string.dialog_title_confirm_remap, getString(columnStringResId))
-                )
-                putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap)
-                putInt(
-                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_CHECKED_LABEL,
-                    R.string.button_label_clone_and_remap
-                )
-                putInt(
-                    ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                    android.R.string.cancel
-                )
-                putString(
-                    ConfirmationDialogFragment.KEY_MESSAGE, getString(
-                        confirmationStringResId, result.getString(KEY_LABEL)
-                    ) + " " + getString(R.string.continue_confirmation)
-                )
-                putString(
-                    ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-                    getString(R.string.menu_clone_transaction)
-                )
-                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND)
-            }, BaseTransactionList.REMAP_DIALOG)
-        }
-
-    open fun remap(extras: Bundle, shouldClone: Boolean) {
-        val checkedItemIds = selectionState.map { it.id }
-        val column = extras.getString(BaseTransactionList.KEY_COLUMN) ?: return
-        if (shouldClone) {
-            val progressDialog = ProgressDialogFragment.newInstance(
-                getString(R.string.saving), null, ProgressDialog.STYLE_HORIZONTAL, false
-            )
-            progressDialog.max = checkedItemIds.size
-            supportFragmentManager
-                .beginTransaction()
-                .add(progressDialog, PROGRESS_TAG)
-                .commit()
-            viewModel.cloneAndRemap(checkedItemIds, column, extras.getLong(KEY_ROWID))
-        } else {
-            viewModel.remap(checkedItemIds, column, extras.getLong(KEY_ROWID))
-                .observe(this, androidx.lifecycle.Observer { result: Int ->
-                    val message =
-                        if (result > 0) getString(R.string.remapping_result) else "No transactions were mapped"
-                    showSnackBar(message)
-                })
-        }
-    }
+    lateinit var remapHandler: RemapHandler
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -415,7 +302,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
 
-                            override fun isSelected(transaction: Transaction2) = selectionState.contains(transaction)
+                            override fun isSelected(transaction: Transaction2) =
+                                selectionState.contains(transaction)
 
                             override val selectionCount: Int
                                 get() = selectionState.size
@@ -522,7 +410,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 )
             }
         }
-        supportFragmentManager.setFragmentResultListener(MAP_ACCOUNT_REQUEST, this, mapFragmentResultListener)
+        remapHandler = RemapHandler(this)
+        for (requestKey in listOf(MAP_ACCOUNT_REQUEST, MAP_METHOD_REQUEST)) {
+            supportFragmentManager.setFragmentResultListener(requestKey, this, remapHandler)
+        }
         viewModel.cloneAndRemapProgress.observe(
             this
         ) { (first, second): Pair<Int, Int> ->
@@ -595,7 +486,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun delete(transactions: List<Transaction2>) {
         val hasReconciled = transactions.any { it.crStatus == CrStatus.RECONCILED }
-        val hasNotVoid = transactions.any { it.crStatus != CrStatus.VOID}
+        val hasNotVoid = transactions.any { it.crStatus != CrStatus.VOID }
         val itemIds = transactions.map { it.id }
         checkSealed(itemIds) {
             var message = resources.getQuantityString(
@@ -629,7 +520,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun showConfirmationDialog(bundle: Bundle?, tag: String) {
+    fun showConfirmationDialog(bundle: Bundle?, tag: String) {
         lifecycleScope.launchWhenResumed {
             ConfirmationDialogFragment.newInstance(bundle).show(supportFragmentManager, tag)
         }
@@ -1307,7 +1198,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     open fun buildCheckSealedHandler() = lazy { CheckSealedHandler(contentResolver) }.value
 
-    private fun checkSealed(itemIds: List<Long>, onChecked: Runnable) {
+    fun checkSealed(itemIds: List<Long>, onChecked: Runnable) {
         buildCheckSealedHandler().check(itemIds) { result ->
             lifecycleScope.launchWhenResumed {
                 result.onSuccess {

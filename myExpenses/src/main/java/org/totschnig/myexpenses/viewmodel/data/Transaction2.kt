@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
 import org.totschnig.myexpenses.provider.*
@@ -14,7 +16,7 @@ import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.io.File
 import java.time.ZonedDateTime
 
-
+@Parcelize
 data class Transaction2(
     val id: Long,
     val date: ZonedDateTime,
@@ -43,7 +45,7 @@ data class Transaction2(
     val month: Int,
     val week: Int,
     val day: Int
-) {
+): Parcelable {
 
     val isSplit: Boolean
         get() = catId == SPLIT_CATID

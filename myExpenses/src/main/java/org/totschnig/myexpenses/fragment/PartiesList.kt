@@ -428,7 +428,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     private fun doSingleSelection(party: Party) {
         requireActivity().apply {
             setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(KEY_PAYEEID, party.id)
+                putExtra(KEY_ROWID, party.id)
                 putExtra(KEY_LABEL, party.name)
             })
             finish()
@@ -555,7 +555,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             } else {
                 requireActivity().apply {
                     setResult(Activity.RESULT_FIRST_USER, Intent().apply {
-                        putExtra(KEY_PAYEEID, itemIds.toLongArray())
+                        putExtra(KEY_ROWID, itemIds.toLongArray())
                         putExtra(KEY_LABEL, labels.joinToString(separator = ","))
                     })
                     finish()

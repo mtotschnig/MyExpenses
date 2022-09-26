@@ -1048,7 +1048,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 (delegate as? CategoryDelegate)?.setCategory(
                     intent.getStringExtra(KEY_LABEL),
                     intent.getStringExtra(KEY_ICON),
-                    intent.getLongExtra(KEY_CATID, 0)
+                    intent.getLongExtra(KEY_ROWID, 0)
                 )
                 setDirty()
             }

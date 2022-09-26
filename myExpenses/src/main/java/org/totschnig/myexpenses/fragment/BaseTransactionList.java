@@ -1218,18 +1218,18 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (requestCode == FILTER_PAYEE_REQUEST) {
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
-        long payeeId = intent.getLongExtra(KEY_PAYEEID, 0);
+        long payeeId = intent.getLongExtra(KEY_ROWID, 0);
         addPayeeFilter(label, payeeId);
       }
       if (resultCode == Activity.RESULT_FIRST_USER) {
-        long[] payeeIds = intent.getLongArrayExtra(KEY_PAYEEID);
+        long[] payeeIds = intent.getLongArrayExtra(KEY_ROWID);
         addPayeeFilter(label, payeeIds);
       }
     }
     if (requestCode == FILTER_CATEGORY_REQUEST) {
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
-        long catId = intent.getLongExtra(KEY_CATID, 0);
+        long catId = intent.getLongExtra(KEY_ROWID, 0);
         addCategoryFilter(label, catId);
       }
       if (resultCode == Activity.RESULT_FIRST_USER) {
