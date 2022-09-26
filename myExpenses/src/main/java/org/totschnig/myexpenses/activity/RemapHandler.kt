@@ -21,10 +21,17 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.safeMessage
 
 class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
+
+    init {
+        for (requestKey in listOf(MAP_ACCOUNT_REQUEST, MAP_METHOD_REQUEST)) {
+            activity.supportFragmentManager.setFragmentResultListener(requestKey, activity, this)
+        }
+    }
+
     private val getPayee =
-        activity.registerForActivityResult(PickObjectForRemap(MAP_PAYEE_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract(MAP_PAYEE_REQUEST)) {}
     private val getCategory =
-        activity.registerForActivityResult(PickObjectForRemap(MAP_CATEGORY_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract(MAP_CATEGORY_REQUEST)) {}
 
     private fun getString(@StringRes resId: Int, vararg formatArgs: Any?) =
         activity.getString(resId, *formatArgs)
@@ -122,7 +129,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         }
     }
 
-    private inner class PickObjectForRemap(private val requestKey: String) :
+    private inner class PickObjectContract(private val requestKey: String) :
         ActivityResultContract<Unit, Unit>() {
         override fun createIntent(context: Context, input: Unit) =
             Intent(
@@ -143,6 +150,8 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         }
     }
 
+
+
     private fun onResult(requestKey: String, result: Bundle) {
         val rowId = result.getLong(DatabaseConstants.KEY_ROWID)
         val label = result.getString(DatabaseConstants.KEY_LABEL)
@@ -151,7 +160,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         }
     }
 
-    fun remapAccount() {
+    private fun remapAccount() {
         with(activity) {
             val itemIds = selectionState.map { it.id }
             checkSealed(itemIds) {
@@ -178,7 +187,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         }
     }
 
-    fun remapMethod() {
+    private fun remapMethod() {
         with(activity) {
             val itemIds = selectionState.map { it.id }
             checkSealed(itemIds) {
@@ -205,7 +214,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         }
     }
 
-    fun remapPayee() {
+    private fun remapPayee() {
         with(activity) {
             checkSealed(selectionState.map { it.id }) {
                 getPayee.launch(Unit)
@@ -213,7 +222,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         }
     }
 
-    fun remapCategory() {
+    private fun remapCategory() {
         with(activity) {
             checkSealed(selectionState.map { it.id }) {
                 getCategory.launch(Unit)
@@ -230,5 +239,12 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
             else -> return false
         }
         return true
+    }
+
+    companion object {
+        const val MAP_CATEGORY_REQUEST = "mapCategory"
+        const val MAP_PAYEE_REQUEST = "mapPayee"
+        const val MAP_METHOD_REQUEST = "mapMethod"
+        const val MAP_ACCOUNT_REQUEST = "mapAccount"
     }
 }

@@ -212,12 +212,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 override fun onActionItemClicked(
                     mode: ActionMode,
                     item: MenuItem
-                ) = remapHandler.handleActionItemClick(item.itemId) || when (item.itemId) {
-                    R.id.DELETE_COMMAND -> {
-                        delete(selectionState)
-                        true
+                ): Boolean {
+                    if (remapHandler.handleActionItemClick(item.itemId)) return true
+                    when (item.itemId) {
+                        R.id.DELETE_COMMAND -> delete(selectionState)
+                        R.id.MAP_TAG_COMMAND -> tagHandler.tag()
+                        else -> return false
                     }
-                    else -> false
+                    return true
                 }
 
                 override fun onDestroyActionMode(mode: ActionMode) {
@@ -230,6 +232,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     lateinit var remapHandler: RemapHandler
+    lateinit var tagHandler: TagHandler
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -411,9 +414,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         }
         remapHandler = RemapHandler(this)
-        for (requestKey in listOf(MAP_ACCOUNT_REQUEST, MAP_METHOD_REQUEST)) {
-            supportFragmentManager.setFragmentResultListener(requestKey, this, remapHandler)
-        }
+        tagHandler = TagHandler(this)
+
         viewModel.cloneAndRemapProgress.observe(
             this
         ) { (first, second): Pair<Int, Int> ->

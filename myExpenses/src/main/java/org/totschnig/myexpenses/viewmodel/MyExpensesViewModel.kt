@@ -7,7 +7,6 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
@@ -33,9 +32,8 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
-import kotlin.properties.PropertyDelegateProvider
-import kotlin.properties.ReadWriteProperty
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -301,4 +299,16 @@ class MyExpensesViewModel(application: Application, val savedStateHandle: SavedS
                 )
             })
         }
+
+    fun tag(transactionIds: List<Long>, tagList: ArrayList<Tag>, replace: Boolean) {
+        val tagIds = tagList.map { tag -> tag.id }
+        viewModelScope.launch(coroutineDispatcher) {
+            val ops = ArrayList<ContentProviderOperation>()
+            for (id in transactionIds) {
+                ops.addAll(saveTagLinks(tagIds, id, null, replace))
+            }
+            contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+        }
+    }
+
 }

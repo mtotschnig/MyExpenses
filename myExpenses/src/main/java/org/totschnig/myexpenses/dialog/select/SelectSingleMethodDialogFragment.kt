@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.net.Uri
-import org.totschnig.myexpenses.activity.MAP_METHOD_REQUEST
+import org.totschnig.myexpenses.activity.RemapHandler.Companion.MAP_METHOD_REQUEST
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 

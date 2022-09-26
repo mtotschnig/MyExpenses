@@ -299,8 +299,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int DEBT_ID = 64;
   private static final int BUDGET_ALLOCATIONS = 65;
 
-  private boolean bulkInProgress = false;
-
   public static String aggregateFunction(boolean safeMode) {
     return safeMode ? "total" : "sum";
   }
@@ -1596,13 +1594,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     return count;
   }
 
-  private void notifyChange(Uri uri, boolean syncToNetwork) {
-    if (!bulkInProgress) {
-      getContext().getContentResolver().notifyChange(uri, null,
-          syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true));
-    }
-  }
-
   private boolean callerIsNotSyncAdatper(Uri uri) {
     return uri.getQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNCADAPTER) == null;
   }
@@ -1617,6 +1608,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {
     final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+    setBulkInProgress(true);
     db.beginTransaction();
     try {
       final int numOperations = operations.size();
@@ -1637,6 +1629,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       return results;
     } finally {
       db.endTransaction();
+      setBulkInProgress(false);
+      notifyBulk();
     }
   }
 
@@ -1649,16 +1643,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case METHOD_BULK_START: {
-        bulkInProgress = true;
+        setBulkInProgress(true);
         break;
       }
       case METHOD_BULK_END: {
-        bulkInProgress = false;
-        notifyChange(TRANSACTIONS_URI, true);
-        notifyChange(ACCOUNTS_URI, false);
-        notifyChange(CATEGORIES_URI, false);
-        notifyChange(PAYEES_URI, false);
-        notifyChange(METHODS_URI, false);
+        setBulkInProgress(false);
+        notifyBulk();
         break;
       }
       case METHOD_SORT_ACCOUNTS: {

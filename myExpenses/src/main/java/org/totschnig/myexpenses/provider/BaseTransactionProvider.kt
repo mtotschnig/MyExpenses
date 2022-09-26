@@ -12,11 +12,7 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.AggregateAccount
-import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -61,6 +57,32 @@ abstract class BaseTransactionProvider : ContentProvider() {
     lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
 
     private var shouldLog = false
+
+    var bulkInProgress = false
+
+    private val bulkNotificationUris = mutableSetOf<Pair<Uri, Boolean>>()
+
+    fun notifyChange(uri: Uri, syncToNetwork: Boolean) {
+        if (!bulkInProgress) {
+            notifyChangeDo(uri, syncToNetwork)
+        } else {
+            bulkNotificationUris.add(uri to syncToNetwork)
+        }
+    }
+
+    fun notifyChangeDo(uri: Uri, syncToNetwork: Boolean) {
+        context!!.contentResolver.notifyChange(uri, null,
+            syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true)
+        )
+    }
+
+    fun notifyBulk() {
+        val iterator = bulkNotificationUris.iterator()
+        for ((uri, syncToNetwork) in iterator) {
+            notifyChangeDo(uri, syncToNetwork)
+            iterator.remove()
+        }
+    }
 
     companion object {
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =

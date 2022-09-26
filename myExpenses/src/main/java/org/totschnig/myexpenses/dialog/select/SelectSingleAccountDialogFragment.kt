@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.dialog.select
 
 import android.net.Uri
 import org.jetbrains.annotations.NotNull
-import org.totschnig.myexpenses.activity.MAP_ACCOUNT_REQUEST
+import org.totschnig.myexpenses.activity.RemapHandler.Companion.MAP_ACCOUNT_REQUEST
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED

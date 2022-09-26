@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,41 +9,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.State
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.BaseMyExpenses
-import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
-import org.totschnig.myexpenses.activity.FILTER_CATEGORY_REQUEST
-import org.totschnig.myexpenses.activity.FILTER_PAYEE_REQUEST
-import org.totschnig.myexpenses.activity.FILTER_TAGS_REQUEST
-import org.totschnig.myexpenses.activity.MAP_ACCOUNT_REQUEST
-import org.totschnig.myexpenses.activity.MAP_CATEGORY_REQUEST
-import org.totschnig.myexpenses.activity.MAP_METHOD_REQUEST
-import org.totschnig.myexpenses.activity.MAP_PAYEE_REQUEST
-import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
-import org.totschnig.myexpenses.activity.ManageCategories
-import org.totschnig.myexpenses.activity.ManageParties
-import org.totschnig.myexpenses.activity.ManageTags
-import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DateFilterDialog
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
-import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
+import org.totschnig.myexpenses.dialog.select.*
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment.Companion.newInstance
-import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
@@ -54,16 +30,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
-import org.totschnig.myexpenses.util.asTrueSequence
-import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
-import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import kotlin.math.sign
 
@@ -78,7 +49,7 @@ class TransactionList : BaseTransactionList() {
     @JvmField
     @State
     var selectedTransactionSumFormatted: String? = null
-
+/*
     private fun handleTagResult(intent: Intent) {
         lifecycleScope.launchWhenResumed {
             ConfirmTagDialogFragment().also {
@@ -91,9 +62,9 @@ class TransactionList : BaseTransactionList() {
                 it.setTargetFragment(this@TransactionList, CONFIRM_MAP_TAG_REQUEST)
             }.show(parentFragmentManager, "CONFIRM")
         }
-    }
+    }*/
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+/*    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode != Activity.RESULT_CANCELED) {
             when (requestCode) {
                 CONFIRM_MAP_TAG_REQUEST -> {
@@ -114,7 +85,7 @@ class TransactionList : BaseTransactionList() {
                 }
             }
         }
-    }
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (mAccount == null || activity == null) {
@@ -650,35 +621,3 @@ class TransactionList : BaseTransactionList() {
         }?.second
 }
 
-class ConfirmTagDialogFragment : DialogFragment() {
-    val tagList
-        get() = requireArguments().getParcelableArrayList<Tag>(KEY_TAG_LIST)!!
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val isEmpty = tagList.size == 0
-        val dialog = MaterialDialog(requireContext())
-            .title(R.string.menu_tag)
-            .message(
-                text = if (isEmpty) getString(R.string.dialog_multi_tag_clear) else getString(
-                    R.string.dialog_multi_tag,
-                    tagList.joinToString(", ") { tag -> tag.label })
-            )
-            .negativeButton(android.R.string.cancel)
-        return if (isEmpty) {
-            dialog.positiveButton(R.string.menu_remove) { confirm(true) }
-        } else {
-            dialog.listItemsSingleChoice(R.array.multi_tag_options) { _, index, _ -> confirm(index == 1) }
-                .positiveButton(R.string.menu_tag)
-        }
-    }
-
-    private fun confirm(replace: Boolean) {
-        targetFragment?.onActivityResult(
-            CONFIRM_MAP_TAG_REQUEST,
-            Activity.RESULT_OK,
-            Intent().apply {
-                putExtra(KEY_REPLACE, replace)
-                putParcelableArrayListExtra(KEY_TAG_LIST, tagList)
-            })
-    }
-}

@@ -44,7 +44,7 @@ class TransactionPagingSource(val context: Context, val account: FullAccount) :
         }
         contentResolver.registerContentObserver(
             TransactionProvider.TRANSACTIONS_URI,
-            false,
+            true,
             observer
         )
     }
