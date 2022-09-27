@@ -397,6 +397,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+
+        if (resources.getDimensionPixelSize(R.dimen.drawerWidth) > resources.displayMetrics.widthPixels) {
+            binding.accountPanel.root.layoutParams.width = resources.displayMetrics.widthPixels
+        }
+
         binding.accountPanel.accountList.setContent {
             AppTheme(this) {
                 AccountList(
