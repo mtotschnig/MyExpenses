@@ -350,8 +350,8 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
         }
     }
 
-    fun addFilterCriteria(c: Criteria, id: Long) {
-        filterPersistence[id]?.let {
+    fun addFilterCriteria(c: Criteria, accountId: Long) {
+        filterPersistence[accountId]?.let {
             it.update {
                 it.also {
                     it.addCriteria(c)
@@ -359,6 +359,19 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
             }
         }
     }
+
+    /**
+     * Removes a given filter
+     *
+     * @return true if the filter was set and successfully removed, false otherwise
+     */
+    fun removeFilter(id: Int, accountId: Long) = filterPersistence[accountId]?.let {
+        val filterPersistence = it.value
+        if (filterPersistence.removeFilter(id)) {
+            it.update { filterPersistence }
+            true
+        } else false
+    } ?: false
 
     companion object {
         fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"

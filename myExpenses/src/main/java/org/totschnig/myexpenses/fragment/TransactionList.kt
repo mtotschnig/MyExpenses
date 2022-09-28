@@ -91,91 +91,103 @@ class TransactionList : BaseTransactionList() {
         if (mAccount == null || activity == null) {
             return false
         }
-        val command = item.itemId
-        if (command == R.id.FILTER_CATEGORY_COMMAND) {
-            if (!removeFilter(command)) {
-                val i = Intent(activity, ManageCategories::class.java)
-                i.action = ACTION_SELECT_FILTER
-                startActivityForResult(i, FILTER_CATEGORY_REQUEST)
-            }
-            return true
-        } else if (command == R.id.FILTER_TAG_COMMAND) {
-            if (!removeFilter(command)) {
-                val i = Intent(activity, ManageTags::class.java)
-                i.action = ACTION_SELECT_FILTER
-                startActivityForResult(i, FILTER_TAGS_REQUEST)
-            }
-            return true
-        } else if (command == R.id.FILTER_AMOUNT_COMMAND) {
-            if (!removeFilter(command)) {
-                AmountFilterDialog.newInstance(mAccount.currencyUnit)
-                    .show(requireActivity().supportFragmentManager, "AMOUNT_FILTER")
-            }
-            return true
-        } else if (command == R.id.FILTER_DATE_COMMAND) {
-            if (!removeFilter(command)) {
-                DateFilterDialog.newInstance()
-                    .show(requireActivity().supportFragmentManager, "DATE_FILTER")
-            }
-            return true
-        } else if (command == R.id.FILTER_COMMENT_COMMAND) {
-            if (!removeFilter(command)) {
-                SimpleInputDialog.build()
-                    .title(R.string.search_comment)
-                    .pos(R.string.menu_search)
-                    .neut()
-                    .show(this, FILTER_COMMENT_DIALOG)
-            }
-            return true
-        } else if (command == R.id.FILTER_STATUS_COMMAND) {
-            if (!removeFilter(command)) {
-                SelectCrStatusDialogFragment.newInstance()
-                    .show(requireActivity().supportFragmentManager, "STATUS_FILTER")
-            }
-            return true
-        } else if (command == R.id.FILTER_PAYEE_COMMAND) {
-            if (!removeFilter(command)) {
-                val i = Intent(activity, ManageParties::class.java)
-                i.action = ACTION_SELECT_FILTER
-                i.putExtra(DatabaseConstants.KEY_ACCOUNTID, mAccount.id)
-                startActivityForResult(i, FILTER_PAYEE_REQUEST)
-            }
-            return true
-        } else if (command == R.id.FILTER_METHOD_COMMAND) {
-            if (!removeFilter(command)) {
-                SelectMethodDialogFragment.newInstance(mAccount.id)
-                    .show(requireActivity().supportFragmentManager, "METHOD_FILTER")
-            }
-            return true
-        } else if (command == R.id.FILTER_TRANSFER_COMMAND) {
-            if (!removeFilter(command)) {
-                SelectTransferAccountDialogFragment.newInstance(mAccount.id)
-                    .show(requireActivity().supportFragmentManager, "TRANSFER_FILTER")
-            }
-            return true
-        } else if (command == R.id.FILTER_ACCOUNT_COMMAND) {
-            if (!removeFilter(command)) {
-                newInstance(mAccount.currencyUnit.code)
-                    .show(requireActivity().supportFragmentManager, "ACCOUNT_FILTER")
-            }
-            return true
-        } else if (command == R.id.PRINT_COMMAND) {
-            val ctx = requireActivity() as MyExpenses
-            if (hasItems) {
-                AppDirHelper.checkAppDir(requireContext()).onSuccess {
-                    ctx.contribFeatureRequested(ContribFeature.PRINT, null)
-                }.onFailure {
-                    ctx.showDismissibleSnackBar(it.safeMessage)
+        when (val command = item.itemId) {
+            R.id.FILTER_CATEGORY_COMMAND -> {
+                if (!removeFilter(command)) {
+                    val i = Intent(activity, ManageCategories::class.java)
+                    i.action = ACTION_SELECT_FILTER
+                    startActivityForResult(i, FILTER_CATEGORY_REQUEST)
                 }
-            } else {
-                ctx.showExportDisabledCommand()
+                return true
             }
-            return true
-        } else if (command == R.id.SYNC_COMMAND) {
-            mAccount.requestSync()
-            return true
+            R.id.FILTER_TAG_COMMAND -> {
+                if (!removeFilter(command)) {
+                    val i = Intent(activity, ManageTags::class.java)
+                    i.action = ACTION_SELECT_FILTER
+                    startActivityForResult(i, FILTER_TAGS_REQUEST)
+                }
+                return true
+            }
+            R.id.FILTER_AMOUNT_COMMAND -> {
+                if (!removeFilter(command)) {
+                    AmountFilterDialog.newInstance(mAccount.currencyUnit)
+                        .show(requireActivity().supportFragmentManager, "AMOUNT_FILTER")
+                }
+                return true
+            }
+            R.id.FILTER_DATE_COMMAND -> {
+                if (!removeFilter(command)) {
+                    DateFilterDialog.newInstance()
+                        .show(requireActivity().supportFragmentManager, "DATE_FILTER")
+                }
+                return true
+            }
+            R.id.FILTER_COMMENT_COMMAND -> {
+                if (!removeFilter(command)) {
+                    SimpleInputDialog.build()
+                        .title(R.string.search_comment)
+                        .pos(R.string.menu_search)
+                        .neut()
+                        .show(this, FILTER_COMMENT_DIALOG)
+                }
+                return true
+            }
+            R.id.FILTER_STATUS_COMMAND -> {
+                if (!removeFilter(command)) {
+                    SelectCrStatusDialogFragment.newInstance()
+                        .show(requireActivity().supportFragmentManager, "STATUS_FILTER")
+                }
+                return true
+            }
+            R.id.FILTER_PAYEE_COMMAND -> {
+                if (!removeFilter(command)) {
+                    val i = Intent(activity, ManageParties::class.java)
+                    i.action = ACTION_SELECT_FILTER
+                    i.putExtra(DatabaseConstants.KEY_ACCOUNTID, mAccount.id)
+                    startActivityForResult(i, FILTER_PAYEE_REQUEST)
+                }
+                return true
+            }
+            R.id.FILTER_METHOD_COMMAND -> {
+                if (!removeFilter(command)) {
+                    SelectMethodDialogFragment.newInstance(mAccount.id)
+                        .show(requireActivity().supportFragmentManager, "METHOD_FILTER")
+                }
+                return true
+            }
+            R.id.FILTER_TRANSFER_COMMAND -> {
+                if (!removeFilter(command)) {
+                    SelectTransferAccountDialogFragment.newInstance(mAccount.id)
+                        .show(requireActivity().supportFragmentManager, "TRANSFER_FILTER")
+                }
+                return true
+            }
+            R.id.FILTER_ACCOUNT_COMMAND -> {
+                if (!removeFilter(command)) {
+                    newInstance(mAccount.currencyUnit.code)
+                        .show(requireActivity().supportFragmentManager, "ACCOUNT_FILTER")
+                }
+                return true
+            }
+            R.id.PRINT_COMMAND -> {
+                val ctx = requireActivity() as MyExpenses
+                if (hasItems) {
+                    AppDirHelper.checkAppDir(requireContext()).onSuccess {
+                        ctx.contribFeatureRequested(ContribFeature.PRINT, null)
+                    }.onFailure {
+                        ctx.showDismissibleSnackBar(it.safeMessage)
+                    }
+                } else {
+                    ctx.showExportDisabledCommand()
+                }
+                return true
+            }
+            R.id.SYNC_COMMAND -> {
+                mAccount.requestSync()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onHeaderLongClick(

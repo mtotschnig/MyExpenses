@@ -525,7 +525,7 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     }
 
-    return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
+    return handleGrouping(item) || handleSortDirection(item) || filterHandler.handleFilter(item.getItemId()) || super.onOptionsItemSelected(item);
   }
 
   @Override

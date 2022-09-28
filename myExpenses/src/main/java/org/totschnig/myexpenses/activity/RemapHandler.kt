@@ -144,14 +144,11 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {
-            if (resultCode != Activity.RESULT_OK || intent == null) {
-                return
+            if (resultCode == Activity.RESULT_OK) {
+                intent?.extras?.let { onResult(requestKey, it) }
             }
-            intent.extras?.let { onResult(requestKey, it) }
         }
     }
-
-
 
     private fun onResult(requestKey: String, result: Bundle) {
         val rowId = result.getLong(DatabaseConstants.KEY_ROWID)

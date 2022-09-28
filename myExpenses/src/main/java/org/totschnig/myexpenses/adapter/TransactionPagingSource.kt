@@ -7,7 +7,6 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.text.TextUtils
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +20,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
@@ -74,8 +72,8 @@ class TransactionPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         val pageNumber = params.key ?: 0
         Timber.i("Requesting pageNumber %d", pageNumber)
-        val filter = filterPersistence.value?.whereFilter
-        if (filter?.isEmpty == false) {
+        val filter = filterPersistence.value.whereFilter
+        if (!filter.isEmpty) {
             val selectionForParents = filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
             if (selectionForParents.isNotEmpty()) {
                 selection += " AND "

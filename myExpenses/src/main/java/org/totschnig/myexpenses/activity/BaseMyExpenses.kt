@@ -239,6 +239,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var remapHandler: RemapHandler
     lateinit var tagHandler: TagHandler
+    lateinit var filterHandler: FilterHandler
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -435,6 +436,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         remapHandler = RemapHandler(this)
         tagHandler = TagHandler(this)
+        filterHandler = FilterHandler(this)
 
         viewModel.cloneAndRemapProgress.observe(
             this
