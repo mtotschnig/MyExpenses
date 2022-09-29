@@ -1,21 +1,22 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.os.Bundle
-import java.time.format.DateTimeParseException
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
+import java.time.format.DateTimeParseException
 
 const val KEY_FILTER = "filter"
 
 class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean, restoreFromPreferences: Boolean = true) {
     val whereFilter: WhereFilter
     init {
-        whereFilter = savedInstanceState?.getParcelableArrayList<Criteria>(KEY_FILTER)?.let {
+        whereFilter = savedInstanceState?.getParcelableArrayList<Criteria<*>>(KEY_FILTER)?.let {
             WhereFilter(it)
         } ?: WhereFilter.empty().apply { if (restoreFromPreferences) restoreFromPreferences() }
     }
 
-    private fun WhereFilter.restoreColumn(column: String, producer: (String) -> Criteria?) {
+    private fun WhereFilter.restoreColumn(column: String, producer: (String) -> Criteria<*>?) {
         val prefNameForCriteria = prefNameForCriteria(column)
         prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
             producer(prefValue)?.let {
@@ -27,25 +28,25 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
     }
 
     private fun WhereFilter.restoreFromPreferences() {
-        restoreColumn(CategoryCriteria.COLUMN) {
+        restoreColumn(KEY_CATID) {
             CategoryCriteria.fromStringExtra(it)
         }
-        restoreColumn(AmountCriteria.COLUMN) {
+        restoreColumn(KEY_AMOUNT) {
             AmountCriteria.fromStringExtra(it)
         }
-        restoreColumn(CommentCriteria.COLUMN) {
+        restoreColumn(KEY_COMMENT) {
             CommentCriteria.fromStringExtra(it)
         }
-        restoreColumn(CrStatusCriteria.COLUMN) {
+        restoreColumn(KEY_CR_STATUS) {
             CrStatusCriteria.fromStringExtra(it)
         }
-        restoreColumn(PayeeCriteria.COLUMN) {
+        restoreColumn(KEY_PAYEEID) {
             PayeeCriteria.fromStringExtra(it)
         }
-        restoreColumn(MethodCriteria.COLUMN) {
+        restoreColumn(KEY_METHODID) {
             MethodCriteria.fromStringExtra(it)
         }
-        restoreColumn(DateCriteria.COLUMN) {
+        restoreColumn(KEY_DATE) {
             try {
                 DateCriteria.fromStringExtra(it)
             } catch (e: DateTimeParseException) {
@@ -53,10 +54,10 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
                 null
             }
         }
-        restoreColumn(TRANSFER_COLUMN) {
+        restoreColumn(KEY_TRANSFER_ACCOUNT) {
             TransferCriteria.fromStringExtra(it)
         }
-        restoreColumn(TAG_COLUMN) {
+        restoreColumn(KEY_TAGID) {
             TagCriteria.fromStringExtra(it)
         }
         restoreColumn(ACCOUNT_COLUMN) {
@@ -64,7 +65,7 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
         }
     }
 
-    fun addCriteria(criteria: Criteria) {
+    fun addCriteria(criteria: Criteria<*>) {
         whereFilter.put(criteria)
         if (immediatePersist) {
             persist(criteria)
@@ -80,16 +81,17 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
     } ?: false
 
     fun persistAll() {
-        arrayOf(CategoryCriteria.COLUMN, AmountCriteria.COLUMN, CommentCriteria.COLUMN,
-                CrStatusCriteria.COLUMN, PayeeCriteria.COLUMN, MethodCriteria.COLUMN,
-                DateCriteria.COLUMN, TRANSFER_COLUMN, TAG_COLUMN, ACCOUNT_COLUMN).forEach { column ->
+        arrayOf(
+            KEY_CATID, KEY_AMOUNT, KEY_COMMENT, KEY_CR_STATUS, KEY_PAYEEID, KEY_METHODID, KEY_DATE,
+            KEY_TRANSFER_ACCOUNT, KEY_TAGID, ACCOUNT_COLUMN
+        ).forEach { column ->
             whereFilter.get(column)?.let {
                 persist(it)
             } ?: kotlin.run { prefHandler.remove(prefNameForCriteria(column)) }
         }
     }
 
-    private fun persist(criteria: Criteria) {
+    private fun persist(criteria: Criteria<*>) {
         prefHandler.putString(prefNameForCriteria(criteria.column), criteria.toStringExtra())
     }
 

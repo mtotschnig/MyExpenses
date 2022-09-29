@@ -18,73 +18,39 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
-import android.text.TextUtils
-import org.totschnig.myexpenses.provider.filter.Criteria.operation
-import org.totschnig.myexpenses.provider.filter.Criteria.column
-import org.totschnig.myexpenses.provider.filter.Criteria.Companion.escapeSeparator
-import org.totschnig.myexpenses.provider.filter.Criteria.selectionArgs
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
-import org.totschnig.myexpenses.provider.filter.Criteria.Companion.unescapeSeparator
-import org.totschnig.myexpenses.provider.filter.IdCriteria
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.lang.Exception
-import java.lang.RuntimeException
+import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import java.util.*
 
-abstract class IdCriteria : Criteria {
-    val label: String?
+abstract class IdCriteria : Criteria<Long>() {
 
-    internal constructor(label: String?, vararg ids: Long) : this(
-        label,
-        *longArrayToStringArray(ids)
-    ) {
-    }
+    abstract val label : String?
 
-    internal constructor(label: String?, vararg ids: String?) : super(
-        WhereFilter.Operation.IN,
-        ids
-    ) {
-        this.label = label
-    }
-
-    internal constructor() : super(WhereFilter.Operation.ISNULL, arrayOf<String>()) {
-        label = null
-    }
-
-    override fun prettyPrint(context: Context?): String? {
-        return if (operation == WhereFilter.Operation.ISNULL) String.format(
+    override fun prettyPrint(context: Context): String {
+        return if (operation == Operation.ISNULL) String.format(
             "%s: %s",
             columnName2Label(context),
-            context!!.getString(R.string.unmapped)
-        ) else label
+            context.getString(R.string.unmapped)
+        ) else label!!
     }
 
-    private fun columnName2Label(context: Context?): String {
+    private fun columnName2Label(context: Context): String {
         when (column) {
-            DatabaseConstants.KEY_CATID -> return context!!.getString(R.string.category)
-            DatabaseConstants.KEY_PAYEEID -> return context!!.getString(R.string.payer_or_payee)
-            DatabaseConstants.KEY_METHODID -> return context!!.getString(R.string.method)
+            DatabaseConstants.KEY_CATID -> return context.getString(R.string.category)
+            DatabaseConstants.KEY_PAYEEID -> return context.getString(R.string.payer_or_payee)
+            DatabaseConstants.KEY_METHODID -> return context.getString(R.string.method)
         }
         return column
     }
 
     override fun toStringExtra(): String? {
-        return if (operation == WhereFilter.Operation.ISNULL) "null" else escapeSeparator(
-            label!!
-        ) + EXTRA_SEPARATOR + TextUtils.join(EXTRA_SEPARATOR, selectionArgs)
+        return if (operation == Operation.ISNULL) "null" else escapeSeparator(label!!) +
+                EXTRA_SEPARATOR + selectionArgs.joinToString(EXTRA_SEPARATOR)
     }
 
     companion object {
-        protected fun longArrayToStringArray(`in`: LongArray): Array<String?> {
-            val out = arrayOfNulls<String>(`in`.size)
-            for (i in `in`.indices) {
-                out[i] = `in`[i].toString()
-            }
-            return out
-        }
 
         fun <T : IdCriteria?> fromStringExtra(extra: String, clazz: Class<T>): T? {
             val extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP).toTypedArray()
@@ -93,14 +59,14 @@ abstract class IdCriteria : Criteria {
                     Exception(
                         String.format(
                             "Unparsable string extra %s for %s",
-                            Arrays.toString(extraParts),
+                            extraParts.contentToString(),
                             clazz.name
                         )
                     )
                 )
                 return null
             }
-            val ids = Arrays.copyOfRange(extraParts, 1, extraParts.size)
+            val ids = extraParts.copyOfRange(1, extraParts.size)
             val label = unescapeSeparator(
                 extraParts[0]
             )

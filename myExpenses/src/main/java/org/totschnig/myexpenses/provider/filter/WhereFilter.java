@@ -87,7 +87,7 @@ public class WhereFilter {
   public Criteria get(int id) {
     for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.get(i);
-      if (c.getID() == id) {
+      if (c.getId() == id) {
         return c;
       }
     }
@@ -107,7 +107,7 @@ public class WhereFilter {
 
   public void put(Criteria criteria) {
     if (criteria != null) {
-      int existing = indexOf(criteria.getID());
+      int existing = indexOf(criteria.getId());
       if ( existing > -1) {
         criterias.set(existing, criteria);
       } else {
@@ -118,7 +118,7 @@ public class WhereFilter {
 
   private int indexOf(int id) {
     for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      if (criterias.get(i).getID() == id)
+      if (criterias.get(i).getId() == id)
         return i;
     }
     return -1;

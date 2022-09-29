@@ -12,7 +12,7 @@ class WhereFilterTest {
     private lateinit var whereFilter: WhereFilter
     val c1 = CategoryCriteria("test", 1)
     val c2 = CategoryCriteria("test", 2)
-    val a1 = AmountCriteria(WhereFilter.Operation.EQ, "EUR", true, 1000, null)
+    val a1 = AmountCriteria.create(WhereFilter.Operation.EQ, "EUR", true, 1000)
 
     @Before
     fun setUp() {

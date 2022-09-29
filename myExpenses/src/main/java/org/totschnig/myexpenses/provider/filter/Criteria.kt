@@ -18,61 +18,28 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
-import org.totschnig.myexpenses.provider.filter.CriteriaInfo.operation
-import org.totschnig.myexpenses.provider.filter.CriteriaInfo.values
 import android.os.Parcelable
-import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.filter.CriteriaInfo
-import android.os.Parcel
-import android.text.TextUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import java.lang.UnsupportedOperationException
+import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
-abstract class Criteria : Parcelable {
-    val operation: WhereFilter.Operation
-    open val selectionArgs: Array<String>?
-    abstract val iD: Int
+abstract class Criteria<T: Any> : Parcelable {
+    abstract val operation: Operation
+    abstract val values: Array<T>
+
+    open val selectionArgs: Array<String>
+        get() = values.map { it.toString() }.toTypedArray()
+    abstract val id: Int
     abstract val column: String
 
-    constructor(
-        operation: WhereFilter.Operation,
-        vararg values: String
-    ) {
-        this.operation = operation
-        selectionArgs = values
-    }
-
-    internal constructor(c: CriteriaInfo) {
-        operation = c.operation
-        selectionArgs = c.values
-    }
-
-    constructor(`in`: Parcel) {
-        operation = WhereFilter.Operation.valueOf(`in`.readString()!!)
-        selectionArgs = `in`.createStringArray()
-    }
 
     val isNull: Boolean
-        get() = operation == WhereFilter.Operation.ISNULL
+        get() = operation == Operation.ISNULL
     open val selection: String
-        get() = column + " " + operation.getOp(selectionArgs!!.size)
+        get() = column + " " + operation.getOp(selectionArgs.size)
 
-    fun size(): Int {
-        return if (selectionArgs != null) selectionArgs!!.size else 0
-    }
+    fun size(): Int = values.size
 
-    open fun prettyPrint(context: Context?): String? {
-        return TextUtils.join(", ", selectionArgs!!)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(operation.name)
-        dest.writeStringArray(selectionArgs)
-    }
+    open fun prettyPrint(context: Context) = values.joinToString()
 
     open fun toStringExtra(): String? {
         throw UnsupportedOperationException("Only subclasses can be persisted")
@@ -82,13 +49,13 @@ abstract class Criteria : Parcelable {
      * @return selection wrapped in a way that it also finds split transactions with parts
      * that are matched by the criteria
      */
-    protected fun applyToSplitParts(selection: String, tableName: String): String {
+    private fun applyToSplitParts(selection: String, tableName: String): String {
         return if (!shouldApplyToParts()) {
             selection
-        } else "(" + selection + " OR (" + DatabaseConstants.KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID //maybe the check for split catId is not needed
-                + " AND exists(select 1 from " + DatabaseConstants.TABLE_TRANSACTIONS + " children"
-                + " WHERE " + DatabaseConstants.KEY_PARENTID
-                + " = " + tableName + "." + DatabaseConstants.KEY_ROWID + " AND (" + selection + "))))"
+        } else "(" + selection + " OR (" + DatabaseConstants.KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID +
+                " AND exists(select 1 from " + DatabaseConstants.TABLE_TRANSACTIONS + " children"+
+                " WHERE " + DatabaseConstants.KEY_PARENTID +
+                " = " + tableName + "." + DatabaseConstants.KEY_ROWID + " AND (" + selection + "))))"
     }
 
     /**
@@ -98,9 +65,8 @@ abstract class Criteria : Parcelable {
      * @return selection wrapped in a way that is also finds split parts where parents are
      * matched by the criteria
      */
-    protected fun applyToSplitParents(selection: String, tableName: String): String {
-        val selectParents: String
-        selectParents = if (!shouldApplyToParts()) {
+    private fun applyToSplitParents(selection: String, tableName: String): String {
+        val selectParents = if (!shouldApplyToParts()) {
             "(" + selection + " AND " + DatabaseConstants.KEY_PARENTID + " IS NULL)"
         } else {
             selection
@@ -110,25 +76,21 @@ abstract class Criteria : Parcelable {
                 + " = " + tableName + "." + DatabaseConstants.KEY_PARENTID + " AND (" + selection + ")))")
     }
 
-    fun getSelectionForParts(tableName: String): String {
-        return applyToSplitParents(selection, tableName)
-    }
+    fun getSelectionForParts(tableName: String) = applyToSplitParents(selection, tableName)
 
-    fun getSelectionForParents(tableName: String): String {
-        return applyToSplitParts(selection, tableName)
-    }
+    fun getSelectionForParents(tableName: String) = applyToSplitParts(selection, tableName)
 
-    open fun shouldApplyToParts(): Boolean {
-        return true
-    }
+    open fun shouldApplyToParts() = true
 
     companion object {
-        protected const val EXTRA_SEPARATOR = ";"
-        protected const val EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\)\\;"
+        const val EXTRA_SEPARATOR = ";"
+        const val EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\)\\;"
+        @JvmStatic
         fun escapeSeparator(`in`: String): String {
             return `in`.replace(";", "\\;")
         }
 
+        @JvmStatic
         fun unescapeSeparator(`in`: String): String {
             return `in`.replace("\\;", ";")
         }

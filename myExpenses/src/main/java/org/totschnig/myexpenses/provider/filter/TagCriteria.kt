@@ -1,35 +1,33 @@
 package org.totschnig.myexpenses.provider.filter
 
-import android.os.Parcel
-import android.os.Parcelable
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 
-const val TAG_COLUMN = KEY_TAGID
+@Parcelize
+class TagCriteria(
+    override val label: String?,
+    override val values: Array<Long>
+) : IdCriteria() {
+    constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
 
-class TagCriteria(label: String, vararg ids: String) : IdCriteria(label, *ids) {
-    constructor(label: String, vararg ids: Long) : this(label, *longArrayToStringArray(ids))
-    constructor(parcel: Parcel) : this(parcel.readString()!!, *parcel.createStringArray()!!)
+    @IgnoredOnParcel
+    override val operation = WhereFilter.Operation.IN
 
-    override fun getSelection() = "%s IN (SELECT %s FROM %s WHERE %s)".format(KEY_ROWID, KEY_TRANSACTIONID, TABLE_TRANSACTIONS_TAGS, super.getSelection())
+    override val selection: String
+        get() = "$KEY_ROWID IN (SELECT $KEY_TRANSACTIONID FROM $TABLE_TRANSACTIONS_TAGS WHERE ${super.selection})"
 
-    override fun getID() = R.id.FILTER_TAG_COMMAND
+    @IgnoredOnParcel
+    override val id = R.id.FILTER_TAG_COMMAND
 
-    override fun getColumn() = TAG_COLUMN
+    @IgnoredOnParcel
+    override val column = KEY_TAGID
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(label)
-        parcel.writeStringArray(values)
-    }
-
-    companion object CREATOR : Parcelable.Creator<TagCriteria> {
-        override fun createFromParcel(parcel: Parcel) = TagCriteria(parcel)
-
-        override fun newArray(size: Int): Array<TagCriteria?> = arrayOfNulls(size)
-
+    companion object {
         fun fromStringExtra(extra: String) = fromStringExtra(extra, TagCriteria::class.java)
     }
 }

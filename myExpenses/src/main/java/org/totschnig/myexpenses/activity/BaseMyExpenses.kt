@@ -944,7 +944,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         Utils.menuItemSetEnabledAndVisible(searchMenu, sumInfoIsLoaded)
 
         (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
-            //searchMenu.isChecked = !getFilter().isEmpty()
+            //TODO searchMenu.isChecked = !getFilter().isEmpty()
             checkMenuIcon(searchMenu)
             val filterMenu = searchMenu.subMenu!!
             for (i in 0 until filterMenu.size()) {
@@ -973,7 +973,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         enabled = currentAccount.isAggregate
                     }
                 }
-                val c: Criteria? = null //getFilter().get(filterItem.itemId)
+                val c: Criteria<*>? = null //TODO getFilter().get(filterItem.itemId)
                 Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null)
                 if (c != null) {
                     filterItem.isChecked = true

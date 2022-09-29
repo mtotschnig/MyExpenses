@@ -15,37 +15,25 @@
  *   Based on Financisto (c) 2010 Denis Solonenko, made available
  *   under the terms of the GNU Public License v2.0
 */
+package org.totschnig.myexpenses.provider.filter
 
-package org.totschnig.myexpenses.provider.filter;
+import android.content.Context
+import org.totschnig.myexpenses.util.Utils
 
-import android.content.Context;
-import android.os.Parcel;
+abstract class TextCriteria : Criteria<String>() {
 
-import org.totschnig.myexpenses.util.Utils;
+    abstract val searchString : String
 
-public abstract class TextCriteria extends Criteria {
-  private String searchString;
-  TextCriteria(String searchString) {
-    super(WhereFilter.Operation.LIKE,
-        "%" + Utils.escapeSqlLikeExpression(searchString) + "%");
-    this.searchString = searchString;
-  }
-  TextCriteria(Parcel in) {
-   super(in);
-   searchString = in.readString();
-  }
-  @Override
-  public String prettyPrint(Context context) {
-    return searchString;
-  }
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    super.writeToParcel(dest, flags);
-    dest.writeString(searchString);
-  }
-  
-  @Override
-  public String toStringExtra() {
-    return searchString;
-  };
+    override val values: Array<String>
+        get() = arrayOf("%${Utils.escapeSqlLikeExpression(searchString)}%")
+
+    override val operation = WhereFilter.Operation.LIKE
+
+    override fun prettyPrint(context: Context): String {
+        return searchString
+    }
+
+    override fun toStringExtra(): String? {
+        return searchString
+    }
 }

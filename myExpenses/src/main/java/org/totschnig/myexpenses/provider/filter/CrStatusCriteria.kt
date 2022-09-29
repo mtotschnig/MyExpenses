@@ -17,38 +17,44 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
+import android.content.Context
+import android.text.TextUtils
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class TransferCriteria(
-    override val label: String?,
-    override val values: Array<Long>
-) : IdCriteria() {
-    constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
+class CrStatusCriteria(override val values: Array<CrStatus>) : Criteria<CrStatus>() {
 
+    @IgnoredOnParcel
+    override val id: Int = R.id.FILTER_STATUS_COMMAND
+    @IgnoredOnParcel
+    override val column = DatabaseConstants.KEY_CR_STATUS
     @IgnoredOnParcel
     override val operation = WhereFilter.Operation.IN
 
-    override val selection: String
-        get() {
-            val selection = operation.getOp(selectionArgs.size)
-            return "${DatabaseConstants.KEY_TRANSFER_PEER} IS NOT NULL AND ($column $selection OR ${DatabaseConstants.KEY_ACCOUNTID} $selection)"
-        }
+    override fun prettyPrint(context: Context) =
+        values.joinToString(",") { context.getString(it.toStringRes()) }
 
-    override val selectionArgs: Array<String>
-        get() = arrayOf(*super.selectionArgs, *super.selectionArgs)
+    override fun toStringExtra(): String? {
+        return TextUtils.join(EXTRA_SEPARATOR, selectionArgs)
+    }
 
-    @IgnoredOnParcel
-    override val id = R.id.FILTER_TRANSFER_COMMAND
-
-    @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_TRANSFER_ACCOUNT
+    override fun shouldApplyToParts(): Boolean {
+        return false
+    }
 
     companion object {
 
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, TransferCriteria::class.java)
+        fun fromStringExtra(extra: String) =
+            CrStatusCriteria(extra.split(EXTRA_SEPARATOR).mapNotNull {
+                try {
+                    CrStatus.valueOf(it)
+                } catch (e: java.lang.IllegalArgumentException) {
+                    null
+                }
+            }.toTypedArray())
     }
 }

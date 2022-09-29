@@ -51,7 +51,7 @@ public class SelectCrStatusDialogFragment extends BaseDialogFragment implements 
     for (int i = 0; i < CrStatus.values().length; i++) {
       items[i] = getString(CrStatus.values()[i].toStringRes());
     }
-    return new MaterialAlertDialogBuilder(getActivity())
+    return new MaterialAlertDialogBuilder(requireActivity())
         .setTitle(R.string.search_status)
         .setMultiChoiceItems(items, null, null)
         .setPositiveButton(android.R.string.ok, this)
@@ -69,15 +69,15 @@ public class SelectCrStatusDialogFragment extends BaseDialogFragment implements 
 
     SparseBooleanArray positions = listView.getCheckedItemPositions();
 
-    ArrayList<String> statusList = new ArrayList<>();
+    ArrayList<CrStatus> statusList = new ArrayList<>();
     for (int i = 0; i < positions.size(); i++) {
       if (positions.valueAt(i)) {
-        statusList.add(CrStatus.values()[positions.keyAt(i)].name());
+        statusList.add(CrStatus.values()[positions.keyAt(i)]);
       }
     }
     if (!statusList.isEmpty() && statusList.size() < CrStatus.values().length) {
       ((SelectFilterDialog.Host) getActivity()).addFilterCriteria(
-          new CrStatusCriteria(statusList.toArray(new String[statusList.size()])));
+          new CrStatusCriteria(statusList.toArray(new CrStatus[statusList.size()])));
     }
     dismiss();
   }

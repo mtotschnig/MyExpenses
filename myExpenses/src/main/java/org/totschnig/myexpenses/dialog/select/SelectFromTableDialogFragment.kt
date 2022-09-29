@@ -50,7 +50,7 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
     protected open val dialogTitle: Int = 0
     abstract val uri: Uri
     abstract val column: String
-    protected open val selectionArgs: Array<String?>? = null
+    protected open val selectionArgs: Array<String>? = null
     protected open val selection: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

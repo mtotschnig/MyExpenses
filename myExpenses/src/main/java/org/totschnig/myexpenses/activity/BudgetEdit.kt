@@ -236,14 +236,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         }
     }
 
-    override fun addFilterCriteria(c: Criteria) {
+    override fun addFilterCriteria(c: Criteria<*>) {
         setDirty()
         filterPersistence.addCriteria(c)
         showFilterCriteria(c)
         configureFilterDependents()
     }
 
-    private fun showFilterCriteria(c: Criteria) {
+    private fun showFilterCriteria(c: Criteria<*>) {
         findViewById<ScrollingChip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
             isCloseIconVisible = true

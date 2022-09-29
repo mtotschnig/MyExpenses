@@ -21,34 +21,42 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.categoryTreeSelect
 
 @Parcelize
-class TransferCriteria(
+class CategoryCriteria(
     override val label: String?,
+    override val operation: WhereFilter.Operation,
     override val values: Array<Long>
 ) : IdCriteria() {
-    constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
+    constructor() : this(null, WhereFilter.Operation.ISNULL, emptyArray())
+    constructor(label: String, vararg values: Long) : this(label, WhereFilter.Operation.IN, values.toTypedArray())
 
     @IgnoredOnParcel
-    override val operation = WhereFilter.Operation.IN
+    override val id = R.id.FILTER_CATEGORY_COMMAND
+
+    @IgnoredOnParcel
+    override val column = DatabaseConstants.KEY_CATID
 
     override val selection: String
-        get() {
-            val selection = operation.getOp(selectionArgs.size)
-            return "${DatabaseConstants.KEY_TRANSFER_PEER} IS NOT NULL AND ($column $selection OR ${DatabaseConstants.KEY_ACCOUNTID} $selection)"
-        }
-
-    override val selectionArgs: Array<String>
-        get() = arrayOf(*super.selectionArgs, *super.selectionArgs)
-
-    @IgnoredOnParcel
-    override val id = R.id.FILTER_TRANSFER_COMMAND
-
-    @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_TRANSFER_ACCOUNT
+        get() = if (operation === WhereFilter.Operation.ISNULL) {
+            super.selection
+        } else "$column IN (" + categoryTreeSelect(
+            null,
+            null,
+            arrayOf(DatabaseConstants.KEY_ROWID),
+            null,
+            WhereFilter.Operation.IN.getOp(selectionArgs.size),
+            null
+        ) + ")"
 
     companion object {
 
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, TransferCriteria::class.java)
+        fun fromStringExtra(extra: String): CategoryCriteria? {
+            return if (extra == "null") CategoryCriteria() else fromStringExtra(
+                extra,
+                CategoryCriteria::class.java
+            )
+        }
     }
 }

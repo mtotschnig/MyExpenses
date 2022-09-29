@@ -14,34 +14,36 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
-import android.os.Parcel
-import android.os.Parcelable
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
 const val ACCOUNT_COLUMN = DatabaseConstants.KEY_ACCOUNTID
 
-class AccountCriteria : IdCriteria {
-    constructor(label: String?, vararg ids: Long) : super(label, *ids)
-    @Suppress("unused") constructor(label: String?, vararg ids: String?) : super(label, *ids)
-    constructor(`in`: Parcel?) : super(`in`)
+@Parcelize
+class AccountCriteria(
+    override val label: String,
+    override val operation: Operation,
+    override val values: Array<Long>) : IdCriteria() {
+    constructor(label: String, vararg values: Long) : this(label, Operation.IN, values.toTypedArray())
 
-    override fun getID() = R.id.FILTER_ACCOUNT_COMMAND
+    @IgnoredOnParcel
+    override val id = R.id.FILTER_ACCOUNT_COMMAND
+    @IgnoredOnParcel
+    override val column = ACCOUNT_COLUMN
 
-    override fun getSelection(): String {
-        val selection = operation.getOp(values.size)
-        return column + " " + selection + " OR " + DatabaseConstants.KEY_TRANSFER_ACCOUNT+ " " + selection
-    }
+    override val selection: String
+        get()  {
+            val selection = operation.getOp(selectionArgs.size)
+            return "$column $selection OR ${DatabaseConstants.KEY_TRANSFER_ACCOUNT} $selection"
+        }
 
-    override fun getSelectionArgs() = arrayOf(*values, *values)
+    override val selectionArgs: Array<String>
+        get() = arrayOf(*super.selectionArgs, *super.selectionArgs)
 
-    public override fun getColumn() = ACCOUNT_COLUMN
-
-    companion object CREATOR : Parcelable.Creator<AccountCriteria> {
-        override fun createFromParcel(`in`: Parcel) = AccountCriteria(`in`)
-
-        override fun newArray(size: Int): Array<AccountCriteria?> = arrayOfNulls(size)
-
-        fun fromStringExtra(extra: String?) = fromStringExtra(extra, AccountCriteria::class.java)
+    companion object {
+        fun fromStringExtra(extra: String) = fromStringExtra(extra, AccountCriteria::class.java)
     }
 }

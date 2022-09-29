@@ -23,32 +23,15 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class TransferCriteria(
-    override val label: String?,
-    override val values: Array<Long>
-) : IdCriteria() {
-    constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
+class CommentCriteria(override val searchString: String) : TextCriteria() {
 
     @IgnoredOnParcel
-    override val operation = WhereFilter.Operation.IN
-
-    override val selection: String
-        get() {
-            val selection = operation.getOp(selectionArgs.size)
-            return "${DatabaseConstants.KEY_TRANSFER_PEER} IS NOT NULL AND ($column $selection OR ${DatabaseConstants.KEY_ACCOUNTID} $selection)"
-        }
-
-    override val selectionArgs: Array<String>
-        get() = arrayOf(*super.selectionArgs, *super.selectionArgs)
+    override val id = R.id.FILTER_COMMENT_COMMAND
 
     @IgnoredOnParcel
-    override val id = R.id.FILTER_TRANSFER_COMMAND
-
-    @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_TRANSFER_ACCOUNT
-
+    override val column = DatabaseConstants.KEY_COMMENT
     companion object {
 
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, TransferCriteria::class.java)
+        fun fromStringExtra(extra: String) = CommentCriteria(extra)
     }
 }
