@@ -167,6 +167,7 @@ dependencies {
     implementation 'com.squareup.phrase:phrase:1.1.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
+    implementation("androidx.compose.material3:material3:1.0.0-beta03")
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.activity:activity-compose:1.5.1'
     implementation "com.google.android.material:compose-theme-adapter:1.1.18"
@@ -176,8 +177,10 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
     implementation "androidx.paging:paging-compose:1.0.0-alpha16"
-    implementation "com.google.accompanist:accompanist-drawablepainter:0.23.1"
-    implementation "com.google.accompanist:accompanist-pager:0.25.1"
+    implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
+
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"

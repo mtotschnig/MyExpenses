@@ -14,16 +14,28 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.android.material.navigation.NavigationView
@@ -64,6 +76,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
@@ -105,16 +118,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
 
     private fun moveToAccount(): Boolean {
-        return viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }?.let {
-            if (viewModel.pagerState.currentPage != it) {
-                lifecycleScope.launch {
-                    viewModel.pagerState.scrollToPage(it)
+        return viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }
+            ?.let {
+                if (viewModel.pagerState.currentPage != it) {
+                    lifecycleScope.launch {
+                        viewModel.pagerState.scrollToPage(it)
+                    }
+                } else {
+                    setCurrentAccount(it)
                 }
-            } else {
-                setCurrentAccount(it)
-            }
-            true
-        } ?: false
+                true
+            } ?: false
     }
 
     val currentAccount: FullAccount
@@ -259,6 +273,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readAccountGroupingFromPref()
@@ -312,53 +327,83 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             }
                         }
                     }
-                    ComposeTransactionList(
-                        pagingSourceFactory = data,
-                        headerData = headerData.collectAsState(HeaderData.EMPTY).value,
-                        accountId = account.value.id,
-                        selectionHandler = object : SelectionHandler {
-                            override fun toggle(transaction: Transaction2) {
-                                if (viewModel.selectionState.toggle(transaction)) {
-                                    viewModel.selectedTransactionSum += transaction.amount.amountMinor
-                                } else {
-                                    viewModel.selectedTransactionSum -= transaction.amount.amountMinor
+                    Column {
+                        val filter = viewModel.filterPersistence.getValue(account.value.id)
+                            .whereFilterAsFlow
+                            .collectAsState(WhereFilter.empty())
+                            .value
+                            .takeIf { !it.isEmpty }?.let {
+                                Row {
+                                    androidx.compose.material.Icon(
+                                        imageVector = Icons.Filled.Search,
+                                        contentDescription = stringResource(R.string.menu_search),
+                                        tint = Color.Green
+                                    )
+                                    FlowRow(modifier = Modifier.weight(1f)) {
+                                        it.criteria.forEach {
+                                            SuggestionChip(
+                                                onClick = { },
+                                                label = {
+                                                    Text(it.prettyPrint(LocalContext.current))
+                                                }
+
+                                            )
+                                        }
+                                    }
+                                    androidx.compose.material.Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = stringResource(R.string.clear_all_filters)
+                                    )
                                 }
                             }
+                        ComposeTransactionList(
+                            pagingSourceFactory = data,
+                            headerData = headerData.collectAsState(HeaderData.EMPTY).value,
+                            accountId = account.value.id,
+                            selectionHandler = object : SelectionHandler {
+                                override fun toggle(transaction: Transaction2) {
+                                    if (viewModel.selectionState.toggle(transaction)) {
+                                        viewModel.selectedTransactionSum += transaction.amount.amountMinor
+                                    } else {
+                                        viewModel.selectedTransactionSum -= transaction.amount.amountMinor
+                                    }
+                                }
 
-                            override fun isSelected(transaction: Transaction2) =
-                                selectionState.contains(transaction)
+                                override fun isSelected(transaction: Transaction2) =
+                                    selectionState.contains(transaction)
 
-                            override val selectionCount: Int
-                                get() = selectionState.size
+                                override val selectionCount: Int
+                                    get() = selectionState.size
 
-                        },
-                        menuGenerator = remember {
-                            { transaction ->
-                                if (viewModel.accountData.value.first { it.id == transaction.accountId }.sealed) null else Menu(
-                                    listOfNotNull(
-                                        if (transaction.crStatus != CrStatus.VOID)
-                                            edit { edit(transaction) } else null,
-                                        MenuEntry(
-                                            icon = Icons.Filled.ContentCopy,
-                                            label = R.string.menu_clone_transaction
-                                        ) {
-                                            edit(transaction, true)
-                                        },
-                                        delete { delete(listOf(transaction)) },
-                                        MenuEntry(
-                                            icon = myiconpack.IcActionTemplateAdd,
-                                            label = R.string.menu_create_template_from_transaction
-                                        ) { createTemplate(transaction) },
-                                        if (transaction.crStatus == CrStatus.VOID)
+                            },
+                            menuGenerator = remember {
+                                { transaction ->
+                                    if (viewModel.accountData.value.first { it.id == transaction.accountId }.sealed) null else Menu(
+                                        listOfNotNull(
+                                            if (transaction.crStatus != CrStatus.VOID)
+                                                edit { edit(transaction) } else null,
                                             MenuEntry(
-                                                icon = Icons.Filled.RestoreFromTrash,
-                                                label = R.string.menu_undelete_transaction
-                                            ) { undelete(transaction) } else null
+                                                icon = Icons.Filled.ContentCopy,
+                                                label = R.string.menu_clone_transaction
+                                            ) {
+                                                edit(transaction, true)
+                                            },
+                                            delete { delete(listOf(transaction)) },
+                                            MenuEntry(
+                                                icon = myiconpack.IcActionTemplateAdd,
+                                                label = R.string.menu_create_template_from_transaction
+                                            ) { createTemplate(transaction) },
+                                            if (transaction.crStatus == CrStatus.VOID)
+                                                MenuEntry(
+                                                    icon = Icons.Filled.RestoreFromTrash,
+                                                    label = R.string.menu_undelete_transaction
+                                                ) { undelete(transaction) } else null
+                                        )
                                     )
-                                )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
@@ -968,7 +1013,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         enabled = sumInfo.mappedCategories
                     }
                     R.id.FILTER_STATUS_COMMAND -> {
-                        enabled = currentAccount.isAggregate || currentAccount.type != AccountType.CASH
+                        enabled =
+                            currentAccount.isAggregate || currentAccount.type != AccountType.CASH
                     }
                     R.id.FILTER_PAYEE_COMMAND -> {
                         enabled = sumInfo.mappedPayees
@@ -1534,7 +1580,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         viewModel.addFilterCriteria(c, currentAccount.id)
     }
 
-    fun removeFilter(id: Int) = if(viewModel.removeFilter(id, currentAccount.id)) {
+    fun removeFilter(id: Int) = if (viewModel.removeFilter(id, currentAccount.id)) {
         invalidateOptionsMenu()
         true
     } else false

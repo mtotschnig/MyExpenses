@@ -32,7 +32,7 @@ data class WhereFilter(val criteria: List<Criterion<*>>) {
         if (queryParts || it.shouldApplyToParts()) {
             listOf(*(it.selectionArgs + it.selectionArgs))
         } else listOf(*it.selectionArgs)
-    }.toTypedArray().takeIf { it.isNotEmpty() }
+    }.toTypedArray()
 
     operator fun get(id: Int): Criterion<*>? = criteria.find { it.id == id }
 
