@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
-import java.util.*
 
 abstract class IdCriterion : Criterion<Long>() {
 
@@ -52,30 +51,19 @@ abstract class IdCriterion : Criterion<Long>() {
 
     companion object {
 
-        fun <T : IdCriterion?> fromStringExtra(extra: String, clazz: Class<T>): T? {
+        fun parseStringExtra(extra: String): Pair<String, LongArray>? {
             val extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP).toTypedArray()
-            if (extraParts.size < 2) {
+            return if (extraParts.size < 2) {
                 report(
                     Exception(
                         String.format(
-                            "Unparsable string extra %s for %s",
+                            "Unparsable string extra %s",
                             extraParts.contentToString(),
-                            clazz.name
                         )
                     )
                 )
-                return null
-            }
-            val ids = extraParts.copyOfRange(1, extraParts.size)
-            val label = unescapeSeparator(
-                extraParts[0]
-            )
-            return try {
-                clazz.getConstructor(String::class.java, Array<String>::class.java)
-                    .newInstance(label, ids)
-            } catch (e: Exception) {
-                throw RuntimeException("Unable to find constructor for class " + clazz.name)
-            }
+                null
+            } else unescapeSeparator(extraParts[0]) to extraParts.copyOfRange(1, extraParts.size).map { it.toLong() }.toLongArray()
         }
     }
 }

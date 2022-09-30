@@ -20,7 +20,7 @@ class FilterPersistence(
 ) {
     val whereFilterAsFlow: StateFlow<WhereFilter>
         get() = _whereFilter
-    val _whereFilter: MutableStateFlow<WhereFilter>
+    private val _whereFilter: MutableStateFlow<WhereFilter>
     val whereFilter: WhereFilter
         get() = _whereFilter.value
 
@@ -49,42 +49,42 @@ class FilterPersistence(
     }
 
     @CheckResult
-    private fun restoreFromPreferences(): WhereFilter {
-        return WhereFilter.empty().restoreColumn(KEY_CATID) {
+    private fun restoreFromPreferences() = WhereFilter.empty()
+        .restoreColumn(KEY_CATID) {
             CategoryCriterion.fromStringExtra(it)
-        }.restoreColumn(KEY_AMOUNT) {
+        }
+        .restoreColumn(KEY_AMOUNT) {
             AmountCriterion.fromStringExtra(it)
         }
-            .restoreColumn(KEY_COMMENT) {
-                CommentCriterion.fromStringExtra(it)
+        .restoreColumn(KEY_COMMENT) {
+            CommentCriterion.fromStringExtra(it)
+        }
+        .restoreColumn(KEY_CR_STATUS) {
+            CrStatusCriterion.fromStringExtra(it)
+        }
+        .restoreColumn(KEY_PAYEEID) {
+            PayeeCriterion.fromStringExtra(it)
+        }
+        .restoreColumn(KEY_METHODID) {
+            MethodCriterion.fromStringExtra(it)
+        }
+        .restoreColumn(KEY_DATE) {
+            try {
+                DateCriterion.fromStringExtra(it)
+            } catch (e: DateTimeParseException) {
+                Timber.e(e)
+                null
             }
-            .restoreColumn(KEY_CR_STATUS) {
-                CrStatusCriterion.fromStringExtra(it)
-            }
-            .restoreColumn(KEY_PAYEEID) {
-                PayeeCriterion.fromStringExtra(it)
-            }
-            .restoreColumn(KEY_METHODID) {
-                MethodCriterion.fromStringExtra(it)
-            }
-            .restoreColumn(KEY_DATE) {
-                try {
-                    DateCriterion.fromStringExtra(it)
-                } catch (e: DateTimeParseException) {
-                    Timber.e(e)
-                    null
-                }
-            }
-            .restoreColumn(KEY_TRANSFER_ACCOUNT) {
-                TransferCriterion.fromStringExtra(it)
-            }
-            .restoreColumn(KEY_TAGID) {
-                TagCriterion.fromStringExtra(it)
-            }
-            .restoreColumn(ACCOUNT_COLUMN) {
-                AccountCriterion.fromStringExtra(it)
-            }
-    }
+        }
+        .restoreColumn(KEY_TRANSFER_ACCOUNT) {
+            TransferCriterion.fromStringExtra(it)
+        }
+        .restoreColumn(KEY_TAGID) {
+            TagCriterion.fromStringExtra(it)
+        }
+        .restoreColumn(ACCOUNT_COLUMN) {
+            AccountCriterion.fromStringExtra(it)
+        }
 
     fun addCriteria(criterion: Criterion<*>) {
         _whereFilter.value = whereFilter.put(criterion)

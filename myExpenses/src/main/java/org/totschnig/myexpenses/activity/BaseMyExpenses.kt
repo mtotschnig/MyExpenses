@@ -35,6 +35,7 @@ import eltos.simpledialogfragment.form.AmountEdit
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
+import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
 import icepick.State
@@ -42,6 +43,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
+import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
@@ -60,8 +62,10 @@ import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -706,15 +710,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         )
     }
 
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
         if (which == OnDialogResultListener.BUTTON_POSITIVE) {
             when (dialogTag) {
-                DIALOG_TAG_GROUPING -> {
-                    return handleAccountsGrouping(extras.getLong(SELECTED_SINGLE_ID).toInt())
+                FILTER_COMMENT_DIALOG -> {
+                    extras.getString(SimpleInputDialog.TEXT)?.let {
+                        addFilterCriterion(CommentCriterion(it))
+                    }
+                    true
                 }
-                DIALOG_TAG_SORTING -> {
-                    return handleSortOption(extras.getLong(SELECTED_SINGLE_ID).toInt())
-                }
+                DIALOG_TAG_GROUPING ->
+                    handleAccountsGrouping(extras.getLong(SELECTED_SINGLE_ID).toInt())
+                DIALOG_TAG_SORTING -> handleSortOption(extras.getLong(SELECTED_SINGLE_ID).toInt())
                 DIALOG_TAG_OCR_DISAMBIGUATE -> {
                     startEditFromOcrResult(
                         extras.getParcelable<OcrResult>(KEY_OCR_RESULT)!!.selectCandidates(
@@ -723,7 +730,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             extras.getInt(KEY_PAYEE_NAME)
                         )
                     )
-                    return true
+                    true
                 }
                 DIALOG_TAG_NEW_BALANCE -> {
                     startEdit(
@@ -738,12 +745,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             )
                         }
                     )
-                    return true
+                    true
                 }
+                else -> false
             }
-        }
-        return false
-    }
+        } else false
 
     private val shareTarget: String
         get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim { it <= ' ' }
@@ -863,6 +869,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
                 true
             }
+            R.id.SYNC_COMMAND -> {
+                currentAccount.takeIf { it.syncAccountName != null }?.let {
+                    requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
+                }
+                true
+            }
             else -> false
         }
 
@@ -944,7 +956,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         Utils.menuItemSetEnabledAndVisible(searchMenu, sumInfoIsLoaded)
 
         (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
-            //TODO searchMenu.isChecked = !getFilter().isEmpty()
+            val whereFilter = viewModel.filterPersistence.getValue(currentAccount.id).whereFilter
+            searchMenu.isChecked = !whereFilter.isEmpty
             checkMenuIcon(searchMenu)
             val filterMenu = searchMenu.subMenu!!
             for (i in 0 until filterMenu.size()) {
@@ -973,7 +986,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         enabled = currentAccount.isAggregate
                     }
                 }
-                val c: Criterion<*>? = null //TODO getFilter().get(filterItem.itemId)
+                val c: Criterion<*>? = whereFilter[filterItem.itemId]
                 Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null)
                 if (c != null) {
                     filterItem.isChecked = true
@@ -1515,6 +1528,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         return result
     }
+
+    fun addFilterCriterion(c: Criterion<*>) {
+        invalidateOptionsMenu()
+        viewModel.addFilterCriteria(c, currentAccount.id)
+    }
+
+    fun removeFilter(id: Int) = if(viewModel.removeFilter(id, currentAccount.id)) {
+        invalidateOptionsMenu()
+        true
+    } else false
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"

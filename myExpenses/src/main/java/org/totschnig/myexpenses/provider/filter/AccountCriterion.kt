@@ -44,6 +44,8 @@ class AccountCriterion(
         get() = arrayOf(*super.selectionArgs, *super.selectionArgs)
 
     companion object {
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, AccountCriterion::class.java)
+        fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {
+            AccountCriterion(it.first, *it.second)
+        }
     }
 }

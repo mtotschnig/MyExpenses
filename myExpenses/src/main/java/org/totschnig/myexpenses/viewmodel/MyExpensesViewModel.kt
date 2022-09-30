@@ -72,7 +72,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
     ) {
         PagerState(0) }
 
-    private val filterPersistence: Map<Long, FilterPersistence> =
+    val filterPersistence: Map<Long, FilterPersistence> =
         lazyMap {
             FilterPersistence(
                 prefHandler,

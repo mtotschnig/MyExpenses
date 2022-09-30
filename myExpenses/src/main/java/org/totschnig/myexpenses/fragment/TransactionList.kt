@@ -183,7 +183,7 @@ class TransactionList : BaseTransactionList() {
                 return true
             }
             R.id.SYNC_COMMAND -> {
-                mAccount.requestSync()
+                //mAccount.requestSync()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

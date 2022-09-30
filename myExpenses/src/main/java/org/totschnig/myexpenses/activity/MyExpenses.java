@@ -49,7 +49,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -66,7 +65,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.filter.Criterion;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -311,11 +309,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (requestCode == OCR_REQUEST) {
       getOcrViewModel().handleOcrData(intent, getSupportFragmentManager());
     }
-  }
-
-  @Override
-  public void addFilterCriteria(@NotNull Criterion c) {
-    getViewModel().addFilterCriteria(c, getCurrentAccount().getId());
   }
 
   /**

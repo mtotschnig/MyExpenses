@@ -9,7 +9,7 @@ abstract class SelectFilterDialog<T : Criterion<*>>(withNullItem: Boolean) : Sel
 
     override fun onResult(labelList: List<String>, itemIds: LongArray, which: Int) =
             if (itemIds.size == 1 || itemIds.indexOf(NULL_ITEM_ID) == -1) {
-                (activity as Host).addFilterCriteria(
+                (activity as Host).addFilterCriterion(
                         makeCriteria(TextUtils.join(",", labelList), *itemIds))
                 true
             } else {
@@ -18,6 +18,6 @@ abstract class SelectFilterDialog<T : Criterion<*>>(withNullItem: Boolean) : Sel
             }
 
     interface Host {
-        fun addFilterCriteria(c: Criterion<*>)
+        fun addFilterCriterion(c: Criterion<*>)
     }
 }

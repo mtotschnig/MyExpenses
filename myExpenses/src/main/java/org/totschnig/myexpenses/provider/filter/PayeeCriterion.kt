@@ -43,6 +43,8 @@ class PayeeCriterion(
     companion object {
         fun fromStringExtra(extra: String) =
             if (extra == "null") PayeeCriterion() else
-                fromStringExtra(extra, PayeeCriterion::class.java)
+                parseStringExtra(extra)?.let {
+                    PayeeCriterion(it.first, *it.second)
+                }
     }
 }

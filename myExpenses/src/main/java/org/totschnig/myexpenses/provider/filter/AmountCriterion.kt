@@ -45,23 +45,23 @@ class AmountCriterion(
     override fun prettyPrint(context: Context): String {
         val currencyFormatter =
             (context.applicationContext as MyApplication).appComponent.currencyFormatter()
-        var result = context.getString(if (type) R.string.income else R.string.expense) + " "
         val currencyContext =
             (context.applicationContext as MyApplication).appComponent.currencyContext()
         val currencyUnit = currencyContext[currency]
         val amount1 = currencyFormatter.formatMoney(Money(currencyUnit, abs(values[0])))
-        result += when (operation) {
+        return context.getString(if (type) R.string.income else R.string.expense) + " " + when (operation) {
             Operation.EQ -> "= $amount1"
-            Operation.GTE -> "≥ $amount1"
-            Operation.LTE -> "≤ $amount1"
+            Operation.GTE, Operation.LTE -> "≥ $amount1"
             Operation.BTW -> {
-                val amount2 =
-                    currencyFormatter.formatMoney(Money(currencyUnit, abs(values[1])))
-                context.getString(R.string.between_and, amount1, amount2)
+                if (values[1] == 0L) {
+                    "<= $amount1"
+                } else {
+                    val amount2 = currencyFormatter.formatMoney(Money(currencyUnit, abs(values[1])))
+                    if (values[0] == 0L) "<=  $amount2" else context.getString(R.string.between_and, amount1, amount2)
+                }
             }
             else -> throw IllegalArgumentException()
         }
-        return result
     }
 
     override fun toStringExtra(): String {
@@ -79,28 +79,29 @@ class AmountCriterion(
             operation: Operation,
             currency: String,
             type: Boolean,
-            vararg values: Long
+            value1: Long,
+            value2: Long?
         ): AmountCriterion {
-            val criteriaInfo = transformCriteria(operation, type, *values)
+            val criteriaInfo = transformCriteria(operation, type, value1, value2)
             return AmountCriterion(criteriaInfo.first, criteriaInfo.second, currency, type)
         }
 
         private fun transformCriteria(
             operation: Operation,
             type: Boolean,
-            vararg values: Long
+            value1: Long,
+            value2: Long?
         ): Pair<Operation, Array<Long>> {
             if (operation !in listOf(Operation.BTW, Operation.EQ, Operation.GTE, Operation.LTE))
                 throw UnsupportedOperationException("Operator not supported: " + operation.name)
 
-            val longAmount2: Long
-            val longAmount1: Long = if (type) values[0] else -values[0]
+            val longAmount1: Long = if (type) value1 else -value1
             return when (operation) {
                 Operation.BTW -> {
-                    if (values.size == 1) {
+                    if (value2 == null) {
                         throw UnsupportedOperationException("Operator BTW needs two values")
                     }
-                    longAmount2 = if (type) values[1] else -values[1]
+                    val longAmount2 = if (type) value2 else -value2
                     val needSwap = longAmount2 < longAmount1
                     Operation.BTW to arrayOf(
                         if (needSwap) longAmount2 else longAmount1,
@@ -126,9 +127,9 @@ class AmountCriterion(
                     currency = values[1],
                     type = values[2] == "1",
                     values = if (Operation.valueOf(values[0]) == Operation.BTW)
-                        arrayOf(values[3].toLong())
-                    else
                         arrayOf(values[3].toLong(), values[4].toLong())
+                    else
+                        arrayOf(values[3].toLong())
                 )
             } catch (e: NumberFormatException) {
                 null

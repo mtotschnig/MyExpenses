@@ -84,7 +84,7 @@ abstract class Criterion<T: Any> : Parcelable {
 
     companion object {
         const val EXTRA_SEPARATOR = ";"
-        const val EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\)\\;"
+        val EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\);".toRegex()
         @JvmStatic
         fun escapeSeparator(`in`: String): String {
             return `in`.replace(";", "\\;")

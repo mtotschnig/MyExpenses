@@ -52,11 +52,10 @@ class CategoryCriterion(
 
     companion object {
 
-        fun fromStringExtra(extra: String): CategoryCriterion? {
-            return if (extra == "null") CategoryCriterion() else fromStringExtra(
-                extra,
-                CategoryCriterion::class.java
-            )
-        }
+        fun fromStringExtra(extra: String) =
+            if (extra == "null") CategoryCriterion() else
+                parseStringExtra(extra)?.let {
+                    CategoryCriterion(it.first, *it.second)
+                }
     }
 }

@@ -76,7 +76,7 @@ public class SelectCrStatusDialogFragment extends BaseDialogFragment implements 
       }
     }
     if (!statusList.isEmpty() && statusList.size() < CrStatus.values().length) {
-      ((SelectFilterDialog.Host) getActivity()).addFilterCriteria(
+      ((SelectFilterDialog.Host) getActivity()).addFilterCriterion(
           new CrStatusCriterion(statusList.toArray(new CrStatus[statusList.size()])));
     }
     dismiss();

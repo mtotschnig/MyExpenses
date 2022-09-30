@@ -198,7 +198,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                     intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.takeIf { it.size > 0 }?.let {
                         val tagIds = it.map(Tag::id).toLongArray()
                         val label = it.map(Tag::label).joinToString(", ")
-                        addFilterCriteria(TagCriterion(label, *tagIds))
+                        addFilterCriterion(TagCriterion(label, *tagIds))
                     }
                 }
                 FILTER_PAYEE_REQUEST -> {
@@ -223,18 +223,18 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
         (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriterion()
         else CategoryCriterion(label, *catIds)).let {
-            addFilterCriteria(it)
+            addFilterCriterion(it)
         }
     }
 
     private fun addPayeeFilter(label: String, vararg payeeIds: Long) {
         (if (payeeIds.size == 1 && payeeIds[0] == NULL_ITEM_ID) PayeeCriterion()
         else PayeeCriterion(label, *payeeIds)).let {
-            addFilterCriteria(it)
+            addFilterCriterion(it)
         }
     }
 
-    override fun addFilterCriteria(c: Criterion<*>) {
+    override fun addFilterCriterion(c: Criterion<*>) {
         setDirty()
         filterPersistence.addCriteria(c)
         showFilterCriteria(c)

@@ -84,6 +84,6 @@ public class DateFilterDialog extends BaseDialogFragment implements OnClickListe
           WhereFilter.Operation.valueOf(selectedOp),
           date1);
     }
-    ctx.addFilterCriteria(c);
+    ctx.addFilterCriterion(c);
   }
 }

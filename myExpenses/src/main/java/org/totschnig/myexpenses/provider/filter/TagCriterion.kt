@@ -28,6 +28,8 @@ class TagCriterion(
     override val column = KEY_TAGID
 
     companion object {
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, TagCriterion::class.java)
+        fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {
+            TagCriterion(it.first, *it.second)
+        }
     }
 }

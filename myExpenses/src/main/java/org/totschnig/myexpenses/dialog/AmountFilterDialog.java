@@ -97,7 +97,7 @@ public class AmountFilterDialog extends BaseDialogFragment implements OnClickLis
     }
 
     final CurrencyUnit currency = (CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY);
-    ctx.addFilterCriteria(AmountCriterion.Companion.create(
+    ctx.addFilterCriterion(AmountCriterion.Companion.create(
             WhereFilter.Operation.valueOf(selectedOp),
             currency.getCode(),
             type,

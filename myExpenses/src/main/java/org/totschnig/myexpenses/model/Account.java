@@ -124,6 +124,7 @@ public class Account extends Model implements DistributionAccountInfo {
 
   private boolean sealed;
 
+  @Nullable
   public String getSyncAccountName() {
     return syncAccountName;
   }
@@ -689,12 +690,6 @@ public class Account extends Model implements DistributionAccountInfo {
       return new AggregateAccount(cursor);
     } else {
       return new Account(cursor);
-    }
-  }
-
-  public void requestSync() {
-    if (syncAccountName != null) {
-      GenericAccountService.requestSync(syncAccountName,getUuid());
     }
   }
 

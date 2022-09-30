@@ -3,23 +3,50 @@ package org.totschnig.myexpenses.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
+import eltos.simpledialogfragment.input.SimpleInputDialog
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.AmountFilterDialog
+import org.totschnig.myexpenses.dialog.DateFilterDialog
+import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
+import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class FilterHandler(val activity: BaseMyExpenses) {
     fun handleFilter(itemId: Int): Boolean {
         with(activity) {
+            if (removeFilter(itemId)) return true
             when (itemId) {
-                R.id.FILTER_CATEGORY_COMMAND -> {
-                    if (!viewModel.removeFilter(itemId, currentAccount.id)) {
-                        getCategory.launch(Unit)
-                    }
-                }
+                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(Unit)
+                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(Unit)
+                R.id.FILTER_TAG_COMMAND -> getTags.launch(Unit)
+                R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(currentAccount.currency)
+                    .show(supportFragmentManager, "AMOUNT_FILTER")
+                R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance()
+                    .show(supportFragmentManager, "DATE_FILTER")
+                R.id.FILTER_COMMENT_COMMAND -> SimpleInputDialog.build()
+                    .title(R.string.search_comment)
+                    .pos(R.string.menu_search)
+                    .neut()
+                    .show(this, FILTER_COMMENT_DIALOG)
+                R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance()
+                    .show(supportFragmentManager, "STATUS_FILTER")
+                R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(currentAccount.id)
+                    .show(supportFragmentManager, "METHOD_FILTER")
+                R.id.FILTER_TRANSFER_COMMAND -> SelectTransferAccountDialogFragment.newInstance(
+                    currentAccount.id
+                ).show(supportFragmentManager, "TRANSFER_FILTER")
+                R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(currentAccount.currency.code)
+                    .show(supportFragmentManager, "ACCOUNT_FILTER")
                 else -> return false
             }
             return true
@@ -28,6 +55,10 @@ class FilterHandler(val activity: BaseMyExpenses) {
 
     private val getCategory =
         activity.registerForActivityResult(PickObjectContract(FILTER_CATEGORY_REQUEST)) {}
+    private val getPayee =
+        activity.registerForActivityResult(PickObjectContract(FILTER_PAYEE_REQUEST)) {}
+    private val getTags =
+        activity.registerForActivityResult(PickObjectContract(FILTER_TAGS_REQUEST)) {}
 
     private inner class PickObjectContract(private val requestKey: String) :
         ActivityResultContract<Unit, Unit>() {
@@ -35,6 +66,8 @@ class FilterHandler(val activity: BaseMyExpenses) {
             Intent(
                 context, when (requestKey) {
                     FILTER_CATEGORY_REQUEST -> ManageCategories::class.java
+                    FILTER_PAYEE_REQUEST -> ManageParties::class.java
+                    FILTER_TAGS_REQUEST -> ManageTags::class.java
                     else -> throw IllegalArgumentException()
                 }
             ).apply {
@@ -43,45 +76,71 @@ class FilterHandler(val activity: BaseMyExpenses) {
 
         override fun parseResult(resultCode: Int, intent: Intent?) {
             if (resultCode == Activity.RESULT_OK) {
-                intent?.extras?.let { onResultSingle(requestKey, it) }
+                if (requestKey == FILTER_TAGS_REQUEST) {
+                    intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.let { tagList ->
+                        val ids = tagList.map { it.id }.toLongArray()
+                        val labels = tagList.joinToString { it.label }
+                        activity.addFilterCriterion(TagCriterion(labels, *ids))
+                    }
+/*
+*  final ArrayList<Tag> tagList = intent.getParcelableArrayListExtra(KEY_TAG_LIST);
+      if (tagList != null && !tagList.isEmpty()) {
+        long[] tagIds = Stream.of(tagList).mapToLong(Tag::getId).toArray();
+        String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
+        addFilterCriteria(new TagCriterion(label, tagIds));
+      } */
+                } else {
+                    intent?.extras?.let {
+                        val rowId = it.getLong(DatabaseConstants.KEY_ROWID)
+                        val label = it.getString(DatabaseConstants.KEY_LABEL)
+                        if (rowId != 0L && label != null) {
+                            when (requestKey) {
+                                FILTER_CATEGORY_REQUEST -> addCategoryFilter(label, rowId)
+                                FILTER_PAYEE_REQUEST -> addPayeeFilter(label, rowId)
+                            }
+                        }
+                        Unit
+                    }
+                }
             }
             if (resultCode == Activity.RESULT_FIRST_USER) {
-                intent?.extras?.let { onResultMultiple(requestKey, it) }
-            }
-        }
-    }
-
-    private fun onResultMultiple(requestKey: String, result: Bundle) {
-        val rowIds = result.getLongArray(DatabaseConstants.KEY_ROWID)
-        val label = result.getString(DatabaseConstants.KEY_LABEL)
-        if (rowIds != null && label != null) {
-            if (requestKey == FILTER_CATEGORY_REQUEST) {
-                addCategoryFilter(label, *rowIds)
-            }
-        }
-    }
-
-    private fun onResultSingle(requestKey: String, result: Bundle) {
-        val rowId = result.getLong(DatabaseConstants.KEY_ROWID)
-        val label = result.getString(DatabaseConstants.KEY_LABEL)
-        if (rowId != 0L && label != null) {
-            if (requestKey == FILTER_CATEGORY_REQUEST) {
-                addCategoryFilter(label, rowId)
+                intent?.extras?.let {
+                    val rowIds = it.getLongArray(DatabaseConstants.KEY_ROWID)
+                    val label = it.getString(DatabaseConstants.KEY_LABEL)
+                    if (rowIds != null && label != null) {
+                        when (requestKey) {
+                            FILTER_CATEGORY_REQUEST -> addCategoryFilter(label, *rowIds)
+                            FILTER_PAYEE_REQUEST -> addPayeeFilter(label, *rowIds)
+                        }
+                    }
+                    Unit
+                }
             }
         }
     }
 
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
         with(activity) {
-            viewModel.addFilterCriteria(
+            addFilterCriterion(
                 if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriterion() else
-                    CategoryCriterion(label, *catIds),
-                currentAccount.id
+                    CategoryCriterion(label, *catIds)
+            )
+        }
+    }
+
+    private fun addPayeeFilter(label: String, vararg catIds: Long) {
+        with(activity) {
+            addFilterCriterion(
+                if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) PayeeCriterion() else
+                    PayeeCriterion(label, *catIds)
             )
         }
     }
 
     companion object {
         const val FILTER_CATEGORY_REQUEST = "filterCategory"
+        const val FILTER_PAYEE_REQUEST = "filterPayee"
+        const val FILTER_TAGS_REQUEST = "filterTags"
+        const val FILTER_COMMENT_DIALOG = "dialogFilterComment"
     }
 }

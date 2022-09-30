@@ -44,6 +44,8 @@ class MethodCriterion(
     companion object {
         fun fromStringExtra(extra: String) =
             if (extra == "null") MethodCriterion() else
-                fromStringExtra(extra, MethodCriterion::class.java)
+                parseStringExtra(extra)?.let {
+                    MethodCriterion(it.first, *it.second)
+                }
     }
 }

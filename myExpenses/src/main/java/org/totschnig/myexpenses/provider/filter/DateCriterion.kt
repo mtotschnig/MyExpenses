@@ -77,12 +77,12 @@ class DateCriterion(
     override fun prettyPrint(context: Context): String {
         var result = ""
         val df = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-        val date1 = df.format(LocalDate.parse(selectionArgs[0]))
+        val date1 = df.format(values[0])
         when (operation) {
             WhereFilter.Operation.GTE, WhereFilter.Operation.GT -> result = context.getString(R.string.after, date1)
             WhereFilter.Operation.LTE, WhereFilter.Operation.LT -> result = context.getString(R.string.before, date1)
             WhereFilter.Operation.BTW -> {
-                val date2 = df.format(LocalDate.parse(selectionArgs[1]))
+                val date2 = df.format(values[1])
                 result += context.getString(R.string.between_and, date1, date2)
             }
             else -> throw IllegalStateException("Unexpected value: $operation")

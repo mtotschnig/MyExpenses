@@ -71,7 +71,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun notifyChangeDo(uri: Uri, syncToNetwork: Boolean) {
-        context!!.contentResolver.notifyChange(uri, null,
+        context!!.contentResolver.notifyChange(
+            uri, null,
             syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true)
         )
     }
@@ -142,27 +143,21 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val budgetTableJoin =
         "$TABLE_BUDGETS LEFT JOIN $TABLE_ACCOUNTS ON ($KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID)"
 
-    private val fullAccountProjection =
-        Account.PROJECTION_BASE.copyOf(Account.PROJECTION_BASE.size + 13).also {
-            val baseLength = Account.PROJECTION_BASE.size
-            it[baseLength] =
-                "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE"
-            it[baseLength + 1] = KEY_SUM_INCOME
-            it[baseLength + 2] = KEY_SUM_EXPENSES
-            it[baseLength + 3] = KEY_SUM_TRANSFERS
-            it[baseLength + 4] = "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL"
-            it[baseLength + 5] =
-                "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL"
-            it[baseLength + 6] =
-                "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL"
-            it[baseLength + 7] = KEY_USAGES
-            it[baseLength + 8] =
-                "0 AS $KEY_IS_AGGREGATE"//this is needed in the union with the aggregates to sort real accounts first
-            it[baseLength + 9] = KEY_HAS_FUTURE
-            it[baseLength + 10] = KEY_HAS_CLEARED
-            it[baseLength + 11] = AccountType.sqlOrderExpression()
-            it[baseLength + 12] = KEY_LAST_USED
-        }
+    private val fullAccountProjection = Account.PROJECTION_BASE + arrayOf(
+        "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE",
+        KEY_SUM_INCOME,
+        KEY_SUM_EXPENSES,
+        KEY_SUM_TRANSFERS,
+        "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL",
+        "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL",
+        "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL",
+        KEY_USAGES,
+        "0 AS $KEY_IS_AGGREGATE",//this is needed in the union with the aggregates to sort real accounts first
+        KEY_HAS_FUTURE,
+        KEY_HAS_CLEARED,
+        AccountType.sqlOrderExpression(),
+        AccountType.sqlOrderExpression()
+    )
 
     fun buildAccountQuery(
         minimal: Boolean,
@@ -184,9 +179,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
         val joinWithAggregates =
             "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = $KEY_ACCOUNTID"
-        val accountQueryBuilder = SupportSQLiteQueryBuilder.builder(if (minimal) TABLE_ACCOUNTS else joinWithAggregates)
+        val accountQueryBuilder =
+            SupportSQLiteQueryBuilder.builder(if (minimal) TABLE_ACCOUNTS else joinWithAggregates)
         val query = if (mergeAggregate == null) {
-            accountQueryBuilder.columns(fullAccountProjection).selection(selection, emptyArray()).create().sql
+            accountQueryBuilder.columns(fullAccountProjection).selection(selection, emptyArray())
+                .create().sql
         } else {
             val subQueries: MutableList<String> = ArrayList()
             if (mergeAggregate == "1") {
@@ -197,9 +194,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                             KEY_LABEL,
                             KEY_CURRENCY,
                             "0 AS $KEY_IS_AGGREGATE"
-                        ) else fullAccountProjection)
-                        .selection(selection, emptyArray()).create().sql
+                        ) else fullAccountProjection
                     )
+                        .selection(selection, emptyArray()).create().sql
+                )
             }
             //Currency query
             if (mergeAggregate != Account.HOME_AGGREGATE_ID.toString()) {
@@ -252,9 +250,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     qb.columns(currencyProjection)
                         .selection("$KEY_EXCLUDE_FROM_TOTALS = 0", emptyArray())
                         .groupBy(KEY_CURRENCY)
-                        .having(if (mergeAggregate == "1") "count(*) > 1" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
-                                mergeAggregate.substring(1)).create().sql
-                    )
+                        .having(
+                            if (mergeAggregate == "1") "count(*) > 1" else "$TABLE_CURRENCIES.$KEY_ROWID = " +
+                                    mergeAggregate.substring(1)
+                        ).create().sql
+                )
             }
             //home query
             if (mergeAggregate == Account.HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
@@ -312,8 +312,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     qb.columns(homeProjection)
                         .selection("$KEY_EXCLUDE_FROM_TOTALS = 0", emptyArray())
                         .groupBy("1")
-                        .having("(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0").create().sql
-                    )
+                        .having("(select count(distinct $KEY_CURRENCY) from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY != '$homeCurrency') > 0")
+                        .create().sql
+                )
             }
             val grouping = if (!minimal) {
                 when (try {
@@ -450,11 +451,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun initOpenHelper() {
-        helper = openHelperFactory.create(SupportSQLiteOpenHelper.Configuration.builder(context!!)
-            .name(databaseName).callback(
-                TransactionDatabase()
-            ).build()).also {
-                it.setWriteAheadLoggingEnabled(false)
+        helper = openHelperFactory.create(
+            SupportSQLiteOpenHelper.Configuration.builder(context!!)
+                .name(databaseName).callback(
+                    TransactionDatabase()
+                ).build()
+        ).also {
+            it.setWriteAheadLoggingEnabled(false)
         }
     }
 
@@ -477,7 +480,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         sortOrder: String?,
         limit: String?
     ): Cursor {
-        val query = columns(projection).selection(selection, selectionArgs).groupBy(groupBy).having(having).orderBy(sortOrder).limit(limit).create()
+        val query =
+            columns(projection).selection(selection, selectionArgs).groupBy(groupBy).having(having)
+                .orderBy(sortOrder).limit(limit).create()
         return measure(block = {
             db.query(query)
         }) {

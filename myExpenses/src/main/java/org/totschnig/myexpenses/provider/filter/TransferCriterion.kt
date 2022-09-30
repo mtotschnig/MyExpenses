@@ -49,6 +49,8 @@ class TransferCriterion(
 
     companion object {
 
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, TransferCriterion::class.java)
+        fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {
+            TransferCriterion(it.first, *it.second)
+        }
     }
 }

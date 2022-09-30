@@ -70,7 +70,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
                 viewModel.syncLinkLocal(
-                    accountName = account.syncAccountName,
+                    accountName = account.syncAccountName!!,
                     uuid = account.uuid!!
                 ).observe(this) { result ->
                     result.onFailure {
@@ -114,6 +114,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (!finishWithIncomingAccountDeleted()) {
             super.onBackPressed()

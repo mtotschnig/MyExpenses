@@ -4,21 +4,11 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import arrow.core.Tuple4
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.getDouble
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 
@@ -41,7 +31,8 @@ data class FullAccount(
     val syncAccountName: String? = null,
     val reconciledTotal: Long = 0L,
     val clearedTotal: Long = 0L,
-    val hasCleared: Boolean = false
+    val hasCleared: Boolean = false,
+    val uuid: String? = null
 
 ) {
 
@@ -84,7 +75,7 @@ data class FullAccount(
                     }
                 }.build()
 
-    val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
+    private val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
 
     val isAggregate get() = id < 0
 
@@ -114,7 +105,8 @@ data class FullAccount(
             syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
             reconciledTotal = cursor.getLong(KEY_RECONCILED_TOTAL),
             clearedTotal = cursor.getLong(KEY_CLEARED_TOTAL),
-            hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0
+            hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0,
+            uuid = cursor.getStringOrNull(KEY_UUID)
         )
     }
 }
