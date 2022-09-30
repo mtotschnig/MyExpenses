@@ -8,7 +8,6 @@ import android.os.Bundle;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.ContextHelper;
@@ -20,6 +19,7 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.filter.FilterPersistenceKt.KEY_FILTER;
 
 public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -30,7 +30,7 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
   PrintTask(TaskExecutionFragment taskExecutionFragment, Bundle extras) {
     this.taskExecutionFragment = taskExecutionFragment;
     accountId = extras.getLong(KEY_ROWID);
-    filter = new WhereFilter(extras.getParcelableArrayList(TransactionList.KEY_FILTER));
+    filter = new WhereFilter(extras.getParcelableArrayList(KEY_FILTER));
     currentBalance = extras.getLong(KEY_CURRENT_BALANCE);
   }
 

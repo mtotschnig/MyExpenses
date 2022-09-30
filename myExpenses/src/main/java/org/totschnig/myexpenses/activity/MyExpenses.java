@@ -59,7 +59,6 @@ import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Grouping;
@@ -165,34 +164,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (navigationMenuView != null) {
       navigationMenuView.setVerticalScrollBarEnabled(false);
     }
-
-    /*getAccountList().setAdapter(mDrawerListAdapter);
-    getAccountList().setAreHeadersSticky(false);
-    getAccountList().setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
-      @Override
-      public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
-        if (getAccountList().isHeaderCollapsed(headerId)) {
-          getAccountList().expand(headerId);
-        } else {
-          getAccountList().collapse(headerId);
-        }
-        persistCollapsedHeaderIds();
-      }
-
-      @Override
-      public boolean onHeaderLongClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
-        return false;
-      }
-    });
-    getAccountList().setOnItemClickListener((parent, view, position, id) -> {
-      if (accountId != id) {
-        moveToPosition(position);
-        closeDrawer();
-      }
-    });
-    registerForContextMenu(getAccountList());
-    getAccountList().setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
-*/
     updateFab();
     setupFabSubMenu();
     if (!isScanMode()) {
@@ -319,7 +290,6 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     }
     Intent i;
-    TransactionList tl = null;
     if (command == R.id.BUDGET_COMMAND) {
       contribFeatureRequested(ContribFeature.BUDGET, null);
       return true;

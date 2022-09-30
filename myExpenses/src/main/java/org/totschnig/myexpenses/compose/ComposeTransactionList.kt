@@ -34,7 +34,6 @@ import androidx.paging.PagingSource
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -44,6 +43,8 @@ import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
 import kotlin.math.absoluteValue
+
+const val COMMENT_SEPARATOR = " / "
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -227,19 +228,19 @@ fun TransactionRenderer(
             transaction.label?.let { append(it) }
         }
         transaction.comment?.takeIf { it.isNotEmpty() }?.let {
-            append(BaseTransactionList.COMMENT_SEPARATOR)
+            append(COMMENT_SEPARATOR)
             withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                 append(it)
             }
         }
         transaction.payee?.takeIf { it.isNotEmpty() }?.let {
-            append(BaseTransactionList.COMMENT_SEPARATOR)
+            append(COMMENT_SEPARATOR)
             withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
                 append(it)
             }
         }
         transaction.tagList?.takeIf { it.isNotEmpty() }?.let {
-            append(BaseTransactionList.COMMENT_SEPARATOR)
+            append(COMMENT_SEPARATOR)
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                 append(it)
             }
@@ -265,7 +266,12 @@ fun TransactionRenderer(
         .conditional(transaction.crStatus == CrStatus.VOID) {
             drawWithContent {
                 drawContent()
-                drawLine(Color.Red, Offset(0F, size.height/2), Offset(size.width, size.height/2), voidMarkerHeight)
+                drawLine(
+                    Color.Red,
+                    Offset(0F, size.height / 2),
+                    Offset(size.width, size.height / 2),
+                    voidMarkerHeight
+                )
             }
         }
     ) {

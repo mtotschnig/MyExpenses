@@ -30,8 +30,6 @@
 
 -keep enum org.totschnig.myexpenses.activity.*$HelpVariant
 
--keep class se.emilsjolander.stickylistheaders.StickyListHeadersListView { *; }
-
 #Picasso
 -dontwarn com.squareup.okhttp.**
 

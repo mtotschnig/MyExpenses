@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
-import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.safeMessage
@@ -72,7 +71,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
             else -> throw IllegalStateException("Unexpected value: $requestKey")
         }
         activity.showConfirmationDialog(Bundle().apply {
-            putString(BaseTransactionList.KEY_COLUMN, column)
+            putString(KEY_COLUMN, column)
             putLong(DatabaseConstants.KEY_ROWID, rowId)
             putString(
                 ConfirmationDialogFragment.KEY_TITLE_STRING,
@@ -97,13 +96,13 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                 getString(R.string.menu_clone_transaction)
             )
             putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND)
-        }, BaseTransactionList.REMAP_DIALOG)
+        }, "dialogRemap")
     }
 
     fun remap(extras: Bundle, shouldClone: Boolean) {
         with(activity) {
             val checkedItemIds = selectionState.map { it.id }
-            val column = extras.getString(BaseTransactionList.KEY_COLUMN) ?: return
+            val column = extras.getString(KEY_COLUMN) ?: return
             if (shouldClone) {
                 val progressDialog = ProgressDialogFragment.newInstance(
                     getString(R.string.saving), null, ProgressDialog.STYLE_HORIZONTAL, false
@@ -240,6 +239,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
     }
 
     companion object {
+        const val KEY_COLUMN = "column"
         const val MAP_CATEGORY_REQUEST = "mapCategory"
         const val MAP_PAYEE_REQUEST = "mapPayee"
         const val MAP_METHOD_REQUEST = "mapMethod"

@@ -19,7 +19,6 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.fragment.BaseTransactionList.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -46,6 +45,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
+
+const val COMMENT_SEPARATOR = " / "
 
 open class TransactionAdapter(
     private val groupingOverride: Grouping?,

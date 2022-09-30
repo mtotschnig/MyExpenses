@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentResultListener
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.fragment.ConfirmTagDialogFragment
-import org.totschnig.myexpenses.fragment.KEY_REPLACE
 import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 
 class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
@@ -46,6 +45,7 @@ class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
     }
 
     companion object {
+        const val KEY_REPLACE = "replace"
         const val CONFIRM_MAP_TAG_REQUEST = "confirmMapTag"
     }
 }

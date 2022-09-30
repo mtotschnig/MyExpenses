@@ -7,6 +7,7 @@ import androidx.fragment.app.setFragmentResult
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.TagHandler
 import org.totschnig.myexpenses.activity.TagHandler.Companion.CONFIRM_MAP_TAG_REQUEST
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
@@ -34,7 +35,7 @@ class ConfirmTagDialogFragment : DialogFragment() {
 
     private fun confirm(replace: Boolean) {
         setFragmentResult(CONFIRM_MAP_TAG_REQUEST, Bundle(2).apply {
-            putBoolean(KEY_REPLACE, replace)
+            putBoolean(TagHandler.KEY_REPLACE, replace)
             putParcelableArrayList(KEY_TAG_LIST, tagList)
         })
     }
