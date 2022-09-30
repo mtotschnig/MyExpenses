@@ -72,15 +72,15 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
     ) {
         PagerState(0) }
 
-    val filterPersistence: Map<Long, MutableStateFlow<FilterPersistence>> =
+    private val filterPersistence: Map<Long, FilterPersistence> =
         lazyMap {
-            MutableStateFlow(FilterPersistence(
+            FilterPersistence(
                 prefHandler,
                 keyTemplate = prefNameForCriteria(accountId = it),
                 savedInstanceState = null,
                 immediatePersist = true,
                 restoreFromPreferences = true
-            ))
+            )
         }
 
     //TODO Safe mode
@@ -104,7 +104,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
 
     fun loadData(account: FullAccount): () -> TransactionPagingSource {
         return { TransactionPagingSource(localizedContext, account,
-            filterPersistence.getValue(account.id), viewModelScope
+            filterPersistence.getValue(account.id).whereFilterAsFlow, viewModelScope
         ) }
     }
 
@@ -354,13 +354,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
     }
 
     fun addFilterCriteria(c: Criterion<*>, accountId: Long) {
-        filterPersistence[accountId]?.let {
-            it.update {
-                it.also {
-                    it.addCriteria(c)
-                }
-            }
-        }
+        filterPersistence.getValue(accountId).addCriteria(c)
     }
 
     /**
@@ -368,13 +362,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
      *
      * @return true if the filter was set and successfully removed, false otherwise
      */
-    fun removeFilter(id: Int, accountId: Long) = filterPersistence[accountId]?.let {
-        val filterPersistence = it.value
-        if (filterPersistence.removeFilter(id)) {
-            it.update { filterPersistence }
-            true
-        } else false
-    } ?: false
+    fun removeFilter(id: Int, accountId: Long) = filterPersistence.getValue(accountId).removeFilter(id)
 
     companion object {
         fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"

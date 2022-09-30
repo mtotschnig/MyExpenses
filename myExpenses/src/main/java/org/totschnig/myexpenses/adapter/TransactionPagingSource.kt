@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
@@ -27,7 +27,7 @@ import timber.log.Timber
 class TransactionPagingSource(
     val context: Context,
     val account: FullAccount,
-    val filterPersistence: StateFlow<FilterPersistence>,
+    val whereFilter: StateFlow<WhereFilter>,
     val coroutineScope: CoroutineScope
     ) :
     PagingSource<Int, Transaction2>() {
@@ -58,7 +58,7 @@ class TransactionPagingSource(
             observer
         )
         coroutineScope.launch {
-            filterPersistence.drop(1).collect {
+            whereFilter.drop(1).collect {
                 invalidate()
             }
         }
@@ -72,13 +72,16 @@ class TransactionPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         val pageNumber = params.key ?: 0
         Timber.i("Requesting pageNumber %d", pageNumber)
-        val filter = filterPersistence.value.whereFilter
-        if (!filter.isEmpty) {
-            val selectionForParents = filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
+        if (!whereFilter.value.isEmpty) {
+            val selectionForParents =
+                whereFilter.value.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
             if (selectionForParents.isNotEmpty()) {
                 selection += " AND "
                 selection += selectionForParents
-                selectionArgs = (selectionArgs ?: emptyArray()) + filter.getSelectionArgs(false)
+                selectionArgs = buildList {
+                    selectionArgs?.let { addAll(it) }
+                    whereFilter.value.getSelectionArgs(false)?.let { addAll(it) }
+                }.toTypedArray()
             }
         }
         val data = withContext(Dispatchers.IO) {
