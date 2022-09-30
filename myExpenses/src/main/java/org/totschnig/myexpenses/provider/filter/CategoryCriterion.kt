@@ -24,11 +24,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.categoryTreeSelect
 
 @Parcelize
-class CategoryCriteria(
+class CategoryCriterion(
     override val label: String?,
     override val operation: WhereFilter.Operation,
     override val values: Array<Long>
-) : IdCriteria() {
+) : IdCriterion() {
     constructor() : this(null, WhereFilter.Operation.ISNULL, emptyArray())
     constructor(label: String, vararg values: Long) : this(label, WhereFilter.Operation.IN, values.toTypedArray())
 
@@ -52,10 +52,10 @@ class CategoryCriteria(
 
     companion object {
 
-        fun fromStringExtra(extra: String): CategoryCriteria? {
-            return if (extra == "null") CategoryCriteria() else fromStringExtra(
+        fun fromStringExtra(extra: String): CategoryCriterion? {
+            return if (extra == "null") CategoryCriterion() else fromStringExtra(
                 extra,
-                CategoryCriteria::class.java
+                CategoryCriterion::class.java
             )
         }
     }

@@ -22,7 +22,7 @@ import android.os.Parcelable
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
-abstract class Criteria<T: Any> : Parcelable {
+abstract class Criterion<T: Any> : Parcelable {
     abstract val operation: Operation
     abstract val values: Array<T>
 

@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.DateCriteria
+import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -61,7 +61,7 @@ class UpgradeHandlerViewModel(application: Application) :
             dateFilterList.forEach { key ->
                 prefHandler.getString(key, null)?.let { legacy ->
                     try {
-                        DateCriteria.fromLegacy(legacy).toStringExtra().also { new ->
+                        DateCriterion.fromLegacy(legacy).toStringExtra().also { new ->
                             prefHandler.putString(key, new)
                         }
                     } catch (e: Exception) {

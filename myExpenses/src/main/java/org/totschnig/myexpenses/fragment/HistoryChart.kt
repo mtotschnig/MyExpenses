@@ -198,6 +198,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         else -> null
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.grouping, menu)
         inflater.inflate(R.menu.history, menu)
@@ -261,7 +262,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor?> {
         if (id == GROUPING_CURSOR) {
             var selection: String? = null
-            var selectionArgs: Array<String?>? = null
+            var selectionArgs: Array<String>? = null
             val builder = TransactionProvider.TRANSACTIONS_URI.buildUpon()
             //TODO enable filtering ?
             if (!filter.isEmpty) {

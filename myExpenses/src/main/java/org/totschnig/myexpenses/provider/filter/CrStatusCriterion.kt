@@ -17,21 +17,44 @@
  */
 package org.totschnig.myexpenses.provider.filter
 
+import android.content.Context
+import android.text.TextUtils
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class CommentCriteria(override val searchString: String) : TextCriteria() {
+class CrStatusCriterion(override val values: Array<CrStatus>) : Criterion<CrStatus>() {
 
     @IgnoredOnParcel
-    override val id = R.id.FILTER_COMMENT_COMMAND
-
+    override val id: Int = R.id.FILTER_STATUS_COMMAND
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_COMMENT
+    override val column = DatabaseConstants.KEY_CR_STATUS
+    @IgnoredOnParcel
+    override val operation = WhereFilter.Operation.IN
+
+    override fun prettyPrint(context: Context) =
+        values.joinToString(",") { context.getString(it.toStringRes()) }
+
+    override fun toStringExtra(): String? {
+        return TextUtils.join(EXTRA_SEPARATOR, selectionArgs)
+    }
+
+    override fun shouldApplyToParts(): Boolean {
+        return false
+    }
+
     companion object {
 
-        fun fromStringExtra(extra: String) = CommentCriteria(extra)
+        fun fromStringExtra(extra: String) =
+            CrStatusCriterion(extra.split(EXTRA_SEPARATOR).mapNotNull {
+                try {
+                    CrStatus.valueOf(it)
+                } catch (e: java.lang.IllegalArgumentException) {
+                    null
+                }
+            }.toTypedArray())
     }
 }

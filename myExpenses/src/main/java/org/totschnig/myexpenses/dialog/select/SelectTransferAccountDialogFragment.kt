@@ -17,17 +17,17 @@ package org.totschnig.myexpenses.dialog.select
 import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.TransferCriteria
+import org.totschnig.myexpenses.provider.filter.TransferCriterion
 
 class SelectTransferAccountDialogFragment :
-    SelectFromMappedTableDialogFragment<TransferCriteria>(false) {
+    SelectFromMappedTableDialogFragment<TransferCriterion>(false) {
     override val dialogTitle: Int
         get() = R.string.search_transfer
     override val uri: Uri
         get() = TransactionProvider.MAPPED_TRANSFER_ACCOUNTS_URI
 
-    override fun makeCriteria(label: String, vararg ids: Long): TransferCriteria {
-        return TransferCriteria(label, *ids)
+    override fun makeCriteria(label: String, vararg ids: Long): TransferCriterion {
+        return TransferCriterion(label, *ids)
     }
 
     companion object {

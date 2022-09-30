@@ -90,7 +90,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value
                 val sort = viewModel.sortOrder.collectAsState()
-                val filterPersistence = viewModel.filterPersistence.collectAsState().value
+                val whereFilter = viewModel.whereFilter.collectAsState().value
                 Box(modifier = Modifier.fillMaxSize()) {
                     if (category == Category.LOADING || budget == null) {
                         CircularProgressIndicator(
@@ -107,9 +107,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 update = { chipGroup ->
                                     chipGroup.addChipsBulk(buildList {
                                         add(budget.label(this@BudgetActivity))
-                                        filterPersistence?.whereFilter?.criteria?.map {
+                                        whereFilter.criteria.map {
                                             it.prettyPrint(this@BudgetActivity)
-                                        }?.let { addAll(it) }
+                                        }.let { addAll(it) }
                                     })
                                 }
 

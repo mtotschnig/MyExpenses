@@ -23,10 +23,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class TransferCriteria(
+class TransferCriterion(
     override val label: String?,
     override val values: Array<Long>
-) : IdCriteria() {
+) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
 
     @IgnoredOnParcel
@@ -49,6 +49,6 @@ class TransferCriteria(
 
     companion object {
 
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, TransferCriteria::class.java)
+        fun fromStringExtra(extra: String) = fromStringExtra(extra, TransferCriterion::class.java)
     }
 }

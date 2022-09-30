@@ -11,50 +11,39 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- *
+ *   
  *   Based on Financisto (c) 2010 Denis Solonenko, made available
  *   under the terms of the GNU Public License v2.0
- */
+*/
 package org.totschnig.myexpenses.provider.filter
 
-import android.content.Context
-import android.text.TextUtils
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class CrStatusCriteria(override val values: Array<CrStatus>) : Criteria<CrStatus>() {
+class MethodCriterion(
+    override val label: String?,
+    override val operation: WhereFilter.Operation,
+    override val values: Array<Long>
+) : IdCriterion() {
+    constructor() : this(null, WhereFilter.Operation.ISNULL, emptyArray())
+    constructor(label: String, vararg values: Long) : this(label, WhereFilter.Operation.IN, values.toTypedArray())
 
     @IgnoredOnParcel
-    override val id: Int = R.id.FILTER_STATUS_COMMAND
-    @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_CR_STATUS
-    @IgnoredOnParcel
-    override val operation = WhereFilter.Operation.IN
+    override val id = R.id.FILTER_METHOD_COMMAND
 
-    override fun prettyPrint(context: Context) =
-        values.joinToString(",") { context.getString(it.toStringRes()) }
-
-    override fun toStringExtra(): String? {
-        return TextUtils.join(EXTRA_SEPARATOR, selectionArgs)
-    }
+    @IgnoredOnParcel
+    override val column = DatabaseConstants.KEY_METHODID
 
     override fun shouldApplyToParts(): Boolean {
         return false
     }
 
     companion object {
-
         fun fromStringExtra(extra: String) =
-            CrStatusCriteria(extra.split(EXTRA_SEPARATOR).mapNotNull {
-                try {
-                    CrStatus.valueOf(it)
-                } catch (e: java.lang.IllegalArgumentException) {
-                    null
-                }
-            }.toTypedArray())
+            if (extra == "null") MethodCriterion() else
+                fromStringExtra(extra, MethodCriterion::class.java)
     }
 }

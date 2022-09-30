@@ -60,7 +60,7 @@ import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.Criteria
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -973,7 +973,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         enabled = currentAccount.isAggregate
                     }
                 }
-                val c: Criteria<*>? = null //TODO getFilter().get(filterItem.itemId)
+                val c: Criterion<*>? = null //TODO getFilter().get(filterItem.itemId)
                 Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null)
                 if (c != null) {
                     filterItem.isChecked = true
@@ -1385,7 +1385,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 val sepIndex = `val`.indexOf(";")
                                 edit.putString(
                                     key,
-                                    `val`.substring(sepIndex + 1) + ";" + Criteria.escapeSeparator(
+                                    `val`.substring(sepIndex + 1) + ";" + Criterion.escapeSeparator(
                                         `val`.substring(0, sepIndex)
                                     )
                                 )

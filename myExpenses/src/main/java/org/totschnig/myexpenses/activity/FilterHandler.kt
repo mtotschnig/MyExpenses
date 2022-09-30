@@ -8,7 +8,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.CategoryCriteria
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
 class FilterHandler(val activity: BaseMyExpenses) {
@@ -74,8 +74,8 @@ class FilterHandler(val activity: BaseMyExpenses) {
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
         with(activity) {
             viewModel.addFilterCriteria(
-                if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriteria() else
-                    CategoryCriteria(label, *catIds),
+                if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriterion() else
+                    CategoryCriterion(label, *catIds),
                 currentAccount.id
             )
         }

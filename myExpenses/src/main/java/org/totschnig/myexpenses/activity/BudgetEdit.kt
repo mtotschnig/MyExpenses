@@ -28,9 +28,7 @@ import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.*
 import org.totschnig.myexpenses.ui.SpinnerHelper
@@ -200,7 +198,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                     intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.takeIf { it.size > 0 }?.let {
                         val tagIds = it.map(Tag::id).toLongArray()
                         val label = it.map(Tag::label).joinToString(", ")
-                        addFilterCriteria(TagCriteria(label, *tagIds))
+                        addFilterCriteria(TagCriterion(label, *tagIds))
                     }
                 }
                 FILTER_PAYEE_REQUEST -> {
@@ -223,27 +221,27 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
-        (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriteria()
-        else CategoryCriteria(label, *catIds)).let {
+        (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriterion()
+        else CategoryCriterion(label, *catIds)).let {
             addFilterCriteria(it)
         }
     }
 
     private fun addPayeeFilter(label: String, vararg payeeIds: Long) {
-        (if (payeeIds.size == 1 && payeeIds[0] == NULL_ITEM_ID) PayeeCriteria()
-        else PayeeCriteria(label, *payeeIds)).let {
+        (if (payeeIds.size == 1 && payeeIds[0] == NULL_ITEM_ID) PayeeCriterion()
+        else PayeeCriterion(label, *payeeIds)).let {
             addFilterCriteria(it)
         }
     }
 
-    override fun addFilterCriteria(c: Criteria<*>) {
+    override fun addFilterCriteria(c: Criterion<*>) {
         setDirty()
         filterPersistence.addCriteria(c)
         showFilterCriteria(c)
         configureFilterDependents()
     }
 
-    private fun showFilterCriteria(c: Criteria<*>) {
+    private fun showFilterCriteria(c: Criterion<*>) {
         findViewById<ScrollingChip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
             isCloseIconVisible = true

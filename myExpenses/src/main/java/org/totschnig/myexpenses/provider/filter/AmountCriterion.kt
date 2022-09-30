@@ -29,12 +29,12 @@ import org.totschnig.myexpenses.util.formatMoney
 import kotlin.math.abs
 
 @Parcelize
-class AmountCriteria(
+class AmountCriterion(
     override val operation: Operation,
     override val values: Array<Long>,
     private val currency: String,
     private val type: Boolean,
-) : Criteria<Long>() {
+) : Criterion<Long>() {
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_AMOUNT_COMMAND
@@ -80,9 +80,9 @@ class AmountCriteria(
             currency: String,
             type: Boolean,
             vararg values: Long
-        ): AmountCriteria {
+        ): AmountCriterion {
             val criteriaInfo = transformCriteria(operation, type, *values)
-            return AmountCriteria(criteriaInfo.first, criteriaInfo.second, currency, type)
+            return AmountCriterion(criteriaInfo.first, criteriaInfo.second, currency, type)
         }
 
         private fun transformCriteria(
@@ -118,10 +118,10 @@ class AmountCriteria(
             }
         }
 
-        fun fromStringExtra(extra: String): AmountCriteria? {
+        fun fromStringExtra(extra: String): AmountCriterion? {
             val values = extra.split(EXTRA_SEPARATOR).toTypedArray()
             return try {
-                AmountCriteria(
+                AmountCriterion(
                     operation = Operation.valueOf(values[0]),
                     currency = values[1],
                     type = values[2] == "1",

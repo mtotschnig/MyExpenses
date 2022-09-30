@@ -128,12 +128,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.ProtectedCursorLoader;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
-import org.totschnig.myexpenses.provider.filter.CommentCriteria;
-import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion;
+import org.totschnig.myexpenses.provider.filter.CommentCriterion;
+import org.totschnig.myexpenses.provider.filter.Criterion;
 import org.totschnig.myexpenses.provider.filter.FilterPersistence;
-import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
-import org.totschnig.myexpenses.provider.filter.TagCriteria;
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion;
+import org.totschnig.myexpenses.provider.filter.TagCriterion;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.ExpansionHandle;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -1077,7 +1077,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     mCheckedListItems = null;
   }
 
-  public void addFilterCriteria(Criteria c) {
+  public void addFilterCriteria(Criterion c) {
     filterPersistence.addCriteria(c);
     refreshAfterFilterChange();
   }
@@ -1153,7 +1153,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         } else if (itemId == R.id.FILTER_ACCOUNT_COMMAND) {
           enabled = mAccount.isAggregate();
         }
-        Criteria c = getFilter().get(filterItem.getItemId());
+        Criterion c = getFilter().get(filterItem.getItemId());
         Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null);
         if (c != null) {
           filterItem.setChecked(true);
@@ -1196,9 +1196,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     Icepick.saveInstanceState(this, outState);
   }
 
-  public ArrayList<Criteria> getFilterCriteria() {
+/*  public ArrayList<Criterion<?>> getFilterCriteria() {
     return getFilter().getCriteria();
-  }
+  }*/
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -1231,7 +1231,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       if (tagList != null && !tagList.isEmpty()) {
         long[] tagIds = Stream.of(tagList).mapToLong(Tag::getId).toArray();
         String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
-        addFilterCriteria(new TagCriteria(label, tagIds));
+        addFilterCriteria(new TagCriterion(label, tagIds));
       }
     } else if (false/*requestCode == MAP_CATEGORY_REQUEST || requestCode == MAP_PAYEE_REQUEST
         || requestCode == MAP_METHOD_REQUEST || requestCode == MAP_ACCOUNT_REQUEST*/) {
@@ -1311,7 +1311,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         final String textResult = extras.getString(SimpleInputDialog.TEXT);
         if (textResult != null) {
           addFilterCriteria(
-              new CommentCriteria(textResult.trim()));
+              new CommentCriterion(textResult.trim()));
         }
         return true;
       }
@@ -1344,12 +1344,12 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   private void addCategoryFilter(String label, long... catIds) {
     addFilterCriteria(catIds.length == 1 && catIds[0] == NULL_ITEM_ID ?
-        new CategoryCriteria() : new CategoryCriteria(label, catIds));
+        new CategoryCriterion() : new CategoryCriterion(label, catIds));
   }
 
   private void addPayeeFilter(String label, long... payeeIds) {
     addFilterCriteria(payeeIds.length == 1 && payeeIds[0] == NULL_ITEM_ID ?
-        new PayeeCriteria() : new PayeeCriteria(label, payeeIds));
+        new PayeeCriterion() : new PayeeCriterion(label, payeeIds));
   }
 
 }

@@ -95,11 +95,11 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
                 category.id,
                 viewModel.grouping,
                 viewModel.filterClause,
-                viewModel.filterPersistence.value?.whereFilter?.getSelectionArgs(true),
+                viewModel.whereFilter.value.getSelectionArgs(true),
                 if (category.level == 0) accountInfo.label(this) else category.label,
                 if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
                 true,
-                category.icon?.let { resources.getIdentifier(it, "drawable", packageName) }
+                category.icon?.let { resources.getIdentifier(it, "drawable", packageName) } //TODO check might be not functional since new category icon implementation
             )
                 .show(supportFragmentManager, TransactionListDialogFragment::class.java.name)
         }

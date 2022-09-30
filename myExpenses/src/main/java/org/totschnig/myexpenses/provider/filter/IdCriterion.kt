@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import java.util.*
 
-abstract class IdCriteria : Criteria<Long>() {
+abstract class IdCriterion : Criterion<Long>() {
 
     abstract val label : String?
 
@@ -52,7 +52,7 @@ abstract class IdCriteria : Criteria<Long>() {
 
     companion object {
 
-        fun <T : IdCriteria?> fromStringExtra(extra: String, clazz: Class<T>): T? {
+        fun <T : IdCriterion?> fromStringExtra(extra: String, clazz: Class<T>): T? {
             val extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP).toTypedArray()
             if (extraParts.size < 2) {
                 report(

@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion;
 
 import java.util.ArrayList;
 
@@ -77,7 +77,7 @@ public class SelectCrStatusDialogFragment extends BaseDialogFragment implements 
     }
     if (!statusList.isEmpty() && statusList.size() < CrStatus.values().length) {
       ((SelectFilterDialog.Host) getActivity()).addFilterCriteria(
-          new CrStatusCriteria(statusList.toArray(new CrStatus[statusList.size()])));
+          new CrStatusCriterion(statusList.toArray(new CrStatus[statusList.size()])));
     }
     dismiss();
   }

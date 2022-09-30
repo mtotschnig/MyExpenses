@@ -17,16 +17,16 @@ package org.totschnig.myexpenses.dialog.select
 import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.MethodCriteria
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
 
-class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCriteria>(true) {
+class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCriterion>(true) {
     override val dialogTitle: Int
         get() = R.string.search_method
     override val uri: Uri
         get() = TransactionProvider.MAPPED_METHODS_URI
 
-    override fun makeCriteria(label: String, vararg ids: Long): MethodCriteria {
-        return if (ids.size == 1 && ids[0] == NULL_ITEM_ID) MethodCriteria() else MethodCriteria(
+    override fun makeCriteria(label: String, vararg ids: Long): MethodCriterion {
+        return if (ids.size == 1 && ids[0] == NULL_ITEM_ID) MethodCriterion() else MethodCriterion(
             label,
             *ids
         )

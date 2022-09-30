@@ -66,7 +66,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.Criterion;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -314,7 +314,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   @Override
-  public void addFilterCriteria(@NotNull Criteria c) {
+  public void addFilterCriteria(@NotNull Criterion c) {
     getViewModel().addFilterCriteria(c, getCurrentAccount().getId());
   }
 

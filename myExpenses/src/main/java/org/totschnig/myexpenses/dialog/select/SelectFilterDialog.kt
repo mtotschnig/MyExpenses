@@ -2,9 +2,9 @@ package org.totschnig.myexpenses.dialog.select
 
 import android.text.TextUtils
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.filter.Criteria
+import org.totschnig.myexpenses.provider.filter.Criterion
 
-abstract class SelectFilterDialog<T : Criteria<*>>(withNullItem: Boolean) : SelectMultipleDialogFragment(withNullItem) {
+abstract class SelectFilterDialog<T : Criterion<*>>(withNullItem: Boolean) : SelectMultipleDialogFragment(withNullItem) {
     protected abstract fun makeCriteria(label: String, vararg ids: Long): T
 
     override fun onResult(labelList: List<String>, itemIds: LongArray, which: Int) =
@@ -18,6 +18,6 @@ abstract class SelectFilterDialog<T : Criteria<*>>(withNullItem: Boolean) : Sele
             }
 
     interface Host {
-        fun addFilterCriteria(c: Criteria<*>)
+        fun addFilterCriteria(c: Criterion<*>)
     }
 }

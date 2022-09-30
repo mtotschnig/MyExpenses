@@ -23,11 +23,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize
-class PayeeCriteria(
+class PayeeCriterion(
     override val label: String?,
     override val operation: WhereFilter.Operation,
     override val values: Array<Long>
-) : IdCriteria() {
+) : IdCriterion() {
     constructor() : this(null, WhereFilter.Operation.ISNULL, emptyArray())
     constructor(label: String, vararg values: Long) : this(label, WhereFilter.Operation.IN, values.toTypedArray())
 
@@ -42,7 +42,7 @@ class PayeeCriteria(
 
     companion object {
         fun fromStringExtra(extra: String) =
-            if (extra == "null") PayeeCriteria() else
-                fromStringExtra(extra, PayeeCriteria::class.java)
+            if (extra == "null") PayeeCriterion() else
+                fromStringExtra(extra, PayeeCriterion::class.java)
     }
 }

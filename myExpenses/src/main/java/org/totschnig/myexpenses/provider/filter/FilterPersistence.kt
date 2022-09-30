@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.os.Bundle
+import androidx.annotation.CheckResult
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
@@ -9,71 +10,73 @@ import java.time.format.DateTimeParseException
 const val KEY_FILTER = "filter"
 
 class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean, restoreFromPreferences: Boolean = true) {
-    val whereFilter: WhereFilter
+    var whereFilter: WhereFilter
     init {
-        whereFilter = savedInstanceState?.getParcelableArrayList<Criteria<*>>(KEY_FILTER)?.let {
+        whereFilter = savedInstanceState?.getParcelableArrayList<Criterion<*>>(KEY_FILTER)?.let {
             WhereFilter(it)
-        } ?: WhereFilter.empty().apply { if (restoreFromPreferences) restoreFromPreferences() }
+        } ?: if (restoreFromPreferences) restoreFromPreferences() else WhereFilter.empty()
     }
 
-    private fun WhereFilter.restoreColumn(column: String, producer: (String) -> Criteria<*>?) {
+    @CheckResult
+    private fun WhereFilter.restoreColumn(column: String, producer: (String) -> Criterion<*>?): WhereFilter {
         val prefNameForCriteria = prefNameForCriteria(column)
-        prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
+        return prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
             producer(prefValue)?.let {
                 put(it)
             } ?: kotlin.run {
                 prefHandler.remove(prefNameForCriteria)
+                this
             }
-        }
+        } ?: this
     }
 
-    private fun WhereFilter.restoreFromPreferences() {
-        restoreColumn(KEY_CATID) {
-            CategoryCriteria.fromStringExtra(it)
+    @CheckResult
+    private fun restoreFromPreferences(): WhereFilter {
+        return WhereFilter.empty().restoreColumn(KEY_CATID) {
+            CategoryCriterion.fromStringExtra(it)
+        }.restoreColumn(KEY_AMOUNT) {
+            AmountCriterion.fromStringExtra(it)
         }
-        restoreColumn(KEY_AMOUNT) {
-            AmountCriteria.fromStringExtra(it)
+            .restoreColumn(KEY_COMMENT) {
+            CommentCriterion.fromStringExtra(it)
         }
-        restoreColumn(KEY_COMMENT) {
-            CommentCriteria.fromStringExtra(it)
+            .restoreColumn(KEY_CR_STATUS) {
+            CrStatusCriterion.fromStringExtra(it)
         }
-        restoreColumn(KEY_CR_STATUS) {
-            CrStatusCriteria.fromStringExtra(it)
+            .restoreColumn(KEY_PAYEEID) {
+            PayeeCriterion.fromStringExtra(it)
         }
-        restoreColumn(KEY_PAYEEID) {
-            PayeeCriteria.fromStringExtra(it)
+            .restoreColumn(KEY_METHODID) {
+            MethodCriterion.fromStringExtra(it)
         }
-        restoreColumn(KEY_METHODID) {
-            MethodCriteria.fromStringExtra(it)
-        }
-        restoreColumn(KEY_DATE) {
+            .restoreColumn(KEY_DATE) {
             try {
-                DateCriteria.fromStringExtra(it)
+                DateCriterion.fromStringExtra(it)
             } catch (e: DateTimeParseException) {
                 Timber.e(e)
                 null
             }
         }
-        restoreColumn(KEY_TRANSFER_ACCOUNT) {
-            TransferCriteria.fromStringExtra(it)
+            .restoreColumn(KEY_TRANSFER_ACCOUNT) {
+            TransferCriterion.fromStringExtra(it)
         }
-        restoreColumn(KEY_TAGID) {
-            TagCriteria.fromStringExtra(it)
+            .restoreColumn(KEY_TAGID) {
+            TagCriterion.fromStringExtra(it)
         }
-        restoreColumn(ACCOUNT_COLUMN) {
-            AccountCriteria.fromStringExtra(it)
+            .restoreColumn(ACCOUNT_COLUMN) {
+            AccountCriterion.fromStringExtra(it)
         }
     }
 
-    fun addCriteria(criteria: Criteria<*>) {
-        whereFilter.put(criteria)
+    fun addCriteria(criterion: Criterion<*>) {
+        whereFilter = whereFilter.put(criterion)
         if (immediatePersist) {
-            persist(criteria)
+            persist(criterion)
         }
     }
 
-    fun removeFilter(id: Int) : Boolean = whereFilter.get(id)?.let {
-        whereFilter.remove(id)
+    fun removeFilter(id: Int) : Boolean = whereFilter[id]?.let {
+        whereFilter = whereFilter.remove(id)
         if (immediatePersist) {
             prefHandler.remove(prefNameForCriteria(it.column))
         }
@@ -91,8 +94,8 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
         }
     }
 
-    private fun persist(criteria: Criteria<*>) {
-        prefHandler.putString(prefNameForCriteria(criteria.column), criteria.toStringExtra())
+    private fun persist(criterion: Criterion<*>) {
+        prefHandler.putString(prefNameForCriteria(criterion.column), criterion.toStringExtra())
     }
 
     private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)
@@ -101,17 +104,14 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
         if (immediatePersist) {
             whereFilter.criteria.forEach { criteria -> prefHandler.remove(prefNameForCriteria(criteria.column)) }
         }
-        whereFilter.clear()
+        whereFilter = WhereFilter.empty()
     }
 
     fun reloadFromPreferences() {
-        with(whereFilter) {
-            clear()
-            restoreFromPreferences()
-        }
+        whereFilter = restoreFromPreferences()
     }
 
     fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArrayList(KEY_FILTER, whereFilter.criteria)
+        outState.putParcelableArrayList(KEY_FILTER, ArrayList(whereFilter.criteria))
     }
 }

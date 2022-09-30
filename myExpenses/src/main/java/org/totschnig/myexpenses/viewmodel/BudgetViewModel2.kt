@@ -131,14 +131,14 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                         groupingInfo = GroupingInfo(budget.grouping, groupingYear, groupingSecond)
                     }
                 }
-                _filterPersistence.update {
+                _whereFilter.update {
                     FilterPersistence(
                         prefHandler, BudgetViewModel.prefNameForCriteria(budgetId), null,
                         immediatePersist = false,
                         restoreFromPreferences = true
                     ).also {
                         it.reloadFromPreferences()
-                    }
+                    }.whereFilter
                 }
             }
         }
@@ -174,18 +174,18 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             _aggregateTypes,
             _allocatedOnly,
             groupingInfoFlow.filterNotNull(),
-            _filterPersistence
-        ) { accountInfo, aggregateTypes, allocatedOnly, grouping, filterPersistence ->
+            _whereFilter
+        ) { accountInfo, aggregateTypes, allocatedOnly, grouping, whereFilter ->
             Tuple5(
                 accountInfo,
                 if (aggregateTypes) null else false,
                 allocatedOnly,
                 grouping,
-                filterPersistence
+                whereFilter
             )
         }.combine(budgetFlow) { tuple, budget -> tuple to budget }
             .flatMapLatest { (tuple, budget) ->
-                val (accountInfo, incomeType, allocatedOnly, grouping, filterPersistence) = tuple
+                val (accountInfo, incomeType, allocatedOnly, grouping, whereFilter) = tuple
                 categoryTreeWithSum(
                     accountInfo = accountInfo,
                     incomeType = incomeType,
@@ -198,7 +198,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                             }
                         }
                     },
-                    filterPersistence = filterPersistence,
+                    whereFilter = whereFilter,
                     selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL OR ${DatabaseConstants.KEY_SUM} IS NOT NULL" else null,
                 ).map { it.copy(budget = budget) }
             }

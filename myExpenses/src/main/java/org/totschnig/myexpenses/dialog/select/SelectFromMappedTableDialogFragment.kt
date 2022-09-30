@@ -17,10 +17,10 @@ package org.totschnig.myexpenses.dialog.select
 import android.os.Bundle
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.Criteria
+import org.totschnig.myexpenses.provider.filter.Criterion
 import kotlin.math.abs
 
-abstract class SelectFromMappedTableDialogFragment<T : Criteria<*>> protected constructor(withNullItem: Boolean) :
+abstract class SelectFromMappedTableDialogFragment<T : Criterion<*>> protected constructor(withNullItem: Boolean) :
     SelectFilterDialog<T>(withNullItem) {
     override val column: String
         get() = DatabaseConstants.KEY_LABEL

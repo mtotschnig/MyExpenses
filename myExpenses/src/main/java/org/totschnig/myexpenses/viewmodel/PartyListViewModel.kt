@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragmen
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
-import org.totschnig.myexpenses.provider.filter.PayeeCriteria
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
@@ -133,8 +133,8 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                     KEY_PAYEEID
                 )
             val oldPayeeFilterValue = prefHandler.getString(payeeFilterKey, null)
-            val oldCriteria: PayeeCriteria? = oldPayeeFilterValue?.let {
-                PayeeCriteria.fromStringExtra(it)
+            val oldCriteria: PayeeCriterion? = oldPayeeFilterValue?.let {
+                PayeeCriterion.fromStringExtra(it)
             }
             if (oldCriteria != null) {
                 val oldSet = oldCriteria.values.toSet()
@@ -151,7 +151,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                             it.moveToNext()
                         }
                     }
-                    val newPayeeFilterValue = PayeeCriteria(
+                    val newPayeeFilterValue = PayeeCriterion(
                         labelList.joinToString(","),
                         *newSet.toLongArray()
                     ).toStringExtra()

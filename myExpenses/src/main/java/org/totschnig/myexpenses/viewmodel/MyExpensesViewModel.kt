@@ -31,8 +31,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
-import org.totschnig.myexpenses.provider.filter.Criteria
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -240,9 +240,12 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
                     arrayOf(accountId.toString())
                 )
                 if (reset) {
-                    reset(Account.getInstanceFromDb(accountId), WhereFilter.empty().apply {
-                        put(CrStatusCriteria(CrStatus.RECONCILED.name))
-                    }, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
+                    reset(
+                        account = Account.getInstanceFromDb(accountId),
+                        filter = WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))),
+                        handleDelete = Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE,
+                        helperComment = null
+                    )
                 }
                 Unit
             })
@@ -350,7 +353,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
         }
     }
 
-    fun addFilterCriteria(c: Criteria, accountId: Long) {
+    fun addFilterCriteria(c: Criterion<*>, accountId: Long) {
         filterPersistence[accountId]?.let {
             it.update {
                 it.also {

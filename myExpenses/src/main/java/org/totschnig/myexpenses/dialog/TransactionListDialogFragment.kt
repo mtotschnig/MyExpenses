@@ -143,7 +143,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             }
             mAccount.isAggregate -> {
                 selection = DatabaseConstants.KEY_ACCOUNTID + " IN " +
-                        "(SELECT " + DatabaseConstants.KEY_ROWID + " from " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY + " = ? AND " +
+                        "(SELECT " + KEY_ROWID + " from " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY + " = ? AND " +
                         DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS + "=0)"
                 accountSelect = mAccount.currencyUnit.code
             }
@@ -245,7 +245,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             cat_id: Long,
             grouping: Grouping?,
             groupingClause: String?,
-            groupingArgs: Array<String?>?,
+            groupingArgs: Array<String>?,
             label: String?,
             type: Int,
             withTransfers: Boolean,

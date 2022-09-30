@@ -9,10 +9,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 
 @Parcelize
-class TagCriteria(
+class TagCriterion(
     override val label: String?,
     override val values: Array<Long>
-) : IdCriteria() {
+) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.toTypedArray())
 
     @IgnoredOnParcel
@@ -28,6 +28,6 @@ class TagCriteria(
     override val column = KEY_TAGID
 
     companion object {
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, TagCriteria::class.java)
+        fun fromStringExtra(extra: String) = fromStringExtra(extra, TagCriterion::class.java)
     }
 }

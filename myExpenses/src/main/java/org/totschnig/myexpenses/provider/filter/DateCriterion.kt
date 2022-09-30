@@ -31,10 +31,10 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 @Parcelize
-class DateCriteria(
+class DateCriterion(
     override val operation: WhereFilter.Operation,
     override val values: Array<LocalDate>
-) : Criteria<LocalDate>() {
+) : Criterion<LocalDate>() {
     /**
      * filters transactions up to or from the provided value, depending on operation
      *
@@ -96,29 +96,29 @@ class DateCriteria(
 
     companion object {
 
-        fun fromStringExtra(extra: String): DateCriteria {
+        fun fromStringExtra(extra: String): DateCriterion {
             val values = extra.split(EXTRA_SEPARATOR).toTypedArray()
             val op = WhereFilter.Operation.valueOf(values[0])
             return if (op == WhereFilter.Operation.BTW) {
-                DateCriteria(
+                DateCriterion(
                     LocalDate.parse(values[1]),
                     LocalDate.parse(values[2])
                 )
-            } else DateCriteria(
+            } else DateCriterion(
                 op,
                 LocalDate.parse(values[1])
             )
         }
 
-        fun fromLegacy(extra: String): DateCriteria {
+        fun fromLegacy(extra: String): DateCriterion {
             val values = extra.split(EXTRA_SEPARATOR).toTypedArray()
             val op = WhereFilter.Operation.valueOf(values[0])
             return if (op == WhereFilter.Operation.BTW) {
-                DateCriteria(
+                DateCriterion(
                     fromEpoch(values[1]),
                     fromEpoch(values[2])
                 )
-            } else DateCriteria(op, fromEpoch(values[1]))
+            } else DateCriterion(op, fromEpoch(values[1]))
         }
 
         private fun fromEpoch(epoch: String): LocalDate {

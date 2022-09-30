@@ -11,6 +11,9 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *   Based on Financisto (c) 2010 Denis Solonenko, made available
+ *   under the terms of the GNU Public License v2.0
  */
 package org.totschnig.myexpenses.provider.filter
 
@@ -18,32 +21,17 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
-
-const val ACCOUNT_COLUMN = DatabaseConstants.KEY_ACCOUNTID
 
 @Parcelize
-class AccountCriteria(
-    override val label: String,
-    override val operation: Operation,
-    override val values: Array<Long>) : IdCriteria() {
-    constructor(label: String, vararg values: Long) : this(label, Operation.IN, values.toTypedArray())
+class CommentCriterion(override val searchString: String) : TextCriterion() {
 
     @IgnoredOnParcel
-    override val id = R.id.FILTER_ACCOUNT_COMMAND
+    override val id = R.id.FILTER_COMMENT_COMMAND
+
     @IgnoredOnParcel
-    override val column = ACCOUNT_COLUMN
-
-    override val selection: String
-        get()  {
-            val selection = operation.getOp(selectionArgs.size)
-            return "$column $selection OR ${DatabaseConstants.KEY_TRANSFER_ACCOUNT} $selection"
-        }
-
-    override val selectionArgs: Array<String>
-        get() = arrayOf(*super.selectionArgs, *super.selectionArgs)
-
+    override val column = DatabaseConstants.KEY_COMMENT
     companion object {
-        fun fromStringExtra(extra: String) = fromStringExtra(extra, AccountCriteria::class.java)
+
+        fun fromStringExtra(extra: String) = CommentCriterion(extra)
     }
 }
