@@ -100,21 +100,19 @@ fun ComposeTransactionList(
                                     headerData.dateInfo,
                                     isExpanded = !isGroupHidden,
                                 ) {
-                                    if (isGroupHidden) {
-                                        collapsedHeaders.value =
-                                            collapsedHeaders.value - headerId.toString()
+                                    collapsedHeaders.value = if (isGroupHidden) {
+                                        collapsedHeaders.value - headerId.toString()
                                     } else {
-                                        collapsedHeaders.value =
-                                            collapsedHeaders.value + headerId.toString()
+                                        collapsedHeaders.value + headerId.toString()
                                     }
                                 }
                             }
                     }
                 }
-                if (!collapsedHeaders.value.contains(headerId.toString())) {
-                    item(key = transaction?.id) {
-                        // Gets item, triggering page loads if needed
-                        lazyPagingItems[index]?.let {
+                // Gets item, triggering page loads if needed
+                lazyPagingItems[index]?.let {
+                    if (!collapsedHeaders.value.contains(headerId.toString())) {
+                        item(key = transaction?.id) {
                             TransactionRenderer(
                                 modifier = Modifier.animateItemPlacement(),
                                 transaction = it,
@@ -206,7 +204,7 @@ fun HeaderRenderer(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionRenderer(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     transaction: Transaction2,
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>?

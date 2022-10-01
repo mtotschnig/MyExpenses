@@ -10,19 +10,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScrollableTabRow
-import androidx.compose.material.Tab
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.contentColorFor
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -48,11 +38,13 @@ fun IconSelector(
     val categories = stringArrayResource(id = R.array.categories)
     var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
     var searchTerm by rememberSaveable { mutableStateOf("") }
-    val icons = derivedStateOf {
-        if (selectedTabIndex > 0)
-            iconsForCategory(context, categories[selectedTabIndex - 1])
-        else
-            if (searchTerm.isNotEmpty()) iconsForSearch(context, searchTerm) else emptyMap()
+    val icons = remember {
+        derivedStateOf {
+            if (selectedTabIndex > 0)
+                iconsForCategory(context, categories[selectedTabIndex - 1])
+            else
+                if (searchTerm.isNotEmpty()) iconsForSearch(context, searchTerm) else emptyMap()
+        }
     }
     val localFocusManager = LocalFocusManager.current
 
@@ -73,7 +65,10 @@ fun IconSelector(
                     value = searchTerm,
                     onValueChange = { searchTerm = it },
                     placeholder = { Text("Search") },
-                    colors = TextFieldDefaults.textFieldColors(placeholderColor = onSurfaceColor, cursorColor = onSurfaceColor),
+                    colors = TextFieldDefaults.textFieldColors(
+                        placeholderColor = onSurfaceColor,
+                        cursorColor = onSurfaceColor
+                    ),
                     maxLines = 1
                 )
             }

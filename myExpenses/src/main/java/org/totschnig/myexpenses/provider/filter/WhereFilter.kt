@@ -34,6 +34,9 @@ data class WhereFilter(val criteria: List<Criterion<*>>) {
         } else listOf(*it.selectionArgs)
     }.toTypedArray()
 
+    fun getSelectionArgsIfNotEmpty(queryParts: Boolean) = getSelectionArgs(queryParts)
+        .takeIf { it.isNotEmpty() }
+
     operator fun get(id: Int): Criterion<*>? = criteria.find { it.id == id }
 
     operator fun get(column: String)= criteria.find { it.column == column }

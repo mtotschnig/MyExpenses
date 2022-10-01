@@ -58,7 +58,8 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
 
-class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), OnDialogResultListener {
+class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
+    OnDialogResultListener {
     override val viewModel: DistributionViewModel by viewModels()
     private lateinit var chart: PieChart
     override val prefKey = PrefKey.DISTRIBUTION_AGGREGATE_TYPES
@@ -198,14 +199,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                         }
                     }
 
-                val chartCategoryTree = derivedStateOf {
-                    //expansionState does not reflect updates to the data, that is why we just use it
-                    //to walk down the updated tree and find the expanded category
-                    var result = categoryTree
-                    expansionState.forEach { expanded ->
-                        result = result.children.find { it.id == expanded.id } ?: result
+                val chartCategoryTree = remember {
+                    derivedStateOf {
+                        //expansionState does not reflect updates to the data, that is why we just use it
+                        //to walk down the updated tree and find the expanded category
+                        var result = categoryTree
+                        expansionState.forEach { expanded ->
+                            result = result.children.find { it.id == expanded.id } ?: result
+                        }
+                        result
                     }
-                    result
                 }
                 LaunchedEffect(chartCategoryTree.value) {
                     setChartData(chartCategoryTree.value.children)
@@ -374,7 +377,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(), 
                                 MenuEntry(
                                     Icons.Filled.Palette,
                                     R.string.color
-                                ) { category -> category.color?.let { editCategoryColor(category.id, it) } }
+                                ) { category ->
+                                    category.color?.let {
+                                        editCategoryColor(
+                                            category.id,
+                                            it
+                                        )
+                                    }
+                                }
                             )
                     }
                 )

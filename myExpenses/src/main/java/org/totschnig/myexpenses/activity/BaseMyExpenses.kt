@@ -313,7 +313,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     count = accountData.value.count(),
                     state = viewModel.pagerState
                 ) { page ->
-                    val account = derivedStateOf { accountData.value[page] }
+                    val account = remember { derivedStateOf { accountData.value[page] } }
                     val data =
                         remember(account.value.sortDirection) { viewModel.loadData(account.value) }
                     val headerData = viewModel.headerData(account.value)
@@ -740,7 +740,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         startEdit(createRowIntent(type, isIncome))
     }
 
-    private fun startEdit(intent: Intent?) {
+    private fun startEdit(intent: Intent) {
         floatingActionButton.hide()
         startActivityForResult(intent, EDIT_REQUEST)
     }

@@ -24,6 +24,8 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 
+const val LOAD_SIZE = 200
+
 class TransactionPagingSource(
     val context: Context,
     val account: FullAccount,
@@ -71,7 +73,7 @@ class TransactionPagingSource(
     @SuppressLint("InlinedApi")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         val pageNumber = params.key ?: 0
-        Timber.i("Requesting pageNumber %d", pageNumber)
+        Timber.i("Requesting pageNumber for account %d: %d", account.id, pageNumber)
         if (!whereFilter.value.isEmpty) {
             val selectionForParents =
                 whereFilter.value.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
@@ -80,7 +82,7 @@ class TransactionPagingSource(
                 selection += selectionForParents
                 selectionArgs = buildList {
                     selectionArgs?.let { addAll(it) }
-                    whereFilter.value.getSelectionArgs(false)?.let { addAll(it) }
+                    whereFilter.value.getSelectionArgsIfNotEmpty(false)?.let { addAll(it) }
                 }.toTypedArray()
             }
         }
@@ -89,11 +91,11 @@ class TransactionPagingSource(
                 uri.buildUpon()
                     .appendQueryParameter(
                         ContentResolver.QUERY_ARG_LIMIT,
-                        params.loadSize.toString()
+                        LOAD_SIZE.toString()
                     )
                     .appendQueryParameter(
                         ContentResolver.QUERY_ARG_OFFSET,
-                        (pageNumber * params.loadSize).toString()
+                        (pageNumber * LOAD_SIZE).toString()
                     )
                     .build(),
                 projection,
