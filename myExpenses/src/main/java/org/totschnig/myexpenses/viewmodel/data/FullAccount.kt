@@ -1,9 +1,12 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
+import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
+import androidx.core.content.res.ResourcesCompat
 import arrow.core.Tuple4
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
@@ -15,9 +18,9 @@ import org.totschnig.myexpenses.util.enumValueOrNull
 data class FullAccount(
     val id: Long,
     val label: String,
-    val description: String,
+    val description: String?,
     val currency: CurrencyUnit,
-    val color: Int = -1,
+    val _color: Int = -1,
     val type: AccountType?,
     val exchangeRate: Double = 1.0,
     val sealed: Boolean = false,
@@ -79,13 +82,16 @@ data class FullAccount(
 
     val isAggregate get() = id < 0
 
+    fun color(resources: Resources): Int = if (isAggregate)
+        ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
+
     companion object {
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = FullAccount(
             id = cursor.getLong(KEY_ROWID),
             label = cursor.getString(KEY_LABEL),
-            description = cursor.getString(KEY_DESCRIPTION),
+            description = cursor.getStringOrNull(KEY_DESCRIPTION),
             currency = currencyContext.get(cursor.getString(KEY_CURRENCY)),
-            color = cursor.getInt(KEY_COLOR),
+            _color = cursor.getInt(KEY_COLOR),
             type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
             exchangeRate = cursor.getDouble(KEY_EXCHANGE_RATE),
             sealed = cursor.getInt(KEY_SEALED) == 1,

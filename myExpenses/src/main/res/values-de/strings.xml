@@ -491,7 +491,7 @@
     <string name="file_name">Dateiname</string>
     <string name="folder_name">Ordnername</string>
     <string name="mark_void_instead_of_delete">Buchung nicht löschen, stattdessen als ungültig kennzeichnen.</string>
-    <string name="menu_undelete_transaction">Das Löschen rückgängig machen</string>
+    <string name="menu_undelete_transaction">Löschen rückgängig machen</string>
     <string name="slash_forbidden_in_filename">Das Zeichen / ist in Dateinamen nicht zulässig</string>
     <string name="io_error_unable_to_create_file">Konnte Datei %1$s im Ordner %2$s nicht erstellen</string>
     <string name="export_to_format">Export nach %s</string>

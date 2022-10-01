@@ -1,16 +1,19 @@
 package org.totschnig.myexpenses.compose
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
@@ -42,25 +45,28 @@ fun ExpansionHandle(
 }
 
 @Composable
-fun ColorCircle(modifier: Modifier = Modifier, color: Int) {
-    ColorCircle(modifier , Color(color))
+fun ColorCircle(modifier: Modifier = Modifier, color: Int, content: @Composable BoxScope.() -> Unit = {}) {
+    ColorCircle(modifier , Color(color), content)
 }
 
 @Composable
-fun ColorCircle(modifier: Modifier = Modifier, color: Color) {
+fun ColorCircle(modifier: Modifier = Modifier, color: Color, content: @Composable BoxScope.() -> Unit = {}) {
     Box(
         modifier = modifier
-            .padding(3.dp)
             .clip(CircleShape)
-            .background(color)
+            .background(color),
+        contentAlignment = Alignment.Center,
+        content = content
     )
 }
+
 fun Modifier.conditional(condition : Boolean, block : Modifier.() -> Modifier) = if (condition) {
         then(block(this))
     } else {
         this
     }
 
+@SuppressLint("UnnecessaryComposedModifier")
 fun Modifier.conditionalComposed(condition : Boolean, block : @Composable Modifier.() -> Modifier)  =
     composed {
         if (condition) {

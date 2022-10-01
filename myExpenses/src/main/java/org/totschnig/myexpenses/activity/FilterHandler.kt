@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContract
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
@@ -14,14 +15,63 @@ import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
 import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.provider.filter.PayeeCriterion
-import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.*
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.checkMenuIcon
+import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class FilterHandler(val activity: BaseMyExpenses) {
+    fun configureSearchMenu(searchMenu: MenuItem) {
+        with(activity) {
+            val sumInfoIsLoaded = sumInfo is SumInfoLoaded
+            Utils.menuItemSetEnabledAndVisible(searchMenu, sumInfoIsLoaded)
+            (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
+                val whereFilter =
+                    viewModel.filterPersistence.getValue(currentAccount.id).whereFilter
+                searchMenu.isChecked = !whereFilter.isEmpty
+                checkMenuIcon(searchMenu)
+                val filterMenu = searchMenu.subMenu!!
+                for (i in 0 until filterMenu.size()) {
+                    val filterItem = filterMenu.getItem(i)
+                    var enabled = true
+                    when (filterItem.itemId) {
+                        R.id.FILTER_CATEGORY_COMMAND -> {
+                            enabled = sumInfo.mappedCategories
+                        }
+                        R.id.FILTER_STATUS_COMMAND -> {
+                            enabled =
+                                currentAccount.isAggregate || currentAccount.type != AccountType.CASH
+                        }
+                        R.id.FILTER_PAYEE_COMMAND -> {
+                            enabled = sumInfo.mappedPayees
+                        }
+                        R.id.FILTER_METHOD_COMMAND -> {
+                            enabled = sumInfo.mappedMethods
+                        }
+                        R.id.FILTER_TRANSFER_COMMAND -> {
+                            enabled = sumInfo.hasTransfers
+                        }
+                        R.id.FILTER_TAG_COMMAND -> {
+                            enabled = sumInfo.hasTags
+                        }
+                        R.id.FILTER_ACCOUNT_COMMAND -> {
+                            enabled = currentAccount.isAggregate
+                        }
+                    }
+                    val c: Criterion<*>? = whereFilter[filterItem.itemId]
+                    Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null)
+                    if (c != null) {
+                        filterItem.isChecked = true
+                        filterItem.title = c.prettyPrint(this)
+                    }
+                }
+            }
+        }
+    }
+
     fun handleFilter(itemId: Int): Boolean {
         with(activity) {
             if (removeFilter(itemId)) return true
@@ -45,7 +95,9 @@ class FilterHandler(val activity: BaseMyExpenses) {
                 R.id.FILTER_TRANSFER_COMMAND -> SelectTransferAccountDialogFragment.newInstance(
                     currentAccount.id
                 ).show(supportFragmentManager, "TRANSFER_FILTER")
-                R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(currentAccount.currency.code)
+                R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(
+                    currentAccount.currency.code
+                )
                     .show(supportFragmentManager, "ACCOUNT_FILTER")
                 else -> return false
             }

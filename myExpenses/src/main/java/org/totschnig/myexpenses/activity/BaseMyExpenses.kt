@@ -172,7 +172,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.selectionState.value = value
         }
 
-    private var sumInfo: SumInfo = SumInfoUnknown
+    var sumInfo: SumInfo = SumInfoUnknown
         set(value) {
             field = value
             invalidateOptionsMenu()
@@ -995,51 +995,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
-        val searchMenu = menu.findItem(R.id.SEARCH_COMMAND)
+        filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
 
-        val sumInfoIsLoaded = sumInfo is SumInfoLoaded
-        Utils.menuItemSetEnabledAndVisible(searchMenu, sumInfoIsLoaded)
-
-        (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
-            val whereFilter = viewModel.filterPersistence.getValue(currentAccount.id).whereFilter
-            searchMenu.isChecked = !whereFilter.isEmpty
-            checkMenuIcon(searchMenu)
-            val filterMenu = searchMenu.subMenu!!
-            for (i in 0 until filterMenu.size()) {
-                val filterItem = filterMenu.getItem(i)
-                var enabled = true
-                when (filterItem.itemId) {
-                    R.id.FILTER_CATEGORY_COMMAND -> {
-                        enabled = sumInfo.mappedCategories
-                    }
-                    R.id.FILTER_STATUS_COMMAND -> {
-                        enabled =
-                            currentAccount.isAggregate || currentAccount.type != AccountType.CASH
-                    }
-                    R.id.FILTER_PAYEE_COMMAND -> {
-                        enabled = sumInfo.mappedPayees
-                    }
-                    R.id.FILTER_METHOD_COMMAND -> {
-                        enabled = sumInfo.mappedMethods
-                    }
-                    R.id.FILTER_TRANSFER_COMMAND -> {
-                        enabled = sumInfo.hasTransfers
-                    }
-                    R.id.FILTER_TAG_COMMAND -> {
-                        enabled = sumInfo.hasTags
-                    }
-                    R.id.FILTER_ACCOUNT_COMMAND -> {
-                        enabled = currentAccount.isAggregate
-                    }
-                }
-                val c: Criterion<*>? = whereFilter[filterItem.itemId]
-                Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null)
-                if (c != null) {
-                    filterItem.isChecked = true
-                    filterItem.title = c.prettyPrint(this)
-                }
-            }
-        }
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -1088,14 +1045,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId)
                 true
             } else false
-            tintSystemUiAndFab(
-                if (newAccountId < 0) ResourcesCompat.getColor(
-                    resources,
-                    R.color.colorAggregate,
-                    null
-                )
-                else account.color
-            )
+            tintSystemUiAndFab(account.color(resources))
             currentCurrency = account.currency.code
             setBalance(account)
             if (account.sealed) {

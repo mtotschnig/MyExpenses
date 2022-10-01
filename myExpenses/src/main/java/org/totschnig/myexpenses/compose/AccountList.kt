@@ -1,16 +1,10 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
-import android.graphics.Color
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -26,12 +20,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.burnoo.compose.rememberpreference.rememberBooleanPreference
 import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
@@ -195,8 +194,12 @@ fun AccountCard(
                     modifier = Modifier
                         .padding(end = 6.dp)
                         .size(dimensionResource(id = R.dimen.account_color_diameter_compose)),
-                    color = account.color
-                )
+                    color = account.color(LocalContext.current.resources)
+                ) {
+                    if (account.isAggregate) {
+                        Text(fontSize = 18.sp, text = "Σ", color = Color.White)
+                    }
+                }
                 if (account.sealed) {
                     Icon(
                         imageVector = Icons.Filled.Lock,
@@ -252,7 +255,7 @@ fun AccountCard(
             AnimatedVisibility(visible = it) {
                 Column(modifier = Modifier.padding(end = 16.dp)) {
 
-                    Text(account.description)
+                    account.description?.let { Text(it) }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -280,21 +283,33 @@ fun AccountCard(
                             text = format.convAmount(account.sumExpense, account.currency)
                         )
                     }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(stringResource(id = R.string.sum_transfer))
-                        Text(
-                            text = format.convAmount(account.sumTransfer, account.currency)
-                        )
+                    if (account.sumTransfer != 0L) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(stringResource(id = R.string.sum_transfer))
+                            Text(
+                                text = format.convAmount(account.sumTransfer, account.currency)
+                            )
+                        }
                     }
+                    val borderColor = MaterialTheme.colors.onSurface
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(stringResource(id = R.string.current_balance))
                         Text(
+                            modifier = Modifier.drawBehind {
+                                val strokeWidth = 2 * density
+                                drawLine(
+                                    borderColor,
+                                    Offset(0f, 0f),
+                                    Offset(size.width, 0f),
+                                    strokeWidth
+                                )
+                            },
                             text = format.convAmount(account.currentBalance, account.currency)
                         )
                     }
@@ -316,7 +331,7 @@ fun AccountPreview() {
             label = "Account",
             description = "Description",
             currency = CurrencyUnit.DebugInstance,
-            color = Color.RED,
+            _color = android.graphics.Color.RED,
             openingBalance = 0,
             currentBalance = 1000,
             sumIncome = 2000,
