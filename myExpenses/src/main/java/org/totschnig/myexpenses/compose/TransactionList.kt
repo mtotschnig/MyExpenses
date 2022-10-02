@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
+import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
 const val COMMENT_SEPARATOR = " / "
@@ -52,7 +53,8 @@ fun TransactionList(
     accountId: Long,
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
-    onToggleCrStatus: ((Long) -> Unit)?
+    onToggleCrStatus: ((Long) -> Unit)?,
+    dateTimeFormatter: DateTimeFormatter?
 ) {
     val pager = remember(pagingSourceFactory) {
         Pager(
@@ -108,6 +110,7 @@ fun TransactionList(
                             }
                     }
                 }
+
                 // Gets item, triggering page loads if needed
                 lazyPagingItems[index]?.let {
                     val isLast = index == lazyPagingItems.itemCount - 1
@@ -119,7 +122,8 @@ fun TransactionList(
                                     transaction = it,
                                     selectionHandler = selectionHandler,
                                     menuGenerator = menuGenerator,
-                                    onToggleCrStatus = onToggleCrStatus
+                                    onToggleCrStatus = onToggleCrStatus,
+                                    dateTimeFormatter = dateTimeFormatter
                                 )
                             }
                             if (isLast) GroupDivider() else Divider()
@@ -176,7 +180,7 @@ fun HeaderRenderer(
                 style = MaterialTheme.typography.subtitle1,
             )
             val delta =
-                if (headerRow.delta.amountMinor > -1) " + " else " - " + amountFormatter.formatMoney(
+                (if (headerRow.delta.amountMinor >= 0) " + " else " - ") + amountFormatter.formatMoney(
                     Money(
                         headerRow.delta.currencyUnit,
                         headerRow.delta.amountMinor.absoluteValue
@@ -218,7 +222,8 @@ fun TransactionRenderer(
     transaction: Transaction2,
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>?,
-    onToggleCrStatus: ((Long) -> Unit)?
+    onToggleCrStatus: ((Long) -> Unit)?,
+    dateTimeFormatter: DateTimeFormatter?
 ) {
     val showMenu = remember { mutableStateOf(false) }
     val description = buildAnnotatedString {
@@ -294,7 +299,10 @@ fun TransactionRenderer(
                     .width(2.dp)
             )
         }
-        Text(text = LocalDateFormatter.current.format(transaction.date))
+        dateTimeFormatter?.let {
+            Text(text = dateTimeFormatter.format(transaction.date))
+        }
+
         if (onToggleCrStatus != null && transaction.crStatus != CrStatus.VOID) {
             Box(modifier = Modifier
                 .size(32.dp)

@@ -421,7 +421,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         viewModel.toggleCrStatus(it)
                                     }
                                 }
-                            }
+                            },
+                            dateTimeFormatter = dateTimeFormatterFor(account, prefHandler, this@BaseMyExpenses)
                         )
                     }
                 }

@@ -48,6 +48,7 @@ import java.util.*
 
 const val COMMENT_SEPARATOR = " / "
 
+@Deprecated("Migration to Compose")
 open class TransactionAdapter(
     private val groupingOverride: Grouping?,
     private val context: Context,
@@ -78,22 +79,6 @@ open class TransactionAdapter(
     interface OnToggleCrStatus {
         fun toggle(id: Long)
     }
-
-    constructor(
-        context: Context, layout: Int, c: Cursor?, flags: Int,
-        currencyFormatter: CurrencyFormatter, prefHandler: PrefHandler,
-        currencyContext: CurrencyContext, onToggleCrStatus: OnToggleCrStatus?
-    ) : this(
-        null,
-        context,
-        layout,
-        c,
-        flags,
-        currencyFormatter,
-        prefHandler,
-        currencyContext,
-        onToggleCrStatus
-    )
 
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
         val v = super.newView(context, cursor, parent)
@@ -216,7 +201,7 @@ open class TransactionAdapter(
         return Utils.localeFromContext(context)
     }
 
-    fun refreshDateFormat() {
+    private fun refreshDateFormat() {
 
         dateEms = 3
 
