@@ -190,20 +190,23 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             AppTheme(this) {
                 val isDark = isSystemInDarkTheme()
                 val configuration = LocalConfiguration.current
-                val categoryTree =
-                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING).value.let { category ->
-                        if (showChart.value) category.withSubColors {
+                val categoryState =
+                    viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING)
+                val categoryTree = remember {
+                    derivedStateOf {
+                        if (showChart.value) categoryState.value.withSubColors {
                             getSubColors(it, isDark)
                         } else {
-                            category.copy(children = category.children.map { it.copy(color = null) })
+                            categoryState.value.copy(children = categoryState.value.children.map { it.copy(color = null) })
                         }
                     }
+                }
 
                 val chartCategoryTree = remember {
                     derivedStateOf {
                         //expansionState does not reflect updates to the data, that is why we just use it
                         //to walk down the updated tree and find the expanded category
-                        var result = categoryTree
+                        var result = categoryTree.value
                         expansionState.forEach { expanded ->
                             result = result.children.find { it.id == expanded.id } ?: result
                         }
@@ -241,14 +244,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 val accountInfo = viewModel.accountInfo.collectAsState(null)
                 Box(modifier = Modifier.fillMaxSize()) {
                     when {
-                        categoryTree == Category.LOADING -> {
+                        categoryTree.value == Category.LOADING -> {
                             CircularProgressIndicator(
                                 modifier = Modifier
                                     .size(96.dp)
                                     .align(Alignment.Center)
                             )
                         }
-                        categoryTree.children.isEmpty() -> {
+                        categoryTree.value.children.isEmpty() -> {
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
                                 text = stringResource(id = R.string.no_mapped_transactions),
@@ -263,7 +266,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         Row(modifier = Modifier.weight(1f)) {
                                             RenderTree(
                                                 modifier = Modifier.weight(0.5f),
-                                                category = categoryTree,
+                                                category = categoryTree.value,
                                                 choiceMode = choiceMode,
                                                 expansionMode = expansionMode,
                                                 accountInfo = accountInfo.value
@@ -282,7 +285,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     Column {
                                         RenderTree(
                                             modifier = Modifier.weight(0.5f),
-                                            category = categoryTree,
+                                            category = categoryTree.value,
                                             choiceMode = choiceMode,
                                             expansionMode = expansionMode,
                                             accountInfo = accountInfo.value
