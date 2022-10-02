@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
@@ -253,14 +254,9 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                         {
                                             if (action == Action.SELECT_FILTER) null else Menu(
                                                 listOfNotNull(
-                                                    if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false)
-                                                        MenuEntry(
-                                                            icon = Icons.Filled.Check,
-                                                            label = R.string.select
-                                                        ) {
-                                                            doSingleSelection(it)
-                                                        }
-                                                    else null,
+                                                    if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
+                                                        select { doSingleSelection(it) }
+                                                    } else null,
                                                     edit { editCat(it) },
                                                     delete { category ->
                                                         if (category.flatten().map { it.id }

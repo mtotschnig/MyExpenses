@@ -19,6 +19,7 @@
     <string name="autofill">"Automatsko ispunjavanje"</string>
     <string name="discard">"Odbaci"</string>
     <string name="dialog_dismiss">"Odbaci"</string>
+    <string name="details">"Pojedinosti"</string>
     <string name="response_yes">"Da"</string>
     <string name="response_no">"Ne"</string>
     <string name="add_widget">"Dodavanje widgeta"</string>

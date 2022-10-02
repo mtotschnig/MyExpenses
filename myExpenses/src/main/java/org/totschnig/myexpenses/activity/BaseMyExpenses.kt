@@ -17,10 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.RestoreFromTrash
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
@@ -59,6 +56,7 @@ import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.*
@@ -356,7 +354,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     )
                                 }
                             }
-                        ComposeTransactionList(
+                        TransactionList(
                             pagingSourceFactory = data,
                             headerData = headerData.collectAsState(HeaderData.EMPTY).value,
                             accountId = account.value.id,
@@ -378,27 +376,41 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                             menuGenerator = remember {
                                 { transaction ->
-                                    if (viewModel.accountData.value.first { it.id == transaction.accountId }.sealed) null else Menu(
-                                        listOfNotNull(
-                                            if (transaction.crStatus != CrStatus.VOID)
-                                                edit { edit(transaction) } else null,
-                                            MenuEntry(
-                                                icon = Icons.Filled.ContentCopy,
-                                                label = R.string.menu_clone_transaction
-                                            ) {
-                                                edit(transaction, true)
-                                            },
-                                            delete { delete(listOf(transaction)) },
-                                            MenuEntry(
-                                                icon = myiconpack.IcActionTemplateAdd,
-                                                label = R.string.menu_create_template_from_transaction
-                                            ) { createTemplate(transaction) },
-                                            if (transaction.crStatus == CrStatus.VOID)
-                                                MenuEntry(
-                                                    icon = Icons.Filled.RestoreFromTrash,
-                                                    label = R.string.menu_undelete_transaction
-                                                ) { undelete(transaction) } else null
-                                        )
+                                    Menu(
+                                        buildList {
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.Loupe,
+                                                label = R.string.details
+                                            ) { showDetails(it.id) } )
+                                            if (!viewModel.accountData.value.first { it.id == transaction.accountId }.sealed) {
+                                                if (transaction.crStatus != CrStatus.VOID) {
+                                                    add(edit { edit(transaction) })
+                                                }
+                                                add(MenuEntry(
+                                                    icon = Icons.Filled.ContentCopy,
+                                                    label = R.string.menu_clone_transaction
+                                                ) {
+                                                    edit(transaction, true)
+                                                })
+                                                add(delete { delete(listOf(transaction)) })
+                                                add(MenuEntry(
+                                                    icon = myiconpack.IcActionTemplateAdd,
+                                                    label = R.string.menu_create_template_from_transaction
+                                                ) { createTemplate(transaction) })
+                                                if (transaction.crStatus == CrStatus.VOID) {
+                                                    add(MenuEntry(
+                                                        icon = Icons.Filled.RestoreFromTrash,
+                                                        label = R.string.menu_undelete_transaction
+                                                    ) { undelete(transaction) })
+                                                }
+                                                add(
+                                                    select {
+                                                        viewModel.selectionState.value = listOf(it)
+                                                        viewModel.selectedTransactionSum =
+                                                            transaction.amount.amountMinor
+                                                    })
+                                            }
+                                        }
                                     )
                                 }
                             }
@@ -514,6 +526,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         }
     }
+
+    fun showDetails(transactionId: Long) {
+        lifecycleScope.launchWhenResumed {
+            TransactionDetailFragment.show(transactionId, supportFragmentManager)
+        }
+    }
+
 
     private fun undelete(transaction: Transaction2) {
         checkSealed(listOf(transaction.id)) {

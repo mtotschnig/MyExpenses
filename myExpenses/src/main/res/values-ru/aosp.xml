@@ -18,6 +18,7 @@
     <string name="autofill">"Автозаполнение"</string>
     <string name="discard">"Отменить"</string>
     <string name="dialog_dismiss">"Закрыть"</string>
+    <string name="details">"Информация"</string>
     <string name="response_yes">"Да"</string>
     <string name="response_no">"Нет"</string>
     <string name="add_widget">"Добавить виджет"</string>

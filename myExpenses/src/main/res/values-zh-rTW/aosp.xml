@@ -18,6 +18,7 @@
     <string name="autofill">"自動填入"</string>
     <string name="discard">"捨棄"</string>
     <string name="dialog_dismiss">"關閉"</string>
+    <string name="details">"詳細資訊"</string>
     <string name="response_yes">"是"</string>
     <string name="response_no">"否"</string>
     <string name="add_widget">"新增小工具"</string>

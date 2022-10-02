@@ -19,6 +19,7 @@
     <string name="autofill">"מילוי אוטומטי"</string>
     <string name="discard">"מחק"</string>
     <string name="dialog_dismiss">"סגור"</string>
+    <string name="details">"פרטים"</string>
     <string name="response_yes">"כן"</string>
     <string name="response_no">"לא"</string>
     <string name="add_widget">"הוספת ווידג\'ט"</string>

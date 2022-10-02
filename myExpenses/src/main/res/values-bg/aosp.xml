@@ -19,6 +19,7 @@
     <string name="autofill">"Автоматично попълване"</string>
     <string name="discard">"Отхвърляне"</string>
     <string name="dialog_dismiss">"Отхвърляне"</string>
+    <string name="details">"Подробности"</string>
     <string name="response_yes">"Да"</string>
     <string name="response_no">"Не"</string>
     <string name="add_widget">"Добавяне на приспособление"</string>

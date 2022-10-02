@@ -48,7 +48,7 @@ const val COMMENT_SEPARATOR = " / "
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ComposeTransactionList(
+fun TransactionList(
     pagingSourceFactory: () -> PagingSource<Int, Transaction2>,
     headerData: HeaderData,
     accountId: Long,

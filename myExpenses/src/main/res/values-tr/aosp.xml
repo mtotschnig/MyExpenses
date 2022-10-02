@@ -18,6 +18,7 @@
     <string name="autofill">"Otomatik Doldur"</string>
     <string name="discard">"Sil"</string>
     <string name="dialog_dismiss">"Kapat"</string>
+    <string name="details">"Ayrıntılar"</string>
     <string name="response_yes">"Evet"</string>
     <string name="response_no">"Hayır"</string>
     <string name="add_widget">"Widget ekleyin"</string>

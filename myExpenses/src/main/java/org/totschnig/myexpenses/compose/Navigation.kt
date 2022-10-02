@@ -91,6 +91,12 @@ data class MenuEntry<T>(
             action = action
         )
 
+        fun <T> select(action: (T) -> Unit) = MenuEntry(
+            icon = Icons.Filled.Check,
+            label = R.string.select,
+            action = action
+        )
+
         fun <T> toggle(isSealed: Boolean, action: (T) -> Unit) = MenuEntry(
             icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
             label = if (isSealed) R.string.menu_reopen else R.string.menu_close,

@@ -18,6 +18,7 @@
     <string name="autofill">"الملء التلقائي"</string>
     <string name="discard">"إلغاء"</string>
     <string name="dialog_dismiss">"تجاهل"</string>
+    <string name="details">"التفاصيل"</string>
     <string name="response_yes">"نعم"</string>
     <string name="response_no">"لا"</string>
     <string name="add_widget">"إضافة أداة"</string>

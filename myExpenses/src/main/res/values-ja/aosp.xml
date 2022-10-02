@@ -19,6 +19,7 @@
     <string name="autofill">"自動入力"</string>
     <string name="discard">"破棄"</string>
     <string name="dialog_dismiss">"閉じる"</string>
+    <string name="details">"詳細"</string>
     <string name="response_yes">"はい"</string>
     <string name="response_no">"いいえ"</string>
     <string name="add_widget">"ウィジェットを追加します"</string>

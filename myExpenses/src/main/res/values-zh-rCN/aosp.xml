@@ -18,6 +18,7 @@
     <string name="autofill">"自动填充"</string>
     <string name="discard">"放弃"</string>
     <string name="dialog_dismiss">"关闭"</string>
+    <string name="details">"详细信息"</string>
     <string name="response_yes">"是"</string>
     <string name="response_no">"否"</string>
     <string name="add_widget">"添加微件"</string>

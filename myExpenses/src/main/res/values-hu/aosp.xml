@@ -18,6 +18,7 @@
     <string name="autofill">"Automatikus kitöltés"</string>
     <string name="discard">"Elvetés"</string>
     <string name="dialog_dismiss">"Elvetés"</string>
+    <string name="details">"Részletek"</string>
     <string name="response_yes">"Igen"</string>
     <string name="response_no">"Nem"</string>
     <string name="add_widget">"Modul hozzáadása"</string>

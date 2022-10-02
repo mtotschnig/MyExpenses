@@ -18,6 +18,7 @@
     <string name="autofill">"Autocompletar"</string>
     <string name="discard">"Descartar"</string>
     <string name="dialog_dismiss">"Aceptar"</string>
+    <string name="details">"Detalles"</string>
     <string name="response_yes">"Sí"</string>
     <string name="response_no">"No"</string>
     <string name="add_widget">"Añadir widget"</string>

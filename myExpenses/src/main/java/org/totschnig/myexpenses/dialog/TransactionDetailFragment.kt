@@ -22,6 +22,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -307,8 +308,15 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(id: Long): TransactionDetailFragment = TransactionDetailFragment().apply {
+        fun show(id: Long, fragmentManager: FragmentManager) {
+            with(fragmentManager) {
+                if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
+                    newInstance(id).show(this, TransactionDetailFragment::class.java.name)
+                }
+            }
+        }
+
+        private fun newInstance(id: Long): TransactionDetailFragment = TransactionDetailFragment().apply {
             arguments = Bundle().apply {
                 putLong(DatabaseConstants.KEY_ROWID, id)
             }

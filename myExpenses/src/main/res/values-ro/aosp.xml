@@ -19,6 +19,7 @@
     <string name="autofill">"Completare automată"</string>
     <string name="discard">"Renunţaţi"</string>
     <string name="dialog_dismiss">"Închideți"</string>
+    <string name="details">"Detalii"</string>
     <string name="response_yes">"Da"</string>
     <string name="response_no">"Nu"</string>
     <string name="add_widget">"Adăugați un widget"</string>
