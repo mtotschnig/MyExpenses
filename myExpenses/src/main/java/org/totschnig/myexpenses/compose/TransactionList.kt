@@ -94,10 +94,10 @@ fun TransactionList(
                         headerData.groups[headerId]
                             ?.let {
                                 HeaderRenderer(
-                                    //modifier = Modifier.animateItemPlacement(),
-                                    headerData.grouping,
-                                    it,
-                                    headerData.dateInfo,
+                                    modifier = Modifier.animateItemPlacement(),
+                                    grouping = headerData.grouping,
+                                    headerRow = it,
+                                    dateInfo = headerData.dateInfo,
                                     isExpanded = !isGroupHidden,
                                 ) {
                                     collapsedHeaders.value = if (isGroupHidden) {
@@ -141,7 +141,7 @@ fun TransactionList(
 //due to bug https://issuetracker.google.com/issues/209947592
 @Composable
 fun HeaderRenderer(
-    //modifier: Modifier,
+    modifier: Modifier,
     grouping: Grouping,
     headerRow: HeaderRow,
     dateInfo: DateInfo2,
