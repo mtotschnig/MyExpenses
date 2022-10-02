@@ -95,6 +95,8 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.sign
@@ -284,6 +286,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (savedInstanceState == null) {
             accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         }
+        val futureCriterion =
+            if ("current" == prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day"))
+                ZonedDateTime.now(ZoneId.systemDefault())
+            else
+                LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
+
         binding.viewPagerMain.viewPager.setContent {
             val accountData = viewModel.accountData.collectAsState()
             AppTheme(context = this@BaseMyExpenses) {
@@ -422,7 +430,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     }
                                 }
                             },
-                            dateTimeFormatter = dateTimeFormatterFor(account, prefHandler, this@BaseMyExpenses)
+                            dateTimeFormatter = dateTimeFormatterFor(account, prefHandler, this@BaseMyExpenses),
+                            futureCriterion = futureCriterion
                         )
                     }
                 }

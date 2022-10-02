@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
@@ -54,7 +55,8 @@ fun TransactionList(
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
     onToggleCrStatus: ((Long) -> Unit)?,
-    dateTimeFormatter: DateTimeFormatter?
+    dateTimeFormatter: DateTimeFormatter?,
+    futureCriterion: ZonedDateTime
 ) {
     val pager = remember(pagingSourceFactory) {
         Pager(
@@ -123,7 +125,8 @@ fun TransactionList(
                                     selectionHandler = selectionHandler,
                                     menuGenerator = menuGenerator,
                                     onToggleCrStatus = onToggleCrStatus,
-                                    dateTimeFormatter = dateTimeFormatter
+                                    dateTimeFormatter = dateTimeFormatter,
+                                    futureCriterion = futureCriterion
                                 )
                             }
                             if (isLast) GroupDivider() else Divider()
@@ -223,7 +226,8 @@ fun TransactionRenderer(
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>?,
     onToggleCrStatus: ((Long) -> Unit)?,
-    dateTimeFormatter: DateTimeFormatter?
+    dateTimeFormatter: DateTimeFormatter?,
+    futureCriterion: ZonedDateTime
 ) {
     val showMenu = remember { mutableStateOf(false) }
     val description = buildAnnotatedString {
@@ -263,6 +267,9 @@ fun TransactionRenderer(
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val voidMarkerHeight = with(LocalDensity.current) { 2.dp.toPx() }
     Row(modifier = modifier
+        .conditionalComposed(transaction.date >= futureCriterion) {
+            background(colorResource(id = R.color.future_background))
+        }
         .height(IntrinsicSize.Min)
         .combinedClickable(
             onLongClick = { selectionHandler.toggle(transaction) },
