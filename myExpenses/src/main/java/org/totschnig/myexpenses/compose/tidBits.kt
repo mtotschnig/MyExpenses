@@ -3,8 +3,10 @@ package org.totschnig.myexpenses.compose
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.IconButton
@@ -20,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 
@@ -61,7 +64,7 @@ fun ColorCircle(modifier: Modifier = Modifier, color: Color, content: @Composabl
 }
 
 fun Modifier.conditional(condition : Boolean, block : Modifier.() -> Modifier) = if (condition) {
-        then(block(this))
+        then(block(Modifier))
     } else {
         this
     }
@@ -70,8 +73,23 @@ fun Modifier.conditional(condition : Boolean, block : Modifier.() -> Modifier) =
 fun Modifier.conditionalComposed(condition : Boolean, block : @Composable Modifier.() -> Modifier)  =
     composed {
         if (condition) {
-            then(block(this))
+            then(block(Modifier))
         } else {
             this
         }
     }
+
+@Preview
+@Composable
+fun ConditionalTest() {
+    Text(
+        modifier = Modifier
+            .padding(15.dp)
+            .border(width = 2.dp, color = Color.Blue)
+            .conditional(true) {
+                background(Color.Red)
+            }
+            .padding(16.dp),
+        text = "Text"
+    )
+}

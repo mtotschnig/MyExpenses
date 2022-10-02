@@ -420,13 +420,6 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  //TODO
-  public void onNoData() {
-    setTitle(R.string.app_name);
-    toolbar.setSubtitle(null);
-    setCurrentPosition(-1);
-  }
-
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);

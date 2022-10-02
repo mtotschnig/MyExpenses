@@ -364,6 +364,19 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
      */
     fun removeFilter(id: Int, accountId: Long) = filterPersistence.getValue(accountId).removeFilter(id)
 
+    fun toggleCrStatus(id: Long) {
+        viewModelScope.launch(coroutineDispatcher) {
+            contentResolver.update(
+                TRANSACTIONS_URI
+                    .buildUpon()
+                    .appendPath(id.toString())
+                    .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+                    .build(),
+                null, null, null
+            )
+        }
+    }
+
     companion object {
         fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
     }

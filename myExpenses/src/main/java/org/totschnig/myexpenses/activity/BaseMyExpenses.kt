@@ -115,18 +115,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             moveToAccount()
         }
 
-    private fun moveToAccount(): Boolean {
-        return viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 }
-            ?.let {
-                if (viewModel.pagerState.currentPage != it) {
-                    lifecycleScope.launch {
-                        viewModel.pagerState.scrollToPage(it)
-                    }
-                } else {
-                    setCurrentAccount(it)
-                }
-                true
-            } ?: false
+    private fun moveToAccount() {
+        val position =
+            viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 } ?: 0
+        if (viewModel.pagerState.currentPage != position) {
+            lifecycleScope.launch {
+                viewModel.pagerState.scrollToPage(position)
+            }
+        } else {
+            setCurrentAccount(position)
+        }
     }
 
     val currentAccount: FullAccount
@@ -146,7 +144,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var toolbar: Toolbar
 
     private var currentBalance: String? = null
-    var currentPosition = -1
 
     val viewModel: MyExpensesViewModel by viewModels()
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
@@ -300,10 +297,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                 }
                 LaunchedEffect(accountData.value) {
-                    if (moveToAccount()) {
+                    if (accountData.value.isNotEmpty()) {
+                        moveToAccount()
                         viewModel.sumInfo(currentAccount).collect {
                             sumInfo = it
                         }
+                    } else {
+                        setTitle(R.string.app_name)
+                        toolbar.subtitle = null
                     }
                 }
                 HorizontalPager(
@@ -311,10 +312,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     count = accountData.value.count(),
                     state = viewModel.pagerState
                 ) { page ->
-                    val account = remember { derivedStateOf { accountData.value[page] } }
+                    val account = remember { derivedStateOf { accountData.value[page] } }.value
                     val data =
-                        remember(account.value.sortDirection) { viewModel.loadData(account.value) }
-                    val headerData = viewModel.headerData(account.value)
+                        remember(account.sortDirection) { viewModel.loadData(account) }
+                    val headerData = viewModel.headerData(account)
                     if (page == currentPage) {
                         LaunchedEffect(selectionState.size) {
                             if (selectionState.isNotEmpty()) {
@@ -326,7 +327,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                     Column {
-                        val filter = viewModel.filterPersistence.getValue(account.value.id)
+                        viewModel.filterPersistence.getValue(account.id)
                             .whereFilterAsFlow
                             .collectAsState(WhereFilter.empty())
                             .value
@@ -357,7 +358,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         TransactionList(
                             pagingSourceFactory = data,
                             headerData = headerData.collectAsState(HeaderData.EMPTY).value,
-                            accountId = account.value.id,
+                            accountId = account.id,
                             selectionHandler = object : SelectionHandler {
                                 override fun toggle(transaction: Transaction2) {
                                     if (viewModel.selectionState.toggle(transaction)) {
@@ -381,8 +382,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             add(MenuEntry(
                                                 icon = Icons.Filled.Loupe,
                                                 label = R.string.details
-                                            ) { showDetails(it.id) } )
-                                            if (!viewModel.accountData.value.first { it.id == transaction.accountId }.sealed) {
+                                            ) { showDetails(it.id) })
+                                            if (!account.sealed) {
                                                 if (transaction.crStatus != CrStatus.VOID) {
                                                     add(edit { edit(transaction) })
                                                 }
@@ -412,6 +413,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             }
                                         }
                                     )
+                                }
+                            },
+                            onToggleCrStatus = if (account.type == AccountType.CASH) null else {
+                                {
+                                    checkSealed(listOf(it)) {
+                                        viewModel.toggleCrStatus(it)
+                                    }
                                 }
                             }
                         )
@@ -862,7 +870,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 true
             }
             R.id.DELETE_ACCOUNT_COMMAND_DO -> {
-                //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
                 val accountIds = tag as Array<Long>
                 if (accountIds.any { it == accountId }) {
                     accountId = 0L
@@ -989,10 +996,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
-            it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
-        }
         if (viewModel.accountData.value.isNotEmpty()) {
+            menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
+                it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
+            }
             with(currentAccount) {
                 menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
                     Utils.configureGroupingMenu(it, grouping)
@@ -1013,15 +1020,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     Utils.menuItemSetEnabledAndVisible(it, syncAccountName != null)
                 }
             }
+            filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
+        } else {
+            for (item in listOf(
+                R.id.SEARCH_COMMAND, R.id.DISTRIBUTION_COMMAND, R.id.HISTORY_COMMAND,
+                R.id.SCAN_MODE_COMMAND, R.id.RESET_COMMAND, R.id.SYNC_COMMAND, R.id.BALANCE_COMMAND,
+                R.id.SORT_DIRECTION_COMMAND, R.id.PRINT_COMMAND, R.id.GROUPING_COMMAND
+            )) {
+                Utils.menuItemSetEnabledAndVisible(menu.findItem(item), false)
+            }
         }
-        filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
 
         return super.onPrepareOptionsMenu(menu)
     }
 
     private fun setupToolbarPopupMenu() {
         toolbar.setOnClickListener {
-            if (currentPosition > -1) {
+            if (accountCount > 0) {
                 val popup = PopupMenu(this, toolbar)
                 val popupMenu = popup.menu
                 popupMenu.add(
@@ -1078,10 +1093,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun setBalance(account: FullAccount) {
         val isHome = account.id == HOME_AGGREGATE_ID
-        currentBalance = String.format(
-            Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
-            currencyFormatter.formatMoney(Money(account.currency, account.currentBalance))
-        )
+        currentBalance = if (isHome) " ≈ " else "" +
+                currencyFormatter.formatMoney(Money(account.currency, account.currentBalance))
         title = if (isHome) getString(R.string.grand_total) else account.label
         toolbar.subtitle = currentBalance
         toolbar.setSubtitleTextColor(

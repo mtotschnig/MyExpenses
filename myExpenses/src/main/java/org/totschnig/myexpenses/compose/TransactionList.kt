@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,10 +35,7 @@ import androidx.paging.PagingSource
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
@@ -54,6 +52,7 @@ fun TransactionList(
     accountId: Long,
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
+    onToggleCrStatus: ((Long) -> Unit)?
 ) {
     val pager = remember(pagingSourceFactory) {
         Pager(
@@ -78,7 +77,7 @@ fun TransactionList(
                 .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
         )
     } else {
-        LazyColumn(modifier = Modifier.padding(horizontal = 12.dp)) {
+        LazyColumn {
 
             var lastHeader: Int? = null
 
@@ -87,9 +86,8 @@ fun TransactionList(
                 // which would otherwise trigger page loads
                 val transaction = lazyPagingItems.peek(index)
                 val headerId = transaction?.let { headerData.calculateGroupId(it) }
-
+                val isGroupHidden = collapsedHeaders.value.contains(headerId.toString())
                 if (transaction !== null && headerId != lastHeader) {
-                    val isGroupHidden = collapsedHeaders.value.contains(headerId.toString())
                     stickyHeader(key = headerId) {
                         headerData.groups[headerId]
                             ?.let {
@@ -106,19 +104,25 @@ fun TransactionList(
                                         collapsedHeaders.value + headerId.toString()
                                     }
                                 }
+                                Divider()
                             }
                     }
                 }
                 // Gets item, triggering page loads if needed
                 lazyPagingItems[index]?.let {
-                    if (!collapsedHeaders.value.contains(headerId.toString())) {
-                        item(key = transaction?.id) {
-                            TransactionRenderer(
-                                modifier = Modifier.animateItemPlacement(),
-                                transaction = it,
-                                selectionHandler = selectionHandler,
-                                menuGenerator = menuGenerator
-                            )
+                    val isLast = index == lazyPagingItems.itemCount - 1
+                    if (!isGroupHidden || isLast) {
+                        item(key = it.id) {
+                            if (!isGroupHidden) {
+                                TransactionRenderer(
+                                    modifier = Modifier.animateItemPlacement(),
+                                    transaction = it,
+                                    selectionHandler = selectionHandler,
+                                    menuGenerator = menuGenerator,
+                                    onToggleCrStatus = onToggleCrStatus
+                                )
+                            }
+                            if (isLast) GroupDivider() else Divider()
                         }
                     }
                 }
@@ -143,6 +147,7 @@ fun HeaderRenderer(
     val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
     Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
+        GroupDivider()
         if (grouping != Grouping.NONE) {
             ExpansionHandle(
                 modifier = Modifier.align(Alignment.TopEnd),
@@ -201,13 +206,19 @@ fun HeaderRenderer(
     }
 }
 
+@Composable
+private fun GroupDivider() {
+    Divider(color = colorResource(id = R.color.emphasis))
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionRenderer(
     modifier: Modifier = Modifier,
     transaction: Transaction2,
     selectionHandler: SelectionHandler,
-    menuGenerator: (Transaction2) -> Menu<Transaction2>?
+    menuGenerator: (Transaction2) -> Menu<Transaction2>?,
+    onToggleCrStatus: ((Long) -> Unit)?
 ) {
     val showMenu = remember { mutableStateOf(false) }
     val description = buildAnnotatedString {
@@ -272,6 +283,8 @@ fun TransactionRenderer(
                 )
             }
         }
+        .padding(horizontal = 12.dp, vertical = 3.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         transaction.color?.let {
             Divider(
@@ -282,6 +295,13 @@ fun TransactionRenderer(
             )
         }
         Text(text = LocalDateFormatter.current.format(transaction.date))
+        if (onToggleCrStatus != null && transaction.crStatus != CrStatus.VOID) {
+            Box(modifier = Modifier
+                .size(32.dp)
+                .clickable { onToggleCrStatus(transaction.id) }
+                .padding(8.dp)
+                .background(color = Color(transaction.crStatus.color)))
+        }
         Text(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
