@@ -363,76 +363,83 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     )
                                 }
                             }
-                        TransactionList(
-                            pagingSourceFactory = data,
-                            headerData = headerData.collectAsState(HeaderData.EMPTY).value,
-                            accountId = account.id,
-                            selectionHandler = object : SelectionHandler {
-                                override fun toggle(transaction: Transaction2) {
-                                    if (viewModel.selectionState.toggle(transaction)) {
-                                        viewModel.selectedTransactionSum += transaction.amount.amountMinor
-                                    } else {
-                                        viewModel.selectedTransactionSum -= transaction.amount.amountMinor
-                                    }
-                                }
-
-                                override fun isSelected(transaction: Transaction2) =
-                                    selectionState.contains(transaction)
-
-                                override val selectionCount: Int
-                                    get() = selectionState.size
-
-                            },
-                            menuGenerator = remember {
-                                { transaction ->
-                                    Menu(
-                                        buildList {
-                                            add(MenuEntry(
-                                                icon = Icons.Filled.Loupe,
-                                                label = R.string.details
-                                            ) { showDetails(it.id) })
-                                            if (!account.sealed) {
-                                                if (transaction.crStatus != CrStatus.VOID) {
-                                                    add(edit { edit(transaction) })
-                                                }
-                                                add(MenuEntry(
-                                                    icon = Icons.Filled.ContentCopy,
-                                                    label = R.string.menu_clone_transaction
-                                                ) {
-                                                    edit(transaction, true)
-                                                })
-                                                add(delete { delete(listOf(transaction)) })
-                                                add(MenuEntry(
-                                                    icon = myiconpack.IcActionTemplateAdd,
-                                                    label = R.string.menu_create_template_from_transaction
-                                                ) { createTemplate(transaction) })
-                                                if (transaction.crStatus == CrStatus.VOID) {
-                                                    add(MenuEntry(
-                                                        icon = Icons.Filled.RestoreFromTrash,
-                                                        label = R.string.menu_undelete_transaction
-                                                    ) { undelete(transaction) })
-                                                }
-                                                add(
-                                                    select {
-                                                        viewModel.selectionState.value = listOf(it)
-                                                        viewModel.selectedTransactionSum =
-                                                            transaction.amount.amountMinor
-                                                    })
-                                            }
+                        headerData.collectAsState(null).value?.let { headerData ->
+                            TransactionList(
+                                pagingSourceFactory = data,
+                                headerData = headerData,
+                                accountId = account.id,
+                                selectionHandler = object : SelectionHandler {
+                                    override fun toggle(transaction: Transaction2) {
+                                        if (viewModel.selectionState.toggle(transaction)) {
+                                            viewModel.selectedTransactionSum += transaction.amount.amountMinor
+                                        } else {
+                                            viewModel.selectedTransactionSum -= transaction.amount.amountMinor
                                         }
-                                    )
-                                }
-                            },
-                            onToggleCrStatus = if (account.type == AccountType.CASH) null else {
-                                {
-                                    checkSealed(listOf(it)) {
-                                        viewModel.toggleCrStatus(it)
                                     }
-                                }
-                            },
-                            dateTimeFormatter = dateTimeFormatterFor(account, prefHandler, this@BaseMyExpenses),
-                            futureCriterion = futureCriterion
-                        )
+
+                                    override fun isSelected(transaction: Transaction2) =
+                                        selectionState.contains(transaction)
+
+                                    override val selectionCount: Int
+                                        get() = selectionState.size
+
+                                },
+                                menuGenerator = remember {
+                                    { transaction ->
+                                        Menu(
+                                            buildList {
+                                                add(MenuEntry(
+                                                    icon = Icons.Filled.Loupe,
+                                                    label = R.string.details
+                                                ) { showDetails(it.id) })
+                                                if (!account.sealed) {
+                                                    if (transaction.crStatus != CrStatus.VOID) {
+                                                        add(edit { edit(transaction) })
+                                                    }
+                                                    add(MenuEntry(
+                                                        icon = Icons.Filled.ContentCopy,
+                                                        label = R.string.menu_clone_transaction
+                                                    ) {
+                                                        edit(transaction, true)
+                                                    })
+                                                    add(delete { delete(listOf(transaction)) })
+                                                    add(MenuEntry(
+                                                        icon = myiconpack.IcActionTemplateAdd,
+                                                        label = R.string.menu_create_template_from_transaction
+                                                    ) { createTemplate(transaction) })
+                                                    if (transaction.crStatus == CrStatus.VOID) {
+                                                        add(MenuEntry(
+                                                            icon = Icons.Filled.RestoreFromTrash,
+                                                            label = R.string.menu_undelete_transaction
+                                                        ) { undelete(transaction) })
+                                                    }
+                                                    add(
+                                                        select {
+                                                            viewModel.selectionState.value =
+                                                                listOf(it)
+                                                            viewModel.selectedTransactionSum =
+                                                                transaction.amount.amountMinor
+                                                        })
+                                                }
+                                            }
+                                        )
+                                    }
+                                },
+                                onToggleCrStatus = if (account.type == AccountType.CASH) null else {
+                                    {
+                                        checkSealed(listOf(it)) {
+                                            viewModel.toggleCrStatus(it)
+                                        }
+                                    }
+                                },
+                                dateTimeFormatter = dateTimeFormatterFor(
+                                    account,
+                                    prefHandler,
+                                    this@BaseMyExpenses
+                                ),
+                                futureCriterion = futureCriterion
+                            )
+                        }
                     }
                 }
             }

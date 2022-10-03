@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
+import timber.log.Timber
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
@@ -70,9 +71,10 @@ fun TransactionList(
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
     val collapsedHeaders = rememberStringSetPreference(
         keyName = "collapsedHeaders_${accountId}_${headerData.grouping}",
-        initialValue = emptySet(),
+        initialValue = null,
         defaultValue = emptySet()
     )
+    Timber.i("collapsedHeaders size %d", collapsedHeaders.value?.size ?: 0)
 
     if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
         Text(
@@ -81,60 +83,62 @@ fun TransactionList(
                 .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
         )
     } else {
-        LazyColumn {
+        collapsedHeaders.value?.let { set ->
+            LazyColumn {
 
-            var lastHeader: Int? = null
+                var lastHeader: Int? = null
 
-            for (index in 0 until lazyPagingItems.itemCount) {
-                // Gets item without notifying Paging of the item access,
-                // which would otherwise trigger page loads
-                val transaction = lazyPagingItems.peek(index)
-                val headerId = transaction?.let { headerData.calculateGroupId(it) }
-                val isGroupHidden = collapsedHeaders.value.contains(headerId.toString())
-                if (transaction !== null && headerId != lastHeader) {
-                    stickyHeader(key = headerId) {
-                        headerData.groups[headerId]
-                            ?.let {
-                                HeaderRenderer(
-                                    modifier = Modifier.animateItemPlacement(),
-                                    grouping = headerData.grouping,
-                                    headerRow = it,
-                                    dateInfo = headerData.dateInfo,
-                                    isExpanded = !isGroupHidden,
-                                ) {
-                                    collapsedHeaders.value = if (isGroupHidden) {
-                                        collapsedHeaders.value - headerId.toString()
-                                    } else {
-                                        collapsedHeaders.value + headerId.toString()
+                for (index in 0 until lazyPagingItems.itemCount) {
+                    // Gets item without notifying Paging of the item access,
+                    // which would otherwise trigger page loads
+                    val transaction = lazyPagingItems.peek(index)
+                    val headerId = transaction?.let { headerData.calculateGroupId(it) }
+                    val isGroupHidden = set.contains(headerId.toString())
+                    if (transaction !== null && headerId != lastHeader) {
+                        stickyHeader(key = headerId) {
+                            headerData.groups[headerId]
+                                ?.let {
+                                    HeaderRenderer(
+                                        modifier = Modifier.animateItemPlacement(),
+                                        grouping = headerData.grouping,
+                                        headerRow = it,
+                                        dateInfo = headerData.dateInfo,
+                                        isExpanded = !isGroupHidden,
+                                    ) {
+                                        collapsedHeaders.value = if (isGroupHidden) {
+                                            set - headerId.toString()
+                                        } else {
+                                            set + headerId.toString()
+                                        }
                                     }
+                                    Divider()
                                 }
-                                Divider()
-                            }
-                    }
-                }
-
-                // Gets item, triggering page loads if needed
-                lazyPagingItems[index]?.let {
-                    val isLast = index == lazyPagingItems.itemCount - 1
-                    if (!isGroupHidden || isLast) {
-                        item(key = it.id) {
-                            if (!isGroupHidden) {
-                                TransactionRenderer(
-                                    modifier = Modifier.animateItemPlacement(),
-                                    transaction = it,
-                                    selectionHandler = selectionHandler,
-                                    menuGenerator = menuGenerator,
-                                    onToggleCrStatus = onToggleCrStatus,
-                                    dateTimeFormatter = dateTimeFormatter,
-                                    futureCriterion = futureCriterion
-                                )
-                            }
-                            if (isLast) GroupDivider() else Divider()
                         }
                     }
-                }
 
-                lastHeader = headerId
+                    // Gets item, triggering page loads if needed
+                    lazyPagingItems[index]?.let {
+                        val isLast = index == lazyPagingItems.itemCount - 1
+                        if (!isGroupHidden || isLast) {
+                            item(key = it.id) {
+                                if (!isGroupHidden) {
+                                    TransactionRenderer(
+                                        modifier = Modifier.animateItemPlacement(),
+                                        transaction = it,
+                                        selectionHandler = selectionHandler,
+                                        menuGenerator = menuGenerator,
+                                        onToggleCrStatus = onToggleCrStatus,
+                                        dateTimeFormatter = dateTimeFormatter,
+                                        futureCriterion = futureCriterion
+                                    )
+                                }
+                                if (isLast) GroupDivider() else Divider()
+                            }
+                        }
+                    }
+
+                    lastHeader = headerId
+                }
             }
         }
     }
@@ -266,9 +270,10 @@ fun TransactionRenderer(
     }
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val voidMarkerHeight = with(LocalDensity.current) { 2.dp.toPx() }
+    val futureBackgroundColor = colorResource(id = R.color.future_background)
     Row(modifier = modifier
-        .conditionalComposed(transaction.date >= futureCriterion) {
-            background(colorResource(id = R.color.future_background))
+        .conditional(transaction.date >= futureCriterion) {
+            background(futureBackgroundColor)
         }
         .height(IntrinsicSize.Min)
         .combinedClickable(

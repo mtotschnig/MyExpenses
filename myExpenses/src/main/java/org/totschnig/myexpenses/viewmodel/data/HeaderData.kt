@@ -30,8 +30,6 @@ data class HeaderData(val grouping: Grouping, val groups: Map<Int, HeaderRow>, v
                     previousBalance = value.interimBalance.amountMinor
                 }
             }
-
-        val EMPTY = HeaderData(grouping = Grouping.NONE, groups = emptyMap(), dateInfo = DateInfo2.EMPTY)
     }
 }
 
