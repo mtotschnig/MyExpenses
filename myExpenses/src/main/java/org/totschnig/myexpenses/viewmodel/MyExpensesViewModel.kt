@@ -4,11 +4,16 @@ import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
@@ -23,6 +28,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
+import org.totschnig.myexpenses.compose.ExpansionHandler
+import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
@@ -44,10 +51,33 @@ import org.totschnig.myexpenses.viewmodel.data.Transaction2
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
 
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
+
 class MyExpensesViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
+
+    fun expansionHandler(key: String) = object : ExpansionHandler {
+        val COLLAPSED_IDS = stringSetPreferencesKey(key)
+        private val collapsedIds: Flow<Set<String>> = getApplication<MyApplication>().dataStore.data
+                .map { preferences ->
+                    preferences[COLLAPSED_IDS] ?: emptySet()
+                }
+
+        @Composable
+        override fun collapsedIds(): State<Set<String>> = collapsedIds.collectAsState(initial = emptySet())
+
+        override fun toggle(id: String) {
+            viewModelScope.launch {
+                getApplication<MyApplication>().dataStore.edit { settings ->
+                    settings[COLLAPSED_IDS] = settings[COLLAPSED_IDS]?.toMutableSet()?.also {
+                        it.toggle(id)
+                    } ?: setOf(id)
+                }
+            }
+        }
+    }
 
     var selectedTransactionSum: Long
         get() = savedStateHandle["selectedTransactionSum"] ?: 0

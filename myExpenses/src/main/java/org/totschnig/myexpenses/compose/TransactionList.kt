@@ -33,14 +33,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.compose.collectAsLazyPagingItems
-import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
-import timber.log.Timber
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
@@ -52,12 +50,12 @@ const val COMMENT_SEPARATOR = " / "
 fun TransactionList(
     pagingSourceFactory: () -> PagingSource<Int, Transaction2>,
     headerData: HeaderData,
-    accountId: Long,
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
     onToggleCrStatus: ((Long) -> Unit)?,
     dateTimeFormatter: DateTimeFormatter?,
-    futureCriterion: ZonedDateTime
+    futureCriterion: ZonedDateTime,
+    expansionHandler: ExpansionHandler
 ) {
     val pager = remember(pagingSourceFactory) {
         Pager(
@@ -69,12 +67,7 @@ fun TransactionList(
         )
     }
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
-    val collapsedHeaders = rememberStringSetPreference(
-        keyName = "collapsedHeaders_${accountId}_${headerData.grouping}",
-        initialValue = null,
-        defaultValue = emptySet()
-    )
-    Timber.i("collapsedHeaders size %d", collapsedHeaders.value?.size ?: 0)
+    val collapsedIds = expansionHandler.collapsedIds().value
 
     if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
         Text(
@@ -83,62 +76,55 @@ fun TransactionList(
                 .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
         )
     } else {
-        collapsedHeaders.value?.let { set ->
-            LazyColumn {
+        LazyColumn {
 
-                var lastHeader: Int? = null
+            var lastHeader: Int? = null
 
-                for (index in 0 until lazyPagingItems.itemCount) {
-                    // Gets item without notifying Paging of the item access,
-                    // which would otherwise trigger page loads
-                    val transaction = lazyPagingItems.peek(index)
-                    val headerId = transaction?.let { headerData.calculateGroupId(it) }
-                    val isGroupHidden = set.contains(headerId.toString())
-                    if (transaction !== null && headerId != lastHeader) {
-                        stickyHeader(key = headerId) {
-                            headerData.groups[headerId]
-                                ?.let {
-                                    HeaderRenderer(
-                                        modifier = Modifier.animateItemPlacement(),
-                                        grouping = headerData.grouping,
-                                        headerRow = it,
-                                        dateInfo = headerData.dateInfo,
-                                        isExpanded = !isGroupHidden,
-                                    ) {
-                                        collapsedHeaders.value = if (isGroupHidden) {
-                                            set - headerId.toString()
-                                        } else {
-                                            set + headerId.toString()
-                                        }
-                                    }
-                                    Divider()
+            for (index in 0 until lazyPagingItems.itemCount) {
+                // Gets item without notifying Paging of the item access,
+                // which would otherwise trigger page loads
+                val transaction = lazyPagingItems.peek(index)
+                val headerId = transaction?.let { headerData.calculateGroupId(it) }
+                val isGroupHidden = collapsedIds.contains(headerId.toString())
+                if (transaction !== null && headerId != lastHeader) {
+                    stickyHeader(key = headerId) {
+                        headerData.groups[headerId]
+                            ?.let {
+                                HeaderRenderer(
+                                    grouping = headerData.grouping,
+                                    headerRow = it,
+                                    dateInfo = headerData.dateInfo,
+                                    isExpanded = !isGroupHidden,
+                                ) {
+                                   expansionHandler.toggle(headerId.toString())
                                 }
-                        }
-                    }
-
-                    // Gets item, triggering page loads if needed
-                    lazyPagingItems[index]?.let {
-                        val isLast = index == lazyPagingItems.itemCount - 1
-                        if (!isGroupHidden || isLast) {
-                            item(key = it.id) {
-                                if (!isGroupHidden) {
-                                    TransactionRenderer(
-                                        modifier = Modifier.animateItemPlacement(),
-                                        transaction = it,
-                                        selectionHandler = selectionHandler,
-                                        menuGenerator = menuGenerator,
-                                        onToggleCrStatus = onToggleCrStatus,
-                                        dateTimeFormatter = dateTimeFormatter,
-                                        futureCriterion = futureCriterion
-                                    )
-                                }
-                                if (isLast) GroupDivider() else Divider()
+                                Divider()
                             }
+                    }
+                }
+
+                // Gets item, triggering page loads if needed
+                lazyPagingItems[index]?.let {
+                    val isLast = index == lazyPagingItems.itemCount - 1
+                    if (!isGroupHidden || isLast) {
+                        item(key = it.id) {
+                            if (!isGroupHidden) {
+                                TransactionRenderer(
+                                    modifier = Modifier.animateItemPlacement(),
+                                    transaction = it,
+                                    selectionHandler = selectionHandler,
+                                    menuGenerator = menuGenerator,
+                                    onToggleCrStatus = onToggleCrStatus,
+                                    dateTimeFormatter = dateTimeFormatter,
+                                    futureCriterion = futureCriterion
+                                )
+                            }
+                            if (isLast) GroupDivider() else Divider()
                         }
                     }
-
-                    lastHeader = headerId
                 }
+
+                lastHeader = headerId
             }
         }
     }
@@ -148,7 +134,6 @@ fun TransactionList(
 //due to bug https://issuetracker.google.com/issues/209947592
 @Composable
 fun HeaderRenderer(
-    modifier: Modifier,
     grouping: Grouping,
     headerRow: HeaderRow,
     dateInfo: DateInfo2,

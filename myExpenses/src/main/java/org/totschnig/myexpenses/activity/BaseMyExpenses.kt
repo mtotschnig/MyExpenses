@@ -87,7 +87,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.viewmodel.*
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.io.File
@@ -367,7 +366,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             TransactionList(
                                 pagingSourceFactory = data,
                                 headerData = headerData,
-                                accountId = account.id,
                                 selectionHandler = object : SelectionHandler {
                                     override fun toggle(transaction: Transaction2) {
                                         if (viewModel.selectionState.toggle(transaction)) {
@@ -437,7 +435,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     prefHandler,
                                     this@BaseMyExpenses
                                 ),
-                                futureCriterion = futureCriterion
+                                futureCriterion = futureCriterion,
+                                expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.grouping}")
                             )
                         }
                     }
@@ -516,7 +515,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     },
                     onToggleSealed = { id, isSealed ->
                         setAccountSealed(id, isSealed)
-                    }
+                    },
+                    expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
+                    expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
                 )
             }
         }

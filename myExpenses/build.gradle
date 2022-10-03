@@ -161,6 +161,7 @@ tasks.withType(Test) {
 }
 
 dependencies {
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(':transactionscontract')
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
@@ -231,7 +232,6 @@ dependencies {
     api 'com.github.mtotschnig:material-components-android:bug_1913_1.5-SNAPSHOT'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'dev.burnoo:compose-remember-preference:0.3.6'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

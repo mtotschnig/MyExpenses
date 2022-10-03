@@ -36,7 +36,7 @@ fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>) : SnapshotStateMa
 /**
  * true if element was added, false if it was removed
  */
-fun <T> MutableList<T>.toggle(element: T) = if (contains(element)) {
+fun <T> MutableCollection<T>.toggle(element: T) = if (contains(element)) {
     remove(element)
     false
 } else {

@@ -14,10 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -28,11 +25,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.burnoo.compose.rememberpreference.rememberBooleanPreference
-import dev.burnoo.compose.rememberpreference.rememberStringSetPreference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
@@ -45,8 +39,6 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
-const val EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_"
-
 @Composable
 fun AccountList(
     accountData: List<FullAccount>,
@@ -56,56 +48,38 @@ fun AccountList(
     onEdit: (Long) -> Unit,
     onDelete: (Long) -> Unit,
     onHide: (Long) -> Unit,
-    onToggleSealed: (Long, Boolean) -> Unit
+    onToggleSealed: (Long, Boolean) -> Unit,
+    expansionHandlerGroups: ExpansionHandler,
+    expansionHandlerAccounts: ExpansionHandler
 ) {
     val context = LocalContext.current
-    val collapsedHeaders = rememberStringSetPreference(
-        keyName = "collapsedHeadersDrawer_" + grouping.name,
-        initialValue = null,
-        defaultValue = emptySet()
-    )
-    collapsedHeaders.value?.let { set ->
+    val collapsedIds = expansionHandlerGroups.collapsedIds().value
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            var isGroupHidden = false
-            accountData.forEachIndexed { index, account ->
-                getHeader(context, grouping, account, accountData.getOrNull(index - 1))?.let {
-                    item {
-                        Header(it.second) {
-                            if (set.contains(it.first)) {
-                                collapsedHeaders.value = set - it.first
-                            } else {
-                                collapsedHeaders.value = set + it.first
-                            }
-                        }
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        var isGroupHidden by mutableStateOf(false)
+        accountData.forEachIndexed { index, account ->
+            getHeader(context, grouping, account, accountData.getOrNull(index - 1))?.let {
+                item {
+                    Header(it.second) {
+                        expansionHandlerGroups.toggle(it.first)
                     }
-                    isGroupHidden = collapsedHeaders.value?.contains(it.first) ?: true
                 }
-                if (!isGroupHidden) {
-                    item {
-                        //TODO migrate from legacy preferences
-                        val isExpanded = rememberBooleanPreference(
-                            keyName = EXPANSION_PREF_PREFIX + when {
-                                account.id > 0 -> account.id
-                                account.id == AggregateAccount.HOME_AGGREGATE_ID -> AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
-                                else -> account.currency.code
-                            },
-                            initialValue = null,
-                            defaultValue = true
-                        )
-                        AccountCard(
-                            account = account,
-                            isExpanded = isExpanded,
-                            isSelected = account.id == selectedAccount,
-                            onSelected = { onSelected(index) },
-                            onEdit = onEdit,
-                            onDelete = onDelete,
-                            onHide = onHide,
-                            onToggleSealed = onToggleSealed
-                        )
-                    }
+                isGroupHidden = collapsedIds.contains(it.first)
+            }
+            if (!isGroupHidden) {
+                item {
+                    AccountCard(
+                        account = account,
+                        expansionHandler = expansionHandlerAccounts,
+                        isSelected = account.id == selectedAccount,
+                        onSelected = { onSelected(index) },
+                        onEdit = onEdit,
+                        onDelete = onDelete,
+                        onHide = onHide,
+                        onToggleSealed = onToggleSealed
+                    )
                 }
             }
         }
@@ -165,7 +139,7 @@ private fun getHeader(
 @Composable
 fun AccountCard(
     account: FullAccount,
-    isExpanded: MutableState<Boolean?>,
+    expansionHandler: ExpansionHandler,
     isSelected: Boolean = false,
     onSelected: () -> Unit = {},
     onEdit: (Long) -> Unit = {},
@@ -175,144 +149,149 @@ fun AccountCard(
 ) {
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
+    val collapsedAccounts = expansionHandler.collapsedIds()
 
-    isExpanded.value?.let {
-        Column(
-            modifier = (if (isSelected)
-                Modifier.background(colorResource(id = R.color.activatedBackground))
-            else Modifier)
-                .clickable {
-                    showMenu.value = true
-                }
-                .padding(start = dimensionResource(id = R.dimen.drawer_padding))
+    val isCollapsed = remember {
+        derivedStateOf {
+            collapsedAccounts.value.contains(account.id.toString())
+        }
+    }.value
 
+    Column(
+        modifier = (if (isSelected)
+            Modifier.background(colorResource(id = R.color.activatedBackground))
+        else Modifier)
+            .clickable {
+                showMenu.value = true
+            }
+            .padding(start = dimensionResource(id = R.dimen.drawer_padding))
+
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            ColorCircle(
+                modifier = Modifier
+                    .padding(end = 6.dp)
+                    .size(dimensionResource(id = R.dimen.account_color_diameter_compose)),
+                color = account.color(LocalContext.current.resources)
             ) {
-                ColorCircle(
-                    modifier = Modifier
-                        .padding(end = 6.dp)
-                        .size(dimensionResource(id = R.dimen.account_color_diameter_compose)),
-                    color = account.color(LocalContext.current.resources)
-                ) {
-                    if (account.isAggregate) {
-                        Text(fontSize = 18.sp, text = "Σ", color = Color.White)
-                    }
+                if (account.isAggregate) {
+                    Text(fontSize = 18.sp, text = "Σ", color = Color.White)
                 }
-                if (account.sealed) {
-                    Icon(
-                        imageVector = Icons.Filled.Lock,
-                        modifier = Modifier.padding(end = 4.dp),
-                        contentDescription = stringResource(
-                            id = R.string.content_description_closed
-                        )
+            }
+            if (account.sealed) {
+                Icon(
+                    imageVector = Icons.Filled.Lock,
+                    modifier = Modifier.padding(end = 4.dp),
+                    contentDescription = stringResource(
+                        id = R.string.content_description_closed
+                    )
+                )
+            }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = account.label)
+                AnimatedVisibility(visible = isCollapsed) {
+                    Text(
+                        text = format.convAmount(account.currentBalance, account.currency)
                     )
                 }
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(text = account.label)
-                    AnimatedVisibility(visible = !it) {
-                        Text(
-                            text = format.convAmount(account.currentBalance, account.currency)
-                        )
-                    }
 
-                }
-                ExpansionHandle(isExpanded = it) {
-                    isExpanded.value = !it
-                }
-                val menu: Menu<FullAccount> = Menu(
-                    buildList {
-                        add(MenuEntry(
-                            icon = Icons.Filled.List,
-                            label = R.string.menu_show_transactions
-                        ) {
-                            onSelected()
-                        })
-                        if (account.id > 0) {
-                            if (!account.sealed) {
-                                add(edit { onEdit(it.id) })
-                            }
-                            add(delete { onDelete(it.id) })
-                            add(MenuEntry(
-                                icon = Icons.Filled.VisibilityOff,
-                                label = R.string.menu_hide
-                            ) {
-                                onHide(it.id)
-                            }
-                            )
-                            add(
-                                toggle(account.sealed) {
-                                    onToggleSealed(it.id, !it.sealed)
-                                }
-                            )
-                        }
-                    }
-                )
-                HierarchicalMenu(showMenu, menu, account)
             }
-
-            AnimatedVisibility(visible = it) {
-                Column(modifier = Modifier.padding(end = 16.dp)) {
-
-                    account.description?.let { Text(it) }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+            ExpansionHandle(isExpanded = !isCollapsed) {
+                expansionHandler.toggle(account.id.toString())
+            }
+            val menu: Menu<FullAccount> = Menu(
+                buildList {
+                    add(MenuEntry(
+                        icon = Icons.Filled.List,
+                        label = R.string.menu_show_transactions
                     ) {
-                        Text(stringResource(id = R.string.opening_balance))
-                        Text(
-                            text = format.convAmount(account.openingBalance, account.currency)
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(stringResource(id = R.string.sum_income))
-                        Text(
-                            text = format.convAmount(account.sumIncome, account.currency)
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(stringResource(id = R.string.sum_expenses))
-                        Text(
-                            text = format.convAmount(account.sumExpense, account.currency)
-                        )
-                    }
-                    if (account.sumTransfer != 0L) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(stringResource(id = R.string.sum_transfer))
-                            Text(
-                                text = format.convAmount(account.sumTransfer, account.currency)
-                            )
+                        onSelected()
+                    })
+                    if (account.id > 0) {
+                        if (!account.sealed) {
+                            add(edit { onEdit(it.id) })
                         }
+                        add(delete { onDelete(it.id) })
+                        add(MenuEntry(
+                            icon = Icons.Filled.VisibilityOff,
+                            label = R.string.menu_hide
+                        ) {
+                            onHide(it.id)
+                        }
+                        )
+                        add(
+                            toggle(account.sealed) {
+                                onToggleSealed(it.id, !it.sealed)
+                            }
+                        )
                     }
-                    val borderColor = MaterialTheme.colors.onSurface
+                }
+            )
+            HierarchicalMenu(showMenu, menu, account)
+        }
+
+        AnimatedVisibility(visible = !isCollapsed) {
+            Column(modifier = Modifier.padding(end = 16.dp)) {
+
+                account.description?.let { Text(it) }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(id = R.string.opening_balance))
+                    Text(
+                        text = format.convAmount(account.openingBalance, account.currency)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(id = R.string.sum_income))
+                    Text(
+                        text = format.convAmount(account.sumIncome, account.currency)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(id = R.string.sum_expenses))
+                    Text(
+                        text = format.convAmount(account.sumExpense, account.currency)
+                    )
+                }
+                if (account.sumTransfer != 0L) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(stringResource(id = R.string.current_balance))
+                        Text(stringResource(id = R.string.sum_transfer))
                         Text(
-                            modifier = Modifier.drawBehind {
-                                val strokeWidth = 2 * density
-                                drawLine(
-                                    borderColor,
-                                    Offset(0f, 0f),
-                                    Offset(size.width, 0f),
-                                    strokeWidth
-                                )
-                            },
-                            text = format.convAmount(account.currentBalance, account.currency)
+                            text = format.convAmount(account.sumTransfer, account.currency)
                         )
                     }
+                }
+                val borderColor = MaterialTheme.colors.onSurface
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(id = R.string.current_balance))
+                    Text(
+                        modifier = Modifier.drawBehind {
+                            val strokeWidth = 2 * density
+                            drawLine(
+                                borderColor,
+                                Offset(0f, 0f),
+                                Offset(size.width, 0f),
+                                strokeWidth
+                            )
+                        },
+                        text = format.convAmount(account.currentBalance, account.currency)
+                    )
                 }
             }
         }
@@ -322,9 +301,6 @@ fun AccountCard(
 @Preview
 @Composable
 fun AccountPreview() {
-    val isExpanded = remember {
-        mutableStateOf<Boolean?>(true)
-    }
     AccountCard(
         account = FullAccount(
             id = 1,
@@ -339,6 +315,15 @@ fun AccountPreview() {
             sealed = true,
             type = AccountType.CASH
         ),
-        isExpanded = isExpanded
+        expansionHandler = object: ExpansionHandler {
+
+            @Composable
+            override fun collapsedIds(): State<Set<String>>  = remember { mutableStateOf(emptySet()) }
+
+            override fun toggle(id: String) {
+
+            }
+
+        }
     )
 }
