@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
@@ -126,12 +127,8 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
         //.throttleFirst(100, TimeUnit.MILLISECONDS)
         (if (once) flow.take(1) else flow).collect {
             this.emit(it)
-            onAccountLoaded(it)
         }
     }
-
-
-    open fun onAccountLoaded(account: Account) {}
 
     override fun onCleared() {
         dispose()
@@ -142,6 +139,9 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
             if (!it.isDisposed) it.dispose()
         }
     }
+
+    fun getDefaultBudget(accountId: Long, grouping: Grouping) =
+        prefHandler.getLong(BudgetViewModel.prefNameForDefaultBudget(accountId, grouping), 0)
 
     fun deleteTemplates(ids: LongArray, deletePlan: Boolean): LiveData<Int> =
         liveData(context = coroutineContext()) {

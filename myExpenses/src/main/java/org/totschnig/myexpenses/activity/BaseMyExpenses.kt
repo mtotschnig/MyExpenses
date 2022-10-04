@@ -366,6 +366,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             TransactionList(
                                 pagingSourceFactory = data,
                                 headerData = headerData,
+                                budgetData = viewModel.budgetData(account).collectAsState(null),
                                 selectionHandler = object : SelectionHandler {
                                     override fun toggle(transaction: Transaction2) {
                                         if (viewModel.selectionState.toggle(transaction)) {
@@ -436,7 +437,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     this@BaseMyExpenses
                                 ),
                                 futureCriterion = futureCriterion,
-                                expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.grouping}")
+                                expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.grouping}"),
+                                onBudgetClick = { budgetId, headerId ->
+                                    contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
+                                }
                             )
                         }
                     }

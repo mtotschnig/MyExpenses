@@ -75,6 +75,7 @@ import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.ExportViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
+import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
@@ -289,6 +290,8 @@ public interface AppComponent {
 
   void inject(ShareViewModel shareViewModel);
 
-  void inject(SyncAdapter sSyncAdapter);
+  void inject(SyncAdapter syncAdapter);
+
+  void inject(MyExpensesViewModel myExpensesViewModel);
 
 }

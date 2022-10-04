@@ -39,8 +39,6 @@ open class BudgetViewModel(application: Application) :
 
     private val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
 
-    @Inject
-    lateinit var licenceHandler: LicenceHandler
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
         val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
@@ -181,9 +179,6 @@ open class BudgetViewModel(application: Application) :
             TransactionProvider.BUDGETS_URI,
             PROJECTION, selection, selectionArgs, null, true
         )
-
-    fun getDefaultBudget(accountId: Long, grouping: Grouping) =
-        prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
 
     companion object {
         val PROJECTION = arrayOf(

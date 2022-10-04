@@ -31,6 +31,8 @@ import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -43,10 +45,9 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import org.totschnig.myexpenses.viewmodel.data.HeaderData
-import org.totschnig.myexpenses.viewmodel.data.Tag
-import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.viewmodel.data.*
+import javax.inject.Inject
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -55,6 +56,9 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Ex
 
 class MyExpensesViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
+
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
@@ -148,6 +152,38 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
         }.combine(dateInfo) { headerData, dateInfo ->
             HeaderData(account.grouping, headerData, dateInfo)
         }
+
+    fun budgetData(account: FullAccount): Flow<BudgetData?> =
+        (if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
+            getDefaultBudget(account.id, account.grouping).takeIf { it != 0L }?.let { budgetId ->
+                contentResolver.observeQuery(
+                    uri = ContentUris.withAppendedId(
+                        ContentUris.withAppendedId(
+                            TransactionProvider.BUDGETS_URI,
+                            budgetId
+                        ),
+                        0
+                    ),
+                    projection = arrayOf(
+                        KEY_YEAR,
+                        KEY_SECOND_GROUP,
+                        KEY_BUDGET,
+                        KEY_BUDGET_ROLLOVER_PREVIOUS,
+                        KEY_ONE_TIME
+                    ),
+                    sortOrder = "$KEY_YEAR, $KEY_SECOND_GROUP"
+                )
+                    .mapToList {
+                        BudgetRow(
+                            Grouping.groupId(it.getInt(0), it.getInt(1)),
+                            it.getLong(2) + it.getLong(3),
+                            it.getInt(4) == 1
+                        )
+                    }.map {
+                        BudgetData(budgetId, it)
+                    }
+            }
+        } else null) ?: emptyFlow()
 
     fun sumInfo(account: FullAccount): Flow<SumInfo> = contentResolver.observeQuery(
         uri = TRANSACTIONS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS, "1").build(),

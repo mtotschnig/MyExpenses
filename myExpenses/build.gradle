@@ -181,6 +181,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
+    implementation("app.futured.donut:donut-compose:2.2.2")
 
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

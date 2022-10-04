@@ -24,7 +24,7 @@ enum class Grouping {
 
     open val minValue = 1
 
-    fun calculateGroupId(year: Int, second: Int) = if (this == NONE) 1 else year * 1000 + second
+    fun calculateGroupId(year: Int, second: Int) = if (this == NONE) 1 else groupId(year, second)
 
     /**
      * @param groupYear           the year of the group to display
@@ -92,6 +92,9 @@ enum class Grouping {
     }
 
     companion object {
+
+        fun groupId(year: Int, second: Int) = year * 1000 + second
+
         fun getDisplayTitleForMonth(
             groupYear: Int,
             groupSecond: Int,
