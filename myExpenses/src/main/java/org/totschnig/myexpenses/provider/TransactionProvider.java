@@ -326,7 +326,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
-    final Context wrappedContext = wrappedContext();
+    final Context wrappedContext = getWrappedContext();
     switch (uriMatch) {
       case TRANSACTIONS: {
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
@@ -893,10 +893,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
-  }
-
-  private Context wrappedContext() {
-    return userLocaleProvider.wrapContext(getContext());
   }
 
   @Override
@@ -1690,7 +1686,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SETUP_CATEGORIES: {
         Bundle result = new Bundle(1);
-        result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(getHelper().getWritableDatabase(), wrappedContext().getResources()));
+        result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(getHelper().getWritableDatabase(), getWrappedContext().getResources()));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }

@@ -11,6 +11,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -56,6 +57,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @Inject
     lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
+
+    lateinit var wrappedContext: Context
 
     private var shouldLog = false
 
@@ -269,7 +272,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
                 val grouping = prefHandler.getString(AggregateAccount.GROUPING_AGGREGATE, "NONE")
                 val rowIdColumn = Account.HOME_AGGREGATE_ID.toString() + " AS " + KEY_ROWID
-                val labelColumn = "'' AS $KEY_LABEL"
+                val labelColumn = "'${wrappedContext.getString(R.string.grand_total)}' AS $KEY_LABEL"
                 val currencyColumn =
                     "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY
                 val aggregateColumn = "${AggregateAccount.AGGREGATE_HOME} AS $KEY_IS_AGGREGATE"
@@ -522,6 +525,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         MyApplication.getInstance().appComponent.inject(this)
         shouldLog = prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
+        wrappedContext = userLocaleProvider.wrapContext(context!!)
         initOpenHelper()
         return true
     }
