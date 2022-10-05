@@ -102,7 +102,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     private fun updatePartyFilters(old: Set<Long>, new: Long) {
         contentResolver.query(ACCOUNTS_MINIMAL_URI, null, null, null, null)
             ?.use { cursor ->
-                updateFilterHelper(old, new, cursor, TransactionListViewModel::prefNameForCriteria)
+                updateFilterHelper(old, new, cursor, MyExpensesViewModel::prefNameForCriteria)
             }
     }
 

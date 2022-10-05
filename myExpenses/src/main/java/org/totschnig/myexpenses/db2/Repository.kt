@@ -54,7 +54,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.util.localDateTime2Epoch
-import org.totschnig.myexpenses.viewmodel.TransactionListViewModel.Companion.prefNameForCriteria
+import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
