@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
@@ -919,6 +920,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = TRANSACTIONS_URI + "/" + id;
         break;
       case ACCOUNTS:
+        Preconditions.checkArgument(!values.containsKey(KEY_GROUPING));
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTS, values);
         newUri = ACCOUNTS_URI + "/" + id;
         break;

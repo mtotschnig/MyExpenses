@@ -222,7 +222,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
                 triggerAccountListRefresh()
             } else {
                 contentResolver.update(
-                    ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, accountId)
+                    ContentUris.withAppendedId(ACCOUNT_GROUPINGS_URI, accountId)
                         .buildUpon()
                         .appendPath(grouping.name).build(),
                     null, null, null

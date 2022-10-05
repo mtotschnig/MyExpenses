@@ -493,7 +493,6 @@ public class Account extends Model implements DistributionAccountInfo {
     initialValues.put(KEY_DESCRIPTION, description);
     initialValues.put(KEY_CURRENCY, currencyUnit.getCode());
     initialValues.put(KEY_TYPE, getType().name());
-    initialValues.put(KEY_GROUPING, getGrouping().name());
     initialValues.put(KEY_COLOR, color);
     initialValues.put(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
     initialValues.put(KEY_UUID, requireUuid());
