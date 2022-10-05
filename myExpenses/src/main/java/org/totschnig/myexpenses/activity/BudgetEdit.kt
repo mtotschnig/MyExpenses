@@ -177,6 +177,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         filterPersistence.onSaveInstanceState(outState)
     }
 
+    @Deprecated("Deprecated in Java")
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode != Activity.RESULT_CANCELED) {
             when (requestCode) {
