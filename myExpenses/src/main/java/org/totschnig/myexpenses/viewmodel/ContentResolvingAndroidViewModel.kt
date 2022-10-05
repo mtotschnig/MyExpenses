@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,23 +25,18 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
+import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.DateInfo2
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
@@ -88,6 +84,28 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
             emit(DateInfo2.fromCursor(cursor))
         }
     }.flowOn(Dispatchers.IO)
+
+    val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
+        val currency = cursor.getString(KEY_CURRENCY)
+        val currencyUnit = if (currency == AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)
+            Utils.getHomeCurrency() else currencyContext.get(currency)
+        val budgetId = cursor.getLong(KEY_ROWID)
+        val accountId = cursor.getLong(KEY_ACCOUNTID)
+        val grouping = Grouping.valueOf(cursor.getString(KEY_GROUPING))
+        Budget(
+            id = budgetId,
+            accountId = accountId,
+            title = cursor.getString(KEY_TITLE),
+            description = cursor.getString(KEY_DESCRIPTION),
+            currency = currencyUnit,
+            grouping = grouping,
+            color = cursor.getInt(KEY_COLOR),
+            start = cursor.getStringOrNull(KEY_START),
+            end = cursor.getStringOrNull(KEY_END),
+            accountName = cursor.getString(KEY_ACCOUNT_LABEL),
+            default = cursor.getBoolean(KEY_IS_DEFAULT)
+        )
+    }
 
     fun getDebts(): LiveData<List<Debt>> = debts
 
@@ -139,9 +157,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
             if (!it.isDisposed) it.dispose()
         }
     }
-
-    fun getDefaultBudget(accountId: Long, grouping: Grouping) =
-        prefHandler.getLong(BudgetViewModel.prefNameForDefaultBudget(accountId, grouping), 0)
 
     fun deleteTemplates(ids: LongArray, deletePlan: Boolean): LiveData<Int> =
         liveData(context = coroutineContext()) {

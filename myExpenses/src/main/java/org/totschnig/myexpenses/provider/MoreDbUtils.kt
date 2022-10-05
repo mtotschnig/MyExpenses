@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.os.Build
+import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.database.getIntOrNull
@@ -17,6 +18,12 @@ import androidx.core.database.getStringOrNull
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
+import app.cash.copper.Query
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -33,6 +40,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.File
+import java.util.ArrayList
 
 fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
     db.beginTransaction()
@@ -266,6 +274,7 @@ fun Cursor.getIntIfExists(column: String) = getColumnIndex(column).takeIf { it !
 fun Cursor.getIntIfExistsOr0(column: String) = getIntIfExists(column) ?: 0
 fun Cursor.getLongIfExistsOr0(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
 fun Cursor.getStringIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
+fun Cursor.getBoolean(column: String) = getInt(column) == 1
 
 fun cacheSyncState(context: Context) {
     val accountManager = AccountManager.get(context)
@@ -410,6 +419,25 @@ fun computeWhere(selection: String?, whereClause: java.lang.StringBuilder): Stri
         null
     }
 }
+
+fun <T> Flow<Query>.mapToListWithExtra(
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    mapper: (Cursor) -> T
+): Flow<Pair<Bundle, List<T>>> = transform { query ->
+    val pair = withContext(dispatcher) {
+        query.run()?.use { cursor ->
+            val items = ArrayList<T>(cursor.count)
+            while (cursor.moveToNext()) {
+                items.add(mapper(cursor))
+            }
+            cursor.extras to items
+        }
+    }
+    if (pair != null) {
+        emit(pair)
+    }
+}
+
 
 val frameworkSupportsWindowingFunctions
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R

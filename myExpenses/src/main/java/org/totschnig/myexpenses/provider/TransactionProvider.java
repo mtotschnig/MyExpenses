@@ -21,6 +21,7 @@ import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CUR
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetDefaultSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
@@ -44,6 +45,7 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -182,6 +184,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
+  public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
@@ -298,6 +301,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int DEBTS = 63;
   private static final int DEBT_ID = 64;
   private static final int BUDGET_ALLOCATIONS = 65;
+  private static final int ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66;
 
   public static String aggregateFunction(boolean safeMode) {
     return safeMode ? "total" : "sum";
@@ -316,6 +320,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     String groupBy = uri.getQueryParameter(QUERY_PARAMETER_GROUP_BY);
     String having = null;
     String limit = null;
+    Bundle extras = new Bundle();
 
     String aggregateFunction = aggregateFunction(prefHandler.getBoolean(PrefKey.DB_SAFE_MODE, false));
 
@@ -812,6 +817,17 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGETS:
         qb = SupportSQLiteQueryBuilder.builder(getBudgetTableJoin());
         break;
+      case ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
+        Long budgetId = budgetDefaultSelect(db, uri);
+        if (budgetId == null) {
+          return new MatrixCursor(projection, 0);
+        }
+        selection = KEY_CATID + " = 0 AND " + KEY_BUDGETID + " = ?";
+        selectionArgs = new String[] { budgetId.toString() };
+        extras.putLong(KEY_BUDGETID, budgetId);
+        break;
+      }
       case BUDGET_CATEGORY: {
         if (projection == null) {
           String sql = budgetAllocation(uri);
@@ -865,6 +881,11 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
 
     c = measureAndLogQuery(qb, uri, db, projection, computeWhere(selection, additionalWhere), selectionArgs, groupBy, having, sortOrder, limit);
+
+    if (!extras.isEmpty()) {
+      //TODO check fallback for API < 23
+      c.setExtras(extras);
+    }
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {
@@ -1580,6 +1601,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     if (uriMatch == BUDGET_CATEGORY) {
       notifyChange(CATEGORIES_URI, false);
+      notifyChange(BUDGETS_URI, false);
     }
     if (uriMatch == BUDGET_ALLOCATIONS) {
       notifyChange(CATEGORIES_URI, false);
@@ -1756,6 +1778,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
     URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/#/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
   }
 
   /**

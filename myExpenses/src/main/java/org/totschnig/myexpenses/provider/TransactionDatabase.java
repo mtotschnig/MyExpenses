@@ -430,7 +430,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CURRENCY + " text, "
           + KEY_START + " datetime, "
-          + KEY_END + " datetime)";
+          + KEY_END + " datetime, "
+          + KEY_IS_DEFAULT + " boolean default 0)";
 
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_ALLOCATIONS + " ( "

@@ -39,29 +39,6 @@ open class BudgetViewModel(application: Application) :
 
     private val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
 
-    private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
-        val currency = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
-        val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
-            Utils.getHomeCurrency() else currencyContext.get(currency)
-        val budgetId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-        val accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ACCOUNTID))
-        val grouping =
-            Grouping.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GROUPING)))
-        Budget(
-            budgetId,
-            accountId,
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
-            currencyUnit,
-            grouping,
-            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_START)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_END)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
-            getDefaultBudget(accountId, grouping) == budgetId
-        )
-    }
-
     fun loadAllBudgets() {
         disposable = createQuery(null, null)
             .mapToList(budgetCreatorFunction)
@@ -191,15 +168,13 @@ open class BudgetViewModel(application: Application) :
             KEY_COLOR,
             KEY_START,
             KEY_END,
-            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL"
+            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL",
+            KEY_IS_DEFAULT
         )
 
         fun q(column: String) = "$TABLE_BUDGETS.$column"
 
         fun prefNameForCriteria(budgetId: Long): String =
             "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)
-
-        fun prefNameForDefaultBudget(accountId: Long, grouping: Grouping): String =
-            "defaultBudget_%d_%s".format(Locale.ROOT, accountId, grouping)
     }
 }

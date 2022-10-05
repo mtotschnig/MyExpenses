@@ -228,8 +228,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
                 DELETE_BUDGET_DIALOG -> {
                     viewModel.deleteBudget(
-                        budgetId = budget.id,
-                        if (budget.default) BudgetViewModel.prefNameForDefaultBudget(budget.accountId, budget.grouping) else null
+                        budgetId = budget.id
                     ).observe(this) {
                         if (it) {
                             setResult(Activity.RESULT_FIRST_USER)
