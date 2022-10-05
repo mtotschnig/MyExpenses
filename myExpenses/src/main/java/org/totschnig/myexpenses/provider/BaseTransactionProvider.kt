@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
 import java.io.File
 import java.time.Duration
@@ -132,6 +133,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val DEBT_LABEL_EXPRESSION =
             "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
         const val TAG = "TransactionProvider"
+
+        fun defaultBudgetAllocationUri(account: FullAccount) = TransactionProvider.BUDGETS_URI.buildUpon()
+            .appendPath(TransactionProvider.URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS)
+            .appendPath(account.id.toString())
+            .appendPath(account.grouping.name)
+            .build()
     }
 
     val homeCurrency: String

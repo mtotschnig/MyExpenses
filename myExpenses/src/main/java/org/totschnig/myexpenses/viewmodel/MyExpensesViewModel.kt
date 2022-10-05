@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -156,12 +157,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
     fun budgetData(account: FullAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
                 contentResolver.observeQuery(
-                    uri = ContentUris.withAppendedId(
-                        BUDGETS_URI,
-                        account.id
-                    ).buildUpon().appendPath(URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS)
-                        .appendPath(account.grouping.name)
-                        .build(),
+                    uri = BaseTransactionProvider.defaultBudgetAllocationUri(account),
                     projection = arrayOf(
                         KEY_YEAR,
                         KEY_SECOND_GROUP,

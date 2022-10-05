@@ -101,7 +101,7 @@ fun budgetDefaultSelect(
     db: SupportSQLiteDatabase,
     uri: Uri
 ): Long? {
-    val accountId = uri.pathSegments[1].toLong()
+    val accountId = uri.pathSegments[2].toLong()
     val group = uri.pathSegments[3]
     val (accountSelection, accountSelectionArg) = when {
         accountId > 0 -> "$KEY_ACCOUNTID = ?" to accountId
