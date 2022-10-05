@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -21,9 +18,15 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import app.futured.donut.compose.DonutProgress
+import app.futured.donut.compose.data.DonutModel
+import app.futured.donut.compose.data.DonutSection
 import org.totschnig.myexpenses.R
 
 @Composable
@@ -78,6 +81,37 @@ fun Modifier.conditionalComposed(condition : Boolean, block : @Composable Modifi
             this
         }
     }
+
+val generalPadding
+    @Composable get() = dimensionResource(id = R.dimen.general_padding)
+
+@Composable
+fun DonutInABox(
+    modifier: Modifier,
+    progress: Int,
+    fontSize: TextUnit,
+    strokeWidth: Float = 15f,
+    color: Color
+) {
+    Box(modifier = modifier) {
+        DonutProgress(
+            modifier = Modifier.fillMaxSize(),
+            model = DonutModel(
+                cap = 100f,
+                masterProgress = 1f,
+                gapWidthDegrees = 0f,
+                gapAngleDegrees = 0f,
+                strokeWidth = strokeWidth,
+                sections = listOf(DonutSection(amount = progress.toFloat(), color = color))
+            )
+        )
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = progress.toString(),
+            fontSize = fontSize,
+            )
+    }
+}
 
 @Preview
 @Composable

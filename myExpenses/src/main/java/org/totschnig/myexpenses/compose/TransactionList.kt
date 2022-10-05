@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -30,14 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.compose.collectAsLazyPagingItems
-import app.futured.donut.compose.DonutProgress
-import app.futured.donut.compose.data.DonutModel
-import app.futured.donut.compose.data.DonutSection
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
@@ -107,7 +104,7 @@ fun TransactionList(
                                     }
                                 }
                                 HeaderRenderer(
-                                    grouping = headerData.grouping,
+                                    account = headerData.account,
                                     headerId = headerId,
                                     headerRow = headerRow,
                                     dateInfo = headerData.dateInfo,
@@ -210,13 +207,9 @@ fun HeaderData(
     }
 }
 
-
-val generalPadding
- @Composable get() = dimensionResource(id = R.dimen.general_padding)
-
 @Composable
 fun HeaderRenderer(
-    grouping: Grouping,
+    account: FullAccount,
     headerId: Int,
     headerRow: HeaderRow,
     dateInfo: DateInfo2,
@@ -228,7 +221,7 @@ fun HeaderRenderer(
 
     Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
         GroupDivider()
-        if (grouping != Grouping.NONE) {
+        if (account.grouping != Grouping.NONE) {
             ExpansionHandle(
                 modifier = Modifier.align(Alignment.TopEnd),
                 isExpanded = isExpanded,
@@ -238,26 +231,19 @@ fun HeaderRenderer(
         if (budget?.second != null) {
             val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second).roundToInt()
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier
-                    .padding(generalPadding)
-                    .clickable { onBudgetClick(budget.first, headerId) }
-                    .size(42.dp)) {
-                    DonutProgress(
-                        modifier = Modifier.fillMaxSize(),
-                        model = DonutModel(
-                            cap = 100f,
-                            masterProgress = 1f,
-                            gapWidthDegrees = 0f,
-                            gapAngleDegrees = 0f,
-                            strokeWidth = 15f,
-                            sections = listOf(DonutSection(amount = progress.toFloat(), color = Color.Cyan))
-                        ))
-                    Text(modifier = Modifier.align(Alignment.Center), text = progress.toString())
-                }
-                HeaderData(grouping, headerRow, dateInfo, alignStart = true)
+                DonutInABox(
+                    modifier = Modifier
+                        .padding(generalPadding)
+                        .clickable { onBudgetClick(budget.first, headerId) }
+                        .size(42.dp),
+                    progress = progress,
+                    fontSize = 12.sp,
+                    color = Color(account.color(LocalContext.current.resources))
+                )
+                HeaderData(account.grouping, headerRow, dateInfo, alignStart = true)
             }
         } else {
-            HeaderData(grouping, headerRow, dateInfo)
+            HeaderData(account.grouping, headerRow, dateInfo)
         }
     }
 }

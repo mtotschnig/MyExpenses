@@ -437,7 +437,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     this@BaseMyExpenses
                                 ),
                                 futureCriterion = futureCriterion,
-                                expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.grouping}"),
+                                expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
                                 onBudgetClick = { budgetId, headerId ->
                                     contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
                                 }

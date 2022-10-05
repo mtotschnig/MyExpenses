@@ -151,7 +151,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
                 } ?: emptyMap()
             }
         }.combine(dateInfo) { headerData, dateInfo ->
-            HeaderData(account.grouping, headerData, dateInfo)
+            HeaderData(account, headerData, dateInfo)
         }
 
     fun budgetData(account: FullAccount): Flow<BudgetData?> =

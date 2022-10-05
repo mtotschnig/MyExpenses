@@ -35,8 +35,8 @@ data class FullAccount(
     val reconciledTotal: Long = 0L,
     val clearedTotal: Long = 0L,
     val hasCleared: Boolean = false,
-    val uuid: String? = null
-
+    val uuid: String? = null,
+    val criterion: Long
 ) {
 
     //Tuple4 of Uri / projection / selection / selectionArgs
@@ -112,7 +112,8 @@ data class FullAccount(
             reconciledTotal = cursor.getLong(KEY_RECONCILED_TOTAL),
             clearedTotal = cursor.getLong(KEY_CLEARED_TOTAL),
             hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0,
-            uuid = cursor.getStringOrNull(KEY_UUID)
+            uuid = cursor.getStringOrNull(KEY_UUID),
+            criterion = cursor.getLong(KEY_CRITERION)
         )
     }
 }

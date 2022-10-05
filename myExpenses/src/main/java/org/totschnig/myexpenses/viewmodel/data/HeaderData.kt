@@ -9,11 +9,11 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 
-data class HeaderData(val grouping: Grouping, val groups: Map<Int, HeaderRow>, val dateInfo: DateInfo2) {
+data class HeaderData(val account: FullAccount, val groups: Map<Int, HeaderRow>, val dateInfo: DateInfo2) {
 
-    fun calculateGroupId(transaction: Transaction2) = grouping.calculateGroupId(transaction.year, getSecond(transaction))
+    fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction.year, getSecond(transaction))
 
-    private fun getSecond(transaction: Transaction2) = when(grouping) {
+    private fun getSecond(transaction: Transaction2) = when(account.grouping) {
         Grouping.DAY -> transaction.day
         Grouping.WEEK -> transaction.week
         Grouping.MONTH -> transaction.month

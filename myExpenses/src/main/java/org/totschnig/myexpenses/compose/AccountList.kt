@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import kotlin.math.roundToInt
 
 @Composable
 fun AccountList(
@@ -170,15 +171,26 @@ fun AccountCard(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ColorCircle(
-                modifier = Modifier
-                    .padding(end = 6.dp)
-                    .size(dimensionResource(id = R.dimen.account_color_diameter_compose)),
-                color = account.color(LocalContext.current.resources)
-            ) {
-                if (account.isAggregate) {
-                    Text(fontSize = 18.sp, text = "Σ", color = Color.White)
+            val modifier = Modifier
+                .padding(end = 6.dp)
+                .size(dimensionResource(id = R.dimen.account_color_diameter_compose))
+            val color = Color(account.color(LocalContext.current.resources))
+            if (account.criterion == 0L) {
+                ColorCircle(modifier, color) {
+                    if (account.isAggregate) {
+                        Text(fontSize = 18.sp, text = "Σ", color = Color.White)
+                    }
                 }
+            } else {
+                DonutInABox(
+                    modifier = modifier,
+                    progress = if (account.criterion > 0 == account.currentBalance > 0) {
+                        (account.currentBalance * 100F / account.criterion).roundToInt()
+                    } else 0,
+                    fontSize = 10.sp,
+                    strokeWidth = 10f,
+                    color = color
+                )
             }
             if (account.sealed) {
                 Icon(
@@ -313,7 +325,8 @@ fun AccountPreview() {
             sumIncome = 2000,
             sumExpense = 1000,
             sealed = true,
-            type = AccountType.CASH
+            type = AccountType.CASH,
+            criterion = 5000
         ),
         expansionHandler = object: ExpansionHandler {
 
