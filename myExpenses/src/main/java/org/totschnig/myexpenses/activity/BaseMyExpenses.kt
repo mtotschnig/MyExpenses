@@ -18,25 +18,17 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Loupe
+import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -102,13 +94,11 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.math.sign
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
-@OptIn(ExperimentalPagerApi::class)
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
     @JvmField
     @State
@@ -337,7 +327,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readAccountGroupingFromPref()
@@ -412,28 +401,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 .collectAsState(WhereFilter.empty())
                                 .value
                                 .takeIf { !it.isEmpty }?.let {
-                                    Row {
-                                        androidx.compose.material.Icon(
-                                            imageVector = Icons.Filled.Search,
-                                            contentDescription = stringResource(R.string.menu_search),
-                                            tint = Color.Green
-                                        )
-                                        FlowRow(modifier = Modifier.weight(1f)) {
-                                            it.criteria.forEach {
-                                                SuggestionChip(
-                                                    onClick = { },
-                                                    label = {
-                                                        Text(it.prettyPrint(LocalContext.current))
-                                                    }
-
-                                                )
-                                            }
-                                        }
-                                        androidx.compose.material.Icon(
-                                            imageVector = Icons.Filled.Close,
-                                            contentDescription = stringResource(R.string.clear_all_filters)
-                                        )
-                                    }
+                                    FilterCard(it)
                                 }
                             headerData.collectAsState(null).value?.let { headerData ->
                                 TransactionList(

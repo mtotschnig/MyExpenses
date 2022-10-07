@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -233,7 +234,7 @@ fun HeaderRenderer(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 DonutInABox(
                     modifier = Modifier
-                        .padding(generalPadding)
+                        .padding(mainScreenPadding)
                         .clickable { onBudgetClick(budget.first, headerId) }
                         .size(42.dp),
                     progress = progress,
@@ -331,7 +332,7 @@ fun TransactionRenderer(
                 )
             }
         }
-        .padding(horizontal = generalPadding, vertical = 3.dp),
+        .padding(horizontal = mainScreenPadding, vertical = 3.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         transaction.color?.let {
@@ -366,6 +367,9 @@ fun TransactionRenderer(
         }
     }
 }
+
+val mainScreenPadding
+    @Composable get() = dimensionResource(id = R.dimen.padding_main_screen)
 
 interface SelectionHandler {
     fun toggle(transaction: Transaction2)
