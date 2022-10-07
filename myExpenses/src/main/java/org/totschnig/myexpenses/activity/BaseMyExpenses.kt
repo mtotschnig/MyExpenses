@@ -80,6 +80,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
@@ -109,6 +110,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @State
     var scanFile: File? = null
 
+    private val accountData: List<FullAccount>
+        get() = viewModel.accountData.value.getOrElse { emptyList() }
+
     var accountId: Long
         get() = viewModel.selectedAccount.value
         set(value) {
@@ -118,7 +122,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun moveToAccount() {
         val position =
-            viewModel.accountData.value.indexOfFirst { it.id == accountId }.takeIf { it > -1 } ?: 0
+            accountData.indexOfFirst { it.id == accountId }.takeIf { it > -1 } ?: 0
         if (viewModel.pagerState.currentPage != position) {
             lifecycleScope.launch {
                 viewModel.pagerState.scrollToPage(position)
@@ -129,7 +133,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     val currentAccount: FullAccount
-        get() = viewModel.accountData.value[viewModel.pagerState.currentPage]
+        get() = accountData[viewModel.pagerState.currentPage]
 
     var currentCurrency: String? = null
 
@@ -153,7 +157,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var binding: ActivityMainBinding
 
     val accountCount
-        get() = viewModel.accountData.value.count { it.id > 0 }
+        get() = accountData.count { it.id > 0 }
 
     private val accountGrouping: MutableState<AccountGrouping> =
         mutableStateOf(AccountGrouping.TYPE)
@@ -292,156 +296,161 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
 
         binding.viewPagerMain.viewPager.setContent {
-            val accountData = viewModel.accountData.collectAsState()
-            AppTheme(context = this@BaseMyExpenses) {
-                LaunchedEffect(viewModel.pagerState.currentPage) {
-                    if (setCurrentAccount(viewModel.pagerState.currentPage)) {
-                        finishActionMode()
-                        sumInfo = SumInfoUnknown
-                        viewModel.sumInfo(currentAccount).collect {
-                            sumInfo = it
-                        }
-                    }
-                }
-                LaunchedEffect(accountData.value) {
-                    if (accountData.value.isNotEmpty()) {
-                        moveToAccount()
-                        viewModel.sumInfo(currentAccount).collect {
-                            sumInfo = it
-                        }
-                    } else {
-                        setTitle(R.string.app_name)
-                        toolbar.subtitle = null
-                    }
-                }
-                HorizontalPager(
-                    verticalAlignment = Alignment.Top,
-                    count = accountData.value.count(),
-                    state = viewModel.pagerState
-                ) { page ->
-                    val account = remember { derivedStateOf { accountData.value[page] } }.value
-                    val data =
-                        remember(account.sortDirection) { viewModel.loadData(account) }
-                    val headerData = viewModel.headerData(account)
-                    if (page == currentPage) {
-                        LaunchedEffect(selectionState.size) {
-                            if (selectionState.isNotEmpty()) {
-                                startActionMode()
-                                updateActionModeTitle()
-                            } else {
-                                finishActionMode()
+            viewModel.accountData.collectAsState().value.onSuccess { accountData ->
+
+                AppTheme(context = this@BaseMyExpenses) {
+                    LaunchedEffect(viewModel.pagerState.currentPage) {
+                        if (setCurrentAccount(viewModel.pagerState.currentPage)) {
+                            finishActionMode()
+                            sumInfo = SumInfoUnknown
+                            viewModel.sumInfo(currentAccount).collect {
+                                sumInfo = it
                             }
                         }
                     }
-                    Column {
-                        viewModel.filterPersistence.getValue(account.id)
-                            .whereFilterAsFlow
-                            .collectAsState(WhereFilter.empty())
-                            .value
-                            .takeIf { !it.isEmpty }?.let {
-                                Row {
-                                    androidx.compose.material.Icon(
-                                        imageVector = Icons.Filled.Search,
-                                        contentDescription = stringResource(R.string.menu_search),
-                                        tint = Color.Green
-                                    )
-                                    FlowRow(modifier = Modifier.weight(1f)) {
-                                        it.criteria.forEach {
-                                            SuggestionChip(
-                                                onClick = { },
-                                                label = {
-                                                    Text(it.prettyPrint(LocalContext.current))
-                                                }
-
-                                            )
-                                        }
-                                    }
-                                    androidx.compose.material.Icon(
-                                        imageVector = Icons.Filled.Close,
-                                        contentDescription = stringResource(R.string.clear_all_filters)
-                                    )
+                    LaunchedEffect(accountData) {
+                        if (accountData.isNotEmpty()) {
+                            moveToAccount()
+                            viewModel.sumInfo(currentAccount).collect {
+                                sumInfo = it
+                            }
+                        } else {
+                            setTitle(R.string.app_name)
+                            toolbar.subtitle = null
+                        }
+                    }
+                    HorizontalPager(
+                        verticalAlignment = Alignment.Top,
+                        count = accountData.count(),
+                        state = viewModel.pagerState
+                    ) { page ->
+                        val account = remember { derivedStateOf { accountData[page] } }.value
+                        val data =
+                            remember(account.sortDirection) { viewModel.loadData(account) }
+                        val headerData = viewModel.headerData(account)
+                        if (page == currentPage) {
+                            LaunchedEffect(selectionState.size) {
+                                if (selectionState.isNotEmpty()) {
+                                    startActionMode()
+                                    updateActionModeTitle()
+                                } else {
+                                    finishActionMode()
                                 }
                             }
-                        headerData.collectAsState(null).value?.let { headerData ->
-                            TransactionList(
-                                pagingSourceFactory = data,
-                                headerData = headerData,
-                                budgetData = viewModel.budgetData(account).collectAsState(null),
-                                selectionHandler = object : SelectionHandler {
-                                    override fun toggle(transaction: Transaction2) {
-                                        if (viewModel.selectionState.toggle(transaction)) {
-                                            viewModel.selectedTransactionSum += transaction.amount.amountMinor
-                                        } else {
-                                            viewModel.selectedTransactionSum -= transaction.amount.amountMinor
-                                        }
-                                    }
-
-                                    override fun isSelected(transaction: Transaction2) =
-                                        selectionState.contains(transaction)
-
-                                    override val selectionCount: Int
-                                        get() = selectionState.size
-
-                                },
-                                menuGenerator = remember {
-                                    { transaction ->
-                                        Menu(
-                                            buildList {
-                                                add(MenuEntry(
-                                                    icon = Icons.Filled.Loupe,
-                                                    label = R.string.details
-                                                ) { showDetails(it.id) })
-                                                if (!account.sealed) {
-                                                    if (transaction.crStatus != CrStatus.VOID) {
-                                                        add(edit { edit(transaction) })
+                        }
+                        Column {
+                            viewModel.filterPersistence.getValue(account.id)
+                                .whereFilterAsFlow
+                                .collectAsState(WhereFilter.empty())
+                                .value
+                                .takeIf { !it.isEmpty }?.let {
+                                    Row {
+                                        androidx.compose.material.Icon(
+                                            imageVector = Icons.Filled.Search,
+                                            contentDescription = stringResource(R.string.menu_search),
+                                            tint = Color.Green
+                                        )
+                                        FlowRow(modifier = Modifier.weight(1f)) {
+                                            it.criteria.forEach {
+                                                SuggestionChip(
+                                                    onClick = { },
+                                                    label = {
+                                                        Text(it.prettyPrint(LocalContext.current))
                                                     }
-                                                    add(MenuEntry(
-                                                        icon = Icons.Filled.ContentCopy,
-                                                        label = R.string.menu_clone_transaction
-                                                    ) {
-                                                        edit(transaction, true)
-                                                    })
-                                                    add(delete { delete(listOf(transaction)) })
-                                                    add(MenuEntry(
-                                                        icon = myiconpack.IcActionTemplateAdd,
-                                                        label = R.string.menu_create_template_from_transaction
-                                                    ) { createTemplate(transaction) })
-                                                    if (transaction.crStatus == CrStatus.VOID) {
-                                                        add(MenuEntry(
-                                                            icon = Icons.Filled.RestoreFromTrash,
-                                                            label = R.string.menu_undelete_transaction
-                                                        ) { undelete(transaction) })
-                                                    }
-                                                    add(
-                                                        select {
-                                                            viewModel.selectionState.value =
-                                                                listOf(it)
-                                                            viewModel.selectedTransactionSum =
-                                                                transaction.amount.amountMinor
-                                                        })
-                                                }
+
+                                                )
                                             }
+                                        }
+                                        androidx.compose.material.Icon(
+                                            imageVector = Icons.Filled.Close,
+                                            contentDescription = stringResource(R.string.clear_all_filters)
                                         )
                                     }
-                                },
-                                onToggleCrStatus = if (account.type == AccountType.CASH) null else {
-                                    {
-                                        checkSealed(listOf(it)) {
-                                            viewModel.toggleCrStatus(it)
-                                        }
-                                    }
-                                },
-                                dateTimeFormatter = dateTimeFormatterFor(
-                                    account,
-                                    prefHandler,
-                                    this@BaseMyExpenses
-                                ),
-                                futureCriterion = futureCriterion,
-                                expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
-                                onBudgetClick = { budgetId, headerId ->
-                                    contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
                                 }
-                            )
+                            headerData.collectAsState(null).value?.let { headerData ->
+                                TransactionList(
+                                    pagingSourceFactory = data,
+                                    headerData = headerData,
+                                    budgetData = viewModel.budgetData(account).collectAsState(null),
+                                    selectionHandler = object : SelectionHandler {
+                                        override fun toggle(transaction: Transaction2) {
+                                            if (viewModel.selectionState.toggle(transaction)) {
+                                                viewModel.selectedTransactionSum += transaction.amount.amountMinor
+                                            } else {
+                                                viewModel.selectedTransactionSum -= transaction.amount.amountMinor
+                                            }
+                                        }
+
+                                        override fun isSelected(transaction: Transaction2) =
+                                            selectionState.contains(transaction)
+
+                                        override val selectionCount: Int
+                                            get() = selectionState.size
+
+                                    },
+                                    menuGenerator = remember {
+                                        { transaction ->
+                                            Menu(
+                                                buildList {
+                                                    add(MenuEntry(
+                                                        icon = Icons.Filled.Loupe,
+                                                        label = R.string.details
+                                                    ) { showDetails(it.id) })
+                                                    if (!account.sealed) {
+                                                        if (transaction.crStatus != CrStatus.VOID) {
+                                                            add(edit { edit(transaction) })
+                                                        }
+                                                        add(MenuEntry(
+                                                            icon = Icons.Filled.ContentCopy,
+                                                            label = R.string.menu_clone_transaction
+                                                        ) {
+                                                            edit(transaction, true)
+                                                        })
+                                                        add(delete { delete(listOf(transaction)) })
+                                                        add(MenuEntry(
+                                                            icon = myiconpack.IcActionTemplateAdd,
+                                                            label = R.string.menu_create_template_from_transaction
+                                                        ) { createTemplate(transaction) })
+                                                        if (transaction.crStatus == CrStatus.VOID) {
+                                                            add(MenuEntry(
+                                                                icon = Icons.Filled.RestoreFromTrash,
+                                                                label = R.string.menu_undelete_transaction
+                                                            ) { undelete(transaction) })
+                                                        }
+                                                        add(
+                                                            select {
+                                                                viewModel.selectionState.value =
+                                                                    listOf(it)
+                                                                viewModel.selectedTransactionSum =
+                                                                    transaction.amount.amountMinor
+                                                            })
+                                                    }
+                                                }
+                                            )
+                                        }
+                                    },
+                                    onToggleCrStatus = if (account.type == AccountType.CASH) null else {
+                                        {
+                                            checkSealed(listOf(it)) {
+                                                viewModel.toggleCrStatus(it)
+                                            }
+                                        }
+                                    },
+                                    dateTimeFormatter = dateTimeFormatterFor(
+                                        account,
+                                        prefHandler,
+                                        this@BaseMyExpenses
+                                    ),
+                                    futureCriterion = futureCriterion,
+                                    expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
+                                    onBudgetClick = { budgetId, headerId ->
+                                        contribFeatureRequested(
+                                            ContribFeature.BUDGET,
+                                            budgetId to headerId
+                                        )
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -494,35 +503,48 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
         binding.accountPanel.accountList.setContent {
             AppTheme(this) {
-                AccountList(
-                    accountData = viewModel.accountData.collectAsState(initial = emptyList()).value,
-                    grouping = accountGrouping.value,
-                    selectedAccount = accountId,
-                    onSelected = {
-                        lifecycleScope.launch {
-                            viewModel.pagerState.scrollToPage(it)
+                viewModel.accountData.collectAsState().value.let {
+                    it.onSuccess {
+                        AccountList(
+                            accountData = it,
+                            grouping = accountGrouping.value,
+                            selectedAccount = accountId,
+                            onSelected = {
+                                lifecycleScope.launch {
+                                    viewModel.pagerState.scrollToPage(it)
+                                }
+                                closeDrawer()
+                            },
+                            onEdit = {
+                                closeDrawer()
+                                startActivityForResult(Intent(this, AccountEdit::class.java).apply {
+                                    putExtra(KEY_ROWID, it)
+                                }, EDIT_ACCOUNT_REQUEST)
+                            },
+                            onDelete = {
+                                closeDrawer()
+                                confirmAccountDelete(it)
+                            },
+                            onHide = {
+                                viewModel.setAccountVisibility(true, it)
+                            },
+                            onToggleSealed = { id, isSealed ->
+                                setAccountSealed(id, isSealed)
+                            },
+                            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
+                            expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
+                        )
+                    }.onFailure {
+                        showSnackBar(
+                            message = "Data loading failed",
+                            duration = Snackbar.LENGTH_INDEFINITE,
+                            snackBarAction = SnackbarAction(R.string.safe_mode) {
+                                prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
+                                viewModel.triggerAccountListRefresh()
+                            })
                         }
-                        closeDrawer()
-                    },
-                    onEdit = {
-                        closeDrawer()
-                        startActivityForResult(Intent(this, AccountEdit::class.java).apply {
-                            putExtra(KEY_ROWID, it)
-                        }, EDIT_ACCOUNT_REQUEST)
-                    },
-                    onDelete = {
-                        closeDrawer()
-                        confirmAccountDelete(it)
-                    },
-                    onHide = {
-                        viewModel.setAccountVisibility(true, it)
-                    },
-                    onToggleSealed = { id, isSealed ->
-                        setAccountSealed(id, isSealed)
-                    },
-                    expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
-                    expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
-                )
+                }
+
             }
         }
         remapHandler = RemapHandler(this)
@@ -562,7 +584,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             TransactionDetailFragment.show(transactionId, supportFragmentManager)
         }
     }
-
 
     private fun undelete(transaction: Transaction2) {
         checkSealed(listOf(transaction.id)) {
@@ -1018,7 +1039,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (viewModel.accountData.value.isNotEmpty()) {
+        if (accountData.isNotEmpty()) {
             menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
                 it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
             }
@@ -1094,7 +1115,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      *  @return true if we have moved to a new account
      */
     private fun setCurrentAccount(position: Int) =
-        viewModel.accountData.value.getOrNull(position)?.let { account ->
+        accountData.getOrNull(position)?.let { account ->
             val newAccountId = account.id
             val changed = if (accountId != newAccountId) {
                 accountId = account.id
@@ -1569,7 +1590,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             result = true
             if (itemId == R.id.SORT_CUSTOM_COMMAND) {
                 SortUtilityDialogFragment.newInstance(
-                    ArrayList(viewModel.accountData.value
+                    ArrayList(accountData
                         .filter { it.id > 0 }
                         .map { AbstractMap.SimpleEntry(it.id, it.label) }
                     ))

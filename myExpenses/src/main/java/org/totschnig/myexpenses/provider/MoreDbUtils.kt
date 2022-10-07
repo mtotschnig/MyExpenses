@@ -420,25 +420,6 @@ fun computeWhere(selection: String?, whereClause: java.lang.StringBuilder): Stri
     }
 }
 
-fun <T> Flow<Query>.mapToListWithExtra(
-    dispatcher: CoroutineDispatcher = Dispatchers.IO,
-    mapper: (Cursor) -> T
-): Flow<Pair<Bundle, List<T>>> = transform { query ->
-    val pair = withContext(dispatcher) {
-        query.run()?.use { cursor ->
-            val items = ArrayList<T>(cursor.count)
-            while (cursor.moveToNext()) {
-                items.add(mapper(cursor))
-            }
-            cursor.extras to items
-        }
-    }
-    if (pair != null) {
-        emit(pair)
-    }
-}
-
-
 val frameworkSupportsWindowingFunctions
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 

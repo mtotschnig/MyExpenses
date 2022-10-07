@@ -437,11 +437,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun rebuildDbConstants() {
         DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
         Transaction.buildProjection(this)
-        rebuildAccountProjection()
-    }
-
-    fun rebuildAccountProjection() {
-        Account.buildProjection()
     }
 
     fun showMessage(resId: Int) {

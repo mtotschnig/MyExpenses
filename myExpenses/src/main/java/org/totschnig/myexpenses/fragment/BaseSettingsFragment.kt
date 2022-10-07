@@ -367,9 +367,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS), getKey(PrefKey.CRITERION_FUTURE) -> {
                 preferenceActivity.rebuildDbConstants()
             }
-            getKey(PrefKey.DB_SAFE_MODE) -> {
-                preferenceActivity.rebuildAccountProjection()
-            }
             getKey(PrefKey.UI_FONTSIZE) -> {
                 updateAllWidgets()
                 preferenceActivity.recreate()

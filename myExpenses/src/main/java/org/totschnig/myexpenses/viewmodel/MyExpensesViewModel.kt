@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
+import android.database.sqlite.SQLiteException
 import android.os.Bundle
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
@@ -37,13 +38,13 @@ import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -55,7 +56,10 @@ const val ERROR_INIT_UPGRADE = -2
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
 
-class MyExpensesViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
+class MyExpensesViewModel(
+    application: Application,
+    private val savedStateHandle: SavedStateHandle
+) :
     ContentResolvingAndroidViewModel(application) {
 
     @Inject
@@ -66,12 +70,13 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
     fun expansionHandler(key: String) = object : ExpansionHandler {
         val COLLAPSED_IDS = stringSetPreferencesKey(key)
         private val collapsedIds: Flow<Set<String>> = getApplication<MyApplication>().dataStore.data
-                .map { preferences ->
-                    preferences[COLLAPSED_IDS] ?: emptySet()
-                }
+            .map { preferences ->
+                preferences[COLLAPSED_IDS] ?: emptySet()
+            }
 
         @Composable
-        override fun collapsedIds(): State<Set<String>> = collapsedIds.collectAsState(initial = emptySet())
+        override fun collapsedIds(): State<Set<String>> =
+            collapsedIds.collectAsState(initial = emptySet())
 
         override fun toggle(id: String) {
             viewModelScope.launch {
@@ -86,13 +91,17 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
 
     var selectedTransactionSum: Long
         get() = savedStateHandle["selectedTransactionSum"] ?: 0
-        set(value)  { savedStateHandle["selectedTransactionSum"] = value }
+        set(value) {
+            savedStateHandle["selectedTransactionSum"] = value
+        }
 
     @OptIn(SavedStateHandleSaveableApi::class)
-    val selectedAccount: MutableState<Long> = savedStateHandle.saveable("selectedAccount") { mutableStateOf(0L) }
+    val selectedAccount: MutableState<Long> =
+        savedStateHandle.saveable("selectedAccount") { mutableStateOf(0L) }
 
     @OptIn(SavedStateHandleSaveableApi::class)
-    val selectionState: MutableState<List<Transaction2>> = savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
+    val selectionState: MutableState<List<Transaction2>> =
+        savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts
@@ -105,7 +114,8 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
             restore = { PagerState(it) }
         )
     ) {
-        PagerState(0) }
+        PagerState(0)
+    }
 
     val filterPersistence: Map<Long, FilterPersistence> =
         lazyMap {
@@ -118,35 +128,37 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
             )
         }
 
-    //TODO Safe mode
-/*    if (cursor == null) {
-        showSnackBar("Data loading failed", Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.safe_mode, v -> {
-            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true);
-            rebuildAccountProjection();
-            mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-        }));
-    }*/
-    val accountData: StateFlow<List<FullAccount>> = contentResolver.observeQuery(
+    val accountData: StateFlow<Result<List<FullAccount>>> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon().appendQueryParameter(
-            TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES,
+            QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES,
             "1"
         ).build(),
         selection = "$KEY_HIDDEN = 0",
         notifyForDescendants = true
-    ).mapToList {
-        FullAccount.fromCursor(it, currencyContext)
-    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    )
+        .mapToListCatching {
+            FullAccount.fromCursor(it, currencyContext)
+        }
+        .stateIn(viewModelScope, SharingStarted.Lazily, Result.success(emptyList()))
 
     fun loadData(account: FullAccount): () -> TransactionPagingSource {
-        return { TransactionPagingSource(localizedContext, account,
-            filterPersistence.getValue(account.id).whereFilterAsFlow, viewModelScope
-        ) }
+        return {
+            TransactionPagingSource(
+                localizedContext, account,
+                filterPersistence.getValue(account.id).whereFilterAsFlow, viewModelScope
+            )
+        }
     }
 
     fun headerData(account: FullAccount): Flow<HeaderData> =
         contentResolver.observeQuery(uri = account.groupingUri()).map { query ->
             withContext(Dispatchers.IO) {
-                query.run()?.use { cursor ->
+                try {
+                    query.run()
+                } catch (e: SQLiteException) {
+                    CrashHandler.report(e)
+                    null
+                }?.use { cursor ->
                     HeaderData.fromSequence(account, cursor.asSequence)
                 } ?: emptyMap()
             }
@@ -156,30 +168,31 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
 
     fun budgetData(account: FullAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
-                contentResolver.observeQuery(
-                    uri = BaseTransactionProvider.defaultBudgetAllocationUri(account),
-                    projection = arrayOf(
-                        KEY_YEAR,
-                        KEY_SECOND_GROUP,
-                        KEY_BUDGET,
-                        KEY_BUDGET_ROLLOVER_PREVIOUS,
-                        KEY_ONE_TIME
-                    ),
-                    sortOrder = "$KEY_YEAR, $KEY_SECOND_GROUP"
-                ).map { it }
-                    .mapToListWithExtra {
-                        BudgetRow(
-                            Grouping.groupId(it.getInt(0), it.getInt(1)),
-                            it.getLong(2) + it.getLong(3),
-                            it.getInt(4) == 1
-                        )
-                    }.map {
-                        BudgetData(it.first.getLong(KEY_BUDGETID), it.second)
-                    }
-            } else emptyFlow()
+            contentResolver.observeQuery(
+                uri = BaseTransactionProvider.defaultBudgetAllocationUri(account),
+                projection = arrayOf(
+                    KEY_YEAR,
+                    KEY_SECOND_GROUP,
+                    KEY_BUDGET,
+                    KEY_BUDGET_ROLLOVER_PREVIOUS,
+                    KEY_ONE_TIME
+                ),
+                sortOrder = "$KEY_YEAR, $KEY_SECOND_GROUP"
+            ).map { it }
+                .mapToListWithExtra {
+                    BudgetRow(
+                        Grouping.groupId(it.getInt(0), it.getInt(1)),
+                        it.getLong(2) + it.getLong(3),
+                        it.getInt(4) == 1
+                    )
+                }.map {
+                    BudgetData(it.first.getLong(KEY_BUDGETID), it.second)
+                }
+        } else emptyFlow()
 
     fun sumInfo(account: FullAccount): Flow<SumInfo> = contentResolver.observeQuery(
-        uri = TRANSACTIONS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS, "1").build(),
+        uri = TRANSACTIONS_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, "1")
+            .build(),
         selection = account.selection,
         selectionArgs = account.selectionArgs
     ).mapToOne {
@@ -189,8 +202,8 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
         try {
             contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_INIT,
+                DUAL_URI,
+                METHOD_INIT,
                 null,
                 null
             )
@@ -235,7 +248,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
         viewModelScope.launch(context = coroutineContext()) {
             contentResolver.update(
                 ContentUris.withAppendedId(Account.CONTENT_URI, accountId).buildUpon()
-                    .appendPath(TransactionProvider.URI_SEGMENT_SORT_DIRECTION)
+                    .appendPath(URI_SEGMENT_SORT_DIRECTION)
                     .appendPath(sortDirection.name).build(),
                 null, null, null
             )
@@ -260,7 +273,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
         viewModelScope.launch(context = coroutineContext()) {
             contentResolver.update(
                 TRANSACTIONS_URI.buildUpon()
-                    .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
+                    .appendPath(URI_SEGMENT_LINK_TRANSFER)
                     .appendPath(repository.getUuidForTransaction(itemIds[0]))
                     .build(), ContentValues(1).apply {
                     put(KEY_UUID, repository.getUuidForTransaction(itemIds[1]))
@@ -301,7 +314,8 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
                 if (reset) {
                     reset(
                         account = Account.getInstanceFromDb(accountId),
-                        filter = WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))),
+                        filter = WhereFilter.empty()
+                            .put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))),
                         handleDelete = Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE,
                         helperComment = null
                     )
@@ -324,8 +338,8 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
     fun sortAccounts(sortedIds: LongArray) {
         viewModelScope.launch(context = coroutineContext()) {
             contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_SORT_ACCOUNTS,
+                DUAL_URI,
+                METHOD_SORT_ACCOUNTS,
                 null,
                 Bundle(1).apply {
                     putLongArray(KEY_SORT_KEY, sortedIds)
@@ -336,7 +350,8 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
 
     fun undeleteTransactions(itemId: Long): LiveData<Int> =
         liveData(context = coroutineContext()) {
-            emit(try {
+            emit(
+                try {
                     Transaction.undelete(itemId)
                     1
                 } catch (e: SQLiteConstraintException) {
@@ -371,7 +386,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
                 }
                 ops.add(newUpdate.build())
                 if (contentResolver.applyBatch(
-                        TransactionProvider.AUTHORITY,
+                        AUTHORITY,
                         ops
                     ).size == ops.size
                 ) {
@@ -408,7 +423,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
             for (id in transactionIds) {
                 ops.addAll(saveTagLinks(tagIds, id, null, replace))
             }
-            contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+            contentResolver.applyBatch(AUTHORITY, ops)
         }
     }
 
@@ -421,7 +436,8 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
      *
      * @return true if the filter was set and successfully removed, false otherwise
      */
-    fun removeFilter(id: Int, accountId: Long) = filterPersistence.getValue(accountId).removeFilter(id)
+    fun removeFilter(id: Int, accountId: Long) =
+        filterPersistence.getValue(accountId).removeFilter(id)
 
     fun toggleCrStatus(id: Long) {
         viewModelScope.launch(coroutineDispatcher) {
@@ -429,7 +445,7 @@ class MyExpensesViewModel(application: Application, private val savedStateHandle
                 TRANSACTIONS_URI
                     .buildUpon()
                     .appendPath(id.toString())
-                    .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+                    .appendPath(URI_SEGMENT_TOGGLE_CRSTATUS)
                     .build(),
                 null, null, null
             )

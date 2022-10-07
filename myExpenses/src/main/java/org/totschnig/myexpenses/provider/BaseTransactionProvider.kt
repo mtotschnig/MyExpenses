@@ -74,7 +74,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    fun notifyChangeDo(uri: Uri, syncToNetwork: Boolean) {
+    private fun notifyChangeDo(uri: Uri, syncToNetwork: Boolean) {
         context!!.contentResolver.notifyChange(
             uri, null,
             syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true)
@@ -169,19 +169,20 @@ abstract class BaseTransactionProvider : ContentProvider() {
         AccountType.sqlOrderExpression()
     )
 
+    val aggregateFunction: String
+        get() = if (prefHandler.getBoolean(
+                PrefKey.DB_SAFE_MODE,
+                false
+            )
+        ) "total" else "sum"
+
     fun buildAccountQuery(
         minimal: Boolean,
         mergeAggregate: String?,
         selection: String?,
         sortOrder: String?
     ): String {
-
-        val aggregateFunction = TransactionProvider.aggregateFunction(
-            prefHandler.getBoolean(
-                PrefKey.DB_SAFE_MODE,
-                false
-            )
-        )
+        val aggregateFunction = this.aggregateFunction
         val cte = accountQueryCTE(
             homeCurrency,
             prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day") == "current",

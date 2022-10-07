@@ -74,6 +74,7 @@ class FilterHandler(val activity: BaseMyExpenses) {
 
     fun handleFilter(itemId: Int): Boolean {
         with(activity) {
+            if (accountCount == 0) return false
             if (removeFilter(itemId)) return true
             when (itemId) {
                 R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(Unit)

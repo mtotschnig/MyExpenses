@@ -304,10 +304,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int BUDGET_ALLOCATIONS = 65;
   private static final int ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66;
 
-  public static String aggregateFunction(boolean safeMode) {
-    return safeMode ? "total" : "sum";
-  }
-
   @Override
   public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                       @Nullable String[] selectionArgs, @Nullable String sortOrder) {
@@ -323,7 +319,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     String limit = null;
     Bundle extras = new Bundle();
 
-    String aggregateFunction = aggregateFunction(prefHandler.getBoolean(PrefKey.DB_SAFE_MODE, false));
+    String aggregateFunction = getAggregateFunction();
 
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
