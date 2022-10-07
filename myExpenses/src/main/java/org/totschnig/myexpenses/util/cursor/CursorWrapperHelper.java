@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.util.cursor;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;

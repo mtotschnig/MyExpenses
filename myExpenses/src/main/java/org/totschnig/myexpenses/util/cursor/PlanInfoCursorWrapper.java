@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.util.cursor;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO;

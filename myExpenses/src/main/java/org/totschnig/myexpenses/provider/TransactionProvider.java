@@ -72,7 +72,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -879,10 +879,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     c = measureAndLogQuery(qb, uri, db, projection, computeWhere(selection, additionalWhere), selectionArgs, groupBy, having, sortOrder, limit);
 
-    if (!extras.isEmpty()) {
-      //TODO check fallback for API < 23
-      c.setExtras(extras);
-    }
+    c = wrapWithResultCompat(c, extras);
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {

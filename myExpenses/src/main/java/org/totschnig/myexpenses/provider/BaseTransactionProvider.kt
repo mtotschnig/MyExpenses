@@ -4,7 +4,9 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.CursorWrapper
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
@@ -530,4 +532,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
         initOpenHelper()
         return true
     }
+
+    fun wrapWithResultCompat(cursor: Cursor, extras: Bundle) = when {
+            extras.isEmpty -> cursor
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> cursor.apply {
+                setExtras(extras)
+            }
+            else -> object: CursorWrapper(cursor) {
+                override fun getExtras() = extras
+            }
+        }
 }
