@@ -3,12 +3,15 @@ package org.totschnig.myexpenses.activity
 import android.app.ProgressDialog
 import android.content.ComponentName
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.menu.MenuBuilder
@@ -99,6 +102,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.math.sign
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
@@ -148,6 +152,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var toolbar: Toolbar
 
+    var drawerToggle: ActionBarDrawerToggle? = null
+
     private var currentBalance: String? = null
 
     val viewModel: MyExpensesViewModel by viewModels()
@@ -178,7 +184,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             invalidateOptionsMenu()
         }
 
-    fun finishActionMode() {
+    protected fun finishActionMode() {
         actionMode?.let {
             it.finish()
             viewModel.selectedTransactionSum = 0L
@@ -253,6 +259,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
             })
         } else actionMode?.invalidate()
+        updateActionModeTitle()
     }
 
     lateinit var remapHandler: RemapHandler
@@ -270,6 +277,63 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     DiscoveryHelper.Feature.fab_long_press
                 )
             }
+        }
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle?.syncState()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        drawerToggle?.onConfigurationChanged(newConfig)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (drawerToggle?.onOptionsItemSelected(item) == true) {
+            return true
+        }
+
+        if (item.itemId == R.id.SCAN_MODE_COMMAND) {
+            toggleScanMode()
+            return true
+        }
+        return handleGrouping(item) || handleSortDirection(item) || filterHandler.handleFilter(item.itemId) || super.onOptionsItemSelected(
+            item
+        )
+    }
+
+    protected open fun handleSortDirection(item: MenuItem) =
+        Utils.getSortDirectionFromMenuItemId(item.itemId)?.let { newSortDirection ->
+            if (!item.isChecked) {
+                if (accountId == HOME_AGGREGATE_ID) {
+                    viewModel.persistSortDirectionHomeAggregate(newSortDirection)
+                } else if (accountId < 0) {
+                    viewModel.persistSortDirectionAggregate(currentCurrency!!, newSortDirection)
+                } else {
+                    viewModel.persistSortDirection(accountId, newSortDirection)
+                }
+            }
+            true
+        } ?: false
+
+    private fun handleGrouping(item: MenuItem) =
+        Utils.getGroupingFromMenuItemId(item.itemId)?.let { newGrouping ->
+            if (!item.isChecked) {
+                viewModel.persistGrouping(accountId, newGrouping)
+            }
+            true
+        } ?: false
+
+    open fun toggleScanMode() {
+        val oldMode = prefHandler.getBoolean(PrefKey.OCR, false)
+        val newMode = !oldMode
+        if (newMode) {
+            contribFeatureRequested(ContribFeature.OCR, false)
+        } else {
+            prefHandler.putBoolean(PrefKey.OCR, newMode)
+            updateFab()
+            invalidateOptionsMenu()
         }
     }
 
@@ -337,7 +401,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             LaunchedEffect(selectionState.size) {
                                 if (selectionState.isNotEmpty()) {
                                     startActionMode()
-                                    updateActionModeTitle()
                                 } else {
                                     finishActionMode()
                                 }
@@ -582,6 +645,25 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+        binding.drawer?.let { drawer ->
+            drawerToggle = object : ActionBarDrawerToggle(
+                this, drawer,
+                toolbar, R.string.drawer_open, R.string.drawer_close
+            ) {
+                //at the moment we finish action if drawer is opened;
+                // and do NOT open it again when drawer is closed
+                override fun onDrawerOpened(drawerView: View) {
+                    super.onDrawerOpened(drawerView)
+                    finishActionMode()
+                }
+
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                    super.onDrawerSlide(drawerView, 0f) // this disables the animation
+                }
+            }.also {
+                drawer.addDrawerListener(it)
+            }
+        }
     }
 
     fun showDetails(transactionId: Long) {
@@ -616,10 +698,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun edit(transaction: Transaction2, clone: Boolean = false) {
-        val isTransferPartPeer =
-            false //TODO DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null
         checkSealed(listOf(transaction.id)) {
-            if (isTransferPartPeer) {
+            if (transaction.transferPeerParent != null) {
                 showSnackBar(R.string.warning_splitpartcategory_context)
             } else {
                 val i = Intent(this, ExpenseEdit::class.java)
@@ -882,17 +962,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         )
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?) =
+    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {
-            true
+            return true
         } else when (command) {
+            R.id.HISTORY_COMMAND -> {
+                if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
+                    contribFeatureRequested(ContribFeature.HISTORY, null)
+                } else {
+                    showMessage(R.string.no_expenses)
+                }
+            }
+            R.id.DISTRIBUTION_COMMAND -> {
+                if ((sumInfo as? SumInfoLoaded)?.mappedCategories == true) {
+                    contribFeatureRequested(ContribFeature.DISTRIBUTION, null)
+                } else {
+                    showMessage(R.string.dialog_command_disabled_distribution)
+                }
+            }
             R.id.GROUPING_ACCOUNTS_COMMAND -> {
                 MenuDialog.build()
                     .menu(this, R.menu.accounts_grouping)
                     .choiceIdPreset(accountGrouping.value.commandId.toLong())
                     .title(R.string.menu_grouping)
                     .show(this, DIALOG_TAG_GROUPING)
-                true
             }
             R.id.SHARE_PDF_COMMAND -> {
                 shareViewModel.share(
@@ -900,7 +993,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     shareTarget,
                     "application/pdf"
                 )
-                true
             }
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -915,7 +1007,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     ?: run {
                         Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()
                     }
-                true
             }
             R.id.DELETE_ACCOUNT_COMMAND_DO -> {
                 val accountIds = tag as Array<Long>
@@ -947,11 +1038,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                 }
-                true
             }
             R.id.PRINT_COMMAND -> {
-                //if (hasItems) { //TODO
-                if (true) {
+                if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
                     AppDirHelper.checkAppDir(this).onSuccess {
                         contribFeatureRequested(ContribFeature.PRINT, null)
                     }.onFailure {
@@ -960,7 +1049,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 } else {
                     showExportDisabledCommand()
                 }
-                true
             }
             R.id.BALANCE_COMMAND -> {
                 with(currentAccount) {
@@ -986,16 +1074,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         showMessage(R.string.dialog_command_disabled_balance)
                     }
                 }
-                true
             }
             R.id.SYNC_COMMAND -> {
                 currentAccount.takeIf { it.syncAccountName != null }?.let {
                     requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
                 }
-                true
             }
-            else -> false
+            else -> return false
         }
+        return true
+    }
 
     fun setupFabSubMenu() {
         floatingActionButton.setOnLongClickListener { fab ->
@@ -1236,12 +1324,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
             ContribFeature.PRINT -> {
                 val args = Bundle().apply {
-
-                    putParcelableArrayList(
-                        KEY_FILTER,
-                        //TODO //it.filterCriteria
-                        arrayListOf()
-                    )
+                    addFilter()
                     putLong(KEY_ROWID, accountId)
                     putLong(KEY_CURRENT_BALANCE, currentAccount.currentBalance)
                 }
@@ -1383,9 +1466,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun doReset() {
-        //TODO
-        //if (hasItems) {
-        if (true) {
+        if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
             exportViewModel.checkAppDir().observe(this) { result ->
                 result.onSuccess {
                     with(currentAccount) {
@@ -1398,7 +1479,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         currency.code,
                                         sealed,
                                         hasExported,
-                                        false // TODO fragment.isFiltered
+                                        !viewModel.filterPersistence.getValue(accountId).whereFilter.isEmpty
                                     )
                                 ).show(supportFragmentManager, "EXPORT")
                             }
@@ -1549,12 +1630,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun startExport(args: Bundle) {
-        //TODO
-        /*args.putParcelableArrayList(
+    private fun Bundle.addFilter() {
+        putParcelableArrayList(
             KEY_FILTER,
-            currentFragment!!.filterCriteria
-        )*/
+            ArrayList(viewModel.filterPersistence.getValue(accountId).whereFilter.criteria)
+        )
+    }
+
+    fun startExport(args: Bundle) {
+        args.addFilter()
         supportFragmentManager.beginTransaction()
             .add(
                 ProgressDialogFragment.newInstance(

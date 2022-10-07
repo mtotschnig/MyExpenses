@@ -86,20 +86,6 @@ public class MyExpenses extends BaseMyExpenses implements
 
   private AdHandler adHandler;
 
-  public void toggleScanMode() {
-    final boolean oldMode = prefHandler.getBoolean(OCR, false);
-    final boolean newMode = !oldMode;
-    if (newMode) {
-      contribFeatureRequested(ContribFeature.OCR, false);
-    } else {
-      prefHandler.putBoolean(OCR, newMode);
-      updateFab();
-      invalidateOptionsMenu();
-    }
-  }
-
-  private ActionBarDrawerToggle mDrawerToggle;
-
   private RoadmapViewModel roadmapViewModel;
 
   @Override
@@ -121,42 +107,6 @@ public class MyExpenses extends BaseMyExpenses implements
       adHandler.maybeRequestNewInterstitial();
     } catch (Exception e) {
       CrashHandler.report(e);
-    }
-
-    if (binding.drawer != null) {
-      mDrawerToggle = new ActionBarDrawerToggle(this, binding.drawer,
-          toolbar, R.string.drawer_open, R.string.drawer_close) {
-
-        /**
-         * Called when a drawer has settled in a completely closed state.
-         */
-        public void onDrawerClosed(View view) {
-          super.onDrawerClosed(view);
-          //TODO
-/*          TransactionList tl = getCurrentFragment();
-          if (tl != null)
-            tl.onDrawerClosed();*/
-        }
-
-        /**
-         * Called when a drawer has settled in a completely open state.
-         */
-        public void onDrawerOpened(View drawerView) {
-          super.onDrawerOpened(drawerView);
-          //TODO
-         /* TransactionList tl = getCurrentFragment();
-          if (tl != null)
-            tl.onDrawerOpened();*/
-        }
-
-        @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
-          super.onDrawerSlide(drawerView, 0); // this disables the animation
-        }
-      };
-
-      // Set the drawer toggle as the DrawerListener
-      binding.drawer.addDrawerListener(mDrawerToggle);
     }
 
     getNavigationView().setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
@@ -290,24 +240,6 @@ public class MyExpenses extends BaseMyExpenses implements
     Intent i;
     if (command == R.id.BUDGET_COMMAND) {
       contribFeatureRequested(ContribFeature.BUDGET, null);
-      return true;
-    } else if (command == R.id.DISTRIBUTION_COMMAND) {
-      //tl = getCurrentFragment(); TODO
-      //if (tl != null && tl.hasMappedCategories()) {
-      if (true) {
-        contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
-      } else {
-        showMessage(R.string.dialog_command_disabled_distribution);
-      }
-      return true;
-    } else if (command == R.id.HISTORY_COMMAND) {
-      //tl = getCurrentFragment(); TODO
-      //if (tl != null && tl.hasItems()) {
-      if (true) {
-        contribFeatureRequested(ContribFeature.HISTORY, null);
-      } else {
-        showMessage(R.string.no_expenses);
-      }
       return true;
     } else if (command == R.id.CREATE_COMMAND) {
       if (getAccountCount() == 0) {
@@ -455,34 +387,6 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   @Override
-  protected void onPostCreate(Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    // Sync the toggle state after onRestoreInstanceState has occurred.
-    if (mDrawerToggle != null) mDrawerToggle.syncState();
-  }
-
-  @Override
-  public void onConfigurationChanged(@NonNull Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    if (mDrawerToggle != null) mDrawerToggle.onConfigurationChanged(newConfig);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Pass the event to ActionBarDrawerToggle, if it returns
-    // true, then it has handled the app icon touch event
-    if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
-      return true;
-    }
-    if (item.getItemId() == R.id.SCAN_MODE_COMMAND) {
-      toggleScanMode();
-      return true;
-    }
-
-    return handleGrouping(item) || handleSortDirection(item) || filterHandler.handleFilter(item.getItemId()) || super.onOptionsItemSelected(item);
-  }
-
-  @Override
   public void onPositive(Bundle args, boolean checked) {
     super.onPositive(args, checked);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
@@ -504,6 +408,7 @@ public class MyExpenses extends BaseMyExpenses implements
       balance(args.getLong(KEY_ROWID), checked);
     } else if (command == R.id.REMAP_COMMAND) {
       remapHandler.remap(args, checked);
+      finishActionMode();
     } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
       finishActionMode();
       startTaskExecution(TASK_SPLIT, args, R.string.saving);
@@ -552,34 +457,6 @@ public class MyExpenses extends BaseMyExpenses implements
     } else {
       super.onBackPressed();
     }
-  }
-
-  protected boolean handleGrouping(MenuItem item) {
-    Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
-    if (newGrouping != null) {
-      if (!item.isChecked()) {
-        getViewModel().persistGrouping(getAccountId(), newGrouping);
-      }
-      return true;
-    }
-    return false;
-  }
-
-  protected boolean handleSortDirection(MenuItem item) {
-    SortDirection newSortDirection = Utils.getSortDirectionFromMenuItemId(item.getItemId());
-    if (newSortDirection != null) {
-      if (!item.isChecked()) {
-        if (getAccountId() == Account.HOME_AGGREGATE_ID) {
-          getViewModel().persistSortDirectionHomeAggregate(newSortDirection);
-        } else if (getAccountId() < 0) {
-          getViewModel().persistSortDirectionAggregate(getCurrentCurrency(), newSortDirection);
-        } else {
-          getViewModel().persistSortDirection(getAccountId(), newSortDirection);
-        }
-      }
-      return true;
-    }
-    return false;
   }
 
   @Override

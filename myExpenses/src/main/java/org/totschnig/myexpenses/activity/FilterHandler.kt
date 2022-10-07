@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
-class FilterHandler(val activity: BaseMyExpenses) {
+class FilterHandler(private val activity: BaseMyExpenses) {
     fun configureSearchMenu(searchMenu: MenuItem) {
         with(activity) {
             val sumInfoIsLoaded = sumInfo is SumInfoLoaded
@@ -135,13 +135,6 @@ class FilterHandler(val activity: BaseMyExpenses) {
                         val labels = tagList.joinToString { it.label }
                         activity.addFilterCriterion(TagCriterion(labels, *ids))
                     }
-/*
-*  final ArrayList<Tag> tagList = intent.getParcelableArrayListExtra(KEY_TAG_LIST);
-      if (tagList != null && !tagList.isEmpty()) {
-        long[] tagIds = Stream.of(tagList).mapToLong(Tag::getId).toArray();
-        String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
-        addFilterCriteria(new TagCriterion(label, tagIds));
-      } */
                 } else {
                     intent?.extras?.let {
                         val rowId = it.getLong(DatabaseConstants.KEY_ROWID)
