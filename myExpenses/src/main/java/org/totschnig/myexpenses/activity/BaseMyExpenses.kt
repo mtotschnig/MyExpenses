@@ -29,6 +29,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -99,6 +100,7 @@ import kotlin.math.sign
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
+@OptIn(ExperimentalPagerApi::class)
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
     @JvmField
     @State
