@@ -295,9 +295,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             else
                 LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
 
-        binding.viewPagerMain.viewPager.setContent {
-            viewModel.accountData.collectAsState().value.onSuccess { accountData ->
 
+        binding.viewPagerMain.viewPager.setContent {
+            val result = viewModel.accountData.collectAsState()
+
+            if (result.value.isSuccess) {
+                val accountData = remember {
+                    derivedStateOf { result.value.getOrThrow() }
+                }
                 AppTheme(context = this@BaseMyExpenses) {
                     LaunchedEffect(viewModel.pagerState.currentPage) {
                         if (setCurrentAccount(viewModel.pagerState.currentPage)) {
@@ -308,8 +313,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             }
                         }
                     }
-                    LaunchedEffect(accountData) {
-                        if (accountData.isNotEmpty()) {
+                    LaunchedEffect(accountData.value) {
+                        if (accountData.value.isNotEmpty()) {
                             moveToAccount()
                             viewModel.sumInfo(currentAccount).collect {
                                 sumInfo = it
@@ -321,10 +326,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                     HorizontalPager(
                         verticalAlignment = Alignment.Top,
-                        count = accountData.count(),
+                        count = accountData.value.count(),
                         state = viewModel.pagerState
                     ) { page ->
-                        val account = remember { derivedStateOf { accountData[page] } }.value
+                        val account = remember { derivedStateOf { accountData.value[page] } }.value
                         val data =
                             remember(account.sortDirection) { viewModel.loadData(account) }
                         val headerData = viewModel.headerData(account)
