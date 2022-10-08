@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentUris
+import android.content.ContentValues
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.lifecycle.viewModelScope
@@ -9,12 +11,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -41,7 +45,7 @@ class UpgradeHandlerViewModel(application: Application) :
             val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "
             val projection = arrayOf(hasIncomeColumn)
             disposable = briteContentResolver.createQuery(
-                TransactionProvider.TRANSACTIONS_URI,
+                TRANSACTIONS_URI,
                 projection, null, null, null, false
             )
                 .subscribe { query ->
@@ -91,9 +95,9 @@ class UpgradeHandlerViewModel(application: Application) :
             }
 
             disposable = briteContentResolver.createQuery(
-                TransactionProvider.TEMPLATES_URI, null, String.format(
+                TEMPLATES_URI, null, String.format(
                     Locale.ROOT, "%s is not null",
-                    DatabaseConstants.KEY_PLANID
+                    KEY_PLANID
                 ), null, null, false
             )
                 .mapToList { cursor -> Template(cursor) }
@@ -129,7 +133,7 @@ class UpgradeHandlerViewModel(application: Application) :
         }
         if (fromVersion < 518) {
             with(prefHandler) {
-                //semantics of pref has changed, previously true meant do Aggregate, false means dont
+                //semantics of pref has changed, previously true meant do Aggregate, false means don't
                 //now unset means do Aggregate, on Distribution Screen true means show income, false means show Expenses
                 if (getBoolean(
                         PrefKey.DISTRIBUTION_AGGREGATE_TYPES,
@@ -145,24 +149,22 @@ class UpgradeHandlerViewModel(application: Application) :
         }
         if (fromVersion < 539) {
             viewModelScope.launch(coroutineDispatcher) {
-                contentResolver.call(
-                    TransactionProvider.DUAL_URI,
-                    TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
-                )?.getLongArray(TransactionProvider.KEY_RESULT)?.size?.let { corruptedCount ->
-                    if (corruptedCount > 0) {
-                        _upgradeInfo.update {
-                            R.string.corrupted_data_detected
+                contentResolver.call(DUAL_URI, METHOD_CHECK_CORRUPTED_DATA_987, null, null)
+                    ?.getLongArray(KEY_RESULT)?.size?.let { corruptedCount ->
+                        if (corruptedCount > 0) {
+                            _upgradeInfo.update {
+                                R.string.corrupted_data_detected
+                            }
+                            CrashHandler.report(Exception("Bug 987: $corruptedCount corrupted transactions detected"))
                         }
-                        CrashHandler.report(Exception("Bug 987: $corruptedCount corrupted transactions detected"))
                     }
-                }
             }
         }
         if (fromVersion < 552) {
             viewModelScope.launch(coroutineDispatcher) {
                 val budgetIds: List<Long> = contentResolver.query(
-                    TransactionProvider.BUDGETS_URI,
-                    arrayOf("${DatabaseConstants.TABLE_BUDGETS}.${DatabaseConstants.KEY_ROWID}"),
+                    BUDGETS_URI,
+                    arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
                     null, null, null
                 )?.use { cursor -> cursor.asSequence.map { it.getLong(0) }.toList() }
                     ?: emptyList()
@@ -176,6 +178,38 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                     }
                 }
+            }
+        }
+        if (fromVersion < 557) {
+            viewModelScope.launch(coroutineDispatcher) {
+                settings.all.entries.filter { it.key.startsWith("defaultBudget") }
+                    .forEach { entry ->
+                        val (_, accountIdAsString, grouping) = entry.key.split('_')
+                        val accountId = accountIdAsString.toLong()
+                        val (selection, selectionArgs) = when {
+                            accountId > 0L -> {
+                                "$KEY_ACCOUNTID = ? AND $KEY_GROUPING = ?}" to
+                                        arrayOf(accountIdAsString, grouping)
+                            }
+                            accountId == AggregateAccount.HOME_AGGREGATE_ID -> {
+                                "$KEY_CURRENCY = ? AND $KEY_GROUPING = ?}" to
+                                        arrayOf(AGGREGATE_HOME_CURRENCY_CODE, grouping)
+                            }
+                            else -> {
+                                "$KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE -$KEY_ROWID = ?) AND $KEY_GROUPING = ?}" to
+                                        arrayOf(accountIdAsString, grouping)
+                            }
+                        }
+                        val updateCount = contentResolver.update(
+                            ContentUris.withAppendedId(BUDGETS_URI, entry.value as Long),
+                            ContentValues(1).also { it.put(KEY_IS_DEFAULT, 1) },
+                            selection,
+                            selectionArgs
+                        )
+                        if (updateCount != 1) {
+                            CrashHandler.report(IllegalStateException("Expected one budget for ${entry.key} to be updated, but updateCount is $updateCount"))
+                        }
+                    }
             }
         }
     }
