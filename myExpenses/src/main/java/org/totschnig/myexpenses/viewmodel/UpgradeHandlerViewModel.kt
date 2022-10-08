@@ -188,15 +188,15 @@ class UpgradeHandlerViewModel(application: Application) :
                         val accountId = accountIdAsString.toLong()
                         val (selection, selectionArgs) = when {
                             accountId > 0L -> {
-                                "$KEY_ACCOUNTID = ? AND $KEY_GROUPING = ?}" to
+                                "$KEY_ACCOUNTID = ? AND $KEY_GROUPING = ?" to
                                         arrayOf(accountIdAsString, grouping)
                             }
                             accountId == AggregateAccount.HOME_AGGREGATE_ID -> {
-                                "$KEY_CURRENCY = ? AND $KEY_GROUPING = ?}" to
+                                "$KEY_CURRENCY = ? AND $KEY_GROUPING = ?" to
                                         arrayOf(AGGREGATE_HOME_CURRENCY_CODE, grouping)
                             }
                             else -> {
-                                "$KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE -$KEY_ROWID = ?) AND $KEY_GROUPING = ?}" to
+                                "$KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE -$KEY_ROWID = ?) AND $KEY_GROUPING = ?" to
                                         arrayOf(accountIdAsString, grouping)
                             }
                         }
@@ -209,6 +209,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         if (updateCount != 1) {
                             CrashHandler.report(IllegalStateException("Expected one budget for ${entry.key} to be updated, but updateCount is $updateCount"))
                         }
+                        prefHandler.remove(entry.key)
                     }
             }
         }
