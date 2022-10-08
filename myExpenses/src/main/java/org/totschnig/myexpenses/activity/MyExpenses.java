@@ -20,7 +20,6 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUE
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
@@ -31,19 +30,15 @@ import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewMode
 import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -56,13 +51,9 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
-import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
@@ -300,10 +291,6 @@ public class MyExpenses extends BaseMyExpenses implements
           .title(R.string.menu_sort)
           .show(this, DIALOG_TAG_SORTING);
       return true;
-    } else if (command == R.id.CLEAR_FILTER_COMMAND) {
-      //TODO
-      //getCurrentFragment().clearFilter();
-      return true;
     } else if (command == R.id.ROADMAP_COMMAND) {
       Intent intent = new Intent(this, RoadmapVoteActivity.class);
       startActivity(intent);
@@ -464,10 +451,4 @@ public class MyExpenses extends BaseMyExpenses implements
     getViewModel().sortAccounts(sortedIds);
   }
 
-  public void clearFilter(View view) {
-    Bundle b = new Bundle();
-    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.clear_all_filters));
-    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND);
-    ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "CLEAR_FILTER");
-  }
 }

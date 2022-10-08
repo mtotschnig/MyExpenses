@@ -118,7 +118,7 @@ class FilterPersistence(
 
     private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)
 
-    fun clearFilter() {
+    fun clear() {
         if (immediatePersist) {
             whereFilter.criteria.forEach { criteria ->
                 prefHandler.remove(

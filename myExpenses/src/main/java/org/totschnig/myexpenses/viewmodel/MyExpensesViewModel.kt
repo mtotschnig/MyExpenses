@@ -117,6 +117,9 @@ class MyExpensesViewModel(
         PagerState(0)
     }
 
+    val currentFilter: FilterPersistence
+        get() = filterPersistence.getValue(selectedAccount.value)
+
     val filterPersistence: Map<Long, FilterPersistence> =
         lazyMap {
             FilterPersistence(

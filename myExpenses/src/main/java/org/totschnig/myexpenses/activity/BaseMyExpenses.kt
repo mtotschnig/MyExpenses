@@ -403,7 +403,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 .collectAsState(WhereFilter.empty())
                                 .value
                                 .takeIf { !it.isEmpty }?.let {
-                                    FilterCard(it)
+                                    FilterCard(it, ::clearFilter)
                                 }
                             headerData.collectAsState(null).value?.let { headerData ->
                                 TransactionList(
@@ -580,7 +580,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
                                 viewModel.triggerAccountListRefresh()
                             })
-                        }
+                    }
                 }
 
             }
@@ -936,6 +936,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.CLEAR_FILTER_COMMAND -> {
+                viewModel.currentFilter.clear()
+            }
             R.id.HISTORY_COMMAND -> {
                 if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
                     contribFeatureRequested(ContribFeature.HISTORY, null)
@@ -1449,7 +1452,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         currency.code,
                                         sealed,
                                         hasExported,
-                                        !viewModel.filterPersistence.getValue(accountId).whereFilter.isEmpty
+                                        !viewModel.currentFilter.whereFilter.isEmpty
                                     )
                                 ).show(supportFragmentManager, "EXPORT")
                             }
@@ -1603,7 +1606,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun Bundle.addFilter() {
         putParcelableArrayList(
             KEY_FILTER,
-            ArrayList(viewModel.filterPersistence.getValue(accountId).whereFilter.criteria)
+            ArrayList(viewModel.currentFilter.whereFilter.criteria)
         )
     }
 
@@ -1668,6 +1671,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         invalidateOptionsMenu()
         true
     } else false
+
+    fun clearFilter() {
+        ConfirmationDialogFragment.newInstance(Bundle().apply {
+            putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.clear_all_filters))
+            putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
+        }).show(supportFragmentManager, "CLEAR_FILTER")
+    }
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
