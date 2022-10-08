@@ -97,22 +97,6 @@ fun budgetSelect(uri: Uri) = with(parseBudgetCategoryUri(uri)) {
     "$KEY_CATID ${"= $second"} AND $KEY_BUDGETID = $first"
 }
 
-fun budgetDefaultSelect(
-    db: SupportSQLiteDatabase,
-    uri: Uri
-): Long? {
-    val accountId = uri.pathSegments[2].toLong()
-    val group = uri.pathSegments[3]
-    val (accountSelection, accountSelectionArg) = when {
-        accountId > 0 -> "$KEY_ACCOUNTID = ?" to accountId
-        accountId == AggregateAccount.HOME_AGGREGATE_ID -> "$KEY_CURRENCY = ?" to AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
-        else -> "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to accountId
-    }
-    return db.query(TABLE_BUDGETS, arrayOf(KEY_ROWID), "$KEY_IS_DEFAULT = 1 AND $KEY_GROUPING = ? AND $accountSelection", arrayOf(group, accountSelectionArg))
-        .takeIf { it.moveToFirst() }
-        ?.use { it.getLong(0) }
-}
-
 fun budgetSelectForGroup(year: String?, second: String?) =
     if (year == null) "" else "WHERE $KEY_YEAR = $year ${second?.let { "AND $KEY_SECOND_GROUP = $it" } ?: ""}"
 

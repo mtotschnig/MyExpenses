@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -281,10 +282,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 }
             }
             if (shouldUseGroupStart()) {
-                builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_START, "1")
+                builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_START)
             }
             if (includeTransfers) {
-                builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS, "1")
+                builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS)
             }
             return CursorLoader(requireActivity(),
                     builder.build(),

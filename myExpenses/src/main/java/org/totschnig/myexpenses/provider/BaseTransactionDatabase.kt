@@ -183,7 +183,7 @@ abstract class BaseTransactionDatabase :
             null,
             null,
             null
-        )?.use {
+        ).use {
             it.asSequence.forEach {
                 db.update(
                     "categories",

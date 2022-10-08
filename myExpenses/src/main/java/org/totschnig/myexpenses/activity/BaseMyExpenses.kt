@@ -66,6 +66,8 @@ import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
+import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -76,7 +78,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
@@ -495,6 +496,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         }
         setupToolbarPopupMenu()
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 upgradeHandlerViewModel.upgradeInfo.collect { info ->
@@ -512,6 +514,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 exportViewModel.publishProgress.collect { progress ->
@@ -521,6 +524,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 exportViewModel.result.collect { result ->
@@ -535,14 +539,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.hasHiddenAccounts.collect { result ->
+                    navigationView.menu.findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).isVisible = result
+                }
+            }
+        }
+
         if (resources.getDimensionPixelSize(R.dimen.drawerWidth) > resources.displayMetrics.widthPixels) {
             binding.accountPanel.root.layoutParams.width = resources.displayMetrics.widthPixels
         }
 
         binding.accountPanel.accountList.setContent {
             AppTheme(this) {
-                viewModel.accountData.collectAsState().value.let {
-                    it.onSuccess {
+                viewModel.accountData.collectAsState().value.let { result ->
+                    result.onSuccess {
                         AccountList(
                             accountData = it,
                             grouping = accountGrouping.value,
@@ -573,13 +585,28 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
                         )
                     }.onFailure {
-                        showSnackBar(
-                            message = "Data loading failed",
-                            duration = Snackbar.LENGTH_INDEFINITE,
-                            snackBarAction = SnackbarAction(R.string.safe_mode) {
-                                prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
-                                viewModel.triggerAccountListRefresh()
-                            })
+                        val (message, forceQuit) = when(it) {
+                            is SQLiteDowngradeFailedException -> "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." to true
+                            is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact support@myexpenses.mobi !" to true
+                            else -> "Data loading failed" to false
+                        }
+                        showMessage(
+                            message,
+                            if (!forceQuit) {
+                                MessageDialogFragment.Button(
+                                    R.string.safe_mode,
+                                    R.id.SAFE_MODE_COMMAND,
+                                    null
+                                )
+                            } else null,
+                            null,
+                            MessageDialogFragment.Button(
+                                R.string.button_label_close,
+                                R.id.QUIT_COMMAND,
+                                null
+                            ),
+                            false
+                        )
                     }
                 }
 
@@ -936,6 +963,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.SAFE_MODE_COMMAND -> {
+                prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
+                viewModel.triggerAccountListRefresh()
+            }
             R.id.CLEAR_FILTER_COMMAND -> {
                 viewModel.currentFilter.clear()
             }

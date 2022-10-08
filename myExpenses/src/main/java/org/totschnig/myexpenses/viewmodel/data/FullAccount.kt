@@ -42,9 +42,9 @@ data class FullAccount(
     //Tuple4 of Uri / projection / selection / selectionArgs
     fun loadingInfo(context: Context): Tuple4<Uri, Array<String>, String, Array<String>?> {
         val builder = Transaction.EXTENDED_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")
+            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT)
         if (id < 0) {
-            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, "1")
+            builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS)
         }
         val uri = builder.build()
         val projection = when {

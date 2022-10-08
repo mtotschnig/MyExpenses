@@ -26,14 +26,14 @@ fun <T> Flow<Query>.mapToListWithExtra(
     }?.let { emit(it) }
 }
 
-fun <T> Flow<Query>.mapToListCatching(
+fun <T> Flow<Query>.mapToListCatchingWithExtra(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
     mapper: (Cursor) -> T
-): Flow<Result<List<T>>> = transform { query ->
+): Flow<Result<Pair<Bundle, List<T>>>> = transform { query ->
     withContext(dispatcher) {
         try {
             query.run()?.use { cursor ->
-                buildList {
+                cursor.extras to buildList {
                     while (cursor.moveToNext()) {
                         this.add(mapper(cursor))
                     }

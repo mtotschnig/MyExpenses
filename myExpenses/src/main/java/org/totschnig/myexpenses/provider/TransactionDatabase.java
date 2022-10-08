@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Environment;
@@ -111,7 +110,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private static String buildViewDefinition(String tableName, boolean withTags) {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append( " AS ").append((String) DbConstantsKt.getCategoryTreeForView())
+    stringBuilder.append( " AS ").append(DbConstantsKt.getCategoryTreeForView())
         .append(" SELECT ").append(tableName).append(".*, ")
         .append("Tree.").append(KEY_PATH).append(", ")
         .append(TABLE_PAYEES).append(".").append(KEY_PAYEE_NAME).append(", ")
@@ -139,23 +138,22 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   }
 
   private static String buildViewWithAccount() {
-    return new StringBuilder()
-        .append(" AS SELECT ").append(TABLE_TRANSACTIONS).append(".*").append(", ")
-        .append(KEY_COLOR).append(", ")
-        .append(KEY_CURRENCY).append(", ")
-        .append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
-        .append(TABLE_ACCOUNTS).append(".").append(KEY_TYPE).append(" AS ").append(KEY_ACCOUNT_TYPE).append(", ")
-        .append(TABLE_ACCOUNTS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_ACCOUNT_LABEL)
-        .append(" FROM ").append(TABLE_TRANSACTIONS).append(" LEFT JOIN ")
-        .append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
-        .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID).toString();
+    return " AS SELECT " + TABLE_TRANSACTIONS + ".*" + ", " +
+            KEY_COLOR + ", " +
+            KEY_CURRENCY + ", " +
+            KEY_EXCLUDE_FROM_TOTALS + ", " +
+            TABLE_ACCOUNTS + "." + KEY_TYPE + " AS " + KEY_ACCOUNT_TYPE + ", " +
+            TABLE_ACCOUNTS + "." + KEY_LABEL + " AS " + KEY_ACCOUNT_LABEL +
+            " FROM " + TABLE_TRANSACTIONS + " LEFT JOIN " +
+            TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID +
+            " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
   }
 
   private static String buildViewDefinitionExtended(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append( " AS ");
     if (!tableName.equals(TABLE_CHANGES)) {
-      stringBuilder.append((String) DbConstantsKt.getCategoryTreeForView());
+      stringBuilder.append(DbConstantsKt.getCategoryTreeForView());
     }
     stringBuilder.append(" SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
         .append(".").append(KEY_PAYEE_NAME).append(", ")
@@ -1313,17 +1311,15 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 46) {
         db.execSQL("ALTER TABLE payee add column name_normalized text");
         Cursor c = MoreDbUtilsKt.query(db, "payee", new String[]{"_id", "name"}, null, null, null, null, null, null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            ContentValues v = new ContentValues();
-            while (c.getPosition() < c.getCount()) {
-              v.put("name_normalized", Utils.normalize(c.getString(1)));
-              db.update("payee", CONFLICT_NONE, v, "_id = " + c.getLong(0), null);
-              c.moveToNext();
-            }
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          while (c.getPosition() < c.getCount()) {
+            v.put("name_normalized", Utils.normalize(c.getString(1)));
+            db.update("payee", CONFLICT_NONE, v, "_id = " + c.getLong(0), null);
+            c.moveToNext();
           }
-          c.close();
         }
+        c.close();
       }
 
       if (oldVersion < 47) {
@@ -1487,17 +1483,15 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 55) {
         db.execSQL("ALTER TABLE categories add column label_normalized text");
         Cursor c = MoreDbUtilsKt.query(db,"categories", new String[]{"_id", "label"}, null, null, null, null, null, null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            ContentValues v = new ContentValues();
-            while (c.getPosition() < c.getCount()) {
-              v.put("label_normalized", Utils.normalize(c.getString(1)));
-              db.update("categories", CONFLICT_NONE, v, "_id = " + c.getLong(0), null);
-              c.moveToNext();
-            }
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          while (c.getPosition() < c.getCount()) {
+            v.put("label_normalized", Utils.normalize(c.getString(1)));
+            db.update("categories", CONFLICT_NONE, v, "_id = " + c.getLong(0), null);
+            c.moveToNext();
           }
-          c.close();
         }
+        c.close();
       }
 
       if (oldVersion < 56) {
@@ -1510,18 +1504,16 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         //The sort key could be set by user in previous versions, now it is handled internally
         Cursor c = MoreDbUtilsKt.query(db, "accounts", new String[]{"_id", "sort_key"}, null, null, null, null, "sort_key ASC", null);
         boolean hasAccountSortKeySet = false;
-        if (c != null) {
-          if (c.moveToFirst()) {
-            ContentValues v = new ContentValues();
-            while (c.getPosition() < c.getCount()) {
-              v.put("sort_key", c.getPosition() + 1);
-              db.update("accounts", CONFLICT_NONE, v, "_id = ?", new String[]{c.getString(0)});
-              if (c.getInt(1) != 0) hasAccountSortKeySet = true;
-              c.moveToNext();
-            }
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          while (c.getPosition() < c.getCount()) {
+            v.put("sort_key", c.getPosition() + 1);
+            db.update("accounts", CONFLICT_NONE, v, "_id = ?", new String[]{c.getString(0)});
+            if (c.getInt(1) != 0) hasAccountSortKeySet = true;
+            c.moveToNext();
           }
-          c.close();
         }
+        c.close();
         String legacy = PrefKey.SORT_ORDER_LEGACY.getString("USAGES");
         PrefKey.SORT_ORDER_TEMPLATES.putString(legacy);
         PrefKey.SORT_ORDER_CATEGORIES.putString(legacy);
@@ -1534,15 +1526,13 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         try {
           if (CALENDAR.hasPermission(MyApplication.getInstance())) {
             Cursor c = MoreDbUtilsKt.query(db,"templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null, null);
-            if (c != null) {
-              if (c.moveToFirst()) {
-                while (!c.isAfterLast()) {
-                  Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
-                  c.moveToNext();
-                }
+            if (c.moveToFirst()) {
+              while (!c.isAfterLast()) {
+                Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
+                c.moveToNext();
               }
-              c.close();
             }
+            c.close();
           }
         } catch (Exception e) {
           //we have seen updateCustomAppUri fail, this should not prevent the database upgrade
@@ -1641,9 +1631,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("DROP TABLE changes_old");
       }
 
-      if (oldVersion < 62) {
+      //if (oldVersion < 62) {
         //refreshViewsExtended(db);
-      }
+      //}
 
       if (oldVersion < 63) {
         db.execSQL("CREATE TABLE _sync_state (status integer)");
@@ -1753,17 +1743,15 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         //https://github.com/mtotschnig/MyExpenses/issues/420
         //we now set sort_key again for all accounts trying to preserve existing order
         Cursor c = MoreDbUtilsKt.query(db, "accounts", new String[]{"_id"}, null, null, null, null, "sort_key ASC", null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            ContentValues v = new ContentValues();
-            while (c.getPosition() < c.getCount()) {
-              v.put("sort_key", c.getPosition() + 1);
-              db.update("accounts", CONFLICT_NONE, v, "_id = ?", new String[]{c.getString(0)});
-              c.moveToNext();
-            }
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          while (c.getPosition() < c.getCount()) {
+            v.put("sort_key", c.getPosition() + 1);
+            db.update("accounts", CONFLICT_NONE, v, "_id = ?", new String[]{c.getString(0)});
+            c.moveToNext();
           }
-          c.close();
         }
+        c.close();
       }
 
       if (oldVersion < 70) {
@@ -1838,19 +1826,17 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 78) {
         db.execSQL("ALTER TABLE categories add column color integer");
         Cursor c = MoreDbUtilsKt.query(db,"categories", new String[]{"_id"}, "parent_id is null", null, null, null, KEY_USAGES, null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            ContentValues v = new ContentValues();
-            int count = 0;
-            while (c.getPosition() < c.getCount()) {
-              v.put(KEY_COLOR, MAIN_COLORS[count % MAIN_COLORS.length]);
-              db.update("categories", CONFLICT_NONE, v, "_id = " + c.getLong(0), null);
-              c.moveToNext();
-              count++;
-            }
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          int count = 0;
+          while (c.getPosition() < c.getCount()) {
+            v.put(KEY_COLOR, MAIN_COLORS[count % MAIN_COLORS.length]);
+            db.update("categories", CONFLICT_NONE, v, "_id = " + c.getLong(0), null);
+            c.moveToNext();
+            count++;
           }
-          c.close();
         }
+        c.close();
       }
 
       if (oldVersion < 79) {
@@ -1923,9 +1909,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("DROP TABLE accounts_old");
       }
 
-      if (oldVersion < 82) {
+      //if (oldVersion < 82) {
         //createOrRefreshAccountTriggers(db);
-      }
+      //}
 
       if (oldVersion < 83) {
         final String auto_backup_cloud = MyApplication.getInstance().getSettings().getString("auto_backup_cloud", null);
@@ -1960,17 +1946,17 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
       }
 
-      if (oldVersion < 87) {
+      //if (oldVersion < 87) {
         //createOrRefreshTemplateViews(db);
-      }
+      //}
 
       if (oldVersion < 88) {
         db.execSQL("ALTER TABLE categories add column icon string");
       }
 
-      if (oldVersion < 89) {
+      //if (oldVersion < 89) {
         //createOrRefreshViews(db);
-      }
+      //}
 
       if (oldVersion < 90) {
         db.execSQL("ALTER TABLE budget_categories RENAME to budget_categories_old");
@@ -1993,20 +1979,18 @@ public class TransactionDatabase extends BaseTransactionDatabase {
                 String.format(Locale.ROOT, "coalesce(%1$s, -(select %2$s from %3$s where %4$s = %5$s), %6$d) AS %1$s",
                     "account_id", "_id", "currency", "code", "budgets.currency", AggregateAccount.HOME_AGGREGATE_ID), "grouping"},
             null, null, null, null, null, null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            final SharedPreferences settings = MyApplication.getInstance().getSettings();
-            final SharedPreferences.Editor editor = settings.edit();
-            while (c.getPosition() < c.getCount()) {
-              final long accountId = c.getLong(1);
-              editor.remove(String.format(Locale.ROOT, "current_budgetType_%d", accountId));
-              editor.putLong(String.format(Locale.ROOT, "defaultBudget_%d_%s", accountId, c.getString(2)), c.getLong(0));
-              c.moveToNext();
-            }
-            editor.apply();
+        if (c.moveToFirst()) {
+          final SharedPreferences settings = MyApplication.getInstance().getSettings();
+          final SharedPreferences.Editor editor = settings.edit();
+          while (c.getPosition() < c.getCount()) {
+            final long accountId = c.getLong(1);
+            editor.remove(String.format(Locale.ROOT, "current_budgetType_%d", accountId));
+            editor.putLong(String.format(Locale.ROOT, "defaultBudget_%d_%s", accountId, c.getString(2)), c.getLong(0));
+            c.moveToNext();
           }
-          c.close();
+          editor.apply();
         }
+        c.close();
       }
 
       if (oldVersion < 92) {
@@ -2040,14 +2024,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         //db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
       }
 
-      if (oldVersion < 93) {
+      //if (oldVersion < 93) {
         //on very recent versions of Sqlite renaming tables like done in upgrade to 92 breaks views AND triggers
         //createOrRefreshTransactionTriggers(db);
-      }
+      //}
 
-      if (oldVersion < 94) {
+      //if (oldVersion < 94) {
         //createOrRefreshAccountTriggers(db);
-      }
+      //}
 
 /*      if (oldVersion < 95) {
         db.execSQL("DROP VIEW IF EXISTS " + VIEW_EXTENDED);
@@ -2134,9 +2118,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("CREATE INDEX transactions_payee_id_index on transactions(payee_id)");
         db.execSQL("CREATE INDEX templates_payee_id_index on templates(payee_id)");
       }
-      if (oldVersion < 110) {
+      //if (oldVersion < 110) {
         //createOrRefreshTemplateViews(db);
-      }
+      //}
       if (oldVersion < 111) {
         repairSplitPartDates(db);
       }
@@ -2198,9 +2182,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 120) {
         upgradeTo120(db);
       }
-      if (oldVersion < 121) {
+      //if (oldVersion < 121) {
         //createOrRefreshViews(db);
-      }
+      //}
       if (oldVersion < 122) {
         upgradeTo122(db);
       }
@@ -2228,6 +2212,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 130) {
         upgradeTo130(db);
+      }
+      if (oldVersion < 131) {
+        upgradeTo131(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
@@ -2330,7 +2317,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   }
 
   @Override
-  public final void onDowngrade(SupportSQLiteDatabase db, int oldVersion, int newVersion) {
+  public final void onDowngrade(@NonNull SupportSQLiteDatabase db, int oldVersion, int newVersion) {
     throw new SQLiteDowngradeFailedException(oldVersion, newVersion);
   }
 

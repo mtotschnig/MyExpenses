@@ -197,4 +197,5 @@
     <item name="ROLLOVER_CATEGORIES" type="id" />
     <item name="ROLLOVER_EDIT" type="id" />
     <item name="ROLLOVER_CLEAR" type="id" />
+    <item name="SAFE_MODE_COMMAND" type="id" />
 </resources>

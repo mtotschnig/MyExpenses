@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -65,9 +66,8 @@ open class BudgetViewModel(application: Application) :
         val (position, budget) = pair
         val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
-            sumBuilder.appendQueryParameter(
-                TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES,
-                "1"
+            sumBuilder.appendBooleanQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES
             )
                 .build()
         }

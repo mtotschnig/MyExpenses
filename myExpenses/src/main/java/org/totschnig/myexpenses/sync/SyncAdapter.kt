@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateSync
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
@@ -694,9 +695,8 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             //we must take care to not decrease it here
             provider.update(
                 TransactionProvider.ACCOUNTS_URI.buildUpon()
-                    .appendQueryParameter(
-                        TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER,
-                        "1"
+                    .appendBooleanQueryParameter(
+                        TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER
                     ).build(),
                 currentSyncIncrease,
                 DatabaseConstants.KEY_ROWID + " = ? AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " < ?",
@@ -758,7 +758,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
     private fun buildInitializationUri(accountId: Long): Uri {
         return TransactionProvider.CHANGES_URI.buildUpon()
             .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId.toString())
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INIT, "1")
+            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INIT)
             .build()
     }
 

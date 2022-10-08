@@ -408,7 +408,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @JvmOverloads
     open fun showMessage(
         message: CharSequence,
-        positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
+        positive: MessageDialogFragment.Button? = MessageDialogFragment.okButton(),
         neutral: MessageDialogFragment.Button? = null,
         negative: MessageDialogFragment.Button? = null,
         cancellable: Boolean = true

@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.*
@@ -347,7 +348,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         .filterNotNull()
         .flatMapLatest { (accountInfo, grouping, whereFilter) ->
             val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1")
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE)
             val id = accountInfo.accountId
             if (id != Account.HOME_AGGREGATE_ID) {
                 if (id < 0) {

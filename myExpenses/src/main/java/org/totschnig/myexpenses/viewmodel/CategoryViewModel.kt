@@ -33,18 +33,10 @@ import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getIntIfExistsOr0
-import org.totschnig.myexpenses.provider.getIntOrNull
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongIfExistsOr0
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -157,7 +149,7 @@ open class CategoryViewModel(
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
         TransactionProvider.CATEGORIES_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
+            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
             .apply {
                 queryParameter.forEach {
                     appendQueryParameter(it.key, it.value)

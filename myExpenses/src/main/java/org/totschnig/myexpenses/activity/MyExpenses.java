@@ -27,7 +27,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
 import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
-import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -119,24 +118,8 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     ((MyApplication) getApplicationContext()).getAppComponent().inject(roadmapViewModel);
-    getViewModel().getHasHiddenAccounts().observe(this,
-        result -> getNavigationView().getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
-    if (savedInstanceState != null) {
-      setup();
-    } else {
-      newVersionCheck();
-      getViewModel().initialize().observe(this, result -> {
-        if (result == 0) {
-          setup();
-        } else {
-          showMessage(result == ERROR_INIT_DOWNGRADE ? "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." :
-                  "Database upgrade failed. Please contact support@myexpenses.mobi !", new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
-              null,
-              null, false);
-        }
-      });
-    }
     if (savedInstanceState == null) {
+      newVersionCheck();
       voteReminderCheck();
       //voteReminderCheck2();
     }
@@ -150,10 +133,6 @@ public class MyExpenses extends BaseMyExpenses implements
       showDetails(idFromNotification);
       getIntent().removeExtra(KEY_TRANSACTIONID);
     }
-  }
-
-  private void setup() {
-    getViewModel().loadHiddenAccountCount();
   }
 
   private void voteReminderCheck() {

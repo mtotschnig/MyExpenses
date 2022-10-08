@@ -33,6 +33,9 @@ import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Named
 
+fun Uri.Builder.appendBooleanQueryParameter(key: String): Uri.Builder =
+    appendQueryParameter(key, "1")
+
 abstract class BaseTransactionProvider : ContentProvider() {
     var dirty = false
         set(value) {
@@ -139,7 +142,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
         const val TAG = "TransactionProvider"
 
-        fun defaultBudgetAllocationUri(account: FullAccount) = TransactionProvider.BUDGETS_URI.buildUpon()
+        fun defaultBudgetAllocationUri(account: FullAccount): Uri = TransactionProvider.BUDGETS_URI.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS)
             .appendPath(account.id.toString())
             .appendPath(account.grouping.name)
@@ -439,6 +442,29 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
         log("$statement - ${argsList.joinToString()}")
         return statement.executeUpdateDelete()
+    }
+
+    fun budgetDefaultSelect(
+        db: SupportSQLiteDatabase,
+        uri: Uri
+    ): Long? {
+        val accountId = uri.pathSegments[2].toLong()
+        val group = uri.pathSegments[3]
+        val (accountSelection, accountSelectionArg) = when {
+            accountId > 0 -> "$KEY_ACCOUNTID = ?" to accountId
+            accountId == AggregateAccount.HOME_AGGREGATE_ID -> "$KEY_CURRENCY = ?" to AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
+            else -> "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to accountId
+        }
+        return db.query(TABLE_BUDGETS, arrayOf(KEY_ROWID), "$KEY_IS_DEFAULT = 1 AND $KEY_GROUPING = ? AND $accountSelection", arrayOf(group, accountSelectionArg))
+            .takeIf { it.moveToFirst() }
+            ?.use { it.getLong(0) }
+    }
+
+    fun hiddenAccountCount(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
+        putInt(KEY_COUNT, db.query("select exists (select 1 from $TABLE_ACCOUNTS where $KEY_HIDDEN = 1)").use {
+            it.moveToFirst()
+            it.getInt(0) }
+        )
     }
 
     /**

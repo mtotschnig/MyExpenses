@@ -18,7 +18,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
-import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -34,38 +33,30 @@ import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
-import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider.*
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.mapToListCatching
-import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.*
 import javax.inject.Inject
-
-const val ERROR_INIT_DOWNGRADE = -1
-const val ERROR_INIT_UPGRADE = -2
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
 
 class MyExpensesViewModel(
     application: Application,
     private val savedStateHandle: SavedStateHandle
-) :
-    ContentResolvingAndroidViewModel(application) {
+) : ContentResolvingAndroidViewModel(application) {
+
+    private val hiddenAccountsInternal: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val hasHiddenAccounts: StateFlow<Boolean> = hiddenAccountsInternal
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
-
-    private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
     fun expansionHandler(key: String) = object : ExpansionHandler {
         val COLLAPSED_IDS = stringSetPreferencesKey(key)
@@ -103,10 +94,6 @@ class MyExpensesViewModel(
     val selectionState: MutableState<List<Transaction2>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
-    fun getHasHiddenAccounts(): LiveData<Boolean> {
-        return hasHiddenAccounts
-    }
-
     @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
     val pagerState = savedStateHandle.saveable("pagerState",
         saver = Saver(
@@ -132,16 +119,21 @@ class MyExpensesViewModel(
         }
 
     val accountData: StateFlow<Result<List<FullAccount>>> = contentResolver.observeQuery(
-        uri = ACCOUNTS_URI.buildUpon().appendQueryParameter(
-            QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES,
-            "1"
-        ).build(),
+        uri = ACCOUNTS_URI.buildUpon()
+            .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
+            .appendBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT)
+            .build(),
         selection = "$KEY_HIDDEN = 0",
         notifyForDescendants = true
     )
-        .mapToListCatching {
+        .mapToListCatchingWithExtra {
             FullAccount.fromCursor(it, currencyContext)
+        }.onEach { result ->
+            result.onSuccess {
+                hiddenAccountsInternal.value = it.first.getInt(KEY_COUNT) > 0
+            }
         }
+        .map { result -> result.mapCatching { it.second } }
         .stateIn(viewModelScope, SharingStarted.Lazily, Result.success(emptyList()))
 
     fun loadData(account: FullAccount): () -> TransactionPagingSource {
@@ -194,41 +186,12 @@ class MyExpensesViewModel(
         } else emptyFlow()
 
     fun sumInfo(account: FullAccount): Flow<SumInfo> = contentResolver.observeQuery(
-        uri = TRANSACTIONS_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, "1")
+        uri = TRANSACTIONS_URI.buildUpon().appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
             .build(),
         selection = account.selection,
         selectionArgs = account.selectionArgs
     ).mapToOne {
         SumInfoLoaded.fromCursor(it)
-    }
-
-    fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
-        try {
-            contentResolver.call(
-                DUAL_URI,
-                METHOD_INIT,
-                null,
-                null
-            )
-            getApplication<MyApplication>().appComponent.licenceHandler().update()
-            Account.updateTransferShortcut()
-            emit(0)
-        } catch (e: SQLiteDowngradeFailedException) {
-            CrashHandler.report(e)
-            emit(ERROR_INIT_DOWNGRADE)
-        } catch (e: SQLiteUpgradeFailedException) {
-            CrashHandler.report(e)
-            emit(ERROR_INIT_UPGRADE)
-        }
-    }
-
-    fun loadHiddenAccountCount() {
-        disposable = briteContentResolver.createQuery(
-            ACCOUNTS_URI,
-            arrayOf("count(*)"), "$KEY_HIDDEN = 1", null, null, false
-        )
-            .mapToOne { cursor -> cursor.getInt(0) > 0 }
-            .subscribe { hasHiddenAccounts.postValue(it) }
     }
 
     fun persistGrouping(accountId: Long, grouping: Grouping) {

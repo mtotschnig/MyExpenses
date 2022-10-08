@@ -21,7 +21,6 @@ import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CUR
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetDefaultSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
@@ -230,7 +229,9 @@ public class TransactionProvider extends BaseTransactionProvider {
    * Colon separated list of account types
    */
   public static final String QUERY_PARAMETER_ACCOUNTY_TYPE_LIST = "accountTypeList";
-  public static final String METHOD_INIT = "init";
+
+
+  public static final String QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT = "withHiddenAccountCount";
   public static final String METHOD_BULK_START = "bulkStart";
   public static final String METHOD_BULK_END = "bulkEnd";
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
@@ -326,8 +327,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     final Context wrappedContext = getWrappedContext();
     switch (uriMatch) {
       case TRANSACTIONS: {
-        String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
-        if (mappedObjects != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, false)) {
           String sql = transactionMappedObjectQuery(selection);
           c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           return c;
@@ -343,10 +343,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (projection == null) {
           projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
         }
-        if (uri.getQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT) != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false)) {
           projection = Companion.shortenComment(projection);
         }
-        if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS, false)) {
           String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
                   " != 1 OR " + KEY_AMOUNT + " < 0";
           selection = selection == null ? mergeTransferSelection :
@@ -373,8 +373,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case TRANSACTIONS_SUMS: {
         String accountSelectionQuery = null;
-        boolean groupByType = uri.getQueryParameter(QUERY_PARAMETER_GROUPED_BY_TYPE) != null;
-        boolean aggregateTypes = uri.getQueryParameter(QUERY_PARAMETER_AGGREGATE_TYPES) != null;
+        boolean groupByType = uri.getBooleanQueryParameter(QUERY_PARAMETER_GROUPED_BY_TYPE, false);
+        boolean aggregateTypes = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_TYPES, false);
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
@@ -431,8 +431,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
 
         // the start value is only needed for WEEK and DAY
-        boolean withJulianStart = uri.getQueryParameter(QUERY_PARAMETER_WITH_JULIAN_START) != null && (group == Grouping.WEEK || group == Grouping.DAY);
-        boolean includeTransfers = uri.getQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS) != null;
+        boolean withJulianStart = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_JULIAN_START, false) && (group == Grouping.WEEK || group == Grouping.DAY);
+        boolean includeTransfers = uri.getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS, false);
         String yearExpression;
         switch (group) {
           case WEEK:
@@ -521,7 +521,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           return c;
         }
-        if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
           final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);
           String sql = withBudget ? categoryTreeWithBudget(sortOrder, selection, projection, uri.getQueryParameter(KEY_YEAR), uri.getQueryParameter(KEY_SECOND_GROUP)) :
                   categoryTreeSelect(sortOrder, selection, projection, null, null,
@@ -559,6 +559,9 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
           String sql = buildAccountQuery(minimal, mergeAggregate, selection, sortOrder);
           c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
+          if (uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT, false)) {
+            c = wrapWithResultCompat(c, hiddenAccountCount(db));
+          }
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
@@ -837,7 +840,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
       }
       case TAGS:
-        boolean withCount = uri.getQueryParameter(QUERY_PARAMETER_WITH_COUNT) != null;
+        boolean withCount = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_COUNT, false);
         qb = SupportSQLiteQueryBuilder.builder(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")" : TABLE_TAGS);
         if (withCount) {
           projection = new String[]{KEY_ROWID, KEY_LABEL, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
@@ -1008,7 +1011,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTIONS_TAGS: {
         db.insert(TABLE_TRANSACTIONS_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
-        notifyChange(uri, callerIsNotSyncAdatper(uri));
+        notifyChange(uri, callerIsNotSyncAdapter(uri));
         return TRANSACTIONS_TAGS_URI;
       }
       case TEMPLATES_TAGS: {
@@ -1031,7 +1034,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       default:
         throw unknownUri(uri);
     }
-    notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdatper(uri));
+    notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
     //the accounts cursor contains aggregates about transactions
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
@@ -1207,7 +1210,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
-      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
+      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
@@ -1401,7 +1404,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = 2;
         break;
       case CHANGES:
-        if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_INIT, false)) {
           String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
           db.beginTransaction();
           try {
@@ -1515,7 +1518,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
               new String[]{uuid, uuid, uuid});
           //Change is recorded
-          if (callerIsNotSyncAdatper(uri)) {
+          if (callerIsNotSyncAdapter(uri)) {
             db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s AND %10$s IS NOT NULL",
                 TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
                 TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect, KEY_SYNC_ACCOUNT_NAME), new String[]{uuid, uuid});
@@ -1554,7 +1557,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case TRANSACTION_LINK_TRANSFER: {
-        count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdatper(uri));
+        count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
         break;
       }
       case DEBTS:
@@ -1571,7 +1574,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS || uriMatch == TRANSACTION_LINK_TRANSFER) {
-      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
+      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
@@ -1607,8 +1610,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     return count;
   }
 
-  private boolean callerIsNotSyncAdatper(Uri uri) {
-    return uri.getQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNCADAPTER) == null;
+  private boolean callerIsNotSyncAdapter(Uri uri) {
+    return !uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, false);
   }
 
   /**
@@ -1651,10 +1654,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
     switch (method) {
-      case METHOD_INIT: {
-        getHelper().getReadableDatabase();
-        break;
-      }
       case METHOD_BULK_START: {
         setBulkInProgress(true);
         break;
