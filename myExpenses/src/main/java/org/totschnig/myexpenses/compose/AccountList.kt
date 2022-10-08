@@ -119,13 +119,14 @@ private fun getHeader(
     return if (needsHeader) {
         when (grouping) {
             AccountGrouping.NONE -> {
-                val id =
-                    if (account.id > 0) R.string.pref_manage_accounts_title else R.string.menu_aggregates
-                id.toString() to context.getString(id)
+                val id = if (account.id > 0) "0" else "1"
+                val title = context.getString(if (account.id > 0) R.string.pref_manage_accounts_title else R.string.menu_aggregates)
+                id to title
             }
             AccountGrouping.TYPE -> {
-                val id = account.type?.toStringResPlural() ?: R.string.menu_aggregates
-                id.toString() to context.getString(id)
+                val id = account.type?.ordinal ?: AccountType.values().size
+                val title = context.getString(account.type?.toStringResPlural() ?: R.string.menu_aggregates)
+                id.toString() to title
             }
             AccountGrouping.CURRENCY -> {
                 if (account.id == AggregateAccount.HOME_AGGREGATE_ID)

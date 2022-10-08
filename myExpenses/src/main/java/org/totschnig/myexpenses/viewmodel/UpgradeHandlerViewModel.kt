@@ -5,17 +5,17 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.SharedPreferences
 import android.os.Build
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.validateDateFormat
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 class UpgradeHandlerViewModel(application: Application) :
@@ -95,10 +94,7 @@ class UpgradeHandlerViewModel(application: Application) :
             }
 
             disposable = briteContentResolver.createQuery(
-                TEMPLATES_URI, null, String.format(
-                    Locale.ROOT, "%s is not null",
-                    KEY_PLANID
-                ), null, null, false
+                TEMPLATES_URI, null, "$KEY_PLANID is not null", null, null, false
             )
                 .mapToList { cursor -> Template(cursor) }
                 .subscribe { list ->
@@ -182,7 +178,7 @@ class UpgradeHandlerViewModel(application: Application) :
         }
         if (fromVersion < 557) {
             viewModelScope.launch(coroutineDispatcher) {
-                settings.all.entries.filter { it.key.startsWith("defaultBudget") }
+                settings.all.entries.filter { it.key.startsWith("defaultBudget") && it.value is Long }
                     .forEach { entry ->
                         val (_, accountIdAsString, grouping) = entry.key.split('_')
                         val accountId = accountIdAsString.toLong()
@@ -211,6 +207,48 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                         prefHandler.remove(entry.key)
                     }
+
+                val accountExpansionPrefs = settings.all.entries
+                    .filter { it.key.startsWith("ACCOUNT_EXPANSION") }
+                accountExpansionPrefs
+                    .filter { it.value as? Boolean == false }
+                    .map { it.key.substringAfterLast('_') }
+                    .takeIf { it.isNotEmpty() }
+                    ?.toSet()?.let {
+                        val collapsedIdsPrefKey = stringSetPreferencesKey("collapsedAccounts")
+                        getApplication<MyApplication>().dataStoreExpansionHandler.edit { settings ->
+                            settings[collapsedIdsPrefKey] = it
+                        }
+                    }
+                accountExpansionPrefs.forEach {
+                    prefHandler.remove(it.key)
+                }
+
+                val collapsedHeaderPrefs = settings.all.entries
+                    .filter { it.key.startsWith("collapsedHeaders") }
+
+                collapsedHeaderPrefs
+                    .filter { !(it.value as? String).isNullOrBlank() }
+                    .forEach { entry ->
+                        val collapsedIdsPrefKey = stringSetPreferencesKey(entry.key)
+                        getApplication<MyApplication>().dataStoreExpansionHandler.edit { settings ->
+                            settings[collapsedIdsPrefKey] = (entry.value as String).split(',')
+                                .mapNotNull { headerId ->
+                                    if (entry.key == "collapsedHeadersDrawer_CURRENCY") {
+                                        if (headerId == Long.MAX_VALUE.toString()) {
+                                            AGGREGATE_HOME_CURRENCY_CODE
+                                        } else {
+                                            CurrencyEnum.values()
+                                                .find { it.name.hashCode() == headerId.toInt() }?.name
+                                        }
+                                    } else headerId
+                                }
+                                .toSet()
+                        }
+                    }
+                collapsedHeaderPrefs.forEach {
+                    prefHandler.remove(it.key)
+                }
             }
         }
     }

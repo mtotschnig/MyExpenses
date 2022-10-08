@@ -45,7 +45,7 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.*
 import javax.inject.Inject
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
+val Context.dataStoreExpansionHandler: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
 
 class MyExpensesViewModel(
     application: Application,
@@ -59,10 +59,10 @@ class MyExpensesViewModel(
     lateinit var licenceHandler: LicenceHandler
 
     fun expansionHandler(key: String) = object : ExpansionHandler {
-        val COLLAPSED_IDS = stringSetPreferencesKey(key)
-        private val collapsedIds: Flow<Set<String>> = getApplication<MyApplication>().dataStore.data
+        val collapsedIdsPrefKey = stringSetPreferencesKey(key)
+        private val collapsedIds: Flow<Set<String>> = getApplication<MyApplication>().dataStoreExpansionHandler.data
             .map { preferences ->
-                preferences[COLLAPSED_IDS] ?: emptySet()
+                preferences[collapsedIdsPrefKey] ?: emptySet()
             }
 
         @Composable
@@ -71,8 +71,8 @@ class MyExpensesViewModel(
 
         override fun toggle(id: String) {
             viewModelScope.launch {
-                getApplication<MyApplication>().dataStore.edit { settings ->
-                    settings[COLLAPSED_IDS] = settings[COLLAPSED_IDS]?.toMutableSet()?.also {
+                getApplication<MyApplication>().dataStoreExpansionHandler.edit { settings ->
+                    settings[collapsedIdsPrefKey] = settings[collapsedIdsPrefKey]?.toMutableSet()?.also {
                         it.toggle(id)
                     } ?: setOf(id)
                 }
