@@ -6,10 +6,7 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.database.Cursor
 import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
@@ -21,9 +18,6 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.instanceOf
-import org.hamcrest.Matcher
 import org.junit.Assert
 import org.junit.Before
 import org.mockito.Mockito
@@ -64,12 +58,6 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
         closeSoftKeyboard()
         onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
     }
-
-    protected val wrappedList: Matcher<View>
-        get() = org.hamcrest.Matchers.allOf(
-                ViewMatchers.isAssignableFrom(AdapterView::class.java),
-                ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.list)),
-                ViewMatchers.isDisplayed())
 
     /**
      * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher

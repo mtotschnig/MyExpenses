@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import android.database.Cursor
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
@@ -34,10 +36,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
         for (i in 0 until times) {
             op0.saveAsNew()
         }
-        activityScenario = ActivityScenario.launch(
-                Intent(targetContext, MyExpenses::class.java).apply {
-                    putExtra(DatabaseConstants.KEY_ROWID, account.id)
-                })
+        launch(account.id)
     }
 
     @Test
@@ -57,9 +56,6 @@ class SelectedSumTest : BaseMyExpensesTest() {
     }
 
     private fun select(position: Int) {
-        onData(CoreMatchers.`is`(instanceOf(Cursor::class.java)))
-            .inAdapterView(wrappedList)
-            .atPosition(position)
-            .perform(click())
+        listNode.onChildren()[position].performClick()
     }
 }

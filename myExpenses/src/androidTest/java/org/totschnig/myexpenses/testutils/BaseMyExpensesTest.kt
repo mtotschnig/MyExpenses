@@ -50,8 +50,11 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
     fun hasColumnCount(expectedColumnCount: Int) = hasCollectionInfo(expectedColumnCount, 1)
 
     fun assertListSize(expectedSize: Int) {
-        composeTestRule.onNodeWithTag("LIST").assert(hasRowCount(expectedSize))
+        listNode.assert(hasRowCount(expectedSize))
     }
+
+    val listNode: SemanticsNodeInteraction
+        get() = composeTestRule.onNode(hasTestTag("PAGER")).onChildren().onFirst().assert(hasTestTag("LIST"))
 
     fun openCab(@IdRes command: Int?) {
         composeTestRule.onNode(hasTestTag("PAGER")).onChildren().onFirst().onChildren().onFirst()

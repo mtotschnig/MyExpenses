@@ -42,7 +42,7 @@ class RemapAccountTest : BaseMyExpensesTest() {
         account2 = createAccount("K2")
         account3 = createAccount("K3")
         Transaction(account1.id, createMoney()).also {
-            it.setDate(ZonedDateTime.now().plusDays(4))
+            it.setDate(ZonedDateTime.now().minusDays(4))
             it.save()
         }
         transfer = Transfer(account1.id, createMoney(), account2.id).also {
@@ -54,11 +54,8 @@ class RemapAccountTest : BaseMyExpensesTest() {
     @Test
     fun remapAccountShouldUpdateTransferPeer() {
         openCab(R.id.REMAP_PARENT)
-        Thread.sleep(3000)
         onView(allOf(withText(R.string.account))).perform(click())
-        Thread.sleep(3000)
         onView(withText("K3")).perform(click())
-        Thread.sleep(3000)
         //Espresso recorder
 
         onView(
@@ -73,7 +70,6 @@ class RemapAccountTest : BaseMyExpensesTest() {
                 )
             )
         ).perform(ViewActions.scrollTo(), click())
-        Thread.sleep(3000)
         onView(
             Matchers.allOf(
                 ViewMatchers.withId(android.R.id.button1), withText(R.string.menu_remap),
@@ -86,7 +82,6 @@ class RemapAccountTest : BaseMyExpensesTest() {
                 )
             )
         ).perform(ViewActions.scrollTo(), click())
-        Thread.sleep(3000)
         val self = Transaction.getInstanceFromDb(transfer.id)
         Truth.assertThat(self.accountId).isEqualTo(account3.id)
         Truth.assertThat(self.transferAccountId).isEqualTo(account2.id)
