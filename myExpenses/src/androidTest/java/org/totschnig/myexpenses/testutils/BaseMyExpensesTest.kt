@@ -54,7 +54,7 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
     }
 
     val listNode: SemanticsNodeInteraction
-        get() = composeTestRule.onNode(hasTestTag("PAGER")).onChildren().onFirst().assert(hasTestTag("LIST"))
+        get() = composeTestRule.onNode(hasTestTag("PAGER")).onChildren().filter(hasTestTag("LIST")).onFirst()
 
     fun openCab(@IdRes command: Int?) {
         composeTestRule.onNode(hasTestTag("PAGER")).onChildren().onFirst().onChildren().onFirst()
