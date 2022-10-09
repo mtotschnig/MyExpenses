@@ -224,11 +224,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = accountCount > 1
                     val hasTransfer = selectionState.any { it.isTransfer }
                     val hasSplit = selectionState.any { it.isSplit }
+                    val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }
                     val noMethods = currentAccount.type == AccountType.CASH ||
                             (currentAccount.isAggregate && selectionState.any { it.accountType == AccountType.CASH })
                     findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
                     findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
                     findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer && !noMethods
+                    findItem(R.id.SPLIT_TRANSACTION_COMMAND).isVisible = !hasSplit && !hasVoid
                     true
                 }
 
@@ -240,6 +242,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     when (item.itemId) {
                         R.id.DELETE_COMMAND -> delete(selectionState)
                         R.id.MAP_TAG_COMMAND -> tagHandler.tag()
+                        R.id.SPLIT_TRANSACTION_COMMAND -> split(selectionState)
                         else -> return false
                     }
                     return true
@@ -707,6 +710,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 startActivityForResult(i, EDIT_REQUEST)
             }
         }
+    }
+
+    private fun split(transactions: List<Transaction2>) {
+        val itemIds = transactions.map { it.id }
+        checkSealed(itemIds) {
+            contribFeatureRequested(
+                ContribFeature.SPLIT_TRANSACTION,
+                itemIds.toLongArray()
+            )
+        }
+
     }
 
     private fun delete(transactions: List<Transaction2>) {

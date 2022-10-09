@@ -27,6 +27,7 @@ class MyExpensesCabTest : BaseMyExpensesCabTest() {
         op0.save()
         for (i in 2 until 7) {
             op0.amount = Money(home, -100L * i)
+            op0.date = op0.date - 10000
             op0.saveAsNew()
         }
         launch(account.id)
@@ -132,8 +133,7 @@ class MyExpensesCabTest : BaseMyExpensesCabTest() {
         handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
         Espresso.onView(ViewMatchers.withText(R.string.menu_split_transaction))
             .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.split_transaction))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst().assertTextContains(getString(R.string.split_transaction))
     }
 
     @Test
