@@ -52,8 +52,7 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
 
     @Test
     fun remapAccountShouldUpdateTransferPeer() {
-        openCab()
-        clickMenuItem(R.id.REMAP_PARENT, true)
+        openCab(R.id.REMAP_PARENT)
         onView(allOf(withText(R.string.account))).perform(click())
         onView(withText("K3")).perform(click())
         //Espresso recorder

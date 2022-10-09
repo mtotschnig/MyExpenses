@@ -24,6 +24,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -86,7 +90,9 @@ fun TransactionList(
                 .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
         )
     } else {
-        LazyColumn(modifier = Modifier.testTag("LIST")) {
+        LazyColumn(modifier = Modifier.testTag("LIST").semantics {
+            collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
+        }) {
 
             var lastHeader: Int? = null
 
@@ -129,7 +135,9 @@ fun TransactionList(
                         item(key = it.id) {
                             if (!isGroupHidden) {
                                 TransactionRenderer(
-                                    modifier = Modifier.testTag("ITEM").animateItemPlacement(),
+                                    modifier = Modifier
+                                        .testTag("ITEM")
+                                        .animateItemPlacement(),
                                     transaction = it,
                                     selectionHandler = selectionHandler,
                                     menuGenerator = menuGenerator,
@@ -304,6 +312,7 @@ fun TransactionRenderer(
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val voidMarkerHeight = with(LocalDensity.current) { 2.dp.toPx() }
     val futureBackgroundColor = colorResource(id = R.color.future_background)
+    val voidStatus = stringResource(id = R.string.status_void)
     Row(modifier = modifier
         .conditional(transaction.date >= futureCriterion) {
             background(futureBackgroundColor)
@@ -332,6 +341,7 @@ fun TransactionRenderer(
                     voidMarkerHeight
                 )
             }
+                .semantics { contentDescription = voidStatus }
         }
         .padding(horizontal = mainScreenPadding, vertical = 3.dp),
         verticalAlignment = Alignment.CenterVertically

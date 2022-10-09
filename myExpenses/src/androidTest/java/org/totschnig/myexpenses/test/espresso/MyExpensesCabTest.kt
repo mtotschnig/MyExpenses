@@ -1,19 +1,15 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.database.Cursor
-import android.os.Debug
+import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.CursorMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
 
 class MyExpensesCabTest : BaseMyExpensesCabTest() {
@@ -27,10 +23,10 @@ class MyExpensesCabTest : BaseMyExpensesCabTest() {
         )
         account.save()
         val op0 = Transaction.getNewInstance(account.id)
-        op0.amount = Money(home, -1200L)
+        op0.amount = Money(home, -100L)
         op0.save()
-        val times = 5
-        for (i in 0 until times) {
+        for (i in 2 until 7) {
+            op0.amount = Money(home, -100L * i)
             op0.saveAsNew()
         }
         launch(account.id)
@@ -72,67 +68,67 @@ class MyExpensesCabTest : BaseMyExpensesCabTest() {
 
     @Test
     fun deleteCommandDecreasesListSize() {
-        assertListSize(origListSize)
-        openCab()
-        clickMenuItem(R.id.DELETE_COMMAND, true)
-        Espresso.onView(ViewMatchers.withText(R.string.menu_delete)).perform(ViewActions.click())
-        assertListSize(origListSize - 1)
+        doDelete(useCab = false, cancel = false)
     }
 
     @Test
-    fun deleteCommandWithVoidOption() {
-        assertListSize(origListSize)
-        openCab()
-        clickMenuItem(R.id.DELETE_COMMAND, true)
-        Espresso.onView(ViewMatchers.withId(R.id.checkBox)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.menu_delete)).perform(ViewActions.click())
-        Espresso.onData(
-            Matchers.`is`(
-                Matchers.instanceOf(
-                    Cursor::class.java
-                )
-            )
-        ).inAdapterView(wrappedList).atPosition(1)
-            .check(
-                ViewAssertions.matches(
-                    ViewMatchers.hasDescendant(
-                        Matchers.both(
-                            ViewMatchers.withId(
-                                R.id.voidMarker
-                            )
-                        ).and(ViewMatchers.isDisplayed())
-                    )
-                )
-            )
-        assertListSize(origListSize)
-        openCab()
-        clickMenuItem(R.id.UNDELETE_COMMAND, true)
-        Espresso.onView(wrappedList)
-            .check(
-                ViewAssertions.matches(
-                    CoreMatchers.not(
-                        org.totschnig.myexpenses.testutils.Matchers.withAdaptedData(
-                            CursorMatchers.withRowString(DatabaseConstants.KEY_CR_STATUS, "VOID")
-                        )
-                    )
-                )
-            )
-        assertListSize(origListSize)
+    fun deleteCommandDecreasesListSizeCab() {
+        doDelete(useCab = true, cancel = false)
     }
 
     @Test
     fun deleteCommandCancelKeepsListSize() {
+        doDelete(useCab = false, cancel = true)
+    }
+
+    @Test
+    fun deleteCommandCancelKeepsListSizeCab() {
+        doDelete(useCab = true, cancel = true)
+    }
+
+    private fun doDelete(useCab: Boolean, cancel: Boolean) {
         assertListSize(origListSize)
-        openCab()
-        clickMenuItem(R.id.DELETE_COMMAND, true)
-        Espresso.onView(ViewMatchers.withText(android.R.string.cancel)).perform(ViewActions.click())
+        triggerDelete(useCab)
+        Espresso.onView(ViewMatchers.withText(if (cancel) android.R.string.cancel else  R.string.menu_delete)).perform(ViewActions.click())
+        assertListSize(if (cancel) origListSize else origListSize - 1)
+    }
+
+    @Test
+    fun deleteCommandWithVoidOptionCab() {
+        doDeleteCommandWithVoidOption(true)
+    }
+
+    @Test
+    fun deleteCommandWithVoidOption() {
+        doDeleteCommandWithVoidOption(false)
+    }
+
+    private fun triggerDelete(useCab: Boolean) {
+        if (useCab) {
+            openCab(R.id.DELETE_COMMAND)
+        } else {
+            clickContextItem(R.string.menu_delete)
+        }
+    }
+
+    private fun doDeleteCommandWithVoidOption(useCab: Boolean) {
+        assertListSize(origListSize)
+        triggerDelete(useCab)
+        Espresso.onView(ViewMatchers.withId(R.id.checkBox)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(R.string.menu_delete)).perform(ViewActions.click())
+        val voidStatus = getString(R.string.status_void)
+        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst()
+            .assertContentDescriptionEquals(voidStatus)
+        assertListSize(origListSize)
+        clickContextItem(R.string.menu_undelete_transaction)
+        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst()
+            .assert(hasContentDescription(voidStatus).not())
         assertListSize(origListSize)
     }
 
     @Test
     fun splitCommandCreatesSplitTransaction() {
-        openCab()
-        clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true)
+        openCab(R.id.SPLIT_TRANSACTION_COMMAND)
         handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
         Espresso.onView(ViewMatchers.withText(R.string.menu_split_transaction))
             .perform(ViewActions.click())
@@ -142,7 +138,7 @@ class MyExpensesCabTest : BaseMyExpensesCabTest() {
 
     @Test
     fun cabIsRestoredAfterOrientationChange() {
-        openCab()
+        openCab(null)
         rotate()
         Espresso.onView(ViewMatchers.withId(R.id.action_mode_bar))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))

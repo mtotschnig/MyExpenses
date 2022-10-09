@@ -42,7 +42,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
 
     @Test
     fun testSelectedSum() {
-        openCab()
+        openCab(null)
         var sum = 12
         for (i in 2 until 6) {
             select(i)
