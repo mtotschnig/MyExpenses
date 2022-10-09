@@ -56,13 +56,6 @@ class OrientationChangeTest : BaseMyExpensesTest() {
         ).apply { save() }
     }
 
-    @After
-    @Throws(RemoteException::class, OperationApplicationException::class)
-    fun tearDown() {
-        Account.delete(account1.id)
-        Account.delete(account2.id)
-    }
-
     @Test
     fun shouldKeepAccountAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1.id)

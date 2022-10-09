@@ -24,6 +24,11 @@ import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Lifecycle
@@ -384,6 +389,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                     HorizontalPager(
+                        modifier = Modifier.testTag("PAGER").semantics {
+                        collectionInfo = CollectionInfo(1, accountData.value.count())
+                    },
                         verticalAlignment = Alignment.Top,
                         count = accountData.value.count(),
                         state = viewModel.pagerState

@@ -1,47 +1,75 @@
 package org.totschnig.myexpenses.testutils
 
-import android.util.Log
+import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.idling.CountingIdlingResource
+import org.junit.After
 import org.junit.Rule
+import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.activity.TestMyExpenses
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.test.espresso.MyExpensesTest
 
-abstract class BaseMyExpensesTest: BaseUiTest<TestMyExpenses>() {
-    lateinit var activityScenario: ActivityScenario<TestMyExpenses>
+abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
+    private val countingResource = CountingIdlingResource("CheckSealed")
+    lateinit var activityScenario: ActivityScenario<out MyExpenses>
 
-    override val testScenario: ActivityScenario<out TestMyExpenses>
+    override val testScenario: ActivityScenario<out MyExpenses>
         get() = activityScenario
 
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
+    fun launch(id: Long? = null, clazz: Class<out MyExpenses> = MyExpenses::class.java) {
+        activityScenario = ActivityScenario.launch(
+            Intent(targetContext, clazz).apply {
+                putExtra(DatabaseConstants.KEY_ROWID, id)
+            })
+        activityScenario.onActivity { activity: MyExpenses ->
+            (activity as? TestMyExpenses)?.decoratedCheckSealedHandler =
+                DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
+        }
+        IdlingRegistry.getInstance().register(countingResource)
+    }
+
     fun hasCollectionInfo(expectedColumnCount: Int, expectedRowCount: Int): SemanticsMatcher {
         return SemanticsMatcher("Collection has $expectedColumnCount columns, $expectedRowCount rows") {
             with(it.config[SemanticsProperties.CollectionInfo]) {
-                Log.e("hasCollectionInfo", "Count the beast: $columnCount x $rowCount")
                 columnCount == expectedColumnCount && rowCount == expectedRowCount
             }
         }
     }
 
     fun hasRowCount(expectedRowCount: Int) = hasCollectionInfo(1, expectedRowCount)
+    fun hasColumnCount(expectedColumnCount: Int) = hasCollectionInfo(expectedColumnCount, 1)
 
     fun assertListSize(expectedSize: Int) {
         composeTestRule.onNodeWithTag("LIST").assert(hasRowCount(expectedSize))
     }
 
     fun openCab(@IdRes command: Int?) {
-        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst()
+        composeTestRule.onNode(hasTestTag("PAGER")).onChildren().onFirst().onChildren().onFirst()
             .performTouchInput { longClick() }
         command?.let { clickMenuItem(it, true) }
     }
 
-    fun clickContextItem(@StringRes resId: Int) {
-        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst().performClick()
+    fun clickContextItem(@StringRes resId: Int, contextTestTag: String = "LIST", position: Int = 0) {
+        composeTestRule.onNodeWithTag(contextTestTag).onChildren()[position].performClick()
         composeTestRule.onNodeWithText(getString(resId)).performClick()
+    }
+
+    fun assertTextAtPosition(text: String, position: Int, substring: Boolean = true) {
+        composeTestRule.onNodeWithTag("LIST").onChildren()[position].assertTextContains(text, substring = substring)
+    }
+
+    @After
+    open fun tearDown() {
+        IdlingRegistry.getInstance().unregister(countingResource)
     }
 }

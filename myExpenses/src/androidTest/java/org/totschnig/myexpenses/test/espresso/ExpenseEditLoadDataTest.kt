@@ -232,8 +232,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
             )
-            onView(withId(R.id.OperationType))
-                .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_transfer)))
+            toolbarTitle().check(matches(withText(R.string.menu_create_transfer)))
             onView(
                 withIdAndParent(
                     R.id.AmountEditText,
@@ -325,8 +324,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             it.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat(activity.isTemplate).isFalse()
             }
-            onView(withId(R.id.OperationType))
-                .check(matches(ViewMatchers.withSpinnerText(R.string.menu_create_split)))
+            toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_create_split))))
             checkEffectiveVisible(R.id.SplitRow)
             onView(withId(R.id.list))
                 .check(matches(ViewMatchers.hasChildCount(1)))

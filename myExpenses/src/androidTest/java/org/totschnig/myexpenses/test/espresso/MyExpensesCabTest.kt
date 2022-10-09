@@ -9,10 +9,12 @@ import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.util.Utils
 
-class MyExpensesCabTest : BaseMyExpensesCabTest() {
+class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
     @Before
     fun fixture() {
@@ -30,7 +32,7 @@ class MyExpensesCabTest : BaseMyExpensesCabTest() {
             op0.date = op0.date - 10000
             op0.saveAsNew()
         }
-        launch(account.id)
+        launch(account.id, TestMyExpenses::class.java)
     }
 
     @Test

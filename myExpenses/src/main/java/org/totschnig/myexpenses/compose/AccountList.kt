@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -57,6 +58,7 @@ fun AccountList(
     val collapsedIds = expansionHandlerGroups.collapsedIds().value
 
     LazyColumn(
+        modifier = Modifier.testTag("ACCOUNTS"),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         var isGroupHidden by mutableStateOf(false)

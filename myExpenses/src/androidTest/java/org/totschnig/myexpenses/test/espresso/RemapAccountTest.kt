@@ -17,9 +17,10 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import java.time.ZonedDateTime
 
-class RemapAccountTest : BaseMyExpensesCabTest() {
+class RemapAccountTest : BaseMyExpensesTest() {
     private lateinit var account1: Account
     private lateinit var account2: Account
     private lateinit var account3: Account
@@ -53,8 +54,11 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
     @Test
     fun remapAccountShouldUpdateTransferPeer() {
         openCab(R.id.REMAP_PARENT)
+        Thread.sleep(3000)
         onView(allOf(withText(R.string.account))).perform(click())
+        Thread.sleep(3000)
         onView(withText("K3")).perform(click())
+        Thread.sleep(3000)
         //Espresso recorder
 
         onView(
@@ -69,7 +73,7 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
                 )
             )
         ).perform(ViewActions.scrollTo(), click())
-
+        Thread.sleep(3000)
         onView(
             Matchers.allOf(
                 ViewMatchers.withId(android.R.id.button1), withText(R.string.menu_remap),
@@ -82,6 +86,7 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
                 )
             )
         ).perform(ViewActions.scrollTo(), click())
+        Thread.sleep(3000)
         val self = Transaction.getInstanceFromDb(transfer.id)
         Truth.assertThat(self.accountId).isEqualTo(account3.id)
         Truth.assertThat(self.transferAccountId).isEqualTo(account2.id)
