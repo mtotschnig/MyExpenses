@@ -50,14 +50,14 @@ class SplitDelegate(
 
     override fun bind(
         transaction: ISplit?,
-        newInstance: Boolean,
+        withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean
     ) {
         super.bind(
             transaction,
-            newInstance,
+            withTypeSpinner,
             savedInstanceState,
             recurrence,
             withAutoFill
@@ -76,7 +76,7 @@ class SplitDelegate(
         })
         viewBinding.CategoryRow.visibility = View.GONE
         viewBinding.SplitRow.visibility = View.VISIBLE
-        missingRecurrenceFeature = if (!newInstance || prefHandler.getBoolean(
+        missingRecurrenceFeature = if (!withTypeSpinner || prefHandler.getBoolean(
                 PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
                 true
             )

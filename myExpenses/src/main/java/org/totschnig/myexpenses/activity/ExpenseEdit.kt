@@ -186,6 +186,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     @State
     var areDatesLinked = false
 
+    @JvmField
+    @State
+    var withTypeSpinner = false
+
     private var mIsResumed = false
     private var accountsLoaded = false
     private var pObserver: ContentObserver? = null
@@ -291,7 +295,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             setupObservers(true)
             delegate.bind(
                 null,
-                mNewInstance,
+                withTypeSpinner,
                 savedInstanceState,
                 null,
                 withAutoFill
@@ -309,17 +313,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)
                 if (mRowId != 0L) {
-                    if (planInstanceId != 0L) {
-                        task = TRANSACTION_FROM_TEMPLATE
+                    task = if (planInstanceId != 0L) {
+                        TRANSACTION_FROM_TEMPLATE
                     } else {
                         isTemplate = true
-                        task = TEMPLATE
+                        TEMPLATE
                     }
                 }
             } else {
-                task = if (intent.getBooleanExtra(KEY_TEMPLATE_FROM_TRANSACTION, false)) TEMPLATE_FROM_TRANSACTION else TRANSACTION
+                task = if (intent.getBooleanExtra(KEY_TEMPLATE_FROM_TRANSACTION, false)) {
+                    isTemplate = true
+                    TEMPLATE_FROM_TRANSACTION
+                } else {
+                    TRANSACTION
+                }
             }
-            mNewInstance = mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE
+            mNewInstance = mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE || task == TEMPLATE_FROM_TRANSACTION
+            withTypeSpinner = mRowId == 0L
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
@@ -698,7 +708,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         setupObservers(false)
         delegate.bindUnsafe(
             transaction,
-            mNewInstance,
+            withTypeSpinner,
             null,
             intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
             withAutoFill
@@ -720,10 +730,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         get() = if (isSplitPart) PrefKey.EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART else PrefKey.EXPENSE_EDIT_SAVE_AND_NEW
 
     private fun setTitle() {
-        if (mNewInstance) {
+        if (withTypeSpinner) {
             supportActionBar!!.setDisplayShowTitleEnabled(false)
         } else {
-            title = delegate.title
+            title = delegate.title(mNewInstance)
         }
     }
 

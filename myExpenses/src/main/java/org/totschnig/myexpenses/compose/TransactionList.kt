@@ -20,6 +20,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -85,7 +86,7 @@ fun TransactionList(
                 .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
         )
     } else {
-        LazyColumn {
+        LazyColumn(modifier = Modifier.testTag("LIST")) {
 
             var lastHeader: Int? = null
 
@@ -128,7 +129,7 @@ fun TransactionList(
                         item(key = it.id) {
                             if (!isGroupHidden) {
                                 TransactionRenderer(
-                                    modifier = Modifier.animateItemPlacement(),
+                                    modifier = Modifier.testTag("ITEM").animateItemPlacement(),
                                     transaction = it,
                                     selectionHandler = selectionHandler,
                                     menuGenerator = menuGenerator,

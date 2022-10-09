@@ -1,41 +1,5 @@
 package org.totschnig.myexpenses.test.screenshots;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.SharedPreferences;
-
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.testutils.MockLicenceHandler;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-
-import java.util.Locale;
-import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.contrib.DrawerActions;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.rule.GrantPermissionRule;
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
-import tools.fastlane.screengrab.locale.LocaleUtil;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -46,10 +10,45 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.totschnig.myexpenses.testutils.Matchers.first;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.contrib.DrawerActions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.rule.GrantPermissionRule;
+
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.TestMyExpenses;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest;
+import org.totschnig.myexpenses.testutils.MockLicenceHandler;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
+
+import java.util.Locale;
+
+import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar;
+import tools.fastlane.screengrab.locale.LocaleTestRule;
+import tools.fastlane.screengrab.locale.LocaleUtil;
+
 /**
  * This test is meant to be run with FastLane Screengrab, but also works on its own.
  */
-public class TestMain extends BaseUiTest<MyExpenses> {
+public class TestMain extends BaseMyExpensesTest {
 
   @BeforeClass
   public static void beforeAll() {
@@ -63,7 +62,7 @@ public class TestMain extends BaseUiTest<MyExpenses> {
 
   @ClassRule
   public static final LocaleTestRule localeTestRule = new LocaleTestRule();
-  private ActivityScenario<MyExpenses> activityScenario = null;
+
   @Rule
   public final GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
       Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR);
@@ -165,7 +164,7 @@ public class TestMain extends BaseUiTest<MyExpenses> {
         .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)
         .putInt(PrefKey.FIRST_INSTALL_VERSION.getKey(), current_version)
         .apply();
-    final Intent startIntent = new Intent(getApp(), MyExpenses.class);
+    final Intent startIntent = new Intent(getApp(), TestMyExpenses.class);
     activityScenario = ActivityScenario.launch(startIntent);
   }
 
@@ -180,11 +179,5 @@ public class TestMain extends BaseUiTest<MyExpenses> {
   private void takeScreenshot(String fileName) {
     Espresso.onIdle();
     Screengrab.screenshot(fileName);
-  }
-
-  @NonNull
-  @Override
-  protected ActivityScenario<MyExpenses> getTestScenario() {
-    return Objects.requireNonNull(activityScenario);
   }
 }

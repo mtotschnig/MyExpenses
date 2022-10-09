@@ -7,14 +7,10 @@ import androidx.test.espresso.idling.CountingIdlingResource
 import org.junit.After
 import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.DecoratedCheckSealedHandler
 
-abstract class BaseMyExpensesCabTest : BaseUiTest<TestMyExpenses>() {
-    private lateinit var activityScenario: ActivityScenario<TestMyExpenses>
-
-    override val testScenario: ActivityScenario<out TestMyExpenses>
-        get() = activityScenario
+abstract class BaseMyExpensesCabTest : BaseMyExpensesTest() {
 
     private val countingResource = CountingIdlingResource("CheckSealed")
 

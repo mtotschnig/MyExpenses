@@ -9,14 +9,10 @@ import android.content.res.Configuration
 import android.database.Cursor
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.AdapterView
-import android.widget.ListView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.onData
-import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -43,7 +39,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.Category
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
@@ -138,18 +133,6 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
         Assertions.assertThat(testScenario.result.resultCode).isEqualTo(resultCode)
     }
 
-    private val list: ViewGroup?
-        get() {
-            var result: ViewGroup? = null
-            testScenario.onActivity {
-                result = it.currentFragment?.view?.findViewById(listId)
-            }
-            return result
-        }
-
-    protected open val listId: Int
-        get() = R.id.list
-
     protected fun getQuantityString(resId: Int, @Suppress("SameParameterValue") quantity: Int, vararg formatArguments: Any): String {
         var result: String? = null
         testScenario.onActivity {
@@ -166,17 +149,6 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
         return result!!
     }
 
-    private val adapter: Adapter?
-        get() {
-            val list = list ?: return null
-            if (list is StickyListHeadersListView) {
-                return list.adapter
-            }
-            return if (list is ListView) {
-                list.adapter
-            } else null
-        }
-
     protected val repository: Repository
         get() = Repository(
             ApplicationProvider.getApplicationContext<MyApplication>(),
@@ -184,23 +156,6 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
             Mockito.mock(CurrencyFormatter::class.java),
             Mockito.mock(PrefHandler::class.java)
         )
-
-    @Throws(TimeoutException::class)
-    protected fun waitForAdapter(): Adapter {
-        var iterations = 0
-        while (true) {
-            val adapter = adapter
-            try {
-                Thread.sleep(500)
-            } catch (ignored: InterruptedException) {
-            }
-            if (adapter != null) {
-                return adapter
-            }
-            iterations++
-            if (iterations > 10) throw TimeoutException()
-        }
-    }
 
     @Throws(TimeoutException::class)
     protected fun waitForSnackbarDismissed() {
@@ -232,13 +187,6 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
                 ?: run {
                     Assert.fail("Could not find prefs")
                 }
-    }
-
-    fun openCab() {
-        onData(`is`(instanceOf(Cursor::class.java)))
-                .inAdapterView(wrappedList)
-                .atPosition(1)
-                .perform(ViewActions.longClick())
     }
 
     protected fun writeCategory(label: String, parentId: Long? = null) =

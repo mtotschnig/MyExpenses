@@ -733,6 +733,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
                     R.id.CANCEL_CALLBACK_COMMAND
                 )
+                putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete)
                 if (hasNotVoid) {
                     putString(
                         ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,

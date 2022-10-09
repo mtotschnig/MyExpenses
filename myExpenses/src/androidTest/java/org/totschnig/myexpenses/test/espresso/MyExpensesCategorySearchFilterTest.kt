@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.Intent
 import androidx.compose.ui.semantics.SemanticsActions
-import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performSemanticsAction
@@ -16,23 +15,18 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matchers
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.BaseUiTest
-import java.util.concurrent.TimeoutException
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
-class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
-    private lateinit var activityScenario: ActivityScenario<MyExpenses>
-    @get:Rule
-    val composeTestRule = createEmptyComposeRule()
+class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
 
     private lateinit var catLabel1: String
     private lateinit var catLabel2: String
@@ -67,12 +61,10 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
     }
 
     @Before
-    @Throws(TimeoutException::class)
     fun startSearch() {
-        ActivityScenario.launch<MyExpenses>(Intent(targetContext, MyExpenses::class.java)).also {
+        ActivityScenario.launch<TestMyExpenses>(Intent(targetContext, TestMyExpenses::class.java)).also {
             activityScenario = it
         }
-        waitForAdapter()
         allLabelsAreDisplayed()
         Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withText(R.string.category)).perform(ViewActions.click())
@@ -143,7 +135,4 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
                 )
             )
     }
-
-    override val testScenario: ActivityScenario<MyExpenses>
-        get() = activityScenario
 }

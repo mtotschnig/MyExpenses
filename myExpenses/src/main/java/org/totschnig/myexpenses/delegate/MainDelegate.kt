@@ -54,14 +54,14 @@ abstract class MainDelegate<T : ITransaction>(
 
     override fun bind(
         transaction: T?,
-        newInstance: Boolean,
+        withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean
     ) {
         super.bind(
             transaction,
-            newInstance,
+            withTypeSpinner,
             savedInstanceState,
             recurrence,
             withAutoFill
@@ -134,10 +134,10 @@ abstract class MainDelegate<T : ITransaction>(
         handleDebts()
     }
 
-    override fun createAdapters(newInstance: Boolean, withAutoFill: Boolean) {
+    override fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
         createPayeeAdapter(withAutoFill)
         createStatusAdapter()
-        if (newInstance) {
+        if (withTypeSpinner) {
             createOperationTypeAdapter()
         }
     }

@@ -16,17 +16,11 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.BaseUiTest
-import java.util.*
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
-class SelectedSumTest : BaseUiTest<MyExpenses>() {
-    private lateinit var activityScenario: ActivityScenario<MyExpenses>
+class SelectedSumTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
@@ -68,7 +62,4 @@ class SelectedSumTest : BaseUiTest<MyExpenses>() {
             .atPosition(position)
             .perform(click())
     }
-
-    override val testScenario: ActivityScenario<MyExpenses>
-        get() = activityScenario
 }

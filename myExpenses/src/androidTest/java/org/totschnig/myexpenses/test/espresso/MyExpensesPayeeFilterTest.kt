@@ -13,10 +13,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.CursorMatchers
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.hamcrest.Matchers
 import org.junit.After
@@ -24,20 +21,15 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.fragment.PartiesList
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.BaseUiTest
-import java.util.*
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
-class MyExpensesPayeeFilterTest: BaseUiTest<MyExpenses>() {
+class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     @get:Rule
-    var scenarioRule = ActivityScenarioRule(MyExpenses::class.java)
+    var scenarioRule = ActivityScenarioRule(TestMyExpenses::class.java)
     private lateinit var account: Account
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
@@ -58,7 +50,6 @@ class MyExpensesPayeeFilterTest: BaseUiTest<MyExpenses>() {
 
     @Test
     fun payeeFilterShouldHideTransaction() {
-        waitForAdapter()
         payeeIsDisplayed(payee1)
         payeeIsDisplayed(payee2)
         onView(withId(R.id.SEARCH_COMMAND)).perform(click())
@@ -100,7 +91,7 @@ class MyExpensesPayeeFilterTest: BaseUiTest<MyExpenses>() {
         Account.delete(account.id)
     }
 
-    override val testScenario: ActivityScenario<MyExpenses>
+    override val testScenario: ActivityScenario<TestMyExpenses>
         get() = scenarioRule.scenario
 
 }

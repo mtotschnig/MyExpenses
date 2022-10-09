@@ -1,45 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.content.Intent;
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.AccountEdit;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.testutils.Espresso;
-import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.Utils;
-
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.contrib.DrawerActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.viewpager.widget.ViewPager;
-
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -68,17 +28,54 @@ import static org.hamcrest.Matchers.not;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
-public final class MyExpensesTest extends BaseUiTest<MyExpenses> {
+import android.content.Intent;
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.contrib.DrawerActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.CursorMatchers;
+import androidx.viewpager.widget.ViewPager;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.activity.TestMyExpenses;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest;
+import org.totschnig.myexpenses.testutils.Espresso;
+import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Locale;
+
+public final class MyExpensesTest extends BaseMyExpensesTest {
   private Account account;
 
-  private ActivityScenario<MyExpenses> activityScenario = null;
+  private ActivityScenario<TestMyExpenses> activityScenario = null;
 
   @Before
   public void fixture() {
     account = new Account("Test account 1", Utils.getHomeCurrency(), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
-    Intent i = new Intent(getTargetContext(), MyExpenses.class);
+    Intent i = new Intent(getTargetContext(), TestMyExpenses.class);
     i.putExtra(KEY_ROWID, account.getId());
     configureLocale(Locale.GERMANY);
     activityScenario = ActivityScenario.launch(i);
@@ -281,11 +278,5 @@ public final class MyExpensesTest extends BaseUiTest<MyExpenses> {
     String balance = formatMoney(currencyFormatter, new Money(account.getCurrencyUnit(), 0));
     onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText("Test account 1"))).check(matches(isDisplayed()));
     onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText(balance))).check(matches(isDisplayed()));
-  }
-
-  @NonNull
-  @Override
-  protected ActivityScenario<MyExpenses> getTestScenario() {
-    return Objects.requireNonNull(activityScenario);
   }
 }

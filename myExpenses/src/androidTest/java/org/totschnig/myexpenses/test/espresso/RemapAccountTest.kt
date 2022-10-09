@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -19,7 +18,6 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
 import java.time.ZonedDateTime
-import java.util.*
 
 class RemapAccountTest : BaseMyExpensesCabTest() {
     private lateinit var account1: Account
@@ -54,7 +52,6 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
 
     @Test
     fun remapAccountShouldUpdateTransferPeer() {
-        waitForAdapter()
         openCab()
         clickMenuItem(R.id.REMAP_PARENT, true)
         onView(allOf(withText(R.string.account))).perform(click())

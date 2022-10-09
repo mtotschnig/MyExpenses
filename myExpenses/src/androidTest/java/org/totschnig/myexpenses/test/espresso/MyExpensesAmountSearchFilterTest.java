@@ -1,31 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.testutils.Matchers;
-
-import java.util.Currency;
-import java.util.concurrent.TimeoutException;
-
-import androidx.annotation.NonNull;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -37,13 +11,36 @@ import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
-public final class MyExpensesAmountSearchFilterTest extends BaseUiTest<MyExpenses> {
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.matcher.CursorMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.TestMyExpenses;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest;
+import org.totschnig.myexpenses.testutils.Matchers;
+
+public final class MyExpensesAmountSearchFilterTest extends BaseMyExpensesTest {
 
   private static final long amount1 = -1200L;
   private static final long amount2 = -3400L;
   @Rule
-  public ActivityScenarioRule<MyExpenses> scenarioRule =
-      new ActivityScenarioRule<>(MyExpenses.class);
+  public ActivityScenarioRule<TestMyExpenses> scenarioRule =
+      new ActivityScenarioRule<>(TestMyExpenses.class);
   private static Account account;
 
   @BeforeClass
@@ -65,8 +62,7 @@ public final class MyExpensesAmountSearchFilterTest extends BaseUiTest<MyExpense
   }
 
   @Test
-  public void amountFilterShouldHideTransaction() throws TimeoutException {
-    waitForAdapter();
+  public void amountFilterShouldHideTransaction() {
     amountIsDisplayed(amount1);
     amountIsDisplayed(amount2);
     onView(withId(R.id.SEARCH_COMMAND)).perform(click());
@@ -94,7 +90,7 @@ public final class MyExpensesAmountSearchFilterTest extends BaseUiTest<MyExpense
 
   @NonNull
   @Override
-  protected ActivityScenario<MyExpenses> getTestScenario() {
+  protected ActivityScenario<TestMyExpenses> getTestScenario() {
     return scenarioRule.getScenario();
   }
 }
