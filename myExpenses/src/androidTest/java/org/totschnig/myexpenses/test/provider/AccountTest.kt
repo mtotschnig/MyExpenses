@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -50,11 +49,16 @@ class AccountTest {
                     "Account with 2 budgets",
                     AccountType.CCARD,
                     -100,
-                    "EUR",
-                    grouping
+                    "EUR"
                 ).contentValues
             )!!
         ).also {
+            resolver.update(
+                ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, it)
+                    .buildUpon()
+                    .appendPath(grouping.name).build(),
+                null, null, null
+            )
             val budgets = arrayOf(
                 BudgetInfo(it, "budget 1", "description", 400, grouping),
                 BudgetInfo(it, "budget 2", "description", 5000, grouping)

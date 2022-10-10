@@ -12,8 +12,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 
 import android.content.Intent;
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
 
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
@@ -36,7 +34,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.MockLicenceHandler;
 
-import java.util.Currency;
 import java.util.Objects;
 
 //TODO test CAB actions
@@ -85,8 +82,7 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
   }
 
   @After
-  public void tearDown() throws RemoteException, OperationApplicationException {
-    Account.delete(account1.getId());
+  public void tearDown() {
     Intents.release();
   }
 

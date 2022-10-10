@@ -60,8 +60,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_QIF_IMPORT = 20;
   public static final int TASK_PRINT = 25;
   public static final int TASK_UPDATE_SORT_KEY = 27;
-  public static final int TASK_SPLIT = 30;
-  public static final int TASK_REVOKE_SPLIT = 31;
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_REPAIR_PLAN = 41;
 
@@ -190,12 +188,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_PRINT:
         new PrintTask(this, args).execute();
-        break;
-      case TASK_SPLIT:
-        new SplitCommandTask(this, taskId).execute(args);
-        break;
-      case TASK_REVOKE_SPLIT:
-        new RevokeSplitCommandTask(this, taskId).execute(args);
         break;
       default:
         try {

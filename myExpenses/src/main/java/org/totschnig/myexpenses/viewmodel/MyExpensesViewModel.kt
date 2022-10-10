@@ -1,81 +1,210 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Context
+import android.database.sqlite.SQLiteConstraintException
+import android.database.sqlite.SQLiteException
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.Saver
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
+import app.cash.copper.flow.mapToOne
+import app.cash.copper.flow.observeQuery
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.adapter.TransactionPagingSource
+import org.totschnig.myexpenses.compose.ExpansionHandler
+import org.totschnig.myexpenses.compose.toggle
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AggregateAccount
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
-import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.filter.CrStatusCriteria
+import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.viewmodel.data.*
+import java.util.*
+import javax.inject.Inject
 
-const val ERROR_INIT_DOWNGRADE = -1
-const val ERROR_INIT_UPGRADE = -2
+val Context.dataStoreExpansionHandler: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
 
-class MyExpensesViewModel(application: Application) :
-    ContentResolvingAndroidViewModel(application) {
+class MyExpensesViewModel(
+    application: Application,
+    private val savedStateHandle: SavedStateHandle
+) : ContentResolvingAndroidViewModel(application) {
 
-    private val hasHiddenAccounts = MutableLiveData<Boolean>()
+    private val hiddenAccountsInternal: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val hasHiddenAccounts: StateFlow<Boolean> = hiddenAccountsInternal
 
-    fun getHasHiddenAccounts(): LiveData<Boolean> {
-        return hasHiddenAccounts
-    }
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
 
-    fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
-        try {
-            contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_INIT,
-                null,
-                null
-            )
-            getApplication<MyApplication>().appComponent.licenceHandler().update()
-            Account.updateTransferShortcut()
-            emit(0)
-        } catch (e: SQLiteDowngradeFailedException) {
-            CrashHandler.report(e)
-            emit(ERROR_INIT_DOWNGRADE)
-        } catch (e: SQLiteUpgradeFailedException) {
-            CrashHandler.report(e)
-            emit(ERROR_INIT_UPGRADE)
+    fun expansionHandler(key: String) = object : ExpansionHandler {
+        val collapsedIdsPrefKey = stringSetPreferencesKey(key)
+        private val collapsedIds: Flow<Set<String>> = getApplication<MyApplication>().dataStoreExpansionHandler.data
+            .map { preferences ->
+                preferences[collapsedIdsPrefKey] ?: emptySet()
+            }
+
+        @Composable
+        override fun collapsedIds(): State<Set<String>> =
+            collapsedIds.collectAsState(initial = emptySet())
+
+        override fun toggle(id: String) {
+            viewModelScope.launch {
+                getApplication<MyApplication>().dataStoreExpansionHandler.edit { settings ->
+                    settings[collapsedIdsPrefKey] = settings[collapsedIdsPrefKey]?.toMutableSet()?.also {
+                        it.toggle(id)
+                    } ?: setOf(id)
+                }
+            }
         }
     }
 
-    fun loadHiddenAccountCount() {
-        disposable = briteContentResolver.createQuery(
-            ACCOUNTS_URI,
-            arrayOf("count(*)"), "$KEY_HIDDEN = 1", null, null, false
+    var selectedTransactionSum: Long
+        get() = savedStateHandle["selectedTransactionSum"] ?: 0
+        set(value) {
+            savedStateHandle["selectedTransactionSum"] = value
+        }
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    val selectedAccount: MutableState<Long> =
+        savedStateHandle.saveable("selectedAccount") { mutableStateOf(0L) }
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    val selectionState: MutableState<List<Transaction2>> =
+        savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
+
+    @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
+    val pagerState = savedStateHandle.saveable("pagerState",
+        saver = Saver(
+            save = { it.currentPage },
+            restore = { PagerState(it) }
         )
-            .mapToOne { cursor -> cursor.getInt(0) > 0 }
-            .subscribe { hasHiddenAccounts.postValue(it) }
+    ) {
+        PagerState(0)
+    }
+
+    val currentFilter: FilterPersistence
+        get() = filterPersistence.getValue(selectedAccount.value)
+
+    val filterPersistence: Map<Long, FilterPersistence> =
+        lazyMap {
+            FilterPersistence(
+                prefHandler,
+                keyTemplate = prefNameForCriteria(accountId = it),
+                savedInstanceState = null,
+                immediatePersist = true,
+                restoreFromPreferences = true
+            )
+        }
+
+    val accountData: StateFlow<Result<List<FullAccount>>> = contentResolver.observeQuery(
+        uri = ACCOUNTS_URI.buildUpon()
+            .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
+            .appendBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT)
+            .build(),
+        selection = "$KEY_HIDDEN = 0",
+        notifyForDescendants = true
+    )
+        .mapToListCatchingWithExtra {
+            FullAccount.fromCursor(it, currencyContext)
+        }.onEach { result ->
+            result.onSuccess {
+                hiddenAccountsInternal.value = it.first.getInt(KEY_COUNT) > 0
+            }
+        }
+        .map { result -> result.mapCatching { it.second } }
+        .stateIn(viewModelScope, SharingStarted.Lazily, Result.success(emptyList()))
+
+    fun loadData(account: FullAccount): () -> TransactionPagingSource {
+        return {
+            TransactionPagingSource(
+                localizedContext, account,
+                filterPersistence.getValue(account.id).whereFilterAsFlow, viewModelScope
+            )
+        }
+    }
+
+    fun headerData(account: FullAccount): Flow<HeaderData> =
+        contentResolver.observeQuery(uri = account.groupingUri()).map { query ->
+            withContext(Dispatchers.IO) {
+                try {
+                    query.run()
+                } catch (e: SQLiteException) {
+                    CrashHandler.report(e)
+                    null
+                }?.use { cursor ->
+                    HeaderData.fromSequence(account, cursor.asSequence)
+                } ?: emptyMap()
+            }
+        }.combine(dateInfo) { headerData, dateInfo ->
+            HeaderData(account, headerData, dateInfo)
+        }
+
+    fun budgetData(account: FullAccount): Flow<BudgetData?> =
+        if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
+            contentResolver.observeQuery(
+                uri = BaseTransactionProvider.defaultBudgetAllocationUri(account),
+                projection = arrayOf(
+                    KEY_YEAR,
+                    KEY_SECOND_GROUP,
+                    KEY_BUDGET,
+                    KEY_BUDGET_ROLLOVER_PREVIOUS,
+                    KEY_ONE_TIME
+                ),
+                sortOrder = "$KEY_YEAR, $KEY_SECOND_GROUP"
+            ).map { it }
+                .mapToListWithExtra {
+                    BudgetRow(
+                        Grouping.groupId(it.getInt(0), it.getInt(1)),
+                        it.getLong(2) + it.getLong(3),
+                        it.getInt(4) == 1
+                    )
+                }.map {
+                    BudgetData(it.first.getLong(KEY_BUDGETID), it.second)
+                }
+        } else emptyFlow()
+
+    fun sumInfo(account: FullAccount): Flow<SumInfo> = contentResolver.observeQuery(
+        uri = TRANSACTIONS_URI.buildUpon().appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
+            .build(),
+        selection = account.selection,
+        selectionArgs = account.selectionArgs
+    ).mapToOne {
+        SumInfoLoaded.fromCursor(it)
     }
 
     fun persistGrouping(accountId: Long, grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
             if (accountId == Account.HOME_AGGREGATE_ID) {
                 AggregateAccount.persistGroupingHomeAggregate(prefHandler, grouping)
-                contentResolver.notifyChange(ACCOUNTS_URI, null, false)
+                triggerAccountListRefresh()
             } else {
                 contentResolver.update(
-                    ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, accountId)
+                    ContentUris.withAppendedId(ACCOUNT_GROUPINGS_URI, accountId)
                         .buildUpon()
                         .appendPath(grouping.name).build(),
                     null, null, null
@@ -88,7 +217,7 @@ class MyExpensesViewModel(application: Application) :
         viewModelScope.launch(context = coroutineContext()) {
             contentResolver.update(
                 ContentUris.withAppendedId(Account.CONTENT_URI, accountId).buildUpon()
-                    .appendPath(TransactionProvider.URI_SEGMENT_SORT_DIRECTION)
+                    .appendPath(URI_SEGMENT_SORT_DIRECTION)
                     .appendPath(sortDirection.name).build(),
                 null, null, null
             )
@@ -97,11 +226,15 @@ class MyExpensesViewModel(application: Application) :
 
     fun persistSortDirectionAggregate(currency: String, sortDirection: SortDirection) {
         AggregateAccount.persistSortDirectionAggregate(prefHandler, currency, sortDirection)
-        contentResolver.notifyChange(ACCOUNTS_URI, null, false)
+        triggerAccountListRefresh()
     }
 
     fun persistSortDirectionHomeAggregate(sortDirection: SortDirection) {
         AggregateAccount.persistSortDirectionHomeAggregate(prefHandler, sortDirection)
+        triggerAccountListRefresh()
+    }
+
+    fun triggerAccountListRefresh() {
         contentResolver.notifyChange(ACCOUNTS_URI, null, false)
     }
 
@@ -109,7 +242,7 @@ class MyExpensesViewModel(application: Application) :
         viewModelScope.launch(context = coroutineContext()) {
             contentResolver.update(
                 TRANSACTIONS_URI.buildUpon()
-                    .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
+                    .appendPath(URI_SEGMENT_LINK_TRANSFER)
                     .appendPath(repository.getUuidForTransaction(itemIds[0]))
                     .build(), ContentValues(1).apply {
                     put(KEY_UUID, repository.getUuidForTransaction(itemIds[1]))
@@ -148,9 +281,13 @@ class MyExpensesViewModel(application: Application) :
                     arrayOf(accountId.toString())
                 )
                 if (reset) {
-                    reset(Account.getInstanceFromDb(accountId), WhereFilter.empty().apply {
-                        put(CrStatusCriteria(CrStatus.RECONCILED.name))
-                    }, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
+                    reset(
+                        account = Account.getInstanceFromDb(accountId),
+                        filter = WhereFilter.empty()
+                            .put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))),
+                        handleDelete = Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE,
+                        helperComment = null
+                    )
                 }
                 Unit
             })
@@ -170,13 +307,210 @@ class MyExpensesViewModel(application: Application) :
     fun sortAccounts(sortedIds: LongArray) {
         viewModelScope.launch(context = coroutineContext()) {
             contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_SORT_ACCOUNTS,
+                DUAL_URI,
+                METHOD_SORT_ACCOUNTS,
                 null,
                 Bundle(1).apply {
                     putLongArray(KEY_SORT_KEY, sortedIds)
                 }
             )
         }
+    }
+
+    fun undeleteTransactions(itemId: Long): LiveData<Int> =
+        liveData(context = coroutineContext()) {
+            emit(
+                try {
+                    Transaction.undelete(itemId)
+                    1
+                } catch (e: SQLiteConstraintException) {
+                    CrashHandler.reportWithDbSchema(e)
+                    0
+                }
+            )
+        }
+
+    private val cloneAndRemapProgressInternal = MutableLiveData<Pair<Int, Int>>()
+    val cloneAndRemapProgress: LiveData<Pair<Int, Int>>
+        get() = cloneAndRemapProgressInternal
+
+    fun cloneAndRemap(transactionIds: List<Long>, column: String, rowId: Long) {
+        viewModelScope.launch(coroutineDispatcher) {
+            var successCount = 0
+            var failureCount = 0
+            for (id in transactionIds) {
+                val transaction = Transaction.getInstanceFromDb(id)
+                transaction.prepareForEdit(true, false)
+                val ops = transaction.buildSaveOperations(true)
+                val newUpdate =
+                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
+                if (transaction.isSplit) {
+                    newUpdate.withSelection("$KEY_ROWID = ?", arrayOf(transaction.id.toString()))
+                } else {
+                    newUpdate.withSelection(
+                        "$KEY_ROWID = ?",
+                        arrayOf("")
+                    )//replaced by back reference
+                        .withSelectionBackReference(0, 0)
+                }
+                ops.add(newUpdate.build())
+                if (contentResolver.applyBatch(
+                        AUTHORITY,
+                        ops
+                    ).size == ops.size
+                ) {
+                    successCount++
+                } else {
+                    failureCount++
+                }
+                cloneAndRemapProgressInternal.postValue(Pair(successCount, failureCount))
+            }
+        }
+    }
+
+    fun remap(transactionIds: List<Long>, column: String, rowId: Long): LiveData<Int> =
+        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            emit(run {
+                val list = transactionIds.joinToString()
+                var selection = "$KEY_ROWID IN ($list)"
+                if (column == KEY_ACCOUNTID) {
+                    selection += " OR $KEY_PARENTID IN ($list)"
+                }
+                contentResolver.update(
+                    TRANSACTIONS_URI,
+                    ContentValues().apply { put(column, rowId) },
+                    selection,
+                    null
+                )
+            })
+        }
+
+    fun tag(transactionIds: List<Long>, tagList: ArrayList<Tag>, replace: Boolean) {
+        val tagIds = tagList.map { tag -> tag.id }
+        viewModelScope.launch(coroutineDispatcher) {
+            val ops = ArrayList<ContentProviderOperation>()
+            for (id in transactionIds) {
+                ops.addAll(saveTagLinks(tagIds, id, null, replace))
+            }
+            contentResolver.applyBatch(AUTHORITY, ops)
+        }
+    }
+
+    fun addFilterCriteria(c: Criterion<*>, accountId: Long) {
+        filterPersistence.getValue(accountId).addCriteria(c)
+    }
+
+    /**
+     * Removes a given filter
+     *
+     * @return true if the filter was set and successfully removed, false otherwise
+     */
+    fun removeFilter(id: Int, accountId: Long) =
+        filterPersistence.getValue(accountId).removeFilter(id)
+
+    fun toggleCrStatus(id: Long) {
+        viewModelScope.launch(coroutineDispatcher) {
+            contentResolver.update(
+                TRANSACTIONS_URI
+                    .buildUpon()
+                    .appendPath(id.toString())
+                    .appendPath(URI_SEGMENT_TOGGLE_CRSTATUS)
+                    .build(),
+                null, null, null
+            )
+        }
+    }
+
+    fun split(ids: LongArray) = liveData(context = coroutineContext()) {
+        val count = ids.size
+        val where = KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(count)
+        val selectionArgs = ids.map { it.toString() }.toTypedArray()
+        val projection = arrayOf(
+            KEY_ACCOUNTID,
+            KEY_CURRENCY,
+            KEY_PAYEEID,
+            KEY_CR_STATUS,
+            "avg($KEY_DATE) AS $KEY_DATE",
+            "sum($KEY_AMOUNT) AS $KEY_AMOUNT"
+        )
+
+        val groupBy = String.format(
+            Locale.ROOT,
+            "%s, %s, %s, %s",
+            KEY_ACCOUNTID,
+            KEY_CURRENCY,
+            KEY_PAYEEID,
+            KEY_CR_STATUS
+        )
+        contentResolver.query(
+            Transaction.EXTENDED_URI.buildUpon()
+                .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
+                .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
+                .build(),
+            projection, where, selectionArgs, null
+        )?.use { cursor ->
+            if (cursor.count > 1) {
+                emit(Result.failure(Exception()))
+                null
+            } else {
+                cursor.moveToFirst()
+                val accountId = cursor.getLong(KEY_ACCOUNTID)
+                val amount = Money(
+                    currencyContext[cursor.getString(KEY_CURRENCY)],
+                    cursor.getLong(KEY_AMOUNT)
+                )
+                val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
+                val date = cursor.getLong(KEY_DATE)
+                val crStatus = enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
+                SplitTransaction.getNewInstance(accountId, false).also {
+                    it.amount = amount
+                    it.date = date
+                    it.payeeId = payeeId
+                    it.crStatus = crStatus
+                }
+            }
+        }?.let { parent ->
+            val operations = parent.buildSaveOperations(false)
+            operations.add(
+                ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                    .withValues(ContentValues().apply {
+                        put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                        put(KEY_DATE, parent.date)
+                        putNull(KEY_PAYEEID)
+                    })
+                    .withValueBackReference(KEY_PARENTID, 0)
+                    .withSelection(where, selectionArgs)
+                    .withExpectedCount(count)
+                    .build()
+            )
+            contentResolver.applyBatch(AUTHORITY, operations)
+            emit(ResultUnit)
+        }
+    }
+
+    fun revokeSplit(id: Long) = liveData(context = coroutineContext()) {
+        val values = ContentValues(1).apply {
+            put(KEY_ROWID, id)
+        }
+        if (contentResolver.update(
+            TRANSACTIONS_URI.buildUpon()
+                .appendPath(URI_SEGMENT_UNSPLIT)
+                .build(),
+            values, null, null
+        ) == 1) emit(ResultUnit) else emit(Result.failure(Exception()))
+    }
+
+    fun canLinkSelection(): Boolean {
+        check(selectionState.value.size == 2)
+        val transaction1 = selectionState.value[0]
+        val transaction2 = selectionState.value[1]
+        return transaction1.accountId != transaction2.accountId && (
+                transaction1.amount.amountMinor == -transaction2.amount.amountMinor ||
+                        transaction1.currency.code != transaction2.currency.code
+                )
+    }
+
+    companion object {
+        fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
     }
 }

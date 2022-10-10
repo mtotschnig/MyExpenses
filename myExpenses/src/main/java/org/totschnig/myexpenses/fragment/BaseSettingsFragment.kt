@@ -24,14 +24,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
-import androidx.preference.EditTextPreference
-import androidx.preference.ListPreference
-import androidx.preference.MultiSelectListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceGroup
-import androidx.preference.SwitchPreferenceCompat
+import androidx.preference.*
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
@@ -53,33 +46,22 @@ import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.preference.AccountPreference
-import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
+import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
-import org.totschnig.myexpenses.preference.PopupMenuPreference
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.requireString
+import org.totschnig.myexpenses.provider.frameworkSupportsWindowingFunctions
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
-import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
-import org.totschnig.myexpenses.util.enumValueOrNull
-import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -379,9 +361,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS), getKey(PrefKey.CRITERION_FUTURE) -> {
                 preferenceActivity.rebuildDbConstants()
             }
-            getKey(PrefKey.DB_SAFE_MODE) -> {
-                preferenceActivity.rebuildAccountProjection()
-            }
             getKey(PrefKey.UI_FONTSIZE) -> {
                 updateAllWidgets()
                 preferenceActivity.recreate()
@@ -442,6 +421,17 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     featureManager.requestFeature(Feature.OCR, preferenceActivity)
                 }
                 configureOcrEnginePrefs()
+            }
+            getKey(PrefKey.RUNNING_BALANCE) -> {
+                //Prior to API 30, the native sqlite does not support windowing functions.
+                //We need to restart app, in order to use the bundled sqlite library
+                if (sharedPreferences.getBoolean(key, false) && !frameworkSupportsWindowingFunctions) {
+                    if (featureManager.isFeatureInstalled(Feature.REQUERY, preferenceActivity)) {
+                        preferenceActivity.showRestartInfo()
+                    } else {
+                        featureManager.requestFeature(Feature.REQUERY, preferenceActivity)
+                    }
+                }
             }
         }
     }

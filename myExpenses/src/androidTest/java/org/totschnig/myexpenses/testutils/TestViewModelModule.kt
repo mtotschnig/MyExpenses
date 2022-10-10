@@ -13,19 +13,25 @@ import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 
 object TestViewModelModule : ViewModelModule() {
     @Provides
-    override fun provideSyncBackendViewModelClass(): Class<out AbstractSyncBackendViewModel> = FakeSyncBackendViewModel::class.java
+    override fun provideSyncBackendViewModelClass(): Class<out AbstractSyncBackendViewModel> =
+        FakeSyncBackendViewModel::class.java
 }
 
-class FakeSyncBackendViewModel(application: Application) : AbstractSyncBackendViewModel(application) {
-    override fun getAccounts(context: Context): List<Pair<String, Boolean>> = with(getApplication<TestApp>().fixture) {
-        listOf(
+class FakeSyncBackendViewModel(application: Application) :
+    AbstractSyncBackendViewModel(application) {
+    override fun getAccounts(context: Context): List<Pair<String, Boolean>> =
+        with(getApplication<TestApp>().fixture) {
+            listOf(
                 Pair.create(syncAccount1, true),
                 Pair.create(syncAccount2, false),
                 Pair.create(syncAccount3, false)
-        )
-    }
+            )
+        }
 
-    override fun accountMetadata(accountName: String): LiveData<Result<List<Result<AccountMetaData>>>> = liveData {
+    override fun accountMetadata(
+        accountName: String,
+        isFeatureAvailable: Boolean
+    ): LiveData<Result<List<Result<AccountMetaData>>>> = liveData {
         val syncedAccount = with(getApplication<TestApp>().fixture) {
             when (accountName) {
                 syncAccount1 -> account1

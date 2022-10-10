@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.util.formatMoney
 
 fun Modifier.amountBorder(color: Color) = this
     .border(
@@ -35,16 +37,29 @@ fun ColoredAmountText(
     prefix: String = "",
     postFix: String = ""
 ) {
+    ColoredAmountText(money = Money(currency, amount), modifier, fontWeight, textAlign, withBorder, prefix, postFix)
+}
+
+@Composable
+fun ColoredAmountText(
+    money: Money,
+    modifier: Modifier = Modifier,
+    fontWeight: FontWeight? = null,
+    textAlign: TextAlign? = null,
+    withBorder: Boolean = false,
+    prefix: String = "",
+    postFix: String = ""
+) {
     val color = when {
-        amount > 0 -> LocalColors.current.income
-        amount < 0 -> LocalColors.current.expense
+        money.amountMinor > 0 -> LocalColors.current.income
+        money.amountMinor < 0 -> LocalColors.current.expense
         else -> Color.Unspecified
     }
     Text(
         modifier = if (withBorder) modifier.amountBorder(color) else modifier,
         fontWeight = fontWeight,
         textAlign = textAlign,
-        text = prefix + LocalAmountFormatter.current(amount, currency) + postFix,
+        text = prefix + LocalCurrencyFormatter.current.formatMoney(money) + postFix,
         color = color
     )
 }

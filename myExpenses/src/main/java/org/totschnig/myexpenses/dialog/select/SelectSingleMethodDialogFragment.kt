@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.net.Uri
+import org.totschnig.myexpenses.activity.RemapHandler.Companion.MAP_METHOD_REQUEST
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 
@@ -20,7 +21,7 @@ class SelectSingleMethodDialogFragment : SelectSingleDialogFragment() {
         const val KEY_ACCOUNT_TYPES = "accountTypes"
         @JvmStatic
         fun newInstance(dialogTitle: Int, remap_empty_list: Int, accountTypes: Array<String>, signum: Int) = SelectSingleMethodDialogFragment().apply {
-            arguments = buildArguments(dialogTitle, remap_empty_list).apply {
+            arguments = buildArguments(dialogTitle, remap_empty_list, MAP_METHOD_REQUEST).apply {
                 putStringArray(KEY_ACCOUNT_TYPES, accountTypes)
                 putString(KEY_SIGNUM, signum.toString())
             }

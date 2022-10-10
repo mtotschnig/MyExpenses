@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.StringBuilderWrapper
 import java.time.format.DateTimeFormatter
@@ -54,7 +55,7 @@ class CsvExporter(
         numberOfCategoryColumns = context.contentResolver.query(
             TransactionProvider.CATEGORIES_URI
                 .buildUpon()
-                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
                 .build(),
             arrayOf("max(${DatabaseConstants.KEY_LEVEL})"),
             null, null, null

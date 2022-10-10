@@ -14,6 +14,7 @@
     <string name="autofill">"ఆటోఫిల్"</string>
     <string name="discard">"విస్మరించు"</string>
     <string name="dialog_dismiss">"తీసివేయి"</string>
+    <string name="details">"వివరాలు"</string>
     <string name="response_yes">"హాజరవుతారు"</string>
     <string name="response_no">"హాజరు కావడం లేదు"</string>
     <string name="add_widget">"విడ్జెట్‌ను జోడించండి"</string>

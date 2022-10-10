@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
-import android.content.OperationApplicationException
-import android.os.RemoteException
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.*
@@ -17,7 +15,6 @@ import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scroll
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -37,7 +34,6 @@ import org.totschnig.myexpenses.testutils.withOperationType
 import java.util.*
 
 class SplitEditTest : BaseExpenseEditTest() {
-    private lateinit var activityScenario: ActivityScenario<TestExpenseEdit>
     private val accountLabel1 = "Test label 1"
     lateinit var account1: Account
     private var currency1: CurrencyUnit? = null
@@ -51,12 +47,6 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun fixture() {
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         account1 = Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
-    }
-
-    @After
-    @Throws(RemoteException::class, OperationApplicationException::class)
-    fun tearDown() {
-        Account.delete(account1.id)
     }
 
     /*
@@ -191,7 +181,4 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(amount))
         closeSoftKeyboard()
     }
-
-    override val testScenario: ActivityScenario<TestExpenseEdit>
-        get() = activityScenario
 }

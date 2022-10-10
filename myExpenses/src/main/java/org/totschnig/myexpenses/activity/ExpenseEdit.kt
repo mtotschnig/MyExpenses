@@ -118,10 +118,7 @@ import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
 import org.totschnig.myexpenses.viewmodel.ERROR_WHILE_SAVING_TAGS
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.FROM_INTENT_EXTRAS
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TEMPLATE
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.*
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
@@ -188,6 +185,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     @JvmField
     @State
     var areDatesLinked = false
+
+    @JvmField
+    @State
+    var withTypeSpinner = false
 
     private var mIsResumed = false
     private var accountsLoaded = false
@@ -258,7 +259,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-        floatingActionButton?.show()
+        floatingActionButton.show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -294,7 +295,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             setupObservers(true)
             delegate.bind(
                 null,
-                mNewInstance,
+                withTypeSpinner,
                 savedInstanceState,
                 null,
                 withAutoFill
@@ -302,7 +303,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             setHelpVariant(delegate.helpVariant)
             setTitle()
             refreshPlanData()
-            floatingActionButton?.show()
+            floatingActionButton.show()
         } else {
             areDatesLinked = prefHandler.getBoolean(PrefKey.DATES_ARE_LINKED, false)
             updateDateLink()
@@ -312,17 +313,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)
                 if (mRowId != 0L) {
-                    if (planInstanceId != 0L) {
-                        task = TRANSACTION_FROM_TEMPLATE
+                    task = if (planInstanceId != 0L) {
+                        TRANSACTION_FROM_TEMPLATE
                     } else {
                         isTemplate = true
-                        task = TEMPLATE
+                        TEMPLATE
                     }
                 }
             } else {
-                task = TRANSACTION
+                task = if (intent.getBooleanExtra(KEY_TEMPLATE_FROM_TRANSACTION, false)) {
+                    isTemplate = true
+                    TEMPLATE_FROM_TRANSACTION
+                } else {
+                    TRANSACTION
+                }
             }
-            mNewInstance = mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE
+            mNewInstance = mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE || task == TEMPLATE_FROM_TRANSACTION
+            withTypeSpinner = mRowId == 0L
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
@@ -619,6 +626,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                     TRANSACTION, TEMPLATE -> "Object has been deleted from db"
                     TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
                     FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
+                    TEMPLATE_FROM_TRANSACTION -> "Unable to build template from transaction"
                 }
             )
         }
@@ -700,7 +708,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         setupObservers(false)
         delegate.bindUnsafe(
             transaction,
-            mNewInstance,
+            withTypeSpinner,
             null,
             intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
             withAutoFill
@@ -722,10 +730,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         get() = if (isSplitPart) PrefKey.EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART else PrefKey.EXPENSE_EDIT_SAVE_AND_NEW
 
     private fun setTitle() {
-        if (mNewInstance) {
+        if (withTypeSpinner) {
             supportActionBar!!.setDisplayShowTitleEnabled(false)
         } else {
-            title = delegate.title
+            title = delegate.title(mNewInstance)
         }
     }
 
@@ -1050,7 +1058,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 (delegate as? CategoryDelegate)?.setCategory(
                     intent.getStringExtra(KEY_LABEL),
                     intent.getStringExtra(KEY_ICON),
-                    intent.getLongExtra(KEY_CATID, 0)
+                    intent.getLongExtra(KEY_ROWID, 0)
                 )
                 setDirty()
             }
@@ -1409,7 +1417,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun updateFab() {
-        floatingActionButton?.let {
+        floatingActionButton.let {
             it.setImageResource(if (createNew) R.drawable.ic_action_save_new else R.drawable.ic_menu_done)
             it.contentDescription =
                 getString(if (createNew) R.string.menu_save_and_new_content_description else R.string.menu_save_help_text)
@@ -1457,6 +1465,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     companion object {
         const val KEY_NEW_TEMPLATE = "newTemplate"
         const val KEY_CLONE = "clone"
+        const val KEY_TEMPLATE_FROM_TRANSACTION = "templateFromTransaction"
         private const val KEY_CACHED_DATA = "cachedData"
         private const val KEY_CACHED_RECURRENCE = "cachedRecurrence"
         private const val KEY_CACHED_PICTURE_URI = "cachedPictureUri"

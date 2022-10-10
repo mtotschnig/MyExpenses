@@ -615,7 +615,6 @@
     <string name="onboarding_restore_from_cloud_backup">バックアップ</string>
     <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
     <string name="dialog_button_add">追加</string>
-    <string name="template_create_error">テンプレートの保存中にエラーが発生しました</string>
     <string name="contributed_by">貢献者 %s</string>
     <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
     <string name="pref_debug_logging_summary">システムログにデバッグ情報を書き込む</string>
@@ -677,14 +676,9 @@
     <string name="warning_ungroup_split_transactions">選択された分割取引はグループ解除されます。分割された部分は通常の取引になります。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">分割のグループ化解除</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="other">%1$d 分割取引がグループ化解除されました。</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">分割取引のグループ化解除中、 %1$d / %2$d 失敗しました。</string>
+    <string name="ungroup_split_transaction_success">1 分割取引がグループ化解除されました。</string>
     <string name="split_transaction_one_success">取引が分割に変換されました。</string>
-    <string name="split_transaction_one_error">取引を変換して分割することができませんでした。</string>
     <string name="split_transaction_group_success">%1$d 取引が1つの分割取引にグループ化されました。</string>
-    <string name="split_transaction_group_error">取引を分割にグループ化できませんでした。</string>
     <string name="split_transaction_not_possible">同じ勘定科目、支払先、およびステータスを持つ取引だけが、1つの分割取引にグループ化できます。</string>
     <string name="pref_transaction_time_summary">正確な取引時間を設定できるようにします。</string>
     <string name="pref_value_date_summary">予約日に加えて実行日を設定することができます。 取引時間は表示されません。 この設定は現金口座には適用されません。</string>
@@ -764,7 +758,6 @@
     <string name="button_label_no_encryption">暗号化しない</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">または</string>
-    <string name="pref_account_list_fast_scroll_summary">アカウントリストの高速スクロールを有効にします。 一部のデバイスでは正しく表示されない可能性があります</string>
     <string name="menu_hide">非表示</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">閉じる</string>

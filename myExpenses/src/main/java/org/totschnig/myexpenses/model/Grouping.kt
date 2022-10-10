@@ -24,6 +24,8 @@ enum class Grouping {
 
     open val minValue = 1
 
+    fun calculateGroupId(year: Int, second: Int) = if (this == NONE) 1 else groupId(year, second)
+
     /**
      * @param groupYear           the year of the group to display
      * @param groupSecond         the number of the group in the second dimension (day, week or month)
@@ -32,15 +34,12 @@ enum class Grouping {
      * @return a human readable String representing the group as header or activity title
      */
     fun getDisplayTitle(
-        ctx: Context?,
+        ctx: Context,
         groupYear: Int,
         groupSecond: Int,
-        dateInfo: DateInfo,
-        userPreferredLocale: Locale
+        dateInfo: DateInfo
     ): String {
-        if (ctx == null) {
-            return ""
-        }
+        val locale = ctx.resources.configuration.locale
         val cal: Calendar
         return when (this) {
             NONE -> ctx.getString(R.string.menu_aggregates)
@@ -51,7 +50,7 @@ enum class Grouping {
                 cal[Calendar.YEAR] = groupYear
                 cal[Calendar.DAY_OF_YEAR] = groupSecond
                 val title =
-                    DateFormat.getDateInstance(DateFormat.FULL, userPreferredLocale)
+                    DateFormat.getDateInstance(DateFormat.FULL, locale)
                         .format(cal.time)
                 if (groupYear == thisYear) {
                     if (groupSecond == thisDay) return ctx.getString(R.string.grouping_today) + " (" + title + ")" else if (groupSecond == thisDay - 1) return ctx.getString(
@@ -85,7 +84,7 @@ enum class Grouping {
                     groupYear,
                     groupSecond,
                     DateFormat.LONG,
-                    userPreferredLocale
+                    locale
                 )
             }
             YEAR -> groupYear.toString()
@@ -93,6 +92,9 @@ enum class Grouping {
     }
 
     companion object {
+
+        fun groupId(year: Int, second: Int) = year * 1000 + second
+
         fun getDisplayTitleForMonth(
             groupYear: Int,
             groupSecond: Int,

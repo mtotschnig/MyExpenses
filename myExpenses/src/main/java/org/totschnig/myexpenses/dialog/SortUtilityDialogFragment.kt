@@ -15,7 +15,7 @@ import java.util.*
 
 class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
     DialogInterface.OnClickListener {
-    private var mItemTouchHelper: ItemTouchHelper? = null
+    private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var callback: OnConfirmListener
     private lateinit var adapter: RecyclerListAdapter
 
@@ -48,7 +48,7 @@ class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
         recyclerView.layoutManager = LinearLayoutManager(activity)
         val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter)
         mItemTouchHelper = ItemTouchHelper(callback)
-        mItemTouchHelper!!.attachToRecyclerView(recyclerView)
+        mItemTouchHelper.attachToRecyclerView(recyclerView)
         return builder.setTitle(R.string.sort_order)
             .setPositiveButton(android.R.string.ok, this)
             .setNegativeButton(android.R.string.cancel, null)
@@ -57,7 +57,7 @@ class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-        mItemTouchHelper!!.startDrag(viewHolder)
+        mItemTouchHelper.startDrag(viewHolder)
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {

@@ -10,8 +10,7 @@ data class AccountInfo @JvmOverloads internal constructor(
     val label: String,
     val type: AccountType,
     val openingBalance: Long,
-    val currency: String = "EUR",
-    val grouping: Grouping = Grouping.NONE
+    val currency: String = "EUR"
 ) {
     val contentValues: ContentValues
         get() {
@@ -21,7 +20,6 @@ data class AccountInfo @JvmOverloads internal constructor(
             v.put(DatabaseConstants.KEY_OPENING_BALANCE, openingBalance)
             v.put(DatabaseConstants.KEY_CURRENCY, currency)
             v.put(DatabaseConstants.KEY_TYPE, type.name)
-            v.put(DatabaseConstants.KEY_GROUPING, grouping.name)
             return v
         }
     val description: String

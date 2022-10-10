@@ -22,8 +22,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,16 +33,10 @@ import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getIntOrNull
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -155,7 +149,7 @@ open class CategoryViewModel(
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
         TransactionProvider.CATEGORIES_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL, "1")
+            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
             .apply {
                 queryParameter.forEach {
                     appendQueryParameter(it.key, it.value)
@@ -166,8 +160,8 @@ open class CategoryViewModel(
     private fun Flow<Query>.mapToTree(
         keepCriteria: ((Category) -> Boolean)?,
         withColors: Boolean
-    ): Flow<Category> = transform { query ->
-        val value = withContext(Dispatchers.IO) {
+    ): Flow<Category> = mapNotNull { query ->
+        withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
                 cursor.moveToFirst()
                 Category(
@@ -187,9 +181,6 @@ open class CategoryViewModel(
                     icon = null
                 ).pruneNonMatching(keepCriteria)
             }
-        }
-        if (value != null) {
-            emit(value)
         }
     }
 
@@ -391,17 +382,11 @@ open class CategoryViewModel(
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
-                        val nextSum = cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudget = cursor.getColumnIndex(KEY_BUDGET).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudgetRollOverPrevious = cursor.getColumnIndex(
-                            KEY_BUDGET_ROLLOVER_PREVIOUS).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudgetRollOverNext = cursor.getColumnIndex(KEY_BUDGET_ROLLOVER_NEXT).takeIf { it != -1 }
-                            ?.let { cursor.getLong(it) } ?: 0L
-                        val nextBudgetOneTime = cursor.getColumnIndex(KEY_ONE_TIME).takeIf { it != -1 }
-                            ?.let { cursor.getInt(it) != 0 } ?: false
+                        val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)
+                        val nextBudget = cursor.getLongIfExistsOr0(KEY_BUDGET)
+                        val nextBudgetRollOverPrevious = cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_PREVIOUS)
+                        val nextBudgetRollOverNext = cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_NEXT)
+                        val nextBudgetOneTime = cursor.getIntIfExistsOr0(KEY_ONE_TIME) != 0
                         if (nextParent == parentId) {
                             check(level == nextLevel)
                             cursor.moveToNext()

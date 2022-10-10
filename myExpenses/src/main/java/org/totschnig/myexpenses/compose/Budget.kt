@@ -3,22 +3,13 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
@@ -40,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.absoluteValue
 import kotlin.math.sign
@@ -58,16 +50,11 @@ fun Budget(
     editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
     Column(
-        modifier = modifier.then(
-            if (category.level == 0) {
-                (if (narrowScreen) {
-                    Modifier.horizontalScroll(
-                        rememberScrollState()
-                    )
-                } else Modifier)
-                    .padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))
-            } else Modifier
-        )
+        modifier = modifier.conditionalComposed(category.level == 0) {
+            conditionalComposed(narrowScreen) {
+                horizontalScroll(rememberScrollState())
+            }.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))
+        }
     ) {
         val doEdit = { onBudgetEdit(category, parent) }
         val doShow = { onShowTransactions(category) }
@@ -289,7 +276,7 @@ private fun RowScope.BudgetNumbers(
             modifier = Modifier
                 .clickable(onClick = onBudgetEdit)
                 .fillMaxWidth(),
-            text = LocalAmountFormatter.current(category.budget.budget, currency),
+            text = LocalCurrencyFormatter.current.convAmount(category.budget.budget, currency),
             textAlign = TextAlign.End,
             textDecoration = TextDecoration.Underline
         )
@@ -305,7 +292,7 @@ private fun RowScope.BudgetNumbers(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = " = " + LocalAmountFormatter.current(
+                text = " = " + LocalCurrencyFormatter.current.convAmount(
                     category.budget.budget + category.budget.rollOverPrevious,
                     currency
                 ),
@@ -317,7 +304,12 @@ private fun RowScope.BudgetNumbers(
             val errorIndication = if (isError) "!" else ""
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = errorIndication + "(${LocalAmountFormatter.current(allocation, currency)})" + errorIndication,
+                text = errorIndication + "(${
+                    LocalCurrencyFormatter.current.convAmount(
+                        allocation,
+                        currency
+                    )
+                })" + errorIndication,
                 textAlign = TextAlign.End,
                 color = if (isError)
                     colorResource(id = R.color.colorErrorDialog) else Color.Unspecified
@@ -333,7 +325,7 @@ private fun RowScope.BudgetNumbers(
         modifier = Modifier
             .numberColumn(this)
             .clickable(onClick = onShowTransactions),
-        text = LocalAmountFormatter.current(aggregateSum, currency),
+        text = LocalCurrencyFormatter.current.convAmount(aggregateSum, currency),
         textAlign = TextAlign.End,
         textDecoration = TextDecoration.Underline
     )
@@ -353,22 +345,26 @@ private fun RowScope.BudgetNumbers(
     //Rollover
     if (hasRolloverNext || editRollOver != null) {
         VerticalDivider()
-        val rollOverFromChildren = category.aggregateRollOverNext(editRollOver?.mapValues { it.value.first })
+        val rollOverFromChildren =
+            category.aggregateRollOverNext(editRollOver?.mapValues { it.value.first })
         Column(
             modifier = Modifier.numberColumn(this),
             horizontalAlignment = Alignment.End
         ) {
             if (editRollOver != null && (remainder != 0L)) {
-                val rollOver = editRollOver.getOrDefault(category.id, category.budget.rollOverNext to false)
+                val rollOver =
+                    editRollOver.getOrDefault(category.id, category.budget.rollOverNext to false)
                 val rollOverTotal = rollOver.first + rollOverFromChildren
-                val isError = rollOverTotal.sign * remainder.sign == -1 ||  rollOverTotal.absoluteValue > remainder.absoluteValue
+                val isError =
+                    rollOverTotal.sign * remainder.sign == -1 || rollOverTotal.absoluteValue > remainder.absoluteValue
                 editRollOver[category.id] = rollOver.first to isError
 
                 AmountEdit(
                     value = Money(currency, rollOver.first).amountMajor,
                     onValueChange = {
                         val newRollOver = Money(currency, it).amountMinor
-                        editRollOver[category.id] = newRollOver to (newRollOver + rollOverFromChildren > remainder)
+                        editRollOver[category.id] =
+                            newRollOver to (newRollOver + rollOverFromChildren > remainder)
                     },
                     fractionDigits = currency.fractionDigits,
                     isError = isError

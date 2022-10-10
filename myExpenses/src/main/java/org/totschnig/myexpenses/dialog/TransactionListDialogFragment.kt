@@ -32,7 +32,6 @@ import androidx.loader.content.Loader
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.TransactionAdapter
-import org.totschnig.myexpenses.dialog.TransactionDetailFragment.Companion.newInstance
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
@@ -97,14 +96,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
                 val index = c.getColumnIndexOrThrow(DatabaseConstants.KEY_PARENTID)
                 val idToDisplay = if (c.isNull(index)) id else c.getLong(index)
                 lifecycleScope.launchWhenResumed {
-                    with(parentFragmentManager) {
-                        if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
-                            newInstance(idToDisplay).show(
-                                this,
-                                TransactionDetailFragment::class.java.name
-                            )
-                        }
-                    }
+                    TransactionDetailFragment.show(idToDisplay, parentFragmentManager)
                 }
             }
         //TODO prettify layout
@@ -143,7 +135,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             }
             mAccount.isAggregate -> {
                 selection = DatabaseConstants.KEY_ACCOUNTID + " IN " +
-                        "(SELECT " + DatabaseConstants.KEY_ROWID + " from " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY + " = ? AND " +
+                        "(SELECT " + KEY_ROWID + " from " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY + " = ? AND " +
                         DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS + "=0)"
                 accountSelect = mAccount.currencyUnit.code
             }
@@ -245,7 +237,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             cat_id: Long,
             grouping: Grouping?,
             groupingClause: String?,
-            groupingArgs: Array<String?>?,
+            groupingArgs: Array<String>?,
             label: String?,
             type: Int,
             withTransfers: Boolean,

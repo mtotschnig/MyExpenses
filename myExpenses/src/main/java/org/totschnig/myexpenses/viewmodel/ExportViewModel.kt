@@ -5,11 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -17,7 +13,6 @@ import org.totschnig.myexpenses.export.CsvExporter
 import org.totschnig.myexpenses.export.JSONExporter
 import org.totschnig.myexpenses.export.QifExporter
 import org.totschnig.myexpenses.export.createFileFailure
-import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.ExportFormat
@@ -26,6 +21,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -74,7 +70,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val encoding = args.getString(KEY_ENCODING)!!
                     val handleDelete = args.getInt(KEY_EXPORT_HANDLE_DELETED)
                     val filter =
-                        WhereFilter(args.getParcelableArrayList(BaseTransactionList.KEY_FILTER)!!)
+                        WhereFilter(args.getParcelableArrayList(KEY_FILTER)!!)
                     val fileName = args.getString(KEY_FILE_NAME)!!
                     val delimiter = args.getChar(KEY_DELIMITER)
 

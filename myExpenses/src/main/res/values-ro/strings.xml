@@ -496,7 +496,6 @@
     <string name="template">Şablon</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizare în cloud</string>
     <string name="professional_key">Cheie profesională</string>
-    <string name="split_transaction_one_error">Imposibil de transformat tranzacţia în repartizare.</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Închide</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->

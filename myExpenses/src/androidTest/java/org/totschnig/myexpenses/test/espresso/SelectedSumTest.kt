@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import android.database.Cursor
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
@@ -16,17 +18,11 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.BaseUiTest
-import java.util.*
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
-class SelectedSumTest : BaseUiTest<MyExpenses>() {
-    private lateinit var activityScenario: ActivityScenario<MyExpenses>
+class SelectedSumTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
@@ -40,15 +36,12 @@ class SelectedSumTest : BaseUiTest<MyExpenses>() {
         for (i in 0 until times) {
             op0.saveAsNew()
         }
-        activityScenario = ActivityScenario.launch(
-                Intent(targetContext, MyExpenses::class.java).apply {
-                    putExtra(DatabaseConstants.KEY_ROWID, account.id)
-                })
+        launch(account.id)
     }
 
     @Test
     fun testSelectedSum() {
-        openCab()
+        openCab(null)
         var sum = 12
         for (i in 2 until 6) {
             select(i)
@@ -63,12 +56,6 @@ class SelectedSumTest : BaseUiTest<MyExpenses>() {
     }
 
     private fun select(position: Int) {
-        onData(CoreMatchers.`is`(instanceOf(Cursor::class.java)))
-            .inAdapterView(wrappedList)
-            .atPosition(position)
-            .perform(click())
+        listNode.onChildren()[position].performClick()
     }
-
-    override val testScenario: ActivityScenario<MyExpenses>
-        get() = activityScenario
 }

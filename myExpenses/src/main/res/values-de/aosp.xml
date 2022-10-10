@@ -18,6 +18,7 @@
     <string name="autofill">"AutoFill"</string>
     <string name="discard">"Verwerfen"</string>
     <string name="dialog_dismiss">"Schließen"</string>
+    <string name="details">"Details"</string>
     <string name="response_yes">"Ja"</string>
     <string name="response_no">"Nein"</string>
     <string name="add_widget">"Widget hinzufügen"</string>

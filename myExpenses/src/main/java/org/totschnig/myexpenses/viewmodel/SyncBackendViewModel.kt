@@ -15,14 +15,18 @@ class SyncBackendViewModel(application: Application) : AbstractSyncBackendViewMo
     override fun getAccounts(context: Context) =
         GenericAccountService.getAccountNamesWithEncryption(context)
 
-    override fun accountMetadata(accountName: String): LiveData<Result<List<Result<AccountMetaData>>>> =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(
-                SyncBackendProviderFactory[
-                        getApplication(),
-                        GenericAccountService.getAccount(accountName),
-                        false
-                ]
-                    .mapCatching { it.remoteAccountList })
-        }
+    override fun accountMetadata(
+        accountName: String,
+        isFeatureAvailable: Boolean
+    ): LiveData<Result<List<Result<AccountMetaData>>>> =
+        if (isFeatureAvailable)
+            liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+                emit(
+                    SyncBackendProviderFactory[
+                            getApplication(),
+                            GenericAccountService.getAccount(accountName),
+                            false
+                    ]
+                        .mapCatching { it.remoteAccountList })
+            } else nul
 }

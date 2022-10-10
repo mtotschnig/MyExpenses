@@ -8,9 +8,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils.calculateContrast
 import com.google.android.material.chip.ChipGroup
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)? = null) {
     removeAllViews()
@@ -64,3 +68,29 @@ fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
     val parent = view.parent
     return if (parent is View) findParentWithTypeRecursively(parent as View, type) else null
 }
+
+fun dateTimeFormatterFor(account: FullAccount, prefHandler: PrefHandler, context: Context) = when (account.grouping) {
+            Grouping.DAY -> {
+                val shouldShowTime = UiUtils.getDateMode(account.type, prefHandler) == UiUtils.DateMode.DATE_TIME
+                if (shouldShowTime) {
+                    android.text.format.DateFormat.getTimeFormat(context)
+                } else null
+            }
+            Grouping.MONTH -> {
+                val monthStart = prefHandler.getString(PrefKey.GROUP_MONTH_STARTS, "1")!!.toInt()
+                if (monthStart == 1) {
+                    SimpleDateFormat("dd", Utils.localeFromContext(context))
+                } else {
+                    Utils.localizedYearLessDateFormat(context)
+                }
+            }
+            Grouping.WEEK -> {
+                SimpleDateFormat("EEE", Utils.localeFromContext(context))
+            }
+            Grouping.YEAR -> {
+                Utils.localizedYearLessDateFormat(context)
+            }
+            Grouping.NONE -> {
+                Utils.ensureDateFormatWithShortYear(context)
+            }
+        }?.let { DateTimeFormatter.ofPattern((it as SimpleDateFormat).toPattern()) }

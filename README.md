@@ -33,7 +33,6 @@ Credits
 =====
 *My Expenses* relies on a couple of open source libraries :
 
-- <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
 - <a href="http://itextpdf.com/">Itext</a>
 - <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a>
 - <a href="https://github.com/MrBIMC/MaterialSeekBarPreference">MaterialSeekBarPreference</a>

@@ -42,7 +42,6 @@
     <string name="income">Приход</string>
     <string name="pm_creditcard">Кредитна картица</string>
     <string name="sum_income">Приход</string>
-    <string name="split_transaction_one_error">Није могао да трансформише трансакцију за дељење</string>
     <string name="pref_category_title_crash_reports">Извештај о отказивању</string>
     <string name="pref_enable_acra">Дозволите аутоматско слање извештаја о отказивању</string>
     <string name="pref_acra_user_email">Кориснички е-маил биће укључен у извештају о отказивању</string>

@@ -28,9 +28,7 @@ import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.*
 import org.totschnig.myexpenses.ui.SpinnerHelper
@@ -179,18 +177,19 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         filterPersistence.onSaveInstanceState(outState)
     }
 
+    @Deprecated("Deprecated in Java")
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode != Activity.RESULT_CANCELED) {
             when (requestCode) {
                 FILTER_CATEGORY_REQUEST -> {
                     intent?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
-                            intent.getLongExtra(KEY_CATID, 0).takeIf { it > 0 }?.let {
+                            intent.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
                                 addCategoryFilter(label, it)
                             }
                         }
                         if (resultCode == Activity.RESULT_FIRST_USER) {
-                            intent.getLongArrayExtra(KEY_CATID)?.let {
+                            intent.getLongArrayExtra(KEY_ROWID)?.let {
                                 addCategoryFilter(label, *it)
                             }
                         }
@@ -200,18 +199,18 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                     intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.takeIf { it.size > 0 }?.let {
                         val tagIds = it.map(Tag::id).toLongArray()
                         val label = it.map(Tag::label).joinToString(", ")
-                        addFilterCriteria(TagCriteria(label, *tagIds))
+                        addFilterCriterion(TagCriterion(label, *tagIds))
                     }
                 }
                 FILTER_PAYEE_REQUEST -> {
                     intent?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
-                            intent.getLongExtra(KEY_PAYEEID, 0).takeIf { it > 0 }?.let {
+                            intent.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
                                 addPayeeFilter(label, it)
                             }
                         }
                         if (resultCode == Activity.RESULT_FIRST_USER) {
-                            intent.getLongArrayExtra(KEY_PAYEEID)?.let {
+                            intent.getLongArrayExtra(KEY_ROWID)?.let {
                                 addPayeeFilter(label, *it)
                             }
                         }
@@ -223,27 +222,27 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
-        (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriteria()
-        else CategoryCriteria(label, *catIds)).let {
-            addFilterCriteria(it)
+        (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriterion()
+        else CategoryCriterion(label, *catIds)).let {
+            addFilterCriterion(it)
         }
     }
 
     private fun addPayeeFilter(label: String, vararg payeeIds: Long) {
-        (if (payeeIds.size == 1 && payeeIds[0] == NULL_ITEM_ID) PayeeCriteria()
-        else PayeeCriteria(label, *payeeIds)).let {
-            addFilterCriteria(it)
+        (if (payeeIds.size == 1 && payeeIds[0] == NULL_ITEM_ID) PayeeCriterion()
+        else PayeeCriterion(label, *payeeIds)).let {
+            addFilterCriterion(it)
         }
     }
 
-    override fun addFilterCriteria(c: Criteria) {
+    override fun addFilterCriterion(c: Criterion<*>) {
         setDirty()
         filterPersistence.addCriteria(c)
         showFilterCriteria(c)
         configureFilterDependents()
     }
 
-    private fun showFilterCriteria(c: Criteria) {
+    private fun showFilterCriteria(c: Criterion<*>) {
         findViewById<ScrollingChip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
             isCloseIconVisible = true

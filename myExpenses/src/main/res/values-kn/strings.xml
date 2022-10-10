@@ -623,7 +623,6 @@
     <string name="onboarding_restore_from_cloud_backup">ಬ್ಯಾಕಪ್‌ಗಳು</string>
     <string name="onboarding_restore_from_local">ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
     <string name="dialog_button_add">ಸೇರಿಸಿ</string>
-    <string name="template_create_error">ಟೆಂಪ್ಲೇಟ್ ಉಳಿಸುವಾಗ ದೋಷ</string>
     <string name="contributed_by">%s ಕೊಡುಗೆ ನೀಡಿದೆ</string>
     <string name="pref_sync_notification_summary">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಗತಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ</string>
     <string name="pref_debug_logging_summary">ಡೀಬಗ್ ಮಾಡುವ ಮಾಹಿತಿಯನ್ನು ಸಿಸ್ಟಮ್ ಲಾಗ್‌ಗೆ ಬರೆಯಿರಿ</string>
@@ -686,15 +685,9 @@
     <string name="warning_ungroup_split_transactions">ಆಯ್ದ ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಗುಂಪು ಮಾಡಲಾಗುವುದಿಲ್ಲ, ಅಂದರೆ ಅವುಗಳ ವಿಭಜಿತ ಭಾಗಗಳು ಸಾಮಾನ್ಯ ವಹಿವಾಟುಗಳಾಗಿ ಮಾರ್ಪಡುತ್ತವೆ.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">ಗುಂಪು ವಿಭಜನೆ</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">ಸ್ಪ್ಲಿಟ್ ವಹಿವಾಟನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಗುಂಪು ಮಾಡಲಾಗಿಲ್ಲ.</item>
-        <item quantity="other">%1$d ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಗುಂಪು ಮಾಡಲಾಗಿಲ್ಲ.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಗುಂಪು ಮಾಡದಿದ್ದಾಗ, %2$d ರಲ್ಲಿ %1$d ವಿಫಲವಾಗಿದೆ.</string>
+    <string name="ungroup_split_transaction_success">ಸ್ಪ್ಲಿಟ್ ವಹಿವಾಟನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಗುಂಪು ಮಾಡಲಾಗಿಲ್ಲ.</string>
     <string name="split_transaction_one_success">ವಹಿವಾಟು ಯಶಸ್ವಿಯಾಗಿ ವಿಭಜನೆಯಾಗಿ ರೂಪಾಂತರಗೊಂಡಿದೆ.</string>
-    <string name="split_transaction_one_error">ವಹಿವಾಟನ್ನು ವಿಭಜನೆಗೆ ಪರಿವರ್ತಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.</string>
     <string name="split_transaction_group_success">%1$d ವಹಿವಾಟುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಲಾಗಿದೆ.</string>
-    <string name="split_transaction_group_error">ವಹಿವಾಟುಗಳನ್ನು ವಿಭಜಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.</string>
     <string name="split_transaction_not_possible">ಒಂದೇ ಖಾತೆ, ಪಾವತಿಸುವವರು ಮತ್ತು ಸ್ಥಿತಿಯನ್ನು ಹೊಂದಿರುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಬಹುದು.</string>
     <string name="pref_transaction_time_summary">ನಿಖರವಾದ ವಹಿವಾಟು ಸಮಯವನ್ನು ಹೊಂದಿಸಲು ಅನುಮತಿಸಿ.</string>
     <string name="pref_value_date_summary">ಬುಕಿಂಗ್ ದಿನಾಂಕದ ಜೊತೆಗೆ ಮೌಲ್ಯ ದಿನಾಂಕವನ್ನು ಹೊಂದಿಸಲು ಅನುಮತಿಸಿ. ವಹಿವಾಟಿನ ಸಮಯವನ್ನು ಮರೆಮಾಡಲಾಗುತ್ತದೆ. ಈ ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ನಗದು ಖಾತೆಗಳಿಗೆ ಅನ್ವಯಿಸಲಾಗುವುದಿಲ್ಲ.</string>
@@ -774,7 +767,6 @@
     <string name="button_label_no_encryption">ಗೂ ry ಲಿಪೀಕರಣವಿಲ್ಲದೆ</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">ಅಥವಾ</string>
-    <string name="pref_account_list_fast_scroll_summary">ಖಾತೆ ಪಟ್ಟಿಗಾಗಿ ವೇಗದ ಸ್ಕ್ರಾಲ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ಕೆಲವು ಸಾಧನಗಳಲ್ಲಿ ತಪ್ಪಾದ ಪ್ರದರ್ಶನಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು</string>
     <string name="menu_hide">ಮರೆಮಾಡಿ</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">ಮುಚ್ಚಿ</string>

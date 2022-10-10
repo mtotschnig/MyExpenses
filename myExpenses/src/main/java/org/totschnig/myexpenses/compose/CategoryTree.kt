@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -18,15 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
@@ -36,27 +29,17 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.expand
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.data.Category
-import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
-import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import kotlin.math.floor
 import kotlin.math.sqrt
 
@@ -65,7 +48,7 @@ fun Category(
     modifier: Modifier = Modifier,
     category: Category,
     expansionMode: ExpansionMode,
-    menuGenerator: @Composable (Category) -> Menu<Category>? = { null },
+    menuGenerator: (Category) -> Menu<Category>? = { null },
     selectedAncestor: Category? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
@@ -73,15 +56,14 @@ fun Category(
     startPadding: Dp = 0.dp,
     sumCurrency: CurrencyUnit? = null
 ) {
+    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
+
     Column(
-        modifier = modifier.then(
-            if (choiceMode.isTreeSelected(category.id)) Modifier
-                .padding(2.dp)
-                .clip(RoundedCornerShape(15.dp))
-                .background(
-                    colorResource(id = R.color.activatedBackground)
-                ) else Modifier
-        )
+        modifier = modifier.conditional(choiceMode.isTreeSelected(category.id)) {
+            padding(2.dp)
+            .clip(RoundedCornerShape(15.dp))
+            .background(activatedBackgroundColor)
+        }
     ) {
         val filteredChildren =
             if (excludedSubTree == null) category.children else category.children.filter { it.id != excludedSubTree }
@@ -148,23 +130,23 @@ fun CategoryRenderer(
     category: Category,
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
-    menuGenerator: @Composable (Category) -> Menu<Category>?,
+    menuGenerator: (Category) -> Menu<Category>?,
     startPadding: Dp,
     onToggleSelection: () -> Unit,
     sumCurrency: CurrencyUnit?
 ) {
+    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
-    val menu = menuGenerator(category)
+    val menu = remember { menuGenerator(category) }
     Row(
         modifier = Modifier
             .height(48.dp)
             .fillMaxWidth()
             .then(if (menu == null) {
-
-                if (choiceMode.isSelectable(category.id)) Modifier.clickable(
-                    onClick = onToggleSelection
-                ) else Modifier
+                Modifier.conditional(choiceMode.isSelectable(category.id)) {
+                    clickable(onClick = onToggleSelection)
+                }
             } else {
 
                 when (choiceMode) {
@@ -194,11 +176,9 @@ fun CategoryRenderer(
                 }
             }
             )
-            .then(
-                if (choiceMode.isNodeSelected(category.id))
-                    Modifier.background(colorResource(id = R.color.activatedBackground))
-                else Modifier
-            )
+            .conditional(choiceMode.isNodeSelected(category.id)) {
+                background(activatedBackgroundColor)
+            }
             .padding(end = 24.dp, start = startPadding)
             .semantics {
                 if (isExpanded) {
@@ -218,15 +198,8 @@ fun CategoryRenderer(
         if (category.children.isEmpty()) {
             Spacer(modifier = Modifier.width(48.dp))
         } else {
-            IconButton(onClick = { expansionMode.toggle(category) }) {
-                Icon(
-                    imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = stringResource(
-                        id = if (isExpanded)
-                            R.string.content_description_collapse else
-                            R.string.content_description_expand
-                    )
-                )
+            ExpansionHandle(isExpanded = isExpanded) {
+                expansionMode.toggle(category)
             }
         }
         if (category.icon != null) {
@@ -241,16 +214,11 @@ fun CategoryRenderer(
             Spacer(modifier = Modifier.width(24.dp))
         }
         Text(text = category.label, modifier = Modifier.weight(1f))
+
         if (category.color != null) {
-            Box(
-                modifier = Modifier
-                    .padding(start = 6.dp)
-                    .size(24.dp)
-                    .padding(3.dp)
-                    .clip(CircleShape)
-                    .background(Color(category.color))
-            )
+            ColorCircle(modifier = Modifier.padding(start = 6.dp).size(24.dp), color = category.color)
         }
+
         sumCurrency?.let {
             ColoredAmountText(
                 modifier = Modifier.padding(start = 4.dp),
@@ -258,6 +226,7 @@ fun CategoryRenderer(
                 currency = it,
             )
         }
+
         menu?.let {
             HierarchicalMenu(showMenu, menu, category)
         }

@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import java.time.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.provider.filter.DateCriteria;
+import org.totschnig.myexpenses.provider.filter.DateCriterion;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 
 import androidx.annotation.NonNull;
@@ -68,7 +68,7 @@ public class DateFilterDialog extends BaseDialogFragment implements OnClickListe
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    DateCriteria c;
+    DateCriterion c;
     if (ctx == null) {
       return;
     }
@@ -78,12 +78,12 @@ public class DateFilterDialog extends BaseDialogFragment implements OnClickListe
     date1 = LocalDate.of(mDate1.getYear(), mDate1.getMonth() +1, mDate1.getDayOfMonth());
     if (selectedOp.equals("BTW")) {
       date2 = LocalDate.of(mDate2.getYear(), mDate2.getMonth() +1, mDate2.getDayOfMonth());
-      c = new DateCriteria(date1, date2);
+      c = new DateCriterion(date1, date2);
     } else {
-      c = new DateCriteria(
+      c = new DateCriterion(
           WhereFilter.Operation.valueOf(selectedOp),
           date1);
     }
-    ctx.addFilterCriteria(c);
+    ctx.addFilterCriterion(c);
   }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.AbsListView
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.setFragmentResult
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false) {
@@ -15,9 +16,7 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
             return
         }
         buildExtras()?.let {
-            targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, Intent().apply {
-                putExtras(it)
-            })
+            setFragmentResult(requireArguments().getString(KEY_REQUEST_KEY)!!, it)
         }
         dismiss()
     }
@@ -39,11 +38,17 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
     override val choiceMode: Int = AbsListView.CHOICE_MODE_SINGLE
 
     companion object {
-        internal fun buildArguments(dialogTitle: Int, emptyMessage: Int? = null) = Bundle().apply {
+        private const val KEY_REQUEST_KEY = "requestKey"
+        internal fun buildArguments(
+            dialogTitle: Int,
+            emptyMessage: Int? = null,
+            requestKey: String
+        ) = Bundle().apply {
             putInt(KEY_DIALOG_TITLE, dialogTitle)
             if (emptyMessage != null) {
                 putInt(KEY_EMPTY_MESSAGE, emptyMessage)
             }
+            putString(KEY_REQUEST_KEY, requestKey)
         }
     }
 }

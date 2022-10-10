@@ -18,6 +18,7 @@
     <string name="autofill">"Tự động điền"</string>
     <string name="discard">"Hủy"</string>
     <string name="dialog_dismiss">"Loại bỏ"</string>
+    <string name="details">"Chi tiết"</string>
     <string name="response_yes">"Có"</string>
     <string name="response_no">"Không"</string>
     <string name="add_widget">"Thêm tiện ích"</string>

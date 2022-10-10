@@ -11,17 +11,7 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
@@ -31,14 +21,10 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.viewmodel.data.Budget
-import org.totschnig.myexpenses.viewmodel.data.Category
-import org.totschnig.myexpenses.viewmodel.data.DateInfo
-import org.totschnig.myexpenses.viewmodel.data.DateInfo2
-import org.totschnig.myexpenses.viewmodel.data.DateInfo3
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
+import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
 
 private const val KEY_GROUPING_INFO = "groupingInfo"
@@ -54,8 +40,8 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     protected val _accountInfo = MutableStateFlow<T?>(null)
     val accountInfo: StateFlow<T?> = _accountInfo
 
-    protected val _filterPersistence: MutableStateFlow<FilterPersistence?> = MutableStateFlow(null)
-    val filterPersistence: StateFlow<FilterPersistence?> = _filterPersistence
+    protected val _whereFilter: MutableStateFlow<WhereFilter> = MutableStateFlow(WhereFilter.empty())
+    val whereFilter: StateFlow<WhereFilter> = _whereFilter
 
     protected val _aggregateTypes = MutableStateFlow(true)
     private val _incomeType = MutableStateFlow(false)
@@ -90,7 +76,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             groupingInfo = GroupingInfo(grouping, 0, 0)
         } else {
             viewModelScope.launch {
-                dateInfo.filterNotNull().collect {
+                dateInfo.collect {
                     groupingInfo = GroupingInfo(
                         grouping = grouping,
                         year = when (grouping) {
@@ -154,28 +140,6 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
     }
 
-    private val dateInfo: Flow<DateInfo2?> = contentResolver.observeQuery(
-        uri = TransactionProvider.DUAL_URI,
-        projection = arrayOf(
-            "${getThisYearOfWeekStart()} AS $KEY_THIS_YEAR_OF_WEEK_START",
-            "${getThisYearOfMonthStart()} AS $KEY_THIS_YEAR_OF_MONTH_START",
-            "$THIS_YEAR AS $KEY_THIS_YEAR",
-            "${getThisMonth()} AS $KEY_THIS_MONTH",
-            "${getThisWeek()} AS $KEY_THIS_WEEK",
-            "$THIS_DAY AS $KEY_THIS_DAY"
-        ),
-        selection = null, selectionArgs = null, sortOrder = null, notifyForDescendants = false
-    ).transform { query ->
-        withContext(Dispatchers.IO) {
-            query.run()?.use { cursor ->
-                cursor.moveToFirst()
-                DateInfo2.fromCursor(cursor)
-            }
-        }?.let {
-            emit(it)
-        }
-    }
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val dateInfoExtra: StateFlow<DateInfo3?> =
         groupingInfoFlow.filterNotNull().flatMapLatest { grouping ->
@@ -218,14 +182,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 selectionArgs = null,
                 sortOrder = null,
                 notifyForDescendants = false
-            ).transform { query ->
+            ).mapNotNull { query ->
                 withContext(Dispatchers.IO) {
                     query.run()?.use { cursor ->
                         cursor.moveToFirst()
                         DateInfo3.fromCursor(cursor)
                     }
-                }?.let {
-                    emit(it)
                 }
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, null)
@@ -237,7 +199,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     ) { groupingInfo, dateInfo, dateInfoExtra ->
         if (groupingInfo.grouping == Grouping.NONE) {
             defaultDisplayTitle
-        } else if (dateInfo != null && dateInfoExtra != null) {
+        } else if (dateInfoExtra != null) {
             groupingInfo.grouping.getDisplayTitle(
                 localizedContext, groupingInfo.year, groupingInfo.second,
                 DateInfo(
@@ -247,10 +209,9 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     dateInfo.year,
                     dateInfo.yearOfWeekStart,
                     dateInfo.yearOfMonthStart,
-                    dateInfoExtra.maxValue,
                     dateInfoExtra.weekStart,
                     dateInfoExtra.weekEnd
-                ), userLocaleProvider.getUserPreferredLocale()
+                )
             )
         } else null
     }.filterNotNull()
@@ -280,7 +241,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         incomeType: Boolean?,
         groupingInfo: GroupingInfo,
         queryParameter: Map<String, String> = emptyMap(),
-        filterPersistence: FilterPersistence? = null,
+        whereFilter: WhereFilter = WhereFilter.empty(),
         selection: String? = null,
         keepCriteria: ((Category) -> Boolean)? = null
     ): Flow<Category> =
@@ -288,7 +249,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             selection = selection,
             projection = buildList {
                 add("$TREE_CATEGORIES.*")
-                add(sumColumn(accountInfo, incomeType, groupingInfo, filterPersistence))
+                add(sumColumn(accountInfo, incomeType, groupingInfo, whereFilter))
                 if (accountInfo is Budget) {
                     add(KEY_BUDGET)
                     add(KEY_BUDGET_ROLLOVER_PREVIOUS)
@@ -298,9 +259,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             }.toTypedArray(),
             additionalSelectionArgs = buildList {
                 (accountInfo as? Budget)?.id?.let { add(it.toString()) }
-                filterPersistence?.whereFilter?.getSelectionArgs(true)?.let {
-                    addAll(it)
-                }
+                whereFilter.getSelectionArgs(true)?.let { addAll(it) }
             }.toTypedArray(),
             queryParameter = queryParameter,
             keepCriteria = keepCriteria
@@ -310,7 +269,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         accountInfo: T,
         incomeType: Boolean?,
         grouping: GroupingInfo,
-        filterPersistence: FilterPersistence?
+        whereFilter: WhereFilter
     ): String {
         val accountSelection: String?
         var amountCalculation = KEY_AMOUNT
@@ -335,23 +294,23 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         if (incomeType != null) {
             catFilter += " AND " + KEY_AMOUNT + (if (incomeType) ">" else "<") + "0"
         }
-        buildFilterClause(grouping, filterPersistence, table).takeIf { it.isNotEmpty() }?.let {
+        buildFilterClause(grouping, whereFilter, table).takeIf { it.isNotEmpty() }?.let {
             catFilter += " AND $it"
         }
         return "(SELECT sum($amountCalculation) $catFilter) AS $KEY_SUM"
     }
 
     val filterClause: String
-        get() = buildFilterClause(groupingInfo!!, _filterPersistence.value, VIEW_EXTENDED)
+        get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_EXTENDED)
 
     private fun buildFilterClause(
         groupingInfo: GroupingInfo,
-        filterPersistence: FilterPersistence?,
+        whereFilter: WhereFilter,
         table: String
     ): String {
         return listOfNotNull(
             dateFilterClause(groupingInfo),
-            filterPersistence?.whereFilter?.getSelectionForParts(table)?.takeIf { it.isNotEmpty() }
+            whereFilter.getSelectionForParts(table).takeIf { it.isNotEmpty() }
         ).joinToString(" AND ")
     }
 
@@ -376,20 +335,20 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     val sums: Flow<Pair<Long, Long>> = combine(
         _accountInfo.filterNotNull(),
         groupingInfoFlow,
-        _filterPersistence
-    ) { accountInfo, grouping, filterPersistence ->
+        _whereFilter
+    ) { accountInfo, grouping, whereFilter ->
         grouping?.let {
             Triple(
                 accountInfo,
                 grouping,
-                filterPersistence
+                whereFilter
             )
         }
     }
         .filterNotNull()
-        .flatMapLatest { (accountInfo, grouping, filterPersistence) ->
+        .flatMapLatest { (accountInfo, grouping, whereFilter) ->
             val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1")
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE)
             val id = accountInfo.accountId
             if (id != Account.HOME_AGGREGATE_ID) {
                 if (id < 0) {
@@ -402,10 +361,10 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             contentResolver.observeQuery(
                 builder.build(),
                 null,
-                buildFilterClause(grouping, filterPersistence, VIEW_WITH_ACCOUNT),
-                filterPersistence?.whereFilter?.getSelectionArgs(true),
+                buildFilterClause(grouping, whereFilter, VIEW_WITH_ACCOUNT),
+                whereFilter.getSelectionArgs(true),
                 null, true
-            ).transform { query ->
+            ).mapNotNull { query ->
                 withContext(Dispatchers.IO) {
                     query.run()?.use { cursor ->
                         var income: Long = 0
@@ -421,8 +380,6 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                         }
                         Pair(income, expense)
                     }
-                }?.let {
-                    emit(it)
                 }
             }
         }

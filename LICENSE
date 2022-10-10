@@ -13,8 +13,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
 iText from http://itextpdf.com, licensed under Affero General Public License .
 
-StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/, licensed under Apache License, Version 2.0 .
-
 CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets and WhereFilter inspired by https://launchpad.net/financisto , licensed under GPL v2.0 .
 
 EventRecurrence and EventRecurrenceFormatter from the Android Open Source Project, licensed under Apache License, Version 2.0 .

@@ -438,13 +438,8 @@
     <string name="menu_distribution_show_pie_char">Prikaži kružni dijagram</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kružni dijagram (raspodjela po kategorijama)</string>
     <string name="discover_feature_fab_long_press">Dodirni i drži plutajući gumb radnje pritisnutim za izravno otvaranje obrasca za prijenose, višedjelne transakcije ili prihod.</string>
-    <string name="ungroup_split_transaction_failure">Tijekom razgrupiranja višedjelnih transakcija, neuspjelo je %1$d od %2$d.</string>
     <string name="currency_code_already_definded">Valuta je već definirana.</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">%1$d višedjelna transakcija je uspješno razgrupirana.</item>
-        <item quantity="few">%1$d višedjelne transakcije su uspješno razgrupirane.</item>
-        <item quantity="other">%1$d višedjelnih transakcija je uspješno razgrupirano.</item>
-    </plurals>
+    <string name="ungroup_split_transaction_success">%1$d višedjelna transakcija je uspješno razgrupirana.</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Izbrisati %1$d račun\?</item>
         <item quantity="few">Izbrisati %1$d računa\?</item>
@@ -459,9 +454,7 @@
     <string name="booking_date">Datum uknjiženja</string>
     <string name="pref_transaction_time_summary">Dozvoli postavljanje točnog vremena transakcije.</string>
     <string name="split_transaction_not_possible">U jednu višedjelnu transakciju mogu se grupirati samo transakcije koje imaju isti račun, primaoca i stanje.</string>
-    <string name="split_transaction_group_error">Nije bilo moguće grupirati transakcije u višedjelnu transakciju.</string>
     <string name="split_transaction_group_success">%1$d transakcije su uspješno grupirane u jednu višedjelnu transakciju.</string>
-    <string name="split_transaction_one_error">Nije bilo moguće pretvoriti transakciju u višedjelnu transakciju.</string>
     <string name="split_transaction_one_success">Transakcija je uspješno pretvorena u višedjelnu transakciju.</string>
     <string name="menu_ungroup_split_transaction">Razgrupiraj višedjelnu transakciju</string>
     <string name="warning_ungroup_split_transactions">Odabrane višedjelne transakcije će se razgrupirati, tj. njihovi dijelovi će postati obične transakcije.</string>
@@ -521,7 +514,6 @@
     <string name="pref_debug_logging_summary">Piši podatke o otklanjanju grešaka u dnevnik sustava</string>
     <string name="pref_sync_notification_summary">Obavijesti o napretku sinkronizacije</string>
     <string name="contributed_by">Doprinositelj: %s</string>
-    <string name="template_create_error">Greška tijekom spremanja predloška</string>
     <string name="dialog_button_add">Dodaj</string>
     <string name="onboarding_restore_from_local">Obnovi lokalnu datoteku sigurnosne kopije</string>
     <string name="onboarding_restore_from_cloud_backup">Sigurnosne kopije</string>
@@ -809,7 +801,6 @@
     <string name="menu_reopen">Otvori ponovo</string>
     <string name="menu_close">Zatvori</string>
     <string name="menu_hide">Sakrij</string>
-    <string name="pref_account_list_fast_scroll_summary">Aktiviraj brzo pomicanje za popis računa. Može dovesti do pogrešnog prikaza na nekim uređajima</string>
     <string name="joining_or">ili</string>
     <string name="button_label_no_encryption">Bez šifriranja</string>
     <string name="input_label_passphrase">Dugačka lozinka</string>

@@ -142,6 +142,5 @@
     <string name="widget_title_templates">Mano šablonai</string>
     <string name="menu_show_transactions">Rodyti operacijas</string>
     <string name="template">Šablonas</string>
-    <string name="split_transaction_one_error">Nepavyko transformuoti operacijos į išskaidytą.</string>
     <string name="new_version">Nauja versija</string>
 </resources>

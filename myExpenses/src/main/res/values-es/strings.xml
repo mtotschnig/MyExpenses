@@ -625,7 +625,6 @@
     <string name="onboarding_restore_from_cloud_backup">Copias de seguridad</string>
     <string name="onboarding_restore_from_local">Restaurar desde copia de seguridad local</string>
     <string name="dialog_button_add">Añadir</string>
-    <string name="template_create_error">Error al salvar la plantilla</string>
     <string name="contributed_by">Contribución de %s</string>
     <string name="pref_sync_notification_summary">Notificar sobre progreso de sincronización</string>
     <string name="pref_debug_logging_summary">Escribir información de depuración en el registro de sistema</string>
@@ -688,15 +687,9 @@
     <string name="warning_ungroup_split_transactions">Las transacciones divididas seleccionas se desagruparán. Por ejemplo, las partes divididas se convertirán en transacciones normales.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Desagrupar división</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">La transacción dividida se desagregó con éxito.</item>
-        <item quantity="other">%1$d transacciones divididas se desagruparon satisfactoriamente.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">Al desagrupar las transacciones divididas, %1$d de%2$d fallaron.</string>
+    <string name="ungroup_split_transaction_success">La transacción dividida se desagregó con éxito.</string>
     <string name="split_transaction_one_success">Transacción transformada en transacción dividida satisfactoriamente.</string>
-    <string name="split_transaction_one_error">No se pudo convertir la transacción en transacción dividida.</string>
     <string name="split_transaction_group_success">%1$d transacciones fueron agrupadas en una transacción dividida satisfactoriamente.</string>
-    <string name="split_transaction_group_error">No se puedo agrupar las transacciones en una transacción dividida.</string>
     <string name="split_transaction_not_possible">Sólo las transacciones que tienen una misma cuenta, acreedor y estado pueden agruparse en una misma transacción dividida.</string>
     <string name="pref_transaction_time_summary">Permitir establecer la hora exacta de transacción.</string>
     <string name="pref_value_date_summary">Permitir establecer la fecha de valor, además de la fecha de reserva. Se ocultará la hora de transacción. Esta configuración no se aplica a las cuentas de efectivo.</string>
@@ -776,7 +769,6 @@
     <string name="button_label_no_encryption">Sin encriptación</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">o</string>
-    <string name="pref_account_list_fast_scroll_summary">Habilitar desplazamiento rápido para la lista de cuentas. Puede producir error en la visualización en algunos dispositivos</string>
     <string name="menu_hide">Ocultar</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Cerrar</string>

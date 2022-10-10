@@ -19,6 +19,7 @@
     <string name="autofill">"Autofyld"</string>
     <string name="discard">"Kassér"</string>
     <string name="dialog_dismiss">"Luk"</string>
+    <string name="details">"Detaljer"</string>
     <string name="response_yes">"Ja"</string>
     <string name="response_no">"Nej"</string>
     <string name="add_widget">"Tilføj widget."</string>

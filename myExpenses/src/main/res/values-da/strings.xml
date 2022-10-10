@@ -459,7 +459,6 @@
     <string name="content_description_calculator">Lommeregner</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synkronisering</string>
     <string name="professional_key">Professionel Nøgle</string>
-    <string name="split_transaction_one_error">Denne postering kunne ikke splittes.</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Krypteret</string>
     <string name="budget_duration_from">Fra</string>

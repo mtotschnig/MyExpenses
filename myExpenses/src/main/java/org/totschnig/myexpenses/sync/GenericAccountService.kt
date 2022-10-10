@@ -138,11 +138,6 @@ class GenericAccountService : Service() {
         const val KEY_BROKEN = "broken"
         const val KEY_ENCRYPTED = "encrypted"
 
-        @JvmStatic
-        fun requestSync(syncAccountName: String, uuid: String) {
-            requestSync(accountName = syncAccountName, uuid = uuid)
-        }
-
         fun requestSync(accountName: String,
                         manual: Boolean = true,
                         expedited: Boolean = true,

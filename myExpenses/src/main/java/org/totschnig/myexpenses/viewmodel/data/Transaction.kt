@@ -17,8 +17,10 @@ import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.io.File
 import java.math.BigDecimal
+import java.time.ZonedDateTime
 
 
 data class Transaction(
@@ -26,7 +28,7 @@ data class Transaction(
     val accountId: Long,
     override val amountRaw: Long,
     val amount: Money,
-    val date: Long,
+    val date: ZonedDateTime,
     val valueDate: Long,
     override val comment: String?,
     val catId: Long?,
@@ -111,7 +113,7 @@ data class Transaction(
                 accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ACCOUNTID)),
                 amountRaw = amountRaw,
                 amount = money,
-                date = date,
+                date = epoch2ZonedDateTime(date),
                 valueDate = getLongOrNull(cursor, KEY_VALUE_DATE) ?: date,
                 comment = cursor.getStringOrNull(KEY_COMMENT),
                 catId = getLongOrNull(cursor, KEY_CATID),

@@ -6,7 +6,7 @@ import androidx.test.espresso.idling.CountingIdlingResource
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 
 class DecoratedCheckSealedHandler(cr: ContentResolver, private val countingIdlingResource: CountingIdlingResource) : CheckSealedHandler(cr) {
-    override fun check(itemIds: LongArray, listener: ResultListener) {
+    override fun check(itemIds: List<Long>, listener: ResultListener) {
         countingIdlingResource.increment()
         super.check(itemIds, listener)
     }

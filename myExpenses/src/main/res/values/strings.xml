@@ -633,7 +633,6 @@
     <string name="onboarding_restore_from_cloud_backup">Backups</string>
     <string name="onboarding_restore_from_local">Restore local backup file</string>
     <string name="dialog_button_add">Add</string>
-    <string name="template_create_error">Error while saving template</string>
     <string name="contributed_by">Contributed by %s</string>
     <string name="pref_sync_notification_summary">Notify about synchronization progress</string>
     <string name="pref_debug_logging_summary">Write debugging information into system log</string>
@@ -696,15 +695,9 @@
     <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Ungroup split</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">Split Transaction was successfully ungrouped.</item>
-        <item quantity="other">%1$d split transactions were successfully ungrouped.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">While ungrouping split transactions, %1$d out of %2$d failed.</string>
+    <string name="ungroup_split_transaction_success">Split Transaction was successfully ungrouped.</string>
     <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
-    <string name="split_transaction_one_error">Could not transform transaction to split.</string>
     <string name="split_transaction_group_success">%1$d transactions were successfully grouped into one split transaction.</string>
-    <string name="split_transaction_group_error">Could not group transactions into split.</string>
     <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
     <string name="pref_transaction_time_summary">Allow to set exact transaction time.</string>
     <string name="pref_value_date_summary">Allow to set value date in addition to booking date. Transaction time will be hidden. This setting is not applied to cash accounts.</string>
@@ -784,7 +777,6 @@
     <string name="button_label_no_encryption">Without encryption</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">or</string>
-    <string name="pref_account_list_fast_scroll_summary">Enable fast scroll for account list. May lead to incorrect display on some devices</string>
     <string name="menu_hide">Hide</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Close</string>

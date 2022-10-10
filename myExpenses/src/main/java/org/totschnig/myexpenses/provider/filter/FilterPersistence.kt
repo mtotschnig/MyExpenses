@@ -1,78 +1,100 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.os.Bundle
-import java.time.format.DateTimeParseException
+import androidx.annotation.CheckResult
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
+import java.time.format.DateTimeParseException
 
 const val KEY_FILTER = "filter"
 
-class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean, restoreFromPreferences: Boolean = true) {
+class FilterPersistence(
+    val prefHandler: PrefHandler,
+    private val keyTemplate: String,
+    savedInstanceState: Bundle?,
+    val immediatePersist: Boolean,
+    restoreFromPreferences: Boolean = true
+) {
+    val whereFilterAsFlow: StateFlow<WhereFilter>
+        get() = _whereFilter
+    private val _whereFilter: MutableStateFlow<WhereFilter>
     val whereFilter: WhereFilter
+        get() = _whereFilter.value
+
     init {
-        whereFilter = savedInstanceState?.getParcelableArrayList<Criteria>(KEY_FILTER)?.let {
-            WhereFilter(it)
-        } ?: WhereFilter.empty().apply { if (restoreFromPreferences) restoreFromPreferences() }
+        _whereFilter = MutableStateFlow(
+            savedInstanceState?.getParcelableArrayList<Criterion<*>>(KEY_FILTER)?.let {
+                WhereFilter(it)
+            } ?: if (restoreFromPreferences) restoreFromPreferences() else WhereFilter.empty()
+        )
     }
 
-    private fun WhereFilter.restoreColumn(column: String, producer: (String) -> Criteria?) {
+    @CheckResult
+    private fun WhereFilter.restoreColumn(
+        column: String,
+        producer: (String) -> Criterion<*>?
+    ): WhereFilter {
         val prefNameForCriteria = prefNameForCriteria(column)
-        prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
+        return prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
             producer(prefValue)?.let {
                 put(it)
             } ?: kotlin.run {
                 prefHandler.remove(prefNameForCriteria)
+                this
             }
-        }
+        } ?: this
     }
 
-    private fun WhereFilter.restoreFromPreferences() {
-        restoreColumn(CategoryCriteria.COLUMN) {
-            CategoryCriteria.fromStringExtra(it)
+    @CheckResult
+    private fun restoreFromPreferences() = WhereFilter.empty()
+        .restoreColumn(KEY_CATID) {
+            CategoryCriterion.fromStringExtra(it)
         }
-        restoreColumn(AmountCriteria.COLUMN) {
-            AmountCriteria.fromStringExtra(it)
+        .restoreColumn(KEY_AMOUNT) {
+            AmountCriterion.fromStringExtra(it)
         }
-        restoreColumn(CommentCriteria.COLUMN) {
-            CommentCriteria.fromStringExtra(it)
+        .restoreColumn(KEY_COMMENT) {
+            CommentCriterion.fromStringExtra(it)
         }
-        restoreColumn(CrStatusCriteria.COLUMN) {
-            CrStatusCriteria.fromStringExtra(it)
+        .restoreColumn(KEY_CR_STATUS) {
+            CrStatusCriterion.fromStringExtra(it)
         }
-        restoreColumn(PayeeCriteria.COLUMN) {
-            PayeeCriteria.fromStringExtra(it)
+        .restoreColumn(KEY_PAYEEID) {
+            PayeeCriterion.fromStringExtra(it)
         }
-        restoreColumn(MethodCriteria.COLUMN) {
-            MethodCriteria.fromStringExtra(it)
+        .restoreColumn(KEY_METHODID) {
+            MethodCriterion.fromStringExtra(it)
         }
-        restoreColumn(DateCriteria.COLUMN) {
+        .restoreColumn(KEY_DATE) {
             try {
-                DateCriteria.fromStringExtra(it)
+                DateCriterion.fromStringExtra(it)
             } catch (e: DateTimeParseException) {
                 Timber.e(e)
                 null
             }
         }
-        restoreColumn(TRANSFER_COLUMN) {
-            TransferCriteria.fromStringExtra(it)
+        .restoreColumn(KEY_TRANSFER_ACCOUNT) {
+            TransferCriterion.fromStringExtra(it)
         }
-        restoreColumn(TAG_COLUMN) {
-            TagCriteria.fromStringExtra(it)
+        .restoreColumn(KEY_TAGID) {
+            TagCriterion.fromStringExtra(it)
         }
-        restoreColumn(ACCOUNT_COLUMN) {
-            AccountCriteria.fromStringExtra(it)
+        .restoreColumn(ACCOUNT_COLUMN) {
+            AccountCriterion.fromStringExtra(it)
         }
-    }
 
-    fun addCriteria(criteria: Criteria) {
-        whereFilter.put(criteria)
+    fun addCriteria(criterion: Criterion<*>) {
+        _whereFilter.value = whereFilter.put(criterion)
         if (immediatePersist) {
-            persist(criteria)
+            persist(criterion)
         }
     }
 
-    fun removeFilter(id: Int) : Boolean = whereFilter.get(id)?.let {
-        whereFilter.remove(id)
+    fun removeFilter(id: Int): Boolean = whereFilter[id]?.let {
+        _whereFilter.value = whereFilter.remove(id)
         if (immediatePersist) {
             prefHandler.remove(prefNameForCriteria(it.column))
         }
@@ -80,36 +102,40 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
     } ?: false
 
     fun persistAll() {
-        arrayOf(CategoryCriteria.COLUMN, AmountCriteria.COLUMN, CommentCriteria.COLUMN,
-                CrStatusCriteria.COLUMN, PayeeCriteria.COLUMN, MethodCriteria.COLUMN,
-                DateCriteria.COLUMN, TRANSFER_COLUMN, TAG_COLUMN, ACCOUNT_COLUMN).forEach { column ->
-            whereFilter.get(column)?.let {
+        arrayOf(
+            KEY_CATID, KEY_AMOUNT, KEY_COMMENT, KEY_CR_STATUS, KEY_PAYEEID, KEY_METHODID, KEY_DATE,
+            KEY_TRANSFER_ACCOUNT, KEY_TAGID, ACCOUNT_COLUMN
+        ).forEach { column ->
+            whereFilter[column]?.let {
                 persist(it)
             } ?: kotlin.run { prefHandler.remove(prefNameForCriteria(column)) }
         }
     }
 
-    private fun persist(criteria: Criteria) {
-        prefHandler.putString(prefNameForCriteria(criteria.column), criteria.toStringExtra())
+    private fun persist(criterion: Criterion<*>) {
+        prefHandler.putString(prefNameForCriteria(criterion.column), criterion.toStringExtra())
     }
 
     private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)
 
-    fun clearFilter() {
+    fun clear() {
         if (immediatePersist) {
-            whereFilter.criteria.forEach { criteria -> prefHandler.remove(prefNameForCriteria(criteria.column)) }
+            whereFilter.criteria.forEach { criteria ->
+                prefHandler.remove(
+                    prefNameForCriteria(
+                        criteria.column
+                    )
+                )
+            }
         }
-        whereFilter.clear()
+        _whereFilter.value = WhereFilter.empty()
     }
 
     fun reloadFromPreferences() {
-        with(whereFilter) {
-            clear()
-            restoreFromPreferences()
-        }
+        _whereFilter.value = restoreFromPreferences()
     }
 
     fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArrayList(KEY_FILTER, whereFilter.criteria)
+        outState.putParcelableArrayList(KEY_FILTER, ArrayList(whereFilter.criteria))
     }
 }

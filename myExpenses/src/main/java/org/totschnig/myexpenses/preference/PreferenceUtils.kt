@@ -21,13 +21,6 @@ fun enableAutoFill(prefHandler: PrefHandler) {
 fun disableAutoFill(prefHandler: PrefHandler) =
         prefHandler.putBoolean(PrefKey.AUTO_FILL_SWITCH, false)
 
-fun PrefHandler.putLongList(key: String, value: List<Long>) {
-    putString(key, value.joinToString(separator = ","))
-}
-
-fun PrefHandler.getLongList(key: String) =
-        requireString(key, "").takeIf { it.isNotEmpty() }?.split(',')?.map(String::toLong) ?: emptyList()
-
 fun PrefHandler.requireString(key: PrefKey, defaultValue: String) =
         getString(key, defaultValue)!!
 

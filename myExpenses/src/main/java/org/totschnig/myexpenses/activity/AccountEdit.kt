@@ -21,11 +21,7 @@ import android.text.Editable
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
@@ -37,15 +33,12 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
@@ -293,12 +286,12 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             setCriterion(binding.Criterion.typedValue)
             excludeFromTotals = this@AccountEdit.excludeFromTotals
         }
-        viewModel.save(account).observe(this) {
-            if (it < 0) {
+        viewModel.save(account).observe(this) { id ->
+            if (id < 0) {
                 showSnackBar("ERROR")
             } else {
-                account.requestSync()
-                intent.putExtra(DatabaseConstants.KEY_ROWID, it)
+                account.syncAccountName?.let { requestSync(accountName = it, uuid = account.uuid!!) }
+                intent.putExtra(DatabaseConstants.KEY_ROWID, id)
                 setResult(RESULT_OK, intent)
                 currencyContext.ensureFractionDigitsAreCached(account.currencyUnit)
                 finish()

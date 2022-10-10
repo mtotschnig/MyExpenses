@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -25,24 +27,26 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBu
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
-import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -50,6 +54,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
+import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -64,7 +71,8 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
@@ -103,8 +111,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       Uri.parse("content://" + AUTHORITY + "/templates/uncommitted");
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
-  public static final Uri AGGREGATES_COUNT_URI =
-      Uri.parse("content://" + AUTHORITY + "/accounts/aggregatesCount");
   public static final Uri PAYEES_URI =
       Uri.parse("content://" + AUTHORITY + "/payees");
   public static final Uri METHODS_URI =
@@ -178,6 +184,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
+  public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
@@ -198,7 +205,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
-  public static final String QUERY_PARAMETER_WITH_START = "withStart";
+  public static final String QUERY_PARAMETER_WITH_JULIAN_START = "withJulianStart";
   public static final String QUERY_PARAMETER_SECTIONS = "sections";
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
@@ -222,7 +229,9 @@ public class TransactionProvider extends BaseTransactionProvider {
    * Colon separated list of account types
    */
   public static final String QUERY_PARAMETER_ACCOUNTY_TYPE_LIST = "accountTypeList";
-  public static final String METHOD_INIT = "init";
+
+
+  public static final String QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT = "withHiddenAccountCount";
   public static final String METHOD_BULK_START = "bulkStart";
   public static final String METHOD_BULK_END = "bulkEnd";
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
@@ -258,7 +267,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int TRANSACTION_MOVE = 25;
   private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
   private static final int CURRENCIES = 27;
-  private static final int AGGREGATES_COUNT = 28;
   private static final int TRANSACTION_TOGGLE_CRSTATUS = 29;
   private static final int MAPPED_METHODS = 31;
   private static final int DUAL = 32;
@@ -295,43 +303,39 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int DEBTS = 63;
   private static final int DEBT_ID = 64;
   private static final int BUDGET_ALLOCATIONS = 65;
-
-  private boolean bulkInProgress = false;
-
-  public static String aggregateFunction(boolean safeMode) {
-    return safeMode ? "total" : "sum";
-  }
+  private static final int ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66;
 
   @Override
   public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                       @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-    SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-    SQLiteDatabase db;
-    db = getTransactionDatabase().getReadableDatabase();
+    SupportSQLiteQueryBuilder qb;
+    StringBuilder additionalWhere = new StringBuilder();
+    SupportSQLiteDatabase db;
+    db = getHelper().getReadableDatabase();
 
     Cursor c;
 
     String groupBy = uri.getQueryParameter(QUERY_PARAMETER_GROUP_BY);
     String having = null;
     String limit = null;
+    Bundle extras = new Bundle();
 
-    String aggregateFunction = aggregateFunction(prefHandler.getBoolean(PrefKey.DB_SAFE_MODE, false));
+    String aggregateFunction = getAggregateFunction();
 
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
-    final Context wrappedContext = wrappedContext();
+    final Context wrappedContext = getWrappedContext();
     switch (uriMatch) {
       case TRANSACTIONS: {
-        String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
-        if (mappedObjects != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, false)) {
           String sql = transactionMappedObjectQuery(selection);
           c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           return c;
         }
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
-        qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
+        qb = SupportSQLiteQueryBuilder.builder(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
-          qb.setDistinct(true);
+          qb.distinct();
         }
         if (sortOrder == null) {
           sortOrder = KEY_DATE + " DESC";
@@ -339,30 +343,38 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (projection == null) {
           projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
         }
-        if (uri.getQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT) != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false)) {
           projection = Companion.shortenComment(projection);
         }
-        if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS, false)) {
           String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
                   " != 1 OR " + KEY_AMOUNT + " < 0";
           selection = selection == null ? mergeTransferSelection :
                   selection + " AND (" + mergeTransferSelection + ")";
         }
+        //noinspection InlinedApi
+        String queryParameterLimit = uri.getQueryParameter(ContentResolver.QUERY_ARG_LIMIT);
+        if (queryParameterLimit != null) {
+          //noinspection InlinedApi
+          String queryParameterOffset = uri.getQueryParameter(ContentResolver.QUERY_ARG_OFFSET);
+          limit = queryParameterOffset + "," + queryParameterLimit;
+          log("limit %s", limit);
+        }
         break;
       }
       case UNCOMMITTED:
-        qb.setTables(VIEW_UNCOMMITTED);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_UNCOMMITTED);
         if (projection == null)
           projection = Transaction.PROJECTION_BASE;
         break;
       case TRANSACTION_ID:
-        qb.setTables(VIEW_ALL);
-        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case TRANSACTIONS_SUMS: {
         String accountSelectionQuery = null;
-        boolean groupByType = uri.getQueryParameter(QUERY_PARAMETER_GROUPED_BY_TYPE) != null;
-        boolean aggregateTypes = uri.getQueryParameter(QUERY_PARAMETER_AGGREGATE_TYPES) != null;
+        boolean groupByType = uri.getBooleanQueryParameter(QUERY_PARAMETER_GROUPED_BY_TYPE, false);
+        boolean aggregateTypes = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_TYPES, false);
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
@@ -374,19 +386,19 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           accountSelectionQuery = " = ?";
         }
-        qb.appendWhere(WHERE_TRANSACTION);
+        additionalWhere.append(WHERE_TRANSACTION);
 
         if (groupByType) {
           groupBy = KEY_TYPE;
         } else if (!aggregateTypes) {
           //expenses only
-          qb.appendWhere(" AND " + KEY_AMOUNT + " < 0");
+          additionalWhere.append(" AND " + KEY_AMOUNT + " < 0");
         }
         String amountCalculation;
-        qb.setTables(VIEW_WITH_ACCOUNT);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         if (accountSelector != null) {
           selectionArgs = Utils.joinArrays(new String[]{accountSelector}, selectionArgs);
-          qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
+          additionalWhere.append(" AND " + KEY_ACCOUNTID).append(accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
@@ -419,8 +431,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
 
         // the start value is only needed for WEEK and DAY
-        boolean withStart = uri.getQueryParameter(QUERY_PARAMETER_WITH_START) != null && (group == Grouping.WEEK || group == Grouping.DAY);
-        boolean includeTransfers = uri.getQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS) != null;
+        boolean withJulianStart = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_JULIAN_START, false) && (group == Grouping.WEEK || group == Grouping.DAY);
+        boolean includeTransfers = uri.getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS, false);
         String yearExpression;
         switch (group) {
           case WEEK:
@@ -455,17 +467,20 @@ public class TransactionProvider extends BaseTransactionProvider {
             groupBy = KEY_YEAR;
             break;
         }
-        qb.setTables(VIEW_WITH_ACCOUNT);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         int projectionSize;
         if (sectionsOnly) {
           projectionSize = 2;
         } else {
           projectionSize = 5;
-          if (withStart) {
+          if (withJulianStart) {
             projectionSize += 1;
           }
           if (!includeTransfers) {
             projectionSize += 1;
+          }
+          if (group == Grouping.WEEK) {
+            projectionSize += 2;
           }
         }
         projection = new String[projectionSize];
@@ -481,9 +496,13 @@ public class TransactionProvider extends BaseTransactionProvider {
             projection[index++] = (forHome ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
           }
           projection[index++] = MAPPED_CATEGORIES;
-          if (withStart) {
-            projection[index] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
+          if (withJulianStart) {
+            projection[index++] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
                 + " AS " + KEY_GROUP_START;
+          }
+          if (group == Grouping.WEEK) {
+            projection[index++] = getWeekStart() + " AS " + KEY_WEEK_START;
+            projection[index] = getWeekEnd() + " AS " + KEY_WEEK_END;
           }
         }
         selection = accountSelectionQuery
@@ -502,7 +521,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
           return c;
         }
-        if (uri.getQueryParameter(QUERY_PARAMETER_HIERARCHICAL) != null) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
           final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);
           String sql = withBudget ? categoryTreeWithBudget(sortOrder, selection, projection, uri.getQueryParameter(KEY_YEAR), uri.getQueryParameter(KEY_SECOND_GROUP)) :
                   categoryTreeSelect(sortOrder, selection, projection, null, null,
@@ -511,8 +530,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
-          qb.setTables(TABLE_CATEGORIES);
-          qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
+          additionalWhere.append(KEY_ROWID + " != " + SPLIT_CATID);
           if (projection == null) {
             projection = new String[]{KEY_ROWID, KEY_LABEL, KEY_PARENTID};
           }
@@ -520,8 +539,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
       }
       case CATEGORY_ID:
-        qb.setTables(TABLE_CATEGORIES);
-        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case ACCOUNTS:
       case ACCOUNTS_BASE:
@@ -538,12 +557,15 @@ public class TransactionProvider extends BaseTransactionProvider {
                     "When calling accounts cursor with sums or aggregates, projection is ignored ", TAG
             );
           }
-          String sql = buildAccountQuery(qb, minimal, mergeAggregate, selection, sortOrder);
+          String sql = buildAccountQuery(minimal, mergeAggregate, selection, sortOrder);
           c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
+          if (uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT, false)) {
+            c = wrapWithResultCompat(c, hiddenAccountCount(db));
+          }
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
-          qb.setTables(getAccountsWithExchangeRate());
+          qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
           if (projection == null)
             projection = Account.PROJECTION_BASE;
           break;
@@ -553,7 +575,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         String currencyId = uri.getPathSegments().get(2);
         if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
           String grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE");
-          qb.setTables(TABLE_ACCOUNTS);
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
           projection = new String[]{
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
               "'' AS " + KEY_LABEL,
@@ -564,7 +586,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               "-1 AS " + KEY_COLOR,
               "'" + grouping + "' AS " + KEY_GROUPING,
               "'DESC' AS " + KEY_SORT_DIRECTION,
-              "'AGGREGATE' AS " + KEY_TYPE,
+              "null AS " + KEY_TYPE,
               "-1 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
@@ -572,7 +594,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               "0 AS " + KEY_CRITERION,
               "max(" + KEY_SEALED + ") AS " + KEY_SEALED};
         } else {
-          qb.setTables(TABLE_CURRENCIES);
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
           String accountSelect = "from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + " AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
           projection = new String[]{
               "0 - " + TABLE_CURRENCIES + "." + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
@@ -584,28 +606,22 @@ public class TransactionProvider extends BaseTransactionProvider {
               "-1 AS " + KEY_COLOR,
               TABLE_CURRENCIES + "." + KEY_GROUPING,
               "'DESC' AS " + KEY_SORT_DIRECTION,
-              "'AGGREGATE' AS " + KEY_TYPE,
+              "null AS " + KEY_TYPE,
               "-1 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
               "(select max(" + KEY_SEALED + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_SEALED};
-          qb.appendWhere(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(" + currencyId + ")");
+          additionalWhere.append(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(").append(currencyId).append(")");
         }
         break;
       case ACCOUNT_ID:
-        qb.setTables(getAccountsWithExchangeRate());
-        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-        break;
-      case AGGREGATES_COUNT:
-        qb.setTables(TABLE_ACCOUNTS);
-        groupBy = "currency";
-        having = "count(*) > 1";
-        projection = new String[]{"count(*)"};
+        qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case PAYEES:
-        qb.setTables(TABLE_PAYEES);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_PAYEES);
         if (sortOrder == null) {
           sortOrder = KEY_PAYEE_NAME;
         }
@@ -613,14 +629,14 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = Companion.getPAYEE_PROJECTION();
         break;
       case MAPPED_TRANSFER_ACCOUNTS:
-        qb.setTables(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_ACCOUNTS + "." + KEY_ROWID, KEY_LABEL};
         if (sortOrder == null) {
           sortOrder = KEY_LABEL;
         }
         break;
       case METHODS:
-        qb.setTables(tableForPaymentMethodQuery(projection));
+        qb = SupportSQLiteQueryBuilder.builder(tableForPaymentMethodQuery(projection));
         groupBy = groupByForPaymentMethodQuery(projection);
         having = havingForPaymentMethodQuery(projection);
         if (projection == null) {
@@ -634,21 +650,21 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case MAPPED_METHODS:
         String localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
-        qb.setTables(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
           sortOrder = localizedLabel + " COLLATE LOCALIZED";
         }
         break;
       case METHOD_ID:
-        qb.setTables(TABLE_METHODS);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS);
         if (projection == null)
           projection = PaymentMethod.PROJECTION(wrappedContext);
-        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case METHODS_FILTERED:
         localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
-        qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
         projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
         String paymentType = uri.getPathSegments().get(2);
         String typeSelect;
@@ -676,17 +692,17 @@ public class TransactionProvider extends BaseTransactionProvider {
         having = "count(*) = " + accountTypes.length;
         break;
       case ACCOUNTTYPES_METHODS:
-        qb.setTables(TABLE_ACCOUNTTYES_METHODS);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTTYES_METHODS);
         break;
       case TEMPLATES:
         String instanceId = uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
         if (instanceId == null) {
-          qb.setTables(VIEW_TEMPLATES_EXTENDED);
+          qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_EXTENDED);
           if (projection == null) {
             projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
           }
         } else {
-          qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON %1$s.%3$s = %4$s AND %5$s = %6$s LEFT JOIN %7$s ON %7$s.%3$s = %2$s.%8$s",
+          qb = SupportSQLiteQueryBuilder.builder(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON %1$s.%3$s = %4$s AND %5$s = %6$s LEFT JOIN %7$s ON %7$s.%3$s = %2$s.%8$s",
               VIEW_TEMPLATES_EXTENDED, TABLE_PLAN_INSTANCE_STATUS, KEY_ROWID, KEY_TEMPLATEID, KEY_INSTANCEID, instanceId,
               TABLE_TRANSACTIONS, KEY_TRANSACTIONID));
           if (projection != null) {
@@ -699,29 +715,29 @@ public class TransactionProvider extends BaseTransactionProvider {
 
         break;
       case TEMPLATES_UNCOMMITTED:
-        qb.setTables(VIEW_TEMPLATES_UNCOMMITTED);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_UNCOMMITTED);
         if (projection == null)
           projection = Template.PROJECTION_BASE;
         break;
       case TEMPLATE_ID:
-        qb.setTables(VIEW_TEMPLATES_ALL);
-        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_ALL);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         if (projection == null) {
           projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_ALL);
         }
         break;
       case SQLITE_SEQUENCE_TABLE:
-        qb.setTables("SQLITE_SEQUENCE");
+        qb = SupportSQLiteQueryBuilder.builder("SQLITE_SEQUENCE");
         projection = new String[]{"seq"};
         selection = "name = ?";
         selectionArgs = new String[]{uri.getPathSegments().get(1)};
         break;
       case PLANINSTANCE_TRANSACTION_STATUS:
-        qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_PLAN_INSTANCE_STATUS);
         break;
       case PLANINSTANCE_STATUS_SINGLE:
-        qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON %3$s = %4$s", TABLE_PLAN_INSTANCE_STATUS, TABLE_TRANSACTIONS, KEY_ROWID, KEY_TRANSACTIONID));
-        qb.appendWhere(String.format(Locale.ROOT, "%s = %s AND %s = %s", KEY_TEMPLATEID,
+        qb = SupportSQLiteQueryBuilder.builder(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON %3$s = %4$s", TABLE_PLAN_INSTANCE_STATUS, TABLE_TRANSACTIONS, KEY_ROWID, KEY_TRANSACTIONID));
+        additionalWhere.append(String.format(Locale.ROOT, "%s = %s AND %s = %s", KEY_TEMPLATEID,
             uri.getPathSegments().get(1), KEY_INSTANCEID, uri.getPathSegments().get(2)));
         projection = new String[]{KEY_TRANSACTIONID, KEY_AMOUNT};
         break;
@@ -731,33 +747,26 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = new String[] {
               KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES
           };
-          qb.setTables(CURRENCIES_USAGES_TABLE_EXPRESSION);
+          qb = SupportSQLiteQueryBuilder.builder(CURRENCIES_USAGES_TABLE_EXPRESSION);
         } else {
-          qb.setTables(TABLE_CURRENCIES);
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
         }
         break;
       case DUAL:
-        qb.setTables("sqlite_master");
-        return qb.query(db, projection, selection, selectionArgs, null,
-            null, null, "1");
+        return db.query(SupportSQLiteQueryBuilder.builder("sqlite_master").columns(projection).selection(selection, selectionArgs).create());
       case EVENT_CACHE:
-        qb.setTables(TABLE_EVENT_CACHE);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_EVENT_CACHE);
         break;
       case DEBUG_SCHEMA:
-        qb.setTables("sqlite_master");
-        return qb.query(
-            db,
-            new String[]{"name", "sql"},
-            "type = 'table'",
-            null, null, null, null);
+        return db.query(SupportSQLiteQueryBuilder.builder("sqlite_master").columns(new String[]{"name", "sql"}).selection("type = 'table'", new Object[]{}).create());
       case STALE_IMAGES:
-        qb.setTables(TABLE_STALE_URIS);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_STALE_URIS);
         if (projection == null)
           projection = new String[]{"rowid as _id", KEY_PICTURE_URI};
         break;
       case STALE_IMAGES_ID:
-        qb.setTables(TABLE_STALE_URIS);
-        qb.appendWhere("rowid = " + uri.getPathSegments().get(1));
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_STALE_URIS);
+        additionalWhere.append("rowid = ").append(uri.getPathSegments().get(1));
         projection = new String[]{KEY_PICTURE_URI};
         break;
       case TRANSACTIONS_LASTEXCHANGE:
@@ -778,96 +787,102 @@ public class TransactionProvider extends BaseTransactionProvider {
         };
         sortOrder = KEY_DATE + " DESC";
         limit = "1";
-        qb.setTables(VIEW_COMMITTED);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_COMMITTED);
         break;
       case CHANGES:
         selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
         selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL)};
-        qb.setTables(VIEW_CHANGES_EXTENDED);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_CHANGES_EXTENDED);
         if (projection == null) {
           projection = TransactionChange.PROJECTION;
         }
         break;
       case SETTINGS: {
-        qb.setTables(TABLE_SETTINGS);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_SETTINGS);
         break;
       }
       case AUTOFILL:
-        qb.setTables(VIEW_EXTENDED);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_EXTENDED);
         selection = KEY_ROWID + "= (SELECT max(" + KEY_ROWID + ") FROM " + TABLE_TRANSACTIONS
             + " WHERE " + WHERE_NOT_SPLIT + " AND " + KEY_PAYEEID + " = ?)";
         selectionArgs = new String[]{uri.getPathSegments().get(1)};
         break;
       case ACCOUNT_EXCHANGE_RATE:
-        qb.setTables(TABLE_ACCOUNT_EXCHANGE_RATES);
-        qb.appendWhere(KEY_ACCOUNTID + "=" + uri.getPathSegments().get(1));
-        qb.appendWhere(" AND " + KEY_CURRENCY_SELF + "='" + uri.getPathSegments().get(2) + "'");
-        qb.appendWhere(" AND " + KEY_CURRENCY_OTHER + "='" + uri.getPathSegments().get(3) + "'");
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_EXCHANGE_RATES);
+        additionalWhere.append(KEY_ACCOUNTID + "=").append(uri.getPathSegments().get(1))
+                .append(" AND " + KEY_CURRENCY_SELF + "='").append(uri.getPathSegments().get(2)).append("'")
+                .append(" AND " + KEY_CURRENCY_OTHER + "='").append(uri.getPathSegments().get(3)).append("'");
         projection = new String[]{KEY_EXCHANGE_RATE};
         break;
       case BUDGETS:
-        qb.setTables(getBudgetTableJoin());
+        qb = SupportSQLiteQueryBuilder.builder(getBudgetTableJoin());
         break;
+      case ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
+        Long budgetId = budgetDefaultSelect(db, uri);
+        if (budgetId == null) {
+          return new MatrixCursor(projection, 0);
+        }
+        selection = KEY_CATID + " = 0 AND " + KEY_BUDGETID + " = ?";
+        selectionArgs = new String[] { budgetId.toString() };
+        extras.putLong(KEY_BUDGETID, budgetId);
+        break;
+      }
       case BUDGET_CATEGORY: {
         if (projection == null) {
           String sql = budgetAllocation(uri);
           c = measureAndLogQuery(db, uri, null, sql, null);
           return c;
         } else {
-          qb.setTables(TABLE_BUDGET_ALLOCATIONS);
-          qb.appendWhere(budgetSelect(uri));
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
+          additionalWhere.append(budgetSelect(uri));
           break;
         }
       }
       case TAGS:
-        boolean withCount = uri.getQueryParameter(QUERY_PARAMETER_WITH_COUNT) != null;
-        qb.setTables(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")" : TABLE_TAGS);
+        boolean withCount = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_COUNT, false);
+        qb = SupportSQLiteQueryBuilder.builder(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")" : TABLE_TAGS);
         if (withCount) {
           projection = new String[]{KEY_ROWID, KEY_LABEL, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
           groupBy = KEY_ROWID;
         }
         break;
       case TRANSACTIONS_TAGS:
-        qb.setTables(TABLE_TRANSACTIONS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTIONS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
       case TEMPLATES_TAGS:
-        qb.setTables(TABLE_TEMPLATES_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_TEMPLATES_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
       case ACCOUNTS_TAGS:
-        qb.setTables(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
       case DEBTS: {
         String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (transactionId != null) {
-          qb.appendWhere("not exists(SELECT 1 FROM " +
-              TABLE_TRANSACTIONS +
-              " WHERE " +
-              KEY_DEBT_ID +
-              " IS NOT NULL AND " +
-              KEY_PARENTID +
-              " = " +
-              transactionId +
-              ")");
+          additionalWhere.append("not exists(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_DEBT_ID + " IS NOT NULL AND " + KEY_PARENTID + " = ")
+                  .append(transactionId).append(")");
         }
         if (projection == null) {
           projection = Companion.debtProjection(transactionId);
         }
-        qb.setTables(DEBT_PAYEE_JOIN);
+        qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
         break;
       }
       case DEBT_ID: {
         if (projection == null) {
           projection = Companion.debtProjection(null);
         }
-        qb.setTables(DEBT_PAYEE_JOIN);
-        qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
+        additionalWhere.append(TABLE_DEBTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       }
       default:
         throw unknownUri(uri);
     }
 
-    c = measureAndLogQuery(qb, uri, db, projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
+    c = measureAndLogQuery(qb, uri, db, projection, computeWhere(selection, additionalWhere), selectionArgs, groupBy, having, sortOrder, limit);
+
+    c = wrapWithResultCompat(c, extras);
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {
@@ -875,10 +890,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
-  }
-
-  private Context wrappedContext() {
-    return userLocaleProvider.wrapContext(getContext());
   }
 
   @Override
@@ -894,31 +905,32 @@ public class TransactionProvider extends BaseTransactionProvider {
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
     setDirty(true);
     log("INSERT Uri: %s, values: %s", uri, values);
-    SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
+    SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     long id;
     String newUri;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
       case TRANSACTIONS:
       case UNCOMMITTED:
-        id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
         newUri = TRANSACTIONS_URI + "/" + id;
         break;
       case ACCOUNTS:
-        id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
+        Preconditions.checkArgument(!values.containsKey(KEY_GROUPING));
+        id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTS, values);
         newUri = ACCOUNTS_URI + "/" + id;
         break;
       case METHODS:
-        id = db.insertOrThrow(TABLE_METHODS, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_METHODS, values);
         newUri = METHODS_URI + "/" + id;
         break;
       case ACCOUNTTYPES_METHODS:
-        id = db.insertOrThrow(TABLE_ACCOUNTTYES_METHODS, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTTYES_METHODS, values);
         //we are not interested in accessing individual entries in this table, but have to return a uri
         newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
         break;
       case TEMPLATES:
-        id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_TEMPLATES, values);
         newUri = TEMPLATES_URI + "/" + id;
         break;
       case CATEGORIES:
@@ -926,34 +938,34 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (parentId == null && !values.containsKey(KEY_COLOR)) {
           values.put(KEY_COLOR, suggestNewCategoryColor(db));
         }
-        id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_CATEGORIES, values);
         newUri = CATEGORIES_URI + "/" + id;
         break;
       case PAYEES:
-        id = db.insertOrThrow(TABLE_PAYEES, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_PAYEES, values);
         newUri = PAYEES_URI + "/" + id;
         break;
       case PLANINSTANCE_TRANSACTION_STATUS: {
         long templateId = values.getAsLong(KEY_TEMPLATEID);
         long instancId = values.getAsLong(KEY_INSTANCEID);
-        db.insertWithOnConflict(TABLE_PLAN_INSTANCE_STATUS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insert(TABLE_PLAN_INSTANCE_STATUS, CONFLICT_REPLACE, values);
         Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + templateId + "/" + instancId);
         notifyChange(changeUri, false);
         return changeUri;
       }
       case EVENT_CACHE:
-        id = db.insertOrThrow(TABLE_EVENT_CACHE, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_EVENT_CACHE, values);
         newUri = EVENT_CACHE_URI + "/" + id;
         break;
       case STALE_IMAGES:
-        id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_STALE_URIS, values);
         newUri = STALE_IMAGES_URI + "/" + id;
         break;
       case ACCOUNT_EXCHANGE_RATE:
         values.put(KEY_ACCOUNTID, uri.getPathSegments().get(1));
         values.put(KEY_CURRENCY_SELF, uri.getPathSegments().get(2));
         values.put(KEY_CURRENCY_OTHER, uri.getPathSegments().get(3));
-        id = db.insertWithOnConflict(TABLE_ACCOUNT_EXCHANGE_RATES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        id = db.insert(TABLE_ACCOUNT_EXCHANGE_RATES, CONFLICT_REPLACE, values);
         newUri = uri.toString();
         break;
       case DUAL: {
@@ -966,25 +978,25 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case SETTINGS: {
-        id = db.replace(TABLE_SETTINGS, null, values);
+        id = db.insert(TABLE_SETTINGS, CONFLICT_REPLACE, values);
         newUri = SETTINGS_URI + "/" + id;
         break;
       }
       case BUDGETS: {
         long budget = values.getAsLong(KEY_BUDGET);
         values.remove(KEY_BUDGET);
-        id = db.insertOrThrow(TABLE_BUDGETS, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_BUDGETS, values);
         ContentValues budgetInitialAmount = new ContentValues(2);
         budgetInitialAmount.put(KEY_BUDGETID, id);
         budgetInitialAmount.put(KEY_BUDGET, budget);
         budgetInitialAmount.put(KEY_CATID, 0);
-        db.insertOrThrow(TABLE_BUDGET_ALLOCATIONS, null, budgetInitialAmount);
+        MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
         newUri = BUDGETS_URI + "/" + id;
         break;
       }
       case CURRENCIES: {
         try {
-          id = db.insertOrThrow(TABLE_CURRENCIES, null, values);
+          id = MoreDbUtilsKt.insert(db, TABLE_CURRENCIES, values);
         } catch (SQLiteConstraintException e) {
           return null;
         }
@@ -992,37 +1004,37 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case TAGS: {
-        id = db.insertOrThrow(TABLE_TAGS, null, values);
+        id =MoreDbUtilsKt.insert(db, TABLE_TAGS, values);
         newUri = TAGS_URI + "/" + id;
         break;
       }
       case TRANSACTIONS_TAGS: {
-        db.insertWithOnConflict(TABLE_TRANSACTIONS_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        db.insert(TABLE_TRANSACTIONS_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
-        notifyChange(uri, callerIsNotSyncAdatper(uri));
+        notifyChange(uri, callerIsNotSyncAdapter(uri));
         return TRANSACTIONS_TAGS_URI;
       }
       case TEMPLATES_TAGS: {
-        db.insertWithOnConflict(TABLE_TEMPLATES_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        db.insert(TABLE_TEMPLATES_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, false);
         return TEMPLATES_TAGS_URI;
       }
       case ACCOUNTS_TAGS: {
-        db.insertWithOnConflict(TABLE_ACCOUNTS_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        db.insert(TABLE_ACCOUNTS_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, false);
         return ACCOUNTS_TAGS_URI;
       }
       case DEBTS: {
-        id = db.insertOrThrow(TABLE_DEBTS, null, values);
+        id = MoreDbUtilsKt.insert(db, TABLE_DEBTS, values);
         newUri = DEBTS_URI + "/" + id;
         break;
       }
       default:
         throw unknownUri(uri);
     }
-    notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdatper(uri));
+    notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
     //the accounts cursor contains aggregates about transactions
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
@@ -1045,7 +1057,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty(true);
     log("Delete for URL: %s", uri);
-    SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
+    SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     int count;
     String segment;
     int uriMatch = URI_MATCHER.match(uri);
@@ -1065,7 +1077,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           ContentValues args = new ContentValues();
           args.putNull(KEY_TRANSFER_ACCOUNT);
           args.putNull(KEY_TRANSFER_PEER);
-          db.update(TABLE_TRANSACTIONS,
+          MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS,
               args,
               KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
               new String[]{segment});
@@ -1077,7 +1089,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           } else {
             ContentValues v = new ContentValues();
             v.put(KEY_CR_STATUS, CrStatus.VOID.name());
-            count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[]{segment, segment, segment});
+            count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[]{segment, segment, segment});
           }
           db.setTransactionSuccessful();
         } finally {
@@ -1198,7 +1210,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
-      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
+      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
@@ -1231,7 +1243,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
     setDirty(true);
-    SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
+    SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     String segment; // contains rowId
     int count;
     int uriMatch = URI_MATCHER.match(uri);
@@ -1240,11 +1252,11 @@ public class TransactionProvider extends BaseTransactionProvider {
     switch (uriMatch) {
       case TRANSACTIONS:
       case UNCOMMITTED:
-        count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
+        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
         break;
       case TRANSACTION_ID:
       case UNCOMMITTED_ID:
-        count = db.update(TABLE_TRANSACTIONS, values,
+        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
             whereArgs);
         break;
@@ -1253,24 +1265,24 @@ public class TransactionProvider extends BaseTransactionProvider {
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
         v.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
-        count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
+        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
         break;
       case ACCOUNTS:
-        count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
+        count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values, where, whereArgs);
         break;
       case ACCOUNT_ID:
-        count = db.update(TABLE_ACCOUNTS, values,
+        count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case TEMPLATES:
-        count = db.update(TABLE_TEMPLATES, values, where, whereArgs);
+        count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
         break;
       case TEMPLATE_ID:
-        count = db.update(TABLE_TEMPLATES, values,
+        count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case PAYEE_ID:
-        count = db.update(TABLE_PAYEES, values,
+        count = MoreDbUtilsKt.update(db, TABLE_PAYEES, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         notifyChange(TRANSACTIONS_URI, false);
         break;
@@ -1289,11 +1301,11 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
         }
         segment = uri.getLastPathSegment();
-        count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
+        count = MoreDbUtilsKt.update(db, TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
             whereArgs);
         break;
       case METHOD_ID:
-        count = db.update(TABLE_METHODS, values, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
+        count = MoreDbUtilsKt.update(db, TABLE_METHODS, values, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
             whereArgs);
         break;
       case TEMPLATES_INCREASE_USAGE:
@@ -1350,11 +1362,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           if (oldValue == newValue) {
             return 0;
           }
-          c = db.query(
-              TABLE_ACCOUNTS,
-              new String[]{"count(*)"},
-              KEY_CURRENCY + "=?",
-              bindArgs, null, null, null);
+          c = db.query(SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS)
+                  .columns(new String[]{"count(*)"})
+                  .selection(KEY_CURRENCY + "=?", bindArgs)
+                  .create());
           count = 0;
           if (c.getCount() != 0) {
             c.moveToFirst();
@@ -1393,13 +1404,17 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = 2;
         break;
       case CHANGES:
-        if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_INIT, false)) {
           String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
           db.beginTransaction();
           try {
             db.delete(TABLE_CHANGES, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
-            c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, "(" + KEY_UUID + " IS NULL OR (" + KEY_TRANSFER_PEER + " IS NOT NULL AND (SELECT "+ KEY_UUID + " from "+ TABLE_TRANSACTIONS +  " peer where " + KEY_TRANSFER_PEER + " = "  + TABLE_TRANSACTIONS + "." + KEY_ROWID + ") is null )) AND ("
-                + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", null, null, null, null);
+            c = db.query(SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTIONS)
+                    .columns(new String[]{KEY_ROWID})
+                            .selection("(" + KEY_UUID + " IS NULL OR (" + KEY_TRANSFER_PEER + " IS NOT NULL AND (SELECT "+ KEY_UUID + " from "+ TABLE_TRANSACTIONS +  " peer where " + KEY_TRANSFER_PEER + " = "  + TABLE_TRANSACTIONS + "." + KEY_ROWID + ") is null )) AND ("
+                                    + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", new Object[] {})
+                    .create()
+            );
             if (c.moveToFirst()) {
               MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
                 while (!c.isAfterLast()) {
@@ -1455,7 +1470,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                 accountIdBindArgs);
             ContentValues currentSyncIncrease = new ContentValues(1);
             currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
-            db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
+            MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
             db.setTransactionSuccessful();
           } catch (Exception e) {
             CrashHandler.report(e, TAG);
@@ -1465,7 +1480,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
           count = 1;
         } else {
-          count = db.update(TABLE_CHANGES, values, where, whereArgs);
+          count = MoreDbUtilsKt.update(db, TABLE_CHANGES, values, where, whereArgs);
           break;
         }
         break;
@@ -1475,7 +1490,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         boolean isAggregate = id < 0;
         ContentValues contentValues = new ContentValues(1);
         contentValues.put(KEY_GROUPING, uri.getPathSegments().get(2));
-        count = db.update(isAggregate ? TABLE_CURRENCIES : TABLE_ACCOUNTS, contentValues,
+        count = MoreDbUtilsKt.update(db, isAggregate ? TABLE_CURRENCIES : TABLE_ACCOUNTS, contentValues,
             KEY_ROWID + " = ?", new String[]{String.valueOf(Math.abs(id))});
         break;
       }
@@ -1483,11 +1498,14 @@ public class TransactionProvider extends BaseTransactionProvider {
         segment = uri.getPathSegments().get(1);
         ContentValues contentValues = new ContentValues(1);
         contentValues.put(KEY_SORT_DIRECTION, uri.getPathSegments().get(3));
-        count = db.update(TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
+        count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
         break;
       }
       case UNSPLIT: {
         String uuid = values.getAsString(KEY_UUID);
+        if (uuid == null) {
+          uuid = uuidForTransaction(db, values.getAsLong(KEY_ROWID));
+        }
 
         final String subselectTemplate = String.format("(SELECT %%1$s FROM %s WHERE %s = ?)", TABLE_TRANSACTIONS, KEY_UUID);
         String crStatusSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_CR_STATUS);
@@ -1503,7 +1521,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
               new String[]{uuid, uuid, uuid});
           //Change is recorded
-          if (callerIsNotSyncAdatper(uri)) {
+          if (callerIsNotSyncAdapter(uri)) {
             db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s AND %10$s IS NOT NULL",
                 TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
                 TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect, KEY_SYNC_ACCOUNT_NAME), new String[]{uuid, uuid});
@@ -1518,7 +1536,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case BUDGET_ID: {
-        count = db.update(TABLE_BUDGETS, values,
+        count = MoreDbUtilsKt.update(db, TABLE_BUDGETS, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       }
@@ -1527,29 +1545,29 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case BUDGET_ALLOCATIONS: {
-        count = db.update(TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
+        count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
         break;
       }
       case CURRENCIES_CODE: {
         final String currency = uri.getLastPathSegment();
-        count = db.update(TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
+        count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
             currency, prefixAnd(where)), whereArgs);
         break;
       }
       case TAG_ID: {
-        count = db.update(TABLE_TAGS, values,
+        count = MoreDbUtilsKt.update(db, TABLE_TAGS, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       }
       case TRANSACTION_LINK_TRANSFER: {
-        count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdatper(uri));
+        count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
         break;
       }
       case DEBTS:
-        count = db.update(TABLE_DEBTS, values, where, whereArgs);
+        count =MoreDbUtilsKt.update(db, TABLE_DEBTS, values, where, whereArgs);
         break;
       case DEBT_ID: {
-        count = db.update(TABLE_DEBTS, values,
+        count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       }
@@ -1559,7 +1577,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS || uriMatch == TRANSACTION_LINK_TRANSFER) {
-      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
+      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
@@ -1580,6 +1598,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     if (uriMatch == BUDGET_CATEGORY) {
       notifyChange(CATEGORIES_URI, false);
+      notifyChange(BUDGETS_URI, false);
     }
     if (uriMatch == BUDGET_ALLOCATIONS) {
       notifyChange(CATEGORIES_URI, false);
@@ -1594,15 +1613,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     return count;
   }
 
-  private void notifyChange(Uri uri, boolean syncToNetwork) {
-    if (!bulkInProgress) {
-      getContext().getContentResolver().notifyChange(uri, null,
-          syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true));
-    }
-  }
-
-  private boolean callerIsNotSyncAdatper(Uri uri) {
-    return uri.getQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNCADAPTER) == null;
+  private boolean callerIsNotSyncAdapter(Uri uri) {
+    return !uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, false);
   }
 
   /**
@@ -1614,7 +1626,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {
-    final SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
+    final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+    setBulkInProgress(true);
     db.beginTransaction();
     try {
       final int numOperations = operations.size();
@@ -1635,6 +1648,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       return results;
     } finally {
       db.endTransaction();
+      setBulkInProgress(false);
+      notifyBulk();
     }
   }
 
@@ -1642,32 +1657,24 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
     switch (method) {
-      case METHOD_INIT: {
-        getTransactionDatabase().getReadableDatabase();
-        break;
-      }
       case METHOD_BULK_START: {
-        bulkInProgress = true;
+        setBulkInProgress(true);
         break;
       }
       case METHOD_BULK_END: {
-        bulkInProgress = false;
-        notifyChange(TRANSACTIONS_URI, true);
-        notifyChange(ACCOUNTS_URI, false);
-        notifyChange(CATEGORIES_URI, false);
-        notifyChange(PAYEES_URI, false);
-        notifyChange(METHODS_URI, false);
+        setBulkInProgress(false);
+        notifyBulk();
         break;
       }
       case METHOD_SORT_ACCOUNTS: {
-        final SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
+        final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         if (extras != null) {
           long[] sortedIds = extras.getLongArray(KEY_SORT_KEY);
           if (sortedIds != null) {
             ContentValues values = new ContentValues(1);
             for (int i = 0; i < sortedIds.length; i++) {
               values.put(KEY_SORT_KEY, i);
-              db.update(TABLE_ACCOUNTS, values, KEY_ROWID + " = ?", new String[]{String.valueOf(sortedIds[i])});
+              MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values, KEY_ROWID + " = ?", new String[]{String.valueOf(sortedIds[i])});
             }
             notifyChange(ACCOUNTS_URI, false);
           }
@@ -1676,18 +1683,18 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SETUP_CATEGORIES: {
         Bundle result = new Bundle(1);
-        result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(getTransactionDatabase().getWritableDatabase(), wrappedContext().getResources()));
+        result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(getHelper().getWritableDatabase(), getWrappedContext().getResources()));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }
 
       case METHOD_RESET_EQUIVALENT_AMOUNTS: {
-        final SQLiteDatabase db = getTransactionDatabase().getWritableDatabase();
+        final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         Bundle result = new Bundle(1);
         MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
           ContentValues resetValues = new ContentValues(1);
           resetValues.putNull(KEY_EQUIVALENT_AMOUNT);
-          result.putInt(KEY_RESULT, db.update(TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null));
+          result.putInt(KEY_RESULT, MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null));
         });
         return result;
       }
@@ -1727,7 +1734,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     //TransactionType: 1 Income, -1 Expense
     //AccountType: CASH BANK CCARD ASSET LIABILITY
     URI_MATCHER.addURI(AUTHORITY, "methods/" + URI_SEGMENT_TYPE_FILTER + "/*", METHODS_FILTERED);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregatesCount", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/uncommitted", TEMPLATES_UNCOMMITTED);
@@ -1765,6 +1771,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
     URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
   }
 
   /**
@@ -1776,8 +1783,8 @@ public class TransactionProvider extends BaseTransactionProvider {
    * @return a handle to the database helper object for the provider's data.
    */
   @VisibleForTesting
-  public TransactionDatabase getOpenHelperForTest() {
-    return getTransactionDatabase();
+  public SupportSQLiteOpenHelper getOpenHelperForTest() {
+    return getHelper();
   }
 
   public boolean restore(File backupFile) {
@@ -1786,8 +1793,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     //line below gives app_databases instead of databases ???
     //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
     File currentDb = new File(dataDir, getDatabaseName());
-    boolean result = false;
-    getTransactionDatabase().close();
+    boolean result;
+    getHelper().close();
     try {
       result = FileCopyUtils.copy(backupFile, currentDb);
     } finally {
@@ -1803,7 +1810,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         .build();
   }
 
-  static int resumeChangeTrigger(SQLiteDatabase db) {
+  static int resumeChangeTrigger(SupportSQLiteDatabase db) {
     return db.delete(TABLE_SYNC_STATE, null, null);
   }
 
@@ -1814,10 +1821,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         .build();
   }
 
-  static long pauseChangeTrigger(SQLiteDatabase db) {
+  static long pauseChangeTrigger(SupportSQLiteDatabase db) {
     ContentValues values = new ContentValues(1);
     values.put(KEY_STATUS, "1");
-    return db.insertOrThrow(TABLE_SYNC_STATE, null, values);
+    return MoreDbUtilsKt.insert(db, TABLE_SYNC_STATE, values);
   }
 
   private String[] extendProjectionWithSealedCheck(String[] baseProjection, String baseTable) {

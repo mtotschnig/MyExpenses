@@ -18,6 +18,7 @@
     <string name="autofill">"Saisie automatique"</string>
     <string name="discard">"Supprimer"</string>
     <string name="dialog_dismiss">"Supprimer"</string>
+    <string name="details">"Détails"</string>
     <string name="response_yes">"Oui"</string>
     <string name="response_no">"Non"</string>
     <string name="add_widget">"Ajouter un widget"</string>

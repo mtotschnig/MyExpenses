@@ -14,8 +14,8 @@ class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryH
         fun onResult(result: Result<List<Long>>)
     }
 
-    fun check(itemIds: MutableList<Long>, listener: ResultListener) {
-        if (itemIds.size == 0) {
+    fun check(itemIds: List<Long>, listener: ResultListener) {
+        if (itemIds.isEmpty()) {
             listener.onResult(Result.success(emptyList()))
         } else {
             startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("distinct $KEY_TRANSFER_ACCOUNT"),

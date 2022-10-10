@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.filter.AmountCriteria;
+import org.totschnig.myexpenses.provider.filter.AmountCriterion;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.AmountEditText;
 
@@ -97,11 +97,11 @@ public class AmountFilterDialog extends BaseDialogFragment implements OnClickLis
     }
 
     final CurrencyUnit currency = (CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY);
-    ctx.addFilterCriteria(new AmountCriteria(
-        WhereFilter.Operation.valueOf(selectedOp),
-        currency.getCode(),
-        type,
-        new Money(currency, bdAmount1).getAmountMinor(),
-        bdAmount2 != null ? new Money(currency, bdAmount2).getAmountMinor() : null));
+    ctx.addFilterCriterion(AmountCriterion.Companion.create(
+            WhereFilter.Operation.valueOf(selectedOp),
+            currency.getCode(),
+            type,
+            new Money(currency, bdAmount1).getAmountMinor(),
+            bdAmount2 != null ? new Money(currency, bdAmount2).getAmountMinor() : null));
   }
 }

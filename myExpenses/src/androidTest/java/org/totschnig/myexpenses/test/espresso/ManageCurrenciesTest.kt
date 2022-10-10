@@ -44,7 +44,6 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         val currencyUnit = currencyContext[CURRENCY_CODE]
         val account = Account("TEST ACCOUNT", currencyUnit, 5000L, "", AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
-        waitForAdapter()
         try {
             val op = Transaction.getNewInstance(account.id)
             op.amount = Money(currencyUnit, -1200L)
@@ -79,8 +78,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
 
     override val testScenario: ActivityScenario<ManageCurrencies>
         get() = scenarioRule.scenario
-    override val listId: Int
-        get() = android.R.id.list
+
 
     companion object {
         private const val CURRENCY_CODE = "EUR"

@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 open class TransactionViewModel(application: Application) : TagHandlingViewModel(application) {
 
-    enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS }
+    enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS, TEMPLATE_FROM_TRANSACTION }
 
     fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, forEdit: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
         when (task) {
@@ -25,6 +26,9 @@ open class TransactionViewModel(application: Application) : TagHandlingViewModel
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(transactionId)
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId)
             InstantiationTask.FROM_INTENT_EXTRAS -> Pair(ProviderUtils.buildFromExtras(repository, extras!!), emptyList())
+            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(Transaction.getInstanceFromDb(transactionId))  {
+                Pair(Template(this, payee ?: label), this.loadTags())
+            }
         }?.also { pair ->
             if (forEdit) {
                 pair.first.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))

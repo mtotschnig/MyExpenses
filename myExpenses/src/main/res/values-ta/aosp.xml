@@ -19,6 +19,7 @@
     <string name="autofill">"தன்னிரப்பி"</string>
     <string name="discard">"நிராகரி"</string>
     <string name="dialog_dismiss">"நிராகரி"</string>
+    <string name="details">"விவரங்கள்"</string>
     <string name="response_yes">"ஆம்"</string>
     <string name="response_no">"இல்லை"</string>
     <string name="add_widget">"விட்ஜெட்டைச் சேர்க்கவும்"</string>

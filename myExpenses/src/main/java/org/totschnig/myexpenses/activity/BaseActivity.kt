@@ -1,7 +1,13 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.DownloadManager
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.vmadalin.easypermissions.EasyPermissions
@@ -46,11 +53,29 @@ import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import timber.log.Timber
-import java.util.ArrayList
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener, EasyPermissions.PermissionCallbacks {
     private var snackBar: Snackbar? = null
+
+    val floatingActionButton: FloatingActionButton
+        get() = _floatingActionButton!!
+
+    private val _floatingActionButton: FloatingActionButton?
+        get() = findViewById(R.id.CREATE_COMMAND)
+
+    @JvmOverloads
+    protected fun configureFloatingActionButton(fabDescription: Int, icon: Int = 0) {
+        configureFloatingActionButton(getString(fabDescription))
+        if (icon != 0) {
+            floatingActionButton.setImageResource(icon)
+        }
+    }
+
+    protected fun configureFloatingActionButton(fabDescription: String?) {
+        floatingActionButton.contentDescription = fabDescription
+    }
+
     private val downloadReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             onDownloadComplete()
@@ -383,7 +408,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @JvmOverloads
     open fun showMessage(
         message: CharSequence,
-        positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
+        positive: MessageDialogFragment.Button? = MessageDialogFragment.okButton(),
         neutral: MessageDialogFragment.Button? = null,
         negative: MessageDialogFragment.Button? = null,
         cancellable: Boolean = true
@@ -412,11 +437,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun rebuildDbConstants() {
         DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
         Transaction.buildProjection(this)
-        rebuildAccountProjection()
-    }
-
-    fun rebuildAccountProjection() {
-        Account.buildProjection()
     }
 
     fun showMessage(resId: Int) {
@@ -442,10 +462,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        _floatingActionButton?.let {
+            it.isEnabled = true
+        }
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     open fun requestPermission(permissionGroup: PermissionHelper.PermissionGroup) {
+        _floatingActionButton?.let {
+            it.isEnabled = false
+        }
         EasyPermissions.requestPermissions(
             host = this,
             rationale = permissionGroup.permissionRequestRationale(this),

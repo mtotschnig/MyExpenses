@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TagListViewModel(application: Application,
@@ -23,7 +24,7 @@ class TagListViewModel(application: Application,
 
     fun loadTags(selected: ArrayList<Tag>?): LiveData<MutableList<Tag>> {
         if (tags.value == null) {
-            val tagsUri = TransactionProvider.TAGS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT, "1").build()
+            val tagsUri = TransactionProvider.TAGS_URI.buildUpon().appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT).build()
             disposable = briteContentResolver.createQuery(tagsUri, null, null, null, "$KEY_LABEL COLLATE LOCALIZED", false)
                     .mapToList { cursor ->
                         val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))

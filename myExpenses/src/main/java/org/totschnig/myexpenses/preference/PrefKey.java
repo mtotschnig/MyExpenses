@@ -125,7 +125,6 @@ public enum PrefKey {
   PERSONALIZED_AD_CONSENT(R.string.pref_ad_consent_key),
   SCROLL_TO_CURRENT_DATE(R.string.pref_scroll_to_current_date_key),
   EXPORT_PASSWORD(R.string.pref_security_export_password_key),
-  ACCOUNT_LIST_FAST_SCROLL(R.string.pref_account_list_fast_scroll_key),
   TRANSLATION(R.string.pref_translation_key),
   SYNC_CHANGES_IMMEDIATELY(R.string.pref_sync_changes_immediately_key),
   EXCHANGE_RATE_PROVIDER(R.string.pref_exchange_rate_provider_key),
@@ -169,7 +168,8 @@ public enum PrefKey {
   CSV_EXPORT_SPLIT_CATEGORIES(R.string.pref_csv_export_split_categories_key),
   CSV_EXPORT_SPLIT_AMOUNT(R.string.pref_csv_export_split_amount_key),
   CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key),
-  WEBUI_HTTPS(R.string.pref_web_ui_https_key)
+  WEBUI_HTTPS(R.string.pref_web_ui_https_key),
+  RUNNING_BALANCE(R.string.pref_running_balance_key)
   ;
 
   int resId = 0;

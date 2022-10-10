@@ -7,11 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
@@ -38,7 +34,6 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Budget
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
-import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -95,7 +90,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value
                 val sort = viewModel.sortOrder.collectAsState()
-                val filterPersistence = viewModel.filterPersistence.collectAsState().value
+                val whereFilter = viewModel.whereFilter.collectAsState().value
                 Box(modifier = Modifier.fillMaxSize()) {
                     if (category == Category.LOADING || budget == null) {
                         CircularProgressIndicator(
@@ -112,9 +107,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 update = { chipGroup ->
                                     chipGroup.addChipsBulk(buildList {
                                         add(budget.label(this@BudgetActivity))
-                                        filterPersistence?.whereFilter?.criteria?.map {
+                                        whereFilter.criteria.map {
                                             it.prettyPrint(this@BudgetActivity)
-                                        }?.let { addAll(it) }
+                                        }.let { addAll(it) }
                                     })
                                 }
 
@@ -233,8 +228,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
                 DELETE_BUDGET_DIALOG -> {
                     viewModel.deleteBudget(
-                        budgetId = budget.id,
-                        if (budget.default) BudgetViewModel.prefNameForDefaultBudget(budget.accountId, budget.grouping) else null
+                        budgetId = budget.id
                     ).observe(this) {
                         if (it) {
                             setResult(Activity.RESULT_FIRST_USER)

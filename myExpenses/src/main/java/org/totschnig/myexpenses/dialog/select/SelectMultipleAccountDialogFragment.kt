@@ -7,15 +7,15 @@ import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.AccountCriteria
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
 
-class SelectMultipleAccountDialogFragment : SelectFilterDialog(false) {
-    override fun makeCriteria(label: String, vararg ids: Long) = AccountCriteria(label, *ids)
+class SelectMultipleAccountDialogFragment : SelectFilterDialog<AccountCriterion>(false) {
+    override fun makeCriteria(label: String, vararg ids: Long) = AccountCriterion(label, *ids)
     override val uri: Uri = TransactionProvider.ACCOUNTS_BASE_URI
     override val column: String = KEY_LABEL
     override val selection: String?
         get() = if (arguments == null) null else "$KEY_CURRENCY = ?"
-    override val selectionArgs: Array<String?>?
+    override val selectionArgs: Array<String>?
         get() = arguments?.let { arrayOf(it.getString(KEY_CURRENCY)!!) }
 
 

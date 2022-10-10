@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
@@ -314,9 +315,8 @@ class WebInputService : LifecycleService(), IWebInputService {
         get("data.js") {
             val categories = contentResolver.query(
                 TransactionProvider.CATEGORIES_URI.buildUpon()
-                    .appendQueryParameter(
-                        TransactionProvider.QUERY_PARAMETER_HIERARCHICAL,
-                        "1"
+                    .appendBooleanQueryParameter(
+                        TransactionProvider.QUERY_PARAMETER_HIERARCHICAL
                     ).build(),
                 arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL, KEY_LEVEL),
                 null, null, null

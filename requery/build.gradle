@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android'
+}
+android {
+    namespace 'org.totschnig.requery'
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 21
+        missingDimensionStrategy 'textRecognition', 'extern'
+    }
+}
+
+dependencies {
+    implementation project(":myExpenses")
+    implementation 'com.github.requery:sqlite-android:3.39.2'
+}

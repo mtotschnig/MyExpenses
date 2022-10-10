@@ -66,7 +66,7 @@ class TransferDelegate(
 
     override fun bind(
         transaction: ITransfer?,
-        newInstance: Boolean,
+        withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean
@@ -84,7 +84,7 @@ class TransferDelegate(
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
         super.bind(
             transaction,
-            newInstance,
+            withTypeSpinner,
             savedInstanceState,
             recurrence,
             withAutoFill
@@ -106,9 +106,9 @@ class TransferDelegate(
 
     }
 
-    override fun createAdapters(newInstance: Boolean, withAutoFill: Boolean) {
+    override fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
         createStatusAdapter()
-        if (newInstance) {
+        if (withTypeSpinner) {
             createOperationTypeAdapter()
         }
     }

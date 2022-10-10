@@ -16,7 +16,6 @@
     <string name="menu_reopen">తిరిగి తెరవండి</string>
     <string name="menu_close">దగ్గరగా</string>
     <string name="menu_hide">దాచు</string>
-    <string name="pref_account_list_fast_scroll_summary">ఖాతా జాబితా కోసం వేగవంతమైన స్క్రోల్‌ను ప్రారంభించండి. కొన్ని పరికరాల్లో తప్పు ప్రదర్శనకు దారితీయవచ్చు</string>
     <string name="joining_or">లేదా</string>
     <string name="button_label_no_encryption">గుప్తీకరణ లేకుండా</string>
     <string name="input_label_passphrase">పాస్ఫ్రేజ్</string>
@@ -69,15 +68,9 @@
     <string name="pref_value_date_summary">బుకింగ్ తేదీకి అదనంగా విలువ తేదీని సెట్ చేయడానికి అనుమతించండి. లావాదేవీ సమయం దాచబడుతుంది. ఈ సెట్టింగ్ నగదు ఖాతాలకు వర్తించదు.</string>
     <string name="pref_transaction_time_summary">ఖచ్చితమైన లావాదేవీ సమయాన్ని సెట్ చేయడానికి అనుమతించండి.</string>
     <string name="split_transaction_not_possible">ఒకే ఖాతా, చెల్లింపుదారు మరియు స్థితిని కలిగి ఉన్న లావాదేవీలను మాత్రమే ఒక స్ప్లిట్ లావాదేవీగా వర్గీకరించవచ్చు.</string>
-    <string name="split_transaction_group_error">లావాదేవీలను విభజించలేము.</string>
     <string name="split_transaction_group_success">%1$d లావాదేవీలు విజయవంతంగా ఒక స్ప్లిట్ లావాదేవీలుగా వర్గీకరించబడ్డాయి.</string>
-    <string name="split_transaction_one_error">లావాదేవీని స్ప్లిట్‌గా మార్చడం సాధ్యం కాలేదు.</string>
     <string name="split_transaction_one_success">లావాదేవీ విజయవంతంగా విడిపోయింది.</string>
-    <string name="ungroup_split_transaction_failure">స్ప్లిట్ లావాదేవీలను సమూహపరచనప్పుడు, %2$d లో %1$d విఫలమైంది.</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">స్ప్లిట్ లావాదేవీ విజయవంతంగా సమూహపరచబడలేదు.</item>
-        <item quantity="other">%1$d స్ప్లిట్ లావాదేవీలు విజయవంతంగా సమూహపరచబడలేదు.</item>
-    </plurals>
+    <string name="ungroup_split_transaction_success">స్ప్లిట్ లావాదేవీ విజయవంతంగా సమూహపరచబడలేదు.</string>
     <string name="menu_ungroup_split_transaction">సమూహ విభజన</string>
     <string name="warning_ungroup_split_transactions">ఎంచుకున్న స్ప్లిట్ లావాదేవీలు సమూహపరచబడవు, అనగా వాటి స్ప్లిట్ భాగాలు సాధారణ లావాదేవీలుగా మారతాయి.</string>
     <string name="warning_split_transactions">ఎంచుకున్న లావాదేవీలు ఒక స్ప్లిట్ లావాదేవీలుగా వర్గీకరించబడతాయి. వారి తేదీ సమాచారం పోతుంది, అనగా వాటి సగటుతో భర్తీ చేయబడుతుంది.</string>
@@ -137,7 +130,6 @@
     <string name="pref_debug_logging_summary">సిస్టమ్ లాగ్‌లో డీబగ్గింగ్ సమాచారాన్ని వ్రాయండి</string>
     <string name="pref_sync_notification_summary">సమకాలీకరణ పురోగతి గురించి తెలియజేయండి</string>
     <string name="contributed_by">%s తోడ్పడింది</string>
-    <string name="template_create_error">టెంప్లేట్‌ను సేవ్ చేస్తున్నప్పుడు లోపం</string>
     <string name="dialog_button_add">జోడించు</string>
     <string name="onboarding_restore_from_local">స్థానిక బ్యాకప్ ఫైల్‌ను పునరుద్ధరించండి</string>
     <string name="onboarding_restore_from_cloud_backup">బ్యాకప్</string>

@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -38,31 +39,6 @@ open class BudgetViewModel(application: Application) :
     val databaseResult = MutableLiveData<Long>()
 
     private val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
-
-    @Inject
-    lateinit var licenceHandler: LicenceHandler
-    private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
-        val currency = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
-        val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
-            Utils.getHomeCurrency() else currencyContext.get(currency)
-        val budgetId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-        val accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ACCOUNTID))
-        val grouping =
-            Grouping.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GROUPING)))
-        Budget(
-            budgetId,
-            accountId,
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
-            currencyUnit,
-            grouping,
-            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_START)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_END)),
-            cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
-            getDefaultBudget(accountId, grouping) == budgetId
-        )
-    }
 
     fun loadAllBudgets() {
         disposable = createQuery(null, null)
@@ -90,9 +66,8 @@ open class BudgetViewModel(application: Application) :
         val (position, budget) = pair
         val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
-            sumBuilder.appendQueryParameter(
-                TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES,
-                "1"
+            sumBuilder.appendBooleanQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES
             )
                 .build()
         }
@@ -182,9 +157,6 @@ open class BudgetViewModel(application: Application) :
             PROJECTION, selection, selectionArgs, null, true
         )
 
-    fun getDefaultBudget(accountId: Long, grouping: Grouping) =
-        prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
-
     companion object {
         val PROJECTION = arrayOf(
             q(KEY_ROWID),
@@ -196,15 +168,13 @@ open class BudgetViewModel(application: Application) :
             KEY_COLOR,
             KEY_START,
             KEY_END,
-            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL"
+            "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL",
+            KEY_IS_DEFAULT
         )
 
         fun q(column: String) = "$TABLE_BUDGETS.$column"
 
         fun prefNameForCriteria(budgetId: Long): String =
             "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)
-
-        fun prefNameForDefaultBudget(accountId: Long, grouping: Grouping): String =
-            "defaultBudget_%d_%s".format(Locale.ROOT, accountId, grouping)
     }
 }

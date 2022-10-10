@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
-import android.content.OperationApplicationException
-import android.os.RemoteException
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
@@ -26,13 +24,6 @@ import org.totschnig.myexpenses.testutils.Matchers.withListSize
 class AccountEditTest : BaseUiTest<AccountEdit>() {
     private lateinit var activityScenario: ActivityScenario<AccountEdit>
     @After
-    @Throws(RemoteException::class, OperationApplicationException::class)
-    fun tearDown() {
-        val accountId = Account.findAnyOpen(LABEL)
-        if (accountId > -1) {
-            Account.delete(accountId)
-        }
-    }
 
     @Test
     fun saveAccount() {

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -254,7 +255,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
         val trend: Int = 0
     )
 
-    enum class ExportFormat(val mimeType: String) {
-        HTML("text/html"), TXT("text/plain")
+    enum class ExportFormat(val mimeType: String, val resId: Int) {
+        HTML("text/html", R.string.html), TXT("text/plain", R.string.txt)
     }
 }

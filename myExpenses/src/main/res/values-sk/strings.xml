@@ -48,7 +48,6 @@
     <string name="pref_security_question_title">Bezpečnostná otázka</string>
     <string name="split_transaction">Delená transakcia</string>
     <string name="content_description_calculator">Kalkulačka</string>
-    <string name="split_transaction_one_error">Nepodarilo sa premeniť transakciu na rozdelenú.</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funkcie</string>
     <string name="pref_category_title_crash_reports">Správa o zlyhaní</string>

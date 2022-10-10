@@ -590,8 +590,6 @@
     <string name="onboarding_restore_from_cloud">Restaurar a partir da sincronização na nuvem</string>
     <string name="onboarding_restore_from_local">Restaurar ficheiro de backup local</string>
     <string name="dialog_button_add">Adicionar</string>
-    <string name="template_create_error">Erro durante o salvamento do modelo</string>
-    <string name="split_transaction_one_error">Não foi possível transformar a transação em dividida.</string>
     <string name="pref_category_exchange_rates">Taxas de câmbio</string>
     <string name="budget_duration_from">De</string>
     <string name="budget_duration_to">Até</string>
@@ -738,7 +736,6 @@
     <string name="menu_reopen">Reabrir</string>
     <string name="menu_close">Encerrar</string>
     <string name="menu_hide">Ocultar</string>
-    <string name="pref_account_list_fast_scroll_summary">Habilita a rolagem rápida para a lista de contas. Pode levar a uma exibição incorreta em alguns dispositivos</string>
     <string name="joining_or">ou</string>
     <string name="button_label_no_encryption">Sem criptografia</string>
     <string name="input_label_passphrase">Senha</string>
@@ -806,14 +803,9 @@
     <string name="pref_value_date_summary">Permite a definição de uma data da contabilização, além da data do pagamento. A data da transação ficará oculta. Essa configuração não se aplica a contas de dinheiro.</string>
     <string name="pref_transaction_time_summary">Permitir a definição da data exata da transação.</string>
     <string name="split_transaction_not_possible">Somente transações que possuam a mesma conta, beneficiário e status podem ser agrupadas em uma transação dividida.</string>
-    <string name="split_transaction_group_error">Não foi possível agrupar as transações em uma dividida.</string>
     <string name="split_transaction_group_success">%1$d transações foram agrupadas em uma transação dividida com sucesso.</string>
     <string name="split_transaction_one_success">A transação foi transformada em dividida com sucesso.</string>
-    <string name="ungroup_split_transaction_failure">Ao desagrupar as transações divididas, ocorreu uma falha em %1$d das %2$d.</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">A transação dividida foi desagrupada com sucesso.</item>
-        <item quantity="other">%1$d transações divididas foram desagrupadas com sucesso.</item>
-    </plurals>
+    <string name="ungroup_split_transaction_success">A transação dividida foi desagrupada com sucesso.</string>
     <string name="menu_ungroup_split_transaction">Desagrupar divisão</string>
     <string name="warning_ungroup_split_transactions">As transações divididas selecionadas serão desagrupadas e suas divisões serão convertidas em transações normais.</string>
     <string name="warning_split_transactions">As transações atuais serão agrupadas em uma transação dividida. A informação das datas será perdida, sendo substituída pela sua média.</string>

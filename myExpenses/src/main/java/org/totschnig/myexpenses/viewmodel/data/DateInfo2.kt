@@ -10,28 +10,26 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_MONT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 
 data class DateInfo2(
     val day: Int, val week: Int, val month: Int, val year: Int,
     val yearOfWeekStart: Int, val yearOfMonthStart: Int
 ) {
     companion object {
+        val EMPTY = DateInfo2(0, 0, 0 ,0, 0, 0)
         fun fromCursor(cursor: Cursor) = with(cursor) {
             DateInfo2(
-                safeGet(KEY_THIS_DAY),
-                safeGet(KEY_THIS_WEEK),
-                safeGet(KEY_THIS_MONTH),
-                safeGet(KEY_THIS_YEAR),
-                safeGet(KEY_THIS_YEAR_OF_WEEK_START),
-                safeGet(KEY_THIS_YEAR_OF_MONTH_START)
+                getIntIfExistsOr0(KEY_THIS_DAY),
+                getIntIfExistsOr0(KEY_THIS_WEEK),
+                getIntIfExistsOr0(KEY_THIS_MONTH),
+                getIntIfExistsOr0(KEY_THIS_YEAR),
+                getIntIfExistsOr0(KEY_THIS_YEAR_OF_WEEK_START),
+                getIntIfExistsOr0(KEY_THIS_YEAR_OF_MONTH_START)
             )
         }
     }
 }
-
-fun Cursor.safeGet(key: String) =
-    getColumnIndex(key).takeIf { it != -1 }?.let { getInt(it) }
-        ?: 0
 
 data class DateInfo3(
     val maxValue: Int, val weekStart: Int, val weekEnd: Int
@@ -39,9 +37,9 @@ data class DateInfo3(
     companion object {
         fun fromCursor(cursor: Cursor) = with(cursor) {
             DateInfo3(
-                safeGet(KEY_MAX_VALUE),
-                safeGet(KEY_WEEK_START),
-                safeGet(KEY_WEEK_END)
+                getIntIfExistsOr0(KEY_MAX_VALUE),
+                getIntIfExistsOr0(KEY_WEEK_START),
+                getIntIfExistsOr0(KEY_WEEK_END)
             )
         }
     }

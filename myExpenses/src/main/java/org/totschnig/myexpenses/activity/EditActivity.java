@@ -67,18 +67,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     setDirty();
   }
 
-  @Override
-  public void setContentView(View view) {
-    super.setContentView(view);
-    requireFloatingActionButton();
-  }
-
-  @Override
-  public void setContentView(int layoutResID) {
-    super.setContentView(layoutResID);
-    requireFloatingActionButton();
-  }
-
   protected Toolbar setupToolbar() {
     Toolbar toolbar = super.setupToolbar(true);
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_close_clear_cancel);

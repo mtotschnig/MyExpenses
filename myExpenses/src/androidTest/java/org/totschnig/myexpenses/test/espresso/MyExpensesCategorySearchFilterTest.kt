@@ -3,36 +3,24 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.Intent
 import androidx.compose.ui.semantics.SemanticsActions
-import androidx.compose.ui.test.junit4.createEmptyComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performSemanticsAction
+import androidx.compose.ui.test.*
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.CursorMatchers
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import org.hamcrest.Matchers
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.BaseUiTest
-import java.util.concurrent.TimeoutException
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
-class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
-    private lateinit var activityScenario: ActivityScenario<MyExpenses>
-    @get:Rule
-    val composeTestRule = createEmptyComposeRule()
+class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
 
     private lateinit var catLabel1: String
     private lateinit var catLabel2: String
@@ -40,7 +28,6 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
     private var id1Main: Long = 0
     private var id1Sub: Long = 0
     private var id2Main: Long = 0
-    private lateinit var account: Account
 
     @Before
     fun fixture() {
@@ -48,7 +35,7 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
         catLabel1Sub = "Sub category 1"
         catLabel2 = "Test category 2"
         val currency = DebugInstance
-        account = Account(
+        val account = Account(
             "Test account 1", currency, 0, "",
             AccountType.CASH, Account.DEFAULT_COLOR
         )
@@ -61,27 +48,25 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
         op.catId = categoryId1
         id1Main = ContentUris.parseId(op.save()!!)
         op.catId = categoryId2
+        op.date = op.date - 10000
         id2Main = ContentUris.parseId(op.saveAsNew())
         op.catId = categoryId1Sub
+        op.date = op.date - 10000
         id1Sub = ContentUris.parseId(op.saveAsNew())
     }
 
     @Before
-    @Throws(TimeoutException::class)
     fun startSearch() {
-        ActivityScenario.launch<MyExpenses>(Intent(targetContext, MyExpenses::class.java)).also {
-            activityScenario = it
-        }
-        waitForAdapter()
+        launch()
         allLabelsAreDisplayed()
         Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withText(R.string.category)).perform(ViewActions.click())
     }
 
     private fun allLabelsAreDisplayed() {
-        isDisplayed(id1Main)
-        isDisplayed(id1Sub)
-        isDisplayed(id2Main)
+        catIsDisplayed(catLabel1, 0)
+        catIsDisplayed(catLabel2, 1)
+        catIsDisplayed(catLabel1Sub, 2, true)
     }
 
     private fun endSearch(text: String?) {
@@ -102,48 +87,29 @@ class MyExpensesCategorySearchFilterTest : BaseUiTest<MyExpenses>() {
     fun catFilterChildShouldHideTransaction() {
         composeTestRule.onNodeWithText(catLabel1).performSemanticsAction(SemanticsActions.Expand)
         select(catLabel1Sub)
-        isDisplayed(id1Sub)
-        isNotDisplayed(id1Main)
-        isNotDisplayed(id2Main)
+        assertListSize(1)
+        catIsDisplayed(catLabel1Sub, 0, true)
         endSearch(catLabel1Sub)
     }
 
     @Test
     fun catFilterMainWithChildrenShouldHideTransaction() {
         select(catLabel1)
-        isDisplayed(id1Main)
-        isDisplayed(id1Sub)
-        isNotDisplayed(id2Main)
+        assertListSize(2)
+        catIsDisplayed(catLabel1, 0)
+        catIsDisplayed(catLabel1Sub, 1, true)
         endSearch(catLabel1)
     }
 
     @Test
     fun catFilterMainWithoutChildrenShouldHideTransaction() {
         select(catLabel2)
-        isDisplayed(id2Main)
-        isNotDisplayed(id1Main)
-        isNotDisplayed(id1Sub)
+        assertListSize(1)
+        catIsDisplayed(catLabel2, 0)
         endSearch(catLabel2)
     }
 
-    private fun isDisplayed(id: Long) {
-        Espresso.onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, id))
-            .inAdapterView(wrappedList).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    private fun catIsDisplayed(label: String, position: Int, subString: Boolean = false) {
+        assertTextAtPosition(label, position, subString)
     }
-
-    private fun isNotDisplayed(id: Long) {
-        Espresso.onView(wrappedList)
-            .check(
-                ViewAssertions.matches(
-                    Matchers.not(
-                        org.totschnig.myexpenses.testutils.Matchers.withAdaptedData(
-                            CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, id)
-                        )
-                    )
-                )
-            )
-    }
-
-    override val testScenario: ActivityScenario<MyExpenses>
-        get() = activityScenario
 }

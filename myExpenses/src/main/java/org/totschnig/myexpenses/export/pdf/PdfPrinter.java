@@ -275,7 +275,7 @@ public class PdfPrinter {
         }
         table = helper.newTable(2);
         table.setWidthPercentage(100f);
-        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, DateInfo.fromCursor(transactionCursor), userLocaleProvider.getUserPreferredLocale()), FontType.HEADER);
+        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, DateInfo.fromCursor(transactionCursor)), FontType.HEADER);
         table.addCell(cell);
         if (groupCursor.isAfterLast()) {
           Timber.w("Grouping: %s, currentHeaderId; %d, prevHeaderId: %d", account.getGrouping(), currentHeaderId, prevHeaderId);

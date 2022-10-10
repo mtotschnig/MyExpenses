@@ -18,21 +18,9 @@ import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.TransactionProvider.CHANGES_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.filter.PayeeCriteria
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
@@ -70,7 +58,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
         val selection = StringBuilder().apply {
             filterSelection?.let { append(it) }
             accountSelection?.let {
-                if (length > 0) append(" AND ")
+                if (isNotEmpty()) append(" AND ")
                 append(it)
             }
         }.takeIf { it.isNotEmpty() }?.toString()
@@ -112,16 +100,16 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     }
 
     private fun updatePartyFilters(old: Set<Long>, new: Long) {
-        contentResolver.query(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null)
+        contentResolver.query(ACCOUNTS_MINIMAL_URI, null, null, null, null)
             ?.use { cursor ->
-                updateFilterHelper(old, new, cursor, TransactionListViewModel::prefNameForCriteria)
+                updateFilterHelper(old, new, cursor, MyExpensesViewModel::prefNameForCriteria)
             }
     }
 
 
     private fun updatePartyBudgets(old: Set<Long>, new: Long) {
         contentResolver.query(
-            TransactionProvider.BUDGETS_URI,
+            BUDGETS_URI,
             arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
             null,
             null,
@@ -145,11 +133,11 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                     KEY_PAYEEID
                 )
             val oldPayeeFilterValue = prefHandler.getString(payeeFilterKey, null)
-            val oldCriteria = oldPayeeFilterValue?.let {
-                PayeeCriteria.fromStringExtra(it)
+            val oldCriteria: PayeeCriterion? = oldPayeeFilterValue?.let {
+                PayeeCriterion.fromStringExtra(it)
             }
             if (oldCriteria != null) {
-                val oldSet = oldCriteria.values.map { it.toLong() }.toSet()
+                val oldSet = oldCriteria.values.toSet()
                 val newSet: Set<Long> = oldSet.replace(old, new)
                 if (oldSet != newSet) {
                     val labelList = mutableListOf<String>()
@@ -163,7 +151,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                             it.moveToNext()
                         }
                     }
-                    val newPayeeFilterValue = PayeeCriteria(
+                    val newPayeeFilterValue = PayeeCriterion(
                         labelList.joinToString(","),
                         *newSet.toLongArray()
                     ).toStringExtra()
@@ -187,7 +175,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
             val contentValues = ContentValues(1).apply {
                 put(KEY_PAYEEID, keepId)
             }
-            itemIds.subtract(listOf(keepId)).let {
+            itemIds.subtract(setOf(keepId)).let {
                 val inOp = "IN (${it.joinToString()})"
                 val where = "$KEY_PAYEEID $inOp"
                 val operations = ArrayList<ContentProviderOperation>().apply {
@@ -231,7 +219,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                     )
                 }
                 val size =
-                    contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations).size
+                    contentResolver.applyBatch(AUTHORITY, operations).size
                 if (size == operations.size) {
                     updatePartyFilters(it, keepId)
                     updatePartyBudgets(it, keepId)
