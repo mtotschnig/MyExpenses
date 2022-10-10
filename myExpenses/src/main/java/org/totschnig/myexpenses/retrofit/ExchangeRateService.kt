@@ -22,6 +22,9 @@ enum class ExchangeRateSource {
 
     @Suppress("SpellCheckingInspection")
     OPENEXCHANGERATES;
+    companion object {
+        val defaultSource = EXCHANGE_RATE_HOST
+    }
 }
 
 data class Configuration(val source: ExchangeRateSource, val openExchangeRatesAppId: String = "")
@@ -120,13 +123,12 @@ private fun toLocalDate(timestamp: Long): LocalDate {
 }
 
 fun configuration(prefHandler: @NotNull PrefHandler): Configuration {
-    val default = ExchangeRateSource.EXCHANGE_RATE_HOST
     @Suppress("SpellCheckingInspection")
     val preferenceValue = prefHandler.requireString(
         PrefKey.EXCHANGE_RATE_PROVIDER,
-        default.name
+        ExchangeRateSource.defaultSource.name
     ).takeIf { it != "RATESAPI" }
-    val source = enumValueOrDefault(preferenceValue, default)
+    val source = enumValueOrDefault(preferenceValue, ExchangeRateSource.defaultSource)
     return Configuration(
         source, prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
     )
