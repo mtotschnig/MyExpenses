@@ -24,9 +24,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
-import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -322,19 +319,6 @@ public class MyExpenses extends BaseMyExpenses implements
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TASK_SPLIT: {
-        Result result = (Result) o;
-        if (((Result) o).isSuccess()) {
-          recordUsage(ContribFeature.SPLIT_TRANSACTION);
-        }
-        showSnackBar(result.print(this));
-        break;
-      }
-      case TASK_REVOKE_SPLIT: {
-        Result result = (Result) o;
-        showSnackBar(result.print(this));
-        break;
-      }
       case TASK_PRINT: {
         Result<Uri> result = (Result<Uri>) o;
         if (result.isSuccess()) {
@@ -349,49 +333,6 @@ public class MyExpenses extends BaseMyExpenses implements
         }
         break;
       }
-    }
-  }
-
-  @Override
-  public void onPositive(Bundle args, boolean checked) {
-    super.onPositive(args, checked);
-    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    if (command == R.id.DELETE_COMMAND_DO) {
-      finishActionMode();
-      showSnackBarIndefinite(R.string.progress_dialog_deleting);
-      getViewModel().deleteTransactions(args.getLongArray(KEY_ROW_IDS), checked).observe(this, result -> {
-        if (result > 0) {
-          if (!checked) {
-            showSnackBar(getResources().getQuantityString(R.plurals.delete_success, result, result));
-          } else {
-            dismissSnackBar();
-          }
-        } else {
-          showDeleteFailureFeedback(null, null);
-        }
-      });
-    } else if (command == R.id.BALANCE_COMMAND_DO) {
-      balance(args.getLong(KEY_ROWID), checked);
-    } else if (command == R.id.REMAP_COMMAND) {
-      remapHandler.remap(args, checked);
-      finishActionMode();
-    } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
-      finishActionMode();
-      startTaskExecution(TASK_SPLIT, args, R.string.saving);
-    } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
-      finishActionMode();
-      startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.saving);
-    } else if (command == R.id.LINK_TRANSFER_COMMAND) {
-      finishActionMode();
-      getViewModel().linkTransfer(args.getLongArray(KEY_ROW_IDS));
-    }
-  }
-
-  @Override
-  public void onNegative(Bundle args) {
-    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
-    if (command != 0) {
-      dispatchCommand(command, null);
     }
   }
 

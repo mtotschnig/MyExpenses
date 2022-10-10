@@ -688,15 +688,9 @@
     <string name="warning_ungroup_split_transactions">A megjelölt felosztott tranzakciók szétbontódnak, azaz az egyes részek rendes tranzakciókká válnak.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Felosztás szétbontása</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">A felosztott tranzakciót sikeresen szétbontottuk.</item>
-        <item quantity="other">%1$d felosztott tranzakciót sikeresen szétbontottunk.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">A felosztott tranzakciók felbontása során %1$d/%2$d volt sikertelen.</string>
+    <string name="ungroup_split_transaction_success">A felosztott tranzakciót sikeresen szétbontottuk.</string>
     <string name="split_transaction_one_success">A tranzakció sikeresen fel lett bontva.</string>
-    <string name="split_transaction_one_error">Nem lehet a tranzakciót felosztottá változtatni.</string>
     <string name="split_transaction_group_success">%1$d tranzakció sikeresen csoportosítva egyetlen osztott tranzakcióba.</string>
-    <string name="split_transaction_group_error">A tranzakciókat nem sikerült osztásra csoportosítani.</string>
     <string name="split_transaction_not_possible">Csak azok a tranzakciók csoportosíthatok egyetlen felosztott tranzakcióban, amelyeknek azonos a fiókja, kedvezményezettje és állapota.</string>
     <string name="pref_transaction_time_summary">Engedélyezze a pontos tranzakciós idő beállítását.</string>
     <string name="pref_value_date_summary">Engedélyezze az érték dátum beállítását a foglalási dátum mellett. A tranzakció időpontja rejtve lesz. Ez a beállítás nem vonatkozik a készpénzes számlákra.</string>

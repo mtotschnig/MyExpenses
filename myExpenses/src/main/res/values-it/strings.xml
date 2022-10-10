@@ -689,15 +689,9 @@
     <string name="warning_ungroup_split_transactions">Le operazioni frazionate selezionate verranno separate, ovvero le loro parti divise diventeranno normali operazioni.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Separa operazione frazionata</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">La transazione divisa è stata suddivisa correttamente.</item>
-        <item quantity="other">%1$d operazioni frazionate sono state separate con successo.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">Durante la separazione delle operazioni frazionate, %1$d su %2$d non è riuscito.</string>
+    <string name="ungroup_split_transaction_success">La transazione divisa è stata suddivisa correttamente.</string>
     <string name="split_transaction_one_success">Operazione trasformata con successo in operazione frazionata.</string>
-    <string name="split_transaction_one_error">Impossibile trasformare la transazione in un\'operazione frazionata.</string>
     <string name="split_transaction_group_success">%1$d operazioni sono state raggruppate correttamente in una operazione frazionata.</string>
-    <string name="split_transaction_group_error">Impossibile raggruppare le transazioni in un\'operazione frazionata.</string>
     <string name="split_transaction_not_possible">Solo le transazioni con lo stesso conto, beneficiario e stato possono essere raggruppate in una operazione frazionata.</string>
     <string name="pref_transaction_time_summary">Consentire di impostare il tempo di transazione esatto.</string>
     <string name="pref_value_date_summary">Consentire di impostare la data di valuta in aggiunta alla data di prenotazione. Il tempo di transazione sarà nascosto. Questa impostazione non è applicata ai conti di cassa.</string>

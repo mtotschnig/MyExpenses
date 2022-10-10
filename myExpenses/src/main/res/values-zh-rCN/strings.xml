@@ -679,14 +679,9 @@
     <string name="warning_ungroup_split_transactions">您所选的拆分交易将被取消分组，也就是说，它们的拆分款项将各自成为一般交易。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">解散拆分交易的组合</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="other">已成功将 %1$d 笔分拆交易变为未分组状态。</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">解散拆分交易组合时，拆分交易%2$d中的%1$d解散失败。</string>
+    <string name="ungroup_split_transaction_success">已成功将 1 笔分拆交易变为未分组状态。</string>
     <string name="split_transaction_one_success">已成功将交易转换为拆分款项。</string>
-    <string name="split_transaction_one_error">不能将交易转换为拆分款项。</string>
     <string name="split_transaction_group_success">%1$d数笔交易已成功地组成一个拆分交易。</string>
-    <string name="split_transaction_group_error">无法将这些交易组成一个拆分交易。</string>
     <string name="split_transaction_not_possible">只有具有相同账户、收款人和状态的交易，才能被组成一个拆分交易。</string>
     <string name="pref_transaction_time_summary">允许设置确切的交易时间。</string>
     <string name="pref_value_date_summary">除了\"账面交易日期(booking date)\"外，还可以设置\"生效日期(value date)\"。交易时间将被隐藏。此设置不适用于现金账户。</string>

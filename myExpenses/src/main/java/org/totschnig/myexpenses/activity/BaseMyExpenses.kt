@@ -19,6 +19,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
@@ -137,7 +138,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     val currentAccount: FullAccount
         get() = accountData[viewModel.pagerState.currentPage]
 
-    var currentCurrency: String? = null
+    private var currentCurrency: String? = null
 
     private val currentCurrencyUnit: CurrencyUnit?
         get() = currentCurrency?.let { currencyContext.get(it) }
@@ -265,7 +266,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var remapHandler: RemapHandler
     lateinit var tagHandler: TagHandler
-    lateinit var filterHandler: FilterHandler
+    private lateinit var filterHandler: FilterHandler
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -332,7 +333,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (newMode) {
             contribFeatureRequested(ContribFeature.OCR, false)
         } else {
-            prefHandler.putBoolean(PrefKey.OCR, newMode)
+            prefHandler.putBoolean(PrefKey.OCR, false)
             updateFab()
             invalidateOptionsMenu()
         }
@@ -389,9 +390,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                     HorizontalPager(
-                        modifier = Modifier.testTag("PAGER").semantics {
-                        collectionInfo = CollectionInfo(1, accountData.value.count())
-                    },
+                        modifier = Modifier
+                            .testTag("PAGER")
+                            .semantics {
+                                collectionInfo = CollectionInfo(1, accountData.value.count())
+                            },
                         verticalAlignment = Alignment.Top,
                         count = accountData.value.count(),
                         state = viewModel.pagerState
@@ -474,6 +477,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                                                 viewModel.selectedTransactionSum =
                                                                     transaction.amount.amountMinor
                                                             })
+                                                        if (transaction.isSplit) {
+                                                            add(MenuEntry(
+                                                                icon = Icons.Filled.CallSplit,
+                                                                label = R.string.menu_ungroup_split_transaction
+                                                            ) { ungroupSplit(transaction) })
+                                                        }
                                                     }
                                                 }
                                             )
@@ -565,9 +574,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         binding.accountPanel.accountList.setContent {
             AppTheme(this) {
                 viewModel.accountData.collectAsState().value.let { result ->
-                    result.onSuccess {
+                    result.onSuccess { data ->
                         AccountList(
-                            accountData = it,
+                            accountData = data,
                             grouping = accountGrouping.value,
                             selectedAccount = accountId,
                             onSelected = {
@@ -596,7 +605,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
                         )
                     }.onFailure {
-                        val (message, forceQuit) = when(it) {
+                        val (message, forceQuit) = when (it) {
                             is SQLiteDowngradeFailedException -> "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." to true
                             is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact support@myexpenses.mobi !" to true
                             else -> "Data loading failed" to false
@@ -686,6 +695,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (result == 0) showDeleteFailureFeedback(null)
             }
         }
+    }
+
+    private fun ungroupSplit(transaction: Transaction2) {
+        val b = Bundle()
+        b.putString(
+            ConfirmationDialogFragment.KEY_MESSAGE,
+            getString(R.string.warning_ungroup_split_transactions)
+        )
+        b.putInt(
+            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+            R.id.UNGROUP_SPLIT_COMMAND
+        )
+        b.putInt(
+            ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+            R.id.CANCEL_CALLBACK_COMMAND
+        )
+        b.putInt(
+            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+            R.string.menu_ungroup_split_transaction
+        )
+        b.putLong(KEY_ROWID, transaction.id)
+        showConfirmationDialog(b, "UNSPLIT_TRANSACTION")
+
     }
 
     private fun createTemplate(transaction: Transaction2) {
@@ -1325,26 +1357,25 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
             ContribFeature.SPLIT_TRANSACTION -> {
                 if (tag != null) {
-                    val b = Bundle()
-                    b.putString(
-                        ConfirmationDialogFragment.KEY_MESSAGE,
-                        getString(R.string.warning_split_transactions)
-                    )
-                    b.putInt(
-                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                        R.id.SPLIT_TRANSACTION_COMMAND
-                    )
-                    b.putInt(
-                        ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                        R.id.CANCEL_CALLBACK_COMMAND
-                    )
-                    b.putInt(
-                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                        R.string.menu_split_transaction
-                    )
-                    b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, tag as LongArray?)
-                    ConfirmationDialogFragment.newInstance(b)
-                        .show(supportFragmentManager, "SPLIT_TRANSACTION")
+                    showConfirmationDialog(Bundle().apply {
+                        putString(
+                            ConfirmationDialogFragment.KEY_MESSAGE,
+                            getString(R.string.warning_split_transactions)
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                            R.id.SPLIT_TRANSACTION_COMMAND
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                            R.id.CANCEL_CALLBACK_COMMAND
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                            R.string.menu_split_transaction
+                        )
+                        putLongArray(KEY_ROW_IDS, tag as LongArray?)
+                    }, "SPLIT_TRANSACTION")
                 } else {
                     createRowDo(Transactions.TYPE_SPLIT, false)
                 }
@@ -1520,7 +1551,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun showExportDisabledCommand() {
+    private fun showExportDisabledCommand() {
         showMessage(R.string.dialog_command_disabled_reset_account)
     }
 
@@ -1726,11 +1757,84 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         true
     } else false
 
-    fun clearFilter() {
+    private fun clearFilter() {
         ConfirmationDialogFragment.newInstance(Bundle().apply {
             putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.clear_all_filters))
             putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
+    }
+
+    override fun onPositive(args: Bundle, checked: Boolean) {
+        super.onPositive(args, checked)
+        when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
+            R.id.DELETE_COMMAND_DO -> {
+                finishActionMode()
+                showSnackBarIndefinite(R.string.progress_dialog_deleting)
+                viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS)!!, checked)
+                    .observe(this) { result ->
+                        if (result > 0) {
+                            if (!checked) {
+                                showSnackBar(
+                                    resources.getQuantityString(
+                                        R.plurals.delete_success,
+                                        result,
+                                        result
+                                    )
+                                )
+                            } else {
+                                dismissSnackBar()
+                            }
+                        } else {
+                            showDeleteFailureFeedback(null, null)
+                        }
+                    }
+            }
+            R.id.BALANCE_COMMAND_DO -> {
+                balance(args.getLong(KEY_ROWID), checked)
+            }
+            R.id.REMAP_COMMAND -> {
+                remapHandler.remap(args, checked)
+                finishActionMode()
+            }
+            R.id.SPLIT_TRANSACTION_COMMAND -> {
+                finishActionMode()
+                val ids = args.getLongArray(KEY_ROW_IDS)!!
+                viewModel.split(ids).observe(this) {
+                    recordUsage(ContribFeature.SPLIT_TRANSACTION)
+                    it.onSuccess {
+                        showSnackBar(
+                            if (ids.size > 1)
+                                getString(R.string.split_transaction_one_success)
+                            else
+                                getString(R.string.split_transaction_group_success, ids.size)
+                        )
+                    }.onFailure {
+                        showSnackBar(getString(R.string.split_transaction_not_possible))
+                    }
+                }
+            }
+            R.id.UNGROUP_SPLIT_COMMAND -> {
+                finishActionMode()
+                viewModel.revokeSplit(args.getLong(KEY_ROWID)).observe(this) {
+                    it.onSuccess {
+                        showSnackBar(getString(R.string.ungroup_split_transaction_success))
+                    }.onFailure {
+                        showSnackBar("ERROR")
+                    }
+                }
+            }
+            R.id.LINK_TRANSFER_COMMAND -> {
+                finishActionMode()
+                viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS)!!)
+            }
+        }
+    }
+
+    override fun onNegative(args: Bundle) {
+        val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE)
+        if (command != 0) {
+            dispatchCommand(command, null)
+        }
     }
 
     companion object {

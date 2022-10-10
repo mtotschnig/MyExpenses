@@ -718,19 +718,9 @@
     <string name="warning_ungroup_split_transactions">سيتم إلغاء تجميع المعاملات المجزأة المحددة، أي ستصبح أجزائها المجزأة معاملات عادية.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">فك تجميع المعاملة المجزأة</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="zero">تم فك تجميع %1$d صفقات مقسمة بنجاح.</item>
-        <item quantity="one">تم فك تجميع الصفقة المقسمة بنجاح.</item>
-        <item quantity="two">تم فك تجميع %1$d صفقات مقسمة بنجاح.</item>
-        <item quantity="few">تم فك تجميع %1$d صفقات مقسمة بنجاح.</item>
-        <item quantity="many">تم فك تجميع %1$d صفقات مقسمة بنجاح.</item>
-        <item quantity="other">تم فك تجميع %1$d صفقات مقسمة بنجاح.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">أثناء فك تجميع المعاملات المجزأة، فشل %1$d من أصل %2$d.</string>
+    <string name="ungroup_split_transaction_success">تم فك تجميع الصفقة المقسمة بنجاح.</string>
     <string name="split_transaction_one_success">تحولت المعاملة بنجاح إلى معاملة مجزأة.</string>
-    <string name="split_transaction_one_error">لا يمكن تحويل المعاملة إلى معاملة مجزأة.</string>
     <string name="split_transaction_group_success">تم تجميع %1$d معاملات بنجاح في معاملة منقسمة واحدة.</string>
-    <string name="split_transaction_group_error">لا يمكن تجميع المعاملات في معاملة مجزأة.</string>
     <string name="split_transaction_not_possible">يمكن فقط تجميع المعاملات التي لها نفس الحساب والمستفيد والحالة في معاملة مجزأة واحدة.</string>
     <string name="pref_transaction_time_summary">السماح لضبط الوقت المحدد للمعاملة.</string>
     <string name="pref_value_date_summary">السماح بتحديد تاريخ القيمة بالإضافة إلى تاريخ الحجز. سيتم إخفاء وقت المعاملة. لم يتم تطبيق هذا الإعداد على الحسابات النقدية.</string>

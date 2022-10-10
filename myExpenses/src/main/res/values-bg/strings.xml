@@ -687,15 +687,9 @@
     <string name="warning_ungroup_split_transactions">Избраните разпределени транзакции ще бъдат разгрупирани, т.е. разпределените им части ще станат отделни транзакции.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Разгрупирай разпределени</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">Сплит транзакцията бе успешно дегенерирана.</item>
-        <item quantity="other">%1$d транзакции са разгрупирани успешно.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">При разгрупиране, %1$d от %2$d разпределени транзакции са отказани.</string>
+    <string name="ungroup_split_transaction_success">Сплит транзакцията бе успешно дегенерирана.</string>
     <string name="split_transaction_one_success">Успешно преобразувана в разпределена транзакция.</string>
-    <string name="split_transaction_one_error">Не мога да преобразувам транзакцията в разпределена.</string>
     <string name="split_transaction_group_success"> %1$d транзакции са успешно групирани в една разпределена транзакция.</string>
-    <string name="split_transaction_group_error">Тези транзакции не може да бъдат групирани в разпределена.</string>
     <string name="split_transaction_not_possible">Само транзакции, които имат еднакви сметка, получател и статус, могат да бъдат групирани в една разпределена транзакция.</string>
     <string name="pref_transaction_time_summary">Позволява да зададете часовото време на транзакцията.</string>
     <string name="pref_value_date_summary">Позволява да зададете време на вальора освен датата на резервацията. Времето на транзакцията ще бъде скрито. Тази настройка не се прилага за касови сметки.</string>

@@ -68,15 +68,9 @@
     <string name="pref_value_date_summary">బుకింగ్ తేదీకి అదనంగా విలువ తేదీని సెట్ చేయడానికి అనుమతించండి. లావాదేవీ సమయం దాచబడుతుంది. ఈ సెట్టింగ్ నగదు ఖాతాలకు వర్తించదు.</string>
     <string name="pref_transaction_time_summary">ఖచ్చితమైన లావాదేవీ సమయాన్ని సెట్ చేయడానికి అనుమతించండి.</string>
     <string name="split_transaction_not_possible">ఒకే ఖాతా, చెల్లింపుదారు మరియు స్థితిని కలిగి ఉన్న లావాదేవీలను మాత్రమే ఒక స్ప్లిట్ లావాదేవీగా వర్గీకరించవచ్చు.</string>
-    <string name="split_transaction_group_error">లావాదేవీలను విభజించలేము.</string>
     <string name="split_transaction_group_success">%1$d లావాదేవీలు విజయవంతంగా ఒక స్ప్లిట్ లావాదేవీలుగా వర్గీకరించబడ్డాయి.</string>
-    <string name="split_transaction_one_error">లావాదేవీని స్ప్లిట్‌గా మార్చడం సాధ్యం కాలేదు.</string>
     <string name="split_transaction_one_success">లావాదేవీ విజయవంతంగా విడిపోయింది.</string>
-    <string name="ungroup_split_transaction_failure">స్ప్లిట్ లావాదేవీలను సమూహపరచనప్పుడు, %2$d లో %1$d విఫలమైంది.</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">స్ప్లిట్ లావాదేవీ విజయవంతంగా సమూహపరచబడలేదు.</item>
-        <item quantity="other">%1$d స్ప్లిట్ లావాదేవీలు విజయవంతంగా సమూహపరచబడలేదు.</item>
-    </plurals>
+    <string name="ungroup_split_transaction_success">స్ప్లిట్ లావాదేవీ విజయవంతంగా సమూహపరచబడలేదు.</string>
     <string name="menu_ungroup_split_transaction">సమూహ విభజన</string>
     <string name="warning_ungroup_split_transactions">ఎంచుకున్న స్ప్లిట్ లావాదేవీలు సమూహపరచబడవు, అనగా వాటి స్ప్లిట్ భాగాలు సాధారణ లావాదేవీలుగా మారతాయి.</string>
     <string name="warning_split_transactions">ఎంచుకున్న లావాదేవీలు ఒక స్ప్లిట్ లావాదేవీలుగా వర్గీకరించబడతాయి. వారి తేదీ సమాచారం పోతుంది, అనగా వాటి సగటుతో భర్తీ చేయబడుతుంది.</string>

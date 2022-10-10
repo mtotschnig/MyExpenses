@@ -684,17 +684,9 @@
     <string name="warning_ungroup_split_transactions">Вибрані поділені операції будуть розгруповані, тобто їх частини поділу стануть звичайними операціями.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Розгрупувати поділ</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">Поділену операцію було успішно розгруповано.</item>
-        <item quantity="few">%1$d поділених операції було успішно розгруповано.</item>
-        <item quantity="many">%1$d поділених операцій було успішно розгруповано.</item>
-        <item quantity="other">%1$d поділених операції було успішно розгруповано.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">Не вдалося розгрупувати %1$d з %2$dподілених операцій.</string>
+    <string name="ungroup_split_transaction_success">Поділену операцію було успішно розгруповано.</string>
     <string name="split_transaction_one_success">Операцію успішно перетворено у поділ.</string>
-    <string name="split_transaction_one_error">Неможливо розділити операцію.</string>
     <string name="split_transaction_group_success">%1$d операції були успішно згруповані в одну поділену операцію.</string>
-    <string name="split_transaction_group_error">Не вдалося згрупувати операції.</string>
     <string name="split_transaction_not_possible">Тільки операції з тим самим рахунком, одержувачем платежу та статусом можуть бути об\'єднані в одну поділену операцію.</string>
     <string name="pref_transaction_time_summary">Дозволяти вказувати точний час операції.</string>
     <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати створення замовлення. Час операції буде приховано. Цей параметр не застосовується до грошових рахунків.</string>

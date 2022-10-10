@@ -665,11 +665,7 @@
     <string name="warning_ungroup_split_transactions">Οι επιλεγμένες διαιρεμένες συναλλαγές θα απομαδοποιηθούν, δηλαδή τα διαχωρισμένα τμήματα θα γίνουν κανονικές συναλλαγές.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Κατάργηση διαίρεσης</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">Η διαιρεμένη συναλλαγή καταργήθηκε με επιτυχία.</item>
-        <item quantity="other">%1$d οι διαιρεμένες συναλλαγές καταργήθηκαν με επιτυχία.</item>
-    </plurals>
-    <string name="split_transaction_one_error">Δεν μπόρεσε να μετατραπεί η συναλλαγή για διάσπαση.</string>
+    <string name="ungroup_split_transaction_success">Η διαιρεμένη συναλλαγή καταργήθηκε με επιτυχία.</string>
     <string name="pref_transaction_time_summary">Να επιτρέπεται ο ορισμός του ακριβούς χρόνου συναλλαγής.</string>
     <string name="pref_value_date_summary">Να επιτρέπεται ο ορισμός ημερομηνίας αξίας εκτός από την ημερομηνία δέσμευσης. Ο χρόνος συναλλαγής θα είναι κρυφός. Αυτή η ρύθμιση δεν εφαρμόζεται σε λογαριασμούς μετρητών.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->

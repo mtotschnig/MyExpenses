@@ -693,15 +693,9 @@
     <string name="warning_ungroup_split_transactions">As transações divididas selecionadas serão desagrupadas e suas divisões serão convertidas em transações normais.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Desagrupar divisão</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">A transação dividida foi desagrupada com sucesso.</item>
-        <item quantity="other">%1$d transações divididas foram desagrupadas com sucesso.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">Ao desagrupar as transações divididas, ocorreu uma falha em %1$d das %2$d.</string>
+    <string name="ungroup_split_transaction_success">A transação dividida foi desagrupada com sucesso.</string>
     <string name="split_transaction_one_success">A transação foi transformada em dividida com sucesso.</string>
-    <string name="split_transaction_one_error">Não foi possível transformar a transação em dividida.</string>
     <string name="split_transaction_group_success">%1$d transações foram agrupadas em uma transação dividida com sucesso.</string>
-    <string name="split_transaction_group_error">Não foi possível agrupar as transações em uma dividida.</string>
     <string name="split_transaction_not_possible">Somente transações que possuam a mesma conta, beneficiário e estado podem ser agrupadas numa transação dividida.</string>
     <string name="pref_transaction_time_summary">Permitir a definição da data exata da transação.</string>
     <string name="pref_value_date_summary">Permite a definição de uma data da contabilização, além da data do pagamento. A data da transação ficará oculta. Essa configuração não se aplica a contas de dinheiro.</string>

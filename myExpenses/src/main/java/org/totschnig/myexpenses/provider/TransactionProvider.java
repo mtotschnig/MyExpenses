@@ -1503,6 +1503,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case UNSPLIT: {
         String uuid = values.getAsString(KEY_UUID);
+        if (uuid == null) {
+          uuid = uuidForTransaction(db, values.getAsLong(KEY_ROWID));
+        }
 
         final String subselectTemplate = String.format("(SELECT %%1$s FROM %s WHERE %s = ?)", TABLE_TRANSACTIONS, KEY_UUID);
         String crStatusSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_CR_STATUS);

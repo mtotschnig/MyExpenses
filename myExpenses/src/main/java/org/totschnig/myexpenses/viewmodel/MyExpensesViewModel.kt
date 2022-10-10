@@ -40,9 +40,13 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.*
+import java.util.*
 import javax.inject.Inject
 
 val Context.dataStoreExpansionHandler: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
@@ -416,6 +420,85 @@ class MyExpensesViewModel(
                 null, null, null
             )
         }
+    }
+
+    fun split(ids: LongArray) = liveData(context = coroutineContext()) {
+        val count = ids.size
+        val where = KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(count)
+        val selectionArgs = ids.map { it.toString() }.toTypedArray()
+        val projection = arrayOf(
+            KEY_ACCOUNTID,
+            KEY_CURRENCY,
+            KEY_PAYEEID,
+            KEY_CR_STATUS,
+            "avg($KEY_DATE) AS $KEY_DATE",
+            "sum($KEY_AMOUNT) AS $KEY_AMOUNT"
+        )
+
+        val groupBy = String.format(
+            Locale.ROOT,
+            "%s, %s, %s, %s",
+            KEY_ACCOUNTID,
+            KEY_CURRENCY,
+            KEY_PAYEEID,
+            KEY_CR_STATUS
+        )
+        contentResolver.query(
+            Transaction.EXTENDED_URI.buildUpon()
+                .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
+                .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
+                .build(),
+            projection, where, selectionArgs, null
+        )?.use { cursor ->
+            if (cursor.count > 1) {
+                emit(Result.failure(Exception()))
+                null
+            } else {
+                cursor.moveToFirst()
+                val accountId = cursor.getLong(KEY_ACCOUNTID)
+                val amount = Money(
+                    currencyContext[cursor.getString(KEY_CURRENCY)],
+                    cursor.getLong(KEY_AMOUNT)
+                )
+                val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
+                val date = cursor.getLong(KEY_DATE)
+                val crStatus = enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
+                SplitTransaction.getNewInstance(accountId, false).also {
+                    it.amount = amount
+                    it.date = date
+                    it.payeeId = payeeId
+                    it.crStatus = crStatus
+                }
+            }
+        }?.let { parent ->
+            val operations = parent.buildSaveOperations(false)
+            operations.add(
+                ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                    .withValues(ContentValues().apply {
+                        put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                        put(KEY_DATE, parent.date)
+                        putNull(KEY_PAYEEID)
+                    })
+                    .withValueBackReference(KEY_PARENTID, 0)
+                    .withSelection(where, selectionArgs)
+                    .withExpectedCount(count)
+                    .build()
+            )
+            contentResolver.applyBatch(AUTHORITY, operations)
+            emit(ResultUnit)
+        }
+    }
+
+    fun revokeSplit(id: Long) = liveData(context = coroutineContext()) {
+        val values = ContentValues(1).apply {
+            put(KEY_ROWID, id)
+        }
+        if (contentResolver.update(
+            TRANSACTIONS_URI.buildUpon()
+                .appendPath(URI_SEGMENT_UNSPLIT)
+                .build(),
+            values, null, null
+        ) == 1) emit(ResultUnit) else emit(Result.failure(Exception()))
     }
 
     companion object {

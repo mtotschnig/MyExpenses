@@ -649,7 +649,6 @@
     <string name="menu_history">Historia</string>
     <string name="menu_history_totals">Erakutsi guztizkoak</string>
     <string name="grand_total">Guztizko osoa</string>
-    <string name="split_transaction_one_error">Ezin izan da transakzioa banaketara bihurtu</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
     <string name="value_date">Balioaren data</string>
     <string name="licence_expires_n_days">Zure gako profesionala %d egunetan bertan behera geratuko da.</string>

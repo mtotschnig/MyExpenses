@@ -467,6 +467,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
+    fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long) = db.query(
+        table = TABLE_TRANSACTIONS,
+        columns = arrayOf(KEY_UUID),
+        selection = "$KEY_ROWID = ?",
+        selectionArgs = arrayOf(id)
+    ).use {
+        it.moveToFirst()
+        it.getString(0)
+    }
+
     /**
      * @return number of corrupted entries
      */

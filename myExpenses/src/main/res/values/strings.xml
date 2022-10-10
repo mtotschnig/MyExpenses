@@ -695,15 +695,9 @@
     <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Ungroup split</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">Split Transaction was successfully ungrouped.</item>
-        <item quantity="other">%1$d split transactions were successfully ungrouped.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">While ungrouping split transactions, %1$d out of %2$d failed.</string>
+    <string name="ungroup_split_transaction_success">Split Transaction was successfully ungrouped.</string>
     <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
-    <string name="split_transaction_one_error">Could not transform transaction to split.</string>
     <string name="split_transaction_group_success">%1$d transactions were successfully grouped into one split transaction.</string>
-    <string name="split_transaction_group_error">Could not group transactions into split.</string>
     <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
     <string name="pref_transaction_time_summary">Allow to set exact transaction time.</string>
     <string name="pref_value_date_summary">Allow to set value date in addition to booking date. Transaction time will be hidden. This setting is not applied to cash accounts.</string>

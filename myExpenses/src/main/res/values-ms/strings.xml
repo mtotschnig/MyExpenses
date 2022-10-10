@@ -672,14 +672,9 @@
     <string name="warning_ungroup_split_transactions">Transaksi pengasingan terpilih akan dinyahkumpulkan, iaitu bahagian asing mereka akan menjadi transaksi biasa.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Nyahkumpul asing</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="other">Transaksi pengasingan %1$d berjaya dinyakumpulkan.</item>
-    </plurals>
-    <string name="ungroup_split_transaction_failure">Ketika menyahkumpul transaksi pengasingan, %1$d dari %2$d gagal.</string>
+    <string name="ungroup_split_transaction_success">Transaksi pengasingan 1 berjaya dinyakumpulkan.</string>
     <string name="split_transaction_one_success">Transaksi berjaya diubah untuk diasingkan.</string>
-    <string name="split_transaction_one_error">Tidak dapat ubah transaksi untuk pengasingan.</string>
     <string name="split_transaction_group_success">Transaki %1$d berjaya dikumpulkan menjadi satu transaksi pengasingan.</string>
-    <string name="split_transaction_group_error">Tidak dapat kumpulkan transaksi menjadi pengasingan.</string>
     <string name="split_transaction_not_possible">Hanya transaksi yang mempunyai akaun, pembayar, dan status yang sama boleh dikumpulkan menjadi satu transaksi pengasingan.</string>
     <string name="pref_transaction_time_summary">Benarkan penetapan waktu transaksi.</string>
     <string name="pref_value_date_summary">Benarkan penetapan tarikh nilai selain dari tarikh tempahan. Waktu transaksi akan disembunyikan. Tetapan ini tidak dilaksanakan pada akaun tunai.</string>
