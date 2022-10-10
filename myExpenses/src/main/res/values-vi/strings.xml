@@ -611,7 +611,6 @@
     <string name="progress_validating_licence">Đang xác minh bản quyền</string>
     <string name="licence_validation_error_expired">Bản quyền đã hết hạn</string>
     <string name="licence_validation_error_device_limit_exceeded">Đã chạm mốc giới hạn số lượng thiết bị. Vui lòng xoá bớt bản quyền trên các thiết bị khác.</string>
-    <string name="error">Lỗi (%s)</string>
     <string name="button_validate">Xác minh</string>
     <string name="licence_key">Khoá bản quyền</string>
     <string name="licence_removal_information">Nếu bạn không còn cần tính năng trả phí trên thiết bị này, bạn có thể gỡ bỏ khoá bản quyền. Điều này sẽ cho phép bạn đăng ký bản quyền cho một thiết bị khác. Khoá này có thể được dùng để kích hoạt tới %d thiết bị.</string>

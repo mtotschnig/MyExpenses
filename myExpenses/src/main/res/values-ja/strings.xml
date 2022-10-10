@@ -624,7 +624,6 @@
     <string name="progress_validating_licence">ライセンスの検証中</string>
     <string name="licence_validation_error_expired">ライセンスの期限が切れました</string>
     <string name="licence_validation_error_device_limit_exceeded">デバイスの限度に達しました。別のデバイスからライセンスを削除してください。</string>
-    <string name="error">エラー (%s)</string>
     <string name="button_validate">検証</string>
     <string name="licence_key">ライセンスキー</string>
     <string name="licence_removal_information">このデバイスでもうプレミアム機能が必要ではない場合は、ライセンスキーを削除することができます。これにより別のデバイスでライセンスをアクティベーションすることができます。キーは %dデバイスまでアクティベートすることができます。</string>

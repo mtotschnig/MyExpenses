@@ -193,7 +193,6 @@
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>
-    <string name="io_error_cachedir_null">Cache directory not found</string>
     <string name="account_list_not_yet_loaded">Account list not yet loaded. Please try again</string>
 
     <string name="calculator_operator_plus">+</string>
@@ -216,8 +215,8 @@
     <string name="menu_set_weight">Set weight</string>
     <string name="menu_result">Result</string>
     <string name="menu_clear">Clear</string>
-    <string name="menu_color">@string/color</string>
-    <string name="menu_rollover">@string/budget_table_header_rollover</string>
+    <string name="menu_color" tools:ignore="UnusedResources">@string/color</string>
+    <string name="menu_rollover" tools:ignore="UnusedResources">@string/budget_table_header_rollover</string>
     <string name="roadmap_intro">We have launched a new iteration of the Roadmap Vote. Please help us define priorities for the upcoming year.</string>
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>
     <string name="roadmap_loading">Loading issues …</string>
@@ -253,7 +252,6 @@
     <string name="corrupted_data_detected">Corrupted data detected: You can inspect the corrupted records from Settings -> Debug -> Corrupted Data. Contact support@myexpenses.mobi for assistance.</string>
     <string name="pref_exchange_rates_clear_cache_key">exchange_rates_clear_cache</string>
     <string name="pref_debug_repair_987_key">debug_repair_987</string>
-    <string name="button_label_repair">Repair</string>
     <string name="pref_csv_export_key">csv_export</string>
     <string name="pref_csv_export_split_categories_key">csv_export_split_categories</string>
     <string name="pref_csv_export_split_amount_key">csv_export_split_amount</string>

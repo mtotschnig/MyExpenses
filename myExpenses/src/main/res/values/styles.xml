@@ -20,18 +20,6 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="headingStyle.Expense">
-        <item name="android:textColor">@color/colorExpense</item>
-    </style>
-
-    <style name="headingStyle.Income">
-        <item name="android:textColor">@color/colorIncome</item>
-    </style>
-
-    <style name="headingStyle.Transfer">
-        <item name="android:textColor">@color/colorTransfer</item>
-    </style>
-
     <style name="headingStyle.WithMargin">
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
@@ -93,17 +81,6 @@
 
     <style name="titleTextStyle">
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="titleTextStyleMedium" parent="titleTextStyle">
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-    </style>
-
-    <style name="Divider">
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
     </style>
 
     <style name="SmallButton" parent="Widget.MaterialComponents.Button.OutlinedButton">

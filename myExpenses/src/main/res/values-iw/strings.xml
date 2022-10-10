@@ -648,7 +648,6 @@
     <string name="progress_validating_licence">אימות רשיון</string>
     <string name="licence_validation_error_expired">רשיון פג תוקף</string>
     <string name="licence_validation_error_device_limit_exceeded">חריגה ממגבלת המכשירים. הסר רישיון ממכשיר אחר.</string>
-    <string name="error">שגיאה (%s)</string>
     <string name="button_validate">אמת רשיון</string>
     <string name="licence_key">מפתח רשיון</string>
     <string name="licence_removal_information">אם אינך זקוק עוד לפונקציונליות פרימיום במכשיר זה, באפשרותך להסיר את מפתח הרישיון. זה משחרר את המפתח להפעלה במכשיר אחד נוסף. ניתן להפעיל את המפתח על עד %d התקנים.</string>

@@ -636,7 +636,6 @@
     <string name="progress_validating_licence">Sprawdzanie poprawności licencji</string>
     <string name="licence_validation_error_expired">Licencja wygasła</string>
     <string name="licence_validation_error_device_limit_exceeded">Przekroczono limit urządzeń. Usuń licencję z innego urządzenia.</string>
-    <string name="error">Błąd (%s)</string>
     <string name="button_validate">Sprawdzanie poprawności licencji</string>
     <string name="licence_key">Klucz licencji</string>
     <string name="licence_removal_information">Jeśli nie potrzebujesz już funkcji premium na tym urządzeniu, możesz usunąć klucz licencyjny. To uwalnia klucz do aktywacji na jeszcze jednym urządzeniu. Klucz można aktywować na %durządzeniach.</string>

@@ -212,7 +212,8 @@ fun HeaderData(
                 text = "⊖ " + amountFormatter.formatMoney(headerRow.expenseSum),
                 color = LocalColors.current.expense
             )
-            Text(Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum))
+            Text(Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
+            color = LocalColors.current.transfer)
         }
     }
 }

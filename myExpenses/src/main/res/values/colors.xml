@@ -34,7 +34,6 @@
     <color name="colorIncomeHistoryChart">@color/colorIncomeLight</color>
     <color name="colorTransfer">#000080</color>
     <color name="colorAggregate">@color/material_grey_600</color>
-    <color name="cardHighlightForeground">#4080cbc4</color>
     <color name="colorExpenseDark">#800000</color>
     <color name="colorIncomeDark">#006800</color>
     <color name="colorExpenseLight">#FF5E5E</color>

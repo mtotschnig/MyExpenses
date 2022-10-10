@@ -5,7 +5,7 @@ import org.totschnig.myexpenses.R
 val ExtraIcons: Map<String, ExtraIcon> = mapOf(
     "appliance" to ExtraIcon(R.drawable.appliance, R.string.icon_appliance_label),
     "bottle" to ExtraIcon(R.drawable.bottle, R.string.icon_bottle_label),
-    "card-travel" to ExtraIcon(R.drawable.card_travel, R.string.icon_appliance_label),
+    "card-travel" to ExtraIcon(R.drawable.card_travel, R.string.icon_card_travel_label),
     "clothing" to ExtraIcon(R.drawable.clothing, R.string.icon_clothing_label),
     "comb" to ExtraIcon(R.drawable.comb, R.string.icon_comb_label),
     "decoration" to ExtraIcon(R.drawable.decoration, R.string.icon_decoration_label),

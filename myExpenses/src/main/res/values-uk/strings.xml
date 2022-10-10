@@ -629,7 +629,6 @@
     <string name="progress_validating_licence">Перевірка ліцензії</string>
     <string name="licence_validation_error_expired">Термін дії ліцензії закінчився</string>
     <string name="licence_validation_error_device_limit_exceeded">Перевищено ліміт пристроїв. Будь ласка, видаліть ліцензію з іншого пристроя.</string>
-    <string name="error">Помилка (%s)</string>
     <string name="button_validate">Перевірити</string>
     <string name="licence_key">Ліцензійний ключ</string>
     <string name="licence_removal_information">Якщо Вам на цьому пристрої більше не потрібні платні преміум-функції, Ви можете видалити ліцензійний ключ. Це звільнить ключ для активації на ще одному пристрої. Ключ може бути активований на %d пристроях.</string>

@@ -634,7 +634,6 @@
     <string name="progress_validating_licence">Validando licencia</string>
     <string name="licence_validation_error_expired">Licencia caducada</string>
     <string name="licence_validation_error_device_limit_exceeded">Límite de dispositivos excedido. Por favor, elimine una licencia de otro dispositivo.</string>
-    <string name="error">Error (%s)</string>
     <string name="button_validate">Validar</string>
     <string name="licence_key">Llave de licencia</string>
     <string name="licence_removal_information">Si ya no necesita la funcionalidad Premium en su dispositivo, puede eliminar la llave de licencia. Esto liberará la llave de activación para un dispositivo más. La llave puede activada hasta en %d dispositivos.</string>

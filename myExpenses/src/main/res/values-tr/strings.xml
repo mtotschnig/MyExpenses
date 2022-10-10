@@ -634,7 +634,6 @@
     <string name="progress_validating_licence">Lisans doğrulanıyor</string>
     <string name="licence_validation_error_expired">Lisans sona ermiş</string>
     <string name="licence_validation_error_device_limit_exceeded">Aygıt sınırı aşıldı. Lütfen başka bir aygıttan lisansı kaldırın.</string>
-    <string name="error">Hata (%s)</string>
     <string name="button_validate">Doğrula</string>
     <string name="licence_key">Lisans Anahtarı</string>
     <string name="licence_removal_information">Eğer bu aygıtta genişletilmiş işlevlere ihtiyaç duymuyorsanız, lisans anahtarını kaldırabilirsiniz. Bu, anahtarı başka bir aygıtta etkinleştirebilmenize izin verir. Anahtar en fazla %d aygıtta etkinleştirilebilir.</string>

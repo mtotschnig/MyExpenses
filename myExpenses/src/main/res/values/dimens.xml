@@ -23,7 +23,6 @@
     <dimen name="textSizeSmall">14sp</dimen>
     <dimen name="account_color_diameter">42sp</dimen>
     <dimen name="account_color_diameter_compose">26sp</dimen>
-    <dimen name="category_color_diameter">18sp</dimen>
 
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
     <dimen name="vertical_padding_paragraph">8dp</dimen>
@@ -33,10 +32,6 @@
     <dimen name="budget_container_cell_width_landscape">150dp</dimen>
     <dimen name="budget_table_padding">10dp</dimen>
 
-    <dimen name="fast_scroll_additional_margin">32dp</dimen>
-    <dimen name="list_header_vertical_padding">4dp</dimen>
-    <dimen name="category_icon_selector_column_width">40dp</dimen>
-    <dimen name="category_icon_size">24dp</dimen>
     <dimen name="drawerWidth">260sp</dimen>
     <dimen name="colorContainerOuter">32dp</dimen>
     <dimen name="colorContainerInner">16dp</dimen>

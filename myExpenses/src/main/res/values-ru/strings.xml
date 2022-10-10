@@ -646,7 +646,6 @@
     <string name="progress_validating_licence">Проверить лицензию</string>
     <string name="licence_validation_error_expired">Лицензия истекла</string>
     <string name="licence_validation_error_device_limit_exceeded">Превышен лимит устройств. Пожалуйста, отключите лицензию на одном из устройств.</string>
-    <string name="error">Ошибка (%s)</string>
     <string name="button_validate">Проверить</string>
     <string name="licence_key">Лицензионный ключ</string>
     <string name="licence_removal_information">Если Вам более не требуется премиальные функции на этом устройстве, Вы можете деактивировать ключ. Это позволит активировать его повторно на другом устройстве. Ключ может быть активирован на максимум %d устройствах.</string>

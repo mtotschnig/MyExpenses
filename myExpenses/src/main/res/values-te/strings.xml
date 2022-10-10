@@ -120,7 +120,6 @@
     <string name="licence_removal_information">మీకు ఇకపై ఈ పరికరంలో ప్రీమియం కార్యాచరణ అవసరం లేకపోతే, మీరు లైసెన్స్ కీని తీసివేయవచ్చు. ఇది మరొక పరికరంలో సక్రియం చేయడానికి కీని విముక్తి చేస్తుంది. కీని %d పరికరాల్లో సక్రియం చేయవచ్చు.</string>
     <string name="licence_key">లైసెన్స్ కీ</string>
     <string name="button_validate">ధృవీకరించండి</string>
-    <string name="error">లోపం (%s)</string>
     <string name="licence_validation_error_device_limit_exceeded">పరికర పరిమితి మించిపోయింది. దయచేసి మరొక పరికరం నుండి లైసెన్స్‌ను తొలగించండి.</string>
     <string name="licence_validation_error_expired">లైసెన్స్ గడువు ముగిసింది</string>
     <string name="progress_validating_licence">లైసెన్స్ ధృవీకరిస్తోంది</string>

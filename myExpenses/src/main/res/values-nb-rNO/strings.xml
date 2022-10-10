@@ -56,7 +56,6 @@
     <string name="progress_removing_licence">Fjerner lisens …</string>
     <string name="licence_key">Lisensnøkkel</string>
     <string name="button_validate">Bekreft</string>
-    <string name="error">Feil (%s)</string>
     <string name="licence_validation_error_expired">Utløpt lisens</string>
     <string name="progress_validating_licence">Bekrefter lisens …</string>
     <string name="picture">Bilde</string>

@@ -504,7 +504,6 @@
     <string name="licence_removal_information">Ako ti na ovom uređaju više ne trebaju premium funkcije, možeš ukloniti licencni ključ. Ovo oslobađa ključ za aktiviranje na još jednom uređaju. Ključ se može aktivirati na do %d uređaja.</string>
     <string name="licence_key">Licencni ključ</string>
     <string name="button_validate">Provjeri valjanost</string>
-    <string name="error">Greška (%s)</string>
     <string name="licence_validation_error_device_limit_exceeded">Ograničenje uređaja prekoračeno. Ukloni licencu s jednog drugog uređaja.</string>
     <string name="licence_validation_error_expired">Licenca je istekla</string>
     <string name="progress_validating_licence">Provjeravanje valjanosti licence</string>

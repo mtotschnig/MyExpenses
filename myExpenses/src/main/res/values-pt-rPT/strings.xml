@@ -854,7 +854,6 @@
     <string name="licence_removal_information">Caso você não precise mais de funcionalidades premium neste dispositivo, você pode remover a chave da licença. Isso libera a chave para ativação em outro dispositivo. A chave pode ser ativada em até %d dispositivos.</string>
     <string name="licence_key">Chave da licença</string>
     <string name="button_validate">Validar</string>
-    <string name="error">Erro (%s)</string>
     <string name="licence_validation_error_device_limit_exceeded">Foi excedido o limite do dispositivo. Por favor, remova a licença de outro dispositivo.</string>
     <string name="licence_validation_error_expired">A licença está expirada</string>
     <string name="progress_validating_licence">Validando a licença</string>

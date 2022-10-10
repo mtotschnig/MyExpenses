@@ -620,7 +620,6 @@
     <string name="progress_validating_licence">Mengesahkan lesen</string>
     <string name="licence_validation_error_expired">Lesen telah tampat tempoh</string>
     <string name="licence_validation_error_device_limit_exceeded">Had peranti dicapai. Sila buang lesen daripada peranti lain.</string>
-    <string name="error">Ralat (%s)</string>
     <string name="button_validate">Sahkan</string>
     <string name="licence_key">Kunci Lesen</string>
     <string name="licence_removal_information">Jika anda tidak lagi memerlukan kefungsian premium dalam peranti ini, anda boleh buang kunci lesen. Ia membebaskan kunci pengaktifan untuk satu lagi peranti lain. Kunci boleh mengaktifkan sehingga %d peranti.</string>

@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="MyExpenses_menuitems">
+        <item>search</item>
+        <item>manage_plans</item>
+        <item>budget</item>
+        <item>distribution</item>
+        <item>history</item>
+        <item>parties.debts</item>
+        <item>scan_mode</item>
+        <item>reset</item>
+        <item>grouping</item>
+        <item>sort_direction</item>
+        <item>balance</item>
+        <item>print</item>
+    </string-array>
+
+    <string-array name="MyExpenses_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>create_template_from_transaction</item>
+        <item>clone_transaction</item>
+        <item>split_transaction</item>
+        <item>ungroup_split_transaction</item>
+        <item>remap</item>
+        <item>link</item>
+    </string-array>
+
+    <string-array name="NavigationDrawer_menuitems">
+        <item>create_account</item>
+        <item>sort</item>
+        <item>grouping</item>
+        <item>hidden_accounts</item>
+    </string-array>
+
+    <string-array name="NavigationDrawer_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>hide</item>
+        <item>close.reopen</item>
+    </string-array>
+
+    <string-array name="ManageMethods_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+    </string-array>
+
+    <string-array name="ManageParties_manage_menuitems">
+        <item>merge</item>
+    </string-array>
+
+    <string-array name="ManageParties_manage_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>debts</item>
+    </string-array>
+
+    <string-array name="ManageParties_select_mapping_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+    </string-array>
+
+    <string-array name="ManageTemplates_templates_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>create_instance_save</item>
+        <item>create_instance_edit</item>
+    </string-array>
+
+    <string-array name="ManageTemplates_templates_menuitems">
+        <item>sort</item>
+    </string-array>
+
+    <string-array name="ManageTemplates_plans_cabitems">
+        <item>create_instance_save</item>
+        <item>create_instance_edit</item>
+        <item>cancel_plan_instance</item>
+        <item>reset_plan_instance</item>
+        <item>edit_plan_instance</item>
+    </string-array>
+
+    <string-array name="ManageTemplates_planner_cabitems">
+        <item>create_instance_save</item>
+        <item>create_instance_edit</item>
+        <item>cancel_plan_instance</item>
+        <item>reset_plan_instance</item>
+        <item>edit_plan_instance</item>
+    </string-array>
+
+    <string-array name="ManageCategories_manage_menuitems">
+        <item>sort</item>
+        <item>search</item>
+        <item>categories_setup_default</item>
+        <item>categories_export</item>
+    </string-array>
+
+    <string-array name="ManageCategories_select_mapping_menuitems">
+        <item>sort</item>
+        <item>search</item>
+        <item>categories_setup_default</item>
+        <item>parent_category_selection</item>
+    </string-array>
+
+    <string-array name="DistributionActivity_menuitems">
+        <item>grouping</item>
+        <item>back</item>
+        <item>forward</item>
+        <item>distribution_show_pie_char</item><!-- sic! -->
+        <item>distribution_aggreate</item><!-- sic! -->
+    </string-array>
+
+    <string-array name="ManageCategories_manage_cabitems">
+        <item>edit</item>
+        <item>create_sub_cat</item>
+        <item>delete</item>
+        <item>move</item>
+    </string-array>
+
+    <string-array name="cab_ManageCategories_edit_help_text">
+        <item>cab_edit_help_text</item>
+        <item>cab_ManageCategories_color_help_text</item>
+    </string-array>
+
+    <string-array name="ManageCategories_select_mapping_cabitems">
+        <item>select</item>
+        <item>edit</item>
+        <item>create_sub_cat</item>
+        <item>delete</item>
+        <item>move</item>
+    </string-array>
+
+    <string-array name="ManageCategories_select_filter_cabitems">
+        <item>select</item>
+    </string-array>
+
+    <string-array name="DistributionActivity_cabitems">
+        <item>show_transactions</item>
+        <item>color</item>
+    </string-array>
+
+    <string-array name="BudgetActivity_menuitems">
+        <item>back.forward</item>
+        <item>edit</item>
+        <item>rollover</item>
+        <item>manage_categories</item>
+        <item>budget_aggregate</item>
+        <item>budget_allocated_only</item>
+        <item>delete</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_transaction_menuitems">
+        <item>templates</item>
+        <item>save_and_new</item>
+        <item>create_template_from_transaction</item>
+        <item>original_amount</item>
+        <item>equivalent_amount</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_transfer_menuitems">
+        <item>templates</item>
+        <item>save_and_new</item>
+        <item>create_template_from_transaction</item>
+        <item>invert_transfer</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_split_menuitems">
+        <item>templates</item>
+        <item>save_and_new</item>
+        <item>create_template_from_transaction</item>
+        <item>original_amount</item>
+        <item>equivalent_amount</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_templateCategory_menuitems">
+    </string-array>
+
+    <string-array name="ExpenseEdit_templateTransfer_menuitems">
+    </string-array>
+
+    <string-array name="ExpenseEdit_templateSplit_menuitems">
+    </string-array>
+
+    <string-array name="ExpenseEdit_splitPartCategory_menuitems">
+    </string-array>
+
+    <string-array name="ExpenseEdit_splitPartTransfer_menuitems">
+        <item>invert_transfer</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_transaction_formfields">
+        <item>account</item>
+        <item>amount</item>
+        <item>date.time</item>
+        <item>payer_or_payee</item>
+        <item>comment</item>
+        <item>category</item>
+        <item>tags</item>
+        <item>method</item>
+        <item>instant_plan</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_transfer_formfields">
+        <item>transfer_from_account.transfer_to_account</item>
+        <item>amount</item>
+        <item>exchange_rate</item>
+        <item>date.time</item>
+        <item>tags</item>
+        <item>comment</item>
+        <item>instant_plan</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_templateCategory_formfields">
+        <item>title</item>
+        <item>account</item>
+        <item>amount</item>
+        <item>payer_or_payee</item>
+        <item>comment</item>
+        <item>category</item>
+        <item>tags</item>
+        <item>method</item>
+        <item>default_action</item>
+        <item>plan</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_templateTransfer_formfields">
+        <item>title</item>
+        <item>transfer_from_account.transfer_to_account</item>
+        <item>amount</item>
+        <item>exchange_rate</item>
+        <item>tags</item>
+        <item>comment</item>
+        <item>default_action</item>
+        <item>plan</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_templateSplit_formfields">
+        <item>title</item>
+        <item>account</item>
+        <item>amount</item>
+        <item>payer_or_payee</item>
+        <item>comment</item>
+        <item>category</item>
+        <item>tags</item>
+        <item>method</item>
+        <item>default_action</item>
+        <item>plan</item>
+        <item>split_parts_heading</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_split_formfields">
+        <item>account</item>
+        <item>amount</item>
+        <item>date.time</item>
+        <item>payer_or_payee</item>
+        <item>tags</item>
+        <item>comment</item>
+        <item>method</item>
+        <item>instant_plan</item>
+        <item>split_parts_heading</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_splitPartCategory_formfields">
+        <item>amount</item>
+        <item>comment</item>
+        <item>category</item>
+    </string-array>
+
+    <string-array name="ExpenseEdit_splitPartTransfer_formfields">
+        <item>transfer_from_account.transfer_to_account</item>
+        <item>amount</item>
+        <item>exchange_rate</item>
+        <item>comment</item>
+    </string-array>
+
+    <string-array name="form_amount_help_text">
+        <item>form_amount_switch_help_text</item>
+        <item>form_calculator_help_text</item>
+    </string-array>
+
+    <string-array name="form_ExpenseEdit_transfer_amount_help_text">
+        <item>form_calculator_help_text</item>
+    </string-array>
+
+    <string-array name="form_ExpenseEdit_templateTransfer_amount_help_text">
+        <item>form_ExpenseEdit_templateTransfer_foreign_currency_help_text</item>
+        <item>form_calculator_help_text</item>
+    </string-array>
+
+    <string-array name="form_comment_help_text">
+        <item>form_comment_help_text</item>
+        <item>form_cr_status_help_text</item>
+        <item>form_attach_image_help_text</item>
+    </string-array>
+
+    <string-array name="form_ExpenseEdit_splitPartCategory_comment_help_text">
+        <item>form_comment_help_text</item>
+        <item>form_attach_image_help_text</item>
+    </string-array>
+
+    <string-array name="form_ExpenseEdit_splitPartTransfer_comment_help_text">
+        <item>form_comment_help_text</item>
+        <item>form_attach_image_help_text</item>
+    </string-array>
+
+    <string-array name="form_plan_help_text">
+        <item>form_plan_help_text</item>
+        <item>form_plan_help_text_advanced</item>
+        <item>form_plan_help_text_mode</item>
+    </string-array>
+
+    <string-array name="form_instant_plan_help_text">
+        <item>form_plan_help_text</item>
+        <item>form_plan_help_text_advanced</item>
+    </string-array>
+
+    <string-array name="form_AccountEdit_type_help_text">
+        <item>form_AccountEdit_type_help_text</item>
+        <item>form_AccountEdit_type_help_text_reconciliation</item>
+    </string-array>
+    <string-array name="form_synchronization_help_text">
+        <item>form_synchronization_help_text_select</item>
+        <item>form_synchronization_help_text_add</item>
+    </string-array>
+
+    <string-array name="cab_split_transaction_help_text">
+        <item>warning_split_transactions</item>
+        <item>cab_split_help_text</item>
+    </string-array>
+
+    <string-array name="form_date_time_help_text">
+        <item>form_date_time_help_text</item>
+        <item>form_date_time_help_text_configuration</item>
+        <item>form_date_time_help_text_link</item>
+    </string-array>
+
+    <string-array name="menu_NavigationDrawer_sort_help_text">
+        <item>menu_NavigationDrawer_sort_help_text</item>
+        <item>menu_NavigationDrawer_sort_help_text_custom</item>
+    </string-array>
+
+    <string-array name="AccountEdit_menuitems">
+        <item>exclude_from_totals</item>
+    </string-array>
+
+    <string-array name="AccountEdit_formfields">
+        <item>label</item>
+        <item>description</item>
+        <item>opening_balance</item>
+        <item>currency</item>
+        <item>type</item>
+        <item>color</item>
+        <item>active_tags</item>
+        <item>synchronization</item>
+        <item>exchange_rate</item>
+        <item>goal_or_limit</item>
+    </string-array>
+
+    <string-array name="form_opening_balance_help_text">
+        <item>form_AccountEdit_amount_switch_help_text</item>
+        <item>form_calculator_help_text</item>
+    </string-array>
+
+    <string-array name="form_split_parts_heading_help_text">
+        <item tools:ignore="Typos">form_split_parts_heading_help_text_1</item>
+        <item>form_split_parts_heading_help_text_2</item>
+        <item>form_split_parts_heading_help_text_3</item>
+    </string-array>
+
+    <string-array name="MethodEdit_formfields">
+        <item>label</item>
+        <item>type</item>
+        <item>numbered</item>
+        <item>account_types</item>
+    </string-array>
+
+    <string-array name="CsvImportActivity_formfields">
+        <item>autofill</item>
+    </string-array>
+
+    <string-array name="FolderBrowser_menuitems">
+        <item>create_folder</item>
+        <item>select</item>
+        <item>up</item>
+    </string-array>
+
+    <string-array name="help_MyExpenses_info">
+        <item>help_MyExpenses_info</item>
+        <item>help_MyExpenses_fab_long_press</item>
+        <item>popup_MyExpenses_toolbar</item>
+    </string-array>
+
+    <string-array name="help_ManageCategories_manage_info">
+        <item>help_ManageCategories_manage_info</item>
+        <item>help_ManageCategories_expand_collapse</item>
+        <item>help_ManageCategories_manage_context</item>
+    </string-array>
+
+    <string-array name="help_ManageCategories_select_mapping_info">
+        <item>help_ManageCategories_select_mapping_info</item>
+        <item>help_ManageCategories_expand_collapse</item>
+    </string-array>
+
+    <string-array name="help_ManageCategories_select_filter_info">
+        <item>help_ManageCategories_expand_collapse</item>
+        <item>help_ManageCategories_select_filter_info</item>
+    </string-array>
+
+    <string-array name="popup_MyExpenses_toolbar_items">
+        <item>copy_text</item>
+        <item>new_balance</item>
+    </string-array>
+
+    <string-array name="help_ManageCurrencies_info">
+        <item>help_ManageCurrencies_info</item>
+        <item>help_ManageCurrencies_symbol</item>
+        <item>help_ManageCurrencies_new</item>
+    </string-array>
+
+    <string-array name="help_ManageSyncBackends_info">
+        <item>help_ManageSyncBackends_intro</item>
+        <item>help_ManageSyncBackends_webdav</item>
+        <item>help_ManageSyncBackends_drive</item>
+        <item>help_ManageSyncBackends_encryption</item>
+    </string-array>
+
+    <string-array name="help_ManageTemplates_planner_info">
+        <item>help_ManageTemplates_planner_intro</item>
+        <item>help_ManageTemplates_plans_info</item>
+    </string-array>
+
+    <string-array name="help_ManageTemplates_plans_info">
+        <item>help_ManageTemplates_plans_intro</item>
+        <item>help_ManageTemplates_plans_info</item>
+    </string-array>
+
+    <string-array name="ManageSyncBackends_cabitems">
+        <item>sync_now</item>
+        <item>remove</item>
+        <item>sync_download</item>
+        <item>sync_link</item>
+        <item>sync_unlink</item>
+    </string-array>
+
+    <string-array name="ManageSyncBackends_menuitems">
+        <item>create_sync_backend</item>
+    </string-array>
+
+    <string-array name="RoadmapVoteActivity_menuitems">
+        <item>search</item>
+        <item>vote</item>
+        <item>refresh</item>
+        <item>result</item>
+        <item>clear</item>
+    </string-array>
+
+    <string-array name="RoadmapVoteActivity_cabitems">
+        <item>learn_more</item>
+        <item>set_weight</item>
+    </string-array>
+
+
+    <string-array name="HistoryActivity_menuitems">
+        <item>grouping</item>
+        <item>history_show_balance</item>
+        <item>history_transfers</item>
+    </string-array>
+
+    <string-array name="help_BudgetActivity_info">
+        <item>help_BudgetActivity_info</item>
+        <item>help_Budget_amount_click</item>
+        <item tools:ignore="Typos">help_Budget_amount_click_1</item>
+        <item>help_Budget_spent_click</item>
+    </string-array>
+
+    <string-array name="help_ManageBudgets_info">
+        <item>help_ManageBudgets_info</item>
+    </string-array>
+
+    <string-array name="help_ManageTags_select_mapping_info">
+        <item>help_ManageTags_manage_info</item>
+        <item>help_ManageTags_select_mapping_info</item>
+    </string-array>
+
+    <string-array name="help_ManageParties_manage_info">
+        <item>help_ManageParties_manage_info</item>
+        <item>help_ManageParties_floating_action_button</item>
+    </string-array>
+
+    <string-array name="help_ManageParties_select_mapping_info">
+        <item>help_ManageParties_select_mapping_info</item>
+        <item>help_ManageParties_floating_action_button</item>
+    </string-array>
+
+    <string-array name="menu_parties_debts_help_text">
+        <item>pref_manage_parties_summary</item>
+        <item>help_debt_managment</item>
+    </string-array>
+
+    <string-array name="BudgetEdit_formfields">
+        <item>title</item>
+        <item>description</item>
+        <item>amount</item>
+        <item>accounts</item>
+        <item>filter</item>
+        <item>type</item>
+    </string-array>
+
+    <string-array name="DebtEdit_formfields">
+        <item>label</item>
+        <item>description</item>
+        <item>amount</item>
+        <item>date</item>
+    </string-array>
+
+    <string-array name="help_WebUI_info">
+        <item tools:ignore="Typos">help_WebUI_info_1</item>
+        <item>help_WebUI_info_2</item>
+        <item>help_WebUI_info_3</item>
+        <item>help_WebUI_info_4</item>
+    </string-array>
+
+</resources>

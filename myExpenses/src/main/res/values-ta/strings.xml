@@ -634,7 +634,6 @@
     <string name="progress_validating_licence">உரிமம் சரிபார்க்கப்படுகிறது</string>
     <string name="licence_validation_error_expired">உரிமம் காலாவதியானது</string>
     <string name="licence_validation_error_device_limit_exceeded">கருவிகளின் வரம்பு மீறப்பட்டது. தயவு செய்து மற்றொரு சாதனத்திலிருந்து உரிமத்தை அகற்றவும்.</string>
-    <string name="error">பிழை (%s)</string>
     <string name="button_validate">சரிபார்</string>
     <string name="licence_key">உரிம திறவுகோல்</string>
     <string name="licence_removal_information">இந்த கருவியில் இனி மதிப்பு செயல்பாடுகள் தேவையில்லை என்றால், நீங்கள் உரிம திறவுகோலை அகற்றலாம். இது மேலும் ஒரு கருவியில் செயல்படுத்துவதற்கு திறவுகோலை விடுவிக்கிறது. திறவுகோலை %dகருவிகளில் செயல்படுத்தலாம்.</string>

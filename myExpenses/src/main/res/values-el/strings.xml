@@ -612,7 +612,6 @@
     <string name="progress_validating_licence">Επικύρωση Άδειας</string>
     <string name="licence_validation_error_expired">Η άδεια έληξε</string>
     <string name="licence_validation_error_device_limit_exceeded">Έγινε υπέρβαση του ορίου συσκευών. Καταργήστε την άδεια χρήσης από κάποια άλλη συσκευή.</string>
-    <string name="error">Σφάλμα (%s)</string>
     <string name="button_validate">Επικύρωση</string>
     <string name="licence_key">Κλειδί άδειας χρήσης</string>
     <string name="licence_removal_information">Εάν δεν χρειάζεστε πλέον την αναβαθμισμένη λειτουργικότητα σε αυτήν τη συσκευή, μπορείτε να καταργήσετε το κλειδί άδειας χρήσης. Αυτό ελευθερώνει το κλειδί για ενεργοποίηση σε μία άλλη συσκευή. Το κλειδί μπορεί να ενεργοποιηθεί σε έως και %d συσκευές.</string>
@@ -806,7 +805,6 @@
     <string name="dialog_title_delete_debt">Διαγραφή χρέους;</string>
     <string name="warning_delete_category_with_budget">Για τουλάχιστον μία επιλεγμένη κατηγορία, υπάρχουν πιστώσεις προϋπολογισμού, οι οποίες θα διαγραφούν επίσης.</string>
     <string name="onboarding_ui_title">Το {app_name} προσαρμόζεται στις προτιμήσεις σας</string>
-    <string name="ungroup_split_transaction_failure">Κατά την κατάργηση της ομαδοποίησης των συναλλαγών, το %1$d από το %2$d απέτυχε.</string>
     <string name="split_transaction_not_possible">Μόνο οι συναλλαγές που έχουν τον ίδιο λογαριασμό, δικαιούχο και κατάσταση μπορούν να ομαδοποιηθούν σε μία διαχωρισμένη συναλλαγή.</string>
     <string name="licence_expires_tomorrow">Το επαγγελματικό σας κλειδί θα λήξει αύριο.</string>
     <string name="licence_expires_today">Το επαγγελματικό σας κλειδί λήγει σήμερα.</string>

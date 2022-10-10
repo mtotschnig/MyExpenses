@@ -479,7 +479,6 @@
     <string name="all_contrib_key_features">Contrib Key의 모든 기능</string>
     <string name="all_extended_key_features">확장 키의 모든 기능</string>
     <string name="professional_key">프로페셔널 키</string>
-    <string name="split_transaction_one_error">거래 내역을 분할 거래로 바꿀 수 없습니다.</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">암호화</string>
     <string name="translated_by">번역</string>

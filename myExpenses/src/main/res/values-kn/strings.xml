@@ -632,7 +632,6 @@
     <string name="progress_validating_licence">ಪರವಾನಗಿ ಮೌಲ್ಯೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="licence_validation_error_expired">ಪರವಾನಗಿ ಅವಧಿ ಮೀರಿದೆ</string>
     <string name="licence_validation_error_device_limit_exceeded">ಸಾಧನದ ಮಿತಿಯನ್ನು ಮೀರಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಂದು ಸಾಧನದಿಂದ ಪರವಾನಗಿ ತೆಗೆದುಹಾಕಿ.</string>
-    <string name="error">ದೋಷ (%s)</string>
     <string name="button_validate">ಮೌಲ್ಯೀಕರಿಸಿ</string>
     <string name="licence_key">ಪರವಾನಗಿ ಕೀ</string>
     <string name="licence_removal_information">ಈ ಸಾಧನದಲ್ಲಿ ನಿಮಗೆ ಇನ್ನು ಮುಂದೆ ಪ್ರೀಮಿಯಂ ಕ್ರಿಯಾತ್ಮಕತೆಯ ಅಗತ್ಯವಿಲ್ಲದಿದ್ದರೆ, ನೀವು ಪರವಾನಗಿ ಕೀಲಿಯನ್ನು ತೆಗೆದುಹಾಕಬಹುದು. ಇದು ಮತ್ತೊಂದು ಸಾಧನದಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸುವ ಕೀಲಿಯನ್ನು ಮುಕ್ತಗೊಳಿಸುತ್ತದೆ. ಕೀಲಿಯನ್ನು %d ಸಾಧನಗಳಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>

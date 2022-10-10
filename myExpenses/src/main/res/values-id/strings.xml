@@ -47,7 +47,6 @@
     <string name="valid_until">Sampai %s</string>
     <string name="licence_key">Kunci Lisensi</string>
     <string name="button_validate">Validasi</string>
-    <string name="error">Galat (%s)</string>
     <string name="picture">Gambar</string>
     <string name="n_months">%d bulan</string>
     <string name="licence_validation_error_expired">Lisensi kedaluarsa</string>

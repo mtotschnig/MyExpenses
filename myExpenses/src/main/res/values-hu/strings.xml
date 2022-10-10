@@ -634,7 +634,6 @@
     <string name="progress_validating_licence">Engedély érvényesítése</string>
     <string name="licence_validation_error_expired">A licenc lejárt</string>
     <string name="licence_validation_error_device_limit_exceeded">Az eszközkorlát túllépve. Kérjük, távolítsa el a licencet egy másik eszközről.</string>
-    <string name="error">Hiba (%s)</string>
     <string name="button_validate">Érvényesítés</string>
     <string name="licence_key">Licenckulcs</string>
     <string name="licence_removal_information">Ha többé nincs szüksége a prémium funkciókra ezen a készüléken, törölheti a licenckulcsot. Ezzel felszabadul a kulcs, és aktiválható lesz még egy készüléken. A kulcs %d készüléken aktiválható. </string>

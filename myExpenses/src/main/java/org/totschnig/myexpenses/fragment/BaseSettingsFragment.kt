@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
@@ -529,10 +530,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             matches(pref, PrefKey.UI_WEB) -> {
                 return if (value as Boolean) {
-                   /* if (!isConnectedWifi(requireContext())) {
+                    if (!isConnectedWifi(requireContext())) {
                         preferenceActivity.showSnackBar(getString(R.string.no_network) + " (WIFI)")
                         return false
-                    }*/
+                    }
                     if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && preferenceActivity.featureViewModel.isFeatureAvailable(
                             preferenceActivity,
                             Feature.WEBUI

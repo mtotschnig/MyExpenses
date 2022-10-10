@@ -628,7 +628,6 @@
     <string name="progress_validating_licence">許可證驗證中…</string>
     <string name="licence_validation_error_expired">許可證已過期</string>
     <string name="licence_validation_error_device_limit_exceeded">超出裝置限制。請從其他裝置上刪除授權的許可證。</string>
-    <string name="error">錯誤（%s）</string>
     <string name="button_validate">驗證</string>
     <string name="licence_key">許可證金鑰</string>
     <string name="licence_removal_information">如果您不再需要此裝置上的高級功能，則可以刪除授權許可金鑰。這樣可以釋放金鑰，以便在另一台裝置上啟用。該金鑰最多可以在%d台裝置上啟用。</string>

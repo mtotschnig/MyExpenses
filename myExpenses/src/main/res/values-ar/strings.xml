@@ -661,7 +661,6 @@
     <string name="progress_validating_licence">جارِ التحقق من صحة الترخيص</string>
     <string name="licence_validation_error_expired">انتهت صلاحية الترخيص</string>
     <string name="licence_validation_error_device_limit_exceeded">تم تجاوز حد الترخيص لهذا الجهاز. يُرجى إزالة الترخيص من جهاز آخر.</string>
-    <string name="error">خطأ (%s)</string>
     <string name="button_validate">التحقق من صحة</string>
     <string name="licence_key">مفتاح الترخيص</string>
     <string name="licence_removal_information">إذا لم تعد بحاجة إلى وظائف متميزة على هذا الجهاز، فيمكنك إزالة مفتاح الترخيص. هذا يحرر مفتاح التنشيط على جهاز آخر آخر. يمكن تنشيط المفتاح على ما يصل إلى  %d من الأجهزة.</string>

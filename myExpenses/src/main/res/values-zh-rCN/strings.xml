@@ -627,7 +627,6 @@
     <string name="progress_validating_licence">验证许可证</string>
     <string name="licence_validation_error_expired">许可证已过期</string>
     <string name="licence_validation_error_device_limit_exceeded">超出设备限制。请从其他设备上删除许可证。</string>
-    <string name="error">错误（%s）</string>
     <string name="button_validate">验证</string>
     <string name="licence_key">许可证密钥</string>
     <string name="licence_removal_information">如果您不再需要此设备上的高级功能，则可以删除许可证密钥。这样可以释放密钥，以便在另一台设备上激活。该密钥最多可以在%d台设备上激活。</string>

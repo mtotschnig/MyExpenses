@@ -5,7 +5,6 @@
     <color name="colorAccentSnackbar">@color/primaryDarkColor</color>
     <color name="colorPrimaryDialog">@color/primaryLightestColor</color>
     <color name="colorErrorDialog">#D57B8C</color>
-    <color name="cardHighlightForeground">#40cccccc</color>
     <color name="colorExpense">@color/colorExpenseLight</color>
     <color name="colorIncome">@color/colorIncomeLight</color>
     <color name="colorExpenseHistoryChart">@color/colorExpenseDark</color>

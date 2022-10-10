@@ -648,7 +648,6 @@
     <string name="progress_validating_licence">Ověřování licence</string>
     <string name="licence_validation_error_expired">Licence vypršela</string>
     <string name="licence_validation_error_device_limit_exceeded">Limit zařízení překročen. Odstraňte prosím licenci z jiného zařízení.</string>
-    <string name="error">Chyba (%s)</string>
     <string name="button_validate">Ověřit</string>
     <string name="licence_key">Licenční klíč</string>
     <string name="licence_removal_information">Pokud již v tomto zařízení nepotřebujete prémiové funkce, můžete licenční klíč odebrat. Takto uvolníte klíč pro aktivaci na jednom dalším zařízení. Klíč lze aktivovat až na %d zařízeních.</string>
