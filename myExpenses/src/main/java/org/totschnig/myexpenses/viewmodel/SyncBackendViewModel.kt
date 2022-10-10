@@ -18,7 +18,7 @@ class SyncBackendViewModel(application: Application) : AbstractSyncBackendViewMo
     override fun accountMetadata(
         accountName: String,
         isFeatureAvailable: Boolean
-    ): LiveData<Result<List<Result<AccountMetaData>>>> =
+    ): LiveData<Result<List<Result<AccountMetaData>>>>? =
         if (isFeatureAvailable)
             liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
                 emit(
@@ -28,5 +28,5 @@ class SyncBackendViewModel(application: Application) : AbstractSyncBackendViewMo
                             false
                     ]
                         .mapCatching { it.remoteAccountList })
-            } else nul
+            } else null
 }
