@@ -237,6 +237,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
                     findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer && !noMethods
                     findItem(R.id.SPLIT_TRANSACTION_COMMAND).isVisible = !hasSplit && !hasVoid
+                    findItem(R.id.LINK_TRANSFER_COMMAND).isVisible =
+                        selectionState.count() == 2 &&
+                                !hasSplit && !hasTransfer && !hasVoid &&
+                                viewModel.canLinkSelection()
                     true
                 }
 
@@ -249,6 +253,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         R.id.DELETE_COMMAND -> delete(selectionState)
                         R.id.MAP_TAG_COMMAND -> tagHandler.tag()
                         R.id.SPLIT_TRANSACTION_COMMAND -> split(selectionState)
+                        R.id.LINK_TRANSFER_COMMAND -> linkTransfer()
                         else -> return false
                     }
                     return true
@@ -262,6 +267,32 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             })
         } else actionMode?.invalidate()
         updateActionModeTitle()
+    }
+
+    private fun linkTransfer() {
+        val itemIds = selectionState.map { it.id }
+        checkSealed(itemIds) {
+            showConfirmationDialog(Bundle().apply {
+                putString(
+                    ConfirmationDialogFragment.KEY_MESSAGE,
+                    getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation)
+                )
+                putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                    R.id.LINK_TRANSFER_COMMAND
+                )
+                putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                    R.id.CANCEL_CALLBACK_COMMAND
+                )
+                putInt(
+                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                    R.string.menu_create_transfer
+                )
+                putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
+            }, "LINK_TRANSFER")
+        }
+
     }
 
     lateinit var remapHandler: RemapHandler

@@ -55,10 +55,10 @@
                 android:title="@string/account" />
         </menu>
     </item>
-<!--    <item
+    <item
         android:id="@id/LINK_TRANSFER_COMMAND"
         android:icon="@drawable/ic_hchain"
         android:orderInCategory="5"
         android:title="@string/menu_create_transfer"
-        app:showAsAction="ifRoom" />-->
+        app:showAsAction="ifRoom" />
 </menu>

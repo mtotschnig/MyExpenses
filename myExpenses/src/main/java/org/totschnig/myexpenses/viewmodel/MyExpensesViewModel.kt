@@ -43,7 +43,6 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
@@ -499,6 +498,16 @@ class MyExpensesViewModel(
                 .build(),
             values, null, null
         ) == 1) emit(ResultUnit) else emit(Result.failure(Exception()))
+    }
+
+    fun canLinkSelection(): Boolean {
+        check(selectionState.value.size == 2)
+        val transaction1 = selectionState.value[0]
+        val transaction2 = selectionState.value[1]
+        return transaction1.accountId != transaction2.accountId && (
+                transaction1.amount.amountMinor == -transaction2.amount.amountMinor ||
+                        transaction1.currency.code != transaction2.currency.code
+                )
     }
 
     companion object {
