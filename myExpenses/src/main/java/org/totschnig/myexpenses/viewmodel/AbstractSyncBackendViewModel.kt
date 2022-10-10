@@ -27,7 +27,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
 
     fun getLocalAccountInfo(): LiveData<Map<String, String?>> = localAccountInfo
 
-    abstract fun accountMetadata(accountName: String): LiveData<Result<List<Result<AccountMetaData>>>>
+    abstract fun accountMetadata(accountName: String, isFeatureAvailable: Boolean): LiveData<Result<List<Result<AccountMetaData>>>>?
 
     fun loadLocalAccountInfo() {
         disposable = briteContentResolver.createQuery(

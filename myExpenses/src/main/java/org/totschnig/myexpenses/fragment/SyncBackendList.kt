@@ -288,25 +288,23 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                 snackbar.show()
             }
             val backendLabel = syncBackendAdapter.getBackendLabel(groupPosition)
-            if (featureForAccount(backendLabel)?.let {
-                    manageSyncBackends.isFeatureAvailable(it)
-                } != false) {
-                viewModel.accountMetadata(backendLabel).observe(viewLifecycleOwner) { result ->
-                    metadataLoadingCount--
-                    if (metadataLoadingCount == 0) {
-                        snackbar.dismiss()
-                    }
-                    result.onSuccess { list ->
-                        syncBackendAdapter.setAccountMetadata(groupPosition, list)
-                    }.onFailure { throwable ->
-                        if (handleAuthException(throwable)) {
-                            resolutionPendingForGroup = groupPosition
-                        } else {
-                            manageSyncBackends.showSnackBar(
-                                throwable.safeMessage,
-                                Snackbar.LENGTH_SHORT
-                            )
-                        }
+            viewModel.accountMetadata(backendLabel, featureForAccount(backendLabel)?.let {
+                manageSyncBackends.isFeatureAvailable(it)
+            } != false)?.observe(viewLifecycleOwner) { result ->
+                metadataLoadingCount--
+                if (metadataLoadingCount == 0) {
+                    snackbar.dismiss()
+                }
+                result.onSuccess { list ->
+                    syncBackendAdapter.setAccountMetadata(groupPosition, list)
+                }.onFailure { throwable ->
+                    if (handleAuthException(throwable)) {
+                        resolutionPendingForGroup = groupPosition
+                    } else {
+                        manageSyncBackends.showSnackBar(
+                            throwable.safeMessage,
+                            Snackbar.LENGTH_SHORT
+                        )
                     }
                 }
             }
