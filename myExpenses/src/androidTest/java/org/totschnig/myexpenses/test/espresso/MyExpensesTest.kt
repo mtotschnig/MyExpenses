@@ -4,6 +4,7 @@ import android.content.OperationApplicationException
 import android.os.RemoteException
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
@@ -155,10 +156,14 @@ class MyExpensesTest : BaseMyExpensesTest() {
         }
     }
 
+    private fun clickContextItem(@StringRes resId: Int, position: Int = 1) {
+        clickContextItem(resId, composeTestRule.onNodeWithTag("ACCOUNTS"), position)
+    }
+
     @Test
     fun editAccountFormIsOpened() {
         openDrawer()
-        clickContextItem(R.string.menu_edit, "ACCOUNTS", 1)
+        clickContextItem(R.string.menu_edit)
         Intents.intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(
@@ -172,7 +177,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Throws(InterruptedException::class)
     fun deleteConfirmationDialogDeleteButtonDeletes() {
         openDrawer()
-        clickContextItem(R.string.menu_delete, "ACCOUNTS", 1)
+        clickContextItem(R.string.menu_delete)
         Espresso.onView(ViewMatchers.withText(dialogTitleWarningDeleteAccount))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(
@@ -190,7 +195,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun deleteConfirmationDialogCancelButtonCancels() {
         openDrawer()
-        clickContextItem(R.string.menu_delete, "ACCOUNTS", 1)
+        clickContextItem(R.string.menu_delete)
         Espresso.onView(ViewMatchers.withText(dialogTitleWarningDeleteAccount))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(
@@ -214,7 +219,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
         //we try to delete account 1
         openDrawer()
-        clickContextItem(R.string.menu_delete, "ACCOUNTS", 1)
+        clickContextItem(R.string.menu_delete)
         Thread.sleep(5000)
         Espresso.onView(
             ViewMatchers.withSubstring(
@@ -233,7 +238,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
         //we try to delete account 2
         openDrawer()
-        clickContextItem(R.string.menu_delete, "ACCOUNTS", 2)
+        clickContextItem(R.string.menu_delete, 2)
         Espresso.onView(
             ViewMatchers.withSubstring(
                 getString(

@@ -62,8 +62,8 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
         command?.let { clickMenuItem(it, true) }
     }
 
-    fun clickContextItem(@StringRes resId: Int, contextTestTag: String = "LIST", position: Int = 0) {
-        composeTestRule.onNodeWithTag(contextTestTag).onChildren()[position].performClick()
+    fun clickContextItem(@StringRes resId: Int, node: SemanticsNodeInteraction = listNode, position: Int = 0) {
+        node.onChildren()[position].performClick()
         composeTestRule.onNodeWithText(getString(resId)).performClick()
     }
 

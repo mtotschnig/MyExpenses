@@ -49,11 +49,16 @@ class AccountTest {
                     "Account with 2 budgets",
                     AccountType.CCARD,
                     -100,
-                    "EUR",
-                    grouping
+                    "EUR"
                 ).contentValues
             )!!
         ).also {
+            resolver.update(
+                ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, it)
+                    .buildUpon()
+                    .appendPath(grouping.name).build(),
+                null, null, null
+            )
             val budgets = arrayOf(
                 BudgetInfo(it, "budget 1", "description", 400, grouping),
                 BudgetInfo(it, "budget 2", "description", 5000, grouping)

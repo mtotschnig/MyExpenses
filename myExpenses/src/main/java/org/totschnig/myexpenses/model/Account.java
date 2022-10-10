@@ -90,6 +90,7 @@ import java.util.List;
  *
  * @author Michael Totschnig
  */
+@Deprecated
 public class Account extends Model implements DistributionAccountInfo {
 
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
@@ -188,11 +189,12 @@ public class Account extends Model implements DistributionAccountInfo {
    * TODO: We should no longer allow calling this from the UI thread and consistently load account in the background
    */
   @WorkerThread
+  @Deprecated
   public static Account getInstanceFromDb(long id) {
     return getInstanceFromDb(id, false);
   }
 
-
+  @Deprecated
   private static Account getInstanceFromDb(long id, boolean openOnly) {
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);
@@ -364,11 +366,17 @@ public class Account extends Model implements DistributionAccountInfo {
     this.currencyUnit = currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
     this.openingBalance = new Money(this.currencyUnit,
         c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
-    try {
-      this.setType(AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
-    } catch (IllegalArgumentException ex) {
-      this.setType(AccountType.CASH);
-    }
+
+    String type = c.getString(c.getColumnIndexOrThrow(KEY_TYPE));
+      if (type != null) {
+        try {
+          this.setType(AccountType.valueOf(type));
+        } catch (IllegalArgumentException ex) {
+          this.setType(AccountType.CASH);
+        }
+    } else {
+        this.setType(AccountType.CASH);
+      }
     try {
       this.setGrouping(Grouping.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_GROUPING))));
     } catch (IllegalArgumentException ignored) {

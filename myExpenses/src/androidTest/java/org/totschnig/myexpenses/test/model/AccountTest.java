@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.test.model;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
