@@ -7,6 +7,7 @@ package org.totschnig.myexpenses.export.qif;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Money;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ public class QifAccount {
   public String type = "";
   public String memo = "";
   public String desc = "";
-  public BigDecimal openinBalance = null;
+  public BigDecimal openingBalance = null;
 
   public Account dbAccount;
   public final List<QifTransaction> transactions = new ArrayList<>();
@@ -34,15 +35,7 @@ public class QifAccount {
   }
 
   public Account toAccount(CurrencyUnit currency) {
-    long openingBalance = openinBalance != null ? openinBalance.longValue() : 0L;
-    return new Account(memo, currency, openingBalance, desc, AccountType.fromQifName(type));
-  }
-
-  public void writeTo(QifBufferedWriter w) throws IOException {
-    w.writeAccountsHeader();
-    w.write("N").write(memo).newLine();
-    w.write("T").write(type).newLine();
-    w.end();
+    return new Account(memo, new Money(currency, openingBalance == null ? BigDecimal.ZERO : openingBalance), desc, AccountType.fromQifName(type));
   }
 
   public void readFrom(QifBufferedReader r) throws IOException {

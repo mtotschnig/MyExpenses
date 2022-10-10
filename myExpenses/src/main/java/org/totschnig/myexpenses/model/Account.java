@@ -328,17 +328,22 @@ public class Account extends Model implements DistributionAccountInfo {
 
   public Account(String label, CurrencyUnit currency, long openingBalance, String description,
                  AccountType type, int color) {
-    this(label, currency, new Money(currency, openingBalance), description, type, color);
+    this(label, new Money(currency, openingBalance), description, type, color);
   }
 
   public Account(String label, CurrencyUnit currency, long openingBalance, String description, AccountType accountType) {
     this(label, currency, openingBalance, description, accountType, DEFAULT_COLOR);
   }
 
-  public Account(String label, CurrencyUnit currencyUnit, Money openingBalance, String description,
+  public Account(String label, Money openingBalance, String description,
+                 AccountType type) {
+    this(label, openingBalance, description, type, DEFAULT_COLOR);
+  }
+
+  public Account(String label, Money openingBalance, String description,
                  AccountType type, int color) {
     this.setLabel(label);
-    this.currencyUnit = currencyUnit;
+    this.currencyUnit = openingBalance.getCurrencyUnit();
     this.openingBalance = openingBalance;
     this.description = description;
     this.setType(type);

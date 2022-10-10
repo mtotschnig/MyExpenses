@@ -215,7 +215,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         val openingBalance = binding.Amount.typedValue
         val currency = validateSelectedCurrency()
         return Account(
-            label, currency, Money(currency, openingBalance),
+            label, Money(currency, openingBalance),
             binding.Description.text.toString(),
             binding.AccountType.selectedItem as AccountType, viewModel.accountColor
         )

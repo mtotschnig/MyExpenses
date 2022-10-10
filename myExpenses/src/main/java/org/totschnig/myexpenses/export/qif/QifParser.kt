@@ -93,7 +93,7 @@ class QifParser(
                 val t = QifTransaction()
                 t.readFrom(r, dateFormat, currency)
                 if (t.isOpeningBalance) {
-                    account.openinBalance = t.amount
+                    account.openingBalance = t.amount
                     if (!t.toAccount.isNullOrEmpty()) account.memo = t.toAccount
                 } else {
                     addPayeeFromTransaction(t)

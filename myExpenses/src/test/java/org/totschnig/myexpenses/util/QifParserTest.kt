@@ -681,7 +681,7 @@ class QifParserTest {
                 ^
             """.trimIndent()
         )
-        Assert.assertEquals(BigDecimal("4706.57"), p.accounts[0].openinBalance)
+        Assert.assertEquals(BigDecimal("4706.57"), p.accounts[0].openingBalance)
     }
 
     @Test
@@ -741,7 +741,7 @@ class QifParserTest {
         Assert.assertEquals(1, p.accounts.size.toLong())
         val a = p.accounts[0]
         Assert.assertEquals("My Account Name", a.memo)
-        Assert.assertEquals(BigDecimal("222.22"), a.openinBalance)
+        Assert.assertEquals(BigDecimal("222.22"), a.openingBalance)
         Assert.assertEquals(1, a.transactions.size.toLong())
     }
 

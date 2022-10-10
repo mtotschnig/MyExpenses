@@ -271,7 +271,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val openingBalance: BigDecimal = validateAmountInput(true) ?: return
         val currency = (currencySpinner.selectedItem as Currency).code
         val currencyUnit = currencyContext[currency]
-        val account = Account(label, currencyUnit, Money(currencyUnit, openingBalance), binding.Description.text.toString(), accountTypeSpinner.selectedItem as AccountType, color).apply {
+        val account = Account(label, Money(currencyUnit, openingBalance), binding.Description.text.toString(), accountTypeSpinner.selectedItem as AccountType, color).apply {
             id = rowId
             uuid = this@AccountEdit.uuid
             if (syncSpinner.selectedItemPosition > 0) {
