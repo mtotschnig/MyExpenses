@@ -10,15 +10,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertNotNull;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
-
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -51,12 +47,6 @@ public class ExpenseEditFlowTest extends BaseExpenseEditTest {
     paymentMethod.setPaymentType(PaymentMethod.EXPENSE);
     paymentMethod.addAccountType(AccountType.CASH);
     assertNotNull(paymentMethod.save());
-  }
-
-  @AfterClass
-  public static void tearDown() throws RemoteException, OperationApplicationException {
-    Account.delete(account1.getId());
-    PaymentMethod.delete(paymentMethod.getId());
   }
 
   /**

@@ -10,25 +10,18 @@ import static org.hamcrest.Matchers.allOf;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import android.content.Intent;
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
 
-import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
+import org.totschnig.myexpenses.testutils.BaseMyExpensesTest;
 
-import java.util.Objects;
+public final class MyExpensesIntentTest extends BaseMyExpensesTest {
 
-public final class MyExpensesIntentTest extends BaseUiTest<MyExpenses> {
-
-  private ActivityScenario<MyExpenses> activityScenario = null;
   private static String accountLabel1;
   private static Account account1;
 
@@ -37,11 +30,6 @@ public final class MyExpensesIntentTest extends BaseUiTest<MyExpenses> {
     accountLabel1 = "Test label 1";
     account1 = new Account(accountLabel1, 0, "");
     account1.save();
-  }
-
-  @AfterClass
-  public static void tearDown() throws RemoteException, OperationApplicationException {
-    Account.delete(account1.getId());
   }
 
   @Test
@@ -53,11 +41,5 @@ public final class MyExpensesIntentTest extends BaseUiTest<MyExpenses> {
         withText(accountLabel1),
         withParent(withId(R.id.toolbar))))
         .check(matches(isDisplayed()));
-  }
-
-  @NonNull
-  @Override
-  protected ActivityScenario<MyExpenses> getTestScenario() {
-    return Objects.requireNonNull(activityScenario);
   }
 }

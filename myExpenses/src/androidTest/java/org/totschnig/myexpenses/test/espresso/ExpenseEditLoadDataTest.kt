@@ -33,7 +33,6 @@ import java.time.LocalDate
 import java.util.*
 
 class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
-    private lateinit var activityScenario: ActivityScenario<TestExpenseEdit>
 
     @get:Rule
     var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
@@ -472,7 +471,4 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             assertCanceled()
         }
     }
-
-    override val testScenario: ActivityScenario<TestExpenseEdit>
-        get() = activityScenario
 }

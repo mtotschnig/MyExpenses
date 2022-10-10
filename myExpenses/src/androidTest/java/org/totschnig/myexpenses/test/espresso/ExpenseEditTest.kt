@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.testutils.Espresso
 import java.util.*
 
 class ExpenseEditTest : BaseExpenseEditTest() {
-    lateinit var activityScenario: ActivityScenario<TestExpenseEdit>
     private lateinit var account1: Account
     private lateinit var account2: Account
     private lateinit var currency1: CurrencyUnit
@@ -236,7 +235,4 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             Assert.assertEquals((-amount * 100).toLong(), restored.amount.amountMinor)
         }
     }
-
-    override val testScenario: ActivityScenario<TestExpenseEdit>
-        get() = activityScenario
 }
