@@ -103,10 +103,10 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
             onItemSelectedListener = this@CsvImportParseFragment
         }
         DialogUtils.configureCurrencySpinner(binding.AccountTable.Currency, this)
-        currencyViewModel.getCurrencies().observe(viewLifecycleOwner, { currencies: List<Currency?> ->
+        currencyViewModel.getCurrencies().observe(viewLifecycleOwner) { currencies: List<Currency?> ->
             currencyAdapter.addAll(currencies)
             binding.AccountTable.Currency.setSelection(currencyAdapter.getPosition(currencyViewModel.default))
-        })
+        }
         with(binding.AccountTable.AccountType) {
             DialogUtils.configureTypeSpinner(this)
             onItemSelectedListener = this@CsvImportParseFragment
@@ -133,6 +133,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (requestCode == IMPORT_FILENAME_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK && intent != null) {
@@ -161,6 +162,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         outState.putString(DatabaseConstants.KEY_CURRENCY, currency)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
@@ -188,10 +190,12 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         return "CSV"
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.csv_parse, menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem) = if (item.itemId == R.id.PARSE_COMMAND) {
         val format = binding.DateFormatTable.DateFormat.selectedItem as QifDateFormat
         val encoding = binding.EncodingTable.Encoding.selectedItem as String
