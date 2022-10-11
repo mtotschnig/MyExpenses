@@ -17,7 +17,10 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.material.icons.filled.ContentCopy
@@ -30,6 +33,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
@@ -423,13 +427,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                     HorizontalPager(
                         modifier = Modifier
-                            .testTag("PAGER")
+                            .background(MaterialTheme.colors.onSurface)
+                            .testTag(TEST_TAG_PAGER)
                             .semantics {
                                 collectionInfo = CollectionInfo(1, accountData.value.count())
                             },
                         verticalAlignment = Alignment.Top,
                         count = accountData.value.count(),
-                        state = viewModel.pagerState
+                        state = viewModel.pagerState,
+                        itemSpacing = 10.dp,
                     ) { page ->
                         val account = remember { derivedStateOf { accountData.value[page] } }.value
                         val data =
@@ -444,7 +450,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
                         }
-                        Column {
+                        Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
                             viewModel.filterPersistence.getValue(account.id)
                                 .whereFilterAsFlow
                                 .collectAsState(WhereFilter.empty())
@@ -454,6 +460,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             headerData.collectAsState(null).value?.let { headerData ->
                                 TransactionList(
+                                    modifier = Modifier.weight(1f),
                                     pagingSourceFactory = data,
                                     headerData = headerData,
                                     budgetData = viewModel.budgetData(account).collectAsState(null),

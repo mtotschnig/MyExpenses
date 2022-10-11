@@ -13,6 +13,8 @@ import org.junit.After
 import org.junit.Rule
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.activity.TestMyExpenses
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
+import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.test.espresso.MyExpensesTest
 
@@ -54,10 +56,11 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
     }
 
     val listNode: SemanticsNodeInteraction
-        get() = composeTestRule.onNode(hasTestTag("PAGER")).onChildren().filter(hasTestTag("LIST")).onFirst()
+        get() = composeTestRule.onNodeWithTag(TEST_TAG_PAGER).onChildren()
+            .filter(hasTestTag(TEST_TAG_LIST)).onFirst()
 
     fun openCab(@IdRes command: Int?) {
-        composeTestRule.onNode(hasTestTag("PAGER")).onChildren().onFirst().onChildren().onFirst()
+        composeTestRule.onNodeWithTag(TEST_TAG_PAGER).onChildren().onFirst().onChildren().onFirst()
             .performTouchInput { longClick() }
         command?.let { clickMenuItem(it, true) }
     }
@@ -68,7 +71,7 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
     }
 
     fun assertTextAtPosition(text: String, position: Int, substring: Boolean = true) {
-        composeTestRule.onNodeWithTag("LIST").onChildren()[position].assertTextContains(text, substring = substring)
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren()[position].assertTextContains(text, substring = substring)
     }
 
     @After

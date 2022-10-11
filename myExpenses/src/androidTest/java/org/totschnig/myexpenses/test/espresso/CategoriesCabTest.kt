@@ -25,6 +25,8 @@ import org.junit.Test
 import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
+import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
+import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -154,9 +156,9 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
         launch().use {
             composeTestRule.onNodeWithText("TestCategory").performClick()
             onContextMenu(R.string.subcategory)
-            composeTestRule.onNodeWithTag("editText")
+            composeTestRule.onNodeWithTag(TEST_TAG_EDIT_TEXT)
                 .performTextInput("Subcategory")
-            composeTestRule.onNodeWithTag("positive").performClick()
+            composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI,
                 "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(categoryId.toString()))).isEqualTo(1)
         }

@@ -10,6 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TestMyExpenses
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.util.Utils
@@ -120,11 +121,11 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         Espresso.onView(ViewMatchers.withId(R.id.checkBox)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withText(R.string.menu_delete)).perform(ViewActions.click())
         val voidStatus = getString(R.string.status_void)
-        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst()
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst()
             .assertContentDescriptionEquals(voidStatus)
         assertListSize(origListSize)
         clickContextItem(R.string.menu_undelete_transaction)
-        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst()
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst()
             .assert(hasContentDescription(voidStatus).not())
         assertListSize(origListSize)
     }
@@ -135,7 +136,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
         Espresso.onView(ViewMatchers.withText(R.string.menu_split_transaction))
             .perform(ViewActions.click())
-        composeTestRule.onNodeWithTag("LIST").onChildren().onFirst().assertTextContains(getString(R.string.split_transaction))
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst().assertTextContains(getString(R.string.split_transaction))
     }
 
     @Test

@@ -27,6 +27,9 @@ import org.totschnig.myexpenses.activity.AccountEdit
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
+import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
+import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Money
@@ -55,7 +58,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     private fun assertDataSize(size: Int) {
-        composeTestRule.onNodeWithTag("PAGER").assert(hasColumnCount(size))
+        composeTestRule.onNodeWithTag(TEST_TAG_PAGER).assert(hasColumnCount(size))
     }
 
     @Test
@@ -157,7 +160,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     private fun clickContextItem(@StringRes resId: Int, position: Int = 1) {
-        clickContextItem(resId, composeTestRule.onNodeWithTag("ACCOUNTS"), position)
+        clickContextItem(resId, composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS), position)
     }
 
     @Test

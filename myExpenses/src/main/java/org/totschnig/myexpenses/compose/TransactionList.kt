@@ -60,6 +60,7 @@ const val COMMENT_SEPARATOR = " / "
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionList(
+    modifier: Modifier,
     pagingSourceFactory: () -> PagingSource<Int, Transaction2>,
     headerData: HeaderData,
     budgetData: State<BudgetData?>,
@@ -85,12 +86,12 @@ fun TransactionList(
 
     if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
         Text(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = modifier
+                .fillMaxWidth()
                 .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
         )
     } else {
-        LazyColumn(modifier = Modifier.testTag("LIST").semantics {
+        LazyColumn(modifier = modifier.testTag(TEST_TAG_LIST).semantics {
             collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
         }) {
 
@@ -136,7 +137,6 @@ fun TransactionList(
                             if (!isGroupHidden) {
                                 TransactionRenderer(
                                     modifier = Modifier
-                                        .testTag("ITEM")
                                         .animateItemPlacement(),
                                     transaction = it,
                                     selectionHandler = selectionHandler,
@@ -230,7 +230,7 @@ fun HeaderRenderer(
     onBudgetClick: (Long, Int) -> Unit
 ) {
 
-    Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
+    Box {
         GroupDivider()
         if (account.grouping != Grouping.NONE) {
             ExpansionHandle(

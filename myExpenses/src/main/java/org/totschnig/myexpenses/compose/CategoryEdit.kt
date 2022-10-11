@@ -67,7 +67,7 @@ fun CategoryEdit(
                         style = MaterialTheme.typography.subtitle1
                     )
                     OutlinedTextField(
-                        modifier = Modifier.testTag("editText"),
+                        modifier = Modifier.testTag(TEST_TAG_EDIT_TEXT),
                         label = { Text(stringResource(id = R.string.label)) },
                         value = label,
                         isError = isError.value != null,
@@ -104,7 +104,7 @@ fun CategoryEdit(
                             Text(stringResource(id = android.R.string.cancel))
                         }
                         TextButton(
-                            modifier = Modifier.testTag("positive"),
+                            modifier = Modifier.testTag(TEST_TAG_POSITIVE_BUTTON),
                             enabled = !dialogState.saving,
                             onClick = {
                                 shouldValidate = true

@@ -58,7 +58,7 @@ fun AccountList(
     val collapsedIds = expansionHandlerGroups.collapsedIds().value
 
     LazyColumn(
-        modifier = Modifier.testTag("ACCOUNTS"),
+        modifier = Modifier.testTag(TEST_TAG_ACCOUNTS),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         var isGroupHidden by mutableStateOf(false)
