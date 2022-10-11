@@ -121,7 +121,7 @@ class MyExpensesViewModel(
             )
         }
 
-    val accountData: StateFlow<Result<List<FullAccount>>> = contentResolver.observeQuery(
+    val accountData: StateFlow<Result<List<FullAccount>>?> = contentResolver.observeQuery(
         uri = ACCOUNTS_URI.buildUpon()
             .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
             .appendBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT)
@@ -137,7 +137,7 @@ class MyExpensesViewModel(
             }
         }
         .map { result -> result.mapCatching { it.second } }
-        .stateIn(viewModelScope, SharingStarted.Lazily, Result.success(emptyList()))
+        .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     fun loadData(account: FullAccount): () -> TransactionPagingSource {
         return {

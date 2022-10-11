@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -114,7 +115,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     var scanFile: File? = null
 
     private val accountData: List<FullAccount>
-        get() = viewModel.accountData.value.getOrElse { emptyList() }
+        get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
     var accountId: Long
         get() = viewModel.selectedAccount.value
@@ -382,6 +383,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         toolbar = setupToolbar(false)
+        toolbar.isVisible = false
         if (savedInstanceState == null) {
             accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         }
@@ -391,24 +393,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             else
                 LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
 
-
         binding.viewPagerMain.viewPager.setContent {
+            LaunchedEffect(viewModel.pagerState.currentPage) {
+                if (setCurrentAccount(viewModel.pagerState.currentPage)) {
+                    finishActionMode()
+                    sumInfo = SumInfoUnknown
+                    viewModel.sumInfo(currentAccount).collect {
+                        sumInfo = it
+                    }
+                }
+            }
             val result = viewModel.accountData.collectAsState()
 
-            if (result.value.isSuccess) {
+            if (result.value?.isSuccess == true) {
                 val accountData = remember {
-                    derivedStateOf { result.value.getOrThrow() }
+                    derivedStateOf { result.value!!.getOrThrow() }
                 }
                 AppTheme(context = this@BaseMyExpenses) {
-                    LaunchedEffect(viewModel.pagerState.currentPage) {
-                        if (setCurrentAccount(viewModel.pagerState.currentPage)) {
-                            finishActionMode()
-                            sumInfo = SumInfoUnknown
-                            viewModel.sumInfo(currentAccount).collect {
-                                sumInfo = it
-                            }
-                        }
-                    }
                     LaunchedEffect(accountData.value) {
                         if (accountData.value.isNotEmpty()) {
                             moveToAccount()
@@ -605,7 +606,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         binding.accountPanel.accountList.setContent {
             AppTheme(this) {
                 viewModel.accountData.collectAsState().value.let { result ->
-                    result.onSuccess { data ->
+                    result?.onSuccess { data ->
+                        LaunchedEffect(Unit) {
+                            toolbar.isVisible = true
+                        }
                         AccountList(
                             accountData = data,
                             grouping = accountGrouping.value,
@@ -635,7 +639,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
                         )
-                    }.onFailure {
+                    }?.onFailure {
                         val (message, forceQuit) = when (it) {
                             is SQLiteDowngradeFailedException -> "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." to true
                             is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact support@myexpenses.mobi !" to true
