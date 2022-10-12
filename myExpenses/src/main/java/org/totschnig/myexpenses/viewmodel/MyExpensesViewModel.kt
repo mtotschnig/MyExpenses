@@ -396,8 +396,8 @@ class MyExpensesViewModel(
         }
     }
 
-    fun addFilterCriteria(c: Criterion<*>, accountId: Long) {
-        filterPersistence.getValue(accountId).addCriteria(c)
+    fun addFilterCriteria(c: Criterion<*>) {
+        filterPersistence.getValue(selectedAccount.value).addCriteria(c)
     }
 
     /**
@@ -405,8 +405,8 @@ class MyExpensesViewModel(
      *
      * @return true if the filter was set and successfully removed, false otherwise
      */
-    fun removeFilter(id: Int, accountId: Long) =
-        filterPersistence.getValue(accountId).removeFilter(id)
+    fun removeFilter(id: Int) =
+        filterPersistence.getValue(selectedAccount.value).removeFilter(id)
 
     fun toggleCrStatus(id: Long) {
         viewModelScope.launch(coroutineDispatcher) {

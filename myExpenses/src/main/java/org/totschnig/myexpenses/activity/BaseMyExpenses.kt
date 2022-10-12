@@ -1791,10 +1791,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun addFilterCriterion(c: Criterion<*>) {
         invalidateOptionsMenu()
-        viewModel.addFilterCriteria(c, currentAccount.id)
+        viewModel.addFilterCriteria(c)
     }
 
-    fun removeFilter(id: Int) = if (viewModel.removeFilter(id, currentAccount.id)) {
+    fun removeFilter(id: Int) = if (viewModel.removeFilter(id)) {
         invalidateOptionsMenu()
         true
     } else false
