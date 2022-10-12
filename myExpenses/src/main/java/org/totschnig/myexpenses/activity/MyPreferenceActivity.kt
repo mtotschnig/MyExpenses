@@ -237,9 +237,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         if (feature == Feature.OCR) {
             fragment.configureOcrEnginePrefs()
         }
-        if (feature == Feature.REQUERY) {
-            showRestartInfo()
-        }
     }
 
     fun showRestartInfo() {

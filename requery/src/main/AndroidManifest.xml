@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution">
+<manifest xmlns:dist="http://schemas.android.com/apk/distribution">
 
     <dist:module
         dist:instant="false"
         dist:title="@string/title_requery">
         <dist:delivery>
-            <dist:on-demand />
+            <dist:install-time>
+                <dist:conditions>
+                    <dist:max-sdk dist:value="29"/>
+                </dist:conditions>
+            </dist:install-time>
         </dist:delivery>
-        <dist:fusing dist:include="true" />
     </dist:module>
 </manifest>

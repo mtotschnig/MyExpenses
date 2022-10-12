@@ -423,17 +423,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 configureOcrEnginePrefs()
             }
-            getKey(PrefKey.RUNNING_BALANCE) -> {
-                //Prior to API 30, the native sqlite does not support windowing functions.
-                //We need to restart app, in order to use the bundled sqlite library
-                if (sharedPreferences.getBoolean(key, false) && !frameworkSupportsWindowingFunctions) {
-                    if (featureManager.isFeatureInstalled(Feature.REQUERY, preferenceActivity)) {
-                        preferenceActivity.showRestartInfo()
-                    } else {
-                        featureManager.requestFeature(Feature.REQUERY, preferenceActivity)
-                    }
-                }
-            }
         }
     }
 
