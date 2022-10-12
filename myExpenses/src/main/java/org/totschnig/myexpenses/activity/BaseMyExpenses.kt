@@ -546,7 +546,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             ContribFeature.BUDGET,
                                             budgetId to headerId
                                         )
-                                    }
+                                    },
+                                    showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true)
                                 )
                             }
                         }

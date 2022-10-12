@@ -70,7 +70,8 @@ fun TransactionList(
     dateTimeFormatter: DateTimeFormatter?,
     futureCriterion: ZonedDateTime,
     expansionHandler: ExpansionHandler,
-    onBudgetClick: (Long, Int) -> Unit
+    onBudgetClick: (Long, Int) -> Unit,
+    showSumDetails: Boolean
 ) {
     val pager = remember(pagingSourceFactory) {
         Pager(
@@ -122,7 +123,8 @@ fun TransactionList(
                                     toggle = {
                                         expansionHandler.toggle(headerId.toString())
                                     },
-                                    onBudgetClick = onBudgetClick
+                                    onBudgetClick = onBudgetClick,
+                                    showSumDetails = showSumDetails
                                 )
                                 Divider()
                             }
@@ -162,10 +164,13 @@ fun HeaderData(
     grouping: Grouping,
     headerRow: HeaderRow,
     dateInfo: DateInfo2,
+    showSumDetails: Boolean,
     alignStart: Boolean = false
 ) {
     val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
+    val showSumDetailsState = remember { mutableStateOf(showSumDetails) }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = if (alignStart) Alignment.Start else Alignment.CenterHorizontally
@@ -193,27 +198,36 @@ fun HeaderData(
                     headerRow.delta.amountMinor.absoluteValue
                 )
             )
-        Text(
-            text = amountFormatter.formatMoney(headerRow.previousBalance) + " " + delta + " = " + amountFormatter.formatMoney(
-                headerRow.interimBalance
-            ),
-            style = MaterialTheme.typography.subtitle1
-        )
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.SpaceEvenly
+            horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
         ) {
+            Text(amountFormatter.formatMoney(headerRow.previousBalance))
             Text(
-                "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
-                color = LocalColors.current.income
+                modifier = Modifier.padding(horizontal = 6.dp).clickable {
+                    showSumDetailsState.value = !showSumDetailsState.value
+                },
+                text = delta
             )
-            Text(
-                modifier = Modifier.padding(horizontal = generalPadding),
-                text = "⊖ " + amountFormatter.formatMoney(headerRow.expenseSum),
-                color = LocalColors.current.expense
-            )
-            Text(Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
-            color = LocalColors.current.transfer)
+            Text( " = " + amountFormatter.formatMoney(headerRow.interimBalance))
+        }
+        if (showSumDetailsState.value) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.SpaceEvenly
+            ) {
+                Text(
+                    "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
+                    color = LocalColors.current.income
+                )
+                Text(
+                    modifier = Modifier.padding(horizontal = generalPadding),
+                    text = "⊖ " + amountFormatter.formatMoney(headerRow.expenseSum),
+                    color = LocalColors.current.expense
+                )
+                Text(Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
+                    color = LocalColors.current.transfer)
+            }
         }
     }
 }
@@ -227,7 +241,8 @@ fun HeaderRenderer(
     budget: Pair<Long, Long>?,
     isExpanded: Boolean,
     toggle: () -> Unit,
-    onBudgetClick: (Long, Int) -> Unit
+    onBudgetClick: (Long, Int) -> Unit,
+    showSumDetails: Boolean
 ) {
 
     Box {
@@ -251,10 +266,10 @@ fun HeaderRenderer(
                     fontSize = 12.sp,
                     color = Color(account.color(LocalContext.current.resources))
                 )
-                HeaderData(account.grouping, headerRow, dateInfo, alignStart = true)
+                HeaderData(account.grouping, headerRow, dateInfo, showSumDetails, alignStart = true)
             }
         } else {
-            HeaderData(account.grouping, headerRow, dateInfo)
+            HeaderData(account.grouping, headerRow, dateInfo, showSumDetails)
         }
     }
 }
