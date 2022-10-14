@@ -272,15 +272,7 @@ open class LicenceHandler(
 
     fun getPaypalUri(aPackage: Package): String {
         val host = if (isSandbox) "www.sandbox.paypal.com" else "www.paypal.com"
-        var uri = String.format(
-            Locale.US,
-            "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s&currency_code=EUR",
-            host,
-            aPackage.payPalButtonId(isSandbox),
-            aPackage.optionName,
-            aPackage::class.java.simpleName,
-            paypalLocale
-        )
+        var uri = "https://$host/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${aPackage.payPalButtonId(isSandbox)}&on0=${aPackage.optionName}&os0=${aPackage::class.java.simpleName}&lc=$paypalLocale&currency_code=EUR"
         prefHandler.getString(PrefKey.LICENCE_EMAIL, null)?.let {
             uri += "&custom=" + Uri.encode(it)
         }
