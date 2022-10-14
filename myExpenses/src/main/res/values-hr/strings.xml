@@ -840,7 +840,7 @@
     <string name="budget_exceeded_error_1_2">Sav tvoj proračun dodijeljen je drugim kategorijama.</string>
     <string name="budget_exceeded_error_1_1">Sav tvoj proračun osim %s dodijeljen je drugim kategorijama.</string>
     <string name="budget_allocated_amount">Dodijeljeni iznos</string>
-    <string name="budget_table_header_remainder">Preostalo</string>
+    <string name="budget_table_header_remainder">Ostatak</string>
     <string name="budget_table_header_spent">Potrošeno</string>
     <string name="budget_table_header_allocated">Dodijeljeno</string>
     <string name="budget_table_header_budgeted">Proračunato</string>
@@ -962,4 +962,7 @@
     <string name="whats_new_344">Ikone za kategorije</string>
     <string name="required">Obavezno</string>
     <string name="budget_only_current_period">Postavi samo za %s</string>
+    <string name="budget_table_header_rollover">Iznos prijenosa</string>
+    <string name="dialog_confirm_rollover_delete">Svi iznosi prijenosa za ovo razdoblje će se izbrisati.</string>
+    <string name="rollover_edit_invalid">Zbroj iznosa prijenosa koji je dodijeljen kategoriji i iznosi prijenosa koji su dodijeljeni podkategorijama ne može biti veći od ostatka.</string>
 </resources>
