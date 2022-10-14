@@ -161,7 +161,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
             val itemIds = selectionState.map { it.id }
             checkSealed(itemIds) {
                 val transferAccountIds = selectionState.mapNotNull { it.transferAccount }
-                val excludedIds = if (currentAccount.id > 0) transferAccountIds + currentAccount.id
+                val excludedIds = if (currentAccount!!.id > 0) transferAccountIds + currentAccount!!.id
                 else transferAccountIds
                 val splitIds = selectionState.filter { it.isSplit }.map { it.id }
                 CheckTransferAccountOfSplitPartsHandler(contentResolver).check(splitIds) { result ->
@@ -189,9 +189,9 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
             checkSealed(itemIds) {
                 val hasExpense = selectionState.any { it.amount.amountMinor < 0 }
                 val hasIncome = selectionState.any { it.amount.amountMinor > 0 }
-                val accountTypes = if (currentAccount.isAggregate)
+                val accountTypes = if (currentAccount!!.isAggregate)
                     selectionState.mapNotNull { it.accountType?.name }.distinct().toTypedArray()
-                else arrayOf(currentAccount.type!!.name)
+                else arrayOf(currentAccount!!.type!!.name)
                 val type = when {
                     hasExpense && !hasIncome -> -1
                     hasIncome && !hasExpense -> 1

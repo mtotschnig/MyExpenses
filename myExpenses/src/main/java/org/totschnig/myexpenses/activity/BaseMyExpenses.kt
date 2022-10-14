@@ -140,8 +140,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    val currentAccount: FullAccount
-        get() = accountData[viewModel.pagerState.currentPage]
+    val currentAccount: FullAccount?
+        get() = accountData.getOrNull(viewModel.pagerState.currentPage)
 
     private var currentCurrency: String? = null
 
@@ -198,7 +198,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val formattedSelectedTransactionSum
         get() = currencyFormatter.convAmount(
             viewModel.selectedTransactionSum,
-            currentAccount.currency
+            currentAccount!!.currency
         ).withAmountColor(
             resources,
             viewModel.selectedTransactionSum.sign
@@ -222,7 +222,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     mode: ActionMode,
                     menu: Menu
                 ): Boolean {
-                    if (!currentAccount.sealed) {
+                    if (!currentAccount!!.sealed) {
                         menuInflater.inflate(R.menu.transactionlist_context, menu)
                     }
                     return true
@@ -236,8 +236,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     val hasTransfer = selectionState.any { it.isTransfer }
                     val hasSplit = selectionState.any { it.isSplit }
                     val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }
-                    val noMethods = currentAccount.type == AccountType.CASH ||
-                            (currentAccount.isAggregate && selectionState.any { it.accountType == AccountType.CASH })
+                    val noMethods = currentAccount!!.type == AccountType.CASH ||
+                            (currentAccount!!.isAggregate && selectionState.any { it.accountType == AccountType.CASH })
                     findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
                     findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
                     findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer && !noMethods
@@ -402,7 +402,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (setCurrentAccount(viewModel.pagerState.currentPage)) {
                     finishActionMode()
                     sumInfo = SumInfoUnknown
-                    viewModel.sumInfo(currentAccount).collect {
+                    viewModel.sumInfo(currentAccount!!).collect {
                         sumInfo = it
                     }
                 }
@@ -417,7 +417,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     LaunchedEffect(accountData.value) {
                         if (accountData.value.isNotEmpty()) {
                             moveToAccount()
-                            viewModel.sumInfo(currentAccount).collect {
+                            viewModel.sumInfo(currentAccount!!).collect {
                                 sumInfo = it
                             }
                         } else {
@@ -970,7 +970,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             putExtra(ExpenseEdit.KEY_INCOME, isIncome)
             //if we are called from an aggregate account, we also hand over the currency
             if (accountId < 0) {
-                putExtra(KEY_CURRENCY, currentAccount.currency.code)
+                putExtra(KEY_CURRENCY, currentAccount!!.currency.code)
                 putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
             } else {
                 //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
@@ -1034,8 +1034,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 KEY_AMOUNT,
                                 (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
                                         Money(
-                                            currentAccount.currency,
-                                            currentAccount.currentBalance
+                                            currentAccount!!.currency,
+                                            currentAccount!!.currentBalance
                                         ).amountMajor
                             )
                         }
@@ -1153,7 +1153,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             R.id.BALANCE_COMMAND -> {
-                with(currentAccount) {
+                with(currentAccount!!) {
                     if (hasCleared) {
                         BalanceDialogFragment.newInstance(Bundle().apply {
 
@@ -1178,7 +1178,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             R.id.SYNC_COMMAND -> {
-                currentAccount.takeIf { it.syncAccountName != null }?.let {
+                currentAccount?.takeIf { it.syncAccountName != null }?.let {
                     requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
                 }
             }
@@ -1238,7 +1238,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
                 it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
             }
-            with(currentAccount) {
+            with(currentAccount!!) {
                 menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
                     Utils.configureGroupingMenu(it, grouping)
                 }
@@ -1381,110 +1381,112 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        @Suppress("NON_EXHAUSTIVE_WHEN")
-        when (feature) {
-            ContribFeature.DISTRIBUTION -> {
-                recordUsage(feature)
-                startActivity(Intent(this, DistributionActivity::class.java).apply {
-                    putExtra(KEY_ACCOUNTID, accountId)
-                    putExtra(KEY_GROUPING, currentAccount.grouping.name)
-                    (tag as? Int)?.let { tag -> fillIntentForGroupingFromTag(tag) }
-                })
-            }
-            ContribFeature.HISTORY -> {
-                recordUsage(feature)
-                startActivity(Intent(this, HistoryActivity::class.java).apply {
-                    putExtra(KEY_ACCOUNTID, accountId)
-                    putExtra(KEY_GROUPING, currentAccount.grouping.name)
-                })
-            }
-            ContribFeature.SPLIT_TRANSACTION -> {
-                if (tag != null) {
-                    showConfirmationDialog(Bundle().apply {
-                        putString(
-                            ConfirmationDialogFragment.KEY_MESSAGE,
-                            getString(R.string.warning_split_transactions)
-                        )
-                        putInt(
-                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                            R.id.SPLIT_TRANSACTION_COMMAND
-                        )
-                        putInt(
-                            ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                            R.id.CANCEL_CALLBACK_COMMAND
-                        )
-                        putInt(
-                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                            R.string.menu_split_transaction
-                        )
-                        putLongArray(KEY_ROW_IDS, tag as LongArray?)
-                    }, "SPLIT_TRANSACTION")
-                } else {
-                    createRowDo(Transactions.TYPE_SPLIT, false)
-                }
-            }
-            ContribFeature.PRINT -> {
-                val args = Bundle().apply {
-                    addFilter()
-                    putLong(KEY_ROWID, accountId)
-                    putLong(KEY_CURRENT_BALANCE, currentAccount.currentBalance)
-                }
-                if (!supportFragmentManager.isStateSaved) {
-                    supportFragmentManager.beginTransaction()
-                        .add(
-                            TaskExecutionFragment.newInstanceWithBundle(
-                                args,
-                                TaskExecutionFragment.TASK_PRINT
-                            ), ProtectedFragmentActivity.ASYNC_TAG
-                        )
-                        .add(
-                            ProgressDialogFragment.newInstance(
-                                getString(
-                                    R.string.progress_dialog_printing,
-                                    "PDF"
-                                )
-                            ),
-                            ProtectedFragmentActivity.PROGRESS_TAG
-                        )
-                        .commit()
-                }
-            }
-            ContribFeature.BUDGET -> {
-                if (tag != null) {
-                    val (budgetId, headerId) = tag as Pair<Long, Int>
-                    startActivity(Intent(this, BudgetActivity::class.java).apply {
-                        putExtra(KEY_ROWID, budgetId)
-                        fillIntentForGroupingFromTag(headerId)
-                    })
-                } else if (accountId != 0L && currentCurrency != null) {
+        currentAccount?.let { currentAccount ->
+            @Suppress("NON_EXHAUSTIVE_WHEN")
+            when (feature) {
+                ContribFeature.DISTRIBUTION -> {
                     recordUsage(feature)
-                    val i = Intent(this, ManageBudgets::class.java)
-                    startActivity(i)
+                    startActivity(Intent(this, DistributionActivity::class.java).apply {
+                        putExtra(KEY_ACCOUNTID, accountId)
+                        putExtra(KEY_GROUPING, currentAccount.grouping.name)
+                        (tag as? Int)?.let { tag -> fillIntentForGroupingFromTag(tag) }
+                    })
                 }
-            }
-            ContribFeature.OCR -> {
-                if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                    if ((tag as Boolean)) {
-                        /*scanFile = File("/sdcard/OCR_bg.jpg")
+                ContribFeature.HISTORY -> {
+                    recordUsage(feature)
+                    startActivity(Intent(this, HistoryActivity::class.java).apply {
+                        putExtra(KEY_ACCOUNTID, accountId)
+                        putExtra(KEY_GROUPING, currentAccount.grouping.name)
+                    })
+                }
+                ContribFeature.SPLIT_TRANSACTION -> {
+                    if (tag != null) {
+                        showConfirmationDialog(Bundle().apply {
+                            putString(
+                                ConfirmationDialogFragment.KEY_MESSAGE,
+                                getString(R.string.warning_split_transactions)
+                            )
+                            putInt(
+                                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                                R.id.SPLIT_TRANSACTION_COMMAND
+                            )
+                            putInt(
+                                ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                                R.id.CANCEL_CALLBACK_COMMAND
+                            )
+                            putInt(
+                                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                                R.string.menu_split_transaction
+                            )
+                            putLongArray(KEY_ROW_IDS, tag as LongArray?)
+                        }, "SPLIT_TRANSACTION")
+                    } else {
+                        createRowDo(Transactions.TYPE_SPLIT, false)
+                    }
+                }
+                ContribFeature.PRINT -> {
+                    val args = Bundle().apply {
+                        addFilter()
+                        putLong(KEY_ROWID, accountId)
+                        putLong(KEY_CURRENT_BALANCE, currentAccount.currentBalance)
+                    }
+                    if (!supportFragmentManager.isStateSaved) {
+                        supportFragmentManager.beginTransaction()
+                            .add(
+                                TaskExecutionFragment.newInstanceWithBundle(
+                                    args,
+                                    TaskExecutionFragment.TASK_PRINT
+                                ), ProtectedFragmentActivity.ASYNC_TAG
+                            )
+                            .add(
+                                ProgressDialogFragment.newInstance(
+                                    getString(
+                                        R.string.progress_dialog_printing,
+                                        "PDF"
+                                    )
+                                ),
+                                ProtectedFragmentActivity.PROGRESS_TAG
+                            )
+                            .commit()
+                    }
+                }
+                ContribFeature.BUDGET -> {
+                    if (tag != null) {
+                        val (budgetId, headerId) = tag as Pair<Long, Int>
+                        startActivity(Intent(this, BudgetActivity::class.java).apply {
+                            putExtra(KEY_ROWID, budgetId)
+                            fillIntentForGroupingFromTag(headerId)
+                        })
+                    } else if (accountId != 0L && currentCurrency != null) {
+                        recordUsage(feature)
+                        val i = Intent(this, ManageBudgets::class.java)
+                        startActivity(i)
+                    }
+                }
+                ContribFeature.OCR -> {
+                    if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
+                        if ((tag as Boolean)) {
+                            /*scanFile = File("/sdcard/OCR_bg.jpg")
                         ocrViewModel.startOcrFeature(scanFile!!, supportFragmentManager);*/
-                        ocrViewModel.getScanFiles { pair ->
-                            scanFile = pair.second
-                            CropImage.activity()
-                                .setCameraOnly(true)
-                                .setAllowFlipping(false)
-                                .setOutputUri(Uri.fromFile(scanFile))
-                                .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.first))
-                                .setGuidelines(CropImageView.Guidelines.ON)
-                                .start(this)
+                            ocrViewModel.getScanFiles { pair ->
+                                scanFile = pair.second
+                                CropImage.activity()
+                                    .setCameraOnly(true)
+                                    .setAllowFlipping(false)
+                                    .setOutputUri(Uri.fromFile(scanFile))
+                                    .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.first))
+                                    .setGuidelines(CropImageView.Guidelines.ON)
+                                    .start(this)
+                            }
+                        } else {
+                            activateOcrMode()
                         }
                     } else {
-                        activateOcrMode()
+                        featureViewModel.requestFeature(this, Feature.OCR)
                     }
-                } else {
-                    featureViewModel.requestFeature(this, Feature.OCR)
                 }
+                else -> {}
             }
-            else -> {}
         }
     }
 
@@ -1570,20 +1572,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
             exportViewModel.checkAppDir().observe(this) { result ->
                 result.onSuccess {
-                    with(currentAccount) {
-                        exportViewModel.hasExported(accountId)
-                            .observe(this@BaseMyExpenses) { hasExported ->
-                                ExportDialogFragment.newInstance(
-                                    ExportDialogFragment.AccountInfo(
-                                        id,
-                                        label,
-                                        currency.code,
-                                        sealed,
-                                        hasExported,
-                                        !viewModel.currentFilter.whereFilter.isEmpty
-                                    )
-                                ).show(supportFragmentManager, "EXPORT")
-                            }
+                    currentAccount?.let {
+                        with(it) {
+                            exportViewModel.hasExported(accountId)
+                                .observe(this@BaseMyExpenses) { hasExported ->
+                                    ExportDialogFragment.newInstance(
+                                        ExportDialogFragment.AccountInfo(
+                                            id,
+                                            label,
+                                            currency.code,
+                                            sealed,
+                                            hasExported,
+                                            !viewModel.currentFilter.whereFilter.isEmpty
+                                        )
+                                    ).show(supportFragmentManager, "EXPORT")
+                                }
+                        }
                     }
                 }.onFailure {
                     showDismissibleSnackBar(it.safeMessage)
