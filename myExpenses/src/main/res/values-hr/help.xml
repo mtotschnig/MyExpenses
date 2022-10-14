@@ -11,7 +11,7 @@
     <string name="menu_manage_plans_help_text">Otvara popis predložaka i planova gdje možeš primjeniti, urediti ili izbrisati te odrediti planove za buduće i periodične transakcije. </string>
     <string name="help_form_fields">Polja obrasca</string>
     <string name="help_MyExpenses_info">Ovaj ekran prikazuje sve transakcije za tekući račun. Koristi plutajući gumb radnji za otvaranje obrasca za stvaranje nove transakcije.</string>
-    <string name="help_MyExpenses_fab_long_press">Dugi pritisak na plutajući gumb radnji otvara izbornik koji omogućuje pripremu obrasca za prijenos, podijeljenu transakciju ili prihod.</string>
+    <string name="help_MyExpenses_fab_long_press">Dugi pritisak na plutajući gumb radnji otvara izbornik koji omogućuje pripremanje obrasca za prijenos, podijeljenu transakciju ili prihod.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopiraj trenutačni saldo u međuspremnik.</string>
     <string name="help_contextual_actions_help">Izbornik za kontekstualne radnje prikazuje se dugim dodirom na unos popisa.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Izračunaj razliku između trenutačnog salda i nove vrijednosti.</string>
