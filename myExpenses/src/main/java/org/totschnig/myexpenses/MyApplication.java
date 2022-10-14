@@ -554,7 +554,11 @@ public class MyApplication extends Application implements
     else if (key.equals(prefHandler.getKey(UI_WEB)) ||
             key.equals(prefHandler.getKey(WEBUI_PASSWORD)) ||
             key.equals(prefHandler.getKey(WEBUI_HTTPS))) {
-      controlWebUi(sharedPreferences.getBoolean(prefHandler.getKey(UI_WEB), false));
+      boolean webUiRunning = sharedPreferences.getBoolean(prefHandler.getKey(UI_WEB), false);
+      //If user configures https or password, while the web ui is not running, there is nothing to do
+      if (key.equals(prefHandler.getKey(UI_WEB)) || webUiRunning) {
+        controlWebUi(webUiRunning);
+      }
     }
     // TODO: move to TaskExecutionFragment
     else if (key.equals(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))) {

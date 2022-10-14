@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
-import org.totschnig.myexpenses.provider.frameworkSupportsWindowingFunctions
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
