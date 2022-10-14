@@ -23,7 +23,7 @@ hr:
     feature:
       roadmap_voting: Pravo glasa na <b>razvojnom putu</b>
       webui: <b>Internetsko korisničko sučelje</b>
-      scan_receipt: '<b>Skeniraj račune</b>: Automatski izdvoji iznos, datum i primatelja'
+      scan_receipt: '<b>Skeniraj račune</b>: Automatski izdvoji iznos, datum i primaoca'
       budgeting: '<b>Proračun</b>: Usporedi potrošnju s tvojim postavljenim ograničenjima
         po kategoriji na dnevnoj, tjednoj, mjesečnoj ili godišnjoj osnovi.'
       history_chart: <b>Dijagram povijesti</b> (Novčani tok)
@@ -37,11 +37,12 @@ hr:
       csv_import: Sofisticiran, prilagodljiv <b>CSV uvoz</b> (programi proračunskih
         tablica)
       ad_free: <b>Bez oglasa</b>
-      print: <b>Ispiši</b> popisa transakcija u PDF datoteku
+      print: <b>Ispiši</b> popis transakcija u PDF datoteku
       split_transaction: '<b>Podijeljena transakcija</b>: Pojedinačna transakcija
         može se podijeliti na više dijelova (kategorije i prijenosi)'
-      distribution: '<b>Kružni dijagram</b>: Vizualiziraj statističku raspodjelu transakcija
-        po kategorijama kroz različita razdoblja (godine, mjeseci, tjedni, dani)'
+      distribution: '<b>Kružni dijagram</b>: Vizualiziraj statističku distribuciju
+        transakcija po kategorijama kroz različita razdoblja (godine, mjeseci, tjedni,
+        dani)'
       plans_unlimited: Otključaj mogućnosti stvaranja više od tri tarifa za ponavljajuće
         transakcije
       accounts_unlimited: Otključaj mogućnosti stvaranja više od pet računa
@@ -51,7 +52,7 @@ hr:
       neograničen pristup sljedećim funkcijama:'
   permissions:
     internet:
-      explanation_crash_reporting: Izvještaji o prestanku rada aplikacije
+      explanation_crash_reporting: Izvještaji o prekidu rada programa
       explanation_cloud_sync: Sinhronizacija u oblaku
       explanation_key_validation: Provjera ključa licence
       explanation_usage_tracking: Anonimno praćenje korištenja
@@ -82,7 +83,7 @@ hr:
     summarize: Zbroji sve tvoje račune
     budget: Godišnji, mjesečni i tjedni proračun
     split: Podijeli na više kategorija
-    distribution: Dijagram dijagrama pita
+    distribution: Kružni dijagram
     history: Povijest tvoje financijske situacije
     export: Izvezi u PDF, QIF i CSV
     sync: Sinhronizacija u oblaku
@@ -119,7 +120,7 @@ hr:
       javnih usluga u oblaku.
     export: Ispiši u PDF i razmijeni putem QIF-a i CSV-a.
     history: Razumij kako se tvoja financijska situacija razvija s vremenom
-    distribution: Vizualiziraj raspodjelu po kategorijama
+    distribution: Vizualiziraj distribuciju po kategorijama
     split: Podijeli jednu transakciju u više kategorija
     budget: Definiraj koliko namjeravaš trošiti u godišnjim, mjesečnim ili tjednim
       proračunima
