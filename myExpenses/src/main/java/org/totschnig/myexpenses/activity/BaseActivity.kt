@@ -317,7 +317,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         snackBarAction: SnackbarAction? = null,
         callback: Snackbar.Callback? = null
     ) {
-        findViewById<View>(snackBarContainerId)?.let {
+        snackBarContainer?.let {
             showSnackBar(message, duration, snackBarAction, callback, it)
         } ?: showSnackBarFallBack(message)
     }
@@ -331,8 +331,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         CrashHandler.report(Exception("Class $javaClass is unable to display snackBar"))
     }
 
-    fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0) {
-        findViewById<View>(snackBarContainerId)?.let {
+    private val snackBarContainer: View?
+        get() = findViewById(snackBarContainerId) ?: findViewById(android.R.id.content)
+
+    fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0, container: View? = null) {
+        //without ?: null the Compiler assumes findViewById(snackBarContainerId) to return non null
+        (container ?: snackBarContainer)?.let {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
             if (progress > 0) {
                 snackBar?.setText(displayMessage)

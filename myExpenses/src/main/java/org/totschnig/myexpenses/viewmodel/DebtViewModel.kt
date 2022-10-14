@@ -158,7 +158,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
     }
 
     fun exportText(context: Context, debt: Debt): LiveData<String> =
-        liveData {
+        liveData(context = coroutineContext()) {
             val stringBuilder = StringBuilder().appendLine(debt.label)
                 .appendLine(debt.title(context))
             debt.description.takeIf { it.isNotBlank() }?.let {
@@ -184,7 +184,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
         }
 
     fun exportHtml(context: Context, debt: Debt): LiveData<Uri> =
-        liveData {
+        liveData(context = coroutineContext()) {
             val file = File(context.cacheDir, "debt_${debt.id}.html")
             file.writer().use { writer ->
                 val table = exportData(context, debt)

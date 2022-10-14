@@ -78,7 +78,7 @@ class DebtOverview : DebtActivity() {
                         onEdit = this::editDebt,
                         onDelete = this::deleteDebt,
                         onToggle = this::toggleDebt,
-                        onShare = this::shareDebt
+                        onShare = { debt, exportFormat -> this.shareDebt(debt, exportFormat, null) }
                     )
                 }
             }

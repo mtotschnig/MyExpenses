@@ -18,7 +18,6 @@ import android.os.Bundle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment.Companion.newInstance
-import org.totschnig.myexpenses.util.Utils
 
 class Help : ProtectedFragmentActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +30,4 @@ class Help : ProtectedFragmentActivity() {
             title = intent.getStringExtra(HelpDialogFragment.KEY_TITLE)
         ).show(supportFragmentManager, "HELP")
     }
-
-    override val snackBarContainerId get() = R.id.content
 }

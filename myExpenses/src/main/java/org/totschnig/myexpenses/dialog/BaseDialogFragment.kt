@@ -71,8 +71,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         duration: Int = Snackbar.LENGTH_LONG,
         snackBarAction: SnackbarAction? = null
     ) {
-        val view = dialogView ?: dialog!!.window!!.decorView
-        snackBar = Snackbar.make(view, message, duration).also {
+        snackBar = Snackbar.make(snackBarContainer, message, duration).also {
             UiUtils.increaseSnackbarMaxLines(it)
             if (snackBarAction != null) {
                 it.setAction(snackBarAction.resId, snackBarAction.listener)
@@ -80,6 +79,9 @@ abstract class BaseDialogFragment : DialogFragment() {
             it.show()
         }
     }
+
+    protected val snackBarContainer
+        get() = dialogView ?: dialog!!.window!!.decorView
 
     protected fun dismissSnackBar() {
         snackBar?.dismiss()

@@ -94,9 +94,6 @@ class ContribInfoDialogActivity : IapActivity() {
         showMessage(message)
     }
 
-    override val snackBarContainerId: Int
-        get() = android.R.id.content
-
     fun startPayment(paymentOption: Int, aPackage: Package) {
         if (paymentOption == R.string.donate_button_paypal) {
             try {

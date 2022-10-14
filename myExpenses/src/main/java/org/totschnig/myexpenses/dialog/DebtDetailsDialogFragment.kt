@@ -38,7 +38,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
                             onEdit = debtActivity::editDebt,
                             onDelete = debtActivity::deleteDebt,
                             onToggle = debtActivity::toggleDebt,
-                            onShare = debtActivity::shareDebt
+                            onShare = { debt, exportFormat -> debtActivity.shareDebt(debt, exportFormat, snackBarContainer) }
                         )
                     }
             }

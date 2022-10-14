@@ -73,8 +73,6 @@ class DeepLinkActivity : ProtectedFragmentActivity() {
         finish()
     }
 
-    override val snackBarContainerId: Int = android.R.id.content
-
     private fun observeLicenceApiResult() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
