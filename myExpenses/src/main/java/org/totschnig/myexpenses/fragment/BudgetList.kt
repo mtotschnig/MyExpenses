@@ -85,7 +85,10 @@ class BudgetList : Fragment() {
                 viewModel.amounts.collect { tuple ->
                     val (position, id, spent, allocated) = tuple
                     budgetAmounts[id] = spent to allocated
-                    adapter.notifyItemChanged(position)
+                    if (!binding.recyclerView.isComputingLayout)
+                    {
+                        adapter.notifyItemChanged(position)
+                    }
                 }
             }
         }
@@ -98,6 +101,7 @@ class BudgetList : Fragment() {
         _binding = null
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         lastClickedPosition?.let {
             if (resultCode != Activity.RESULT_FIRST_USER) { //budget was deleted
@@ -148,7 +152,7 @@ class BudgetList : Fragment() {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)
                         i.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-                        lastClickedPosition = holder.adapterPosition
+                        lastClickedPosition = holder.bindingAdapterPosition
                         startActivityForResult(i, 0)
                     }
                 }
