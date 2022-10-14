@@ -18,9 +18,9 @@
     <string name="menu_sort_direction_help_text">Transakcije se mogu razvrstati uzlazno (najprije najstarije) ili silazno (najprije najnovije).</string>
     <string name="menu_history_help_text">Prikaži dijagram novčanog toka: Kako su se tvoji rashodi i prihodi razvijali tijekom dana, tjedana, mjeseci ili godina\?</string>
     <string name="cab_clone_transaction_help_text">Odabrane transakcije će se duplicirati s trenutačnim datumom i vremenom. Prije spremanja kopije možeš izvršiti promjene.</string>
-    <string name="cab_split_help_text">Za stvaranje dodatnih dijelova prema potrebi, transkakciju možeš urediti kasnije.</string>
-    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Potvrdi odabrane predloške i odmah ih spremi.</string>
-    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Potvrdi odabrani predložak i unesi njegov obrazac za uređivanje gdje ga možeš promijeniti prije spremanja.</string>
+    <string name="cab_split_help_text">Za stvaranje dodatnih dijelova prema potrebi, transakciju možeš urediti kasnije.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Stvori odabrane predloške i odmah ih spremi.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Stvori odabrani predložak i unesi njegov obrazac za uređivanje gdje ga možeš promijeniti prije spremanja.</string>
     <string name="cab_ManageTemplates_delete_help_text">Izbriši odabrane predloške i sve pridružene planove.</string>
     <string name="cab_ManageTemplates_edit_help_text">Uredi odabrani predložak i stvori ili uredi pridruženi plan.</string>
     <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Stvori transakcije u vrijeme odabranih instanci događaja i odmah ih spremi.</string>
