@@ -151,10 +151,6 @@ kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
-configurations.all {
-    exclude group: "com.google.android.material", module: "material"
-}
-
 //uncomment if you want to have Android log in stdout
 tasks.withType(Test) {
     systemProperty "robolectric.logging", "stdout"
@@ -230,7 +226,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation 'androidx.cardview:cardview:1.0.0'
-    api 'com.github.mtotschnig:material-components-android:bug_1913_1.5-SNAPSHOT'
+    api "com.google.android.material:material:$materialComponents"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

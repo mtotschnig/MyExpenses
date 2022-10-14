@@ -54,10 +54,10 @@ ext {
     mockitoVersion = '3.12.4'
     retrofitVersion = "2.9.0"
     ktxVersion = "1.8.0"
-    appcompatVersion = "1.5.1"
+    appcompatVersion = "1.6.0-rc01"
     picassoVersion = "2.71828"
     recyclerview = "1.2.1"
-    materialComponents = "1.5.0" //currently using patch
+    materialComponents = "1.7.0-rc01"
     junitVersion = "4.13.2"
     timberVersion = "5.0.1"
     assertjVersion = "3.19.0"

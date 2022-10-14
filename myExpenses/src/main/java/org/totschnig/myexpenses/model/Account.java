@@ -40,6 +40,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_P
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
@@ -453,8 +454,8 @@ public class Account extends Model implements DistributionAccountInfo {
         .withSelection(KEY_SEALED + " = 1", null).build());
     ops.add(newUpdate(debtUri).withValue(KEY_SEALED, -1)
         .withSelection(KEY_SEALED + " = 1", null).build());
-    String selection = KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null";
-    String[] selectionArgs = new String[]{String.valueOf(getId())};
+    String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " + KEY_STATUS + " = ?";
+    String[] selectionArgs = new String[]{String.valueOf(getId()), String.valueOf(STATUS_NONE)};
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
