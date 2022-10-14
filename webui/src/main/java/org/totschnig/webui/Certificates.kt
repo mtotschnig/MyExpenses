@@ -314,7 +314,7 @@ private fun BytePacketBuilder.writeDerBitString(array: ByteArray, unused: Int = 
 
 private fun BytePacketBuilder.writeDerUTCTime(date: Date) {
     writeDerUTF8String(
-        SimpleDateFormat("yyMMddHHmmss'Z'").apply {
+        SimpleDateFormat("yyMMddHHmmss'Z'", Locale.ROOT).apply {
             timeZone = TimeZone.getTimeZone("UTC")
         }.format(date),
         0x17
@@ -323,7 +323,7 @@ private fun BytePacketBuilder.writeDerUTCTime(date: Date) {
 
 private fun BytePacketBuilder.writeDerGeneralizedTime(date: Date) {
     writeDerUTF8String(
-        SimpleDateFormat("yyyyMMddHHmmss'Z'").apply { timeZone = TimeZone.getTimeZone("UTC") }.format(
+        SimpleDateFormat("yyyyMMddHHmmss'Z'", Locale.ROOT).apply { timeZone = TimeZone.getTimeZone("UTC") }.format(
             date
         ),
         0x18
