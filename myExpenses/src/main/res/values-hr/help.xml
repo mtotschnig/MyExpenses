@@ -31,4 +31,10 @@
     <string name="menu_budget_help_text">Upravljaj dnevnim, tjednim, mjesečnim ili godišnjim proračunima za trenutačno prikazani račun.</string>
     <string name="menu_print_help_text">Generira prikaz ispisa trenutačno prikazanih transakcija.</string>
     <string name="cab_create_template_from_transaction_help_text">Definiraj novi predložak na temelju odabrane transakcije. Morat ćeš zadati naslov predloška.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Stvori transakciju u vrijeme odabrane instance događaja i unesi njen obrazac za uređivanje gdje je možeš promijeniti prije spremanja.</string>
+    <string name="menu_ManageTemplates_templates_sort_help_text">Popis predložaka može se razvrstati po naslovu (abecednim redom), po iznosu, po učestalosti korištenja ili po zadnjem vremenu kada je transakcija stvorena iz njega.</string>
+    <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Naznači da se u odabranim instancama događaja transakcije ne bi trebale stvarati. Ako su transakcije stvorene za odabrane instance događaja, one će se izbrisati.</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Ako su transakcije stvorene za odabrane instance događaja, one će se izbrisati. Ako su označene kao prekinute, oznake se uklanjaju.</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Uredi transakciju koja je stvorena za odabranu instancu plana.</string>
+    <string name="help_ManageCategories_distribution_info">Ovaj ekran prikazuje distribuciju tvojih troškova i prihoda po kategorijama, za sve transakcije na računu ili za određenu grupu. Ako proširiš glavnu kategoriju u popisu, kružni dijagram će prikazati distribuciju njezinih potkategorija. Ako odabereš kategoriju u popisu, ona će biti istaknuta u kružnom dijagramu i obrnuto. Pritisni kategoriju dugo za prikaz agregiranog popisa transakcija koje su na nju mapirane.</string>
 </resources>
