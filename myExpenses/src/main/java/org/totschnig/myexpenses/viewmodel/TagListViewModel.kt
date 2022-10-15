@@ -5,7 +5,6 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -19,12 +18,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
+import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TagListViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagBaseViewModel(application, savedStateHandle) {
-    private val tagsInternal = MutableLiveData<List<Tag>>()
-    val tags: LiveData<List<Tag>> = tagsInternal
 
     fun loadTags(selected: List<Tag>?) {
         viewModelScope.launch(context = coroutineContext()) {
@@ -34,12 +34,11 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
             contentResolver.observeQuery(
                 uri = tagsUri,
                 sortOrder = "$KEY_LABEL COLLATE LOCALIZED",
+                notifyForDescendants = true
             ).mapToList { cursor ->
-                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-                    val label = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL))
-                    val count = cursor.getColumnIndex(KEY_COUNT).takeIf { it > -1 }
-                        ?.let { cursor.getInt(it) }
-                        ?: -1
+                    val id = cursor.getLong(KEY_ROWID)
+                    val label = cursor.getString(KEY_LABEL)
+                    val count = cursor.getIntIfExists(KEY_COUNT) ?: -1
                     Tag(id, label, selected?.find { tag -> tag.label == label } != null, count)
                 }.collect { list ->
                 tagsInternal.postValue(selected?.let {

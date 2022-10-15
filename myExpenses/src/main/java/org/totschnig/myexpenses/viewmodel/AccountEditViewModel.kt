@@ -14,7 +14,7 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
     fun accountWithTags(id: Long): LiveData<Account?> = liveData(context = coroutineContext()) {
         Account.getInstanceFromDbWithTags(id)?.also { pair ->
             emit(pair.first)
-            pair.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
+            pair.second?.takeIf { it.size > 0 }?.let { tagsInternal.postValue(it.toMutableList()) }
         }
     }
 

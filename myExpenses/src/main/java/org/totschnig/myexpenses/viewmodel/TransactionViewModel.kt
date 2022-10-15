@@ -32,7 +32,7 @@ open class TransactionViewModel(application: Application, savedStateHandle: Save
                 pair.first.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
             }
             emit(pair.first)
-            pair.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
+            pair.second?.takeIf { it.size > 0 }?.let { tagsInternal.postValue(it.toMutableList()) }
         } ?: run {
             emit(null)
         }
@@ -43,6 +43,6 @@ open class TransactionViewModel(application: Application, savedStateHandle: Save
                 .mapToList { cursor ->
                     Tag(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID)), cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL)), true)
                 }
-                .subscribe { tags.postValue(it) }
+                .subscribe { tagsInternal.postValue(it) }
     }
 }

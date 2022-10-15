@@ -58,7 +58,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
 
     fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
         val i = Intent(this, ManageTags::class.java).apply {
-            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.getTags().value?.let { ArrayList(it) })
+            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.tags.value?.let { ArrayList(it) })
         }
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }

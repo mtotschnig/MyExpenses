@@ -531,7 +531,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadTags() {
-        viewModel.getTags().observe(this) { tags ->
+        viewModel.tags.observe(this) { tags ->
             if (::delegate.isInitialized) {
                 delegate.showTags(tags) { tag ->
                     viewModel.removeTag(tag)

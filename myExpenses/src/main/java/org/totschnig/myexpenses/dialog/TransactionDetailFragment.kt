@@ -26,11 +26,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.EDIT_REQUEST
@@ -53,6 +48,11 @@ import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(), DialogInterface.OnClickListener {
@@ -80,8 +80,8 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
         viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]
         (requireActivity().applicationContext as MyApplication).appComponent.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
-        viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
-        viewModel.getTags().observe(this) { tags ->
+        viewModel.transaction(rowId).observe(viewLifecycleOwner) { o -> fillData(o) }
+        viewModel.tags.observe(viewLifecycleOwner) { tags ->
             if (tags.isNotEmpty()) {
                 binding.TagGroup.addChipsBulk(tags)
             } else {
