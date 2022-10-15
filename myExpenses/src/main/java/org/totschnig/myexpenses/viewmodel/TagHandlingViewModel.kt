@@ -3,9 +3,11 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
-open class TagHandlingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+open class TagHandlingViewModel(application: Application, savedStateHandle: SavedStateHandle)
+    : TagBaseViewModel(application, savedStateHandle) {
     protected val tags = MutableLiveData<List<Tag>>()
     protected var userHasUpdatedTags = false
 

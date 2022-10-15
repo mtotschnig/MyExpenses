@@ -184,7 +184,7 @@ class TagList : Fragment(), OnDialogResultListener {
         }
     }
 
-    private class Adapter(val tagList: MutableList<Tag>, val itemLayoutResId: Int,
+    private class Adapter(val tagList: List<Tag>, val itemLayoutResId: Int,
                           val closeFunction: ((Tag) -> Unit)?,
                           val longClickFunction: ((Tag) -> Unit)?) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 

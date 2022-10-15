@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.viewmodel.TagHandlingViewModel
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
-import java.util.ArrayList
 
 abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     abstract val amountLabel: TextView
@@ -64,6 +63,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
@@ -74,11 +74,15 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
                         setDirty()
                     }
                 } else if (resultCode == RESULT_CANCELED) {
-                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
-                        viewModel.removeTags(it)
-                    }
+                    handleDeletedTagIds(intent)
                 }
             }
+        }
+    }
+
+    open fun handleDeletedTagIds(intent: Intent) {
+        intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
+            viewModel.removeTags(it)
         }
     }
 }
