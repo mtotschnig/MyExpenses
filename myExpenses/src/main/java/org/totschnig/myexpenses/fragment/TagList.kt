@@ -182,9 +182,10 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     private fun resultIntent() = Intent().apply {
-        putExtra(
+        val selected = viewModel.getSelectedTagIds()
+        putParcelableArrayListExtra(
             KEY_TAG_LIST,
-            viewModel.getSelectedTagIds()
+            ArrayList(adapter.currentList.filter { tag -> selected.contains(tag.id) })
         )
     }
 

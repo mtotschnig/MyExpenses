@@ -12,7 +12,6 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -21,6 +20,7 @@ import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TagListViewModel(application: Application, savedStateHandle: SavedStateHandle) :

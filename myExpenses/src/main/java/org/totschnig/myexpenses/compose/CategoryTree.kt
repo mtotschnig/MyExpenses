@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.floor
 import kotlin.math.sqrt
