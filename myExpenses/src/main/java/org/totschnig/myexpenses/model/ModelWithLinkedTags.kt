@@ -19,21 +19,11 @@ fun saveTags(linkUri: Uri, column: String, tags: List<Tag>?, id: Long): Boolean 
     ops.add(ContentProviderOperation.newDelete(linkUri)
             .withSelection("$column = ?", arrayOf(id.toString()))
             .build())
-    tags?.let {
-        val (newTags, existingTags) = it.partition { tag -> tag.id == -1L }
-
-        newTags.forEachIndexed { index, tag ->
-            ops.add(ContentProviderOperation.newInsert(TransactionProvider.TAGS_URI).withValue(DatabaseConstants.KEY_LABEL, tag.label.trim()).build())
-            ops.add(ContentProviderOperation.newInsert(linkUri)
-                    .withValue(column, id)
-                    //first operation is delete
-                    .withValueBackReference(DatabaseConstants.KEY_TAGID, 1 + index * 2).build())
-        }
-        for (tag in existingTags) {
-            ops.add(ContentProviderOperation.newInsert(linkUri)
-                    .withValue(column, id)
-                    .withValue(DatabaseConstants.KEY_TAGID, tag.id).build())
-        }
+    tags?.forEach {
+        ops.add(ContentProviderOperation.newInsert(linkUri)
+            .withValue(column, id)
+            .withValue(DatabaseConstants.KEY_TAGID, it.id).build())
     }
+
     return Model.cr().applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size
 }
