@@ -12,7 +12,7 @@ while getopts "p:c:u:" opt; do
     case "$opt" in
         p) case "$OPTARG" in
                History)
-                 export KEY="Budgeting"
+                 export KEY="History"
                  export PRICE=${PRICE:=4.3}
                  ;;
                Budget)
