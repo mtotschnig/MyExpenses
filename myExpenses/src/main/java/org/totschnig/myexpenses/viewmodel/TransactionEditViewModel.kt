@@ -61,7 +61,7 @@ const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
 const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 const val ERROR_WHILE_SAVING_TAGS = -5L
 
-class TransactionEditViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TransactionViewModel(application, savedStateHandle) {
 
     private val disposables = CompositeDisposable()

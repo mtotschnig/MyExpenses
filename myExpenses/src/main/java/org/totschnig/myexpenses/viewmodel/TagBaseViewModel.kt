@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 open class TagBaseViewModel(application: Application,
-                            private val savedStateHandle: SavedStateHandle
+                            val savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
     protected val tagsInternal = MutableLiveData<List<Tag>>()
     val tags: LiveData<List<Tag>> = tagsInternal

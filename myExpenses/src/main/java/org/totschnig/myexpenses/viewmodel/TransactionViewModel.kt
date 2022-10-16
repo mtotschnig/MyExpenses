@@ -41,7 +41,7 @@ open class TransactionViewModel(application: Application, savedStateHandle: Save
     fun loadOriginalTags(id: Long, uri: Uri, column: String) {
         disposable = briteContentResolver.createQuery(uri, null, "$column = ?", arrayOf(id.toString()), null, false)
                 .mapToList { cursor ->
-                    Tag(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID)), cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL)), true)
+                    Tag(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID)), cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL)))
                 }
                 .subscribe { tagsInternal.postValue(it) }
     }

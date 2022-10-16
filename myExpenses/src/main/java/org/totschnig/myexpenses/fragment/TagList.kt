@@ -182,9 +182,9 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     private fun resultIntent() = Intent().apply {
-        putParcelableArrayListExtra(
+        putExtra(
             KEY_TAG_LIST,
-            ArrayList(adapter.currentList.filter { tag -> tag.selected })
+            viewModel.getSelectedTagIds()
         )
     }
 
@@ -194,10 +194,10 @@ class TagList : Fragment(), OnDialogResultListener {
         }
     }
 
-    private class Adapter(val itemLayoutResId: Int,
+    private inner class Adapter(val itemLayoutResId: Int,
         val closeFunction: ((Tag) -> Unit)?,
         val longClickFunction: ((Tag) -> Unit)?
-    ) : ListAdapter<Tag, Adapter.ViewHolder>(DIFF_CALLBACK) {
+    ) : ListAdapter<Tag, ViewHolder>(DIFF_CALLBACK) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutResId, parent, false))
@@ -208,9 +208,9 @@ class TagList : Fragment(), OnDialogResultListener {
             (holder.itemView as Chip).apply {
                 val tag = getItem(position)
                 text = tag.label
-                isChecked = tag.selected
+                isChecked = viewModel.getSelectedTagIds().contains(tag.id)
                 setOnClickListener {
-                    tag.selected = !tag.selected
+                    viewModel.toggleSelectedTagId(tag.id)
                 }
                 closeFunction?.let {
                     setOnCloseIconClickListener {
@@ -225,9 +225,9 @@ class TagList : Fragment(), OnDialogResultListener {
                 }
             }
         }
-
-        private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
+
+    private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
         if (which == BUTTON_POSITIVE) {

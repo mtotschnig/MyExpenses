@@ -12,7 +12,7 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.apache.commons.collections4.ListUtils
+import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -25,6 +25,16 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TagListViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagBaseViewModel(application, savedStateHandle) {
+
+    fun toggleSelectedTagId(tagId: Long) {
+        savedStateHandle[KEY_SELECTED_IDS] = getSelectedTagIds().toMutableSet().apply {
+            toggle(tagId)
+        }
+    }
+
+    fun getSelectedTagIds(): HashSet<Long> {
+        return savedStateHandle.get<HashSet<Long>>(KEY_SELECTED_IDS) ?: HashSet()
+    }
 
     fun loadTags(selected: List<Tag>?) {
         viewModelScope.launch(context = coroutineContext()) {
@@ -39,16 +49,8 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                     val id = cursor.getLong(KEY_ROWID)
                     val label = cursor.getString(KEY_LABEL)
                     val count = cursor.getIntIfExists(KEY_COUNT) ?: -1
-                    Tag(id, label, selected?.find { tag -> tag.label == label } != null, count)
-                }.collect { list ->
-                tagsInternal.postValue(selected?.let {
-                    ListUtils.union(
-                        it.filter { tag -> tag.id == -1L },
-                        list
-                    )
-                }
-                    ?: list)
-            }
+                    Tag(id, label, count)
+                }.collect(tagsInternal::postValue)
         }
     }
     }
@@ -92,11 +94,14 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                     if (it == tag) Tag(
                         tag.id,
                         newLabel,
-                        tag.selected,
                         tag.count
                     ) else it
                 })
             }
             emit(success)
         }
+
+    companion object {
+        private const val KEY_SELECTED_IDS = "selectedIds"
+    }
 }
