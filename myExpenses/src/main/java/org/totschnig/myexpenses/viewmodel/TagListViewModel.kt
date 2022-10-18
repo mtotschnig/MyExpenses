@@ -76,7 +76,9 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
     fun addTagAndPersist(label: String): LiveData<Boolean> =
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             val result = contentResolver.insert(TransactionProvider.TAGS_URI,
-                ContentValues().apply { put(KEY_LABEL, label) })
+                ContentValues().apply { put(KEY_LABEL, label) })?.let {
+                    toggleSelectedTagId(ContentUris.parseId(it))
+            }
             emit(result != null)
         }
 
