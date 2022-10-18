@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
+import android.os.Bundle
 import androidx.core.database.getStringOrNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +25,7 @@ import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -44,6 +46,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
@@ -62,7 +65,7 @@ const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
-    TransactionViewModel(application, savedStateHandle) {
+    TagHandlingViewModel(application, savedStateHandle) {
 
     private val disposables = CompositeDisposable()
 
@@ -173,7 +176,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0 && !transaction.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
+        emit(if (result > 0 && !transaction.saveTags(tagsLiveData.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
@@ -273,6 +276,26 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
+    fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, forEdit: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+        when (task) {
+            InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(transactionId)
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(transactionId)
+            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId)
+            InstantiationTask.FROM_INTENT_EXTRAS -> Pair(ProviderUtils.buildFromExtras(repository, extras!!), emptyList())
+            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(Transaction.getInstanceFromDb(transactionId))  {
+                Pair(Template(this, payee ?: label), this.loadTags())
+            }
+        }?.also { pair ->
+            if (forEdit) {
+                pair.first.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
+            }
+            emit(pair.first)
+            pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
+        } ?: run {
+            emit(null)
+        }
+    }
+
     data class SplitPart(
         override val id: Long,
         override val amountRaw: Long,
@@ -295,6 +318,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 )
         }
     }
+
+    enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS, TEMPLATE_FROM_TRANSACTION }
 }
 
 

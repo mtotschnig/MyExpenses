@@ -14,7 +14,7 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
     fun accountWithTags(id: Long): LiveData<Account?> = liveData(context = coroutineContext()) {
         Account.getInstanceFromDbWithTags(id)?.also { pair ->
             emit(pair.first)
-            pair.second?.takeIf { it.size > 0 }?.let { tagsInternal.postValue(it.toMutableList()) }
+            pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
         }
     }
 
@@ -25,6 +25,6 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0 && !account.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
+        emit(if (result > 0 && !account.saveTags(tagsLiveData.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
 }

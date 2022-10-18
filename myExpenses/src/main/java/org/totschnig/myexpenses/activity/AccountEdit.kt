@@ -159,7 +159,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             setup()
         }
         linkInputsWithLabels()
-        viewModel.tags.observe(this) {
+        viewModel.tagsLiveData.observe(this) {
             showTags(it) { tag ->
                 viewModel.removeTag(tag)
                 setDirty()

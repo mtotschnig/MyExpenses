@@ -59,7 +59,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
 
     fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
         val i = Intent(this, ManageTags::class.java).apply {
-            viewModel.tags.value?.let { tagList ->
+            viewModel.tagsLiveData.value?.let { tagList ->
                 putExtra(KEY_SELECTED_IDS, tagList.map { it.id }.toLongArray())
             }
         }
@@ -85,6 +85,6 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     }
 
     open fun handleDeletedTagIds(ids: LongArray) {
-        viewModel.removeTags(ids)
+        viewModel.removeTags(*ids)
     }
 }

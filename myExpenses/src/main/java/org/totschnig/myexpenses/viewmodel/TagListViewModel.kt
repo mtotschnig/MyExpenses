@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -25,6 +26,9 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TagListViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagBaseViewModel(application, savedStateHandle) {
+
+    private val tagsInternal = MutableLiveData<List<Tag>>()
+    val tags: LiveData<List<Tag>> = tagsInternal
 
     fun toggleSelectedTagId(tagId: Long) {
         savedStateHandle[KEY_SELECTED_IDS] = selectedTagIds.toMutableSet().apply {

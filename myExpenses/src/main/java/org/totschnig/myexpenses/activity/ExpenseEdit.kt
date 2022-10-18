@@ -33,7 +33,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
@@ -118,12 +117,12 @@ import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
 import org.totschnig.myexpenses.viewmodel.ERROR_WHILE_SAVING_TAGS
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.FROM_INTENT_EXTRAS
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TEMPLATE
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TEMPLATE_FROM_TRANSACTION
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.FROM_INTENT_EXTRAS
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TEMPLATE_FROM_TRANSACTION
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
@@ -314,7 +313,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             updateDateLink()
             val extras = intent.extras
             var mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
-            var task: TransactionViewModel.InstantiationTask? = null
+            var task: InstantiationTask? = null
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)
                 if (mRowId != 0L) {
@@ -534,7 +533,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadTags() {
-        viewModel.tags.observe(this) { tags ->
+        viewModel.tagsLiveData.observe(this) { tags ->
             if (::delegate.isInitialized) {
                 delegate.showTags(tags) { tag ->
                     viewModel.removeTag(tag)
@@ -618,7 +617,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private fun populateFromTask(
         transaction: Transaction?,
-        task: TransactionViewModel.InstantiationTask
+        task: InstantiationTask
     ) {
         transaction?.let {
             if (transaction.isSealed) {
@@ -1392,7 +1391,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         startMediaChooserDo()
     }
 
-    override fun contribFeatureRequested(feature: ContribFeature, @Nullable tag: Serializable?) {
+    override fun contribFeatureRequested(feature: ContribFeature, tag: Serializable?) {
         hideKeyboard()
         super.contribFeatureRequested(feature, tag)
     }
