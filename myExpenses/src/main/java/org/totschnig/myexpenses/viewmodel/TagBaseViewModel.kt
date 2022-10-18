@@ -13,12 +13,12 @@ open class TagBaseViewModel(application: Application,
     val tags: LiveData<List<Tag>> = tagsInternal
 
     fun addDeletedTagId(tagId: Long) {
-        savedStateHandle[KEY_DELETED_IDS] = longArrayOf(*getDeletedTagIds(), tagId)
+        savedStateHandle[KEY_DELETED_IDS] = longArrayOf(*deletedTagIds, tagId)
     }
 
-    fun getDeletedTagIds(): LongArray {
-        return savedStateHandle.get<LongArray>(KEY_DELETED_IDS) ?: LongArray(0)
-    }
+    var deletedTagIds: LongArray
+        get() = savedStateHandle.get<LongArray>(KEY_DELETED_IDS) ?: LongArray(0)
+        set(value) { savedStateHandle[KEY_DELETED_IDS] = value }
 
     companion object {
         const val KEY_DELETED_IDS = "deletedIds"

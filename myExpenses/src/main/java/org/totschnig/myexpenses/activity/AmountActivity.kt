@@ -21,7 +21,7 @@ import android.widget.TextView
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
-import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
+import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
 import org.totschnig.myexpenses.viewmodel.TagHandlingViewModel
 import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -69,6 +69,9 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
+        intent?.getLongArrayExtra(TagBaseViewModel.KEY_DELETED_IDS)?.let {
+            handleDeletedTagIds(it)
+        }
         when (requestCode) {
             SELECT_TAGS_REQUEST -> intent?.also {
                 if (resultCode == RESULT_OK) {
@@ -76,16 +79,12 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
                         viewModel.updateTags(it, true)
                         setDirty()
                     }
-                } else if (resultCode == RESULT_CANCELED) {
-                    handleDeletedTagIds(intent)
                 }
             }
         }
     }
 
-    open fun handleDeletedTagIds(intent: Intent) {
-        intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
-            viewModel.removeTags(it)
-        }
+    open fun handleDeletedTagIds(ids: LongArray) {
+        viewModel.removeTags(ids)
     }
 }

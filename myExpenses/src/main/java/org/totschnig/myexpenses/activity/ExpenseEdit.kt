@@ -116,6 +116,7 @@ import org.totschnig.myexpenses.viewmodel.ERROR_CALENDAR_INTEGRATION_NOT_AVAILAB
 import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
 import org.totschnig.myexpenses.viewmodel.ERROR_WHILE_SAVING_TAGS
+import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.FROM_INTENT_EXTRAS
@@ -332,7 +333,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                     TRANSACTION
                 }
             }
-            mNewInstance = mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE || task == TEMPLATE_FROM_TRANSACTION
+            mNewInstance =
+                mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE || task == TEMPLATE_FROM_TRANSACTION
             withTypeSpinner = mRowId == 0L
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
@@ -519,7 +521,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         viewModel.getSplitParts().observe(this) { transactions ->
             (delegate as? SplitDelegate)?.also {
                 it.showSplits(transactions)
-            } ?: run { CrashHandler.report(java.lang.IllegalStateException("expected SplitDelegate, found ${delegate::class.java.name}")) }
+            }
+                ?: run { CrashHandler.report(java.lang.IllegalStateException("expected SplitDelegate, found ${delegate::class.java.name}")) }
         }
         observeMoveResult()
     }
@@ -930,8 +933,20 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     override fun doHome() {
-        cleanup { finish() }
+        cleanup {
+            backwardCanceledTagsIntent()?.let {
+                setResult(RESULT_CANCELED, it)
+            }
+            finish()
+        }
     }
+
+    private fun backwardCanceledTagsIntent() =
+        viewModel.deletedTagIds.takeIf { it.isNotEmpty() }?.let {
+            Intent().apply {
+                putExtra(TagBaseViewModel.KEY_DELETED_IDS, it)
+            }
+        }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {
@@ -1213,7 +1228,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                     }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
-                    setResult(RESULT_OK)
+                    setResult(RESULT_OK, backwardCanceledTagsIntent())
                     finish()
                     //no need to call super after finish
                     return
@@ -1521,10 +1536,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
     }
 
-    override fun handleDeletedTagIds(intent: Intent) {
-        super.handleDeletedTagIds(intent)
+    override fun handleDeletedTagIds(ids: LongArray) {
+        super.handleDeletedTagIds(ids)
         if (isSplitPart) {
-
+            viewModel.deletedTagIds = ids
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        doHome()
     }
 }

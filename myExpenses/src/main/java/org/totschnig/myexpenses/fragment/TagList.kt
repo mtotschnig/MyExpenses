@@ -183,12 +183,17 @@ class TagList : Fragment(), OnDialogResultListener {
             KEY_TAG_LIST,
             ArrayList(adapter.currentList.filter { viewModel.selectedTagIds.contains(it.id) })
         )
+        backwardCanceledTags()
+    }
+
+    private fun Intent.backwardCanceledTags() {
+        viewModel.deletedTagIds.takeIf { it.isNotEmpty() }?.let {
+            putExtra(KEY_DELETED_IDS, it)
+        }
     }
 
     fun cancelIntent() = Intent().apply {
-        viewModel.getDeletedTagIds().takeIf { it.isNotEmpty() }?.let {
-            putExtra(KEY_DELETED_IDS, it)
-        }
+        backwardCanceledTags()
     }
 
     private inner class Adapter(val itemLayoutResId: Int,

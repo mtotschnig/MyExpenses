@@ -46,6 +46,7 @@ class ManageTags: ProtectedFragmentActivity() {
         finish()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         doHome()
     }
