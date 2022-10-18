@@ -27,16 +27,16 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
     TagBaseViewModel(application, savedStateHandle) {
 
     fun toggleSelectedTagId(tagId: Long) {
-        savedStateHandle[KEY_SELECTED_IDS] = getSelectedTagIds().toMutableSet().apply {
+        savedStateHandle[KEY_SELECTED_IDS] = selectedTagIds.toMutableSet().apply {
             toggle(tagId)
         }
     }
 
-    fun getSelectedTagIds(): HashSet<Long> {
-        return savedStateHandle.get<HashSet<Long>>(KEY_SELECTED_IDS) ?: HashSet()
-    }
+    var selectedTagIds: HashSet<Long>
+        get() = savedStateHandle[KEY_SELECTED_IDS] ?: HashSet()
+        set(value) { savedStateHandle[KEY_SELECTED_IDS] = value }
 
-    fun loadTags(selected: List<Tag>?) {
+    fun loadTags() {
         viewModelScope.launch(context = coroutineContext()) {
         if (tagsInternal.value == null) {
             val tagsUri = TransactionProvider.TAGS_URI.buildUpon()
@@ -102,6 +102,6 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
         }
 
     companion object {
-        private const val KEY_SELECTED_IDS = "selectedIds"
+        const val KEY_SELECTED_IDS = "selectedIds"
     }
 }

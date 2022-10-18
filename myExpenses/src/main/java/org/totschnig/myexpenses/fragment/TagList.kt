@@ -30,14 +30,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.TagListBinding
+import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
 import org.totschnig.myexpenses.viewmodel.TagListViewModel
+import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
-
-const val KEY_TAG_LIST = "tagList"
-const val KEY_DELETED_IDS = "deletedIds"
-const val KEY_TAG = "tag"
-const val DELETE_TAG_DIALOG = "DELETE_TAG"
-const val EDIT_TAG_DIALOG = "EDIT_TAG"
 
 class TagList : Fragment(), OnDialogResultListener {
     private var _binding: TagListBinding? = null
@@ -77,7 +73,7 @@ class TagList : Fragment(), OnDialogResultListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)
+        val selected = activity?.intent?.getLongArrayExtra(KEY_SELECTED_IDS)
 
         val closeFunction: (Tag) -> Unit = { tag ->
             SimpleDialog.build()
@@ -115,7 +111,8 @@ class TagList : Fragment(), OnDialogResultListener {
         viewModel.tags.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewModel.loadTags(selected)
+        selected?.let { viewModel.selectedTagIds = it.toHashSet() }
+        viewModel.loadTags()
         binding.tagEdit.apply {
             if (allowModifications) {
                 setOnEditorActionListener { _, actionId, event: KeyEvent? ->
@@ -182,10 +179,9 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     private fun resultIntent() = Intent().apply {
-        val selected = viewModel.getSelectedTagIds()
         putParcelableArrayListExtra(
             KEY_TAG_LIST,
-            ArrayList(adapter.currentList.filter { tag -> selected.contains(tag.id) })
+            ArrayList(adapter.currentList.filter { viewModel.selectedTagIds.contains(it.id) })
         )
     }
 
@@ -209,7 +205,7 @@ class TagList : Fragment(), OnDialogResultListener {
             (holder.itemView as Chip).apply {
                 val tag = getItem(position)
                 text = tag.label
-                isChecked = viewModel.getSelectedTagIds().contains(tag.id)
+                isChecked = viewModel.selectedTagIds.contains(tag.id)
                 setOnClickListener {
                     viewModel.toggleSelectedTagId(tag.id)
                 }
@@ -255,6 +251,11 @@ class TagList : Fragment(), OnDialogResultListener {
         } else false
 
     companion object {
+        const val KEY_TAG_LIST = "tagList"
+        const val KEY_TAG = "tag"
+        const val DELETE_TAG_DIALOG = "DELETE_TAG"
+        const val EDIT_TAG_DIALOG = "EDIT_TAG"
+
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Tag>() {
             override fun areItemsTheSame(oldItem: Tag, newItem: Tag): Boolean {
                 return oldItem.id == newItem.id

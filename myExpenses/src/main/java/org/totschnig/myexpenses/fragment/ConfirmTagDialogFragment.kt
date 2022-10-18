@@ -9,6 +9,7 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TagHandler
 import org.totschnig.myexpenses.activity.TagHandler.Companion.CONFIRM_MAP_TAG_REQUEST
+import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class ConfirmTagDialogFragment : DialogFragment() {
