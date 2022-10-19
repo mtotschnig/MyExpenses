@@ -208,4 +208,10 @@
         <url>https://ktor.io/</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>FontDrawable</name>
+        <url>https://github.com/k4zy/FontDrawable/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+
 </credits>

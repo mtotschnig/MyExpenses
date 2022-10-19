@@ -260,6 +260,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-html:0.7.3")
     implementation("io.arrow-kt:arrow-core:1.0.1")
 
+    implementation 'com.github.mtotschnig:FontDrawable:39e8f63ce2'
+
+
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"

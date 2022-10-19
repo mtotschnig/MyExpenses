@@ -1,8 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -17,6 +14,14 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.preference.PrefHandler;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -26,13 +31,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.ImageViewCompat;
 
-import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.preference.PrefHandler;
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
 
 public class UiUtils {
 
@@ -127,10 +127,6 @@ public class UiUtils {
 
   public static int px2Dp(int px) {
     return (int) (px / Resources.getSystem().getDisplayMetrics().density);
-  }
-
-  public static int resolveIcon(Context context, String resourceName) {
-    return context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
   }
 
   /**

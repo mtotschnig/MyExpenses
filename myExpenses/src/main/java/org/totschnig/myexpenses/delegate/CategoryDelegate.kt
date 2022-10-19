@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.delegate
 
-import android.content.res.Resources.NotFoundException
 import android.database.Cursor
 import android.os.Bundle
 import android.text.TextUtils
@@ -19,9 +18,8 @@ import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
 class CategoryDelegate(
     viewBinding: OneExpenseBinding,
@@ -110,16 +108,10 @@ class CategoryDelegate(
             viewBinding.ClearCategory.visibility = View.VISIBLE
 
         }
-        try {
-            viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                if (categoryIcon != null) UiUtils.resolveIcon(
-                    viewBinding.root.context,
-                    categoryIcon
-                ) else 0, 0, 0, 0
-            )
-        } catch (e: NotFoundException) {
-            categoryIcon?.let { CrashHandler.report(e, mapOf("icon" to it)) }
+        val startDrawable = categoryIcon?.let {
+            IIconInfo.resolveIcon(it)?.asDrawable(context)
         }
+        viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(startDrawable, null, null, null)
     }
 
     override fun populateFields(transaction: ITransaction, withAutoFill: Boolean) {
