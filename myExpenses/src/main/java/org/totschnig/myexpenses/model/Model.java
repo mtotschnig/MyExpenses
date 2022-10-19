@@ -50,6 +50,7 @@ public abstract class Model implements IModel {
     this.uuid = uuid;
   }
 
+  @Deprecated
   public static ContentResolver cr() {
     return cr != null ? cr : MyApplication.getInstance().getContentResolver();
   }

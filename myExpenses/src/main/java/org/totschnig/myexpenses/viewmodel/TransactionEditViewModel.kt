@@ -4,19 +4,24 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
+import android.os.Bundle
 import androidx.core.database.getStringOrNull
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
@@ -35,7 +40,8 @@ const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
 const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 const val ERROR_WHILE_SAVING_TAGS = -5L
 
-class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
+class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
+    TagHandlingViewModel(application, savedStateHandle) {
 
     private val disposables = CompositeDisposable()
 
@@ -146,7 +152,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0 && !transaction.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
+        emit(if (result > 0 && !transaction.saveTags(tagsLiveData.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
@@ -166,7 +172,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
-            Account_model.loadTags(id)?.let { updateTags(it, false) }
+            Account_model.loadTags(id, contentResolver)?.let { updateTags(it, false) }
         }
     }
 
@@ -246,6 +252,26 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         }
     }
 
+    fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, forEdit: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+        when (task) {
+            InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(transactionId)
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(transactionId)
+            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId)
+            InstantiationTask.FROM_INTENT_EXTRAS -> Pair(ProviderUtils.buildFromExtras(repository, extras!!), emptyList())
+            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(Transaction.getInstanceFromDb(transactionId))  {
+                Pair(Template(this, payee ?: label), this.loadTags())
+            }
+        }?.also { pair ->
+            if (forEdit) {
+                pair.first.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
+            }
+            emit(pair.first)
+            pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
+        } ?: run {
+            emit(null)
+        }
+    }
+
     data class SplitPart(
         override val id: Long,
         override val amountRaw: Long,
@@ -268,6 +294,8 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
                 )
         }
     }
+
+    enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS, TEMPLATE_FROM_TRANSACTION }
 }
 
 

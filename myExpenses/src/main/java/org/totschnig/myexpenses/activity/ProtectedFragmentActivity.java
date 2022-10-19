@@ -624,20 +624,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     f.recordUsage(prefHandler, licenceHandler);
   }
 
-  /*
-   * @see android.support.v7.app.ActionBarActivity#onBackPressed()
-   * https://code.google.com/p/android/issues/detail?id=25517
-   */
-  @Override
-  public void onBackPressed() {
-    try {
-      super.onBackPressed();
-    } catch (IllegalStateException e) {
-      CrashHandler.report(e);
-      finish();
-    }
-  }
-
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {

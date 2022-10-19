@@ -3,16 +3,18 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
-class AccountEditViewModel(application: Application) : TagHandlingViewModel(application) {
+class AccountEditViewModel(application: Application, savedStateHandle: SavedStateHandle)
+    : TagHandlingViewModel(application, savedStateHandle) {
 
     fun accountWithTags(id: Long): LiveData<Account?> = liveData(context = coroutineContext()) {
-        Account.getInstanceFromDbWithTags(id)?.also { pair ->
+        Account.getInstanceFromDbWithTags(id, contentResolver)?.also { pair ->
             emit(pair.first)
-            pair.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
+            pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
         }
     }
 
@@ -23,6 +25,6 @@ class AccountEditViewModel(application: Application) : TagHandlingViewModel(appl
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0 && !account.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
+        emit(if (result > 0 && !account.saveTags(tagsLiveData.value, contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
     }
 }

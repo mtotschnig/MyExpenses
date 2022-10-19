@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import eltos.simpledialogfragment.SimpleDialog
@@ -28,14 +30,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.TagListBinding
+import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
 import org.totschnig.myexpenses.viewmodel.TagListViewModel
+import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
-
-const val KEY_TAG_LIST = "tagList"
-const val KEY_DELETED_IDS = "deletedIds"
-const val KEY_TAG = "tag"
-const val DELETE_TAG_DIALOG = "DELETE_TAG"
-const val EDIT_TAG_DIALOG = "EDIT_TAG"
 
 class TagList : Fragment(), OnDialogResultListener {
     private var _binding: TagListBinding? = null
@@ -53,7 +51,11 @@ class TagList : Fragment(), OnDialogResultListener {
         (requireActivity().application as MyApplication).appComponent.inject(viewModel)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = TagListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -71,43 +73,51 @@ class TagList : Fragment(), OnDialogResultListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)
-        viewModel.loadTags(selected).observe(viewLifecycleOwner) {
-            val closeFunction: (Tag) -> Unit = { tag ->
-                SimpleDialog.build()
-                    .title(R.string.dialog_title_warning_delete_tag)
-                    .extra(Bundle().apply {
-                        putParcelable(KEY_TAG, tag)
-                    })
-                    .msg(
-                        resources.getQuantityString(
-                            R.plurals.warning_delete_tag,
-                            tag.count,
-                            tag.label,
-                            tag.count
-                        )
+        val selected = activity?.intent?.getLongArrayExtra(KEY_SELECTED_IDS)
+
+        val closeFunction: (Tag) -> Unit = { tag ->
+            SimpleDialog.build()
+                .title(R.string.dialog_title_warning_delete_tag)
+                .extra(Bundle().apply {
+                    putParcelable(KEY_TAG, tag)
+                })
+                .msg(
+                    resources.getQuantityString(
+                        R.plurals.warning_delete_tag,
+                        tag.count,
+                        tag.label,
+                        tag.count
                     )
-                    .pos(R.string.menu_delete)
-                    .neg(android.R.string.cancel)
-                    .show(this, DELETE_TAG_DIALOG)
-            }
-            val longClickFunction: (Tag) -> Unit = { tag ->
-                SimpleInputDialog.build()
-                    .title(R.string.menu_edit_tag)
-                    .cancelable(false)
-                    .text(tag.label)
-                    .pos(R.string.menu_save)
-                    .neut()
-                    .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
-                    .show(this, EDIT_TAG_DIALOG)
-            }
-            val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
-            adapter = Adapter(
-                it, itemLayoutResId, if (allowModifications) closeFunction else null,
-                if (allowModifications) longClickFunction else null
-            )
-            binding.recyclerView.adapter = adapter
+                )
+                .pos(R.string.menu_delete)
+                .neg(android.R.string.cancel)
+                .show(this, DELETE_TAG_DIALOG)
         }
+
+        val longClickFunction: (Tag) -> Unit = { tag ->
+            SimpleInputDialog.build()
+                .title(R.string.menu_edit_tag)
+                .cancelable(false)
+                .text(tag.label)
+                .pos(R.string.menu_save)
+                .neut()
+                .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
+                .show(this, EDIT_TAG_DIALOG)
+        }
+
+        val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
+        adapter = Adapter(itemLayoutResId, if (allowModifications) closeFunction else null,
+            if (allowModifications) longClickFunction else null
+        )
+        binding.recyclerView.adapter = adapter
+        viewModel.tags.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
+        selected?.let { viewModel.selectedTagIds = it.toHashSet() }
+
+        if (savedInstanceState == null) viewModel.loadTags()
+
         binding.tagEdit.apply {
             if (allowModifications) {
                 setOnEditorActionListener { _, actionId, event: KeyEvent? ->
@@ -132,12 +142,7 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     private fun removeTag(tag: Tag) {
-        val position = adapter.getPosition(tag.label)
-        viewModel.removeTagAndPersist(tag).observe(viewLifecycleOwner) {
-            if (it) {
-                adapter.notifyItemRemoved(position)
-            }
-        }
+        viewModel.removeTagAndPersist(tag)
     }
 
     override fun onDestroyView() {
@@ -150,11 +155,15 @@ class TagList : Fragment(), OnDialogResultListener {
         binding.tagEdit.text.toString().trim().takeIf { !TextUtils.isEmpty(it) }?.let { label ->
             val position = adapter.getPosition(label)
             if (position > -1) {
-                (activity as? ProtectedFragmentActivity)?.showSnackBar(getString(R.string.already_defined, label))
+                (activity as? ProtectedFragmentActivity)?.showSnackBar(
+                    getString(
+                        R.string.already_defined,
+                        label
+                    )
+                )
             } else {
                 viewModel.addTagAndPersist(label).observe(viewLifecycleOwner) {
                     if (it) {
-                        adapter.notifyItemInserted(0)
                         runnable?.run()
                     }
                 }
@@ -164,7 +173,7 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     fun confirm() {
-        if (::adapter.isInitialized ) {
+        if (::adapter.isInitialized) {
             addTag {
                 activity?.run {
                     setResult(Activity.RESULT_OK, resultIntent())
@@ -175,33 +184,40 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     private fun resultIntent() = Intent().apply {
-        putParcelableArrayListExtra(KEY_TAG_LIST, ArrayList(adapter.tagList.filter { tag -> tag.selected }))
+        putParcelableArrayListExtra(
+            KEY_TAG_LIST,
+            ArrayList(adapter.currentList.filter { viewModel.selectedTagIds.contains(it.id) })
+        )
+        backwardCanceledTags()
     }
 
-    fun cancelIntent() = Intent().apply {
-        viewModel.getDeletedTagIds().takeIf { it.isNotEmpty() }?.let {
+    private fun Intent.backwardCanceledTags() {
+        viewModel.deletedTagIds.takeIf { it.isNotEmpty() }?.let {
             putExtra(KEY_DELETED_IDS, it)
         }
     }
 
-    private class Adapter(val tagList: MutableList<Tag>, val itemLayoutResId: Int,
-                          val closeFunction: ((Tag) -> Unit)?,
-                          val longClickFunction: ((Tag) -> Unit)?) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    fun cancelIntent() = Intent().apply {
+        backwardCanceledTags()
+    }
+
+    private inner class Adapter(val itemLayoutResId: Int,
+        val closeFunction: ((Tag) -> Unit)?,
+        val longClickFunction: ((Tag) -> Unit)?
+    ) : ListAdapter<Tag, ViewHolder>(DIFF_CALLBACK) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-                ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutResId, parent, false))
+            ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutResId, parent, false))
 
-        override fun getItemCount(): Int = tagList.size
-
-        fun getPosition(label: String) = tagList.indexOfFirst { it.label == label }
+        fun getPosition(label: String) = currentList.indexOfFirst { it.label == label }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             (holder.itemView as Chip).apply {
-                val tag = tagList[position]
+                val tag = getItem(position)
                 text = tag.label
-                isChecked = tag.selected
+                isChecked = viewModel.selectedTagIds.contains(tag.id)
                 setOnClickListener {
-                    tag.selected = !tag.selected
+                    viewModel.toggleSelectedTagId(tag.id)
                 }
                 closeFunction?.let {
                     setOnCloseIconClickListener {
@@ -216,34 +232,48 @@ class TagList : Fragment(), OnDialogResultListener {
                 }
             }
         }
-
-        private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
 
+    private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-            if (which == BUTTON_POSITIVE) {
-                val tag: Tag = extras.getParcelable(KEY_TAG)!!
-                when (dialogTag) {
-                    DELETE_TAG_DIALOG -> {
-                        removeTag(tag)
-                    }
-                    EDIT_TAG_DIALOG -> {
-                        val activePosition = adapter.getPosition(tag.label)
-                        val newLabel = extras.getString(SimpleInputDialog.TEXT)!!
-                        viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner) {
-                            if (it) {
-                                adapter.notifyItemChanged(activePosition)
-                            } else {
-                                (context as? ProtectedFragmentActivity)?.showSnackBar(
-                                    getString(
-                                        R.string.already_defined,
-                                        newLabel
-                                    )
+        if (which == BUTTON_POSITIVE) {
+            val tag: Tag = extras.getParcelable(KEY_TAG)!!
+            when (dialogTag) {
+                DELETE_TAG_DIALOG -> {
+                    removeTag(tag)
+                }
+                EDIT_TAG_DIALOG -> {
+                    val newLabel = extras.getString(SimpleInputDialog.TEXT)!!
+                    viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner) {
+                        if (!it) {
+                            (context as? ProtectedFragmentActivity)?.showSnackBar(
+                                getString(
+                                    R.string.already_defined,
+                                    newLabel
                                 )
-                            }
+                            )
                         }
                     }
                 }
-                true
-            } else false
+            }
+            true
+        } else false
+
+    companion object {
+        const val KEY_TAG_LIST = "tagList"
+        const val KEY_TAG = "tag"
+        const val DELETE_TAG_DIALOG = "DELETE_TAG"
+        const val EDIT_TAG_DIALOG = "EDIT_TAG"
+
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Tag>() {
+            override fun areItemsTheSame(oldItem: Tag, newItem: Tag): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Tag, newItem: Tag): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }
