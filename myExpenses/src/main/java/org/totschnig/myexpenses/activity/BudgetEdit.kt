@@ -6,11 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import icepick.State
@@ -29,12 +25,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.provider.filter.PayeeCriterion
-import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.*
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel

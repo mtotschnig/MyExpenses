@@ -6,11 +6,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.os.Bundle
 import androidx.core.database.getStringOrNull
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import io.reactivex.disposables.CompositeDisposable
@@ -26,28 +22,8 @@ import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
-import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.provider.FULL_LABEL
-import org.totschnig.myexpenses.provider.ProviderUtils
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -196,7 +172,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
-            Account_model.loadTags(id)?.let { updateTags(it, false) }
+            Account_model.loadTags(id, contentResolver)?.let { updateTags(it, false) }
         }
     }
 

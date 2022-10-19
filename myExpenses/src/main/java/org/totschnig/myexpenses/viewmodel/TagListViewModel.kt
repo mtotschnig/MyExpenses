@@ -11,7 +11,6 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -38,25 +37,27 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
 
     var selectedTagIds: HashSet<Long>
         get() = savedStateHandle[KEY_SELECTED_IDS] ?: HashSet()
-        set(value) { savedStateHandle[KEY_SELECTED_IDS] = value }
+        set(value) {
+            savedStateHandle[KEY_SELECTED_IDS] = value
+        }
 
     fun loadTags() {
-        viewModelScope.launch(context = coroutineContext()) {
-        if (tagsInternal.value == null) {
+        viewModelScope.launch {
             val tagsUri = TransactionProvider.TAGS_URI.buildUpon()
-                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT).build()
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT)
+                .build()
             contentResolver.observeQuery(
                 uri = tagsUri,
                 sortOrder = "$KEY_LABEL COLLATE LOCALIZED",
                 notifyForDescendants = true
             ).mapToList { cursor ->
-                    val id = cursor.getLong(KEY_ROWID)
-                    val label = cursor.getString(KEY_LABEL)
-                    val count = cursor.getIntIfExists(KEY_COUNT) ?: -1
-                    Tag(id, label, count)
-                }.collect(tagsInternal::postValue)
+                Tag(
+                    id = cursor.getLong(KEY_ROWID),
+                    label = cursor.getString(KEY_LABEL),
+                    count = cursor.getIntIfExists(KEY_COUNT) ?: -1
+                )
+            }.collect(tagsInternal::postValue)
         }
-    }
     }
 
     fun removeTagAndPersist(tag: Tag) {
@@ -74,21 +75,22 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
     }
 
     fun addTagAndPersist(label: String): LiveData<Boolean> =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        liveData(context = coroutineContext()) {
             val result = contentResolver.insert(TransactionProvider.TAGS_URI,
                 ContentValues().apply { put(KEY_LABEL, label) })?.let {
-                    toggleSelectedTagId(ContentUris.parseId(it))
+                toggleSelectedTagId(ContentUris.parseId(it))
             }
             emit(result != null)
         }
 
     fun updateTag(tag: Tag, newLabel: String) =
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        liveData(context = coroutineContext()) {
             val result = try {
-                contentResolver.update(ContentUris.withAppendedId(
-                    TransactionProvider.TAGS_URI,
-                    tag.id
-                ),
+                contentResolver.update(
+                    ContentUris.withAppendedId(
+                        TransactionProvider.TAGS_URI,
+                        tag.id
+                    ),
                     ContentValues().apply { put(KEY_LABEL, newLabel) }, null, null
                 )
             } catch (e: SQLiteConstraintException) {

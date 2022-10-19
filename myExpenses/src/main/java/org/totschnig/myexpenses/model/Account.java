@@ -15,6 +15,45 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.accounts.AccountManager;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.RemoteException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.util.ShortcutHelper;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.viewmodel.data.Debt;
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
+
 import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -46,44 +85,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
-
-import android.accounts.AccountManager;
-import android.content.ContentProviderOperation;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.RemoteException;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.annotation.WorkerThread;
-
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.util.ShortcutHelper;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.viewmodel.data.Debt;
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Account represents an account stored in the database.
@@ -225,18 +226,18 @@ public class Account extends Model implements DistributionAccountInfo {
     return account;
   }
 
-  public static kotlin.Pair<Account, List<Tag>> getInstanceFromDbWithTags(long id) {
+  public static kotlin.Pair<Account, List<Tag>> getInstanceFromDbWithTags(long id, ContentResolver contentResolver) {
     Account t = getInstanceFromDb(id);
-    return t == null ? null : new kotlin.Pair<>(t, loadTags(id));
+    return t == null ? null : new kotlin.Pair<>(t, loadTags(id, contentResolver));
   }
 
   @Nullable
-  public static List<Tag> loadTags(long id) {
-    return ModelWithLinkedTagsKt.loadTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, id);
+  public static List<Tag> loadTags(long id, ContentResolver contentResolver) {
+    return ModelWithLinkedTagsKt.loadTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, id, contentResolver);
   }
 
-  public boolean saveTags(@Nullable List<Tag> tags) {
-    return ModelWithLinkedTagsKt.saveTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, tags, getId());
+  public boolean saveTags(@Nullable List<Tag> tags, ContentResolver contentResolver) {
+    return ModelWithLinkedTagsKt.saveTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, tags, getId(), contentResolver);
   }
 
   private Uri buildExchangeRateUri() {

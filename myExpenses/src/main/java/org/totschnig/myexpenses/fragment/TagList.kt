@@ -93,6 +93,7 @@ class TagList : Fragment(), OnDialogResultListener {
                 .neg(android.R.string.cancel)
                 .show(this, DELETE_TAG_DIALOG)
         }
+
         val longClickFunction: (Tag) -> Unit = { tag ->
             SimpleInputDialog.build()
                 .title(R.string.menu_edit_tag)
@@ -103,6 +104,7 @@ class TagList : Fragment(), OnDialogResultListener {
                 .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
                 .show(this, EDIT_TAG_DIALOG)
         }
+
         val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
         adapter = Adapter(itemLayoutResId, if (allowModifications) closeFunction else null,
             if (allowModifications) longClickFunction else null
@@ -111,8 +113,11 @@ class TagList : Fragment(), OnDialogResultListener {
         viewModel.tags.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+
         selected?.let { viewModel.selectedTagIds = it.toHashSet() }
-        viewModel.loadTags()
+
+        if (savedInstanceState == null) viewModel.loadTags()
+
         binding.tagEdit.apply {
             if (allowModifications) {
                 setOnEditorActionListener { _, actionId, event: KeyEvent? ->

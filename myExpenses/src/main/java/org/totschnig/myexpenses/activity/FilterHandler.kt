@@ -17,11 +17,7 @@ import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragmen
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.provider.filter.PayeeCriterion
-import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.*
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
