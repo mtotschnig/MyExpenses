@@ -140,6 +140,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         helper = HelpDialogHelper(ctx)
         context = args.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
+        if (context == null) return onError("context extra missing")
         val builder = initBuilder {
             HelpDialogBinding.inflate(it)
         }
@@ -221,11 +222,14 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
                 .create()
         } catch (e: Resources.NotFoundException) {
             CrashHandler.report(e)
-            return MaterialAlertDialogBuilder(ctx)
-                .setMessage("Error generating Help dialog")
-                .create()
+            return onError("Error generating Help dialog")
         }
     }
+
+    private fun onError(message: String) = MaterialAlertDialogBuilder(requireActivity())
+        .setMessage(message)
+        .create()
+
 
     private fun showLongTapHint(componentName: String) =
         !arrayOf(

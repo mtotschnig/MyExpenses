@@ -15,7 +15,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment.Companion.newInstance
 
@@ -24,8 +23,7 @@ class Help : ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
 
         newInstance(
-            context = intent.getStringExtra(HelpDialogFragment.KEY_CONTEXT)
-                ?: throw java.lang.IllegalArgumentException("context extra missing"),
+            context = intent.getStringExtra(HelpDialogFragment.KEY_CONTEXT),
             variant = intent.getStringExtra(HelpDialogFragment.KEY_VARIANT),
             title = intent.getStringExtra(HelpDialogFragment.KEY_TITLE)
         ).show(supportFragmentManager, "HELP")
