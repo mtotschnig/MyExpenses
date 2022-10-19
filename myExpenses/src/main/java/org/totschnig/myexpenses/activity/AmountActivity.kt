@@ -18,14 +18,14 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
-import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
+import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
+import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
 import org.totschnig.myexpenses.viewmodel.TagHandlingViewModel
+import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
-import java.util.ArrayList
 
 abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     abstract val amountLabel: TextView
@@ -59,13 +59,19 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
 
     fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
         val i = Intent(this, ManageTags::class.java).apply {
-            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.getTags().value?.let { ArrayList(it) })
+            viewModel.tagsLiveData.value?.let { tagList ->
+                putExtra(KEY_SELECTED_IDS, tagList.map { it.id }.toLongArray())
+            }
         }
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
+        intent?.getLongArrayExtra(TagBaseViewModel.KEY_DELETED_IDS)?.let {
+            handleDeletedTagIds(it)
+        }
         when (requestCode) {
             SELECT_TAGS_REQUEST -> intent?.also {
                 if (resultCode == RESULT_OK) {
@@ -73,12 +79,12 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
                         viewModel.updateTags(it, true)
                         setDirty()
                     }
-                } else if (resultCode == RESULT_CANCELED) {
-                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
-                        viewModel.removeTags(it)
-                    }
                 }
             }
         }
+    }
+
+    open fun handleDeletedTagIds(ids: LongArray) {
+        viewModel.removeTags(*ids)
     }
 }

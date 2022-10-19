@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentResultListener
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.fragment.ConfirmTagDialogFragment
-import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
+import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 
 class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
 

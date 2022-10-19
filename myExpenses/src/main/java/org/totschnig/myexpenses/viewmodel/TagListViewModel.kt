@@ -9,90 +9,107 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import org.apache.commons.collections4.ListUtils
+import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
+import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
-class TagListViewModel(application: Application,
-                       private val savedStateHandle: SavedStateHandle) : ContentResolvingAndroidViewModel(application) {
-    private val tags = MutableLiveData<MutableList<Tag>>()
+class TagListViewModel(application: Application, savedStateHandle: SavedStateHandle) :
+    TagBaseViewModel(application, savedStateHandle) {
 
-    fun loadTags(selected: ArrayList<Tag>?): LiveData<MutableList<Tag>> {
-        if (tags.value == null) {
-            val tagsUri = TransactionProvider.TAGS_URI.buildUpon().appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT).build()
-            disposable = briteContentResolver.createQuery(tagsUri, null, null, null, "$KEY_LABEL COLLATE LOCALIZED", false)
-                    .mapToList { cursor ->
-                        val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-                        val label = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL))
-                        val count = cursor.getColumnIndex(KEY_COUNT).takeIf { it > -1 }?.let { cursor.getInt(it) }
-                                ?: -1
-                        Tag(id, label, selected?.find { tag -> tag.label == label } != null, count)
-                    }
-                    .subscribe { list ->
-                        tags.postValue(selected?.let { ListUtils.union(it.filter { tag -> tag.id == -1L }, list) }
-                                ?: list)
-                        dispose()
-                    }
+    private val tagsInternal = MutableLiveData<List<Tag>>()
+    val tags: LiveData<List<Tag>> = tagsInternal
+
+    fun toggleSelectedTagId(tagId: Long) {
+        savedStateHandle[KEY_SELECTED_IDS] = selectedTagIds.toMutableSet().apply {
+            toggle(tagId)
         }
-        return tags
     }
 
-    fun removeTagAndPersist(tag: Tag): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        val result = contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id), null, null)
-        val success = result == 1
-        if (success) {
-            removeTag(tag)
-            addDeletedTagId(tag.id)
+    var selectedTagIds: HashSet<Long>
+        get() = savedStateHandle[KEY_SELECTED_IDS] ?: HashSet()
+        set(value) {
+            savedStateHandle[KEY_SELECTED_IDS] = value
         }
-        emit(success)
-    }
 
-    private fun removeTag(tag: Tag) {
-        tags.value?.remove(tag)
-    }
-
-    fun addTagAndPersist(label: String): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        val result = contentResolver.insert(TransactionProvider.TAGS_URI,
-                ContentValues().apply { put(KEY_LABEL, label) })
-        val success = result?.let {
-            tags.value?.add(0, Tag(ContentUris.parseId(it), label, true))
-            true
-        } ?: false
-        emit(success)
-    }
-
-    fun updateTag(tag: Tag, newLabel: String) = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        val result = try {
-            contentResolver.update(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id),
-                    ContentValues().apply { put(KEY_LABEL, newLabel) }, null, null)
-        } catch (e: SQLiteConstraintException) {
-            0
+    fun loadTags() {
+        viewModelScope.launch {
+            val tagsUri = TransactionProvider.TAGS_URI.buildUpon()
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT)
+                .build()
+            contentResolver.observeQuery(
+                uri = tagsUri,
+                sortOrder = "$KEY_LABEL COLLATE LOCALIZED",
+                notifyForDescendants = true
+            ).mapToList { cursor ->
+                Tag(
+                    id = cursor.getLong(KEY_ROWID),
+                    label = cursor.getString(KEY_LABEL),
+                    count = cursor.getIntIfExists(KEY_COUNT) ?: -1
+                )
+            }.collect(tagsInternal::postValue)
         }
-        val success = result == 1
-        if (success) {
-            tags.value?.let { list ->
-                list.indexOf(tag).takeIf { it > -1 }?.let {
-                    list.set(it, Tag(tag.id, newLabel, tag.selected, tag.count))
-                }
+    }
+
+    fun removeTagAndPersist(tag: Tag) {
+        viewModelScope.launch(context = coroutineContext()) {
+            if (contentResolver.delete(
+                    ContentUris.withAppendedId(
+                        TransactionProvider.TAGS_URI,
+                        tag.id
+                    ), null, null
+                ) == 1
+            ) {
+                addDeletedTagId(tag.id)
             }
         }
-        emit(success)
     }
 
-    private fun addDeletedTagId(tagId: Long) {
-        savedStateHandle.set(KEY_DELETED_IDS, longArrayOf(*getDeletedTagIds(), tagId))
-    }
+    fun addTagAndPersist(label: String): LiveData<Boolean> =
+        liveData(context = coroutineContext()) {
+            val result = contentResolver.insert(TransactionProvider.TAGS_URI,
+                ContentValues().apply { put(KEY_LABEL, label) })?.let {
+                toggleSelectedTagId(ContentUris.parseId(it))
+            }
+            emit(result != null)
+        }
 
-    fun getDeletedTagIds(): LongArray {
-        return savedStateHandle.get<LongArray>(KEY_DELETED_IDS) ?: LongArray(0)
-    }
+    fun updateTag(tag: Tag, newLabel: String) =
+        liveData(context = coroutineContext()) {
+            val result = try {
+                contentResolver.update(
+                    ContentUris.withAppendedId(
+                        TransactionProvider.TAGS_URI,
+                        tag.id
+                    ),
+                    ContentValues().apply { put(KEY_LABEL, newLabel) }, null, null
+                )
+            } catch (e: SQLiteConstraintException) {
+                0
+            }
+            val success = result == 1
+            if (success) {
+                tagsInternal.postValue(tagsInternal.value?.map {
+                    if (it == tag) Tag(
+                        tag.id,
+                        newLabel,
+                        tag.count
+                    ) else it
+                })
+            }
+            emit(success)
+        }
 
     companion object {
-        const val KEY_DELETED_IDS = "deletedIds"
+        const val KEY_SELECTED_IDS = "selectedIds"
     }
 }

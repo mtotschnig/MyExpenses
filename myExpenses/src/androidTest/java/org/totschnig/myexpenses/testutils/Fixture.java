@@ -9,12 +9,8 @@ import android.net.Uri;
 
 import junit.framework.Assert;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CrStatus;
@@ -26,12 +22,16 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +42,7 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 
 @SuppressLint("InlinedApi")
@@ -217,7 +218,8 @@ public class Fixture {
     split.setAmount(new Money(defaultCurrency, -8967L));
     split.setStatus(STATUS_NONE);
     split.save(true);
-    List<Tag> tagList = Collections.singletonList(new Tag(-1, testContext.getString(R.string.testData_tag_project), false, 0));
+    String label = testContext.getString(R.string.testData_tag_project);
+    List<Tag> tagList = Collections.singletonList(new Tag(saveTag(label), label, false, 0));
     split.saveTags(tagList);
 
     new TransactionBuilder(testContext)
@@ -382,5 +384,12 @@ public class Fixture {
       transaction.save();
       return transaction;
     }
+  }
+
+  long saveTag(String label) {
+    ContentValues values = new ContentValues();
+    values.put(KEY_LABEL, label);
+    Uri uri = appContext.getContentResolver().insert(TransactionProvider.TAGS_URI, values);
+    return ContentUris.parseId(uri);
   }
 }

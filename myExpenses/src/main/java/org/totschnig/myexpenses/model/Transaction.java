@@ -15,6 +15,49 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.RemoteException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException;
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import kotlin.Pair;
+import kotlin.Triple;
+import timber.log.Timber;
+
 import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -97,50 +140,6 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
-
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.RemoteException;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException;
-import org.totschnig.myexpenses.exception.UnknownPictureSaveException;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import kotlin.Pair;
-import kotlin.Triple;
-import timber.log.Timber;
 
 /**
  * Domain class for transactions
@@ -648,12 +647,12 @@ public class Transaction extends Model implements ITransaction {
 
   @Nullable
   public List<Tag> loadTags() {
-    return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId());
+    return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId(), Model.cr());
   }
 
   @Override
   public boolean saveTags(@Nullable List<Tag> tags) {
-    return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId());
+    return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId(), Model.cr());
   }
 
   /**
