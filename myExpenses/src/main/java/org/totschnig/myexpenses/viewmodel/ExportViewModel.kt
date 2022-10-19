@@ -197,8 +197,11 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                             for (a in successfullyExported) {
                                 try {
                                     if (deleteP) {
-                                        check(!a.isSealed) { "Trying to reset account that is sealed" }
-                                        reset(a, filter, handleDelete, fileName)
+                                        if (a.isSealed) {
+                                            publishProgress(getString(R.string.object_sealed))
+                                        } else {
+                                            reset(a, filter, handleDelete, fileName)
+                                        }
                                     } else {
                                         a.markAsExported(filter)
                                     }
