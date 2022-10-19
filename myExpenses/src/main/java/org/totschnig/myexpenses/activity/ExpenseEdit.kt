@@ -201,7 +201,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         get() = mNewInstance && !isClone && planInstanceId == 0L
 
     private val planInstanceId: Long
-        get() = intent.getLongExtra(KEY_INSTANCEID, 0)
+        get() = intent.getLongExtra(KEY_INSTANCEID, 0L)
 
     public override fun getDiscardNewMessage(): Int {
         return if (isTemplate) R.string.dialog_confirm_discard_new_template else R.string.dialog_confirm_discard_new_transaction
@@ -855,14 +855,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadTemplate(id: Long) {
-        viewModel.transaction(
-            id,
-            TRANSACTION_FROM_TEMPLATE,
-            clone = false,
-            forEdit = true,
-            extras = null
-        ).observe(this) {
-            populateFromTask(it, TRANSACTION_FROM_TEMPLATE)
+        cleanup {
+            val restartIntent = Intent(this, ExpenseEdit::class.java).apply {
+                putExtra(KEY_TEMPLATEID, id)
+                putExtra(KEY_INSTANCEID, -1L)
+            }
+            finish()
+            startActivity(restartIntent)
         }
     }
 
@@ -1120,19 +1119,20 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         bundle.putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType)
         logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, bundle)
         cleanup {
-            val restartIntent = intent
-            restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
-            if (isDirty) {
-                delegate.syncStateAndValidate(false)?.let {
-                    restartIntent.putExtra(KEY_CACHED_DATA, it)
-                    if (it.pictureUri != null) {
-                        restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
+            val restartIntent = Intent(this, ExpenseEdit::class.java).apply {
+                putExtra(Transactions.OPERATION_TYPE, newType)
+                if (isDirty) {
+                    delegate.syncStateAndValidate(false)?.let {
+                        putExtra(KEY_CACHED_DATA, it)
+                        if (it.pictureUri != null) {
+                            putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
+                        }
                     }
+                    putExtra(
+                        KEY_CACHED_RECURRENCE,
+                        delegate.recurrenceSpinner.selectedItem as? Recurrence
+                    )
                 }
-                restartIntent.putExtra(
-                    KEY_CACHED_RECURRENCE,
-                    delegate.recurrenceSpinner.selectedItem as? Recurrence
-                )
             }
             finish()
             startActivity(restartIntent)
