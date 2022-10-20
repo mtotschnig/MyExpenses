@@ -326,9 +326,9 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
 
     //Mlkit / Drive
-    //implementation "com.google.android.gms:play-services-base:18.0.1"
+    //implementation "com.google.android.gms:play-services-base:18.1.0"
     //implementation "com.google.mlkit:vision-interfaces:+"
-    //implementation "com.google.guava:guava:30.1.1-android"
+    //implementation "com.google.guava:guava:31.1-android"
 
     //noinspection GradleDependency
     implementation 'com.github.mtotschnig:Android-Image-Cropper:2243115896'

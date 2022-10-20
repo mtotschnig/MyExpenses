@@ -9,11 +9,11 @@ import com.google.android.gms.auth.UserRecoverableAuthException
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import icepick.State
 import org.totschnig.drive.sync.GoogleDriveBackendProvider
+import org.totschnig.drive.viewmodel.DriveSetupViewModel
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AbstractSyncSetup
-import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.drive.viewmodel.DriveSetupViewModel
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
+import org.totschnig.myexpenses.sync.GenericAccountService
 
 class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
 
@@ -32,6 +32,7 @@ class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
 
     override fun instantiateViewModel(): DriveSetupViewModel = ViewModelProvider(this)[DriveSetupViewModel::class.java]
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
@@ -55,8 +56,8 @@ class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
     }
 
     override fun handleException(exception: java.lang.Exception) : Boolean =
-        ((if (exception is UserRecoverableAuthIOException) exception.cause else exception) as? UserRecoverableAuthException)?.let {
-            startActivityForResult(it.intent, REQUEST_RESOLUTION)
+        ((if (exception is UserRecoverableAuthIOException) exception.cause else exception) as? UserRecoverableAuthException)?.intent?.let {
+            startActivityForResult(it, REQUEST_RESOLUTION)
             true
         } ?: false
 
