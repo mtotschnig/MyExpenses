@@ -3,11 +3,9 @@ package org.totschnig.myexpenses.sync
 import android.Manifest
 import android.content.Context
 import com.vmadalin.easypermissions.EasyPermissions
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 
 enum class BackendService(
     private val className: String,
@@ -20,9 +18,7 @@ enum class BackendService(
         R.id.SYNC_BACKEND_DRIVE,
         "Drive",
         Feature.DRIVE
-    ) {
-        override fun isAvailable(context: Context) = !isGithub
-    },
+    ),
     LOCAL(
         "org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory",
         R.id.SYNC_BACKEND_LOCAL,
@@ -30,7 +26,7 @@ enum class BackendService(
         null
     ) {
         override fun isAvailable(context: Context) =
-            BuildConfig.DEBUG && EasyPermissions.hasPermissions(
+            super.isAvailable(context) && EasyPermissions.hasPermissions(
                 context,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
@@ -48,7 +44,12 @@ enum class BackendService(
         Feature.WEBDAV
     );
 
-    open fun isAvailable(context: Context) = true
+    open fun isAvailable(context: Context) = try {
+        Class.forName(className, false, this::class.java.classLoader)
+        true
+    } catch (e: Exception) {
+        false
+    }
 
     fun instantiate(): SyncBackendProviderFactory? = try {
         Class.forName(className).newInstance() as? SyncBackendProviderFactory
