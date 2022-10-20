@@ -231,7 +231,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                     Spacer(modifier = cell(1))
                 }
                 Icon(
-                    modifier = cell(2).conditional(linkState.value == SyncSource.COMPLETED) {
+                    modifier = cell(2).conditional(linkState.value != SyncSource.COMPLETED) {
                         clickable {
                             if (linkState.value == null) {
                                 if (item.isLocal && item.isRemote) {
