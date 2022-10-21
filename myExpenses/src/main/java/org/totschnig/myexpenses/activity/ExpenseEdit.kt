@@ -224,7 +224,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         dateEditBinding = DateEditBinding.bind(rootBinding.root)
         methodRowBinding = MethodRowBinding.bind(rootBinding.root)
         setContentView(rootBinding.root)
-        registerForContextMenu(rootBinding.list)
         setupToolbar()
         mManager = LoaderManager.getInstance(this)
         val viewModelProvider = ViewModelProvider(this)

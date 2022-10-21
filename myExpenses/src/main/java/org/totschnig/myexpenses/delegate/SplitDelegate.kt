@@ -76,6 +76,7 @@ class SplitDelegate(
         })
         viewBinding.CategoryRow.visibility = View.GONE
         viewBinding.SplitRow.visibility = View.VISIBLE
+        host.registerForContextMenu(viewBinding.list)
         missingRecurrenceFeature = if (!withTypeSpinner || prefHandler.getBoolean(
                 PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
                 true
