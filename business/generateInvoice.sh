@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 function show_help() {
 cat >&2 << EOF
-   Usage: ${0##*/} [-p PACKAGE] [-c COUNTRY] [-u USER]
-   PACKAGE is Extended or Professional_6 or Professional_18 or Professional_30 or History or Budget or Ocr
+   Usage: ${0##*/} [-p PACKAGE] [-c COUNTRY] [-u USER] [-d DURATION]
+   PACKAGE is Contrib or Extended or Professional or History or Budget or Ocr
    Generate invoice 
 EOF
 exit 1
 }
 
-while getopts "p:c:u:" opt; do
+isPro=false
+
+while getopts "p:c:u:d:" opt; do
     case "$opt" in
         p) case "$OPTARG" in
+               Contrib)
+                 export KEY="My Expenses Contrib Licence"
+                 export PRICE=${PRICE:=8.8}
+                 ;;
                History)
                  export KEY="History"
                  export PRICE=${PRICE:=4.3}
@@ -25,19 +31,10 @@ while getopts "p:c:u:" opt; do
                  ;;
                Extended)
                  export KEY="My Expenses Extended Licence"
-                 export PRICE=${PRICE:=6.7}
+                 export PRICE=${PRICE:=11}
                  ;;
-               Professional_6)
-                 export KEY="My Expenses Professional Licence 6 months"
-                 export PRICE=${PRICE:=5}
-                 ;;
-               Professional_12)
-                 export KEY="My Expenses Professional Licence 1 year"
-                 export PRICE=${PRICE:=8}
-                 ;;
-               Professional_24)
-                 export KEY="My Expenses Professional Licence 2 years"
-                 export PRICE=${PRICE:=15}
+               Professional)
+                 isPro=true
                  ;;
             esac
            ;;
@@ -45,6 +42,14 @@ while getopts "p:c:u:" opt; do
            ;;
         u) export KUNDE=$OPTARG
            ;;
+        d)
+          if [ "$isPro" = true ]
+          then
+            export KEY="My Expenses Professional Licence $OPTARG months"
+          else
+            show_help
+          fi
+          ;;
         '?')
             show_help
             ;;
