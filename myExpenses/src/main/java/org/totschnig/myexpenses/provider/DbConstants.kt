@@ -159,12 +159,14 @@ val categoryTreeForView = """
     WITH Tree as (
     SELECT
         main.$KEY_LABEL AS $KEY_PATH,
+        $KEY_ICON,
         $KEY_ROWID
     FROM $TABLE_CATEGORIES main
     WHERE $KEY_PARENTID IS NULL
     UNION ALL
     SELECT
         Tree.$KEY_PATH || ' > ' || subtree.$KEY_LABEL,
+        subtree.$KEY_ICON,
         subtree.$KEY_ROWID
     FROM $TABLE_CATEGORIES subtree
     JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID

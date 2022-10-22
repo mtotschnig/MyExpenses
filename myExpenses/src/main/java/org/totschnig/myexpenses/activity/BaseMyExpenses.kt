@@ -527,18 +527,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             )
                                         }
                                     },
-                                    onToggleCrStatus = if (account.type == AccountType.CASH) null else {
-                                        {
-                                            checkSealed(listOf(it)) {
-                                                viewModel.toggleCrStatus(it)
-                                            }
-                                        }
-                                    },
-                                    dateTimeFormatter = dateTimeFormatterFor(
-                                        account,
-                                        prefHandler,
-                                        this@BaseMyExpenses
-                                    ),
                                     futureCriterion = futureCriterion,
                                     expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
                                     onBudgetClick = { budgetId, headerId ->
@@ -547,7 +535,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             budgetId to headerId
                                         )
                                     },
-                                    showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true)
+                                    showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true),
+                                    renderer = if (false) TransactionRendererLegacy(
+                                        dateTimeFormatter = dateTimeFormatterFor(
+                                            account,
+                                            prefHandler,
+                                            this@BaseMyExpenses
+                                        ),
+                                        onToggleCrStatus = if (account.type == AccountType.CASH) null else {
+                                            {
+                                                checkSealed(listOf(it)) {
+                                                    viewModel.toggleCrStatus(it)
+                                                }
+                                            }
+                                        }
+                                    ) else TransactionRendererDefault
                                 )
                             }
                         }

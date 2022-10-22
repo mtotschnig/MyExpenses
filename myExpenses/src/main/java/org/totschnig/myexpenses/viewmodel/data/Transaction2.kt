@@ -44,7 +44,8 @@ data class Transaction2(
     val year: Int,
     val month: Int,
     val week: Int,
-    val day: Int
+    val day: Int,
+    val icon: String?
 ): Parcelable {
 
     val isSplit: Boolean
@@ -79,7 +80,8 @@ data class Transaction2(
             "$YEAR AS $KEY_YEAR",
             "${getMonth()} AS $KEY_MONTH",
             "${getWeek()} AS $KEY_WEEK",
-            "$DAY AS $KEY_DAY"
+            "$DAY AS $KEY_DAY",
+            KEY_ICON
         )
 
         val additionalAggregateColumns = arrayOf(
@@ -150,7 +152,8 @@ data class Transaction2(
                 year = cursor.getInt(KEY_YEAR),
                 month = cursor.getInt(KEY_MONTH),
                 week = cursor.getInt(KEY_WEEK),
-                day = cursor.getInt(KEY_DAY)
+                day = cursor.getInt(KEY_DAY),
+                icon = cursor.getString(KEY_ICON)
             )
         }
     }

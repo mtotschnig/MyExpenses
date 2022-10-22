@@ -162,6 +162,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     if (!tableName.equals(TABLE_CHANGES)) {
       stringBuilder.append(", ")
           .append("Tree.").append(KEY_PATH).append(", ")
+          .append("Tree.").append(KEY_ICON).append(", ")
           .append(KEY_COLOR).append(", ")
           .append(KEY_CURRENCY).append(", ")
           .append(KEY_SEALED).append(", ")
