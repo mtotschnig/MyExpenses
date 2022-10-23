@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +29,12 @@ import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -40,6 +47,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.time.ZonedDateTime
@@ -53,6 +61,47 @@ enum class RenderType {
 }
 
 interface ItemRenderer {
+
+    fun Transaction2.buildPrimaryInfo(context: Context) = buildAnnotatedString {
+        referenceNumber?.takeIf { it.isNotEmpty() }?.let {
+            append("($it) ")
+        }
+        if (transferPeer != null) {
+            accountLabel?.let { append("$it ") }
+            append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+            label?.let { append(it) }
+        } else if (isSplit) {
+            append(context.getString(R.string.split_transaction))
+        } else if (catId == null && status != DatabaseConstants.STATUS_HELPER) {
+            append(Category.NO_CATEGORY_ASSIGNED_LABEL)
+        } else {
+            label?.let {
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append(it)
+                }
+            }
+        }
+    }
+
+    fun Transaction2.buildSecondaryInfo() = buildAnnotatedString {
+        comment?.takeIf { it.isNotEmpty() }?.let {
+            withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
+                append(it)
+            }
+        }
+        payee?.takeIf { it.isNotEmpty() }?.let {
+            append(COMMENT_SEPARATOR)
+            withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                append(it)
+            }
+        }
+        tagList?.takeIf { it.isNotEmpty() }?.let {
+            append(COMMENT_SEPARATOR)
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(it)
+            }
+        }
+    }
 
     @Composable
     fun RowScope.RenderInner(transaction: Transaction2)
