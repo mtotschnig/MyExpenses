@@ -48,6 +48,10 @@ import kotlin.math.roundToInt
 
 const val COMMENT_SEPARATOR = " / "
 
+enum class RenderType {
+    legacy, new
+}
+
 interface ItemRenderer {
 
     @Composable

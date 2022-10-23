@@ -450,7 +450,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
                         }
-                        Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colors.surface)
+                        ) {
                             viewModel.filterPersistence.getValue(account.id)
                                 .whereFilterAsFlow
                                 .collectAsState(WhereFilter.empty())
@@ -535,21 +539,31 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             budgetId to headerId
                                         )
                                     },
-                                    showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true),
-                                    renderer = if (false) TransactionRendererLegacy(
-                                        dateTimeFormatter = dateTimeFormatterFor(
-                                            account,
-                                            prefHandler,
-                                            this@BaseMyExpenses
-                                        ),
-                                        onToggleCrStatus = if (account.type == AccountType.CASH) null else {
-                                            {
-                                                checkSealed(listOf(it)) {
-                                                    viewModel.toggleCrStatus(it)
+                                    showSumDetails = prefHandler.getBoolean(
+                                        PrefKey.GROUP_HEADER,
+                                        true
+                                    ),
+                                    renderer = when (getEnumFromPreferencesWithDefault(
+                                        prefHandler,
+                                        PrefKey.UI_ITEM_RENDERER,
+                                        RenderType.new
+                                    )) {
+                                        RenderType.new -> NewTransactionRenderer
+                                        RenderType.legacy -> TransactionRendererLegacy(
+                                            dateTimeFormatter = dateTimeFormatterFor(
+                                                account,
+                                                prefHandler,
+                                                this@BaseMyExpenses
+                                            ),
+                                            onToggleCrStatus = if (account.type == AccountType.CASH) null else {
+                                                {
+                                                    checkSealed(listOf(it)) {
+                                                        viewModel.toggleCrStatus(it)
+                                                    }
                                                 }
                                             }
-                                        }
-                                    ) else TransactionRendererDefault
+                                        )
+                                    }
                                 )
                             }
                         }

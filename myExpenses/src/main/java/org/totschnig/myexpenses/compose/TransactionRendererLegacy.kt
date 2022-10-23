@@ -86,7 +86,8 @@ class TransactionRendererLegacy(
         Text(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
-                .weight(1f), text = description
+                .weight(1f),
+            text = description
         )
         ColoredAmountText(money = transaction.amount)
     }
