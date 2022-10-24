@@ -34,11 +34,7 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -245,7 +241,7 @@ open class TransactionAdapter(
     fun setAccount(account: Account) {
         mAccount = account
         shouldShowTime =
-            UiUtils.getDateMode(account.type, prefHandler) == UiUtils.DateMode.DATE_TIME
+            getDateMode(account.type, prefHandler) == UiUtils.DateMode.DATE_TIME
         refreshDateFormat()
     }
 

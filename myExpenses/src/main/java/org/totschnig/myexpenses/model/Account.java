@@ -375,7 +375,7 @@ public class Account extends Model implements DistributionAccountInfo {
         c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
 
     String type = c.getString(c.getColumnIndexOrThrow(KEY_TYPE));
-      if (type != null) {
+    if (type != null) {
         try {
           this.setType(AccountType.valueOf(type));
         } catch (IllegalArgumentException ex) {
@@ -383,7 +383,7 @@ public class Account extends Model implements DistributionAccountInfo {
         }
     } else {
         this.setType(AccountType.CASH);
-      }
+    }
     try {
       this.setGrouping(Grouping.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_GROUPING))));
     } catch (IllegalArgumentException ignored) {

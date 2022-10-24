@@ -72,7 +72,6 @@
     <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">通过制定预算，您可设定自己在既定期间想要支出的总金额。您还可以对类别或子类别分配金额。之后，您可以监控自己已支出的金额和待支出的金额。</string>
     <string name="menu_HistoryActivity_history_transfers_help_text">若转账应该视为正常收入或开支，则进行切换。</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">是否显示余额。</string>
-    <string name="help_MyExpenses_crStatus_info">交易状态可通过颜色方框标示：灰色代表未对账、蓝色代表已结算、绿色代表已对账。点击颜色方框，可更改交易状态。</string>
     <string name="menu_distribution_help_text">按类别显示您的开支分布。您还可以长按某一组别表头来查看特定期间的开支分布。</string>
     <string name="help_ManageBudgets_info">该界面汇总了您所创建的所有预算。可使用悬浮按钮创建新预算。点击列表条目显示单个预算。</string>
     <string name="help_ManageBudgets_title">列明所有预算的清单</string>
