@@ -6,8 +6,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,13 +26,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Transfer
@@ -37,7 +40,24 @@ import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-abstract class ItemRenderer(val onToggleCrStatus: ((Long) -> Unit)?) {
+abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
+    companion object {
+        const val INLINE_CONTENT_ATTACHMENT = "attachment"
+    }
+
+    val inlineContent = mapOf(
+        INLINE_CONTENT_ATTACHMENT to InlineTextContent(
+            Placeholder(width = 24.sp, height = 24.sp,
+                placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
+            )
+        ) {
+            androidx.compose.material.Icon(
+                Icons.Filled.Attachment,
+                contentDescription = "Attachment"
+            )
+        }
+    )
+
 
     fun Transaction2.buildPrimaryInfo(context: Context) = buildAnnotatedString {
         referenceNumber?.takeIf { it.isNotEmpty() }?.let {
@@ -78,12 +98,16 @@ abstract class ItemRenderer(val onToggleCrStatus: ((Long) -> Unit)?) {
                 append(it)
             }
         }
+        if (pictureUri != null) {
+            append(" ")
+            appendInlineContent(INLINE_CONTENT_ATTACHMENT, "Attachment")
+        }
     }
 
     @Composable
     abstract fun RowScope.RenderInner(transaction: Transaction2)
 
-    abstract fun Modifier.height() : Modifier
+    abstract fun Modifier.height(): Modifier
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
@@ -159,7 +183,7 @@ abstract class ItemRenderer(val onToggleCrStatus: ((Long) -> Unit)?) {
 class TransactionRendererLegacy(
     val dateTimeFormatter: DateTimeFormatter?,
     onToggleCrStatus: ((Long) -> Unit)?
-): ItemRenderer(onToggleCrStatus) {
+) : ItemRenderer(onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
         val description = buildAnnotatedString {
@@ -185,7 +209,8 @@ class TransactionRendererLegacy(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
                 .weight(1f),
-            text = description
+            text = description,
+            inlineContent = inlineContent
         )
         ColoredAmountText(money = transaction.amount)
     }
@@ -208,7 +233,7 @@ class NewTransactionRenderer(
         ) {
             Text(text = transaction.buildPrimaryInfo(LocalContext.current))
             transaction.buildSecondaryInfo().takeIf { it.isNotEmpty() }?.let {
-                Text(text = it)
+                Text(text = it, inlineContent = inlineContent)
             }
         }
         Column(horizontalAlignment = Alignment.End) {

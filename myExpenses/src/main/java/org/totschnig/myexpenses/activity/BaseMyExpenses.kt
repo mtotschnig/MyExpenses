@@ -22,10 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CallSplit
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Loupe
-import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -155,6 +152,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     @Inject
     lateinit var reviewManager: ReviewManager
+
+    @Inject
+    lateinit var imageViewIntentProvider: ImageViewIntentProvider
 
     lateinit var toolbar: Toolbar
 
@@ -741,6 +741,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                                 icon = Icons.Filled.CallSplit,
                                                 label = R.string.menu_ungroup_split_transaction
                                             ) { ungroupSplit(transaction) })
+                                        }
+                                        transaction.pictureUri?.let { uri ->
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.Attachment,
+                                                label = R.string.menu_view_picture
+                                            ) { imageViewIntentProvider.startViewIntent(this@BaseMyExpenses, uri) })
                                         }
                                     }
                                 }
