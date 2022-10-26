@@ -760,13 +760,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     },
                     showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true),
                     renderer = when (getEnumFromPreferencesWithDefault(
-                        prefHandler, PrefKey.UI_ITEM_RENDERER, RenderType.new
+                        prefHandler, PrefKey.UI_ITEM_RENDERER, RenderType.New
                     )) {
-                        RenderType.new -> NewTransactionRenderer(
+                        RenderType.New -> NewTransactionRenderer(
                             dateTimeFormatter(account, prefHandler, this@BaseMyExpenses),
                             onToggleCrStatus
                         )
-                        RenderType.legacy -> TransactionRendererLegacy(
+                        RenderType.Legacy -> LegacyTransactionRenderer(
                             dateTimeFormatterLegacy(account, prefHandler, this@BaseMyExpenses),
                             onToggleCrStatus
                         )

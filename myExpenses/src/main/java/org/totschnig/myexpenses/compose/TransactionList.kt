@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -75,6 +76,7 @@ fun TransactionList(
                 .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
         )
     } else {
+        val futureBackgroundColor = colorResource(id = R.color.future_background)
         LazyColumn(modifier = modifier
             .testTag(TEST_TAG_LIST)
             .semantics {
@@ -115,7 +117,6 @@ fun TransactionList(
                             }
                     }
                 }
-
                 // Gets item, triggering page loads if needed
                 lazyPagingItems[index]?.let {
                     val isLast = index == lazyPagingItems.itemCount - 1
@@ -123,12 +124,14 @@ fun TransactionList(
                         item(key = it.id) {
                             if (!isGroupHidden) {
                                 renderer.Render(
-                                        modifier = Modifier.animateItemPlacement(),
-                                        transaction = it,
-                                        selectionHandler = selectionHandler,
-                                        menuGenerator = menuGenerator,
-                                        futureCriterion = futureCriterion
-                                    )
+                                    modifier = Modifier.animateItemPlacement()
+                                        .conditional(it.date >= futureCriterion) {
+                                        background(futureBackgroundColor)
+                                    },
+                                    transaction = it,
+                                    selectionHandler = selectionHandler,
+                                    menuGenerator = menuGenerator
+                                )
                             }
                             if (isLast) GroupDivider() else Divider()
                         }

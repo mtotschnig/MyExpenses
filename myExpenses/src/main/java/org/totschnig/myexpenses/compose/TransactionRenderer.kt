@@ -30,10 +30,15 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -47,7 +52,8 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
 
     val inlineContent = mapOf(
         INLINE_CONTENT_ATTACHMENT to InlineTextContent(
-            Placeholder(width = 24.sp, height = 24.sp,
+            Placeholder(
+                width = 24.sp, height = 24.sp,
                 placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
             )
         ) {
@@ -95,7 +101,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         tagList?.takeIf { it.isNotEmpty() }?.let {
             append(COMMENT_SEPARATOR)
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append(it)
+                append(it.joinToString("x"))
             }
         }
         if (pictureUri != null) {
@@ -112,21 +118,16 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun Render(
-        modifier: Modifier,
+        modifier: Modifier = Modifier,
         transaction: Transaction2,
         selectionHandler: SelectionHandler,
-        menuGenerator: (Transaction2) -> Menu<Transaction2>?,
-        futureCriterion: ZonedDateTime
+        menuGenerator: (Transaction2) -> Menu<Transaction2>?
     ) {
         val showMenu = remember { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
         val voidMarkerHeight = with(LocalDensity.current) { 2.dp.toPx() }
-        val futureBackgroundColor = colorResource(id = R.color.future_background)
         val voidStatus = stringResource(id = R.string.status_void)
         Row(modifier = modifier
-            .conditional(transaction.date >= futureCriterion) {
-                background(futureBackgroundColor)
-            }
             .height()
             .combinedClickable(
                 onLongClick = { selectionHandler.toggle(transaction) },
@@ -180,8 +181,8 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     }
 }
 
-class TransactionRendererLegacy(
-    val dateTimeFormatter: DateTimeFormatter?,
+class LegacyTransactionRenderer(
+    private val dateTimeFormatter: DateTimeFormatter?,
     onToggleCrStatus: ((Long) -> Unit)?
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
@@ -219,7 +220,7 @@ class TransactionRendererLegacy(
 }
 
 class NewTransactionRenderer(
-    val dateTimeFormatter: DateTimeFormatter?,
+    private val dateTimeFormatter: DateTimeFormatter?,
     onToggleCrStatus: ((Long) -> Unit)?
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
@@ -248,5 +249,55 @@ class NewTransactionRenderer(
 }
 
 enum class RenderType {
-    legacy, new
+    Legacy, New
+}
+
+@Preview
+@Composable
+fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
+    NewTransactionRenderer(null, null).Render(
+        transaction = transaction,
+        selectionHandler = object : SelectionHandler {
+            override fun toggle(transaction: Transaction2) {}
+
+            override fun isSelected(transaction: Transaction2) = false
+
+            override val selectionCount: Int = 0
+        },
+        menuGenerator = { null }
+    )
+}
+
+@Preview
+@Composable
+fun RenderLegacy(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
+    LegacyTransactionRenderer(null, null).Render(
+        transaction = transaction,
+        selectionHandler = object : SelectionHandler {
+            override fun toggle(transaction: Transaction2) {}
+
+            override fun isSelected(transaction: Transaction2) = false
+
+            override val selectionCount: Int = 0
+        },
+        menuGenerator = { null }
+    )
+}
+
+class SampleProvider : PreviewParameterProvider<Transaction2> {
+    override val values = sequenceOf(
+        Transaction2(
+            id = -1,
+            date = ZonedDateTime.now(),
+            amount = Money(CurrencyUnit.DebugInstance, 7000),
+            accountId = -1,
+            catId = 1,
+            label = "Obst und Gemüse",
+            icon = "apple",
+            year = 2022,
+            month = 1,
+            day = 1,
+            week = 1
+        )
+    )
 }

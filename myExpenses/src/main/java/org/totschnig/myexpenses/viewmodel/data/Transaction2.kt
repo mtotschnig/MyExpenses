@@ -20,33 +20,35 @@ import java.time.ZonedDateTime
 data class Transaction2(
     val id: Long,
     val date: ZonedDateTime,
-    val valueDate: ZonedDateTime,
+    val valueDate: ZonedDateTime = date,
     val amount: Money,
-    val comment: String?,
-    val catId: Long?,
-    val label: String?,
-    val payee: String?,
-    val transferPeer: Long?,
-    val transferAccount: Long?,
+    val comment: String? = null,
+    val catId: Long? = null,
+    val label: String? = null,
+    val payee: String? = null,
+    val transferPeer: Long? = null,
+    val transferAccount: Long? = null,
     val accountId: Long,
-    val methodId: Long?,
-    val methodLabel: String?,
-    val crStatus: CrStatus,
-    val referenceNumber: String?,
-    val currency: CurrencyUnit,
-    val pictureUri: Uri?,
-    val color: Int?,
-    val transferPeerParent: Long?,
-    val status: Int,
-    val accountLabel: String?,
-    val accountType: AccountType?,
-    val tagList: String? = null,
+    val methodId: Long? = null,
+    val methodLabel: String? = null,
+    val crStatus: CrStatus = CrStatus.UNRECONCILED,
+    val referenceNumber: String? = null,
+    val pictureUri: Uri? = null,
+    val color: Int? = null,
+    val transferPeerParent: Long? = null,
+    val status: Int = STATUS_NONE,
+    val accountLabel: String? = null,
+    val accountType: AccountType? = AccountType.CASH,
+    val tagList: List<String>? = null,
     val year: Int,
     val month: Int,
     val week: Int,
     val day: Int,
-    val icon: String?
+    val icon: String? = null
 ): Parcelable {
+
+    val currency: CurrencyUnit
+        get() = amount.currencyUnit
 
     val isSplit: Boolean
         get() = catId == SPLIT_CATID
@@ -91,10 +93,11 @@ data class Transaction2(
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
-        val additionGrandTotalColumns = arrayOf(
-            KEY_CURRENCY,
-            "${getAmountHomeEquivalent(VIEW_EXTENDED)} AS $KEY_EQUIVALENT_AMOUNT"
-        )
+        val additionGrandTotalColumns: Array<String>
+            get() = arrayOf(
+                KEY_CURRENCY,
+                "${getAmountHomeEquivalent(VIEW_EXTENDED)} AS $KEY_EQUIVALENT_AMOUNT"
+            )
 
         fun fromCursor(
             context: Context,
@@ -122,7 +125,6 @@ data class Transaction2(
                 transferAccount = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
-                currency = currencyUnit,
                 pictureUri = cursor.getStringOrNull(KEY_PICTURE_URI)
                     ?.let { uri ->
                         var parsedUri = Uri.parse(uri)
