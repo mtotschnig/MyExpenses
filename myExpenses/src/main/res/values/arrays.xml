@@ -31,8 +31,8 @@
     </string-array>
 
     <string-array name="pref_ui_item_renderer_values" tools:ignore="InconsistentArrays">
-        <item>legacy</item>
-        <item>new</item>
+        <item>Legacy</item>
+        <item>New</item>
     </string-array>
     <string-array name="pref_ui_item_renderer_entries" tools:ignore="InconsistentArrays">
         <item>Legacy</item>
