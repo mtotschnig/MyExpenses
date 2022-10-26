@@ -93,13 +93,17 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
             }
         }
         payee?.takeIf { it.isNotEmpty() }?.let {
-            append(COMMENT_SEPARATOR)
+            if (length > 0) {
+                append(COMMENT_SEPARATOR)
+            }
             withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
                 append(it)
             }
         }
         tagList?.takeIf { it.isNotEmpty() }?.let {
-            append(COMMENT_SEPARATOR)
+            if (length > 0) {
+                append(COMMENT_SEPARATOR)
+            }
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                 append(it.joinToString("x"))
             }
@@ -293,6 +297,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             accountId = -1,
             catId = 1,
             label = "Obst und Gemüse",
+            payee = "Erika Musterfrau",
             icon = "apple",
             year = 2022,
             month = 1,
