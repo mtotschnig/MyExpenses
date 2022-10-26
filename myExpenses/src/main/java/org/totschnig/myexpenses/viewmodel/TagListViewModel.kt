@@ -74,13 +74,15 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
         }
     }
 
-    fun addTagAndPersist(label: String): LiveData<Boolean> =
+    fun addTagAndPersist(label: String): LiveData<Tag> =
         liveData(context = coroutineContext()) {
-            val result = contentResolver.insert(TransactionProvider.TAGS_URI,
+            contentResolver.insert(TransactionProvider.TAGS_URI,
                 ContentValues().apply { put(KEY_LABEL, label) })?.let {
-                toggleSelectedTagId(ContentUris.parseId(it))
+                ContentUris.parseId(it)
+            }?.let {
+                toggleSelectedTagId(it)
+                emit(Tag(it, label))
             }
-            emit(result != null)
         }
 
     fun updateTag(tag: Tag, newLabel: String) =
