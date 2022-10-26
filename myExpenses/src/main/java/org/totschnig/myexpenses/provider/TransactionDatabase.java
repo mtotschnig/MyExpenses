@@ -121,7 +121,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     }
 
     if (withTags) {
-      stringBuilder.append(", group_concat(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(", ', ') AS ").append(KEY_TAGLIST);
+      stringBuilder.append(", json_group_array(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(") AS ").append(KEY_TAGLIST);
     }
 
     stringBuilder.append(" FROM ").append(tableName)
@@ -173,7 +173,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
-      stringBuilder.append(", group_concat(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(", ', ') AS ").append(KEY_TAGLIST);
+      stringBuilder.append(", json_group_array(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(") AS ").append(KEY_TAGLIST);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")

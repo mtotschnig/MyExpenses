@@ -420,9 +420,6 @@ fun computeWhere(selection: String?, whereClause: java.lang.StringBuilder): Stri
     }
 }
 
-val frameworkSupportsWindowingFunctions
-    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-
 fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<Unit> {
     cacheEventData(context, prefHandler)
     cacheSyncState(context)

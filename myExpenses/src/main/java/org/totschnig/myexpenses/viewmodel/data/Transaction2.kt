@@ -4,6 +4,9 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.reflect.TypeToken
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
@@ -14,6 +17,7 @@ import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.io.File
+import java.lang.reflect.Type
 import java.time.ZonedDateTime
 
 @Parcelize
@@ -57,6 +61,8 @@ data class Transaction2(
         get() = transferPeer != null
 
     companion object {
+        private val typeToken: Type = object : TypeToken<List<String>>() {}.type
+        private val gson = Gson()
         fun projection(context: Context) = arrayOf(
             KEY_ROWID,
             KEY_DATE,
@@ -148,7 +154,9 @@ data class Transaction2(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT),
-                tagList = cursor.getStringOrNull(KEY_TAGLIST),
+                tagList = cursor.getStringOrNull(KEY_TAGLIST)?.let {
+                    gson.fromJson(it, typeToken)
+                },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
                 year = cursor.getInt(KEY_YEAR),

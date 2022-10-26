@@ -13,8 +13,6 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.frameworkSupportsWindowingFunctions
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -41,13 +39,7 @@ open class DataModule {
 
     @Singleton
     @Provides
-    fun provideSQLiteOpenHelperFactory(prefHandler: PrefHandler): SupportSQLiteOpenHelper.Factory {
-        if (!frameworkSupportsWindowingFunctions) {
-            try {
-                return Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
-                    .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
-            } catch (_: Exception) { }
-        }
-        return FrameworkSQLiteOpenHelperFactory()
-    }
+    fun provideSQLiteOpenHelperFactory() =
+        Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
+            .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
 }
