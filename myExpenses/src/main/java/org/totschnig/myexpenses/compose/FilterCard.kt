@@ -10,7 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.FilterChip
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +41,8 @@ fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
             .weight(1f)
             .padding(start = 12.dp)) {
             whereFilter?.criteria?.forEach {
-                SuggestionChip(
+                FilterChip(
+                    selected = true,
                     onClick = { },
                     label = {
                         Text(it.prettyPrint(LocalContext.current))

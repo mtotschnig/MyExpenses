@@ -74,7 +74,7 @@
             android:title="@string/pref_ui_theme_title"
             my:useSimpleSummaryProvider="true" />
         <ListPreference
-            android:defaultValue="new"
+            android:defaultValue="New"
             android:entries="@array/pref_ui_item_renderer_entries"
             android:entryValues="@array/pref_ui_item_renderer_values"
             android:key="@string/pref_ui_item_renderer_key"

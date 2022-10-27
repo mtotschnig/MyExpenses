@@ -1,14 +1,19 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Attachment
@@ -17,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -59,7 +65,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         ) {
             androidx.compose.material.Icon(
                 Icons.Filled.Attachment,
-                contentDescription = "Attachment"
+                contentDescription = "Attachment" //TODO localize
             )
         }
     )
@@ -86,7 +92,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         }
     }
 
-    fun Transaction2.buildSecondaryInfo() = buildAnnotatedString {
+    fun Transaction2.buildSecondaryInfo(withTags: Boolean) = buildAnnotatedString {
         comment?.takeIf { it.isNotEmpty() }?.let {
             withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                 append(it)
@@ -100,12 +106,12 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
                 append(it)
             }
         }
-        tagList?.takeIf { it.isNotEmpty() }?.let {
+        tagList.takeIf { withTags && it.isNotEmpty() }?.let {
             if (length > 0) {
                 append(COMMENT_SEPARATOR)
             }
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append(it.joinToString("x"))
+                append(it.joinToString())
             }
         }
         if (pictureUri != null) {
@@ -193,7 +199,7 @@ class LegacyTransactionRenderer(
     override fun RowScope.RenderInner(transaction: Transaction2) {
         val description = buildAnnotatedString {
             append(transaction.buildPrimaryInfo(LocalContext.current))
-            transaction.buildSecondaryInfo().takeIf { it.isNotEmpty() }?.let {
+            transaction.buildSecondaryInfo(true).takeIf { it.isNotEmpty() }?.let {
                 append(COMMENT_SEPARATOR)
                 append(it)
             }
@@ -237,9 +243,15 @@ class NewTransactionRenderer(
                 .weight(1f)
         ) {
             Text(text = transaction.buildPrimaryInfo(LocalContext.current))
-            transaction.buildSecondaryInfo().takeIf { it.isNotEmpty() }?.let {
+            transaction.buildSecondaryInfo(false).takeIf { it.isNotEmpty() }?.let {
                 Text(text = it, inlineContent = inlineContent)
             }
+            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+               transaction.tagList.forEach {
+                   Text(text = it, modifier = Modifier.tagBorder())
+               }
+            }
+
         }
         Column(horizontalAlignment = Alignment.End) {
             ColoredAmountText(money = transaction.amount)
@@ -254,6 +266,17 @@ class NewTransactionRenderer(
 
 enum class RenderType {
     Legacy, New
+}
+
+fun Modifier.tagBorder() = composed {
+    border(
+        border = BorderStroke(
+            ButtonDefaults.OutlinedBorderSize,
+            MaterialTheme.colors.onSurface
+        ),
+        shape = RoundedCornerShape(8.dp),
+    )
+        .padding(horizontal = 4.dp)
 }
 
 @Preview
@@ -302,7 +325,8 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             year = 2022,
             month = 1,
             day = 1,
-            week = 1
+            week = 1,
+            tagList = listOf("Hund", "Katz")
         )
     )
 }

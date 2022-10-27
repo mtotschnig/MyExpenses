@@ -15,8 +15,8 @@ data class Colors(
 )
 
 val LocalColors = compositionLocalOf { Colors(
-        income = Color.Red,
-        expense = Color.Green,
+        income = Color.Green,
+        expense = Color.Red,
         transfer = Color.Unspecified,
         iconTint = Color.DarkGray
     ) }

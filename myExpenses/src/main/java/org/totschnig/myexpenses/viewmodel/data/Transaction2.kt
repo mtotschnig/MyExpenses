@@ -5,13 +5,23 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
 import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.google.gson.reflect.TypeToken
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
-import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
@@ -43,7 +53,7 @@ data class Transaction2(
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
     val accountType: AccountType? = AccountType.CASH,
-    val tagList: List<String>? = null,
+    val tagList: List<String> = emptyList(),
     val year: Int,
     val month: Int,
     val week: Int,
@@ -61,7 +71,7 @@ data class Transaction2(
         get() = transferPeer != null
 
     companion object {
-        private val typeToken: Type = object : TypeToken<List<String>>() {}.type
+        private val typeToken: Type = object : TypeToken<List<String?>>() {}.type
         private val gson = Gson()
         fun projection(context: Context) = arrayOf(
             KEY_ROWID,
@@ -154,8 +164,8 @@ data class Transaction2(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT),
-                tagList = cursor.getStringOrNull(KEY_TAGLIST)?.let {
-                    gson.fromJson(it, typeToken)
+                tagList = cursor.getString(KEY_TAGLIST).let {
+                    gson.fromJson<List<String?>>(it, typeToken).filterNotNull()
                 },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
