@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -443,9 +444,9 @@ public class PdfPrinter {
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);
-      String tagList = transactionCursor.getString(columnIndexTagList);
+      List<String> tagList = MoreDbUtilsKt.getStringListFromJson(transactionCursor, KEY_TAGLIST);
       final boolean hasComment = comment != null && comment.length() > 0;
-      final boolean hasTags = tagList != null && tagList.length() > 0;
+      final boolean hasTags = tagList.size() > 0;
       if (hasComment || hasTags) {
         table.addCell(helper.emptyCell());
         if (hasComment) {
@@ -459,7 +460,8 @@ public class PdfPrinter {
           table.addCell(cell);
         }
         if (hasTags) {
-          cell = helper.printToCell(tagList, FontType.BOLD);
+          //TODO joinToString
+          cell = helper.printToCell(tagList.toString(), FontType.BOLD);
           if (isVoid) {
             cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
           }

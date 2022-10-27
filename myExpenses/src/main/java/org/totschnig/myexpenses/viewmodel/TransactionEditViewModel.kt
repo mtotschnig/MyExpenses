@@ -290,7 +290,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     cursor.getStringOrNull(3),
                     DbUtils.getLongOrNull(cursor, 4) != null,
                     cursor.getStringOrNull(5),
-                    cursor.getString(6)
+                    cursor.getStringListFromJson(KEY_TAGLIST).joinToString()
                 )
         }
     }

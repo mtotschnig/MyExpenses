@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.*
 import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
+import org.totschnig.myexpenses.provider.getStringListFromJson
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -190,7 +191,7 @@ data class Transaction(
                     KEY_TRANSFER_PEER_PARENT
                 ) != null,
                 debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL),
-                tagList = cursor.getStringOrNull(KEY_TAGLIST)
+                tagList = cursor.getStringListFromJson(KEY_TAGLIST).joinToString()
             )
         }
     }

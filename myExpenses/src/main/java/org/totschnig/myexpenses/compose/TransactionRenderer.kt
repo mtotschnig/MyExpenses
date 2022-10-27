@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.flowlayout.FlowRow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -71,7 +72,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     )
 
 
-    fun Transaction2.buildPrimaryInfo(context: Context) = buildAnnotatedString {
+    fun Transaction2.buildPrimaryInfo(context: Context, withLabeLPlaceHolder: Boolean) = buildAnnotatedString {
         referenceNumber?.takeIf { it.isNotEmpty() }?.let {
             append("($it) ")
         }
@@ -81,7 +82,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
             label?.let { append(it) }
         } else if (isSplit) {
             append(context.getString(R.string.split_transaction))
-        } else if (catId == null && status != DatabaseConstants.STATUS_HELPER) {
+        } else if (withLabeLPlaceHolder && catId == null && status != DatabaseConstants.STATUS_HELPER) {
             append(org.totschnig.myexpenses.viewmodel.data.Category.NO_CATEGORY_ASSIGNED_LABEL)
         } else {
             label?.let {
@@ -198,7 +199,7 @@ class LegacyTransactionRenderer(
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
         val description = buildAnnotatedString {
-            append(transaction.buildPrimaryInfo(LocalContext.current))
+            append(transaction.buildPrimaryInfo(LocalContext.current, true))
             transaction.buildSecondaryInfo(true).takeIf { it.isNotEmpty() }?.let {
                 append(COMMENT_SEPARATOR)
                 append(it)
@@ -235,18 +236,20 @@ class NewTransactionRenderer(
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
-        transaction.icon?.let { Icon(icon = it) }
+        Icon(icon = (transaction.icon ?: "minus"))
         StatusToggle(transaction = transaction)
         Column(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
                 .weight(1f)
         ) {
-            Text(text = transaction.buildPrimaryInfo(LocalContext.current))
+            transaction.buildPrimaryInfo(LocalContext.current, false).takeIf { it.isNotEmpty() }?.let {
+                Text(text = it)
+            }
             transaction.buildSecondaryInfo(false).takeIf { it.isNotEmpty() }?.let {
                 Text(text = it, inlineContent = inlineContent)
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            FlowRow(mainAxisSpacing = 2.dp, crossAxisSpacing = 1.dp) {
                transaction.tagList.forEach {
                    Text(text = it, modifier = Modifier.tagBorder())
                }

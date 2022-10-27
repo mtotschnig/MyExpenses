@@ -4,8 +4,6 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -21,13 +19,13 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.getStringListFromJson
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.io.File
-import java.lang.reflect.Type
 import java.time.ZonedDateTime
 
 @Parcelize
@@ -71,8 +69,6 @@ data class Transaction2(
         get() = transferPeer != null
 
     companion object {
-        private val typeToken: Type = object : TypeToken<List<String?>>() {}.type
-        private val gson = Gson()
         fun projection(context: Context) = arrayOf(
             KEY_ROWID,
             KEY_DATE,
@@ -164,16 +160,14 @@ data class Transaction2(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT),
-                tagList = cursor.getString(KEY_TAGLIST).let {
-                    gson.fromJson<List<String?>>(it, typeToken).filterNotNull()
-                },
+                tagList = cursor.getStringListFromJson(KEY_TAGLIST),
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
                 year = cursor.getInt(KEY_YEAR),
                 month = cursor.getInt(KEY_MONTH),
                 week = cursor.getInt(KEY_WEEK),
                 day = cursor.getInt(KEY_DAY),
-                icon = cursor.getString(KEY_ICON)
+                icon = cursor.getStringOrNull(KEY_ICON)
             )
         }
     }
