@@ -72,6 +72,10 @@ $ANDROID_HOME/cmdline-tools/bin/sdkmanager --install --sdk_root=$ANDROID_HOME "p
 $ANDROID_HOME/cmdline-tools/bin/sdkmanager --install --sdk_root=$ANDROID_HOME "build-tools;30.0.3"
 ```
 
+If gradlew errors out with "Could not dispatch a message to the daemon", just
+re-run the command. This can happen when the system is low on memory. The same
+is true for the "Gradle build daemon disappeared unexpectedly" error.
+
 Integrate
 =========
 My Expenses now has experimental support for inserting data from third party apps. See [TransactionsContract.java](https://github.com/mtotschnig/MyExpenses/blob/master/transactionscontract/src/main/java/org/totschnig/myexpenses/contract/TransactionsContract.java).
