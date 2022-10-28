@@ -11,6 +11,7 @@
         <item>reset</item>
         <item>grouping</item>
         <item>sort_direction</item>
+        <item>status_handle</item>
         <item>balance</item>
         <item>print</item>
     </string-array>
