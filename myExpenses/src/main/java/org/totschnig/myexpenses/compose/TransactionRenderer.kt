@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -57,22 +58,16 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
 
     fun Transaction2.buildPrimaryInfo(
         context: Context,
-        withLabeLPlaceHolder: Boolean
-    ): Pair<AnnotatedString, String?> {
+        withLabelPlaceHolder: Boolean
+    ): AnnotatedString {
         return buildAnnotatedString {
-            methodIcon?.let {
-                appendInlineContent(it, methodLabel!!) // TODO localize
-            }
-            referenceNumber?.takeIf { it.isNotEmpty() }?.let {
-                append("($it) ")
-            }
             if (transferPeer != null) {
                 accountLabel?.let { append("$it ") }
                 append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
                 label?.let { append(it) }
             } else if (isSplit) {
                 append(context.getString(R.string.split_transaction))
-            } else if (withLabeLPlaceHolder && catId == null && status != DatabaseConstants.STATUS_HELPER) {
+            } else if (withLabelPlaceHolder && catId == null && status != DatabaseConstants.STATUS_HELPER) {
                 append(org.totschnig.myexpenses.viewmodel.data.Category.NO_CATEGORY_ASSIGNED_LABEL)
             } else {
                 label?.let {
@@ -81,12 +76,18 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
                     }
                 }
             }
-        } to methodIcon
+        }
     }
 
-    fun Transaction2.buildSecondaryInfo(withTags: Boolean): Pair<AnnotatedString, String?> {
+    fun Transaction2.buildSecondaryInfo(withTags: Boolean): Pair<AnnotatedString, List<String>> {
         val attachmentIcon = if (pictureUri != null) "paperclip" else null
         return buildAnnotatedString {
+            methodIcon?.let {
+                appendInlineContent(it, methodLabel!!) // TODO localize
+            }
+            referenceNumber?.takeIf { it.isNotEmpty() }?.let {
+                append("($it) ")
+            }
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                     append(it)
@@ -112,7 +113,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
                 append(" ")
                 appendInlineContent(it, "Attachment")
             }
-        } to attachmentIcon
+        } to listOfNotNull(methodIcon, attachmentIcon)
     }
 
     @Composable
@@ -187,12 +188,12 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
 
     protected fun inlineIcon(icon: String) = InlineTextContent(
         Placeholder(
-            width = 24.sp,
-            height = 24.sp,
+            width = 12.sp,
+            height = 12.sp,
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
-        Icon(icon)
+        Icon(icon, size = with(LocalDensity.current) { 10.sp.toDp() })
     }
 }
 
@@ -202,10 +203,9 @@ class LegacyTransactionRenderer(
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
-        val primaryInfo = transaction.buildPrimaryInfo(LocalContext.current, true)
         val secondaryInfo = transaction.buildSecondaryInfo(true)
         val description = buildAnnotatedString {
-            append(primaryInfo.first)
+            append(transaction.buildPrimaryInfo(LocalContext.current, true))
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let {
                 append(COMMENT_SEPARATOR)
                 append(it)
@@ -229,10 +229,7 @@ class LegacyTransactionRenderer(
                 .weight(1f),
             text = description,
             inlineContent = buildMap {
-                primaryInfo.second?.let {
-                    put(it, inlineIcon(it))
-                }
-                secondaryInfo.second?.let {
+                secondaryInfo.second.forEach {
                     put(it, inlineIcon(it))
                 }
             }
@@ -266,18 +263,14 @@ class NewTransactionRenderer(
                 .weight(1f)
         ) {
             val primaryInfo = transaction.buildPrimaryInfo(LocalContext.current, false)
-            primaryInfo.first.takeIf { it.isNotEmpty() }
+            primaryInfo.takeIf { it.isNotEmpty() }
                 ?.let { info ->
-                    Text(text = info, inlineContent = buildMap {
-                        primaryInfo.second?.let {
-                            put(it, inlineIcon(it))
-                        }
-                    })
+                    Text(text = info)
                 }
             val secondaryInfo = transaction.buildSecondaryInfo(false)
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let { info ->
                 Text(text = info, inlineContent = buildMap {
-                    secondaryInfo.second?.let {
+                    secondaryInfo.second.forEach {
                         put(it, inlineIcon(it))
                     }
                 })
@@ -353,16 +346,19 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             id = -1,
             date = ZonedDateTime.now(),
             amount = Money(CurrencyUnit.DebugInstance, 7000),
+            methodLabel = "CHEQUE",
+            referenceNumber = "1",
             accountId = -1,
             catId = 1,
             label = "Obst und Gemüse",
-            payee = "Erika Musterfrau",
+            comment = "Erika Musterfrau",
             icon = "apple",
             year = 2022,
             month = 1,
             day = 1,
             week = 1,
-            tagList = listOf("Hund", "Katz")
+            tagList = listOf("Hund", "Katz"),
+            pictureUri = Uri.EMPTY
         ),
         Transaction2(
             id = -1,

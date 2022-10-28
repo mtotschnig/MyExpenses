@@ -13,27 +13,28 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcon
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconInfo
 
 @Composable
-fun Icon(icon: String) {
+fun Icon(icon: String, size: Dp = 24.dp) {
     val iconInfo = IIconInfo.resolveIcon(icon)
     if (iconInfo == null) {
         Text(color = Color.Red, text = icon)
     } else {
-        Icon(iconInfo)
+        Icon(iconInfo, size)
     }
 }
 
 @Composable
-fun Icon(iconInfo: IIconInfo) {
+fun Icon(iconInfo: IIconInfo, size: Dp = 24.dp) {
     when (iconInfo) {
         is ExtraIcon -> {
             androidx.compose.material.Icon(
-                modifier = Modifier.size(30.dp),
+                modifier = Modifier.size(size * 1.25f),
                 painter = painterResource(iconInfo.drawable),
                 contentDescription = stringResource(id = iconInfo.label)
             )
@@ -42,7 +43,7 @@ fun Icon(iconInfo: IIconInfo) {
             Text(
                 text = iconInfo.unicode.toString(),
                 fontFamily = remember { FontFamily(Font(iconInfo.font, FontWeight.Normal)) },
-                fontSize = with(LocalDensity.current) { 24.dp.toSp() }
+                fontSize = with(LocalDensity.current) { size.toSp() }
             )
         }
     }
