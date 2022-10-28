@@ -69,8 +69,16 @@ data class Transaction2(
     val isTransfer: Boolean
         get() = transferPeer != null
 
-    val methodIcon: String?
-        get() = enumValueOrNull<PreDefinedPaymentMethod>(methodLabel)?.icon
+    /**
+     * pair of localized label and icon
+     */
+    val methodInfo: Pair<String, String?>?
+        get() = methodLabel?.let {
+            enumValueOrNull<PreDefinedPaymentMethod>(it)?.let { predefined ->
+                predefined.localizedLabel to predefined.icon
+            } ?: (methodLabel to null)
+        }
+
 
     companion object {
         fun projection(context: Context) = arrayOf(

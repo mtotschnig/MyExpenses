@@ -1042,4 +1042,6 @@
     <string name="budget_table_header_rollover">Rollover</string>
     <string name="rollover_edit_invalid">The sum of the rollover assigned to a category and the rollovers assigned to subcategories cannot exceed the remainder.</string>
     <string name="dialog_confirm_rollover_delete">All rollover amounts for this period will be deleted.</string>
+    <!-- For icon that represents the fact that an image has been attached to a transaction -->
+    <string name="content_description_attachment">Attachment</string>
 </resources>

@@ -79,11 +79,12 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         }
     }
 
-    fun Transaction2.buildSecondaryInfo(withTags: Boolean): Pair<AnnotatedString, List<String>> {
+    fun Transaction2.buildSecondaryInfo(context: Context, withTags: Boolean): Pair<AnnotatedString, List<String>> {
         val attachmentIcon = if (pictureUri != null) "paperclip" else null
+        val methodIcon = methodInfo?.second
         return buildAnnotatedString {
             methodIcon?.let {
-                appendInlineContent(it, methodLabel!!) // TODO localize
+                appendInlineContent(it, methodInfo!!.first)
             }
             referenceNumber?.takeIf { it.isNotEmpty() }?.let {
                 append("($it) ")
@@ -111,7 +112,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
             }
             attachmentIcon?.let {
                 append(" ")
-                appendInlineContent(it, "Attachment")
+                appendInlineContent(it, context.getString(R.string.content_description_attachment))
             }
         } to listOfNotNull(methodIcon, attachmentIcon)
     }
@@ -203,9 +204,10 @@ class LegacyTransactionRenderer(
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
-        val secondaryInfo = transaction.buildSecondaryInfo(true)
+        val context = LocalContext.current
+        val secondaryInfo = transaction.buildSecondaryInfo(context, true)
         val description = buildAnnotatedString {
-            append(transaction.buildPrimaryInfo(LocalContext.current, true))
+            append(transaction.buildPrimaryInfo(context, true))
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let {
                 append(COMMENT_SEPARATOR)
                 append(it)
@@ -262,12 +264,13 @@ class NewTransactionRenderer(
                 .padding(horizontal = 5.dp)
                 .weight(1f)
         ) {
-            val primaryInfo = transaction.buildPrimaryInfo(LocalContext.current, false)
+            val context = LocalContext.current
+            val primaryInfo = transaction.buildPrimaryInfo(context, false)
             primaryInfo.takeIf { it.isNotEmpty() }
                 ?.let { info ->
                     Text(text = info)
                 }
-            val secondaryInfo = transaction.buildSecondaryInfo(false)
+            val secondaryInfo = transaction.buildSecondaryInfo(context, false)
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let { info ->
                 Text(text = info, inlineContent = buildMap {
                     secondaryInfo.second.forEach {
