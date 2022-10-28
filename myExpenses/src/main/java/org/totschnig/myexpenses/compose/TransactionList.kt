@@ -232,7 +232,7 @@ fun HeaderRenderer(
     showSumDetails: Boolean
 ) {
 
-    Box {
+    Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
         GroupDivider()
         if (account.grouping != Grouping.NONE) {
             ExpansionHandle(
