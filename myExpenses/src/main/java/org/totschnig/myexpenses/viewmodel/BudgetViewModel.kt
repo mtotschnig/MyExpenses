@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
-import android.database.Cursor
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
@@ -22,11 +21,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
-import javax.inject.Inject
 
 open class BudgetViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {

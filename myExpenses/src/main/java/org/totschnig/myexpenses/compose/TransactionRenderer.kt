@@ -16,7 +16,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -55,72 +54,65 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
-    companion object {
-        const val INLINE_CONTENT_ATTACHMENT = "attachment"
+
+    fun Transaction2.buildPrimaryInfo(
+        context: Context,
+        withLabeLPlaceHolder: Boolean
+    ): Pair<AnnotatedString, String?> {
+        return buildAnnotatedString {
+            methodIcon?.let {
+                appendInlineContent(it, methodLabel!!) // TODO localize
+            }
+            referenceNumber?.takeIf { it.isNotEmpty() }?.let {
+                append("($it) ")
+            }
+            if (transferPeer != null) {
+                accountLabel?.let { append("$it ") }
+                append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+                label?.let { append(it) }
+            } else if (isSplit) {
+                append(context.getString(R.string.split_transaction))
+            } else if (withLabeLPlaceHolder && catId == null && status != DatabaseConstants.STATUS_HELPER) {
+                append(org.totschnig.myexpenses.viewmodel.data.Category.NO_CATEGORY_ASSIGNED_LABEL)
+            } else {
+                label?.let {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(it)
+                    }
+                }
+            }
+        } to methodIcon
     }
 
-    val inlineContent = mapOf(
-        INLINE_CONTENT_ATTACHMENT to InlineTextContent(
-            Placeholder(
-                width = 24.sp, height = 24.sp,
-                placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
-            )
-        ) {
-            androidx.compose.material.Icon(
-                Icons.Filled.Attachment,
-                contentDescription = "Attachment" //TODO localize
-            )
-        }
-    )
-
-
-    fun Transaction2.buildPrimaryInfo(context: Context, withLabeLPlaceHolder: Boolean) = buildAnnotatedString {
-        referenceNumber?.takeIf { it.isNotEmpty() }?.let {
-            append("($it) ")
-        }
-        if (transferPeer != null) {
-            accountLabel?.let { append("$it ") }
-            append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
-            label?.let { append(it) }
-        } else if (isSplit) {
-            append(context.getString(R.string.split_transaction))
-        } else if (withLabeLPlaceHolder && catId == null && status != DatabaseConstants.STATUS_HELPER) {
-            append(org.totschnig.myexpenses.viewmodel.data.Category.NO_CATEGORY_ASSIGNED_LABEL)
-        } else {
-            label?.let {
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+    fun Transaction2.buildSecondaryInfo(withTags: Boolean): Pair<AnnotatedString, String?> {
+        val attachmentIcon = if (pictureUri != null) "paperclip" else null
+        return buildAnnotatedString {
+            comment?.takeIf { it.isNotEmpty() }?.let {
+                withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                     append(it)
                 }
             }
-        }
-    }
-
-    fun Transaction2.buildSecondaryInfo(withTags: Boolean) = buildAnnotatedString {
-        comment?.takeIf { it.isNotEmpty() }?.let {
-            withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
-                append(it)
+            payee?.takeIf { it.isNotEmpty() }?.let {
+                if (length > 0) {
+                    append(COMMENT_SEPARATOR)
+                }
+                withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                    append(it)
+                }
             }
-        }
-        payee?.takeIf { it.isNotEmpty() }?.let {
-            if (length > 0) {
-                append(COMMENT_SEPARATOR)
+            tagList.takeIf { withTags && it.isNotEmpty() }?.let {
+                if (length > 0) {
+                    append(COMMENT_SEPARATOR)
+                }
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append(it.joinToString())
+                }
             }
-            withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                append(it)
+            attachmentIcon?.let {
+                append(" ")
+                appendInlineContent(it, "Attachment")
             }
-        }
-        tagList.takeIf { withTags && it.isNotEmpty() }?.let {
-            if (length > 0) {
-                append(COMMENT_SEPARATOR)
-            }
-            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append(it.joinToString())
-            }
-        }
-        if (pictureUri != null) {
-            append(" ")
-            appendInlineContent(INLINE_CONTENT_ATTACHMENT, "Attachment")
-        }
+        } to attachmentIcon
     }
 
     @Composable
@@ -192,6 +184,16 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
             }
         }
     }
+
+    protected fun inlineIcon(icon: String) = InlineTextContent(
+        Placeholder(
+            width = 24.sp,
+            height = 24.sp,
+            placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
+        )
+    ) {
+        Icon(icon)
+    }
 }
 
 class LegacyTransactionRenderer(
@@ -200,9 +202,11 @@ class LegacyTransactionRenderer(
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
+        val primaryInfo = transaction.buildPrimaryInfo(LocalContext.current, true)
+        val secondaryInfo = transaction.buildSecondaryInfo(true)
         val description = buildAnnotatedString {
-            append(transaction.buildPrimaryInfo(LocalContext.current, true))
-            transaction.buildSecondaryInfo(true).takeIf { it.isNotEmpty() }?.let {
+            append(primaryInfo.first)
+            secondaryInfo.first.takeIf { it.isNotEmpty() }?.let {
                 append(COMMENT_SEPARATOR)
                 append(it)
             }
@@ -224,7 +228,14 @@ class LegacyTransactionRenderer(
                 .padding(horizontal = 5.dp)
                 .weight(1f),
             text = description,
-            inlineContent = inlineContent
+            inlineContent = buildMap {
+                primaryInfo.second?.let {
+                    put(it, inlineIcon(it))
+                }
+                secondaryInfo.second?.let {
+                    put(it, inlineIcon(it))
+                }
+            }
         )
         ColoredAmountText(money = transaction.amount)
     }
@@ -254,16 +265,27 @@ class NewTransactionRenderer(
                 .padding(horizontal = 5.dp)
                 .weight(1f)
         ) {
-            transaction.buildPrimaryInfo(LocalContext.current, false).takeIf { it.isNotEmpty() }?.let {
-                Text(text = it)
-            }
-            transaction.buildSecondaryInfo(false).takeIf { it.isNotEmpty() }?.let {
-                Text(text = it, inlineContent = inlineContent)
+            val primaryInfo = transaction.buildPrimaryInfo(LocalContext.current, false)
+            primaryInfo.first.takeIf { it.isNotEmpty() }
+                ?.let { info ->
+                    Text(text = info, inlineContent = buildMap {
+                        primaryInfo.second?.let {
+                            put(it, inlineIcon(it))
+                        }
+                    })
+                }
+            val secondaryInfo = transaction.buildSecondaryInfo(false)
+            secondaryInfo.first.takeIf { it.isNotEmpty() }?.let { info ->
+                Text(text = info, inlineContent = buildMap {
+                    secondaryInfo.second?.let {
+                        put(it, inlineIcon(it))
+                    }
+                })
             }
             FlowRow(mainAxisSpacing = 2.dp, crossAxisSpacing = 1.dp) {
-               transaction.tagList.forEach {
-                   Text(text = it, modifier = Modifier.tagBorder())
-               }
+                transaction.tagList.forEach {
+                    Text(text = it, modifier = Modifier.tagBorder())
+                }
             }
 
         }

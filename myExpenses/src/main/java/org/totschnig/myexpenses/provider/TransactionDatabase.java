@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
@@ -843,11 +844,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private void insertDefaultPaymentMethods(SupportSQLiteDatabase db) {
     ContentValues initialValues;
     long _id;
-    for (PaymentMethod.PreDefined pm : PaymentMethod.PreDefined.values()) {
+    for (PreDefinedPaymentMethod pm : PreDefinedPaymentMethod.values()) {
       initialValues = new ContentValues();
       initialValues.put(KEY_LABEL, pm.name());
-      initialValues.put(KEY_TYPE, pm.paymentType);
-      initialValues.put(KEY_IS_NUMBERED, pm.isNumbered);
+      initialValues.put(KEY_TYPE, pm.getPaymentType());
+      initialValues.put(KEY_IS_NUMBERED, pm.isNumbered());
       _id = db.insert(TABLE_METHODS, CONFLICT_NONE, initialValues);
       initialValues = new ContentValues();
       initialValues.put(KEY_METHODID, _id);
@@ -903,10 +904,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("CREATE TABLE accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
         ContentValues initialValues;
         long _id;
-        for (PaymentMethod.PreDefined pm : PaymentMethod.PreDefined.values()) {
+        for (PreDefinedPaymentMethod pm : PreDefinedPaymentMethod.values()) {
           initialValues = new ContentValues();
           initialValues.put("label", pm.name());
-          initialValues.put("type", pm.paymentType);
+          initialValues.put("type", pm.getPaymentType());
           _id = db.insert("paymentmethods", CONFLICT_NONE, initialValues);
           initialValues = new ContentValues();
           initialValues.put("method_id", _id);

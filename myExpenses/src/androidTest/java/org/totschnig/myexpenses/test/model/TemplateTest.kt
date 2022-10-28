@@ -96,7 +96,7 @@ class TemplateTest : ModelTest() {
         catId = this@TemplateTest.categoryId
         payeeId = this@TemplateTest.payeeId
         comment = "Some comment"
-        PaymentMethod.find(PaymentMethod.PreDefined.CHEQUE.name).let {
+        PaymentMethod.find(PreDefinedPaymentMethod.CHEQUE.name).let {
             assertThat(it).isGreaterThan(-1)
             methodId = it
         }

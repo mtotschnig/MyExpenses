@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionInfo;
@@ -59,8 +60,8 @@ public class AutoFillTest extends BaseDbTest {
     String PAYEE_NAME = "N.N";
     payeeId =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_PAYEES, new PayeeInfo(PAYEE_NAME).getContentValues());
     catId =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_CATEGORIES,  new CategoryInfo("Main", null).getContentValues());
-    methodChequeId = PaymentMethod.find(PaymentMethod.PreDefined.CHEQUE.name());
-    methodCreditCardId = PaymentMethod.find(PaymentMethod.PreDefined.CREDITCARD.name());
+    methodChequeId = PaymentMethod.find(PreDefinedPaymentMethod.CHEQUE.name());
+    methodCreditCardId = PaymentMethod.find(PreDefinedPaymentMethod.CREDITCARD.name());
 
     String PAYEE_NAME1 = "y.y";
     payeeId1 =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_PAYEES, new PayeeInfo(PAYEE_NAME1).getContentValues());

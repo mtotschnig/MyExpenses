@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.getInt
@@ -68,6 +69,9 @@ data class Transaction2(
     val isTransfer: Boolean
         get() = transferPeer != null
 
+    val methodIcon: String?
+        get() = enumValueOrNull<PreDefinedPaymentMethod>(methodLabel)?.icon
+
     companion object {
         fun projection(context: Context) = arrayOf(
             KEY_ROWID,
@@ -82,7 +86,7 @@ data class Transaction2(
             KEY_TRANSFER_ACCOUNT,
             KEY_ACCOUNTID,
             KEY_METHODID,
-            localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
+            KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_CURRENCY,
