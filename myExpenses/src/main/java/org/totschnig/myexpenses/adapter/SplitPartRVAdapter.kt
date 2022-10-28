@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
 class SplitPartRVAdapter(
     context: Context,
@@ -62,6 +63,7 @@ class SplitPartRVAdapter(
     inner class ViewHolder(private val binding: SplitPartRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: ITransaction) {
+            transaction.icon?.let { binding.icon.setImageDrawable(IIconInfo.resolveIcon(it)?.asDrawable(binding.root.context, R.attr.colorOnSurface)) }
             binding.amount.apply {
                 text = currencyFormatter.formatMoney(Money(currencyUnit, transaction.amountRaw))
                 setTextColor(
@@ -121,6 +123,7 @@ class SplitPartRVAdapter(
         val amountRaw: Long
         val debtLabel: String?
         val tagList: String?
+        val icon: String?
 
         override fun equals(other: Any?): Boolean
     }

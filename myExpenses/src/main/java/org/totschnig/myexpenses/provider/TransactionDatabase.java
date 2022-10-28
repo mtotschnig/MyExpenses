@@ -113,6 +113,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     stringBuilder.append( " AS ").append(DbConstantsKt.getCategoryTreeForView())
         .append(" SELECT ").append(tableName).append(".*, ")
         .append("Tree.").append(KEY_PATH).append(", ")
+        .append("Tree.").append(KEY_ICON).append(", ")
         .append(TABLE_PAYEES).append(".").append(KEY_PAYEE_NAME).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
 

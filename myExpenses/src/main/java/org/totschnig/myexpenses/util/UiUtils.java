@@ -130,11 +130,4 @@ public class UiUtils {
     context.getTheme().resolveAttribute(attr, typedValue, true);
     return ContextCompat.getColor(context, typedValue.resourceId);
   }
-
-  public static boolean themeBoolAttr(Context context, int attr) {
-    TypedArray themeArray = context.getTheme().obtainStyledAttributes(new int[]{attr});
-    boolean result = themeArray.getBoolean(0, false);
-    themeArray.recycle();
-    return result;
-  }
 }
