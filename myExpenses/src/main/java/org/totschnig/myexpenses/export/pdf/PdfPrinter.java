@@ -460,7 +460,8 @@ public class PdfPrinter {
           table.addCell(cell);
         }
         if (hasTags) {
-          //TODO joinToString
+          //for the moment we stick with the result of java.util.AbstractCollection.toString
+          //when we convert this to Kotlin, we will add more accurate rendering
           cell = helper.printToCell(tagList.toString(), FontType.BOLD);
           if (isVoid) {
             cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
