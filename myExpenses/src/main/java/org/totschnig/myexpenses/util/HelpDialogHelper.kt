@@ -32,16 +32,16 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
         return if (resString == "menu_BudgetActivity_rollover_help_text") {
             fun toTitle(resId: Int ) = SpannableStringBuilder()
                 .append(" ")
-                .bold { append(getStringSafe(resId)) }
+                .bold { append(getString(resId)) }
                 .append(": ")
             TextUtils.concat(*buildList {
-                add(getStringSafe(R.string.menu_BudgetActivity_rollover_help_text))
+                add(getString(R.string.menu_BudgetActivity_rollover_help_text))
                 add(toTitle(R.string.menu_aggregates))
-                add(getStringSafe(R.string.menu_BudgetActivity_rollover_total))
+                add(getString(R.string.menu_BudgetActivity_rollover_total))
                 add(toTitle(R.string.pref_manage_categories_title))
-                add(getStringSafe(R.string.menu_BudgetActivity_rollover_categories))
+                add(getString(R.string.menu_BudgetActivity_rollover_categories))
                 add(toTitle(R.string.menu_edit))
-                add(getStringSafe(R.string.menu_BudgetActivity_rollover_edit))
+                add(getString(R.string.menu_BudgetActivity_rollover_edit))
             }.toTypedArray())
         } else {
             val resIdString = resString.replace('.', '_')
@@ -52,7 +52,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     null
                 } else {
                     HtmlCompat.fromHtml(
-                        getStringSafe(stringId),
+                        getString(stringId),
                         HtmlCompat.FROM_HTML_MODE_LEGACY, this, null
                     )
                 }
@@ -85,18 +85,16 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
     }
 
     private fun handle(component: String) = if (component.startsWith("popup")) {
-        resolveName(component + "_intro") + " " + resources.getStringArray(
+        resolveStringOrThrowIf0(component + "_intro") + " " + resources.getStringArray(
             resolveArray(
                 component + "_items"
             )
         ).joinToString(" ") {
-            "<b>${resolveName(it)}</b>: ${resolveName(component + "_" + it)}"
+            "<b>${resolveStringOrThrowIf0(it)}</b>: ${resolveStringOrThrowIf0(component + "_" + it)}"
         }
     } else {
-        resolveName(component)
+        resolveStringOrThrowIf0(component)
     }
-
-    private fun resolveName(name: String) = getStringSafe(resolveString(name))
 
     private fun shouldSkip(component: String) = when (component) {
         "help_ManageSyncBackends_drive" -> DistributionHelper.isGithub
@@ -117,16 +115,12 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
             resources.getString(R.string.export_to_format, "QIF")
         }
         else -> {
-            resolveString(resIdString).takeIf { it != 0 }?.let { getStringSafe(it) }
+            resolveString(resIdString).takeIf { it != 0 }?.let { getString(it) }
                 ?: throw Resources.NotFoundException(resIdString)
         }
     }
 
-    private fun getStringSafe(resId: Int) = try {
-        resources.getString(resId)
-    } catch (e: Resources.NotFoundException) { //if resource does exist in an alternate locale, but not in the default one
-        ""
-    }
+    private fun getString(resId: Int) = resources.getString(resId)
 
     @ArrayRes
     fun resolveArray(resIdString: String) = resolve(resIdString, "array")

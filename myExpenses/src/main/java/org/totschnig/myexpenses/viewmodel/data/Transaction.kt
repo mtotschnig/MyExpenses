@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.*
 import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
+import org.totschnig.myexpenses.provider.getStringListFromJson
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -48,7 +49,8 @@ data class Transaction(
     val accountLabel: String,
     val accountType: AccountType,
     override val debtLabel: String?,
-    override val tagList: String? = null
+    override val tagList: String? = null,
+    override val icon: String? = null
 ) : SplitPartRVAdapter.ITransaction {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
@@ -89,7 +91,7 @@ data class Transaction(
             KEY_ORIGINAL_AMOUNT,
             KEY_ORIGINAL_CURRENCY,
             KEY_EQUIVALENT_AMOUNT,
-            CATEGORY_ICON,
+            KEY_ICON,
             checkSealedWithAlias(VIEW_EXTENDED, TABLE_TRANSACTIONS),
             getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE,
             KEY_ACCOUNT_LABEL,
@@ -190,7 +192,8 @@ data class Transaction(
                     KEY_TRANSFER_PEER_PARENT
                 ) != null,
                 debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL),
-                tagList = cursor.getStringOrNull(KEY_TAGLIST)
+                tagList = cursor.getStringListFromJson(KEY_TAGLIST).joinToString(),
+                icon = cursor.getStringOrNull(KEY_ICON)
             )
         }
     }

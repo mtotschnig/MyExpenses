@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
@@ -113,6 +114,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     stringBuilder.append( " AS ").append(DbConstantsKt.getCategoryTreeForView())
         .append(" SELECT ").append(tableName).append(".*, ")
         .append("Tree.").append(KEY_PATH).append(", ")
+        .append("Tree.").append(KEY_ICON).append(", ")
         .append(TABLE_PAYEES).append(".").append(KEY_PAYEE_NAME).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
 
@@ -121,7 +123,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     }
 
     if (withTags) {
-      stringBuilder.append(", group_concat(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(", ', ') AS ").append(KEY_TAGLIST);
+      stringBuilder.append(", json_group_array(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(") AS ").append(KEY_TAGLIST);
     }
 
     stringBuilder.append(" FROM ").append(tableName)
@@ -162,6 +164,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     if (!tableName.equals(TABLE_CHANGES)) {
       stringBuilder.append(", ")
           .append("Tree.").append(KEY_PATH).append(", ")
+          .append("Tree.").append(KEY_ICON).append(", ")
           .append(KEY_COLOR).append(", ")
           .append(KEY_CURRENCY).append(", ")
           .append(KEY_SEALED).append(", ")
@@ -172,7 +175,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
-      stringBuilder.append(", group_concat(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(", ', ') AS ").append(KEY_TAGLIST);
+      stringBuilder.append(", json_group_array(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(") AS ").append(KEY_TAGLIST);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
@@ -841,11 +844,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private void insertDefaultPaymentMethods(SupportSQLiteDatabase db) {
     ContentValues initialValues;
     long _id;
-    for (PaymentMethod.PreDefined pm : PaymentMethod.PreDefined.values()) {
+    for (PreDefinedPaymentMethod pm : PreDefinedPaymentMethod.values()) {
       initialValues = new ContentValues();
       initialValues.put(KEY_LABEL, pm.name());
-      initialValues.put(KEY_TYPE, pm.paymentType);
-      initialValues.put(KEY_IS_NUMBERED, pm.isNumbered);
+      initialValues.put(KEY_TYPE, pm.getPaymentType());
+      initialValues.put(KEY_IS_NUMBERED, pm.isNumbered());
       _id = db.insert(TABLE_METHODS, CONFLICT_NONE, initialValues);
       initialValues = new ContentValues();
       initialValues.put(KEY_METHODID, _id);
@@ -901,10 +904,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("CREATE TABLE accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
         ContentValues initialValues;
         long _id;
-        for (PaymentMethod.PreDefined pm : PaymentMethod.PreDefined.values()) {
+        for (PreDefinedPaymentMethod pm : PreDefinedPaymentMethod.values()) {
           initialValues = new ContentValues();
           initialValues.put("label", pm.name());
-          initialValues.put("type", pm.paymentType);
+          initialValues.put("type", pm.getPaymentType());
           _id = db.insert("paymentmethods", CONFLICT_NONE, initialValues);
           initialValues = new ContentValues();
           initialValues.put("method_id", _id);
@@ -2202,7 +2205,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         upgradeTo126(db);
       }
       if (oldVersion < 127) {
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
       if (oldVersion < 128) {
         upgradeTo128(db);
@@ -2215,6 +2218,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 131) {
         upgradeTo131(db);
+      }
+      if (oldVersion < 132) {
+        createOrRefreshViews(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

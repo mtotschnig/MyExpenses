@@ -102,16 +102,6 @@ public class UiUtils {
     DATE, DATE_TIME, BOOKING_VALUE
   }
 
-  public static @NonNull DateMode getDateMode(AccountType accountType, PrefHandler prefHandler) {
-    if (!(accountType == AccountType.CASH)) {
-      if (prefHandler.getBoolean(TRANSACTION_WITH_VALUE_DATE, false)) {
-        return DateMode.BOOKING_VALUE;
-      }
-    }
-    return prefHandler.getBoolean(TRANSACTION_WITH_TIME, true) ?
-        DateMode.DATE_TIME : DateMode.DATE;
-  }
-
   public static void configureProgress(DonutProgress donutProgress, int progress) {
     donutProgress.setProgress(Math.min(progress, 100));
     donutProgress.setText(progress < 1000 ? String.valueOf(progress) : ">1k");
@@ -139,12 +129,5 @@ public class UiUtils {
     TypedValue typedValue = new TypedValue();
     context.getTheme().resolveAttribute(attr, typedValue, true);
     return ContextCompat.getColor(context, typedValue.resourceId);
-  }
-
-  public static boolean themeBoolAttr(Context context, int attr) {
-    TypedArray themeArray = context.getTheme().obtainStyledAttributes(new int[]{attr});
-    boolean result = themeArray.getBoolean(0, false);
-    themeArray.recycle();
-    return result;
   }
 }

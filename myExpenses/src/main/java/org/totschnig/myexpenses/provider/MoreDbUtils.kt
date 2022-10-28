@@ -19,6 +19,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
 import app.cash.copper.Query
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -38,8 +40,10 @@ import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.io.File
+import java.lang.reflect.Type
 import java.util.ArrayList
 
 fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
@@ -276,6 +280,12 @@ fun Cursor.getLongIfExistsOr0(column: String) = getColumnIndex(column).takeIf { 
 fun Cursor.getStringIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 
+private val typeToken: Type = object : TypeToken<List<String?>>() {}.type
+private val gson = Gson()
+fun Cursor.getStringListFromJson(colum: String) = getString(colum).let {
+    gson.fromJson<List<String?>>(it, typeToken).filterNotNull()
+}
+
 fun cacheSyncState(context: Context) {
     val accountManager = AccountManager.get(context)
     context.contentResolver.query(
@@ -419,9 +429,6 @@ fun computeWhere(selection: String?, whereClause: java.lang.StringBuilder): Stri
         null
     }
 }
-
-val frameworkSupportsWindowingFunctions
-    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 
 fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<Unit> {
     cacheEventData(context, prefHandler)

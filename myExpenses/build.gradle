@@ -164,16 +164,16 @@ dependencies {
     implementation 'com.squareup.phrase:phrase:1.2.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
-    implementation("androidx.compose.material3:material3:1.0.0-rc01")
+    implementation("androidx.compose.material3:material3:1.0.0")
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.activity:activity-compose:1.6.0'
-    implementation "com.google.android.material:compose-theme-adapter:1.1.20"
+    implementation 'androidx.activity:activity-compose:1.6.1'
+    implementation "com.google.android.material:compose-theme-adapter:1.1.21"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
-    implementation "androidx.paging:paging-compose:1.0.0-alpha16"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
     implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
@@ -185,16 +185,16 @@ dependencies {
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10'
 
-    api 'com.google.auto.value:auto-value-annotations:1.8.1'
-    kapt 'com.google.auto.value:auto-value:1.7'
+    api 'com.google.auto.value:auto-value-annotations:1.10'
+    kapt 'com.google.auto.value:auto-value:1.10'
 
-    kapt 'com.ryanharter.auto.value:auto-value-gson:1.3.0'
-    api 'com.ryanharter.auto.value:auto-value-gson-runtime:1.3.0'
+    kapt 'com.ryanharter.auto.value:auto-value-gson:1.3.1'
+    api 'com.ryanharter.auto.value:auto-value-gson-runtime:1.3.1'
 
-    kapt 'com.gabrielittner.auto.value:auto-value-cursor:1.1.0'
-    implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.1.0'
+    kapt 'com.gabrielittner.auto.value:auto-value-cursor:2.0.1'
+    implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:2.0.1'
 
     kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.8'
 
@@ -206,6 +206,7 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:$commonsLang"
     implementation 'org.apache.commons:commons-csv:1.8'
     implementation "org.apache.commons:commons-text:$commonsText"
+    //noinspection GradleDependency
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:2fcb748f0e'
@@ -266,7 +267,7 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
-    androidTestImplementation "androidx.test:runner:1.5.0-beta01"
+    androidTestImplementation "androidx.test:runner:1.5.0-beta02"
     androidTestUtil "androidx.test:orchestrator:1.4.1"
     androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"

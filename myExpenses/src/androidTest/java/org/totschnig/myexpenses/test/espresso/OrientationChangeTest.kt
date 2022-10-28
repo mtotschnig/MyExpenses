@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
-import android.content.OperationApplicationException
-import android.os.RemoteException
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.click
@@ -11,7 +9,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.hamcrest.CoreMatchers.*
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -77,7 +74,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
     fun shouldKeepMethodAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1.id)
         transaction.amount = Money(currency1, -500L)
-        transaction.methodId = PaymentMethod.find(PaymentMethod.PreDefined.DIRECTDEBIT.name)
+        transaction.methodId = PaymentMethod.find(PreDefinedPaymentMethod.DIRECTDEBIT.name)
         transaction.save()
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
@@ -85,7 +82,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
         onView(withId(R.id.Method)).perform(nestedScrollToAction(), click())
-        val string = getString(PaymentMethod.PreDefined.CREDITCARD.resId)
+        val string = getString(PreDefinedPaymentMethod.CREDITCARD.resId)
         onData(
             allOf(
                 instanceOf(org.totschnig.myexpenses.viewmodel.data.PaymentMethod::class.java),

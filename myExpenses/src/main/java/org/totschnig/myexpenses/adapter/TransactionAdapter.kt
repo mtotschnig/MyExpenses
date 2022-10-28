@@ -33,12 +33,9 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringListFromJson
 import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -171,8 +168,8 @@ open class TransactionAdapter(
                 ssb
             ) else ssb
         }
-        val tagList = cursor.getStringOrNull(KEY_TAGLIST)
-        if (tagList != null && tagList.isNotEmpty()) {
+        val tagList = cursor.getStringListFromJson(KEY_TAGLIST).joinToString()
+        if (tagList.isNotEmpty()) {
             ssb = SpannableStringBuilder(tagList)
             ssb.setSpan(StyleSpan(Typeface.BOLD), 0, tagList.length, 0)
             catText = if (catText.isNotEmpty()) TextUtils.concat(
@@ -245,7 +242,7 @@ open class TransactionAdapter(
     fun setAccount(account: Account) {
         mAccount = account
         shouldShowTime =
-            UiUtils.getDateMode(account.type, prefHandler) == UiUtils.DateMode.DATE_TIME
+            getDateMode(account.type, prefHandler) == UiUtils.DateMode.DATE_TIME
         refreshDateFormat()
     }
 

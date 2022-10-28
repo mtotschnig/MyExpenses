@@ -14,14 +14,13 @@ import org.apache.commons.text.matcher.StringMatcherFactory
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.db2.CategoryHelper
-import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.model.PaymentMethod.PreDefined
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
@@ -158,7 +157,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
             if (columnIndexMethod != -1) {
                 var method: String = saveGetFromRecord(record, columnIndexMethod)
                 if (method != "") {
-                    for (preDefined in PreDefined.values()) {
+                    for (preDefined in PreDefinedPaymentMethod.values()) {
                         if (preDefined.localizedLabel == method) {
                             method = preDefined.name
                             break

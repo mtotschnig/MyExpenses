@@ -11,6 +11,7 @@
         <item>reset</item>
         <item>grouping</item>
         <item>sort_direction</item>
+        <item>status_handle</item>
         <item>balance</item>
         <item>print</item>
     </string-array>
@@ -288,7 +289,7 @@
 
     <string-array name="form_comment_help_text">
         <item>form_comment_help_text</item>
-        <item>form_cr_status_help_text</item>
+        <item>form_crstatus_help_text</item>
         <item>form_attach_image_help_text</item>
     </string-array>
 

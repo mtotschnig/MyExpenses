@@ -5,7 +5,7 @@
   <string name="cab_delete_help_text">තෝරා ඇති අයිතම මකා දමන්න.</string>
   <string name="cab_edit_help_text">තෝරා ඇති අයිතම සංස්කරණය කරන්න</string>
   <string name="help_MyExpenses_title">ගනුදෙනු ලැයිස්තුව</string>
-  <string name="help_MyExpenses_crStatus_info">ගනුදෙනුවේ තත්ත්වය වර්ණ කොටුවකින් පෙන්නුම් කරයි: සසඳා නොවූ ගනුදෙනු අළු පාටින් ද, පූර්ණ බව නිල් පැහැයෙන්ද, සැසඳූ ගනුදෙනු කොළ පැහැයෙන්ද පෙන්නුම් කරයි. තත්ත්වය වෙනස් කිරීමට කොටුව මත ක්ලික් කරන්න.</string>
+  <string name="menu_status_handle_help_text">ගනුදෙනුවේ තත්ත්වය වර්ණ කොටුවකින් පෙන්නුම් කරයි: සසඳා නොවූ ගනුදෙනු අළු පාටින් ද, පූර්ණ බව නිල් පැහැයෙන්ද, සැසඳූ ගනුදෙනු කොළ පැහැයෙන්ද පෙන්නුම් කරයි. තත්ත්වය වෙනස් කිරීමට කොටුව මත ක්ලික් කරන්න.</string>
   <string name="cab_create_template_from_transaction_help_text">තෝරා ඇති ගනුදෙනුවට අනුව නව සැලැස්මක් අර්ථ ගන්වන්න. සැලැස්මේ නම සඳහා ඔබට ඉඟියක් ලබා දෙයි.</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">තෝරා ගත් සැලසුම් ක්ෂණයෙන් සිදුවන්නක් කර එය සුරැකීම.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">තෝරා ගත් සැලසුම් ක්ෂණයෙන් සිදුවන්නක් කර එය අවශ්‍ය ස්ථාන සංස්කරණය කර එය සුරැකීම</string>

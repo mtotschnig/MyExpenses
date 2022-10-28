@@ -106,7 +106,8 @@ class TagList : Fragment(), OnDialogResultListener {
         }
 
         val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
-        adapter = Adapter(itemLayoutResId, if (allowModifications) closeFunction else null,
+        adapter = Adapter(
+            itemLayoutResId, if (allowModifications) closeFunction else null,
             if (allowModifications) longClickFunction else null
         )
         binding.recyclerView.adapter = adapter
@@ -150,7 +151,7 @@ class TagList : Fragment(), OnDialogResultListener {
         _binding = null
     }
 
-    private fun addTag(runnable: Runnable? = null) {
+    private fun addTag(commit: Boolean = false) {
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
         binding.tagEdit.text.toString().trim().takeIf { !TextUtils.isEmpty(it) }?.let { label ->
             val position = adapter.getPosition(label)
@@ -163,30 +164,44 @@ class TagList : Fragment(), OnDialogResultListener {
                 )
             } else {
                 viewModel.addTagAndPersist(label).observe(viewLifecycleOwner) {
-                    if (it) {
-                        runnable?.run()
+                    if (commit) {
+                        commit(it)
                     }
                 }
             }
             binding.tagEdit.text = null
-        } ?: kotlin.run { runnable?.run() }
+        } ?: kotlin.run { if (commit) commit(null) }
+    }
+
+    private fun commit(tag: Tag?) {
+        activity?.run {
+            setResult(Activity.RESULT_OK, resultIntent(tag))
+            finish()
+        }
     }
 
     fun confirm() {
         if (::adapter.isInitialized) {
-            addTag {
-                activity?.run {
-                    setResult(Activity.RESULT_OK, resultIntent())
-                    finish()
-                }
-            }
+            addTag(true)
         }
     }
 
-    private fun resultIntent() = Intent().apply {
+    /**
+     * @param newTag if User confirms with a new tag pending in the editor, after the tag has been
+     * inserted into the db, it won't be visible in the adapter when we build the result, that's
+     * why we add it explicitly here
+     */
+    private fun resultIntent(newTag: Tag?) = Intent().apply {
         putParcelableArrayListExtra(
             KEY_TAG_LIST,
-            ArrayList(adapter.currentList.filter { viewModel.selectedTagIds.contains(it.id) })
+            ArrayList(
+                buildList {
+                    addAll(adapter.currentList)
+                    newTag?.let { add(it) }
+                }
+                    .distinct()
+                    .filter { viewModel.selectedTagIds.contains(it.id) }
+            )
         )
         backwardCanceledTags()
     }
@@ -201,7 +216,8 @@ class TagList : Fragment(), OnDialogResultListener {
         backwardCanceledTags()
     }
 
-    private inner class Adapter(val itemLayoutResId: Int,
+    private inner class Adapter(
+        val itemLayoutResId: Int,
         val closeFunction: ((Tag) -> Unit)?,
         val longClickFunction: ((Tag) -> Unit)?
     ) : ListAdapter<Tag, ViewHolder>(DIFF_CALLBACK) {

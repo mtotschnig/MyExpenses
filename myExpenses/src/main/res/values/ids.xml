@@ -64,6 +64,7 @@
     <item name="UP_COMMAND" type="id" />
     <item name="START_EXPORT_COMMAND" type="id" />
     <item name="PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG" type="id" />
+    <item name="SHOW_STATUS_HANDLE_COMMAND" type="id" />
     <item name="BALANCE_COMMAND" type="id" />
     <item name="BALANCE_COMMAND_DO" type="id" />
     <item name="FILTER_CATEGORY_COMMAND" type="id" />

@@ -5,10 +5,23 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
-import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.getStringListFromJson
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
@@ -20,38 +33,52 @@ import java.time.ZonedDateTime
 data class Transaction2(
     val id: Long,
     val date: ZonedDateTime,
-    val valueDate: ZonedDateTime,
+    val valueDate: ZonedDateTime = date,
     val amount: Money,
-    val comment: String?,
-    val catId: Long?,
-    val label: String?,
-    val payee: String?,
-    val transferPeer: Long?,
-    val transferAccount: Long?,
+    val comment: String? = null,
+    val catId: Long? = null,
+    val label: String? = null,
+    val payee: String? = null,
+    val transferPeer: Long? = null,
+    val transferAccount: Long? = null,
     val accountId: Long,
-    val methodId: Long?,
-    val methodLabel: String?,
-    val crStatus: CrStatus,
-    val referenceNumber: String?,
-    val currency: CurrencyUnit,
-    val pictureUri: Uri?,
-    val color: Int?,
-    val transferPeerParent: Long?,
-    val status: Int,
-    val accountLabel: String?,
-    val accountType: AccountType?,
-    val tagList: String? = null,
+    val methodId: Long? = null,
+    val methodLabel: String? = null,
+    val crStatus: CrStatus = CrStatus.UNRECONCILED,
+    val referenceNumber: String? = null,
+    val pictureUri: Uri? = null,
+    val color: Int? = null,
+    val transferPeerParent: Long? = null,
+    val status: Int = STATUS_NONE,
+    val accountLabel: String? = null,
+    val accountType: AccountType? = AccountType.CASH,
+    val tagList: List<String> = emptyList(),
     val year: Int,
     val month: Int,
     val week: Int,
-    val day: Int
+    val day: Int,
+    val icon: String? = null
 ): Parcelable {
+
+    val currency: CurrencyUnit
+        get() = amount.currencyUnit
 
     val isSplit: Boolean
         get() = catId == SPLIT_CATID
 
     val isTransfer: Boolean
         get() = transferPeer != null
+
+    /**
+     * pair of localized label and icon
+     */
+    val methodInfo: Pair<String, String?>?
+        get() = methodLabel?.let {
+            enumValueOrNull<PreDefinedPaymentMethod>(it)?.let { predefined ->
+                predefined.localizedLabel to predefined.icon
+            } ?: (methodLabel to null)
+        }
+
 
     companion object {
         fun projection(context: Context) = arrayOf(
@@ -67,7 +94,7 @@ data class Transaction2(
             KEY_TRANSFER_ACCOUNT,
             KEY_ACCOUNTID,
             KEY_METHODID,
-            localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
+            KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_CURRENCY,
@@ -79,7 +106,8 @@ data class Transaction2(
             "$YEAR AS $KEY_YEAR",
             "${getMonth()} AS $KEY_MONTH",
             "${getWeek()} AS $KEY_WEEK",
-            "$DAY AS $KEY_DAY"
+            "$DAY AS $KEY_DAY",
+            KEY_ICON
         )
 
         val additionalAggregateColumns = arrayOf(
@@ -89,10 +117,11 @@ data class Transaction2(
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
-        val additionGrandTotalColumns = arrayOf(
-            KEY_CURRENCY,
-            "${getAmountHomeEquivalent(VIEW_EXTENDED)} AS $KEY_EQUIVALENT_AMOUNT"
-        )
+        val additionGrandTotalColumns: Array<String>
+            get() = arrayOf(
+                KEY_CURRENCY,
+                "${getAmountHomeEquivalent(VIEW_EXTENDED)} AS $KEY_EQUIVALENT_AMOUNT"
+            )
 
         fun fromCursor(
             context: Context,
@@ -120,7 +149,6 @@ data class Transaction2(
                 transferAccount = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
-                currency = currencyUnit,
                 pictureUri = cursor.getStringOrNull(KEY_PICTURE_URI)
                     ?.let { uri ->
                         var parsedUri = Uri.parse(uri)
@@ -144,13 +172,14 @@ data class Transaction2(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT),
-                tagList = cursor.getStringOrNull(KEY_TAGLIST),
+                tagList = cursor.getStringListFromJson(KEY_TAGLIST),
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
                 year = cursor.getInt(KEY_YEAR),
                 month = cursor.getInt(KEY_MONTH),
                 week = cursor.getInt(KEY_WEEK),
-                day = cursor.getInt(KEY_DAY)
+                day = cursor.getInt(KEY_DAY),
+                icon = cursor.getStringOrNull(KEY_ICON)
             )
         }
     }

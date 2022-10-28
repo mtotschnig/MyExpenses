@@ -11,16 +11,17 @@ data class Colors(
     val income: Color,
     val expense: Color,
     val transfer: Color,
-    val iconTint: Color
 )
 
-val LocalColors = compositionLocalOf { Colors(
-        income = Color.Red,
-        expense = Color.Green,
+val LocalColors = compositionLocalOf {
+    Colors(
+        income = Color.Green,
+        expense = Color.Red,
         transfer = Color.Unspecified,
-        iconTint = Color.DarkGray
-    ) }
+    )
+}
 
 val LocalCurrencyFormatter = staticCompositionLocalOf<ICurrencyFormatter> { DebugCurrencyFormatter }
 
-val LocalDateFormatter = staticCompositionLocalOf<DateTimeFormatter> { DateTimeFormatter.BASIC_ISO_DATE }
+val LocalDateFormatter =
+    staticCompositionLocalOf<DateTimeFormatter> { DateTimeFormatter.BASIC_ISO_DATE }

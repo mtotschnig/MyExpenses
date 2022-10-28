@@ -16,6 +16,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 <resources>
 
     <style name="MyThemeBase" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorControlNormal">?colorOnSurface</item>
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -47,6 +48,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="EditDialogBase" parent="Theme.MaterialComponents.DayNight.DialogWhenLarge">
+        <item name="colorControlNormal">?colorOnSurface</item>
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>

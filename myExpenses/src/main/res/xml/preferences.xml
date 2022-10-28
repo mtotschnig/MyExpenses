@@ -73,6 +73,13 @@
             android:key="@string/pref_ui_theme_key"
             android:title="@string/pref_ui_theme_title"
             my:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="New"
+            android:entries="@array/pref_ui_item_renderer_entries"
+            android:entryValues="@array/pref_ui_item_renderer_values"
+            android:key="@string/pref_ui_item_renderer_key"
+            android:title="Item renderer"
+            my:useSimpleSummaryProvider="true" />
         <org.totschnig.myexpenses.preference.FontSizeDialogPreference
             android:defaultValue="0"
             android:key="@string/pref_ui_fontsize_key"
@@ -621,6 +628,7 @@
                 android:key="@string/pref_debug_logging_key"
                 android:summary="@string/pref_debug_logging_summary" />
             <Preference
+                android:dependency="@string/pref_debug_logging_key"
                 android:key="@string/pref_debug_logging_share_key"
                 android:summary="@string/pref_debug_logging_share_summary" />
             <Preference

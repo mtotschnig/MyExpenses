@@ -5,7 +5,7 @@
     <string name="cab_delete_help_text">Suprimeix els elements seleccionats.</string>
     <string name="cab_edit_help_text">Edita els elements seleccionats.</string>
     <string name="help_MyExpenses_title">Llista d\'operacions</string>
-    <string name="help_MyExpenses_crStatus_info">Un rectangle de color indica l\'estat de l\'operació: gris si no està aprovada, blau per verificada, verd per reconciliada. Clicant el rectangle podeu canviar-ne l\'estat.</string>
+    <string name="menu_status_handle_help_text">Un rectangle de color indica l\'estat de l\'operació: gris si no està aprovada, blau per verificada, verd per reconciliada. Clicant el rectangle podeu canviar-ne l\'estat.</string>
     <string name="menu_manage_plans_help_text">Obre la llista de plantilles i planificacions, que us permet aplicar, modificar o suprimir-les, i també definir planificacions de les operacions futures i recurrents.</string>
     <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Defineix les plantilles seleccionades i desa-les immediatament.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Defineix la plantilla seleccionada i introdueix el seu formulari d\'edició on es pot modificar abans de desar-la.</string>

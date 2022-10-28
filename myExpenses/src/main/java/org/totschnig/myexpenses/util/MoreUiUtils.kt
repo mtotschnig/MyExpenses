@@ -8,13 +8,16 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils.calculateContrast
 import com.google.android.material.chip.ChipGroup
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
+import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)? = null) {
     removeAllViews()
@@ -69,28 +72,38 @@ fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
     return if (parent is View) findParentWithTypeRecursively(parent as View, type) else null
 }
 
-fun dateTimeFormatterFor(account: FullAccount, prefHandler: PrefHandler, context: Context) = when (account.grouping) {
-            Grouping.DAY -> {
-                val shouldShowTime = UiUtils.getDateMode(account.type, prefHandler) == UiUtils.DateMode.DATE_TIME
-                if (shouldShowTime) {
-                    android.text.format.DateFormat.getTimeFormat(context)
-                } else null
-            }
-            Grouping.MONTH -> {
-                val monthStart = prefHandler.getString(PrefKey.GROUP_MONTH_STARTS, "1")!!.toInt()
-                if (monthStart == 1) {
-                    SimpleDateFormat("dd", Utils.localeFromContext(context))
-                } else {
-                    Utils.localizedYearLessDateFormat(context)
-                }
-            }
-            Grouping.WEEK -> {
-                SimpleDateFormat("EEE", Utils.localeFromContext(context))
-            }
-            Grouping.YEAR -> {
+fun getDateMode(accountType: AccountType?, prefHandler: PrefHandler) = when {
+    (accountType == null || accountType != AccountType.CASH) &&
+            prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
+    -> DateMode.BOOKING_VALUE
+    prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, true) -> DateMode.DATE_TIME
+    else -> DateMode.DATE
+}
+
+private fun timeFormatter(accountType: AccountType?, prefHandler: PrefHandler, context: Context) =
+    if (getDateMode(accountType, prefHandler) == DateMode.DATE_TIME) {
+        android.text.format.DateFormat.getTimeFormat(context) as SimpleDateFormat
+    } else null
+
+private val SimpleDateFormat.asDateTimeFormatter: DateTimeFormatter
+    get() = DateTimeFormatter.ofPattern(this.toPattern())
+
+fun dateTimeFormatter(account: FullAccount, prefHandler: PrefHandler, context: Context) =
+    when (account.grouping) {
+        Grouping.DAY -> timeFormatter(account.type, prefHandler, context)?.asDateTimeFormatter
+        else -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+    }
+
+fun dateTimeFormatterLegacy(account: FullAccount, prefHandler: PrefHandler, context: Context) =
+    when (account.grouping) {
+        Grouping.DAY -> timeFormatter(account.type, prefHandler, context)
+        Grouping.MONTH ->
+            if (prefHandler.getString(PrefKey.GROUP_MONTH_STARTS, "1")!!.toInt() == 1) {
+                SimpleDateFormat("dd", Utils.localeFromContext(context))
+            } else {
                 Utils.localizedYearLessDateFormat(context)
             }
-            Grouping.NONE -> {
-                Utils.ensureDateFormatWithShortYear(context)
-            }
-        }?.let { DateTimeFormatter.ofPattern((it as SimpleDateFormat).toPattern()) }
+        Grouping.WEEK -> SimpleDateFormat("EEE", Utils.localeFromContext(context))
+        Grouping.YEAR -> Utils.localizedYearLessDateFormat(context)
+        Grouping.NONE -> Utils.ensureDateFormatWithShortYear(context)
+    }?.let { (it as SimpleDateFormat).asDateTimeFormatter }

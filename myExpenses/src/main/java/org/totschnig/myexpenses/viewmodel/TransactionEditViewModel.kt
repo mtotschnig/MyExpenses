@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
@@ -212,7 +213,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     FULL_LABEL,
                     KEY_TRANSFER_ACCOUNT,
                     if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
-                    KEY_TAGLIST
+                    KEY_TAGLIST,
+                    KEY_ICON
                 ),
                 selection = "$KEY_PARENTID = ?",
                 selectionArgs = arrayOf(parentId.toString())
@@ -279,18 +281,20 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         override val label: String?,
         override val isTransfer: Boolean,
         override val debtLabel: String?,
-        override val tagList: String?
+        override val tagList: String?,
+        override val icon: String?
     ) : SplitPartRVAdapter.ITransaction {
         companion object {
             fun fromCursor(cursor: Cursor) =
                 SplitPart(
-                    cursor.getLong(0),
-                    cursor.getLong(1),
-                    cursor.getStringOrNull(2),
-                    cursor.getStringOrNull(3),
-                    DbUtils.getLongOrNull(cursor, 4) != null,
-                    cursor.getStringOrNull(5),
-                    cursor.getString(6)
+                    cursor.getLong(KEY_ROWID),
+                    cursor.getLong(KEY_AMOUNT),
+                    cursor.getStringOrNull(KEY_COMMENT),
+                    cursor.getStringOrNull(KEY_LABEL),
+                    DbUtils.getLongOrNull(cursor, KEY_TRANSFER_ACCOUNT) != null,
+                    cursor.getStringOrNull(KEY_DEBT_LABEL),
+                    cursor.getStringListFromJson(KEY_TAGLIST).joinToString(),
+                    cursor.getString(KEY_ICON)
                 )
         }
     }

@@ -109,7 +109,7 @@ class CategoryDelegate(
 
         }
         val startDrawable = categoryIcon?.let {
-            IIconInfo.resolveIcon(it)?.asDrawable(context)
+            IIconInfo.resolveIcon(it)?.asDrawable(context, R.attr.colorPrimary)
         }
         viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(startDrawable, null, null, null)
     }

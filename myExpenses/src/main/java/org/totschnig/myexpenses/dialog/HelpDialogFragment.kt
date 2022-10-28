@@ -105,7 +105,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "hidden_accounts" to R.drawable.design_ic_visibility_off,
             "hide" to R.drawable.design_ic_visibility_off,
             "close.reopen" to R.drawable.ic_lock,
-            "remap" to null,
+            "remap" to R.drawable.redo,
             "scan_mode" to R.drawable.ic_scan,
             "save_and_new" to R.drawable.ic_action_save_new,
             "link" to R.drawable.ic_hchain,

@@ -28,6 +28,7 @@
     <string name="pref_perform_share_key">perform_share</string>
     <string name="pref_share_target_key">share_target</string>
     <string name="pref_ui_theme_key">pref_ui_theme</string>
+    <string name="pref_ui_item_renderer_key">ui_item_renderer</string>
     <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     <string name="pref_backup_key">backup</string>
     <string name="pref_auto_backup_key">auto_backup</string>
@@ -216,6 +217,7 @@
     <string name="menu_result">Result</string>
     <string name="menu_clear">Clear</string>
     <string name="menu_color" tools:ignore="UnusedResources">@string/color</string>
+    <string name="menu_status_handle" tools:ignore="UnusedResources">@string/status</string>
     <string name="menu_rollover" tools:ignore="UnusedResources">@string/budget_table_header_rollover</string>
     <string name="roadmap_intro">We have launched a new iteration of the Roadmap Vote. Please help us define priorities for the upcoming year.</string>
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>

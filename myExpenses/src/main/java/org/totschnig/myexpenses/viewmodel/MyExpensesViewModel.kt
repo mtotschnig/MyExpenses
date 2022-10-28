@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -48,7 +49,7 @@ import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
 import javax.inject.Inject
 
-val Context.dataStoreExpansionHandler: DataStore<Preferences> by preferencesDataStore(name = "ExpansionHandler")
+val Context.dataStoreUISettings: DataStore<Preferences> by preferencesDataStore(name = "UI-Settings")
 
 class MyExpensesViewModel(
     application: Application,
@@ -61,10 +62,25 @@ class MyExpensesViewModel(
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
+    val dataStore: DataStore<Preferences>
+        get() = getApplication<MyApplication>().dataStoreUISettings
+
+    private fun showStatusHandleForAccountPrefKey(accountId: Long) = booleanPreferencesKey("showStatusHandle_$accountId")
+
+    fun showStatusHandleForAccount(accountId: Long) =
+        dataStore.data.map { preferences ->
+            preferences[showStatusHandleForAccountPrefKey(accountId)] ?: false
+        }
+
+    suspend fun persistShowStatusHandleForAccount(accountId: Long, showStatus: Boolean) {
+        dataStore.edit { preference ->
+            preference[showStatusHandleForAccountPrefKey(accountId)] = showStatus
+        }
+    }
+
     fun expansionHandler(key: String) = object : ExpansionHandler {
         val collapsedIdsPrefKey = stringSetPreferencesKey(key)
-        private val collapsedIds: Flow<Set<String>> = getApplication<MyApplication>().dataStoreExpansionHandler.data
-            .map { preferences ->
+        private val collapsedIds: Flow<Set<String>> = dataStore.data.map { preferences ->
                 preferences[collapsedIdsPrefKey] ?: emptySet()
             }
 
@@ -74,7 +90,7 @@ class MyExpensesViewModel(
 
         override fun toggle(id: String) {
             viewModelScope.launch {
-                getApplication<MyApplication>().dataStoreExpansionHandler.edit { settings ->
+                dataStore.edit { settings ->
                     settings[collapsedIdsPrefKey] = settings[collapsedIdsPrefKey]?.toMutableSet()?.also {
                         it.toggle(id)
                     } ?: setOf(id)
@@ -274,7 +290,7 @@ class MyExpensesViewModel(
             emit(runCatching {
                 val args = ContentValues()
                 args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name)
-                Model.cr().update(
+                contentResolver.update(
                     Transaction.CONTENT_URI,
                     args,
                     "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null AND $KEY_CR_STATUS = '${CrStatus.CLEARED.name}'",

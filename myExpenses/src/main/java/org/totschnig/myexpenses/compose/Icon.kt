@@ -6,38 +6,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcon
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconInfo
 
 @Composable
-fun Icon(icon: String) {
+fun Icon(icon: String, size: Dp = 24.dp) {
     val iconInfo = IIconInfo.resolveIcon(icon)
     if (iconInfo == null) {
         Text(color = Color.Red, text = icon)
     } else {
-        Icon(iconInfo)
+        Icon(iconInfo, size)
     }
 }
 
 @Composable
-fun Icon(iconInfo: IIconInfo) {
+fun Icon(iconInfo: IIconInfo, size: Dp = 24.dp) {
     when (iconInfo) {
         is ExtraIcon -> {
-            val context = LocalContext.current
-
             androidx.compose.material.Icon(
-                modifier = Modifier
-                    .size(30.dp),
-                painter = rememberDrawablePainter(drawable = iconInfo.asDrawable(context)),
+                modifier = Modifier.size(size * 1.25f),
+                painter = painterResource(iconInfo.drawable),
                 contentDescription = stringResource(id = iconInfo.label)
             )
         }
@@ -45,9 +43,14 @@ fun Icon(iconInfo: IIconInfo) {
             Text(
                 text = iconInfo.unicode.toString(),
                 fontFamily = remember { FontFamily(Font(iconInfo.font, FontWeight.Normal)) },
-                fontSize = 24.sp,
-                color = LocalColors.current.iconTint
+                fontSize = with(LocalDensity.current) { size.toSp() }
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun IconTest() {
+    Icon(icon = "apple")
 }

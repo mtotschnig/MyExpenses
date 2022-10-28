@@ -91,6 +91,12 @@
         android:title="@string/menu_sync_now"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@id/SHOW_STATUS_HANDLE_COMMAND"
+        android:orderInCategory="19"
+        android:checkable="true"
+        android:title="@string/status"
+        app:showAsAction="never" />
+    <item
         android:id="@id/BALANCE_COMMAND"
         android:icon="@drawable/ic_action_balance"
         android:orderInCategory="19"

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -62,4 +63,10 @@ fun ColoredAmountText(
         text = prefix + LocalCurrencyFormatter.current.formatMoney(money) + postFix,
         color = color
     )
+}
+
+@Preview
+@Composable
+fun AmountPreview() {
+    ColoredAmountText(money = Money(CurrencyUnit.DebugInstance, 8000), withBorder = true)
 }

@@ -216,7 +216,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     .takeIf { it.isNotEmpty() }
                     ?.toSet()?.let {
                         val collapsedIdsPrefKey = stringSetPreferencesKey("collapsedAccounts")
-                        getApplication<MyApplication>().dataStoreExpansionHandler.edit { settings ->
+                        getApplication<MyApplication>().dataStoreUISettings.edit { settings ->
                             settings[collapsedIdsPrefKey] = it
                         }
                     }
@@ -231,7 +231,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     .filter { !(it.value as? String).isNullOrBlank() }
                     .forEach { entry ->
                         val collapsedIdsPrefKey = stringSetPreferencesKey(entry.key)
-                        getApplication<MyApplication>().dataStoreExpansionHandler.edit { settings ->
+                        getApplication<MyApplication>().dataStoreUISettings.edit { settings ->
                             settings[collapsedIdsPrefKey] = (entry.value as String).split(',')
                                 .mapNotNull { headerId ->
                                     if (entry.key == "collapsedHeadersDrawer_CURRENCY") {

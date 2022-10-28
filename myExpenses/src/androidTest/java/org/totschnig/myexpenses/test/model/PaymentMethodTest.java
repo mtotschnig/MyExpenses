@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 
 public class PaymentMethodTest extends ModelTest {
 
@@ -29,7 +30,7 @@ public class PaymentMethodTest extends ModelTest {
     PaymentMethod pm = PaymentMethod.getInstanceFromDb(1);
     assert pm != null;
     assertTrue(isPredefined(pm));
-    PaymentMethod.PreDefined origPredefined = pm.getPreDefined();
+    PreDefinedPaymentMethod origPredefined = pm.getPreDefined();
     pm.setLabel("new label");
     pm.save();
     PaymentMethod.clear();

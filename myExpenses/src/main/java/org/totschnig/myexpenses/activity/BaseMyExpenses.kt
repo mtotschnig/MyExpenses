@@ -22,10 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CallSplit
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Loupe
-import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +39,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerScope
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -55,6 +53,7 @@ import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
 import icepick.State
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -153,6 +152,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     @Inject
     lateinit var reviewManager: ReviewManager
+
+    @Inject
+    lateinit var imageViewIntentProvider: ImageViewIntentProvider
 
     lateinit var toolbar: Toolbar
 
@@ -336,9 +338,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             toggleScanMode()
             return true
         }
-        return handleGrouping(item) || handleSortDirection(item) || filterHandler.handleFilter(item.itemId) || super.onOptionsItemSelected(
-            item
-        )
+        if (item.itemId == R.id.SHOW_STATUS_HANDLE_COMMAND) {
+            currentAccount?.let {
+                lifecycleScope.launch {
+                    viewModel.persistShowStatusHandleForAccount(it.id, !item.isChecked)
+                    invalidateOptionsMenu()
+                }
+            }
+        }
+        return handleGrouping(item) ||
+                handleSortDirection(item) ||
+                filterHandler.handleFilter(item.itemId) ||
+                super.onOptionsItemSelected(item)
     }
 
     protected open fun handleSortDirection(item: MenuItem) =
@@ -391,169 +402,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (savedInstanceState == null) {
             accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         }
-        val futureCriterion =
-            if ("current" == prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day"))
-                ZonedDateTime.now(ZoneId.systemDefault())
-            else
-                LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
 
         binding.viewPagerMain.viewPager.setContent {
-            LaunchedEffect(viewModel.pagerState.currentPage) {
-                if (setCurrentAccount(viewModel.pagerState.currentPage)) {
-                    finishActionMode()
-                    sumInfo = SumInfoUnknown
-                    viewModel.sumInfo(currentAccount!!).collect {
-                        sumInfo = it
-                    }
-                }
-            }
-            val result = viewModel.accountData.collectAsState()
-
-            if (result.value?.isSuccess == true) {
-                val accountData = remember {
-                    derivedStateOf { result.value!!.getOrThrow() }
-                }
-                AppTheme(context = this@BaseMyExpenses) {
-                    LaunchedEffect(accountData.value) {
-                        if (accountData.value.isNotEmpty()) {
-                            moveToAccount()
-                            viewModel.sumInfo(currentAccount!!).collect {
-                                sumInfo = it
-                            }
-                        } else {
-                            setTitle(R.string.app_name)
-                            toolbar.subtitle = null
-                        }
-                    }
-                    HorizontalPager(
-                        modifier = Modifier
-                            .background(MaterialTheme.colors.onSurface)
-                            .testTag(TEST_TAG_PAGER)
-                            .semantics {
-                                collectionInfo = CollectionInfo(1, accountData.value.count())
-                            },
-                        verticalAlignment = Alignment.Top,
-                        count = accountData.value.count(),
-                        state = viewModel.pagerState,
-                        itemSpacing = 10.dp,
-                    ) { page ->
-                        val account = remember { derivedStateOf { accountData.value[page] } }.value
-                        val data =
-                            remember(account.sortDirection) { viewModel.loadData(account) }
-                        val headerData = viewModel.headerData(account)
-                        if (page == currentPage) {
-                            LaunchedEffect(selectionState.size) {
-                                if (selectionState.isNotEmpty()) {
-                                    startActionMode()
-                                } else {
-                                    finishActionMode()
-                                }
-                            }
-                        }
-                        Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)) {
-                            viewModel.filterPersistence.getValue(account.id)
-                                .whereFilterAsFlow
-                                .collectAsState(WhereFilter.empty())
-                                .value
-                                .takeIf { !it.isEmpty }?.let {
-                                    FilterCard(it, ::clearFilter)
-                                }
-                            headerData.collectAsState(null).value?.let { headerData ->
-                                TransactionList(
-                                    modifier = Modifier.weight(1f),
-                                    pagingSourceFactory = data,
-                                    headerData = headerData,
-                                    budgetData = viewModel.budgetData(account).collectAsState(null),
-                                    selectionHandler = object : SelectionHandler {
-                                        override fun toggle(transaction: Transaction2) {
-                                            if (viewModel.selectionState.toggle(transaction)) {
-                                                viewModel.selectedTransactionSum += transaction.amount.amountMinor
-                                            } else {
-                                                viewModel.selectedTransactionSum -= transaction.amount.amountMinor
-                                            }
-                                        }
-
-                                        override fun isSelected(transaction: Transaction2) =
-                                            selectionState.contains(transaction)
-
-                                        override val selectionCount: Int
-                                            get() = selectionState.size
-
-                                    },
-                                    menuGenerator = remember {
-                                        { transaction ->
-                                            Menu(
-                                                buildList {
-                                                    add(MenuEntry(
-                                                        icon = Icons.Filled.Loupe,
-                                                        label = R.string.details
-                                                    ) { showDetails(it.id) })
-                                                    if (!account.sealed) {
-                                                        if (transaction.crStatus != CrStatus.VOID) {
-                                                            add(edit { edit(transaction) })
-                                                        }
-                                                        add(MenuEntry(
-                                                            icon = Icons.Filled.ContentCopy,
-                                                            label = R.string.menu_clone_transaction
-                                                        ) {
-                                                            edit(transaction, true)
-                                                        })
-                                                        add(delete { delete(listOf(transaction)) })
-                                                        add(MenuEntry(
-                                                            icon = myiconpack.IcActionTemplateAdd,
-                                                            label = R.string.menu_create_template_from_transaction
-                                                        ) { createTemplate(transaction) })
-                                                        if (transaction.crStatus == CrStatus.VOID) {
-                                                            add(MenuEntry(
-                                                                icon = Icons.Filled.RestoreFromTrash,
-                                                                label = R.string.menu_undelete_transaction
-                                                            ) { undelete(transaction) })
-                                                        }
-                                                        add(
-                                                            select {
-                                                                viewModel.selectionState.value =
-                                                                    listOf(it)
-                                                                viewModel.selectedTransactionSum =
-                                                                    transaction.amount.amountMinor
-                                                            })
-                                                        if (transaction.isSplit) {
-                                                            add(MenuEntry(
-                                                                icon = Icons.Filled.CallSplit,
-                                                                label = R.string.menu_ungroup_split_transaction
-                                                            ) { ungroupSplit(transaction) })
-                                                        }
-                                                    }
-                                                }
-                                            )
-                                        }
-                                    },
-                                    onToggleCrStatus = if (account.type == AccountType.CASH) null else {
-                                        {
-                                            checkSealed(listOf(it)) {
-                                                viewModel.toggleCrStatus(it)
-                                            }
-                                        }
-                                    },
-                                    dateTimeFormatter = dateTimeFormatterFor(
-                                        account,
-                                        prefHandler,
-                                        this@BaseMyExpenses
-                                    ),
-                                    futureCriterion = futureCriterion,
-                                    expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
-                                    onBudgetClick = { budgetId, headerId ->
-                                        contribFeatureRequested(
-                                            ContribFeature.BUDGET,
-                                            budgetId to headerId
-                                        )
-                                    },
-                                    showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true)
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+            MainContent()
         }
         setupToolbarPopupMenu()
 
@@ -722,6 +573,205 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }.also {
                 drawer.addDrawerListener(it)
+            }
+        }
+    }
+
+    @Composable
+    private fun MainContent() {
+        val futureCriterion =
+            if ("current" == prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day"))
+                ZonedDateTime.now(ZoneId.systemDefault())
+            else
+                LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
+
+        LaunchedEffect(viewModel.pagerState.currentPage) {
+            if (setCurrentAccount(viewModel.pagerState.currentPage)) {
+                finishActionMode()
+                sumInfo = SumInfoUnknown
+                viewModel.sumInfo(currentAccount!!).collect {
+                    sumInfo = it
+                }
+            }
+        }
+        val result = viewModel.accountData.collectAsState()
+
+        if (result.value?.isSuccess == true) {
+            val accountData = remember {
+                derivedStateOf { result.value!!.getOrThrow() }
+            }
+            AppTheme(context = this@BaseMyExpenses) {
+                LaunchedEffect(accountData.value) {
+                    if (accountData.value.isNotEmpty()) {
+                        moveToAccount()
+                        viewModel.sumInfo(currentAccount!!).collect {
+                            sumInfo = it
+                        }
+                    } else {
+                        setTitle(R.string.app_name)
+                        toolbar.subtitle = null
+                    }
+                }
+                HorizontalPager(
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.onSurface)
+                        .testTag(TEST_TAG_PAGER)
+                        .semantics {
+                            collectionInfo = CollectionInfo(1, accountData.value.count())
+                        },
+                    verticalAlignment = Alignment.Top,
+                    count = accountData.value.count(),
+                    state = viewModel.pagerState,
+                    itemSpacing = 10.dp,
+                ) {
+                    Page(
+                        index = it,
+                        accountData = accountData,
+                        futureCriterion = futureCriterion
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun PagerScope.Page(
+        index: Int,
+        accountData: androidx.compose.runtime.State<List<FullAccount>>,
+        futureCriterion: ZonedDateTime
+    ) {
+        val account = remember { derivedStateOf { accountData.value[index] } }.value
+
+        val showStatusHandle = if (account.type == AccountType.CASH)
+            false
+        else
+            viewModel.showStatusHandleForAccount(account.id).collectAsState(initial = false).value
+
+        val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
+            {
+                checkSealed(listOf(it)) {
+                    viewModel.toggleCrStatus(it)
+                }
+            }
+        } else null
+
+        val data =
+            remember(account.sortDirection) { viewModel.loadData(account) }
+        val headerData = viewModel.headerData(account)
+        if (index == currentPage) {
+            LaunchedEffect(selectionState.size) {
+                if (selectionState.isNotEmpty()) {
+                    startActionMode()
+                } else {
+                    finishActionMode()
+                }
+            }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.surface)
+        ) {
+            viewModel.filterPersistence.getValue(account.id)
+                .whereFilterAsFlow
+                .collectAsState(WhereFilter.empty())
+                .value
+                .takeIf { !it.isEmpty }?.let {
+                    FilterCard(it, ::clearFilter)
+                }
+            headerData.collectAsState(null).value?.let { headerData ->
+                TransactionList(
+                    modifier = Modifier.weight(1f),
+                    pagingSourceFactory = data,
+                    headerData = headerData,
+                    budgetData = viewModel.budgetData(account).collectAsState(null),
+                    selectionHandler = object : SelectionHandler {
+                        override fun toggle(transaction: Transaction2) {
+                            if (viewModel.selectionState.toggle(transaction)) {
+                                viewModel.selectedTransactionSum += transaction.amount.amountMinor
+                            } else {
+                                viewModel.selectedTransactionSum -= transaction.amount.amountMinor
+                            }
+                        }
+
+                        override fun isSelected(transaction: Transaction2) =
+                            selectionState.contains(transaction)
+
+                        override val selectionCount: Int
+                            get() = selectionState.size
+
+                    },
+                    menuGenerator = remember {
+                        { transaction ->
+                            Menu(
+                                buildList {
+                                    add(MenuEntry(
+                                        icon = Icons.Filled.Loupe,
+                                        label = R.string.details
+                                    ) { showDetails(it.id) })
+                                    if (!account.sealed) {
+                                        if (transaction.crStatus != CrStatus.VOID) {
+                                            add(edit { edit(transaction) })
+                                        }
+                                        add(MenuEntry(
+                                            icon = Icons.Filled.ContentCopy,
+                                            label = R.string.menu_clone_transaction
+                                        ) {
+                                            edit(transaction, true)
+                                        })
+                                        add(delete { delete(listOf(transaction)) })
+                                        add(MenuEntry(
+                                            icon = myiconpack.IcActionTemplateAdd,
+                                            label = R.string.menu_create_template_from_transaction
+                                        ) { createTemplate(transaction) })
+                                        if (transaction.crStatus == CrStatus.VOID) {
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.RestoreFromTrash,
+                                                label = R.string.menu_undelete_transaction
+                                            ) { undelete(transaction) })
+                                        }
+                                        add(
+                                            select {
+                                                viewModel.selectionState.value = listOf(it)
+                                                viewModel.selectedTransactionSum =
+                                                    transaction.amount.amountMinor
+                                            })
+                                        if (transaction.isSplit) {
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.CallSplit,
+                                                label = R.string.menu_ungroup_split_transaction
+                                            ) { ungroupSplit(transaction) })
+                                        }
+                                        transaction.pictureUri?.let { uri ->
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.Attachment,
+                                                label = R.string.menu_view_picture
+                                            ) { imageViewIntentProvider.startViewIntent(this@BaseMyExpenses, uri) })
+                                        }
+                                    }
+                                }
+                            )
+                        }
+                    },
+                    futureCriterion = futureCriterion,
+                    expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
+                    onBudgetClick = { budgetId, headerId ->
+                        contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
+                    },
+                    showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true),
+                    renderer = when (getEnumFromPreferencesWithDefault(
+                        prefHandler, PrefKey.UI_ITEM_RENDERER, RenderType.New
+                    )) {
+                        RenderType.New -> NewTransactionRenderer(
+                            dateTimeFormatter(account, prefHandler, this@BaseMyExpenses),
+                            onToggleCrStatus
+                        )
+                        RenderType.Legacy -> LegacyTransactionRenderer(
+                            dateTimeFormatterLegacy(account, prefHandler, this@BaseMyExpenses),
+                            onToggleCrStatus
+                        )
+                    }
+                )
             }
         }
     }
@@ -1239,6 +1289,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
             }
             with(currentAccount!!) {
+                val reconciliationAvailable = type != AccountType.CASH && !sealed
                 menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
                     Utils.configureGroupingMenu(it, grouping)
                 }
@@ -1248,10 +1299,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
 
                 menu.findItem(R.id.BALANCE_COMMAND)?.let {
-                    Utils.menuItemSetEnabledAndVisible(
-                        it,
-                        type != AccountType.CASH && !sealed
-                    )
+                    Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable)
+                }
+                menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.let {
+                    Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable)
+                    lifecycleScope.launch {
+                        it.isChecked = viewModel.showStatusHandleForAccount(this@with.id).first()
+                    }
                 }
 
                 menu.findItem(R.id.SYNC_COMMAND)?.let {
@@ -1261,9 +1315,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
         } else {
             for (item in listOf(
-                R.id.SEARCH_COMMAND, R.id.DISTRIBUTION_COMMAND, R.id.HISTORY_COMMAND,
-                R.id.SCAN_MODE_COMMAND, R.id.RESET_COMMAND, R.id.SYNC_COMMAND, R.id.BALANCE_COMMAND,
-                R.id.SORT_DIRECTION_COMMAND, R.id.PRINT_COMMAND, R.id.GROUPING_COMMAND
+                R.id.SEARCH_COMMAND,
+                R.id.DISTRIBUTION_COMMAND,
+                R.id.HISTORY_COMMAND,
+                R.id.SCAN_MODE_COMMAND,
+                R.id.RESET_COMMAND,
+                R.id.SYNC_COMMAND,
+                R.id.BALANCE_COMMAND,
+                R.id.SORT_DIRECTION_COMMAND,
+                R.id.PRINT_COMMAND,
+                R.id.GROUPING_COMMAND,
+                R.id.SHOW_STATUS_HANDLE_COMMAND
             )) {
                 Utils.menuItemSetEnabledAndVisible(menu.findItem(item), false)
             }
