@@ -39,7 +39,7 @@ open class DataModule {
 
     @Singleton
     @Provides
-    fun provideSQLiteOpenHelperFactory() =
+    open fun provideSQLiteOpenHelperFactory() =
         Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
             .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
 }
