@@ -219,7 +219,7 @@ public class Fixture {
     split.setStatus(STATUS_NONE);
     split.save(true);
     String label = testContext.getString(R.string.testData_tag_project);
-    List<Tag> tagList = Collections.singletonList(new Tag(saveTag(label), label, false, 0));
+    List<Tag> tagList = Collections.singletonList(new Tag(saveTag(label), label, 0));
     split.saveTags(tagList);
 
     new TransactionBuilder(testContext)
