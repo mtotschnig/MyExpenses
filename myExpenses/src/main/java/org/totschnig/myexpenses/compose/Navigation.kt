@@ -152,7 +152,6 @@ private fun RowScope.EntryContent(entry: MenuEntry<*>, offset: Dp = 0.dp) {
                 .padding(end = 5.dp)
                 .size(24.dp),
             imageVector = it,
-            tint = LocalColors.current.iconTint,
             contentDescription = null
         )
     }

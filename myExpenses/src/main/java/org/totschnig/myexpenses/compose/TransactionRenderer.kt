@@ -17,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Attachment
+import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -236,7 +238,16 @@ class NewTransactionRenderer(
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
-        Icon(icon = (transaction.icon ?: "minus"))
+        Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
+            if (transaction.isSplit)
+                androidx.compose.material.Icon(
+                    imageVector = Icons.Filled.CallSplit,
+                    contentDescription = stringResource(id = R.string.split_transaction),
+                    modifier = Modifier.fillMaxSize()
+                )
+            else
+                Icon(icon = (transaction.icon ?: "minus"))
+        }
         StatusToggle(transaction = transaction)
         Column(
             modifier = Modifier
@@ -325,6 +336,19 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             label = "Obst und Gemüse",
             payee = "Erika Musterfrau",
             icon = "apple",
+            year = 2022,
+            month = 1,
+            day = 1,
+            week = 1,
+            tagList = listOf("Hund", "Katz")
+        ),
+        Transaction2(
+            id = -1,
+            date = ZonedDateTime.now(),
+            amount = Money(CurrencyUnit.DebugInstance, 7000),
+            accountId = -1,
+            catId = SPLIT_CATID,
+            payee = "Erika Musterfrau",
             year = 2022,
             month = 1,
             day = 1,

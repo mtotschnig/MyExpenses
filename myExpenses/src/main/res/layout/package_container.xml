@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="2dp"
     app:cardCornerRadius="4dp"
-    app:strokeColor="?colorControlNormal"
+    app:strokeColor="?colorOnSurface"
     app:strokeWidth="1dp">
 
     <LinearLayout

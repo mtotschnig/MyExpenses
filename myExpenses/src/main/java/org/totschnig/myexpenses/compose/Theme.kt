@@ -27,7 +27,6 @@ fun AppTheme(
                 income = colorResource(id = R.color.colorIncome),
                 expense = colorResource(id = R.color.colorExpense),
                 transfer = colorResource(id = R.color.colorTransfer),
-                iconTint = Color(UiUtils.getColor(context, R.attr.colorControlNormal))
             )
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.body2, content = content)

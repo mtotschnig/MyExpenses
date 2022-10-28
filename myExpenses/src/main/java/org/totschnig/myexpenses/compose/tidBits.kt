@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -23,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import app.futured.donut.compose.data.DonutSection
@@ -65,22 +62,6 @@ fun ColorCircle(modifier: Modifier = Modifier, color: Color, content: @Composabl
         content = content
     )
 }
-
-fun Modifier.conditional(condition : Boolean, block : Modifier.() -> Modifier) = if (condition) {
-        then(block(Modifier))
-    } else {
-        this
-    }
-
-@SuppressLint("UnnecessaryComposedModifier")
-fun Modifier.conditionalComposed(condition : Boolean, block : @Composable Modifier.() -> Modifier)  =
-    composed {
-        if (condition) {
-            then(block(Modifier))
-        } else {
-            this
-        }
-    }
 
 val generalPadding
     @Composable get() = dimensionResource(id = R.dimen.general_padding)

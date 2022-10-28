@@ -6,14 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcon
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconInfo
@@ -32,12 +32,9 @@ fun Icon(icon: String) {
 fun Icon(iconInfo: IIconInfo) {
     when (iconInfo) {
         is ExtraIcon -> {
-            val context = LocalContext.current
-
             androidx.compose.material.Icon(
-                modifier = Modifier
-                    .size(30.dp),
-                painter = rememberDrawablePainter(drawable = iconInfo.asDrawable(context)),
+                modifier = Modifier.size(30.dp),
+                painter = painterResource(iconInfo.drawable),
                 contentDescription = stringResource(id = iconInfo.label)
             )
         }
@@ -45,9 +42,14 @@ fun Icon(iconInfo: IIconInfo) {
             Text(
                 text = iconInfo.unicode.toString(),
                 fontFamily = remember { FontFamily(Font(iconInfo.font, FontWeight.Normal)) },
-                fontSize = 24.sp,
-                color = LocalColors.current.iconTint
+                fontSize = with(LocalDensity.current) { 24.dp.toSp() }
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun IconTest() {
+    Icon(icon = "apple")
 }
