@@ -1,6 +1,10 @@
 package org.totschnig.myexpenses.di
 
 import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.preference.PreferenceManager
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.squareup.sqlbrite3.SqlBrite
@@ -33,6 +37,14 @@ open class DataModule {
     @Singleton
     @Provides
     open fun provideSharedPreferences(application: MyApplication, @Named(AppComponent.DATABASE_NAME) databaseName: String): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+
+    @Singleton
+    @Provides
+    fun providePreferencesDataStore(appContext: MyApplication): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { appContext.preferencesDataStoreFile("UI-Settings") }
+        )
+    }
 
     @Singleton
     @Provides

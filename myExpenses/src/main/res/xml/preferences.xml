@@ -78,6 +78,7 @@
             android:entries="@array/pref_ui_item_renderer_entries"
             android:entryValues="@array/pref_ui_item_renderer_values"
             android:key="@string/pref_ui_item_renderer_key"
+            android:persistent="false"
             android:title="Item renderer"
             my:useSimpleSummaryProvider="true" />
         <org.totschnig.myexpenses.preference.FontSizeDialogPreference
@@ -185,12 +186,13 @@
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
+            android:persistent="false"
             android:key="@string/pref_group_header_show_details_key"
             android:summary="@string/pref_group_header_show_details_summary" />
-        <SwitchPreferenceCompat
+<!--        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_running_balance_key"
-            android:summary="Running balance" />
+            android:summary="Running balance" />-->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_import">

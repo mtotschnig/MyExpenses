@@ -5,6 +5,8 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.SharedPreferences
 import android.os.Build
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.viewModelScope
@@ -12,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
@@ -35,6 +36,9 @@ class UpgradeHandlerViewModel(application: Application) :
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
+
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
 
     private val _upgradeInfo: MutableStateFlow<Int?> = MutableStateFlow(null)
     val upgradeInfo: StateFlow<Int?> = _upgradeInfo
@@ -216,7 +220,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     .takeIf { it.isNotEmpty() }
                     ?.toSet()?.let {
                         val collapsedIdsPrefKey = stringSetPreferencesKey("collapsedAccounts")
-                        getApplication<MyApplication>().dataStoreUISettings.edit { settings ->
+                       dataStore.edit { settings ->
                             settings[collapsedIdsPrefKey] = it
                         }
                     }
@@ -231,7 +235,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     .filter { !(it.value as? String).isNullOrBlank() }
                     .forEach { entry ->
                         val collapsedIdsPrefKey = stringSetPreferencesKey(entry.key)
-                        getApplication<MyApplication>().dataStoreUISettings.edit { settings ->
+                        dataStore.edit { settings ->
                             settings[collapsedIdsPrefKey] = (entry.value as String).split(',')
                                 .mapNotNull { headerId ->
                                     if (entry.key == "collapsedHeadersDrawer_CURRENCY") {

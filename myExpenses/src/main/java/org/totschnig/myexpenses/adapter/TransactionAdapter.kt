@@ -229,11 +229,9 @@ open class TransactionAdapter(
     }
 
     override fun swapCursor(cursor: Cursor?): Cursor? {
-        futureCriterion = if ("current" == prefHandler.getString(
-                PrefKey.CRITERION_FUTURE,
-                "end_of_day"
-            )
-        ) System.currentTimeMillis() / 1000 else LocalDate.now().plusDays(1).atStartOfDay().atZone(
+        //currently unsupported, will work again, once TransactionListFragment uses Compose TransactionList,
+        //and this class gets removed
+        futureCriterion = if (true) System.currentTimeMillis() / 1000 else LocalDate.now().plusDays(1).atStartOfDay().atZone(
             ZoneId.systemDefault()
         ).toEpochSecond()
         return super.swapCursor(cursor)

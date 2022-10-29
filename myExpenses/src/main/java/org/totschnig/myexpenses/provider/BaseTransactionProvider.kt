@@ -8,13 +8,19 @@ import android.database.CursorWrapper
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -24,6 +30,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -60,6 +67,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
 
     @Inject
     lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
@@ -188,16 +198,21 @@ abstract class BaseTransactionProvider : ContentProvider() {
         selection: String?,
         sortOrder: String?
     ): String {
+
         val aggregateFunction = this.aggregateFunction
-        val cte = accountQueryCTE(
-            homeCurrency,
-            prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day") == "current",
-            aggregateFunction
-        )
+
+        val futureStartsNow = runBlocking {
+            enumValueOrDefault(dataStore.data.first()[stringPreferencesKey(prefHandler.getKey(PrefKey.CRITERION_FUTURE))], FutureCriterion.EndOfDay)
+        } == FutureCriterion.Current
+
+        val cte = accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction)
+
         val joinWithAggregates =
             "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = $KEY_ACCOUNTID"
+
         val accountQueryBuilder =
             SupportSQLiteQueryBuilder.builder(if (minimal) TABLE_ACCOUNTS else joinWithAggregates)
+
         val query = if (mergeAggregate == null) {
             accountQueryBuilder.columns(fullAccountProjection).selection(selection, emptyArray())
                 .create().sql

@@ -24,6 +24,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -31,6 +32,7 @@ import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.MyApplication.FEEDBACK_EMAIL
 import org.totschnig.myexpenses.R
@@ -48,6 +50,7 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
+import org.totschnig.myexpenses.preference.PreferenceDataStore
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.BackendService
@@ -113,6 +116,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var crashHandler: CrashHandler
 
+    @Inject
+    lateinit var preferenceDataStore: PreferenceDataStore
+
     private val webUiViewModel: WebUiViewModel by viewModels()
     private val currencyViewModel: CurrencyViewModel by viewModels()
     private val viewModel: SettingsViewModel by viewModels()
@@ -163,6 +169,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             super.onCreate(savedInstanceState)
             inject(this@BaseSettingsFragment)
         }
+
         viewModel.appDirInfo.observe(this) { result ->
             val pref = requirePreference<Preference>(PrefKey.APP_DIR)
             result.onSuccess { appDirInfo ->
@@ -358,7 +365,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.UI_LANGUAGE) -> {
                 featureManager.requestLocale(preferenceActivity)
             }
-            getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS), getKey(PrefKey.CRITERION_FUTURE) -> {
+            getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS) -> {
                 preferenceActivity.rebuildDbConstants()
             }
             getKey(PrefKey.UI_FONTSIZE) -> {
@@ -727,6 +734,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     var pickFolderRequestStart: Long = 0
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -739,6 +747,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         unsetIconSpaceReservedRecursive(preferenceScreen)
 
         when (rootKey) {
+
             null -> { //ROOT screen
                 requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener =
                     this
@@ -755,6 +764,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
                 requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DATE_FORMAT).onValidationErrorListener =
                     this
+
+                lifecycleScope.launchWhenStarted {
+                    preferenceDataStore.handleToggle(requirePreference(PrefKey.GROUP_HEADER))
+                }
+
+                lifecycleScope.launchWhenStarted {
+                    preferenceDataStore.handleList(requirePreference(PrefKey.UI_ITEM_RENDERER))
+                }
+
+                lifecycleScope.launchWhenStarted {
+                    preferenceDataStore.handleList(requirePreference(PrefKey.CRITERION_FUTURE))
+                }
 
                 loadAppDirSummary()
 

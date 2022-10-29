@@ -579,11 +579,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     @Composable
     private fun MainContent() {
-        val futureCriterion =
-            if ("current" == prefHandler.getString(PrefKey.CRITERION_FUTURE, "end_of_day"))
-                ZonedDateTime.now(ZoneId.systemDefault())
-            else
-                LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
 
         LaunchedEffect(viewModel.pagerState.currentPage) {
             if (setCurrentAccount(viewModel.pagerState.currentPage)) {
@@ -626,8 +621,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ) {
                     Page(
                         index = it,
-                        accountData = accountData,
-                        futureCriterion = futureCriterion
+                        accountData = accountData
                     )
                 }
             }
@@ -637,8 +631,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @Composable
     fun PagerScope.Page(
         index: Int,
-        accountData: androidx.compose.runtime.State<List<FullAccount>>,
-        futureCriterion: ZonedDateTime
+        accountData: androidx.compose.runtime.State<List<FullAccount>>
     ) {
         val account = remember { derivedStateOf { accountData.value[index] } }.value
 
@@ -753,15 +746,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             )
                         }
                     },
-                    futureCriterion = futureCriterion,
+                    futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
                     expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
                     onBudgetClick = { budgetId, headerId ->
                         contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
                     },
-                    showSumDetails = prefHandler.getBoolean(PrefKey.GROUP_HEADER, true),
-                    renderer = when (getEnumFromPreferencesWithDefault(
-                        prefHandler, PrefKey.UI_ITEM_RENDERER, RenderType.New
-                    )) {
+                    showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
+                    renderer = when (viewModel.renderer.collectAsState(initial = RenderType.New).value) {
                         RenderType.New -> NewTransactionRenderer(
                             dateTimeFormatter(account, prefHandler, this@BaseMyExpenses),
                             onToggleCrStatus

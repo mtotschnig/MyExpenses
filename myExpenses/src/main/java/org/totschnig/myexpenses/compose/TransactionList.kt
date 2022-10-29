@@ -29,7 +29,6 @@ import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
@@ -37,11 +36,17 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.*
+import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 const val COMMENT_SEPARATOR = " / "
+
+enum class FutureCriterion {
+    EndOfDay, Current
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -52,7 +57,7 @@ fun TransactionList(
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler,
     menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
-    futureCriterion: ZonedDateTime,
+    futureCriterion: FutureCriterion,
     expansionHandler: ExpansionHandler,
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
@@ -118,13 +123,17 @@ fun TransactionList(
                     }
                 }
                 val isLast = index == lazyPagingItems.itemCount - 1
+                val futureCriterionDate = when (futureCriterion) {
+                    FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
+                    FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
+                }
                 if (!isGroupHidden || isLast) {
                     item(key = item?.id) {
                         lazyPagingItems[index]?.let {
                             if (!isGroupHidden) {
                                 renderer.Render(
                                     modifier = Modifier.animateItemPlacement()
-                                        .conditional(it.date >= futureCriterion) {
+                                        .conditional(it.date >= futureCriterionDate) {
                                             background(futureBackgroundColor)
                                         },
                                     transaction = it,
@@ -153,7 +162,7 @@ fun HeaderData(
 ) {
     val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
-    val showSumDetailsState = remember { mutableStateOf(showSumDetails) }
+    val showSumDetailsState = remember(showSumDetails) { mutableStateOf(showSumDetails) }
 
     Column(
         modifier = Modifier.fillMaxWidth(),

@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
-import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
@@ -14,8 +13,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
@@ -27,13 +26,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
-import org.totschnig.myexpenses.util.toggle
+import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
@@ -45,11 +45,10 @@ import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
 import javax.inject.Inject
-
-val Context.dataStoreUISettings: DataStore<Preferences> by preferencesDataStore(name = "UI-Settings")
 
 class MyExpensesViewModel(
     application: Application,
@@ -62,8 +61,8 @@ class MyExpensesViewModel(
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
-    val dataStore: DataStore<Preferences>
-        get() = getApplication<MyApplication>().dataStoreUISettings
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
 
     private fun showStatusHandleForAccountPrefKey(accountId: Long) = booleanPreferencesKey("showStatusHandle_$accountId")
 
@@ -112,6 +111,22 @@ class MyExpensesViewModel(
     @OptIn(SavedStateHandleSaveableApi::class)
     val selectionState: MutableState<List<Transaction2>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
+
+    val showSumDetails: Flow<Boolean>
+        get() = dataStore.data.map {
+            it[booleanPreferencesKey(prefHandler.getKey(PrefKey.GROUP_HEADER))] != false
+        }
+
+    val renderer: Flow<RenderType>
+        get() = dataStore.data.map {
+            enumValueOrDefault(it[stringPreferencesKey(prefHandler.getKey(PrefKey.UI_ITEM_RENDERER))], RenderType.New)
+        }
+
+    val futureCriterion: Flow<FutureCriterion>
+        get() =  dataStore.data.map {
+            triggerAccountListRefresh()
+            enumValueOrDefault(it[stringPreferencesKey(prefHandler.getKey(PrefKey.CRITERION_FUTURE))], FutureCriterion.EndOfDay)
+        }
 
     @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
     val pagerState = savedStateHandle.saveable("pagerState",

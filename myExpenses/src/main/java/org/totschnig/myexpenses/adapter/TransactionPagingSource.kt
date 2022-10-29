@@ -30,7 +30,7 @@ class TransactionPagingSource(
     val context: Context,
     val account: FullAccount,
     val whereFilter: StateFlow<WhereFilter>,
-    val coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope
     ) :
     PagingSource<Int, Transaction2>() {
 

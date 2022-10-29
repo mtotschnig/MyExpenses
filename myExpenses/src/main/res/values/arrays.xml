@@ -187,8 +187,8 @@
     </string-array>
 
     <string-array name="pref_criterion_future_values">
-        <item>end_of_day</item>
-        <item>current</item>
+        <item>EndOfDay</item>
+        <item>Current</item>
     </string-array>
     <string-array name="pref_criterion_future_entries">
         <item>@string/pref_criterion_future_end_of_day</item>
