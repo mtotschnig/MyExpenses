@@ -8,6 +8,7 @@
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>
+        <dist:fusing dist:include="false" />
     </dist:module>
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"
