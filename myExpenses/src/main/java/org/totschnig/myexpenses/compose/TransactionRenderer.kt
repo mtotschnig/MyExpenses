@@ -58,16 +58,18 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
 
     fun Transaction2.buildPrimaryInfo(
         context: Context,
-        withLabelPlaceHolder: Boolean
+        forLegacy: Boolean
     ): AnnotatedString {
         return buildAnnotatedString {
-            if (transferPeer != null) {
+            if (isTransfer) {
                 accountLabel?.let { append("$it ") }
-                append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+                if (accountLabel != null || forLegacy) {
+                    append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+                }
                 label?.let { append(it) }
             } else if (isSplit) {
                 append(context.getString(R.string.split_transaction))
-            } else if (withLabelPlaceHolder && catId == null && status != DatabaseConstants.STATUS_HELPER) {
+            } else if (forLegacy && catId == null && status != DatabaseConstants.STATUS_HELPER) {
                 append(org.totschnig.myexpenses.viewmodel.data.Category.NO_CATEGORY_ASSIGNED_LABEL)
             } else {
                 label?.let {
@@ -248,15 +250,18 @@ class NewTransactionRenderer(
 ) : ItemRenderer(onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
-        Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
-            if (transaction.isSplit)
-                androidx.compose.material.Icon(
-                    imageVector = Icons.Filled.CallSplit,
-                    contentDescription = stringResource(id = R.string.split_transaction),
-                    modifier = Modifier.fillMaxSize()
-                )
-            else
-                Icon(icon = (transaction.icon ?: "minus"))
+        if (transaction.isSplit || (transaction.isTransfer && transaction.accountLabel == null) || transaction.icon != null) {
+            Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
+                when {
+                    transaction.isSplit -> androidx.compose.material.Icon(
+                        imageVector = Icons.Filled.CallSplit,
+                        contentDescription = stringResource(id = R.string.split_transaction),
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    transaction.isTransfer -> CharIcon(char = Transfer.getIndicatorCharForLabel(transaction.amount.amountMinor))
+                    else -> Icon(transaction.icon!!)
+                }
+            }
         }
         StatusToggle(transaction = transaction)
         Column(

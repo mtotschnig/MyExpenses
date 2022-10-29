@@ -29,6 +29,7 @@ import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
@@ -86,9 +87,8 @@ fun TransactionList(
             var lastHeader: Int? = null
 
             for (index in 0 until lazyPagingItems.itemCount) {
-                // Gets item without notifying Paging of the item access,
-                // which would otherwise trigger page loads
-                val headerId = lazyPagingItems.peek(index)?.let { headerData.calculateGroupId(it) }
+                val item = lazyPagingItems.peek(index)
+                val headerId = item?.let { headerData.calculateGroupId(it) }
                 val isGroupHidden = collapsedIds.contains(headerId.toString())
                 if (headerId !== null && headerId != lastHeader) {
                     stickyHeader(key = headerId) {
@@ -117,24 +117,23 @@ fun TransactionList(
                             }
                     }
                 }
-                // Gets item, triggering page loads if needed
-                lazyPagingItems[index]?.let {
-                    val isLast = index == lazyPagingItems.itemCount - 1
-                    if (!isGroupHidden || isLast) {
-                        item(key = it.id) {
+                val isLast = index == lazyPagingItems.itemCount - 1
+                if (!isGroupHidden || isLast) {
+                    item(key = item?.id) {
+                        lazyPagingItems[index]?.let {
                             if (!isGroupHidden) {
                                 renderer.Render(
                                     modifier = Modifier.animateItemPlacement()
                                         .conditional(it.date >= futureCriterion) {
-                                        background(futureBackgroundColor)
-                                    },
+                                            background(futureBackgroundColor)
+                                        },
                                     transaction = it,
                                     selectionHandler = selectionHandler,
                                     menuGenerator = menuGenerator
                                 )
                             }
-                            if (isLast) GroupDivider() else Divider()
                         }
+                        if (isLast) GroupDivider() else Divider()
                     }
                 }
 

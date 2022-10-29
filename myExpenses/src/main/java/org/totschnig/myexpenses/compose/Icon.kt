@@ -40,13 +40,17 @@ fun Icon(iconInfo: IIconInfo, size: Dp = 24.dp) {
             )
         }
         is IconInfo -> {
-            Text(
-                text = iconInfo.unicode.toString(),
-                fontFamily = remember { FontFamily(Font(iconInfo.font, FontWeight.Normal)) },
-                fontSize = with(LocalDensity.current) { size.toSp() }
-            )
+            CharIcon(char = iconInfo.unicode, font = iconInfo.font)
         }
     }
+}
+@Composable
+fun CharIcon(char: Char, font: Int? = null, size: Dp = 24.dp) {
+    Text(
+        text = char.toString(),
+        fontFamily = font?.let { remember { FontFamily(Font(it, FontWeight.Normal)) } },
+        fontSize = with(LocalDensity.current) { size.toSp() }
+    )
 }
 
 @Preview

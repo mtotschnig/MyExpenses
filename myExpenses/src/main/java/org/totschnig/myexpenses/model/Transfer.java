@@ -47,8 +47,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
  */
 public class Transfer extends Transaction implements ITransfer {
 
-  public static final String RIGHT_ARROW = "▶";
-  public static final String LEFT_ARROW = "◀";
+  public static final char RIGHT_ARROW = '▶';
+  public static final char LEFT_ARROW = '◀';
   public static final String BI_ARROW = "⇄";
 
   private Long transferPeer;
@@ -254,7 +254,11 @@ public class Transfer extends Transaction implements ITransfer {
   }
 
   public static String getIndicatorPrefixForLabel(long amount) {
-    return ((amount < 0) ? RIGHT_ARROW : LEFT_ARROW) + " ";
+    return getIndicatorCharForLabel(amount) + " ";
+  }
+
+  public static char getIndicatorCharForLabel(long amount) {
+    return amount < 0 ? RIGHT_ARROW : LEFT_ARROW;
   }
 
   public String printLabelWithPrefix() {
