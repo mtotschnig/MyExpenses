@@ -62,6 +62,12 @@ import timber.log.Timber;
 
 public class TransactionDatabase extends BaseTransactionDatabase {
 
+  private final boolean supportsJson;
+
+  public TransactionDatabase(boolean supportsJson) {
+    this.supportsJson = supportsJson;
+  }
+
   /**
    * SQL statement for expenses TABLE
    * both transactions and transfers are stored in this table
@@ -109,7 +115,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     return String.format(Locale.ROOT, " GROUP BY %1$s.%2$s", tableName, KEY_ROWID);
   }
 
-  private static String buildViewDefinition(String tableName, boolean withTags) {
+  private String buildViewDefinition(String tableName, boolean withTags) {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append( " AS ").append(DbConstantsKt.getCategoryTreeForView())
         .append(" SELECT ").append(tableName).append(".*, ")
@@ -123,7 +129,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     }
 
     if (withTags) {
-      stringBuilder.append(", json_group_array(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(") AS ").append(KEY_TAGLIST);
+      stringBuilder.append(", ").append(DbConstantsKt.tagListExpression(supportsJson));
     }
 
     stringBuilder.append(" FROM ").append(tableName)
@@ -151,7 +157,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
   }
 
-  private static String buildViewDefinitionExtended(String tableName) {
+  private String buildViewDefinitionExtended(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append( " AS ");
     if (!tableName.equals(TABLE_CHANGES)) {
@@ -175,7 +181,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
-      stringBuilder.append(", json_group_array(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(") AS ").append(KEY_TAGLIST);
+      stringBuilder.append(", ").append(DbConstantsKt.tagListExpression(supportsJson));
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")

@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.provider
 
 import android.net.Uri
-import androidx.sqlite.db.SupportSQLiteDatabase
-import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
@@ -311,3 +309,10 @@ with data as
        exists(select 1 from data where $KEY_TRANSFER_ACCOUNT > 0) AS $KEY_HAS_TRANSFERS,
        exists(select 1 from data where $KEY_TAGID is not null) AS $KEY_MAPPED_TAGS
 """.trimIndent()
+
+fun tagListExpression(supportsJson: Boolean) = if (supportsJson) {
+    "json_group_array($TABLE_TAGS).$KEY_LABEL AS $KEY_TAGLIST"
+} else  {
+    "group_concat($TABLE_TAGS.$KEY_LABEL, ', ') AS $KEY_TAGLIST"
+
+}

@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -503,7 +504,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         helper = openHelperFactory.create(
             SupportSQLiteOpenHelper.Configuration.builder(context!!)
                 .name(databaseName).callback(
-                    TransactionDatabase()
+                    //Robolectric uses native Sqlite which as of now does not include Json extension
+                    TransactionDatabase(openHelperFactory !is FrameworkSQLiteOpenHelperFactory)
                 ).build()
         ).also {
             it.setWriteAheadLoggingEnabled(false)

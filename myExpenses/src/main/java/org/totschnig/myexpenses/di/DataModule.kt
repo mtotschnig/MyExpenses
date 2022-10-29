@@ -1,15 +1,12 @@
 package org.totschnig.myexpenses.di
 
 import android.content.SharedPreferences
-import android.os.Build
 import androidx.preference.PreferenceManager
 import androidx.sqlite.db.SupportSQLiteOpenHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
