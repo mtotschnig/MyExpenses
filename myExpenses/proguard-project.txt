@@ -15,10 +15,6 @@
 -dontwarn org.bouncycastle.**
 -dontwarn com.itextpdf.**
 
--keepclassmembers class org.totschnig.myexpenses.provider.filter.* {
- public <init>(java.lang.String,java.lang.String[]);
-}
-
 #Guava
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
