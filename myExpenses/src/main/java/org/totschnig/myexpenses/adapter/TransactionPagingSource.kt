@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -23,6 +24,8 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 
 const val LOAD_SIZE = 200
 
@@ -87,6 +90,7 @@ class TransactionPagingSource(
             }
         }
         val data = withContext(Dispatchers.IO) {
+            val startTime = if (BuildConfig.DEBUG) Instant.now() else null
             contentResolver.query(
                 uri.buildUpon()
                     .appendQueryParameter(
@@ -103,7 +107,11 @@ class TransactionPagingSource(
                 selectionArgs,
                 "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
             )?.use { cursor ->
-                Timber.i("Cursor size %d", cursor.count)
+                if (BuildConfig.DEBUG) {
+                    val endTime = Instant.now()
+                    val duration = Duration.between(startTime, endTime)
+                    Timber.i("Cursor delivered after %s", duration)
+                }
                 cursor.asSequence.map {
                     Transaction2.fromCursor(context, it, (context.applicationContext as MyApplication).appComponent.currencyContext())
                 }.toList()
