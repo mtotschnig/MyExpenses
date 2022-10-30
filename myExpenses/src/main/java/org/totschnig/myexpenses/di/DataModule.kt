@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.preference.PreferenceManager
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
@@ -48,7 +49,7 @@ open class DataModule {
 
     @Singleton
     @Provides
-    open fun provideSQLiteOpenHelperFactory() =
+    open fun provideSQLiteOpenHelperFactory():  SupportSQLiteOpenHelper.Factory =  if (false) FrameworkSQLiteOpenHelperFactory() else
         Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
             .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
 }
