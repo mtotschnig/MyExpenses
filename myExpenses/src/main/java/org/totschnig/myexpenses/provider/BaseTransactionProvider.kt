@@ -472,8 +472,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             else -> "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to accountId
         }
         return db.query(TABLE_BUDGETS, arrayOf(KEY_ROWID), "$KEY_IS_DEFAULT = 1 AND $KEY_GROUPING = ? AND $accountSelection", arrayOf(group, accountSelectionArg))
-            .takeIf { it.moveToFirst() }
-            ?.use { it.getLong(0) }
+            .use { it.takeIf { it.moveToFirst() }?.getLong(0) }
     }
 
     fun hiddenAccountCount(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
@@ -570,7 +569,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val result = block()
         val endTime = Instant.now()
         val duration = Duration.between(startTime, endTime)
-        log("${lazyMessage()} : $duration")
+        log("${lazyMessage()}\n$duration")
         result
     } else block()
 
