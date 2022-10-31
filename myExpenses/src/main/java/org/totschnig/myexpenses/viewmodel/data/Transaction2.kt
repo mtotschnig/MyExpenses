@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.AccountType
@@ -31,6 +32,7 @@ import java.io.File
 import java.time.ZonedDateTime
 
 @Parcelize
+@Immutable
 data class Transaction2(
     val id: Long,
     val date: ZonedDateTime,

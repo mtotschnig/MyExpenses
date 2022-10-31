@@ -64,7 +64,8 @@ class MyExpensesViewModel(
     @Inject
     lateinit var dataStore: DataStore<Preferences>
 
-    private fun showStatusHandleForAccountPrefKey(accountId: Long) = booleanPreferencesKey("showStatusHandle_$accountId")
+    private fun showStatusHandleForAccountPrefKey(accountId: Long) =
+        booleanPreferencesKey("showStatusHandle_$accountId")
 
     fun showStatusHandleForAccount(accountId: Long) =
         dataStore.data.map { preferences ->
@@ -80,8 +81,8 @@ class MyExpensesViewModel(
     fun expansionHandler(key: String) = object : ExpansionHandler {
         val collapsedIdsPrefKey = stringSetPreferencesKey(key)
         private val collapsedIds: Flow<Set<String>> = dataStore.data.map { preferences ->
-                preferences[collapsedIdsPrefKey] ?: emptySet()
-            }
+            preferences[collapsedIdsPrefKey] ?: emptySet()
+        }
 
         @Composable
         override fun collapsedIds(): State<Set<String>> =
@@ -90,9 +91,10 @@ class MyExpensesViewModel(
         override fun toggle(id: String) {
             viewModelScope.launch {
                 dataStore.edit { settings ->
-                    settings[collapsedIdsPrefKey] = settings[collapsedIdsPrefKey]?.toMutableSet()?.also {
-                        it.toggle(id)
-                    } ?: setOf(id)
+                    settings[collapsedIdsPrefKey] =
+                        settings[collapsedIdsPrefKey]?.toMutableSet()?.also {
+                            it.toggle(id)
+                        } ?: setOf(id)
                 }
             }
         }
@@ -112,21 +114,35 @@ class MyExpensesViewModel(
     val selectionState: MutableState<List<Transaction2>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
-    val showSumDetails: Flow<Boolean>
-        get() = dataStore.data.map {
+    val showSumDetails: Flow<Boolean> by lazy {
+        dataStore.data.map {
             it[booleanPreferencesKey(prefHandler.getKey(PrefKey.GROUP_HEADER))] != false
         }
+    }
 
-    val renderer: Flow<RenderType>
-        get() = dataStore.data.map {
-            enumValueOrDefault(it[stringPreferencesKey(prefHandler.getKey(PrefKey.UI_ITEM_RENDERER))], RenderType.New)
+    val renderer: Flow<RenderType> by lazy {
+        dataStore.data.map {
+            enumValueOrDefault(
+                it[stringPreferencesKey(prefHandler.getKey(PrefKey.UI_ITEM_RENDERER))],
+                RenderType.New
+            )
         }
+    }
 
-    val futureCriterion: Flow<FutureCriterion>
-        get() =  dataStore.data.map {
-            triggerAccountListRefresh()
-            enumValueOrDefault(it[stringPreferencesKey(prefHandler.getKey(PrefKey.CRITERION_FUTURE))], FutureCriterion.EndOfDay)
+    val futureCriterion: Flow<FutureCriterion> by lazy {
+        dataStore.data.map {
+            enumValueOrDefault(
+                it[stringPreferencesKey(prefHandler.getKey(PrefKey.CRITERION_FUTURE))],
+                FutureCriterion.EndOfDay
+            )
+        }.also {
+            viewModelScope.launch {
+                it.drop(1).collect {
+                    triggerAccountListRefresh()
+                }
+            }
         }
+    }
 
     @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
     val pagerState = savedStateHandle.saveable("pagerState",
@@ -220,7 +236,8 @@ class MyExpensesViewModel(
         } else emptyFlow()
 
     fun sumInfo(account: FullAccount): Flow<SumInfo> = contentResolver.observeQuery(
-        uri = TRANSACTIONS_URI.buildUpon().appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
+        uri = TRANSACTIONS_URI.buildUpon()
+            .appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
             .build(),
         selection = account.selection,
         selectionArgs = account.selectionArgs
@@ -492,7 +509,8 @@ class MyExpensesViewModel(
                 )
                 val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
                 val date = cursor.getLong(KEY_DATE)
-                val crStatus = enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
+                val crStatus =
+                    enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
                 SplitTransaction.getNewInstance(accountId, false).also {
                     it.amount = amount
                     it.date = date
@@ -524,11 +542,16 @@ class MyExpensesViewModel(
             put(KEY_ROWID, id)
         }
         if (contentResolver.update(
-            TRANSACTIONS_URI.buildUpon()
-                .appendPath(URI_SEGMENT_UNSPLIT)
-                .build(),
-            values, null, null
-        ) == 1) emit(ResultUnit) else emit(Result.failure(Exception()))
+                TRANSACTIONS_URI.buildUpon().appendPath(URI_SEGMENT_UNSPLIT).build(),
+                values,
+                null,
+                null
+            ) == 1
+        ) {
+            emit(ResultUnit)
+        } else {
+            emit(Result.failure(Exception()))
+        }
     }
 
     fun canLinkSelection(): Boolean {
