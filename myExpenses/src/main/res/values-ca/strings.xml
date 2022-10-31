@@ -683,10 +683,7 @@
     <string name="home_currency_change_warning">Si canvia la seva divisa local, les quantitats equivalents i els tipus de canvis es perdran, caldrà definir-los de nou.</string>
     <string name="menu_ungroup_split_transaction">Desagrupa divisió</string>
     <string name="grand_total">Total general</string>
-    <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">La transacció dividida s\'ha desagregat amb èxit.</item>
-        <item quantity="other">%1$d transaccions dividides s\'han desagrupat amb èxit.</item>
-    </plurals>
+    <string name="ungroup_split_transaction_success">La transacció dividida s\'ha desagregat amb èxit.</string>f
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Transacció nova desada correctament des de plantilla.</item>
         <item quantity="other">%1$d transaccions noves desades correctament des de plantilles.</item>
