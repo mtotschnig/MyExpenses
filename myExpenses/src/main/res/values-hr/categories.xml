@@ -3,7 +3,7 @@
     <!-- Main category -->
     <string name="Main_1">Ostali prihodi</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_1">Nezaposlenost</string>
+    <string name="Sub_1_1">Nakdnada za nezaposlene</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_2">Obiteljski doplatak</string>
     <!-- Subcategory under "Other income" -->
@@ -35,9 +35,9 @@
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_1">Prekovremeni rad</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_2">Doplatak</string>
+    <string name="Sub_4_2">Dopust</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_3">Ostale premije</string>
+    <string name="Sub_4_3">Razne premije</string>
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_4">Naknada za uspjeh</string>
     <!-- Subcategory under "Salary" -->
@@ -47,7 +47,7 @@
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_1">Pokloni</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_2">Povrat</string>
+    <string name="Sub_5_2">Povrat novca</string>
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_3">Prodaja rabljenih stvari</string>
     <!-- Main category -->
@@ -127,7 +127,7 @@
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_3">Naknade</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_4">Povrat</string>
+    <string name="Sub_13_4">Povrat duga</string>
     <!-- Main category -->
     <string name="Main_14">Stručni troškovi</string>
     <!-- Subcategory under "Professional expenses" -->
@@ -187,7 +187,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_4">Noćni klub</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_5">Računalo</string>
+    <string name="Sub_17_5">Informatička tehnologija</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_6">Igre</string>
     <!-- Subcategory under "Leisures" -->
@@ -255,7 +255,7 @@
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_1">Smještaj</string>
     <!-- Subcategory under "Holidays" -->
-    <string name="Sub_22_2">Posjeta</string>
+    <string name="Sub_22_2">Posjete</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_3">Putovanja</string>
 </resources>

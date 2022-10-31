@@ -192,13 +192,13 @@
     <string name="menu_parent_category_selection_help_text">使用此选项，你可以自定义对具有子类别的类别的点击动作：如果子类别已选中，则短按将选择类别；如果未选中，短按将展开/收起类别。在后一种情况下，可以从上下文菜单中进行选择</string>
     <string name="menu_create_sync_backend_help_text">从子菜单中选择要添加的同步后端的类型，并提供特定于每个的详细信息</string>
     <string name="form_BudgetEdit_type_help_text">预算定义为定期（每天、每周、每月、每年）或一次性。对于一次性预算，你可以指定其起始的持续时间。可将常规预算（未过滤）设为默认：这意味着交易列表（如果配置为每天、每周、每月或每年分组数据）将显示此预算在每个期间的进度</string>
-    <string name="help_Budget_amount_click_1">更改金额永远不会影响过去的时期。除非您决定只为当前时期进行设置，否则其将影响未来时期</string>
+    <string name="help_Budget_amount_click_1">更改金额绝不会影响过去的时期。如您决定只为当期进行设置，它会影响未来时期。</string>
     <string name="menu_BudgetActivity_rollover_help_text">如果您的预算不足或超支，您可以将差额转存到下一个期间，这样可分配的金额更有弹性。有三个选项：</string>
-    <string name="menu_BudgetActivity_rollover_categories">每个类别的余额都会被转存，下一期间的相应分配额将受到影响</string>
-    <string name="menu_BudgetActivity_rollover_total">只有总预算的剩余部分被转存，即只有下一个期间的总预算会增加或减少</string>
-    <string name="menu_BudgetActivity_rollover_edit">此选项用于精确配置展期金额。例如，您可以只为某些类别或子类别设置部分展期金额，并将剩余部分转存到总预算上</string>
-    <string name="help_WebUI_info_2">目前网页版不支持转账或拆分交易</string>
-    <string name="help_WebUI_info_3">您可以设置安全访问密码。在网页浏览器显示的对话框中，只需输入密码，不用考虑用户名</string>
-    <string name="help_WebUI_info_4">显示选定账户的交易信息时，网页版将直接使用您在 Android 设备上为本应用设置的相同过滤器</string>
-    <string name="help_WebUI_info_1">从电脑上的网页浏览器调用字幕中显示的链接</string>
+    <string name="menu_BudgetActivity_rollover_categories">每个类别的余额都被展期，下一期间的相应分配将受到影响。</string>
+    <string name="menu_BudgetActivity_rollover_total">只有总预算的剩余部分被展期，所以只有下一时期的总预算增加或减少了。</string>
+    <string name="menu_BudgetActivity_rollover_edit">此选项用于精确配置展期金额。例如，您可以只为某些类别或子类别设置部分展期金额，并将剩余部分转存到总预算上。</string>
+    <string name="help_WebUI_info_2">目前网页版不支持转账或拆分交易。</string>
+    <string name="help_WebUI_info_3">您可以设置安全访问密码。在网页浏览器显示的对话框中，只需输入密码，不用考虑用户名。</string>
+    <string name="help_WebUI_info_4">显示选定账户的交易信息时，网页版将直接使用您在 Android 设备应用上设置的过滤器。</string>
+    <string name="help_WebUI_info_1">从电脑上的网页浏览器调用副标题中显示的链接。</string>
 </resources>

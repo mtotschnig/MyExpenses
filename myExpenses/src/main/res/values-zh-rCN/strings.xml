@@ -990,14 +990,14 @@
     <string name="debt_owes_me">欠债人 %s</string>
     <string name="warning_party_delete_debt">删除该交易对象时，相关的债务也将一并删除。</string>
     <string name="whats_new_340">支持多行备注</string>
-    <string name="webui_warning_move_transaction">交易将移至账户 {account}</string>
+    <string name="webui_warning_move_transaction">交易将移至账户 {account}。</string>
     <string name="pref_csv_export_split_date_time_summary">日期和时间单独一列</string>
     <string name="pref_csv_export_split_amount_summary">收入和支出单独一列</string>
     <string name="budget_only_current_period">仅为“%s”设置</string>
-    <string name="rollover_edit_invalid">分配给一个类别的展期数额和分配给子类别的展期数额之和不能超过余额</string>
+    <string name="rollover_edit_invalid">分配给一个类别的展期数额和分配给子类别的展期数额之和不能超过余额。</string>
     <string name="budget_table_header_rollover">展期</string>
     <string name="required">必填</string>
-    <string name="dialog_confirm_rollover_delete">此期间的所有展期金额将被删除</string>
+    <string name="dialog_confirm_rollover_delete">此期间的所有展期金额将被删除。</string>
     <string name="whats_new_344">类别图标</string>
     <string name="pref_csv_export_split_categories_summary">每个类别层次结构级别单独一列</string>
 </resources>

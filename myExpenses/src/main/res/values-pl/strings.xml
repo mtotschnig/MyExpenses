@@ -792,4 +792,10 @@
     <string name="ui_refinement">Dopracowanie interfejsu użytkownika</string>
     <string name="whats_new_338">Arbitralnie głęboka hierarchia kategorii</string>
     <string name="dialog_title_purge_backups">Wyczyść stare kopie zapasowe</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">Usunąć konto\?</item>
+        <item quantity="few">Usunąć %1$d konta\?</item>
+        <item quantity="many">Usunąć %1$d kont\?</item>
+        <item quantity="other">Usunąć %1$d kont\?</item>
+    </plurals>
 </resources>

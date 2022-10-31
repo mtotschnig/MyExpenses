@@ -140,7 +140,7 @@
     <string name="menu_create_transaction">Nova transakcija</string>
     <string name="menu_create_transfer">Novi prijenos</string>
     <string name="menu_delete">Izbriši</string>
-    <string name="menu_distribution">Raspodjela</string>
+    <string name="menu_distribution">Distribucija</string>
     <string name="menu_edit">Uredi</string>
     <string name="menu_edit_account">Uredi račun</string>
     <string name="menu_edit_cat">Uredi kategoriju</string>
@@ -436,7 +436,7 @@
     <string name="roadmap_vote">Glas u planu razvoja</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Pravo glasa u <b>planu razvoja</b></string>
     <string name="menu_distribution_show_pie_char">Prikaži kružni dijagram</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kružni dijagram (raspodjela po kategorijama)</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kružni dijagram (distribucija po kategorijama)</string>
     <string name="discover_feature_fab_long_press">Dodirni i drži plutajući gumb radnje pritisnutim za izravno otvaranje obrasca za prijenose, višedjelne transakcije ili prihod.</string>
     <string name="currency_code_already_definded">Valuta je već definirana.</string>
     <string name="ungroup_split_transaction_success">%1$d višedjelna transakcija je uspješno razgrupirana.</string>
@@ -753,7 +753,7 @@
     <string name="remapping_result">Odabrane transakcije su novo povezane.</string>
     <string name="remap_account">Sve odabrane transakcije će se povezati s računom %s.</string>
     <string name="remap_method">Sve odabrane transakcije će se povezati s metodom %s.</string>
-    <string name="remap_payee">Sve odabrane transakcije će se povezati s platiocem/platišem %s.</string>
+    <string name="remap_payee">Sve odabrane transakcije će se povezati s platišem/primaocem %s.</string>
     <string name="remap_category">Sve odabrane transakcije će se povezati s kategorijom %s.</string>
     <string name="dialog_title_confirm_remap">Promijeniti povezivanje (%s)\?</string>
     <string name="menu_remap">Promijeni vezu</string>
@@ -830,7 +830,7 @@
     <string name="budget_exceeded_error_1_2">Sav tvoj proračun dodijeljen je drugim kategorijama.</string>
     <string name="budget_exceeded_error_1_1">Sav tvoj proračun osim %s dodijeljen je drugim kategorijama.</string>
     <string name="budget_allocated_amount">Dodijeljeni iznos</string>
-    <string name="budget_table_header_remainder">Preostalo</string>
+    <string name="budget_table_header_remainder">Ostatak</string>
     <string name="budget_table_header_spent">Potrošeno</string>
     <string name="budget_table_header_allocated">Dodijeljeno</string>
     <string name="budget_table_header_budgeted">Proračunato</string>
@@ -874,7 +874,7 @@
     <string name="move_category_failure">Jedna kategorija nije premještena, jer ista oznaka već postoji na cilju.</string>
     <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja proračunu koja će se također izbrisati.</string>
     <string name="status_void">nevažeće</string>
-    <string name="select_payee">Odaberi primaoca/platišu</string>
+    <string name="select_payee">Odaberi platišu/primaoca</string>
     <string name="pref_perform_protection_title">Zaštita</string>
     <string name="pref_manage_sync_backends_summary">Dodaj pozadinske sustave za sinkroniziranje računa (%s).</string>
     <string name="pref_contrib_purchase_title_upgrade">Nadogradi ključ</string>
@@ -886,10 +886,10 @@
     <string name="menu_split_transaction">Pretvori u višedjelnu transakciju</string>
     <string name="button_label_close">Zatvori</string>
     <string name="button_label_share_file">Dijeli</string>
-    <string name="crash_reports_user_info">{app_name} automatski šalje izvještaje o prestanku rada aplikacije svojim programerima kako bi brže ispravili greške.</string>
-    <string name="pref_category_title_crash_reports">Izvještaji o prestanku rada aplikacije</string>
-    <string name="pref_enable_acra">Omogući automatsko slanje izvještaja o prestanku rada aplikacije</string>
-    <string name="pref_acra_user_email">Korisnički e-mail će biti sadržan u izvještaju o prestanku rada aplikacije</string>
+    <string name="crash_reports_user_info">{app_name} automatski šalje izvještaje o prestanku rada programa svojim programerima kako bi brže ispravili greške.</string>
+    <string name="pref_category_title_crash_reports">Izvještaji o prekidu rada programa</string>
+    <string name="pref_enable_acra">Omogući automatsko slanje izvještaja o prekidu rada programa</string>
+    <string name="pref_acra_user_email">Korisnički e-mail će biti sadržan u izvještaju o prekidu rada programa</string>
     <string name="pref_acra_user_email_summary">Upiši svoju e-mail adresu ako želiš pomoći u ispravljanju grešaka i dopustiti nam da te kontaktiramo.</string>
     <string name="bug_fixes">Popravci grešaka</string>
     <string name="new_version">Nova verzija</string>
@@ -952,4 +952,7 @@
     <string name="whats_new_344">Ikone za kategorije</string>
     <string name="required">Obavezno</string>
     <string name="budget_only_current_period">Postavi samo za %s</string>
+    <string name="budget_table_header_rollover">Iznos prijenosa</string>
+    <string name="dialog_confirm_rollover_delete">Svi iznosi prijenosa za ovo razdoblje će se izbrisati.</string>
+    <string name="rollover_edit_invalid">Zbroj iznosa prijenosa koji je dodijeljen kategoriji i iznosi prijenosa koji su dodijeljeni podkategorijama ne može biti veći od ostatka.</string>
 </resources>

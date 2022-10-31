@@ -1013,4 +1013,9 @@
     <string name="whats_new_340">Полето Бележки позволява няколко абзаца.</string>
     <string name="webui_warning_move_transaction">Транзакцията ще бъде преместена в сметка {account}.</string>
     <string name="whats_new_344">Икони за категориите</string>
+    <string name="budget_only_current_period">Задай само за %s</string>
+    <string name="budget_table_header_rollover">Пренасяне на суми</string>
+    <string name="dialog_confirm_rollover_delete">Всички суми за пренасяне за тоси период ще бъдат изтрити.</string>
+    <string name="rollover_edit_invalid">Сборът от сумите за пренасяне, зададени по категория и подкатегории, не може да надвишава остатъка.</string>
+    <string name="required">Задължително</string>
 </resources>
