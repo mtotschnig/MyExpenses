@@ -222,7 +222,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     .takeIf { it.isNotEmpty() }
                     ?.toSet()?.let {
                         val collapsedIdsPrefKey = stringSetPreferencesKey("collapsedAccounts")
-                       dataStore.edit { settings ->
+                        dataStore.edit { settings ->
                             settings[collapsedIdsPrefKey] = it
                         }
                     }
@@ -258,11 +258,16 @@ class UpgradeHandlerViewModel(application: Application) :
                 dataStore.edit {
 
                     it[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)] =
-                        getEnumFromPreferencesWithDefault(prefHandler, PrefKey.CRITERION_FUTURE, FutureCriterion.EndOfDay).name
+                        (if (prefHandler.getString(
+                                PrefKey.CRITERION_FUTURE,
+                                "end_of_day"
+                            ) == "current"
+                        ) FutureCriterion.Current else FutureCriterion.EndOfDay).name
+
                     prefHandler.remove(PrefKey.CRITERION_FUTURE)
 
                     it[prefHandler.getBooleanPreferencesKey(PrefKey.GROUP_HEADER)] =
-                       prefHandler.getBoolean(PrefKey.GROUP_HEADER, true)
+                        prefHandler.getBoolean(PrefKey.GROUP_HEADER, true)
                     prefHandler.remove(PrefKey.GROUP_HEADER)
                 }
             }
