@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.preference.PrefKey
@@ -25,6 +26,7 @@ import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.getEnumFromPreferencesWithDefault
 import org.totschnig.myexpenses.util.validateDateFormat
 import timber.log.Timber
 import javax.inject.Inject
@@ -252,6 +254,16 @@ class UpgradeHandlerViewModel(application: Application) :
                     }
                 collapsedHeaderPrefs.forEach {
                     prefHandler.remove(it.key)
+                }
+                dataStore.edit {
+
+                    it[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)] =
+                        getEnumFromPreferencesWithDefault(prefHandler, PrefKey.CRITERION_FUTURE, FutureCriterion.EndOfDay).name
+                    prefHandler.remove(PrefKey.CRITERION_FUTURE)
+
+                    it[prefHandler.getBooleanPreferencesKey(PrefKey.GROUP_HEADER)] =
+                       prefHandler.getBoolean(PrefKey.GROUP_HEADER, true)
+                    prefHandler.remove(PrefKey.GROUP_HEADER)
                 }
             }
         }

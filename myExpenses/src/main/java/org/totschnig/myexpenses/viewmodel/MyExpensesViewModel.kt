@@ -13,7 +13,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
@@ -116,14 +115,14 @@ class MyExpensesViewModel(
 
     val showSumDetails: Flow<Boolean> by lazy {
         dataStore.data.map {
-            it[booleanPreferencesKey(prefHandler.getKey(PrefKey.GROUP_HEADER))] != false
+            it[prefHandler.getBooleanPreferencesKey(PrefKey.GROUP_HEADER)] != false
         }
     }
 
     val renderer: Flow<RenderType> by lazy {
         dataStore.data.map {
             enumValueOrDefault(
-                it[stringPreferencesKey(prefHandler.getKey(PrefKey.UI_ITEM_RENDERER))],
+                it[prefHandler.getStringPreferencesKey(PrefKey.UI_ITEM_RENDERER)],
                 RenderType.New
             )
         }
@@ -132,7 +131,7 @@ class MyExpensesViewModel(
     val futureCriterion: Flow<FutureCriterion> by lazy {
         dataStore.data.map {
             enumValueOrDefault(
-                it[stringPreferencesKey(prefHandler.getKey(PrefKey.CRITERION_FUTURE))],
+                it[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)],
                 FutureCriterion.EndOfDay
             )
         }.also {
