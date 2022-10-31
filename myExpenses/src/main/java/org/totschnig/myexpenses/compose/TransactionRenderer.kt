@@ -81,7 +81,10 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         }
     }
 
-    fun Transaction2.buildSecondaryInfo(context: Context, withTags: Boolean): Pair<AnnotatedString, List<ImageVector>> {
+    fun Transaction2.buildSecondaryInfo(
+        context: Context,
+        withTags: Boolean
+    ): Pair<AnnotatedString, List<ImageVector>> {
         val attachmentIcon = if (pictureUri != null) Icons.Filled.Attachment else null
         val methodIcon = methodInfo?.second
         return buildAnnotatedString {
@@ -114,7 +117,10 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
             }
             attachmentIcon?.let {
                 append(" ")
-                appendInlineContent(it.name, context.getString(R.string.content_description_attachment))
+                appendInlineContent(
+                    it.name,
+                    context.getString(R.string.content_description_attachment)
+                )
             }
         } to listOfNotNull(methodIcon, attachmentIcon)
     }
@@ -190,7 +196,11 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     }
 
     @Composable
-    fun TextWithInlineContent(modifier: Modifier = Modifier, text: AnnotatedString, icons: List<ImageVector>) {
+    fun TextWithInlineContent(
+        modifier: Modifier = Modifier,
+        text: AnnotatedString,
+        icons: List<ImageVector>
+    ) {
         Text(modifier = modifier, text = text, inlineContent = buildMap {
             icons.forEach {
                 put(it.name, inlineIcon(it))
@@ -284,9 +294,11 @@ class NewTransactionRenderer(
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let { info ->
                 TextWithInlineContent(text = info, icons = secondaryInfo.second)
             }
-            FlowRow(mainAxisSpacing = 2.dp, crossAxisSpacing = 1.dp) {
-                transaction.tagList.forEach {
-                    Text(text = it, modifier = Modifier.tagBorder())
+            if (transaction.tagList.isNotEmpty()) {
+                FlowRow(mainAxisSpacing = 2.dp, crossAxisSpacing = 1.dp) {
+                    transaction.tagList.forEach {
+                        Text(text = it, modifier = Modifier.tagBorder())
+                    }
                 }
             }
 
