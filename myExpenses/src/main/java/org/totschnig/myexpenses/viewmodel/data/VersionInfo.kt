@@ -79,6 +79,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.menu_budget)}: 3.0",
                 "${t(R.string.title_webui)}: https",
             )
+            "346" -> arrayOf(
+                "${t(R.string.help_MyExpenses_title)}: ${t(R.string.redesign)}"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",

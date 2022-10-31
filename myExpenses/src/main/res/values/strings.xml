@@ -1044,4 +1044,5 @@
     <string name="dialog_confirm_rollover_delete">All rollover amounts for this period will be deleted.</string>
     <!-- For icon that represents the fact that an image has been attached to a transaction -->
     <string name="content_description_attachment">Attachment</string>
+    <string name="redesign">Redesign</string>
 </resources>
