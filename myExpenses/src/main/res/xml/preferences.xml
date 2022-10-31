@@ -599,7 +599,7 @@
                 my:useSimpleSummaryProvider="true" />
         </PreferenceScreen>
         <ListPreference
-            android:defaultValue="end_of_day"
+            android:defaultValue="EndOfDay"
             android:entries="@array/pref_criterion_future_entries"
             android:entryValues="@array/pref_criterion_future_values"
             android:key="@string/pref_criterion_future_key"
