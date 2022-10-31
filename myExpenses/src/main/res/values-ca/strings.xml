@@ -479,7 +479,6 @@
     <string name="onboarding_more_options">Més opcions</string>
     <string name="onboarding_restore_from_local">Restaurar des de còpia de seguretat local</string>
     <string name="dialog_button_add">Afegir</string>
-    <string name="template_create_error">Error mentre es desava la plantilla</string>
     <string name="contributed_by">Contribució de %s</string>
     <string name="plan_custom_recurrence_info">Siuplau desi la plantilla. abans. S\'obrirà el projecte a l\'aplicació de calendari on podrà configurar una reaparició personalitzada.</string>
     <string name="button_validate">Valida</string>
@@ -540,7 +539,6 @@
     <string name="onboarding_ui_title">{app_name} s\'adapta a les vostres preferències</string>
     <string name="onboarding_data_title">Configurem el vostre primer compte</string>
     <string name="onboarding_restore_from_cloud_backup">Còpies de seguretat</string>
-    <string name="error">Error (%s)</string>
     <string name="pref_sync_notification_summary">Notifica el progrés de sincronització</string>
     <string name="pref_debug_logging_summary">Escriu informació de depuració al registre del sistema</string>
     <string name="eu_vat_info">Per residents a l\'Unió Europea, els preus apareixen sense IVA.</string>
