@@ -14,6 +14,7 @@
     <string name="toast_text_copied">"テキストをコピーしました"</string>
     <string name="copy_text">"クリップボードにコピー"</string>
     <string name="stop">"停止"</string>
+    <string name="style">"スタイル"</string>
     <string name="no_network">"ネットワークに接続できません。"</string>
     <string name="button_label_continue">"次へ"</string>
     <string name="autofill">"自動入力"</string>

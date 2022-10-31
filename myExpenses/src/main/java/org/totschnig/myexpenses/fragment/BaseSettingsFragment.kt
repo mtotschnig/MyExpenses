@@ -769,8 +769,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceDataStore.handleToggle(requirePreference(PrefKey.GROUP_HEADER))
                 }
 
-                lifecycleScope.launchWhenStarted {
-                    preferenceDataStore.handleList(requirePreference(PrefKey.UI_ITEM_RENDERER))
+                requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
+                    it.title = "${getString(R.string.help_MyExpenses_title)}: ${getString(R.string.style)}: Legacy"
+                    lifecycleScope.launchWhenStarted {
+                        preferenceDataStore.handleToggle(it)
+                    }
                 }
 
                 lifecycleScope.launchWhenStarted {

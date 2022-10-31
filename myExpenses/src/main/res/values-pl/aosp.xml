@@ -13,6 +13,7 @@
     <string name="toast_text_copied">"Tekst skopiowany"</string>
     <string name="copy_text">"Kopiuj do schowka"</string>
     <string name="stop">"Stop"</string>
+    <string name="style">"Wygląd"</string>
     <string name="no_network">"Brak połączenia z siecią."</string>
     <string name="button_label_continue">Dalej</string>
     <string name="autofill">"Autouzupełnianie"</string>

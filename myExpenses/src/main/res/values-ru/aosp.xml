@@ -13,6 +13,7 @@
     <string name="toast_text_copied">"Текст скопирован"</string>
     <string name="copy_text">"Копировать в буфер обмена"</string>
     <string name="stop">"Стоп"</string>
+    <string name="style">"Стиль"</string>
     <string name="no_network">"Нет подключения к сети."</string>
     <string name="button_label_continue">Продолжить</string>
     <string name="autofill">"Автозаполнение"</string>

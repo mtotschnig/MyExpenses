@@ -73,14 +73,10 @@
             android:key="@string/pref_ui_theme_key"
             android:title="@string/pref_ui_theme_title"
             my:useSimpleSummaryProvider="true" />
-        <ListPreference
-            android:defaultValue="New"
-            android:entries="@array/pref_ui_item_renderer_entries"
-            android:entryValues="@array/pref_ui_item_renderer_values"
-            android:key="@string/pref_ui_item_renderer_key"
-            android:persistent="false"
-            android:title="Item renderer"
-            my:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_ui_item_renderer_legacy_key"
+            android:persistent="false" />
         <org.totschnig.myexpenses.preference.FontSizeDialogPreference
             android:defaultValue="0"
             android:key="@string/pref_ui_fontsize_key"
@@ -604,6 +600,7 @@
             android:entryValues="@array/pref_criterion_future_values"
             android:key="@string/pref_criterion_future_key"
             android:title="@string/pref_criterion_futur_title"
+            android:persistent="false"
             my:useSimpleSummaryProvider="true" />
         <PreferenceScreen
             android:key="@string/pref_webdav_key"

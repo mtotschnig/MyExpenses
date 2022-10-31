@@ -121,10 +121,8 @@ class MyExpensesViewModel(
 
     val renderer: Flow<RenderType> by lazy {
         dataStore.data.map {
-            enumValueOrDefault(
-                it[prefHandler.getStringPreferencesKey(PrefKey.UI_ITEM_RENDERER)],
-                RenderType.New
-            )
+            if (it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_LEGACY)] == true)
+                RenderType.Legacy else RenderType.New
         }
     }
 

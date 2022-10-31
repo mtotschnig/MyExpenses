@@ -28,7 +28,7 @@
     <string name="pref_perform_share_key">perform_share</string>
     <string name="pref_share_target_key">share_target</string>
     <string name="pref_ui_theme_key">pref_ui_theme</string>
-    <string name="pref_ui_item_renderer_key">ui_item_renderer</string>
+    <string name="pref_ui_item_renderer_legacy_key">ui_item_renderer_legacy</string>
     <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     <string name="pref_backup_key">backup</string>
     <string name="pref_auto_backup_key">auto_backup</string>

@@ -13,6 +13,7 @@
     <string name="toast_text_copied">"បាន​ចម្លង​អត្ថបទ"</string>
     <string name="copy_text">"ចម្លង​ទៅអង្គចងចាំ"</string>
     <string name="stop">"ឈប់"</string>
+    <string name="style">"រចនាប័ទ្ម"</string>
     <string name="no_network">"មិន​មាន​ការ​តភ្ជាប់​បណ្ដាញ។"</string>
     <string name="button_label_continue">បន្ត</string>
     <string name="autofill">"បំពេញ​ដោយស្វ័យ​ប្រវត្តិ"</string>

@@ -14,6 +14,7 @@
     <string name="toast_text_copied">"Text copiat"</string>
     <string name="copy_text">"Copiați în clipboard"</string>
     <string name="stop">"Opriți"</string>
+    <string name="style">"Stil"</string>
     <string name="no_network">"Nu există nicio conexiune la rețea."</string>
     <string name="button_label_continue">Continuați</string>
     <string name="autofill">"Completare automată"</string>

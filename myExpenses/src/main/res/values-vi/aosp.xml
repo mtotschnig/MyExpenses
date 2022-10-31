@@ -13,6 +13,7 @@
     <string name="toast_text_copied">"Đã sao chép văn bản"</string>
     <string name="copy_text">"Sao chép vào khay nhớ tạm"</string>
     <string name="stop">"Dừng"</string>
+    <string name="style">"Kiểu"</string>
     <string name="no_network">"Không có kết nối mạng."</string>
     <string name="button_label_continue">Tiếp tục</string>
     <string name="autofill">"Tự động điền"</string>
