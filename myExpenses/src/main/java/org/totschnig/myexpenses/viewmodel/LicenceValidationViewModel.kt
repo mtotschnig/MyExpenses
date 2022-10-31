@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.retrofit.ValidationService
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings

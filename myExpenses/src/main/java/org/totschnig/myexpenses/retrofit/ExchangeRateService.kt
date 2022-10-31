@@ -5,10 +5,7 @@ import org.json.JSONObject
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.requireString
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.enumValueOrNull
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException

@@ -32,7 +32,6 @@ import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler

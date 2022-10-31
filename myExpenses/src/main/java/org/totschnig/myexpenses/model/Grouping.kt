@@ -30,7 +30,6 @@ enum class Grouping {
      * @param groupYear           the year of the group to display
      * @param groupSecond         the number of the group in the second dimension (day, week or month)
      * @param dateInfo            a cursor where we can find information about the current date
-     * @param userPreferredLocale from app or system setting
      * @return a human readable String representing the group as header or activity title
      */
     fun getDisplayTitle(
@@ -101,7 +100,7 @@ enum class Grouping {
             style: Int,
             userPreferredLocale: Locale
         ): String {
-            val monthStarts = PrefKey.GROUP_MONTH_STARTS.getString("1").toInt()
+            val monthStarts = PrefKey.GROUP_MONTH_STARTS.getString("1")!!.toInt()
             var cal = Calendar.getInstance()
             return if (monthStarts == 1) {
                 cal[groupYear, groupSecond] = 1

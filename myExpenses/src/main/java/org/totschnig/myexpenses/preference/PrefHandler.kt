@@ -27,10 +27,16 @@ interface PrefHandler {
     fun remove(key: String?)
     fun isSet(key: PrefKey?): Boolean
     fun isSet(key: String?): Boolean
-    fun matches(key: String, vararg prefKeys: PrefKey?): Boolean
+    fun matches(key: String, vararg prefKeys: PrefKey): Boolean
     fun setDefaultValues(context: Context?)
     fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat?)
 
     fun getStringPreferencesKey(key: PrefKey) = stringPreferencesKey(getKey(key))
     fun getBooleanPreferencesKey(key: PrefKey) = booleanPreferencesKey(getKey(key))
+
+    fun requireString(key: PrefKey, defaultValue: String) =
+        getString(key, defaultValue)!!
+
+    fun requireString(key: String, defaultValue: String) =
+        getString(key, defaultValue)!!
 }

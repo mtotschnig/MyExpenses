@@ -6,8 +6,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.requireString
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 
 class SortDelegate(
