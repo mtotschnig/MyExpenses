@@ -8,8 +8,6 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
-import android.os.Build
-import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.core.database.getIntOrNull
@@ -18,14 +16,9 @@ import androidx.core.database.getStringOrNull
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
-import app.cash.copper.Query
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.transform
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -40,11 +33,9 @@ import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
-import java.util.ArrayList
 
 fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
     db.beginTransaction()
@@ -280,10 +271,16 @@ fun Cursor.getLongIfExistsOr0(column: String) = getColumnIndex(column).takeIf { 
 fun Cursor.getStringIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 
-private val typeToken: Type = object : TypeToken<List<String?>>() {}.type
+private val typeToken: Type = object : TypeToken<List<String>>() {}.type
 private val gson = Gson()
 fun Cursor.getStringListFromJson(colum: String) = getString(colum).let {
-    gson.fromJson<List<String?>>(it, typeToken).filterNotNull()
+    try {
+        gson.fromJson<List<String>>(it, typeToken)
+    } catch (e: JsonSyntaxException) {
+        // on Robolectric we run without json support, if we ever use an SQLITE version
+        //Without JSON extension in production, we need to change this
+        null
+    } ?: if (it.isEmpty()) emptyList() else it.split(',')
 }
 
 fun cacheSyncState(context: Context) {

@@ -1,5 +1,11 @@
 package org.totschnig.myexpenses.model
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CreditCard
+import androidx.compose.material.icons.filled.EditNote
+import androidx.compose.material.icons.filled.FileDownload
+import androidx.compose.material.icons.filled.FileUpload
+import androidx.compose.ui.graphics.vector.ImageVector
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 
@@ -7,12 +13,12 @@ enum class PreDefinedPaymentMethod(
     val paymentType: Int,
     val isNumbered: Boolean,
     val resId: Int,
-    val icon: String
+    val icon: ImageVector
 ) {
-    CHEQUE(-1, true, R.string.pm_cheque, "money-check"),
-    CREDITCARD(-1, false, R.string.pm_creditcard, "credit-card"),
-    DEPOSIT(1, false, R.string.pm_deposit, "money-bill-transfer"),
-    DIRECTDEBIT(-1, false, R.string.pm_directdebit, "money-bill-transfer");
+    CHEQUE(-1, true, R.string.pm_cheque, Icons.Filled.EditNote),
+    CREDITCARD(-1, false, R.string.pm_creditcard, Icons.Filled.CreditCard),
+    DEPOSIT(1, false, R.string.pm_deposit, Icons.Filled.FileDownload),
+    DIRECTDEBIT(-1, false, R.string.pm_directdebit, Icons.Filled.FileUpload);
 
     //TODO use proper context
     val localizedLabel: String

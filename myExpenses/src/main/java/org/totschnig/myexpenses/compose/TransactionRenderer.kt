@@ -17,6 +17,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -63,9 +65,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         return buildAnnotatedString {
             if (isTransfer) {
                 accountLabel?.let { append("$it ") }
-                if (accountLabel != null || forLegacy) {
-                    append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
-                }
+                append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
                 label?.let { append(it) }
             } else if (isSplit) {
                 append(context.getString(R.string.split_transaction))
@@ -81,12 +81,12 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         }
     }
 
-    fun Transaction2.buildSecondaryInfo(context: Context, withTags: Boolean): Pair<AnnotatedString, List<String>> {
-        val attachmentIcon = if (pictureUri != null) "paperclip" else null
+    fun Transaction2.buildSecondaryInfo(context: Context, withTags: Boolean): Pair<AnnotatedString, List<ImageVector>> {
+        val attachmentIcon = if (pictureUri != null) Icons.Filled.Attachment else null
         val methodIcon = methodInfo?.second
         return buildAnnotatedString {
             methodIcon?.let {
-                appendInlineContent(it, methodInfo!!.first)
+                appendInlineContent(it.name, methodInfo!!.first)
             }
             referenceNumber?.takeIf { it.isNotEmpty() }?.let {
                 append("($it) ")
@@ -114,7 +114,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
             }
             attachmentIcon?.let {
                 append(" ")
-                appendInlineContent(it, context.getString(R.string.content_description_attachment))
+                appendInlineContent(it.name, context.getString(R.string.content_description_attachment))
             }
         } to listOfNotNull(methodIcon, attachmentIcon)
     }
@@ -189,14 +189,23 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         }
     }
 
-    protected fun inlineIcon(icon: String) = InlineTextContent(
+    @Composable
+    fun TextWithInlineContent(modifier: Modifier = Modifier, text: AnnotatedString, icons: List<ImageVector>) {
+        Text(modifier = modifier, text = text, inlineContent = buildMap {
+            icons.forEach {
+                put(it.name, inlineIcon(it))
+            }
+        })
+    }
+
+    private fun inlineIcon(icon: ImageVector) = InlineTextContent(
         Placeholder(
             width = 12.sp,
             height = 12.sp,
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
-        Icon(icon, size = with(LocalDensity.current) { 10.sp.toDp() })
+        androidx.compose.material.Icon(imageVector = icon, contentDescription = icon.name)
     }
 }
 
@@ -227,16 +236,12 @@ class LegacyTransactionRenderer(
             Text(text = it.format(transaction.date))
         }
         StatusToggle(transaction)
-        Text(
+        TextWithInlineContent(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
                 .weight(1f),
             text = description,
-            inlineContent = buildMap {
-                secondaryInfo.second.forEach {
-                    put(it, inlineIcon(it))
-                }
-            }
+            icons = secondaryInfo.second
         )
         ColoredAmountText(money = transaction.amount)
     }
@@ -258,7 +263,7 @@ class NewTransactionRenderer(
                         contentDescription = stringResource(id = R.string.split_transaction),
                         modifier = Modifier.fillMaxSize()
                     )
-                    transaction.isTransfer -> CharIcon(char = Transfer.getIndicatorCharForLabel(transaction.amount.amountMinor))
+                    transaction.isTransfer -> Icon("money-bill-transfer")
                     else -> Icon(transaction.icon!!)
                 }
             }
@@ -277,11 +282,7 @@ class NewTransactionRenderer(
                 }
             val secondaryInfo = transaction.buildSecondaryInfo(context, false)
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let { info ->
-                Text(text = info, inlineContent = buildMap {
-                    secondaryInfo.second.forEach {
-                        put(it, inlineIcon(it))
-                    }
-                })
+                TextWithInlineContent(text = info, icons = secondaryInfo.second)
             }
             FlowRow(mainAxisSpacing = 2.dp, crossAxisSpacing = 1.dp) {
                 transaction.tagList.forEach {
