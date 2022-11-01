@@ -64,6 +64,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private final boolean supportsJson;
 
+  /**
+   *
+   * @param supportsJson
+   * If true, it is assumed that we can rely on SQLITE's JSON extension. This parameter is used when
+   * creating views, so changing the value has only effect, if the database version is incremented
+   * and {@link #createOrRefreshViews(SupportSQLiteDatabase)} is called in
+   * {@link #onUpgrade(SupportSQLiteDatabase, int, int)}.
+   */
   public TransactionDatabase(boolean supportsJson) {
     this.supportsJson = supportsJson;
   }
