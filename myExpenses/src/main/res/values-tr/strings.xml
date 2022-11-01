@@ -1018,4 +1018,6 @@
     <string name="dialog_confirm_rollover_delete">Bu dönem için tüm devreden tutarları silinecektir.</string>
     <string name="budget_only_current_period">Yalnızca %s için ayarla</string>
     <string name="budget_table_header_rollover">Devreden</string>
+    <string name="content_description_attachment">Ek</string>
+    <string name="redesign">Yeniden tasarla</string>
 </resources>
