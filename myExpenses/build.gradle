@@ -65,6 +65,7 @@ android {
 
         }
     }*/
+
     buildTypes {
         release {
             minifyEnabled true
@@ -284,6 +285,8 @@ dependencies {
     testImplementation('com.adevinta.android:barista:4.2.0') {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
+
+    androidTestImplementation "com.github.requery:sqlite-android:$requery"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'

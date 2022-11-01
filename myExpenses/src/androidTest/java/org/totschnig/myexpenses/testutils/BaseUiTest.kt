@@ -49,6 +49,9 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
     val app: TestApp
         get() = targetContext.applicationContext as TestApp
 
+    val prefHandler: PrefHandler
+        get() = app.appComponent.prefHandler()
+
     @Before
     fun setUp() {
         isLarge = testContext.resources.getBoolean(RT.bool.isLarge)
@@ -171,10 +174,7 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
         val instCtx = InstrumentationRegistry.getInstrumentation().context
         instCtx.resources.updateConfiguration(config,
                 instCtx.resources.displayMetrics)
-        app.settings?.edit()?.putString(PrefKey.UI_LANGUAGE.key, locale.language + "-" + locale.country)?.apply()
-                ?: run {
-                    Assert.fail("Could not find prefs")
-                }
+        prefHandler.putString(PrefKey.UI_LANGUAGE, locale.language + "-" + locale.country)
     }
 
     protected fun writeCategory(label: String, parentId: Long? = null) =

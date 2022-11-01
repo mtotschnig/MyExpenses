@@ -19,7 +19,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-open class DataModule {
+open class DataModule(private val frameWorkSqlite: Boolean = false) {
     @Provides
     @Named(AppComponent.DATABASE_NAME)
     @Singleton
@@ -49,7 +49,7 @@ open class DataModule {
 
     @Singleton
     @Provides
-    open fun provideSQLiteOpenHelperFactory():  SupportSQLiteOpenHelper.Factory =  if (false) FrameworkSQLiteOpenHelperFactory() else
+    open fun provideSQLiteOpenHelperFactory():  SupportSQLiteOpenHelper.Factory =  if (frameWorkSqlite) FrameworkSQLiteOpenHelperFactory() else
         Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
             .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
 }

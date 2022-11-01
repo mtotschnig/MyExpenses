@@ -47,9 +47,7 @@ class TestMyApplication : MyApplication() {
             .coroutineModule(object: CoroutineModule() {
                 override fun provideCoroutineDispatcher() = Dispatchers.Main.immediate
             })
-            .dataModule(object : DataModule() {
-                override fun provideSQLiteOpenHelperFactory() = FrameworkSQLiteOpenHelperFactory()
-            })
+            .dataModule(DataModule(true))
             .build()
     }
 }

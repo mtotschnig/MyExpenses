@@ -50,5 +50,6 @@ ext {
     desugarVersion = "1.1.5"
     mlkitTextRecognition = "16.0.0-beta5"
     truthVersion = "1.1.3"
-    accompanist = "0.26.5-rc"
+    accompanist = "0.27.0"
+    requery = "3.36.0"
 }

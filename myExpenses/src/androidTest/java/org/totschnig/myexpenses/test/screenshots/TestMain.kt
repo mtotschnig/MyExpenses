@@ -63,7 +63,8 @@ class TestMain : BaseMyExpensesTest() {
                 Espresso.closeSoftKeyboard()
                 takeScreenshot("export")
                 Espresso.pressBack()
-                listNode.onChildren().onFirst().assertTextContains(getString(R.string.split_transaction), substring = true)
+                listNode.onChildren().onFirst()
+                    .assertTextContains(getString(R.string.split_transaction), substring = true)
                 clickContextItem(R.string.details)
                 Espresso.closeSoftKeyboard()
                 takeScreenshot("split")
@@ -150,16 +151,12 @@ class TestMain : BaseMyExpensesTest() {
     private fun loadFixture(withPicture: Boolean) {
         //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
         LocaleUtil.localeFromString(LocaleUtil.getTestLocale())?.let { configureLocale(it) }
-        val pref = app.settings
-        pref.edit().putString(PrefKey.HOME_CURRENCY.key, Utils.getSaveDefault().currencyCode)
-            .apply()
+        prefHandler.putString(PrefKey.HOME_CURRENCY, Utils.getSaveDefault().currencyCode)
         (app.licenceHandler as MockLicenceHandler).setLockState(false)
         app.fixture.setup(withPicture, repository)
-        pref.edit()
-            .putLong(PrefKey.CURRENT_ACCOUNT.key, app.fixture.account1.id)
-            .putInt(PrefKey.CURRENT_VERSION.key, versionNumber)
-            .putInt(PrefKey.FIRST_INSTALL_VERSION.key, versionNumber)
-            .apply()
+        prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, app.fixture.account1.id)
+        prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
+        prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
         val startIntent = Intent(app, TestMyExpenses::class.java)
         activityScenario = ActivityScenario.launch(startIntent)
     }
@@ -180,7 +177,8 @@ class TestMain : BaseMyExpensesTest() {
             CleanStatusBar.disable()
         }
 
-        @ClassRule @JvmField
+        @ClassRule
+        @JvmField
         val localeTestRule = LocaleTestRule()
     }
 }

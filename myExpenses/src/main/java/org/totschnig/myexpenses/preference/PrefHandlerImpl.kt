@@ -12,7 +12,7 @@ open class PrefHandlerImpl(
     private val sharedPreferences: SharedPreferences
 ) : PrefHandler {
     override fun getKey(key: PrefKey): String {
-        return if (key.resId == 0) key.key!! else context.getString(key.resId)
+        return if (key.resId == 0) key._key!! else context.getString(key.resId)
     }
 
     override fun getString(key: PrefKey, defValue: String?): String? {

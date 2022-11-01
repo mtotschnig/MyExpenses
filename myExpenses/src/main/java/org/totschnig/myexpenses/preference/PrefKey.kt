@@ -170,15 +170,13 @@ enum class PrefKey {
     RUNNING_BALANCE(R.string.pref_running_balance_key),
     UI_ITEM_RENDERER_LEGACY(R.string.pref_ui_item_renderer_legacy_key);
 
-    @JvmField
-    var resId = 0
+    internal val resId: Int
 
-    @JvmField
-    var key: String? = null
+    internal val _key: String?
 
     @Deprecated("")
     fun getKey(): String? {
-        return if (resId == 0) key else MyApplication.getInstance().getString(resId)
+        return if (resId == 0) _key else MyApplication.getInstance().getString(resId)
     }
 
     @Deprecated("")
@@ -231,10 +229,12 @@ enum class PrefKey {
         get() = MyApplication.getInstance().settings.contains(getKey())
 
     constructor(resId: Int) {
+        this._key = null
         this.resId = resId
     }
 
     constructor(key: String) {
-        this.key = key
+        this._key = key
+        this.resId = 0
     }
 }
