@@ -1118,7 +1118,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         bundle.putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType)
         logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, bundle)
         cleanup {
-            val restartIntent = Intent(this, ExpenseEdit::class.java).apply {
+            val restartIntent = intent.apply {
                 putExtra(Transactions.OPERATION_TYPE, newType)
                 if (isDirty) {
                     delegate.syncStateAndValidate(false)?.let {

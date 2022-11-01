@@ -206,16 +206,16 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             contentResolver.observeQuery(
                 uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
                 else TransactionProvider.UNCOMMITTED_URI,
-                projection = arrayOf(
+                projection = listOfNotNull(
                     KEY_ROWID,
                     KEY_AMOUNT,
                     KEY_COMMENT,
                     FULL_LABEL,
                     KEY_TRANSFER_ACCOUNT,
-                    if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
+                    if (parentIsTemplate) null else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
                     KEY_TAGLIST,
                     KEY_ICON
-                ),
+                ).toTypedArray(),
                 selection = "$KEY_PARENTID = ?",
                 selectionArgs = arrayOf(parentId.toString())
             ).cancellable().mapToList {
@@ -292,7 +292,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     cursor.getStringOrNull(KEY_COMMENT),
                     cursor.getStringOrNull(KEY_LABEL),
                     DbUtils.getLongOrNull(cursor, KEY_TRANSFER_ACCOUNT) != null,
-                    cursor.getStringOrNull(KEY_DEBT_LABEL),
+                    cursor.getStringIfExists(KEY_DEBT_LABEL),
                     cursor.getStringListFromJson(KEY_TAGLIST).joinToString(),
                     cursor.getString(KEY_ICON)
                 )
