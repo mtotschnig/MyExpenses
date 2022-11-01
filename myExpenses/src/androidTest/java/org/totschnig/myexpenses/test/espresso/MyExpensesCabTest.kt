@@ -4,6 +4,7 @@ import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matchers
 import org.junit.Before
@@ -93,7 +94,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private fun doDelete(useCab: Boolean, cancel: Boolean) {
         assertListSize(origListSize)
         triggerDelete(useCab)
-        Espresso.onView(ViewMatchers.withText(if (cancel) android.R.string.cancel else  R.string.menu_delete)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(if (cancel) android.R.string.cancel else  R.string.menu_delete)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click())
         assertListSize(if (cancel) origListSize else origListSize - 1)
     }
 
