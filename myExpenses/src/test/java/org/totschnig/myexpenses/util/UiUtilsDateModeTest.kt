@@ -1,32 +1,22 @@
 package org.totschnig.myexpenses.util
 
 import com.google.common.truth.Truth
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.prefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 
 @RunWith(RobolectricTestRunner::class)
 class UiUtilsDateModeTest {
-    private lateinit var prefHandler: PrefHandler
-    @Before
-    fun setup() {
-        prefHandler = Mockito.mock(PrefHandler::class.java)
-    }
 
     private fun mockPref(prefKey: PrefKey, value: Boolean) {
-        Mockito.`when`(
-            prefHandler.getBoolean(
-                ArgumentMatchers.eq(prefKey),
-                ArgumentMatchers.anyBoolean()
-            )
-        ).thenReturn(value)
+       whenever(prefHandler.getBoolean(eq(prefKey), any())).thenReturn(value)
     }
 
     @Test

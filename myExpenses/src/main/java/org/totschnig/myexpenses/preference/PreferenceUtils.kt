@@ -20,9 +20,3 @@ fun enableAutoFill(prefHandler: PrefHandler) {
 
 fun disableAutoFill(prefHandler: PrefHandler) =
         prefHandler.putBoolean(PrefKey.AUTO_FILL_SWITCH, false)
-
-fun PrefHandler.requireString(key: PrefKey, defaultValue: String) =
-        getString(key, defaultValue)!!
-
-fun PrefHandler.requireString(key: String, defaultValue: String) =
-        getString(key, defaultValue)!!
