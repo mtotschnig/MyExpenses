@@ -139,11 +139,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     val currentAccount: FullAccount?
         get() = accountData.getOrNull(viewModel.pagerState.currentPage)
 
-    private var currentCurrency: String? = null
-
-    private val currentCurrencyUnit: CurrencyUnit?
-        get() = currentCurrency?.let { currencyContext.get(it) }
-
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 
@@ -214,7 +209,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         } else selectionState.size.toString()
     }
 
-    private fun startActionMode() {
+    private fun startMyActionMode() {
         if (actionMode == null) {
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
@@ -355,7 +350,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (accountId == HOME_AGGREGATE_ID) {
                     viewModel.persistSortDirectionHomeAggregate(newSortDirection)
                 } else if (accountId < 0) {
-                    viewModel.persistSortDirectionAggregate(currentCurrency!!, newSortDirection)
+                    viewModel.persistSortDirectionAggregate(currentAccount!!.currency.code, newSortDirection)
                 } else {
                     viewModel.persistSortDirection(accountId, newSortDirection)
                 }
@@ -593,12 +588,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         val result = viewModel.accountData.collectAsState()
 
         if (result.value?.isSuccess == true) {
-            val accountData = remember {
-                derivedStateOf { result.value!!.getOrThrow() }
-            }
+            val accountData = result.value!!.getOrThrow()
             AppTheme(context = this@BaseMyExpenses) {
-                LaunchedEffect(accountData.value) {
-                    if (accountData.value.isNotEmpty()) {
+                LaunchedEffect(accountData) {
+                    if (accountData.isNotEmpty()) {
                         moveToAccount()
                         viewModel.sumInfo(currentAccount!!).collect {
                             sumInfo = it
@@ -608,22 +601,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         toolbar.subtitle = null
                     }
                 }
-                HorizontalPager(
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.onSurface)
-                        .testTag(TEST_TAG_PAGER)
-                        .semantics {
-                            collectionInfo = CollectionInfo(1, accountData.value.count())
-                        },
-                    verticalAlignment = Alignment.Top,
-                    count = accountData.value.count(),
-                    state = viewModel.pagerState,
-                    itemSpacing = 10.dp,
-                ) {
-                    Page(
-                        index = it,
-                        accountData = accountData
-                    )
+                if (accountData.isNotEmpty()) {
+                    HorizontalPager(
+                        modifier = Modifier
+                            .background(MaterialTheme.colors.onSurface)
+                            .testTag(TEST_TAG_PAGER)
+                            .semantics {
+                                collectionInfo = CollectionInfo(1, accountData.count())
+                            },
+                        verticalAlignment = Alignment.Top,
+                        count = accountData.count(),
+                        state = viewModel.pagerState,
+                        itemSpacing = 10.dp,
+                    ) {
+                        Page(
+                            index = it,
+                            account = accountData[it]
+                        )
+                    }
                 }
             }
         }
@@ -632,10 +627,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @Composable
     fun PagerScope.Page(
         index: Int,
-        accountData: androidx.compose.runtime.State<List<FullAccount>>
+        account: FullAccount
     ) {
-        val account = remember { derivedStateOf { accountData.value[index] } }.value
-
         val showStatusHandle = if (account.type == AccountType.CASH)
             false
         else
@@ -654,7 +647,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (index == currentPage) {
             LaunchedEffect(selectionState.size) {
                 if (selectionState.isNotEmpty()) {
-                    startActionMode()
+                    startMyActionMode()
                 } else {
                     finishActionMode()
                 }
@@ -1348,7 +1341,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         R.id.NEW_BALANCE_COMMAND -> if (accountId > 0) {
                             SimpleFormDialog.build().fields(
                                 AmountEdit.plain(KEY_AMOUNT).label(R.string.new_balance)
-                                    .fractionDigits(currentCurrencyUnit!!.fractionDigits)
+                                    .fractionDigits(currentAccount!!.currency.fractionDigits)
                             ).show(this, DIALOG_TAG_NEW_BALANCE)
                         }
                     }
@@ -1371,7 +1364,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 true
             } else false
             tintSystemUiAndFab(account.color(resources))
-            currentCurrency = account.currency.code
             setBalance(account)
             if (account.sealed) {
                 floatingActionButton.hide()
@@ -1510,7 +1502,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             putExtra(KEY_ROWID, budgetId)
                             fillIntentForGroupingFromTag(headerId)
                         })
-                    } else if (accountId != 0L && currentCurrency != null) {
+                    } else if (accountId != 0L) {
                         recordUsage(feature)
                         val i = Intent(this, ManageBudgets::class.java)
                         startActivity(i)
@@ -1558,7 +1550,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 MessageDialogFragment.Button(
                     R.string.menu_delete,
                     R.id.DELETE_ACCOUNT_COMMAND_DO,
-                    arrayOf(accountId)
+                    longArrayOf(accountId)
                 ),
                 null,
                 MessageDialogFragment.noButton(), 0
