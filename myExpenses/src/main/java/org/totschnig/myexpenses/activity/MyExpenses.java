@@ -158,7 +158,8 @@ public class MyExpenses extends BaseMyExpenses implements
     roadmapViewModel.getShouldShowVoteReminder().observe(this, shouldShow -> {
       if (shouldShow) {
         prefHandler.putLong(PrefKey.VOTE_REMINDER_LAST_CHECK, System.currentTimeMillis());
-        showSnackBar(getString(R.string.reminder_vote_update), Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.vote_reminder_action, v -> {
+        showSnackBar(getString(R.string.reminder_vote_update), Snackbar.LENGTH_INDEFINITE,
+                new SnackbarAction(getString(R.string.vote_reminder_action), v -> {
           Intent intent = new Intent(this, RoadmapVoteActivity.class);
           startActivity(intent);
         }));

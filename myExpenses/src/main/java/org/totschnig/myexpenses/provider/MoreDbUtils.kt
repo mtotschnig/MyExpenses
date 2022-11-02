@@ -256,7 +256,10 @@ private fun findMainCategory(database: SupportSQLiteDatabase, label: String) =
  * requires the Cursor to be positioned BEFORE first row
  */
 val Cursor.asSequence: Sequence<Cursor>
-    get() = generateSequence { takeIf { it.moveToNext() } }
+    get() {
+        check(isBeforeFirst)
+        return generateSequence { takeIf { it.moveToNext() } }
+    }
 
 fun Cursor.getString(column: String) = getStringOrNull(getColumnIndexOrThrow(column)) ?: ""
 fun Cursor.getInt(column: String) = getInt(getColumnIndexOrThrow(column))

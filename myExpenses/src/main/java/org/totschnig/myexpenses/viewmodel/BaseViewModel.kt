@@ -19,11 +19,12 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
 
-    val localizedContext: Context
-        get() = if (::userLocaleProvider.isInitialized) ContextHelper.wrap(getApplication(), userLocaleProvider.getUserPreferredLocale()) else {
+    val localizedContext: Context by lazy {
+        if (::userLocaleProvider.isInitialized) ContextHelper.wrap(getApplication(), userLocaleProvider.getUserPreferredLocale()) else {
             CrashHandler.report(Exception("Missing inject call on viewModel of type ${this::class.java}"))
             getApplication()
         }
+    }
 
     fun getString(@StringRes resId: Int, vararg formatArgs: Any?) =
         localizedContext.getString(resId, *formatArgs)

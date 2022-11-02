@@ -264,4 +264,5 @@
     <string name="title_requery">Requery SQLite</string>
     <string name="html">HTML</string>
     <string name="txt">TXT</string>
+    <string name="upgrade_info_557">How do you like the new design? Please let us know. A variant closer to the old design can be activated in the Settings (%s -> %s).</string>
 </resources>

@@ -770,7 +770,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
 
                 requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
-                    it.title = "${getString(R.string.help_MyExpenses_title)} : ${getString(R.string.style)} : Legacy"
+                    it.title = legacyItemRendererTitle(requireContext())
                     lifecycleScope.launchWhenStarted {
                         preferenceDataStore.handleToggle(it)
                     }
@@ -1333,5 +1333,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         const val KEY_KEY = "key"
         const val PICK_FOLDER_REQUEST = 2
         private const val CONTRIB_PURCHASE_REQUEST = 3
+
+        fun legacyItemRendererTitle(context: Context) =
+            "${context.getString(R.string.help_MyExpenses_title)} : ${context.getString(R.string.style)} : Legacy"
     }
 }

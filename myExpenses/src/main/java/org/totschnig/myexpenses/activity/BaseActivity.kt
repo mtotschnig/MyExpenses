@@ -37,7 +37,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -294,10 +293,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     @JvmOverloads
-    fun showDismissibleSnackBar(message: CharSequence, callback: Snackbar.Callback? = null) {
+    fun showDismissibleSnackBar(
+        message: CharSequence,
+        callback: Snackbar.Callback? = null,
+        actionLabel: String = getString(R.string.dialog_dismiss)
+    ) {
         showSnackBar(
             message, Snackbar.LENGTH_INDEFINITE,
-            SnackbarAction(R.string.dialog_dismiss) { snackBar?.dismiss() }, callback
+            SnackbarAction(actionLabel) { snackBar?.dismiss() }, callback
         )
     }
 
@@ -370,7 +373,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         snackBar = Snackbar.make(container, message, duration).apply {
             UiUtils.increaseSnackbarMaxLines(this)
             if (snackBarAction != null) {
-                setAction(snackBarAction.resId, snackBarAction.listener)
+                setAction(snackBarAction.label, snackBarAction.listener)
             }
             if (callback != null) {
                 addCallback(callback)

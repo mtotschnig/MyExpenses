@@ -74,7 +74,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         snackBar = Snackbar.make(snackBarContainer, message, duration).also {
             UiUtils.increaseSnackbarMaxLines(it)
             if (snackBarAction != null) {
-                it.setAction(snackBarAction.resId, snackBarAction.listener)
+                it.setAction(snackBarAction.label, snackBarAction.listener)
             }
             it.show()
         }

@@ -101,8 +101,6 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.sign
@@ -411,15 +409,19 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 upgradeHandlerViewModel.upgradeInfo.collect { info ->
                     info?.let {
-                        showDismissibleSnackBar(it, object : Snackbar.Callback() {
-                            override fun onDismissed(
-                                transientBottomBar: Snackbar,
-                                event: Int
-                            ) {
-                                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
-                                    upgradeHandlerViewModel.messageShown()
-                            }
-                        })
+                        showDismissibleSnackBar(
+                            message = info.info,
+                            actionLabel = getString(R.string.dialog_dismiss) +
+                                    if (info.count > 1) " (${info.index} / ${info.count})" else "",
+                            callback = object : Snackbar.Callback() {
+                                override fun onDismissed(
+                                    transientBottomBar: Snackbar,
+                                    event: Int
+                                ) {
+                                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                                        upgradeHandlerViewModel.messageShown()
+                                }
+                            })
                     }
                 }
             }
