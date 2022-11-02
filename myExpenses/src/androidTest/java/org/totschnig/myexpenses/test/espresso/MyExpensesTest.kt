@@ -58,7 +58,13 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     private fun assertDataSize(size: Int) {
-        composeTestRule.onNodeWithTag(TEST_TAG_PAGER).assert(hasColumnCount(size))
+        with(composeTestRule.onNodeWithTag(TEST_TAG_PAGER)) {
+            if (size > 0) {
+                assert(hasColumnCount(size))
+            } else {
+                assertDoesNotExist()
+            }
+        }
     }
 
     @Test
