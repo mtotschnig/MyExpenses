@@ -3,9 +3,6 @@ package org.totschnig.myexpenses.dialog.select
 import android.content.DialogInterface
 import android.net.Uri
 import androidx.fragment.app.activityViewModels
-import com.annimon.stream.Collectors
-import com.annimon.stream.Stream
-import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -32,9 +29,11 @@ class SelectHiddenAccountDialogFragment : SelectMultipleDialogFragment(false) {
             }
             DialogInterface.BUTTON_NEUTRAL -> {
                 if (itemIds.isNotEmpty()) {
-                    val message = Stream.of(labelList)
-                        .map { label: String? -> getString(R.string.warning_delete_account, label) }
-                        .collect(Collectors.joining(" ")) + " " + getString(R.string.continue_confirmation)
+
+                    val message = labelList.joinToString(" ") {
+                        getString(R.string.warning_delete_account, it)
+                    } + " " + getString(R.string.continue_confirmation)
+
                     MessageDialogFragment.newInstance(
                         resources.getQuantityString(
                             R.plurals.dialog_title_warning_delete_account,
@@ -44,12 +43,13 @@ class SelectHiddenAccountDialogFragment : SelectMultipleDialogFragment(false) {
                         message,
                         MessageDialogFragment.Button(
                             R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                            ArrayUtils.toObject(itemIds)
+                            itemIds
                         ),
                         null,
                         MessageDialogFragment.noButton(), 0
                     )
                         .show(childFragmentManager, "DELETE_ACCOUNTS")
+
                     return false
                 }
                 return true

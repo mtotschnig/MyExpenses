@@ -23,7 +23,7 @@ class SetupSyncViewModel(application: Application) : SyncViewModel(application) 
                 resetRemote(accountName, it.first.uuid)
             }
             val syncRemoteList = conflicts.filter { it.third == SyncSource.REMOTE }
-            deleteAccountsInternal(syncRemoteList.map { it.first.id }.toTypedArray()).onFailure {
+            deleteAccountsInternal(syncRemoteList.map { it.first.id }.toLongArray()).onFailure {
                 throw it
             }
             (remoteAccounts + syncRemoteList.map { it.second }).map { it.toAccount(currencyContext, accountName) }.forEach {

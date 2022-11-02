@@ -1152,7 +1152,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
             }
             R.id.DELETE_ACCOUNT_COMMAND_DO -> {
-                val accountIds = tag as Array<Long>
+                val accountIds = tag as LongArray
                 if (accountIds.any { it == accountId }) {
                     accountId = 0L
                 }
@@ -1275,7 +1275,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (accountData.isNotEmpty()) {
+        if (accountData.isNotEmpty() && currentAccount != null) {
             menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
                 it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
             }

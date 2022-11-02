@@ -185,7 +185,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
             })
         }
 
-    internal fun deleteAccountsInternal(accountIds: Array<Long>) =
+    internal fun deleteAccountsInternal(accountIds: LongArray) =
         if (contentResolver.query(
                 TRANSACTIONS_URI,
                 arrayOf("MAX($checkForSealedDebt)"),

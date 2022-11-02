@@ -39,7 +39,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             if (accountId == -1L) {
                 emit(Result.failure(IllegalStateException("Account with uuid ${account.uuid} not found")))
             } else {
-                emit(deleteAccountsInternal(arrayOf(accountId)).also {
+                emit(deleteAccountsInternal(longArrayOf(accountId)).also {
                     it.onSuccess {
                         account.save()
                     }
