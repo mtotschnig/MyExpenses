@@ -770,7 +770,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
 
                 requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
-                    it.title = "${getString(R.string.help_MyExpenses_title)}: ${getString(R.string.style)}: Legacy"
+                    it.title = "${getString(R.string.help_MyExpenses_title)} : ${getString(R.string.style)} : Legacy"
                     lifecycleScope.launchWhenStarted {
                         preferenceDataStore.handleToggle(it)
                     }

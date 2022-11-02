@@ -27,17 +27,27 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
 
     @Provides
     @Singleton
-    fun provideSqlBrite(application: MyApplication) = SqlBrite.Builder().build().wrapContentProvider(
-            application.contentResolver, Schedulers.io())
+    fun provideSqlBrite(application: MyApplication) =
+        SqlBrite.Builder().build().wrapContentProvider(
+            application.contentResolver, Schedulers.io()
+        )
 
     @Provides
     @Singleton
-    open fun providePrefHandler(context: MyApplication, sharedPreferences: SharedPreferences, @Named(AppComponent.DATABASE_NAME) databaseName: String): PrefHandler {
+    open fun providePrefHandler(
+        context: MyApplication,
+        sharedPreferences: SharedPreferences,
+        @Named(AppComponent.DATABASE_NAME) databaseName: String
+    ): PrefHandler {
         return PrefHandlerImpl(context, sharedPreferences)
     }
+
     @Singleton
     @Provides
-    open fun provideSharedPreferences(application: MyApplication, @Named(AppComponent.DATABASE_NAME) databaseName: String): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+    open fun provideSharedPreferences(
+        application: MyApplication,
+        @Named(AppComponent.DATABASE_NAME) databaseName: String
+    ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
     @Singleton
     @Provides
@@ -49,7 +59,8 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
 
     @Singleton
     @Provides
-    open fun provideSQLiteOpenHelperFactory():  SupportSQLiteOpenHelper.Factory =  if (frameWorkSqlite) FrameworkSQLiteOpenHelperFactory() else
-        Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
-            .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
+    open fun provideSQLiteOpenHelperFactory(): SupportSQLiteOpenHelper.Factory =
+        if (frameWorkSqlite) FrameworkSQLiteOpenHelperFactory() else
+            Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
+                .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
 }
