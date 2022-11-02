@@ -159,7 +159,6 @@ class UpgradeHandlerViewModel(application: Application) :
             if (fromVersion < 539) {
                 contentResolver.call(DUAL_URI, METHOD_CHECK_CORRUPTED_DATA_987, null, null)
                     ?.getLongArray(KEY_RESULT)?.size?.let { corruptedCount ->
-                        @Suppress("ThrowableNotThrown")
                         if (corruptedCount > 0) {
                             upgradeInfoList.add(getString(R.string.corrupted_data_detected))
                             CrashHandler.report(Exception("Bug 987: $corruptedCount corrupted transactions detected"))
