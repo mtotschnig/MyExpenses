@@ -30,15 +30,6 @@
         <item>@string/pref_ui_theme_light</item>
     </string-array>
 
-    <string-array name="pref_ui_item_renderer_values" tools:ignore="InconsistentArrays">
-        <item>Legacy</item>
-        <item>New</item>
-    </string-array>
-    <string-array name="pref_ui_item_renderer_entries" tools:ignore="InconsistentArrays">
-        <item>Legacy</item>
-        <item>New</item>
-    </string-array>
-
     <string-array name="pref_ui_language_values">
         <item>default</item>
         <item>ar</item>
