@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.ui;
 import android.os.Bundle;
 import android.view.View;
 
-import com.pavelsikun.seekbarpreference.SeekBarPreferenceView;
+import com.google.android.material.slider.Slider;
 
 import eltos.simpledialogfragment.CustomViewDialog;
 
@@ -13,7 +13,7 @@ public class SimpleSeekBarDialog extends CustomViewDialog<SimpleSeekBarDialog> {
   protected static final String SEEKBAR_MINIMUM = "Seekbar.maximum";
   protected static final String SEEKBAR_MAXIMUM = "Seekbar.minimum";
   public static final String SEEKBAR_VALUE = "Seekbar.value";
-  private SeekBarPreferenceView seekBarPreferenceView;
+  private Slider slider;
 
   public static SimpleSeekBarDialog build() {
     return new SimpleSeekBarDialog();
@@ -48,11 +48,12 @@ public class SimpleSeekBarDialog extends CustomViewDialog<SimpleSeekBarDialog> {
 
   @Override
   public View onCreateContentView(Bundle savedInstanceState) {
-    seekBarPreferenceView = new SeekBarPreferenceView(getContext());
-    seekBarPreferenceView.setMinValue(getArguments().getInt(SEEKBAR_MINIMUM));
-    seekBarPreferenceView.setMaxValue(getArguments().getInt(SEEKBAR_MAXIMUM));
+    slider = new Slider(getContext());
+    slider.setValueFrom(getArguments().getInt(SEEKBAR_MINIMUM));
+    slider.setValueTo(getArguments().getInt(SEEKBAR_MAXIMUM));
+    slider.setStepSize(1F);
     restoreValue(savedInstanceState != null ? savedInstanceState : getArguments());
-    return seekBarPreferenceView;
+    return slider;
   }
 
   @Override
@@ -63,11 +64,11 @@ public class SimpleSeekBarDialog extends CustomViewDialog<SimpleSeekBarDialog> {
   }
 
   private void restoreValue(Bundle bundle) {
-    seekBarPreferenceView.setCurrentValue(bundle.getInt(SEEKBAR_VALUE));
+    slider.setValue(bundle.getInt(SEEKBAR_VALUE));
   }
 
   private void storeValue(Bundle bundle) {
-    bundle.putInt(SEEKBAR_VALUE, seekBarPreferenceView.getCurrentValue());
+    bundle.putInt(SEEKBAR_VALUE, (int) slider.getValue());
   }
 
   @Override

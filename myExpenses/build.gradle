@@ -200,7 +200,6 @@ dependencies {
 
     kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.8'
 
-    implementation 'com.github.mtotschnig:MaterialSeekBarPreference:bc211774e5'
     implementation project(':PlayLicensingOrig')
     implementation 'com.itextpdf:itextpdf:5.5.13.1'
     implementation "ch.acra:acra-mail:$acraVersion"
