@@ -642,8 +642,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         } else null
 
-        val data = remember(account.sortDirection) { viewModel.loadData(account) }
-        val headerData = remember(account.grouping) { viewModel.headerData(account) }
+        val data = remember(account) { viewModel.loadData(account) }
+        val headerData = remember(account) { viewModel.headerData(account) }
         if (index == currentPage) {
             LaunchedEffect(selectionState.size) {
                 if (selectionState.isNotEmpty()) {
