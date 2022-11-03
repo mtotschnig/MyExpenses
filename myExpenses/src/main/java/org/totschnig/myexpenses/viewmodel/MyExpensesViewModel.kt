@@ -180,7 +180,7 @@ class MyExpensesViewModel(
                 hiddenAccountsInternal.value = it.first.getInt(KEY_COUNT) > 0
             }
         }
-        .map { result -> result.mapCatching { it.second } }
+        .map { result -> result.map { it.second } }
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     fun loadData(account: FullAccount): () -> TransactionPagingSource {
