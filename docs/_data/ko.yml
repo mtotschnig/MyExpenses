@@ -3,7 +3,7 @@ ko:
   imprint_text: 이 웹 사이트의 내용과 <i>{app_name}</i> 의 개발, 유지 보수 및 배포에 대한 책임
   privacy_policy_heading: 개인 정보 정책
   privacy_policy_text: "<i>{app_name}</i> 은 (는) 자체 데이터베이스, SD 카드의 자체 폴더 이외의 기기 데이터에\
-    \ 액세스하지 않습니다. 향후 및 반복 트랜잭션에 계획 기능을 사용하는 경우 계획이 저장되는 달력을 지정합니다."
+    \ 액세스하지 않습니다. 향후 및 반복 거래에 계획 기능을 사용하는 경우 계획이 저장되는 달력을 지정합니다."
   hero_main: "Android용 개인 재무 관리 앱"
   hero_sub:
     use: "사용하기 쉽습니다"
@@ -22,37 +22,37 @@ ko:
     sourcecode: 소스 코드
     links: 링크
   screenshots:
-    group: 일, 주, 월 및 연도별로 거래를 그룹화하십시오.
-    summarize: 모든 계정 요약 (계정 및 거래 당 환율의 정교한 처리)
-    budget: 연간, 월간 또는 주별 예산으로 지출 할 금액을 정의하십시오.
-    split: 하나의 거래를 여러 카테고리로 분할
+    group: 일, 주, 월, 연도별로 사용자의 거래 분류하기
+    summarize: 사용자의 모든 계정 요약(계정별 및 거래별 환율의 정교한 처리)
+    budget: 연간, 월간 또는 주간 예산으로 지출할 금액을 정의합니다
+    split: 하나의 거래를 여러 카테고리로 나누기
     distribution: 카테고리 별 분포 시각화
     history: 시간이 지남에 따라 재무 상황이 어떻게 전개되는지 이해
     export: QIF 및 CSV를 통해 PDF로 인쇄하고 교환하십시오.
     sync: 프라이빗 또는 퍼블릭 클라우드 서비스를 통해 여러 장치에서 암호화 된 계정 데이터를 동기화합니다.
   features:
     manage_accounts: <b>송금이 가능한</b> 최대 5 개의 계정 (다른 통화 간에도)
-    plans: <b>반복되는</b> 트랜잭션에 대한 무제한 <b>템플릿 수</b> 및 최대 3 개의 계획
+    plans: <b>반복되는</b> 거래에 대한 무제한 <b>템플릿 수</b> 및 최대 3개의 계획
     export: QIF 및 CSV로 <b>내보내기.</b> QIF에서 <b>가져 오기</b>
     password: <b>암호</b> 또는 장치 <b>잠금 화면으로</b> 데이터를 보호 할 수 있습니다
     light_theme: <b>테마</b> (어둡고 밝은) 및 <b>글꼴 크기</b> 를 사용자 정의 할 수 있습니다
-    reconciliation: "<b>조정</b> : 거래 상태를 은행 계좌 명세서와 쉽게 비교"
+    reconciliation: "<b>조정</b> : 거래 상태를 사용자의 은행 계좌 명세서와 쉽게 비교합니다"
     homescreen: 빠른 데이터 입력을위한 홈 화면 <b>위젯</b> 및 <b>바로 가기</b>
   contrib:
     thank_you: |
       기부를 하시면 My Expenses의 개발을 후원하게 됩니다. 감사합니다!
-    feature-list-title: "<i>{app_name}</i> 을 (를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오."
+    feature-list-title: "<i>{app_name}</i>를 업그레이드하여 기여하고 다음 기능에 대한 무제한 액세스 권한을 얻으십시오:"
     feature:
-      accounts_unlimited: 다섯 개 이상의 계정을 만들 수 있는 기능 잠금 해제
-      plans_unlimited: <b>반복</b> 거래에 대한 무제한 계획
-      distribution: "<b>원형 차트</b> : 여러 기간 (년, 월, 주, 일)에 따른 카테고리 별 트랜잭션의 통계적 분포를 시각화합니다."
-      split_transaction: "<b>거래 분할</b> : 단일 거래를 여러 부분 (카테고리 및 전송)으로 분할 할 수 있습니다."
+      accounts_unlimited: 5개 이상의 계정을 만들 수 있는 기능 잠금 해제
+      plans_unlimited: 반복 거래에 대해 세 개 이상의 계획을 만드는 기능 잠금 해제
+      distribution: "<b>원형 차트</b> : 여러 기간 (년, 월, 주, 일)에 따른 카테고리 별 거래의 통계적 분포를 시각화합니다"
+      split_transaction: "<b>거래 분할</b> : 단일 거래를 여러 부분 (카테고리 및 전송)으로 분할할 수 있습니다"
       print: 거래 목록을 PDF 파일로 <b>인쇄</b>
       ad_free: <b>광고 없음</b>
       csv_import: 정교하고 사용자 정의 가능한 <b>CSV 가져 오기</b> (스프레드 시트 응용 프로그램)
       auto_backup: 선택적으로 클라우드 스토리지에 업로드하여 매일 <b>자동 백업</b>
       cloud_sync: "<b>클라우드 동기화</b> : 여러 장치간에 데이터를 동기화 할 수 있습니다"
-      split_template: <b>분할 트랜잭션에 대한</b> 무제한 <b>템플릿 및 계획</b>
+      split_template: <b>분할 거래에 대한 템플릿 및 계획</b>의 제한없는 번호매김
       email_support: 영업일 기준 2 일 이내에 응답이 보장되는 <b>이메일 지원</b>
       roadmap_voting: <b>개발 로드맵에</b> 바로 투표
       history_chart: <b>히스토리 차트</b> (현금 흐름)
@@ -64,7 +64,7 @@ ko:
   store:
     short_description: "사용하기 쉬운 개인 재무 관리자 : 풍부한 기능 및 오픈 소스"
     full_description_intro: "{app_name}은 스마트 폰과 태블릿에서 직접 지출과 수입을 추적합니다."
-    full_description_contrib: "다음 라이센스 키 중 하나를 구매하면 프리미엄 기능이 잠금 해제됩니다."
+    full_description_contrib: "프리미엄 기능은 다음 라이선스 키 중 하나를 구매하면 잠금 해제됩니다:"
     full_description_contrib_amazon: "라이센스 키 중 하나를 구매하면 많은 추가 기능이 잠금 해제됩니다. 예 :"
     highlight_1: "여러 계정, 템플릿 및 범주를 사용하여 지출 및 수입을 추적"
     highlight_2: "WebDAV와 Google 드라이브를 통해 여러 휴대 전화와 태블릿간에 데이터를 공유"
@@ -73,7 +73,7 @@ ko:
     heading: <i>{app_name}</i> 에는 다음 <u>권한이</u> 필요합니다
     calendar:
       label: 달력
-      explanation: 향후 및 반복 거래에 대한 계획은 특수 로컬 캘린더 또는 귀하가 할당 한 다른 캘린더에 저장됩니다.
+      explanation: 미래 및 반복 거래에 대한 계획은 특별한 로컬 달력이나 사용자가 지정한 다른 달력에 저장됩니다.
     internet:
       label: 인터넷
       explanation_usage_tracking: 익명의 사용 추적
@@ -82,7 +82,7 @@ ko:
       explanation_cloud_sync: 클라우드 동기화
     accounts:
       label: 계좌
-      explanation: 클라우드 서비스를 통한 장치 간 동기화
+      explanation: 클라우드 서비스를 통해 장치 간에 동기화합니다.
   contrib-key: 기부 확인 키
   extended-key: 확장 키
   professional-key: 프로페셔널 키
@@ -95,8 +95,8 @@ ko:
     account2Label: 파리에서의 주말
     account3Label: 은행 계좌
     account3Description: Bank of America
-    transaction2Comment: 과일과 야채
-    transaction4Payee: 서울 부엌
+    transaction2Comment: 과일 및 야채
+    transaction4Payee: 기사 식당
     templatePayee: 홍길동
     tag_project: 제목없는 프로젝트
   screenshot_titles:
