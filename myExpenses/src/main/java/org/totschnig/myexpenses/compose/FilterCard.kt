@@ -5,12 +5,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,15 +32,19 @@ fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
         modifier = Modifier
             .background(color = colorResource(id = R.color.cardBackground))
             .padding(horizontal = dimensionResource(R.dimen.padding_main_screen)),
-        verticalAlignment = Alignment.CenterVertically) {
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Icon(
             imageVector = Icons.Filled.Search,
             contentDescription = stringResource(R.string.menu_search),
             tint = Color.Green
         )
-        FlowRow(modifier = Modifier
-            .weight(1f)
-            .padding(start = 12.dp)) {
+        FlowRow(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp),
+            mainAxisSpacing = 8.dp
+        ) {
             whereFilter?.criteria?.forEach {
                 FilterChip(
                     selected = true,
