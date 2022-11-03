@@ -109,7 +109,7 @@
     <string name="dialog_title_contrib_feature">Recurso premium</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Excluir a conta\?</item>
-        <item quantity="many"></item>
+        <item quantity="many">Excluir %1$d contas\?</item>
         <item quantity="other">Excluir %1$d contas\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Apagar a categoria\?</string>
@@ -411,6 +411,7 @@
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">A transação selecionada será apagada.</item>
+        <item quantity="many">As %1$d transações selecionadas serão apagadas.</item>
         <item quantity="other">As %1$d transações selecionadas serão apagadas.</item>
     </plurals>
     <string name="move_category_success">Uma categoria foi movida com sucesso.</string>
@@ -667,8 +668,9 @@
     <string name="sync_login_again">Por favor, autentique-se novamente.</string>
     <string name="sync_loading_accounts_from_backend">Carregando contas disponíveis no destino.</string>
     <plurals name="delete_success">
-        <item quantity="one">Um objeto foi apagado com sucesso.</item>
-        <item quantity="other">%d objetos foram apagados com sucesso.</item>
+        <item quantity="one">Um objeto foi excluído com sucesso.</item>
+        <item quantity="many">%d objetos foram excluídos com sucesso.</item>
+        <item quantity="other">%d objetos foram excluídos com sucesso.</item>
     </plurals>
     <string name="feature_deprecated">Obsoleto</string>
     <string name="pref_protection_device_lock_screen_title">Ecrã de bloqueio do aparelho</string>
@@ -861,8 +863,9 @@
     <string name="dialog_multi_tag">Todas as transações selecionadas serão marcadas com %s.</string>
     <string name="dialog_multi_tag_clear">Todas as etiquetas serão removidas das transações selecionadas.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">A etiqueta %1$s está mapeada numa transação. Ela deve ser apagada\?</item>
-        <item quantity="other">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser apagada\?</item>
+        <item quantity="one">A etiqueta %1$s está mapeada numa transação. Ela deve ser excluída\?</item>
+        <item quantity="many">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
+        <item quantity="other">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Adicionar novas etiquetas às já existentes</string>
     <string name="dialog_multi_tag_replace">Substituir as etiquetas existentes pelas novas</string>
@@ -978,6 +981,7 @@
     <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">A dívida %1$s tem %2$d transação mapeada.</item>
+        <item quantity="many">A dívida %1$s tem %2$d transações mapeadas.</item>
         <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Excluir a dívida\?</string>
@@ -991,6 +995,7 @@
     <string name="cb_label_merge_accounts">Fundir contas</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Uma categoria foi atualizada com ícone.</item>
+        <item quantity="many">%1$d categorias foram atualizadas com ícones.</item>
         <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
     </plurals>
     <string name="whats_new_336_2">Etiquetas para as partes da divisão</string>
@@ -1003,10 +1008,12 @@
     <string name="purge_backups">Os seguintes backups antigos serão excluídos:</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Um arquivo de backup antigo foi apagado.</item>
+        <item quantity="many">%d arquivos de backup antigos foram apagados.</item>
         <item quantity="other">%d arquivos de backup antigos foram apagados.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">Não foi possível excluir um arquivo de backup antigo.</item>
+        <item quantity="many">Não foi possível excluir %d arquivos de backup antigos.</item>
         <item quantity="other">Não foi possível excluir %d arquivos de backup antigos.</item>
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de excluir arquivos</string>
@@ -1024,4 +1031,6 @@
     <string name="budget_table_header_rollover">Prorrogar</string>
     <string name="rollover_edit_invalid">A soma da prorrogação atribuída a uma categoria e das prorrogações atribuídas às subcategorias não pode exceder o restante.</string>
     <string name="dialog_confirm_rollover_delete">Todos os montantes de prorrogações para este período serão excluídos.</string>
+    <string name="content_description_attachment">Anexo</string>
+    <string name="redesign">Redesenhar</string>
 </resources>
