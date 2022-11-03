@@ -1045,4 +1045,6 @@
     <!-- For icon that represents the fact that an image has been attached to a transaction -->
     <string name="content_description_attachment">Attachment</string>
     <string name="redesign">Redesign</string>
+    <!-- %1$s will be replaced with the section title (User Interface) and %2$s with the item label ("Trsnaction list: Style: Legacy") -->
+    <string name="upgrade_info_557">How do you like the new design? Please let us know. A variant closer to the old design can be activated in the Settings (%1$s -> %2$s).</string>
 </resources>

@@ -19,6 +19,7 @@
         <xsl:param name="version" />
         <xsl:param name="strings" />
         <xsl:param name="aosp" />
+        <xsl:param name="help" />
         <xsl:param name="lang" />
         <xsl:param name="itemize" select="true()" />
         <xsl:variable name="separator">
@@ -244,6 +245,16 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='title_webui']" />
                 <xsl:text>: https</xsl:text>
+            </xsl:when>
+            <xsl:when test="$version = '3.4.6'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($help)/resources/string[@name='help_MyExpenses_title']" />
+                <xsl:text>: </xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='redesign']" />
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
