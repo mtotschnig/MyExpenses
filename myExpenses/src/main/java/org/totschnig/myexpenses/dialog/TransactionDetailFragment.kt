@@ -120,7 +120,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                         showSnackBar(R.string.warning_splitpartcategory_context)
                         return
                     }
-                    dismiss()
+                    dismissAllowingStateLoss()
                     val i = Intent(ctx, ExpenseEdit::class.java)
                     i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
                     ctx.startActivityForResult(i, EDIT_REQUEST)
