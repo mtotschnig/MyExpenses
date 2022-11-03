@@ -35,7 +35,7 @@
     <string name="already_defined">%1$s 이미 정의됨</string>
     <string name="amount">금액</string>
     <string name="app_name">내 지출</string>
-    <string name="backup_success">\"%1$s\"에 데이터베이스 및 설정을 성공적으로 기록했습니다.</string>
+    <string name="backup_success">\"%1$s\"에 데이터베이스 및 환경설정을 성공적으로 기록했습니다.</string>
     <string name="category">카테고리</string>
     <string name="color">색상</string>
     <string name="comment">메모</string>
@@ -52,7 +52,7 @@
     <string name="contrib_key">기부 확인 키</string>
     <string name="extended_key">확장 키</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">%s 가 필요합니다.</string>
+    <string name="contrib_key_requires">%1$s가 필요합니다.</string>
     <string name="currency">화폐 단위</string>
     <string name="current_balance">현재 잔고</string>
     <string name="date">날짜</string>
@@ -74,7 +74,7 @@
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> 소스 코드가 공개되어 있습니다.</string>
-    <string name="dialog_contrib_text_2"><i>{app_name}</i> 을 (를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오.</string>
+    <string name="dialog_contrib_text_2"><i>{app_name}</i> 을(를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오:</string>
     <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>
     <string name="dialog_export_not_yet_exported">아직 내보내지 않은 거래 내역만 내보내기</string>
     <string name="dialog_password_activate_protection">암호 보안 사용하기</string>
@@ -124,7 +124,7 @@
     <string name="invalid_number_format">현재 설정된 언어권에 맞는 십진수 형식을 인식할 수 없습니다. 다음을 사용하세요: %1$s</string>
     <string name="label">꼬리표</string>
     <string name="licence_validation_failure">기부 확인 키를 인증할 수 없습니다.</string>
-    <string name="licence_validation_success">기부 확인 키가 인증되었습니다.</string>
+    <string name="licence_validation_success">라이선스 키의 유효성을 검사했습니다:</string>
     <string name="licence_validation_premium">프리미엄 기능이 잠금 해제되었습니다.</string>
     <string name="menu_aggregates">총계</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
@@ -193,7 +193,7 @@
     <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
     <string name="no_app_handling_pdf_available">PDF 파일을 다룰 수 있는 앱이 없습니다.</string>
     <string name="no_categories">카테고리가 없습니다.</string>
-    <string name="no_expenses">지출이 아직 없습니다.</string>
+    <string name="no_expenses">지출이 아직 없습니다!</string>
     <string name="no_exportable_expenses">아직 내보내지 않은 거래 내역이 없습니다.</string>
     <string name="no_filemanager_installed">설치된 파일 탐색기가 없습니다</string>
     <string name="no_calendar_app_installed">캘린더 일정 편집을 위한 앱이 발견되지 않았습니다.</string>
@@ -244,7 +244,7 @@
     <string name="pm_type_debit">직불 결제</string>
     <string name="pm_type_neutral">중립</string>
     <string name="pref_app_dir_title">백업 및 내보내기에 사용할 폴더</string>
-    <string name="pref_backup_summary">데이터베이스와 설정값의 백업을 만들기</string>
+    <string name="pref_backup_summary">데이터베이스 및 환경설정의 백업을 만듭니다.</string>
     <string name="pref_sort_order_usages">사용 빈도</string>
     <string name="pref_category_title_advanced">고급</string>
     <string name="pref_category_title_export">내보내기</string>
@@ -279,7 +279,7 @@
     <string name="pref_manage_parties_summary">구성원을 추가, 편집, 삭제하세요 (수취인/납부인).</string>
     <string name="pref_manage_parties_title">구성원</string>
     <string name="pref_manage_sync_backends_title">동기화 백엔드</string>
-    <string name="pref_more_info_dialog_title">라이센스 및 공로</string>
+    <string name="pref_more_info_dialog_title">라이선스 및 크레딧</string>
     <string name="pref_password_not_equal">암호가 일치하지 않습니다</string>
     <string name="pref_perform_share_title">내보낸 파일과 백업을 공유</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
@@ -291,7 +291,7 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">암호 없이 허가되었습니다.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">암호가 필요합니다.</string>
     <string name="pref_qif_export_file_encoding_title">문자 인코딩</string>
-    <string name="pref_restore_summary">데이터베이스와 설정값을 복원할 백업 파일을 선택하세요.</string>
+    <string name="pref_restore_summary">데이터베이스 및 환경설정 복원을 위한 백업을 선택합니다.</string>
     <string name="pref_restore_title">복원</string>
     <string name="pref_security_question_summary">암호를 잊어버렸을 때 앱을 잠금 해제 할 수 있도록 합니다.</string>
     <string name="pref_security_question_title">보안 질문</string>
@@ -320,9 +320,9 @@
     <string name="reference_number">참조 번호</string>
     <string name="restore_db_failure">데이터베이스 복원을 실패했습니다.</string>
     <string name="restore_db_success">데이터베이스를 백업으로부터 복원했습니다.</string>
-    <string name="restore_preferences_failure">설정값 복원에 실패했습니다</string>
+    <string name="restore_preferences_failure">환경설정 복원에 실패했습니다</string>
     <string name="restore_backup_file_not_found">%1$s 파일을 압축 파일 \"%2$s\"에서 찾을 수 없습니다</string>
-    <string name="restore_preferences_success">설정값이 백업 파일으로부터 복원되었습니다.</string>
+    <string name="restore_preferences_success">환경설정이 백업에서 복원되었습니다.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
     <string name="save_transaction_and_new_success">성공적으로 저장됨</string>
     <string name="save_transaction_error">템플릿으로부터 새 거래 내역을 저장할 수 없습니다.</string>
@@ -358,7 +358,7 @@
     <string name="type">종류</string>
     <string name="unsplit_amount">분할 잔여 금액</string>
     <string name="unsplit_amount_greater_than_zero">분할 이후의 금액이 아직 남아있습니다.</string>
-    <string name="warning_backup">데이터베이스와 설정값이 \"%1$s\" 파일로 저장됩니다.</string>
+    <string name="warning_backup">데이터베이스 및 환경설정은 \"%1$s\"에 저장됩니다.</string>
     <string name="continue_confirmation">계속 진행할까요?</string>
     <string name="warning_delete_account">\"%1$s\" 계좌 및 계좌의 모든 거래 내역이 삭제됩니다.</string>
     <plurals name="warning_delete_main_category">
@@ -382,7 +382,7 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
-    <string name="warning_restore">데이터베이스와 설정값은 \"%1$s\" 파일로부터 복원될 것입니다. 현재의 데이터는 삭제됩니다.</string>
+    <string name="warning_restore">데이터베이스 및 환경설정이 \"%1$s\" 파일에서 복원됩니다. 현재 데이터가 삭제됩니다.</string>
     <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
     <string name="import_categories_success">%1$d 카테고리를 성공적으로 가져왔습니다.</string>
@@ -472,8 +472,8 @@
     <string name="switch_off_text">사용 안함</string>
     <string name="menu_move">옮기기</string>
     <string name="dialog_title_select_target">목적지 선택</string>
-    <string name="transform_subcategory_to_main">주 카테고리로 바꾸기</string>
-    <string name="preferences_week_start_day_title">한 주의 시작</string>
+    <string name="transform_subcategory_to_main">기본 범주로 변환하기</string>
+    <string name="preferences_week_start_day_title">주 시작일</string>
     <string name="content_description_calculator">계산기</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">클라우드 동기화</string>
     <string name="all_contrib_key_features">Contrib Key의 모든 기능</string>
@@ -496,9 +496,24 @@
     <string name="pref_news_title">뉴스</string>
     <string name="title_scan_receipt_feature">영수증 스캔</string>
     <string name="debt_managment">부채 관리</string>
-    <string name="ui_refinement">사용자 인터페이스 의 개선</string>
+    <string name="ui_refinement">사용자 인터페이스 개선</string>
     <string name="synchronization">동기화</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">버그 수정</string>
-    <string name="menu_budget">예산</string>
-    <string name="whats_new_338">임의로 깊은 범주 계층 구조</string>
+    <string name="menu_budget">예산편성</string>
+    <string name="whats_new_338">임의의 깊은 범주 계층 구조</string>
+    <string name="content_description_calculator_clear_button">모두 재설정</string>
+    <string name="content_description_calculator_delete_button">마지막 숫자 삭제하기</string>
+    <string name="date_format_hour">시간</string>
+    <string name="date_format_minute">분</string>
+    <string name="pref_sort_order_last_used">마지막으로 사용한 날짜</string>
+    <string name="plan_instance_state_cancelled">취소됨</string>
+    <string name="plan_instance_state_applied">적용됨</string>
+    <string name="pref_sort_order_next_instance">다음 인스턴스</string>
+    <string name="pref_grouping_periods">그룹화 기간</string>
+    <string name="exchange_rate">환율</string>
+    <string name="preferences_month_start_date_title">월 시작일</string>
+    <string name="pref_sort_order_custom">사용자 지정</string>
+    <string name="crash_dialog_title">{app_name}이(가) 충돌했습니다</string>
+    <string name="plan_instance_state_open">열기</string>
+    <string name="menu_sort">정렬 기준</string>
 </resources>
