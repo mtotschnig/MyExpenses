@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
+import androidx.compose.runtime.Immutable
 import androidx.core.content.res.ResourcesCompat
 import arrow.core.Tuple4
 import org.totschnig.myexpenses.R
@@ -14,7 +15,7 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
-
+@Immutable
 data class FullAccount(
     val id: Long,
     val label: String,
