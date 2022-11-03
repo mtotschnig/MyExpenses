@@ -692,4 +692,47 @@
     <string name="move_category_failure">Una categoria no s\'ha desplaçat, atès que la mateixa etiqueat ja existeix al destí.</string>
     <string name="onboarding_get_started">Comencem</string>
     <string name="pref_home_currency_title">Divisa local</string>
+    <string name="budget_table_header_budgeted">Pressupostat</string>
+    <string name="navigation_drawer_accounts_title">Gestionar comptes</string>
+    <string name="budget_exceeded_error_1_1">La totalitat del pressupost excepte %s ha estat assignat a altres categories.</string>
+    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sí, vull continuar veient anuncis</string>
+    <string name="budget_table_header_remainder">Romanent</string>
+    <string name="pref_sync_changes_immediately_summary">Escriu immediatament els canvis locals al sistema de servei</string>
+    <string name="pref_sync_wifi_only_summary">Sincronitza només quan tingui Wi-Fi</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La carpeta que ha seleccionat correspon a un compte existent al sistema de servei. Cal triar una carpeta principal per poder reutilitzar aquest servei.</string>
+    <string name="pref_transaction_time_summary">Permet establir hora exacta de la transacció.</string>
+    <string name="pref_value_date_summary">Permet establir data de valor a més de data de reserva. L\'hora de la transacció romandrà oculta. Aquesta configuració no es s\'aplica a comptes d\'efectiu.</string>
+    <string name="value_date">Data valor</string>
+    <string name="licence_expires_n_days">La vostra clau professional expirarà d\'aquí a %d dies.</string>
+    <string name="ad_consent_non_personalized">Anuncis no personalitzats</string>
+    <string name="gdpr_consent_button_no">Pagar la versió lliure d\'anuncis</string>
+    <string name="dialog_title_edit_budget">Edita el pressupost</string>
+    <string name="budget_table_header_allocated">Assignat</string>
+    <string name="budget_table_header_spent">Gastat</string>
+    <string name="split_transaction_not_possible">Només transacció amb el mateix compte, beneficiari i estat poden agrupar-se en una transacció dividida.</string>
+    <string name="split_transaction_group_success">%1$d transaccions han estat agrupades en una transacció dividida amb èxit.</string>
+    <string name="sort_order">Ordre de classificació</string>
+    <string name="licence_expires_today">La vostra clau professional expira avui.</string>
+    <string name="licence_expired_yesterday">La vostra clau professional va expirar ahir.</string>
+    <string name="wifi_not_connected">Dispositiu no connectat a la Wi-Fi. Sincronització posposada.</string>
+    <string name="saving_goal">Objectiu d\'estalvi</string>
+    <string name="credit_limit">Límit de crèdit</string>
+    <string name="clear_all_filters">Neteja tots els filtres</string>
+    <string name="pref_scroll_to_current_date_summary">Quan s\'iniciï l\'aplicació, llisca fins a la data actual</string>
+    <string name="professional_key_fallback_info">Una susbscripció a Clau Professional que hagi estat activa com a mínim un any i no es renovi es convertirà actualment en una Clau Extesa il·limitada.</string>
+    <string name="pref_category_title_privacy">Privacitat</string>
+    <string name="pref_ad_consent_title">Anuncis personalitzats</string>
+    <string name="budget_exceeded_error_2">Incrementa la quantitat pressupostada o retira diners d\'altres categories.</string>
+    <string name="sub_budget_exceeded_error_1_1">Tot excepte %s de la quantitat assignada a la categoria principal ha estat assignat a altres subcategories.</string>
+    <string name="split_transaction_one_success">Transacció convertida a transacció dividida amb èxit.</string>
+    <string name="gdpr_consent_message">Estem associats amb {ad_provider} per a poder mantenir, donar suport i desenvolupar {app_name}. Ens agradaria demanar el vostre consentiment. Si prefereix no veure anuncis, siusplau activi la versió sense anuncis de pagament.</string>
+    <string name="booking_date">Data de reserva</string>
+    <string name="licence_expires_tomorrow">La vostra clau professional expirarà demà.</string>
+    <string name="content_description_collapse">Redueix</string>
+    <string name="content_description_expand">Expandeix</string>
+    <string name="goal_or_limit">Objectiu / Límit</string>
+    <string name="budget_allocated_amount">Quantitat restant</string>
+    <string name="budget_exceeded_error_1_2">Tot el seu pressupost ha estat assignat a altres categories.</string>
+    <string name="budget_under_allocated_error">%s ha estat assignat a altres categories. Fora que retiri diners de les mateixes, ha de pressupostar aquella quantitat.</string>
+    <string name="licence_has_expired_n_days">La vostra clau professiona va expirar fa %d dies.</string>
 </resources>
