@@ -253,12 +253,20 @@ public class Transfer extends Transaction implements ITransfer {
     return getAmount().getCurrencyUnit().equals(getTransferAmount().getCurrencyUnit());
   }
 
+  /**
+   * @return if amount is negative, we transfer money into the transfer account, so we
+   * return the in direction char (RIGHT_ARROW), otherwise LEFT_ARROW
+   */
   public static String getIndicatorPrefixForLabel(long amount) {
-    return getIndicatorCharForLabel(amount) + " ";
+    return getIndicatorCharForLabel(amount < 0) + " ";
   }
 
-  public static char getIndicatorCharForLabel(long amount) {
-    return amount < 0 ? RIGHT_ARROW : LEFT_ARROW;
+  /**
+   * @param direction true is in, false is out
+   * @return RIGHT_ARROW for in, LEFT_ARROW for out
+   */
+  public static char getIndicatorCharForLabel(boolean direction) {
+    return direction ? RIGHT_ARROW : LEFT_ARROW;
   }
 
   public String printLabelWithPrefix() {

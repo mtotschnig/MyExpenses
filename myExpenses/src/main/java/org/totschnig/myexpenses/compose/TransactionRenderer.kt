@@ -268,22 +268,15 @@ class NewTransactionRenderer(
         val context = LocalContext.current
         val primaryInfo = transaction.buildPrimaryInfo(context, false)
         val secondaryInfo = transaction.buildSecondaryInfo(context, false)
-        if (
-            transaction.isSplit ||
-            (transaction.isTransfer && transaction.accountLabel == null) ||
-            transaction.icon != null ||
-            //if there is no information at all for the transaction, we want to render the minus icon
-            (primaryInfo.isEmpty() && secondaryInfo.first.isEmpty() && transaction.tagList.isEmpty()) ) {
-            Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
-                when {
-                    transaction.isSplit -> androidx.compose.material.Icon(
-                        imageVector = Icons.Filled.CallSplit,
-                        contentDescription = stringResource(id = R.string.split_transaction),
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    transaction.isTransfer -> Icon("money-bill-transfer")
-                    else -> Icon(transaction.icon ?: "minus")
-                }
+        Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
+            when {
+                transaction.isSplit -> androidx.compose.material.Icon(
+                    imageVector = Icons.Filled.CallSplit,
+                    contentDescription = stringResource(id = R.string.split_transaction),
+                    modifier = Modifier.fillMaxSize()
+                )
+                transaction.isTransfer -> CharIcon(char = Transfer.getIndicatorCharForLabel(transaction.amount.amountMinor > 0))
+                else -> Icon(transaction.icon ?: "minus")
             }
         }
         StatusToggle(transaction = transaction)
