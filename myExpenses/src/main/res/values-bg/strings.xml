@@ -1018,4 +1018,6 @@
     <string name="dialog_confirm_rollover_delete">Всички суми за пренасяне за тоси период ще бъдат изтрити.</string>
     <string name="rollover_edit_invalid">Сборът от сумите за пренасяне, зададени по категория и подкатегории, не може да надвишава остатъка.</string>
     <string name="required">Задължително</string>
+    <string name="content_description_attachment">Прикачено</string>
+    <string name="redesign">Редизайн</string>
 </resources>

@@ -1031,4 +1031,6 @@
     <string name="budget_only_current_period">Définir uniquement pour %s</string>
     <string name="budget_table_header_rollover">Report</string>
     <string name="dialog_confirm_rollover_delete">Tous les montants de report pour cette période seront supprimés.</string>
+    <string name="content_description_attachment">Pièce jointe</string>
+    <string name="redesign">Refonte</string>
 </resources>
