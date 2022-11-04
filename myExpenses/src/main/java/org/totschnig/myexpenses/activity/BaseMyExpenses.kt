@@ -1376,7 +1376,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun setBalance(account: FullAccount) {
         val isHome = account.id == HOME_AGGREGATE_ID
-        currentBalance = if (isHome) " ≈ " else "" +
+        currentBalance = (if (isHome) " ≈ " else "") +
                 currencyFormatter.formatMoney(Money(account.currency, account.currentBalance))
         title = if (isHome) getString(R.string.grand_total) else account.label
         toolbar.subtitle = currentBalance
