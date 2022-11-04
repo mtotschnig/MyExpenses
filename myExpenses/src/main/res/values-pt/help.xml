@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="help_contextual_actions">ações contextuais</string>
+    <string name="help_contextual_actions_help">"O menu de ações contextuais é mostrado  quando pressionar uma entrada na lista."</string>
+    <string name="help_form_fields">Campos do formulário</string>
+    <string name="help_MyExpenses_title">Lista de transações</string>
+    <string name="help_MyExpenses_info">Esta tela lista todas as transações da conta atual.Usando o botão flutuante para abrir o formulário e criar uma nova transação.</string>
+    <string name="cab_delete_help_text">Deletar os itens selecionados.</string>
+    <string name="cab_edit_help_text">Editar item selecionado.</string>
+</resources>
