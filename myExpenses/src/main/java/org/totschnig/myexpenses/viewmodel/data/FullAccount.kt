@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 @Immutable
@@ -69,17 +70,25 @@ data class FullAccount(
         else -> arrayOf(currency.code)
     }
 
-    fun groupingUri(): Uri =
-        Transaction.CONTENT_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-                .appendPath(grouping.name).apply {
-                    if (id > 0) {
-                        appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                    } else if (!isHomeAggregate) {
-                        appendQueryParameter(KEY_CURRENCY, currency.code)
-                    }
-                }.build()
+    fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
+        val filter = whereFilter.takeIf { !it.isEmpty }
+        val selection = filter?.getSelectionForParts(VIEW_WITH_ACCOUNT)
+        val args = filter?.getSelectionArgs(true)
+        return Triple(
+            Transaction.CONTENT_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
+            .appendPath(grouping.name).apply {
+                if (id > 0) {
+                    appendQueryParameter(KEY_ACCOUNTID, id.toString())
+                } else if (!isHomeAggregate) {
+                    appendQueryParameter(KEY_CURRENCY, currency.code)
+                }
+            }.build(),
+            selection,
+            args
+        )
+    }
 
-    private val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
+    val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
 
     val isAggregate get() = id < 0
 

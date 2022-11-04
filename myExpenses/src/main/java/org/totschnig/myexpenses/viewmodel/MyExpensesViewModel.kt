@@ -22,6 +22,7 @@ import app.cash.copper.flow.observeQuery
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -192,21 +193,30 @@ class MyExpensesViewModel(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun headerData(account: FullAccount): Flow<HeaderData> =
-        contentResolver.observeQuery(uri = account.groupingUri()).map { query ->
-            withContext(Dispatchers.IO) {
-                try {
-                    query.run()
-                } catch (e: SQLiteException) {
-                    CrashHandler.report(e)
-                    null
-                }?.use { cursor ->
-                    HeaderData.fromSequence(account, cursor.asSequence)
-                } ?: emptyMap()
+        filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
+            val groupingQuery = account.groupingQuery(filter)
+            contentResolver.observeQuery(
+                uri = groupingQuery.first,
+                selection = groupingQuery.second,
+                selectionArgs = groupingQuery.third
+            ).map { query ->
+                withContext(Dispatchers.IO) {
+                    try {
+                        query.run()
+                    } catch (e: SQLiteException) {
+                        CrashHandler.report(e)
+                        null
+                    }?.use { cursor ->
+                        HeaderData.fromSequence(account, cursor.asSequence)
+                    } ?: emptyMap()
+                }
+            }.combine(dateInfo) { headerData, dateInfo ->
+                HeaderData(account, headerData, dateInfo, !filter.isEmpty)
             }
-        }.combine(dateInfo) { headerData, dateInfo ->
-            HeaderData(account, headerData, dateInfo)
         }
+
 
     fun budgetData(account: FullAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {

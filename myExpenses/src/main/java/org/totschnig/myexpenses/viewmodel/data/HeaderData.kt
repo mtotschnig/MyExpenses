@@ -9,7 +9,12 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 
-data class HeaderData(val account: FullAccount, val groups: Map<Int, HeaderRow>, val dateInfo: DateInfo2) {
+data class HeaderData(
+    val account: FullAccount,
+    val groups: Map<Int, HeaderRow>,
+    val dateInfo: DateInfo2,
+    val isFiltered: Boolean
+) {
 
     fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction.year, getSecond(transaction))
 

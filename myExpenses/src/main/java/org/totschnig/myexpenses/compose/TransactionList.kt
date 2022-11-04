@@ -83,6 +83,7 @@ fun TransactionList(
         )
     } else {
         val futureBackgroundColor = colorResource(id = R.color.future_background)
+        val showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
         LazyColumn(modifier = modifier
             .testTag(TEST_TAG_LIST)
             .semantics {
@@ -116,7 +117,8 @@ fun TransactionList(
                                         expansionHandler.toggle(headerId.toString())
                                     },
                                     onBudgetClick = onBudgetClick,
-                                    showSumDetails = showSumDetails
+                                    showSumDetails = showSumDetails,
+                                    showOnlyDelta = showOnlyDelta
                                 )
                                 Divider()
                             }
@@ -158,7 +160,8 @@ fun HeaderData(
     headerRow: HeaderRow,
     dateInfo: DateInfo2,
     showSumDetails: Boolean,
-    alignStart: Boolean = false
+    showOnlyDelta: Boolean,
+    alignStart: Boolean = false,
 ) {
     val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
@@ -195,7 +198,9 @@ fun HeaderData(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
         ) {
-            Text(amountFormatter.formatMoney(headerRow.previousBalance))
+            if (!showOnlyDelta) {
+                Text(amountFormatter.formatMoney(headerRow.previousBalance))
+            }
             Text(
                 modifier = Modifier
                     .padding(horizontal = 6.dp)
@@ -204,7 +209,9 @@ fun HeaderData(
                     },
                 text = delta
             )
-            Text( " = " + amountFormatter.formatMoney(headerRow.interimBalance))
+            if (!showOnlyDelta) {
+                Text( " = " + amountFormatter.formatMoney(headerRow.interimBalance))
+            }
         }
         if (showSumDetailsState.value) {
             Row(
@@ -237,7 +244,8 @@ fun HeaderRenderer(
     isExpanded: Boolean,
     toggle: () -> Unit,
     onBudgetClick: (Long, Int) -> Unit,
-    showSumDetails: Boolean
+    showSumDetails: Boolean,
+    showOnlyDelta: Boolean
 ) {
 
     Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
@@ -261,10 +269,10 @@ fun HeaderRenderer(
                     fontSize = 12.sp,
                     color = Color(account.color(LocalContext.current.resources))
                 )
-                HeaderData(account.grouping, headerRow, dateInfo, showSumDetails, alignStart = true)
+                HeaderData(account.grouping, headerRow, dateInfo, showSumDetails, showOnlyDelta, alignStart = true)
             }
         } else {
-            HeaderData(account.grouping, headerRow, dateInfo, showSumDetails)
+            HeaderData(account.grouping, headerRow, dateInfo, showSumDetails, showOnlyDelta)
         }
     }
 }
