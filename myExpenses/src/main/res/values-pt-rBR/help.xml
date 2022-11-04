@@ -192,4 +192,8 @@
     <string name="menu_parent_category_selection_help_text">Com esta opção você personaliza o toque em uma categoria que tem subcategorias: se estiver marcada, um toque curto selecionará a categoria; se não estiver marcada, um toque curto irá expandir/contrair a categoria. Neste último caso, a seleção estará disponível a partir do menu de contexto.</string>
     <string name="form_split_parts_heading_help_text_1">Use o ícone + para digitar quantas partes da divisão forem necessárias.</string>
     <string name="form_split_parts_heading_help_text_2">O campo do montante será automaticamente atualizado com a soma das partes, a menos que você digite manualmente um montante, nesse caso será exibida a diferença entre a soma das partes e o montante (não dividido).</string>
+    <string name="menu_BudgetActivity_rollover_edit">Está opção permite que você e configure precisamente a vigência, por exemplo você pode definir uma vigência parcial apenas para algumas categorias ou subcategorias, e a adoção dessa parte no orçamento total.</string>
+    <string name="help_WebUI_info_3">Você pode definir uma senha para proteger o acesso. Na campo de texto da interface web, apenas a senha é necessário, o usuário é ignorado</string>
+    <string name="help_WebUI_info_4">Quando exibe trasacoes de uma conta selecionada, a interface web usa os mesmos filtros criados no app de Android.</string>
+    <string name="menu_BudgetActivity_rollover_categories">Os lembrete de cada categoria estao em vigor, e as alocações do próximo período serão afetadas.</string>
 </resources>
