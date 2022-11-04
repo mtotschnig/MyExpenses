@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PaymentMethod.localizedLabelSqlColumn
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.FULL_LABEL
@@ -75,12 +74,11 @@ data class Transaction2(
     /**
      * pair of localized label and icon
      */
-    val methodInfo: Pair<String, ImageVector?>?
-        get() = methodLabel?.let {
-            enumValueOrNull<PreDefinedPaymentMethod>(it)?.let { predefined ->
-                predefined.localizedLabel to predefined.icon
-            } ?: (methodLabel to null)
-        }
+    fun getMethodInfo(context: Context): Pair<String, ImageVector?>? = methodLabel?.let {
+        enumValueOrNull<PreDefinedPaymentMethod>(it)?.let { predefined ->
+            predefined.getLocalizedLabel(context) to predefined.icon
+        } ?: (methodLabel to null)
+    }
 
 
     companion object {

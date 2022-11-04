@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
 
@@ -86,10 +87,11 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         withTags: Boolean
     ): Pair<AnnotatedString, List<ImageVector>> {
         val attachmentIcon = if (pictureUri != null) Icons.Filled.Attachment else null
+        val methodInfo = getMethodInfo(context)
         val methodIcon = methodInfo?.second
         return buildAnnotatedString {
             methodIcon?.let {
-                appendInlineContent(it.name, methodInfo!!.first)
+                appendInlineContent(it.name, methodInfo.first)
             }
             referenceNumber?.takeIf { it.isNotEmpty() }?.let {
                 append("($it) ")
@@ -241,6 +243,7 @@ class LegacyTransactionRenderer(
                     .fillMaxHeight()
                     .width(2.dp)
             )
+            Spacer(modifier = Modifier.width(5.dp))
         }
         dateTimeFormatter?.let {
             Text(text = it.format(transaction.date))
@@ -285,6 +288,9 @@ class NewTransactionRenderer(
                 .padding(horizontal = 5.dp)
                 .weight(1f)
         ) {
+            if (!transaction.isTransfer && transaction.accountLabel != null) {
+                Text(text = transaction.accountLabel)
+            }
             primaryInfo.takeIf { it.isNotEmpty() }
                 ?.let { info ->
                     Text(text = info)
@@ -302,9 +308,9 @@ class NewTransactionRenderer(
 
         }
         Column(horizontalAlignment = Alignment.End) {
-            ColoredAmountText(money = transaction.amount)
+            ColoredAmountText(money = transaction.amount, style = MaterialTheme.typography.body1)
             dateTimeFormatter?.let {
-                Text(text = it.format(transaction.date))
+                Text(text = it.format(transaction.date), style = MaterialTheme.typography.caption)
             }
         }
     }
@@ -330,7 +336,7 @@ fun Modifier.tagBorder() = composed {
 @Preview
 @Composable
 fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    NewTransactionRenderer(null, null).Render(
+    NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT), null).Render(
         transaction = transaction,
         selectionHandler = object : SelectionHandler {
             override fun toggle(transaction: Transaction2) {}
@@ -346,7 +352,7 @@ fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2
 @Preview
 @Composable
 fun RenderLegacy(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    LegacyTransactionRenderer(null, null).Render(
+    LegacyTransactionRenderer(DateTimeFormatter.ofPattern("EEE"), null).Render(
         transaction = transaction,
         selectionHandler = object : SelectionHandler {
             override fun toggle(transaction: Transaction2) {}

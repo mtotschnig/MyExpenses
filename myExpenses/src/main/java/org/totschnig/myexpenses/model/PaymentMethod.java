@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import java.util.ArrayList;
@@ -187,7 +188,7 @@ public class PaymentMethod extends Model {
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();
-    if (preDefined == null || !preDefined.getLocalizedLabel().equals(label)) {
+    if (preDefined == null || !preDefined.getLocalizedLabel(MyApplication.getInstance()).equals(label)) {
       initialValues.put(KEY_LABEL, label);
     }
     initialValues.put(KEY_TYPE, paymentType);

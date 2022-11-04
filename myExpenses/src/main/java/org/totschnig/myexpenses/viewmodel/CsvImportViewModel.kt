@@ -158,7 +158,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 var method: String = saveGetFromRecord(record, columnIndexMethod)
                 if (method != "") {
                     for (preDefined in PreDefinedPaymentMethod.values()) {
-                        if (preDefined.localizedLabel == method) {
+                        if (preDefined.getLocalizedLabel(getApplication()) == method) {
                             method = preDefined.name
                             break
                         }

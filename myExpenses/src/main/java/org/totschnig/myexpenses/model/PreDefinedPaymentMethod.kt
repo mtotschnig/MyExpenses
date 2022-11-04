@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model
 
+import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.EditNote
@@ -20,8 +21,5 @@ enum class PreDefinedPaymentMethod(
     DEPOSIT(1, false, R.string.pm_deposit, Icons.Filled.FileDownload),
     DIRECTDEBIT(-1, false, R.string.pm_directdebit, Icons.Filled.FileUpload);
 
-    //TODO use proper context
-    val localizedLabel: String
-        get() =//TODO use proper context
-            MyApplication.getInstance().getString(resId)
+    fun getLocalizedLabel(context: Context): String = context.getString(resId)
 }
