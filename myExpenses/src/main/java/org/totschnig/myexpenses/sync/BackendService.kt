@@ -6,6 +6,7 @@ import com.vmadalin.easypermissions.EasyPermissions
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 
 enum class BackendService(
     private val className: String,
@@ -44,12 +45,12 @@ enum class BackendService(
         Feature.WEBDAV
     );
 
-    open fun isAvailable(context: Context) = try {
+    open fun isAvailable(context: Context) = if (DistributionHelper.isGithub) try {
         Class.forName(className, false, this::class.java.classLoader)
         true
     } catch (e: Exception) {
         false
-    }
+    } else true
 
     fun instantiate(): SyncBackendProviderFactory? = try {
         Class.forName(className).newInstance() as? SyncBackendProviderFactory
