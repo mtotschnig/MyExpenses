@@ -278,7 +278,11 @@ class NewTransactionRenderer(
                     contentDescription = stringResource(id = R.string.split_transaction),
                     modifier = Modifier.fillMaxSize()
                 )
-                transaction.isTransfer -> CharIcon(char = Transfer.getIndicatorCharForLabel(transaction.amount.amountMinor > 0))
+                transaction.isTransfer -> CharIcon(
+                    char = Transfer.getIndicatorCharForLabel(
+                        transaction.amount.amountMinor > 0
+                    )
+                )
                 else -> Icon(transaction.icon ?: "minus")
             }
         }
@@ -299,9 +303,9 @@ class NewTransactionRenderer(
                 TextWithInlineContent(text = info, icons = secondaryInfo.second)
             }
             if (transaction.tagList.isNotEmpty()) {
-                FlowRow(mainAxisSpacing = 2.dp, crossAxisSpacing = 1.dp) {
+                FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 2.dp) {
                     transaction.tagList.forEach {
-                        Text(text = it, modifier = Modifier.tagBorder())
+                        Text(text = it, modifier = Modifier.tagBorder(), style = MaterialTheme.typography.caption)
                     }
                 }
             }
@@ -330,9 +334,9 @@ fun Modifier.tagBorder() = composed {
         ),
         shape = RoundedCornerShape(8.dp),
     )
-        .padding(horizontal = 4.dp)
+        .padding(vertical = 4.dp, horizontal = 6.dp)
 }
-
+/*
 @Preview
 @Composable
 fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
@@ -363,6 +367,12 @@ fun RenderLegacy(@PreviewParameter(SampleProvider::class) transaction: Transacti
         },
         menuGenerator = { null }
     )
+}*/
+
+@Preview
+@Composable
+fun Tag() {
+    Text(text = "TAG", modifier = Modifier.tagBorder())
 }
 
 class SampleProvider : PreviewParameterProvider<Transaction2> {
