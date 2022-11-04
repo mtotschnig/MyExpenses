@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
-        <item>559;3.4.6</item>
+        <item>560;3.4.6</item>
         <item>554;3.4.5</item>
         <item>541;3.4.4</item>
         <item>538;3.4.3</item>
@@ -79,6 +79,7 @@
     <string name="version_more_info_343">108747302097004279</string>
     <string name="version_more_info_344">108809607824665506</string>
     <string name="version_more_info_345">108935518422101199</string>
+    <string name="version_more_info_346">109286685602682940</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
