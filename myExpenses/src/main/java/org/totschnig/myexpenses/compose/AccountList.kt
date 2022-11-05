@@ -178,7 +178,7 @@ fun AccountCard(
                 .padding(end = 6.dp)
                 .size(dimensionResource(id = R.dimen.account_color_diameter_compose))
             val color = Color(account.color(LocalContext.current.resources))
-            if (account.criterion == 0L) {
+            if (account.criterion == null) {
                 ColorCircle(modifier, color) {
                     if (account.isAggregate) {
                         Text(fontSize = 18.sp, text = "Σ", color = Color.White)
@@ -251,65 +251,78 @@ fun AccountCard(
             Column(modifier = Modifier.padding(end = 16.dp)) {
 
                 account.description?.let { Text(it) }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(stringResource(id = R.string.opening_balance))
-                    Text(
-                        text = format.convAmount(account.openingBalance, account.currency)
-                    )
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(stringResource(id = R.string.sum_income))
-                    Text(
-                        text = format.convAmount(account.sumIncome, account.currency)
-                    )
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(stringResource(id = R.string.sum_expenses))
-                    Text(
-                        text = format.convAmount(account.sumExpense, account.currency)
-                    )
-                }
+                SumRow(
+                    R.string.opening_balance,
+                    format.convAmount(account.openingBalance, account.currency)
+                )
+                SumRow(
+                    R.string.sum_income,
+                    format.convAmount(account.sumIncome, account.currency)
+                )
+                SumRow(
+                    R.string.sum_expenses,
+                    format.convAmount(account.sumExpense, account.currency)
+                )
+
                 if (account.sumTransfer != 0L) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(stringResource(id = R.string.sum_transfer))
-                        Text(
-                            text = format.convAmount(account.sumTransfer, account.currency)
+                    SumRow(
+                        R.string.sum_transfer,
+                        format.convAmount(account.sumTransfer, account.currency)
+                    )
+                }
+                SumRow(
+                    R.string.sum_transfer,
+                    format.convAmount(account.sumTransfer, account.currency)
+                )
+                val borderColor = MaterialTheme.colors.onSurface
+                SumRow(
+                    R.string.current_balance,
+                    format.convAmount(account.sumTransfer, account.currency),
+                    Modifier.drawBehind {
+                        val strokeWidth = 2 * density
+                        drawLine(
+                            borderColor,
+                            Offset(0f, 0f),
+                            Offset(size.width, 0f),
+                            strokeWidth
                         )
                     }
+                )
+                account.criterion?.let {
+                    SumRow(
+                        if (it > 0) R.string.saving_goal else R.string.credit_limit,
+                        format.convAmount(it, account.currency)
+                    )
                 }
-                val borderColor = MaterialTheme.colors.onSurface
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(stringResource(id = R.string.current_balance))
-                    Text(
-                        modifier = Modifier.drawBehind {
-                            val strokeWidth = 2 * density
-                            drawLine(
-                                borderColor,
-                                Offset(0f, 0f),
-                                Offset(size.width, 0f),
-                                strokeWidth
-                            )
-                        },
-                        text = format.convAmount(account.currentBalance, account.currency)
+
+                account.total?.let {
+                    SumRow(
+                        R.string.menu_aggregates,
+                        format.convAmount(it, account.currency)
+                    )
+                }
+                if (!(account.isAggregate || account.type == AccountType.CASH)) {
+                    SumRow(
+                        R.string.total_cleared,
+                        format.convAmount(account.clearedTotal, account.currency)
+                    )
+                    SumRow(
+                        R.string.total_reconciled,
+                        format.convAmount(account.reconciledTotal, account.currency)
                     )
                 }
             }
         }
+    }
+}
+@Composable
+fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(stringResource(label))
+        Text(formattedAmount, modifier)
     }
 }
 

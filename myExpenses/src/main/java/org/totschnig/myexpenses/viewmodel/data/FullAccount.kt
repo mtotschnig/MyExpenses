@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
@@ -76,7 +77,8 @@ data class FullAccount(
     val clearedTotal: Long = 0L,
     val hasCleared: Boolean = false,
     val uuid: String? = null,
-    val criterion: Long
+    val criterion: Long?,
+    val total: Long? = null
 ): BaseAccount() {
 
     val toPageAccount: PageAccount
@@ -118,7 +120,8 @@ data class FullAccount(
             clearedTotal = cursor.getLong(KEY_CLEARED_TOTAL),
             hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0,
             uuid = cursor.getStringOrNull(KEY_UUID),
-            criterion = cursor.getLong(KEY_CRITERION)
+            criterion = cursor.getLong(KEY_CRITERION)?.takeIf { it != 0L },
+            total = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getLong(KEY_TOTAL) else null
         )
     }
 }
