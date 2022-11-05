@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.time.Duration
@@ -31,7 +31,7 @@ const val LOAD_SIZE = 200
 
 class TransactionPagingSource(
     val context: Context,
-    val account: FullAccount,
+    val account: PageAccount,
     val whereFilter: StateFlow<WhereFilter>,
     coroutineScope: CoroutineScope
     ) :
@@ -110,7 +110,7 @@ class TransactionPagingSource(
                 if (BuildConfig.DEBUG) {
                     val endTime = Instant.now()
                     val duration = Duration.between(startTime, endTime)
-                    Timber.i("Cursor delivered after %s", duration)
+                    Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
                 }
                 cursor.asSequence.map {
                     Transaction2.fromCursor(context, it, (context.applicationContext as MyApplication).appComponent.currencyContext())

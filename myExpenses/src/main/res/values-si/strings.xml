@@ -81,7 +81,6 @@
     <string name="help_heading_credits"/>
     <string name="help_heading_license">බලපත්‍රය </string>
     <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
-    <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
     <string name="import_select_transactions">ගනුදෙනු </string>
     <string name="income">ආදායම</string>
     <string name="invalid_number_format">ලෝකලයට දශම අකාරය හඳුනාගත නොහැක. කරුණාකර  %1$s පාවිච්චි කරන්න </string>

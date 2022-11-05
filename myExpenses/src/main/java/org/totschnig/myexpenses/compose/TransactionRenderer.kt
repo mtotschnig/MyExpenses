@@ -336,7 +336,6 @@ fun Modifier.tagBorder() = composed {
     )
         .padding(vertical = 4.dp, horizontal = 6.dp)
 }
-/*
 @Preview
 @Composable
 fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
@@ -367,7 +366,7 @@ fun RenderLegacy(@PreviewParameter(SampleProvider::class) transaction: Transacti
         },
         menuGenerator = { null }
     )
-}*/
+}
 
 @Preview
 @Composable

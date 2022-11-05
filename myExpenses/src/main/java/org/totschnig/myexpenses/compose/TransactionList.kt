@@ -236,7 +236,7 @@ fun HeaderData(
 
 @Composable
 fun HeaderRenderer(
-    account: FullAccount,
+    account: PageAccount,
     headerId: Int,
     headerRow: HeaderRow,
     dateInfo: DateInfo2,

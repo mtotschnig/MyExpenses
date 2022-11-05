@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.util.UiUtils.DateMode
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -88,13 +88,13 @@ private fun timeFormatter(accountType: AccountType?, prefHandler: PrefHandler, c
 private val SimpleDateFormat.asDateTimeFormatter: DateTimeFormatter
     get() = DateTimeFormatter.ofPattern(this.toPattern())
 
-fun dateTimeFormatter(account: FullAccount, prefHandler: PrefHandler, context: Context) =
+fun dateTimeFormatter(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
         Grouping.DAY -> timeFormatter(account.type, prefHandler, context)?.asDateTimeFormatter
         else -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     }
 
-fun dateTimeFormatterLegacy(account: FullAccount, prefHandler: PrefHandler, context: Context) =
+fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
         Grouping.DAY -> timeFormatter(account.type, prefHandler, context)
         Grouping.MONTH ->

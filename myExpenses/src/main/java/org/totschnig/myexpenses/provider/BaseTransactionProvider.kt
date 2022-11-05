@@ -153,10 +153,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
         const val TAG = "TransactionProvider"
 
-        fun defaultBudgetAllocationUri(account: FullAccount): Uri = TransactionProvider.BUDGETS_URI.buildUpon()
+        fun defaultBudgetAllocationUri(accountId: Long, grouping: Grouping): Uri = TransactionProvider.BUDGETS_URI.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS)
-            .appendPath(account.id.toString())
-            .appendPath(account.grouping.name)
+            .appendPath(accountId.toString())
+            .appendPath(grouping.name)
             .build()
     }
 

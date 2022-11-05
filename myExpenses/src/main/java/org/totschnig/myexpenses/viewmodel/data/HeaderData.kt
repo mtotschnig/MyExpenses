@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 
 data class HeaderData(
-    val account: FullAccount,
+    val account: PageAccount,
     val groups: Map<Int, HeaderRow>,
     val dateInfo: DateInfo2,
     val isFiltered: Boolean
@@ -26,7 +26,7 @@ data class HeaderData(
     }
 
     companion object {
-        fun fromSequence(account: FullAccount, sequence: Sequence<Cursor>): Map<Int, HeaderRow> =
+        fun fromSequence(account: PageAccount, sequence: Sequence<Cursor>): Map<Int, HeaderRow> =
             buildMap {
                 var previousBalance = account.openingBalance
                 for (cursor in sequence) {

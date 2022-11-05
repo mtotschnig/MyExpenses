@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.viewmodel.*
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.io.File
@@ -612,10 +613,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         count = accountData.count(),
                         state = viewModel.pagerState,
                         itemSpacing = 10.dp,
+                        key = { accountData[it].id }
                     ) {
                         Page(
                             index = it,
-                            account = accountData[it]
+                            account = accountData[it].toPageAccount
                         )
                     }
                 }
@@ -626,7 +628,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @Composable
     fun PagerScope.Page(
         index: Int,
-        account: FullAccount
+        account: PageAccount
     ) {
         val showStatusHandle = if (account.type == AccountType.CASH)
             false

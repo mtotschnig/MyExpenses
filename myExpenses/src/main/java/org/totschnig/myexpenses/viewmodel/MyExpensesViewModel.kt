@@ -184,7 +184,7 @@ class MyExpensesViewModel(
         .map { result -> result.map { it.second } }
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
-    fun loadData(account: FullAccount): () -> TransactionPagingSource {
+    fun loadData(account: PageAccount): () -> TransactionPagingSource {
         return {
             TransactionPagingSource(
                 localizedContext, account,
@@ -194,7 +194,7 @@ class MyExpensesViewModel(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun headerData(account: FullAccount): Flow<HeaderData> =
+    fun headerData(account: PageAccount): Flow<HeaderData> =
         filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
             val groupingQuery = account.groupingQuery(filter)
             contentResolver.observeQuery(
@@ -218,10 +218,10 @@ class MyExpensesViewModel(
         }
 
 
-    fun budgetData(account: FullAccount): Flow<BudgetData?> =
+    fun budgetData(account: PageAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
             contentResolver.observeQuery(
-                uri = BaseTransactionProvider.defaultBudgetAllocationUri(account),
+                uri = BaseTransactionProvider.defaultBudgetAllocationUri(account.id, account.grouping),
                 projection = arrayOf(
                     KEY_YEAR,
                     KEY_SECOND_GROUP,

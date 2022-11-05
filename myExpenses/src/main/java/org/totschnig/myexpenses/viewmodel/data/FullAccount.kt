@@ -5,24 +5,62 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
 import arrow.core.Tuple4
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
-@Immutable
+
+abstract class BaseAccount {
+    abstract val id:Long
+    abstract val _color: Int
+    abstract val currency: CurrencyUnit
+
+    val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
+
+    val isAggregate get() = id < 0
+    fun color(resources: Resources): Int = if (isAggregate)
+        ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
+
+    val selection: String
+        get() = when {
+            !isAggregate -> "$KEY_ACCOUNTID = ?"
+            isHomeAggregate -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"
+            else -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_EXCLUDE_FROM_TOTALS = 0)"
+        }
+
+    val selectionArgs: Array<String>?
+        get() = when {
+            !isAggregate -> arrayOf(id.toString())
+            isHomeAggregate -> null
+            else -> arrayOf(currency.code)
+        }
+}
+
+@Stable
 data class FullAccount(
-    val id: Long,
+    override val id: Long,
     val label: String,
     val description: String?,
-    val currency: CurrencyUnit,
-    val _color: Int = -1,
+    override val currency: CurrencyUnit,
+    override val _color: Int = -1,
     val type: AccountType?,
     val exchangeRate: Double = 1.0,
     val sealed: Boolean = false,
@@ -39,63 +77,20 @@ data class FullAccount(
     val hasCleared: Boolean = false,
     val uuid: String? = null,
     val criterion: Long
-) {
+): BaseAccount() {
 
-    //Tuple4 of Uri / projection / selection / selectionArgs
-    fun loadingInfo(context: Context): Tuple4<Uri, Array<String>, String, Array<String>?> {
-        val builder = Transaction.EXTENDED_URI.buildUpon()
-            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT)
-        if (id < 0) {
-            builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS)
-        }
-        val uri = builder.build()
-        val projection = when {
-            !isAggregate -> Transaction2.projection(context)
-            isHomeAggregate -> Transaction2.projection(context) +
-                    Transaction2.additionalAggregateColumns + Transaction2.additionGrandTotalColumns
-            else -> Transaction2.projection(context) + Transaction2.additionalAggregateColumns
-        }
-        return Tuple4(uri, projection, selection, selectionArgs)
-    }
-
-    val selection = when {
-        !isAggregate -> "$KEY_ACCOUNTID = ?"
-        isHomeAggregate -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"
-        else -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_EXCLUDE_FROM_TOTALS = 0)"
-    }
-
-    val selectionArgs = when {
-        !isAggregate -> arrayOf(id.toString())
-        isHomeAggregate -> null
-        else -> arrayOf(currency.code)
-    }
-
-    fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
-        val filter = whereFilter.takeIf { !it.isEmpty }
-        val selection = filter?.getSelectionForParts(VIEW_WITH_ACCOUNT)
-        val args = filter?.getSelectionArgs(true)
-        return Triple(
-            Transaction.CONTENT_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-            .appendPath(grouping.name).apply {
-                if (id > 0) {
-                    appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                } else if (!isHomeAggregate) {
-                    appendQueryParameter(KEY_CURRENCY, currency.code)
-                }
-            }.build(),
-            selection,
-            args
+    val toPageAccount: PageAccount
+        get() = PageAccount(
+            id, type, sortDirection, grouping, currency, sealed, openingBalance, _color
         )
-    }
-
-    val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
-
-    val isAggregate get() = id < 0
-
-    fun color(resources: Resources): Int = if (isAggregate)
-        ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
 
     companion object {
+
+        fun isHomeAggregate(id: Long) = id == Account.HOME_AGGREGATE_ID
+
+        fun isAggregate(id: Long) = id < 0
+
+
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = FullAccount(
             id = cursor.getLong(KEY_ROWID),
             label = cursor.getString(KEY_LABEL),
@@ -126,4 +121,52 @@ data class FullAccount(
             criterion = cursor.getLong(KEY_CRITERION)
         )
     }
+}
+
+@Immutable
+data class PageAccount(
+    override val id: Long,
+    val type: AccountType?,
+    val sortDirection: SortDirection,
+    val grouping: Grouping,
+    override val currency: CurrencyUnit,
+    val sealed: Boolean,
+    val openingBalance: Long,
+    override val _color: Int
+): BaseAccount() {
+    fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
+        val filter = whereFilter.takeIf { !it.isEmpty }
+        val selection = filter?.getSelectionForParts(VIEW_WITH_ACCOUNT)
+        val args = filter?.getSelectionArgs(true)
+        return Triple(
+            Transaction.CONTENT_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
+                .appendPath(grouping.name).apply {
+                    if (id > 0) {
+                        appendQueryParameter(KEY_ACCOUNTID, id.toString())
+                    } else if (!FullAccount.isHomeAggregate(id)) {
+                        appendQueryParameter(KEY_CURRENCY, currency.code)
+                    }
+                }.build(),
+            selection,
+            args
+        )
+    }
+
+    //Tuple4 of Uri / projection / selection / selectionArgs
+    fun loadingInfo(context: Context): Tuple4<Uri, Array<String>, String, Array<String>?> {
+        val builder = Transaction.EXTENDED_URI.buildUpon()
+            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT)
+        if (id < 0) {
+            builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS)
+        }
+        val uri = builder.build()
+        val projection = when {
+            !isAggregate -> Transaction2.projection(context)
+            isHomeAggregate -> Transaction2.projection(context) +
+                    Transaction2.additionalAggregateColumns + Transaction2.additionGrandTotalColumns
+            else -> Transaction2.projection(context) + Transaction2.additionalAggregateColumns
+        }
+        return Tuple4(uri, projection, selection, selectionArgs)
+    }
+
 }
