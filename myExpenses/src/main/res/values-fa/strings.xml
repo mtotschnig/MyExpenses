@@ -133,7 +133,6 @@
     <string name="help_heading_credits">اعتبارها</string>
     <string name="help_heading_license">لایسنس</string>
     <string name="help_heading_whats_new">چیزهای جدید</string>
-    <string name="important_upgrade_information_heading">اطلاعات مهم</string>
     <string name="import_select_transactions">تراکنش‌ها</string>
     <string name="income">درآمد</string>
     <string name="invalid_number_format">قالب دهدهی توسط محلی شما تشخیص داده نمی شود. خواهش می کنم از %1$s استفاده کنید</string>

@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -52,6 +53,10 @@ class UpgradeHandlerViewModel(application: Application) :
 
     fun upgrade(fromVersion: Int, @Suppress("UNUSED_PARAMETER") toVersion: Int) {
         viewModelScope.launch(context = coroutineContext()) {
+
+            if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication()).isNotEmpty()) {
+                upgradeInfoList.add(getString(R.string.upgrade_information_cloud_sync_storage_format))
+            }
 
             if (fromVersion < 385) {
                 val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "

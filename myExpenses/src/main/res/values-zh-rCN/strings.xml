@@ -136,7 +136,6 @@
     <string name="help_heading_credits">鸣谢</string>
     <string name="help_heading_license">许可</string>
     <string name="help_heading_whats_new">最新消息</string>
-    <string name="important_upgrade_information_heading">重要资讯</string>
     <string name="import_select_transactions">交易</string>
     <string name="income">收入</string>
     <string name="invalid_number_format">本机设备无法辨识十进制格式。请使用%1$s</string>

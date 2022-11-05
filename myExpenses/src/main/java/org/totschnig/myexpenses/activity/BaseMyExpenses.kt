@@ -82,7 +82,6 @@ import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -1661,7 +1660,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 return
             }
             upgradeHandlerViewModel.upgrade(prevVersion, currentVersion)
-            val showImportantUpgradeInfo = ArrayList<Int>()
             prefHandler.putInt(PrefKey.CURRENT_VERSION, currentVersion)
             if (prevVersion < 19) {
                 prefHandler.putString(PrefKey.SHARE_TARGET, prefHandler.getString("ftp_target", ""))
@@ -1744,11 +1742,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 prefHandler.putString(PrefKey.HOME_CURRENCY, Utils.getHomeCurrency().code)
                 invalidateHomeCurrency()
             }
-            if (prevVersion < 354 && GenericAccountService.getAccounts(this).isNotEmpty()) {
-                showImportantUpgradeInfo.add(R.string.upgrade_information_cloud_sync_storage_format)
-            }
 
-            showVersionDialog(prevVersion, showImportantUpgradeInfo)
+            showVersionDialog(prevVersion)
         } else {
             if ((!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION) && !prefHandler.getBoolean(
                     PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN,

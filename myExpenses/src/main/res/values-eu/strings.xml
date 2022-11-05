@@ -137,7 +137,6 @@
     <string name="help_heading_credits">Kredituak</string>
     <string name="help_heading_license">Lizentzia</string>
     <string name="help_heading_whats_new">Zer dago berri</string>
-    <string name="important_upgrade_information_heading">Informazio garrantzitsua</string>
     <string name="import_select_transactions">Transakzioak</string>
     <string name="income">Diru-sarrera</string>
     <string name="invalid_number_format">Formatu dezimala ezin da ulertu zure hizkuntzan. Erabili %1$s</string>

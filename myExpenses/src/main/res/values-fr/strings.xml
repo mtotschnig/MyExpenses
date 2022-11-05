@@ -138,7 +138,6 @@
     <string name="help_heading_credits">Générique</string>
     <string name="help_heading_license">Licence</string>
     <string name="help_heading_whats_new">Nouveautés</string>
-    <string name="important_upgrade_information_heading">Information importante</string>
     <string name="import_select_transactions">Opérations</string>
     <string name="income">Revenu</string>
     <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>

@@ -118,7 +118,6 @@
     <string name="help_heading_credits">공로</string>
     <string name="help_heading_license">라이센스</string>
     <string name="help_heading_whats_new">새로운 기능</string>
-    <string name="important_upgrade_information_heading">중요한 정보</string>
     <string name="import_select_transactions">거래 내역</string>
     <string name="income">수입</string>
     <string name="invalid_number_format">현재 설정된 언어권에 맞는 십진수 형식을 인식할 수 없습니다. 다음을 사용하세요: %1$s</string>

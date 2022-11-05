@@ -141,7 +141,6 @@
     <string name="help_heading_credits">النقاط</string>
     <string name="help_heading_license">الترخيص</string>
     <string name="help_heading_whats_new">آخر الاخبار</string>
-    <string name="important_upgrade_information_heading">معلومات مهمة</string>
     <string name="import_select_transactions">العمليات</string>
     <string name="income">الدخل</string>
     <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>

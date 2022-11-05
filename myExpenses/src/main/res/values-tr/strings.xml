@@ -137,7 +137,6 @@
     <string name="help_heading_credits">Hazırlayanlar</string>
     <string name="help_heading_license">Lisans</string>
     <string name="help_heading_whats_new">Yenilikler</string>
-    <string name="important_upgrade_information_heading">Önemli bilgi</string>
     <string name="import_select_transactions">Muameleler</string>
     <string name="income">gelirler</string>
     <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>

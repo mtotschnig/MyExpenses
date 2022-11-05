@@ -138,7 +138,6 @@
     <string name="help_heading_credits">Créditos</string>
     <string name="help_heading_license">Licença</string>
     <string name="help_heading_whats_new">Novidades</string>
-    <string name="important_upgrade_information_heading">Informações importantes</string>
     <string name="import_select_transactions">Transações</string>
     <string name="income">Receita</string>
     <string name="invalid_number_format">Formato decimal não reconhecido pela sua localidade. Por favor, use %1$s</string>

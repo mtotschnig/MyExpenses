@@ -105,7 +105,6 @@
     <string name="help_heading_credits">Zasluge</string>
     <string name="help_heading_license">Licenca</string>
     <string name="help_heading_whats_new">Što je novo</string>
-    <string name="important_upgrade_information_heading">Važne informacije</string>
     <string name="import_select_transactions">Transakcije</string>
     <string name="income">Prihod</string>
     <string name="invalid_number_format">Decimalni format nije prepoznat. Koristi %1$s</string>

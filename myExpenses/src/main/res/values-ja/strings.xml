@@ -135,7 +135,6 @@
     <string name="help_heading_credits">クレジット</string>
     <string name="help_heading_license">ライセンス</string>
     <string name="help_heading_whats_new">新着情報</string>
-    <string name="important_upgrade_information_heading">重要な情報</string>
     <string name="import_select_transactions">取引</string>
     <string name="income">収入</string>
     <string name="invalid_number_format">小数点の書式があなたのロケールでは認識できません。%1$s を使用してください。</string>

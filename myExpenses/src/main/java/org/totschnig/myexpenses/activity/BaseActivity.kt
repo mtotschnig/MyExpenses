@@ -427,9 +427,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    fun showVersionDialog(prev_version: Int, showImportantUpgradeInfo: ArrayList<Int>) {
+    fun showVersionDialog(prev_version: Int) {
         lifecycleScope.launchWhenResumed {
-            VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
+            VersionDialogFragment.newInstance(prev_version)
                 .show(supportFragmentManager, "VERSION_INFO")
         }
     }

@@ -137,7 +137,6 @@
     <string name="help_heading_credits">Πιστώσεις</string>
     <string name="help_heading_license">Άδεια</string>
     <string name="help_heading_whats_new">Τι νέο υπάρχει</string>
-    <string name="important_upgrade_information_heading">Σημαντικές πληροφορίες</string>
     <string name="import_select_transactions">Συναλλαγές</string>
     <string name="income">Εισόδημα</string>
     <string name="invalid_number_format">Δεκαδική μορφή δεν αναγνωρίζεται από τις τοπικές σας ρυθμίσεις. Παρακαλούμε να χρησιμοποιήσετε το %1$s</string>

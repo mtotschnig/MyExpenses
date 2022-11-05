@@ -138,7 +138,6 @@
     <string name="help_heading_credits">Riconoscimenti</string>
     <string name="help_heading_license">Licenza</string>
     <string name="help_heading_whats_new">Novità</string>
-    <string name="important_upgrade_information_heading">Informazioni importanti</string>
     <string name="import_select_transactions">Operazioni</string>
     <string name="income">Entrate</string>
     <string name="invalid_number_format">Formato decimale non riconosciuto dalla tua regione. Si prega di utilizzare %1$s</string>

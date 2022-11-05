@@ -136,7 +136,6 @@
     <string name="help_heading_credits">信用</string>
     <string name="help_heading_license">許可</string>
     <string name="help_heading_whats_new">最新資訊</string>
-    <string name="important_upgrade_information_heading">重要消息</string>
     <string name="import_select_transactions">交易項目</string>
     <string name="income">收入</string>
     <string name="invalid_number_format">本機設備無法識別十進制格式。請使用%1$s</string>

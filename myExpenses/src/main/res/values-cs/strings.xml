@@ -139,7 +139,6 @@
     <string name="help_heading_credits">Na vývoji se podíleli</string>
     <string name="help_heading_license">Licence</string>
     <string name="help_heading_whats_new">Co je nového</string>
-    <string name="important_upgrade_information_heading">Důležité informace</string>
     <string name="import_select_transactions">Transakce</string>
     <string name="income">Příjem</string>
     <string name="invalid_number_format">Desítkový formát není rozpoznatelný vaším místním. Použijte %1$s</string>

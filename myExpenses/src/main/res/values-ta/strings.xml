@@ -137,7 +137,6 @@
     <string name="help_heading_credits">புகழாரம்</string>
     <string name="help_heading_license">உரிமம்</string>
     <string name="help_heading_whats_new">புதியது என்ன</string>
-    <string name="important_upgrade_information_heading">முக்கிய தகவல்கள்</string>
     <string name="import_select_transactions">பரிவர்த்தனைகள்</string>
     <string name="income">வருமானம்</string>
     <string name="invalid_number_format">உங்கள் வட்டாரத்தால் வரையறுக்கப்படாத பதின்ம வடிவம். தயவுசெய்து %1$s ஐப் பயன்படுத்துக</string>

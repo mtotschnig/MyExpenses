@@ -132,7 +132,6 @@
     <string name="help_heading_credits">Lời tri ân</string>
     <string name="help_heading_license">Giấy phép</string>
     <string name="help_heading_whats_new">Có gì mới</string>
-    <string name="important_upgrade_information_heading">Thông tin quan trọng</string>
     <string name="import_select_transactions">Các giao dịch</string>
     <string name="income">Thu</string>
     <string name="invalid_number_format">Định dạng thập phân không được nhận diện bởi hệ thống ngôn ngữ của bạn. Xin sử dụng %1$s</string>

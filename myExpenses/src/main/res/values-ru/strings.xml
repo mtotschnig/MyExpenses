@@ -139,7 +139,6 @@
     <string name="help_heading_credits">Создатели</string>
     <string name="help_heading_license">Лицензия</string>
     <string name="help_heading_whats_new">Что нового</string>
-    <string name="important_upgrade_information_heading">Важная информация</string>
     <string name="import_select_transactions">Операция</string>
     <string name="income">Прибыль</string>
     <string name="invalid_number_format">Десятичный формат не опознан в вашей локали. Пожалуйста, используйте %1$s</string>

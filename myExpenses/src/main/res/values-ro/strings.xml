@@ -120,7 +120,6 @@
     <string name="help_heading_credits">Generic</string>
     <string name="help_heading_license">Licenţă</string>
     <string name="help_heading_whats_new">Noutăţi</string>
-    <string name="important_upgrade_information_heading">Informaţii importante</string>
     <string name="import_select_transactions">Tranzacţii</string>
     <string name="income">Venituri</string>
     <string name="invalid_number_format">Format zecimal necunoscut de localizarea dvs. Utilizaţi %1$s</string>

@@ -103,7 +103,6 @@
     <string name="help_heading_credits">Crèdits</string>
     <string name="help_heading_license">Llicència</string>
     <string name="help_heading_whats_new">Novetats</string>
-    <string name="important_upgrade_information_heading">Informació important</string>
     <string name="import_select_transactions">Transaccions</string>
     <string name="income">ingrés</string>
     <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració regional. Si us plau, feu servir %1$s</string>

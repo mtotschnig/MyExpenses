@@ -14,126 +14,169 @@
 */
 package org.totschnig.myexpenses.dialog
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.databinding.VersiondialogBinding
+import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener
-import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
-import java.util.ArrayList
 import javax.inject.Inject
 
-class VersionDialogFragment : DialogViewBinding<VersiondialogBinding>(), DialogInterface.OnClickListener {
+class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnClickListener {
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
+
+    private lateinit var versions: List<VersionInfo>
+
+    private val from: Int
+        get() = requireArguments().getInt(KEY_FROM)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val from = requireArguments().getInt(KEY_FROM)
-        val res = resources
-        val versions = res.getStringArray(R.array.versions)
+        versions = resources.getStringArray(R.array.versions)
             .map { version: String -> version.split(";") }
             .takeWhile { parts -> parts[0].toInt() > from }
             .map { parts -> VersionInfo(parts[0].toInt(), parts[1]) }
-        val builder = initBuilder {
-            VersiondialogBinding.inflate(it)
-        }
-        if (versions.isNotEmpty()) {
-            binding.list.adapter = object : ArrayAdapter<VersionInfo>(
-                requireActivity(),
-                R.layout.version_row, R.id.versionInfoName, versions
-            ) {
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                    val row = super.getView(position, convertView, parent) as ViewGroup
-                    val version = versions[position]
-                    val heading = row.findViewById<TextView>(R.id.versionInfoName)
-                    heading.text = version.name
-                    (row.findViewById<View>(R.id.versionInfoChanges) as TextView).text =
-                        version.getChanges(context)?.joinToString(separator = "\n") { "\u25b6 $it" }
-                    val imageButton = row.findViewById<ImageView>(R.id.versionInfo)
-                    val useMastodon = version.code >= 493
-                    imageButton.setImageResource(if (useMastodon) R.drawable.ic_mastodon else R.drawable.ic_facebook)
-                    imageButton.contentDescription = if (useMastodon) "Mastodon" else "Facebook"
-                    configureMoreInfo(
-                        imageButton,
-                        version,
-                        "version_more_info_",
-                        if (useMastodon) "https://mastodon.social/@myexpenses/" else
-                            "https://www.facebook.com/MyExpenses/posts/"
-                    )
-                    configureMoreInfo(
-                        row.findViewById(R.id.versionInfoGithub),
-                        version,
-                        "project_board_",
-                        "https://github.com/mtotschnig/MyExpenses/projects/"
-                    )
-                    return row
-                }
-            }
-            val upgradeInfo = requireArguments().getIntegerArrayList(KEY_WITH_IMPORTANT_UPGRADE_INFO)
-            if (upgradeInfo?.isNotEmpty() == true) {
-                binding.ImportantUpgradeInfoHeading.visibility = View.VISIBLE
-                with(binding.ImportantUpgradeInfoBody) {
-                    visibility = View.VISIBLE
-                    text = TextUtils.concatResStrings(requireContext(), "", *upgradeInfo.toIntArray())
-                }
-                /*      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
-      makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.roadmap_particpate, new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-         getActivity().startActivity(new Intent(getContext(), RoadmapVoteActivity.class));
-        }
-      });*/
-            }
-            builder.setTitle(R.string.help_heading_whats_new)
-        } else {
-            with(binding.ImportantUpgradeInfoBody) {
-                visibility = View.VISIBLE
-                //noinspection SetTextI18n
-                text = "${DistributionHelper.versionName} ($from -> ${DistributionHelper.versionNumber})"
-            }
-            builder.setTitle(R.string.new_version)
-        }
-        builder.setIcon(R.mipmap.ic_myexpenses)
-            .setNegativeButton(android.R.string.ok, this)
-        if (!licenceHandler.isContribEnabled) builder.setPositiveButton(R.string.menu_contrib, this)
-        return builder.create()
     }
 
-    private fun configureMoreInfo(
-        imageButton: View,
-        version: VersionInfo,
-        resPrefix: String,
-        baseUri: String
-    ) {
-        val resId = resources.getIdentifier(
-            resPrefix + version.nameCondensed,
-            "string",
-            requireContext().packageName
-        )
-        if (resId == 0) {
-            imageButton.visibility = View.GONE
+    @Composable
+    override fun BuildContent() {
+        if (versions.isEmpty()) {
+            Text(
+                modifier = Modifier.padding(24.dp),
+                text = "${DistributionHelper.versionName} ($from -> ${DistributionHelper.versionNumber})"
+            )
         } else {
-            imageButton.visibility = View.VISIBLE
-            imageButton.setOnClickListener { showMoreInfo(baseUri + getString(resId)) }
+            LazyColumn(Modifier.padding(start = 24.dp, end = 8.dp)) {
+                items(versions.size) { position ->
+                    val version = versions[position]
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        backgroundColor = colorResource(id = R.color.cardBackground)
+                    ) {
+                        Row(Modifier.height(IntrinsicSize.Min)) {
+                            Column(Modifier.weight(1f).fillMaxHeight().padding(start=8.dp, top = 4.dp, bottom = 4.dp)) {
+                                Text(
+                                    version.name,
+                                    modifier = Modifier.padding(bottom = 0.dp),
+                                    style = MaterialTheme.typography.h6
+                                )
+                                version.getChanges(LocalContext.current)?.let { changes ->
+                                    Box(
+                                        modifier = Modifier.weight(1f),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        Text(changes.joinToString(separator = "\n") { "\u25b6 $it" })
+                                    }
+
+                                }
+                            }
+                            Column (modifier = Modifier.align(Alignment.CenterVertically)){
+                                VersionInfoButton(
+                                    version = version,
+                                    resPrefix = "project_board_",
+                                    baseUri = "https://github.com/mtotschnig/MyExpenses/projects/",
+                                    drawableRes = R.drawable.ic_github,
+                                    contentDescription = "Github"
+                                )
+                                if (version.code >= 493) {
+                                    VersionInfoButton(
+                                        version = version,
+                                        resPrefix = "version_more_info_",
+                                        baseUri = "https://mastodon.social/@myexpenses/",
+                                        drawableRes = R.drawable.ic_mastodon,
+                                        contentDescription = "Mastodon"
+                                    )
+                                } else {
+                                    VersionInfoButton(
+                                        version = version,
+                                        resPrefix = "version_more_info_",
+                                        baseUri = "https://www.facebook.com/MyExpenses/posts/",
+                                        drawableRes = R.drawable.ic_facebook,
+                                        contentDescription = "Facebook"
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+
+    @Composable
+    private fun VersionInfoButton(
+        version: VersionInfo,
+        resPrefix: String,
+        baseUri: String,
+        drawableRes: Int,
+        contentDescription: String
+    ) {
+        resolveMoreInfo(resPrefix, version)?.let {
+            IconButton(
+                onClick = {
+                    showMoreInfo(baseUri + getString(it))
+                }
+            ) {
+                Image(
+                    painter = painterResource(id = drawableRes),
+                    contentDescription = contentDescription
+                )
+            }
+        }
+    }
+
+    override fun initBuilder(): AlertDialog.Builder =
+        super.initBuilder().apply {
+            setTitle(
+                if (versions.isEmpty()) R.string.new_version else R.string.help_heading_whats_new
+            )
+            setIcon(R.mipmap.ic_myexpenses)
+            setNegativeButton(android.R.string.ok, null)
+            if (!licenceHandler.isContribEnabled) setPositiveButton(
+                R.string.menu_contrib,
+                this@VersionDialogFragment
+            )
+        }
+
+    private fun resolveMoreInfo(resPrefix: String, version: VersionInfo) = resources.getIdentifier(
+        resPrefix + version.nameCondensed,
+        "string",
+        requireContext().packageName
+    ).takeIf { it != 0 }
+
 
     private fun showMoreInfo(uri: String?) {
         (requireActivity() as BaseActivity).startActionView(uri!!)
@@ -148,12 +191,10 @@ class VersionDialogFragment : DialogViewBinding<VersiondialogBinding>(), DialogI
 
     companion object {
         private const val KEY_FROM = "from"
-        private const val KEY_WITH_IMPORTANT_UPGRADE_INFO = "withImportantUpgradeInfo"
-        fun newInstance(from: Int, withImportantUpgradeInfo: ArrayList<Int>) =
+        fun newInstance(from: Int) =
             VersionDialogFragment().apply {
                 arguments = Bundle().apply {
                     putInt(KEY_FROM, from)
-                    putIntegerArrayList(KEY_WITH_IMPORTANT_UPGRADE_INFO, withImportantUpgradeInfo)
                 }
                 isCancelable = false
             }
