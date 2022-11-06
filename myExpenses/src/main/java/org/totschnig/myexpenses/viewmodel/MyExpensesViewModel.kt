@@ -112,7 +112,7 @@ class MyExpensesViewModel(
     var selectedAccount: Long
         get() = accountData.value?.getOrNull()?.get(pagerState.currentPage)?.id ?: 0
         set(value) {
-            accountData.value?.let {
+            accountData.value?.also {
                 if (it.isSuccess) {
                     selectPage(value)
                 }
@@ -125,7 +125,7 @@ class MyExpensesViewModel(
         viewModelScope.launch {
             @OptIn(ExperimentalPagerApi::class)
             accountData.value!!.getOrThrow().indexOfFirst { it.id == accountId }.takeIf { it != -1 }?.let {
-                pagerState.scrollToPage(1)
+                pagerState.scrollToPage(it)
             }
         }
     }

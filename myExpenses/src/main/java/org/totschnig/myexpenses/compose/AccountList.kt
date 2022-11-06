@@ -270,14 +270,10 @@ fun AccountCard(
                         format.convAmount(account.sumTransfer, account.currency)
                     )
                 }
-                SumRow(
-                    R.string.sum_transfer,
-                    format.convAmount(account.sumTransfer, account.currency)
-                )
                 val borderColor = MaterialTheme.colors.onSurface
                 SumRow(
                     R.string.current_balance,
-                    format.convAmount(account.sumTransfer, account.currency),
+                    format.convAmount(account.currentBalance, account.currency),
                     Modifier.drawBehind {
                         val strokeWidth = 2 * density
                         drawLine(

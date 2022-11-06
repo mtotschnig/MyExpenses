@@ -120,7 +120,7 @@ data class FullAccount(
             clearedTotal = cursor.getLong(KEY_CLEARED_TOTAL),
             hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0,
             uuid = cursor.getStringOrNull(KEY_UUID),
-            criterion = cursor.getLong(KEY_CRITERION)?.takeIf { it != 0L },
+            criterion = cursor.getLong(KEY_CRITERION).takeIf { it != 0L },
             total = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getLong(KEY_TOTAL) else null
         )
     }
