@@ -63,7 +63,7 @@ class SplitPartRVAdapter(
     inner class ViewHolder(private val binding: SplitPartRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: ITransaction) {
-            transaction.icon?.let { binding.icon.setImageDrawable(IIconInfo.resolveIcon(it)?.asDrawable(binding.root.context, R.attr.colorOnSurface)) }
+            transaction.icon?.let { binding.icon.setImageDrawable(IIconInfo.resolveIcon(it)?.asDrawable(binding.root.context)) }
             binding.amount.apply {
                 text = currencyFormatter.formatMoney(Money(currencyUnit, transaction.amountRaw))
                 setTextColor(
