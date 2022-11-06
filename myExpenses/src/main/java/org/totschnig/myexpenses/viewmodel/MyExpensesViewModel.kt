@@ -110,7 +110,7 @@ class MyExpensesViewModel(
 
     @OptIn(ExperimentalPagerApi::class)
     var selectedAccount: Long
-        get() = accountData.value?.getOrNull()?.get(pagerState.currentPage)?.id ?: 0
+        get() = accountData.value?.getOrNull()?.getOrNull(pagerState.currentPage)?.id ?: 0
         set(value) {
             accountData.value?.also {
                 if (it.isSuccess) {

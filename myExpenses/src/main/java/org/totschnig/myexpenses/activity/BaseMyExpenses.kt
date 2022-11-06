@@ -581,8 +581,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             AppTheme(context = this@BaseMyExpenses) {
                 LaunchedEffect(accountData) {
                     if (accountData.isNotEmpty()) {
-                        viewModel.sumInfo(currentAccount!!).collect {
-                            sumInfo = it
+                        currentAccount?.let {
+                            viewModel.sumInfo(it).collect {
+                                sumInfo = it
+                            }
                         }
                     } else {
                         setTitle(R.string.app_name)
