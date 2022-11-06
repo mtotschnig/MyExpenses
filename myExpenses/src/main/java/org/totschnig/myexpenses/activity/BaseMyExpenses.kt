@@ -118,23 +118,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
     var accountId: Long
-        get() = viewModel.selectedAccount.value
+        get() = viewModel.selectedAccount
         set(value) {
-            viewModel.selectedAccount.value = value
-            moveToAccount()
+            viewModel.selectedAccount = value
         }
-
-    private fun moveToAccount() {
-        val position =
-            accountData.indexOfFirst { it.id == accountId }.takeIf { it > -1 } ?: 0
-        if (viewModel.pagerState.currentPage != position) {
-            lifecycleScope.launch {
-                viewModel.pagerState.scrollToPage(position)
-            }
-        } else {
-            setCurrentAccount(position)
-        }
-    }
 
     val currentAccount: FullAccount?
         get() = accountData.getOrNull(viewModel.pagerState.currentPage)
@@ -150,7 +137,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var toolbar: Toolbar
 
-    var drawerToggle: ActionBarDrawerToggle? = null
+    private var drawerToggle: ActionBarDrawerToggle? = null
 
     private var currentBalance: String? = null
 
@@ -464,6 +451,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     result?.onSuccess { data ->
                         LaunchedEffect(Unit) {
                             toolbar.isVisible = true
+                            viewModel.onFirstLoad()
+                            setCurrentAccount()
                         }
                         AccountList(
                             accountData = data,
@@ -577,7 +566,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun MainContent() {
 
         LaunchedEffect(viewModel.pagerState.currentPage) {
-            if (setCurrentAccount(viewModel.pagerState.currentPage)) {
+            if (setCurrentAccount()) {
                 finishActionMode()
                 sumInfo = SumInfoUnknown
                 viewModel.sumInfo(currentAccount!!).collect {
@@ -592,7 +581,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             AppTheme(context = this@BaseMyExpenses) {
                 LaunchedEffect(accountData) {
                     if (accountData.isNotEmpty()) {
-                        moveToAccount()
                         viewModel.sumInfo(currentAccount!!).collect {
                             sumInfo = it
                         }
@@ -1147,9 +1135,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
             R.id.DELETE_ACCOUNT_COMMAND_DO -> {
                 val accountIds = tag as LongArray
-                if (accountIds.any { it == accountId }) {
-                    accountId = 0L
-                }
                 val manageHiddenFragment =
                     supportFragmentManager.findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG)
                 if (manageHiddenFragment != null) {
@@ -1356,14 +1341,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     /**
      *  @return true if we have moved to a new account
      */
-    private fun setCurrentAccount(position: Int) =
-        accountData.getOrNull(position)?.let { account ->
-            val newAccountId = account.id
-            val changed = if (accountId != newAccountId) {
-                accountId = account.id
-                prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId)
-                true
-            } else false
+    private fun setCurrentAccount() =
+        accountData.getOrNull(viewModel.pagerState.currentPage)?.let { account ->
+            accountId = account.id
+            prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintSystemUiAndFab(account.color(resources))
             setBalance(account)
             if (account.sealed) {
@@ -1372,7 +1353,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 floatingActionButton.show()
             }
             invalidateOptionsMenu()
-            changed
+            true
         } ?: false
 
     private fun setBalance(account: FullAccount) {

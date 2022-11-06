@@ -64,6 +64,8 @@ class MyExpensesViewModel(
     @Inject
     lateinit var dataStore: DataStore<Preferences>
 
+    private var initialAccountId: Long? = null
+
     private fun showStatusHandleForAccountPrefKey(accountId: Long) =
         booleanPreferencesKey("showStatusHandle_$accountId")
 
@@ -106,9 +108,27 @@ class MyExpensesViewModel(
             savedStateHandle["selectedTransactionSum"] = value
         }
 
-    @OptIn(SavedStateHandleSaveableApi::class)
-    val selectedAccount: MutableState<Long> =
-        savedStateHandle.saveable("selectedAccount") { mutableStateOf(0L) }
+    @OptIn(ExperimentalPagerApi::class)
+    var selectedAccount: Long
+        get() = accountData.value?.getOrNull()?.get(pagerState.currentPage)?.id ?: 0
+        set(value) {
+            accountData.value?.let {
+                if (it.isSuccess) {
+                    selectPage(value)
+                }
+            } ?: run {
+                initialAccountId = value
+            }
+        }
+
+    private fun selectPage(accountId: Long) {
+        viewModelScope.launch {
+            @OptIn(ExperimentalPagerApi::class)
+            accountData.value!!.getOrThrow().indexOfFirst { it.id == accountId }.takeIf { it != -1 }?.let {
+                pagerState.scrollToPage(1)
+            }
+        }
+    }
 
     @OptIn(SavedStateHandleSaveableApi::class)
     val selectionState: MutableState<List<Transaction2>> =
@@ -149,11 +169,11 @@ class MyExpensesViewModel(
             restore = { PagerState(it) }
         )
     ) {
-        PagerState(0)
+        PagerState()
     }
 
     val currentFilter: FilterPersistence
-        get() = filterPersistence.getValue(selectedAccount.value)
+        get() = filterPersistence.getValue(selectedAccount)
 
     val filterPersistence: Map<Long, FilterPersistence> =
         lazyMap {
@@ -177,8 +197,8 @@ class MyExpensesViewModel(
         .mapToListCatchingWithExtra {
             FullAccount.fromCursor(it, currencyContext)
         }.onEach { result ->
-            result.onSuccess {
-                hiddenAccountsInternal.value = it.first.getInt(KEY_COUNT) > 0
+            result.onSuccess { pair ->
+                hiddenAccountsInternal.value = pair.first.getInt(KEY_COUNT) > 0
             }
         }
         .map { result -> result.map { it.second } }
@@ -452,7 +472,7 @@ class MyExpensesViewModel(
     }
 
     fun addFilterCriteria(c: Criterion<*>) {
-        filterPersistence.getValue(selectedAccount.value).addCriteria(c)
+        currentFilter.addCriteria(c)
     }
 
     /**
@@ -461,7 +481,7 @@ class MyExpensesViewModel(
      * @return true if the filter was set and successfully removed, false otherwise
      */
     fun removeFilter(id: Int) =
-        filterPersistence.getValue(selectedAccount.value).removeFilter(id)
+        currentFilter.removeFilter(id)
 
     fun toggleCrStatus(id: Long) {
         viewModelScope.launch(coroutineDispatcher) {
@@ -569,6 +589,13 @@ class MyExpensesViewModel(
                 transaction1.amount.amountMinor == -transaction2.amount.amountMinor ||
                         transaction1.currency.code != transaction2.currency.code
                 )
+    }
+
+    fun onFirstLoad() {
+        initialAccountId?.let {
+            selectPage(it)
+            initialAccountId = null
+        }
     }
 
     companion object {
