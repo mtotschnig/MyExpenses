@@ -4,10 +4,23 @@ import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 import org.junit.After
 import org.junit.Rule
@@ -16,10 +29,10 @@ import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.test.espresso.MyExpensesTest
 
 abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
     private val countingResource = CountingIdlingResource("CheckSealed")
+    private var transactionPagingIdlingResource: IdlingResource? = null
     lateinit var activityScenario: ActivityScenario<out MyExpenses>
 
     override val testScenario: ActivityScenario<out MyExpenses>
@@ -34,8 +47,12 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
                 putExtra(DatabaseConstants.KEY_ROWID, id)
             })
         activityScenario.onActivity { activity: MyExpenses ->
-            (activity as? TestMyExpenses)?.decoratedCheckSealedHandler =
-                DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
+            (activity as? TestMyExpenses)?.let {
+                it.decoratedCheckSealedHandler = DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
+                transactionPagingIdlingResource = it.countingResource
+                IdlingRegistry.getInstance().register(transactionPagingIdlingResource)
+            }
+
         }
         IdlingRegistry.getInstance().register(countingResource)
     }
@@ -76,6 +93,9 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
 
     @After
     open fun tearDown() {
+        transactionPagingIdlingResource?.let {
+            IdlingRegistry.getInstance().unregister(it)
+        }
         IdlingRegistry.getInstance().unregister(countingResource)
     }
 }

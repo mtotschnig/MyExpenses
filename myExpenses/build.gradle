@@ -267,8 +267,9 @@ dependencies {
 
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    debugImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
-    androidTestImplementation "androidx.test:runner:1.5.0-beta02"
+    androidTestImplementation "androidx.test:runner:1.5.0-rcß1"
     androidTestUtil "androidx.test:orchestrator:1.4.1"
     androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"

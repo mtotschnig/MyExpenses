@@ -18,7 +18,7 @@ ext {
     compileSdkVersion = 33
     minSdkVersion = 21
     targetSdkVersion = 31
-    espressoVersion = "3.5.0-alpha07"
+    espressoVersion = "3.5.0-rc01"
     androidSupportTestVersion = "1.4.0"
     androidxTextExtJunit = "1.1.3"
     daggerVersion = "2.42"

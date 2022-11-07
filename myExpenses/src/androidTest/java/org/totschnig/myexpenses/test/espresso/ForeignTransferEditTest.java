@@ -40,7 +40,7 @@ public class ForeignTransferEditTest extends BaseExpenseEditTest {
   public void shouldSaveForeignTransfer() {
     Intent i = getIntent();
     i.putExtra(KEY_ROWID, transfer.getId());
-    activityScenario = ActivityScenario.launch(i);
+    activityScenario = ActivityScenario.launchActivityForResult(i);
     closeKeyboardAndSave();
     assertFinishing();
   }

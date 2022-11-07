@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
+import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
@@ -586,12 +587,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
                         }
+                        if (viewModel.deferredLoad()) {
+                            setCurrentAccount()
+                        }
                     } else {
                         setTitle(R.string.app_name)
                         toolbar.subtitle = null
-                    }
-                    if (viewModel.deferredLoad()) {
-                        setCurrentAccount()
                     }
                 }
                 if (accountData.isNotEmpty()) {
@@ -618,6 +619,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    open fun buildTransactionPagingSourceFactory(account: PageAccount): () -> TransactionPagingSource = {
+        TransactionPagingSource(
+            this,
+            account,
+            viewModel.filterPersistence.getValue(account.id).whereFilterAsFlow,
+            lifecycleScope
+        )
+    }
+
     @Composable
     fun PagerScope.Page(
         index: Int,
@@ -636,7 +646,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         } else null
 
-        val data = remember(account) { viewModel.loadData(account) }
+        val data: () -> TransactionPagingSource = remember(account) {
+           buildTransactionPagingSourceFactory(account)
+        }
         val headerData = remember(account) { viewModel.headerData(account) }
         if (index == currentPage) {
             LaunchedEffect(selectionState.size) {

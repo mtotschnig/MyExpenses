@@ -580,14 +580,12 @@ class MyExpensesViewModel(
                 )
     }
 
-    fun deferredLoad(): Boolean {
+    suspend fun deferredLoad(): Boolean {
         return deferredAccountId?.let {
-            viewModelScope.launch {
                 @OptIn(ExperimentalPagerApi::class)
                 accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }.takeIf { it != -1 }.let {
                     pagerState.scrollToPage(it ?: 0)
                 }
-            }
             deferredAccountId = null
             true
         } ?: false

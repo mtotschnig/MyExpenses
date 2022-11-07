@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.database.ContentObserver
+import android.database.Cursor
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -29,12 +30,12 @@ import java.time.Instant
 
 const val LOAD_SIZE = 200
 
-class TransactionPagingSource(
+open class TransactionPagingSource(
     val context: Context,
     val account: PageAccount,
     val whereFilter: StateFlow<WhereFilter>,
     coroutineScope: CoroutineScope
-    ) :
+) :
     PagingSource<Int, Transaction2>() {
 
     val contentResolver: ContentResolver
@@ -89,34 +90,30 @@ class TransactionPagingSource(
                 }.toTypedArray()
             }
         }
-        val data = withContext(Dispatchers.IO) {
-            val startTime = if (BuildConfig.DEBUG) Instant.now() else null
-            contentResolver.query(
-                uri.buildUpon()
-                    .appendQueryParameter(
-                        ContentResolver.QUERY_ARG_LIMIT,
-                        LOAD_SIZE.toString()
-                    )
-                    .appendQueryParameter(
-                        ContentResolver.QUERY_ARG_OFFSET,
-                        (pageNumber * LOAD_SIZE).toString()
-                    )
-                    .build(),
-                projection,
-                "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
-                selectionArgs,
-                "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
-            )?.use { cursor ->
-                if (BuildConfig.DEBUG) {
-                    val endTime = Instant.now()
-                    val duration = Duration.between(startTime, endTime)
-                    Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
-                }
-                cursor.asSequence.map {
-                    Transaction2.fromCursor(context, it, (context.applicationContext as MyApplication).appComponent.currencyContext())
-                }.toList()
-            } ?: emptyList()
-        }
+        val startTime = if (BuildConfig.DEBUG) Instant.now() else null
+        val data = contentResolver.query(
+            uri.buildUpon()
+                .appendQueryParameter(
+                    ContentResolver.QUERY_ARG_LIMIT,
+                    LOAD_SIZE.toString()
+                )
+                .appendQueryParameter(
+                    ContentResolver.QUERY_ARG_OFFSET,
+                    (pageNumber * LOAD_SIZE).toString()
+                )
+                .build(),
+            projection,
+            "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
+            selectionArgs,
+            "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
+        )?.use { cursor ->
+            if (BuildConfig.DEBUG) {
+                val endTime = Instant.now()
+                val duration = Duration.between(startTime, endTime)
+                Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
+            }
+            onLoadFinished(cursor)
+        } ?: emptyList()
         val prevKey = if (pageNumber > 0) pageNumber - 1 else null
         val nextKey = if (data.isEmpty()) null else pageNumber + 1
         Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
@@ -126,4 +123,12 @@ class TransactionPagingSource(
             nextKey = nextKey
         )
     }
+
+    open fun onLoadFinished(cursor: Cursor) = cursor.asSequence.map {
+        Transaction2.fromCursor(
+            context,
+            it,
+            (context.applicationContext as MyApplication).appComponent.currencyContext()
+        )
+    }.toList()
 }

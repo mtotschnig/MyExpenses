@@ -151,7 +151,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         return DecimalFormat("0.##").format(amount.toDouble())
     }
 
-    private fun launchAndWait(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
+    private fun launchAndWait(i: Intent) = ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
         activityScenario = it
     }
 
