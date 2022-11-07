@@ -134,7 +134,8 @@ fun TransactionList(
                         lazyPagingItems[index]?.let {
                             if (!isGroupHidden) {
                                 renderer.Render(
-                                    modifier = Modifier.animateItemPlacement()
+                                    modifier = Modifier
+                                        .animateItemPlacement()
                                         .conditional(it.date >= futureCriterionDate) {
                                             background(futureBackgroundColor)
                                         },
@@ -144,7 +145,9 @@ fun TransactionList(
                                 )
                             }
                         }
-                        if (isLast) GroupDivider() else Divider()
+                        if (isLast) {
+                            GroupDivider(modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.fab_related_bottom_padding)))
+                        } else Divider()
                     }
                 }
 
@@ -278,8 +281,8 @@ fun HeaderRenderer(
 }
 
 @Composable
-private fun GroupDivider() {
-    Divider(color = colorResource(id = R.color.emphasis))
+private fun GroupDivider(modifier: Modifier = Modifier) {
+    Divider(modifier = modifier, color = colorResource(id = R.color.emphasis))
 }
 
 val mainScreenPadding
