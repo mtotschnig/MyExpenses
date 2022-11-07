@@ -230,7 +230,10 @@ class MyExpensesViewModel(
     fun budgetData(account: PageAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
             contentResolver.observeQuery(
-                uri = BaseTransactionProvider.defaultBudgetAllocationUri(account.id, account.grouping),
+                uri = BaseTransactionProvider.defaultBudgetAllocationUri(
+                    account.id,
+                    account.grouping
+                ),
                 projection = arrayOf(
                     KEY_YEAR,
                     KEY_SECOND_GROUP,
@@ -582,8 +585,9 @@ class MyExpensesViewModel(
 
     suspend fun deferredLoad(): Boolean {
         return deferredAccountId?.let {
-                @OptIn(ExperimentalPagerApi::class)
-                accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }.takeIf { it != -1 }.let {
+            @OptIn(ExperimentalPagerApi::class)
+            accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }
+                .takeIf { it != -1 }.let {
                     pagerState.scrollToPage(it ?: 0)
                 }
             deferredAccountId = null
