@@ -587,9 +587,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
                         }
-                        if (viewModel.deferredLoad()) {
-                            setCurrentAccount()
-                        }
+                        viewModel.deferredLoad()
+                        setCurrentAccount()
                     } else {
                         setTitle(R.string.app_name)
                         toolbar.subtitle = null
