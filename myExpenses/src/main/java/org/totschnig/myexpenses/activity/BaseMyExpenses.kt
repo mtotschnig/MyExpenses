@@ -451,8 +451,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     result?.onSuccess { data ->
                         LaunchedEffect(Unit) {
                             toolbar.isVisible = true
-                            viewModel.onFirstLoad()
-                            setCurrentAccount()
                         }
                         AccountList(
                             accountData = data,
@@ -582,13 +580,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 LaunchedEffect(accountData) {
                     if (accountData.isNotEmpty()) {
                         currentAccount?.let {
-                            viewModel.sumInfo(it).collect {
-                                sumInfo = it
+                            lifecycleScope.launch {
+                                viewModel.sumInfo(it).collect {
+                                    sumInfo = it
+                                }
                             }
                         }
                     } else {
                         setTitle(R.string.app_name)
                         toolbar.subtitle = null
+                    }
+                    if (viewModel.deferredLoad()) {
+                        setCurrentAccount()
                     }
                 }
                 if (accountData.isNotEmpty()) {
@@ -1154,6 +1157,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 accountIds.size
                             )
                         )
+                        if (accountIds.any { it == accountId }) {
+                            accountId = 0
+                        }
+
                     }.onFailure {
                         if (it is AccountSealedException) {
                             showSnackBar(R.string.object_sealed_debt)
@@ -1345,7 +1352,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      */
     private fun setCurrentAccount() =
         accountData.getOrNull(viewModel.pagerState.currentPage)?.let { account ->
-            accountId = account.id
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintSystemUiAndFab(account.color(resources))
             setBalance(account)

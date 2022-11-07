@@ -64,7 +64,7 @@ class MyExpensesViewModel(
     @Inject
     lateinit var dataStore: DataStore<Preferences>
 
-    private var initialAccountId: Long? = null
+    private var deferredAccountId: Long? = null
 
     private fun showStatusHandleForAccountPrefKey(accountId: Long) =
         booleanPreferencesKey("showStatusHandle_$accountId")
@@ -112,23 +112,12 @@ class MyExpensesViewModel(
     var selectedAccount: Long
         get() = accountData.value?.getOrNull()?.getOrNull(pagerState.currentPage)?.id ?: 0
         set(value) {
-            accountData.value?.also {
-                if (it.isSuccess) {
-                    selectPage(value)
-                }
-            } ?: run {
-                initialAccountId = value
+            deferredAccountId = if (value > 0) {
+                value
+            } else {
+                accountData.value?.getOrNull()?.firstOrNull()?.id
             }
         }
-
-    private fun selectPage(accountId: Long) {
-        viewModelScope.launch {
-            @OptIn(ExperimentalPagerApi::class)
-            accountData.value!!.getOrThrow().indexOfFirst { it.id == accountId }.takeIf { it != -1 }?.let {
-                pagerState.scrollToPage(it)
-            }
-        }
-    }
 
     @OptIn(SavedStateHandleSaveableApi::class)
     val selectionState: MutableState<List<Transaction2>> =
@@ -591,11 +580,17 @@ class MyExpensesViewModel(
                 )
     }
 
-    fun onFirstLoad() {
-        initialAccountId?.let {
-            selectPage(it)
-            initialAccountId = null
-        }
+    fun deferredLoad(): Boolean {
+        return deferredAccountId?.let {
+            viewModelScope.launch {
+                @OptIn(ExperimentalPagerApi::class)
+                accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }.takeIf { it != -1 }.let {
+                    pagerState.scrollToPage(it ?: 0)
+                }
+            }
+            deferredAccountId = null
+            true
+        } ?: false
     }
 
     companion object {
