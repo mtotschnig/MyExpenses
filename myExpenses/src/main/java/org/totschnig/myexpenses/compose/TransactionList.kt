@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -73,7 +74,7 @@ fun TransactionList(
         )
     }
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
-    val collapsedIds = expansionHandler.collapsedIds().value
+    val collapsedIds = expansionHandler.collapsedIds.collectAsState(initial = null).value
 
     if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
         Text(
@@ -95,7 +96,7 @@ fun TransactionList(
             for (index in 0 until lazyPagingItems.itemCount) {
                 val item = lazyPagingItems.peek(index)
                 val headerId = item?.let { headerData.calculateGroupId(it) }
-                val isGroupHidden = collapsedIds.contains(headerId.toString())
+                val isGroupHidden = collapsedIds?.contains(headerId.toString()) ?: false
                 if (headerId !== null && headerId != lastHeader) {
                     stickyHeader(key = headerId) {
                         headerData.groups[headerId]

@@ -81,13 +81,9 @@ class MyExpensesViewModel(
 
     fun expansionHandler(key: String) = object : ExpansionHandler {
         val collapsedIdsPrefKey = stringSetPreferencesKey(key)
-        private val collapsedIds: Flow<Set<String>> = dataStore.data.map { preferences ->
+        override val collapsedIds: Flow<Set<String>> = dataStore.data.map { preferences ->
             preferences[collapsedIdsPrefKey] ?: emptySet()
         }
-
-        @Composable
-        override fun collapsedIds(): State<Set<String>> =
-            collapsedIds.collectAsState(initial = emptySet())
 
         override fun toggle(id: String) {
             viewModelScope.launch {
