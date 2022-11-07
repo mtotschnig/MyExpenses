@@ -107,7 +107,7 @@ class MyExpensesViewModel(
     var selectedAccount: Long
         get() = accountData.value?.getOrNull()?.getOrNull(pagerState.currentPage)?.id ?: 0
         set(value) {
-            deferredAccountId = if (value > 0) {
+            deferredAccountId = if (value != 0L) {
                 value
             } else {
                 accountData.value?.getOrNull()?.firstOrNull()?.id
