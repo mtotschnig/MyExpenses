@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.flowlayout.FlowRow
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -189,7 +190,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     @Composable
     protected fun StatusToggle(transaction: Transaction2) {
         onToggleCrStatus?.let {
-            if (transaction.crStatus != CrStatus.VOID) {
+            if (transaction.crStatus != CrStatus.VOID && transaction.accountType != AccountType.CASH) {
                 Box(modifier = Modifier
                     .size(32.dp)
                     .clickable { it(transaction.id) }

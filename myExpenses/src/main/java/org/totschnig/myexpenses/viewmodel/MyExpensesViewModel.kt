@@ -66,17 +66,16 @@ class MyExpensesViewModel(
 
     private var deferredAccountId: Long? = null
 
-    private fun showStatusHandleForAccountPrefKey(accountId: Long) =
-        booleanPreferencesKey("showStatusHandle_$accountId")
+    private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
 
-    fun showStatusHandleForAccount(accountId: Long) =
+    fun showStatusHandle() =
         dataStore.data.map { preferences ->
-            preferences[showStatusHandleForAccountPrefKey(accountId)] ?: false
+            preferences[showStatusHandlePrefKey] ?: true
         }
 
-    suspend fun persistShowStatusHandleForAccount(accountId: Long, showStatus: Boolean) {
+    suspend fun persistShowStatusHandle(showStatus: Boolean) {
         dataStore.edit { preference ->
-            preference[showStatusHandleForAccountPrefKey(accountId)] = showStatus
+            preference[showStatusHandlePrefKey] = showStatus
         }
     }
 
@@ -583,16 +582,15 @@ class MyExpensesViewModel(
                 )
     }
 
-    suspend fun deferredLoad(): Boolean {
-        return deferredAccountId?.let {
+    suspend fun deferredLoad() {
+        deferredAccountId?.let {
             @OptIn(ExperimentalPagerApi::class)
             accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }
                 .takeIf { it != -1 }.let {
                     pagerState.scrollToPage(it ?: 0)
                 }
             deferredAccountId = null
-            true
-        } ?: false
+        }
     }
 
     companion object {

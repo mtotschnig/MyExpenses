@@ -321,7 +321,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (item.itemId == R.id.SHOW_STATUS_HANDLE_COMMAND) {
             currentAccount?.let {
                 lifecycleScope.launch {
-                    viewModel.persistShowStatusHandleForAccount(it.id, !item.isChecked)
+                    viewModel.persistShowStatusHandle(!item.isChecked)
                     invalidateOptionsMenu()
                 }
             }
@@ -635,7 +635,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         val showStatusHandle = if (account.type == AccountType.CASH)
             false
         else
-            viewModel.showStatusHandleForAccount(account.id).collectAsState(initial = false).value
+            viewModel.showStatusHandle().collectAsState(initial = true).value
 
         val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
             {
@@ -1294,7 +1294,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.let {
                     Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable)
                     lifecycleScope.launch {
-                        it.isChecked = viewModel.showStatusHandleForAccount(this@with.id).first()
+                        it.isChecked = viewModel.showStatusHandle().first()
                     }
                 }
 
