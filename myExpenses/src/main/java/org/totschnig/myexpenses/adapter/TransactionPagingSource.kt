@@ -28,7 +28,7 @@ import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
 
-const val LOAD_SIZE = 200
+const val LOAD_SIZE = 50
 
 open class TransactionPagingSource(
     val context: Context,

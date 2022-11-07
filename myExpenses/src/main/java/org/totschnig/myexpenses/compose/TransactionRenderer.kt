@@ -66,7 +66,9 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         return buildAnnotatedString {
             if (isTransfer) {
                 accountLabel?.let { append("$it ") }
-                append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+                if (forLegacy || accountLabel != null) {
+                    append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+                }
                 label?.let { append(it) }
             } else if (isSplit) {
                 append(context.getString(R.string.split_transaction))
@@ -256,7 +258,7 @@ class LegacyTransactionRenderer(
             text = description,
             icons = secondaryInfo.second
         )
-        ColoredAmountText(money = transaction.amount)
+        ColoredAmountText(money = transaction.amount, neutral = transaction.isTransferAggregate)
     }
 
     override fun Modifier.height() = this.height(IntrinsicSize.Min)
@@ -271,7 +273,7 @@ class NewTransactionRenderer(
         val context = LocalContext.current
         val primaryInfo = transaction.buildPrimaryInfo(context, false)
         val secondaryInfo = transaction.buildSecondaryInfo(context, false)
-        Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.size(30.sp).padding(end = 8.dp), contentAlignment = Alignment.Center) {
             when {
                 transaction.isSplit -> androidx.compose.material.Icon(
                     imageVector = Icons.Filled.CallSplit,
@@ -279,7 +281,7 @@ class NewTransactionRenderer(
                     modifier = Modifier.fillMaxSize()
                 )
                 transaction.isTransfer -> CharIcon(
-                    char = Transfer.getIndicatorCharForLabel(
+                    char = if(transaction.accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
                         transaction.amount.amountMinor > 0
                     )
                 )
@@ -312,7 +314,7 @@ class NewTransactionRenderer(
 
         }
         Column(horizontalAlignment = Alignment.End) {
-            ColoredAmountText(money = transaction.amount, style = MaterialTheme.typography.body1)
+            ColoredAmountText(money = transaction.amount, style = MaterialTheme.typography.body1, neutral = transaction.isTransferAggregate)
             dateTimeFormatter?.let {
                 Text(text = it.format(transaction.date), style = MaterialTheme.typography.caption)
             }
@@ -321,6 +323,9 @@ class NewTransactionRenderer(
 
     override fun Modifier.height() = this.heightIn(min = 48.dp)
 }
+
+val Transaction2.isTransferAggregate
+    get() = isTransfer && accountLabel != null
 
 enum class RenderType {
     Legacy, New

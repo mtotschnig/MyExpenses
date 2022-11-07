@@ -60,19 +60,22 @@ fun ColoredAmountText(
     textAlign: TextAlign? = null,
     withBorder: Boolean = false,
     prefix: String = "",
-    postFix: String = ""
+    postFix: String = "",
+    neutral: Boolean = false
 ) {
     val color = when {
+        neutral -> Color.Unspecified
         money.amountMinor > 0 -> LocalColors.current.income
         money.amountMinor < 0 -> LocalColors.current.expense
         else -> Color.Unspecified
     }
+    val amount = if (neutral) money.amountMajor.abs() else money.amountMajor
     Text(
         modifier = if (withBorder) modifier.amountBorder(color) else modifier,
         fontWeight = fontWeight,
         textAlign = textAlign,
         style = style,
-        text = prefix + LocalCurrencyFormatter.current.formatMoney(money) + postFix,
+        text = prefix + LocalCurrencyFormatter.current.formatCurrency(amount, money.currencyUnit) + postFix,
         color = color
     )
 }
