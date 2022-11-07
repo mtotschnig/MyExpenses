@@ -13,7 +13,8 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/SEARCH_COMMAND"
@@ -92,8 +93,8 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@id/SHOW_STATUS_HANDLE_COMMAND"
-        android:orderInCategory="19"
         android:checkable="true"
+        android:orderInCategory="19"
         android:title="@string/status"
         app:showAsAction="never" />
     <item
@@ -125,4 +126,25 @@
         android:orderInCategory="30"
         android:title="@string/menu_print"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/MANAGE_ACCOUNTS_COMMAND"
+        android:orderInCategory="40"
+        app:showAsAction="never"
+        android:title="TODO">
+        <menu>
+            <item
+                android:id="@id/EDIT_ACCOUNT_COMMAND"
+                android:title="@string/menu_edit" />
+            <item
+                android:id="@id/DELETE_ACCOUNT_COMMAND"
+                android:title="@string/menu_delete" />
+            <item
+                android:id="@id/HIDE_ACCOUNT_COMMAND"
+                android:title="@string/menu_hide" />
+            <item
+                android:id="@id/TOGGLE_SEALED_COMMAND"
+                tools:ignore="MenuTitle" />
+        </menu>
+    </item>
+
 </menu>

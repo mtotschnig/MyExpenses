@@ -198,4 +198,8 @@
     <item name="ROLLOVER_EDIT" type="id" />
     <item name="ROLLOVER_CLEAR" type="id" />
     <item name="SAFE_MODE_COMMAND" type="id" />
+    <item name="EDIT_ACCOUNT_COMMAND" type="id" />
+    <item name="DELETE_ACCOUNT_COMMAND" type="id" />
+    <item name="HIDE_ACCOUNT_COMMAND" type="id" />
+    <item name="TOGGLE_SEALED_COMMAND" type="id" />
 </resources>

@@ -465,9 +465,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                             onEdit = {
                                 closeDrawer()
-                                startActivityForResult(Intent(this, AccountEdit::class.java).apply {
-                                    putExtra(KEY_ROWID, it)
-                                }, EDIT_ACCOUNT_REQUEST)
+                                editAccount(it)
                             },
                             onDelete = {
                                 closeDrawer()
@@ -476,8 +474,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             onHide = {
                                 viewModel.setAccountVisibility(true, it)
                             },
-                            onToggleSealed = { id, isSealed ->
-                                setAccountSealed(id, isSealed)
+                            onToggleSealed = {
+                                toggleAccountSealed(it)
                             },
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
@@ -559,6 +557,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 drawer.addDrawerListener(it)
             }
         }
+    }
+
+    private fun editAccount(accountId: Long) {
+        startActivityForResult(Intent(this, AccountEdit::class.java).apply {
+            putExtra(KEY_ROWID, accountId)
+        }, EDIT_ACCOUNT_REQUEST)
+
     }
 
     @Composable
@@ -1217,11 +1222,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                 }
             }
-            R.id.SYNC_COMMAND -> {
-                currentAccount?.takeIf { it.syncAccountName != null }?.let {
-                    requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
-                }
+            R.id.SYNC_COMMAND -> currentAccount?.takeIf { it.syncAccountName != null }?.let {
+                requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
             }
+            R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it.id) }
+            R.id.DELETE_ACCOUNT_COMMAND -> currentAccount?.let { confirmAccountDelete(it) }
+            R.id.HIDE_ACCOUNT_COMMAND -> currentAccount?.let {
+                viewModel.setAccountVisibility(true, it.id)
+            }
+            R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
             else -> return false
         }
         return true
@@ -1289,17 +1298,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
 
                 menu.findItem(R.id.BALANCE_COMMAND)?.let {
-                    Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable)
+                    Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable && !isAggregate)
                 }
+
                 menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.let {
                     Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable)
-                    lifecycleScope.launch {
-                        it.isChecked = viewModel.showStatusHandle().first()
+                    if (reconciliationAvailable) {
+                        lifecycleScope.launch {
+                            it.isChecked = viewModel.showStatusHandle().first()
+                        }
                     }
                 }
 
                 menu.findItem(R.id.SYNC_COMMAND)?.let {
                     Utils.menuItemSetEnabledAndVisible(it, syncAccountName != null)
+                }
+
+                menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.let {
+                    Utils.menuItemSetEnabledAndVisible(it, !isAggregate)
+                    if (!isAggregate) {
+                        it.title = label
+                        it.subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
+                            if (sealed) R.string.menu_reopen else R.string.menu_close
+                        )
+                    }
                 }
             }
             filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
@@ -1315,7 +1337,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 R.id.SORT_DIRECTION_COMMAND,
                 R.id.PRINT_COMMAND,
                 R.id.GROUPING_COMMAND,
-                R.id.SHOW_STATUS_HANDLE_COMMAND
+                R.id.SHOW_STATUS_HANDLE_COMMAND,
+                R.id.MANAGE_ACCOUNTS_COMMAND
             )) {
                 Utils.menuItemSetEnabledAndVisible(menu.findItem(item), false)
             }
@@ -1536,44 +1559,40 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun confirmAccountDelete(accountId: Long) {
-        viewModel.account(accountId, once = true).observe(this) { account ->
-            MessageDialogFragment.newInstance(
-                resources.getQuantityString(
-                    R.plurals.dialog_title_warning_delete_account,
-                    1,
-                    1
-                ),
-                getString(
-                    R.string.warning_delete_account,
-                    account.label
-                ) + " " + getString(R.string.continue_confirmation),
-                MessageDialogFragment.Button(
-                    R.string.menu_delete,
-                    R.id.DELETE_ACCOUNT_COMMAND_DO,
-                    longArrayOf(accountId)
-                ),
-                null,
-                MessageDialogFragment.noButton(), 0
-            )
-                .show(supportFragmentManager, "DELETE_ACCOUNT")
-        }
+    private fun confirmAccountDelete(account: FullAccount) {
+        MessageDialogFragment.newInstance(
+            resources.getQuantityString(
+                R.plurals.dialog_title_warning_delete_account,
+                1,
+                1
+            ),
+            getString(
+                R.string.warning_delete_account,
+                account.label
+            ) + " " + getString(R.string.continue_confirmation),
+            MessageDialogFragment.Button(
+                R.string.menu_delete,
+                R.id.DELETE_ACCOUNT_COMMAND_DO,
+                longArrayOf(accountId)
+            ),
+            null,
+            MessageDialogFragment.noButton(), 0
+        )
+            .show(supportFragmentManager, "DELETE_ACCOUNT")
     }
 
-    private fun setAccountSealed(accountId: Long, isSealed: Boolean) {
-        if (isSealed) {
-            viewModel.account(accountId, once = true).observe(this) { account ->
-                if (account.syncAccountName == null) {
-                    viewModel.setSealed(accountId, true)
-                } else {
-                    showSnackBar(
-                        getString(R.string.warning_synced_account_cannot_be_closed),
-                        Snackbar.LENGTH_LONG, null, null, binding.accountPanel.accountList
-                    )
-                }
-            }
-        } else {
+    private fun toggleAccountSealed(account: FullAccount) {
+        if (account.sealed) {
             viewModel.setSealed(accountId, false)
+        } else {
+            if (account.syncAccountName == null) {
+                viewModel.setSealed(accountId, true)
+            } else {
+                showSnackBar(
+                    getString(R.string.warning_synced_account_cannot_be_closed),
+                    Snackbar.LENGTH_LONG, null, null, binding.accountPanel.accountList
+                )
+            }
         }
     }
 
