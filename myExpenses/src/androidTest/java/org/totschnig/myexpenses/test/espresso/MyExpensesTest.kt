@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
-import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
@@ -166,7 +165,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     private fun clickContextItem(@StringRes resId: Int, position: Int = 1) {
-        clickContextItem(resId, composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS), position)
+        clickContextItem(resId, composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS), position, onLongClick = true)
     }
 
     @Test

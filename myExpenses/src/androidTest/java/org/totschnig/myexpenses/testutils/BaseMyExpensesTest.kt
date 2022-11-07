@@ -8,6 +8,7 @@ import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.click
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -30,7 +31,7 @@ import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
-abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
+abstract class BaseMyExpensesTest : BaseUiTest<MyExpenses>() {
     private val countingResource = CountingIdlingResource("CheckSealed")
     private var transactionPagingIdlingResource: IdlingResource? = null
     lateinit var activityScenario: ActivityScenario<out MyExpenses>
@@ -48,7 +49,8 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
             })
         activityScenario.onActivity { activity: MyExpenses ->
             (activity as? TestMyExpenses)?.let {
-                it.decoratedCheckSealedHandler = DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
+                it.decoratedCheckSealedHandler =
+                    DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
                 transactionPagingIdlingResource = it.countingResource
                 IdlingRegistry.getInstance().register(transactionPagingIdlingResource)
             }
@@ -82,13 +84,23 @@ abstract class BaseMyExpensesTest: BaseUiTest<MyExpenses>() {
         command?.let { clickMenuItem(it, true) }
     }
 
-    fun clickContextItem(@StringRes resId: Int, node: SemanticsNodeInteraction = listNode, position: Int = 0) {
-        node.onChildren()[position].performClick()
+    fun clickContextItem(
+        @StringRes resId: Int,
+        node: SemanticsNodeInteraction = listNode,
+        position: Int = 0,
+        onLongClick: Boolean = false
+    ) {
+        node.onChildren()[position].performTouchInput {
+            if (onLongClick) longClick() else click()
+        }
         composeTestRule.onNodeWithText(getString(resId)).performClick()
     }
 
     fun assertTextAtPosition(text: String, position: Int, substring: Boolean = true) {
-        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren()[position].assertTextContains(text, substring = substring)
+        composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren()[position].assertTextContains(
+            text,
+            substring = substring
+        )
     }
 
     @After
