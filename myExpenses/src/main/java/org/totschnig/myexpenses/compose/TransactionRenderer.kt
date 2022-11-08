@@ -384,7 +384,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
     override val values = sequenceOf(
         Transaction2(
             id = -1,
-            date = ZonedDateTime.now(),
+            _date = System.currentTimeMillis() / 1000,
             amount = Money(CurrencyUnit.DebugInstance, 7000),
             methodLabel = "CHEQUE",
             referenceNumber = "1",
@@ -402,7 +402,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
         ),
         Transaction2(
             id = -1,
-            date = ZonedDateTime.now(),
+            _date = System.currentTimeMillis() / 1000,
             amount = Money(CurrencyUnit.DebugInstance, 7000),
             accountId = -1,
             catId = SPLIT_CATID,

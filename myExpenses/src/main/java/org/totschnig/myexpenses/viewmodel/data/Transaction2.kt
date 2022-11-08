@@ -34,8 +34,8 @@ import java.time.ZonedDateTime
 @Immutable
 data class Transaction2(
     val id: Long,
-    val date: ZonedDateTime,
-    val valueDate: ZonedDateTime = date,
+    val _date: Long,
+    val _valueDate: Long = _date,
     val amount: Money,
     val comment: String? = null,
     val catId: Long? = null,
@@ -70,6 +70,12 @@ data class Transaction2(
 
     val isTransfer: Boolean
         get() = transferPeer != null
+
+    val date: ZonedDateTime
+        get() = epoch2ZonedDateTime(_date)
+
+    val valueDate: ZonedDateTime
+        get() = epoch2ZonedDateTime(_valueDate)
 
     /**
      * pair of localized label and icon
@@ -132,17 +138,15 @@ data class Transaction2(
             val currencyUnit = currencyContext.get(cursor.getString(KEY_CURRENCY))
             val amountRaw = cursor.getLong(KEY_AMOUNT)
             val money = Money(currencyUnit, amountRaw)
-            val date: Long = cursor.getLong(KEY_DATE)
-            val valueDate: Long = cursor.getLong(KEY_VALUE_DATE)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
 
             return Transaction2(
                 id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
                 amount = money,
-                date = epoch2ZonedDateTime(date),
-                valueDate = epoch2ZonedDateTime(valueDate),
+                _date = cursor.getLong(KEY_DATE),
+                _valueDate = cursor.getLong(KEY_VALUE_DATE),
                 comment = cursor.getStringOrNull(KEY_COMMENT),
-                catId = cursor.getLongOrNull( KEY_CATID),
+                catId = cursor.getLongOrNull(KEY_CATID),
                 payee = cursor.getStringOrNull(KEY_PAYEE_NAME),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
                 label = cursor.getStringOrNull(KEY_LABEL),

@@ -764,7 +764,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             dateTimeFormatterLegacy(account, prefHandler, this@BaseMyExpenses),
                             onToggleCrStatus
                         )
-                    }
+                    },
+                    scrollToCurrentDate = prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)
                 )
             }
         }

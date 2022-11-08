@@ -5,10 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -30,18 +32,45 @@ import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.localDateTime2Epoch
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
+
+private fun LazyPagingItems<Transaction2>.getCurrentPosition(sortDirection: SortDirection): Int {
+    when(sortDirection) {
+        SortDirection.ASC -> {
+            val startOfToday = localDateTime2Epoch(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS))
+            for (index in itemCount - 1 downTo  0) {
+                if (get(index)!!._date <= startOfToday) {
+                    return index
+                }
+            }
+        }
+        SortDirection.DESC -> {
+           val endOfDay = localDateTime2Epoch(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1))
+            for (index in 0 until itemCount) {
+                if (get(index)!!._date < endOfDay) {
+                    return index
+                }
+            }
+        }
+    }
+    return 0
+}
 
 const val COMMENT_SEPARATOR = " / "
 
@@ -62,6 +91,7 @@ fun TransactionList(
     expansionHandler: ExpansionHandler,
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
+    scrollToCurrentDate: Boolean = false,
     renderer: ItemRenderer
 ) {
     val pager = remember(pagingSourceFactory) {
@@ -85,11 +115,20 @@ fun TransactionList(
     } else {
         val futureBackgroundColor = colorResource(id = R.color.future_background)
         val showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
-        LazyColumn(modifier = modifier
-            .testTag(TEST_TAG_LIST)
-            .semantics {
-                collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
-            }) {
+        val listState = rememberLazyListState()
+        if (scrollToCurrentDate && lazyPagingItems.itemCount > 1) {
+            LaunchedEffect(lazyPagingItems.itemCount) {
+                listState.scrollToItem(lazyPagingItems.getCurrentPosition(sortDirection = headerData.account.sortDirection))
+            }
+        }
+        LazyColumn(
+            modifier = modifier
+                .testTag(TEST_TAG_LIST)
+                .semantics {
+                    collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
+                },
+            state = listState
+            ) {
 
             var lastHeader: Int? = null
 
@@ -103,7 +142,8 @@ fun TransactionList(
                             ?.let { headerRow ->
                                 // reimplement DbConstants.budgetColumn outside of Database
                                 val budget = budgetData.value?.let { data ->
-                                    (data.data.find { it.headerId == headerId } ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId })?.let {
+                                    (data.data.find { it.headerId == headerId }
+                                        ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId })?.let {
                                         data.budgetId to it.amount
                                     }
                                 }
@@ -128,7 +168,8 @@ fun TransactionList(
                 val isLast = index == lazyPagingItems.itemCount - 1
                 val futureCriterionDate = when (futureCriterion) {
                     FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
-                    FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
+                    FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay()
+                        .atZone(ZoneId.systemDefault())
                 }
                 if (!isGroupHidden || isLast) {
                     item(key = item?.id) {
@@ -214,7 +255,7 @@ fun HeaderData(
                 text = delta
             )
             if (!showOnlyDelta) {
-                Text( " = " + amountFormatter.formatMoney(headerRow.interimBalance))
+                Text(" = " + amountFormatter.formatMoney(headerRow.interimBalance))
             }
         }
         if (showSumDetailsState.value) {
@@ -231,8 +272,10 @@ fun HeaderData(
                     text = "⊖ " + amountFormatter.formatMoney(headerRow.expenseSum),
                     color = LocalColors.current.expense
                 )
-                Text(Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
-                    color = LocalColors.current.transfer)
+                Text(
+                    Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
+                    color = LocalColors.current.transfer
+                )
             }
         }
     }
@@ -273,7 +316,14 @@ fun HeaderRenderer(
                     fontSize = 12.sp,
                     color = Color(account.color(LocalContext.current.resources))
                 )
-                HeaderData(account.grouping, headerRow, dateInfo, showSumDetails, showOnlyDelta, alignStart = true)
+                HeaderData(
+                    account.grouping,
+                    headerRow,
+                    dateInfo,
+                    showSumDetails,
+                    showOnlyDelta,
+                    alignStart = true
+                )
             }
         } else {
             HeaderData(account.grouping, headerRow, dateInfo, showSumDetails, showOnlyDelta)
