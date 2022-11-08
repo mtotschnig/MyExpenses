@@ -67,7 +67,7 @@ fun TransactionList(
     val pager = remember(pagingSourceFactory) {
         Pager(
             PagingConfig(
-                pageSize = 100,
+                pageSize = 50,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = pagingSourceFactory

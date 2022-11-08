@@ -28,7 +28,7 @@ import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
 
-const val LOAD_SIZE = 50
+const val LOAD_SIZE = 100
 
 open class TransactionPagingSource(
     val context: Context,
@@ -115,7 +115,7 @@ open class TransactionPagingSource(
             onLoadFinished(cursor)
         } ?: emptyList()
         val prevKey = if (pageNumber > 0) pageNumber - 1 else null
-        val nextKey = if (data.isEmpty()) null else pageNumber + 1
+        val nextKey = if (data.size < LOAD_SIZE) null else pageNumber + 1
         Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
         return LoadResult.Page(
             data = data,

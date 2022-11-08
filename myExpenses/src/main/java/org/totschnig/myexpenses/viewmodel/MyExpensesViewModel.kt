@@ -188,15 +188,6 @@ class MyExpensesViewModel(
         .map { result -> result.map { it.second } }
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
-    fun loadData(account: PageAccount): () -> TransactionPagingSource {
-        return {
-            TransactionPagingSource(
-                localizedContext, account,
-                filterPersistence.getValue(account.id).whereFilterAsFlow, viewModelScope
-            )
-        }
-    }
-
     @OptIn(ExperimentalCoroutinesApi::class)
     fun headerData(account: PageAccount): Flow<HeaderData> =
         filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
