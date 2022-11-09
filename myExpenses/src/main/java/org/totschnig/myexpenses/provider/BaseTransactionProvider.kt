@@ -74,7 +74,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @Inject
     lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
 
-    lateinit var wrappedContext: Context
+    val wrappedContext: Context
+        get() = userLocaleProvider.wrapContext(context!!)
 
     private var shouldLog = false
 
@@ -580,7 +581,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         MyApplication.getInstance().appComponent.inject(this)
         shouldLog = prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
-        wrappedContext = userLocaleProvider.wrapContext(context!!)
         initOpenHelper()
         return true
     }
