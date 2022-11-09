@@ -23,7 +23,8 @@ open class UserLocaleProviderImpl(private val prefHandler: PrefHandler, override
         }
 
     override fun wrapContext(context: Context): Context =
-        ContextHelper.wrap(context, getUserPreferredLocale())
+        if (getPreferredLanguage() == MyApplication.DEFAULT_LANGUAGE) context else
+            ContextHelper.wrap(context, getUserPreferredLocale())
 
     override fun getLocalCurrency(context: Context) =
         Utils.getCountryFromTelephonyManager(context)?.let {
