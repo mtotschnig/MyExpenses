@@ -232,17 +232,6 @@ public class MyExpenses extends BaseMyExpenses implements
       i = new Intent(this, ManageTemplates.class);
       startActivity(i);
       return true;
-    } else if (command == R.id.CREATE_ACCOUNT_COMMAND) {
-      if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || getAccountCount() < ContribFeature.FREE_ACCOUNTS) {
-        closeDrawer();
-        i = new Intent(this, AccountEdit.class);
-        if (tag != null)
-          i.putExtra(KEY_CURRENCY, (String) tag);
-        startActivityForResult(i, CREATE_ACCOUNT_REQUEST);
-      } else {
-        showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null);
-      }
-      return true;
     } else if (command == R.id.SHARE_COMMAND) {
       i = new Intent();
       i.setAction(Intent.ACTION_SEND);

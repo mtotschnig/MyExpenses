@@ -55,8 +55,8 @@ class MyExpensesViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
 
-    private val hiddenAccountsInternal: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val hasHiddenAccounts: StateFlow<Boolean> = hiddenAccountsInternal
+    private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
+    val hasHiddenAccounts: StateFlow<Int> = hiddenAccountsInternal
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
@@ -182,7 +182,7 @@ class MyExpensesViewModel(
             FullAccount.fromCursor(it, currencyContext)
         }.onEach { result ->
             result.onSuccess { pair ->
-                hiddenAccountsInternal.value = pair.first.getInt(KEY_COUNT) > 0
+                hiddenAccountsInternal.value = pair.first.getInt(KEY_COUNT)
             }
         }
         .map { result -> result.map { it.second } }

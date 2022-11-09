@@ -477,7 +477,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun hiddenAccountCount(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
-        putInt(KEY_COUNT, db.query("select exists (select 1 from $TABLE_ACCOUNTS where $KEY_HIDDEN = 1)").use {
+        putInt(KEY_COUNT, db.query("select count(*) from $TABLE_ACCOUNTS where $KEY_HIDDEN = 1").use {
             it.moveToFirst()
             it.getInt(0) }
         )

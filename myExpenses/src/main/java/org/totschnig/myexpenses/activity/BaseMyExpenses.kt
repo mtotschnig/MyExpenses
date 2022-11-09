@@ -55,7 +55,6 @@ import eltos.simpledialogfragment.list.MenuDialog
 import icepick.State
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
@@ -340,7 +339,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (accountId == HOME_AGGREGATE_ID) {
                     viewModel.persistSortDirectionHomeAggregate(newSortDirection)
                 } else if (accountId < 0) {
-                    viewModel.persistSortDirectionAggregate(currentAccount!!.currency.code, newSortDirection)
+                    viewModel.persistSortDirectionAggregate(
+                        currentAccount!!.currency.code,
+                        newSortDirection
+                    )
                 } else {
                     viewModel.persistSortDirection(accountId, newSortDirection)
                 }
@@ -439,7 +441,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.hasHiddenAccounts.collect { result ->
-                    navigationView.menu.findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).isVisible = result
+                    navigationView.menu.findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).isVisible =
+                        result > 0
                 }
             }
         }
@@ -625,14 +628,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    open fun buildTransactionPagingSourceFactory(account: PageAccount): () -> TransactionPagingSource = {
-        TransactionPagingSource(
-            this,
-            account,
-            viewModel.filterPersistence.getValue(account.id).whereFilterAsFlow,
-            lifecycleScope
-        )
-    }
+    open fun buildTransactionPagingSourceFactory(account: PageAccount): () -> TransactionPagingSource =
+        {
+            TransactionPagingSource(
+                this,
+                account,
+                viewModel.filterPersistence.getValue(account.id).whereFilterAsFlow,
+                lifecycleScope
+            )
+        }
 
     @Composable
     fun PagerScope.Page(
@@ -1120,6 +1124,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.CREATE_ACCOUNT_COMMAND -> {
+                if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
+                    || accountCount + viewModel.hasHiddenAccounts.value < ContribFeature.FREE_ACCOUNTS
+                ) {
+                    closeDrawer()
+                    startActivityForResult(Intent(this, AccountEdit::class.java).apply {
+                        if (tag != null) putExtra(KEY_CURRENCY, tag as String?)
+                    }, CREATE_ACCOUNT_REQUEST)
+                } else {
+                    showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
+                }
+            }
             R.id.SAFE_MODE_COMMAND -> {
                 prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
                 viewModel.triggerAccountListRefresh()
