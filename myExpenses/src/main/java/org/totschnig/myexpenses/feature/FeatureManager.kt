@@ -8,6 +8,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import java.util.*
@@ -56,24 +58,40 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
     }
 
     sealed class SyncBackend(labelResId: Int, moduleName: String) :
-        Feature(labelResId, moduleName)
-
-    sealed class OcrEngine(labelResId: Int, moduleName: String) :
         Feature(labelResId, moduleName) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
-            OCR.canUninstall(context, prefHandler) ||
-            getUserConfiguredOcrEngine(context, prefHandler) != this
+            GenericAccountService.getAccountNames(context).none {
+                it.startsWith(
+                    BackendService.values().first { it.feature == this }.label
+                )
+            }
     }
-
-    sealed class MlkitProcessor(labelResId: Int, moduleName: String) :
-        Feature(labelResId, moduleName)
 
     object OCR : Feature(R.string.title_scan_receipt_feature, "ocr") {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             !prefHandler.getBoolean(PrefKey.OCR, false)
     }
 
-    object WEBUI : Feature(R.string.title_webui, "webui")
+    sealed class OcrEngine(labelResId: Int, moduleName: String) :
+        Feature(labelResId, moduleName) {
+        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
+            OCR.canUninstall(context, prefHandler) ||
+                    getUserConfiguredOcrEngine(context, prefHandler) != this
+    }
+
+    sealed class MlkitProcessor(labelResId: Int, moduleName: String) :
+        Feature(labelResId, moduleName) {
+        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
+            OCR.canUninstall(context, prefHandler) ||
+                    MLKIT.canUninstall(context, prefHandler) ||
+                    getUserConfiguredMlkitScriptModule(context, prefHandler) != this
+    }
+
+    object WEBUI : Feature(R.string.title_webui, "webui") {
+        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
+            !prefHandler.getBoolean(PrefKey.UI_WEB, false)
+    }
+
     object TESSERACT : OcrEngine(R.string.title_tesseract, "tesseract")
     object MLKIT : OcrEngine(R.string.title_mlkit, "mlkit")
     object DEVA : MlkitProcessor(R.string.title_mlkit_deva, "mlkit_deva")
