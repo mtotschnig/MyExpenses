@@ -256,7 +256,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     private fun configureUninstallPrefs() {
         configureMultiSelectListPref(
             PrefKey.FEATURE_UNINSTALL_FEATURES,
-            featureManager.installedFeatures().filterTo(HashSet()) { it != "drive" },
+            featureManager.installedFeatures(requireContext(), prefHandler),
             featureManager::uninstallFeatures
         ) { module ->
             Feature.fromModuleName(module)?.let { getString(it.labelResId) } ?: module
