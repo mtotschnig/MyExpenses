@@ -17,6 +17,10 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -145,6 +149,25 @@ class MyExpensesViewModel(
             }
         }
     }
+
+    val items: Map<PageAccount, Flow<PagingData<Transaction2>>> =
+        lazyMap {
+            Pager(
+                PagingConfig(
+                    initialLoadSize = 150,
+                    pageSize = 150,
+                    prefetchDistance = 1,
+                    enablePlaceholders = true
+                ),
+                pagingSourceFactory = {
+                    TransactionPagingSource(
+                        getApplication(),
+                        it,
+                        filterPersistence.getValue(it.id).whereFilterAsFlow,
+                        viewModelScope
+                    )
+                }).flow.cachedIn(viewModelScope)
+        }
 
     @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
     val pagerState = savedStateHandle.saveable("pagerState",

@@ -659,9 +659,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             } else null
 
-            val data: () -> TransactionPagingSource = remember(account) {
-                buildTransactionPagingSourceFactory(account)
-            }
             val headerData = remember(account) { viewModel.headerData(account) }
             if (index == currentPage) {
                 LaunchedEffect(selectionState.size) {
@@ -687,7 +684,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 headerData.collectAsState(null).value?.let { headerData ->
                     TransactionList(
                         modifier = Modifier.weight(1f),
-                        pagingSourceFactory = data,
+                        pageFlow = viewModel.items.getValue(account),
                         headerData = headerData,
                         budgetData = viewModel.budgetData(account).collectAsState(null),
                         selectionHandler = object : SelectionHandler {

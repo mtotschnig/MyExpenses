@@ -11,11 +11,9 @@ import android.os.Looper
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -27,8 +25,6 @@ import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
-
-const val LOAD_SIZE = 100
 
 open class TransactionPagingSource(
     val context: Context,
@@ -54,13 +50,14 @@ open class TransactionPagingSource(
         }
         val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean) {
+                Timber.i("Data changed for account %d, now invalidating", account.id)
                 invalidate()
                 contentResolver.unregisterContentObserver(this)
             }
         }
         contentResolver.registerContentObserver(
             TransactionProvider.TRANSACTIONS_URI,
-            true,
+            false,
             observer
         )
         coroutineScope.launch {
@@ -71,13 +68,21 @@ open class TransactionPagingSource(
     }
 
     override fun getRefreshKey(state: PagingState<Int, Transaction2>): Int? {
-        return null
+        val result = state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.let { page ->
+                Timber.i("Calculating refreshKey for anchorPosition %d: page %s", anchorPosition, page)
+                page.itemsBefore
+            }
+        }
+        Timber.i("Calculating refreshKey for anchorPosition %d: %d", state.anchorPosition, result)
+        return result
+
     }
 
     @SuppressLint("InlinedApi")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
-        val pageNumber = params.key ?: 0
-        Timber.i("Requesting pageNumber for account %d: %d", account.id, pageNumber)
+        val position = params.key ?: 0
+        Timber.i("Requesting data for account %d at position %d", account.id, position)
         if (!whereFilter.value.isEmpty) {
             val selectionForParents =
                 whereFilter.value.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
@@ -95,11 +100,11 @@ open class TransactionPagingSource(
             uri.buildUpon()
                 .appendQueryParameter(
                     ContentResolver.QUERY_ARG_LIMIT,
-                    LOAD_SIZE.toString()
+                    params.loadSize.toString()
                 )
                 .appendQueryParameter(
                     ContentResolver.QUERY_ARG_OFFSET,
-                    (pageNumber * LOAD_SIZE).toString()
+                    position.toString()
                 )
                 .build(),
             projection,
@@ -114,13 +119,14 @@ open class TransactionPagingSource(
             }
             onLoadFinished(cursor)
         } ?: emptyList()
-        val prevKey = if (pageNumber > 0) pageNumber - 1 else null
-        val nextKey = if (data.size < LOAD_SIZE) null else pageNumber + 1
+        val prevKey = if (position > 0) (position - params.loadSize).coerceAtLeast(0) else null
+        val nextKey = if (data.size < params.loadSize) null else position + params.loadSize
         Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
         return LoadResult.Page(
             data = data,
             prevKey = prevKey,
-            nextKey = nextKey
+            nextKey = nextKey,
+            itemsBefore = position
         )
     }
 

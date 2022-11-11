@@ -29,11 +29,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -42,6 +41,7 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.localDateTime2Epoch
 import org.totschnig.myexpenses.viewmodel.data.*
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -82,7 +82,7 @@ enum class FutureCriterion {
 @Composable
 fun TransactionList(
     modifier: Modifier,
-    pagingSourceFactory: () -> PagingSource<Int, Transaction2>,
+    pageFlow: Flow<PagingData<Transaction2>>,
     headerData: HeaderData,
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler,
@@ -94,16 +94,9 @@ fun TransactionList(
     scrollToCurrentDate: Boolean = false,
     renderer: ItemRenderer
 ) {
-    val pager = remember(pagingSourceFactory) {
-        Pager(
-            PagingConfig(
-                pageSize = 50,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = pagingSourceFactory
-        )
-    }
-    val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
+
+    val lazyPagingItems = pageFlow.collectAsLazyPagingItems()
+    Timber.i("collectAsLazyPagingItems %d", lazyPagingItems.itemCount)
     val collapsedIds = expansionHandler.collapsedIds.collectAsState(initial = null).value
 
     if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
