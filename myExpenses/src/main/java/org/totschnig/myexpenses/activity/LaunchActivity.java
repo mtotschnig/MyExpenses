@@ -6,6 +6,7 @@ import com.vmadalin.easypermissions.EasyPermissions;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -85,7 +86,7 @@ public abstract class LaunchActivity extends IapActivity {
 
   @Override
   public void onBillingSetupFinished() {
-    if (licenceHandler.getLicenceStatus() == null) {
+    if (!licenceHandler.hasAccessTo(ContribFeature.AD_FREE)) {
       checkGdprConsent(false);
     }
   }
