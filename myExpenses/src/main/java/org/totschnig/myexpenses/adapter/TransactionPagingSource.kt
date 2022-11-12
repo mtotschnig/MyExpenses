@@ -57,7 +57,7 @@ open class TransactionPagingSource(
         }
         contentResolver.registerContentObserver(
             TransactionProvider.TRANSACTIONS_URI,
-            false,
+            true,
             observer
         )
         coroutineScope.launch {
