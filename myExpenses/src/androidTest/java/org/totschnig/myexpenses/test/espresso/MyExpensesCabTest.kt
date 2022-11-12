@@ -58,8 +58,6 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         val templateTitle = "Espresso Template Test"
         assertListSize(origListSize)
         clickContextItem(R.string.menu_create_template_from_transaction)
-        Espresso.onView(ViewMatchers.withText(Matchers.containsString(getString(R.string.menu_create_template))))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.Title)).perform(
             ViewActions.closeSoftKeyboard(),
             ViewActions.typeText(templateTitle),
