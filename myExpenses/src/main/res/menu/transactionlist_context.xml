@@ -20,26 +20,26 @@
         android:icon="@drawable/ic_menu_delete"
         android:orderInCategory="20"
         android:title="@string/menu_delete"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@id/MAP_TAG_COMMAND"
         android:icon="@drawable/ic_action_tag"
         android:orderInCategory="30"
         android:title="@string/menu_tag"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
    <item
         android:id="@id/SPLIT_TRANSACTION_COMMAND"
         android:icon="@drawable/ic_menu_split_transaction"
         android:orderInCategory="40"
         android:title="@string/menu_split_transaction"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/REMAP_PARENT"
         android:orderInCategory="50"
         android:icon="@drawable/redo"
         android:title="@string/menu_remap"
-        app:showAsAction="ifRoom">
+        app:showAsAction="never">
         <menu>
             <item
                 android:id="@id/REMAP_CATEGORY_COMMAND"
@@ -60,5 +60,5 @@
         android:icon="@drawable/ic_hchain"
         android:orderInCategory="5"
         android:title="@string/menu_create_transfer"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
