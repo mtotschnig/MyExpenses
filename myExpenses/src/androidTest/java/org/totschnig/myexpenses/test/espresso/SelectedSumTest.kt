@@ -41,6 +41,12 @@ class SelectedSumTest : BaseMyExpensesTest() {
 
     @Test
     fun testSelectedSum() {
+        runTheTest()
+        clickMenuItem(R.id.action_mode_close_button)
+        runTheTest()
+    }
+
+    private fun runTheTest() {
         openCab(null)
         var sum = 12
         for (i in 2 until 6) {

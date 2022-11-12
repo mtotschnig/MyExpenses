@@ -174,8 +174,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     protected fun finishActionMode() {
         actionMode?.let {
             it.finish()
-            viewModel.selectedTransactionSum = 0L
         }
+        viewModel.selectedTransactionSum = 0L
     }
 
     private val formattedSelectedTransactionSum
