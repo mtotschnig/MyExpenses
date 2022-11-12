@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -50,26 +51,36 @@ import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
-private fun LazyPagingItems<Transaction2>.getCurrentPosition(sortDirection: SortDirection): Int {
-    when(sortDirection) {
+private fun LazyPagingItems<Transaction2>.getCurrentPosition(
+    startIndex: Int = 0,
+    sortDirection: SortDirection
+): Pair<Int?, Boolean> {
+    var index = startIndex
+    when (sortDirection) {
         SortDirection.ASC -> {
             val startOfToday = localDateTime2Epoch(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS))
-            for (index in itemCount - 1 downTo  0) {
-                if (get(index)!!._date <= startOfToday) {
-                    return index
+            while (index < itemCount) {
+                val transaction2 = get(index) ?: return null to true
+                if (transaction2._date > startOfToday) {
+                    return index to true
                 }
+                index++
             }
+            return index to false
         }
         SortDirection.DESC -> {
-           val endOfDay = localDateTime2Epoch(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1))
-            for (index in 0 until itemCount) {
-                if (get(index)!!._date < endOfDay) {
-                    return index
+            val endOfDay =
+                localDateTime2Epoch(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1))
+            while (index < itemCount) {
+                val transaction2 = get(index) ?: return null to true
+                if (transaction2._date < endOfDay) {
+                    return index to true
                 }
+                index++
             }
+            return index to false
         }
     }
-    return 0
 }
 
 const val COMMENT_SEPARATOR = " / "
@@ -109,84 +120,130 @@ fun TransactionList(
         val futureBackgroundColor = colorResource(id = R.color.future_background)
         val showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
         val listState = rememberLazyListState()
-        if (scrollToCurrentDate && lazyPagingItems.itemCount > 1) {
-            LaunchedEffect(lazyPagingItems.itemCount) {
-                listState.scrollToItem(lazyPagingItems.getCurrentPosition(sortDirection = headerData.account.sortDirection))
+        val scrollToCurrentDateStartIndex = remember {
+            mutableStateOf(
+                if (scrollToCurrentDate && listState.firstVisibleItemIndex == 0) 0 else null
+            )
+        }
+        val scrollToCurrentDateResultIndex = remember {
+            mutableStateOf(0)
+        }
+        LaunchedEffect(lazyPagingItems.loadState.append.endOfPaginationReached) {
+            if(lazyPagingItems.loadState.append.endOfPaginationReached) {
+                scrollToCurrentDateStartIndex.value?.let {
+                    scrollToCurrentDateResultIndex.value = it
+                    scrollToCurrentDateStartIndex.value = null
+                }
             }
         }
-        LazyColumn(
-            modifier = modifier
-                .testTag(TEST_TAG_LIST)
-                .semantics {
-                    collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
-                },
-            state = listState
+        if (lazyPagingItems.itemCount > 0) {
+            scrollToCurrentDateStartIndex.value?.let {
+                LaunchedEffect(lazyPagingItems.itemCount) {
+                    val scrollCalculationResult = lazyPagingItems.getCurrentPosition(
+                        startIndex = it,
+                        sortDirection = headerData.account.sortDirection
+                    )
+                    scrollToCurrentDateStartIndex.value =
+                        if (scrollCalculationResult.second || lazyPagingItems.loadState.append.endOfPaginationReached) {
+                            scrollToCurrentDateResultIndex.value = scrollCalculationResult.first ?: 0
+                            null
+                        } else scrollCalculationResult.first
+                }
+            }
+        }
+
+        if (scrollToCurrentDateStartIndex.value == null) {
+            LaunchedEffect(Unit) {
+                listState.scrollToItem(scrollToCurrentDateResultIndex.value)
+            }
+            LazyColumn(
+                modifier = modifier
+                    .testTag(TEST_TAG_LIST)
+                    .semantics {
+                        collectionInfo = CollectionInfo(lazyPagingItems.itemCount, 1)
+                    },
+                state = listState
             ) {
 
-            var lastHeader: Int? = null
+                var lastHeader: Int? = null
 
-            for (index in 0 until lazyPagingItems.itemCount) {
-                val item = lazyPagingItems.peek(index)
-                val headerId = item?.let { headerData.calculateGroupId(it) }
-                val isGroupHidden = collapsedIds?.contains(headerId.toString()) ?: false
-                if (headerId !== null && headerId != lastHeader) {
-                    stickyHeader(key = headerId) {
-                        headerData.groups[headerId]
-                            ?.let { headerRow ->
-                                // reimplement DbConstants.budgetColumn outside of Database
-                                val budget = budgetData.value?.let { data ->
-                                    (data.data.find { it.headerId == headerId }
-                                        ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId })?.let {
-                                        data.budgetId to it.amount
+                for (index in 0 until lazyPagingItems.itemCount) {
+                    val item = lazyPagingItems.peek(index)
+                    val headerId = item?.let { headerData.calculateGroupId(it) }
+                    val isGroupHidden = collapsedIds?.contains(headerId.toString()) ?: false
+                    if (headerId !== null && headerId != lastHeader) {
+                        stickyHeader(key = headerId) {
+                            headerData.groups[headerId]
+                                ?.let { headerRow ->
+                                    // reimplement DbConstants.budgetColumn outside of Database
+                                    val budget = budgetData.value?.let { data ->
+                                        (data.data.find { it.headerId == headerId }
+                                            ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId })?.let {
+                                            data.budgetId to it.amount
+                                        }
                                     }
-                                }
-                                HeaderRenderer(
-                                    account = headerData.account,
-                                    headerId = headerId,
-                                    headerRow = headerRow,
-                                    dateInfo = headerData.dateInfo,
-                                    budget = budget,
-                                    isExpanded = !isGroupHidden,
-                                    toggle = {
-                                        expansionHandler.toggle(headerId.toString())
-                                    },
-                                    onBudgetClick = onBudgetClick,
-                                    showSumDetails = showSumDetails,
-                                    showOnlyDelta = showOnlyDelta
-                                )
-                                Divider()
-                            }
-                    }
-                }
-                val isLast = index == lazyPagingItems.itemCount - 1
-                val futureCriterionDate = when (futureCriterion) {
-                    FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
-                    FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay()
-                        .atZone(ZoneId.systemDefault())
-                }
-                if (!isGroupHidden || isLast) {
-                    item(key = item?.id) {
-                        lazyPagingItems[index]?.let {
-                            if (!isGroupHidden) {
-                                renderer.Render(
-                                    modifier = Modifier
-                                        .animateItemPlacement()
-                                        .conditional(it.date >= futureCriterionDate) {
-                                            background(futureBackgroundColor)
+                                    HeaderRenderer(
+                                        account = headerData.account,
+                                        headerId = headerId,
+                                        headerRow = headerRow,
+                                        dateInfo = headerData.dateInfo,
+                                        budget = budget,
+                                        isExpanded = !isGroupHidden,
+                                        toggle = {
+                                            expansionHandler.toggle(headerId.toString())
                                         },
-                                    transaction = it,
-                                    selectionHandler = selectionHandler,
-                                    menuGenerator = menuGenerator
-                                )
-                            }
+                                        onBudgetClick = onBudgetClick,
+                                        showSumDetails = showSumDetails,
+                                        showOnlyDelta = showOnlyDelta
+                                    )
+                                    Divider()
+                                }
                         }
-                        if (isLast) {
-                            GroupDivider(modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.fab_related_bottom_padding)))
-                        } else Divider()
                     }
-                }
+                    val isLast = index == lazyPagingItems.itemCount - 1
+                    val futureCriterionDate = when (futureCriterion) {
+                        FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
+                        FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay()
+                            .atZone(ZoneId.systemDefault())
+                    }
+                    if (!isGroupHidden || isLast) {
+                        item(key = item?.id) {
+                            lazyPagingItems[index]?.let {
+                                if (!isGroupHidden) {
+                                    renderer.Render(
+                                        modifier = Modifier
+                                            .animateItemPlacement()
+                                            .conditional(it.date >= futureCriterionDate) {
+                                                background(futureBackgroundColor)
+                                            },
+                                        transaction = it,
+                                        selectionHandler = selectionHandler,
+                                        menuGenerator = menuGenerator
+                                    )
+                                }
+                            }
+                            if (isLast) {
+                                GroupDivider(
+                                    modifier = Modifier.padding(
+                                        bottom = dimensionResource(
+                                            id = R.dimen.fab_related_bottom_padding
+                                        )
+                                    )
+                                )
+                            } else Divider()
+                        }
+                    }
 
-                lastHeader = headerId
+                    lastHeader = headerId
+                }
+            }
+        } else {
+            Box(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Text(text = listOf(
+                    stringResource(id = R.string.pref_scroll_to_current_date_summary),
+                    stringResource(id = R.string.progress_dialog_loading),
+                    "(${scrollToCurrentDateStartIndex.value})"
+                ).joinToString("\n"), textAlign = TextAlign.Center)
             }
         }
     }

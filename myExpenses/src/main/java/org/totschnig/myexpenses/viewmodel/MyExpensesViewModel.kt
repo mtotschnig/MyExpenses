@@ -30,6 +30,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
@@ -154,8 +155,8 @@ open class MyExpensesViewModel(
         lazyMap {
             Pager(
                 PagingConfig(
-                    initialLoadSize = 150,
-                    pageSize = 150,
+                    initialLoadSize = if (BuildConfig.DEBUG) 1500 else 150,
+                    pageSize = if (BuildConfig.DEBUG) 1500 else 150,
                     prefetchDistance = 1,
                     enablePlaceholders = true
                 ),
