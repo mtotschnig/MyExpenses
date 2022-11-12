@@ -41,6 +41,7 @@ class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
                 result.getParcelableArrayList(KEY_TAG_LIST)!!,
                 result.getBoolean(KEY_REPLACE, false)
             )
+            finishActionMode()
         }
     }
 

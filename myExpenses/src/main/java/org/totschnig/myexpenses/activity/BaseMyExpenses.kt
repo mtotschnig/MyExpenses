@@ -174,7 +174,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             invalidateOptionsMenu()
         }
 
-    protected fun finishActionMode() {
+    fun finishActionMode() {
         actionMode?.let {
             it.finish()
         }
