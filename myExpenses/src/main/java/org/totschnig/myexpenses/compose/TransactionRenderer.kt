@@ -54,7 +54,6 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -188,15 +187,19 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     }
 
     @Composable
-    protected fun StatusToggle(transaction: Transaction2) {
+    protected fun Transaction2.StatusToggle() {
         onToggleCrStatus?.let {
-            if (transaction.crStatus != CrStatus.VOID && transaction.accountType != AccountType.CASH) {
-                Box(modifier = Modifier
-                    .size(32.dp)
-                    .clickable { it(transaction.id) }
-                    .padding(8.dp)
-                    .background(color = Color(transaction.crStatus.color)))
-            }
+            Box(modifier = Modifier
+                .size(32.dp)
+                .conditional((crStatus == CrStatus.UNRECONCILED || crStatus == CrStatus.CLEARED)
+                        && accountType != AccountType.CASH) {
+                    clickable { it(id) }
+                }
+                .padding(8.dp)
+                .conditional(crStatus != CrStatus.VOID && accountType != AccountType.CASH) {
+                    background(color = Color(crStatus.color))
+                }
+            )
         }
     }
 
@@ -251,7 +254,7 @@ class LegacyTransactionRenderer(
         dateTimeFormatter?.let {
             Text(text = it.format(transaction.date))
         }
-        StatusToggle(transaction)
+        transaction.StatusToggle()
         TextWithInlineContent(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
@@ -289,7 +292,7 @@ class NewTransactionRenderer(
                 else -> Icon(transaction.icon ?: "minus")
             }
         }
-        StatusToggle(transaction = transaction)
+        transaction.StatusToggle()
         Column(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
