@@ -35,6 +35,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -59,7 +60,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
-import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
@@ -137,13 +137,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @Inject
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
 
+    @Inject
+    lateinit var modelClass: Class<out MyExpensesViewModel>
+
     lateinit var toolbar: Toolbar
 
     private var drawerToggle: ActionBarDrawerToggle? = null
 
     private var currentBalance: String? = null
 
-    val viewModel: MyExpensesViewModel by viewModels()
+    lateinit var viewModel: MyExpensesViewModel
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
     private val exportViewModel: ExportViewModel by viewModels()
 
@@ -374,6 +377,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         super.onCreate(savedInstanceState)
         readAccountGroupingFromPref()
         accountSort = readAccountSortFromPref()
+        viewModel = ViewModelProvider(this)[modelClass]
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
             inject(upgradeHandlerViewModel)
@@ -627,16 +631,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
         }
     }
-
-    open fun buildTransactionPagingSourceFactory(account: PageAccount): () -> TransactionPagingSource =
-        {
-            TransactionPagingSource(
-                this,
-                account,
-                viewModel.filterPersistence.getValue(account.id).whereFilterAsFlow,
-                lifecycleScope
-            )
-        }
 
     @Composable
     fun PagerScope.Page(

@@ -54,7 +54,7 @@ import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
 import javax.inject.Inject
 
-class MyExpensesViewModel(
+open class MyExpensesViewModel(
     application: Application,
     private val savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
@@ -159,14 +159,9 @@ class MyExpensesViewModel(
                     prefetchDistance = 1,
                     enablePlaceholders = true
                 ),
-                pagingSourceFactory = {
-                    TransactionPagingSource(
-                        getApplication(),
-                        it,
-                        filterPersistence.getValue(it.id).whereFilterAsFlow,
-                        viewModelScope
-                    )
-                }).flow.cachedIn(viewModelScope)
+                pagingSourceFactory = buildTransactionPagingSourceFactory(it)
+            )
+                .flow.cachedIn(viewModelScope)
         }
 
     @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
@@ -178,6 +173,17 @@ class MyExpensesViewModel(
     ) {
         PagerState()
     }
+
+    open fun buildTransactionPagingSourceFactory(account: PageAccount): () -> TransactionPagingSource =
+        {
+            TransactionPagingSource(
+                getApplication(),
+                account,
+                filterPersistence.getValue(account.id).whereFilterAsFlow,
+                viewModelScope
+            )
+        }
+
 
     val currentFilter: FilterPersistence
         get() = filterPersistence.getValue(selectedAccount)

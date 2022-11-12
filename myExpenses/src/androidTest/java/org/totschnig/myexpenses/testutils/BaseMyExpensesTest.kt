@@ -51,7 +51,7 @@ abstract class BaseMyExpensesTest : BaseUiTest<MyExpenses>() {
             (activity as? TestMyExpenses)?.let {
                 it.decoratedCheckSealedHandler =
                     DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
-                transactionPagingIdlingResource = it.countingResource
+                transactionPagingIdlingResource = (it.viewModel as DecoratingMyExpensesViewModel).countingResource
                 IdlingRegistry.getInstance().register(transactionPagingIdlingResource)
             }
 
