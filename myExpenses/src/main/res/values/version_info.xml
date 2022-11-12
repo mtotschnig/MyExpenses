@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
-        <item>560;3.4.6</item>
+        <item>561;3.4.6</item>
         <item>554;3.4.5</item>
         <item>541;3.4.4</item>
         <item>538;3.4.3</item>
