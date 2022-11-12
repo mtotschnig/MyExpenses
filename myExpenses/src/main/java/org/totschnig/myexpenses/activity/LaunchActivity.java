@@ -73,9 +73,6 @@ public abstract class LaunchActivity extends IapActivity {
         }
       }
     }
-    if (licenceHandler.getLicenceStatus() == null) {
-      checkGdprConsent(false);
-    }
   }
 
   @Override
@@ -83,6 +80,13 @@ public abstract class LaunchActivity extends IapActivity {
     super.onPermissionsDenied(requestCode, perms);
     if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR && EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
       requireApplication().removePlanner();
+    }
+  }
+
+  @Override
+  public void onBillingSetupFinished() {
+    if (licenceHandler.getLicenceStatus() == null) {
+      checkGdprConsent(false);
     }
   }
 
