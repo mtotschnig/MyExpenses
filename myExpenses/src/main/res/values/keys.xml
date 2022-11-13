@@ -184,8 +184,6 @@
     <!-- User retrieving MyExpenses from a repository should not hit this message,
      so we leave it without localization -->
     <string name="error_accessing_market">No market application found</string>
-    <!-- only shown to users experimenting with restore, so no need for localization -->
-    <string name="restore_db_not_valid">BACKUP file is no valid SQLITE3 database.</string>
     <string name="restore_cannot_downgrade">You cannot restore a backup from a newer database schema version (%1$d). The current one is %2$d.</string>
     <string name="website">https://www.myexpenses.mobi</string>
 
