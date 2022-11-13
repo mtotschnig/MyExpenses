@@ -199,11 +199,13 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-                CategoryEdit(
-                    dialogState = viewModel.dialogState,
-                    onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
-                    onSave = viewModel::saveCategory
-                )
+                (viewModel.dialogState as? CategoryViewModel.Show)?.let {
+                    CategoryEdit(
+                        dialogState = it,
+                        onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
+                        onSave = viewModel::saveCategory
+                    )
+                }
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         when {
