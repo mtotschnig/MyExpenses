@@ -198,7 +198,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                 }
             } catch (e: SQLiteException) {
-                failureResult(R.string.restore_db_not_valid)
+                CrashHandler.report(e)
+                failureResult(e)
                 return@launch
             }
 
