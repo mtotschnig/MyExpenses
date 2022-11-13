@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.di
 
 import android.content.SharedPreferences
+import android.database.sqlite.SQLiteDatabase
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
@@ -15,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
+import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -59,8 +61,21 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
 
     @Singleton
     @Provides
-    open fun provideSQLiteOpenHelperFactory(): SupportSQLiteOpenHelper.Factory =
+    fun provideSQLiteOpenHelperFactory(): SupportSQLiteOpenHelper.Factory =
         if (frameWorkSqlite) FrameworkSQLiteOpenHelperFactory() else
             Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
                 .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
+
+    @Singleton
+    @Provides
+    fun providePeekHelper(): DatabaseVersionPeekHelper = if (frameWorkSqlite) {
+        object : DatabaseVersionPeekHelper {
+            override fun peekVersion(path: String) =
+                SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
+                    it.version
+                }
+        }
+    } else {
+       Class.forName("org.totschnig.requery.DatabaseVersionPeekHelper").kotlin.objectInstance as DatabaseVersionPeekHelper
+    }
 }

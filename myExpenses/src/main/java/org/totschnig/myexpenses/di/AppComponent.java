@@ -77,6 +77,7 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
 import org.totschnig.myexpenses.viewmodel.ShareViewModel;
@@ -293,5 +294,7 @@ public interface AppComponent {
   void inject(SyncAdapter syncAdapter);
 
   void inject(MyExpensesViewModel myExpensesViewModel);
+
+  void inject(RestoreViewModel restoreViewModel);
 
 }

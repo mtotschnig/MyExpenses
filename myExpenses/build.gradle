@@ -252,7 +252,7 @@ dependencies {
 
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
 
-    implementation "androidx.sqlite:sqlite-ktx:2.2.0"
+    implementation "androidx.sqlite:sqlite-ktx:$androidxSqlite"
 
     // dynamic feature module compilation fails with
     //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'

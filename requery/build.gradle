@@ -15,4 +15,6 @@ android {
 dependencies {
     implementation project(":myExpenses")
     implementation "com.github.requery:sqlite-android:$requery"
+    implementation "androidx.sqlite:sqlite-ktx:$androidxSqlite"
+
 }

@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentValues
 import android.content.OperationApplicationException
-import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.net.Uri
 import android.os.Bundle
@@ -29,6 +28,7 @@ import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
 import org.totschnig.myexpenses.provider.BACKUP_PREF_FILE_NAME
 import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -50,6 +50,7 @@ import java.io.IOException
 import java.io.PushbackInputStream
 import java.security.GeneralSecurityException
 import java.util.*
+import javax.inject.Inject
 
 class RestoreViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -57,6 +58,9 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
     private val _result: MutableStateFlow<Result<Unit>?> = MutableStateFlow(null)
     val publishProgress: SharedFlow<String?> = _publishProgress
     val result: StateFlow<Result<Unit>?> = _result
+
+    @Inject
+    lateinit var versionPeekHelper: DatabaseVersionPeekHelper
 
     private fun failureResult(throwable: Throwable) {
         _result.update {
@@ -183,19 +187,13 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
             //peek into file to inspect version
             try {
-                SQLiteDatabase.openDatabase(
-                    backupFile.path,
-                    null,
-                    SQLiteDatabase.OPEN_READONLY
-                ).use {
-                    val version = it.version
-                    if (version > DATABASE_VERSION) {
-                        failureResult(
-                            R.string.restore_cannot_downgrade,
-                            version, DATABASE_VERSION
-                        )
-                        return@launch
-                    }
+                val version = versionPeekHelper.peekVersion(backupFile.path)
+                if (version > DATABASE_VERSION) {
+                    failureResult(
+                        R.string.restore_cannot_downgrade,
+                        version, DATABASE_VERSION
+                    )
+                    return@launch
                 }
             } catch (e: SQLiteException) {
                 CrashHandler.report(e)

@@ -46,7 +46,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -1619,7 +1618,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   /**
    * Apply the given set of {@link ContentProviderOperation}, executing inside
-   * a {@link SQLiteDatabase} transaction. All changes will be rolled back if
+   * a transaction. All changes will be rolled back if
    * any single one fails.
    */
   @NonNull
