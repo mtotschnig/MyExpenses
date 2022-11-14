@@ -613,23 +613,23 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-
     fun handleAccountProperty(
         db: SupportSQLiteDatabase,
         uri: Uri,
         key: String
     ): Int {
-        val id: Long = uri.pathSegments[1].toLong()
-        val isAggregate = id < 0
+        val subject = uri.pathSegments[1]
+        val id: Long? = subject.toLongOrNull()
+        val isAggregate = id == null || id < 0
         val contentValues = ContentValues(1).apply {
             put(key, uri.pathSegments[2])
         }
         return db.update(
             if (isAggregate) TABLE_CURRENCIES else TABLE_ACCOUNTS,
             contentValues,
-            KEY_ROWID + " = ?",
+            (if (id == null) KEY_CODE else KEY_ROWID) + " = ?",
             arrayOf(
-                abs(id).toString()
+                if (id == null) subject else abs(id).toString()
             )
         )
     }
