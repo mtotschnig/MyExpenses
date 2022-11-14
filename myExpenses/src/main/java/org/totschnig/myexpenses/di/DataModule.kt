@@ -68,12 +68,11 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
 
     @Singleton
     @Provides
-    fun providePeekHelper(): DatabaseVersionPeekHelper = if (frameWorkSqlite) {
-        object : DatabaseVersionPeekHelper {
-            override fun peekVersion(path: String) =
-                SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
-                    it.version
-                }
+    open fun providePeekHelper(): DatabaseVersionPeekHelper = if (frameWorkSqlite) {
+        DatabaseVersionPeekHelper { path ->
+            SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
+                it.version
+            }
         }
     } else {
        Class.forName("org.totschnig.requery.DatabaseVersionPeekHelper").kotlin.objectInstance as DatabaseVersionPeekHelper

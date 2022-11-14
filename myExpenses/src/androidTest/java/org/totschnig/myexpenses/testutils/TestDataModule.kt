@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
@@ -26,4 +27,6 @@ object TestDataModule: DataModule() {
     override fun provideSharedPreferences(application: MyApplication, @Named(AppComponent.DATABASE_NAME) databaseName: String): SharedPreferences =
             application.getSharedPreferences(databaseName, Context.MODE_PRIVATE)
 
+    override fun providePeekHelper(): DatabaseVersionPeekHelper =
+        DatabaseVersionPeekHelper { 1 }
 }
