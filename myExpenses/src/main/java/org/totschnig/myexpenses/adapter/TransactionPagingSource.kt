@@ -11,9 +11,11 @@ import android.os.Looper
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -96,29 +98,31 @@ open class TransactionPagingSource(
             }
         }
         val startTime = if (BuildConfig.DEBUG) Instant.now() else null
-        val data = contentResolver.query(
-            uri.buildUpon()
-                .appendQueryParameter(
-                    ContentResolver.QUERY_ARG_LIMIT,
-                    params.loadSize.toString()
-                )
-                .appendQueryParameter(
-                    ContentResolver.QUERY_ARG_OFFSET,
-                    position.toString()
-                )
-                .build(),
-            projection,
-            "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
-            selectionArgs,
-            "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
-        )?.use { cursor ->
-            if (BuildConfig.DEBUG) {
-                val endTime = Instant.now()
-                val duration = Duration.between(startTime, endTime)
-                Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
-            }
-            onLoadFinished(cursor)
-        } ?: emptyList()
+        val data = withContext(Dispatchers.IO) {
+            contentResolver.query(
+                uri.buildUpon()
+                    .appendQueryParameter(
+                        ContentResolver.QUERY_ARG_LIMIT,
+                        params.loadSize.toString()
+                    )
+                    .appendQueryParameter(
+                        ContentResolver.QUERY_ARG_OFFSET,
+                        position.toString()
+                    )
+                    .build(),
+                projection,
+                "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
+                selectionArgs,
+                "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
+            )?.use { cursor ->
+                if (BuildConfig.DEBUG) {
+                    val endTime = Instant.now()
+                    val duration = Duration.between(startTime, endTime)
+                    Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
+                }
+                onLoadFinished(cursor)
+            } ?: emptyList()
+        }
         val prevKey = if (position > 0) (position - params.loadSize).coerceAtLeast(0) else null
         val nextKey = if (data.size < params.loadSize) null else position + params.loadSize
         Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)

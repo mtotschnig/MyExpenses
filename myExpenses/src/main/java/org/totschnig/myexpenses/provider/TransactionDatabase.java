@@ -824,20 +824,21 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
   }
 
-/*  private void insertTestData(SQLiteDatabase db, int countGroup, int countChild) {
-    long date = System.currentTimeMillis() / 1000;
-    int categories = MoreDbUtilsKt.setupDefaultCategories(db, mCtx.getResources()).getFirst();
+/*  private void insertTestData(SupportSQLiteDatabase db, int countGroup, int countChild) {
+    int dayInSeconds = 60 * 60 * 24;
+    long date = System.currentTimeMillis() / 1000 + dayInSeconds * 500;
+    int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.getInstance().getResources()).getFirst();
     for (int i = 1; i <= countGroup; i++) {
-      AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.CASH, 0);
-      long testAccountId = db.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
+      AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.BANK, 0);
+      long testAccountId = db.insert(DatabaseConstants.TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
         long catId = j % categories;
-        long payeeId = db.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
-        date -= 60 * 60 * 24;
+        long payeeId = db.insert(DatabaseConstants.TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
+        date -= dayInSeconds;
         TransactionInfo transactionInfo = new TransactionInfo("Transaction " + j, new Date(date * 1000), 0, testAccountId, payeeId, null, catId);
-        db.insertOrThrow(
+        db.insert(
             DatabaseConstants.TABLE_TRANSACTIONS,
-            null,
+            CONFLICT_NONE,
             transactionInfo.getContentValues()
         );
       }
