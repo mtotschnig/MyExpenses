@@ -156,8 +156,13 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ACCOUNT_EXCHANGE_RATE_URI =
       Uri.parse("content://" + AUTHORITY + "/account_exchangerates");
 
+  public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
+  public static final String URI_SEGMENT_GROUPING = "accountGrouping";
+
+  public static final Uri SORT_DIRECTION_URI =
+          Uri.parse("content://" + AUTHORITY + "/" + URI_SEGMENT_SORT_DIRECTION);
   public static final Uri ACCOUNT_GROUPINGS_URI =
-      Uri.parse("content://" + AUTHORITY + "/account_groupings");
+      Uri.parse("content://" + AUTHORITY + "/" + URI_SEGMENT_GROUPING);
 
   public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
 
@@ -186,7 +191,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
-  public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
+
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS = "fullProjectionWithSums";
@@ -282,7 +287,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int SETTINGS = 43;
   private static final int TEMPLATES_UNCOMMITTED = 44;
   private static final int ACCOUNT_ID_GROUPING = 45;
-  private static final int ACCOUNT_ID_SORTDIRECTION = 46;
+  private static final int ACCOUNT_ID_SORT_DIRECTION = 46;
   private static final int AUTOFILL = 47;
   private static final int ACCOUNT_EXCHANGE_RATE = 48;
   private static final int UNSPLIT = 49;
@@ -1484,20 +1489,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         break;
       case ACCOUNT_ID_GROUPING: {
-        segment = uri.getPathSegments().get(1);
-        long id = Long.parseLong(segment);
-        boolean isAggregate = id < 0;
-        ContentValues contentValues = new ContentValues(1);
-        contentValues.put(KEY_GROUPING, uri.getPathSegments().get(2));
-        count = MoreDbUtilsKt.update(db, isAggregate ? TABLE_CURRENCIES : TABLE_ACCOUNTS, contentValues,
-            KEY_ROWID + " = ?", new String[]{String.valueOf(Math.abs(id))});
+        count = handleAccountProperty(db, uri, KEY_GROUPING);
         break;
       }
-      case ACCOUNT_ID_SORTDIRECTION: {
-        segment = uri.getPathSegments().get(1);
-        ContentValues contentValues = new ContentValues(1);
-        contentValues.put(KEY_SORT_DIRECTION, uri.getPathSegments().get(3));
-        count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
+      case ACCOUNT_ID_SORT_DIRECTION: {
+        count = handleAccountProperty(db, uri, KEY_SORT_DIRECTION);
         break;
       }
       case UNSPLIT: {
@@ -1586,7 +1582,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         uriMatch != TEMPLATES_INCREASE_USAGE) {
       notifyChange(uri, false);
     }
-    if (uriMatch == ACCOUNT_ID_GROUPING) {
+    if (uriMatch == ACCOUNT_ID_GROUPING || uriMatch == ACCOUNT_ID_SORT_DIRECTION) {
       notifyChange(ACCOUNTS_URI, false);
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
@@ -1723,8 +1719,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accountsbase", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
-    URI_MATCHER.addURI(AUTHORITY, "account_groupings/*/*", ACCOUNT_ID_GROUPING);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/" + URI_SEGMENT_SORT_DIRECTION + "/*", ACCOUNT_ID_SORTDIRECTION);
+    URI_MATCHER.addURI(AUTHORITY, URI_SEGMENT_GROUPING + "/*/*", ACCOUNT_ID_GROUPING);
+    URI_MATCHER.addURI(AUTHORITY, URI_SEGMENT_SORT_DIRECTION + "/*/*", ACCOUNT_ID_SORT_DIRECTION);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);

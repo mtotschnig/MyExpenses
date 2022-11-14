@@ -33,13 +33,13 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
 import java.io.File
 import java.time.Duration
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.math.abs
 
 fun Uri.Builder.appendBooleanQueryParameter(key: String): Uri.Builder =
     appendQueryParameter(key, "1")
@@ -260,7 +260,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",
                         "null AS $KEY_UUID",
-                        "'DESC' AS $KEY_SORT_DIRECTION",
+                        "$TABLE_CURRENCIES.$KEY_SORT_DIRECTION",
                         "1 AS $KEY_EXCHANGE_RATE",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
@@ -294,6 +294,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 val qb = SupportSQLiteQueryBuilder.builder(joinWithAggregates)
 
                 val grouping = prefHandler.getString(AggregateAccount.GROUPING_AGGREGATE, "NONE")
+                val sortDirection = prefHandler.getString(
+                    AggregateAccount.SORT_DIRECTION_PREF_PREFIX +
+                            AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, "DESC")
                 val rowIdColumn = Account.HOME_AGGREGATE_ID.toString() + " AS " + KEY_ROWID
                 val labelColumn = "'${wrappedContext.getString(R.string.grand_total)}' AS $KEY_LABEL"
                 val currencyColumn =
@@ -322,7 +325,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",
                         "null AS $KEY_UUID",
-                        "'DESC' AS $KEY_SORT_DIRECTION",
+                        "'$sortDirection' AS $KEY_SORT_DIRECTION",
                         "1 AS $KEY_EXCHANGE_RATE",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
@@ -594,4 +597,25 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 override fun getExtras() = extras
             }
         }
+
+
+    fun handleAccountProperty(
+        db: SupportSQLiteDatabase,
+        uri: Uri,
+        key: String
+    ): Int {
+        val id: Long = uri.pathSegments[1].toLong()
+        val isAggregate = id < 0
+        val contentValues = ContentValues(1).apply {
+            put(key, uri.pathSegments[2])
+        }
+        return db.update(
+            if (isAggregate) TABLE_CURRENCIES else TABLE_ACCOUNTS,
+            contentValues,
+            KEY_ROWID + " = ?",
+            arrayOf(
+                abs(id).toString()
+            )
+        )
+    }
 }

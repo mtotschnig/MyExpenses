@@ -22,7 +22,7 @@ public class AggregateAccount extends Account {
   public static final int AGGREGATE_HOME = 2;
   public static final String AGGREGATE_HOME_CURRENCY_CODE = "___";
   public final static String GROUPING_AGGREGATE = "AGGREGATE_GROUPING____";
-  private final static String SORT_DIRECTION_PREF_PREFIX = "AGGREGATE_SORT_DIRECTION_";
+  public final static String SORT_DIRECTION_AGGREGATE = "AGGREGATE_SORT_DIRECTION____";
 
   /**
    * @param c Cursor positioned at the row we want to extract into the object
@@ -40,7 +40,7 @@ public class AggregateAccount extends Account {
     try {
       //TODO refactor
       this.setSortDirection(SortDirection.valueOf(MyApplication.getInstance().getSettings().getString(
-          SORT_DIRECTION_PREF_PREFIX + getKeyForPreference(), SortDirection.DESC.name())));
+            SORT_DIRECTION_AGGREGATE, SortDirection.DESC.name())));
     } catch (IllegalArgumentException ignored) {
     }
   }
@@ -113,24 +113,12 @@ public class AggregateAccount extends Account {
     return base;
   }
 
-  private String getKeyForPreference() {
-    if (isHomeAggregate()) {
-      return AGGREGATE_HOME_CURRENCY_CODE;
-    } else {
-      return getCurrencyUnit().getCode();
-    }
-  }
-
   public static void persistGroupingHomeAggregate(@NonNull PrefHandler prefHandler, @NonNull Grouping grouping) {
     prefHandler.putString(GROUPING_AGGREGATE, grouping.name());
   }
 
-  public static void persistSortDirectionAggregate(@NonNull PrefHandler prefHandler, @NonNull String currency, @NonNull SortDirection value) {
-    prefHandler.putString(SORT_DIRECTION_PREF_PREFIX + currency, value.name());
-  }
-
   public static void persistSortDirectionHomeAggregate(@NonNull PrefHandler prefHandler, @NonNull SortDirection value) {
-    prefHandler.putString(SORT_DIRECTION_PREF_PREFIX + AGGREGATE_HOME_CURRENCY_CODE, value.name());
+    prefHandler.putString(SORT_DIRECTION_AGGREGATE + AGGREGATE_HOME_CURRENCY_CODE, value.name());
   }
 
 }

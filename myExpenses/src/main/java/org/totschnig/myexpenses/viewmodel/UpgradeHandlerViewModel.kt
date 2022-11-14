@@ -289,6 +289,23 @@ class UpgradeHandlerViewModel(application: Application) :
                 )
             }
 
+            if (fromVersion < 563) {
+                settings.all.entries.filter { it.key.startsWith("AGGREGATE_SORT_DIRECTION_") }
+                    .forEach { (key, value) ->
+                        val currencyIdAsString = key.split('_').last()
+                        if (currencyIdAsString != AGGREGATE_HOME_CURRENCY_CODE) {
+                            (value as? String)?.let {
+                                contentResolver.update(
+                                    SORT_DIRECTION_URI.buildUpon()
+                                        .appendEncodedPath(currencyIdAsString)
+                                        .appendPath(value).build(),
+                                    null, null, null
+                                )
+                            }
+                        }
+                    }
+            }
+
             if (upgradeInfoList.isNotEmpty()) {
                 postNextUpgradeInfo()
             }

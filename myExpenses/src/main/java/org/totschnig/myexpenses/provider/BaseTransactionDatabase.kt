@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 132
+const val DATABASE_VERSION = 133
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -266,6 +266,12 @@ abstract class BaseTransactionDatabase :
 
     fun upgradeTo131(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE budgets add column is_default boolean default 0")
+    }
+
+    fun upgradeTo133(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "ALTER TABLE currency add column sort_direction text not null check (sort_direction  in ('ASC','DESC')) default 'DESC'"
+        )
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {

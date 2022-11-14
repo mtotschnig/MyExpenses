@@ -309,21 +309,21 @@ open class MyExpensesViewModel(
 
     fun persistSortDirection(accountId: Long, sortDirection: SortDirection) {
         viewModelScope.launch(context = coroutineContext()) {
-            contentResolver.update(
-                ContentUris.withAppendedId(Account.CONTENT_URI, accountId).buildUpon()
-                    .appendPath(URI_SEGMENT_SORT_DIRECTION)
-                    .appendPath(sortDirection.name).build(),
-                null, null, null
-            )
+            if (accountId == Account.HOME_AGGREGATE_ID) {
+                persistSortDirectionHomeAggregate(sortDirection)
+                triggerAccountListRefresh()
+            } else {
+                contentResolver.update(
+                    ContentUris.withAppendedId(SORT_DIRECTION_URI, accountId)
+                        .buildUpon()
+                        .appendPath(sortDirection.name).build(),
+                    null, null, null
+                )
+            }
         }
     }
 
-    fun persistSortDirectionAggregate(currency: String, sortDirection: SortDirection) {
-        AggregateAccount.persistSortDirectionAggregate(prefHandler, currency, sortDirection)
-        triggerAccountListRefresh()
-    }
-
-    fun persistSortDirectionHomeAggregate(sortDirection: SortDirection) {
+    private fun persistSortDirectionHomeAggregate(sortDirection: SortDirection) {
         AggregateAccount.persistSortDirectionHomeAggregate(prefHandler, sortDirection)
         triggerAccountListRefresh()
     }

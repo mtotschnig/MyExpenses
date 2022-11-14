@@ -353,6 +353,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + " (" + KEY_ROWID + " integer primary key autoincrement, " +
           KEY_CODE + " text UNIQUE not null," +
           KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "'," +
+          KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC'," +
           KEY_LABEL + " text);";
 
   /**
@@ -2237,6 +2238,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 132) {
         createOrRefreshViews(db);
       }
+      if (oldVersion < 133) {
+        upgradeTo131(db);
+      }
+
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
