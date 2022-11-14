@@ -5,12 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -102,28 +103,27 @@ fun TransactionList(
     expansionHandler: ExpansionHandler,
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
-    scrollToCurrentDate: Boolean = false,
-    renderer: ItemRenderer
+    scrollToCurrentDate: MutableState<Boolean>,
+    renderer: ItemRenderer,
+    listState: LazyListState
 ) {
 
     val lazyPagingItems = pageFlow.collectAsLazyPagingItems()
-    Timber.i("collectAsLazyPagingItems %d", lazyPagingItems.itemCount)
     val collapsedIds = expansionHandler.collapsedIds.collectAsState(initial = null).value
 
-    if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh != LoadState.Loading) {
-        Text(
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
-        )
+    if (lazyPagingItems.itemCount == 0) {
+        if (lazyPagingItems.loadState.refresh != LoadState.Loading) {
+            Text(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(), text = stringResource(id = R.string.no_expenses)
+            )
+        }
     } else {
         val futureBackgroundColor = colorResource(id = R.color.future_background)
         val showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
-        val listState = rememberLazyListState()
         val scrollToCurrentDateStartIndex = remember {
-            mutableStateOf(
-                if (scrollToCurrentDate && listState.firstVisibleItemIndex == 0) 0 else null
-            )
+            mutableStateOf(if (scrollToCurrentDate.value) 0 else null)
         }
         val scrollToCurrentDateResultIndex = remember {
             mutableStateOf(0)
@@ -153,8 +153,11 @@ fun TransactionList(
         }
 
         if (scrollToCurrentDateStartIndex.value == null) {
-            LaunchedEffect(Unit) {
-                listState.scrollToItem(scrollToCurrentDateResultIndex.value)
+            if (scrollToCurrentDate.value) {
+                LaunchedEffect(Unit) {
+                    listState.scrollToItem(scrollToCurrentDateResultIndex.value)
+                    scrollToCurrentDate.value = false
+                }
             }
             LazyColumn(
                 modifier = modifier

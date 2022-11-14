@@ -770,10 +770,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 onToggleCrStatus
                             )
                         },
-                        scrollToCurrentDate = prefHandler.getBoolean(
-                            PrefKey.SCROLL_TO_CURRENT_DATE,
-                            false
-                        )
+                        scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
+                        listState = viewModel.listState.getValue(account.id)
                     )
                 }
             }

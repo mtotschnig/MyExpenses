@@ -7,6 +7,7 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
 import androidx.datastore.core.DataStore
@@ -197,6 +198,16 @@ open class MyExpensesViewModel(
                 savedInstanceState = null,
                 immediatePersist = true,
                 restoreFromPreferences = true
+            )
+        }
+
+    val listState: Map<Long, LazyListState> =
+        lazyMap { LazyListState(0, 0) }
+
+    val scrollToCurrentDate: Map<Long, MutableState<Boolean>> =
+        lazyMap {
+            mutableStateOf(
+                prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)
             )
         }
 

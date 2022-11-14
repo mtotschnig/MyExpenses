@@ -120,7 +120,9 @@ open class TransactionPagingSource(
                     val duration = Duration.between(startTime, endTime)
                     Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
                 }
-                onLoadFinished(cursor)
+                withContext(Dispatchers.Main) {
+                    onLoadFinished(cursor)
+                }
             } ?: emptyList()
         }
         val prevKey = if (position > 0) (position - params.loadSize).coerceAtLeast(0) else null
