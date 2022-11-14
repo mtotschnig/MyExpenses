@@ -13,6 +13,7 @@ import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
@@ -21,7 +22,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-open class DataModule(private val frameWorkSqlite: Boolean = false) {
+open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) {
     @Provides
     @Named(AppComponent.DATABASE_NAME)
     @Singleton
