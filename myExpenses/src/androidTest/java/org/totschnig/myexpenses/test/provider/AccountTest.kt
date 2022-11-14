@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.SORT_DIRECTION_URI
 import org.totschnig.myexpenses.testutils.CursorSubject.Companion.assertThat
 
 class AccountTest {
@@ -357,7 +358,8 @@ class AccountTest {
             ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, id)
 
         resolver.update(
-            accountIdUri.buildUpon().appendPath("sortDirection").appendPath(SortDirection.ASC.name)
+            ContentUris.withAppendedId(SORT_DIRECTION_URI, id)
+                .buildUpon().appendPath(SortDirection.ASC.name)
                 .build(),
             null, null, null
         )

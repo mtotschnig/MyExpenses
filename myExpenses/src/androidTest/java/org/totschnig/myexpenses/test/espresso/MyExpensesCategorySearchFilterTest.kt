@@ -53,11 +53,7 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         op.catId = categoryId1Sub
         op.date = op.date - 10000
         id1Sub = ContentUris.parseId(op.saveAsNew())
-    }
-
-    @Before
-    fun startSearch() {
-        launch()
+        launch(account.id)
         allLabelsAreDisplayed()
         Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withText(R.string.category)).perform(ViewActions.click())

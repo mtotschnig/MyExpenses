@@ -25,30 +25,29 @@ import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 import org.junit.After
 import org.junit.Rule
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
-abstract class BaseMyExpensesTest : BaseUiTest<MyExpenses>() {
+abstract class BaseMyExpensesTest : BaseUiTest<TestMyExpenses>() {
     private val countingResource = CountingIdlingResource("CheckSealed")
     private var transactionPagingIdlingResource: IdlingResource? = null
-    lateinit var activityScenario: ActivityScenario<out MyExpenses>
+    lateinit var activityScenario: ActivityScenario<TestMyExpenses>
 
-    override val testScenario: ActivityScenario<out MyExpenses>
+    override val testScenario: ActivityScenario<TestMyExpenses>
         get() = activityScenario
 
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
-    fun launch(id: Long? = null, clazz: Class<out MyExpenses> = MyExpenses::class.java) {
+    fun launch(id: Long? = null) {
         activityScenario = ActivityScenario.launch(
-            Intent(targetContext, clazz).apply {
+            Intent(targetContext, TestMyExpenses::class.java).apply {
                 putExtra(DatabaseConstants.KEY_ROWID, id)
             })
-        activityScenario.onActivity { activity: MyExpenses ->
-            (activity as? TestMyExpenses)?.let {
+        activityScenario.onActivity { activity ->
+            activity?.let {
                 it.decoratedCheckSealedHandler =
                     DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
                 transactionPagingIdlingResource = (it.viewModel as DecoratingMyExpensesViewModel).countingResource

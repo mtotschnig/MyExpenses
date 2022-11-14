@@ -1,6 +1,12 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertContentDescriptionEquals
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -10,9 +16,12 @@ import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.util.Utils
 
@@ -34,7 +43,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             op0.date = op0.date - 10000
             op0.saveAsNew()
         }
-        launch(account.id, TestMyExpenses::class.java)
+        launch(account.id)
     }
 
     @Test
