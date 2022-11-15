@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.testutils
 
 import android.app.Application
 import android.content.Context
-import android.database.Cursor
 import androidx.core.util.Pair
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
@@ -87,8 +86,7 @@ class DecoratedTransactionPagingSource(
         return super.load(params)
     }
 
-    override fun onLoadFinished(cursor: Cursor): List<Transaction2> {
+    override fun onLoadFinished() {
         countingIdlingResource.decrement()
-        return super.onLoadFinished(cursor)
     }
 }

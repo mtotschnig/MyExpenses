@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.database.ContentObserver
-import android.database.Cursor
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -121,10 +120,17 @@ open class TransactionPagingSource(
                     Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
                 }
                 withContext(Dispatchers.Main) {
-                    onLoadFinished(cursor)
+                    cursor.asSequence.map {
+                        Transaction2.fromCursor(
+                            context,
+                            it,
+                            (context.applicationContext as MyApplication).appComponent.currencyContext()
+                        )
+                    }.toList()
                 }
             } ?: emptyList()
         }
+        onLoadFinished()
         val prevKey = if (position > 0) (position - params.loadSize).coerceAtLeast(0) else null
         val nextKey = if (data.size < params.loadSize) null else position + params.loadSize
         Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
@@ -136,11 +142,5 @@ open class TransactionPagingSource(
         )
     }
 
-    open fun onLoadFinished(cursor: Cursor) = cursor.asSequence.map {
-        Transaction2.fromCursor(
-            context,
-            it,
-            (context.applicationContext as MyApplication).appComponent.currencyContext()
-        )
-    }.toList()
+    open fun onLoadFinished() {}
 }
