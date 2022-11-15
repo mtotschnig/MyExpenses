@@ -25,6 +25,7 @@
         <item>ungroup_split_transaction</item>
         <item>remap</item>
         <item>link</item>
+        <item>select</item>
     </string-array>
 
     <string-array name="NavigationDrawer_menuitems">

@@ -216,4 +216,5 @@
     <string name="help_WebUI_info_2">Currently the web user interface does not support transfers or split transactions.</string>
     <string name="help_WebUI_info_3">You can set a password to protect access. In the dialogue presented by the web browser, only password is taken into account, username is ignored.</string>
     <string name="help_WebUI_info_4">When displaying transactions for the selected account, the web user interface will use the same filters that you have set with the app on the Android device.</string>
+    <string name="cab_MyExpenses_select_help_text">Multi-selection can be started by selecting this command, or by long tapping on a list entry.</string>
 </resources>
