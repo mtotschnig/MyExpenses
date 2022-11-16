@@ -201,4 +201,5 @@
     <string name="menu_BudgetActivity_rollover_categories">Der Restbetrag für jede Kategorie wird übertragen und wirkt sich auf die entsprechende Zuweisung im nächsten Zeitraum aus.</string>
     <string name="menu_BudgetActivity_rollover_help_text">Wenn Sie Ihr Budget unter- oder überschreiten, können Sie die Differenz auf die nächste Periode übertragen, so dass der Betrag, den Sie dort bereitstellen können, entweder erhöht oder verringert wird. Es gibt drei Möglichkeiten:</string>
     <string name="menu_BudgetActivity_rollover_edit">Mit dieser Option können Sie die Überträge genau konfigurieren. So können Sie zum Beispiel nur für einige Kategorien oder Unterkategorien einen Teil des Budgets übertragen und den restlichen Teil auf das Gesamtbudget übertragen.</string>
+    <string name="cab_MyExpenses_select_help_text">Die Mehrfachauswahl kann durch Auswahl dieses Befehls oder durch langes Tippen auf einen Listeneintrag gestartet werden.</string>
 </resources>
