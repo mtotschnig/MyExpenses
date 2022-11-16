@@ -33,6 +33,7 @@ import icepick.State
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
@@ -454,7 +455,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showDismissibleSnackBar("There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !", callback)
     }
 
-    fun getHelpVariant() = helpVariant?.name
+    protected open fun doHelp(variant: String?): Boolean {
+        startActivity(Intent(this, Help::class.java).apply {
+            putExtra(HelpDialogFragment.KEY_CONTEXT, helpContext)
+            putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant?.name)
+        })
+        return true
+    }
+
+    protected open val helpContext: String
+        get() = javaClass.simpleName
 
     fun setHelpVariant(helpVariant: Enum<*>, addBreadCrumb: Boolean = false) {
         this.helpVariant = helpVariant
