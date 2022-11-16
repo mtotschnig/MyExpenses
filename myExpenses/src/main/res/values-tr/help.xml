@@ -201,4 +201,5 @@
     <string name="menu_BudgetActivity_rollover_total">Yalnızca toplam bütçe için kalan kısım devredilir, böylece yalnızca bir sonraki dönemin toplam bütçesi artırılır veya azaltılır.</string>
     <string name="menu_BudgetActivity_rollover_categories">Her bir kategori için kalan miktar devredilir ve bir sonraki dönemdeki ilgili tahsisat bundan etkilenir.</string>
     <string name="menu_BudgetActivity_rollover_edit">Bu seçenek, devretmeyi tam olarak yapılandırmanıza olanak tanır. Örneğin, yalnızca bazı kategoriler veya alt kategoriler için kısmi devretmeler ayarlayabilir ve kalan kısmı toplam bütçe üzerinden devredebilirsiniz.</string>
+    <string name="cab_MyExpenses_select_help_text">Çoklu seçim, bu komut seçilerek veya bir liste unsuruna uzun dokunarak başlatılabilir.</string>
 </resources>
