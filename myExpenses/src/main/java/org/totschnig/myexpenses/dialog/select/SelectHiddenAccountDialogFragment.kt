@@ -19,13 +19,13 @@ class SelectHiddenAccountDialogFragment : SelectMultipleDialogFragment(false) {
     override val column: String
         get() = DatabaseConstants.KEY_LABEL
 
-    override fun onResult(labelList: List<String>, itemIds: LongArray, which: Int): Boolean {
+    override fun onResult(labelList: List<String>, itemIds: LongArray, which: Int) =
         when (which) {
             DialogInterface.BUTTON_POSITIVE -> {
                 if (itemIds.isNotEmpty()) {
                     viewModel.setAccountVisibility(false, *itemIds)
                 }
-                return true
+                true
             }
             DialogInterface.BUTTON_NEUTRAL -> {
                 if (itemIds.isNotEmpty()) {
@@ -50,13 +50,11 @@ class SelectHiddenAccountDialogFragment : SelectMultipleDialogFragment(false) {
                     )
                         .show(childFragmentManager, "DELETE_ACCOUNTS")
 
-                    return false
-                }
-                return true
+                    false
+                } else true
             }
+            else -> false
         }
-        return false
-    }
 
     override val selection: String
         get() = DatabaseConstants.KEY_HIDDEN + " = 1"

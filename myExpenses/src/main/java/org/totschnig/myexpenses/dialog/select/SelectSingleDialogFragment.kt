@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.widget.AbsListView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.setFragmentResult
+import org.totschnig.myexpenses.provider.DatabaseConstants
 
-abstract class SelectSingleDialogFragment : SelectFromTableDialogFragmentCompose(false) {
+abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false) {
     override fun onClick(dialog: DialogInterface, which: Int) {
         if (activity == null || which != AlertDialog.BUTTON_POSITIVE) {
             return
@@ -20,16 +21,11 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragmentCompose
     override val dialogTitle: Int
         get() = requireArguments().getInt(KEY_DIALOG_TITLE)
 
-    private fun buildExtras(): Bundle? {
-        TODO()
-        /*val listView = (dialog as AlertDialog).listView
-        return listView.checkedItemPosition.takeIf { it != AdapterView.INVALID_POSITION }?.let {
-            val item = adapter.getItem(it) as DataHolder
-            Bundle().apply {
-                putString(DatabaseConstants.KEY_LABEL, item.label)
-                putLong(DatabaseConstants.KEY_ROWID, listView.checkedItemIds[0])
-            }
-        }*/
+    private fun buildExtras() = dataViewModel.selection?.getOrNull(0)?.let {
+        Bundle().apply {
+            putString(DatabaseConstants.KEY_LABEL, it.label)
+            putLong(DatabaseConstants.KEY_ROWID, it.id)
+        }
     }
 
     override val choiceMode: Int = AbsListView.CHOICE_MODE_SINGLE

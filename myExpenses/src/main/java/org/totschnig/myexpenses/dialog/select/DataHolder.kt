@@ -1,13 +1,12 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.database.Cursor
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
-data class DataHolder(val id: Long, val label: String) {
-    override fun toString(): String {
-        return label
-    }
-
+@Parcelize
+data class DataHolder(val id: Long, val label: String): Parcelable {
     companion object {
         @JvmStatic
         fun fromCursor(cursor: Cursor, labelColumn: String?) = DataHolder(

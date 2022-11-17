@@ -10,10 +10,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.select.DataHolder
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
 sealed class LoadState {
     object Loading : LoadState()
@@ -27,20 +28,34 @@ class SelectFromTableViewModel(application: Application, savedStateHandle: Saved
 
     val data: State<LoadState> = internalState
 
+    val selection: List<DataHolder>?
+        get() = (data.value as? LoadState.Result)?.items?.filter {
+            selectionState.value.contains(it)
+        }
+
     @OptIn(SavedStateHandleSaveableApi::class)
     val selectionState: MutableState<List<DataHolder>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
-    fun loadData(uri: Uri, column: String, selection: String?, selectionArgs: Array<String>?) {
+    fun loadData(
+        uri: Uri,
+        column: String,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        withNullItem: Boolean
+    ) {
         val projection = arrayOf(DatabaseConstants.KEY_ROWID, column)
         viewModelScope.launch(context = coroutineContext()) {
             internalState.value = LoadState.Result(
-                items = contentResolver.query(uri, projection, selection, selectionArgs, null)
-                    ?.use {
-                        it.asSequence.map { cursor ->
-                            DataHolder(cursor.getLong(0), cursor.getString(1))
-                        }.toList()
-                    } ?: emptyList()
+                items = buildList {
+                    if (withNullItem) add(DataHolder(NULL_ITEM_ID, getString(R.string.unmapped)))
+                    contentResolver.query(uri, projection, selection, selectionArgs, null)
+                        ?.use {
+                            it.asSequence.forEach { cursor ->
+                                add(DataHolder(cursor.getLong(0), cursor.getString(1)))
+                            }
+                        }
+                }
             )
         }
     }
