@@ -1047,4 +1047,5 @@
     <string name="rollover_edit_invalid">סכום הגלגול שמוקצה לקטגוריה והגלגולים שמוקצים לתת־קטגוריות לא יכולים לחרוג מהשארית.</string>
     <string name="content_description_attachment">קובץ מצורף</string>
     <string name="redesign">עיצוב מחדש</string>
+    <string name="upgrade_info_557">איך העיצוב החדש\? נא לשתף אותנו. אפשר להשתמש בעיצוב שמזכיר את העיצוב הישן דרך ההגדרות (%1$s ‏-&gt; %2$s).</string>
 </resources>
