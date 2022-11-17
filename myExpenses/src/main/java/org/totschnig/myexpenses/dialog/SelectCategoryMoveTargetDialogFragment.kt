@@ -32,7 +32,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
     @Composable
     override fun BuildContent() {
         val source = requireArguments().getParcelable<Category>(KEY_SOURCE)!!
-        Column(modifier = Modifier.padding(8.dp).fillMaxSize()) {
+        Column(modifier = Modifier.padding(dialogPadding).fillMaxSize()) {
             val selectionState: MutableState<Category?> = rememberSaveable {
                 mutableStateOf(null)
             }

@@ -4,11 +4,13 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import java.util.*
 
-abstract class SelectMultipleDialogFragment(withNullItem: Boolean): SelectFromTableDialogFragment(withNullItem) {
+abstract class SelectMultipleDialogFragment(withNullItem: Boolean): SelectFromTableDialogFragmentCompose(withNullItem) {
     protected abstract fun onResult(labelList: List<String>, itemIds: LongArray, which: Int): Boolean
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        if (activity == null) {
+        TODO()
+    }
+       /* if (activity == null) {
             return
         }
         val listView = (dialog as AlertDialog).listView
@@ -28,5 +30,5 @@ abstract class SelectMultipleDialogFragment(withNullItem: Boolean): SelectFromTa
         if (shouldDismiss) {
             dismiss()
         }
-    }
+    }*/
 }
