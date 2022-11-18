@@ -351,15 +351,19 @@ open class MyExpensesViewModel(
         }
 
     fun setSealed(accountId: Long, isSealed: Boolean) {
-        viewModelScope.launch(context = coroutineContext()) {
-            contentResolver.update(
-                ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
-                ContentValues(1).apply {
-                    put(KEY_SEALED, isSealed)
-                },
-                null,
-                null
-            )
+        if(FullAccount.isAggregate(accountId)) {
+            CrashHandler.report(IllegalStateException("setSealed called on aggregate account"))
+        } else {
+            viewModelScope.launch(context = coroutineContext()) {
+                contentResolver.update(
+                    ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
+                    ContentValues(1).apply {
+                        put(KEY_SEALED, isSealed)
+                    },
+                    null,
+                    null
+                )
+            }
         }
     }
 
