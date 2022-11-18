@@ -1,15 +1,10 @@
 package org.totschnig.ocr
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
 import android.text.TextUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.OcrResult
@@ -22,7 +17,11 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.text.NumberFormat
-import java.util.Locale
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
 import kotlin.math.absoluteValue
 
 abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrHandler {
@@ -71,13 +70,16 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
     private fun Line.tOr0() = boundingBox.tOr0()
 
     suspend fun queryPayees() = withContext(Dispatchers.Default) {
-        mutableListOf<Payee>().also {
+        buildList {
             context.contentResolver.query(TransactionProvider.PAYEES_URI,
                     arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
                     null, null, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {
                     do {
-                        it.add(Payee(cursor.getLong(0), cursor.getString(1)))
+                        val name = cursor.getString(1)
+                        if (name.isNotBlank()) {
+                            add(Payee(cursor.getLong(0), name))
+                        }
                     } while (cursor.moveToNext())
                 }
             }
@@ -167,7 +169,7 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
             line.elements.windowed(windowSize).forEach { list ->
                 try {
                     return Pair(LocalTime.parse(list.text, formatter), list.boundingBox)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
             }
         }
@@ -180,7 +182,7 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
                 try {
                     val date = LocalDate.parse(list.text, formatter)
                     return Pair(date, timeCandidates.minByOrNull { (it.second.bOr0() - list.boundingBox.bottom).absoluteValue.coerceAtMost((it.second.tOr0() - list.boundingBox.top).absoluteValue) }?.first)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
             }
         }
@@ -192,12 +194,12 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
             try {
                 it.parse(element.text)
                 return@filter true
-            } catch (e: Exception) {}
+            } catch (_: Exception) {}
         }
         return@filter false
     }.map { it.text }.takeIf { it.isNotEmpty() }?.joinToString(separator = "")
 
-    fun log(message: String, vararg args: Any?) {
+    private fun log(message: String, vararg args: Any?) {
         Timber.tag(OcrFeature.TAG).i(message, *args)
     }
 }
