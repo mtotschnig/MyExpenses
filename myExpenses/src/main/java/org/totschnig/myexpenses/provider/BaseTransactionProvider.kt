@@ -99,10 +99,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun notifyBulk() {
-        val iterator = bulkNotificationUris.iterator()
-        for ((uri, syncToNetwork) in iterator) {
-            notifyChangeDo(uri, syncToNetwork)
-            iterator.remove()
+        synchronized(bulkNotificationUris) {
+            val iterator = bulkNotificationUris.iterator()
+            for ((uri, syncToNetwork) in iterator) {
+                notifyChangeDo(uri, syncToNetwork)
+                iterator.remove()
+            }
         }
     }
 
