@@ -114,8 +114,12 @@ class SplitDelegate(
             viewBinding.unsplitLine.visibility = unsplitVisibility
             viewBinding.BottomLine.visibility = unsplitVisibility
         } else if (transactionSum != 0L) {
+            val existingValue = viewBinding.Amount.typedValue
+            val newValue = Money(adapter.currencyUnit, transactionSum).amountMajor
             automaticAmountUpdate = true
-            viewBinding.Amount.setAmount(Money(adapter.currencyUnit, transactionSum).amountMajor)
+            if (existingValue != newValue) {
+                viewBinding.Amount.setAmount(newValue)
+            }
         }
     }
 
@@ -185,8 +189,6 @@ class SplitDelegate(
         viewBinding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
         viewBinding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
         transactionSum = transactions.sumOf { it.amountRaw }
-        if (host.isDirty) {
-            updateBalance()
-        }
+        updateBalance()
     }
 }
