@@ -18,7 +18,6 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions
-import org.junit.Assert
 import org.junit.Before
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication

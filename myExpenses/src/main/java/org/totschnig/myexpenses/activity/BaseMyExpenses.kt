@@ -210,6 +210,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ): Boolean {
                     if (!currentAccount!!.sealed) {
                         menuInflater.inflate(R.menu.transactionlist_context, menu)
+                        resources.configuration.screenWidthDp
+                        if (resources.getBoolean(R.bool.showTransactionBulkActions)) {
+                            with(menu) {
+                                findItem(R.id.DELETE_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                                findItem(R.id.MAP_TAG_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                                findItem(R.id.SPLIT_TRANSACTION_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                                findItem(R.id.REMAP_PARENT).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                                findItem(R.id.LINK_TRANSFER_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                            }
+                        }
                     }
                     return true
                 }
