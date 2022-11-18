@@ -13,6 +13,7 @@ import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
+import io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -63,19 +64,20 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
     @Singleton
     @Provides
     fun provideSQLiteOpenHelperFactory(): SupportSQLiteOpenHelper.Factory =
-        if (frameWorkSqlite) FrameworkSQLiteOpenHelperFactory() else
-            Class.forName("io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory")
-                .getConstructor().newInstance() as SupportSQLiteOpenHelper.Factory
+        if (frameWorkSqlite) FrameworkSQLiteOpenHelperFactory() else RequerySQLiteOpenHelperFactory()
 
     @Singleton
     @Provides
-    open fun providePeekHelper(): DatabaseVersionPeekHelper = if (frameWorkSqlite) {
+    open fun providePeekHelper(): DatabaseVersionPeekHelper =
         DatabaseVersionPeekHelper { path ->
-            SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
-                it.version
+            if (frameWorkSqlite) {
+                SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
+                    it.version
+                }
+            } else {
+              io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(path, null, io.requery.android.database.sqlite.SQLiteDatabase.OPEN_READONLY).use {
+                  it.version
+              }
             }
         }
-    } else {
-       Class.forName("org.totschnig.requery.DatabaseVersionPeekHelper").kotlin.objectInstance as DatabaseVersionPeekHelper
-    }
 }
