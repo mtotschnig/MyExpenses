@@ -1019,4 +1019,5 @@
     <string name="required">Задължително</string>
     <string name="content_description_attachment">Прикачено</string>
     <string name="redesign">Редизайн</string>
+    <string name="upgrade_info_557">Харесвате ли новия дизайн\? Моля, кажете ни. Вариант, близък до стария дизайн може да активирате от Настройки (%1$s -&gt; %2$s).</string>
 </resources>
