@@ -2,7 +2,11 @@ package org.totschnig.myexpenses.util.ads
 
 import android.content.Context
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.squareup.phrase.Phrase
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
@@ -52,21 +56,25 @@ open class DefaultAdHandlerFactory(
             )
             val positive =
                 MessageDialogFragment.Button(positiveString, R.id.GDPR_CONSENT_COMMAND, true)
-            MessageDialogFragment.newInstance(
-                null,
-                Phrase.from(context, R.string.gdpr_consent_message)
-                    .put(Utils.PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
-                    .put("ad_provider", adProviders)
-                    .format(),
-                positive,
-                neutral,
-                MessageDialogFragment.Button(
-                    R.string.gdpr_consent_button_no,
-                    R.id.GDPR_NO_CONSENT_COMMAND,
-                    null
-                )
-            )
-                .show(context.supportFragmentManager, "MESSAGE")
+            context.lifecycleScope.launch {
+                context.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    MessageDialogFragment.newInstance(
+                        null,
+                        Phrase.from(context, R.string.gdpr_consent_message)
+                            .put(Utils.PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
+                            .put("ad_provider", adProviders)
+                            .format(),
+                        positive,
+                        neutral,
+                        MessageDialogFragment.Button(
+                            R.string.gdpr_consent_button_no,
+                            R.id.GDPR_NO_CONSENT_COMMAND,
+                            null
+                        )
+                    )
+                        .show(context.supportFragmentManager, "MESSAGE")
+                }
+            }
         }
     }
 
