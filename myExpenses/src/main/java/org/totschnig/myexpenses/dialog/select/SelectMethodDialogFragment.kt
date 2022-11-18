@@ -18,6 +18,7 @@ import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
 class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCriterion>(true) {
     override val dialogTitle: Int

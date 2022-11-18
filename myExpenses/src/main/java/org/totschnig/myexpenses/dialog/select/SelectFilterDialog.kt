@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.dialog.select
 import android.text.TextUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
 abstract class SelectFilterDialog<T : Criterion<*>>(withNullItem: Boolean) : SelectMultipleDialogFragment(withNullItem) {
     protected abstract fun makeCriteria(label: String, vararg ids: Long): T

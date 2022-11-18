@@ -1,11 +1,8 @@
 package org.totschnig.myexpenses.dialog.select
 
-import android.app.Activity
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.widget.AbsListView
-import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.setFragmentResult
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -24,14 +21,10 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
     override val dialogTitle: Int
         get() = requireArguments().getInt(KEY_DIALOG_TITLE)
 
-    private fun buildExtras(): Bundle? {
-        val listView = (dialog as AlertDialog).listView
-        return listView.checkedItemPosition.takeIf { it != AdapterView.INVALID_POSITION }?.let {
-            val item = adapter.getItem(it) as DataHolder
-            Bundle().apply {
-                putString(DatabaseConstants.KEY_LABEL, item.label)
-                putLong(DatabaseConstants.KEY_ROWID, listView.checkedItemIds[0])
-            }
+    private fun buildExtras() = dataViewModel.selection?.getOrNull(0)?.let {
+        Bundle().apply {
+            putString(DatabaseConstants.KEY_LABEL, it.label)
+            putLong(DatabaseConstants.KEY_ROWID, it.id)
         }
     }
 

@@ -92,7 +92,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         }
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(dialogPadding)
                 .verticalScroll(rememberScrollState())
         ) {
             Row(

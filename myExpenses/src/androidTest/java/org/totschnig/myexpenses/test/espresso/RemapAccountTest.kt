@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -16,17 +18,23 @@ import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import java.time.ZonedDateTime
 
 class RemapAccountTest : BaseMyExpensesTest() {
+
     private lateinit var account1: Account
     private lateinit var account2: Account
     private lateinit var account3: Account
     private lateinit var transfer: Transfer
 
-    val currencyUnit = CurrencyUnit.DebugInstance
+    private val currencyUnit = CurrencyUnit.DebugInstance
 
     private fun createAccount(label: String): Account = Account(
         label, currencyUnit, 0, "", AccountType.CASH, Account.DEFAULT_COLOR
@@ -55,7 +63,7 @@ class RemapAccountTest : BaseMyExpensesTest() {
     fun remapAccountShouldUpdateTransferPeer() {
         openCab(R.id.REMAP_PARENT)
         onView(allOf(withText(R.string.account))).perform(click())
-        onView(withText("K3")).perform(click())
+        composeTestRule.onNodeWithText("K3").performClick()
         //Espresso recorder
 
         onView(
