@@ -175,20 +175,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
 
     fun finishActionMode() {
-        actionMode?.let {
-            it.finish()
-        }
-        viewModel.selectedTransactionSum = 0L
+        actionMode?.finish()
     }
 
     private val formattedSelectedTransactionSum
-        get() = currencyFormatter.convAmount(
-            viewModel.selectedTransactionSum,
-            currentAccount!!.currency
-        ).withAmountColor(
-            resources,
-            viewModel.selectedTransactionSum.sign
-        )
+        get() = with(viewModel.selectedTransactionSum) {
+            currencyFormatter.convAmount(this, currentAccount!!.currency)
+                .withAmountColor(resources, sign)
+        }
 
     private fun updateActionModeTitle() {
         actionMode?.title = if (selectionState.size > 1) {
@@ -684,11 +678,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         budgetData = viewModel.budgetData(account).collectAsState(null),
                         selectionHandler = object : SelectionHandler {
                             override fun toggle(transaction: Transaction2) {
-                                if (viewModel.selectionState.toggle(transaction)) {
-                                    viewModel.selectedTransactionSum += transaction.amount.amountMinor
-                                } else {
-                                    viewModel.selectedTransactionSum -= transaction.amount.amountMinor
-                                }
+                                viewModel.selectionState.toggle(transaction)
                             }
 
                             override fun isSelected(transaction: Transaction2) =
@@ -730,9 +720,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             add(
                                                 select {
                                                     viewModel.selectionState.value = listOf(it)
-                                                    viewModel.selectedTransactionSum =
-                                                        transaction.amount.amountMinor
-                                                })
+                                                }
+                                            )
                                             if (transaction.isSplit) {
                                                 add(MenuEntry(
                                                     icon = Icons.Filled.CallSplit,

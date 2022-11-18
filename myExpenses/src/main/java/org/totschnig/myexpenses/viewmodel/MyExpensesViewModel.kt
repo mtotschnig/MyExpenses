@@ -103,11 +103,8 @@ open class MyExpensesViewModel(
         }
     }
 
-    var selectedTransactionSum: Long
-        get() = savedStateHandle["selectedTransactionSum"] ?: 0
-        set(value) {
-            savedStateHandle["selectedTransactionSum"] = value
-        }
+    val selectedTransactionSum: Long
+        get() = selectionState.value.sumOf { it.amount.amountMinor }
 
     @OptIn(ExperimentalPagerApi::class)
     var selectedAccount: Long
