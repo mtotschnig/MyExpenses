@@ -119,7 +119,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val accountData: List<FullAccount>
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
-    var accountId: Long
+    var selectedAccountId: Long
         get() = viewModel.selectedAccount
         set(value) {
             viewModel.selectedAccount = value
@@ -343,7 +343,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     protected open fun handleSortDirection(item: MenuItem) =
         Utils.getSortDirectionFromMenuItemId(item.itemId)?.let { newSortDirection ->
             if (!item.isChecked) {
-                viewModel.persistSortDirection(accountId, newSortDirection)
+                viewModel.persistSortDirection(selectedAccountId, newSortDirection)
             }
             true
         } ?: false
@@ -351,7 +351,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun handleGrouping(item: MenuItem) =
         Utils.getGroupingFromMenuItemId(item.itemId)?.let { newGrouping ->
             if (!item.isChecked) {
-                viewModel.persistGrouping(accountId, newGrouping)
+                viewModel.persistGrouping(selectedAccountId, newGrouping)
             }
             true
         } ?: false
@@ -383,7 +383,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         toolbar = setupToolbar(false)
         toolbar.isVisible = false
         if (savedInstanceState == null) {
-            accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
+            selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
         }
 
         binding.viewPagerMain.viewPager.setContent {
@@ -460,7 +460,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         AccountList(
                             accountData = data,
                             grouping = accountGrouping.value,
-                            selectedAccount = accountId,
+                            selectedAccount = selectedAccountId,
                             onSelected = {
                                 lifecycleScope.launch {
                                     viewModel.pagerState.scrollToPage(it)
@@ -1011,12 +1011,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             putExtra(Transactions.OPERATION_TYPE, type)
             putExtra(ExpenseEdit.KEY_INCOME, isIncome)
             //if we are called from an aggregate account, we also hand over the currency
-            if (accountId < 0) {
+            if (selectedAccountId < 0) {
                 putExtra(KEY_CURRENCY, currentAccount!!.currency.code)
                 putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
             } else {
                 //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-                putExtra(KEY_ACCOUNTID, accountId)
+                putExtra(KEY_ACCOUNTID, selectedAccountId)
             }
         }
 
@@ -1183,8 +1183,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 accountIds.size
                             )
                         )
-                        if (accountIds.any { it == accountId }) {
-                            accountId = 0
+                        if (accountIds.any { it == selectedAccountId }) {
+                            selectedAccountId = 0
                         }
 
                     }.onFailure {
@@ -1377,7 +1377,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
-                        R.id.NEW_BALANCE_COMMAND -> if (accountId > 0) {
+                        R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
                             SimpleFormDialog.build().fields(
                                 AmountEdit.plain(KEY_AMOUNT).label(R.string.new_balance)
                                     .fractionDigits(currentAccount!!.currency.fractionDigits)
@@ -1466,7 +1466,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ContribFeature.DISTRIBUTION -> {
                     recordUsage(feature)
                     startActivity(Intent(this, DistributionActivity::class.java).apply {
-                        putExtra(KEY_ACCOUNTID, accountId)
+                        putExtra(KEY_ACCOUNTID, selectedAccountId)
                         putExtra(KEY_GROUPING, currentAccount.grouping.name)
                         (tag as? Int)?.let { tag -> fillIntentForGroupingFromTag(tag) }
                     })
@@ -1474,7 +1474,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ContribFeature.HISTORY -> {
                     recordUsage(feature)
                     startActivity(Intent(this, HistoryActivity::class.java).apply {
-                        putExtra(KEY_ACCOUNTID, accountId)
+                        putExtra(KEY_ACCOUNTID, selectedAccountId)
                         putExtra(KEY_GROUPING, currentAccount.grouping.name)
                     })
                 }
@@ -1506,7 +1506,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ContribFeature.PRINT -> {
                     val args = Bundle().apply {
                         addFilter()
-                        putLong(KEY_ROWID, accountId)
+                        putLong(KEY_ROWID, selectedAccountId)
                         putLong(KEY_CURRENT_BALANCE, currentAccount.currentBalance)
                     }
                     if (!supportFragmentManager.isStateSaved) {
@@ -1536,7 +1536,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             putExtra(KEY_ROWID, budgetId)
                             fillIntentForGroupingFromTag(headerId)
                         })
-                    } else if (accountId != 0L) {
+                    } else if (selectedAccountId != 0L) {
                         recordUsage(feature)
                         val i = Intent(this, ManageBudgets::class.java)
                         startActivity(i)
@@ -1583,7 +1583,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             MessageDialogFragment.Button(
                 R.string.menu_delete,
                 R.id.DELETE_ACCOUNT_COMMAND_DO,
-                longArrayOf(accountId)
+                longArrayOf(account.id)
             ),
             null,
             MessageDialogFragment.noButton(), 0
@@ -1593,10 +1593,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun toggleAccountSealed(account: FullAccount) {
         if (account.sealed) {
-            viewModel.setSealed(accountId, false)
+            viewModel.setSealed(account.id, false)
         } else {
             if (account.syncAccountName == null) {
-                viewModel.setSealed(accountId, true)
+                viewModel.setSealed(account.id, true)
             } else {
                 showSnackBar(
                     getString(R.string.warning_synced_account_cannot_be_closed),
@@ -1649,7 +1649,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 result.onSuccess {
                     currentAccount?.let {
                         with(it) {
-                            exportViewModel.hasExported(accountId)
+                            exportViewModel.hasExported(selectedAccountId)
                                 .observe(this@BaseMyExpenses) { hasExported ->
                                     ExportDialogFragment.newInstance(
                                         ExportDialogFragment.AccountInfo(

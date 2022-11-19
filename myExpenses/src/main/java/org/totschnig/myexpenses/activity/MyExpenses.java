@@ -20,7 +20,6 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUE
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
@@ -109,7 +108,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (savedInstanceState == null) {
       Bundle extras = getIntent().getExtras();
       if (extras != null) {
-        setAccountId(Utils.getFromExtra(extras, KEY_ROWID, 0));
+        setSelectedAccountId(Utils.getFromExtra(extras, KEY_ROWID, 0));
         showTransactionFromIntent(extras);
       }
     }
@@ -184,7 +183,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
-      setAccountId(intent.getLongExtra(KEY_ROWID, 0));
+      setSelectedAccountId(intent.getLongExtra(KEY_ROWID, 0));
     }
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
@@ -300,7 +299,7 @@ public class MyExpenses extends BaseMyExpenses implements
     super.onNewIntent(intent);
     Bundle extras = intent.getExtras();
     if (extras != null) {
-      setAccountId(extras.getLong(KEY_ROWID));
+      setSelectedAccountId(extras.getLong(KEY_ROWID));
       showTransactionFromIntent(extras);
     }
   }

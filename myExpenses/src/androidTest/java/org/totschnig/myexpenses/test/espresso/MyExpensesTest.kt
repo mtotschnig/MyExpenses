@@ -7,8 +7,15 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
@@ -17,6 +24,7 @@ import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import com.google.common.truth.Truth
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers
 import org.junit.After
@@ -217,7 +225,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     @Throws(RemoteException::class, OperationApplicationException::class)
-    fun deleteConfirmationDialogShowsLabelOfAccountToBeDeleted() {
+    fun deleteCorrectAccount() {
         val label1 = "Konto A"
         val label2 = "Konto B"
         val account1 = Account(label1, 0, "")
@@ -227,8 +235,12 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
         //we try to delete account 1
         openDrawer()
-        clickContextItem(R.string.menu_delete)
-        Thread.sleep(5000)
+        //we select  label2, but call context on label 1 and make sure the correct account is deleted
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label2)).onFirst().performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label1)).onFirst().performTouchInput {
+            longClick()
+        }
+        composeTestRule.onNodeWithText(getString(R.string.menu_delete)).performClick()
         Espresso.onView(
             ViewMatchers.withSubstring(
                 getString(
@@ -240,27 +252,11 @@ class MyExpensesTest : BaseMyExpensesTest() {
         Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.isAssignableFrom(Button::class.java),
-                ViewMatchers.withText(android.R.string.cancel)
+                ViewMatchers.withText(R.string.menu_delete)
             )
         ).perform(ViewActions.click())
-
-        //we try to delete account 2
-        openDrawer()
-        clickContextItem(R.string.menu_delete, 2)
-        Espresso.onView(
-            ViewMatchers.withSubstring(
-                getString(
-                    R.string.warning_delete_account,
-                    label2
-                )
-            )
-        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.isAssignableFrom(Button::class.java),
-                ViewMatchers.withText(android.R.string.cancel)
-            )
-        ).perform(ViewActions.click())
+        Truth.assertThat(Account.getInstanceFromDb(account1.id)).isNull()
+        Truth.assertThat(Account.getInstanceFromDb(account2.id)).isNotNull()
     }
 
     @Test
