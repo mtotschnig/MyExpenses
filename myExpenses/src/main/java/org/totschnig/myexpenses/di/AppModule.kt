@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.licence.LicenceStatus
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.locale.UserLocaleProviderImpl
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -19,7 +20,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 object NoOpTracker: Tracker {
-    override fun init(context: Context) {
+    override fun init(context: Context, licenceStatus: LicenceStatus?) {
         //noop
     }
 

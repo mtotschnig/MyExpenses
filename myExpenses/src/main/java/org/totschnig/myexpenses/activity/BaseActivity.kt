@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -139,6 +140,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var crashHandler: CrashHandler
 
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
+
     val ocrViewModel: OcrViewModel by viewModels()
     val featureViewModel: FeatureViewModel by viewModels()
     val shareViewModel: ShareViewModel by viewModels()
@@ -205,7 +209,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
         })
         super.onCreate(savedInstanceState)
-        tracker.init(this)
+        tracker.init(this, licenceHandler.licenceStatus)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 shareViewModel.shareResult.collect { result ->

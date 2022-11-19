@@ -2,9 +2,10 @@ package org.totschnig.myexpenses.util.tracking
 
 import android.content.Context
 import android.os.Bundle
+import org.totschnig.myexpenses.util.licence.LicenceStatus
 
 interface Tracker {
-    fun init(context: Context)
+    fun init(context: Context, licenceStatus: LicenceStatus?)
     fun logEvent(eventName: String, params: Bundle?)
     fun setEnabled(enabled: Boolean)
 

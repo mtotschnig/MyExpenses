@@ -137,9 +137,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   protected AdHandlerFactory adHandlerFactory;
 
   @Inject
-  protected LicenceHandler licenceHandler;
-
-  @Inject
   protected CurrencyContext currencyContext;
 
   @Inject
