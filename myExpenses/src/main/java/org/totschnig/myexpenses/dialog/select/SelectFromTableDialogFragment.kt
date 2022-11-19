@@ -20,9 +20,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.viewmodel.LoadState
@@ -94,7 +96,7 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
             }
             is LoadState.Result -> {
                 if (data.items.isNotEmpty()) {
-                    LazyColumn(modifier = Modifier.dialogPadding()) {
+                    LazyColumn(modifier = Modifier.dialogPadding().testTag(TEST_TAG_SELECT_DIALOG)) {
                         items(data.items.size) {
                             val dataHolder = data.items[it]
                             fun toggle() {

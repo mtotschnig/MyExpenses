@@ -2,7 +2,10 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -18,6 +21,7 @@ import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -63,7 +67,9 @@ class RemapAccountTest : BaseMyExpensesTest() {
     fun remapAccountShouldUpdateTransferPeer() {
         openCab(R.id.REMAP_PARENT)
         onView(allOf(withText(R.string.account))).perform(click())
-        composeTestRule.onNodeWithText("K3").performClick()
+        composeTestRule.onAllNodesWithText("K3")
+            .filterToOne(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)))
+            .performClick()
         //Espresso recorder
 
         onView(

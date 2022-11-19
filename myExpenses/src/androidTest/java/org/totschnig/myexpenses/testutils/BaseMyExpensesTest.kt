@@ -13,6 +13,7 @@ import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
@@ -70,6 +71,9 @@ abstract class BaseMyExpensesTest : BaseUiTest<TestMyExpenses>() {
     fun hasColumnCount(expectedColumnCount: Int) = hasCollectionInfo(expectedColumnCount, 1)
 
     fun assertListSize(expectedSize: Int) {
+        composeTestRule.waitUntil {  composeTestRule
+            .onAllNodesWithTag(TEST_TAG_PAGER)
+            .fetchSemanticsNodes().size == 1 }
         listNode.assert(hasRowCount(expectedSize))
     }
 
