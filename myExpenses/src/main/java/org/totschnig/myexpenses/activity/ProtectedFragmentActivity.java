@@ -646,7 +646,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   protected void restartAfterRestore() {
-    invalidateHomeCurrency();
+    ((MyApplication) getApplication()).invalidateHomeCurrency();
     if (!isFinishing()) {
       Intent i = new Intent(this, MyExpenses.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -708,14 +708,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public void checkGdprConsent(boolean forceShow) {
     adHandlerFactory.gdprConsent(this, forceShow);
-  }
-
-  public void invalidateHomeCurrency() {
-    currencyContext.invalidateHomeCurrency();
-    currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
-    Transaction.buildProjection(this);
-    Account.buildProjection();
-    getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 
   public void showCalculator(BigDecimal amount, int id) {

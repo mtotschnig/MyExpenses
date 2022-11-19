@@ -41,6 +41,9 @@ import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -53,6 +56,7 @@ import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.ui.ContextHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.MoreUiUtilsKt;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
@@ -107,6 +111,12 @@ public class MyApplication extends Application implements
   UserLocaleProvider userLocaleProvider;
   @Inject
   SharedPreferences mSettings;
+
+  @Inject
+  CurrencyContext currencyContext;
+
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
@@ -769,5 +779,13 @@ public class MyApplication extends Application implements
       vmPolicyBuilder.detectNonSdkApiUsage();
     }
     StrictMode.setVmPolicy(vmPolicyBuilder.build());
+  }
+
+  public void invalidateHomeCurrency() {
+    currencyContext.invalidateHomeCurrency();
+    currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
+    Transaction.buildProjection(this);
+    Account.buildProjection();
+    getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 }

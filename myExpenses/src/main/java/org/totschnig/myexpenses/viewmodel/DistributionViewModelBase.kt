@@ -259,7 +259,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             }.toTypedArray(),
             additionalSelectionArgs = buildList {
                 (accountInfo as? Budget)?.id?.let { add(it.toString()) }
-                whereFilter.getSelectionArgs(true)?.let { addAll(it) }
+                addAll(whereFilter.getSelectionArgs(true))
             }.toTypedArray(),
             queryParameter = queryParameter,
             keepCriteria = keepCriteria
