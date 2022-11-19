@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -14,22 +15,27 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.validateDateFormat
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 class UpgradeHandlerViewModel(application: Application) :
@@ -53,6 +59,88 @@ class UpgradeHandlerViewModel(application: Application) :
 
     fun upgrade(fromVersion: Int, @Suppress("UNUSED_PARAMETER") toVersion: Int) {
         viewModelScope.launch(context = coroutineContext()) {
+
+            if (fromVersion < 19) {
+                prefHandler.putString(PrefKey.SHARE_TARGET, prefHandler.getString("ftp_target", ""))
+                prefHandler.remove("ftp_target")
+            }
+            if (fromVersion < 28) {
+                Timber.i(
+                    "Upgrading to version 28: Purging %d transactions from database",
+                    contentResolver.delete(
+                        TRANSACTIONS_URI,
+                        "$KEY_ACCOUNTID not in (SELECT _id FROM accounts)", null
+                    )
+                )
+            }
+            if (fromVersion < 30) {
+                if ("" != prefHandler.getString(PrefKey.SHARE_TARGET, "")) {
+                    prefHandler.putBoolean(PrefKey.SHARE_TARGET, true)
+                }
+            }
+            if (fromVersion < 40) {
+                //this no longer works since we migrated time to utc format
+                //  DbUtils.fixDateValues(getContentResolver());
+                //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
+                //if they are already above both thresholds, so we set some delay
+                prefHandler.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23)
+            }
+            if (fromVersion < 163) {
+                prefHandler.remove("qif_export_file_encoding")
+            }
+            if (fromVersion < 199) {
+                //filter serialization format has changed
+                val edit = settings.edit()
+                for (entry in settings.all.entries) {
+                    val key = entry.key
+                    val keyParts =
+                        key.split(("_").toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                    if (keyParts[0] == "filter") {
+                        val `val` = settings.getString(key, "")!!
+                        when (keyParts[1]) {
+                            "method", "payee", "cat" -> {
+                                val sepIndex = `val`.indexOf(";")
+                                edit.putString(
+                                    key,
+                                    `val`.substring(sepIndex + 1) + ";" + Criterion.escapeSeparator(
+                                        `val`.substring(0, sepIndex)
+                                    )
+                                )
+                            }
+                            "cr" -> edit.putString(
+                                key,
+                                CrStatus.values()[Integer.parseInt(`val`)].name
+                            )
+                        }
+                    }
+                }
+                edit.apply()
+            }
+            if (fromVersion < 202) {
+                val appDir = prefHandler.getString(PrefKey.APP_DIR, null)
+                if (appDir != null) {
+                    prefHandler.putString(PrefKey.APP_DIR, Uri.fromFile(File(appDir)).toString())
+                }
+            }
+            if (fromVersion < 221) {
+                prefHandler.putString(
+                    PrefKey.SORT_ORDER_LEGACY,
+                    if (prefHandler.getBoolean(PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY, true))
+                        "USAGES"
+                    else
+                        "ALPHABETIC"
+                )
+            }
+            if (fromVersion < 303) {
+                if (prefHandler.getBoolean(PrefKey.AUTO_FILL_LEGACY, false)) {
+                    enableAutoFill(prefHandler)
+                }
+                prefHandler.remove(PrefKey.AUTO_FILL_LEGACY)
+            }
+            if (fromVersion < 316) {
+                prefHandler.putString(PrefKey.HOME_CURRENCY, Utils.getHomeCurrency().code)
+                getApplication<MyApplication>().invalidateHomeCurrency()
+            }
 
             if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication()).isNotEmpty()) {
                 upgradeInfoList.add(getString(R.string.upgrade_information_cloud_sync_storage_format))
@@ -293,7 +381,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 settings.all.entries.filter { it.key.startsWith("AGGREGATE_SORT_DIRECTION_") }
                     .forEach { (key, value) ->
                         val currencyIdAsString = key.split('_').last()
-                        if (currencyIdAsString != AGGREGATE_HOME_CURRENCY_CODE) {
+                        if (currencyIdAsString != AGGREGATE_HOME_CURRENCY_CODE && currencyIdAsString.isNotBlank()) {
                             (value as? String)?.let {
                                 contentResolver.update(
                                     SORT_DIRECTION_URI.buildUpon()
@@ -303,6 +391,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                 )
                             }
                         }
+                        prefHandler.remove(key)
                     }
             }
 
