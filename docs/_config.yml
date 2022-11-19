@@ -128,6 +128,72 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.4.6
+    - "2022-11-19"
+    -
+      bg: |
+        Списък на транзакциите: Редизайн
+      de: |
+        Buchungsliste: Neugestaltung
+      es: |
+        Lista de transacciones: Rediseño
+      fr: |
+        Liste des opérations: Refonte
+      hr: |
+        Popis transakcija: Novi dizajn
+      it: |
+        Elenco delle transazioni: Riprogettazione
+      iw: |
+        רשימת עסקאות: עיצוב מחדש
+      kn: |
+        ವಹಿವಾಟು ಪಟ್ಟಿ: ಮರುವಿನ್ಯಾಸ
+      pt: |
+        Lista de transações: Redesenhar
+      tr: |
+        Muamele listesi: Yeniden tasarla
+      en: |
+        Transaction list: Redesign
+  -
+    - 3.4.5
+    - "2022-09-05"
+    -
+      ar: |
+        وضع الميزانية 3.0. واجهة مستخدم الويب: https
+      bg: |
+        Бюджетиране 3.0. Уеб потребителски интерфейс: https
+      cs: |
+        Rozpočty 3.0. Webové uživatelské rozhraní: https
+      de: |
+        Budgetierung 3.0. Web-Benutzeroberfläche: https
+      es: |
+        Presupuestar 3.0. Interfaz de usuario web: https
+      fr: |
+        Budgétisation 3.0. Interface utilisateur Web: https
+      hr: |
+        Izrada proračuna 3.0. Internetsko korisničko sučelje: https
+      hu: |
+        Költségvetés 3.0. Webes felhasználói kezelőfelület: https
+      it: |
+        Bilancio 3.0. Interfaccia utente Web: https
+      iw: |
+        תקצוב 3.0. ממשק משתמש באינטרנט: https
+      kn: |
+        ಬಜೆಟ್ 3.0. ವೆಬ್ ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್: https
+      pt: |
+        Orçamento 3.0. Interface web do utilizador: https
+      ru: |
+        Бюджетирование 3.0. Веб-интерфейс пользователя: https
+      ta: |
+        வரவு செலவுத் திட்டம் 3.0. வலை பயனர் இடைமுகம்: https
+      tr: |
+        Bütçeleme 3.0. İnternet Kullanıcı Arayüzü: https
+      zh: |
+        预算编制 3.0. 网络的用户界面: https
+      zh-TW: |
+        預算編訂 3.0. 網頁版的使用者介面: https
+      en: |
+        Budgeting 3.0. Web User Interface: https
+  -
     - 3.4.4
     - "2022-08-12"
     -
