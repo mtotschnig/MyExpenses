@@ -5,13 +5,13 @@ import android.app.Application
 import android.content.Context
 import androidx.core.util.Pair
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import com.squareup.sqlbrite3.SqlBrite
+import app.cash.copper.flow.observeQuery
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_BASE_URI
+import org.totschnig.myexpenses.provider.mapToStringMap
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
@@ -22,40 +22,18 @@ import org.totschnig.myexpenses.util.TextUtils
 
 abstract class AbstractSyncBackendViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
-    private val localAccountInfo = MutableLiveData<Map<String, String?>>()
+    val localAccountInfo = contentResolver.observeQuery(
+        uri = ACCOUNTS_BASE_URI,
+        projection = arrayOf(DatabaseConstants.KEY_UUID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME),
+        selection = null,
+        selectionArgs = null,
+        sortOrder = null,
+        notifyForDescendants = false
+    ).mapToStringMap()
+
     abstract fun getAccounts(context: Context): List<Pair<String, Boolean>>
 
-    fun getLocalAccountInfo(): LiveData<Map<String, String?>> = localAccountInfo
-
     abstract fun accountMetadata(accountName: String, isFeatureAvailable: Boolean): LiveData<Result<List<Result<AccountMetaData>>>>?
-
-    fun loadLocalAccountInfo() {
-        disposable = briteContentResolver.createQuery(
-            ACCOUNTS_BASE_URI,
-            arrayOf(DatabaseConstants.KEY_UUID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME),
-            null,
-            null,
-            null,
-            false
-        )
-            .map(SqlBrite.Query::run)
-            .subscribe { c ->
-                c?.use { cursor ->
-                    val uuid2syncMap: MutableMap<String, String?> = HashMap()
-                    cursor.moveToFirst()
-                    while (!cursor.isAfterLast) {
-                        val columnIndexUuid = cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_UUID)
-                        val columnIndexSyncAccountName =
-                            cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
-                        cursor.getString(columnIndexUuid)?.let {
-                            uuid2syncMap[it] = cursor.getString(columnIndexSyncAccountName)
-                        }
-                        cursor.moveToNext()
-                    }
-                    localAccountInfo.postValue(uuid2syncMap)
-                }
-            }
-    }
 
     fun syncUnlink(uuid: String) = liveData(context = coroutineContext()) {
         emit(if (Account.findByUuid(uuid).takeIf { it != -1L }?.let {

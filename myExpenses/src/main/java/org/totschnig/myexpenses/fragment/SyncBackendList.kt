@@ -12,6 +12,7 @@ import android.widget.ExpandableListView.*
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
@@ -110,9 +111,11 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
             BaseTransientBottomBar.LENGTH_INDEFINITE
         )
         UiUtils.increaseSnackbarMaxLines(snackbar)
-        viewModel.getLocalAccountInfo()
-            .observe(viewLifecycleOwner) { syncBackendAdapter.setLocalAccountInfo(it) }
-        viewModel.loadLocalAccountInfo()
+        lifecycleScope.launchWhenStarted {
+            viewModel.localAccountInfo.collect {
+                syncBackendAdapter.setLocalAccountInfo(it)
+            }
+        }
         registerForContextMenu(binding.list)
         return binding.root
     }
@@ -361,6 +364,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         return true
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {

@@ -45,3 +45,22 @@ fun <T> Flow<Query>.mapToListCatchingWithExtra(
         }
     }?.let { emit(it) }
 }
+
+fun Flow<Query>.mapToStringMap(
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
+): Flow<Map<String, String?>> = transform { query ->
+    val map = withContext(dispatcher) {
+        query.run()?.use { cursor ->
+            val items = mutableMapOf<String, String?>()
+            while (cursor.moveToNext()) {
+                cursor.getString(0)?.let {
+                    items.put(it, cursor.getString(1))
+                }
+            }
+            items
+        }
+    }
+    if (map != null) {
+        emit(map)
+    }
+}
