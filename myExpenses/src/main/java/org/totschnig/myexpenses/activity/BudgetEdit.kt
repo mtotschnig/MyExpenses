@@ -143,10 +143,9 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             accountSpinnerHelper.adapter = AccountAdapter(this, list)
             (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
             if (pendingBudgetLoad != 0L) {
-                viewModel.loadBudget(pendingBudgetLoad, true)
+                viewModel.budget(pendingBudgetLoad).observe(this) { populateData(it) }
             }
         }
-        viewModel.budget.observe(this) { populateData(it) }
         mNewInstance = budgetId == 0L
         viewModel.databaseResult.observe(this) {
             if (it > -1) {

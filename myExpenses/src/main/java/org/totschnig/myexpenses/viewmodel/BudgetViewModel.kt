@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple4
@@ -26,8 +28,10 @@ import java.util.*
 
 open class BudgetViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
-    val data = MutableLiveData<List<Budget>>()
-    val budget = MutableLiveData<Budget>()
+    val data = contentResolver.observeQuery(
+        uri = TransactionProvider.BUDGETS_URI,
+        projection = PROJECTION
+    ).mapToList(mapper = budgetCreatorFunction)
 
     /**
      * provides id of budget on success, -1 on error
@@ -36,25 +40,14 @@ open class BudgetViewModel(application: Application) :
 
     private val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
 
-    fun loadAllBudgets() {
-        disposable = createQuery(null, null)
-            .mapToList(budgetCreatorFunction)
-            .subscribe {
-                data.postValue(it)
-            }
-    }
 
-    fun loadBudget(budgetId: Long, once: Boolean) {
-        disposable = createQuery("${q(KEY_ROWID)} = ?", arrayOf(budgetId.toString()))
-            .mapToOne(budgetCreatorFunction)
-            .subscribe {
-                postBudget(it)
-                if (once) dispose()
-            }
-    }
-
-    open fun postBudget(budget: Budget) {
-        this.budget.postValue(budget)
+    fun budget(budgetId: Long) = liveData(context = coroutineContext()) {
+        contentResolver.query(
+            TransactionProvider.BUDGETS_URI,
+            PROJECTION, "${q(KEY_ROWID)} = ?", arrayOf(budgetId.toString()), null
+        )?.use {
+            if(it.moveToFirst()) emit((budgetCreatorFunction(it)))
+        }
     }
 
     @OptIn(FlowPreview::class)
@@ -146,12 +139,6 @@ open class BudgetViewModel(application: Application) :
         Grouping.MONTH -> getThisMonth()
         else -> ""
     }
-
-    fun createQuery(selection: String?, selectionArgs: Array<String>?) =
-        briteContentResolver.createQuery(
-            TransactionProvider.BUDGETS_URI,
-            PROJECTION, selection, selectionArgs, null, true
-        )
 
     companion object {
         val PROJECTION = arrayOf(

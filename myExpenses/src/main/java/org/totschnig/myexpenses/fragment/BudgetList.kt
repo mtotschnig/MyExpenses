@@ -75,25 +75,34 @@ class BudgetList : Fragment() {
                 addItemDecoration(DividerItemDecoration(activity, it.orientation))
             }
         }
-        viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            binding.empty.isVisible = it.isEmpty()
-            binding.recyclerView.isVisible = it.isNotEmpty()
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.amounts.collect { tuple ->
-                    val (position, id, spent, allocated) = tuple
-                    budgetAmounts[id] = spent to allocated
-                    if (!binding.recyclerView.isComputingLayout)
-                    {
-                        adapter.notifyItemChanged(position)
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.data.collect {
+                        adapter.submitList(it)
+                        binding.empty.isVisible = it.isEmpty()
+                        binding.recyclerView.isVisible = it.isNotEmpty()
                     }
                 }
             }
         }
+
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.CREATED) {
+                    viewModel.amounts.collect { tuple ->
+                        val (position, id, spent, allocated) = tuple
+                        budgetAmounts[id] = spent to allocated
+                        if (!binding.recyclerView.isComputingLayout)
+                        {
+                            adapter.notifyItemChanged(position)
+                        }
+                    }
+                }
+            }
+        }
+
         binding.recyclerView.adapter = adapter
-        viewModel.loadAllBudgets()
     }
 
     override fun onDestroyView() {
