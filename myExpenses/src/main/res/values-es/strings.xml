@@ -1013,4 +1013,6 @@
     <string name="webui_warning_move_transaction">La transacción será trasladada a la cuenta {cuenta}.</string>
     <string name="whats_new_344">Iconos por categorías</string>
     <string name="required">Requerido</string>
+    <string name="content_description_attachment">Adjunto</string>
+    <string name="redesign">Rediseño</string>
 </resources>
