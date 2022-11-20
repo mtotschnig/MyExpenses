@@ -1605,6 +1605,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == UNCOMMITTED_ID || uriMatch == UNCOMMITTED) {
       notifyChange(UNCOMMITTED_URI, false);
     }
+    if (uriMatch == CATEGORY_ID) {
+      notifyChange(TRANSACTIONS_URI, false);
+    }
     return count;
   }
 

@@ -44,4 +44,5 @@
     <dimen name="csv_import_cell_margin">5dp</dimen>
     <dimen name="csv_import_spinner_right_padding">30dp</dimen>
     <dimen name="help_text_inline_icon_size">24sp</dimen>
+    <dimen name="plan_calendar_state_margin">0dp</dimen>
 </resources>
