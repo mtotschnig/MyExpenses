@@ -6,14 +6,22 @@ import androidx.compose.ui.test.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.containsString
+import org.hamcrest.Matchers.instanceOf
 import org.junit.*
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -46,7 +54,7 @@ class TestMain : BaseMyExpensesTest() {
     private fun drawerAction(action: ViewAction) {
         //no drawer on w700dp
         try {
-            Espresso.onView(ViewMatchers.withId(R.id.drawer)).perform(action)
+            onView(withId(R.id.drawer)).perform(action)
         } catch (ignored: NoMatchingViewException) {
         }
     }
@@ -60,65 +68,48 @@ class TestMain : BaseMyExpensesTest() {
                 drawerAction(DrawerActions.close())
                 takeScreenshot("group")
                 clickMenuItem(R.id.RESET_COMMAND)
-                Espresso.closeSoftKeyboard()
+                closeSoftKeyboard()
                 takeScreenshot("export")
-                Espresso.pressBack()
+                pressBack()
                 listNode.onChildren().onFirst()
                     .assertTextContains(getString(R.string.split_transaction), substring = true)
                 clickContextItem(R.string.details)
-                Espresso.closeSoftKeyboard()
+                closeSoftKeyboard()
                 takeScreenshot("split")
-                Espresso.pressBack()
+                pressBack()
                 clickMenuItem(R.id.DISTRIBUTION_COMMAND)
                 takeScreenshot("distribution")
-                Espresso.pressBack()
+                pressBack()
                 clickMenuItem(R.id.HISTORY_COMMAND)
                 clickMenuItem(R.id.GROUPING_COMMAND)
-                Espresso.onView(ViewMatchers.withText(R.string.grouping_month))
-                    .perform(ViewActions.click())
+                onView(withText(R.string.grouping_month)).perform(click())
                 clickMenuItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND)
                 takeScreenshot("history")
-                Espresso.pressBack()
+                pressBack()
                 clickMenuItem(R.id.BUDGET_COMMAND)
-                Espresso.onView(ViewMatchers.withId(R.id.recycler_view))
-                    .perform(
-                        RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                            0,
-                            ViewActions.click()
-                        )
-                    )
+                onView(withId(R.id.recycler_view))
+                    .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
                 takeScreenshot("budget")
-                Espresso.pressBack()
-                Espresso.pressBack()
+                pressBack()
+                pressBack()
                 clickMenuItem(R.id.SETTINGS_COMMAND)
-                Espresso.onView(
-                    Matchers.instanceOf(
-                        RecyclerView::class.java
-                    )
-                )
+                onView(instanceOf(RecyclerView::class.java))
                     .perform(
-                        RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                            ViewMatchers.hasDescendant(ViewMatchers.withText(R.string.synchronization)),
-                            ViewActions.click()
+                        actionOnItem<RecyclerView.ViewHolder>(
+                            hasDescendant(withText(R.string.synchronization)),
+                            click()
                         )
                     )
-                Espresso.onView(
-                    Matchers.instanceOf(
-                        RecyclerView::class.java
-                    )
-                )
+                onView(instanceOf(RecyclerView::class.java))
                     .perform(
-                        RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                            ViewMatchers.hasDescendant(ViewMatchers.withText(R.string.pref_manage_sync_backends_title)),
-                            ViewActions.click()
+                        actionOnItem<RecyclerView.ViewHolder>(
+                            hasDescendant(withText(R.string.pref_manage_sync_backends_title)),
+                            click()
                         )
                     )
-                Espresso.onView(ViewMatchers.withText(Matchers.containsString("Drive")))
-                    .perform(ViewActions.click())
-                Espresso.onView(ViewMatchers.withText(Matchers.containsString("Dropbox")))
-                    .perform(ViewActions.click())
-                Espresso.onView(ViewMatchers.withText(Matchers.containsString("WebDAV")))
-                    .perform(ViewActions.click())
+                onView(withText(containsString("Drive"))).perform(click())
+                onView(withText(containsString("Dropbox"))).perform(click())
+                onView(withText(containsString("WebDAV"))).perform(scrollTo(), click())
                 Thread.sleep(5000)
                 takeScreenshot("sync")
             }
@@ -127,19 +118,19 @@ class TestMain : BaseMyExpensesTest() {
                 takeScreenshot("main")
                 clickMenuItem(R.id.DISTRIBUTION_COMMAND)
                 takeScreenshot("distribution")
-                Espresso.pressBack()
-                Espresso.onView(
+                pressBack()
+                onView(
                     org.totschnig.myexpenses.testutils.Matchers.first(
-                        ViewMatchers.withText(
-                            Matchers.containsString(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat))
+                        withText(
+                            containsString(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat))
                         )
                     )
-                ).perform(ViewActions.click())
-                Espresso.onView(ViewMatchers.withId(android.R.id.button1))
-                    .perform(ViewActions.click())
-                Espresso.pressBack() //close keyboard
-                Espresso.onView(ViewMatchers.withId(R.id.PictureContainer))
-                    .perform(ViewActions.click())
+                ).perform(click())
+                onView(withId(android.R.id.button1))
+                    .perform(click())
+                pressBack() //close keyboard
+                onView(withId(R.id.PictureContainer))
+                    .perform(click())
                 takeScreenshot("edit")
             }
             else -> {

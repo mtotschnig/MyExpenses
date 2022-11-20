@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
-import org.junit.Assert
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -18,7 +20,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.Espresso
+import org.totschnig.myexpenses.testutils.Espresso.*
 import java.util.*
 
 class ExpenseEditTest : BaseExpenseEditTest() {
@@ -49,36 +51,23 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         launch(intent.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
-            Espresso.checkEffectiveVisible(
+            checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
                 R.id.PayeeRow, R.id.AccountRow
             )
-            Espresso.checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow)
+            checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow)
             clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
-            Espresso.checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
+            checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
             checkAccountDependents()
         }
     }
 
     private fun checkAccountDependents() {
-        onView(ViewMatchers.withId(R.id.AmountLabel)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withText(
-                    String.format(Locale.ROOT, "%s (%s)", getString(R.string.amount), "$")
-                )
-            )
+        onView(withId(R.id.AmountLabel)).check(
+            matches(withText("${getString(R.string.amount)} ($)"))
         )
-        onView(ViewMatchers.withId(R.id.DateTimeLabel)).check(
-            ViewAssertions.matches(
-                ViewMatchers.withText(
-                    String.format(
-                        Locale.ROOT,
-                        "%s / %s",
-                        getString(R.string.date),
-                        getString(R.string.time)
-                    )
-                )
-            )
+        onView(withId(R.id.DateTimeLabel)).check(
+            matches(withText("${getString(R.string.date)} / ${getString(R.string.time)}"))
         )
     }
 
@@ -88,7 +77,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
             putExtra(DatabaseConstants.KEY_ACCOUNTID, account2.id)
         }).use {
-            Espresso.checkEffectiveVisible(R.id.Status)
+            checkEffectiveVisible(R.id.Status)
         }
     }
 
@@ -97,13 +86,13 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         launch(intent.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSFER)
         }).use {
-            Espresso.checkEffectiveVisible(
+            checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
             )
-            Espresso.checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow)
+            checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow)
             clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
-            Espresso.checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
+            checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
             checkAccountDependents()
 
         }
@@ -114,13 +103,13 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         launch(intent.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }).use {
-            Espresso.checkEffectiveVisible(
+            checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitRow,
                 R.id.PayeeRow, R.id.AccountRow
             )
-            Espresso.checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow)
+            checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow)
             clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
-            Espresso.checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
+            checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
             checkAccountDependents()
         }
     }
@@ -131,11 +120,11 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         }).use {
-            Espresso.checkEffectiveVisible(
+            checkEffectiveVisible(
                 R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
                 R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence, R.id.DefaultActionRow
             )
-            Espresso.checkEffectiveGone(R.id.PB)
+            checkEffectiveGone(R.id.PB)
         }
     }
 
@@ -148,12 +137,8 @@ class ExpenseEditTest : BaseExpenseEditTest() {
                 putExtra(DatabaseConstants.KEY_ACCOUNTID, a.id)
             }
             launch(i).use {
-                onView(ViewMatchers.withId(R.id.Account)).check(
-                    ViewAssertions.matches(
-                        ViewMatchers.withSpinnerText(
-                            a.label
-                        )
-                    )
+                onView(withId(R.id.Account)).check(
+                    matches(withSpinnerText(a.label))
                 )
             }
         }
@@ -170,7 +155,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             }
             launch(i).use {
                 it.onActivity { activity: TestExpenseEdit ->
-                    Assert.assertEquals(
+                    assertEquals(
                         "Selected account has wrong currency",
                         c.code,
                         activity.currentAccount!!.currency.code
@@ -191,19 +176,13 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             val amount = 2
             clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
             for (j in 0 until times) {
-                onView(
-                    Espresso.withIdAndParent(
-                        R.id.AmountEditText,
-                        R.id.Amount
-                    )
-                ).perform(ViewActions.typeText(amount.toString()))
-                onView(ViewMatchers.withId(R.id.CREATE_COMMAND))
-                    .perform(ViewActions.click())
-                onView(ViewMatchers.withText(success))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                onView(withIdAndParent(R.id.AmountEditText, R.id.Amount))
+                    .perform(ViewActions.typeText(amount.toString()))
+                onView(withId(R.id.CREATE_COMMAND)).perform(click())
+                onView(withText(success)).check(matches(isDisplayed()))
             }
             //we assume two fraction digits
-            Assert.assertEquals(
+            assertEquals(
                 "Transaction sum does not match saved transactions",
                 account1.getTransactionSum(null),
                 (-amount * times * 100).toLong()
@@ -222,17 +201,12 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
         }).use {
             val amount = 2
-            onView(
-                Espresso.withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).perform(ViewActions.click(), ViewActions.typeText(amount.toString()))
-            onView(ViewMatchers.withId(R.id.CREATE_COMMAND))
-                .perform(ViewActions.click())
+            onView(withIdAndParent(R.id.AmountEditText, R.id.Amount))
+                .perform(scrollTo(), click(), ViewActions.typeText(amount.toString()))
+            onView(withId(R.id.CREATE_COMMAND)).perform(click())
             val restored = Template.getInstanceFromDb(template.id)
-            Assert.assertEquals(Transactions.TYPE_TRANSFER, restored!!.operationType())
-            Assert.assertEquals((-amount * 100).toLong(), restored.amount.amountMinor)
+            assertEquals(Transactions.TYPE_TRANSFER, restored!!.operationType())
+            assertEquals((-amount * 100).toLong(), restored.amount.amountMinor)
         }
     }
 }

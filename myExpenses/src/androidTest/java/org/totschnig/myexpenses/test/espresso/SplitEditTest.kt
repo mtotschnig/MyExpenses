@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -15,6 +16,8 @@ import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scroll
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -57,27 +60,28 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun bug987() {
         val account2 = Account("Test Account 2", currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
         activityScenario = ActivityScenario.launch(baseIntent.apply { putExtra(KEY_ACCOUNTID, account1.id) })
-        onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
+        closeSoftKeyboard()
+        onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
         enterAmountSave("50")
         onView(withId(R.id.OperationType)).perform(click())
         onData(
-            CoreMatchers.allOf(
-                CoreMatchers.instanceOf(TransactionDelegate.OperationType::class.java),
+            allOf(
+                instanceOf(TransactionDelegate.OperationType::class.java),
                 withOperationType(Transactions.TYPE_TRANSFER)
             )
         ).perform(click())
-        onView(withId(R.id.TransferAccount)).perform(click())
+        onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
         onData(
-            CoreMatchers.allOf(
-                CoreMatchers.instanceOf(IAccount::class.java),
+            allOf(
+                instanceOf(IAccount::class.java),
                 withAccount(account2.label)
             )
         ).perform(click())
         onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
-        onView(withId(R.id.Account)).perform(click())
+        onView(withId(R.id.Account)).perform(scrollTo(), click())
         onData(
-            CoreMatchers.allOf(
-                CoreMatchers.instanceOf(IAccount::class.java),
+            allOf(
+                instanceOf(IAccount::class.java),
                 withAccount(account2.label)
             )
         ).perform(click())

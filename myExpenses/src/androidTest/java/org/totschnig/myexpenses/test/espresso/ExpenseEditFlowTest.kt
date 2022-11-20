@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.espresso
 
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -63,6 +64,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
                 R.id.Amount
             )
         ).perform(ViewActions.typeText("123"))
+        closeSoftKeyboard()
         onView(
             Espresso.withIdAndParent(
                 R.id.Calculator,

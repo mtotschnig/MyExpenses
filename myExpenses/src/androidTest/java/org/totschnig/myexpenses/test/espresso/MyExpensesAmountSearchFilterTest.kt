@@ -1,8 +1,13 @@
 package org.totschnig.myexpenses.test.espresso
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -38,16 +43,16 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
         assertListSize(2)
         amountIsDisplayed(amount1, 0)
         amountIsDisplayed(amount2, 1)
-        Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.amount)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.amount1)).perform(ViewActions.typeText("12"))
-        Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
+        onView(withId(R.id.SEARCH_COMMAND)).perform(click())
+        onView(ViewMatchers.withText(R.string.amount)).perform(click())
+        onView(withId(R.id.amount1)).perform(typeText("12"))
+        closeSoftKeyboard()
+        onView(withId(android.R.id.button1)).perform(click())
         assertListSize(1)
         amountIsDisplayed(amount1, 0)
         //switch off filter
-        Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withSubstring(getString(R.string.expense)))
-            .perform(ViewActions.click())
+        onView(withId(R.id.SEARCH_COMMAND)).perform(click())
+        onView(withSubstring(getString(R.string.expense))).perform(click())
         assertListSize(2)
         amountIsDisplayed(amount2, 1)
     }
