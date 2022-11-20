@@ -659,7 +659,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colors.surface)
+                    .background(MaterialTheme.colors.background)
             ) {
                 viewModel.filterPersistence.getValue(account.id)
                     .whereFilterAsFlow
