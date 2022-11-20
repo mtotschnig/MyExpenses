@@ -630,7 +630,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         index: Int,
         account: PageAccount
     ) {
-
+        LaunchedEffect(key1 = account.sealed) {
+            if (account.sealed) finishActionMode()
+        }
         if ((currentPage - index).absoluteValue <= 1) {
 
             val showStatusHandle = if (account.type == AccountType.CASH)
@@ -674,7 +676,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         pageFlow = viewModel.items.getValue(account),
                         headerData = headerData,
                         budgetData = viewModel.budgetData(account).collectAsState(null),
-                        selectionHandler = object : SelectionHandler {
+                        selectionHandler = if (account.sealed) null else object : SelectionHandler {
                             override fun toggle(transaction: Transaction2) {
                                 viewModel.selectionState.toggle(transaction)
                             }
@@ -686,7 +688,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 get() = selectionState.size
 
                         },
-                        menuGenerator = remember {
+                        menuGenerator = remember(account.sealed) {
                             { transaction ->
                                 Menu(
                                     buildList {

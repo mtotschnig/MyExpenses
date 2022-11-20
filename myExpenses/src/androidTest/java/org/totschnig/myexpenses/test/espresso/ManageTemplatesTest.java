@@ -13,7 +13,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 
 import android.content.Intent;
 
-import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.CursorMatchers;
@@ -34,13 +33,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.MockLicenceHandler;
 
-import java.util.Objects;
-
 //TODO test CAB actions
 public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
-
-  private ActivityScenario<ManageTemplates> activityScenario = null;
-
   private static Account account1, account2;
 
   @Before
@@ -55,7 +49,7 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
     createInstances(Template.Action.SAVE);
     createInstances(Template.Action.EDIT);
     Intent i = new Intent(getTargetContext(), ManageTemplates.class);
-    activityScenario = ActivityScenario.launch(i);
+    testScenario = ActivityScenario.launch(i);
     Intents.init();
   }
 
@@ -141,11 +135,5 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
     final AppComponent appComponent = getApp().getAppComponent();
     MockLicenceHandler licenceHandler = ((MockLicenceHandler) appComponent.licenceHandler());
     licenceHandler.setLockState(false);
-  }
-
-  @NonNull
-  @Override
-  protected ActivityScenario<ManageTemplates> getTestScenario() {
-    return Objects.requireNonNull(activityScenario);
   }
 }

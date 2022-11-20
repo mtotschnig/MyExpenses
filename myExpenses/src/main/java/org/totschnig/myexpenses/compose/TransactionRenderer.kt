@@ -139,7 +139,7 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     fun Render(
         modifier: Modifier = Modifier,
         transaction: Transaction2,
-        selectionHandler: SelectionHandler,
+        selectionHandler: SelectionHandler?,
         menuGenerator: (Transaction2) -> Menu<Transaction2>?
     ) {
         val showMenu = remember { mutableStateOf(false) }
@@ -148,17 +148,24 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         val voidStatus = stringResource(id = R.string.status_void)
         Row(modifier = modifier
             .height()
-            .combinedClickable(
-                onLongClick = { selectionHandler.toggle(transaction) },
-                onClick = {
-                    if (selectionHandler.selectionCount == 0) {
-                        showMenu.value = true
-                    } else {
-                        selectionHandler.toggle(transaction)
-                    }
+            .conditional(selectionHandler != null,
+                ifTrue = {
+                    combinedClickable(
+                        onLongClick = { selectionHandler!!.toggle(transaction) },
+                        onClick = {
+                            if (selectionHandler!!.selectionCount == 0) {
+                                showMenu.value = true
+                            } else {
+                                selectionHandler.toggle(transaction)
+                            }
+                        }
+                    )
+                },
+                ifFalse = {
+                    clickable { showMenu.value = true }
                 }
             )
-            .conditional(selectionHandler.isSelected(transaction)) {
+            .conditional(selectionHandler?.isSelected(transaction) == true) {
                 background(activatedBackgroundColor)
             }
             .conditional(transaction.crStatus == CrStatus.VOID) {

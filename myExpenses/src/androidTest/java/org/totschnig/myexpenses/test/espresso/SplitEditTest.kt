@@ -59,7 +59,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun bug987() {
         val account2 = Account("Test Account 2", currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
-        activityScenario = ActivityScenario.launch(baseIntent.apply { putExtra(KEY_ACCOUNTID, account1.id) })
+        testScenario = ActivityScenario.launch(baseIntent.apply { putExtra(KEY_ACCOUNTID, account1.id) })
         closeSoftKeyboard()
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
         enterAmountSave("50")
@@ -90,7 +90,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun canceledSplitCleanup() {
-        activityScenario = ActivityScenario.launchActivityForResult(baseIntent)
+        testScenario = ActivityScenario.launchActivityForResult(baseIntent)
         val uncommittedUri = TransactionProvider.UNCOMMITTED_URI
         assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(1)
         closeSoftKeyboard()
@@ -101,8 +101,8 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun createPartAndSave() {
-        activityScenario = ActivityScenario.launchActivityForResult(baseIntent)
-        activityScenario.onActivity {
+        testScenario = ActivityScenario.launchActivityForResult(baseIntent)
+        testScenario.onActivity {
             assertThat(it.setAccountsCalled).isEqualTo(1)
         }
         createParts(5)
@@ -111,7 +111,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     private fun createParts(times: Int) {
-        activityScenario.onActivity {
+        testScenario.onActivity {
             assertThat(it.setAccountsCalled).isEqualTo(1)
         }
         repeat(times) {
@@ -121,7 +121,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
             enterAmountSave("50")
             onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
-            activityScenario.onActivity {
+            testScenario.onActivity {
                 assertThat(it.setAccountsCalled).isEqualTo(1)
             }
         }
@@ -129,7 +129,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun loadEditSaveSplit() {
-        activityScenario = ActivityScenario.launchActivityForResult(baseIntent.apply { putExtra(KEY_ROWID, prepareSplit()) })
+        testScenario = ActivityScenario.launchActivityForResult(baseIntent.apply { putExtra(KEY_ROWID, prepareSplit()) })
         onView(withId(R.id.list)).check(matches(hasChildCount(2)))
         closeSoftKeyboard()
         scrollTo(R.id.list)
@@ -158,7 +158,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun canceledTemplateSplitCleanup() {
-        activityScenario = ActivityScenario.launch(baseIntent.apply { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) })
+        testScenario = ActivityScenario.launch(baseIntent.apply { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) })
         val uncommittedUri = TransactionProvider.TEMPLATES_UNCOMMITTED_URI
         assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(1)
         closeSoftKeyboard()
@@ -168,7 +168,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Test
     fun create_and_save() {
-        activityScenario = ActivityScenario.launchActivityForResult(baseIntent)
+        testScenario = ActivityScenario.launchActivityForResult(baseIntent)
         createParts(1)
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
         onView(withId(R.id.CREATE_COMMAND)).perform(click())

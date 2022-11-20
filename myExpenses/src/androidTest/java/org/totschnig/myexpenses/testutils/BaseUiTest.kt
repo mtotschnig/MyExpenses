@@ -36,7 +36,7 @@ import java.util.*
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
 
-abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
+abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     private var isLarge = false
 
     val testContext: Context
@@ -106,7 +106,7 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
         }
     }
 
-    protected abstract val testScenario: ActivityScenario<out A>
+    lateinit var testScenario: ActivityScenario<A>
 
     protected fun rotate() {
         testScenario.onActivity {

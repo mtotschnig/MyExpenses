@@ -60,7 +60,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
         transaction.save()
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-        activityScenario = ActivityScenario.launch(i)
+        testScenario = ActivityScenario.launch(i)
         onView(withId(R.id.Account)).perform(click())
         onData(allOf(instanceOf(IAccount::class.java), withAccount(accountLabel2))).perform(click())
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
@@ -78,7 +78,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
         transaction.save()
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-        activityScenario = ActivityScenario.launch(i)
+        testScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
         onView(withId(R.id.Method)).perform(nestedScrollToAction(), click())
@@ -105,7 +105,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
         transaction.save()
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-        activityScenario = ActivityScenario.launch(i)
+        testScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
         onView(withId(R.id.Status)).perform(nestedScrollToAction(), click())
@@ -126,7 +126,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldHandleNewInstanceAfterOrientationChange() {
-        activityScenario = ActivityScenario.launch(
+        testScenario = ActivityScenario.launch(
             Intent(targetContext, ExpenseEdit::class.java).apply {
                 putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
             })
@@ -145,7 +145,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
             save()
             id
         }
-        activityScenario = ActivityScenario.launch(
+        testScenario = ActivityScenario.launch(
             Intent(targetContext, ExpenseEdit::class.java).apply {
                 putExtra(DatabaseConstants.KEY_ROWID, id)
             })

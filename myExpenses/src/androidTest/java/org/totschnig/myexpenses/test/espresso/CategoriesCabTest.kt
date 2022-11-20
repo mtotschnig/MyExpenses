@@ -37,7 +37,6 @@ import java.time.LocalDate
 import java.util.*
 
 class CategoriesCabTest : BaseUiTest<ManageCategories>() {
-    private lateinit var activityScenario: ActivityScenario<ManageCategories>
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
@@ -62,7 +61,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
                 it.action = ACTION_MANAGE
             }
         ).also {
-            activityScenario = it
+            testScenario = it
         }
 
     private fun fixtureWithMappedTransaction() {
@@ -167,6 +166,4 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private fun onContextMenu(@StringRes menuItemId: Int) =
         composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
 
-    override val testScenario: ActivityScenario<ManageCategories>
-        get() = activityScenario
 }

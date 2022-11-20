@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -136,6 +137,7 @@ fun <T> HierarchicalMenu(
     target: T
 ) {
     DropdownMenu(
+        modifier = Modifier.testTag(TEST_TAG_CONTEXT_MENU),
         expanded = expanded.value,
         onDismissRequest = { expanded.value = false }
     ) {

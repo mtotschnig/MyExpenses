@@ -152,7 +152,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun launchAndWait(i: Intent) = ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
-        activityScenario = it
+        testScenario = it
     }
 
     @Test
@@ -245,7 +245,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldSwitchAccountViewsForReceivingTransferPart() {
         load(transfer.transferPeer!!).use {
-            activityScenario.onActivity { activity: ExpenseEdit ->
+            testScenario.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue
                 Assertions.assertThat(
                     (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
@@ -265,7 +265,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldKeepAccountViewsForGivingTransferPart() {
         load(transfer.id).use {
-            activityScenario.onActivity { activity: ExpenseEdit ->
+            testScenario.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse
                 Assertions.assertThat(
                     (activity.findViewById<View>(R.id.AccountRow) as ViewGroup).getChildAt(
@@ -370,7 +370,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.PayeeRow, R.id.AccountRow, R.id.PB
             )
             checkEffectiveGone(R.id.Recurrence)
-            activityScenario.onActivity { activity: ExpenseEdit ->
+            testScenario.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat(activity.isTemplate).isTrue()
             }
             onView(
@@ -405,7 +405,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.PayeeRow, R.id.AccountRow
             )
             checkEffectiveGone(R.id.PB, R.id.TitleRow)
-            activityScenario.onActivity { activity: ExpenseEdit ->
+            testScenario.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat(activity.isTemplate).isFalse()
             }
             onView(

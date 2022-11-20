@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.sp
 
 fun Modifier.conditional(condition : Boolean, block : Modifier.() -> Modifier) = if (condition) {
         then(block(Modifier))
@@ -24,5 +23,17 @@ fun Modifier.conditionalComposed(condition : Boolean, block : @Composable Modifi
             this
         }
     }
+
+fun Modifier.conditional(
+    condition: Boolean,
+    ifTrue: Modifier.() -> Modifier,
+    ifFalse: (Modifier.() -> Modifier)? = null
+) = if (condition) {
+    then(ifTrue(Modifier))
+} else if (ifFalse != null) {
+    then(ifFalse(Modifier))
+} else {
+    this
+}
 
 fun Modifier.size(spSize: TextUnit) = composed { this.size(with(LocalDensity.current) { spSize.toDp() }) }

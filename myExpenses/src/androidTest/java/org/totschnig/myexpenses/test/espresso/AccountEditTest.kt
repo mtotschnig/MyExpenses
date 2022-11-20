@@ -22,13 +22,12 @@ import org.totschnig.myexpenses.testutils.Espresso.wait
 import org.totschnig.myexpenses.testutils.Matchers.withListSize
 
 class AccountEditTest : BaseUiTest<AccountEdit>() {
-    private lateinit var activityScenario: ActivityScenario<AccountEdit>
     @After
 
     @Test
     fun saveAccount() {
         val i = Intent(targetContext, AccountEdit::class.java)
-        activityScenario = ActivityScenario.launchActivityForResult(i)
+        testScenario = ActivityScenario.launchActivityForResult(i)
         Espresso.onView(ViewMatchers.withId(R.id.Currency)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.Currency)).perform(wait(withListSize(Matchers.greaterThan(0)), 1000))
         Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
@@ -47,14 +46,11 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         val i = Intent(targetContext, AccountEdit::class.java).apply {
             putExtra(DatabaseConstants.KEY_ROWID, id)
         }
-        activityScenario = ActivityScenario.launchActivityForResult(i)
+        testScenario = ActivityScenario.launchActivityForResult(i)
         Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
         val account = Account.getInstanceFromDb(id)
         assertThat(account.uuid).isEqualTo(uuid)
     }
-
-    override val testScenario: ActivityScenario<AccountEdit>
-        get() = activityScenario
 
     companion object {
         private const val LABEL = "Test account"

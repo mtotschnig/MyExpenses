@@ -14,7 +14,6 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
-import okhttp3.internal.wait
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
@@ -23,13 +22,16 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import java.util.*
 
 class DistributionTest : BaseUiTest<DistributionActivity>() {
-    private lateinit var scenario: ActivityScenario<DistributionActivity>
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
@@ -42,7 +44,7 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         additionalFixture()
-        scenario = ActivityScenario.launch(Intent(InstrumentationRegistry.getInstrumentation().targetContext, DistributionActivity::class.java).apply {
+        testScenario = ActivityScenario.launch(Intent(InstrumentationRegistry.getInstrumentation().targetContext, DistributionActivity::class.java).apply {
             putExtra(KEY_ACCOUNTID, account.id)
         })
     }
@@ -69,7 +71,7 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     @Test
     fun testColorCommand() {
         launchWithContextCommand(R.string.color)
-        scenario.onActivity {
+        testScenario.onActivity {
             assertThat(it.supportFragmentManager.findFragmentByTag(ProtectedFragmentActivity.EDIT_COLOR_DIALOG)).isNotNull()
         }
     }
@@ -86,6 +88,4 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     private fun onContextMenu(@StringRes menuItemId: Int) =
         composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
 
-    override val testScenario: ActivityScenario<out DistributionActivity>
-        get() = scenario
 }

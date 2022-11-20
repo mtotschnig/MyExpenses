@@ -101,7 +101,7 @@ fun TransactionList(
     pageFlow: Flow<PagingData<Transaction2>>,
     headerData: HeaderData,
     budgetData: State<BudgetData?>,
-    selectionHandler: SelectionHandler,
+    selectionHandler: SelectionHandler?,
     menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
     futureCriterion: FutureCriterion,
     expansionHandler: ExpansionHandler,

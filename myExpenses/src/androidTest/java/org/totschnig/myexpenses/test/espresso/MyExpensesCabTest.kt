@@ -7,15 +7,20 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
@@ -27,10 +32,11 @@ import org.totschnig.myexpenses.util.Utils
 
 class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
+    private lateinit var account: Account
     @Before
     fun fixture() {
         val home = Utils.getHomeCurrency()
-        val account = Account(
+        account = Account(
             "Test account 1", home, 0, "",
             AccountType.CASH, Account.DEFAULT_COLOR
         )
@@ -67,15 +73,15 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         val templateTitle = "Espresso Template Test"
         assertListSize(origListSize)
         clickContextItem(R.string.menu_create_template_from_transaction)
-        Espresso.onView(ViewMatchers.withId(R.id.Title)).perform(
-            ViewActions.closeSoftKeyboard(),
-            ViewActions.typeText(templateTitle),
-            ViewActions.closeSoftKeyboard()
+        onView(withId(R.id.Title)).perform(
+            closeSoftKeyboard(),
+            typeText(templateTitle),
+            closeSoftKeyboard()
         )
         closeKeyboardAndSave()
         clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
-        Espresso.onView(ViewMatchers.withText(Matchers.`is`(templateTitle)))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(Matchers.`is`(templateTitle)))
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -101,7 +107,9 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private fun doDelete(useCab: Boolean, cancel: Boolean) {
         assertListSize(origListSize)
         triggerDelete(useCab)
-        Espresso.onView(ViewMatchers.withText(if (cancel) android.R.string.cancel else  R.string.menu_delete)).inRoot(RootMatchers.isDialog()).perform(ViewActions.click())
+        onView(withText(if (cancel) android.R.string.cancel else  R.string.menu_delete))
+            .inRoot(isDialog())
+            .perform(click())
         assertListSize(if (cancel) origListSize else origListSize - 1)
     }
 
@@ -126,8 +134,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private fun doDeleteCommandWithVoidOption(useCab: Boolean) {
         assertListSize(origListSize)
         triggerDelete(useCab)
-        Espresso.onView(ViewMatchers.withId(R.id.checkBox)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.menu_delete)).perform(ViewActions.click())
+        onView(withId(R.id.checkBox)).perform(click())
+        onView(withText(R.string.menu_delete)).perform(click())
         val voidStatus = getString(R.string.status_void)
         composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst()
             .assertContentDescriptionEquals(voidStatus)
@@ -142,8 +150,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     fun splitCommandCreatesSplitTransaction() {
         openCab(R.id.SPLIT_TRANSACTION_COMMAND)
         handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
-        Espresso.onView(ViewMatchers.withText(R.string.menu_split_transaction))
-            .perform(ViewActions.click())
+        onView(withText(R.string.menu_split_transaction))
+            .perform(click())
         composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst().assertTextContains(getString(R.string.split_transaction))
     }
 
@@ -151,7 +159,17 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     fun cabIsRestoredAfterOrientationChange() {
         openCab(null)
         rotate()
-        Espresso.onView(ViewMatchers.withId(R.id.action_mode_bar))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.action_mode_bar)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun contextForSealedAccount() {
+        testScenario.onActivity {
+            it.viewModel.setSealed(account.id, true)
+        }
+        openCab(null)
+        onView(withId(R.id.action_mode_bar)).check(doesNotExist())
+        //context menu should only have the details entry
+        composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).assert(hasChildCount(1))
     }
 }

@@ -15,7 +15,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -47,6 +46,7 @@ public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
 
   @Before
   public void initIntents() {
+    testScenario = scenarioRule.getScenario();
     Intents.init();
   }
 
@@ -149,11 +149,5 @@ public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_custom_currency_title)),
             click()));
     intended(hasComponent(ManageCurrencies.class.getName()));
-  }
-
-  @NonNull
-  @Override
-  protected ActivityScenario<MyPreferenceActivity> getTestScenario() {
-    return scenarioRule.getScenario();
   }
 }

@@ -5,9 +5,11 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.google.common.truth.Truth.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
@@ -20,6 +22,11 @@ class ManageCategoriesTest : BaseUiTest<ManageCategories>() {
         ManageCategories::class.java
     )
 
+    @Before
+    fun setup() {
+        testScenario = scenarioRule.scenario
+    }
+
     @Test
     @Throws(TimeoutException::class)
     fun setupCategoriesShouldPopulateList() {
@@ -29,7 +36,4 @@ class ManageCategoriesTest : BaseUiTest<ManageCategories>() {
             .perform(ViewActions.click())
         assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isGreaterThan(0)
     }
-
-    override val testScenario: ActivityScenario<ManageCategories>
-        get() = scenarioRule.scenario
 }

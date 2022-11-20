@@ -29,7 +29,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             addAccountType(AccountType.CASH)
         }
         Truth.assertThat(paymentMethod.save()).isNotNull()
-        activityScenario = ActivityScenario.launchActivityForResult(intent)
+        testScenario = ActivityScenario.launchActivityForResult(intent)
     }
 
     /**
@@ -47,7 +47,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         ).perform(ViewActions.typeText(10.toString()))
         onView(Espresso.withIdAndParent(R.id.TaType, R.id.Amount))
             .perform(ViewActions.click())
-        androidx.test.espresso.Espresso.closeSoftKeyboard()
+        closeSoftKeyboard()
         onView(ViewMatchers.withId(R.id.Category))
             .perform(ViewActions.click())
         androidx.test.espresso.Espresso.pressBack()

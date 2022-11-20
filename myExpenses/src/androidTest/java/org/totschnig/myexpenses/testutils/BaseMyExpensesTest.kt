@@ -34,20 +34,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 abstract class BaseMyExpensesTest : BaseUiTest<TestMyExpenses>() {
     private val countingResource = CountingIdlingResource("CheckSealed")
     private var transactionPagingIdlingResource: IdlingResource? = null
-    lateinit var activityScenario: ActivityScenario<TestMyExpenses>
-
-    override val testScenario: ActivityScenario<TestMyExpenses>
-        get() = activityScenario
 
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
     fun launch(id: Long? = null) {
-        activityScenario = ActivityScenario.launch(
+        testScenario = ActivityScenario.launch(
             Intent(targetContext, TestMyExpenses::class.java).apply {
                 putExtra(DatabaseConstants.KEY_ROWID, id)
             })
-        activityScenario.onActivity { activity ->
+        testScenario.onActivity { activity ->
             activity?.let {
                 it.decoratedCheckSealedHandler =
                     DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
@@ -64,6 +60,12 @@ abstract class BaseMyExpensesTest : BaseUiTest<TestMyExpenses>() {
             with(it.config[SemanticsProperties.CollectionInfo]) {
                 columnCount == expectedColumnCount && rowCount == expectedRowCount
             }
+        }
+    }
+
+    fun hasChildCount(expectedChildCount: Int): SemanticsMatcher {
+        return SemanticsMatcher("has $expectedChildCount children") {
+            it.children.size == expectedChildCount
         }
     }
 

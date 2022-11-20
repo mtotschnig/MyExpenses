@@ -36,7 +36,7 @@ public final class MyExpensesIntentTest extends BaseMyExpensesTest {
   public void shouldNavigateToAccountReceivedThroughIntent() {
     Intent i = new Intent(getTargetContext(), MyExpenses.class)
         .putExtra(KEY_ROWID, account1.getId());
-    activityScenario = ActivityScenario.launch(i);
+    testScenario = ActivityScenario.launch(i);
     onView(allOf(
         withText(accountLabel1),
         withParent(withId(R.id.toolbar))))

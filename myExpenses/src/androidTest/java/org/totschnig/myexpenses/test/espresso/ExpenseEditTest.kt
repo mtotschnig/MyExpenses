@@ -43,7 +43,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     }
 
     private fun launch(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
-        activityScenario = it
+        testScenario = it
     }
 
     @Test

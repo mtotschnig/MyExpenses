@@ -149,11 +149,11 @@ class TestMain : BaseMyExpensesTest() {
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
         val startIntent = Intent(app, TestMyExpenses::class.java)
-        activityScenario = ActivityScenario.launch(startIntent)
+        testScenario = ActivityScenario.launch(startIntent)
     }
 
     private fun takeScreenshot(fileName: String) {
-        Espresso.onIdle()
+        onIdle()
         Screengrab.screenshot(fileName)
     }
 

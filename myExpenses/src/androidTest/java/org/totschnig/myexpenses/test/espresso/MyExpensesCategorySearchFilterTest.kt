@@ -71,7 +71,7 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         Espresso.onView(ViewMatchers.withText(text)).inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click())
         allLabelsAreDisplayed()
-        activityScenario.close()
+        testScenario.close()
     }
 
     private fun select(label: String) {
