@@ -46,7 +46,7 @@ const val KEY_ROW_IDS = "rowIds"
 
 object AccountSealedException : IllegalStateException()
 
-abstract class ContentResolvingAndroidViewModel(application: Application, ) :
+abstract class ContentResolvingAndroidViewModel(application: Application) :
     BaseViewModel(application) {
     @Inject
     lateinit var briteContentResolver: BriteContentResolver
@@ -109,30 +109,22 @@ abstract class ContentResolvingAndroidViewModel(application: Application, ) :
 
     fun getDebts(): LiveData<List<Debt>> = debts
 
-    protected fun accountsMinimal(withHidden: Boolean = true): LiveData<List<AccountMinimal>> {
-        val liveData = MutableLiveData<List<AccountMinimal>>()
-        disposable = briteContentResolver.createQuery(
-            TransactionProvider.ACCOUNTS_MINIMAL_URI, null,
-            if (withHidden) null else "$KEY_HIDDEN = 0",
-            null, null, false
-        )
-            .mapToList { cursor ->
-                val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-                AccountMinimal(
-                    id,
-                    if (id == HOME_AGGREGATE_ID)
-                        getString(R.string.grand_total)
-                    else
-                        cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
-                )
-            }
-            .subscribe {
-                liveData.postValue(it)
-                dispose()
-            }
-        return liveData
-    }
+    fun accountsMinimal(withHidden: Boolean = true) = contentResolver.observeQuery(
+        TransactionProvider.ACCOUNTS_MINIMAL_URI, null,
+        if (withHidden) null else "$KEY_HIDDEN = 0",
+        null, null, false
+    )
+        .mapToList { cursor ->
+            val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
+            AccountMinimal(
+                id,
+                if (id == HOME_AGGREGATE_ID)
+                    getString(R.string.grand_total)
+                else
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
+                cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
+            )
+        }
 
     fun account(accountId: Long, once: Boolean = false) = liveData(context = coroutineContext()) {
         val base =

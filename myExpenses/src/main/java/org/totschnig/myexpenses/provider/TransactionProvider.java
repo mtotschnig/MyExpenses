@@ -1046,7 +1046,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
-      notifyChange(ACCOUNTS_BASE_URI, false);
+      notifyAccountChange();
     } else if (uriMatch == TEMPLATES) {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     } else if (uriMatch == DEBTS) {
@@ -1220,7 +1220,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(UNCOMMITTED_URI, false);
     } else {
       if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
-        notifyChange(ACCOUNTS_BASE_URI, false);
+        notifyAccountChange();
       }
       if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
         notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
@@ -1600,7 +1600,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(BUDGETS_URI, false);
     }
     if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
-      notifyChange(ACCOUNTS_BASE_URI, false);
+      notifyAccountChange();
     }
     if (uriMatch == UNCOMMITTED_ID || uriMatch == UNCOMMITTED) {
       notifyChange(UNCOMMITTED_URI, false);

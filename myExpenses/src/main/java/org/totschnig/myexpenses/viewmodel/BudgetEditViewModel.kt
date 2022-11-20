@@ -3,13 +3,9 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Budget
 
 class BudgetEditViewModel(application: Application) : BudgetViewModel(application) {
@@ -35,10 +31,6 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
             }, ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budget.id),
                     contentValues, null, null)
         }
-    }
-
-    val accounts: LiveData<List<AccountMinimal>> by lazy {
-        return@lazy accountsMinimal()
     }
 
     fun persistPreferences(budgetId: Long, whereFilter: WhereFilter, budget: Budget) {

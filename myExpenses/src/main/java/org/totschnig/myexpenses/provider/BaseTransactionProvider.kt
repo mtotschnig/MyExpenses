@@ -83,6 +83,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     private val bulkNotificationUris = mutableSetOf<Pair<Uri, Boolean>>()
 
+    fun notifyAccountChange() {
+        notifyChange(TransactionProvider.ACCOUNTS_BASE_URI, false)
+        notifyChange(TransactionProvider.ACCOUNTS_MINIMAL_URI, false)
+    }
     fun notifyChange(uri: Uri, syncToNetwork: Boolean) {
         if (!bulkInProgress) {
             notifyChangeDo(uri, syncToNetwork)

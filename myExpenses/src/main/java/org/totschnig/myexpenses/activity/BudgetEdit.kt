@@ -8,8 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import icepick.State
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -139,11 +144,15 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         viewModel = ViewModelProvider(this)[BudgetEditViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
-        viewModel.accounts.observe(this) { list ->
-            accountSpinnerHelper.adapter = AccountAdapter(this, list)
-            (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
-            if (pendingBudgetLoad != 0L) {
-                viewModel.budget(pendingBudgetLoad).observe(this) { populateData(it) }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accountsMinimal().take(1).collect { list ->
+                    accountSpinnerHelper.adapter = AccountAdapter(this@BudgetEdit, list)
+                    (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
+                    if (pendingBudgetLoad != 0L) {
+                        viewModel.budget(pendingBudgetLoad).observe(this@BudgetEdit) { populateData(it) }
+                    }
+                }
             }
         }
         mNewInstance = budgetId == 0L
