@@ -40,11 +40,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="DarkBackground">
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorOnSurface">@android:color/white</item>
     </style>
 
     <style name="LightBackground">
-        <item name="colorControlNormal">@android:color/black</item>
+        <item name="colorOnSurface">@android:color/black</item>
     </style>
 
     <style name="EditDialogBase" parent="Theme.MaterialComponents.DayNight.DialogWhenLarge">
