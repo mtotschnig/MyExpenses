@@ -20,12 +20,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
@@ -98,6 +100,7 @@ import timber.log.Timber
 import java.io.File
 import java.io.Serializable
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -755,10 +758,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 dateTimeFormatter(account, prefHandler, this@BaseMyExpenses),
                                 onToggleCrStatus
                             )
-                            RenderType.Legacy -> LegacyTransactionRenderer(
-                                dateTimeFormatterLegacy(account, prefHandler, this@BaseMyExpenses),
-                                onToggleCrStatus
-                            )
+                            RenderType.Legacy -> {
+                                LegacyTransactionRenderer(
+                                    dateTimeFormatterLegacy(
+                                        account,
+                                        prefHandler,
+                                        this@BaseMyExpenses
+                                    )?.let {
+                                        Pair(
+                                            (it.first as SimpleDateFormat).asDateTimeFormatter,
+                                            with(LocalDensity.current) {
+                                                LocalTextStyle.current.fontSize.toDp()
+                                            } * it.second
+                                        )
+                                    },
+                                    onToggleCrStatus
+                                )
+                            }
                         },
                         scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
                         listState = viewModel.listState.getValue(account.id)

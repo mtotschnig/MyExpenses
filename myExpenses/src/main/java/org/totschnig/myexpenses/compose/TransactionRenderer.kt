@@ -38,10 +38,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.flowlayout.FlowRow
@@ -235,9 +237,10 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
 }
 
 class LegacyTransactionRenderer(
-    private val dateTimeFormatter: DateTimeFormatter?,
-    onToggleCrStatus: ((Long) -> Unit)?
+    private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
+    onToggleCrStatus: ((Long) -> Unit)? = null
 ) : ItemRenderer(onToggleCrStatus) {
+
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
         val context = LocalContext.current
@@ -258,8 +261,8 @@ class LegacyTransactionRenderer(
             )
             Spacer(modifier = Modifier.width(5.dp))
         }
-        dateTimeFormatter?.let {
-            Text(text = it.format(transaction.date))
+        dateTimeFormatInfo?.let {
+            Text(modifier = Modifier.width(it.second), text = it.first.format(transaction.date), textAlign = TextAlign.Center)
         }
         transaction.StatusToggle()
         TextWithInlineContent(
@@ -371,7 +374,9 @@ fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2
 @Preview
 @Composable
 fun RenderLegacy(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    LegacyTransactionRenderer(DateTimeFormatter.ofPattern("EEE"), null).Render(
+    LegacyTransactionRenderer(
+        DateTimeFormatter.ofPattern("EEE") to 40.dp
+    ).Render(
         transaction = transaction,
         selectionHandler = object : SelectionHandler {
             override fun toggle(transaction: Transaction2) {}

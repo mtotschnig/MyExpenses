@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils.calculateContrast
 import com.google.android.material.chip.ChipGroup
 import org.totschnig.myexpenses.R
@@ -85,7 +86,7 @@ private fun timeFormatter(accountType: AccountType?, prefHandler: PrefHandler, c
         android.text.format.DateFormat.getTimeFormat(context) as SimpleDateFormat
     } else null
 
-private val SimpleDateFormat.asDateTimeFormatter: DateTimeFormatter
+val SimpleDateFormat.asDateTimeFormatter: DateTimeFormatter
     get() = DateTimeFormatter.ofPattern(this.toPattern())
 
 fun dateTimeFormatter(account: PageAccount, prefHandler: PrefHandler, context: Context) =
@@ -96,14 +97,19 @@ fun dateTimeFormatter(account: PageAccount, prefHandler: PrefHandler, context: C
 
 fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
-        Grouping.DAY -> timeFormatter(account.type, prefHandler, context)
+        Grouping.DAY -> {
+            timeFormatter(account.type, prefHandler, context)?.let {
+                val is24HourFormat = android.text.format.DateFormat.is24HourFormat(context)
+                it to if (is24HourFormat) 3f else 4.6f
+            }
+        }
         Grouping.MONTH ->
             if (prefHandler.getString(PrefKey.GROUP_MONTH_STARTS, "1")!!.toInt() == 1) {
-                SimpleDateFormat("dd", Utils.localeFromContext(context))
+                SimpleDateFormat("dd", Utils.localeFromContext(context)) to 2f
             } else {
-                Utils.localizedYearLessDateFormat(context)
+                Utils.localizedYearLessDateFormat(context) to 3f
             }
-        Grouping.WEEK -> SimpleDateFormat("EEE", Utils.localeFromContext(context))
-        Grouping.YEAR -> Utils.localizedYearLessDateFormat(context)
-        Grouping.NONE -> Utils.ensureDateFormatWithShortYear(context)
-    }?.let { (it as SimpleDateFormat).asDateTimeFormatter }
+        Grouping.WEEK -> SimpleDateFormat("EEE", Utils.localeFromContext(context)) to 2f
+        Grouping.YEAR -> Utils.localizedYearLessDateFormat(context) to 3f
+        Grouping.NONE -> Utils.ensureDateFormatWithShortYear(context) to 4.6f
+    }
