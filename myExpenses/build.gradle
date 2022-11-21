@@ -359,10 +359,16 @@ task copyFileForFixture(type: Files) {
 
 task echoPublishTag() {
     doLast {
-        println "ChangeLog.install/bin/ChangeLog fdroid ${versionName} ${versionCode}"
-        println "git add metadata/*/changelogs/${versionCode}.txt"
-        println "git commit -m \"Release ${versionName}\""
-        println "git push"
-        println "git tag r${versionCode}; git push origin r${versionCode}"
+        def currentBranch = 'git branch --show-current'.execute().text.trim()
+
+        if (currentBranch == 'master') {
+            println "ChangeLog.install/bin/ChangeLog fdroid ${versionName} ${versionCode}"
+            println "git add metadata/*/changelogs/${versionCode}.txt"
+            println "git commit -m \"Release ${versionName}\""
+            println "git push"
+            println "git tag r${versionCode}; git push origin r${versionCode}"
+        } else {
+            println "Release should be built on master, current branch is $currentBranch"
+        }
     }
 }
