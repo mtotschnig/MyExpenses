@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -88,7 +89,7 @@ data class Transaction2(
 
 
     companion object {
-        fun projection(context: Context) = arrayOf(
+        fun projection(grouping: Grouping) = arrayOf(
             KEY_ROWID,
             KEY_DATE,
             KEY_VALUE_DATE,
@@ -110,7 +111,11 @@ data class Transaction2(
             KEY_STATUS,
             KEY_TAGLIST,
             KEY_PARENTID,
-            "$YEAR AS $KEY_YEAR",
+            when(grouping) {
+                Grouping.MONTH -> getYearOfMonthStart()
+                Grouping.WEEK -> getYearOfWeekStart()
+                else -> YEAR
+            } + " AS $KEY_YEAR",
             "${getMonth()} AS $KEY_MONTH",
             "${getWeek()} AS $KEY_WEEK",
             "$DAY AS $KEY_DAY",

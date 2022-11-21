@@ -164,10 +164,10 @@ data class PageAccount(
         }
         val uri = builder.build()
         val projection = when {
-            !isAggregate -> Transaction2.projection(context)
-            isHomeAggregate -> Transaction2.projection(context) +
+            !isAggregate -> Transaction2.projection(grouping)
+            isHomeAggregate -> Transaction2.projection(grouping) +
                     Transaction2.additionalAggregateColumns + Transaction2.additionGrandTotalColumns
-            else -> Transaction2.projection(context) + Transaction2.additionalAggregateColumns
+            else -> Transaction2.projection(grouping) + Transaction2.additionalAggregateColumns
         }
         return Tuple4(uri, projection, selection, selectionArgs)
     }
