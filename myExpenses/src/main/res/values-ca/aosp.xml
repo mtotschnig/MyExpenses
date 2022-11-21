@@ -29,5 +29,6 @@
     <string name="setup">"Configuració"</string>
     <string name="clear_cache">"Esborra la memòria cau"</string>
     <string name="customize">"Personalitza"</string>
+    <string name="compact">compacte</string>
 </resources>
 

@@ -30,5 +30,6 @@
     <string name="setup">"Postavljanje"</string>
     <string name="clear_cache">"Isprazni predmemoriju"</string>
     <string name="customize">"Prilagodi"</string>
+    <string name="compact">kompaktna</string>
 </resources>
 

@@ -8,17 +8,19 @@ import android.net.Uri
 import android.os.Build
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
-import org.totschnig.myexpenses.fragment.BaseSettingsFragment
+import org.totschnig.myexpenses.fragment.BaseSettingsFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.preference.PrefKey
@@ -372,7 +374,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     getString(
                         R.string.upgrade_info_557,
                         getString(R.string.pref_category_title_ui),
-                        BaseSettingsFragment.legacyItemRendererTitle(localizedContext)
+                        "${getString(R.string.help_MyExpenses_title)} -> ${localizedContext.compactItemRendererTitle()}"
                     )
                 )
             }
@@ -393,6 +395,15 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                         prefHandler.remove(key)
                     }
+            }
+            if (fromVersion in 558..567) {
+                val key = booleanPreferencesKey(prefHandler.getKey(PrefKey.UI_ITEM_RENDERER_LEGACY))
+                if (dataStore.data.first()[key] == true) {
+                    dataStore.edit {
+                        it[booleanPreferencesKey(prefHandler.getKey(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON))] =
+                            false
+                    }
+                }
             }
 
             if (upgradeInfoList.isNotEmpty()) {

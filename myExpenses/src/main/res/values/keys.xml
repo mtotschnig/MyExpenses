@@ -29,6 +29,7 @@
     <string name="pref_share_target_key">share_target</string>
     <string name="pref_ui_theme_key">pref_ui_theme</string>
     <string name="pref_ui_item_renderer_legacy_key">ui_item_renderer_legacy</string>
+    <string name="pref_ui_item_renderer_category_icon_key">ui_item_renderer_category_icon</string>
     <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     <string name="pref_backup_key">backup</string>
     <string name="pref_auto_backup_key">auto_backup</string>
@@ -123,6 +124,7 @@
     <string name="pref_purge_backup_key">purge_backup</string>
     <string name="pref_purge_backup_keep_key">purge_backup_keep</string>
     <string name="pref_purge_backup_require_confirmation_key">purge_backup_require_confirmation</string>
+    <string name="pref_ui_transaction_list_key">ui_transaction_list</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

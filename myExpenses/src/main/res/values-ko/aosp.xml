@@ -30,5 +30,6 @@
     <string name="setup">"설정"</string>
     <string name="clear_cache">"캐시 지우기"</string>
     <string name="customize">"맞춤설정"</string>
+    <string name="compact">컴팩트</string>
 </resources>
 

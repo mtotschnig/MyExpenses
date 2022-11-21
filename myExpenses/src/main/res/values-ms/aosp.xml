@@ -29,5 +29,6 @@
     <string name="setup">"Persediaan"</string>
     <string name="clear_cache">"Kosongkan cache"</string>
     <string name="customize">"Sesuaikan"</string>
+    <string name="compact">Sarat</string>
 </resources>
 

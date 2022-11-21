@@ -29,5 +29,6 @@
     <string name="setup">"Configura"</string>
     <string name="clear_cache">"Svuota cache"</string>
     <string name="customize">"Personalizza"</string>
+    <string name="compact">compatto</string>
 </resources>
 

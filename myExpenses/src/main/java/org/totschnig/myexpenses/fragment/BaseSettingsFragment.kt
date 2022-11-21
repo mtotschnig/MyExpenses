@@ -769,13 +769,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceDataStore.handleToggle(requirePreference(PrefKey.GROUP_HEADER))
                 }
 
-                requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
-                    it.title = legacyItemRendererTitle(requireContext())
-                    lifecycleScope.launchWhenStarted {
-                        preferenceDataStore.handleToggle(it)
-                    }
-                }
-
                 lifecycleScope.launchWhenStarted {
                     preferenceDataStore.handleList(requirePreference(PrefKey.CRITERION_FUTURE))
                 }
@@ -993,6 +986,17 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             getKey(PrefKey.CSV_EXPORT) -> {
                 preferenceScreen.title = getString(R.string.export_to_format, "CSV")
+            }
+            getKey(PrefKey.UI_TRANSACTION_LIST) -> {
+                requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
+                    it.title = requireContext().compactItemRendererTitle()
+                    lifecycleScope.launchWhenStarted {
+                        preferenceDataStore.handleToggle(it)
+                    }
+                }
+                lifecycleScope.launchWhenStarted {
+                    preferenceDataStore.handleToggle(requirePreference(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON))
+                }
             }
         }
     }
@@ -1334,7 +1338,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         const val PICK_FOLDER_REQUEST = 2
         private const val CONTRIB_PURCHASE_REQUEST = 3
 
-        fun legacyItemRendererTitle(context: Context) =
-            "${context.getString(R.string.help_MyExpenses_title)} : ${context.getString(R.string.style)} : Legacy"
+        fun Context.compactItemRendererTitle() =
+            "${getString(R.string.style)} : ${getString(R.string.compact)}"
     }
 }

@@ -29,5 +29,6 @@
     <string name="setup">"Beállítás"</string>
     <string name="clear_cache">"A gyorsítótár törlése"</string>
     <string name="customize">"Személyre szabás"</string>
+    <string name="compact">kompakt</string>
 </resources>
 

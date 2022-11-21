@@ -29,5 +29,6 @@
     <string name="setup">"設定"</string>
     <string name="clear_cache">"清除快取"</string>
     <string name="customize">"自訂"</string>
+    <string name="compact">精簡版</string>
 </resources>
 

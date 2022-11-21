@@ -30,5 +30,6 @@
     <string name="setup">"Налаштування"</string>
     <string name="clear_cache">"Очистити кеш"</string>
     <string name="customize">"Налаштувати"</string>
+    <string name="compact">компактна</string>
 </resources>
 

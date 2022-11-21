@@ -48,5 +48,7 @@
     <string name="clear_cache">Clear cache</string>
     <!--TvSettings/Settings/res/values/strings.xml restricted_profile_customize_restrictions -->
     <string name="customize">Customize</string>
+    <!-- inputmethods/LatinIME/java/res/values/string.xml name="subtype_generic_compact" -->
+    <string name="compact">Compact</string>
 </resources>
 

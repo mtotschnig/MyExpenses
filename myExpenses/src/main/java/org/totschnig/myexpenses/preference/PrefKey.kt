@@ -169,7 +169,9 @@ enum class PrefKey {
     CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key),
     WEBUI_HTTPS(R.string.pref_web_ui_https_key),
     RUNNING_BALANCE(R.string.pref_running_balance_key),
-    UI_ITEM_RENDERER_LEGACY(R.string.pref_ui_item_renderer_legacy_key);
+    UI_TRANSACTION_LIST(R.string.pref_ui_transaction_list_key),
+    UI_ITEM_RENDERER_LEGACY(R.string.pref_ui_item_renderer_legacy_key),
+    UI_ITEM_RENDERER_CATEGORY_ICON(R.string.pref_ui_item_renderer_category_icon_key);
 
     internal val resId: Int
 

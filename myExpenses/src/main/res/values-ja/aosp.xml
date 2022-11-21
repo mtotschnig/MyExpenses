@@ -30,5 +30,6 @@
     <string name="setup">"設定"</string>
     <string name="clear_cache">"キャッシュを削除"</string>
     <string name="customize">"カスタマイズ"</string>
+    <string name="compact">コンパクト</string>
 </resources>
 

@@ -29,5 +29,6 @@
     <string name="setup">"Konfiguracja"</string>
     <string name="clear_cache">"Wyczyść pamięć podręczną"</string>
     <string name="customize">"Dostosuj"</string>
+    <string name="compact">kompaktowa</string>
 </resources>
 

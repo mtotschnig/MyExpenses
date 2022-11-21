@@ -134,6 +134,12 @@ open class MyExpensesViewModel(
         }
     }
 
+    val withCategoryIcon: Flow<Boolean> by lazy {
+        dataStore.data.map {
+            it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON)] != false
+        }
+    }
+
     val futureCriterion: Flow<FutureCriterion> by lazy {
         dataStore.data.map {
             enumValueOrDefault(

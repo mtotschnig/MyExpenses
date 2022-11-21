@@ -30,5 +30,6 @@
     <string name="setup">"Configurați"</string>
     <string name="clear_cache">"Goliți memoria cache"</string>
     <string name="customize">"Personalizați"</string>
+    <string name="compact">Compact</string>
 </resources>
 

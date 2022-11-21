@@ -29,5 +29,6 @@
     <string name="setup">"Настройка"</string>
     <string name="clear_cache">"Очистить кеш"</string>
     <string name="customize">"Другой"</string>
+    <string name="compact">компактная раскладка</string>
 </resources>
 

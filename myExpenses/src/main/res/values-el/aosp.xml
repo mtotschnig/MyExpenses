@@ -29,5 +29,6 @@
     <string name="setup">"Ρύθμιση"</string>
     <string name="clear_cache">"Εκκαθάριση προσωρινής μνήμης"</string>
     <string name="customize">"Προσαρμογή"</string>
+    <string name="compact">Συμπαγές</string>
 </resources>
 

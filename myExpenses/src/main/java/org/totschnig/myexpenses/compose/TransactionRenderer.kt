@@ -59,7 +59,10 @@ import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
+abstract class ItemRenderer(
+    private val withCategoryIcon: Boolean,
+    private val onToggleCrStatus: ((Long) -> Unit)?
+) {
 
     fun Transaction2.buildPrimaryInfo(
         context: Context,
@@ -200,8 +203,10 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
         onToggleCrStatus?.let {
             Box(modifier = Modifier
                 .size(32.dp)
-                .conditional((crStatus == CrStatus.UNRECONCILED || crStatus == CrStatus.CLEARED)
-                        && accountType != AccountType.CASH) {
+                .conditional(
+                    (crStatus == CrStatus.UNRECONCILED || crStatus == CrStatus.CLEARED)
+                            && accountType != AccountType.CASH
+                ) {
                     clickable { it(id) }
                 }
                 .padding(8.dp)
@@ -209,6 +214,27 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
                     background(color = Color(crStatus.color))
                 }
             )
+        }
+    }
+
+    @Composable
+    protected fun Transaction2.CategoryIcon() {
+        if (withCategoryIcon) {
+            Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
+                when {
+                    isSplit -> androidx.compose.material.Icon(
+                        imageVector = Icons.Filled.CallSplit,
+                        contentDescription = stringResource(id = R.string.split_transaction),
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    isTransfer -> CharIcon(
+                        char = if (accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
+                            amount.amountMinor > 0
+                        )
+                    )
+                    else -> Icon(icon ?: "minus")
+                }
+            }
         }
     }
 
@@ -236,10 +262,11 @@ abstract class ItemRenderer(private val onToggleCrStatus: ((Long) -> Unit)?) {
     }
 }
 
-class LegacyTransactionRenderer(
+class CompactTransactionRenderer(
     private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
-    onToggleCrStatus: ((Long) -> Unit)? = null
-) : ItemRenderer(onToggleCrStatus) {
+    withCategoryIcon: Boolean = true,
+    onToggleCrStatus: ((Long) -> Unit)? = { }
+) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
 
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
@@ -262,9 +289,14 @@ class LegacyTransactionRenderer(
             Spacer(modifier = Modifier.width(5.dp))
         }
         dateTimeFormatInfo?.let {
-            Text(modifier = Modifier.width(it.second), text = it.first.format(transaction.date), textAlign = TextAlign.Center)
+            Text(
+                modifier = Modifier.width(it.second),
+                text = it.first.format(transaction.date),
+                textAlign = TextAlign.Center
+            )
         }
         transaction.StatusToggle()
+        transaction.CategoryIcon()
         TextWithInlineContent(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
@@ -280,28 +312,15 @@ class LegacyTransactionRenderer(
 
 class NewTransactionRenderer(
     private val dateTimeFormatter: DateTimeFormatter?,
-    onToggleCrStatus: ((Long) -> Unit)?
-) : ItemRenderer(onToggleCrStatus) {
+    withCategoryIcon: Boolean = true,
+    onToggleCrStatus: ((Long) -> Unit)? = { }
+) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
         val context = LocalContext.current
         val primaryInfo = transaction.buildPrimaryInfo(context, false)
         val secondaryInfo = transaction.buildSecondaryInfo(context, false)
-        Box(modifier = Modifier.size(30.sp).padding(end = 8.dp), contentAlignment = Alignment.Center) {
-            when {
-                transaction.isSplit -> androidx.compose.material.Icon(
-                    imageVector = Icons.Filled.CallSplit,
-                    contentDescription = stringResource(id = R.string.split_transaction),
-                    modifier = Modifier.fillMaxSize()
-                )
-                transaction.isTransfer -> CharIcon(
-                    char = if(transaction.accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
-                        transaction.amount.amountMinor > 0
-                    )
-                )
-                else -> Icon(transaction.icon ?: "minus")
-            }
-        }
+        transaction.CategoryIcon()
         transaction.StatusToggle()
         Column(
             modifier = Modifier
@@ -321,14 +340,22 @@ class NewTransactionRenderer(
             if (transaction.tagList.isNotEmpty()) {
                 FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 2.dp) {
                     transaction.tagList.forEach {
-                        Text(text = it, modifier = Modifier.tagBorder(), style = MaterialTheme.typography.caption)
+                        Text(
+                            text = it,
+                            modifier = Modifier.tagBorder(),
+                            style = MaterialTheme.typography.caption
+                        )
                     }
                 }
             }
 
         }
         Column(horizontalAlignment = Alignment.End) {
-            ColoredAmountText(money = transaction.amount, style = MaterialTheme.typography.body1, neutral = transaction.isTransferAggregate)
+            ColoredAmountText(
+                money = transaction.amount,
+                style = MaterialTheme.typography.body1,
+                neutral = transaction.isTransferAggregate
+            )
             dateTimeFormatter?.let {
                 Text(text = it.format(transaction.date), style = MaterialTheme.typography.caption)
             }
@@ -355,10 +382,11 @@ fun Modifier.tagBorder() = composed {
     )
         .padding(vertical = 4.dp, horizontal = 6.dp)
 }
+
 @Preview
 @Composable
 fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT), null).Render(
+    NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)).Render(
         transaction = transaction,
         selectionHandler = object : SelectionHandler {
             override fun toggle(transaction: Transaction2) {}
@@ -373,9 +401,10 @@ fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2
 
 @Preview
 @Composable
-fun RenderLegacy(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    LegacyTransactionRenderer(
-        DateTimeFormatter.ofPattern("EEE") to 40.dp
+fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
+    CompactTransactionRenderer(
+        DateTimeFormatter.ofPattern("EEE") to 40.dp,
+        onToggleCrStatus = {}
     ).Render(
         transaction = transaction,
         selectionHandler = object : SelectionHandler {
@@ -426,7 +455,8 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             month = 1,
             day = 1,
             week = 1,
-            tagList = listOf("Hund", "Katz")
+            tagList = listOf("Hund", "Katz"),
+            accountType = AccountType.BANK
         )
     )
 }

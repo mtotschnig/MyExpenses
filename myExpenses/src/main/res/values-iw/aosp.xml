@@ -30,5 +30,6 @@
     <string name="setup">"הגדרה"</string>
     <string name="clear_cache">"ניקוי המטמון"</string>
     <string name="customize">"התאמה אישית"</string>
+    <string name="compact">קומפקטית</string>
 </resources>
 

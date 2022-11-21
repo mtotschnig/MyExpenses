@@ -29,5 +29,6 @@
     <string name="setup">"Einrichtung"</string>
     <string name="clear_cache">"Cache leeren"</string>
     <string name="customize">"Anpassen"</string>
+    <string name="compact">kompakt</string>
 </resources>
 
