@@ -674,16 +674,20 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         preferenceActivity.logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle)
     }
 
-    private fun setListenerRecursive(
+    /**
+     * sets listener and allows multi-line title for every preference in group, recursively
+     */
+    private fun configureRecursive(
         preferenceGroup: PreferenceGroup,
         listener: Preference.OnPreferenceClickListener
     ) {
         for (i in 0 until preferenceGroup.preferenceCount) {
             val preference = preferenceGroup.getPreference(i)
             if (preference is PreferenceCategory) {
-                setListenerRecursive(preference, listener)
+                configureRecursive(preference, listener)
             } else {
                 preference.onPreferenceClickListener = listener
+                preference.isSingleLineTitle = false
             }
         }
     }
@@ -738,7 +742,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        setListenerRecursive(
+        configureRecursive(
             preferenceScreen, if (getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) == rootKey)
                 homeScreenShortcutPrefClickHandler
             else
