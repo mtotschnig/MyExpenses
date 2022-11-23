@@ -292,7 +292,8 @@ class CompactTransactionRenderer(
             Text(
                 modifier = Modifier.width(it.second),
                 text = it.first.format(transaction.date),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                maxLines = 1
             )
         }
         transaction.StatusToggle()
