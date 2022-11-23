@@ -81,8 +81,12 @@ abstract class ItemRenderer(
                 append(org.totschnig.myexpenses.viewmodel.data.Category.NO_CATEGORY_ASSIGNED_LABEL)
             } else {
                 label?.let {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    if (forLegacy) {
                         append(it)
+                    } else {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(it)
+                        }
                     }
                 }
             }
