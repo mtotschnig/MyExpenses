@@ -34,6 +34,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import com.google.accompanist.flowlayout.FlowRow
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
@@ -298,9 +300,9 @@ fun HeaderData(
                     headerRow.delta.amountMinor.absoluteValue
                 )
             )
-        Row(
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
+            mainAxisAlignment = if (alignStart) FlowMainAxisAlignment.Start else FlowMainAxisAlignment.Center
         ) {
             if (!showOnlyDelta) {
                 Text(amountFormatter.formatMoney(headerRow.previousBalance))
@@ -318,9 +320,9 @@ fun HeaderData(
             }
         }
         if (showSumDetailsState.value) {
-            Row(
+            FlowRow(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.SpaceEvenly
+                mainAxisAlignment = if (alignStart) FlowMainAxisAlignment.Start else FlowMainAxisAlignment.Center
             ) {
                 Text(
                     "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
