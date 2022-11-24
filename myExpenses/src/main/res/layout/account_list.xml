@@ -20,7 +20,7 @@
             style="@style/newHeadingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|start"
             android:text="@string/navigation_drawer_accounts_title" />
 
         <!-- HEADER INDICATOR -->
