@@ -12,19 +12,23 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.SORT_DIRECTION_URI
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.testutils.CursorSubject.Companion.assertThat
 
 class AccountTest {
     @get:Rule
-    val providerRule: ProviderTestRule = ProviderTestRule.Builder(TransactionProvider::class.java, TransactionProvider.AUTHORITY).build()
+    val providerRule: ProviderTestRule =
+        ProviderTestRule.Builder(TransactionProvider::class.java, TransactionProvider.AUTHORITY)
+            .build()
 
     private val resolver: ContentResolver
         get() = providerRule.resolver
-    
+
     private val testAccounts = arrayOf(
         AccountInfo("Account 0", AccountType.CASH, 0),
         AccountInfo("Account 1", AccountType.BANK, 100),
@@ -76,15 +80,15 @@ class AccountTest {
     @Test
     fun testQueriesOnAccountUri() {
         val testProjection = arrayOf(
-            DatabaseConstants.KEY_LABEL,
+            KEY_LABEL,
             DatabaseConstants.KEY_DESCRIPTION,
             DatabaseConstants.KEY_CURRENCY
         )
-        val commentSelection = DatabaseConstants.KEY_LABEL + " = " + "?"
+        val commentSelection = "$KEY_LABEL = ?"
         val selectionColumns =
             "$commentSelection OR $commentSelection OR $commentSelection"
         val selectionArgs = arrayOf("Account 0", "Account 1", "Account 2")
-        val sortOrder = DatabaseConstants.KEY_LABEL + " ASC"
+        val sortOrder = "$KEY_LABEL ASC"
         resolver.query(
             TransactionProvider.ACCOUNTS_URI,
             null,
@@ -112,13 +116,13 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use { 
+        )!!.use {
             assertThat(it).hasColumnCount(testProjection.size)
             testProjection.forEachIndexed { index, column ->
                 assertThat(it.getColumnName(index)).isEqualTo(column)
             }
         }
-        
+
         resolver.query(
             TransactionProvider.ACCOUNTS_URI,
             testProjection,
@@ -152,12 +156,12 @@ class AccountTest {
 
     @Test
     fun testQueriesOnAccountIdUri() {
-        val columns = DatabaseConstants.KEY_LABEL + " = " + "?"
+        val columns = "$KEY_LABEL = ?"
         val query = "Account 0"
         val args = arrayOf(query)
         val projection = arrayOf(
             DatabaseConstants.KEY_ROWID,
-            DatabaseConstants.KEY_LABEL
+            KEY_LABEL
         )
         insertData()
         val inputAccountId = resolver.query(
@@ -176,7 +180,7 @@ class AccountTest {
         val uri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, inputAccountId)
 
         resolver.query(
-            uri, arrayOf(DatabaseConstants.KEY_LABEL),
+            uri, arrayOf(KEY_LABEL),
             columns,
             args,
             null
@@ -220,7 +224,7 @@ class AccountTest {
             null
         )!!.use {
             val descriptionIndex = it.getColumnIndex(DatabaseConstants.KEY_DESCRIPTION)
-            val labelIndex = it.getColumnIndex(DatabaseConstants.KEY_LABEL)
+            val labelIndex = it.getColumnIndex(KEY_LABEL)
             val balanceIndex = it.getColumnIndex(DatabaseConstants.KEY_OPENING_BALANCE)
             val currencyIndex = it.getColumnIndex(DatabaseConstants.KEY_CURRENCY)
             with(assertThat(it)) {
@@ -241,19 +245,23 @@ class AccountTest {
 
     @Test
     fun testDeletes() {
-        val columns = DatabaseConstants.KEY_LABEL + " = " + "?"
+        val columns = "$KEY_LABEL = ?"
         val args = arrayOf("Account 0")
-        assertThat(resolver.delete(
-            TransactionProvider.ACCOUNTS_URI,
-            columns,
-            args
-        )).isEqualTo(0)
+        assertThat(
+            resolver.delete(
+                TransactionProvider.ACCOUNTS_URI,
+                columns,
+                args
+            )
+        ).isEqualTo(0)
         insertData()
-        assertThat(resolver.delete(
-            TransactionProvider.ACCOUNTS_URI,
-            columns,
-            args
-        )).isEqualTo(1)
+        assertThat(
+            resolver.delete(
+                TransactionProvider.ACCOUNTS_URI,
+                columns,
+                args
+            )
+        ).isEqualTo(1)
         resolver.query(
             TransactionProvider.ACCOUNTS_URI,
             null,
@@ -267,25 +275,29 @@ class AccountTest {
 
     @Test
     fun testUpdates() {
-        val columns = DatabaseConstants.KEY_LABEL + " = " + "?"
+        val columns = "$KEY_LABEL = ?"
         val selectionArgs = arrayOf("Account 1")
         val values = ContentValues().apply {
-            put(DatabaseConstants.KEY_LABEL, "Testing an update with this string")
+            put(KEY_LABEL, "Testing an update with this string")
         }
 
-        assertThat(resolver.update(
-            TransactionProvider.ACCOUNTS_URI,
-            values,
-            columns,
-            selectionArgs
-        )).isEqualTo(0)
+        assertThat(
+            resolver.update(
+                TransactionProvider.ACCOUNTS_URI,
+                values,
+                columns,
+                selectionArgs
+            )
+        ).isEqualTo(0)
         insertData()
-        assertThat(resolver.update(
-            TransactionProvider.ACCOUNTS_URI,
-            values,
-            columns,
-            selectionArgs
-        )).isEqualTo(1)
+        assertThat(
+            resolver.update(
+                TransactionProvider.ACCOUNTS_URI,
+                values,
+                columns,
+                selectionArgs
+            )
+        ).isEqualTo(1)
     }
 
     @Test
@@ -399,6 +411,4 @@ class AccountTest {
             }
         }
     }
-    
-    //TODO test query with aggregate accounts
 }

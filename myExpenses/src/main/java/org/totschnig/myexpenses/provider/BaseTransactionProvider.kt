@@ -190,7 +190,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         KEY_HAS_FUTURE,
         KEY_HAS_CLEARED,
         AccountType.sqlOrderExpression(),
-        AccountType.sqlOrderExpression()
+        KEY_LAST_USED
     )
 
     val aggregateFunction: String
