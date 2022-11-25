@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import androidx.collection.LongSparseArray;
 import androidx.collection.SparseArrayCompat;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 
@@ -39,6 +40,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   }
 
   private void initializePlanInfo() {
+    String calendarId = ((MyApplication) context.getApplicationContext()).checkPlanner();
     Cursor wrapped = getWrappedCursor();
     if (wrapped.moveToFirst()) {
       ArrayList<Long> plans = new ArrayList<>();
@@ -80,8 +82,8 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
                 Events.RRULE,
             },
             Events._ID + " IN (" +
-                TextUtils.join(",", plans) + ")",
-            null,
+                TextUtils.join(",", plans) + ") AND " + Events.CALENDAR_ID + " = ?",
+            new String[] { calendarId },
             null);
         if (c != null) {
           if (c.moveToFirst()) {
