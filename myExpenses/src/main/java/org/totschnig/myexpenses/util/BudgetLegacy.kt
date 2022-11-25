@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
-import eltos.simpledialogfragment.form.AmountEdit
+import eltos.simpledialogfragment.form.AmountInput
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -16,15 +16,16 @@ fun getBackgroundForAvailable(onBudget: Boolean): Int {
 fun buildAmountField(
     amount: Money, max: BigDecimal?, min: BigDecimal?,
     level: Int, context: Context
-): AmountEdit? {
-    val amountEdit = AmountEdit.plain(DatabaseConstants.KEY_AMOUNT)
+): AmountInput? {
+    val amountInput = AmountInput.plain(DatabaseConstants.KEY_AMOUNT)
         .label(appendCurrencySymbol(context, R.string.budget_allocated_amount, amount.currencyUnit))
-        .fractionDigits(amount.currencyUnit.fractionDigits).required()
+        .fractionDigits(amount.currencyUnit.fractionDigits)
+        .required()
     if (amount.amountMajor.compareTo(BigDecimal.ZERO) != 0) {
-        amountEdit.amount(amount.amountMajor)
+        amountInput.amount(amount.amountMajor)
     }
     if (max != null) {
-        amountEdit.max(
+        amountInput.max(
             max, String.format(
                 Locale.ROOT, "%s %s",
                 context.getString(
@@ -36,7 +37,7 @@ fun buildAmountField(
         )
     }
     if (min != null) {
-        amountEdit.min(
+        amountInput.min(
             min,
             context.getString(
                 if (level == 1) R.string.sub_budget_under_allocated_error else R.string.budget_under_allocated_error,
@@ -44,5 +45,5 @@ fun buildAmountField(
             )
         )
     }
-    return amountEdit
+    return amountInput
 }

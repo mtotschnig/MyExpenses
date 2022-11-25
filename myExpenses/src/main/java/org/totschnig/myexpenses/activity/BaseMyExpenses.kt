@@ -48,7 +48,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import eltos.simpledialogfragment.form.AmountEdit
+import eltos.simpledialogfragment.form.AmountInput
+import eltos.simpledialogfragment.form.AmountInputHostDialog
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
@@ -1400,9 +1401,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     when (item.itemId) {
                         R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
                         R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
-                            SimpleFormDialog.build().fields(
-                                AmountEdit.plain(KEY_AMOUNT).label(R.string.new_balance)
+                            AmountInputHostDialog.build().fields(
+                                AmountInput.plain(KEY_AMOUNT).label(R.string.new_balance)
                                     .fractionDigits(currentAccount!!.currency.fractionDigits)
+                                    .withTypeSwitch(currentAccount!!.currentBalance > 0)
                             ).show(this, DIALOG_TAG_NEW_BALANCE)
                         }
                     }

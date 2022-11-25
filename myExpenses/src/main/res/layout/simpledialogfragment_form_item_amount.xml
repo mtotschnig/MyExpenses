@@ -13,7 +13,7 @@
         android:focusable="true"
         app:counterOverflowTextAppearance="@style/OverflowText">
 
-    <org.totschnig.myexpenses.ui.AmountEditText
+    <org.totschnig.myexpenses.ui.AmountInput
         android:id="@+id/amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

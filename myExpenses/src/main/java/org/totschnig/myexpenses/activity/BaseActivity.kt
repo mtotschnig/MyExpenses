@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
+import eltos.simpledialogfragment.form.AmountInputHostDialog
 import icepick.State
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -53,7 +54,9 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
+import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import timber.log.Timber
+import java.math.BigDecimal
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener, EasyPermissions.PermissionCallbacks {
@@ -71,6 +74,26 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (icon != 0) {
             floatingActionButton.setImageResource(icon)
         }
+    }
+
+    open fun showCalculator(amount: BigDecimal?, id: Int) {
+        val intent = Intent(this, CalculatorInput::class.java).apply {
+            forwardDataEntryFromWidget(this)
+            if (amount != null) {
+                putExtra(DatabaseConstants.KEY_AMOUNT, amount)
+            }
+            putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id)
+        }
+        (supportFragmentManager.findFragmentById(0) as? AmountInputHostDialog)?.also {
+            it.startActivityForResult(intent, CALCULATOR_REQUEST)
+        } ?: kotlin.run { startActivityForResult(intent, CALCULATOR_REQUEST) }
+    }
+
+    protected open fun forwardDataEntryFromWidget(intent: Intent) {
+        intent.putExtra(
+            EXTRA_START_FROM_WIDGET_DATA_ENTRY,
+            getIntent().getBooleanExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, false)
+        )
     }
 
     protected fun configureFloatingActionButton(fabDescription: String?) {

@@ -17,6 +17,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.util.Pair;
+import androidx.viewbinding.ViewBinding;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.databinding.AmountInputAlternateBinding;
@@ -27,12 +33,6 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.util.Pair;
-import androidx.viewbinding.ViewBinding;
 
 public class AmountInput extends ConstraintLayout {
   public CompoundButton typeButton() {
@@ -241,6 +241,10 @@ public class AmountInput extends ConstraintLayout {
 
   public void setFractionDigits(int i) {
     amountEditText().setFractionDigits(i);
+  }
+
+  public void setWithTypeSwitch(boolean withTypeSwitch) {
+    this.withTypeSwitch = withTypeSwitch;
   }
 
   public void setAmount(@NonNull BigDecimal amount) {

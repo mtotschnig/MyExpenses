@@ -3,27 +3,25 @@ package eltos.simpledialogfragment.form;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.ui.AmountEditText;
 
 import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
+class AmountInputViewHolder extends FormElementViewHolder<AmountInput> {
   @BindView(R.id.inputLayout)
   TextInputLayout inputLayout;
   @BindView(R.id.amount)
-  AmountEditText amountEditText;
+  org.totschnig.myexpenses.ui.AmountInput amountInputText;
 
-  protected AmountEditViewHolder(AmountEdit field) {
+  protected AmountInputViewHolder(AmountInput field) {
     super(field);
   }
 
@@ -36,13 +34,19 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
   protected void setUpView(View view, Context context, Bundle savedInstanceState, SimpleFormDialog.DialogActions actions) {
     ButterKnife.bind(this, view);
     inputLayout.setHint(field.getText(context));
-    amountEditText.setFractionDigits(field.fractionDigits);
+    amountInputText.setFractionDigits(field.fractionDigits);
+    if (field.withTypeSwitch == null) {
+      amountInputText.setWithTypeSwitch(false);
+    } else {
+      amountInputText.setWithTypeSwitch(true);
+      amountInputText.setType(field.withTypeSwitch);
+    }
     if (field.amount != null) {
-      amountEditText.setAmount(field.amount);
+      amountInputText.setAmount(field.amount);
     }
     // Positive button state for single element forms
     if (actions.isOnlyFocusableElement()) {
-      amountEditText.addTextChangedListener(new TextWatcher() {
+      amountInputText.addTextChangedListener(new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
@@ -66,24 +70,23 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
 
   @Override
   protected void putResults(Bundle results, String key) {
-    results.putSerializable(key, amountEditText.validate(false));
+    results.putSerializable(key, amountInputText.getTypedValue());
   }
 
   @Override
   protected boolean focus(SimpleFormDialog.FocusActions actions) {
-    return amountEditText.requestFocus();
+    return amountInputText.requestFocus();
   }
 
   @Override
   protected boolean posButtonEnabled(Context context) {
     if (!field.required) return true;
-    final Editable text = amountEditText.getText();
-    return text != null && !TextUtils.isEmpty(text.toString());
+    return amountInputText.validate(false) != null;
   }
 
   @Override
   protected boolean validate(Context context) {
-    final BigDecimal result = amountEditText.validate(true);
+    final BigDecimal result = amountInputText.validate(true);
     if (result == null) return false;
     if (field.max != null && result.compareTo(field.max) > 0) {
       inputLayout.setError(field.maxExceededError);

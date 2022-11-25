@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 import androidx.annotation.Nullable;
 
-public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
+public class AmountInput extends FormElement<AmountInput, AmountInputViewHolder> {
   int fractionDigits;
   @Nullable
   BigDecimal amount;
@@ -15,44 +15,51 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   @Nullable BigDecimal min;
   String underMinError;
 
-  protected AmountEdit(String resultKey) {
+  @Nullable Boolean withTypeSwitch;
+
+  protected AmountInput(String resultKey) {
     super(resultKey);
   }
 
-  public AmountEdit fractionDigits(int i) {
+  public AmountInput fractionDigits(int i) {
     this.fractionDigits = i;
     return this;
   }
 
-  public AmountEdit amount(BigDecimal amount) {
+  public AmountInput amount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
 
-  public AmountEdit max(BigDecimal amount, String maxExceededError) {
+  public AmountInput max(BigDecimal amount, String maxExceededError) {
     this.max = amount;
     this.maxExceededError = maxExceededError;
     return this;
   }
 
 
-  public AmountEdit min(BigDecimal amount, String underMinError) {
+  public AmountInput min(BigDecimal amount, String underMinError) {
     this.min = amount;
     this.underMinError = underMinError;
     return this;
   }
 
-  public static AmountEdit plain(String resultKey) {
-    return new AmountEdit(resultKey);
+  public AmountInput withTypeSwitch(Boolean withTypeSwitch) {
+    this.withTypeSwitch = withTypeSwitch;
+    return this;
+  }
+
+  public static AmountInput plain(String resultKey) {
+    return new AmountInput(resultKey);
   }
 
   @Override
-  public AmountEditViewHolder buildViewHolder() {
-    return new AmountEditViewHolder(this);
+  public AmountInputViewHolder buildViewHolder() {
+    return new AmountInputViewHolder(this);
   }
 
 
-  protected AmountEdit(Parcel in) {
+  protected AmountInput(Parcel in) {
     super(in);
     fractionDigits = in.readInt();
     String val = in.readString();
@@ -69,6 +76,12 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
       min = new BigDecimal(val);
     }
     underMinError = in.readString();
+    switch (in.readInt()) {
+      case 1: withTypeSwitch = true; break;
+      case -1: withTypeSwitch = false; break;
+      default:
+        withTypeSwitch = null;
+    }
   }
 
   @Override
@@ -80,6 +93,7 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
     dest.writeString(maxExceededError);
     dest.writeString(min == null ? null : min.toString());
     dest.writeString(underMinError);
+    dest.writeInt(withTypeSwitch == null ? 0 : (withTypeSwitch? 1 : -1));
   }
 
   @Override
@@ -87,15 +101,15 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
     return 0;
   }
 
-  public static final Creator<AmountEdit> CREATOR = new Creator<AmountEdit>() {
+  public static final Creator<AmountInput> CREATOR = new Creator<AmountInput>() {
     @Override
-    public AmountEdit createFromParcel(Parcel in) {
-      return new AmountEdit(in);
+    public AmountInput createFromParcel(Parcel in) {
+      return new AmountInput(in);
     }
 
     @Override
-    public AmountEdit[] newArray(int size) {
-      return new AmountEdit[size];
+    public AmountInput[] newArray(int size) {
+      return new AmountInput[size];
     }
   };
 }

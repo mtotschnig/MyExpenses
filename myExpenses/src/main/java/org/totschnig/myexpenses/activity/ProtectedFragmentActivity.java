@@ -77,19 +77,14 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
@@ -101,10 +96,8 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
-import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -708,21 +701,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public void checkGdprConsent(boolean forceShow) {
     adHandlerFactory.gdprConsent(this, forceShow);
-  }
-
-  public void showCalculator(BigDecimal amount, int id) {
-    Intent intent = new Intent(this, CalculatorInput.class);
-    forwardDataEntryFromWidget(intent);
-    if (amount != null) {
-      intent.putExtra(KEY_AMOUNT, amount);
-    }
-    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id);
-    startActivityForResult(intent, CALCULATOR_REQUEST);
-  }
-
-  protected void forwardDataEntryFromWidget(Intent intent) {
-    intent.putExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
-        getIntent().getBooleanExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
   }
 
   @Override

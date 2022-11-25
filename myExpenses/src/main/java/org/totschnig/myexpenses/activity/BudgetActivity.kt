@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.ChipGroup
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.form.AmountInputHostDialog
 import eltos.simpledialogfragment.form.Check
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.flow.filterNotNull
@@ -166,7 +167,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         currencyUnit: CurrencyUnit,
         withOneTimeCheck: Boolean
     ) {
-        val simpleFormDialog = SimpleFormDialog.build()
+        val simpleFormDialog = AmountInputHostDialog.build()
             .title(if (category.level > 0) category.label else getString(R.string.dialog_title_edit_budget))
             .neg()
         val amount = Money(currencyUnit, category.budget.budget)
