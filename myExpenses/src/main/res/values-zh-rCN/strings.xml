@@ -999,4 +999,7 @@
     <string name="dialog_confirm_rollover_delete">此期间的所有展期金额将被删除。</string>
     <string name="whats_new_344">类别图标</string>
     <string name="pref_csv_export_split_categories_summary">每个类别层次结构级别单独一列</string>
+    <string name="content_description_attachment">附件</string>
+    <string name="redesign">重新设计</string>
+    <string name="upgrade_info_557">您觉得新设计如何？请告知我们，可在设置中激活更接近于旧版的变体 (%1$s -&gt; %2$s)</string>
 </resources>
