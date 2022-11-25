@@ -201,4 +201,5 @@
     <string name="help_WebUI_info_3">您可以设置安全访问密码。在网页浏览器显示的对话框中，只需输入密码，不用考虑用户名。</string>
     <string name="help_WebUI_info_4">显示选定账户的交易信息时，网页版将直接使用您在 Android 设备应用上设置的过滤器。</string>
     <string name="help_WebUI_info_1">从电脑上的网页浏览器调用副标题中显示的链接。</string>
+    <string name="cab_MyExpenses_select_help_text">可以通过选择此命令或长按列表条目来启动多选</string>
 </resources>
