@@ -6,10 +6,9 @@ buildscript {
         google()
         mavenCentral()
     }
-    dependencies {
+//    dependencies {
 //        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.2-SNAPSHOT'
-        classpath 'com.novoda:gradle-android-command-plugin:2.0.1'
-    }
+//    }
 }
 
 plugins {
@@ -346,13 +345,6 @@ static def getDate() {
 }
 
 //apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'com.novoda.android-command'
-
-task copyFileForFixture(type: Files) {
-    script {
-        push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
-    }
-}
 
 //For Drive
 //apply plugin: 'com.google.gms.google-services'
