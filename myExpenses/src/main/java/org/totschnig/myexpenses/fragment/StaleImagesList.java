@@ -41,7 +41,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.viewmodel.StaleImagesViewModel;
 
 import javax.inject.Inject;
@@ -113,7 +113,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.images_list, container, false);
 
-    final GridView lv = (GridView) v.findViewById(R.id.grid);
+    final GridView lv = v.findViewById(R.id.grid);
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{DatabaseConstants.KEY_PICTURE_URI};
@@ -145,10 +145,12 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
         v.setContentDescription(value);
       }
     };
-    lv.setOnItemClickListener((parent, view, position, id) -> {
-      ((ProtectedFragmentActivity) requireActivity()).showSnackBar(
-          FileUtils.getPath(requireContext(), uriAtPosition(position)));
-    });
+    lv.setOnItemClickListener((parent, view, position, id) ->
+            ((ProtectedFragmentActivity) requireActivity()).showSnackBar(
+                    //TODO Strict Mode Violation
+                    PictureDirHelper.getFileForUri(uriAtPosition(position)).getPath()
+            )
+    );
     LoaderManager.getInstance(this).initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     registerForContextualActionBar(lv);
@@ -175,7 +177,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   }
 
   @Override
-  protected void inflateContextualActionBar(Menu menu, int listId) {
+  protected void inflateContextualActionBar(@NonNull Menu menu, int listId) {
     MenuInflater inflater = requireActivity().getMenuInflater();
     inflater.inflate(R.menu.stale_images_context, menu);
   }

@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.io.IOException
 import java.security.GeneralSecurityException
@@ -37,7 +37,7 @@ fun doBackup(
         ?: return Result.failure(context, R.string.io_error_appdir_null)
     if (!AppDirHelper.isWritableDirectory(appDir)) {
         return Result.failure(
-            context, R.string.app_dir_not_accessible, FileUtils.getPath(context, appDir.uri)
+            context, R.string.app_dir_not_accessible, appDir.displayName
         )
     }
     val backupFile = requireBackupFile(appDir, !TextUtils.isEmpty(password))

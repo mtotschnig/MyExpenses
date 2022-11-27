@@ -41,7 +41,7 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
@@ -354,7 +354,7 @@ open class CategoryViewModel(
                             } ?: Result.failure(createFileFailure(context, destDir, fileName))
                         }
                     ).mapCatching {
-                        it to FileUtils.getPath(context, it)
+                        it.uri to it.displayName
                     }
                 } else failure(R.string.external_storage_unavailable)
             }

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
-import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
@@ -51,7 +50,7 @@ class CsvExporter(
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
         append: Boolean
-    ): Result<Uri> {
+    ): Result<DocumentFile> {
         numberOfCategoryColumns = context.contentResolver.query(
             TransactionProvider.CATEGORIES_URI
                 .buildUpon()

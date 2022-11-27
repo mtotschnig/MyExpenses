@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
@@ -58,7 +57,7 @@ abstract class AbstractExporter
 
     abstract fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String
 
-    val categoryTree: MutableMap<Long, Pair<String, Long>> = mutableMapOf()
+    private val categoryTree: MutableMap<Long, Pair<String, Long>> = mutableMapOf()
     val categoryPaths: MutableMap<Long, List<String>> = mutableMapOf()
 
     @Throws(IOException::class)
@@ -66,7 +65,7 @@ abstract class AbstractExporter
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
         append: Boolean
-    ): Result<Uri> {
+    ): Result<DocumentFile> {
         Timber.i("now starting export")
         context.contentResolver.query(
             TransactionProvider.CATEGORIES_URI,
@@ -104,8 +103,8 @@ abstract class AbstractExporter
         )
 
         fun Cursor.ingestCategoryPaths() {
-            asSequence.forEach {
-                it.getLongOrNull(KEY_CATID)?.takeIf { it != SPLIT_CATID }?.let { categoryId ->
+            asSequence.forEach { cursor ->
+                cursor.getLongOrNull(KEY_CATID)?.takeIf { it != SPLIT_CATID }?.let { categoryId ->
                     categoryPaths.computeIfAbsent(categoryId) {
                         var catId: Long? = categoryId
                         buildList {
@@ -186,8 +185,8 @@ abstract class AbstractExporter
             } else {
                 cursor.ingestCategoryPaths()
 
-                val uri = outputStream.value.getOrThrow().uri
-                (context.contentResolver.openOutputStream(uri, if (append) "wa" else "w")
+                val output = outputStream.value.getOrThrow()
+                (context.contentResolver.openOutputStream(output.uri, if (append) "wa" else "w")
                     ?: throw IOException("openOutputStream returned null")).use { outputStream ->
                     OutputStreamWriter(outputStream, encoding).use { out ->
                         cursor.moveToFirst()
@@ -202,7 +201,7 @@ abstract class AbstractExporter
 
                         footer()?.let { out.write(it) }
 
-                        Result.success(uri)
+                        Result.success(output)
                     }
                 }
             }

@@ -12,6 +12,7 @@ import android.icu.text.ListFormatter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
 import android.view.Menu
@@ -173,10 +174,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         viewModel.appDirInfo.observe(this) { result ->
             val pref = requirePreference<Preference>(PrefKey.APP_DIR)
             result.onSuccess { appDirInfo ->
-                pref.summary = if (appDirInfo.second) {
-                    appDirInfo.first
+                pref.summary = if (appDirInfo.isWriteable) {
+                    appDirInfo.displayName
                 } else {
-                    getString(R.string.app_dir_not_accessible, appDirInfo.first)
+                    getString(R.string.app_dir_not_accessible, appDirInfo.uri)
                 }
             }.onFailure {
                 pref.setSummary(
@@ -1183,7 +1184,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
             matches(preference, PrefKey.APP_DIR) -> {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                //noinspection InlinedApi
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                    viewModel.appDirInfo.value?.getOrNull()?.uri?.let {
+                        putExtra(DocumentsContract.EXTRA_INITIAL_URI, it)
+                    }
+                }
                 try {
                     pickFolderRequestStart = System.currentTimeMillis()
                     startActivityForResult(

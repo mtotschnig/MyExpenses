@@ -5,7 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -27,7 +31,7 @@ import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.displayName
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -174,13 +178,13 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                                 false
                                             )
                                         ) {
-                                            add(it)
+                                            add(it.uri)
                                         }
                                         successfullyExported.add(account)
                                         publishProgress(
                                             "..." + context.getString(
                                                 R.string.export_sdcard_success,
-                                                FileUtils.getPath(context, it)
+                                                it.displayName
                                             )
                                         )
                                     }.onFailure {

@@ -10,7 +10,7 @@ import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -153,10 +153,8 @@ object AppDirHelper {
                 }
             }
         }
-        return if (isWritableDirectory(appDir)) Result.success(appDir) else Result.failure(
-            context,
-            R.string.app_dir_not_accessible, FileUtils.getPath(context, appDir.uri)
-        )
+        return if (isWritableDirectory(appDir)) Result.success(appDir) else
+            Result.failure(context, R.string.app_dir_not_accessible, appDir.displayName)
     }
 
     fun isWritableDirectory(appDir: DocumentFile): Boolean {

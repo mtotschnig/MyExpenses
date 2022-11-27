@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState
@@ -71,7 +71,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                         val message = StringBuilder().append(
                             getString(
                                 R.string.warning_backup,
-                                FileUtils.getPath(this, it.uri)
+                                it.displayName
                             )
                         )
                             .append(" ")
@@ -303,13 +303,17 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
-        if (command == R.id.BACKUP_COMMAND) {
-            prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
-            backupViewModel.doBackup(checked)
-        } else if (command == R.id.RESTORE_COMMAND) {
-            doRestore(args)
-        } else if (command == R.id.PURGE_BACKUPS_COMMAND) {
-            backupViewModel.purgeBackups()
+        when (command) {
+            R.id.BACKUP_COMMAND -> {
+                prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
+                backupViewModel.doBackup(checked)
+            }
+            R.id.RESTORE_COMMAND -> {
+                doRestore(args)
+            }
+            R.id.PURGE_BACKUPS_COMMAND -> {
+                backupViewModel.purgeBackups()
+            }
         }
     }
 
@@ -317,7 +321,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         abort()
     }
 
-    fun abort() {
+    private fun abort() {
         setResult(RESULT_CANCELED)
         finish()
     }

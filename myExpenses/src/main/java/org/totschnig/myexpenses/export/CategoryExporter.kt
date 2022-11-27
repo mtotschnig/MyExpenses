@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
-import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
@@ -18,7 +17,7 @@ object CategoryExporter {
         context: Context,
         encoding: String,
         outputStream: Lazy<Result<DocumentFile>>
-    ): Result<Uri> {
+    ): Result<DocumentFile> {
         fun <T> failure(
             @StringRes resId: Int,
             vararg formatArgs: Any?
@@ -51,7 +50,7 @@ object CategoryExporter {
                             }
                         }
                     }
-                    documentFile.uri
+                    documentFile
                 }
             }
         } ?: failure(R.string.db_error_cursor_null)

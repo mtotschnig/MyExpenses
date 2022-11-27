@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.doBackup
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.displayName
 import java.io.IOException
 
 class BackupViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
@@ -56,7 +56,7 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                             Either.Right(oldBackups.map { it.delete() })
                         Triple(
                             backupFile,
-                            FileUtils.getPath(getApplication(), backupFile.uri),
+                            backupFile.displayName,
                             extraData
                         )
                     })

@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.net.Uri
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -19,7 +21,7 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.io.FileUtils
+import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -29,8 +31,10 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
     @Inject
     lateinit var exchangeRateRepository: ExchangeRateRepository
 
-    private val _appDirInfo: MutableLiveData<Result<Pair<String, Boolean>>> = MutableLiveData()
-    val appDirInfo: LiveData<Result<Pair<String, Boolean>>> = _appDirInfo
+    data class AppDirInfo(val uri: Uri, val displayName: String, val isWriteable: Boolean)
+
+    private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
+    val appDirInfo: LiveData<Result<AppDirInfo>> = _appDirInfo
     val hasStaleImages: LiveData<Boolean> by lazy {
         val liveData = MutableLiveData<Boolean>()
         disposable = briteContentResolver.createQuery(
@@ -91,14 +95,13 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
     fun loadAppDirInfo() {
         viewModelScope.launch(context = coroutineContext()) {
             if (AppDirHelper.isExternalStorageAvailable) {
-                AppDirHelper.getAppDir(getApplication())?.let {
+                AppDirHelper.getAppDir(getApplication())?.let { documentFile ->
                     _appDirInfo.postValue(
                         Result.success(
-                            Pair(
-                                FileUtils.getPath(
-                                    getApplication(),
-                                    it.uri
-                                ), AppDirHelper.isWritableDirectory(it)
+                            AppDirInfo(
+                                documentFile.uri,
+                                documentFile.displayName,
+                                AppDirHelper.isWritableDirectory(documentFile)
                             )
                         )
                     )

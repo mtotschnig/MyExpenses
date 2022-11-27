@@ -69,7 +69,7 @@ import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
 import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.util.io.DocumentFileExtensionKt;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
@@ -138,7 +138,8 @@ public class PdfPrinter {
       return Result.ofFailure(
           R.string.io_error_unable_to_create_file,
           fileName,
-          FileUtils.getPath(context, destDir.getUri()));
+          DocumentFileExtensionKt.getDisplayName(destDir)
+      );
     }
     PdfWriter.getInstance(document, Model.cr().openOutputStream(outputFile.getUri()));
     Timber.d("All setup %d", (System.currentTimeMillis() - start));
@@ -153,7 +154,8 @@ public class PdfPrinter {
     transactionCursor.close();
     document.close();
     return Result.ofSuccess(R.string.export_sdcard_success, outputFile.getUri(),
-        FileUtils.getPath(context, outputFile.getUri()));
+        DocumentFileExtensionKt.getDisplayName(outputFile)
+    );
   }
 
   private void addMetaData(Document document) {
