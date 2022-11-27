@@ -101,10 +101,10 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
 
 private fun requireBackupFile(appDir: DocumentFile, encrypted: Boolean): DocumentFile? {
     return AppDirHelper.timeStampedFile(
-        appDir,
-        "backup",
-        if (encrypted) "application/octet-stream" else "application/zip",
-        if (encrypted) "enc" else null
+        parentDir = appDir,
+        prefix = "backup",
+        mimeType = if (encrypted) "application/octet-stream" else "application/zip",
+        extension = if (encrypted) "enc" else "zip"
     )
 }
 

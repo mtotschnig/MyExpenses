@@ -160,8 +160,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                     }
                                     val result = exporter.export(context, lazy {
                                         AppDirHelper.buildFile(
-                                            destDir, fileNameForAccount, format.mimeType,
-                                            append, true
+                                            destDir,
+                                            "$fileNameForAccount.${format.extension}",
+                                            format.mimeType,
+                                            append
                                         )?.let {
                                             Result.success(it)
                                         } ?: Result.failure(createFileFailure(context, destDir, fileName))

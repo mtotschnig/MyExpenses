@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.webkit.MimeTypeMap
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
@@ -53,52 +52,43 @@ object AppDirHelper {
 
     /**
      * @return creates a file object in parentDir, with a timestamp appended to
-     * prefix as name, if the file already exists it appends a numeric
-     * postfix
+     * prefix as name
      */
     @JvmStatic
     fun timeStampedFile(
-        parentDir: DocumentFile, prefix: String,
-        mimeType: String, addExtension: String?
+        parentDir: DocumentFile,
+        prefix: String,
+        mimeType: String,
+        extension: String
     ): DocumentFile? {
         val now = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
             .format(Date())
-        var name = "$prefix-$now"
-        if (addExtension != null) {
-            name += ".$addExtension"
-        }
-        return buildFile(parentDir, name, mimeType, false, false)
+        val name = "$prefix-$now.$extension"
+        return buildFile(
+            parentDir, name, mimeType,
+            allowExisting = false
+        )
     }
 
     fun buildFile(
-        parentDir: DocumentFile, fileName: String,
-        mimeType: String, allowExisting: Boolean,
-        supplementExtension: Boolean
+        parentDir: DocumentFile,
+        fileName: String,
+        mimeType: String,
+        allowExisting: Boolean
     ): DocumentFile? {
-        //createFile supplements extension on known mimeTypes, if the mime type is not known, we take care of it
-        val supplementedFilename = String.format(
-            Locale.ROOT,
-            "%s.%s",
-            fileName,
-            mimeType.split("/".toRegex()).toTypedArray()[1]
-        )
-        var fileNameToCreate = fileName
-        if (supplementExtension) {
-            val extensionFromMimeType =
-                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
-            if (extensionFromMimeType == null) {
-                fileNameToCreate = supplementedFilename
-            }
-        }
         if (allowExisting) {
-            val existingFile = parentDir.findFile(supplementedFilename)
+            val existingFile = parentDir.findFile(fileName)
             if (existingFile != null) {
                 return existingFile
             }
         }
         var result: DocumentFile? = null
         try {
-            result = parentDir.createFile(mimeType, fileNameToCreate)
+            result = parentDir.createFile(
+                //RawDocumentFile adds extension based on mimeType, so call without it to prevent double extension
+                if (parentDir.uri.scheme == "file") "*/*" else mimeType,
+                fileName
+            )
             if (result == null || !result.canWrite()) {
                 val message =
                     if (result == null) "createFile returned null" else "createFile returned unwritable file"
