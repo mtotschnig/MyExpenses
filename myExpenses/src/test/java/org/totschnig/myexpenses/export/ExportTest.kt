@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.export
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
@@ -725,42 +724,39 @@ class ExportTest {
         notYetExportedP: Boolean,
         append: Boolean,
         withAccountColumn: Boolean
-    ): Result<Uri> {
-        val exporter = when (format) {
-            ExportFormat.CSV -> CsvExporter(
-                account,
-                null,
-                notYetExportedP,
-                "dd/MM/yyyy",
-                '.',
-                "UTF-8",
-                !append,
-                ';',
-                withAccountColumn
-            )
-            ExportFormat.QIF -> QifExporter(
-                account,
-                null,
-                notYetExportedP,
-                "dd/MM/yyyy",
-                '.',
-                "UTF-8"
-            )
-            ExportFormat.JSON -> JSONExporter(
-                account,
-                null,
-                notYetExportedP,
-                "dd/MM/yyyy",
-                '.',
-                "UTF-8"
-            )
-        }
-        return exporter.export(
-            context,
-            lazyFile,
-            append
+    ) = when (format) {
+        ExportFormat.CSV -> CsvExporter(
+            account,
+            null,
+            notYetExportedP,
+            "dd/MM/yyyy",
+            '.',
+            "UTF-8",
+            !append,
+            ';',
+            withAccountColumn
         )
-    }
+        ExportFormat.QIF -> QifExporter(
+            account,
+            null,
+            notYetExportedP,
+            "dd/MM/yyyy",
+            '.',
+            "UTF-8"
+        )
+        ExportFormat.JSON -> JSONExporter(
+            account,
+            null,
+            notYetExportedP,
+            "dd/MM/yyyy",
+            '.',
+            "UTF-8"
+        )
+    }.export(
+        context,
+        lazyFile,
+        append
+    )
 
     private val lazyFile = lazy { Result.success(DocumentFile.fromFile(outFile)) }
 
