@@ -107,8 +107,7 @@ fun TransactionList(
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
-    listState: LazyListState,
-    selectAllState: MutableState<Boolean>
+    listState: LazyListState
 ) {
 
     val collapsedIds = expansionHandler.collapsedIds.collectAsState(initial = null).value
