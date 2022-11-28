@@ -33,7 +33,6 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
                 "drive" -> DRIVE
                 "dropbox" -> DROPBOX
                 "webdav" -> WEBDAV
-                "requery" -> REQUERY
                 else -> null
             }
 
@@ -51,7 +50,6 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
                 DRIVE,
                 DROPBOX,
                 WEBDAV,
-                REQUERY
             )
         }
 
@@ -102,7 +100,6 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
     object DRIVE : SyncBackend(R.string.title_drive, "drive")
     object DROPBOX : SyncBackend(R.string.title_dropbox, "dropbox")
     object WEBDAV : SyncBackend(R.string.title_webdav, "webdav")
-    object REQUERY : Feature(R.string.title_requery, "requery")
 }
 
 enum class Script {
