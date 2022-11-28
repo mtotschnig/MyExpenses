@@ -856,8 +856,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             }
                         },
                         scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                        listState = viewModel.listState.getValue(account.id),
-                        selectAllState = selectAllState
+                        listState = viewModel.listState.getValue(account.id)
                     )
                 }
             }
