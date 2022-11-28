@@ -36,4 +36,16 @@ fun Modifier.conditional(
     this
 }
 
+fun <T> Modifier.optional(
+    optional: T?,
+    ifPresent: Modifier.(T) -> Modifier,
+    ifAbsent: (Modifier.() -> Modifier)? = null
+) = optional?.let {
+    then(ifPresent(Modifier, it))
+} ?: if (ifAbsent != null) {
+    then(ifAbsent(Modifier))
+} else {
+    this
+}
+
 fun Modifier.size(spSize: TextUnit) = composed { this.size(with(LocalDensity.current) { spSize.toDp() }) }

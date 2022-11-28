@@ -673,6 +673,7 @@ public class Transaction extends Model implements ITransaction {
     return new Transaction(account.getId(), new Money(account.getCurrencyUnit(), 0L), parentId);
   }
 
+  @Deprecated
   public static void delete(long id, boolean markAsVoid) {
     Uri.Builder builder = ContentUris.appendId(CONTENT_URI.buildUpon(), id);
     if (markAsVoid) {

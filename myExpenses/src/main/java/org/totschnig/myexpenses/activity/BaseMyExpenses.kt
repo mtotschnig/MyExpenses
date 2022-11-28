@@ -40,6 +40,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerScope
@@ -57,6 +58,7 @@ import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
 import icepick.State
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -94,6 +96,8 @@ import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.viewmodel.*
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -170,6 +174,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             viewModel.selectionState.value = value
         }
 
+    private val selectAllState: MutableState<Boolean> = mutableStateOf(false)
+
     var sumInfo: SumInfo = SumInfoUnknown
         set(value) {
             field = value
@@ -208,12 +214,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         menuInflater.inflate(R.menu.transactionlist_context, menu)
                         resources.configuration.screenWidthDp
                         if (resources.getBoolean(R.bool.showTransactionBulkActions)) {
-                            with(menu) {
-                                findItem(R.id.DELETE_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                                findItem(R.id.MAP_TAG_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                                findItem(R.id.SPLIT_TRANSACTION_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                                findItem(R.id.REMAP_PARENT).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                                findItem(R.id.LINK_TRANSFER_COMMAND).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                            listOf(
+                                R.id.DELETE_COMMAND,
+                                R.id.MAP_TAG_COMMAND,
+                                R.id.SPLIT_TRANSACTION_COMMAND,
+                                R.id.REMAP_PARENT,
+                                R.id.LINK_TRANSFER_COMMAND,
+                                R.id.SELECT_ALL_COMMAND
+                            ).forEach {
+                                menu.findItem(it).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
                             }
                         }
                     }
@@ -247,10 +256,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ): Boolean {
                     if (remapHandler.handleActionItemClick(item.itemId)) return true
                     when (item.itemId) {
-                        R.id.DELETE_COMMAND -> delete(selectionState)
+                        R.id.DELETE_COMMAND -> delete(selectionState.map { it.id to it.crStatus })
                         R.id.MAP_TAG_COMMAND -> tagHandler.tag()
-                        R.id.SPLIT_TRANSACTION_COMMAND -> split(selectionState)
+                        R.id.SPLIT_TRANSACTION_COMMAND -> split(selectionState.map { it.id })
                         R.id.LINK_TRANSFER_COMMAND -> linkTransfer()
+                        R.id.SELECT_ALL_COMMAND -> selectAll()
                         else -> return false
                     }
                     return true
@@ -264,6 +274,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             })
         } else actionMode?.invalidate()
         updateActionModeTitle()
+    }
+
+    private fun selectAll() {
+        selectAllState.value = true
     }
 
     private fun linkTransfer() {
@@ -447,6 +461,40 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.bulkDeleteState.filterNotNull().collect { result ->
+                    when (result) {
+                        is DeleteProgress -> {
+                            showProgressSnackBar(
+                                getString(R.string.progress_dialog_deleting),
+                                result.total,
+                                result.count
+                            )
+                        }
+                        is DeleteComplete -> {
+                            showSnackBar(
+                                buildList {
+                                    if (result.success > 0) {
+                                        add(
+                                            resources.getQuantityString(
+                                                R.plurals.delete_success,
+                                                result.success,
+                                                result.success
+                                            )
+                                        )
+                                    }
+                                    if (result.failure > 0) {
+                                        add(deleteFailureMessage(null))
+                                    }
+                                }.joinToString(" ")
+                            )
+                            viewModel.bulkDeleteCompleteShown()
+                        }
+                    }
+                }
+            }
+        }
 
         if (resources.getDimensionPixelSize(R.dimen.drawerWidth) > resources.displayMetrics.widthPixels) {
             binding.accountPanel.root.layoutParams.width = resources.displayMetrics.widthPixels
@@ -576,10 +624,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun MainContent() {
 
         LaunchedEffect(viewModel.pagerState.currentPage) {
-            setCurrentAccount()?.let {
+            setCurrentAccount()?.let { account ->
                 finishActionMode()
                 sumInfo = SumInfoUnknown
-                viewModel.sumInfo(it).collect {
+                viewModel.sumInfo(account).collect {
                     sumInfo = it
                 }
             }
@@ -677,24 +725,46 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 headerData.collectAsState(null).value?.let { headerData ->
                     val withCategoryIcon =
                         viewModel.withCategoryIcon.collectAsState(initial = true).value
+                    val lazyPagingItems =
+                        viewModel.items.getValue(account).collectAsLazyPagingItems()
+                    if (!account.sealed) {
+                        LaunchedEffect(selectAllState.value) {
+                            if (selectAllState.value) {
+                                if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
+                                    lazyPagingItems.loadState.append.endOfPaginationReached
+                                ) {
+                                    var jndex = 0
+                                    while (jndex < lazyPagingItems.itemCount) {
+                                        lazyPagingItems.peek(jndex)?.let {
+                                            viewModel.selectionHandler.select(it)
+                                        }
+                                        jndex++
+                                    }
+                                } else {
+                                    showSnackBar(
+                                        getString(
+                                            R.string.select_all_list_too_large,
+                                            getString(android.R.string.selectAll)
+                                        )
+                                    )
+                                }
+                                selectAllState.value = false
+                            }
+                        }
+                    }
+                    val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
+                    val modificationAllowed = remember {
+                        derivedStateOf {
+                            !account.sealed && bulkDeleteState.value !is DeleteProgress
+                        }
+                    }
                     TransactionList(
                         modifier = Modifier.weight(1f),
-                        pageFlow = viewModel.items.getValue(account),
+                        lazyPagingItems = lazyPagingItems,
                         headerData = headerData,
                         budgetData = viewModel.budgetData(account).collectAsState(null),
-                        selectionHandler = if (account.sealed) null else object : SelectionHandler {
-                            override fun toggle(transaction: Transaction2) {
-                                viewModel.selectionState.toggle(transaction)
-                            }
-
-                            override fun isSelected(transaction: Transaction2) =
-                                selectionState.contains(transaction)
-
-                            override val selectionCount: Int
-                                get() = selectionState.size
-
-                        },
-                        menuGenerator = remember(account.sealed) {
+                        selectionHandler = if (modificationAllowed.value) viewModel.selectionHandler else null,
+                        menuGenerator = remember(modificationAllowed.value) {
                             { transaction ->
                                 Menu(
                                     buildList {
@@ -702,7 +772,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             icon = Icons.Filled.Loupe,
                                             label = R.string.details
                                         ) { showDetails(it.id) })
-                                        if (!account.sealed) {
+                                        if (modificationAllowed.value) {
                                             if (transaction.crStatus != CrStatus.VOID) {
                                                 add(edit { edit(transaction) })
                                             }
@@ -712,7 +782,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             ) {
                                                 edit(transaction, true)
                                             })
-                                            add(delete { delete(listOf(transaction)) })
+                                            add(delete { delete(listOf(transaction.id to transaction.crStatus)) })
                                             add(MenuEntry(
                                                 icon = myiconpack.IcActionTemplateAdd,
                                                 label = R.string.menu_create_template_from_transaction
@@ -725,7 +795,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             }
                                             add(
                                                 select {
-                                                    viewModel.selectionState.value = listOf(it)
+                                                    viewModel.selectionState.value = listOf(
+                                                        MyExpensesViewModel.SelectionInfo(it)
+                                                    )
                                                 }
                                             )
                                             if (transaction.isSplit) {
@@ -784,7 +856,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             }
                         },
                         scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                        listState = viewModel.listState.getValue(account.id)
+                        listState = viewModel.listState.getValue(account.id),
+                        selectAllState = selectAllState
                     )
                 }
             }
@@ -860,8 +933,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun split(transactions: List<Transaction2>) {
-        val itemIds = transactions.map { it.id }
+    private fun split(itemIds: List<Long>) {
         checkSealed(itemIds) {
             contribFeatureRequested(
                 ContribFeature.SPLIT_TRANSACTION,
@@ -871,10 +943,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     }
 
-    private fun delete(transactions: List<Transaction2>) {
-        val hasReconciled = transactions.any { it.crStatus == CrStatus.RECONCILED }
-        val hasNotVoid = transactions.any { it.crStatus != CrStatus.VOID }
-        val itemIds = transactions.map { it.id }
+    private fun delete(transactions: List<Pair<Long, CrStatus>>) {
+        val hasReconciled = transactions.any { it.second == CrStatus.RECONCILED }
+        val hasNotVoid = transactions.any { it.second != CrStatus.VOID }
+        val itemIds = transactions.map { it.first }
         checkSealed(itemIds) {
             var message = resources.getQuantityString(
                 R.plurals.warning_delete_transaction,
@@ -932,7 +1004,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         Sort.USAGES
     }
 
-    fun closeDrawer() {
+    private fun closeDrawer() {
         binding.drawer?.closeDrawers()
     }
 
@@ -1829,25 +1901,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.DELETE_COMMAND_DO -> {
                 finishActionMode()
-                showSnackBarIndefinite(R.string.progress_dialog_deleting)
                 viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS)!!, checked)
-                    .observe(this) { result ->
-                        if (result > 0) {
-                            if (!checked) {
-                                showSnackBar(
-                                    resources.getQuantityString(
-                                        R.plurals.delete_success,
-                                        result,
-                                        result
-                                    )
-                                )
-                            } else {
-                                dismissSnackBar()
-                            }
-                        } else {
-                            showDeleteFailureFeedback(null, null)
-                        }
-                    }
             }
             R.id.BALANCE_COMMAND_DO -> {
                 balance(args.getLong(KEY_ROWID), checked)

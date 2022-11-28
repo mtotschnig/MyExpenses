@@ -32,7 +32,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -43,6 +42,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.*
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.*
 import org.totschnig.myexpenses.viewmodel.data.Account
@@ -411,6 +412,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 it.setupDebtChangedListener()
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.bulkDeleteState.filterNotNull().collect {
+                    onDeleteResult(it)
+                }
+            }
+        }
     }
 
     override fun onCreateContextMenu(
@@ -420,6 +428,24 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         super.onCreateContextMenu(menu, v, menuInfo)
         menu.add(0, R.id.EDIT_COMMAND, 0, R.string.menu_edit)
         menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete)
+    }
+
+    private fun onDeleteResult(result: ContentResolvingAndroidViewModel.DeleteState) {
+        if (result is DeleteComplete) {
+            if (result.success == 1) {
+                showSnackBar(
+                    resources.getQuantityString(
+                        R.plurals.delete_success,
+                        result.success,
+                        result.success
+                    )
+                )
+                setDirty()
+            } else {
+                showDeleteFailureFeedback(null)
+            }
+            viewModel.bulkDeleteCompleteShown()
+        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -432,27 +458,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 true
             }
             R.id.DELETE_COMMAND -> {
-                val resultObserver = Observer { result: Int ->
-                    if (result > 0) {
-                        showSnackBar(
-                            resources.getQuantityString(
-                                R.plurals.delete_success,
-                                result,
-                                result
-                            )
-                        )
-                        setDirty()
-                    } else {
-                        showDeleteFailureFeedback(null)
-                    }
-                }
                 if (isTemplate) {
                     viewModel.deleteTemplates(longArrayOf(info.id), false)
-                        .observe(this, resultObserver)
+                        .observe(this) {
+                            onDeleteResult(it)
+                        }
                 } else {
-                    viewModel.deleteTransactions(longArrayOf(info.id), false).observe(
-                        this, resultObserver
-                    )
+                    viewModel.deleteTransactions(longArrayOf(info.id), false)
                 }
                 true
             }

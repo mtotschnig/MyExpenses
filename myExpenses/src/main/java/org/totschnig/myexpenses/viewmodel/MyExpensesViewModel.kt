@@ -7,6 +7,7 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
@@ -31,11 +32,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.RenderType
+import org.totschnig.myexpenses.compose.SelectionHandler
+import org.totschnig.myexpenses.compose.select
+import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
@@ -117,9 +123,50 @@ open class MyExpensesViewModel(
             }
         }
 
+    @Parcelize
+    data class SelectionInfo(
+        val id: Long,
+        val accountId: Long,
+        val amount: Money,
+        val transferAccount: Long?,
+        val isSplit: Boolean,
+        val crStatus: CrStatus,
+        val accountType: AccountType?
+    ) : Parcelable {
+        constructor(transaction: Transaction2) : this(
+            transaction.id,
+            transaction.accountId,
+            transaction.amount,
+            transaction.transferAccount,
+            transaction.isSplit,
+            transaction.crStatus,
+            transaction.accountType
+        )
+
+        val isTransfer: Boolean
+            get() = transferAccount != null
+    }
+
     @OptIn(SavedStateHandleSaveableApi::class)
-    val selectionState: MutableState<List<Transaction2>> =
+    val selectionState: MutableState<List<SelectionInfo>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
+
+    val selectionHandler = object: SelectionHandler {
+        override fun toggle(transaction: Transaction2) {
+            selectionState.toggle(SelectionInfo(transaction))
+        }
+
+        override fun isSelected(transaction: Transaction2) =
+            selectionState.value.contains(SelectionInfo(transaction))
+
+        override fun select(transaction: Transaction2) {
+            selectionState.select(SelectionInfo(transaction))
+        }
+
+        override val selectionCount: Int
+            get() = selectionState.value.size
+
+    }
 
     val showSumDetails: Flow<Boolean> by lazy {
         dataStore.data.map {
@@ -155,12 +202,14 @@ open class MyExpensesViewModel(
         }
     }
 
+    val pageSize = if (BuildConfig.DEBUG) 1500 else 150
+
     val items: Map<PageAccount, Flow<PagingData<Transaction2>>> =
         lazyMap {
             Pager(
                 PagingConfig(
-                    initialLoadSize = if (BuildConfig.DEBUG) 1500 else 150,
-                    pageSize = if (BuildConfig.DEBUG) 1500 else 150,
+                    initialLoadSize = pageSize,
+                    pageSize = pageSize,
                     prefetchDistance = 1,
                     enablePlaceholders = true
                 ),
@@ -354,7 +403,7 @@ open class MyExpensesViewModel(
         }
 
     fun setSealed(accountId: Long, isSealed: Boolean) {
-        if(FullAccount.isAggregate(accountId)) {
+        if (FullAccount.isAggregate(accountId)) {
             CrashHandler.report(IllegalStateException("setSealed called on aggregate account"))
         } else {
             viewModelScope.launch(context = coroutineContext()) {
@@ -613,7 +662,7 @@ open class MyExpensesViewModel(
         val transaction2 = selectionState.value[1]
         return transaction1.accountId != transaction2.accountId && (
                 transaction1.amount.amountMinor == -transaction2.amount.amountMinor ||
-                        transaction1.currency.code != transaction2.currency.code
+                        transaction1.amount.currencyUnit.code != transaction2.amount.currencyUnit.code
                 )
     }
 

@@ -157,20 +157,20 @@ abstract class ItemRenderer(
         val voidStatus = stringResource(id = R.string.status_void)
         Row(modifier = modifier
             .height()
-            .conditional(selectionHandler != null,
-                ifTrue = {
+            .optional(selectionHandler,
+                ifPresent = {
                     combinedClickable(
-                        onLongClick = { selectionHandler!!.toggle(transaction) },
+                        onLongClick = { it.toggle(transaction) },
                         onClick = {
-                            if (selectionHandler!!.selectionCount == 0) {
+                            if (it.selectionCount == 0) {
                                 showMenu.value = true
                             } else {
-                                selectionHandler.toggle(transaction)
+                                it.toggle(transaction)
                             }
                         }
                     )
                 },
-                ifFalse = {
+                ifAbsent = {
                     clickable { showMenu.value = true }
                 }
             )
@@ -393,13 +393,7 @@ fun Modifier.tagBorder() = composed {
 fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)).Render(
         transaction = transaction,
-        selectionHandler = object : SelectionHandler {
-            override fun toggle(transaction: Transaction2) {}
-
-            override fun isSelected(transaction: Transaction2) = false
-
-            override val selectionCount: Int = 0
-        },
+        selectionHandler = null,
         menuGenerator = { null }
     )
 }
@@ -412,13 +406,7 @@ fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transact
         onToggleCrStatus = {}
     ).Render(
         transaction = transaction,
-        selectionHandler = object : SelectionHandler {
-            override fun toggle(transaction: Transaction2) {}
-
-            override fun isSelected(transaction: Transaction2) = false
-
-            override val selectionCount: Int = 0
-        },
+        selectionHandler = null,
         menuGenerator = { null }
     )
 }

@@ -206,6 +206,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
   public static final String QUERY_PARAMETER_INIT = "init";
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
+
+  public static final String QUERY_PARAMETER_CALLER_IS_IN_BULK = "caller_is_in_bulk";
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
@@ -236,7 +238,9 @@ public class TransactionProvider extends BaseTransactionProvider {
 
 
   public static final String QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT = "withHiddenAccountCount";
+  @Deprecated
   public static final String METHOD_BULK_START = "bulkStart";
+  @Deprecated
   public static final String METHOD_BULK_END = "bulkEnd";
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
@@ -1213,7 +1217,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       default:
         throw unknownUri(uri);
     }
-    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
+    if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
@@ -1609,10 +1613,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TRANSACTIONS_URI, false);
     }
     return count;
-  }
-
-  private boolean callerIsNotSyncAdapter(Uri uri) {
-    return !uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, false);
   }
 
   /**

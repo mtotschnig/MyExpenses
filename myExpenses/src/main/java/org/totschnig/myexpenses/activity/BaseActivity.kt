@@ -366,12 +366,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         get() = findViewById(snackBarContainerId) ?: findViewById(android.R.id.content)
 
     fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0, container: View? = null) {
-        //without ?: null the Compiler assumes findViewById(snackBarContainerId) to return non null
-        (container ?: snackBarContainer)?.let {
+        (container ?: snackBarContainer)?.also {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
-            if (progress > 0) {
-                snackBar?.setText(displayMessage)
-            } else {
+            if (snackBar == null) {
                 snackBar = Snackbar.make(it, displayMessage, Snackbar.LENGTH_INDEFINITE).apply {
                     (view.findViewById<View>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup)
                         .addView(
@@ -382,8 +379,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 )
                             )
                         )
+                    addCallback(object: Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            snackBar = null
+                        }
+                    })
                     show()
                 }
+            } else {
+                snackBar?.setText(displayMessage)
             }
         } ?: showSnackBarFallBack(message)
     }
@@ -406,6 +410,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             if (callback != null) {
                 addCallback(callback)
             }
+            addCallback(object: Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    snackBar = null
+                }
+            })
             show()
         }
 
@@ -478,8 +487,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showMessage(getString(resId))
     }
 
+    fun deleteFailureMessage(message: String?) =
+        "There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !"
+
     fun showDeleteFailureFeedback(message: String? = null, callback: Snackbar.Callback? = null) {
-        showDismissibleSnackBar("There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !", callback)
+        showDismissibleSnackBar(deleteFailureMessage(message), callback)
     }
 
     protected open fun doHelp(variant: String?): Boolean {

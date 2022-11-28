@@ -31,12 +31,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
-import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -98,7 +96,7 @@ enum class FutureCriterion {
 @Composable
 fun TransactionList(
     modifier: Modifier,
-    pageFlow: Flow<PagingData<Transaction2>>,
+    lazyPagingItems: LazyPagingItems<Transaction2>,
     headerData: HeaderData,
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler?,
@@ -109,10 +107,10 @@ fun TransactionList(
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
-    listState: LazyListState
+    listState: LazyListState,
+    selectAllState: MutableState<Boolean>
 ) {
 
-    val lazyPagingItems = pageFlow.collectAsLazyPagingItems()
     val collapsedIds = expansionHandler.collapsedIds.collectAsState(initial = null).value
 
     if (lazyPagingItems.itemCount == 0) {
@@ -408,5 +406,6 @@ val mainScreenPadding
 interface SelectionHandler {
     fun toggle(transaction: Transaction2)
     fun isSelected(transaction: Transaction2): Boolean
+    fun select(transaction: Transaction2)
     val selectionCount: Int
 }

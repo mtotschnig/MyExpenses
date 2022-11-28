@@ -64,7 +64,7 @@ class TemplatesListViewModel(application: Application) :
         viewModelScope.launch(coroutineContext()) {
             instances.forEach { instance ->
                 instance.transactionId?.let {
-                    Transaction.delete(it, false)
+                    repository.deleteTransaction(it)
                 }
                 contentResolver.delete(
                     TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
@@ -80,7 +80,7 @@ class TemplatesListViewModel(application: Application) :
         viewModelScope.launch(coroutineContext()) {
             instances.forEach { instance ->
                 instance.transactionId?.let {
-                    Transaction.delete(it, false)
+                    repository.deleteTransaction(it)
                 }
                 contentResolver.insert(
                     TransactionProvider.PLAN_INSTANCE_STATUS_URI,

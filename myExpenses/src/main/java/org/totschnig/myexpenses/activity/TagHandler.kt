@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentResultListener
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.fragment.ConfirmTagDialogFragment
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
+import timber.log.Timber
 
 class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
 

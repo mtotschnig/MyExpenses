@@ -18,20 +18,35 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.CompositeException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -59,6 +74,15 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    private val bulkDeleteStateInternal: MutableStateFlow<DeleteState?> = MutableStateFlow(null)
+    val bulkDeleteState: StateFlow<DeleteState?> = bulkDeleteStateInternal
+
+    fun bulkDeleteCompleteShown() {
+        bulkDeleteStateInternal.update {
+            null
+        }
+    }
 
     var disposable: Disposable? = null
 
@@ -150,32 +174,53 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         }
     }
 
-    fun deleteTemplates(ids: LongArray, deletePlan: Boolean): LiveData<Int> =
+    sealed class DeleteState {
+        data class DeleteProgress(val count: Int, val total: Int) : DeleteState()
+        data class DeleteComplete(val success: Int, val failure: Int) : DeleteState()
+    }
+
+    fun deleteTemplates(ids: LongArray, deletePlan: Boolean): LiveData<DeleteState.DeleteComplete> =
         liveData(context = coroutineContext()) {
-            emit(ids.sumBy {
+            var success = 0
+            var failure = 0
+            ids.forEach {
                 try {
                     Template.delete(it, deletePlan)
-                    1
+                    success++
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(e)
-                    0
+                    failure++
                 }
-            })
+            }
+            emit(DeleteState.DeleteComplete(success, failure))
         }
 
 
-    fun deleteTransactions(ids: LongArray, markAsVoid: Boolean): LiveData<Int> =
-        liveData(context = coroutineContext()) {
-            emit(ids.sumBy {
+    fun deleteTransactions(ids: LongArray, markAsVoid: Boolean) {
+        viewModelScope.launch(context = coroutineContext()) {
+            var success = 0
+            var failure = 0
+            ids.forEach {
                 try {
-                    Transaction.delete(it, markAsVoid)
-                    1
+                    if (repository.deleteTransaction(it, markAsVoid, true))
+                        success++ else failure++
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(e)
-                    0
+                    failure++
                 }
-            })
+                bulkDeleteStateInternal.update {
+                    DeleteState.DeleteProgress(success + failure, ids.size)
+                }
+            }
+            contentResolver.notifyChange(TRANSACTIONS_URI, null, true)
+            contentResolver.notifyChange(ACCOUNTS_URI, null, false)
+            contentResolver.notifyChange(DEBTS_URI, null, false)
+            contentResolver.notifyChange(UNCOMMITTED_URI, null, false)
+            bulkDeleteStateInternal.update {
+                DeleteState.DeleteComplete(success, failure)
+            }
         }
+    }
 
     internal fun deleteAccountsInternal(accountIds: LongArray) =
         if (contentResolver.query(

@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -88,7 +89,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         notifyChange(TransactionProvider.ACCOUNTS_MINIMAL_URI, false)
     }
     fun notifyChange(uri: Uri, syncToNetwork: Boolean) {
-        if (!bulkInProgress) {
+        if (!bulkInProgress && callerIsNotInBulkOperation(uri)) {
             notifyChangeDo(uri, syncToNetwork)
         } else {
             bulkNotificationUris.add(uri to syncToNetwork)
@@ -110,6 +111,17 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 iterator.remove()
             }
         }
+    }
+
+    fun callerIsNotSyncAdapter(uri: Uri): Boolean {
+        return !uri.getBooleanQueryParameter(
+            TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER,
+            false
+        )
+    }
+
+    fun callerIsNotInBulkOperation(uri: Uri): Boolean {
+        return !uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK, false)
     }
 
     companion object {

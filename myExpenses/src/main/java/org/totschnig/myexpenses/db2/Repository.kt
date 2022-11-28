@@ -44,9 +44,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
@@ -72,53 +71,55 @@ class Repository @Inject constructor(
 
     val contentResolver: ContentResolver = context.contentResolver
 
-    fun Transaction.toContentValues() = getCurrencyUnitForAccount(account)?.let { currencyUnit ->
-        ContentValues().apply {
-            put(KEY_ACCOUNTID, account)
-            put(
-                KEY_AMOUNT,
-                Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
-            )
-            put(KEY_DATE, time?.let {
-                localDateTime2Epoch(LocalDateTime.of(date, time))
-            } ?: localDate2Epoch(date))
-            put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
-            payee.takeIf { it.isNotEmpty() }?.let {  put(KEY_PAYEEID, findOrWritePayee(it)) }
-            put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-            category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
-            method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
-            put(KEY_REFERENCE_NUMBER, number)
-            put(KEY_COMMENT, comment)
-            put(KEY_UUID, Model.generateUuid())
+    private fun Transaction.toContentValues() =
+        getCurrencyUnitForAccount(account)?.let { currencyUnit ->
+            ContentValues().apply {
+                put(KEY_ACCOUNTID, account)
+                put(
+                    KEY_AMOUNT,
+                    Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
+                )
+                put(KEY_DATE, time?.let {
+                    localDateTime2Epoch(LocalDateTime.of(date, time))
+                } ?: localDate2Epoch(date))
+                put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
+                payee.takeIf { it.isNotEmpty() }?.let { put(KEY_PAYEEID, findOrWritePayee(it)) }
+                put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
+                method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
+                put(KEY_REFERENCE_NUMBER, number)
+                put(KEY_COMMENT, comment)
+                put(KEY_UUID, Model.generateUuid())
+            }
         }
-    }
 
     //Transaction
-    fun updateTransaction(id: String, transaction: Transaction) = transaction.toContentValues()?.let {
-        val ops = ArrayList<ContentProviderOperation>()
-        ops.add(
-            ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValues(it)
-                .withSelection("$KEY_ROWID = ?", arrayOf(id))
-                .build()
-        )
-        ops.add(
-            ContentProviderOperation.newDelete(TRANSACTIONS_TAGS_URI)
-                .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(id))
-                .build()
-        )
-        for (tag in transaction.tags) {
+    fun updateTransaction(id: String, transaction: Transaction) =
+        transaction.toContentValues()?.let {
+            val ops = ArrayList<ContentProviderOperation>()
             ops.add(
-                ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
-                    .withValue(KEY_TRANSACTIONID, id)
-                    .withValue(KEY_TAGID, tag).build()
+                ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValues(it)
+                    .withSelection("$KEY_ROWID = ?", arrayOf(id))
+                    .build()
             )
+            ops.add(
+                ContentProviderOperation.newDelete(TRANSACTIONS_TAGS_URI)
+                    .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(id))
+                    .build()
+            )
+            for (tag in transaction.tags) {
+                ops.add(
+                    ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
+                        .withValue(KEY_TRANSACTIONID, id)
+                        .withValue(KEY_TAGID, tag).build()
+                )
+            }
+            val results = contentResolver.applyBatch(
+                TransactionProvider.AUTHORITY,
+                ops
+            )
+            results[0].count
         }
-        val results = contentResolver.applyBatch(
-            TransactionProvider.AUTHORITY,
-            ops
-        )
-        results[0].count
-    }
 
     fun createTransaction(transaction: Transaction) = transaction.toContentValues()?.let { values ->
         val ops = ArrayList<ContentProviderOperation>()
@@ -143,19 +144,22 @@ class Repository @Inject constructor(
     fun loadTransactions(accountId: Long): List<Transaction> =
         getCurrencyUnitForAccount(accountId)?.let { currencyUnit ->
             val filter = FilterPersistence(
-                    prefHandler = prefHandler,
-                    keyTemplate = prefNameForCriteria(accountId),
-                    savedInstanceState = null,
-                    immediatePersist = false,
-                    restoreFromPreferences = true
-                ).whereFilter.takeIf { !it.isEmpty }?.let {
-                    it.getSelectionForParents(VIEW_EXTENDED) to it.getSelectionArgs(false)
+                prefHandler = prefHandler,
+                keyTemplate = prefNameForCriteria(accountId),
+                savedInstanceState = null,
+                immediatePersist = false,
+                restoreFromPreferences = true
+            ).whereFilter.takeIf { !it.isEmpty }?.let {
+                it.getSelectionForParents(VIEW_EXTENDED) to it.getSelectionArgs(false)
             }
             contentResolver.query(
                 Account.extendedUriForTransactionList(true),
                 PROJECTION_EXTENDED,
-                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""}",
-                filter?.let { arrayOf(accountId.toString(), *it.second) } ?: arrayOf(accountId.toString()),
+                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${
+                    filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
+                }",
+                filter?.let { arrayOf(accountId.toString(), *it.second) }
+                    ?: arrayOf(accountId.toString()),
                 null
             )?.use { cursor ->
                 cursor.asSequence.map { cursor ->
@@ -285,11 +289,15 @@ class Repository @Inject constructor(
         false
     }
 
-    fun deleteTransaction(id: Long) = contentResolver.delete(
-        ContentUris.withAppendedId(TRANSACTIONS_URI, id),
-        null,
-        null
-    ) > 0
+    fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false) =
+        contentResolver.delete(
+            ContentUris.withAppendedId(TRANSACTIONS_URI, id).buildUpon().apply {
+                if (markAsVoid) appendBooleanQueryParameter(QUERY_PARAMETER_MARK_VOID)
+                if (inBulk) appendBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK)
+            }.build(),
+            null,
+            null
+        ) > 0
 
     fun deleteCategory(id: Long) = contentResolver.delete(
         ContentUris.withAppendedId(CATEGORIES_URI, id),

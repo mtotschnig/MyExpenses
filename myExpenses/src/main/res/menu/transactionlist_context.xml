@@ -61,4 +61,10 @@
         android:orderInCategory="5"
         android:title="@string/menu_create_transfer"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/SELECT_ALL_COMMAND"
+        android:icon="@drawable/ic_select_all"
+        android:orderInCategory="100"
+        android:title="@android:string/selectAll"
+        app:showAsAction="never" />
 </menu>

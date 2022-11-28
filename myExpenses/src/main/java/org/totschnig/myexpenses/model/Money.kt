@@ -14,12 +14,14 @@
 */
 package org.totschnig.myexpenses.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.math.pow
 
-data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Serializable {
+@Parcelize
+data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcelable {
 
     @Throws(ArithmeticException::class)
     constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) :

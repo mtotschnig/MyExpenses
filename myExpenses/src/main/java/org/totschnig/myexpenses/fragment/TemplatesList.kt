@@ -510,19 +510,24 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         viewModel.deleteTemplates(tag, PermissionGroup.CALENDAR.hasPermission(requireContext()))
             .observe(
                 viewLifecycleOwner
-            ) { result: Int ->
+            ) { result ->
                 val activity = requireActivity() as BaseActivity
-                if (result > 0) {
-                    activity.showSnackBar(
-                        activity.resources.getQuantityString(
-                            R.plurals.delete_success,
-                            result,
-                            result
-                        )
-                    )
-                } else {
-                    activity.showDeleteFailureFeedback(null)
-                }
+                activity.showSnackBar(
+                    buildList {
+                        if (result.success > 0) {
+                            add(
+                                activity.resources.getQuantityString(
+                                    R.plurals.delete_success,
+                                    result.success,
+                                    result.success
+                                )
+                            )
+                        }
+                        if (result.failure > 0) {
+                            add(activity.deleteFailureMessage(null))
+                        }
+                    }.joinToString(" ")
+                )
             }
     }
 
@@ -548,7 +553,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun dispatchCancelInstance(vararg planInstances: PlanInstanceInfo) {
-        val countInstantiated = planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
+        val countInstantiated =
+            planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
         if (countInstantiated > 0) {
             confirmDeleteTransactionsForPlanInstances(
                 planInstances,
@@ -561,7 +567,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun dispatchResetInstance(vararg planInstances: PlanInstanceInfo) {
-        val countInstantiated = planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
+        val countInstantiated =
+            planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
         if (countInstantiated > 0) {
             confirmDeleteTransactionsForPlanInstances(
                 planInstances,

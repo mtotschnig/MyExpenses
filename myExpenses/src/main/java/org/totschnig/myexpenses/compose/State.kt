@@ -40,3 +40,9 @@ fun <T> MutableState<List<T>>.toggle(element: T) = if (value.contains(element)) 
     value = value + element
     true
 }
+
+fun <T> MutableState<List<T>>.select(element: T) {
+    if (!value.contains(element)) {
+        value = value + element
+    }
+}
