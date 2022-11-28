@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import org.totschnig.myexpenses.R
@@ -102,7 +101,7 @@ fun TransactionList(
     selectionHandler: SelectionHandler?,
     menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
     futureCriterion: FutureCriterion,
-    expansionHandler: ExpansionHandler,
+    expansionHandler: ExpansionHandler?,
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
@@ -110,7 +109,9 @@ fun TransactionList(
     listState: LazyListState
 ) {
 
-    val collapsedIds = expansionHandler.collapsedIds.collectAsState(initial = null).value
+    val collapsedIds = if (expansionHandler != null)
+        expansionHandler.collapsedIds.collectAsState(initial = null).value
+    else emptySet()
 
     if (lazyPagingItems.itemCount == 0) {
         if (lazyPagingItems.loadState.refresh != LoadState.Loading) {
@@ -200,8 +201,8 @@ fun TransactionList(
                                         dateInfo = headerData.dateInfo,
                                         budget = budget,
                                         isExpanded = !isGroupHidden,
-                                        toggle = {
-                                            expansionHandler.toggle(headerId.toString())
+                                        toggle = expansionHandler?.let {
+                                            { expansionHandler.toggle(headerId.toString()) }
                                         },
                                         onBudgetClick = onBudgetClick,
                                         showSumDetails = showSumDetails,
@@ -352,7 +353,7 @@ fun HeaderRenderer(
     dateInfo: DateInfo2,
     budget: Pair<Long, Long>?,
     isExpanded: Boolean,
-    toggle: () -> Unit,
+    toggle: (() -> Unit)?,
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
     showOnlyDelta: Boolean
@@ -360,7 +361,7 @@ fun HeaderRenderer(
 
     Box(modifier = Modifier.background(MaterialTheme.colors.background)) {
         GroupDivider()
-        if (account.grouping != Grouping.NONE) {
+        toggle?.let {
             ExpansionHandle(
                 modifier = Modifier.align(Alignment.TopEnd),
                 isExpanded = isExpanded,

@@ -91,6 +91,10 @@ open class MyExpensesViewModel(
         }
     }
 
+    fun expansionHandlerForTransactionGroups(account: PageAccount) =
+        if (account.grouping == Grouping.NONE) null else
+            expansionHandler("collapsedHeaders_${account.id}_${account.grouping}")
+
     fun expansionHandler(key: String) = object : ExpansionHandler {
         val collapsedIdsPrefKey = stringSetPreferencesKey(key)
         override val collapsedIds: Flow<Set<String>> = dataStore.data.map { preferences ->

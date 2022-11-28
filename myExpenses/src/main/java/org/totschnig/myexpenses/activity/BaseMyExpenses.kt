@@ -823,11 +823,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             }
                         },
                         futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
-                        expansionHandler = viewModel.expansionHandler("collapsedHeaders_${account.id}_${headerData.account.grouping}"),
+                        expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
                         onBudgetClick = { budgetId, headerId ->
                             contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
                         },
                         showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
+                        scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
                         renderer = when (viewModel.renderer.collectAsState(initial = RenderType.New).value) {
                             RenderType.New -> {
                                 NewTransactionRenderer(
@@ -855,7 +856,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 )
                             }
                         },
-                        scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
                         listState = viewModel.listState.getValue(account.id)
                     )
                 }
@@ -1487,7 +1487,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     /**
-     *  @return true if we have moved to a new account
+     * adapt UI to currently selected account
+     * @return currently selected account
      */
     private fun setCurrentAccount() =
         accountData.getOrNull(viewModel.pagerState.currentPage)?.also { account ->
