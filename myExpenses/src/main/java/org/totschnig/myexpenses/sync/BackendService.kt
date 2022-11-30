@@ -25,13 +25,7 @@ enum class BackendService(
         R.id.SYNC_BACKEND_LOCAL,
         "Local",
         null
-    ) {
-        override fun isAvailable(context: Context) =
-            super.isAvailable(context) && EasyPermissions.hasPermissions(
-                context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-    },
+    ),
     DROPBOX(
         "org.totschnig.dropbox.sync.DropboxProviderFactory",
         R.id.SYNC_BACKEND_DROPBOX,

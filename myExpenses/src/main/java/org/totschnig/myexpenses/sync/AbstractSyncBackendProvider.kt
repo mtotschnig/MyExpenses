@@ -126,12 +126,12 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     }
 
     @Throws(IOException::class)
-    protected fun maybeEncrypt(outputStream: OutputStream?): OutputStream {
+    protected fun maybeEncrypt(outputStream: OutputStream): OutputStream {
         return try {
             if (isEncrypted) EncryptionHelper.encrypt(
                 outputStream,
                 encryptionPassword
-            ) else outputStream!!
+            ) else outputStream
         } catch (e: GeneralSecurityException) {
             throw IOException(e)
         }
@@ -432,7 +432,7 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     companion object {
         const val KEY_LOCK_TOKEN = "lockToken"
         const val BACKUP_FOLDER_NAME = "BACKUPS"
-        private const val MIME_TYPE_JSON = "application/json"
+        const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
         protected val FILE_PATTERN: Pattern = Pattern.compile("_\\d+")
         private const val KEY_OWNED_BY_US = "ownedByUs"

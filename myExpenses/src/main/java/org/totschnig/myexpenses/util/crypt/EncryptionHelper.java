@@ -110,7 +110,7 @@ public class EncryptionHelper {
     return decrypt(generateSymmetricKeyFromPassword(password), new IvParameterSpec(iv), encrypted);
   }
 
-  public static OutputStream encrypt(OutputStream outputStream, String password)
+  public static OutputStream encrypt(@NonNull OutputStream outputStream, String password)
       throws IOException, GeneralSecurityException {
     outputStream.write(MAGIC_NUMBER.getBytes());
     SecretKey key = generateSymmetricKeyFromPassword(password);

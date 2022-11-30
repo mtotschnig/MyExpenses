@@ -15,6 +15,7 @@ import com.dropbox.core.v2.files.FolderMetadata
 import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.Metadata
 import com.dropbox.core.v2.files.WriteMode
+import org.acra.util.StreamReader
 import org.totschnig.dropbox.activity.ACTION_RE_AUTHENTICATE
 import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.BuildConfig
@@ -25,7 +26,6 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Preconditions
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.io.StreamReader
 import java.io.IOException
 import java.io.InputStream
 import java.util.*

@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.Uri
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import com.google.api.services.drive.model.File
+import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -15,8 +16,6 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.StreamReader
 import org.totschnig.myexpenses.util.io.getMimeType
 import timber.log.Timber
 import java.io.FileNotFoundException
@@ -95,7 +94,7 @@ class GoogleDriveBackendProvider internal constructor(
     private fun saveUriToFolder(
         fileName: String,
         uri: Uri,
-        driveFolder: File?,
+        driveFolder: File,
         maybeEncrypt: Boolean
     ) {
         (context.contentResolver.openInputStream(uri) ?: throw IOException("Could not read $uri")).use {
@@ -110,7 +109,7 @@ class GoogleDriveBackendProvider internal constructor(
 
     @Throws(IOException::class)
     override fun storeBackup(uri: Uri, fileName: String) {
-        saveUriToFolder(fileName, uri, getBackupFolder(true), false)
+        saveUriToFolder(fileName, uri, getBackupFolder(true)!!, false)
     }
 
     @get:Throws(IOException::class)
@@ -186,7 +185,7 @@ class GoogleDriveBackendProvider internal constructor(
 
     @Throws(IOException::class)
     private fun saveFileContents(
-        driveFolder: File?,
+        driveFolder: File,
         fileName: String,
         fileContents: String,
         mimeType: String,
@@ -214,10 +213,10 @@ class GoogleDriveBackendProvider internal constructor(
         fileName: String,
         contents: InputStream,
         mimeType: String,
-        driveFolder: File?
+        driveFolder: File
     ) {
         val file = driveServiceHelper.createFile(
-            driveFolder!!.id, fileName, mimeType, null
+            driveFolder.id, fileName, mimeType, null
         )
         try {
             driveServiceHelper.saveFile(file.id, mimeType, contents)

@@ -378,7 +378,7 @@ fun HeaderRenderer(
                         .size(42.dp),
                     progress = progress,
                     fontSize = 12.sp,
-                    color = Color(account.color(LocalContext.current.resources))
+                    color = Color(  account.color(LocalContext.current.resources))
                 )
                 HeaderData(
                     account.grouping,

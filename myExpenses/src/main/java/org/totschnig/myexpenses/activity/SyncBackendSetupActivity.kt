@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.SubMenu
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.documentfile.provider.DocumentFile
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
@@ -15,19 +15,17 @@ import eltos.simpledialogfragment.form.SimpleFormDialog
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.EditTextDialog
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
-import java.io.File
 
-abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListener,
+abstract class SyncBackendSetupActivity : RestoreActivity(),
     OnDialogResultListener {
 
     private lateinit var backendProviders: List<BackendService>
@@ -42,23 +40,6 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
         super.onCreate(savedInstanceState)
         backendProviders = BackendService.allAvailable(this)
         (applicationContext as MyApplication).appComponent.inject(viewModel)
-    }
-
-    //LocalFileBackend
-    override fun onFinishEditDialog(args: Bundle) {
-        val filePath = args.getString(EditTextDialog.KEY_RESULT)!!
-        val baseFolder = File(filePath)
-        if (!baseFolder.isDirectory) {
-            showSnackBar("No directory $filePath", Snackbar.LENGTH_SHORT)
-        } else {
-            val accountName =
-                getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(
-                    filePath
-                )
-            val bundle = Bundle(1)
-            bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, filePath)
-            createAccount(accountName, null, null, bundle)
-        }
     }
 
     //WebDav
@@ -129,6 +110,22 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
                 intent.getBundleExtra(AccountManager.KEY_USERDATA)
             )
         }
+        if (requestCode == SYNC_LOCAL_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK) {
+            intent?.data?.let { uri ->
+                //TODO load displayname on background
+               DocumentFile.fromTreeUri(this, uri)?.displayName?.let {
+                   contentResolver.takePersistableUriPermission(
+                       uri,
+                       Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                   )
+                   val accountName =
+                       getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(it)
+                   createAccount(accountName, null, null, Bundle(1).apply {
+                       putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, uri.toString())
+                   })
+               }
+            }
+        }
     }
 
     private fun createAccount(
@@ -190,8 +187,6 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
     protected open fun createAccountTaskShouldReturnBackups(): Boolean {
         return false
     }
-
-    override fun onCancelEditDialog() {}
 
     fun addSyncProviderMenuEntries(subMenu: SubMenu) {
         for (factory in backendProviders) {
