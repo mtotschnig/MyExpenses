@@ -5,7 +5,6 @@ import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import androidx.core.util.Pair
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
 import at.bitfire.dav4android.exception.DavException
@@ -40,7 +39,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     context: Context,
     account: Account,
     accountManager: AccountManager
-) : AbstractSyncBackendProvider(context) {
+) : AbstractSyncBackendProvider<DavResource, DavResource>(context) {
 
     private var webDavClient: WebDavClient
     private val fallbackToClass1: Boolean
@@ -141,30 +140,14 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     private val lockFile: LockableDavResource
         get() = webDavClient.getResource(FALLBACK_LOCK_FILENAME, accountUuid)
 
-    @Throws(IOException::class)
-    override fun getChangeSetSince(
-        sequenceNumber: SequenceNumber,
-        context: Context
-    ): ChangeSet? {
-        val changeSetList: MutableList<ChangeSet> = ArrayList()
-        for (davResourcePair in filterDavResources(sequenceNumber)) {
-            //TODO
-            //fix dav4android to report ContentLength
-            //val size: Long? = (davResourcePair.second.properties.get(GetContentLength.NAME) as? GetContentLength)?.contentLength
-            changeSetList.add(getChangeSetFromDavResource(davResourcePair))
-        }
-        return merge(changeSetList)
-    }
-
-    @Throws(IOException::class)
-    private fun getChangeSetFromDavResource(davResource: Pair<Int, DavResource>): ChangeSet {
+    override fun getChangeSetFromResource(shardNumber: Int, resource: DavResource): ChangeSet {
         return try {
             getChangeSetFromInputStream(
                 SequenceNumber(
-                    davResource.first,
-                    getSequenceFromFileName(davResource.second.fileName())
+                    shardNumber,
+                    getSequenceFromFileName(resource.fileName())
                 ),
-                davResource.second[mimeTypeForData].byteStream()
+                resource[mimeTypeForData].byteStream()
             )
         } catch (e: HttpException) {
             throw IOException(e)
@@ -173,32 +156,13 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    @Throws(IOException::class)
-    private fun filterDavResources(sequenceNumber: SequenceNumber): List<Pair<Int, DavResource>> =
-        buildList {
-            var nextShard = sequenceNumber.shard
-            var startNumber = sequenceNumber.number
-            while (true) {
-                val nextShardResource = if (nextShard == 0) webDavClient.getCollection(accountUuid)
-                else webDavClient.getCollection("_$nextShard", accountUuid)
-                if (nextShardResource.exists()) {
-                    val finalNextShard = nextShard
-                    webDavClient.getFolderMembers(nextShardResource).sortedBy { getSequenceFromFileName(it.fileName()) }
-                        .filter { davResource: DavResource ->
-                            isNewerJsonFile(
-                                startNumber,
-                                davResource.fileName()
-                            )
-                        }
-                        .map { davResource: DavResource -> Pair.create(finalNextShard, davResource) }
-                        .forEach { add(it) }
-                    nextShard++
-                    startNumber = 0
-                } else {
-                    break
-                }
-            }
-        }
+    override fun collectionForShard(shardNumber: Int) =
+        if (shardNumber == 0) webDavClient.getCollection(accountUuid)
+        else webDavClient.getCollection("_$shardNumber", accountUuid).takeIf { it.exists() }
+
+    override fun childrenForCollection(folder: DavResource): Set<DavResource> = webDavClient.getFolderMembers(folder)
+
+    override fun nameForResource(resource: DavResource): String? = resource.fileName()
 
     override val sharedPreferencesName: String
         get() = "webdav_backend"

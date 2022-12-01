@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.sync.SequenceNumber
 import org.totschnig.myexpenses.sync.SyncBackendProvider.AuthException
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.getMimeType
 import timber.log.Timber
@@ -26,8 +25,10 @@ class GoogleDriveBackendProvider internal constructor(
     context: Context,
     account: Account,
     accountManager: AccountManager
-) : AbstractSyncBackendProvider(context) {
-    private val folderId: String = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL) ?: throw SyncParseException("Drive folder not set")
+) : AbstractSyncBackendProvider<File, File>(context) {
+    private val folderId: String =
+        accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
+            ?: throw SyncParseException("Drive folder not set")
     private lateinit var baseFolder: File
     private lateinit var accountFolder: File
     private var driveServiceHelper: DriveServiceHelper = try {
@@ -97,7 +98,8 @@ class GoogleDriveBackendProvider internal constructor(
         driveFolder: File,
         maybeEncrypt: Boolean
     ) {
-        (context.contentResolver.openInputStream(uri) ?: throw IOException("Could not read $uri")).use {
+        (context.contentResolver.openInputStream(uri)
+            ?: throw IOException("Could not read $uri")).use {
             saveInputStream(
                 fileName,
                 if (maybeEncrypt) maybeEncrypt(it) else it,
@@ -268,48 +270,23 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    @Throws(IOException::class)
-    override fun getChangeSetSince(
-        sequenceNumber: SequenceNumber,
-        context: Context
-    ): ChangeSet? = merge(buildList {
-        var nextShard = sequenceNumber.shard
-        var startNumber = sequenceNumber.number
-        while (true) {
-            val nextShardFolder = if (nextShard == 0) accountFolder else getSubFolder("_$nextShard")
-            if (nextShardFolder != null) {
-                val fileList = driveServiceHelper.listChildren(nextShardFolder).sortedBy { getSequenceFromFileName(it.name) }
-                log().i("Getting data from shard %d", nextShard)
-                for (metadata in fileList) {
-                    if (isNewerJsonFile(startNumber, metadata.name)) {
-                        if ((metadata.getSize() ?: 0) > 0) {
-                            log().i("Getting data from file %s", metadata.name)
-                            add(getChangeSetFromMetadata(nextShard, metadata))
-                        } else {
-                            log().i("Found 0-size file %s", metadata.name)
-                        }
-                    }
-                }
-                nextShard++
-                startNumber = 0
-            } else {
-                break
-            }
-        }
-    })
+    override fun collectionForShard(shardNumber: Int) =
+        if (shardNumber == 0) accountFolder else getSubFolder("_$shardNumber")
+
+    override fun childrenForCollection(folder: File) = driveServiceHelper.listChildren(folder)
+
+    override fun nameForResource(resource: File): String? = resource.name
 
     @Throws(IOException::class)
     private fun getSubFolder(shard: String): File? {
         return driveServiceHelper.getFileByNameAndParent(accountFolder, shard)
     }
 
-    @Throws(IOException::class)
-    private fun getChangeSetFromMetadata(shard: Int, metadata: File): ChangeSet {
-        return getChangeSetFromInputStream(
-            SequenceNumber(shard, getSequenceFromFileName(metadata.name)),
-            driveServiceHelper.read(metadata.id)
+    override fun getChangeSetFromResource(shardNumber: Int, resource: File) =
+        getChangeSetFromInputStream(
+            SequenceNumber(shardNumber, getSequenceFromFileName(resource.name)),
+            driveServiceHelper.read(resource.id)
         )
-    }
 
     @Throws(IOException::class)
     override fun unlock() {

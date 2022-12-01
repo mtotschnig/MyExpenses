@@ -8,6 +8,7 @@ import android.net.Uri
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Base64
+import androidx.core.util.Pair
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.apache.commons.lang3.StringUtils
@@ -36,7 +37,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-abstract class AbstractSyncBackendProvider(protected val context: Context) : SyncBackendProvider {
+abstract class AbstractSyncBackendProvider<Col, Res>(protected val context: Context) : SyncBackendProvider {
     /**
      * this holds the uuid of the db account which data is currently synced
      */
@@ -249,6 +250,37 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         }
     }
 
+    abstract fun collectionForShard(shardNumber: Int): Col?
+    abstract fun childrenForCollection(folder: Col): Collection<Res>
+    abstract fun nameForResource(resource: Res): String?
+    abstract fun getChangeSetFromResource(shardNumber: Int, resource: Res): ChangeSet
+
+    final override fun getChangeSetSince(sequenceNumber: SequenceNumber, context: Context): ChangeSet? =
+        merge(
+            shardResolvingFilterStrategy(sequenceNumber).map {
+                getChangeSetFromResource(it.first, it.second)
+            }
+        )
+
+    fun shardResolvingFilterStrategy(sequenceNumber: SequenceNumber) = buildList {
+        var nextShard = sequenceNumber.shard
+        var startNumber = sequenceNumber.number
+        while (true) {
+            val nextShardResource = collectionForShard(nextShard)
+            if (nextShardResource != null) {
+                childrenForCollection(nextShardResource)
+                    .sortedBy { nameForResource(it)?.let { name -> getSequenceFromFileName(name) } }
+                    .filter { nameForResource(it)?.let { name -> isNewerJsonFile(startNumber, name) } == true }
+                    .map {  Pair.create(nextShard, it) }
+                    .forEach { add(it) }
+                nextShard++
+                startNumber = 0
+            } else {
+                break
+            }
+        }
+    }
+
     protected fun getSequenceFromFileName(fileName: String): Int {
         return try {
             getNameWithoutExtension(fileName).takeIf { it.isNotEmpty() && it.startsWith("_") }?.substring(1)?.toInt()
@@ -312,6 +344,8 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         )
         return nextSequence
     }
+
+
 
     /**
      * should encrypt if backend is configured with encryption

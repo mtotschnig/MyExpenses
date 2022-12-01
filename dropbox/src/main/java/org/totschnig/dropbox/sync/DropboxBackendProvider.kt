@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
-import androidx.core.util.Pair
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.InvalidAccessTokenException
@@ -31,7 +30,7 @@ import java.io.InputStream
 import java.util.*
 
 class DropboxBackendProvider internal constructor(context: Context, folderName: String) :
-    AbstractSyncBackendProvider(context) {
+    AbstractSyncBackendProvider<String, Metadata>(context) {
     private lateinit var mDbxClient: DbxClientV2
     private val basePath: String = "/$folderName"
     private lateinit var accountName: String
@@ -195,55 +194,20 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     private val lockFilePath: String
         get() = getResourcePath(LOCK_FILE)
 
-    @Throws(IOException::class)
-    override fun getChangeSetSince(
-        sequenceNumber: SequenceNumber,
-        context: Context
-    ): ChangeSet? {
-        val changeSetList: MutableList<ChangeSet> = ArrayList()
-        for (integerMetadataPair in filterMetadata(sequenceNumber)) {
-            changeSetList.add(getChangeSetFromMetadata(integerMetadataPair))
-        }
-        return merge(changeSetList)
-    }
-
-    @Throws(IOException::class)
-    private fun getChangeSetFromMetadata(metadata: Pair<Int, Metadata>): ChangeSet {
+    override fun getChangeSetFromResource(shardNumber: Int, resource: Metadata): ChangeSet {
         return getChangeSetFromInputStream(
-            SequenceNumber(metadata.first, getSequenceFromFileName(metadata.second.name)),
-            getInputStream(metadata.second.pathLower)
+            SequenceNumber(shardNumber, getSequenceFromFileName(resource.name)),
+            getInputStream(resource.pathLower)
         )
     }
 
-    @Throws(IOException::class)
-    private fun filterMetadata(sequenceNumber: SequenceNumber): List<Pair<Int, Metadata>> =
-        tryWithWrappedException {
-            buildList {
-                var nextShard = sequenceNumber.shard
-                var startNumber = sequenceNumber.number
-                while (true) {
-                    val nextShardPath =
-                        if (nextShard == 0) accountPath else "$accountPath/_$nextShard"
-                    if (exists(nextShardPath)) {
-                        addAll(
-                            mDbxClient.files().listFolder(nextShardPath).entries
-                                .sortedBy { getSequenceFromFileName(it.name) }
-                                .filter { metadata: Metadata ->
-                                    isNewerJsonFile(
-                                        startNumber,
-                                        metadata.name
-                                    )
-                                }
-                                .map { metadata: Metadata -> Pair.create(nextShard, metadata) }
-                        )
-                        nextShard++
-                        startNumber = 0
-                    } else {
-                        break
-                    }
-                }
-            }
-        }
+    override fun collectionForShard(shardNumber: Int): String =
+        if (shardNumber == 0) accountPath else "$accountPath/_$shardNumber"
+
+    override fun childrenForCollection(folder: String): List<Metadata> =
+        mDbxClient.files().listFolder(folder).entries
+
+    override fun nameForResource(resource: Metadata): String = resource.name
 
     @Throws(IOException::class)
     override fun getInputStreamForPicture(relativeUri: String): InputStream {

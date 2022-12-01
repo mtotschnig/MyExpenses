@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.sync
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.util.Pair
 import androidx.documentfile.provider.DocumentFile
 import dagger.internal.Preconditions
 import org.acra.util.StreamReader
@@ -15,7 +14,7 @@ import org.totschnig.myexpenses.util.io.getMimeType
 import java.io.*
 
 class LocalFileBackendProvider internal constructor(context: Context, uri: Uri) :
-    AbstractSyncBackendProvider(context) {
+    AbstractSyncBackendProvider<DocumentFile, DocumentFile>(context) {
     private val baseDir: DocumentFile =
         DocumentFile.fromTreeUri(context, uri) ?: throw IOException("Cannot create baseDir")
     private lateinit var accountDir: DocumentFile
@@ -176,56 +175,19 @@ class LocalFileBackendProvider internal constructor(context: Context, uri: Uri) 
             ?: start
     }
 
-    private fun filterFiles(sequenceNumber: SequenceNumber): List<Pair<Int, DocumentFile>> {
-        Preconditions.checkNotNull(accountDir)
-        return buildList {
-            var nextShard = sequenceNumber.shard
-            var startNumber = sequenceNumber.number
-            while (true) {
-                val nextShardDir =
-                    if (nextShard == 0) accountDir else accountDir.findFile("_$nextShard")
-                if (nextShardDir?.isDirectory == true) {
-                    nextShardDir.listFiles().filter { file ->
-                        file.name?.let {
-                            isNewerJsonFile(
-                                startNumber,
-                                it
-                            )
-                        } == true
-                    }
-                        .sortedBy {
-                            getSequenceFromFileName(it.name!!)
-                        }
-                        .map { file -> Pair.create(nextShard, file) }
-                        .forEach { add(it) }
-                    nextShard++
-                    startNumber = 0
-                } else {
-                    break
-                }
-            }
-        }
-    }
+    override fun collectionForShard(shardNumber: Int) =
+        if (shardNumber == 0) accountDir else accountDir.findFile("_$shardNumber")
+
+    override fun childrenForCollection(folder: DocumentFile) = folder.listFiles().asList()
+
+    override fun nameForResource(resource: DocumentFile) = resource.name
 
     override fun lock() {}
 
-    @Throws(IOException::class)
-    override fun getChangeSetSince(
-        sequenceNumber: SequenceNumber,
-        context: Context
-    ): ChangeSet? {
-        val changeSets: MutableList<ChangeSet> = ArrayList()
-        for (file in filterFiles(sequenceNumber)) {
-            changeSets.add(getChangeSetFromFile(file))
-        }
-        return merge(changeSets)
-    }
-
-    @Throws(IOException::class)
-    private fun getChangeSetFromFile(file: Pair<Int, DocumentFile>): ChangeSet {
-        val inputStream = contentResolver.openInputStream(file.second.uri) ?: throw IOException()
+    override fun getChangeSetFromResource(shardNumber: Int, resource: DocumentFile): ChangeSet {
+        val inputStream = contentResolver.openInputStream(resource.uri) ?: throw IOException()
         return getChangeSetFromInputStream(
-            SequenceNumber(file.first, getSequenceFromFileName(file.second.name!!)), inputStream
+            SequenceNumber(shardNumber, getSequenceFromFileName(resource.name!!)), inputStream
         )
     }
 
