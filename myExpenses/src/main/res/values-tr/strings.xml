@@ -340,7 +340,6 @@
     <string name="pref_visit_website_summary">Değişiklikler ve SSS</string>
     <string name="pref_visit_website_title">Siteyi ziyaret et</string>
     <string name="progress_dialog_deleting">Nesneler siliniyor</string>
-    <string name="progress_dialog_loading">Veri tabanından nesne yükleniyor</string>
     <string name="progress_dialog_printing">%s oluşturuluyor</string>
     <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
@@ -658,7 +657,6 @@
     <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
     <string name="sync_auth_exception">İzin verme başarısız oldu.</string>
     <string name="sync_login_again">Lütfen tekrar giriş yapın.</string>
-    <string name="sync_loading_accounts_from_backend">Mevcut hesaplar arka uçtan yükleniyor.</string>
     <plurals name="delete_success">
         <item quantity="one">Bir nesne başarıyla silindi.</item>
         <item quantity="other">%d nesne başarıyla silindi.</item>

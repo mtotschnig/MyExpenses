@@ -14,6 +14,7 @@
     <string name="copy_text">"Copia al porta-retalls"</string>
     <string name="stop">"Atura"</string>
     <string name="style">"Estil"</string>
+    <string name="loading">"S\'està carregant…"</string>
     <string name="no_network">"No hi ha cap connexió de xarxa."</string>
     <string name="button_label_continue">Continua</string>
     <string name="autofill">"Emplenament automàtic"</string>

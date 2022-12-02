@@ -14,6 +14,7 @@
     <string name="copy_text">"In Zwischenablage kopieren"</string>
     <string name="stop">"Anhalten"</string>
     <string name="style">"Design"</string>
+    <string name="loading">"Wird geladen…"</string>
     <string name="no_network">"Es ist keine Netzwerkverbindung verfügbar."</string>
     <string name="button_label_continue">Weiter</string>
     <string name="autofill">"AutoFill"</string>

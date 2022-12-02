@@ -24,11 +24,6 @@ class DropboxProviderFactory : SyncBackendProviderFactory() {
         accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
     )
 
-    override fun startSetup(activity: ProtectedFragmentActivity) {
-        activity.startActivityForResult(
-            Intent(activity, DropboxSetup::class.java),
-            SYNC_BACKEND_SETUP_REQUEST
-        )
-    }
-
+    override fun setupIntent(activity: ProtectedFragmentActivity) =
+        Intent(activity, DropboxSetup::class.java)
 }

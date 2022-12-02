@@ -14,6 +14,7 @@
     <string name="copy_text">"Panoya kopyala"</string>
     <string name="stop">"Durdur"</string>
     <string name="style">"Stil"</string>
+    <string name="loading">"Yükleniyor…"</string>
     <string name="no_network">"Ağ bağlantısı yok."</string>
     <string name="button_label_continue">Devam</string>
     <string name="autofill">"Otomatik Doldur"</string>

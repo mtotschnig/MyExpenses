@@ -263,7 +263,6 @@
     <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
     <string name="pref_visit_website_title">Visiteu el lloc web</string>
     <string name="progress_dialog_deleting">S\'estàn suprimint els objectes</string>
-    <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades</string>
     <string name="reference_number">Número de referència</string>
     <string name="restore_db_failure">No ha estat possible restaurar la base de dades.</string>
     <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
@@ -544,7 +543,6 @@
     <string name="extend_until">Prolongui fins a %1$s per %2$s</string>
     <string name="licence_key">Clau de llicència</string>
     <string name="valid_until">Fins a %s</string>
-    <string name="sync_loading_accounts_from_backend">Carregant comptes disponibles des de sistema de servei.</string>
     <string name="never">mai</string>
     <string name="always">sempre</string>
     <string name="auto_fill_account_from_aggregate_only">Només quan es comenci amb un compte agregat.</string>

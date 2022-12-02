@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -12,6 +13,7 @@ import eltos.simpledialogfragment.list.CustomListDialog.SINGLE_CHOICE
 import eltos.simpledialogfragment.list.SimpleListDialog
 import icepick.State
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
@@ -59,11 +61,14 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
     abstract fun instantiateViewModel(): T
 
     fun success(folder: Pair<String, String>) {
-        setResult(RESULT_OK, buildSuccessIntent(folder))
+        setResult(RESULT_OK, Intent().apply {
+            putExtra(AccountManager.KEY_ACCOUNT_NAME, viewModel.backendService.buildAccountName(folder.second))
+            buildSuccessIntent(folder) }
+        )
         finish()
     }
 
-    abstract fun buildSuccessIntent(folder: Pair<String, String>): Intent
+    abstract fun Intent.buildSuccessIntent(folder: Pair<String, String>)
 
     private fun showSelectFolderDialog(pairs: List<Pair<String, String>>) {
         if (supportFragmentManager.findFragmentByTag(DIALOG_TAG_FOLDER_SELECT) == null) {

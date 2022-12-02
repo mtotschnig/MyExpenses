@@ -94,7 +94,6 @@
         <item quantity="one">ఒక వస్తువు విజయవంతంగా తొలగించబడింది.</item>
         <item quantity="other">%d వస్తువులు విజయవంతంగా తొలగించబడ్డాయి.</item>
     </plurals>
-    <string name="sync_loading_accounts_from_backend">బ్యాకెండ్ నుండి అందుబాటులో ఉన్న ఖాతాలను లోడ్ చేస్తోంది.</string>
     <string name="sync_auth_exception">ప్రామాణీకరణ విఫలమైంది.</string>
     <string name="sync_login_again">దయచేసి మళ్ళీ లాగిన్ అవ్వండి.</string>
     <string name="auto_fill_account_from_aggregate_only">మొత్తం ఖాతా నుండి ప్రారంభించినప్పుడు మాత్రమే.</string>
@@ -392,7 +391,6 @@
     <string name="qif_parse_failure_found_multiple_accounts">QIF ఫైల్‌లో బహుళ ఖాతాలు కనుగొనబడ్డాయి.</string>
     <string name="qif_parse_result">అన్వయించబడింది: %1$s ఖాతాలు; %2$s వర్గాలు మరియు %3$s పార్టీలు</string>
     <string name="progress_dialog_printing">%s ను ఉత్పత్తి చేస్తోంది</string>
-    <string name="progress_dialog_loading">డేటాబేస్ నుండి వస్తువును లోడ్ చేస్తోంది</string>
     <string name="progress_dialog_deleting">వస్తువులను తొలగిస్తోంది</string>
     <string name="pref_visit_website_title">వెబ్‌సైట్‌ను సందర్శించండి</string>
     <string name="pref_visit_website_summary">చేంజ్లాగ్ మరియు తరచుగా అడిగే ప్రశ్నలు</string>

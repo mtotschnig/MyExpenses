@@ -14,6 +14,7 @@
     <string name="copy_text">"複製到剪貼簿"</string>
     <string name="stop">"停止"</string>
     <string name="style">"樣式"</string>
+    <string name="loading">"正在載入…"</string>
     <string name="no_network">"沒有網絡連線。"</string>
     <string name="button_label_continue">"繼續"</string>
     <string name="autofill">"自動填入"</string>

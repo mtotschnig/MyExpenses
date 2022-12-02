@@ -338,7 +338,6 @@
     <string name="pref_visit_website_summary">Αρχείο καταγραφής αλλαγών και συχνές Ερωτήσεις</string>
     <string name="pref_visit_website_title">Επισκεφθείτε την ιστοσελίδα</string>
     <string name="progress_dialog_deleting">Διαγραφή αντικειμένων</string>
-    <string name="progress_dialog_loading">Φόρτωση αντικειμένου από τη βάση δεδομένων</string>
     <string name="progress_dialog_printing">Δημιουργία %s</string>
     <string name="qif_parse_result">Εγγράφηκαν: %1$s λογαριασμοί· %2$s κατηγορίες και %3$s μέρη</string>
     <string name="qif_parse_failure_found_multiple_accounts">Πολλαπλοί λογαριασμοί βρέθηκαν στο αρχείο QIF.</string>
@@ -636,7 +635,6 @@
     <string name="auto_fill_account_from_aggregate_only">Μόνο όταν ξεκινούν από συνολικό λογαριασμό.</string>
     <string name="sync_auth_exception">Η εξουσιοδότηση απέτυχε.</string>
     <string name="sync_login_again">Συνδεθείτε ξανά.</string>
-    <string name="sync_loading_accounts_from_backend">Φόρτωση διαθέσιμων λογαριασμών από το σύστημα υποστήριξης.</string>
     <plurals name="delete_success">
         <item quantity="one">Ένα αντικείμενο διαγράφηκε με επιτυχία.</item>
         <item quantity="other">%d αντικείμενα διαγράφηκαν με επιτυχία.</item>

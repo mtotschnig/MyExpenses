@@ -335,7 +335,6 @@
     <string name="pref_visit_website_summary">Історія змін та поширені запитання</string>
     <string name="pref_visit_website_title">Відвідати веб-сайт</string>
     <string name="progress_dialog_deleting">Видалення об\'єктів</string>
-    <string name="progress_dialog_loading">Завантаження об\'єкта з бази даних</string>
     <string name="progress_dialog_printing">Створення %s-файлу</string>
     <string name="qif_parse_result">Проаналізовано: %1$s рахунки; %2$s категорій і %3$s учасників</string>
     <string name="qif_parse_failure_found_multiple_accounts">Знайдено декілька рахунків у файлі QIF.</string>
@@ -653,7 +652,6 @@
     <string name="auto_fill_account_from_aggregate_only">Лише коли розпочатий з об\'єднаного рахунку.</string>
     <string name="sync_auth_exception">Помилка авторизації.</string>
     <string name="sync_login_again">Спробуйте знову.</string>
-    <string name="sync_loading_accounts_from_backend">Завантаження доступних рахунків із сервера.</string>
     <plurals name="delete_success">
         <item quantity="one">Об\'єкт було успішно видалено.</item>
         <item quantity="few">%d об\'єкти було успішно видалено.</item>

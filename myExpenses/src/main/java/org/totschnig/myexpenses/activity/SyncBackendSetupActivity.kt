@@ -1,14 +1,15 @@
 package org.totschnig.myexpenses.activity
 
 import android.accounts.AccountManager
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.SubMenu
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.documentfile.provider.DocumentFile
-import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
@@ -42,19 +43,6 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         (applicationContext as MyApplication).appComponent.inject(viewModel)
     }
 
-    //WebDav
-    fun onFinishWebDavSetup(
-        passWord: String,
-        url: String,
-        bundle: Bundle
-    ) {
-        createAccount(
-            getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_WEBDAV).buildAccountName(
-                url
-            ), passWord, null, bundle
-        )
-    }
-
     override fun onResume() {
         super.onResume()
         isResumed = true
@@ -75,11 +63,27 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         }
     }
 
+    private val startSetup =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let {
+                    createAccount(
+                        it.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)!!,
+                        it.getStringExtra(AccountManager.KEY_PASSWORD),
+                        it.getStringExtra(AccountManager.KEY_AUTHTOKEN),
+                        it.getBundleExtra(AccountManager.KEY_USERDATA)
+                    )
+                }
+            }
+        }
+
     private fun startSetupDo() {
         val backendService = getBackendServiceById(selectedFactoryId)
         val feature = backendService?.feature
         if (feature == null || featureManager.isFeatureInstalled(feature, this)) {
-            backendService?.instantiate()?.startSetup(this)
+            backendService?.instantiate()?.setupIntent(this)?.let {
+                startSetup.launch(it)
+            }
             selectedFactoryId = 0
         } else {
             featureManager.requestFeature(feature, this)
@@ -93,23 +97,9 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         }
     }
 
-    //Google Drive & Dropbox
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK && intent != null) {
-            val accountName = getBackendServiceByIdOrThrow(
-                intent.getIntExtra(
-                    KEY_SYNC_PROVIDER_ID, 0
-                )
-            )
-                .buildAccountName(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)!!)
-            createAccount(
-                accountName,
-                null,
-                intent.getStringExtra(AccountManager.KEY_AUTHTOKEN),
-                intent.getBundleExtra(AccountManager.KEY_USERDATA)
-            )
-        }
         if (requestCode == SYNC_LOCAL_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK) {
             intent?.data?.let { uri ->
                 //TODO load displayname on background
@@ -154,8 +144,10 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     }
 
     private fun createAccountDo(args: Bundle) {
+        showLoadingSnackBar()
         viewModel.createSyncAccount(args).observe(this) { result ->
             result.onSuccess {
+                dismissSnackBar()
                 recordUsage(ContribFeature.SYNCHRONIZATION)
                 if ("xiaomi".equals(Build.MANUFACTURER, ignoreCase = true)) {
                     showMessage("On some Xiaomi devices, synchronization does not work without AutoStart permission. Visit <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Synchronization#q2\">MyExpenses FAQ</a> for more information.")
@@ -173,7 +165,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         data.map(AccountMetaData::uuid).distinct().count() < data.count()
 
     fun fetchAccountData(accountName: String) {
-        showSnackBar(R.string.progress_dialog_fetching_data_from_sync_backend, Snackbar.LENGTH_INDEFINITE)
+        showLoadingSnackBar()
         viewModel.fetchAccountData(accountName).observe(this) { result ->
             dismissSnackBar()
             result.onSuccess {
@@ -182,6 +174,10 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
                 showSnackBar(it.safeMessage)
             }
         }
+    }
+
+    fun showLoadingSnackBar() {
+        showProgressSnackBar(getString(R.string.progress_dialog_fetching_data_from_sync_backend))
     }
 
     protected open fun createAccountTaskShouldReturnBackups(): Boolean {

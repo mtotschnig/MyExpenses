@@ -224,7 +224,6 @@
     <string name="pref_ui_theme_title">界面主題</string>
     <string name="pref_visit_website_summary">活動日誌和常見問題</string>
     <string name="pref_visit_website_title">瀏覽官方網站</string>
-    <string name="progress_dialog_loading">從數據庫載入物件</string>
     <string name="reference_number">參考編號</string>
     <string name="restore_db_failure">數據庫恢復失敗。</string>
     <string name="restore_db_success">數據庫已從備份恢復過來。</string>

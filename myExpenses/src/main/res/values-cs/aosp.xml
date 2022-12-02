@@ -14,6 +14,7 @@
     <string name="copy_text">"Zkopírovat do schránky"</string>
     <string name="stop">"Zastavit"</string>
     <string name="style">"Styl"</string>
+    <string name="loading">"Načítání…"</string>
     <string name="no_network">"Připojení k síti není k dispozici."</string>
     <string name="button_label_continue">Pokračovat</string>
     <string name="autofill">"Automatické vyplňování"</string>

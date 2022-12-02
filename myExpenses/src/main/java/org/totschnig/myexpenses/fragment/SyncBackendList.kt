@@ -13,7 +13,6 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -22,6 +21,7 @@ import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageSyncBackends
+import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity.Companion.REQUEST_CODE_RESOLUTION
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter
 import org.totschnig.myexpenses.databinding.SyncBackendsListBinding
@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.activateSync
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncBackendProvider
-import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
@@ -53,7 +52,6 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     private val binding get() = _binding!!
     private lateinit var syncBackendAdapter: SyncBackendAdapter
     private var metadataLoadingCount = 0
-    private lateinit var snackbar: Snackbar
     private lateinit var viewModel: AbstractSyncBackendViewModel
 
     @Inject
@@ -105,12 +103,6 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         binding.list.emptyView = binding.empty
         binding.list.setOnGroupExpandListener(this)
         binding.list.setOnChildClickListener(this)
-        snackbar = Snackbar.make(
-            binding.list,
-            R.string.sync_loading_accounts_from_backend,
-            BaseTransientBottomBar.LENGTH_INDEFINITE
-        )
-        UiUtils.increaseSnackbarMaxLines(snackbar)
         lifecycleScope.launchWhenStarted {
             viewModel.localAccountInfo.collect {
                 syncBackendAdapter.setLocalAccountInfo(it)
@@ -287,16 +279,14 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     override fun onGroupExpand(groupPosition: Int) {
         if (!syncBackendAdapter.hasAccountMetadata(groupPosition)) {
             metadataLoadingCount++
-            if (!snackbar.isShownOrQueued) {
-                snackbar.show()
-            }
+            (requireActivity() as SyncBackendSetupActivity).showLoadingSnackBar()
             val backendLabel = syncBackendAdapter.getBackendLabel(groupPosition)
             viewModel.accountMetadata(backendLabel, featureForAccount(backendLabel)?.let {
                 manageSyncBackends.isFeatureAvailable(it)
             } != false)?.observe(viewLifecycleOwner) { result ->
                 metadataLoadingCount--
                 if (metadataLoadingCount == 0) {
-                    snackbar.dismiss()
+                    (requireActivity() as SyncBackendSetupActivity).dismissSnackBar()
                 }
                 result.onSuccess { list ->
                     syncBackendAdapter.setAccountMetadata(groupPosition, list)

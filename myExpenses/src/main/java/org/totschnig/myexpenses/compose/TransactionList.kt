@@ -254,7 +254,7 @@ fun TransactionList(
                 Text(
                     text = listOf(
                         stringResource(id = R.string.pref_scroll_to_current_date_summary),
-                        stringResource(id = R.string.progress_dialog_loading),
+                        stringResource(id = R.string.loading),
                         "(${scrollToCurrentDateStartIndex.value?.first})"
                     ).joinToString("\n"), textAlign = TextAlign.Center
                 )

@@ -10,6 +10,7 @@
     <string name="copy_text">"క్లిప్‌బోర్డ్‌కు కాపీ చేయి"</string>
     <string name="stop">"ఆపివేయి"</string>
     <string name="style">"శైలి"</string>
+    <string name="loading">"లోడ్ చేస్తోంది…"</string>
     <string name="no_network">"నెట్‌వర్క్ కనెక్షన్ లేదు. దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి."</string>
     <string name="button_label_continue">"కొనసాగించండి"</string>
     <string name="autofill">"ఆటోఫిల్"</string>

@@ -331,7 +331,6 @@
     <string name="pref_visit_website_summary">Xem các thay đổi về tính năng và những câu hỏi thường gặp</string>
     <string name="pref_visit_website_title">Truy cập Website</string>
     <string name="progress_dialog_deleting">Đang xóa mục</string>
-    <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu</string>
     <string name="progress_dialog_printing">Đang tạo tập tin %s</string>
     <string name="qif_parse_result">Đã phân tích : %1$s tài khoản; %2$s danh mục và %3$s bên giao dịch</string>
     <string name="qif_parse_failure_found_multiple_accounts">Phát hiện nhiều tài khoản trong tập tin QIF.</string>
@@ -635,7 +634,6 @@
     <string name="auto_fill_account_from_aggregate_only">Chỉ khi bắt đầu từ tài khoản gộp.</string>
     <string name="sync_auth_exception">Không thể uỷ quyền.</string>
     <string name="sync_login_again">Vui lòng đăng nhập lại.</string>
-    <string name="sync_loading_accounts_from_backend">Đang nạp các tài khoản sẵn có từ backend.</string>
     <plurals name="delete_success">
         <item quantity="other">%d đối tượng đã được xoá.</item>
     </plurals>

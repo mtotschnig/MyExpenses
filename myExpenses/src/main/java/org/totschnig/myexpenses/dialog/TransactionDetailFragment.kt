@@ -90,7 +90,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
             DatabaseConstants.KEY_TRANSACTIONID
         )
         val alertDialog =
-            builder.setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
+            builder.setTitle(R.string.loading) //.setIcon(android.R.color.transparent)
                 .setNegativeButton(android.R.string.ok, this)
                 .setPositiveButton(R.string.menu_edit, null)
                 .setNeutralButton(R.string.menu_view_picture, this)

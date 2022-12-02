@@ -345,7 +345,6 @@
     <string name="pref_visit_website_summary">Список изменений и ЧаВО</string>
     <string name="pref_visit_website_title">Посетить веб-сайт</string>
     <string name="progress_dialog_deleting">Удалить объекты</string>
-    <string name="progress_dialog_loading">Загрузка объекта из базы данных</string>
     <string name="progress_dialog_printing">Создание %s</string>
     <string name="qif_parse_result">Проанализированно: %1$s счетов; %2$s категорий и %3$s участников</string>
     <string name="qif_parse_failure_found_multiple_accounts">Найдено несколько счетов в QIF-файле.</string>
@@ -670,7 +669,6 @@
     <string name="auto_fill_account_from_aggregate_only">Только при запуске с совокупного счета.</string>
     <string name="sync_auth_exception">Авторизация провалена.</string>
     <string name="sync_login_again">Пожалуйста, представьтесь повторно.</string>
-    <string name="sync_loading_accounts_from_backend">Загрузка доступных счетов с сервера.</string>
     <plurals name="delete_success">
         <item quantity="one">Объект был успешно удален.</item>
         <item quantity="few">%d объекта были успешно удалены.</item>

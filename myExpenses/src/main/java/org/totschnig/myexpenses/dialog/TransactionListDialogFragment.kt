@@ -107,7 +107,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         if (iconRes > 0) {
             builder.setIcon(iconRes)
         }
-        return builder.setTitle(R.string.progress_dialog_loading)
+        return builder.setTitle(R.string.loading)
             .setView(listView)
             .setPositiveButton(android.R.string.ok, null)
             .create()

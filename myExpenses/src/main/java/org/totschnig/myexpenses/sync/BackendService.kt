@@ -20,10 +20,10 @@ enum class BackendService(
         "Drive",
         Feature.DRIVE
     ),
-    LOCAL(
-        "org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory",
+    SAF(
+        "org.totschnig.myexpenses.sync.StorageAccessFrameworkBackendProviderFactory",
         R.id.SYNC_BACKEND_LOCAL,
-        "Local",
+        "SAF",
         null
     ),
     DROPBOX(

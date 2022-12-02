@@ -340,7 +340,6 @@
     <string name="pref_visit_website_summary">Dziennik zmian i Często zadawane pytania</string>
     <string name="pref_visit_website_title">Odwiedź stronę internetową</string>
     <string name="progress_dialog_deleting">Usuwanie obiektów</string>
-    <string name="progress_dialog_loading">Wczytywanie obiektu z bazy danych</string>
     <string name="progress_dialog_printing">Generowanie pliku %s</string>
     <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
     <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
@@ -659,7 +658,6 @@
     <string name="always">zawsze</string>
     <string name="sync_auth_exception">Autoryzacja się nie powiodła.</string>
     <string name="sync_login_again">Zaloguj się proszę ponowie.</string>
-    <string name="sync_loading_accounts_from_backend">Wczytywanie dostępnych kont z zaplecza.</string>
     <plurals name="delete_success">
         <item quantity="one">Z powodzeniem usunięto jeden obiekt.</item>
         <item quantity="few">Z powodzeniem usunięto %d obiektów.</item>

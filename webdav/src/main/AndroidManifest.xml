@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution">
 
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <application tools:ignore="MissingApplicationIcon">
+        <activity android:name=".dialog.WebdavSetup"
+            android:label="WebDAV"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+    </application>
     <dist:module
         dist:instant="false"
         dist:title="@string/title_webdav">
@@ -10,7 +19,4 @@
         </dist:delivery>
         <dist:fusing dist:include="true" />
     </dist:module>
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
-        android:maxSdkVersion="22" />
 </manifest>

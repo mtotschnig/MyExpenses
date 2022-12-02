@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getMimeType
 import java.io.*
 
-class LocalFileBackendProvider internal constructor(context: Context, uri: Uri) :
+class StorageAccessFrameworkBackendProvider internal constructor(context: Context, uri: Uri) :
     AbstractSyncBackendProvider<DocumentFile>(context) {
     private val baseDir: DocumentFile =
         DocumentFile.fromTreeUri(context, uri) ?: throw IOException("Cannot create baseDir")

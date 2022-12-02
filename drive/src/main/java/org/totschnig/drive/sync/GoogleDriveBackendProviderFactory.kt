@@ -24,28 +24,5 @@ class GoogleDriveBackendProviderFactory : SyncBackendProviderFactory() {
         accountManager: AccountManager
     ) = GoogleDriveBackendProvider(context, account, accountManager)
 
-    override fun startSetup(activity: ProtectedFragmentActivity) {
-        val googleApiAvailability = GoogleApiAvailability.getInstance()
-        val result = googleApiAvailability.isGooglePlayServicesAvailable(activity)
-        when {
-            result == ConnectionResult.SUCCESS -> {
-                activity.startActivityForResult(
-                    Intent(activity, DriveSetup2::class.java),
-                    SYNC_BACKEND_SETUP_REQUEST
-                )
-            }
-            googleApiAvailability.isUserResolvableError(result) -> {
-                googleApiAvailability.getErrorDialog(activity, result, 0)?.show()
-            }
-            else -> {
-                activity.showSnackBar(
-                    String.format(
-                        Locale.ROOT,
-                        "Google Play Services error %d",
-                        result
-                    ), Snackbar.LENGTH_LONG
-                )
-            }
-        }
-    }
+    override fun setupIntent(activity: ProtectedFragmentActivity) = Intent(activity, DriveSetup2::class.java)
 }

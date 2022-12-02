@@ -173,7 +173,6 @@
     <string name="qif_parse_failure_found_multiple_accounts">Fant flere kontoer i QIF-filen.</string>
     <string name="progress_dialog_printing">Genererer %s</string>
     <string name="progress_dialog_deleting">Sletter objekter …</string>
-    <string name="progress_dialog_loading">Laster inn objekt fra database …</string>
     <string name="pref_visit_website_title">Besøk nettsiden</string>
     <string name="pref_visit_website_summary">Endringslogg og O-S-S</string>
     <string name="pref_ui_theme_title">Drakt</string>

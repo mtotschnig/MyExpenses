@@ -346,7 +346,6 @@
     <string name="pref_visit_website_summary">Changelog and FAQ</string>
     <string name="pref_visit_website_title">Visit Website</string>
     <string name="progress_dialog_deleting">Deleting objects</string>
-    <string name="progress_dialog_loading">Loading object from database</string>
     <!-- %s is replaced with format (PDF, HTML) -->
     <string name="progress_dialog_printing">Generating %s</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
@@ -666,7 +665,6 @@
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
     <string name="sync_auth_exception">Authorization failed.</string>
     <string name="sync_login_again">Please log in again.</string>
-    <string name="sync_loading_accounts_from_backend">Loading available accounts from backend.</string>
     <plurals name="delete_success">
         <item quantity="one">One object was successfully deleted.</item>
         <item quantity="other">%d objects were successfully deleted.</item>

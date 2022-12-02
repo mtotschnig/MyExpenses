@@ -335,7 +335,6 @@
     <string name="pref_visit_website_summary">Log Perubahan dan FAQ</string>
     <string name="pref_visit_website_title">Lawati Laman Sesawang</string>
     <string name="progress_dialog_deleting">Memadam objek</string>
-    <string name="progress_dialog_loading">Memuatkan objek dari pangkalan data</string>
     <string name="progress_dialog_printing">Menjana %s</string>
     <string name="qif_parse_result">Dihurai: %1$s akaun; %2$s kategori dan %3$s pihak</string>
     <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>
@@ -644,7 +643,6 @@
     <string name="auto_fill_account_from_aggregate_only">Hanya bermula dari akaun beragregat.</string>
     <string name="sync_auth_exception">Pengesahihan gagal.</string>
     <string name="sync_login_again">Sila daftar masuk sekali lagi.</string>
-    <string name="sync_loading_accounts_from_backend">Memuatkan akaun tersedia dari bahagian belakang.</string>
     <plurals name="delete_success">
         <item quantity="other">%d objek berjaya dipadamkan.</item>
     </plurals>

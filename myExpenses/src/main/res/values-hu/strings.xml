@@ -340,7 +340,6 @@
     <string name="pref_visit_website_summary">Fejlesztések és GYIK</string>
     <string name="pref_visit_website_title">Weboldal megtekintése</string>
     <string name="progress_dialog_deleting">Objektumok törlése</string>
-    <string name="progress_dialog_loading">Elemek betöltése az adatbázisból</string>
     <string name="progress_dialog_printing">%s létrehozása</string>
     <string name="qif_parse_result">Elemezve: %1$s fiók; %2$s kategória és %3$s fél</string>
     <string name="qif_parse_failure_found_multiple_accounts">Több fiók található a QIF fájlban.</string>
@@ -659,7 +658,6 @@
     <string name="auto_fill_account_from_aggregate_only">Csak ha összevont számláról van indítva.</string>
     <string name="sync_auth_exception">Engedélyezés nem sikerült.</string>
     <string name="sync_login_again">Jelentkezzen be újra.</string>
-    <string name="sync_loading_accounts_from_backend">Elérhető fiókok betöltése a háttérprogramból.</string>
     <plurals name="delete_success">
         <item quantity="one">Egy tételt sikeresen töröltünk.</item>
         <item quantity="other">%d tárgyat sikeresen töröltünk.</item>

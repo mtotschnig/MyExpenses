@@ -352,7 +352,6 @@
     <string name="pref_visit_website_summary">التغييرات والاسئلة المتكررة</string>
     <string name="pref_visit_website_title">زيارة الموقع</string>
     <string name="progress_dialog_deleting">جارِ حذف الكائنات</string>
-    <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
     <string name="progress_dialog_printing">انشاء ملف %s</string>
     <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
     <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
@@ -685,7 +684,6 @@
     <string name="auto_fill_account_from_aggregate_only">فقط عندما تبدأ من الحساب الكلي.</string>
     <string name="sync_auth_exception">تعذَّر التخويل.</string>
     <string name="sync_login_again">الرجاء تسجيل الدخول مرةً أخرى.</string>
-    <string name="sync_loading_accounts_from_backend">تحميل الحسابات المتاحة من الخلفية.</string>
     <plurals name="delete_success">
         <item quantity="zero">تم حذف %d كائنات بنجاح.</item>
         <item quantity="one">تم حذف كائن واحد بنجاح.</item>

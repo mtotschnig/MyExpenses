@@ -338,7 +338,6 @@
     <string name="pref_visit_website_summary">Aldaketen erregistroa eta maiz egindako galderak</string>
     <string name="pref_visit_website_title">Bisitatu webgunea</string>
     <string name="progress_dialog_deleting">Objektuak ezabatzen</string>
-    <string name="progress_dialog_loading">Objektua datu-basetik kargatzen</string>
     <string name="progress_dialog_printing">%sa sortzen</string>
     <string name="qif_parse_result">Aztertuta: %1$s kontu; %2$s kategoria eta %3$s onuradun/ordaintzaile</string>
     <string name="qif_parse_failure_found_multiple_accounts">Hainbat kontu aurkitu dira QIF fitxategian.</string>
