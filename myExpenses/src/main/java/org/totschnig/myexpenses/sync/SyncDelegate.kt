@@ -199,6 +199,9 @@ class SyncDelegate @JvmOverloads constructor(
         if (change.splitParts() != null) {
             builder.setSplitParts(change.splitParts())
         }
+        if (change.tags() != null) {
+            builder.setTags(change.tags())
+        }
         return builder.setCurrentTimeStamp().build()
     }
 
