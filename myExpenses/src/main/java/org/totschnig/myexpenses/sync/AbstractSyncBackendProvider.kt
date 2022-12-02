@@ -37,7 +37,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-abstract class AbstractSyncBackendProvider<Col, Res>(protected val context: Context) : SyncBackendProvider {
+abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) : SyncBackendProvider {
     /**
      * this holds the uuid of the db account which data is currently synced
      */
@@ -250,10 +250,23 @@ abstract class AbstractSyncBackendProvider<Col, Res>(protected val context: Cont
         }
     }
 
-    abstract fun collectionForShard(shardNumber: Int): Col?
-    abstract fun childrenForCollection(folder: Col): Collection<Res>
+    abstract fun collectionForShard(shardNumber: Int): Res?
+
+    /**
+     * @param folder if null must return resources in account folder
+     */
+    abstract fun childrenForCollection(folder: Res?): Collection<Res>
     abstract fun nameForResource(resource: Res): String?
     abstract fun getChangeSetFromResource(shardNumber: Int, resource: Res): ChangeSet
+
+    abstract fun isCollection(resource: Res): Boolean
+
+    val resourceComparator = Comparator { o1: Res, o2: Res ->
+        Utils.compare(
+            getSequenceFromFileName(nameForResource(o1)),
+            getSequenceFromFileName(nameForResource(o2))
+        )
+    }
 
     final override fun getChangeSetSince(sequenceNumber: SequenceNumber, context: Context): ChangeSet? =
         merge(
@@ -262,7 +275,7 @@ abstract class AbstractSyncBackendProvider<Col, Res>(protected val context: Cont
             }
         )
 
-    fun shardResolvingFilterStrategy(sequenceNumber: SequenceNumber) = buildList {
+    private fun shardResolvingFilterStrategy(sequenceNumber: SequenceNumber) = buildList {
         var nextShard = sequenceNumber.shard
         var startNumber = sequenceNumber.number
         while (true) {
@@ -281,10 +294,12 @@ abstract class AbstractSyncBackendProvider<Col, Res>(protected val context: Cont
         }
     }
 
-    protected fun getSequenceFromFileName(fileName: String): Int {
-        return try {
-            getNameWithoutExtension(fileName).takeIf { it.isNotEmpty() && it.startsWith("_") }?.substring(1)?.toInt()
-        } catch (e: NumberFormatException) { null } ?: 0
+    protected fun getSequenceFromFileName(fileName: String?): Int {
+        return fileName?.let {
+            try {
+                getNameWithoutExtension(fileName).takeIf { it.isNotEmpty() && it.startsWith("_") }?.substring(1)?.toInt()
+            } catch (e: NumberFormatException) { null }
+        }  ?: 0
     }
 
     @Throws(IOException::class)
@@ -365,7 +380,41 @@ abstract class AbstractSyncBackendProvider<Col, Res>(protected val context: Cont
     }
 
     @Throws(IOException::class)
-    protected abstract fun getLastSequence(start: SequenceNumber): SequenceNumber
+    open fun getLastSequence(start: SequenceNumber): SequenceNumber {
+        val mainEntries = childrenForCollection(null)
+        val lastShardOptional = mainEntries
+            .filter { metadata ->
+                isCollection(metadata) && nameForResource(metadata)?.let {
+                    isAtLeastShardDir(
+                        start.shard,
+                        it
+                    )
+                } == true
+            }
+            .maxWithOrNull(resourceComparator)
+        val lastShard: Collection<Res>
+        val lastShardInt: Int
+        val reference: Int
+        if (lastShardOptional != null) {
+            lastShard = childrenForCollection(lastShardOptional)
+            lastShardInt = getSequenceFromFileName(nameForResource(lastShardOptional))
+            reference = if (lastShardInt == start.shard) start.number else 0
+        } else {
+            if (start.shard > 0) return start
+            lastShard = mainEntries
+            lastShardInt = 0
+            reference = start.number
+        }
+        return lastShard
+            .filter { nameForResource(it)?.let { name -> isNewerJsonFile(reference, name) } == true }
+            .maxWithOrNull(resourceComparator)
+            ?.let {
+                SequenceNumber(
+                    lastShardInt,
+                    getSequenceFromFileName(nameForResource(it))
+                )
+            } ?: start
+    }
 
     @Throws(IOException::class)
     protected abstract fun saveFileContentsToAccountDir(

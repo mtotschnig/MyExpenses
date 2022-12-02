@@ -25,7 +25,7 @@ class GoogleDriveBackendProvider internal constructor(
     context: Context,
     account: Account,
     accountManager: AccountManager
-) : AbstractSyncBackendProvider<File, File>(context) {
+) : AbstractSyncBackendProvider<File>(context) {
     private val folderId: String =
         accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
             ?: throw SyncParseException("Drive folder not set")
@@ -120,40 +120,6 @@ class GoogleDriveBackendProvider internal constructor(
             driveServiceHelper.listChildren(it)
                 .map { obj: File -> obj.name }
         } ?: emptyList()
-
-    @Throws(IOException::class)
-    override fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val resourceComparator = java.util.Comparator { o1: File, o2: File ->
-            Utils.compare(
-                getSequenceFromFileName(o1.name),
-                getSequenceFromFileName(o2.name)
-            )
-        }
-        val lastShardOptional = driveServiceHelper.listFolders(accountFolder)
-            .filter { file: File -> isAtLeastShardDir(start.shard, file.name) }
-            .maxWithOrNull(resourceComparator)
-        val lastShard: List<File>
-        val lastShardInt: Int
-        val reference: Int
-        if (lastShardOptional != null) {
-            lastShard = driveServiceHelper.listChildren(lastShardOptional)
-            lastShardInt = getSequenceFromFileName(lastShardOptional.name)
-            reference = if (lastShardInt == start.shard) start.number else 0
-        } else {
-            if (start.shard > 0) return start
-            lastShard = driveServiceHelper.listChildren(accountFolder)
-            lastShardInt = 0
-            reference = start.number
-        }
-        return lastShard
-            .filter { metadata: File -> isNewerJsonFile(reference, metadata.name) }
-            .maxWithOrNull(resourceComparator)?.let {
-                SequenceNumber(
-                    lastShardInt,
-                    getSequenceFromFileName(it.name)
-                )
-            } ?: start
-    }
 
     @Throws(IOException::class)
     override fun saveFileContentsToBase(
@@ -273,9 +239,12 @@ class GoogleDriveBackendProvider internal constructor(
     override fun collectionForShard(shardNumber: Int) =
         if (shardNumber == 0) accountFolder else getSubFolder("_$shardNumber")
 
-    override fun childrenForCollection(folder: File) = driveServiceHelper.listChildren(folder)
+    override fun childrenForCollection(folder: File?) =
+        driveServiceHelper.listChildren(folder ?: accountFolder)
 
     override fun nameForResource(resource: File): String? = resource.name
+
+    override fun isCollection(resource: File) = driveServiceHelper.isFolder(resource)
 
     @Throws(IOException::class)
     private fun getSubFolder(shard: String): File? {

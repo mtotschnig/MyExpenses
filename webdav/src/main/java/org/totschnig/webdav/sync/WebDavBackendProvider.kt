@@ -39,7 +39,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     context: Context,
     account: Account,
     accountManager: AccountManager
-) : AbstractSyncBackendProvider<DavResource, DavResource>(context) {
+) : AbstractSyncBackendProvider<DavResource>(context) {
 
     private var webDavClient: WebDavClient
     private val fallbackToClass1: Boolean
@@ -160,9 +160,12 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         if (shardNumber == 0) webDavClient.getCollection(accountUuid)
         else webDavClient.getCollection("_$shardNumber", accountUuid).takeIf { it.exists() }
 
-    override fun childrenForCollection(folder: DavResource): Set<DavResource> = webDavClient.getFolderMembers(folder)
+    override fun childrenForCollection(folder: DavResource?): Set<DavResource> =
+        if (folder != null) webDavClient.getFolderMembers(folder) else webDavClient.getFolderMembers(accountUuid)
 
     override fun nameForResource(resource: DavResource): String? = resource.fileName()
+
+    override fun isCollection(resource: DavResource) = LockableDavResource.isCollection(resource)
 
     override val sharedPreferencesName: String
         get() = "webdav_backend"
@@ -239,53 +242,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         } catch (e: IOException) {
             ArrayList()
         }
-
-    @Throws(IOException::class)
-    override fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val resourceComparator = java.util.Comparator { o1: DavResource, o2: DavResource ->
-            Utils.compare(
-                getSequenceFromFileName(o1.fileName()),
-                getSequenceFromFileName(o2.fileName())
-            )
-        }
-        val mainMembers = webDavClient.getFolderMembers(accountUuid)
-        val lastShardOptional = mainMembers
-            .filter { davResource: DavResource ->
-                LockableDavResource.isCollection(davResource) && isAtLeastShardDir(
-                    start.shard,
-                    davResource.fileName()
-                )
-            }
-            .maxWithOrNull(resourceComparator)
-        val lastShard: Set<DavResource>
-        val lastShardInt: Int
-        val reference: Int
-        if (lastShardOptional != null) {
-            val lastShardName = lastShardOptional.fileName()
-            lastShard = webDavClient.getFolderMembers(accountUuid, lastShardName)
-            lastShardInt = getSequenceFromFileName(lastShardName)
-            reference = if (lastShardInt == start.shard) start.number else 0
-        } else {
-            if (start.shard > 0) return start
-            lastShard = mainMembers
-            lastShardInt = 0
-            reference = start.number
-        }
-        return lastShard
-            .filter { davResource: DavResource ->
-                isNewerJsonFile(
-                    reference,
-                    davResource.fileName()
-                )
-            }
-            .maxWithOrNull(resourceComparator)
-            ?.let { davResource: DavResource ->
-                SequenceNumber(
-                    lastShardInt,
-                    getSequenceFromFileName(davResource.fileName())
-                )
-            } ?: start
-    }
 
     @Throws(IOException::class)
     override fun saveFileContentsToAccountDir(

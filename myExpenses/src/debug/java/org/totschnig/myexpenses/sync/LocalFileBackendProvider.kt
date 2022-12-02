@@ -8,13 +8,12 @@ import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getMimeType
 import java.io.*
 
 class LocalFileBackendProvider internal constructor(context: Context, uri: Uri) :
-    AbstractSyncBackendProvider<DocumentFile, DocumentFile>(context) {
+    AbstractSyncBackendProvider<DocumentFile>(context) {
     private val baseDir: DocumentFile =
         DocumentFile.fromTreeUri(context, uri) ?: throw IOException("Cannot create baseDir")
     private lateinit var accountDir: DocumentFile
@@ -134,53 +133,14 @@ class LocalFileBackendProvider internal constructor(context: Context, uri: Uri) 
         } ?: throw FileNotFoundException()
     }
 
-    override fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val fileComparator = Comparator { o1: DocumentFile, o2: DocumentFile ->
-            Utils.compare(
-                getSequenceFromFileName(o1.name!!),
-                getSequenceFromFileName(o2.name!!)
-            )
-        }
-        val lastShardOptional = accountDir.listFiles().filter { file ->
-            file.isDirectory && file.name?.let {
-                isAtLeastShardDir(
-                    start.shard,
-                    it
-                )
-            } == true
-        }.maxWithOrNull(fileComparator)
-        val lastShard: DocumentFile?
-        val lastShardInt: Int
-        val reference: Int
-        if (lastShardOptional != null) {
-            lastShard = lastShardOptional
-            lastShardInt = getSequenceFromFileName(lastShard.name!!)
-            reference = if (lastShardInt == start.shard) start.number else 0
-        } else {
-            if (start.shard > 0) return start
-            lastShard = accountDir
-            lastShardInt = 0
-            reference = start.number
-        }
-        return lastShard.listFiles().filter { file ->
-            file.name?.let {
-                isNewerJsonFile(
-                    reference,
-                    it
-                )
-            } == true
-        }
-            .maxWithOrNull(fileComparator)
-            ?.let { file -> SequenceNumber(lastShardInt, getSequenceFromFileName(file.name!!)) }
-            ?: start
-    }
-
     override fun collectionForShard(shardNumber: Int) =
         if (shardNumber == 0) accountDir else accountDir.findFile("_$shardNumber")
 
-    override fun childrenForCollection(folder: DocumentFile) = folder.listFiles().asList()
+    override fun childrenForCollection(folder: DocumentFile?) = (folder ?: accountDir).listFiles().asList()
 
     override fun nameForResource(resource: DocumentFile) = resource.name
+
+    override fun isCollection(resource: DocumentFile) = resource.isDirectory
 
     override fun lock() {}
 
@@ -240,8 +200,10 @@ class LocalFileBackendProvider internal constructor(context: Context, uri: Uri) 
 
     @Throws(IOException::class)
     private fun saveFileContents(file: DocumentFile, fileContents: String, maybeEncrypt: Boolean) {
-        (contentResolver.openOutputStream(file.uri) ?: throw IOException()).use {
-            OutputStreamWriter(if (maybeEncrypt) maybeEncrypt(it) else it).write(fileContents)
+        (contentResolver.openOutputStream(file.uri) ?: throw IOException()).use { out ->
+            (if (maybeEncrypt) maybeEncrypt(out) else out).bufferedWriter().use {
+                it.write(fileContents)
+            }
         }
     }
 

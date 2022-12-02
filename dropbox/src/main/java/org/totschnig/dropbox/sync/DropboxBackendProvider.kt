@@ -24,13 +24,12 @@ import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Preconditions
-import org.totschnig.myexpenses.util.Utils
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
 
 class DropboxBackendProvider internal constructor(context: Context, folderName: String) :
-    AbstractSyncBackendProvider<String, Metadata>(context) {
+    AbstractSyncBackendProvider<Metadata>(context) {
     private lateinit var mDbxClient: DbxClientV2
     private val basePath: String = "/$folderName"
     private lateinit var accountName: String
@@ -201,13 +200,17 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         )
     }
 
-    override fun collectionForShard(shardNumber: Int): String =
-        if (shardNumber == 0) accountPath else "$accountPath/_$shardNumber"
+    override fun collectionForShard(shardNumber: Int): Metadata =
+        Metadata.newBuilder(if (shardNumber == 0) accountUuid else "_$shardNumber")
+            .withPathLower(if (shardNumber == 0) accountPath else "$accountPath/_$shardNumber")
+            .build()
 
-    override fun childrenForCollection(folder: String): List<Metadata> =
-        mDbxClient.files().listFolder(folder).entries
+    override fun childrenForCollection(folder: Metadata?): List<Metadata> =
+        mDbxClient.files().listFolder(folder?.pathLower ?: accountPath).entries
 
     override fun nameForResource(resource: Metadata): String = resource.name
+
+    override fun isCollection(resource: Metadata) = resource is FolderMetadata
 
     @Throws(IOException::class)
     override fun getInputStreamForPicture(relativeUri: String): InputStream {
@@ -239,48 +242,9 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         saveInputStream("$folder/$finalFileName", if (maybeEncrypt) maybeEncrypt(`in`) else `in`)
     }
 
-    @Throws(IOException::class)
     override fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val resourceComparator = Comparator { o1: Metadata, o2: Metadata ->
-            Utils.compare(
-                getSequenceFromFileName(o1.name),
-                getSequenceFromFileName(o2.name)
-            )
-        }
         return tryWithWrappedException {
-            val accountPath = accountPath
-            val mainEntries = mDbxClient.files().listFolder(accountPath).entries
-            val lastShardOptional = mainEntries
-                .filter { metadata: Metadata ->
-                    metadata is FolderMetadata && isAtLeastShardDir(
-                        start.shard,
-                        metadata.getName()
-                    )
-                }
-                .maxWithOrNull(resourceComparator)
-            val lastShard: List<Metadata>
-            val lastShardInt: Int
-            val reference: Int
-            if (lastShardOptional != null) {
-                val lastShardName = lastShardOptional.name
-                lastShard = mDbxClient.files().listFolder("$accountPath/$lastShardName").entries
-                lastShardInt = getSequenceFromFileName(lastShardName)
-                reference = if (lastShardInt == start.shard) start.number else 0
-            } else {
-                if (start.shard > 0) return@tryWithWrappedException start
-                lastShard = mainEntries
-                lastShardInt = 0
-                reference = start.number
-            }
-            lastShard
-                .filter { metadata: Metadata -> isNewerJsonFile(reference, metadata.name) }
-                .maxWithOrNull(resourceComparator)
-                ?.let { metadata: Metadata ->
-                    SequenceNumber(
-                        lastShardInt,
-                        getSequenceFromFileName(metadata.name)
-                    )
-                } ?: start
+            super.getLastSequence(start)
         }
     }
 
