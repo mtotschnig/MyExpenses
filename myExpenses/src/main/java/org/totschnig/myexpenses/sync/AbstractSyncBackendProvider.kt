@@ -8,7 +8,6 @@ import android.net.Uri
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Base64
-import androidx.core.util.Pair
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.apache.commons.lang3.StringUtils
@@ -28,16 +27,14 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
-import org.totschnig.myexpenses.util.io.getFileExtension
-import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import timber.log.Timber
 import java.io.*
 import java.security.GeneralSecurityException
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
-abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) : SyncBackendProvider {
+abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
+    SyncBackendProvider, ShardingResourceStorage<Res> {
     /**
      * this holds the uuid of the db account which data is currently synced
      */
@@ -55,7 +52,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         get() = encryptionPassword != null
     val accountMetadataFilename: String
         get() = String.format("%s.%s", ACCOUNT_METADATA_FILENAME, extensionForData)
-    private val extensionForData: String
+    override val extensionForData: String
         get() = if (isEncrypted) "enc" else "json"
 
     fun setAccountUuid(account: Account) {
@@ -232,75 +229,20 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             Result.failure(e)
         }
 
-    protected fun isAtLeastShardDir(shardNumber: Int, name: String): Boolean {
-        return FILE_PATTERN.matcher(name).matches() &&
-                name.substring(1).toInt() >= shardNumber
-    }
-
-    protected fun isNewerJsonFile(sequenceNumber: Int, name: String): Boolean {
-        val fileName = getNameWithoutExtension(name)
-        val fileExtension = getFileExtension(name)
-        return fileExtension == extensionForData && FILE_PATTERN.matcher(fileName)
-            .matches() && fileName.substring(1).toInt() > sequenceNumber
-    }
-
     protected fun merge(changeSetList: List<ChangeSet>): ChangeSet? {
         return changeSetList.reduceOrNull { changeSet1: ChangeSet?, changeSet2: ChangeSet? ->
             ChangeSet.merge(changeSet1, changeSet2)
         }
     }
 
-    abstract fun collectionForShard(shardNumber: Int): Res?
-
-    /**
-     * @param folder if null must return resources in account folder
-     */
-    abstract fun childrenForCollection(folder: Res?): Collection<Res>
-    abstract fun nameForResource(resource: Res): String?
     abstract fun getChangeSetFromResource(shardNumber: Int, resource: Res): ChangeSet
 
-    abstract fun isCollection(resource: Res): Boolean
-
-    val resourceComparator = Comparator { o1: Res, o2: Res ->
-        Utils.compare(
-            getSequenceFromFileName(nameForResource(o1)),
-            getSequenceFromFileName(nameForResource(o2))
-        )
-    }
-
-    final override fun getChangeSetSince(sequenceNumber: SequenceNumber, context: Context): ChangeSet? =
+    final override fun getChangeSetSince(sequenceNumber: SequenceNumber): ChangeSet? =
         merge(
             shardResolvingFilterStrategy(sequenceNumber).map {
                 getChangeSetFromResource(it.first, it.second)
             }
         )
-
-    private fun shardResolvingFilterStrategy(sequenceNumber: SequenceNumber) = buildList {
-        var nextShard = sequenceNumber.shard
-        var startNumber = sequenceNumber.number
-        while (true) {
-            val nextShardResource = collectionForShard(nextShard)
-            if (nextShardResource != null) {
-                childrenForCollection(nextShardResource)
-                    .sortedBy { nameForResource(it)?.let { name -> getSequenceFromFileName(name) } }
-                    .filter { nameForResource(it)?.let { name -> isNewerJsonFile(startNumber, name) } == true }
-                    .map {  Pair.create(nextShard, it) }
-                    .forEach { add(it) }
-                nextShard++
-                startNumber = 0
-            } else {
-                break
-            }
-        }
-    }
-
-    protected fun getSequenceFromFileName(fileName: String?): Int {
-        return fileName?.let {
-            try {
-                getNameWithoutExtension(fileName).takeIf { it.isNotEmpty() && it.startsWith("_") }?.substring(1)?.toInt()
-            } catch (e: NumberFormatException) { null }
-        }  ?: 0
-    }
 
     @Throws(IOException::class)
     private fun mapPictureDuringWrite(transactionChange: TransactionChange): TransactionChange {
@@ -351,7 +293,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         log().i("Writing to %s", fileName)
         log().i(fileContents)
         saveFileContentsToAccountDir(
-            if (nextSequence.shard == 0) null else "_" + nextSequence.shard,
+            if (nextSequence.shard == 0) null else folderForShard(nextSequence.shard),
             fileName,
             fileContents,
             mimeTypeForData,
@@ -377,43 +319,6 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             fileName,
             "/"
         ) else fileName
-    }
-
-    @Throws(IOException::class)
-    open fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val mainEntries = childrenForCollection(null)
-        val lastShardOptional = mainEntries
-            .filter { metadata ->
-                isCollection(metadata) && nameForResource(metadata)?.let {
-                    isAtLeastShardDir(
-                        start.shard,
-                        it
-                    )
-                } == true
-            }
-            .maxWithOrNull(resourceComparator)
-        val lastShard: Collection<Res>
-        val lastShardInt: Int
-        val reference: Int
-        if (lastShardOptional != null) {
-            lastShard = childrenForCollection(lastShardOptional)
-            lastShardInt = getSequenceFromFileName(nameForResource(lastShardOptional))
-            reference = if (lastShardInt == start.shard) start.number else 0
-        } else {
-            if (start.shard > 0) return start
-            lastShard = mainEntries
-            lastShardInt = 0
-            reference = start.number
-        }
-        return lastShard
-            .filter { nameForResource(it)?.let { name -> isNewerJsonFile(reference, name) } == true }
-            .maxWithOrNull(resourceComparator)
-            ?.let {
-                SequenceNumber(
-                    lastShardInt,
-                    getSequenceFromFileName(nameForResource(it))
-                )
-            } ?: start
     }
 
     @Throws(IOException::class)
@@ -517,7 +422,6 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         const val BACKUP_FOLDER_NAME = "BACKUPS"
         const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
-        protected val FILE_PATTERN: Pattern = Pattern.compile("_\\d+")
         private const val KEY_OWNED_BY_US = "ownedByUs"
         private const val KEY_TIMESTAMP = "timestamp"
         private val LOCK_TIMEOUT_MILLIS =

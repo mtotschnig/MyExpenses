@@ -605,22 +605,6 @@ public class Utils {
     }
   }
 
-  /**
-   * backport of {@link Integer#compare(int, int)} which is API 19
-   * returns -1, 0 or 1
-   * TODO remove now desugared
-   */
-  public static int compare(int lhs, int rhs) {
-    return Integer.compare(lhs, rhs);
-  }
-
-  /**
-   * backport of {@link java.util.Objects#compare(Object, Object, Comparator)} which is API 19
-   */
-  public static <T> int compare(T a, T b, Comparator<? super T> c) {
-    return (a == b) ? 0 : c.compare(a, b);
-  }
-
   public static int pow(int b, int k) {
     switch (b) {
       case 0:

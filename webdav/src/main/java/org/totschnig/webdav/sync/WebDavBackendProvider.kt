@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.sync.SequenceNumber
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.calculateSize
 import org.totschnig.myexpenses.util.io.getMimeType
 import org.totschnig.webdav.sync.client.CertificateHelper.fromString
@@ -158,7 +157,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
 
     override fun collectionForShard(shardNumber: Int) =
         if (shardNumber == 0) webDavClient.getCollection(accountUuid)
-        else webDavClient.getCollection("_$shardNumber", accountUuid).takeIf { it.exists() }
+        else webDavClient.getCollection(folderForShard(shardNumber), accountUuid).takeIf { it.exists() }
 
     override fun childrenForCollection(folder: DavResource?): Set<DavResource> =
         if (folder != null) webDavClient.getFolderMembers(folder) else webDavClient.getFolderMembers(accountUuid)

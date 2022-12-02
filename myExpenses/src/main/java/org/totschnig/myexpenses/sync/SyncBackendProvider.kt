@@ -27,7 +27,7 @@ interface SyncBackendProvider {
     fun unlock()
 
     @Throws(IOException::class)
-    fun getChangeSetSince(sequenceNumber: SequenceNumber, context: Context): ChangeSet?
+    fun getChangeSetSince(sequenceNumber: SequenceNumber): ChangeSet?
 
     @Throws(IOException::class)
     fun writeChangeSet(

@@ -200,10 +200,17 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         )
     }
 
-    override fun collectionForShard(shardNumber: Int): Metadata =
-        Metadata.newBuilder(if (shardNumber == 0) accountUuid else "_$shardNumber")
-            .withPathLower(if (shardNumber == 0) accountPath else "$accountPath/_$shardNumber")
+    override fun collectionForShard(shardNumber: Int): Metadata {
+        return if (shardNumber == 0) Metadata.newBuilder(accountUuid)
+            .withPathLower(accountPath)
             .build()
+        else {
+            val folder = folderForShard(shardNumber)
+            Metadata.newBuilder(folder)
+                .withPathLower("$accountPath/$folder")
+                .build()
+        }
+    }
 
     override fun childrenForCollection(folder: Metadata?): List<Metadata> =
         mDbxClient.files().listFolder(folder?.pathLower ?: accountPath).entries

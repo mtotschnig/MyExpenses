@@ -134,7 +134,7 @@ class LocalFileBackendProvider internal constructor(context: Context, uri: Uri) 
     }
 
     override fun collectionForShard(shardNumber: Int) =
-        if (shardNumber == 0) accountDir else accountDir.findFile("_$shardNumber")
+        if (shardNumber == 0) accountDir else accountDir.findFile(folderForShard(shardNumber))
 
     override fun childrenForCollection(folder: DocumentFile?) = (folder ?: accountDir).listFiles().asList()
 

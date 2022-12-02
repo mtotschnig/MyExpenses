@@ -237,7 +237,7 @@ class GoogleDriveBackendProvider internal constructor(
     }
 
     override fun collectionForShard(shardNumber: Int) =
-        if (shardNumber == 0) accountFolder else getSubFolder("_$shardNumber")
+        if (shardNumber == 0) accountFolder else getSubFolder(folderForShard(shardNumber))
 
     override fun childrenForCollection(folder: File?) =
         driveServiceHelper.listChildren(folder ?: accountFolder)

@@ -298,7 +298,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         var successLocal2Remote = 0
                         try {
                             val changeSetSince =
-                                backend.getChangeSetSince(lastSyncedRemote, context)
+                                backend.getChangeSetSince(lastSyncedRemote)
                             var remoteChanges: List<TransactionChange> = if (changeSetSince != null) {
                                 lastSyncedRemote = changeSetSince.sequenceNumber
                                 log().i("lastSyncedRemote: $lastSyncedRemote")
