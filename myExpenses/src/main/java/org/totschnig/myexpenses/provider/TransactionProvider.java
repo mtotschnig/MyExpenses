@@ -208,6 +208,9 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
 
   public static final String QUERY_PARAMETER_CALLER_IS_IN_BULK = "caller_is_in_bulk";
+  /**
+   * "1" for currency aggregate, "2" for grand total
+   */
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
@@ -354,9 +357,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false)) {
           projection = Companion.shortenComment(projection);
         }
-        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS, false)) {
-          String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
-                  " != 1 OR " + KEY_AMOUNT + " < 0";
+        String mergeTransfers = uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS);
+        if (mergeTransfers != null) {
+          String keepTransferPartCriterion = mergeTransfers.equals("1") ?
+                  "NOT(" + IS_SAME_CURRENCY + ") OR " + KEY_AMOUNT + " < 0" :
+                  IS_SAME_CURRENCY + " AND " + KEY_AMOUNT + " < 0 OR (NOT(" + IS_SAME_CURRENCY + ") AND " + KEY_CURRENCY  + "='" + getHomeCurrency() + "')"  ;
+          String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + keepTransferPartCriterion;
           selection = selection == null ? mergeTransferSelection :
                   selection + " AND (" + mergeTransferSelection + ")";
         }

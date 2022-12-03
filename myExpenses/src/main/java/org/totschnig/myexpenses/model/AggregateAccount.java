@@ -69,7 +69,7 @@ public class AggregateAccount extends Account {
   public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
     final Uri base = super.getExtendedUriForTransactionList(withType, shortenComment);
     return withType ? base : base.buildUpon().appendQueryParameter(
-        TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, "1")
+        TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, isHomeAggregate() ? "2" : "1")
         .build();
   }
 

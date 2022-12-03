@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.viewmodel.data
 
-import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
@@ -156,11 +155,12 @@ data class PageAccount(
     }
 
     //Tuple4 of Uri / projection / selection / selectionArgs
-    fun loadingInfo(context: Context): Tuple4<Uri, Array<String>, String, Array<String>?> {
+    fun loadingInfo(): Tuple4<Uri, Array<String>, String, Array<String>?> {
         val builder = Transaction.EXTENDED_URI.buildUpon()
             .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT)
         if (id < 0) {
-            builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS)
+            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS,
+            if (isHomeAggregate) "2" else "1")
         }
         val uri = builder.build()
         val projection = when {

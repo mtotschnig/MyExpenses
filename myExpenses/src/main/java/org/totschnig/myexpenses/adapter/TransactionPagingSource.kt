@@ -43,7 +43,7 @@ open class TransactionPagingSource(
     private var selectionArgs: Array<String>?
 
     init {
-        account.loadingInfo(context).also {
+        account.loadingInfo().also {
             uri = it.first
             projection = it.second
             selection = it.third
