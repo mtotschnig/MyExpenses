@@ -270,6 +270,7 @@ fun Cursor.getIntOrNull(column: String) = getIntOrNull(getColumnIndexOrThrow(col
 fun Cursor.getLongOrNull(column: String) = getLongOrNull(getColumnIndexOrThrow(column))
 fun Cursor.getIntIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getInt(it) }
 fun Cursor.getIntIfExistsOr0(column: String) = getIntIfExists(column) ?: 0
+fun Cursor.getLongIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) }
 fun Cursor.getLongIfExistsOr0(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
 fun Cursor.getStringIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
 fun Cursor.getBoolean(column: String) = getInt(column) == 1

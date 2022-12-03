@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
@@ -124,7 +125,8 @@ open class TransactionPagingSource(
                         Transaction2.fromCursor(
                             context,
                             it,
-                            (context.applicationContext as MyApplication).appComponent.currencyContext()
+                            (context.applicationContext as MyApplication).appComponent.currencyContext(),
+                            if (account.isHomeAggregate) Utils.getHomeCurrency() else null
                         )
                     }.toList()
                 }

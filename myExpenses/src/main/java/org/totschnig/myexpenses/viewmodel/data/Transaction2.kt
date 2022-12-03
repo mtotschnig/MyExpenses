@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
@@ -38,6 +39,7 @@ data class Transaction2(
     val _date: Long,
     val _valueDate: Long = _date,
     val amount: Money,
+    val equivalentAmount: Money? = null,
     val comment: String? = null,
     val catId: Long? = null,
     val label: String? = null,
@@ -61,7 +63,7 @@ data class Transaction2(
     val week: Int,
     val day: Int,
     val icon: String? = null
-): Parcelable {
+) : Parcelable {
 
     val currency: CurrencyUnit
         get() = amount.currencyUnit
@@ -111,7 +113,7 @@ data class Transaction2(
             KEY_STATUS,
             KEY_TAGLIST,
             KEY_PARENTID,
-            when(grouping) {
+            when (grouping) {
                 Grouping.MONTH -> getYearOfMonthStart()
                 Grouping.WEEK -> getYearOfWeekStart()
                 else -> YEAR
@@ -138,7 +140,8 @@ data class Transaction2(
         fun fromCursor(
             context: Context,
             cursor: Cursor,
-            currencyContext: CurrencyContext
+            currencyContext: CurrencyContext,
+            homeCurrency: CurrencyUnit?
         ): Transaction2 {
             val currencyUnit = currencyContext.get(cursor.getString(KEY_CURRENCY))
             val amountRaw = cursor.getLong(KEY_AMOUNT)
@@ -148,6 +151,11 @@ data class Transaction2(
             return Transaction2(
                 id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
                 amount = money,
+                equivalentAmount = if (transferPeer == null) {
+                    cursor.getLongIfExists(KEY_EQUIVALENT_AMOUNT)?.let {
+                        homeCurrency?.let { it1 -> Money(it1, it) }
+                    }
+                } else null,
                 _date = cursor.getLong(KEY_DATE),
                 _valueDate = cursor.getLong(KEY_VALUE_DATE),
                 comment = cursor.getStringOrNull(KEY_COMMENT),
