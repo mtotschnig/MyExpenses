@@ -243,6 +243,19 @@ abstract class ItemRenderer(
     }
 
     @Composable
+    protected fun Transaction2.AccountColor() {
+        color?.let {
+            Divider(
+                color = Color(it),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(2.dp)
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+        }
+    }
+
+    @Composable
     fun TextWithInlineContent(
         modifier: Modifier = Modifier,
         text: AnnotatedString,
@@ -283,15 +296,7 @@ class CompactTransactionRenderer(
                 append(it)
             }
         }
-        transaction.color?.let {
-            Divider(
-                color = Color(it),
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(2.dp)
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-        }
+        transaction.AccountColor()
         dateTimeFormatInfo?.let {
             Text(
                 modifier = Modifier.width(it.second),
@@ -333,7 +338,10 @@ class NewTransactionRenderer(
                 .weight(1f)
         ) {
             if (!transaction.isTransfer && transaction.accountLabel != null) {
-                Text(text = transaction.accountLabel)
+                Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+                    transaction.AccountColor()
+                    Text(text = transaction.accountLabel)
+                }
             }
             primaryInfo.takeIf { it.isNotEmpty() }
                 ?.let { info ->
