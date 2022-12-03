@@ -71,8 +71,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     }
 
     // currently not used
-    override val sharedPreferencesName: String
-        get() = "local_file_backend" // currently not used
+    override val sharedPreferencesName = "saf" // currently not used
 
     @Throws(IOException::class)
     override fun readEncryptionToken() =

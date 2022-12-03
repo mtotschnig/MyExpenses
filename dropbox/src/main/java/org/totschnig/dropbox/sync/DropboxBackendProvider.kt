@@ -125,19 +125,20 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         return getAccountMetaDataFromPath(getResourcePath(accountMetadataFilename))
     }
 
-    @Throws(IOException::class)
-    private fun exists(path: String) = tryWithWrappedException {
+    private fun metadata(path: String) = tryWithWrappedException {
         try {
             mDbxClient.files().getMetadata(path)
-            true
         } catch (e: GetMetadataErrorException) {
             if (e.errorValue.isPath && e.errorValue.pathValue.isNotFound) {
-                false
+                null
             } else {
                 throw e
             }
         }
     }
+
+    @Throws(IOException::class)
+    private fun exists(path: String) = metadata(path) != null
 
     @Throws(IOException::class)
     private fun requireFolder(path: String) {
@@ -200,17 +201,9 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         )
     }
 
-    override fun collectionForShard(shardNumber: Int): Metadata {
-        return if (shardNumber == 0) Metadata.newBuilder(accountUuid)
-            .withPathLower(accountPath)
-            .build()
-        else {
-            val folder = folderForShard(shardNumber)
-            Metadata.newBuilder(folder)
-                .withPathLower("$accountPath/$folder")
-                .build()
-        }
-    }
+    override fun collectionForShard(shardNumber: Int) = metadata(
+        if (shardNumber == 0) accountPath else "$accountPath/${folderForShard(shardNumber)}"
+    )
 
     override fun childrenForCollection(folder: Metadata?): List<Metadata> =
         mDbxClient.files().listFolder(folder?.pathLower ?: accountPath).entries
@@ -334,8 +327,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
             emptyList()
         }
 
-    override val sharedPreferencesName = "webdav_backend"
-
+    override val sharedPreferencesName = "dropbox"
 
     private fun reAuthenticationIntent() = Intent(context, DropboxSetup::class.java).apply {
         action = ACTION_RE_AUTHENTICATE

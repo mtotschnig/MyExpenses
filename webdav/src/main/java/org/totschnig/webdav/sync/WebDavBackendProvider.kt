@@ -166,8 +166,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
 
     override fun isCollection(resource: DavResource) = LockableDavResource.isCollection(resource)
 
-    override val sharedPreferencesName: String
-        get() = "webdav_backend"
+    override val sharedPreferencesName = "webdav"
 
     @get:Throws(IOException::class)
     override val isEmpty: Boolean

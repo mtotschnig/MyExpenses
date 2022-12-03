@@ -40,7 +40,9 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
      */
     @JvmField
     protected var accountUuid: String? = null
-    var sharedPreferences: SharedPreferences
+    val sharedPreferences: SharedPreferences by lazy {
+        context.getSharedPreferences("${sharedPreferencesName}_sync", 0)
+    }
     private val gson: Gson = GsonBuilder()
         .registerTypeAdapterFactory(AdapterFactory.create())
         .create()
@@ -434,6 +436,5 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             appInstance =
                 Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
         }
-        sharedPreferences = context.getSharedPreferences(sharedPreferencesName, 0)
     }
 }

@@ -39,8 +39,7 @@ class GoogleDriveBackendProvider internal constructor(
     } catch (e: Exception) {
         throw SyncParseException(e)
     }
-    override val sharedPreferencesName: String
-        get() = "google_drive_backend"
+    override val sharedPreferencesName = "google_drive"
 
     @Throws(IOException::class)
     override fun readEncryptionToken(): String? {
