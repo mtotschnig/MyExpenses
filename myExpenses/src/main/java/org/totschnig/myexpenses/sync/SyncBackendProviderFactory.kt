@@ -24,7 +24,7 @@ abstract class SyncBackendProviderFactory {
         accountManager: AccountManager
     ): SyncBackendProvider
 
-    abstract fun setupIntent(activity: ProtectedFragmentActivity): Intent?
+    abstract val setupActivityClass: Class<out ProtectedFragmentActivity>
 
     companion object {
         @JvmStatic

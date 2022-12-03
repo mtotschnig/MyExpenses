@@ -59,7 +59,7 @@ class WebdavSetup : ProtectedFragmentActivity() {
                 binding.chkTrustCertificate.isChecked = false
             }
         })
-        binding.bOK.setOnClickListener(::onOkClick)
+        binding.bOK.setOnClickListener { onOkClick() }
         viewModel.result.observe(this) { result ->
             result.onSuccess {
                 finish(false)
@@ -101,7 +101,7 @@ class WebdavSetup : ProtectedFragmentActivity() {
     private val TextInputEditText.trimmedValue
         get() = text.toString().trim()
 
-    private fun onOkClick(view: View) {
+    private fun onOkClick() {
         val validator = FormValidator()
         validator.add(FormFieldNotEmptyValidator(binding.edtUrl))
         validator.add(UrlValidator(binding.edtUrl))

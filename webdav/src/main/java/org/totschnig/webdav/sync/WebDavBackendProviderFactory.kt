@@ -3,12 +3,10 @@ package org.totschnig.webdav.sync
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
-import android.content.Intent
 import androidx.annotation.Keep
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.webdav.dialog.WebdavSetup
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
+import org.totschnig.webdav.dialog.WebdavSetup
 
 @Keep
 class WebDavBackendProviderFactory : SyncBackendProviderFactory() {
@@ -19,6 +17,6 @@ class WebDavBackendProviderFactory : SyncBackendProviderFactory() {
         accountManager: AccountManager
     ) = WebDavBackendProvider(context, account, accountManager)
 
-    override fun setupIntent(activity: ProtectedFragmentActivity) = Intent(activity, WebdavSetup::class.java)
+    override val setupActivityClass = WebdavSetup::class.java
 
 }

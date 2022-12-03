@@ -290,6 +290,8 @@
         </activity>
         <activity android:name=".activity.HistoryActivity" />
 
+        <activity android:name=".activity.SafSetup" android:theme="@style/Translucent" />
+
         <provider
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"

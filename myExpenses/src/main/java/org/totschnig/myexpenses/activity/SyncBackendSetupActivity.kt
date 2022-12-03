@@ -9,7 +9,6 @@ import android.view.Menu
 import android.view.SubMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.documentfile.provider.DocumentFile
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
@@ -21,7 +20,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
@@ -81,8 +79,8 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         val backendService = getBackendServiceById(selectedFactoryId)
         val feature = backendService?.feature
         if (feature == null || featureManager.isFeatureInstalled(feature, this)) {
-            backendService?.instantiate()?.setupIntent(this)?.let {
-                startSetup.launch(it)
+            backendService?.instantiate()?.setupActivityClass?.let {
+                startSetup.launch(Intent(this, it))
             }
             selectedFactoryId = 0
         } else {
@@ -94,27 +92,6 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         featureManager.initActivity(this)
         if (selectedFactoryId != 0 && getBackendServiceByIdOrThrow(selectedFactoryId).feature == feature) {
             startSetupDo()
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == SYNC_LOCAL_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK) {
-            intent?.data?.let { uri ->
-                //TODO load displayname on background
-               DocumentFile.fromTreeUri(this, uri)?.displayName?.let {
-                   contentResolver.takePersistableUriPermission(
-                       uri,
-                       Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                   )
-                   val accountName =
-                       getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(it)
-                   createAccount(accountName, null, null, Bundle(1).apply {
-                       putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, uri.toString())
-                   })
-               }
-            }
         }
     }
 
@@ -224,6 +201,5 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     companion object {
         private const val DIALOG_TAG_PASSWORD = "password"
         const val REQUEST_CODE_RESOLUTION = 1
-        const val KEY_SYNC_PROVIDER_ID = "syncProviderId"
     }
 }

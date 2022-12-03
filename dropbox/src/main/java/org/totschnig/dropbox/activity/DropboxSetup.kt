@@ -7,15 +7,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
 import icepick.State
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AbstractSyncSetup
-import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.dropbox.sync.KEY_DBX_CREDENTIAL
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.dropbox.viewmodel.DropboxSetupViewModel
-import org.totschnig.myexpenses.sync.BackendService
 import timber.log.Timber
 
 const val APP_KEY = "09ctg08r5gnsh5c"
@@ -68,9 +65,8 @@ class DropboxSetup : AbstractSyncSetup<DropboxSetupViewModel>() {
     }
 
     override fun Intent.buildSuccessIntent(folder: Pair<String, String>) {
-        val name = folder.second
         putExtra(AccountManager.KEY_USERDATA, Bundle(1).apply {
-            putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, name)
+            putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, folder.second)
             putString(KEY_DBX_CREDENTIAL, credentialSerialized)
         })
     }
