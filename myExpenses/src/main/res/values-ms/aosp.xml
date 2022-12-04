@@ -14,6 +14,7 @@
     <string name="copy_text">Salin ke papan keratan</string>
     <string name="stop">Berhenti</string>
     <string name="style">"Gaya"</string>
+    <string name="loading">"Memuatkan…"</string>
     <string name="no_network">Tiada sambungan rangkaian.</string>
     <string name="button_label_continue">Teruskan</string>
     <string name="autofill">"Autolengkap"</string>

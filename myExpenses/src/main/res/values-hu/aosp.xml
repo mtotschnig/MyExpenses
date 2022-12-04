@@ -14,6 +14,7 @@
     <string name="copy_text">"Másolás vágólapra"</string>
     <string name="stop">"Leállítás"</string>
     <string name="style">"Stílus"</string>
+    <string name="loading">"Betöltés..."</string>
     <string name="no_network">"Nincs hálózati kapcsolat."</string>
     <string name="button_label_continue">Tovább</string>
     <string name="autofill">"Automatikus kitöltés"</string>

@@ -5,14 +5,12 @@ import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import androidx.core.util.Pair
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
 import at.bitfire.dav4android.exception.DavException
 import at.bitfire.dav4android.exception.HttpException
 import okhttp3.HttpUrl
 import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -25,7 +23,6 @@ import org.totschnig.myexpenses.sync.SequenceNumber
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.calculateSize
 import org.totschnig.myexpenses.util.io.getMimeType
 import org.totschnig.webdav.sync.client.CertificateHelper.fromString
@@ -40,7 +37,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     context: Context,
     account: Account,
     accountManager: AccountManager
-) : AbstractSyncBackendProvider(context) {
+) : AbstractSyncBackendProvider<DavResource>(context) {
 
     private var webDavClient: WebDavClient
     private val fallbackToClass1: Boolean
@@ -57,7 +54,8 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         val accountMetadataFilename = accountMetadataFilename
         val metaData = webDavClient.getResource(accountMetadataFilename, accountUuid)
         if (update || !metaData.exists()) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -90,13 +88,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    @get:Throws(IOException::class)
-    override val existingLockToken: String?
-        get() = readResourceIfExists(lockFile)
-
-    @Throws(IOException::class)
-    override fun readEncryptionToken() =
-        readResourceIfExists(webDavClient.getResource(ENCRYPTION_TOKEN_FILE_NAME))
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String) = if (fromAccountDir)
+            readResourceIfExists(webDavClient.getResource(fileName, accountUuid)) else
+            readResourceIfExists(webDavClient.getResource(fileName))
 
     @Throws(IOException::class)
     private fun readResourceIfExists(resource: LockableDavResource): String? {
@@ -114,20 +108,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     }
 
     @Throws(IOException::class)
-    override fun writeLockToken(lockToken: String) {
-        val lockfile = lockFile
-        try {
-            lockfile.put(
-                lockToken.toRequestBody("text/plain; charset=utf-8".toMediaType()),
-                null,
-                false
-            )
-        } catch (e: HttpException) {
-            throw IOException(e)
-        }
-    }
-
-    @Throws(IOException::class)
     override fun lock() {
         if (fallbackToClass1) {
             super.lock()
@@ -138,33 +118,36 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    private val lockFile: LockableDavResource
-        get() = webDavClient.getResource(FALLBACK_LOCK_FILENAME, accountUuid)
-
-    @Throws(IOException::class)
-    override fun getChangeSetSince(
-        sequenceNumber: SequenceNumber,
-        context: Context
-    ): ChangeSet? {
-        val changeSetList: MutableList<ChangeSet> = ArrayList()
-        for (davResourcePair in filterDavResources(sequenceNumber)) {
-            //TODO
-            //fix dav4android to report ContentLength
-            //val size: Long? = (davResourcePair.second.properties.get(GetContentLength.NAME) as? GetContentLength)?.contentLength
-            changeSetList.add(getChangeSetFromDavResource(davResourcePair))
+    override fun deleteLockTokenFile() {
+        try {
+            lockFile.delete(null)
+        } catch (e: HttpException) {
+            throw IOException(e)
         }
-        return merge(changeSetList)
     }
 
     @Throws(IOException::class)
-    private fun getChangeSetFromDavResource(davResource: Pair<Int, DavResource>): ChangeSet {
+    override fun unlock() {
+        if (fallbackToClass1) {
+            super.unlock()
+        } else {
+            if (!webDavClient.unlock(accountUuid)) {
+                throw IOException("Error while unlocking backend")
+            }
+        }
+    }
+
+    private val lockFile: LockableDavResource
+        get() = webDavClient.getResource(LOCK_FILE, accountUuid)
+
+    override fun getChangeSetFromResource(shardNumber: Int, resource: DavResource): ChangeSet {
         return try {
             getChangeSetFromInputStream(
                 SequenceNumber(
-                    davResource.first,
-                    getSequenceFromFileName(davResource.second.fileName())
+                    shardNumber,
+                    getSequenceFromFileName(resource.fileName())
                 ),
-                davResource.second[mimeTypeForData].byteStream()
+                resource[mimeTypeForData].byteStream()
             )
         } catch (e: HttpException) {
             throw IOException(e)
@@ -173,35 +156,18 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    @Throws(IOException::class)
-    private fun filterDavResources(sequenceNumber: SequenceNumber): List<Pair<Int, DavResource>> =
-        buildList {
-            var nextShard = sequenceNumber.shard
-            var startNumber = sequenceNumber.number
-            while (true) {
-                val nextShardResource = if (nextShard == 0) webDavClient.getCollection(accountUuid)
-                else webDavClient.getCollection("_$nextShard", accountUuid)
-                if (nextShardResource.exists()) {
-                    val finalNextShard = nextShard
-                    webDavClient.getFolderMembers(nextShardResource).sortedBy { getSequenceFromFileName(it.fileName()) }
-                        .filter { davResource: DavResource ->
-                            isNewerJsonFile(
-                                startNumber,
-                                davResource.fileName()
-                            )
-                        }
-                        .map { davResource: DavResource -> Pair.create(finalNextShard, davResource) }
-                        .forEach { add(it) }
-                    nextShard++
-                    startNumber = 0
-                } else {
-                    break
-                }
-            }
-        }
+    override fun collectionForShard(shardNumber: Int) =
+        if (shardNumber == 0) webDavClient.getCollection(accountUuid)
+        else webDavClient.getCollection(folderForShard(shardNumber), accountUuid).takeIf { it.exists() }
 
-    override val sharedPreferencesName: String
-        get() = "webdav_backend"
+    override fun childrenForCollection(folder: DavResource?): Set<DavResource> =
+        if (folder != null) webDavClient.getFolderMembers(folder) else webDavClient.getFolderMembers(accountUuid)
+
+    override fun nameForResource(resource: DavResource): String? = resource.fileName()
+
+    override fun isCollection(resource: DavResource) = LockableDavResource.isCollection(resource)
+
+    override val sharedPreferencesName = "webdav"
 
     @get:Throws(IOException::class)
     override val isEmpty: Boolean
@@ -277,61 +243,15 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
 
     @Throws(IOException::class)
-    override fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val resourceComparator = java.util.Comparator { o1: DavResource, o2: DavResource ->
-            Utils.compare(
-                getSequenceFromFileName(o1.fileName()),
-                getSequenceFromFileName(o2.fileName())
-            )
-        }
-        val mainMembers = webDavClient.getFolderMembers(accountUuid)
-        val lastShardOptional = mainMembers
-            .filter { davResource: DavResource ->
-                LockableDavResource.isCollection(davResource) && isAtLeastShardDir(
-                    start.shard,
-                    davResource.fileName()
-                )
-            }
-            .maxWithOrNull(resourceComparator)
-        val lastShard: Set<DavResource>
-        val lastShardInt: Int
-        val reference: Int
-        if (lastShardOptional != null) {
-            val lastShardName = lastShardOptional.fileName()
-            lastShard = webDavClient.getFolderMembers(accountUuid, lastShardName)
-            lastShardInt = getSequenceFromFileName(lastShardName)
-            reference = if (lastShardInt == start.shard) start.number else 0
-        } else {
-            if (start.shard > 0) return start
-            lastShard = mainMembers
-            lastShardInt = 0
-            reference = start.number
-        }
-        return lastShard
-            .filter { davResource: DavResource ->
-                isNewerJsonFile(
-                    reference,
-                    davResource.fileName()
-                )
-            }
-            .maxWithOrNull(resourceComparator)
-            ?.let { davResource: DavResource ->
-                SequenceNumber(
-                    lastShardInt,
-                    getSequenceFromFileName(davResource.fileName())
-                )
-            } ?: start
-    }
-
-    @Throws(IOException::class)
-    override fun saveFileContentsToAccountDir(
+    override fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        val base = webDavClient.getCollection(accountUuid)
+        val base = if(toAccountDir) webDavClient.getCollection(accountUuid) else webDavClient.base
         val parent: LockableDavResource
         if (folder != null) {
             webDavClient.mkCol(folder, base)
@@ -378,31 +298,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    @Throws(IOException::class)
-    override fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    ) {
-        saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, webDavClient.base)
-    }
-
-    @Throws(IOException::class)
-    override fun unlock() {
-        if (fallbackToClass1) {
-            try {
-                lockFile.delete(null)
-            } catch (e: HttpException) {
-                throw IOException(e)
-            }
-        } else {
-            if (!webDavClient.unlock(accountUuid)) {
-                throw IOException("Error while unlocking backend")
-            }
-        }
-    }
-
     private fun getLastPathSegment(httpUrl: HttpUrl): String {
         val segments = httpUrl.pathSegments
         return segments[segments.size - 1]
@@ -435,7 +330,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"
         const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1"
         const val KEY_ALLOW_UNVERIFIED = "allow_unverified"
-        private const val FALLBACK_LOCK_FILENAME = ".lock"
     }
 
     init {

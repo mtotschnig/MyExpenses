@@ -5,8 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.sync.BackendService
 
-abstract class AbstractSetupViewModel(application: Application) : AndroidViewModel(application) {
+abstract class AbstractSetupViewModel(val backendService: BackendService, application: Application) : AndroidViewModel(application) {
     val folderList: MutableLiveData<List<Pair<String, String>>> by lazy {
         MutableLiveData<List<Pair<String, String>>>()
     }

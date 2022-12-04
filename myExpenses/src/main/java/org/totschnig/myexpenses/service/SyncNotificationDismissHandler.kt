@@ -17,11 +17,13 @@ class SyncNotificationDismissHandler : IntentService("SyncNotificationDismissHan
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Deprecated("Deprecated in Java")
     override fun onCreate() {
         super.onCreate()
         (application as MyApplication).appComponent.inject(this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onHandleIntent(intent: Intent?) {
         if (intent != null) {
             val accountName = intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)

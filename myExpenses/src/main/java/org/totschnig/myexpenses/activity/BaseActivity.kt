@@ -11,8 +11,10 @@ import android.content.IntentFilter
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -377,7 +379,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                     this@BaseActivity,
                                     R.style.SnackBarTheme
                                 )
-                            )
+                            ).apply {
+                                layoutParams = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                ).apply {
+                                    gravity = Gravity.CENTER_VERTICAL
+                                }
+                            }
                         )
                     addCallback(object: Snackbar.Callback() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {

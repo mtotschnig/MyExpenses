@@ -1,21 +1,23 @@
 package org.totschnig.webdav.dialog
 
-import android.app.Dialog
-import android.content.DialogInterface
+import android.accounts.AccountManager
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
+import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
-import org.totschnig.myexpenses.dialog.DialogViewBinding
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -34,18 +36,20 @@ import java.io.FileNotFoundException
 import java.security.cert.CertificateEncodingException
 import java.security.cert.X509Certificate
 
-class SetupWebdavDialogFragment : DialogViewBinding<SetupWebdavBinding>() {
+class WebdavSetup : ProtectedFragmentActivity() {
     private val viewModel: WebdavSetupViewModel by viewModels()
 
     private var mTrustCertificate: X509Certificate? = null
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilder {
-            SetupWebdavBinding.inflate(it)
-        }
+    private lateinit var binding: SetupWebdavBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = SetupWebdavBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
         binding.descriptionWebdavUrl.text =
             Utils.getTextWithAppName(
-                context, R.string.description_webdav_url
+                this, R.string.description_webdav_url
             )
         binding.edtUrl.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -55,19 +59,7 @@ class SetupWebdavDialogFragment : DialogViewBinding<SetupWebdavBinding>() {
                 binding.chkTrustCertificate.isChecked = false
             }
         })
-        val alertDialog = builder.setTitle("WebDAV")
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok, null)
-            .create()
-        alertDialog.setOnShowListener { dialog: DialogInterface ->
-            val button = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
-            button.setOnClickListener { view: View -> onOkClick(view) }
-        }
-        return alertDialog
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        binding.bOK.setOnClickListener { onOkClick() }
         viewModel.result.observe(this) { result ->
             result.onSuccess {
                 finish(false)
@@ -76,7 +68,7 @@ class SetupWebdavDialogFragment : DialogViewBinding<SetupWebdavBinding>() {
                     is UntrustedCertificateException -> {
                         binding.certificateContainer.isVisible = true
                         mTrustCertificate = throwable.certificate.also {
-                            binding.txtTrustCertificate.text = getShortDescription(it, activity)
+                            binding.txtTrustCertificate.text = getShortDescription(it, this)
                         }
                     }
                     is InvalidCertificateException -> {
@@ -99,7 +91,9 @@ class SetupWebdavDialogFragment : DialogViewBinding<SetupWebdavBinding>() {
                         binding.edtUrl.error = Utils.getCause(throwable).message
                     }
                 }
-                (dialog as AlertDialog?)!!.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = true
+                binding.progressBar.isVisible = false
+                binding.bOK.isEnabled = true
+                binding.bOK.isVisible = false
             }
         }
     }
@@ -107,7 +101,7 @@ class SetupWebdavDialogFragment : DialogViewBinding<SetupWebdavBinding>() {
     private val TextInputEditText.trimmedValue
         get() = text.toString().trim()
 
-    private fun onOkClick(view: View) {
+    private fun onOkClick() {
         val validator = FormValidator()
         validator.add(FormFieldNotEmptyValidator(binding.edtUrl))
         validator.add(UrlValidator(binding.edtUrl))
@@ -124,17 +118,18 @@ class SetupWebdavDialogFragment : DialogViewBinding<SetupWebdavBinding>() {
                     false
                 )
             )
-            //TODO show progress indicator
-            view.isEnabled = false
+            binding.progressBar.isVisible = true
+            binding.bOK.isEnabled = false
+            binding.bOK.isVisible = false
         }
     }
 
     private fun finish(fallBackToClass1: Boolean) {
 
-        (requireActivity() as SyncBackendSetupActivity).onFinishWebDavSetup(
-            passWord = binding.edtPassword.trimmedValue,
-            url = binding.edtUrl.trimmedValue,
-            bundle = Bundle().apply {
+        setResult(RESULT_OK, Intent().apply {
+            putExtra(AccountManager.KEY_PASSWORD, binding.edtPassword.trimmedValue)
+            putExtra(AccountManager.KEY_ACCOUNT_NAME, BackendService.WEBDAV.buildAccountName(binding.edtUrl.trimmedValue))
+            putExtra(AccountManager.KEY_USERDATA, Bundle().apply {
                 mTrustCertificate?.takeIf { binding.chkTrustCertificate.isChecked }?.let {
                     try {
                         putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, it.encode())
@@ -153,9 +148,9 @@ class SetupWebdavDialogFragment : DialogViewBinding<SetupWebdavBinding>() {
                 if (prefHandler.getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
                     putString(WebDavBackendProvider.KEY_ALLOW_UNVERIFIED, "true")
                 }
-            }
-        )
-        dismiss()
+            })
+        })
+        finish()
     }
 
     private class UrlValidator(mEdtUrl: EditText?) :

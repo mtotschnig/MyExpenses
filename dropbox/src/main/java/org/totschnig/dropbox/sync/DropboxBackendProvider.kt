@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
-import androidx.core.util.Pair
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.InvalidAccessTokenException
@@ -15,6 +14,7 @@ import com.dropbox.core.v2.files.FolderMetadata
 import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.Metadata
 import com.dropbox.core.v2.files.WriteMode
+import org.acra.util.StreamReader
 import org.totschnig.dropbox.activity.ACTION_RE_AUTHENTICATE
 import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.BuildConfig
@@ -24,14 +24,12 @@ import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Preconditions
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.io.StreamReader
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
 
 class DropboxBackendProvider internal constructor(context: Context, folderName: String) :
-    AbstractSyncBackendProvider(context) {
+    AbstractSyncBackendProvider<Metadata>(context) {
     private lateinit var mDbxClient: DbxClientV2
     private val basePath: String = "/$folderName"
     private lateinit var accountName: String
@@ -76,17 +74,14 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    @Throws(IOException::class)
-    override fun readEncryptionToken(): String? {
-        val resourcePath = "$basePath/$ENCRYPTION_TOKEN_FILE_NAME"
-        return if (!exists(resourcePath)) {
-            null
-        } else StreamReader(
-            getInputStream(
-                resourcePath
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
+        "${if (fromAccountDir) accountPath else basePath}/$ENCRYPTION_TOKEN_FILE_NAME".takeIf {
+            exists(
+                it
             )
-        ).read()
-    }
+        }?.let {
+            StreamReader(getInputStream(it)).read()
+        }
 
     @Throws(IOException::class)
     override fun withAccount(account: Account) {
@@ -95,7 +90,8 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         requireFolder(accountPath)
         val metadataPath = getResourcePath(accountMetadataFilename)
         if (!exists(metadataPath)) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -110,7 +106,8 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     override fun writeAccount(account: Account, update: Boolean) {
         val metadataPath = getResourcePath(accountMetadataFilename)
         if (update || !exists(metadataPath)) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -127,19 +124,20 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         return getAccountMetaDataFromPath(getResourcePath(accountMetadataFilename))
     }
 
-    @Throws(IOException::class)
-    private fun exists(path: String) = tryWithWrappedException {
+    private fun metadata(path: String) = tryWithWrappedException {
         try {
             mDbxClient.files().getMetadata(path)
-            true
         } catch (e: GetMetadataErrorException) {
             if (e.errorValue.isPath && e.errorValue.pathValue.isNotFound) {
-                false
+                null
             } else {
                 throw e
             }
         }
     }
+
+    @Throws(IOException::class)
+    private fun exists(path: String) = metadata(path) != null
 
     @Throws(IOException::class)
     private fun requireFolder(path: String) {
@@ -170,23 +168,12 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    override val existingLockToken: String?
-        get() = lockFilePath.takeIf { exists(it) }?.let {
-            StreamReader(getInputStream(lockFilePath)).read()
-        }
-
     @Throws(IOException::class)
     private fun getInputStream(resourcePath: String) = tryWithWrappedException {
         mDbxClient.files().download(resourcePath).inputStream
     }
 
-    @Throws(IOException::class)
-    override fun writeLockToken(lockToken: String) {
-        saveInputStream(lockFilePath, toInputStream(lockToken, false))
-    }
-
-    @Throws(IOException::class)
-    override fun unlock() {
+    override fun deleteLockTokenFile() {
         tryWithWrappedException {
             mDbxClient.files().deleteV2(lockFilePath)
         }
@@ -195,55 +182,23 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     private val lockFilePath: String
         get() = getResourcePath(LOCK_FILE)
 
-    @Throws(IOException::class)
-    override fun getChangeSetSince(
-        sequenceNumber: SequenceNumber,
-        context: Context
-    ): ChangeSet? {
-        val changeSetList: MutableList<ChangeSet> = ArrayList()
-        for (integerMetadataPair in filterMetadata(sequenceNumber)) {
-            changeSetList.add(getChangeSetFromMetadata(integerMetadataPair))
-        }
-        return merge(changeSetList)
-    }
-
-    @Throws(IOException::class)
-    private fun getChangeSetFromMetadata(metadata: Pair<Int, Metadata>): ChangeSet {
+    override fun getChangeSetFromResource(shardNumber: Int, resource: Metadata): ChangeSet {
         return getChangeSetFromInputStream(
-            SequenceNumber(metadata.first, getSequenceFromFileName(metadata.second.name)),
-            getInputStream(metadata.second.pathLower)
+            SequenceNumber(shardNumber, getSequenceFromFileName(resource.name)),
+            getInputStream(resource.pathLower)
         )
     }
 
-    @Throws(IOException::class)
-    private fun filterMetadata(sequenceNumber: SequenceNumber): List<Pair<Int, Metadata>> =
-        tryWithWrappedException {
-            buildList {
-                var nextShard = sequenceNumber.shard
-                var startNumber = sequenceNumber.number
-                while (true) {
-                    val nextShardPath =
-                        if (nextShard == 0) accountPath else "$accountPath/_$nextShard"
-                    if (exists(nextShardPath)) {
-                        addAll(
-                            mDbxClient.files().listFolder(nextShardPath).entries
-                                .sortedBy { getSequenceFromFileName(it.name) }
-                                .filter { metadata: Metadata ->
-                                    isNewerJsonFile(
-                                        startNumber,
-                                        metadata.name
-                                    )
-                                }
-                                .map { metadata: Metadata -> Pair.create(nextShard, metadata) }
-                        )
-                        nextShard++
-                        startNumber = 0
-                    } else {
-                        break
-                    }
-                }
-            }
-        }
+    override fun collectionForShard(shardNumber: Int) = metadata(
+        if (shardNumber == 0) accountPath else "$accountPath/${folderForShard(shardNumber)}"
+    )
+
+    override fun childrenForCollection(folder: Metadata?): List<Metadata> =
+        mDbxClient.files().listFolder(folder?.pathLower ?: accountPath).entries
+
+    override fun nameForResource(resource: Metadata): String = resource.name
+
+    override fun isCollection(resource: Metadata) = resource is FolderMetadata
 
     @Throws(IOException::class)
     override fun getInputStreamForPicture(relativeUri: String): InputStream {
@@ -275,48 +230,9 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         saveInputStream("$folder/$finalFileName", if (maybeEncrypt) maybeEncrypt(`in`) else `in`)
     }
 
-    @Throws(IOException::class)
     override fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val resourceComparator = Comparator { o1: Metadata, o2: Metadata ->
-            Utils.compare(
-                getSequenceFromFileName(o1.name),
-                getSequenceFromFileName(o2.name)
-            )
-        }
         return tryWithWrappedException {
-            val accountPath = accountPath
-            val mainEntries = mDbxClient.files().listFolder(accountPath).entries
-            val lastShardOptional = mainEntries
-                .filter { metadata: Metadata ->
-                    metadata is FolderMetadata && isAtLeastShardDir(
-                        start.shard,
-                        metadata.getName()
-                    )
-                }
-                .maxWithOrNull(resourceComparator)
-            val lastShard: List<Metadata>
-            val lastShardInt: Int
-            val reference: Int
-            if (lastShardOptional != null) {
-                val lastShardName = lastShardOptional.name
-                lastShard = mDbxClient.files().listFolder("$accountPath/$lastShardName").entries
-                lastShardInt = getSequenceFromFileName(lastShardName)
-                reference = if (lastShardInt == start.shard) start.number else 0
-            } else {
-                if (start.shard > 0) return@tryWithWrappedException start
-                lastShard = mainEntries
-                lastShardInt = 0
-                reference = start.number
-            }
-            lastShard
-                .filter { metadata: Metadata -> isNewerJsonFile(reference, metadata.name) }
-                .maxWithOrNull(resourceComparator)
-                ?.let { metadata: Metadata ->
-                    SequenceNumber(
-                        lastShardInt,
-                        getSequenceFromFileName(metadata.name)
-                    )
-                } ?: start
+            super.getLastSequence(start)
         }
     }
 
@@ -330,32 +246,23 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     }
 
     @Throws(IOException::class)
-    override fun saveFileContentsToAccountDir(
+    override fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        val path: String
-        val accountPath = accountPath
-        if (folder == null) {
-            path = accountPath
+        val base = if (toAccountDir) accountPath else basePath
+        val path = if (folder == null) {
+            base
         } else {
-            path = "$accountPath/$folder"
-            requireFolder(path)
+            "$base/$folder".also {
+                requireFolder(it)
+            }
         }
         saveInputStream("$path/$fileName", toInputStream(fileContents, maybeEncrypt))
-    }
-
-    @Throws(IOException::class)
-    override fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    ) {
-        saveInputStream("$basePath/$fileName", toInputStream(fileContents, maybeEncrypt))
     }
 
     @Throws(IOException::class)
@@ -399,16 +306,10 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
             emptyList()
         }
 
-    override val sharedPreferencesName = "webdav_backend"
-
+    override val sharedPreferencesName = "dropbox"
 
     private fun reAuthenticationIntent() = Intent(context, DropboxSetup::class.java).apply {
         action = ACTION_RE_AUTHENTICATE
         putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
     }
-
-    companion object {
-        private const val LOCK_FILE = ".lock"
-    }
-
 }

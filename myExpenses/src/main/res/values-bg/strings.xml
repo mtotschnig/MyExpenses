@@ -340,7 +340,6 @@
     <string name="pref_visit_website_summary">Често задавани въпроси (FAQ)</string>
     <string name="pref_visit_website_title">Посетете сайта ни</string>
     <string name="progress_dialog_deleting">Изтриване на обекти</string>
-    <string name="progress_dialog_loading">Зареждане обекти от база данни</string>
     <string name="progress_dialog_printing">Генериране на %s</string>
     <string name="qif_parse_result">Анализирани: %1$s сметки; %2$s категории и %3$s страни</string>
     <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
@@ -658,7 +657,6 @@
     <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>
     <string name="sync_auth_exception">остъпът е отказан.</string>
     <string name="sync_login_again">Моля, влезте отново.</string>
-    <string name="sync_loading_accounts_from_backend">Зареждане на наличните сметки от отдалеченото хранилище.</string>
     <plurals name="delete_success">
         <item quantity="one">Един обект бе успешно изтрит.</item>
         <item quantity="other">%d обекта бяха успешно изтрити.</item>

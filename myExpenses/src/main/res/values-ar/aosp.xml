@@ -14,6 +14,7 @@
     <string name="copy_text">"نسخ إلى الحافظة"</string>
     <string name="stop">"إيقاف"</string>
     <string name="style">"النمط"</string>
+    <string name="loading">"جارٍ التحميل…"</string>
     <string name="no_network">ليس هناك اتصال بالشبكة.</string>
     <string name="button_label_continue">متابعة</string>
     <string name="autofill">"الملء التلقائي"</string>

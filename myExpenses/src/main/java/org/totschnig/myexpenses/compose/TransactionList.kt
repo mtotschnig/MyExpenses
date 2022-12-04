@@ -254,7 +254,7 @@ fun TransactionList(
                 Text(
                     text = listOf(
                         stringResource(id = R.string.pref_scroll_to_current_date_summary),
-                        stringResource(id = R.string.progress_dialog_loading),
+                        stringResource(id = R.string.loading),
                         "(${scrollToCurrentDateStartIndex.value?.first})"
                     ).joinToString("\n"), textAlign = TextAlign.Center
                 )
@@ -378,7 +378,7 @@ fun HeaderRenderer(
                         .size(42.dp),
                     progress = progress,
                     fontSize = 12.sp,
-                    color = Color(account.color(LocalContext.current.resources))
+                    color = Color(  account.color(LocalContext.current.resources))
                 )
                 HeaderData(
                     account.grouping,

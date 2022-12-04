@@ -15,6 +15,7 @@
     <string name="copy_text">"Kopiraj u međuspremnik"</string>
     <string name="stop">"Zaustavi"</string>
     <string name="style">"Stil"</string>
+    <string name="loading">"Učitavanje…"</string>
     <string name="no_network">"Nema mrežne veze."</string>
     <string name="button_label_continue">Nastavi</string>
     <string name="autofill">"Automatsko ispunjavanje"</string>

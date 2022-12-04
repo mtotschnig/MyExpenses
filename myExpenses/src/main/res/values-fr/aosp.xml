@@ -14,6 +14,7 @@
     <string name="copy_text">"Copier dans le presse-papiers"</string>
     <string name="stop">"Arrêter"</string>
     <string name="style">"Style"</string>
+    <string name="loading">"Chargement…"</string>
     <string name="no_network">"Aucune connexion réseau."</string>
     <string name="button_label_continue">Continuer</string>
     <string name="autofill">"Saisie automatique"</string>

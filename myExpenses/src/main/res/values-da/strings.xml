@@ -300,7 +300,6 @@
     <string name="pref_visit_website_summary">Ændringer og FAQ</string>
     <string name="pref_visit_website_title">Besøg hjemmeside</string>
     <string name="progress_dialog_deleting">Objekter slettes</string>
-    <string name="progress_dialog_loading">Lastning objekt fra database</string>
     <string name="progress_dialog_printing">Generating %s</string>
     <string name="qif_parse_result">Fundet: %1$s regnskaber; %2$s kategorier og %3$s parter</string>
     <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>

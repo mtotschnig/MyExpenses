@@ -91,7 +91,10 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         log().i("onPerformSync %s", extras)
         val canceledDelayUntil = extras.getLong(KEY_NOTIFICATION_CANCELLED)
         if (canceledDelayUntil > 0L) {
-            syncResult.delayUntil = System.currentTimeMillis() / 1000 + canceledDelayUntil
+            if (ContentResolver.isSyncPending(account, authority)) {
+                ContentResolver.cancelSync(account, authority);
+            }
+
             notificationContent.remove(account.hashCode())
             return
         }
@@ -298,7 +301,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         var successLocal2Remote = 0
                         try {
                             val changeSetSince =
-                                backend.getChangeSetSince(lastSyncedRemote, context)
+                                backend.getChangeSetSince(lastSyncedRemote)
                             var remoteChanges: List<TransactionChange> = if (changeSetSince != null) {
                                 lastSyncedRemote = changeSetSince.sequenceNumber
                                 log().i("lastSyncedRemote: $lastSyncedRemote")

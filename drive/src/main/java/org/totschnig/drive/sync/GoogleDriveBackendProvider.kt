@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.Uri
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import com.google.api.services.drive.model.File
+import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -13,10 +14,7 @@ import org.totschnig.myexpenses.sync.SequenceNumber
 import org.totschnig.myexpenses.sync.SyncBackendProvider.AuthException
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.StreamReader
 import org.totschnig.myexpenses.util.io.getMimeType
 import timber.log.Timber
 import java.io.FileNotFoundException
@@ -27,8 +25,10 @@ class GoogleDriveBackendProvider internal constructor(
     context: Context,
     account: Account,
     accountManager: AccountManager
-) : AbstractSyncBackendProvider(context) {
-    private val folderId: String = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL) ?: throw SyncParseException("Drive folder not set")
+) : AbstractSyncBackendProvider<File>(context) {
+    private val folderId: String =
+        accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
+            ?: throw SyncParseException("Drive folder not set")
     private lateinit var baseFolder: File
     private lateinit var accountFolder: File
     private var driveServiceHelper: DriveServiceHelper = try {
@@ -39,13 +39,16 @@ class GoogleDriveBackendProvider internal constructor(
     } catch (e: Exception) {
         throw SyncParseException(e)
     }
-    override val sharedPreferencesName: String
-        get() = "google_drive_backend"
+    override val sharedPreferencesName = "google_drive"
 
-    @Throws(IOException::class)
-    override fun readEncryptionToken(): String? {
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String): String? {
         return try {
-            StreamReader(getInputStream(baseFolder, ENCRYPTION_TOKEN_FILE_NAME)).read()
+            StreamReader(
+                getInputStream(
+                    if (fromAccountDir) accountFolder else baseFolder,
+                    fileName
+                )
+            ).read()
         } catch (e: FileNotFoundException) {
             null
         }
@@ -95,10 +98,11 @@ class GoogleDriveBackendProvider internal constructor(
     private fun saveUriToFolder(
         fileName: String,
         uri: Uri,
-        driveFolder: File?,
+        driveFolder: File,
         maybeEncrypt: Boolean
     ) {
-        (context.contentResolver.openInputStream(uri) ?: throw IOException("Could not read $uri")).use {
+        (context.contentResolver.openInputStream(uri)
+            ?: throw IOException("Could not read $uri")).use {
             saveInputStream(
                 fileName,
                 if (maybeEncrypt) maybeEncrypt(it) else it,
@@ -110,7 +114,7 @@ class GoogleDriveBackendProvider internal constructor(
 
     @Throws(IOException::class)
     override fun storeBackup(uri: Uri, fileName: String) {
-        saveUriToFolder(fileName, uri, getBackupFolder(true), false)
+        saveUriToFolder(fileName, uri, getBackupFolder(true)!!, false)
     }
 
     @get:Throws(IOException::class)
@@ -121,72 +125,24 @@ class GoogleDriveBackendProvider internal constructor(
         } ?: emptyList()
 
     @Throws(IOException::class)
-    override fun getLastSequence(start: SequenceNumber): SequenceNumber {
-        val resourceComparator = java.util.Comparator { o1: File, o2: File ->
-            Utils.compare(
-                getSequenceFromFileName(o1.name),
-                getSequenceFromFileName(o2.name)
-            )
-        }
-        val lastShardOptional = driveServiceHelper.listFolders(accountFolder)
-            .filter { file: File -> isAtLeastShardDir(start.shard, file.name) }
-            .maxWithOrNull(resourceComparator)
-        val lastShard: List<File>
-        val lastShardInt: Int
-        val reference: Int
-        if (lastShardOptional != null) {
-            lastShard = driveServiceHelper.listChildren(lastShardOptional)
-            lastShardInt = getSequenceFromFileName(lastShardOptional.name)
-            reference = if (lastShardInt == start.shard) start.number else 0
-        } else {
-            if (start.shard > 0) return start
-            lastShard = driveServiceHelper.listChildren(accountFolder)
-            lastShardInt = 0
-            reference = start.number
-        }
-        return lastShard
-            .filter { metadata: File -> isNewerJsonFile(reference, metadata.name) }
-            .maxWithOrNull(resourceComparator)?.let {
-                SequenceNumber(
-                    lastShardInt,
-                    getSequenceFromFileName(it.name)
-                )
-            } ?: start
-    }
-
-    @Throws(IOException::class)
-    override fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    ) {
-        saveFileContents(baseFolder, fileName, fileContents, mimeType, maybeEncrypt)
-    }
-
-    @Throws(IOException::class)
-    override fun saveFileContentsToAccountDir(
+    override fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        var driveFolder: File?
-        if (folder == null) {
-            driveFolder = accountFolder
-        } else {
-            driveFolder = getSubFolder(folder)
-            if (driveFolder == null) {
-                driveFolder = driveServiceHelper.createFolder(accountFolder.id, folder, null)
-            }
+        val base = if (toAccountDir) accountFolder else baseFolder
+        val driveFolder = if (folder == null) base else {
+            getSubFolder(folder) ?: driveServiceHelper.createFolder(accountFolder.id, folder, null)
         }
         saveFileContents(driveFolder, fileName, fileContents, mimeType, maybeEncrypt)
     }
 
     @Throws(IOException::class)
     private fun saveFileContents(
-        driveFolder: File?,
+        driveFolder: File,
         fileName: String,
         fileContents: String,
         mimeType: String,
@@ -197,27 +153,21 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    @Suppress("SameParameterValue")
-    override val existingLockToken: String?
-        get() {
-            val appProperties = accountFolder.appProperties
-            return appProperties?.get(LOCK_TOKEN_KEY)
+    override var lockToken: String?
+        get() = accountFolder.appProperties?.get(LOCK_TOKEN_KEY)
+        set(value) {
+            driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, value)
         }
-
-    @Throws(IOException::class)
-    override fun writeLockToken(lockToken: String) {
-        driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, lockToken)
-    }
 
     @Throws(IOException::class)
     private fun saveInputStream(
         fileName: String,
         contents: InputStream,
         mimeType: String,
-        driveFolder: File?
+        driveFolder: File
     ) {
         val file = driveServiceHelper.createFile(
-            driveFolder!!.id, fileName, mimeType, null
+            driveFolder.id, fileName, mimeType, null
         )
         try {
             driveServiceHelper.saveFile(file.id, mimeType, contents)
@@ -247,7 +197,8 @@ class GoogleDriveBackendProvider internal constructor(
             accountFolder = existingAccountFolder
         }
         if (update || existingAccountFolder == null) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -269,53 +220,26 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    @Throws(IOException::class)
-    override fun getChangeSetSince(
-        sequenceNumber: SequenceNumber,
-        context: Context
-    ): ChangeSet? = merge(buildList {
-        var nextShard = sequenceNumber.shard
-        var startNumber = sequenceNumber.number
-        while (true) {
-            val nextShardFolder = if (nextShard == 0) accountFolder else getSubFolder("_$nextShard")
-            if (nextShardFolder != null) {
-                val fileList = driveServiceHelper.listChildren(nextShardFolder).sortedBy { getSequenceFromFileName(it.name) }
-                log().i("Getting data from shard %d", nextShard)
-                for (metadata in fileList) {
-                    if (isNewerJsonFile(startNumber, metadata.name)) {
-                        if ((metadata.getSize() ?: 0) > 0) {
-                            log().i("Getting data from file %s", metadata.name)
-                            add(getChangeSetFromMetadata(nextShard, metadata))
-                        } else {
-                            log().i("Found 0-size file %s", metadata.name)
-                        }
-                    }
-                }
-                nextShard++
-                startNumber = 0
-            } else {
-                break
-            }
-        }
-    })
+    override fun collectionForShard(shardNumber: Int) =
+        if (shardNumber == 0) accountFolder else getSubFolder(folderForShard(shardNumber))
+
+    override fun childrenForCollection(folder: File?) =
+        driveServiceHelper.listChildren(folder ?: accountFolder)
+
+    override fun nameForResource(resource: File): String? = resource.name
+
+    override fun isCollection(resource: File) = driveServiceHelper.isFolder(resource)
 
     @Throws(IOException::class)
     private fun getSubFolder(shard: String): File? {
         return driveServiceHelper.getFileByNameAndParent(accountFolder, shard)
     }
 
-    @Throws(IOException::class)
-    private fun getChangeSetFromMetadata(shard: Int, metadata: File): ChangeSet {
-        return getChangeSetFromInputStream(
-            SequenceNumber(shard, getSequenceFromFileName(metadata.name)),
-            driveServiceHelper.read(metadata.id)
+    override fun getChangeSetFromResource(shardNumber: Int, resource: File) =
+        getChangeSetFromInputStream(
+            SequenceNumber(shardNumber, getSequenceFromFileName(resource.name)),
+            driveServiceHelper.read(resource.id)
         )
-    }
-
-    @Throws(IOException::class)
-    override fun unlock() {
-        driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, null)
-    }
 
     @get:Throws(IOException::class)
     override val remoteAccountList: List<Result<AccountMetaData>>

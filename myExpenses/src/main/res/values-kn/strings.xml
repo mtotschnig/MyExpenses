@@ -339,7 +339,6 @@
     <string name="pref_visit_website_summary">ಚೇಂಜ್ಲಾಗ್ ಮತ್ತು FAQ</string>
     <string name="pref_visit_website_title">ವೆಬ್‌ಸೈಟ್‌ಗೆ ಭೇಟಿ ನೀಡಿ</string>
     <string name="progress_dialog_deleting">ವಸ್ತುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ</string>
-    <string name="progress_dialog_loading">ಡೇಟಾಬೇಸ್‌ನಿಂದ ವಸ್ತುವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
     <string name="progress_dialog_printing">%s ರಚಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="qif_parse_result">ಪಾರ್ಸ್ ಮಾಡಲಾಗಿದೆ: %1$s ಖಾತೆಗಳು; %2$s ವಿಭಾಗಗಳು ಮತ್ತು %3$s ಪಕ್ಷಗಳು</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
@@ -656,7 +655,6 @@
     <string name="auto_fill_account_from_aggregate_only">ಒಟ್ಟು ಖಾತೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿದಾಗ ಮಾತ್ರ.</string>
     <string name="sync_auth_exception">ಅಧಿಕಾರ ವಿಫಲವಾಗಿದೆ.</string>
     <string name="sync_login_again">ದಯವಿಟ್ಟು ಮತ್ತೆ ಲಾಗ್ ಇನ್ ಮಾಡಿ.</string>
-    <string name="sync_loading_accounts_from_backend">ಲಭ್ಯವಿರುವ ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ.</string>
     <plurals name="delete_success">
         <item quantity="one">ಒಂದು ವಸ್ತುವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ.</item>
         <item quantity="other">%d ವಸ್ತುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ.</item>

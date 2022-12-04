@@ -290,7 +290,6 @@
     <string name="pref_visit_website_summary">تغییرات و سوالات متداول</string>
     <string name="pref_visit_website_title">دیدن وبسایت</string>
     <string name="progress_dialog_deleting">حذف کردن اشیاء</string>
-    <string name="progress_dialog_loading">بارگیری شیٔ از پایگاه داده</string>
     <string name="progress_dialog_printing">ساخت %s</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">نمی‌توان آن‌ها را در حساب موجود ادغام نمود.</string>
     <string name="restore_db_failure">بازیابی پایگاه داده شکست خورد.</string>
@@ -455,7 +454,6 @@
     <string name="auto_fill_account_from_aggregate_only">فقط وقتی از حساب جمع شروع می شود.</string>
     <string name="sync_auth_exception">مجوز ناموفق بود.</string>
     <string name="sync_login_again"> لطفا دوباره وارد شوید.</string>
-    <string name="sync_loading_accounts_from_backend">بارگیری حساب های موجود از backend.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">تاریخ رزور</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->

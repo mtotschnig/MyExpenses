@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.sync
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
+import android.content.Intent
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
@@ -23,7 +24,7 @@ abstract class SyncBackendProviderFactory {
         accountManager: AccountManager
     ): SyncBackendProvider
 
-    abstract fun startSetup(activity: ProtectedFragmentActivity)
+    abstract val setupActivityClass: Class<out ProtectedFragmentActivity>
 
     companion object {
         @JvmStatic

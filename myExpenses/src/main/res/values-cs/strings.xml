@@ -346,7 +346,6 @@
     <string name="pref_visit_website_summary">Seznam změn a FAQ</string>
     <string name="pref_visit_website_title">Navštivte webové stránky</string>
     <string name="progress_dialog_deleting">Odstraňování objektů</string>
-    <string name="progress_dialog_loading">Načítání objektů z databáze</string>
     <string name="progress_dialog_printing">Vytváření souboru %s</string>
     <string name="qif_parse_result">Zanalyzováno: %1$s účty, %2$s kategorie a %3$s strany</string>
     <string name="qif_parse_failure_found_multiple_accounts">V souboru QIF bylo nalezeno několik účtů.</string>
@@ -672,7 +671,6 @@
     <string name="auto_fill_account_from_aggregate_only">Pouze při začínání ze souhrnného účtu.</string>
     <string name="sync_auth_exception">Autorizace se nezdařila.</string>
     <string name="sync_login_again">Přihlaste se prosím znovu.</string>
-    <string name="sync_loading_accounts_from_backend">Probíhá načítání dostupných účtů z rozhraní backend.</string>
     <plurals name="delete_success">
         <item quantity="one">Jeden předmět byl úspěšně smazán.</item>
         <item quantity="few">%d předmětů bylo úspěšně smazáno.</item>

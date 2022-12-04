@@ -297,7 +297,6 @@
     <string name="pref_visit_website_summary">Dnevnik promjena i često postavljena pitanja</string>
     <string name="pref_visit_website_title">Posjeti web stranicu</string>
     <string name="progress_dialog_deleting">Brisanje predmeta</string>
-    <string name="progress_dialog_loading">Učitavanje predmeta iz baze podataka</string>
     <string name="progress_dialog_printing">Generiranje %s-a</string>
     <string name="qif_parse_result">Obrađeno: %1$s računa; %2$s kategorije i %3$s stranke</string>
     <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u QIF datoteci.</string>
@@ -479,7 +478,6 @@
         <item quantity="few">%d predmeta su uspješno izbrisana.</item>
         <item quantity="other">%d predmeta su uspješno izbrisani.</item>
     </plurals>
-    <string name="sync_loading_accounts_from_backend">Učitavanje dostupnih računa iz pozadinskog sustava.</string>
     <string name="sync_auth_exception">Neuspjela autorizacija.</string>
     <string name="sync_login_again">Prijavi se ponovo.</string>
     <string name="auto_fill_account_from_aggregate_only">Samo kad se počne iz kumuliranog računa.</string>

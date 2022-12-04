@@ -1240,7 +1240,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       } else if (uriMatch == UNCOMMITTED) {
         notifyChange(DEBTS_URI, false);
       }
-      notifyChange(uri, false);
+      notifyChange(uri, uriMatch == TRANSACTION_ID);
     }
     return count;
   }

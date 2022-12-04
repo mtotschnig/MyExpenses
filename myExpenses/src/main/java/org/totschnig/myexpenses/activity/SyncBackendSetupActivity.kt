@@ -1,22 +1,20 @@
 package org.totschnig.myexpenses.activity
 
 import android.accounts.AccountManager
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.SubMenu
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.EditTextDialog
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
@@ -25,9 +23,8 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
-import java.io.File
 
-abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListener,
+abstract class SyncBackendSetupActivity : RestoreActivity(),
     OnDialogResultListener {
 
     private lateinit var backendProviders: List<BackendService>
@@ -42,36 +39,6 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
         super.onCreate(savedInstanceState)
         backendProviders = BackendService.allAvailable(this)
         (applicationContext as MyApplication).appComponent.inject(viewModel)
-    }
-
-    //LocalFileBackend
-    override fun onFinishEditDialog(args: Bundle) {
-        val filePath = args.getString(EditTextDialog.KEY_RESULT)!!
-        val baseFolder = File(filePath)
-        if (!baseFolder.isDirectory) {
-            showSnackBar("No directory $filePath", Snackbar.LENGTH_SHORT)
-        } else {
-            val accountName =
-                getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(
-                    filePath
-                )
-            val bundle = Bundle(1)
-            bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, filePath)
-            createAccount(accountName, null, null, bundle)
-        }
-    }
-
-    //WebDav
-    fun onFinishWebDavSetup(
-        passWord: String,
-        url: String,
-        bundle: Bundle
-    ) {
-        createAccount(
-            getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_WEBDAV).buildAccountName(
-                url
-            ), passWord, null, bundle
-        )
     }
 
     override fun onResume() {
@@ -94,11 +61,27 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
         }
     }
 
+    private val startSetup =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let {
+                    createAccount(
+                        it.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)!!,
+                        it.getStringExtra(AccountManager.KEY_PASSWORD),
+                        it.getStringExtra(AccountManager.KEY_AUTHTOKEN),
+                        it.getBundleExtra(AccountManager.KEY_USERDATA)
+                    )
+                }
+            }
+        }
+
     private fun startSetupDo() {
         val backendService = getBackendServiceById(selectedFactoryId)
         val feature = backendService?.feature
         if (feature == null || featureManager.isFeatureInstalled(feature, this)) {
-            backendService?.instantiate()?.startSetup(this)
+            backendService?.instantiate()?.setupActivityClass?.let {
+                startSetup.launch(Intent(this, it))
+            }
             selectedFactoryId = 0
         } else {
             featureManager.requestFeature(feature, this)
@@ -109,25 +92,6 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
         featureManager.initActivity(this)
         if (selectedFactoryId != 0 && getBackendServiceByIdOrThrow(selectedFactoryId).feature == feature) {
             startSetupDo()
-        }
-    }
-
-    //Google Drive & Dropbox
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK && intent != null) {
-            val accountName = getBackendServiceByIdOrThrow(
-                intent.getIntExtra(
-                    KEY_SYNC_PROVIDER_ID, 0
-                )
-            )
-                .buildAccountName(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)!!)
-            createAccount(
-                accountName,
-                null,
-                intent.getStringExtra(AccountManager.KEY_AUTHTOKEN),
-                intent.getBundleExtra(AccountManager.KEY_USERDATA)
-            )
         }
     }
 
@@ -157,8 +121,10 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
     }
 
     private fun createAccountDo(args: Bundle) {
+        showLoadingSnackBar()
         viewModel.createSyncAccount(args).observe(this) { result ->
             result.onSuccess {
+                dismissSnackBar()
                 recordUsage(ContribFeature.SYNCHRONIZATION)
                 if ("xiaomi".equals(Build.MANUFACTURER, ignoreCase = true)) {
                     showMessage("On some Xiaomi devices, synchronization does not work without AutoStart permission. Visit <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Synchronization#q2\">MyExpenses FAQ</a> for more information.")
@@ -176,7 +142,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
         data.map(AccountMetaData::uuid).distinct().count() < data.count()
 
     fun fetchAccountData(accountName: String) {
-        showSnackBar(R.string.progress_dialog_fetching_data_from_sync_backend, Snackbar.LENGTH_INDEFINITE)
+        showLoadingSnackBar()
         viewModel.fetchAccountData(accountName).observe(this) { result ->
             dismissSnackBar()
             result.onSuccess {
@@ -187,11 +153,13 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
         }
     }
 
+    fun showLoadingSnackBar() {
+        showProgressSnackBar(getString(R.string.progress_dialog_fetching_data_from_sync_backend))
+    }
+
     protected open fun createAccountTaskShouldReturnBackups(): Boolean {
         return false
     }
-
-    override fun onCancelEditDialog() {}
 
     fun addSyncProviderMenuEntries(subMenu: SubMenu) {
         for (factory in backendProviders) {
@@ -233,6 +201,5 @@ abstract class SyncBackendSetupActivity : RestoreActivity(), EditTextDialogListe
     companion object {
         private const val DIALOG_TAG_PASSWORD = "password"
         const val REQUEST_CODE_RESOLUTION = 1
-        const val KEY_SYNC_PROVIDER_ID = "syncProviderId"
     }
 }

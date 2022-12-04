@@ -19,7 +19,7 @@ data class SequenceNumber(val shard: Int, val number: Int) {
         private val LIMIT = if (BuildConfig.DEBUG) 2 else 100
         @JvmStatic
         fun max(first: SequenceNumber, second: SequenceNumber): SequenceNumber {
-            return when (Utils.compare(first.shard, second.shard)) {
+            return when (first.shard.compareTo(second.shard)) {
                 1 -> first
                 -1 -> second
                 else -> if (first.number >= second.number) first else second

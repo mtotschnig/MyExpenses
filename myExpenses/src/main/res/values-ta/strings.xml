@@ -340,7 +340,6 @@
     <string name="pref_visit_website_summary">மாற்றக் குறிப்பு மற்றும் அடிக்கடி கேட்கப்படும் கேள்விகள்</string>
     <string name="pref_visit_website_title">வலைத்தளத்தைப் பார்க்கவும்</string>
     <string name="progress_dialog_deleting">பொருட்கள் நீக்கப்படுகிறது</string>
-    <string name="progress_dialog_loading">தரவுத்தளத்திலிருந்து பொருளை ஏற்றுகிறது</string>
     <string name="progress_dialog_printing">%s உருவாக்கப்படுகிறது</string>
     <string name="qif_parse_result">பாகுபடுத்தப்பட்டவை: %1$s கணக்குகள்; %2$s வகைகள் மற்றும் %3$s தரப்புகள்</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF கோப்பில் பல கணக்குகள் கண்டுபிடிக்கப்பட்டன.</string>
@@ -658,7 +657,6 @@
     <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டுமே.</string>
     <string name="sync_auth_exception">அதிகாரமளிப்பு தோல்வியடைந்தது.</string>
     <string name="sync_login_again">தயவு செய்து மீண்டும் புகுபதிகை செய்க.</string>
-    <string name="sync_loading_accounts_from_backend">பின்தளத்தில் இருக்கக்கூடிய கணக்குகளை ஏற்றுகிறது.</string>
     <plurals name="delete_success">
         <item quantity="one">ஒரு பொருள் வெற்றிகரமாக நீக்கப்பட்டது.</item>
         <item quantity="other">%d பொருட்கள் வெற்றிகரமாக நீக்கப்பட்டன.</item>

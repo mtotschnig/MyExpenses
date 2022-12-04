@@ -15,6 +15,7 @@
     <string name="copy_text">"Kopiatu arbelean"</string>
     <string name="stop">"Gelditu"</string>
     <string name="style">"Estiloa"</string>
+    <string name="loading">"Kargatzen…"</string>
     <string name="no_network">"Ez dago sareko konexiorik."</string>
     <string name="button_label_continue">Jarraitu</string>
     <string name="autofill">"Betetze automatikoa"</string>

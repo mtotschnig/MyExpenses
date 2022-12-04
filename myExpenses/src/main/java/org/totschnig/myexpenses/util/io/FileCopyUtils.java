@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.util.io;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import org.totschnig.myexpenses.MyApplication;
 
 import java.io.File;
@@ -44,7 +46,7 @@ public class FileCopyUtils {
     }
   }
 
-  public static void copy(InputStream input, OutputStream output) throws IOException {
+  public static void copy(@NonNull InputStream input, @NonNull OutputStream output) throws IOException {
     final byte[] buffer = new byte[1024];
     int read;
 

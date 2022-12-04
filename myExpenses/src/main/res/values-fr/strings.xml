@@ -343,7 +343,6 @@
     <string name="pref_visit_website_summary">Journal des modifications et FAQ</string>
     <string name="pref_visit_website_title">Visiter le site Web</string>
     <string name="progress_dialog_deleting">Les objets sont effacés</string>
-    <string name="progress_dialog_loading">Chargement</string>
     <string name="progress_dialog_printing">Génération du %s</string>
     <string name="qif_parse_result">Analysé : %1$s comptes, %2$s catégories et %3$s tiers</string>
     <string name="qif_parse_failure_found_multiple_accounts">Plusieurs comptes trouvés dans le fichier QIF.</string>
@@ -665,7 +664,6 @@
     <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>
     <string name="sync_auth_exception">L\'autorisation a échoué.</string>
     <string name="sync_login_again">Veuillez vous reconnecter.</string>
-    <string name="sync_loading_accounts_from_backend">Chargement des comptes disponible à partir du backend.</string>
     <plurals name="delete_success">
         <item quantity="one">Un objet a été supprimé avec succès.</item>
         <item quantity="many">%d objets ont été supprimés avec succès.</item>

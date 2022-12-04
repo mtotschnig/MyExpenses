@@ -340,7 +340,6 @@
     <string name="pref_visit_website_summary">Änderungsprotokoll und FAQ</string>
     <string name="pref_visit_website_title">Website besuchen</string>
     <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
-    <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
     <string name="progress_dialog_printing">Generierung von %s</string>
     <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien</string>
     <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
@@ -658,7 +657,6 @@
     <string name="auto_fill_account_from_aggregate_only">Nur wenn vom Gesamtkonto gestartet.</string>
     <string name="sync_auth_exception">Autorisation fehlgeschlagen.</string>
     <string name="sync_login_again">Bitte melden Sie sich erneut an.</string>
-    <string name="sync_loading_accounts_from_backend">Verfügbare Konten werden vom Backend geladen.</string>
     <plurals name="delete_success">
         <item quantity="one">Ein Objekt wurde erfolgreich gelöscht.</item>
         <item quantity="other">%d Objekte wurden erfolgreich gelöscht.</item>

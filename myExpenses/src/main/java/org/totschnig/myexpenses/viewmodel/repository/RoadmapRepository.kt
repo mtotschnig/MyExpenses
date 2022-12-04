@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.acra.util.StreamReader
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -17,7 +18,6 @@ import org.totschnig.myexpenses.retrofit.Issue
 import org.totschnig.myexpenses.retrofit.RoadmapService
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.io.StreamReader
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream

@@ -335,7 +335,6 @@
     <string name="pref_visit_website_summary">変更履歴 および FAQ</string>
     <string name="pref_visit_website_title">Webサイトを訪問</string>
     <string name="progress_dialog_deleting">オブジェクトを削除中</string>
-    <string name="progress_dialog_loading">データベースからオブジェクトをロード中</string>
     <string name="progress_dialog_printing">%s を生成中</string>
     <string name="qif_parse_result">解析しました: %1$s 勘定; %2$s 分類 および %3$s 取引先</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
@@ -648,7 +647,6 @@
     <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>
     <string name="sync_auth_exception">認証に失敗しました。</string>
     <string name="sync_login_again">もう一度ログインしてください。</string>
-    <string name="sync_loading_accounts_from_backend">バックエンドから利用可能な口座をロード中。</string>
     <plurals name="delete_success">
         <item quantity="other">%d のオブジェクトが削除されました。</item>
     </plurals>

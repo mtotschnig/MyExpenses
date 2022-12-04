@@ -14,6 +14,7 @@
     <string name="copy_text">"Copia negli appunti"</string>
     <string name="stop">"Interrompi"</string>
     <string name="style">"Stile"</string>
+    <string name="loading">"Caricamento..."</string>
     <string name="no_network">"Nessuna connessione di rete disponibile."</string>
     <string name="button_label_continue">Continua</string>
     <string name="autofill">"Compilazione automatica"</string>

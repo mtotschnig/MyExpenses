@@ -15,6 +15,7 @@
     <string name="copy_text">"Kopier til udklipsholder"</string>
     <string name="stop">"Stop"</string>
     <string name="style">"Urtype"</string>
+    <string name="loading">"Indlæser…"</string>
     <string name="no_network">"Der er ingen netværksforbindelse."</string>
     <string name="button_label_continue">Fortsæt</string>
     <string name="autofill">"Autofyld"</string>

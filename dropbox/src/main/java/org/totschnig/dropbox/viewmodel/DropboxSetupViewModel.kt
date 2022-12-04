@@ -8,13 +8,15 @@ import com.dropbox.core.v2.files.FolderMetadata
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.dropbox.BuildConfig
+import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 import java.io.IOException
 import java.util.*
 
 
-class DropboxSetupViewModel(application: Application) : AbstractSetupViewModel(application) {
+class DropboxSetupViewModel(application: Application) :
+    AbstractSetupViewModel(BackendService.DROPBOX, application) {
     private var mDbxClient: DbxClientV2? = null
 
     fun initWithCredentials(credentials: DbxCredential) {

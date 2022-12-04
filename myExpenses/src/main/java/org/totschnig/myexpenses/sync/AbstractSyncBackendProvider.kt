@@ -22,27 +22,28 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.AdapterFactory
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.sync.json.TransactionChange
+import org.totschnig.myexpenses.sync.json.Utils.getChanges
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
-import org.totschnig.myexpenses.util.io.getFileExtension
-import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import timber.log.Timber
 import java.io.*
 import java.security.GeneralSecurityException
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
-abstract class AbstractSyncBackendProvider(protected val context: Context) : SyncBackendProvider {
+abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
+    SyncBackendProvider, ShardingResourceStorage<Res> {
     /**
      * this holds the uuid of the db account which data is currently synced
      */
     @JvmField
     protected var accountUuid: String? = null
-    var sharedPreferences: SharedPreferences
+    val sharedPreferences: SharedPreferences by lazy {
+        context.getSharedPreferences("${sharedPreferencesName}_sync", 0)
+    }
     private val gson: Gson = GsonBuilder()
         .registerTypeAdapterFactory(AdapterFactory.create())
         .create()
@@ -54,7 +55,7 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         get() = encryptionPassword != null
     val accountMetadataFilename: String
         get() = String.format("%s.%s", ACCOUNT_METADATA_FILENAME, extensionForData)
-    private val extensionForData: String
+    override val extensionForData: String
         get() = if (isEncrypted) "enc" else "json"
 
     fun setAccountUuid(account: Account) {
@@ -65,10 +66,8 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
 
     @Throws(GeneralSecurityException::class, IOException::class)
     override fun initEncryption() {
-        saveFileContentsToBase(
-            ENCRYPTION_TOKEN_FILE_NAME,
-            encrypt(EncryptionHelper.generateRandom(10)), MIME_TYPE_OCTET_STREAM, false
-        )
+        encryptionToken = encrypt(EncryptionHelper.generateRandom(10))
+
     }
 
     @Throws(Exception::class)
@@ -79,23 +78,22 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         create: Boolean
     ) {
         this.encryptionPassword = encryptionPassword
-        val encryptionToken = readEncryptionToken()
-        if (encryptionToken == null) {
+        encryptionToken?.also {
+            if (encryptionPassword == null) {
+                throw encrypted(context)
+            } else {
+                try {
+                    decrypt(it)
+                } catch (e: GeneralSecurityException) {
+                    throw wrongPassphrase(context)
+                }
+            }
+        } ?: run {
             if (encryptionPassword != null) {
                 if (create && isEmpty) {
                     initEncryption()
                 } else {
                     throw notEncrypted(context)
-                }
-            }
-        } else {
-            if (encryptionPassword == null) {
-                throw encrypted(context)
-            } else {
-                try {
-                    decrypt(encryptionToken)
-                } catch (e: GeneralSecurityException) {
-                    throw wrongPassphrase(context)
                 }
             }
         }
@@ -114,8 +112,31 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         )
     }
 
-    @Throws(IOException::class)
-    protected abstract fun readEncryptionToken(): String?
+    @get:Throws(IOException::class)
+    protected var encryptionToken: String?
+        get() = readFileContents(false, ENCRYPTION_TOKEN_FILE_NAME)
+        set(value) {
+            saveFileContents(
+                false, null,
+                ENCRYPTION_TOKEN_FILE_NAME,
+                value!!, MIME_TYPE_OCTET_STREAM, false
+            )
+        }
+
+    open fun deleteLockTokenFile() {
+        throw IllegalStateException("Should be handled by implementation")
+    }
+
+    @get:Throws(IOException::class)
+    open var lockToken: String?
+        get() = readFileContents(true, LOCK_FILE)
+        set(value) {
+            if (value == null) {
+                deleteLockTokenFile()
+            } else {
+                saveFileContents(true, null, LOCK_FILE, value, "text/plain", false)
+            }
+        }
 
     @Throws(GeneralSecurityException::class)
     protected fun encrypt(plain: ByteArray?): String {
@@ -126,12 +147,12 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     }
 
     @Throws(IOException::class)
-    protected fun maybeEncrypt(outputStream: OutputStream?): OutputStream {
+    protected fun maybeEncrypt(outputStream: OutputStream): OutputStream {
         return try {
             if (isEncrypted) EncryptionHelper.encrypt(
                 outputStream,
                 encryptionPassword
-            ) else outputStream!!
+            ) else outputStream
         } catch (e: GeneralSecurityException) {
             throw IOException(e)
         }
@@ -173,9 +194,9 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         inputStream: InputStream
     ): ChangeSet {
         val changes: MutableList<TransactionChange>? =
-        BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { reader ->
-            org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader)
-        }
+            BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { reader ->
+                getChanges(gson, reader)
+            }
         if (changes.isNullOrEmpty()) {
             return ChangeSet.empty(sequenceNumber)
         }
@@ -188,11 +209,11 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
             } else {
                 iterator.set(mapPictureDuringRead(transactionChange))
                 if (transactionChange.splitParts() != null) {
-                    val jterator = transactionChange.splitParts()!!
+                    val splitPartIterator = transactionChange.splitParts()!!
                         .listIterator()
-                    while (jterator.hasNext()) {
-                        val splitPart = jterator.next()
-                        jterator.set(mapPictureDuringRead(splitPart))
+                    while (splitPartIterator.hasNext()) {
+                        val splitPart = splitPartIterator.next()
+                        splitPartIterator.set(mapPictureDuringRead(splitPart))
                     }
                 }
             }
@@ -231,29 +252,20 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
             Result.failure(e)
         }
 
-    protected fun isAtLeastShardDir(shardNumber: Int, name: String): Boolean {
-        return FILE_PATTERN.matcher(name).matches() &&
-                name.substring(1).toInt() >= shardNumber
-    }
-
-    protected fun isNewerJsonFile(sequenceNumber: Int, name: String): Boolean {
-        val fileName = getNameWithoutExtension(name)
-        val fileExtension = getFileExtension(name)
-        return fileExtension == extensionForData && FILE_PATTERN.matcher(fileName)
-            .matches() && fileName.substring(1).toInt() > sequenceNumber
-    }
-
     protected fun merge(changeSetList: List<ChangeSet>): ChangeSet? {
         return changeSetList.reduceOrNull { changeSet1: ChangeSet?, changeSet2: ChangeSet? ->
             ChangeSet.merge(changeSet1, changeSet2)
         }
     }
 
-    protected fun getSequenceFromFileName(fileName: String): Int {
-        return try {
-            getNameWithoutExtension(fileName).takeIf { it.isNotEmpty() && it.startsWith("_") }?.substring(1)?.toInt()
-        } catch (e: NumberFormatException) { null } ?: 0
-    }
+    abstract fun getChangeSetFromResource(shardNumber: Int, resource: Res): ChangeSet
+
+    final override fun getChangeSetSince(sequenceNumber: SequenceNumber): ChangeSet? =
+        merge(
+            shardResolvingFilterStrategy(sequenceNumber).map {
+                getChangeSetFromResource(it.first, it.second)
+            }
+        )
 
     @Throws(IOException::class)
     private fun mapPictureDuringWrite(transactionChange: TransactionChange): TransactionChange {
@@ -303,8 +315,9 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         val fileContents = gson.toJson(changeSetMutable)
         log().i("Writing to %s", fileName)
         log().i(fileContents)
-        saveFileContentsToAccountDir(
-            if (nextSequence.shard == 0) null else "_" + nextSequence.shard,
+        saveFileContents(
+            true,
+            if (nextSequence.shard == 0) null else folderForShard(nextSequence.shard),
             fileName,
             fileContents,
             mimeTypeForData,
@@ -312,6 +325,7 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         )
         return nextSequence
     }
+
 
     /**
      * should encrypt if backend is configured with encryption
@@ -331,10 +345,8 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     }
 
     @Throws(IOException::class)
-    protected abstract fun getLastSequence(start: SequenceNumber): SequenceNumber
-
-    @Throws(IOException::class)
-    protected abstract fun saveFileContentsToAccountDir(
+    protected abstract fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
@@ -342,33 +354,23 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
         maybeEncrypt: Boolean
     )
 
-    @Suppress("SameParameterValue")
-    @Throws(IOException::class)
-    protected abstract fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    )
+    protected abstract fun readFileContents(
+        fromAccountDir: Boolean,
+        fileName: String
+    ): String?
 
     protected fun createWarningFile() {
         try {
-            saveFileContentsToAccountDir(
-                null, "IMPORTANT_INFORMATION.txt",
+            saveFileContents(
+                true, null,
+                "IMPORTANT_INFORMATION.txt",
                 Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage)
-                    .toString(),
-                "text/plain", false
+                    .toString(), "text/plain", false
             )
         } catch (e: IOException) {
             log().w(e)
         }
     }
-
-    @get:Throws(IOException::class)
-    protected abstract val existingLockToken: String?
-
-    @Throws(IOException::class)
-    protected abstract fun writeLockToken(lockToken: String)
 
     @Throws(IOException::class)
     override fun updateAccount(account: Account) {
@@ -380,15 +382,19 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
 
     @Throws(IOException::class)
     override fun lock() {
-        val existingLockToken = existingLockToken
+        val existingLockToken = lockToken
         log().i("ExistingLockToken: %s", existingLockToken)
         if (TextUtils.isEmpty(existingLockToken) || shouldOverrideLock(existingLockToken)) {
-            val lockToken = Model.generateUuid()
-            writeLockToken(lockToken)
-            saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true)
+            val newLockToken = Model.generateUuid()
+            lockToken = newLockToken
+            saveLockTokenToPreferences(newLockToken, System.currentTimeMillis(), true)
         } else {
             throw IOException("Backend cannot be locked")
         }
+    }
+
+    override fun unlock() {
+        lockToken = null
     }
 
     private fun shouldOverrideLock(lockToken: String?): Boolean {
@@ -430,11 +436,11 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     }
 
     companion object {
+        const val LOCK_FILE = ".lock.txt"
         const val KEY_LOCK_TOKEN = "lockToken"
         const val BACKUP_FOLDER_NAME = "BACKUPS"
-        private const val MIME_TYPE_JSON = "application/json"
+        const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
-        protected val FILE_PATTERN: Pattern = Pattern.compile("_\\d+")
         private const val KEY_OWNED_BY_US = "ownedByUs"
         private const val KEY_TIMESTAMP = "timestamp"
         private val LOCK_TIMEOUT_MILLIS =
@@ -447,6 +453,5 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
             appInstance =
                 Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
         }
-        sharedPreferences = context.getSharedPreferences(sharedPreferencesName, 0)
     }
 }

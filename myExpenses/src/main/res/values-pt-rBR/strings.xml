@@ -343,7 +343,6 @@
     <string name="pref_visit_website_summary">Alterações e perguntas frequentes</string>
     <string name="pref_visit_website_title">Visitar o site web</string>
     <string name="progress_dialog_deleting">Excluindo objetos</string>
-    <string name="progress_dialog_loading">Carregando objeto do banco de dados</string>
     <string name="progress_dialog_printing">Gerando %s</string>
     <string name="qif_parse_result">Analisada: %1$s contas, %2$s categorias e %3$s parceiros</string>
     <string name="qif_parse_failure_found_multiple_accounts">Foram encontradas várias contas no ficheiro QIF.</string>
@@ -665,10 +664,8 @@
     <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
     <string name="sync_auth_exception">Falha na autorização.</string>
     <string name="sync_login_again">Por favor, autentique-se novamente.</string>
-    <string name="sync_loading_accounts_from_backend">Carregando contas disponíveis no destino.</string>
     <plurals name="delete_success">
         <item quantity="one">Um objeto foi excluído com sucesso.</item>
-        <item quantity="many">%d objetos foram excluídos com sucesso.</item>
         <item quantity="other">%d objetos foram excluídos com sucesso.</item>
     </plurals>
     <string name="feature_deprecated">Obsoleto</string>

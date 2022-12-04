@@ -340,7 +340,6 @@
     <string name="pref_visit_website_summary">Registro de cambios y preguntas frecuentes</string>
     <string name="pref_visit_website_title">Visitar página web</string>
     <string name="progress_dialog_deleting">Eliminar objetivos</string>
-    <string name="progress_dialog_loading">Cargar objetivo desde base de datos</string>
     <string name="progress_dialog_printing">Generar %s</string>
     <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s grupos</string>
     <string name="qif_parse_failure_found_multiple_accounts">Se han encontrado varias cuenta en el archivo QIF.</string>
@@ -658,7 +657,6 @@
     <string name="auto_fill_account_from_aggregate_only">Sólo cuando se comience desde una cuenta agregada.</string>
     <string name="sync_auth_exception">Autorización fallida.</string>
     <string name="sync_login_again">Por favor, inicie sesión de nuevo.</string>
-    <string name="sync_loading_accounts_from_backend">Cargando cuentas disponibles desde el servidor.</string>
     <plurals name="delete_success">
         <item quantity="one">Un objeto fue eliminado correctamente.</item>
         <item quantity="other">%d objetos fueron eliminados correctamente.</item>
