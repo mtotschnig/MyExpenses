@@ -155,15 +155,9 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         }
     }
 
-    override var lockToken: String?
-        get() = super.lockToken
-        set(value) {
-            if (value == null) {
-                if (accountDir.findFile(LOCK_FILE)?.delete() != true) throw IOException()
-            } else {
-                super.lockToken = value
-            }
-        }
+    override fun deleteLockTokenFile() {
+        if (accountDir.findFile(LOCK_FILE)?.delete() != true) throw IOException()
+    }
 
     @Throws(IOException::class)
     override fun saveFileContents(

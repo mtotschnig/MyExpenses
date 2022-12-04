@@ -173,17 +173,11 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         mDbxClient.files().download(resourcePath).inputStream
     }
 
-    override var lockToken: String?
-        get() = super.lockToken
-        set(value) {
-            if (value == null) {
-                tryWithWrappedException {
-                    mDbxClient.files().deleteV2(lockFilePath)
-                }
-            } else {
-                super.lockToken = value
-            }
+    override fun deleteLockTokenFile() {
+        tryWithWrappedException {
+            mDbxClient.files().deleteV2(lockFilePath)
         }
+    }
 
     private val lockFilePath: String
         get() = getResourcePath(LOCK_FILE)

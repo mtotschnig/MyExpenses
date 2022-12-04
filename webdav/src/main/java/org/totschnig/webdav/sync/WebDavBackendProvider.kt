@@ -118,19 +118,13 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    override var lockToken: String?
-        get() = super.lockToken
-        set(value) {
-            if (value == null) {
-                try {
-                    lockFile.delete(null)
-                } catch (e: HttpException) {
-                    throw IOException(e)
-                }
-            } else {
-                super.lockToken = value
-            }
+    override fun deleteLockTokenFile() {
+        try {
+            lockFile.delete(null)
+        } catch (e: HttpException) {
+            throw IOException(e)
         }
+    }
 
     @Throws(IOException::class)
     override fun unlock() {

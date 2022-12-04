@@ -123,12 +123,16 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             )
         }
 
+    open fun deleteLockTokenFile() {
+        throw IllegalStateException("Should be handled by implementation")
+    }
+
     @get:Throws(IOException::class)
     open var lockToken: String?
         get() = readFileContents(true, LOCK_FILE)
         set(value) {
             if (value == null) {
-                throw IllegalStateException("Should be handled by implementation")
+                deleteLockTokenFile()
             } else {
                 saveFileContents(true, null, LOCK_FILE, value, "text/plain", false)
             }
