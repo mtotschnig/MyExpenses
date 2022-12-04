@@ -89,12 +89,10 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         provider: ContentProviderClient, syncResult: SyncResult
     ) {
         log().i("onPerformSync %s", extras)
-        val canceledDelayUntil = extras.getLong(KEY_NOTIFICATION_CANCELLED)
-        if (canceledDelayUntil > 0L) {
+        if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED, false)) {
             if (ContentResolver.isSyncPending(account, authority)) {
                 ContentResolver.cancelSync(account, authority);
             }
-
             notificationContent.remove(account.hashCode())
             return
         }
@@ -131,7 +129,10 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             if (throwable is SyncParseException || throwable is EncryptionException) {
                 syncResult.databaseError = true
                 (throwable as? SyncParseException)?.let { report(it) }
-                nonRecoverableError(account, "The backend could not be instantiated. Reason: ${throwable.message}. Please try to delete and recreate it.")
+                nonRecoverableError(
+                    account,
+                    "The backend could not be instantiated. Reason: ${throwable.message}. Please try to delete and recreate it."
+                )
             } else if (!handleAuthException(throwable, account)) {
                 if (throwable is IOException) {
                     log().i(throwable, "Error setting up account %s", account)
@@ -193,8 +194,16 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                 null
                             )
                             //make sure user data did not stick around after a user might have cleared data
-                            accountManager.setUserData(account, KEY_LAST_SYNCED_LOCAL(accountId), null)
-                            accountManager.setUserData(account, KEY_LAST_SYNCED_REMOTE(accountId), null)
+                            accountManager.setUserData(
+                                account,
+                                KEY_LAST_SYNCED_LOCAL(accountId),
+                                null
+                            )
+                            accountManager.setUserData(
+                                account,
+                                KEY_LAST_SYNCED_REMOTE(accountId),
+                                null
+                            )
                         } catch (e: RemoteException) {
                             syncResult.databaseError = true
                             notifyDatabaseError(e, account)
@@ -302,11 +311,12 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         try {
                             val changeSetSince =
                                 backend.getChangeSetSince(lastSyncedRemote)
-                            var remoteChanges: List<TransactionChange> = if (changeSetSince != null) {
-                                lastSyncedRemote = changeSetSince.sequenceNumber
-                                log().i("lastSyncedRemote: $lastSyncedRemote")
-                                changeSetSince.changes
-                            } else emptyList()
+                            var remoteChanges: List<TransactionChange> =
+                                if (changeSetSince != null) {
+                                    lastSyncedRemote = changeSetSince.sequenceNumber
+                                    log().i("lastSyncedRemote: $lastSyncedRemote")
+                                    changeSetSince.changes
+                                } else emptyList()
                             var localChanges: MutableList<TransactionChange> = mutableListOf()
                             var sequenceToTest = lastSyncedLocal
                             while (true) {
@@ -819,7 +829,6 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         const val KEY_UPLOAD_AUTO_BACKUP_URI = "upload_auto_backup_uri"
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"
 
-        //we pass the delay to the next sync via this extra
         const val KEY_NOTIFICATION_CANCELLED = "notification_cancelled"
         val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1 else 5
         private val IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5)

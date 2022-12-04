@@ -75,7 +75,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     }
 
     override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
-        "${if (fromAccountDir) accountPath else basePath}/$ENCRYPTION_TOKEN_FILE_NAME".takeIf {
+        "${if (fromAccountDir) accountPath else basePath}/$fileName".takeIf {
             exists(
                 it
             )

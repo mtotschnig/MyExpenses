@@ -31,7 +31,7 @@ class SyncNotificationDismissHandler : IntentService("SyncNotificationDismissHan
                 val account = getAccount(accountName)
                 if (!ContentResolver.isSyncActive(account, TransactionProvider.AUTHORITY)) {
                     GenericAccountService.requestSync(accountName, extras = Bundle().apply {
-                        putLong(SyncAdapter.KEY_NOTIFICATION_CANCELLED, GenericAccountService.getSyncFrequency(prefHandler))
+                        putBoolean(SyncAdapter.KEY_NOTIFICATION_CANCELLED, true)
                     })
                 }
             }
