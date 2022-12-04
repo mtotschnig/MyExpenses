@@ -41,10 +41,14 @@ class GoogleDriveBackendProvider internal constructor(
     }
     override val sharedPreferencesName = "google_drive"
 
-    @Throws(IOException::class)
-    override fun readEncryptionToken(): String? {
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String): String? {
         return try {
-            StreamReader(getInputStream(baseFolder, ENCRYPTION_TOKEN_FILE_NAME)).read()
+            StreamReader(
+                getInputStream(
+                    if (fromAccountDir) accountFolder else baseFolder,
+                    fileName
+                )
+            ).read()
         } catch (e: FileNotFoundException) {
             null
         }
@@ -121,31 +125,17 @@ class GoogleDriveBackendProvider internal constructor(
         } ?: emptyList()
 
     @Throws(IOException::class)
-    override fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    ) {
-        saveFileContents(baseFolder, fileName, fileContents, mimeType, maybeEncrypt)
-    }
-
-    @Throws(IOException::class)
-    override fun saveFileContentsToAccountDir(
+    override fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        var driveFolder: File?
-        if (folder == null) {
-            driveFolder = accountFolder
-        } else {
-            driveFolder = getSubFolder(folder)
-            if (driveFolder == null) {
-                driveFolder = driveServiceHelper.createFolder(accountFolder.id, folder, null)
-            }
+        val base = if (toAccountDir) accountFolder else baseFolder
+        val driveFolder = if (folder == null) base else {
+            getSubFolder(folder) ?: driveServiceHelper.createFolder(accountFolder.id, folder, null)
         }
         saveFileContents(driveFolder, fileName, fileContents, mimeType, maybeEncrypt)
     }
@@ -163,17 +153,11 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    @Suppress("SameParameterValue")
-    override val existingLockToken: String?
-        get() {
-            val appProperties = accountFolder.appProperties
-            return appProperties?.get(LOCK_TOKEN_KEY)
+    override var lockToken: String?
+        get() = accountFolder.appProperties?.get(LOCK_TOKEN_KEY)
+        set(value) {
+            driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, value)
         }
-
-    @Throws(IOException::class)
-    override fun writeLockToken(lockToken: String) {
-        driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, lockToken)
-    }
 
     @Throws(IOException::class)
     private fun saveInputStream(
@@ -213,7 +197,8 @@ class GoogleDriveBackendProvider internal constructor(
             accountFolder = existingAccountFolder
         }
         if (update || existingAccountFolder == null) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -255,11 +240,6 @@ class GoogleDriveBackendProvider internal constructor(
             SequenceNumber(shardNumber, getSequenceFromFileName(resource.name)),
             driveServiceHelper.read(resource.id)
         )
-
-    @Throws(IOException::class)
-    override fun unlock() {
-        driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, null)
-    }
 
     @get:Throws(IOException::class)
     override val remoteAccountList: List<Result<AccountMetaData>>

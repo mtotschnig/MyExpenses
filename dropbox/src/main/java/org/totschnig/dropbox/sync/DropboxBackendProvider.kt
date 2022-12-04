@@ -74,17 +74,14 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    @Throws(IOException::class)
-    override fun readEncryptionToken(): String? {
-        val resourcePath = "$basePath/$ENCRYPTION_TOKEN_FILE_NAME"
-        return if (!exists(resourcePath)) {
-            null
-        } else StreamReader(
-            getInputStream(
-                resourcePath
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
+        "${if (fromAccountDir) accountPath else basePath}/$ENCRYPTION_TOKEN_FILE_NAME".takeIf {
+            exists(
+                it
             )
-        ).read()
-    }
+        }?.let {
+            StreamReader(getInputStream(it)).read()
+        }
 
     @Throws(IOException::class)
     override fun withAccount(account: Account) {
@@ -93,7 +90,8 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         requireFolder(accountPath)
         val metadataPath = getResourcePath(accountMetadataFilename)
         if (!exists(metadataPath)) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -108,7 +106,8 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     override fun writeAccount(account: Account, update: Boolean) {
         val metadataPath = getResourcePath(accountMetadataFilename)
         if (update || !exists(metadataPath)) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -169,27 +168,22 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    override val existingLockToken: String?
-        get() = lockFilePath.takeIf { exists(it) }?.let {
-            StreamReader(getInputStream(lockFilePath)).read()
-        }
-
     @Throws(IOException::class)
     private fun getInputStream(resourcePath: String) = tryWithWrappedException {
         mDbxClient.files().download(resourcePath).inputStream
     }
 
-    @Throws(IOException::class)
-    override fun writeLockToken(lockToken: String) {
-        saveInputStream(lockFilePath, toInputStream(lockToken, false))
-    }
-
-    @Throws(IOException::class)
-    override fun unlock() {
-        tryWithWrappedException {
-            mDbxClient.files().deleteV2(lockFilePath)
+    override var lockToken: String?
+        get() = super.lockToken
+        set(value) {
+            if (value == null) {
+                tryWithWrappedException {
+                    mDbxClient.files().deleteV2(lockFilePath)
+                }
+            } else {
+                super.lockToken = value
+            }
         }
-    }
 
     private val lockFilePath: String
         get() = getResourcePath(LOCK_FILE)
@@ -258,32 +252,23 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     }
 
     @Throws(IOException::class)
-    override fun saveFileContentsToAccountDir(
+    override fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        val path: String
-        val accountPath = accountPath
-        if (folder == null) {
-            path = accountPath
+        val base = if (toAccountDir) accountPath else basePath
+        val path = if (folder == null) {
+            base
         } else {
-            path = "$accountPath/$folder"
-            requireFolder(path)
+            "$base/$folder".also {
+                requireFolder(it)
+            }
         }
         saveInputStream("$path/$fileName", toInputStream(fileContents, maybeEncrypt))
-    }
-
-    @Throws(IOException::class)
-    override fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    ) {
-        saveInputStream("$basePath/$fileName", toInputStream(fileContents, maybeEncrypt))
     }
 
     @Throws(IOException::class)
@@ -333,9 +318,4 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         action = ACTION_RE_AUTHENTICATE
         putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
     }
-
-    companion object {
-        private const val LOCK_FILE = ".lock"
-    }
-
 }

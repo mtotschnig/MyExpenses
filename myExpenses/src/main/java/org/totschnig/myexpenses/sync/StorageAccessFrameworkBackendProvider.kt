@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.sync
 import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
-import dagger.internal.Preconditions
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
@@ -73,17 +72,15 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     // currently not used
     override val sharedPreferencesName = "saf" // currently not used
 
-    @Throws(IOException::class)
-    override fun readEncryptionToken() =
-        baseDir.findFile(ENCRYPTION_TOKEN_FILE_NAME)?.let { documentFile ->
-            contentResolver.openInputStream(documentFile.uri)?.use { StreamReader(it).read() }
-        }
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
+        (if (fromAccountDir) accountDir else baseDir).findFile(ENCRYPTION_TOKEN_FILE_NAME)?.let { documentFile ->
+        contentResolver.openInputStream(documentFile.uri)?.use { StreamReader(it).read() }
+    }
 
     @Throws(IOException::class)
-    override fun getInputStreamForPicture(relativeUri: String): InputStream {
-        return accountDir.findFile(relativeUri)?.let { contentResolver.openInputStream(it.uri) }
+    override fun getInputStreamForPicture(relativeUri: String) =
+        accountDir.findFile(relativeUri)?.let { contentResolver.openInputStream(it.uri) }
             ?: throw FileNotFoundException()
-    }
 
     @Throws(IOException::class)
     override fun saveUriToAccountDir(fileName: String, uri: Uri) {
@@ -141,8 +138,6 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
 
     override fun isCollection(resource: DocumentFile) = resource.isDirectory
 
-    override fun lock() {}
-
     override fun getChangeSetFromResource(shardNumber: Int, resource: DocumentFile): ChangeSet {
         val inputStream = contentResolver.openInputStream(resource.uri) ?: throw IOException()
         return getChangeSetFromInputStream(
@@ -160,38 +155,29 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         }
     }
 
-    override fun unlock() {}
-    override fun toString(): String {
-        return baseDir.toString()
-    }
+    override var lockToken: String?
+        get() = super.lockToken
+        set(value) {
+            if (value == null) {
+                if (accountDir.findFile(LOCK_FILE)?.delete() != true) throw IOException()
+            } else {
+                super.lockToken = value
+            }
+        }
 
     @Throws(IOException::class)
-    override fun saveFileContentsToAccountDir(
+    override fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        Preconditions.checkNotNull(accountDir)
-        val dir = if (folder == null) accountDir else accountDir.requireFolder(folder)
+        val base = if (toAccountDir) accountDir else baseDir
+        val dir = if (folder == null) base else base.requireFolder(folder)
         saveFileContents(dir, fileName, fileContents, mimeType, maybeEncrypt)
     }
-
-    @Throws(IOException::class)
-    override fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    ) {
-        saveFileContents(baseDir, fileName, fileContents, mimeType, maybeEncrypt)
-    }
-
-    override val existingLockToken: String?
-        get() = null
-
-    override fun writeLockToken(lockToken: String) {}
 
     private fun saveFileContents(folder: DocumentFile, fileName: String, fileContents: String, mimeType: String, maybeEncrypt: Boolean) {
         saveFileContents(folder.createFile(mimeType, fileName) ?: throw  IOException(), fileContents, maybeEncrypt)

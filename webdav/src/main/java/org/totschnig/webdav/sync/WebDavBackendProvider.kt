@@ -11,7 +11,6 @@ import at.bitfire.dav4android.exception.DavException
 import at.bitfire.dav4android.exception.HttpException
 import okhttp3.HttpUrl
 import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -55,7 +54,8 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         val accountMetadataFilename = accountMetadataFilename
         val metaData = webDavClient.getResource(accountMetadataFilename, accountUuid)
         if (update || !metaData.exists()) {
-            saveFileContentsToAccountDir(
+            saveFileContents(
+                true,
                 null,
                 accountMetadataFilename,
                 buildMetadata(account),
@@ -88,13 +88,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    @get:Throws(IOException::class)
-    override val existingLockToken: String?
-        get() = readResourceIfExists(lockFile)
-
-    @Throws(IOException::class)
-    override fun readEncryptionToken() =
-        readResourceIfExists(webDavClient.getResource(ENCRYPTION_TOKEN_FILE_NAME))
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String) = if (fromAccountDir)
+            readResourceIfExists(webDavClient.getResource(fileName, accountUuid)) else
+            readResourceIfExists(webDavClient.getResource(fileName))
 
     @Throws(IOException::class)
     private fun readResourceIfExists(resource: LockableDavResource): String? {
@@ -112,20 +108,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     }
 
     @Throws(IOException::class)
-    override fun writeLockToken(lockToken: String) {
-        val lockfile = lockFile
-        try {
-            lockfile.put(
-                lockToken.toRequestBody("text/plain; charset=utf-8".toMediaType()),
-                null,
-                false
-            )
-        } catch (e: HttpException) {
-            throw IOException(e)
-        }
-    }
-
-    @Throws(IOException::class)
     override fun lock() {
         if (fallbackToClass1) {
             super.lock()
@@ -136,8 +118,33 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
+    override var lockToken: String?
+        get() = super.lockToken
+        set(value) {
+            if (value == null) {
+                try {
+                    lockFile.delete(null)
+                } catch (e: HttpException) {
+                    throw IOException(e)
+                }
+            } else {
+                super.lockToken = value
+            }
+        }
+
+    @Throws(IOException::class)
+    override fun unlock() {
+        if (fallbackToClass1) {
+            super.unlock()
+        } else {
+            if (!webDavClient.unlock(accountUuid)) {
+                throw IOException("Error while unlocking backend")
+            }
+        }
+    }
+
     private val lockFile: LockableDavResource
-        get() = webDavClient.getResource(FALLBACK_LOCK_FILENAME, accountUuid)
+        get() = webDavClient.getResource(LOCK_FILE, accountUuid)
 
     override fun getChangeSetFromResource(shardNumber: Int, resource: DavResource): ChangeSet {
         return try {
@@ -242,14 +249,15 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
 
     @Throws(IOException::class)
-    override fun saveFileContentsToAccountDir(
+    override fun saveFileContents(
+        toAccountDir: Boolean,
         folder: String?,
         fileName: String,
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
     ) {
-        val base = webDavClient.getCollection(accountUuid)
+        val base = if(toAccountDir) webDavClient.getCollection(accountUuid) else webDavClient.base
         val parent: LockableDavResource
         if (folder != null) {
             webDavClient.mkCol(folder, base)
@@ -296,31 +304,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    @Throws(IOException::class)
-    override fun saveFileContentsToBase(
-        fileName: String,
-        fileContents: String,
-        mimeType: String,
-        maybeEncrypt: Boolean
-    ) {
-        saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, webDavClient.base)
-    }
-
-    @Throws(IOException::class)
-    override fun unlock() {
-        if (fallbackToClass1) {
-            try {
-                lockFile.delete(null)
-            } catch (e: HttpException) {
-                throw IOException(e)
-            }
-        } else {
-            if (!webDavClient.unlock(accountUuid)) {
-                throw IOException("Error while unlocking backend")
-            }
-        }
-    }
-
     private fun getLastPathSegment(httpUrl: HttpUrl): String {
         val segments = httpUrl.pathSegments
         return segments[segments.size - 1]
@@ -353,7 +336,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"
         const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1"
         const val KEY_ALLOW_UNVERIFIED = "allow_unverified"
-        private const val FALLBACK_LOCK_FILENAME = ".lock"
     }
 
     init {
