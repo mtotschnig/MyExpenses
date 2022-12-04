@@ -73,7 +73,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     override val sharedPreferencesName = "saf" // currently not used
 
     override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
-        (if (fromAccountDir) accountDir else baseDir).findFile(ENCRYPTION_TOKEN_FILE_NAME)?.let { documentFile ->
+        (if (fromAccountDir) accountDir else baseDir).findFile(fileName)?.let { documentFile ->
         contentResolver.openInputStream(documentFile.uri)?.use { StreamReader(it).read() }
     }
 

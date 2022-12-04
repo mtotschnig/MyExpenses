@@ -436,7 +436,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     companion object {
-        const val LOCK_FILE = ".lock"
+        const val LOCK_FILE = ".lock.txt"
         const val KEY_LOCK_TOKEN = "lockToken"
         const val BACKUP_FOLDER_NAME = "BACKUPS"
         const val MIME_TYPE_JSON = "application/json"

@@ -91,7 +91,10 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         log().i("onPerformSync %s", extras)
         val canceledDelayUntil = extras.getLong(KEY_NOTIFICATION_CANCELLED)
         if (canceledDelayUntil > 0L) {
-            syncResult.delayUntil = System.currentTimeMillis() / 1000 + canceledDelayUntil
+            if (ContentResolver.isSyncPending(account, authority)) {
+                ContentResolver.cancelSync(account, authority);
+            }
+
             notificationContent.remove(account.hashCode())
             return
         }
