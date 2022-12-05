@@ -28,6 +28,7 @@ import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -35,6 +36,8 @@ import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
@@ -378,7 +381,7 @@ fun HeaderRenderer(
                         .size(42.dp),
                     progress = progress,
                     fontSize = 12.sp,
-                    color = Color(  account.color(LocalContext.current.resources))
+                    color = Color(account.color(LocalContext.current.resources))
                 )
                 HeaderData(
                     account.grouping,
@@ -408,4 +411,52 @@ interface SelectionHandler {
     fun isSelected(transaction: Transaction2): Boolean
     fun select(transaction: Transaction2)
     val selectionCount: Int
+}
+
+
+@Preview(locale = "ar")
+@Composable
+fun RowRTL() {
+    Column() {
+        Row {
+            Text("1")
+            Text("2")
+            Text("3")
+        }
+        FlowRow {
+            Text("1")
+            Text("2")
+            Text("3")
+        }
+    }
+}
+
+@Preview(locale = "ar")
+@Composable
+fun Header() {
+    val amount = Money(CurrencyUnit.DebugInstance, 1234)
+    val headerRow = HeaderRow(
+        2022, 11, amount, amount, amount, amount, amount, amount, false, 0, 0
+    )
+    HeaderRenderer(
+        account = PageAccount(
+            1,
+            AccountType.CASH,
+            SortDirection.DESC,
+            Grouping.NONE,
+            CurrencyUnit.DebugInstance,
+            false,
+            1234,
+            0
+        ),
+        headerId = 2022001,
+        headerRow = headerRow,
+        dateInfo = DateInfo2.EMPTY,
+        budget = null,
+        isExpanded = true,
+        toggle = { },
+        onBudgetClick = { _, _ -> },
+        showSumDetails = true,
+        showOnlyDelta = false
+    )
 }

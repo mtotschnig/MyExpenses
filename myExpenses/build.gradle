@@ -177,7 +177,8 @@ dependencies {
     implementation "androidx.paging:paging-compose:1.0.0-alpha17"
     implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
-    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
+    //includes https://github.com/google/accompanist/pull/1074/files
+    implementation 'com.github.mtotschnig.accompanist:accompanist-flowlayout:99de3a9496'
     implementation("app.futured.donut:donut-compose:2.2.2")
 
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"

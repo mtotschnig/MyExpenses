@@ -213,5 +213,10 @@
         <url>https://github.com/k4zy/FontDrawable/</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
-
+    <project>
+        <name>Accompanist</name>
+        <extra_info>drawablepainter, pager, flowlayout with patch from Sven Obser (https://github.com/brudaswen/accompanist/commit/582feb405276ce406260ad50634fd6b76ba19904)</extra_info>
+        <url>https://github.com/google/accompanist</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>
