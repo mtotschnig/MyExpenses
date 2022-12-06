@@ -184,7 +184,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     protected var mAccounts = mutableListOf<Account>()
 
-    private val planButton: DateButton
+    val planButton: DateButton
         get() = viewBinding.PB
     private val planExecutionButton: CompoundButton
         get() = viewBinding.TB
@@ -238,9 +238,6 @@ abstract class TransactionDelegate<T : ITransaction>(
             viewBinding.TitleRow.visibility = View.VISIBLE
             viewBinding.DefaultActionRow.visibility = View.VISIBLE
             setPlannerRowVisibility(true)
-            val recurrenceAdapter = RecurrenceAdapter(context)
-            recurrenceSpinner.adapter = recurrenceAdapter
-            recurrenceSpinner.setOnItemSelectedListener(this)
             planButton.setOnClickListener {
                 planId?.let {
                     host.launchPlanView(false, it)
@@ -249,17 +246,18 @@ abstract class TransactionDelegate<T : ITransaction>(
                 }
             }
             viewBinding.AttachImage.visibility = View.GONE
-        } else if (!isSplitPart) {
+        }
+        if (!isSplitPart) {
             //we set adapter even if spinner is not immediately visible, since it might become visible
             //after SAVE_AND_NEW action
             val recurrenceAdapter = RecurrenceAdapter(context)
             recurrenceSpinner.adapter = recurrenceAdapter
-            if (missingRecurrenceFeature() == null) {
-                recurrence?.let {
-                    recurrenceSpinner.setSelection(
-                        recurrenceAdapter.getPosition(it)
-                    )
+            recurrence?.let {
+                recurrenceSpinner.setSelection(recurrenceAdapter.getPosition(it))
+                if (isTemplate && it != Plan.Recurrence.NONE) {
+                    configurePlanDependents(true)
                 }
+                configureLastDayButton()
             }
             recurrenceSpinner.setOnItemSelectedListener(this)
         }
@@ -810,7 +808,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                     this.defaultAction =
                         Template.Action.values()[viewBinding.DefaultAction.selectedItemPosition]
-                    if (this.amount.amountMinor == 0L) {
+                    if (this.amount.amountMinor == 0L && forSave) {
                         if (plan == null && this.defaultAction == Template.Action.SAVE) {
                             host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
                             return null

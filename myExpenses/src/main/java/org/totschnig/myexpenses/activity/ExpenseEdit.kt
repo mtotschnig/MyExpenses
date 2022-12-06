@@ -24,6 +24,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Parcelable
 import android.provider.CalendarContract
 import android.view.*
 import android.widget.TextView
@@ -44,6 +45,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories.Companion.KEY_PROTECTION_INFO
@@ -76,6 +78,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Instantiation
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.*
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import java.io.Serializable
 import java.math.BigDecimal
@@ -633,7 +636,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             mNewInstance = true
         }
         //processing data from user switching operation type
-        val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as? Transaction
+        val cached = intent.getParcelableExtra(KEY_CACHED_DATA) as? CachedTransaction
         if (cached != null) {
             transaction.accountId = cached.accountId
             transaction.methodId = cached.methodId
@@ -643,20 +646,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             transaction.comment = cached.comment
             transaction.payee = cached.payee
             (transaction as? Template)?.let { template ->
-                (cached as? Template)?.let { cachedTemplate ->
-                    template.title = cachedTemplate.title
-                    template.isPlanExecutionAutomatic = cachedTemplate.isPlanExecutionAutomatic
-                    template.planExecutionAdvance = cachedTemplate.planExecutionAdvance
-
+                with(cached.cachedTemplate!!) {
+                    template.title = title
+                    template.isPlanExecutionAutomatic = isPlanExecutionAutomatic
+                    template.planExecutionAdvance = planExecutionAdvance
                 }
             }
             transaction.referenceNumber = cached.referenceNumber
             transaction.amount = cached.amount
             transaction.originalAmount = cached.originalAmount
             transaction.equivalentAmount = cached.equivalentAmount
-            intent.getParcelableExtra<Uri>(KEY_CACHED_PICTURE_URI).let {
-                transaction.pictureUri = it
-            }
+            transaction.pictureUri = cached.pictureUri
             setDirty()
         } else {
             intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let { it / 1000 }?.let {
@@ -673,13 +673,20 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             (applicationContext as MyApplication).appComponent
         )
         setupObservers(false)
+        if (intent.getBooleanExtra(KEY_CREATE_TEMPLATE, false)) {
+            createTemplate = true
+            delegate.setCreateTemplate(true)
+        }
         delegate.bindUnsafe(
             transaction,
             withTypeSpinner,
             null,
-            intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
+            cached?.recurrence,
             withAutoFill
         )
+        cached?.cachedTemplate?.date?.let {
+            delegate.planButton.setDate(it)
+        }
         if (accountsLoaded) {
             delegate.setAccount(null)
         }
@@ -691,6 +698,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             updateFab()
         }
         invalidateOptionsMenu()
+        cached?.tags?.let {
+            viewModel.updateTags(it, true)
+        }
     }
 
     private val saveAndNewPrefKey: PrefKey
@@ -1134,16 +1144,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 putExtra(Transactions.OPERATION_TYPE, newType)
                 if (isDirty) {
                     delegate.syncStateAndValidate(false)?.let {
-                        putExtra(KEY_CACHED_DATA, it)
-                        if (it.pictureUri != null) {
-                            putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
-                        }
+                        putExtra(
+                            KEY_CACHED_DATA, it.toCached(
+                                delegate.recurrenceSpinner.selectedItem as? Recurrence,
+                                delegate.planButton.date
+                            )
+                        )
                     }
-                    putExtra(
-                        KEY_CACHED_RECURRENCE,
-                        delegate.recurrenceSpinner.selectedItem as? Recurrence
-                    )
                 }
+                putExtra(KEY_CREATE_TEMPLATE, createTemplate)
             }
             finish()
             startActivity(restartIntent)
@@ -1441,13 +1450,65 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             }
     }
 
+    @Parcelize
+    data class CachedTransaction(
+        val accountId: Long,
+        val methodId: Long?,
+        val date: Long,
+        val valueDate: Long,
+        val crStatus: CrStatus,
+        val comment: String?,
+        val payee: String?,
+        val cachedTemplate: CachedTemplate?,
+        val referenceNumber: String?,
+        val amount: Money,
+        val originalAmount: Money?,
+        val equivalentAmount: Money?,
+        val pictureUri: Uri?,
+        val recurrence: Recurrence?,
+        val tags: List<Tag>?
+    ) : Parcelable
+
+    @Parcelize
+    data class CachedTemplate(
+        val title: String?,
+        val isPlanExecutionAutomatic: Boolean,
+        val planExecutionAdvance: Int,
+        val date: LocalDate
+    ) : Parcelable
+
+    private fun ITransaction.toCached(withRecurrence: Recurrence?, withPlanDate: LocalDate) =
+        CachedTransaction(
+            accountId,
+            methodId,
+            if (this is Template) plan?.dtStart ?: 0L else date,
+            valueDate,
+            crStatus,
+            comment,
+            payee,
+            (this as? Template)?.run {
+                CachedTemplate(
+                    title,
+                    isPlanExecutionAutomatic,
+                    planExecutionAdvance,
+                    withPlanDate
+                )
+            },
+            referenceNumber,
+            amount,
+            originalAmount,
+            equivalentAmount,
+            pictureUri,
+            withRecurrence,
+            viewModel.tagsLiveData.value
+        )
+
     companion object {
         const val KEY_NEW_TEMPLATE = "newTemplate"
         const val KEY_CLONE = "clone"
         const val KEY_TEMPLATE_FROM_TRANSACTION = "templateFromTransaction"
         private const val KEY_CACHED_DATA = "cachedData"
-        private const val KEY_CACHED_RECURRENCE = "cachedRecurrence"
-        private const val KEY_CACHED_PICTURE_URI = "cachedPictureUri"
+        const val KEY_CREATE_TEMPLATE = "createTemplate"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
         const val KEY_OCR_RESULT = "ocrResult"
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
