@@ -1,11 +1,10 @@
 package org.totschnig.myexpenses.model
 
-import android.content.ContentResolver
 import android.net.Uri
-import java.time.LocalDate
-import java.time.ZonedDateTime
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import java.time.LocalDate
+import java.time.ZonedDateTime
 
 interface ITransaction: IModel {
     var status: Int
