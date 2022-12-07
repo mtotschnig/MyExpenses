@@ -29,10 +29,12 @@ abstract class BaseAdHandler protected constructor(
         }
     }
 
+    open val shouldHideBanner = shouldHideAd
+
     override fun startBanner() {
         try {
             init()
-            if (shouldHideAd()) {
+            if (shouldHideBanner) {
                 hide()
             } else {
                 startBannerInternal()
@@ -81,11 +83,9 @@ abstract class BaseAdHandler protected constructor(
 
     abstract fun requestNewInterstitialDo()
 
-    fun shouldHideAd(): Boolean {
-        return factory.isAdDisabled || factory.isRequestLocationInEeaOrUnknown && !prefHandler.isSet(
-            PrefKey.PERSONALIZED_AD_CONSENT
-        )
-    }
+    private val shouldHideAd
+        get() = factory.isAdDisabled || factory.isRequestLocationInEeaOrUnknown &&
+                !prefHandler.isSet(PrefKey.PERSONALIZED_AD_CONSENT)
 
     protected open fun onInterstitialFailed() {
         if (parent != null) {
@@ -95,7 +95,7 @@ abstract class BaseAdHandler protected constructor(
 
     override fun onEditTransactionResult(): Boolean {
         try {
-            if (!shouldHideAd()) {
+            if (!shouldHideAd) {
                 init()
                 return maybeShowInterstitial()
             }
