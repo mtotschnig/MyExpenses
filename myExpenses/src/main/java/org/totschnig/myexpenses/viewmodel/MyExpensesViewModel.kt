@@ -32,9 +32,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
@@ -64,7 +64,7 @@ import javax.inject.Inject
 
 open class MyExpensesViewModel(
     application: Application,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -155,7 +155,7 @@ open class MyExpensesViewModel(
     val selectionState: MutableState<List<SelectionInfo>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
-    val selectionHandler = object: SelectionHandler {
+    val selectionHandler = object : SelectionHandler {
         override fun toggle(transaction: Transaction2) {
             selectionState.toggle(SelectionInfo(transaction))
         }
@@ -208,19 +208,18 @@ open class MyExpensesViewModel(
 
     val pageSize = if (BuildConfig.DEBUG) 1500 else 150
 
-    val items: Map<PageAccount, Flow<PagingData<Transaction2>>> =
-        lazyMap {
-            Pager(
-                PagingConfig(
-                    initialLoadSize = pageSize,
-                    pageSize = pageSize,
-                    prefetchDistance = 1,
-                    enablePlaceholders = true
-                ),
-                pagingSourceFactory = buildTransactionPagingSourceFactory(it)
-            )
-                .flow.cachedIn(viewModelScope)
-        }
+    val items: Map<PageAccount, Flow<PagingData<Transaction2>>> = lazyMap {
+        Pager(
+            PagingConfig(
+                initialLoadSize = pageSize,
+                pageSize = pageSize,
+                prefetchDistance = 1,
+                enablePlaceholders = true
+            ),
+            pagingSourceFactory = pagingSourceFactories.getValue(it)
+        )
+            .flow.cachedIn(viewModelScope)
+    }
 
     @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
     val pagerState = savedStateHandle.saveable("pagerState",
@@ -232,30 +231,33 @@ open class MyExpensesViewModel(
         PagerState()
     }
 
-    open fun buildTransactionPagingSourceFactory(account: PageAccount): () -> TransactionPagingSource =
-        {
-            TransactionPagingSource(
-                getApplication(),
-                account,
-                filterPersistence.getValue(account.id).whereFilterAsFlow,
-                viewModelScope
-            )
+    private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2>> = lazyMap {
+        ClearingLastPagingSourceFactory {
+            buildTransactionPagingSource(it)
         }
+    }
+
+    open fun buildTransactionPagingSource(account: PageAccount) =
+        TransactionPagingSource(
+            getApplication(),
+            account,
+            filterPersistence.getValue(account.id).whereFilterAsFlow,
+            viewModelScope
+        )
 
 
     val currentFilter: FilterPersistence
         get() = filterPersistence.getValue(selectedAccount)
 
-    val filterPersistence: Map<Long, FilterPersistence> =
-        lazyMap {
-            FilterPersistence(
-                prefHandler,
-                keyTemplate = prefNameForCriteria(accountId = it),
-                savedInstanceState = null,
-                immediatePersist = true,
-                restoreFromPreferences = true
-            )
-        }
+    val filterPersistence: Map<Long, FilterPersistence> = lazyMap {
+        FilterPersistence(
+            prefHandler,
+            keyTemplate = prefNameForCriteria(accountId = it),
+            savedInstanceState = null,
+            immediatePersist = true,
+            restoreFromPreferences = true
+        )
+    }
 
     val listState: Map<Long, LazyListState> =
         lazyMap { LazyListState(0, 0) }
@@ -678,6 +680,13 @@ open class MyExpensesViewModel(
                     pagerState.scrollToPage(it ?: 0)
                 }
             deferredAccountId = null
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        pagingSourceFactories.forEach {
+            it.value.clear()
         }
     }
 

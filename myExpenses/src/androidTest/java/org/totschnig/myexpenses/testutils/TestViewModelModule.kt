@@ -36,7 +36,7 @@ class DecoratingMyExpensesViewModel(application: Application,
 ) : MyExpensesViewModel(application, savedStateHandle) {
     val countingResource = CountingIdlingResource("TransactionPaging")
 
-    override fun buildTransactionPagingSourceFactory(account: PageAccount): () -> TransactionPagingSource = {
+    override fun buildTransactionPagingSource(account: PageAccount) =
         DecoratedTransactionPagingSource(
             getApplication(),
             account,
@@ -44,7 +44,6 @@ class DecoratingMyExpensesViewModel(application: Application,
             viewModelScope,
             countingResource
         )
-    }
 }
 
 class FakeSyncBackendViewModel(application: Application) :

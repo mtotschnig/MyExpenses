@@ -7,7 +7,6 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +33,7 @@ open class TransactionPagingSource(
     val whereFilter: StateFlow<WhereFilter>,
     coroutineScope: CoroutineScope
 ) :
-    PagingSource<Int, Transaction2>() {
+    ClearingPagingSource<Int, Transaction2>() {
 
     val contentResolver: ContentResolver
         get() = context.contentResolver
@@ -42,6 +41,7 @@ open class TransactionPagingSource(
     private val projection: Array<String>
     private var selection: String
     private var selectionArgs: Array<String>?
+    private val observer: ContentObserver
 
     init {
         account.loadingInfo().also {
@@ -50,7 +50,7 @@ open class TransactionPagingSource(
             selection = it.third
             selectionArgs = it.fourth
         }
-        val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
+        observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean) {
                 Timber.i("Data changed for account %d, now invalidating", account.id)
                 invalidate()
@@ -67,6 +67,10 @@ open class TransactionPagingSource(
                 invalidate()
             }
         }
+    }
+
+    override fun clear() {
+        contentResolver.unregisterContentObserver(observer)
     }
 
     override fun getRefreshKey(state: PagingState<Int, Transaction2>): Int? {
