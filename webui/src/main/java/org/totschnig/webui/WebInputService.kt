@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getWifiIpAddress
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.io.IOException
+import java.lang.ref.WeakReference
 import java.net.ServerSocket
 import java.security.Security
 import java.time.LocalDate
@@ -82,16 +83,14 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     private lateinit var wrappedContext: Context
 
-    private val binder = LocalBinder()
-
     private var serverStateObserver: ServerStateObserver? = null
 
     private var port: Int = 0
 
     private var useHttps: Boolean = false
 
-    inner class LocalBinder : WebUiBinder() {
-        override fun getService() = this@WebInputService
+    class LocalBinder(private val webInputService: WeakReference<WebInputService>) : WebUiBinder() {
+        override fun getService() = webInputService.get()
     }
 
     override fun onCreate() {
@@ -103,7 +102,7 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
-        return binder
+        return LocalBinder(WeakReference(this))
     }
 
     private var server: ApplicationEngine? = null

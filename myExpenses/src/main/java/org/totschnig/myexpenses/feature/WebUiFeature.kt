@@ -6,7 +6,7 @@ const val STOP_ACTION = "STOP_ACTION"
 const val START_ACTION = "START_ACTION"
 
 abstract class WebUiBinder: Binder() {
-    abstract fun getService(): IWebInputService
+    abstract fun getService(): IWebInputService?
 }
 
 interface IWebInputService {

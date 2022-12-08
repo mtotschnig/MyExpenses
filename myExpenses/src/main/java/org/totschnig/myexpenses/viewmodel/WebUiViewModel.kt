@@ -16,27 +16,28 @@ import org.totschnig.myexpenses.feature.WebUiBinder
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class WebUiViewModel(application: Application) : AndroidViewModel(application) {
-    private lateinit var webInputService: IWebInputService
+    private var webInputService: IWebInputService? = null
     private var webInputServiceBound: Boolean = false
     private val serviceState: MutableLiveData<Result<String?>> = MutableLiveData()
     fun getServiceState(): LiveData<Result<String?>> = serviceState
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            webInputService = (service as WebUiBinder).getService()
+            webInputService = (service as WebUiBinder).getService()?.apply {
+                registerObserver(object: ServerStateObserver {
+                    override fun postAddress(address: String) {
+                        serviceState.postValue(Result.success(address))
+                    }
+
+                    override fun postException(throwable: Throwable) {
+                        serviceState.postValue(Result.failure(throwable))
+                    }
+
+                    override fun onStopped() {
+                        serviceState.postValue(Result.success(null))
+                    }
+                })
+            }
             webInputServiceBound = true
-            webInputService.registerObserver(object: ServerStateObserver {
-                override fun postAddress(address: String) {
-                    serviceState.postValue(Result.success(address))
-                }
-
-                override fun postException(throwable: Throwable) {
-                    serviceState.postValue(Result.failure(throwable))
-                }
-
-                override fun onStopped() {
-                    serviceState.postValue(Result.success(null))
-                }
-            })
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
@@ -49,10 +50,14 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun unbind(context: Context) {
-        if (webInputServiceBound) {
-            context.unbindService(serviceConnection)
-            webInputServiceBound = false
-        }
+        context.unbindService(serviceConnection)
+        webInputService?.unregisterObserver()
+        webInputService = null
+        webInputServiceBound = false
+    }
+
+    override fun onCleared() {
+        super.onCleared()
     }
 
     companion object {
