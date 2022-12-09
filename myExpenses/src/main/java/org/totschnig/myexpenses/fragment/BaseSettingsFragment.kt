@@ -35,7 +35,6 @@ import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.MyApplication.FEEDBACK_EMAIL
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.Help
@@ -1319,7 +1318,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 if (which == OnDialogResultListener.BUTTON_POSITIVE) {
                     val logDir = File(requireContext().getExternalFilesDir(null), "logs")
                     startActivity(Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-                        putExtra(Intent.EXTRA_EMAIL, arrayOf(FEEDBACK_EMAIL))
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
                         putExtra(Intent.EXTRA_SUBJECT, "[${getString(R.string.app_name)}]: Logs")
                         type = "text/plain"
                         val arrayList = ArrayList(

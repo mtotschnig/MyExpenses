@@ -256,6 +256,16 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='redesign']" />
             </xsl:when>
+            <xsl:when test="$version = '3.4.7'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='synchronization']" />
+                <xsl:text>: </xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($aosp)/resources/string[@name='storage_description']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

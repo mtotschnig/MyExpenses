@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import static org.totschnig.myexpenses.MyApplication.FEEDBACK_EMAIL;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
@@ -366,7 +365,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
           licenceInfo += " (" + purchaseExtraInfo + ")";
         }
       }
-      sendEmail(FEEDBACK_EMAIL,
+      sendEmail(getString(R.string.support_email),
               "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback),
               String.format(Locale.ROOT,
                       "APP_VERSION:%s\nFIRST_INSTALL_VERSION:%d (DB_SCHEMA %d)\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",

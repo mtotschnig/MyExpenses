@@ -264,4 +264,5 @@
     <string name="title_requery">Requery SQLite</string>
     <string name="html">HTML</string>
     <string name="txt">TXT</string>
+    <string name="support_email">support@myexpenses.mobi</string>
 </resources>
