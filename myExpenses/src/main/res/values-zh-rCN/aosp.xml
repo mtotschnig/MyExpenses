@@ -31,5 +31,6 @@
     <string name="clear_cache">"清除缓存"</string>
     <string name="customize">"自定义"</string>
     <string name="compact">紧凑型</string>
+    <string name="storage_description">"本地存储空间"</string>
 </resources>
 

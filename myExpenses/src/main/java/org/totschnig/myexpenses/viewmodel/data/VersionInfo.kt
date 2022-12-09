@@ -82,6 +82,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             "346" -> arrayOf(
                 "${t(R.string.help_MyExpenses_title)}: ${t(R.string.redesign)}"
             )
+            "347" -> arrayOf(
+                "${t(R.string.synchronization)}: ${t(R.string.storage_description)}"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",

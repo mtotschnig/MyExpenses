@@ -14,7 +14,7 @@
     <string name="copy_text">"Copia negli appunti"</string>
     <string name="stop">"Interrompi"</string>
     <string name="style">"Stile"</string>
-    <string name="loading">"Caricamento..."</string>
+    <string name="loading">"Caricamento…"</string>
     <string name="no_network">"Nessuna connessione di rete disponibile."</string>
     <string name="button_label_continue">Continua</string>
     <string name="autofill">"Compilazione automatica"</string>
@@ -31,5 +31,6 @@
     <string name="clear_cache">"Svuota cache"</string>
     <string name="customize">"Personalizza"</string>
     <string name="compact">compatto</string>
+    <string name="storage_description">"Archiviazione locale"</string>
 </resources>
 

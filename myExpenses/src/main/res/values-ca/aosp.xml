@@ -31,5 +31,5 @@
     <string name="clear_cache">"Esborra la memòria cau"</string>
     <string name="customize">"Personalitza"</string>
     <string name="compact">compacte</string>
+    <string name="storage_description">"Emmagatzematge local"</string>
 </resources>
-

@@ -50,10 +50,12 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun unbind(context: Context) {
-        context.unbindService(serviceConnection)
-        webInputService?.unregisterObserver()
-        webInputService = null
-        webInputServiceBound = false
+        if (webInputServiceBound) {
+            context.unbindService(serviceConnection)
+            webInputService?.unregisterObserver()
+            webInputService = null
+            webInputServiceBound = false
+        }
     }
 
     override fun onCleared() {

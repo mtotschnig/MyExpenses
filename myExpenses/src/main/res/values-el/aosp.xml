@@ -31,5 +31,6 @@
     <string name="clear_cache">"Εκκαθάριση προσωρινής μνήμης"</string>
     <string name="customize">"Προσαρμογή"</string>
     <string name="compact">Συμπαγές</string>
+    <string name="storage_description">"Τοπικός χώρος αποθήκευσης"</string>
 </resources>
 

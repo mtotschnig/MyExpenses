@@ -32,5 +32,6 @@
     <string name="clear_cache">"தற்காலிகச் சேமிப்பை அழி"</string>
     <string name="customize">"பிரத்தியேகமாக்கு"</string>
     <string name="compact">வசதியான</string>
+    <string name="storage_description">"சாதனச் சேமிப்பகம்"</string>
 </resources>
 

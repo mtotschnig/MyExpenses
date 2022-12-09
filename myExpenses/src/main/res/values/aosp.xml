@@ -52,5 +52,7 @@
     <string name="customize">Customize</string>
     <!-- inputmethods/LatinIME/java/res/values/string.xml name="subtype_generic_compact" -->
     <string name="compact">Compact</string>
+    <!-- providers/MediaProvider/res/values/strings.xml -->
+    <string name="storage_description">Local storage</string>
 </resources>
 

@@ -32,5 +32,6 @@
     <string name="clear_cache">"ניקוי המטמון"</string>
     <string name="customize">"התאמה אישית"</string>
     <string name="compact">קומפקטית</string>
+    <string name="storage_description">"אחסון מקומי"</string>
 </resources>
 

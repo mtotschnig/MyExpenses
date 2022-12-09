@@ -32,5 +32,6 @@
     <string name="clear_cache">"Очистити кеш"</string>
     <string name="customize">"Налаштувати"</string>
     <string name="compact">компактна</string>
+    <string name="storage_description">"Локальна пам’ять"</string>
 </resources>
 

@@ -31,5 +31,6 @@
     <string name="clear_cache">"Vider le cache"</string>
     <string name="customize">"Personnaliser"</string>
     <string name="compact">Compact</string>
+    <string name="storage_description">"Stockage local"</string>
 </resources>
 

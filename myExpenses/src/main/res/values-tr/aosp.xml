@@ -31,5 +31,6 @@
     <string name="clear_cache">"Önbelleği temizle"</string>
     <string name="customize">"Özelleştir"</string>
     <string name="compact">Kompakt</string>
+    <string name="storage_description">"Yerel depolama"</string>
 </resources>
 

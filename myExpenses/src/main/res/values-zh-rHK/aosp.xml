@@ -31,5 +31,6 @@
     <string name="clear_cache">"清除快取"</string>
     <string name="customize">"自訂"</string>
     <string name="compact">精簡版</string>
+    <string name="storage_description">"本機儲存空間"</string>
 </resources>
 

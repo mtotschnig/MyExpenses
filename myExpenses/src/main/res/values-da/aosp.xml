@@ -32,5 +32,6 @@
     <string name="clear_cache">"Ryd cache"</string>
     <string name="customize">"Tilpas"</string>
     <string name="compact">kompakt</string>
+    <string name="storage_description">"Lokalt lager"</string>
 </resources>
 

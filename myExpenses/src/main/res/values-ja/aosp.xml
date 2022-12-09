@@ -32,5 +32,6 @@
     <string name="clear_cache">"キャッシュを削除"</string>
     <string name="customize">"カスタマイズ"</string>
     <string name="compact">コンパクト</string>
+    <string name="storage_description">"ローカル ストレージ"</string>
 </resources>
 

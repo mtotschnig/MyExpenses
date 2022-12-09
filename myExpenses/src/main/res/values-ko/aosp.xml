@@ -32,5 +32,6 @@
     <string name="clear_cache">"캐시 지우기"</string>
     <string name="customize">"맞춤설정"</string>
     <string name="compact">컴팩트</string>
+    <string name="storage_description">"로컬 저장소"</string>
 </resources>
 

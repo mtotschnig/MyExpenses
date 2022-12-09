@@ -146,10 +146,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.HELP_COMMAND) {
             when {
-                matches(preferenceScreen, PrefKey.PERFORM_SHARE) -> {
+                onScreen(PrefKey.PERFORM_SHARE) -> {
                     preferenceActivity.startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options")
                 }
-                matches(preferenceScreen, PrefKey.UI_WEB) -> {
+                onScreen(PrefKey.UI_WEB) -> {
                     startActivity(Intent(requireContext(), Help::class.java).apply {
                         putExtra(HelpDialogFragment.KEY_CONTEXT, "WebUI")
                         putExtra(
@@ -191,7 +191,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
             }
         }
-        if(matches(preferenceScreen, PrefKey.UI_WEB)) {
+        if(onScreen(PrefKey.UI_WEB)) {
             webUiViewModel.getServiceState().observe(this) { result ->
                 preferenceActivity.supportActionBar?.let { actionBar ->
                     (actionBar.customView as? SwitchCompat)?.let { switch ->
@@ -208,12 +208,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
         }
-        setHasOptionsMenu(matches(preferenceScreen, PrefKey.PERFORM_SHARE, PrefKey.UI_WEB))
+        setHasOptionsMenu(onScreen(PrefKey.PERFORM_SHARE, PrefKey.UI_WEB))
     }
 
     override fun onStart() {
         super.onStart()
-        if (featureManager.isFeatureInstalled(Feature.WEBUI, requireContext())) {
+        if (onScreen(PrefKey.UI_WEB) && featureManager.isFeatureInstalled(Feature.WEBUI, requireContext())) {
             bindToWebUiService()
         }
     }
@@ -338,6 +338,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             true
         } else false
+
+    private fun onScreen(vararg prefKey: PrefKey) = matches(preferenceScreen, *prefKey)
 
     fun matches(preference: Preference, vararg prefKey: PrefKey) =
         prefKey.any { prefHandler.getKey(it) == preference.key }
@@ -574,7 +576,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun setProtectionDependentsState() {
-        if (matches(preferenceScreen, PrefKey.ROOT_SCREEN, PrefKey.PERFORM_PROTECTION_SCREEN)) {
+        if (onScreen(PrefKey.ROOT_SCREEN, PrefKey.PERFORM_PROTECTION_SCREEN)) {
             val isLegacy = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
             val isProtected =
                 isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
@@ -603,7 +605,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun configureContribPrefs() {
-        if (!matches(preferenceScreen, PrefKey.ROOT_SCREEN)) {
+        if (!onScreen(PrefKey.ROOT_SCREEN)) {
             return
         }
         val contribPurchasePref = requirePreference<Preference>(PrefKey.CONTRIB_PURCHASE)
@@ -1060,7 +1062,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
      * @return true if we have handle the given key as a subScreen
      */
     fun handleScreenWithMasterSwitch(prefKey: PrefKey, disableDependents: Boolean): Boolean {
-        if (matches(preferenceScreen, prefKey)) {
+        if (onScreen(prefKey)) {
             preferenceActivity.supportActionBar?.let { actionBar ->
                 val status = prefHandler.getBoolean(prefKey, false)
                 val actionBarSwitch = requireActivity().layoutInflater.inflate(
@@ -1088,7 +1090,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
             return true
-        } else if (matches(preferenceScreen, PrefKey.ROOT_SCREEN)) {
+        } else if (onScreen(PrefKey.ROOT_SCREEN)) {
             setOnOffSummary(prefKey)
         }
         return false

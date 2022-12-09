@@ -32,5 +32,6 @@
     <string name="clear_cache">"Garbitu cachea"</string>
     <string name="customize">"Pertsonalizatua"</string>
     <string name="compact">trinkoa</string>
+    <string name="storage_description">"Biltegi lokala"</string>
 </resources>
 
