@@ -150,7 +150,7 @@
     <string name="cab_remove_help_text">Eliminar el servicio seleccionado.</string>
     <string name="cab_sync_download_help_text">Descargar una cuenta que esté disponible en el servicio. Se creará una cuenta local y se configurará para la sincronización con el servicio.</string>
     <string name="cab_sync_link_help_text">Comenzar la sincronización para una cuenta que existe tanto de forma local como de forma remota. Necesitará decidir si se guardan los datos locales o remotos durante la primera sincronización.</string>
-    <string name="cab_sync_unlink_help_text">La cuenta seleccionada no se volverá a sincronizar con el servicio.</string>
+    <string name="cab_sync_unlink_help_text">La cuenta seleccionada ya no se sincronizará con el backend</string>
     <string name="help_HistoryActivity_info">Esta pantalla muestra tu flujo de efectivo, cómo tus gastos e ingresos evolucionan a lo largo de años, meses, semanas o días.</string>
     <string name="menu_HistoryActivity_grouping_help_text">Cambie entre diario, semanal, mensual o anual al agrupar la información del flujo de efectivo.</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">Cambie la visibilidad del balance.</string>
@@ -163,7 +163,7 @@
     <string name="menu_budget_aggregate_help_text">Por defecto, las sumas calculadas incluyen tanto gastos como ingresos. Si desactiva esta opción, se ignorarán los ingresos, teniendo en cuento sólo los gastos.</string>
     <string name="menu_budget_allocated_only_help_text">Activando esta opción, sólo se mostrarán las categorías que hayan sido asignadas al mismo monto.</string>
     <string name="menu_BudgetActivity_delete_help_text">Se eliminará el actual presupuesto que se muestra.</string>
-    <string name="help_ManageBudgets_title">Lista de todos los presupuestos.</string>
+    <string name="help_ManageBudgets_title">Lista de todos los presupuestos</string>
     <string name="help_ManageBudgets_info">Esta pantalla muestra un resumen de todos los presupuestos que ha creado. Use el botón de acción flotante para crear un nuevo presupuesto. Haciendo clic en una entrada de la lista mostrará un único presupuesto.</string>
     <string name="help_BudgetEdit_title">Formulario para presupuestos</string>
     <string name="help_BudgetEdit_info">Use este formulario para crear un nuevo presupuesto o editar uno existente.</string>
@@ -196,4 +196,10 @@
     <string name="help_WebUI_info_1">Pasar la URL que aparece en el subtítulo desde un navegador web en el ordenador de sobremesa.</string>
     <string name="help_WebUI_info_2">Actualmente, la interfaz de usuario de la web no admite transferencias ni transacciones divididas.</string>
     <string name="help_WebUI_info_3">Puede configurar una contraseña para proteger el acceso. Sólo se tendrá en cuenta la contraseña en el diálogo presentado por el navegador web, el nombre de usuario será ignorado.</string>
+    <string name="menu_BudgetActivity_rollover_categories">El remanente de cada categoría se transfiere, y la asignación correspondiente en el próximo período se verá afectada.</string>
+    <string name="help_Budget_amount_click_1">Cambiar una cantidad nunca afecta los períodos pasados. A menos que elija configurarlo solo para el período actual, afectará los períodos futuros.</string>
+    <string name="menu_BudgetActivity_rollover_total">Solo se transfiere el resto del presupuesto total, por lo que solo aumenta o disminuye el presupuesto total para el siguiente período.</string>
+    <string name="menu_BudgetActivity_rollover_edit">Esta opción le permite configurar con precisión los informes. Por ejemplo, puede establecer traspasos parciales solo para ciertas categorías o subcategorías y traspasar la parte restante al presupuesto total.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">Si gasta menos o más de su presupuesto, puede transferir la diferencia al próximo período, de modo que la cantidad que puede asignar allí aumente o disminuya. Hay tres opciones:</string>
+    <string name="cab_MyExpenses_select_help_text">La selección múltiple se puede iniciar seleccionando este comando o tocando prolongadamente una entrada en la lista.</string>
 </resources>
