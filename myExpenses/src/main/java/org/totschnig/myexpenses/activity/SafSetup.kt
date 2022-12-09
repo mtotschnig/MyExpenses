@@ -15,8 +15,8 @@ import org.totschnig.myexpenses.util.io.displayName
 
 class SafSetup : ProtectedFragmentActivity() {
     private val restoreRequest =
-        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
-            it?.let { uri ->
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+            if (uri != null) {
                 contentResolver.takePersistableUriPermission(
                     uri,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
@@ -34,9 +34,9 @@ class SafSetup : ProtectedFragmentActivity() {
                             putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, uri.toString())
                         })
                     })
-                    finish()
                 }
             }
+            finish()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {

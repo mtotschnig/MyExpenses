@@ -1186,6 +1186,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
             matches(preference, PrefKey.APP_DIR) -> {
+                // TODO migrate to ActivityResultContracts.OpenDocumentTree
                 //noinspection InlinedApi
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
                     viewModel.appDirInfo.value?.getOrNull()?.uri?.let {
