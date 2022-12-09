@@ -1,2 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="dialog_remind_rate_1">براہ کرم {app_name} کی درجہ بندی کرنے اور جائزہ لینے کے لیے تھوڑا وقت نکالیں۔</string>
+    <string name="dialog_password_new_password">نیا پاس ورڈ</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">براہ کرم ہمیں بہتری کے لیے اپنی تجاویز بھیجنے کے لیے تھوڑا وقت نکالیں.</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">آپ اسے اپنی موجودہ لائسنس کی حیثیت (%2$s) کے ساتھ %1$d بار تک استعمال کر سکتے ہیں۔</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">آپ کی موجودہ لائسنس کی حیثیت (%2$s) آپ کو %1$d اکاؤنٹس بنانے کی اجازت دیتی ہے۔</string>
+    <string name="account_type_asset">اثاثہ اکاؤنٹ</string>
+    <string name="account_type_asset_plural">اثاثہ جات کے اکاؤنٹس</string>
+    <string name="account_type_bank">بینک اکاؤنٹ</string>
+    <string name="account_type_bank_plural">بینک اکاؤنٹ</string>
+    <string name="account_type_cash">کیش اکاؤنٹ</string>
+    <string name="account_type_cash_plural">کیش اکاؤنٹس</string>
+    <string name="account_type_ccard">کریڈٹ کارڈ</string>
+    <string name="account_type_ccard_plural">کریڈٹ کارڈ</string>
+    <string name="account_type_liability">واجبات کا اکاؤنٹ</string>
+    <string name="account_type_liability_plural">واجبات کے اکاؤنٹس</string>
+    <string name="already_defined">%1$sپہلے ہی بیان کیا گیا ہے</string>
+    <string name="amount">رقم</string>
+    <string name="category">قسم</string>
+    <string name="color">رنگ</string>
+    <string name="comment">نوٹس</string>
+    <string name="confirmation_dialog_dont_show_again">پھر سے مت دکھاو</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">کوئی اشتہار نہیں</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">اکاؤنٹس کی لامحدود تعداد</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">لین دین میں تصویر منسلک کریں</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">پائی چارٹ (تقسیم فی زمر)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">منصوبوں کی لامحدود تعداد</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">لین دین کی فہرست PDF میں برآمد کریں</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV درآمد</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">تقسیم ٹیمپلیٹس کی لامحدود تعداد</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">تاریخ کا چارٹ</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">زمرے کا درخت</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 کاروباری دنوں کے اندر ضمانت شدہ جواب کے ساتھ <b>ای میل سپورٹ</b></string>
+    <string name="licence_status_free">مفت</string>
+    <string name="contrib_key">کنٹریب کلید</string>
+    <string name="extended_key">توسیعی کلید</string>
+    <string name="contrib_key_requires">%1$s کی ضرورت ہے.</string>
+    <string name="currency">کرنسی</string>
+    <string name="current_balance">موجودہ بیلنس</string>
+    <string name="date">تاریخ</string>
+    <string name="date_format">تاریخ کی شکل</string>
+    <string name="date_format_illegal">تاریخ کی غیر قانونی شکل</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>ترقیاتی روڈ میپ</b> پر ووٹنگ کا حق</string>
+    <string name="decimal_separator">اعشاریہ الگ کرنے والا</string>
+    <string name="description">تفصیل</string>
+    <string name="dialog_balance_delete">مصالحت شدہ لین دین کو حذف کریں</string>
+    <string name="dialog_confirm_discard_changes">تبدیلیاں مسترد کریں؟</string>
+    <string name="dialog_confirm_discard_new_transaction">نئی ٹرانزیکشن کو مسترد کریں؟</string>
+    <string name="dialog_confirm_discard_new_template">نئے تمثیل کو مسترد کریں؟</string>
+    <string name="dialog_confirm_discard_new_account">نیا اکاؤنٹ مسترد کریں؟</string>
+    <string name="dialog_confirm_discard_new_method">ادائیگی کا نیا طریقہ مسترد کریں؟</string>
+    <string name="dialog_command_disabled_balance">مصالحت کے لیے کوئی کلیئر شدہ لین دین نہیں۔</string>
+    <string name="dialog_command_disabled_insert_transfer">ٹرانسفر ٹرانزیکشنز کے لیے دوسرا اکاؤنٹ درکار ہوتا ہے۔</string>
+    <string name="dialog_command_disabled_reset_account">برآمد کرنے کے لیے کوئی لین دین نہیں۔</string>
+    <string name="dialog_contrib_no">کوشش کریں</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> کو اوپن سورس پیش کیا جاتا ہے۔</string>
+    <string name="dialog_contrib_text_2">براہ کرم <i>{app_name}</i> کو اپ گریڈ کرکے تعاون کریں اور درج ذیل خصوصیات تک غیر محدود رسائی حاصل کریں:</string>
+    <string name="dialog_contrib_usage_count">مفت استعمال رہ گئے ہیں</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">آپ اسے اپنی موجودہ لائسنس کی حیثیت (%2$s) کے ساتھ %1$d دنوں تک استعمال کر سکتے ہیں۔</string>
+    <string name="dialog_contrib_premium_feature">%1$s ایک پریمیم خصوصیت ہے (%2$s)</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">آپ کی موجودہ لائسنس کی حیثیت (%2$s) آپ کو %1$d منصوبے بنانے کی اجازت دیتی ہے۔</string>
+    <string name="dialog_export_delete">برآمد شدہ لین دین کو حذف کریں</string>
+    <string name="dialog_export_not_yet_exported">ایکسپورٹ صرف ٹرانزیکشنز ابھی تک ایکسپورٹ نہیں ہوئی ہیں</string>
+    <string name="dialog_password_activate_protection">پاس ورڈ کے تحفظ کو چالو کریں</string>
+    <string name="dialog_password_change_password">پاس ورڈ تبدیل کریں</string>
+    <string name="dialog_password_new_password_confirmation">نیا پاس ورڈ (تصدیق)</string>
+    <string name="dialog_remind_later">بعد میں</string>
+    <string name="dialog_remind_rate_how_many_stars">آپ {app_name} کو کتنے ستارے دیں گے؟</string>
+    <string name="dialog_remind_rate_2">آپ کے تبصرے ہمیں مسلسل بہتری اور اضافہ کرنے کی اجازت دیتے ہیں.</string>
+    <string name="dialog_remind_rate_yes">ابھی درجہ بندی کریں</string>
+    <string name="dialog_security_answer">جواب دیں</string>
+    <string name="dialog_security_question">سوال</string>
+    <string name="dialog_title_information">معلومات</string>
+    <string name="dialog_title_balance_account">بیلنس %1$s</string>
+    <string name="dialog_title_contrib_feature">پریمیم خصوصیت</string>
+    <string name="account">کھاتہ</string>
+    <string name="account_types">اکاؤنٹ کی اقسام</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ٹیمپلیٹ ویجیٹ</string>
+    <string name="app_name">میرے اخراجات</string>
+    <string name="backup_success">ڈیٹا بیس اور ترجیحات کامیابی کے ساتھ\" %1$s\" میں لکھی گئیں۔</string>
+    <string name="number_format_illegal">غیر قانونی نمبر فارمیٹ</string>
+    <string name="default_account_name">بجٹ کی کتاب</string>
+    <string name="dialog_command_disabled_distribution">اس اکاؤنٹ میں کسی بھی لین دین کو زمرہ جات میں میپ نہیں کیا گیا ہے۔</string>
+    <string name="dialog_contrib_reminder_remove_limitation">اس حد کو ہٹائیں اور اپ گریڈ کرکے مزید خصوصیات تک رسائی حاصل کریں۔ <i>{app_name}</i>.</string>
+</resources>

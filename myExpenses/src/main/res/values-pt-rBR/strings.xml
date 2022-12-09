@@ -1029,4 +1029,6 @@
     <string name="dialog_confirm_rollover_delete">Todos os montantes de prorrogações para este período serão excluídos.</string>
     <string name="content_description_attachment">Anexo</string>
     <string name="redesign">Redesenhar</string>
+    <string name="upgrade_info_557">O que você acha do novo visual\? Por favor, nos informe. Uma variante mais próxima do visual antigo pode ser ativada nas Configurações (%1$s -&gt; %2$s).</string>
+    <string name="select_all_list_too_large">O comando %s não está disponível porque a lista foi apenas parcialmente carregada. Por favor, use a funcionalidade Pesquisar para reduzir o tamanho da lista.</string>
 </resources>
