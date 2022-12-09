@@ -34,9 +34,11 @@ class SafSetup : ProtectedFragmentActivity() {
                             putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, uri.toString())
                         })
                     })
+                    finish()
                 }
+            } else {
+                finish()
             }
-            finish()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
