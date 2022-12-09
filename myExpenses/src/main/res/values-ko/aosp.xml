@@ -33,5 +33,6 @@
     <string name="customize">"맞춤설정"</string>
     <string name="compact">컴팩트</string>
     <string name="storage_description">"로컬 저장소"</string>
+    <string name="encryption">"암호화"</string>
 </resources>
 

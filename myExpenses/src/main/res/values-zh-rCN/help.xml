@@ -76,7 +76,7 @@
     <string name="menu_distribution_help_text">按类别显示您的开支分布。您还可以长按某一组别表头来查看特定期间的开支分布。</string>
     <string name="help_ManageBudgets_info">该界面汇总了您所创建的所有预算。可使用悬浮按钮创建新预算。点击列表条目显示单个预算。</string>
     <string name="help_ManageBudgets_title">列明所有预算的清单</string>
-    <string name="help_ManageSyncBackends_webdav">WebDAV：如果您的云存储提供商支持此项协议，则My Expenses能够与之进行数据同步。sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
+    <string name="help_ManageSyncBackends_webdav">如果您的云存储提供商支持此项协议，则My Expenses能够与之进行数据同步。sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
     <string name="help_ManageSyncBackends_intro">My Expenses允许为每个账户配置不同的同步后台。例如，您可以将某一账户与共享文件夹同步，同时可以将另一账户与私人文件夹同步。在该界面上，您可以添加或移除同步后台，开始或停止与远程账户进行同步。同步会定期自动进行，您可在此处手动触发与某一后台进行同步。请注意，My Expenses需要对远程文件夹获得全权控制。您不得使用其他工具或接口更改该文件夹内容，因为该操作可能会导致同步失败。</string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">通过关闭账户，您可以阻止对该账户的数据做出任何更改（增加、删除、编辑），但仍然可在统计计算时将其纳入其中。</string>
     <string name="cab_NavigationDrawer_hide_help_text">将账户从清单中移除。</string>
@@ -84,7 +84,7 @@
     <string name="form_category_help_text">该按钮可打开类别列表，您可以选择某一类别来映射该交易。</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">指定该项目转出或转入的账户。</string>
     <string name="help_MethodEdit_title">支付方式表单</string>
-    <string name="help_ManageSyncBackends_drive">Google Drive：选择你自己拥有或与您共享的文件夹。</string>
+    <string name="help_ManageSyncBackends_drive">选择你自己拥有或与您共享的文件夹。</string>
     <string name="help_ManageParties_floating_action_button">使用悬浮操作按钮添加一个新条目。</string>
     <string name="help_ManageParties_select_filter_info">轻按某一交易方，以对交易清单进行筛选。长按可选择多个交易方。</string>
     <string name="help_ManageParties_manage_info">该界面列出了用以自动填写付款人/收款人字段的交易方。</string>

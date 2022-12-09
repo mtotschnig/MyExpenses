@@ -33,5 +33,6 @@
     <string name="customize">"Pertsonalizatua"</string>
     <string name="compact">trinkoa</string>
     <string name="storage_description">"Biltegi lokala"</string>
+    <string name="encryption">"Enkriptatzea"</string>
 </resources>
 

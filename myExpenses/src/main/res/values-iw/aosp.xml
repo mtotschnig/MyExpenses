@@ -33,5 +33,6 @@
     <string name="customize">"התאמה אישית"</string>
     <string name="compact">קומפקטית</string>
     <string name="storage_description">"אחסון מקומי"</string>
+    <string name="encryption">"הצפנה"</string>
 </resources>
 

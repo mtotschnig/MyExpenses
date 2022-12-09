@@ -33,5 +33,6 @@
     <string name="customize">"カスタマイズ"</string>
     <string name="compact">コンパクト</string>
     <string name="storage_description">"ローカル ストレージ"</string>
+    <string name="encryption">"暗号化"</string>
 </resources>
 

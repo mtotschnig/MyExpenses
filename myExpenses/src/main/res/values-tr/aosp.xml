@@ -32,5 +32,6 @@
     <string name="customize">"Özelleştir"</string>
     <string name="compact">Kompakt</string>
     <string name="storage_description">"Yerel depolama"</string>
+    <string name="encryption">"Şifreleme"</string>
 </resources>
 

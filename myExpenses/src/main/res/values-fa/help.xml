@@ -65,7 +65,7 @@
     <string name="menu_FolderBrowser_select_help_text">انتخاب پوشه‌ٔ فعلی به عنوان مقصد ذخیرهٔ نسخه‌های پشتیبان.</string>
     <string name="menu_create_account_help_text">حساب جدیدی بسازید. در نسخهٔ رایگان می‌توانید تا پنج حساب بسازید.</string>
     <string name="cab_NavigationDrawer_hide_help_text">حذف کردن حساب از لیست.</string>
-    <string name="help_ManageSyncBackends_drive">درایو گوگل: یک پوشه که مال شماست یا با شما به اشتراک گذاشته شده‌است انتخاب کنید.</string>
+    <string name="help_ManageSyncBackends_drive"> یک پوشه که مال شماست یا با شما به اشتراک گذاشته شده‌است انتخاب کنید.</string>
     <string name="popup_MyExpenses_toolbar_intro">با ضربه زدن بر روی نوار ابزار (برچسب حساب یا موجودی فعلی) منویی با ورودی های زیر ظاهر می شود:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">موجودی فعلی را در کلیپ بورد کپی کنید.</string>
     <string name="cab_link_help_text">هزینه در یک حساب را می توان با درآمد در حساب دیگر مرتبط کرد. اگر حساب ها دارای ارز یکسانی باشند، دو تراکنش باید دارای مبالغ یکسان باشند.</string>

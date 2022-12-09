@@ -33,5 +33,6 @@
     <string name="customize">"Personalizați"</string>
     <string name="compact">Compact</string>
     <string name="storage_description">"Stocare locală"</string>
+    <string name="encryption">"Criptare"</string>
 </resources>
 

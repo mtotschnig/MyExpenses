@@ -32,5 +32,6 @@
     <string name="customize">"自定义"</string>
     <string name="compact">紧凑型</string>
     <string name="storage_description">"本地存储空间"</string>
+    <string name="encryption">"加密"</string>
 </resources>
 

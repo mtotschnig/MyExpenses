@@ -33,5 +33,6 @@
     <string name="customize">"Налаштувати"</string>
     <string name="compact">компактна</string>
     <string name="storage_description">"Локальна пам’ять"</string>
+    <string name="encryption">"Шифрування"</string>
 </resources>
 

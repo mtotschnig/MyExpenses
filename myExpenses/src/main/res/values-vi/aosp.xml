@@ -32,5 +32,6 @@
     <string name="customize">"Tùy chỉnh"</string>
     <string name="compact">Viết tắt</string>
     <string name="storage_description">"Bộ nhớ cục bộ"</string>
+    <string name="encryption">"Mã hóa"</string>
 </resources>
 

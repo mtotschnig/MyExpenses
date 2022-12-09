@@ -33,5 +33,6 @@
     <string name="customize">"பிரத்தியேகமாக்கு"</string>
     <string name="compact">வசதியான</string>
     <string name="storage_description">"சாதனச் சேமிப்பகம்"</string>
+    <string name="encryption">"என்க்ரிப்ட்"</string>
 </resources>
 

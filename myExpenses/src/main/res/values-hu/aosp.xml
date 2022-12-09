@@ -32,5 +32,6 @@
     <string name="customize">"Személyre szabás"</string>
     <string name="compact">kompakt</string>
     <string name="storage_description">"Helyi tárhely"</string>
+    <string name="encryption">"Titkosítás"</string>
 </resources>
 

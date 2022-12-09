@@ -33,5 +33,6 @@
     <string name="customize">"Prilagodi"</string>
     <string name="compact">kompaktna</string>
     <string name="storage_description">"Lokalna pohrana"</string>
+    <string name="encryption">"Enkripcija"</string>
 </resources>
 

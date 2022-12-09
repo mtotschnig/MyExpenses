@@ -22,18 +22,18 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
         prefix: String
     ): String =
         item.split(".").joinToString("/") {
-            resolveStringOrThrowIf0((if (prefix == "form") "" else "menu_") + it)
+            getStringOrThrowIf0((if (prefix == "form") "" else "menu_") + it)
         }
 
     fun resolveStringOrArray(
         resString: String,
         separateComponentsByLineFeeds: Boolean
     ): CharSequence? {
+        fun toTitle(resId: Int) = SpannableStringBuilder()
+            .append(" ")
+            .bold { append(getString(resId)) }
+            .append(": ")
         return if (resString == "menu_BudgetActivity_rollover_help_text") {
-            fun toTitle(resId: Int ) = SpannableStringBuilder()
-                .append(" ")
-                .bold { append(getString(resId)) }
-                .append(": ")
             TextUtils.concat(*buildList {
                 add(getString(R.string.menu_BudgetActivity_rollover_help_text))
                 add(toTitle(R.string.menu_aggregates))
@@ -65,35 +65,38 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                 val components = resources.getStringArray(arrayId)
                     .filter { component -> !shouldSkip(component) }
                     .map { component -> handle(component) }
-                val resolvedComponents = ArrayList<CharSequence>()
-                for (i in components.indices) {
-                    resolvedComponents.add(
-                        HtmlCompat.fromHtml(
-                            components[i],
-                            HtmlCompat.FROM_HTML_MODE_LEGACY,
-                            this,
-                            null
+                TextUtils.concat(*buildList {
+                    for (i in components.indices) {
+                        this.add(
+                            HtmlCompat.fromHtml(
+                                components[i],
+                                HtmlCompat.FROM_HTML_MODE_LEGACY,
+                                this@HelpDialogHelper,
+                                null
+                            )
                         )
-                    )
-                    if (i < components.size - 1) {
-                        resolvedComponents.add(if (separateComponentsByLineFeeds) linefeed else " ")
+                        if (i < components.size - 1) {
+                            this.add(if (separateComponentsByLineFeeds) linefeed else " ")
+                        }
                     }
-                }
-                TextUtils.concat(*resolvedComponents.toTypedArray())
+                }.toTypedArray())
             }
         }
     }
 
     private fun handle(component: String) = if (component.startsWith("popup")) {
-        resolveStringOrThrowIf0(component + "_intro") + " " + resources.getStringArray(
-            resolveArray(
-                component + "_items"
-            )
-        ).joinToString(" ") {
-            "<b>${resolveStringOrThrowIf0(it)}</b>: ${resolveStringOrThrowIf0(component + "_" + it)}"
-        }
+        getStringOrThrowIf0(component + "_intro") + " " +
+                resources.getStringArray(
+                    resolveArray(
+                        component + "_items"
+                    )
+                ).joinToString(" ") {
+                    "<b>${getStringOrThrowIf0(it)}</b>: ${getStringOrThrowIf0(component + "_" + it)}"
+                }
     } else {
-        resolveStringOrThrowIf0(component)
+        (getStringOrNull(component + "_title")
+            ?.let { "<b>$it</b> " } ?: "") +
+                getStringOrThrowIf0(component)
     }
 
     private fun shouldSkip(component: String) = when (component) {
@@ -110,15 +113,18 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
      * the resulting exception is caught and empty String is returned.
      */
     @Throws(Resources.NotFoundException::class)
-    fun resolveStringOrThrowIf0(resIdString: String) = when (resIdString) {
+    fun getStringOrThrowIf0(resIdString: String) = when (resIdString) {
         "menu_categories_export" -> {
             resources.getString(R.string.export_to_format, "QIF")
         }
         else -> {
-            resolveString(resIdString).takeIf { it != 0 }?.let { getString(it) }
-                ?: throw Resources.NotFoundException(resIdString)
+            getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
         }
     }
+
+    fun getStringOrNull(resIdString: String) = resolveString(resIdString)
+        .takeIf { it != 0 }
+        ?.let { getString(it) }
 
     private fun getString(resId: Int) = resources.getString(resId)
 

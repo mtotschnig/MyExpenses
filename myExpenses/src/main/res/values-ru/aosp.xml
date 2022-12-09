@@ -32,5 +32,6 @@
     <string name="customize">"Другой"</string>
     <string name="compact">компактная раскладка</string>
     <string name="storage_description">"Локальное хранилище"</string>
+    <string name="encryption">"Шифрование"</string>
 </resources>
 

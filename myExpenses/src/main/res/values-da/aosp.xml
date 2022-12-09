@@ -33,5 +33,6 @@
     <string name="customize">"Tilpas"</string>
     <string name="compact">kompakt</string>
     <string name="storage_description">"Lokalt lager"</string>
+    <string name="encryption">"Kryptering"</string>
 </resources>
 

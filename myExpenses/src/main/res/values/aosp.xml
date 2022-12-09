@@ -54,5 +54,7 @@
     <string name="compact">Compact</string>
     <!-- providers/MediaProvider/res/values/strings.xml -->
     <string name="storage_description">Local storage</string>
+    <!--apps/Settings/res/values/strings crypt_keeper_settings_title  -->
+    <string name="encryption">Encryption</string>
 </resources>
 

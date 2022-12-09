@@ -32,4 +32,5 @@
     <string name="customize">"Personalitza"</string>
     <string name="compact">compacte</string>
     <string name="storage_description">"Emmagatzematge local"</string>
+    <string name="encryption">"Encriptació"</string>
 </resources>

@@ -32,5 +32,6 @@
     <string name="customize">"Anpassen"</string>
     <string name="compact">kompakt</string>
     <string name="storage_description">"Lokaler Speicher"</string>
+    <string name="encryption">"Verschlüsselung"</string>
 </resources>
 

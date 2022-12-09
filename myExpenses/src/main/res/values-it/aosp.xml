@@ -32,5 +32,6 @@
     <string name="customize">"Personalizza"</string>
     <string name="compact">compatto</string>
     <string name="storage_description">"Archiviazione locale"</string>
+    <string name="encryption">"Crittografia"</string>
 </resources>
 

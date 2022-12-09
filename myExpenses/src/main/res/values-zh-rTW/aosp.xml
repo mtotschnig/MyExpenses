@@ -32,5 +32,6 @@
     <string name="customize">"自訂"</string>
     <string name="compact">精簡</string>
     <string name="storage_description">"本機儲存空間"</string>
+     <string name="encryption">"加密"</string>
 </resources>
 

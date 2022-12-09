@@ -32,5 +32,6 @@
     <string name="customize">"تخصيص"</string>
     <string name="compact">مكثفة</string>
     <string name="storage_description">"التخزين المحلي"</string>
+     <string name="encryption">"التشفير"</string>
 </resources>
 
