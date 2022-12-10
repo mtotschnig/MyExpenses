@@ -217,13 +217,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     setChartData(chartCategoryTree.value.children)
                 }
 
-                LaunchedEffect(selectionState.value) {
+                LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
                     if (::chart.isInitialized) {
                         val position =
                             chartCategoryTree.value.children.indexOf(selectionState.value)
                         if (position > -1) {
                             chart.highlightValue(position.toFloat(), 0)
-                            chart.setCenterText(position)
                         }
                     }
                 }
