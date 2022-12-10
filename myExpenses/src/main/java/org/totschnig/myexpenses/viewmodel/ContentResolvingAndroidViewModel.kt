@@ -126,7 +126,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             color = cursor.getInt(KEY_COLOR),
             start = cursor.getStringOrNull(KEY_START),
             end = cursor.getStringOrNull(KEY_END),
-            accountName = cursor.getString(KEY_ACCOUNT_LABEL),
+            accountName = cursor.getStringOrNull(KEY_ACCOUNT_LABEL),
             default = cursor.getBoolean(KEY_IS_DEFAULT)
         )
     }
