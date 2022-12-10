@@ -203,4 +203,5 @@
     <string name="menu_BudgetActivity_rollover_help_text">Si votre budget est inférieur ou supérieur aux prévisions, vous pouvez reporter la différence sur la période suivante, de sorte que le montant que vous pouvez y allouer soit augmenté ou diminué. Il existe trois options :</string>
     <string name="menu_BudgetActivity_rollover_total">Seul le reste du budget total est reconduit, de sorte que seul le budget total de la période suivante est augmenté ou diminué.</string>
     <string name="cab_MyExpenses_select_help_text">La multi-sélection peut être lancée en sélectionnant cette commande, ou en tapant longuement sur une entrée de la liste.</string>
+    <string name="help_ManageSyncBackends_saf">Cette option permet de sélectionner un dossier via le dialogue de sélection de fichiers d’Android. Il est principalement utile si vous avez installé une application de stockage en nuage qui prend en charge la sélection d’un dossier pour stocker du contenu, comme le fait NextCloud.</string>
 </resources>
