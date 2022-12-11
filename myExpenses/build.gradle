@@ -212,7 +212,7 @@ dependencies {
     //noinspection GradleDependency
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
-    implementation 'com.github.mtotschnig:Caldroid:2fcb748f0e'
+    implementation 'com.github.mtotschnig:Caldroid:e40729670a'
     api('io.github.eltos:simpledialogfragments:3.5.2')
 
     //noinspection GradleDependency
