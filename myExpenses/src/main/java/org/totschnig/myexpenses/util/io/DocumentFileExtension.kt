@@ -1,11 +1,17 @@
 package org.totschnig.myexpenses.util.io
 
+import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
 
-val DocumentFile.displayName
-    get() = (
-            if (uri.scheme == "file")
-                uri.path
-            else
-                "${name}${uri.authority?.let { " ($it)" } ?: ""}"
-            ) ?: uri.toString()
+val DocumentFile.displayName: String
+    @WorkerThread get() = if (uri.scheme == "file") {
+        uri.path
+    } else {
+        val name = name
+        val authority = uri.authority
+        if (name != null && authority != null) {
+            "$name ($authority)"
+        } else {
+           null
+        }
+    } ?: uri.toString()
