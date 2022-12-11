@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.provider.filter
 
 import com.google.common.truth.Truth
 import org.junit.Test
+import org.totschnig.myexpenses.model.CrStatus
 import java.time.LocalDate
 
 class CriteriaTest {
@@ -12,5 +13,37 @@ class CriteriaTest {
         val tomorrow = today.plusDays(1)
         val roundTrip = DateCriterion.fromStringExtra(DateCriterion(today, tomorrow).toStringExtra())
         Truth.assertThat(roundTrip.values).asList().containsExactly(today, tomorrow)
+    }
+
+    @Test
+    fun testCategoryCriterion() {
+        val roundTrip = CategoryCriterion.fromStringExtra(CategoryCriterion("Housing", 1L).toStringExtra())
+        Truth.assertThat(roundTrip!!.label).isEqualTo("Housing")
+        Truth.assertThat(roundTrip.values).asList().containsExactly( 1L)
+    }
+
+    @Test
+    fun testAccountCriterion() {
+        val roundTrip = AccountCriterion.fromStringExtra(AccountCriterion("Bank", 1L).toStringExtra())
+        Truth.assertThat(roundTrip!!.label).isEqualTo("Bank")
+        Truth.assertThat(roundTrip.values).asList().containsExactly( 1L)
+    }
+
+    @Test
+    fun testTransferCriterion() {
+        val roundTrip = TransferCriterion.fromStringExtra(TransferCriterion("Bank", 1L).toStringExtra())
+        Truth.assertThat(roundTrip!!.label).isEqualTo("Bank")
+        Truth.assertThat(roundTrip.values).asList().containsExactly( 1L)
+    }
+
+    @Test
+    fun testCrStatusCriterion() {
+        val roundTrip = CrStatusCriterion.fromStringExtra(CrStatusCriterion(arrayOf(CrStatus.VOID)).toStringExtra())
+        Truth.assertThat(roundTrip.values).asList().containsExactly(CrStatus.VOID)
+    }
+
+    @Test
+    fun parseToNullOnInvalidInput() {
+        Truth.assertThat(IdCriterion.parseStringExtra("Bank;;")).isNull()
     }
 }

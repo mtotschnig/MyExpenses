@@ -44,26 +44,26 @@ abstract class IdCriterion : Criterion<Long>() {
         return column
     }
 
-    override fun toStringExtra(): String? {
-        return if (operation == Operation.ISNULL) "null" else escapeSeparator(label!!) +
-                EXTRA_SEPARATOR + selectionArgs.joinToString(EXTRA_SEPARATOR)
-    }
+    override fun toStringExtra() =
+        if (operation == Operation.ISNULL) "null" else escapeSeparator(label!!) +
+                EXTRA_SEPARATOR + values.joinToString(EXTRA_SEPARATOR)
 
     companion object {
 
         fun parseStringExtra(extra: String): Pair<String, LongArray>? {
             val extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP).toTypedArray()
-            return if (extraParts.size < 2) {
-                report(
-                    Exception(
-                        String.format(
-                            "Unparsable string extra %s",
-                            extraParts.contentToString(),
-                        )
-                    )
-                )
-                null
-            } else unescapeSeparator(extraParts[0]) to extraParts.copyOfRange(1, extraParts.size).map { it.toLong() }.toLongArray()
+            if (extraParts.size >= 2) {
+                val map = extraParts.copyOfRange(1, extraParts.size).map { it.toLongOrNull() }
+                if (!map.contains(null)) {
+                    return unescapeSeparator(extraParts[0]) to map.filterNotNull().toLongArray()
+                }
+            }
+            reportCannotParse(extra)
+            return null
+        }
+
+        private fun reportCannotParse(extra: String) {
+            report(Exception("Cannot parse string extra $extra"))
         }
     }
 }
