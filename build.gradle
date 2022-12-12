@@ -30,7 +30,7 @@ ext {
     roomVersion = "2.4.3"
     archLifecycleVersion = '2.5.1'
     androidxArchVersion = '2.1.0'
-    fragmentVersion = "1.5.4"
+    fragmentVersion = "1.5.5"
     coroutines = '1.6.4'
     mockitoVersion = '4.9.0'
     retrofitVersion = "2.9.0"
