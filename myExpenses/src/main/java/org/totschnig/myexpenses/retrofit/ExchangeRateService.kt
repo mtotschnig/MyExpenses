@@ -40,7 +40,7 @@ class ExchangeRateService(
     ): Pair<LocalDate, Float> = when (configuration.source) {
         ExchangeRateSource.EXCHANGE_RATE_HOST -> {
             val today = LocalDate.now()
-            val error = if (date < today) {
+            val errorResponse = if (date < today) {
                 val response = exchangeRateHost.getTimeSeries(date, date, symbol, base).execute()
                 log(response)
                 if (response.isSuccessful) {
@@ -50,9 +50,7 @@ class ExchangeRateService(
                         }
                     }
                     null
-                } else {
-                    response.errorBody()?.string() ?: "Unknown Error"
-                }
+                } else response
             } else {
                 val response = exchangeRateHost.getLatest(symbol, base).execute()
                 log(response)
@@ -63,11 +61,14 @@ class ExchangeRateService(
                         }
                     }
                     null
-                } else {
-                    response.errorBody()?.string() ?: "Unknown Error"
-                }
+                } else response
             }
-            throw IOException(error ?: "Unable to retrieve data")
+            throw IOException(
+                if (errorResponse != null) {
+                    (errorResponse.errorBody()?.string()?.takeIf { it.isNotEmpty() } ?: "Unknown error") + " (${errorResponse.code()})"
+                } else "Unable to retrieve data"
+
+            )
         }
         ExchangeRateSource.OPENEXCHANGERATES -> {
             if (configuration.openExchangeRatesAppId == "") throw MissingAppIdException()
