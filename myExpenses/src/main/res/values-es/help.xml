@@ -202,4 +202,5 @@
     <string name="menu_BudgetActivity_rollover_edit">Esta opción le permite configurar con precisión los informes. Por ejemplo, puede establecer traspasos parciales solo para ciertas categorías o subcategorías y traspasar la parte restante al presupuesto total.</string>
     <string name="menu_BudgetActivity_rollover_help_text">Si gasta menos o más de su presupuesto, puede transferir la diferencia al próximo período, de modo que la cantidad que puede asignar allí aumente o disminuya. Hay tres opciones:</string>
     <string name="cab_MyExpenses_select_help_text">La selección múltiple se puede iniciar seleccionando este comando o tocando prolongadamente una entrada en la lista.</string>
+    <string name="help_ManageSyncBackends_saf">Esta opción permite seleccionar una carpeta a través del diálogo de selección de archivos de Android. Es útil sobre todo si ha instalado una aplicación de almacenamiento en la nube que permite seleccionar una carpeta para almacenar contenido, como NextCloud.</string>
 </resources>
