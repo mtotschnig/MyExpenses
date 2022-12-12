@@ -154,7 +154,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                     val newPayeeFilterValue = PayeeCriterion(
                         labelList.joinToString(","),
                         *newSet.toLongArray()
-                    ).toStringExtra()
+                    ).toString()
                     Timber.d(
                         "Updating %s (%s -> %s",
                         payeeFilterKey,

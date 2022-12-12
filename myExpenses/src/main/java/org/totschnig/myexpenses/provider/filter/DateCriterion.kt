@@ -54,7 +54,7 @@ class DateCriterion(
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_DATE
 
-    override fun toStringExtra(): String {
+    override fun toString(): String {
         var result: String = operation.name + EXTRA_SEPARATOR + values[0]
         if (operation === WhereFilter.Operation.BTW) {
             result += EXTRA_SEPARATOR + values[1]

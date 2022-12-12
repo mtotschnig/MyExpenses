@@ -33,7 +33,7 @@ abstract class TextCriterion : Criterion<String>() {
         return searchString
     }
 
-    override fun toStringExtra(): String {
+    override fun toString(): String {
         return searchString
     }
 }

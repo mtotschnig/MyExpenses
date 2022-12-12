@@ -113,7 +113,7 @@ class FilterPersistence(
     }
 
     private fun persist(criterion: Criterion<*>) {
-        prefHandler.putString(prefNameForCriteria(criterion.column), criterion.toStringExtra())
+        prefHandler.putString(prefNameForCriteria(criterion.column), criterion.toString())
     }
 
     private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)

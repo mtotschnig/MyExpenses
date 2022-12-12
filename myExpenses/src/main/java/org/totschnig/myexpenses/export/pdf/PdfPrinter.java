@@ -213,7 +213,7 @@ public class PdfPrinter {
     int columnIndexTransferPeer = transactionCursor.getColumnIndex(KEY_TRANSFER_PEER);
     int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
     int columnIndexCrStatus = transactionCursor.getColumnIndex(KEY_CR_STATUS);
-    int columnIndexTagList = transactionCursor.getColumnIndex(KEY_TAGLIST);
+
     DateFormat itemDateFormat;
     switch (account.getGrouping()) {
       case DAY:
@@ -281,7 +281,8 @@ public class PdfPrinter {
         PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, DateInfo.fromCursor(transactionCursor)), FontType.HEADER);
         table.addCell(cell);
         if (groupCursor.isAfterLast()) {
-          Timber.w("Grouping: %s, currentHeaderId; %d, prevHeaderId: %d", account.getGrouping(), currentHeaderId, prevHeaderId);
+          Timber.w("Grouping: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s",
+                  account.getGrouping(), currentHeaderId, prevHeaderId, filter);
           throw new IllegalStateException();
         }
         long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);

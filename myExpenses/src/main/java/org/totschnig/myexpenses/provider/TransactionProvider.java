@@ -461,7 +461,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         groupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
         String secondDef = "";
 
-        final boolean sectionsOnly = uri.getQueryParameter(QUERY_PARAMETER_SECTIONS) != null;
         switch (group) {
           case NONE:
             yearExpression = "1";
@@ -474,7 +473,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             secondDef = getWeek();
             break;
           case MONTH:
-            secondDef = sectionsOnly ? MONTH_PLAIN : getMonth();
+            secondDef = getMonth();
             break;
           case YEAR:
             secondDef = "0";
@@ -483,41 +482,35 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         int projectionSize;
-        if (sectionsOnly) {
-          projectionSize = 2;
-        } else {
-          projectionSize = 5;
-          if (withJulianStart) {
-            projectionSize += 1;
-          }
-          if (!includeTransfers) {
-            projectionSize += 1;
-          }
-          if (group == Grouping.WEEK) {
-            projectionSize += 2;
-          }
+        projectionSize = 5;
+        if (withJulianStart) {
+          projectionSize += 1;
+        }
+        if (!includeTransfers) {
+          projectionSize += 1;
+        }
+        if (group == Grouping.WEEK) {
+          projectionSize += 2;
         }
         projection = new String[projectionSize];
         int index = 0;
         projection[index++] = yearExpression + " AS " + KEY_YEAR;
         projection[index++] = secondDef + " AS " + KEY_SECOND_GROUP;
-        if (!sectionsOnly) {
-          projection[index++] = includeTransfers ? getInAggregate(forHome, aggregateFunction) : getIncomeAggregate(forHome, aggregateFunction);
-          projection[index++] = includeTransfers ? getOutAggregate(forHome, aggregateFunction) : getExpenseAggregate(forHome, aggregateFunction);
-          if (!includeTransfers) {
-            //for the Grand total account transfer calculation is neither possible (adding amounts in
-            //different currencies) nor necessary (should result in 0)
-            projection[index++] = (forHome ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
-          }
-          projection[index++] = MAPPED_CATEGORIES;
-          if (withJulianStart) {
-            projection[index++] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
-                + " AS " + KEY_GROUP_START;
-          }
-          if (group == Grouping.WEEK) {
-            projection[index++] = getWeekStart() + " AS " + KEY_WEEK_START;
-            projection[index] = getWeekEnd() + " AS " + KEY_WEEK_END;
-          }
+        projection[index++] = includeTransfers ? getInAggregate(forHome, aggregateFunction) : getIncomeAggregate(forHome, aggregateFunction);
+        projection[index++] = includeTransfers ? getOutAggregate(forHome, aggregateFunction) : getExpenseAggregate(forHome, aggregateFunction);
+        if (!includeTransfers) {
+          //for the Grand total account transfer calculation is neither possible (adding amounts in
+          //different currencies) nor necessary (should result in 0)
+          projection[index++] = (forHome ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
+        }
+        projection[index++] = MAPPED_CATEGORIES;
+        if (withJulianStart) {
+          projection[index++] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
+              + " AS " + KEY_GROUP_START;
+        }
+        if (group == Grouping.WEEK) {
+          projection[index++] = getWeekStart() + " AS " + KEY_WEEK_START;
+          projection[index] = getWeekEnd() + " AS " + KEY_WEEK_END;
         }
         selection = accountSelectionQuery
             + (selection != null ? " AND " + selection : "");

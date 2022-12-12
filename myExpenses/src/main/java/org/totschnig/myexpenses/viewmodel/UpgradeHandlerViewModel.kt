@@ -169,7 +169,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 dateFilterList.forEach { key ->
                     prefHandler.getString(key, null)?.let { legacy ->
                         try {
-                            DateCriterion.fromLegacy(legacy).toStringExtra().also { new ->
+                            DateCriterion.fromLegacy(legacy).toString().also { new ->
                                 prefHandler.putString(key, new)
                             }
                         } catch (e: Exception) {

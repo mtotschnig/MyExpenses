@@ -38,7 +38,7 @@ class CrStatusCriterion(override val values: Array<CrStatus>) : Criterion<CrStat
     override fun prettyPrint(context: Context) =
         values.joinToString(",") { context.getString(it.toStringRes()) }
 
-    override fun toStringExtra() = values.joinToString(EXTRA_SEPARATOR)
+    override fun toString() = values.joinToString(EXTRA_SEPARATOR)
 
     override fun shouldApplyToParts(): Boolean {
         return false

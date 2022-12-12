@@ -64,7 +64,7 @@ class AmountCriterion(
         }
     }
 
-    override fun toStringExtra(): String {
+    override fun toString(): String {
         var result =
             operation.name + EXTRA_SEPARATOR + currency + EXTRA_SEPARATOR + (if (type) "1" else "0") + EXTRA_SEPARATOR + values[0]
         if (operation == Operation.BTW) {

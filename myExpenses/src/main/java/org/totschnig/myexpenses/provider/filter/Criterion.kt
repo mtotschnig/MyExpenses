@@ -41,7 +41,7 @@ abstract class Criterion<T: Any> : Parcelable {
 
     open fun prettyPrint(context: Context) = values.joinToString()
 
-    open fun toStringExtra(): String {
+    override fun toString(): String {
         throw UnsupportedOperationException("Only subclasses can be persisted")
     }
 

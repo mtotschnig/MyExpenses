@@ -44,7 +44,7 @@ abstract class IdCriterion : Criterion<Long>() {
         return column
     }
 
-    override fun toStringExtra() =
+    override fun toString() =
         if (operation == Operation.ISNULL) "null" else escapeSeparator(label!!) +
                 EXTRA_SEPARATOR + values.joinToString(EXTRA_SEPARATOR)
 
