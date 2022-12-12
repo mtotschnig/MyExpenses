@@ -338,8 +338,7 @@ dependencies {
     //implementation "com.google.mlkit:vision-interfaces:+"
     //implementation "com.google.guava:guava:31.1-android"
 
-    //noinspection GradleDependency
-    implementation 'com.github.mtotschnig:Android-Image-Cropper:2243115896'
+    implementation 'com.github.mtotschnig:Android-Image-Cropper:3ead230612'
 }
 
 static def getDate() {
