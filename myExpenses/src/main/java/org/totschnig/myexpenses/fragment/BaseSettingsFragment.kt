@@ -247,8 +247,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         settings.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onValidationError(messageResId: Int) {
-        preferenceActivity.showSnackBar(messageResId)
+    override fun onValidationError(message: String) {
+        preferenceActivity.showSnackBar(message)
     }
 
     val preferenceActivity get() = requireActivity() as MyPreferenceActivity

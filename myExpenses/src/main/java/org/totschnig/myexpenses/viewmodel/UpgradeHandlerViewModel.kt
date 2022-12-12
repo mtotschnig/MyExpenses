@@ -194,7 +194,7 @@ class UpgradeHandlerViewModel(application: Application) :
 
             if (fromVersion < 417) {
                 prefHandler.getString(PrefKey.CUSTOM_DATE_FORMAT, null)?.let {
-                    if (validateDateFormat(it) != null) {
+                    if (validateDateFormat(getApplication(), it) != null) {
                         Timber.d("Removed erroneous dateFormat %s ", it)
                         prefHandler.remove(PrefKey.CUSTOM_DATE_FORMAT)
                     }

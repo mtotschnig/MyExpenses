@@ -15,7 +15,7 @@ abstract class LocalizedFormatEditTextPreference constructor(context: Context, a
     var onValidationErrorListener: OnValidationErrorListener? = null
 
     interface OnValidationErrorListener: OnPreferenceChangeListener {
-        fun onValidationError(messageResId: Int)
+        fun onValidationError(message: String)
     }
 
     override fun getText(): String? {
@@ -24,7 +24,7 @@ abstract class LocalizedFormatEditTextPreference constructor(context: Context, a
 
     abstract fun getDefaultValue(): String?
 
-    abstract fun validate(newValue: String): Int?
+    abstract fun validate(newValue: String): String?
 
     override fun persistString(value: String?) = when {
         !shouldPersist() -> false
