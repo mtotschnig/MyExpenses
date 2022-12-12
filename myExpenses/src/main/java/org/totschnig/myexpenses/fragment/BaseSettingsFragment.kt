@@ -805,8 +805,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceScreen.removePreference(privacyCategory)
                 }
 
-                val languagePref = requirePreference<ListPreference>(PrefKey.UI_LANGUAGE)
-                languagePref.entries = getLocaleArray()
+                requirePreference<ListPreference>(PrefKey.UI_LANGUAGE).entries = getLocaleArray()
 
                 currencyViewModel.getCurrencies().observe(this) { currencies ->
                     with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {

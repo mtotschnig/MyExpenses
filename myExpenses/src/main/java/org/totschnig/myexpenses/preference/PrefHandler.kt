@@ -7,8 +7,8 @@ import androidx.preference.PreferenceFragmentCompat
 
 interface PrefHandler {
     fun getKey(key: PrefKey): String
-    fun getString(key: PrefKey, defValue: String?): String?
-    fun getString(key: String, defValue: String?): String?
+    fun getString(key: PrefKey, defValue: String? = null): String?
+    fun getString(key: String, defValue: String? = null): String?
     fun putString(key: PrefKey, value: String?)
     fun putString(key: String, value: String?)
     fun getBoolean(key: PrefKey, defValue: Boolean): Boolean

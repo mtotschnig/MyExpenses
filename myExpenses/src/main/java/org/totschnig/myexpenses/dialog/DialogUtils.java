@@ -270,21 +270,6 @@ public class DialogUtils {
     void onCalendarPermissionDenied();
   }
 
-  public static void configureDateFormat(Spinner spinner, Context context, PrefHandler prefHandler, String prefName) {
-    ArrayAdapter<QifDateFormat> dateFormatAdapter =
-        new ArrayAdapter<>(
-            context, android.R.layout.simple_spinner_item, QifDateFormat.values());
-    dateFormatAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    spinner.setAdapter(dateFormatAdapter);
-    QifDateFormat qdf;
-    try {
-      qdf = QifDateFormat.valueOf(prefHandler.getString(prefName, "EU"));
-    } catch (IllegalArgumentException e) {
-      qdf = QifDateFormat.EU;
-    }
-    spinner.setSelection(qdf.ordinal());
-  }
-
   public static void configureEncoding(Spinner spinner, Context context, PrefHandler prefHandler, String prefName) {
     spinner.setSelection(
         Arrays.asList(context.getResources().getStringArray(R.array.pref_qif_export_file_encoding))

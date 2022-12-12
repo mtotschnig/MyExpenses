@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.FilenameBinding
 import org.totschnig.myexpenses.databinding.ImportCsvParseBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.configureDateFormat
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -92,7 +93,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         }
         _binding = ImportCsvParseBinding.inflate(inflater, container, false)
         _fileNameBinding = FilenameBinding.bind(binding.root)
-        DialogUtils.configureDateFormat(binding.DateFormatTable.DateFormat, activity, prefHandler, PREF_KEY_IMPORT_CSV_DATE_FORMAT)
+        binding.DateFormatTable.DateFormat.configureDateFormat(requireContext(), prefHandler, PREF_KEY_IMPORT_CSV_DATE_FORMAT)
         DialogUtils.configureEncoding(binding.EncodingTable.Encoding, activity, prefHandler, PREF_KEY_IMPORT_CSV_ENCODING)
         DialogUtils.configureDelimiter(binding.Delimiter, activity, prefHandler, PREF_KEY_IMPORT_CSV_DELIMITER)
         with(binding.AccountTable.Account) {

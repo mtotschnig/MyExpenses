@@ -34,6 +34,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import static org.totschnig.myexpenses.dialog.NewDialogUtilsKt.configureDateFormat;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -176,7 +177,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.getInstance(this).initLoader(0, null, this);
 
     mDateFormatSpinner = view.findViewById(R.id.DateFormat);
-    DialogUtils.configureDateFormat(mDateFormatSpinner, wrappedCtx, prefHandler, PREF_KEY_IMPORT_DATE_FORMAT);
+    configureDateFormat(mDateFormatSpinner, wrappedCtx, prefHandler, PREF_KEY_IMPORT_DATE_FORMAT);
 
     mEncodingSpinner = view.findViewById(R.id.Encoding);
     DialogUtils.configureEncoding(mEncodingSpinner, wrappedCtx, prefHandler, PREF_KEY_IMPORT_ENCODING);
