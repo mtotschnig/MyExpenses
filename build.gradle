@@ -48,7 +48,7 @@ ext {
     commonsText = "1.9"
     ktor = "2.1.0"
     bouncycastle = "1.71.1"
-    desugarVersion = "1.1.5"
+    desugarVersion = "2.0.0"
     mlkitTextRecognition = "16.0.0-beta6"
     truthVersion = "1.1.3"
     accompanist = "0.27.0"
