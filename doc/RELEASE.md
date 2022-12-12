@@ -7,7 +7,8 @@
 * Test and assemble
   * ./gradlew lintExternRelease
   * ./gradlew testExternDebugUnitTest (-PBETA=true)
-  * ./gradlew disableSystemAnimations clean connectedExternDebugAndroidTest
+  * adb uninstall org.totschnig.myexpenses.debug
+  * ./gradlew connectedExternDebugAndroidTest
   * ./gradlew clean :myExpenses:packageExternReleaseUniversalApk
 * test upgrade mechanism
 * execute command returned by ./gradlew echoPublishTag

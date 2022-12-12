@@ -164,7 +164,8 @@ dependencies {
     implementation project(':transactionscontract')
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     implementation 'com.squareup.phrase:phrase:1.2.0'
-    implementation platform('androidx.compose:compose-bom:2022.12.00')
+    def composeBom = platform('androidx.compose:compose-bom:2022.12.00')
+    implementation composeBom
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.material:material"
     implementation("androidx.compose.material3:material3:1.0.1")
@@ -172,7 +173,6 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.6.1'
     implementation "com.google.android.material:compose-theme-adapter:1.2.1"
     implementation "androidx.compose.runtime:runtime-livedata"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
     debugImplementation "androidx.compose.ui:ui-tooling"
     implementation "androidx.compose.material:material-icons-extended"
     implementation "androidx.paging:paging-compose:1.0.0-alpha17"
@@ -266,7 +266,38 @@ dependencies {
 
     implementation 'com.github.mtotschnig:FontDrawable:39e8f63ce2'
 
+    // Room components
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 
+    implementation "com.github.requery:sqlite-android:$requery"
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$archLifecycleVersion"
+
+    // ViewModel Kotlin support
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+
+    //implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+
+    //Mlkit / Drive
+    //implementation "com.google.android.gms:play-services-base:18.1.0"
+    //implementation "com.google.mlkit:vision-interfaces:+"
+    //implementation "com.google.guava:guava:31.1-android"
+
+    implementation 'com.github.mtotschnig:Android-Image-Cropper:3ead230612'
+    api "androidx.core:core-ktx:$ktxVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    androidTestImplementation composeBom
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     debugImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
@@ -283,62 +314,30 @@ dependencies {
     androidTestImplementation('com.adevinta.android:barista:4.2.0') {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    androidTestImplementation "androidx.room:room-testing:$roomVersion"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+    //noinspection GradleDependency
+    androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
+    androidTestImplementation "com.google.truth:truth:$truthVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
 
     testImplementation('com.adevinta.android:barista:4.2.0') {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
-
-    implementation "com.github.requery:sqlite-android:$requery"
-
+    testImplementation "androidx.compose.ui:ui-test-junit4"
     testImplementation "junit:junit:$junitVersion"
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "androidx.compose.ui:ui-test-junit4"
     testImplementation "androidx.test:core:$androidSupportTestVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
-    //noinspection GradleDependency
-    androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
-    androidTestImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
-    api "androidx.core:core-ktx:$ktxVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     testImplementation "androidx.test:rules:$androidSupportTestVersion"
     testImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
 
-    // Room components
-    implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$roomVersion"
-
-    // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$archLifecycleVersion"
-
-    androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
-
-    // ViewModel Kotlin support
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
-
-    //implementation "androidx.activity:activity-ktx:$activity_version"
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
-
-    //Mlkit / Drive
-    //implementation "com.google.android.gms:play-services-base:18.1.0"
-    //implementation "com.google.mlkit:vision-interfaces:+"
-    //implementation "com.google.guava:guava:31.1-android"
-
-    implementation 'com.github.mtotschnig:Android-Image-Cropper:3ead230612'
 }
 
 static def getDate() {
