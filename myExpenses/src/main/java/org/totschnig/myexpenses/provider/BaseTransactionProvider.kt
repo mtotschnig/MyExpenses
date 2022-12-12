@@ -92,7 +92,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         if (!bulkInProgress && callerIsNotInBulkOperation(uri)) {
             notifyChangeDo(uri, syncToNetwork)
         } else {
-            bulkNotificationUris.add(uri to syncToNetwork)
+            synchronized(bulkNotificationUris) {
+                bulkNotificationUris.add(uri to syncToNetwork)
+            }
         }
     }
 

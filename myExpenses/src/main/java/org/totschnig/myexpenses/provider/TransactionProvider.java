@@ -1631,7 +1631,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {
     final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
-    setBulkInProgress(true);
+    final boolean alreadyInBulk = getBulkInProgress();
+    if (!alreadyInBulk) {
+      setBulkInProgress(true);
+    }
     db.beginTransaction();
     try {
       final int numOperations = operations.size();
@@ -1652,8 +1655,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       return results;
     } finally {
       db.endTransaction();
-      setBulkInProgress(false);
-      notifyBulk();
+      if (!alreadyInBulk) {
+        setBulkInProgress(false);
+        notifyBulk();
+      }
     }
   }
 
