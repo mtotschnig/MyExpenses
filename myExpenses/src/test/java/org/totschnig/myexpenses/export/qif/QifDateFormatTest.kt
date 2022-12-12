@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.export.qif
 
 import com.google.common.truth.Truth
-import org.junit.Assert.*
 import org.junit.Test
 import java.util.*
 
