@@ -1012,6 +1012,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onFeatureAvailable(feature: Feature) {
+        super.onFeatureAvailable(feature)
         if (feature == Feature.OCR) {
             activateOcrMode()
         }

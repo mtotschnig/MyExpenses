@@ -89,7 +89,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     }
 
     override fun onFeatureAvailable(feature: Feature) {
-        featureManager.initActivity(this)
+        super.onFeatureAvailable(feature)
         if (selectedFactoryId != 0 && getBackendServiceByIdOrThrow(selectedFactoryId).feature == feature) {
             startSetupDo()
         }

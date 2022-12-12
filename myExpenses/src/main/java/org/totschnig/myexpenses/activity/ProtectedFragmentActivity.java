@@ -137,9 +137,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Inject
   protected SharedPreferences settings;
 
-  @Inject
-  protected FeatureManager featureManager;
-
   private Pair<Integer, Integer> focusAfterRestoreInstanceState;
 
   public ColorStateList getTextColorSecondary() {

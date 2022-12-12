@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -168,6 +169,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
+    @Inject
+    lateinit var featureManager: FeatureManager
+
     val ocrViewModel: OcrViewModel by viewModels()
     val featureViewModel: FeatureViewModel by viewModels()
     val shareViewModel: ShareViewModel by viewModels()
@@ -183,7 +187,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         (applicationContext as MyApplication).appComponent.inject(this)
     }
 
-    open fun onFeatureAvailable(feature: Feature) {}
+    @CallSuper
+    open fun onFeatureAvailable(feature: Feature) {
+        featureManager.initActivity(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with((applicationContext as MyApplication).appComponent) {

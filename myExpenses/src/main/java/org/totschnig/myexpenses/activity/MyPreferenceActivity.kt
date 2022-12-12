@@ -230,6 +230,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     }
 
     override fun onFeatureAvailable(feature: Feature) {
+        super.onFeatureAvailable(feature)
         if (feature == Feature.WEBUI) {
             fragment.bindToWebUiService()
             activateWebUi()
