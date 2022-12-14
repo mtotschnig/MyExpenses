@@ -41,7 +41,7 @@ class DebtOverview : DebtActivity() {
         super.onCreate(savedInstanceState)
         debtViewModel.loadDebts()
         setContent {
-            AppTheme(this) {
+            AppTheme {
                 val debts = debtViewModel.getDebts().observeAsState(emptyList())
                 Navigation(
                     onNavigation = { finish() },

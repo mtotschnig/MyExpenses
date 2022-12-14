@@ -14,8 +14,8 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
@@ -27,7 +27,7 @@ class AccountMetaDataDialogFragment: BaseDialogFragment() {
             dialogView = ComposeView(requireContext()).apply {
                 setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
                 setContent {
-                    MdcTheme {
+                    AppTheme {
                         AccountMetaData(data)
                     }
                 }

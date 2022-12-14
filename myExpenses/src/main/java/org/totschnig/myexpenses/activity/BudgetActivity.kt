@@ -86,7 +86,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             }
         }
         binding.composeView.setContent {
-            AppTheme(this) {
+            AppTheme {
                 val category =
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value

@@ -226,12 +226,12 @@ fun TransactionList(
                             lazyPagingItems[index]?.let {
                                 if (!isGroupHidden) {
                                     renderer.Render(
+                                        transaction = it,
                                         modifier = Modifier
                                             .animateItemPlacement()
                                             .conditional(it.date >= futureCriterionDate) {
                                                 background(futureBackgroundColor)
                                             },
-                                        transaction = it,
                                         selectionHandler = selectionHandler,
                                         menuGenerator = menuGenerator
                                     )

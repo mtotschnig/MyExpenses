@@ -169,7 +169,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
         observeImportResult()
         observeExportResult()
         binding.composeView.setContent {
-            AppTheme(this) {
+            AppTheme {
                 choiceMode = when (action) {
                     Action.SELECT_MAPPING -> {
                         val selectionState: MutableState<Category?> = remember {

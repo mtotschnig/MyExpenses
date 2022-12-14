@@ -19,7 +19,7 @@ abstract class ComposeBaseDialogFragment: BaseDialogFragment() {
         super.initBuilder().apply {
             setView(ComposeView(context).apply {
                 setContent {
-                    AppTheme(context = requireContext()) {
+                    AppTheme {
                         BuildContent()
                     }
                 }

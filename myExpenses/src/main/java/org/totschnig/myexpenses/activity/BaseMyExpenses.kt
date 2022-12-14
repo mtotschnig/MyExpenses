@@ -501,7 +501,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
 
         binding.accountPanel.accountList.setContent {
-            AppTheme(this) {
+            AppTheme {
                 viewModel.accountData.collectAsState().value.let { result ->
                     result?.onSuccess { data ->
                         LaunchedEffect(Unit) {
@@ -636,7 +636,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
         if (result.value?.isSuccess == true) {
             val accountData = result.value!!.getOrThrow()
-            AppTheme(context = this@BaseMyExpenses) {
+            AppTheme {
                 LaunchedEffect(accountData) {
                     if (accountData.isNotEmpty()) {
                         currentAccount?.let {

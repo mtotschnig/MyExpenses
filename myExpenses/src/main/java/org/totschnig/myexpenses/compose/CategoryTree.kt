@@ -36,7 +36,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.toggle
@@ -62,8 +61,8 @@ fun Category(
     Column(
         modifier = modifier.conditional(choiceMode.isTreeSelected(category.id)) {
             padding(2.dp)
-            .clip(RoundedCornerShape(15.dp))
-            .background(activatedBackgroundColor)
+                .clip(RoundedCornerShape(15.dp))
+                .background(activatedBackgroundColor)
         }
     ) {
         val filteredChildren =
@@ -217,7 +216,9 @@ fun CategoryRenderer(
         Text(text = category.label, modifier = Modifier.weight(1f))
 
         if (category.color != null) {
-            ColorCircle(modifier = Modifier.padding(start = 6.dp).size(24.dp), color = category.color)
+            ColorCircle(modifier = Modifier
+                .padding(start = 6.dp)
+                .size(24.dp), color = category.color)
         }
 
         sumCurrency?.let {
@@ -268,7 +269,7 @@ fun TreePreview() {
             color = color
         )
     }
-    MdcTheme {
+    AppTheme {
         Category(
             category = buildCategory(
                 color = null,

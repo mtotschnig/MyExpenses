@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- just an example of how one could describe by a comment a specific purchase -->
+    <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
+    <!-- should be the name of a typical restaurant -->
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_tag_project">Untitled project</string>
+</resources>

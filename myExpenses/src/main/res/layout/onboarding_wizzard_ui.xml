@@ -39,4 +39,20 @@
         android:layout_gravity="center"
         android:gravity="center"
         tools:text="System standard" />
+
+    <TextView
+        style="@style/OnboardingInputLabel"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/font_size"
+        android:text="Transaction List Design" />
+
+    <androidx.compose.ui.platform.ComposeView
+        android:layout_marginHorizontal="-40dp"
+        android:id="@+id/design_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
 </LinearLayout>

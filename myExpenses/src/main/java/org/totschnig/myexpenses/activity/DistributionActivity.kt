@@ -187,7 +187,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
 
         binding.composeView.setContent {
-            AppTheme(this) {
+            AppTheme {
                 val isDark = isSystemInDarkTheme()
                 val configuration = LocalConfiguration.current
                 val categoryState =

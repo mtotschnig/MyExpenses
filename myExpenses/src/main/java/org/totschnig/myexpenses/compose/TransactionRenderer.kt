@@ -146,10 +146,10 @@ abstract class ItemRenderer(
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun Render(
-        modifier: Modifier = Modifier,
         transaction: Transaction2,
-        selectionHandler: SelectionHandler?,
-        menuGenerator: (Transaction2) -> Menu<Transaction2>?
+        modifier: Modifier = Modifier,
+        selectionHandler: SelectionHandler? = null,
+        menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null }
     ) {
         val showMenu = remember { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -282,7 +282,7 @@ abstract class ItemRenderer(
 class CompactTransactionRenderer(
     private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
     withCategoryIcon: Boolean = true,
-    onToggleCrStatus: ((Long) -> Unit)? = { }
+    onToggleCrStatus: ((Long) -> Unit)? = null
 ) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
 
     @Composable
@@ -323,7 +323,7 @@ class CompactTransactionRenderer(
 class NewTransactionRenderer(
     private val dateTimeFormatter: DateTimeFormatter?,
     withCategoryIcon: Boolean = true,
-    onToggleCrStatus: ((Long) -> Unit)? = { }
+    onToggleCrStatus: ((Long) -> Unit)? = null
 ) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
@@ -399,24 +399,16 @@ fun Modifier.tagBorder() = composed {
 @Preview
 @Composable
 fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)).Render(
-        transaction = transaction,
-        selectionHandler = null,
-        menuGenerator = { null }
-    )
+    NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        .Render(transaction)
 }
 
 @Preview
 @Composable
 fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
-        DateTimeFormatter.ofPattern("EEE") to 40.dp,
-        onToggleCrStatus = {}
-    ).Render(
-        transaction = transaction,
-        selectionHandler = null,
-        menuGenerator = { null }
-    )
+        DateTimeFormatter.ofPattern("EEE") to 40.dp
+    ).Render(transaction)
 }
 
 @Preview
