@@ -17,22 +17,21 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.FontSizeAdapter
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
+import org.totschnig.myexpenses.compose.GroupDivider
 import org.totschnig.myexpenses.compose.NewTransactionRenderer
+import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
 import org.totschnig.myexpenses.databinding.OnboardingWizzardUiBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -45,6 +44,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asDateTimeFormatter
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.setNightMode
+import org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -56,6 +56,8 @@ class OnboardingUiFragment : OnboardingFragment() {
     private var _themeSelectionBinding: OnboardingThemeSelectionBinding? = null
     private val binding get() = _binding!!
     private val themeSelectionBinding get() = _themeSelectionBinding!!
+
+    private val viewModel: OnBoardingUiViewModel by viewModels()
 
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
@@ -133,6 +135,7 @@ class OnboardingUiFragment : OnboardingFragment() {
             })
             spinnerHelper.setSelection((themeValues.indexOf(theme)))
         }
+        //TODO: localized demo data; Persist selection
         binding.designPreview.setContent {
             val demo = Transaction2(
                 id = -1,
@@ -154,33 +157,44 @@ class OnboardingUiFragment : OnboardingFragment() {
             )
             AppTheme {
                 Column {
-                    var compact by rememberSaveable { mutableStateOf(false) }
-                    var withCategoryIcons by rememberSaveable { mutableStateOf(true) }
+                    val renderer = viewModel.renderer.collectAsState(initial = RenderType.New).value
+                    val withCategoryIcon =
+                        viewModel.withCategoryIcon.collectAsState(initial = true).value
                     RowCenter{
-                        Checkbox(checked = compact,
-                            onCheckedChange = { compact = it }
+                        Checkbox(checked = renderer == RenderType.Legacy,
+                            onCheckedChange = {
+                                viewModel.setRenderer(it)
+                            }
                         )
                         Text("Compact")
-                        Checkbox(checked = withCategoryIcons,
-                            onCheckedChange = { withCategoryIcons = it })
+                        Checkbox(checked = withCategoryIcon,
+                            onCheckedChange = {
+                                viewModel.setWithCategoryIcon(it)
+                            }
+                        )
                         Text("Category Icons")
                     }
-                    (if (compact) {
-                        CompactTransactionRenderer(
-                            Pair(
-                                (Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter,
-                                with(LocalDensity.current) {
-                                    LocalTextStyle.current.fontSize.toDp()
-                                } * 4.6f
-                            ),
-                            withCategoryIcons
-                        )
-                    } else {
-                        NewTransactionRenderer(
-                            DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM),
-                            withCategoryIcons
-                        )
+                    GroupDivider()
+                    (when (renderer) {
+                        RenderType.Legacy -> {
+                            CompactTransactionRenderer(
+                                Pair(
+                                    (Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter,
+                                    with(LocalDensity.current) {
+                                        LocalTextStyle.current.fontSize.toDp()
+                                    } * 4.6f
+                                ),
+                                withCategoryIcon
+                            )
+                        }
+                        else -> {
+                            NewTransactionRenderer(
+                                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM),
+                                withCategoryIcon
+                            )
+                        }
                     }).Render(demo)
+                    GroupDivider()
                 }
             }
         }

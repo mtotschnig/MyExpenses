@@ -32,7 +32,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountN
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.OnBoardingViewModel
+import org.totschnig.myexpenses.viewmodel.OnBoardingDataViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import java.math.BigDecimal
@@ -50,7 +50,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     lateinit var prefHandler: PrefHandler
     
     val currencyViewModel: CurrencyViewModel by viewModels()
-    val viewModel: OnBoardingViewModel by viewModels()
+    val viewModel: OnBoardingDataViewModel by viewModels()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

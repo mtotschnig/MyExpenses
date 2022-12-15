@@ -73,9 +73,6 @@ open class MyExpensesViewModel(
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
-    @Inject
-    lateinit var dataStore: DataStore<Preferences>
-
     private var deferredAccountId: Long? = null
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
@@ -175,19 +172,6 @@ open class MyExpensesViewModel(
     val showSumDetails: Flow<Boolean> by lazy {
         dataStore.data.map {
             it[prefHandler.getBooleanPreferencesKey(PrefKey.GROUP_HEADER)] != false
-        }
-    }
-
-    val renderer: Flow<RenderType> by lazy {
-        dataStore.data.map {
-            if (it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_LEGACY)] == true)
-                RenderType.Legacy else RenderType.New
-        }
-    }
-
-    val withCategoryIcon: Flow<Boolean> by lazy {
-        dataStore.data.map {
-            it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON)] != false
         }
     }
 

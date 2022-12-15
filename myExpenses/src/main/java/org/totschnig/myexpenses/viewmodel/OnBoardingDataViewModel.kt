@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.model.Account
 
 private const val KEY_MORE_OPTIONS_SHOWN = "moreOptionsShown"
 private const val KEY_ACCOUNT_COLOR = "accountColor"
-class OnBoardingViewModel(
+class OnBoardingDataViewModel(
     application: Application,
     private val savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {

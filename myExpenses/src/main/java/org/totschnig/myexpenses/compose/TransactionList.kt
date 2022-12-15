@@ -399,7 +399,7 @@ fun HeaderRenderer(
 }
 
 @Composable
-private fun GroupDivider(modifier: Modifier = Modifier) {
+fun GroupDivider(modifier: Modifier = Modifier) {
     Divider(modifier = modifier, color = colorResource(id = R.color.emphasis))
 }
 

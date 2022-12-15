@@ -6,6 +6,8 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -22,11 +24,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
@@ -37,6 +41,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.*
@@ -75,6 +80,9 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     @Inject
     lateinit var currencyContext: CurrencyContext
 
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
+
     private val bulkDeleteStateInternal: MutableStateFlow<DeleteState?> = MutableStateFlow(null)
     val bulkDeleteState: StateFlow<DeleteState?> = bulkDeleteStateInternal
 
@@ -90,6 +98,19 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         get() = getApplication<MyApplication>().contentResolver
 
     private val debts = MutableLiveData<List<Debt>>()
+
+    val renderer: Flow<RenderType> by lazy {
+        dataStore.data.map {
+            if (it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_LEGACY)] == true)
+                RenderType.Legacy else RenderType.New
+        }
+    }
+
+    val withCategoryIcon: Flow<Boolean> by lazy {
+        dataStore.data.map {
+            it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON)] != false
+        }
+    }
 
     val dateInfo: Flow<DateInfo2> = flow {
         contentResolver.query(

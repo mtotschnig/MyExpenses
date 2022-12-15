@@ -48,9 +48,6 @@ class UpgradeHandlerViewModel(application: Application) :
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 
-    @Inject
-    lateinit var dataStore: DataStore<Preferences>
-
     private var upgradeInfoShowIndex: Int = -1
     private val upgradeInfoList: MutableList<String> = mutableListOf()
 
