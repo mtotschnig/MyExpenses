@@ -1009,7 +1009,7 @@
     <string name="pref_csv_export_split_amount_summary">Verwendung getrennter Spalten für Einkommen und Ausgaben</string>
     <string name="pref_csv_export_split_date_time_summary">Verwendung getrennter Spalten für Datum und Zeit</string>
     <string name="webui_warning_move_transaction">Die Buchung wird in das Konto {Konto} verschoben.</string>
-    <string name="whats_new_344">Symbole für Kategorien</string>
+    <string name="icons_for_categories">Symbole für Kategorien</string>
     <string name="required">Erforderlich</string>
     <string name="budget_table_header_rollover">Übertrag</string>
     <string name="dialog_confirm_rollover_delete">Für diesen Zeitraum werden alle Überträge gelöscht.</string>

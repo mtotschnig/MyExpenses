@@ -73,7 +73,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${ctx.getString(R.string.export_to_format, "JSON")}: 2.0",
             )
             "344" -> arrayOf(
-                "${t(R.string.whats_new_344)}: 2.0"
+                "${t(R.string.icons_for_categories)}: 2.0"
             )
             "345" -> arrayOf(
                 "${t(R.string.menu_budget)}: 3.0",

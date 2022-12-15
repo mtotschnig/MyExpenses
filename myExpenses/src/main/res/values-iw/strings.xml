@@ -1037,7 +1037,7 @@
     <string name="pref_csv_export_split_categories_summary">להשתמש בעמודות נפרדות לכל רמה של היררכיית קטגוריות</string>
     <string name="pref_csv_export_split_amount_summary">להשתמש בעמודות נפרדות להכנסות והוצאות</string>
     <string name="pref_csv_export_split_date_time_summary">להשתמש בעמודות נפרדות לתאריך ולשעה</string>
-    <string name="whats_new_344">סמלים לקטגוריות</string>
+    <string name="icons_for_categories">סמלים לקטגוריות</string>
     <string name="required">חובה</string>
     <string name="budget_only_current_period">להגדיר רק עבור %s</string>
     <string name="budget_table_header_rollover">גלגול</string>

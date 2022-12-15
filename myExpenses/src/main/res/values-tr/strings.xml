@@ -1009,7 +1009,7 @@
     <string name="pref_csv_export_split_amount_summary">Gelir ve giderler için ayrı sütunlar kullanın</string>
     <string name="pref_csv_export_split_categories_summary">Kategori hiyerarşisinin her seviyesi için ayrı sütunlar kullanın</string>
     <string name="pref_csv_export_split_date_time_summary">Tarih ve saat için ayrı sütunlar kullanın</string>
-    <string name="whats_new_344">Kategoriler için ikonlar</string>
+    <string name="icons_for_categories">Kategoriler için ikonlar</string>
     <string name="required">Gerekli</string>
     <string name="rollover_edit_invalid">Bir kategoriye atanan devreden ile alt kategorilere atanan devredenlerin toplamı kalanı geçemez.</string>
     <string name="dialog_confirm_rollover_delete">Bu dönem için tüm devreden tutarları silinecektir.</string>

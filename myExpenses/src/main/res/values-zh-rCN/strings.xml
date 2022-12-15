@@ -995,7 +995,7 @@
     <string name="budget_table_header_rollover">展期</string>
     <string name="required">必填</string>
     <string name="dialog_confirm_rollover_delete">此期间的所有展期金额将被删除。</string>
-    <string name="whats_new_344">类别图标</string>
+    <string name="icons_for_categories">类别图标</string>
     <string name="pref_csv_export_split_categories_summary">每个类别层次结构级别单独一列</string>
     <string name="content_description_attachment">附件</string>
     <string name="redesign">重新设计</string>

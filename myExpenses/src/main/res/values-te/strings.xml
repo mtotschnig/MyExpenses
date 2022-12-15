@@ -885,7 +885,7 @@
     <string name="pref_csv_export_split_categories_summary">వర్గం సోపానక్రమం యొక్క ప్రతి స్థాయికి ప్రత్యేక నిలువు వరుసలను ఉపయోగించండి</string>
     <string name="pref_csv_export_split_amount_summary">ఆదాయం మరియు ఖర్చుల కోసం ప్రత్యేక నిలువు వరుసలను ఉపయోగించండి</string>
     <string name="pref_csv_export_split_date_time_summary">తేదీ మరియు సమయం కోసం ప్రత్యేక నిలువు వరుసలను ఉపయోగించండి</string>
-    <string name="whats_new_344">వర్గాలకు చిహ్నాలు</string>
+    <string name="icons_for_categories">వర్గాలకు చిహ్నాలు</string>
     <string name="webui_warning_move_transaction">లావాదేవీ ఖాతా {account}కి తరలించబడుతుంది.</string>
     <string name="required">అవసరం</string>
 </resources>

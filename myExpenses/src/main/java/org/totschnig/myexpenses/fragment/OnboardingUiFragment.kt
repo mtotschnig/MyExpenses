@@ -68,7 +68,10 @@ class OnboardingUiFragment : OnboardingFragment() {
     private var fontScale = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
+        with((requireActivity().application as MyApplication).appComponent) {
+            inject(this@OnboardingUiFragment)
+            inject(viewModel)
+        }
     }
 
     override fun getLayoutResId(): Int {
@@ -166,13 +169,13 @@ class OnboardingUiFragment : OnboardingFragment() {
                                 viewModel.setRenderer(it)
                             }
                         )
-                        Text("Compact")
+                        Text(stringResource(id = R.string.compact))
                         Checkbox(checked = withCategoryIcon,
                             onCheckedChange = {
                                 viewModel.setWithCategoryIcon(it)
                             }
                         )
-                        Text("Category Icons")
+                        Text(stringResource(id = R.string.icons_for_categories))
                     }
                     GroupDivider()
                     (when (renderer) {

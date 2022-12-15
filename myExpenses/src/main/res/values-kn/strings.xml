@@ -973,7 +973,7 @@
     </plurals>
     <string name="pref_debug_logging_share_summary">ಲಾಗ್ ಫೈಲ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
     <string name="menu_parent_category_selection">ಶಾರ್ಟ್ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಪೋಷಕ ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-    <string name="whats_new_344">ವರ್ಗಗಳಿಗೆ ಚಿಹ್ನೆಗಳು</string>
+    <string name="icons_for_categories">ವರ್ಗಗಳಿಗೆ ಚಿಹ್ನೆಗಳು</string>
     <string name="required">ಅಗತ್ಯವಿದೆ</string>
     <string name="pref_csv_export_split_categories_summary">ವರ್ಗ ಶ್ರೇಣಿಯ ಪ್ರತಿ ಹಂತಕ್ಕೆ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್‌ಗಳನ್ನು ಬಳಸಿ</string>
     <string name="pref_csv_export_split_amount_summary">ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳಿಗಾಗಿ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್ಗಳನ್ನು ಬಳಸಿ</string>

@@ -871,5 +871,5 @@
     <string name="ui_refinement">ユーザーインターフェースの洗練</string>
     <string name="whats_new_338">任意に深いカテゴリー階層</string>
     <string name="dialog_title_purge_backups">古いバックアップをパージする</string>
-    <string name="whats_new_344">分類のアイコン</string>
+    <string name="icons_for_categories">分類のアイコン</string>
 </resources>

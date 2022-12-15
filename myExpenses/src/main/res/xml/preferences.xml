@@ -82,7 +82,7 @@
                 android:persistent="false" />
             <SwitchPreferenceCompat
                 android:defaultValue="true"
-                android:title="@string/whats_new_344"
+                android:title="@string/icons_for_categories"
                 android:key="@string/pref_ui_item_renderer_category_icon_key"
                 android:persistent="false" />
 
