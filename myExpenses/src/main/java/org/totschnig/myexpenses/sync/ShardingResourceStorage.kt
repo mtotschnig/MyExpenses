@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync
 
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
+import timber.log.Timber
 import java.io.IOException
 import java.util.regex.Pattern
 
@@ -61,6 +62,7 @@ interface ShardingResourceStorage<Res> {
             while (true) {
                 val nextShardResource = collectionForShard(nextShard)
                 if (nextShardResource != null) {
+                    log().i("Retrieving data for $nextShard (${nameForResource(nextShardResource)})")
                     childrenForCollection(nextShardResource)
                         .sortedBy { nameForResource(it)?.let { name -> getSequenceFromFileName(name) } }
                         .filter {
@@ -135,4 +137,6 @@ interface ShardingResourceStorage<Res> {
                 )
             } ?: start
     }
+    fun log() = Timber.tag(SyncAdapter.TAG)
+
 }

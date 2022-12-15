@@ -431,10 +431,6 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         return String.format(Locale.ROOT, "%s-%s", accountUuid, key)
     }
 
-    protected fun log(): Timber.Tree {
-        return Timber.tag(SyncAdapter.TAG)
-    }
-
     companion object {
         const val LOCK_FILE = ".lock.txt"
         const val KEY_LOCK_TOKEN = "lockToken"
