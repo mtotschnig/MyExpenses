@@ -138,7 +138,7 @@ class OnboardingUiFragment : OnboardingFragment() {
             })
             spinnerHelper.setSelection((themeValues.indexOf(theme)))
         }
-        //TODO: localized demo data; Persist selection
+
         binding.designPreview.setContent {
             val demo = Transaction2(
                 id = -1,
