@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.test.R;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -57,7 +57,7 @@ public class Fixture {
   }
 
   public String getSyncAccount2() {
-    return "Dropbox - " + testContext.getString(R.string.testData_sync_backend_2_name);
+    return "Dropbox - " + testContext.getString(org.totschnig.myexpenses.test.R.string.testData_sync_backend_2_name);
   }
 
   public String getSyncAccount3() {
@@ -87,7 +87,7 @@ public class Fixture {
     CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(defaultCurrency.getCode().equals("EUR") ? "GBP" : "EUR");
 
     account1 = new Account(
-        testContext.getString(R.string.testData_account1Label),
+        appContext.getString(R.string.testData_account1Label),
         90000,
         testContext.getString(R.string.testData_account1Description));
     account1.setGrouping(Grouping.WEEK);
@@ -100,7 +100,7 @@ public class Fixture {
         foreignCurrency,
         50000,
         formatter.format(LocalDate.now()), AccountType.CASH,
-        testContext.getResources().getColor(R.color.material_red));
+        testContext.getResources().getColor(org.totschnig.myexpenses.test.R.color.material_red));
     account2.setSyncAccountName(getSyncAccount2());
     account2.save();
 
@@ -109,7 +109,7 @@ public class Fixture {
         Utils.getHomeCurrency(),
         200000,
         testContext.getString(R.string.testData_account3Description), AccountType.BANK,
-        testContext.getResources().getColor(R.color.material_blue));
+        testContext.getResources().getColor(org.totschnig.myexpenses.test.R.color.material_blue));
     account3.setGrouping(Grouping.DAY);
     account3.setSyncAccountName(getSyncAccount3());
     account3.save();
@@ -120,7 +120,7 @@ public class Fixture {
         0,
         "",
         AccountType.CCARD,
-        testContext.getResources().getColor(R.color.material_cyan));
+        testContext.getResources().getColor(org.totschnig.myexpenses.test.R.color.material_cyan));
     account4.save();
 
     //set up categories
@@ -128,17 +128,17 @@ public class Fixture {
     //set up transactions
     long offset = System.currentTimeMillis() - 1000;
     //are used twice
-    long mainCat1 = findCat(testContext.getString(R.string.testData_transaction1MainCat), null);
-    long mainCat2 = findCat(testContext.getString(R.string.testData_transaction2MainCat), null);
-    long mainCat3 = findCat(testContext.getString(R.string.testData_transaction3MainCat), null);
-    long mainCat6 = findCat(testContext.getString(R.string.testData_transaction6MainCat), null);
+    long mainCat1 = findCat(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1MainCat), null);
+    long mainCat2 = findCat(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction2MainCat), null);
+    long mainCat3 = findCat(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction3MainCat), null);
+    long mainCat6 = findCat(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction6MainCat), null);
 
     for (int i = 0; i < 15; i++) {
       //Transaction 1
       final TransactionBuilder builder = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(12000))
-          .catId(findCat(R.string.testData_transaction1SubCat, mainCat1))
+          .catId(findCat(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat, mainCat1))
           .date(offset - 300000);
       if (withPicture) {
         builder.pictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")));
@@ -149,7 +149,7 @@ public class Fixture {
       new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(2200L))
-          .catId(findCat(R.string.testData_transaction2SubCat, mainCat2))
+          .catId(findCat(org.totschnig.myexpenses.test.R.string.testData_transaction2SubCat, mainCat2))
           .date(offset - 7200000)
           .comment(testContext.getString(R.string.testData_transaction2Comment))
           .persist();
@@ -158,7 +158,7 @@ public class Fixture {
       new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(2500L))
-          .catId(findCat(R.string.testData_transaction3SubCat, mainCat3))
+          .catId(findCat(org.totschnig.myexpenses.test.R.string.testData_transaction3SubCat, mainCat3))
           .date(offset - 72230000)
           .crStatus(CrStatus.CLEARED)
           .persist();
@@ -167,7 +167,7 @@ public class Fixture {
       new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(5000L))
-          .catId(findCat(R.string.testData_transaction4SubCat, mainCat2))
+          .catId(findCat(org.totschnig.myexpenses.test.R.string.testData_transaction4SubCat, mainCat2))
           .payee(R.string.testData_transaction4Payee)
           .date(offset - 98030000)
           .crStatus(CrStatus.CLEARED)
@@ -245,9 +245,9 @@ public class Fixture {
     }
     Template template = Template.getTypedNewInstance(TYPE_TRANSACTION, account3.getId(), false, null);
     template.setAmount(new Money(defaultCurrency, -90000L));
-    String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
+    String templateSubCat = testContext.getString(org.totschnig.myexpenses.test.R.string.testData_templateSubCat);
     template.setCatId(findCat(templateSubCat,
-        findCat(testContext.getString(R.string.testData_templateMainCat), null)));
+        findCat(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_templateMainCat), null)));
     template.setTitle(templateSubCat);
     template.setPayee(testContext.getString(R.string.testData_templatePayee));
     Uri planUri = new Plan(

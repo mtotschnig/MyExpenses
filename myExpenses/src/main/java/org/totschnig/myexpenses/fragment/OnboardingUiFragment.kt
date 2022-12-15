@@ -143,7 +143,7 @@ class OnboardingUiFragment : OnboardingFragment() {
             val demo = Transaction2(
                 id = -1,
                 _date = System.currentTimeMillis() / 1000,
-                amount = Money(CurrencyUnit.DebugInstance, -7000),
+                amount = Money(Utils.getHomeCurrency(), -7000),
                 methodLabel = "CHEQUE",
                 referenceNumber = "1",
                 accountId = -1,
