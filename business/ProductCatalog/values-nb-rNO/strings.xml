@@ -1,2 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="splittemplate_description">Ubegrenset antall maler og planer for delte transaksjoner</string>
+    <string name="history_title">Historikkdiagram</string>
+    <string name="history_description">Forstå hvordan din finansielle virkelighet utvikler seg</string>
+    <string name="budget_title">Budsjettoppsett</string>
+    <string name="budget_description">Definer hvor mye du vil bruke i årlige, månedlige, eller ukentlige budsjetter</string>
+    <string name="ocr_description">Pakk ut beløp, dato og betaler automatisk</string>
+    <string name="webui_title">Vev-brukergrensesnitt</string>
+    <string name="webui_description">Bruk skrivebordsnettleser for datainntasting</string>
+    <string name="professional_benefit_1">Lås opp alle premiumsfunksjoner</string>
+    <string name="professional_benefit_2">E-poststøtte</string>
+    <string name="professional_benefit_3">Avgi din stemme på utviklingsplanen</string>
+    <string name="ocr_title">Skann kvittering</string>
+    <string name="splittemplate_title">Delt mal</string>
+</resources>
