@@ -15,4 +15,20 @@
     <string name="professional_benefit_1">Sblocca tutte le funzionalità premium</string>
     <string name="accountsunlimited_title">Numero illimitato di conti</string>
     <string name="accountsunlimited_description">Sbloccare la possibilità di creare più di cinque conti.</string>
+    <string name="adfree_title">Nessun annuncio</string>
+    <string name="categorytree_title">Albero delle categorie</string>
+    <string name="categorytree_description">Gerarchia di categorie arbitrariamente profonda</string>
+    <string name="adfree_description">Nessun annuncio.</string>
+    <string name="print_description">Esporta l\'elenco delle transazioni in un file PDF</string>
+    <string name="splittransaction_description">Una singola transazione può essere suddivisa in più parti (categorie e trasferimenti).</string>
+    <string name="csvimport_description">Importazione CSV sofisticata e personalizzabile (applicazioni per fogli di calcolo)</string>
+    <string name="distribution_description">Visualizza la distribuzione statistica delle transazioni per categoria su periodi diversi (anni, mesi, settimane, giorni)</string>
+    <string name="plansunlimited_description">Sblocca la possibilità di creare più di tre piani per transazioni ricorrenti.</string>
+    <string name="synchronization_description">I dati possono essere sincronizzati fra più dispositivi.</string>
+    <string name="csvimport_title">Importa CSV</string>
+    <string name="plansunlimited_title">Numero illimitato di piani</string>
+    <string name="print_title">Stampa</string>
+    <string name="splittransaction_title">Operazione frazionata</string>
+    <string name="synchronization_title">Sincronizzazione cloud</string>
+    <string name="distribution_title">Grafico a torta</string>
 </resources>
