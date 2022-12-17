@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources >
+<resources>
     <string name="splittemplate_title">Plantilla dividida</string>
     <string name="splittemplate_description">Número ilimitado de plantillas y proyectos para transacciones divididas</string>
     <string name="history_title">Gráfico de historial</string>
@@ -13,4 +13,6 @@
     <string name="webui_description">Utilice su navegador para introducir los datos</string>
     <string name="professional_benefit_1">Desbloquea todas las funciones premium</string>
     <string name="webui_title">Interfaz de usuario web</string>
+    <string name="accountsunlimited_title">Número de cuentas ilimitadas</string>
+    <string name="accountsunlimited_description">Desbloquear la capacidad de crear más de cinco cuentas.</string>
 </resources>
