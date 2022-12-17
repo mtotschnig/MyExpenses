@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="budget_title">预算编制</string>
+    <string name="ocr_title">扫描收据</string>
+    <string name="professional_benefit_3">对程序开发者的未来蓝图进行投票</string>
+    <string name="history_title">收支历史图表</string>
+    <string name="history_description">了解您的财务状况如何随着时间变化</string>
+    <string name="webui_title">网络的用户界面</string>
+</resources>
