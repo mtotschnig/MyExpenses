@@ -6,4 +6,11 @@
     <string name="history_title">收支历史图表</string>
     <string name="history_description">了解您的财务状况如何随着时间变化</string>
     <string name="webui_title">网络的用户界面</string>
+    <string name="splittemplate_title">拆分模板</string>
+    <string name="budget_description">您可以自行定义每年、每月或每周的支出预算</string>
+    <string name="splittemplate_description">无限数量的模板和拆分交易计划</string>
+    <string name="ocr_description">自动提取金额、日期和收款人</string>
+    <string name="webui_description">使用桌面浏览器输入数据</string>
+    <string name="professional_benefit_1">解锁所有高级功能</string>
+    <string name="professional_benefit_2">电子邮件支持</string>
 </resources>
