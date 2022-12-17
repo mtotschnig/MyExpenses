@@ -1,4 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="history_title">Graf historie</string>
-  <string name="professional_benefit_2">Emailová podpora</string>
-  </resources>
+    <string name="history_title">Graf historie</string>
+    <string name="professional_benefit_2">Emailová podpora</string>
+    <string name="accountsunlimited_title">Neomezený počet účtů</string>
+    <string name="accountsunlimited_description">Odemknutí možnosti vytvořit více než pět účtů.</string>
+    <string name="adfree_title">Bez reklam</string>
+</resources>
