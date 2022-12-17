@@ -13,4 +13,6 @@
     <string name="professional_benefit_1">すべてのプレミアム機能のロックを解除する</string>
     <string name="ocr_description">金額、日付、受取人を自動的に抽出する</string>
     <string name="webui_title">ウェブユーザーインターフェイス</string>
+    <string name="accountsunlimited_title">無制限の勘定数</string>
+    <string name="accountsunlimited_description">5つ以上のアカウントを作成する機能のアンロック。</string>
 </resources>
