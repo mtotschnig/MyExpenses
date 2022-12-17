@@ -19,4 +19,10 @@
     <string name="print_title">הדפס</string>
     <string name="splittransaction_title">עסקה מפוצלת</string>
     <string name="synchronization_title">סנכרון לענן</string>
+    <string name="adfree_description">ללא פרסומות.</string>
+    <string name="csvimport_description">ייבוא מתוחכם ומתואם של CSV (יישומי גיליונות נתונים)</string>
+    <string name="distribution_title">תרשים עוגה</string>
+    <string name="professional_benefit_1">שחרור כל יכולות הפרימיום</string>
+    <string name="categorytree_title">עץ קטגוריות</string>
+    <string name="splittemplate_title">תבנית פיצול</string>
 </resources>
