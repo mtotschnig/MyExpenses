@@ -7,4 +7,13 @@
     <string name="professional_benefit_3">개발 로드맵에 바로 투표</string>
     <string name="accountsunlimited_title">개수 제한 없는 계좌</string>
     <string name="accountsunlimited_description">다섯 개 이상의 계정을 만들 수 있는 기능 잠금 해제.</string>
+    <string name="adfree_title">광고 없음</string>
+    <string name="categorytree_description">임의의 깊은 범주 계층 구조</string>
+    <string name="csvimport_title">CSV 가져오기</string>
+    <string name="plansunlimited_title">개수 제한 없는 재무 계획</string>
+    <string name="print_title">인쇄</string>
+    <string name="splittransaction_title">거래 내역을 분할하기</string>
+    <string name="synchronization_title">클라우드 동기화</string>
+    <string name="budget_title">예산편성</string>
+    <string name="ocr_title">영수증 스캔</string>
 </resources>
