@@ -16,4 +16,19 @@
     <string name="accountsunlimited_title">无限数量的账户</string>
     <string name="accountsunlimited_description">解锁创建多于五个账户的能力。</string>
     <string name="adfree_title">无广告</string>
+    <string name="synchronization_title">云同步</string>
+    <string name="splittransaction_description">单个交易可以拆分成多个部分（转账或分属于不同的类别）。</string>
+    <string name="adfree_description">无广告。</string>
+    <string name="csvimport_description">可自定义复杂的CSV导入文件（电子表格应用程序）</string>
+    <string name="distribution_title">饼状统计图</string>
+    <string name="print_description">可以将交易清单打印成PDF文件</string>
+    <string name="categorytree_title">类别树</string>
+    <string name="distribution_description">可视化不同时期（年、月、周、天）中，每个类别的交易统计分布</string>
+    <string name="synchronization_description">可以在多个设备之间同步数据。</string>
+    <string name="splittransaction_title">拆分交易款项</string>
+    <string name="categorytree_description">任意深的类别层次结构</string>
+    <string name="csvimport_title">导入 CSV</string>
+    <string name="plansunlimited_title">无限数量的收支计划</string>
+    <string name="print_title">打印</string>
+    <string name="plansunlimited_description">解锁为定期交易创建三个以上计划的功能。</string>
 </resources>
