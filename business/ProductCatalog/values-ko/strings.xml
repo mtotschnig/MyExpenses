@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_description">분할 트랜잭션에 대한 무제한 템플릿 및 계획</string>
-  <string name="history_description">시간이 지남에 따라 재무 상황이 어떻게 전개되는지 이해</string>
-  <string name="budget_description">연간, 월간 또는 주별 예산으로 지출 할 금액을 정의하십시오.</string>
-  <string name="professional_benefit_2">이메일 지원</string>
-  <string name="professional_benefit_3">개발 로드맵에 바로 투표</string>
+    <string name="splittemplate_description">분할 트랜잭션에 대한 무제한 템플릿 및 계획</string>
+    <string name="history_description">시간이 지남에 따라 재무 상황이 어떻게 전개되는지 이해</string>
+    <string name="budget_description">연간, 월간 또는 주별 예산으로 지출 할 금액을 정의하십시오.</string>
+    <string name="professional_benefit_2">이메일 지원</string>
+    <string name="professional_benefit_3">개발 로드맵에 바로 투표</string>
+    <string name="accountsunlimited_title">개수 제한 없는 계좌</string>
+    <string name="accountsunlimited_description">다섯 개 이상의 계정을 만들 수 있는 기능 잠금 해제.</string>
 </resources>
