@@ -13,4 +13,7 @@
     <string name="webui_description">使用桌面浏览器输入数据</string>
     <string name="professional_benefit_1">解锁所有高级功能</string>
     <string name="professional_benefit_2">电子邮件支持</string>
+    <string name="accountsunlimited_title">无限数量的账户</string>
+    <string name="accountsunlimited_description">解锁创建多于五个账户的能力。</string>
+    <string name="adfree_title">无广告</string>
 </resources>
