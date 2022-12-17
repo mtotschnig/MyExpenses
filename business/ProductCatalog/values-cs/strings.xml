@@ -5,4 +5,12 @@
     <string name="accountsunlimited_title">Neomezený počet účtů</string>
     <string name="accountsunlimited_description">Odemknutí možnosti vytvořit více než pět účtů.</string>
     <string name="adfree_title">Bez reklam</string>
+    <string name="csvimport_title">Import CSV souboru</string>
+    <string name="plansunlimited_title">Neomezený počet plánů</string>
+    <string name="print_title">Tisk</string>
+    <string name="splittransaction_title">Rozdělení transakce</string>
+    <string name="synchronization_title">Cloudová synchronizace</string>
+    <string name="budget_title">Rozpočty</string>
+    <string name="ocr_title">Skenovat fakturu</string>
+    <string name="webui_title">Webové uživatelské rozhraní</string>
 </resources>
