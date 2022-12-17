@@ -8,4 +8,11 @@
     <string name="professional_benefit_3">Głosowanie na mapie drogowej rozwoju</string>
     <string name="accountsunlimited_description">Odblokowanie możliwości tworzenia więcej niż pięciu kont.</string>
     <string name="accountsunlimited_title">Nieskończona ilość kont</string>
+    <string name="adfree_title">Brak reklam</string>
+    <string name="csvimport_title">Import CSV</string>
+    <string name="plansunlimited_title">Nieograniczona ilość planów</string>
+    <string name="print_title">Drukuj</string>
+    <string name="splittransaction_title">Podział transakcji</string>
+    <string name="synchronization_title">Synchronizacja w chmurze</string>
+    <string name="ocr_title">Zeskanuj paragon</string>
 </resources>
