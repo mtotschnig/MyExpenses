@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="history_title">История</string>
-  <string name="history_description">Поймите, как ваше финансовое положение меняется со временем</string>
-  <string name="budget_title">составление бюджета</string>
-  <string name="professional_benefit_2">E-mail поддержка</string>
-  <string name="professional_benefit_3">Право голоса на дорожной карте</string>
+    <string name="history_title">История</string>
+    <string name="history_description">Поймите, как ваше финансовое положение меняется со временем</string>
+    <string name="budget_title">составление бюджета</string>
+    <string name="professional_benefit_2">E-mail поддержка</string>
+    <string name="professional_benefit_3">Право голоса на дорожной карте</string>
+    <string name="accountsunlimited_description">Разблокировать возможность создания более пяти учетных записей.</string>
+    <string name="accountsunlimited_title">Неограниченное количество счетов</string>
 </resources>
