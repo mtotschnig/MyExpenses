@@ -8,4 +8,10 @@
     <string name="professional_benefit_3">Δικαίωμα ψήφου για τον χάρτη πορείας</string>
     <string name="accountsunlimited_title">Απεριόριστος αριθμός λογαριασμών</string>
     <string name="accountsunlimited_description">Ξεκλειδώστε τη δυνατότητα δημιουργίας περισσότερων από πέντε λογαριασμών.</string>
+    <string name="adfree_title">Χωρίς διαφημίσεις</string>
+    <string name="csvimport_title">Εισαγωγή CSV</string>
+    <string name="synchronization_title">Συγχρονισμός σύννεφου</string>
+    <string name="plansunlimited_title">Απεριόριστος αριθμός σχεδίων</string>
+    <string name="print_title">Εκτύπωση</string>
+    <string name="splittransaction_title">Διαιρεμένη συναλλαγή</string>
 </resources>
