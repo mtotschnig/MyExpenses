@@ -1,14 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="splittemplate_title">Bölünmüş şablon</string>
-  <string name="splittemplate_description">Sınırsız sayıda şablon ve bölünmüş muameleler için planlama</string>
-  <string name="history_title">Tarihçe grafiği</string>
-  <string name="history_description">Finansal durumunuzun zaman içinde nasıl geliştiğini anlayın</string>
-  <string name="budget_title">Bütçeleme</string>
-  <string name="budget_description">Senelik, aylık veya haftalık bütçelerinizde ne kadar harcamak istediğinizi tanımlayın</string>
-  <string name="ocr_title">Makbuz tara</string>
-  <string name="ocr_description">Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar</string>
-  <string name="webui_title">İnternet Kullanıcı Arayüzü</string>
-  <string name="webui_description">Veri girişi için masaüstü İnternet tarayıcınızı kullanın</string>
-  <string name="professional_benefit_2">e-posta desteği</string>
-  <string name="professional_benefit_3">Geliştirme yol haritasına oy verin</string>
+    <string name="splittemplate_title">Bölünmüş şablon</string>
+    <string name="splittemplate_description">Sınırsız sayıda şablon ve bölünmüş muameleler için planlama</string>
+    <string name="history_title">Tarihçe grafiği</string>
+    <string name="history_description">Finansal durumunuzun zaman içinde nasıl geliştiğini anlayın</string>
+    <string name="budget_title">Bütçeleme</string>
+    <string name="budget_description">Senelik, aylık veya haftalık bütçelerinizde ne kadar harcamak istediğinizi tanımlayın</string>
+    <string name="ocr_title">Makbuz tara</string>
+    <string name="ocr_description">Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar</string>
+    <string name="webui_title">İnternet Kullanıcı Arayüzü</string>
+    <string name="webui_description">Veri girişi için masaüstü İnternet tarayıcınızı kullanın</string>
+    <string name="professional_benefit_2">E-posta desteği</string>
+    <string name="professional_benefit_3">Geliştirme yol haritasına oy verin</string>
+    <string name="professional_benefit_1">Tüm ücretli özelliklerin kilidini açın</string>
 </resources>
