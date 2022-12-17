@@ -7,4 +7,13 @@
     <string name="professional_benefit_3">Право голоса на дорожной карте</string>
     <string name="accountsunlimited_description">Разблокировать возможность создания более пяти учетных записей.</string>
     <string name="accountsunlimited_title">Неограниченное количество счетов</string>
+    <string name="adfree_title">Без рекламы</string>
+    <string name="csvimport_title">Импорт данных в формате CSV</string>
+    <string name="plansunlimited_title">Неограниченное количество планов</string>
+    <string name="print_title">Печать</string>
+    <string name="splittransaction_title">Разделённая операция</string>
+    <string name="synchronization_title">Облачная синхронизация</string>
+    <string name="budget_description">Определите, сколько вы собираетесь тратить в годовом, ежемесячном или недельном бюджете.</string>
+    <string name="ocr_title">Скан чека</string>
+    <string name="webui_title">Веб-интерфейс пользователя</string>
 </resources>
