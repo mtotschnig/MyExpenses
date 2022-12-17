@@ -172,4 +172,41 @@
     <string name="menu_reset_all">سب کو ایکسپورٹ اور ری سیٹ کریں</string>
     <string name="menu_reset_plan_instance">دوبارہ ترتیب دیں</string>
     <string name="menu_save">محفوظ کریں</string>
+    <string name="menu_save_and_new">محفوظ کریں اور نیا</string>
+    <string name="menu_search">تلاش کریں</string>
+    <string name="menu_settings">ترتیبات</string>
+    <string name="menu_share">کسی دوست کو بتائیں</string>
+    <string name="button_label_share_file">شیئر کریں</string>
+    <string name="button_label_close">بند کریں</string>
+    <string name="menu_split_transaction">تقسیم میں تبدیل کریں</string>
+    <string name="method">ادائیگی کا طریقہ</string>
+    <string name="no_app_handling_ftp_available">کوئی ایپ ہینڈلنگ ایف ٹی پی دستیاب نہیں ہے۔ انسٹال کریں <i>FTP کے ساتھ بھیجیں</i>؟</string>
+    <string name="no_categories">کوئی زمرہ جات نہیں.</string>
+    <string name="no_app_handling_email_available">کوئی ایپ ہینڈلنگ ای میل دستیاب نہیں ہے.</string>
+    <string name="no_app_handling_pdf_available">PDF فائلوں کو ہینڈل کرنے والی کوئی ایپ دستیاب نہیں ہے.</string>
+    <string name="no_expenses">ابھی تک کوئی اخراجات نہیں!</string>
+    <string name="no_exportable_expenses">ایسا کوئی لین دین نہیں ہے جو ابھی تک برآمد نہیں کیا گیا ہے.</string>
+    <string name="no_filemanager_installed">کوئی فائل مینیجر انسٹال نہیں ہے</string>
+    <string name="no_calendar_app_installed">کیلنڈر ایونٹ میں ترمیم کرنے کے لیے کوئی ایپ نہیں ملی.</string>
+    <string name="image_capture_not_installed">تصویر لینے کے لیے کوئی ایپ نہیں ملی.</string>
+    <string name="no_mapped_transactions">اس مدت کے دوران کسی بھی لین دین کو زمروں میں نقشہ نہیں بنایا گیا ہے.</string>
+    <string name="no_methods">ادائیگی کے طریقے نہیں ہیں.</string>
+    <string name="no_parties">کوئی پارٹیاں نہیں.</string>
+    <string name="no_split_parts">کوئی تقسیم شدہ حصے نہیں.</string>
+    <string name="no_templates">کوئی ٹیمپلیٹس نہیں.</string>
+    <string name="no_accounts">کوئی اکاؤنٹس نہیں.</string>
+    <string name="numbered">نمبر شدہ</string>
+    <string name="opening_balance">اوپننگ بیلنس</string>
+    <string name="parse_error_file_not_found">فائل %1$s نہیں مل سکی</string>
+    <string name="parse_error_no_data_found">فائل میں کوئی درآمدی ڈیٹا نہیں ملا.</string>
+    <string name="parse_error_other_exception">ایک خرابی پیش آگئی: %1$s</string>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">منتخب آبجیکٹ کو ٹیمپلیٹ میں میپ کیا گیا ہے اور اسے حذف نہیں کیا جا سکتا.</item>
+        <item quantity="other">%1$d آبجیکٹس کو ٹیمپلیٹس میں میپ کیا گیا ہے اور انہیں حذف نہیں کیا جا سکتا.</item>
+    </plurals>
+    <string name="parse_error_grisbi_version_not_supported">غیر تعاون یافتہ Grisbi فائل ورژن: %1$s</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">منتخب آبجیکٹ کو لین دین میں میپ کیا گیا ہے اور اسے حذف نہیں کیا جا سکتا.</item>
+        <item quantity="other">%1$d اشیاء کو لین دین میں میپ کیا گیا ہے اور انہیں حذف نہیں کیا جا سکتا.</item>
+    </plurals>
 </resources>
