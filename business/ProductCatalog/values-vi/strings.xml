@@ -7,4 +7,11 @@
     <string name="professional_benefit_3">Bỏ phiếu về phát triển ứng dụng</string>
     <string name="accountsunlimited_title">Số lượng không giới hạn các tài khoản</string>
     <string name="accountsunlimited_description">Mở khóa khả năng tạo nhiều hơn năm tài khoản.</string>
+    <string name="adfree_title">Không quảng cáo</string>
+    <string name="csvimport_title">Nhập CSV</string>
+    <string name="plansunlimited_title">Tạo các kế hoạch với số lượng không giới hạn</string>
+    <string name="print_title">In</string>
+    <string name="splittransaction_title">GD phân tách</string>
+    <string name="synchronization_title">Đồng bộ hoá đám mây</string>
+    <string name="ocr_title">Quét biên lai</string>
 </resources>
