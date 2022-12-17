@@ -15,4 +15,20 @@
     <string name="webui_title">ウェブユーザーインターフェイス</string>
     <string name="accountsunlimited_title">無制限の勘定数</string>
     <string name="accountsunlimited_description">5つ以上のアカウントを作成する機能のアンロック。</string>
+    <string name="adfree_title">広告なし</string>
+    <string name="adfree_description">広告なし。</string>
+    <string name="plansunlimited_title">無制限の計画数</string>
+    <string name="plansunlimited_description">定期的なトランザクションに対して3つ以上のプランを作成する機能のロックを解除します。</string>
+    <string name="print_description">取引リストを PDF ファイルに 印刷</string>
+    <string name="synchronization_description">データを複数のデバイス間で同期できます。</string>
+    <string name="categorytree_title">カテゴリツリー</string>
+    <string name="distribution_title">円グラフ</string>
+    <string name="distribution_description">異なる期間にわたる分類ごとの取引の統計的分布を視覚化します (年、月、週、日)</string>
+    <string name="csvimport_description">洗練されたカスタマイズ可能なCSV インポート (スプレッドシート アプリケーション)</string>
+    <string name="categorytree_description">任意に深いカテゴリー階層</string>
+    <string name="csvimport_title">CSV インポート</string>
+    <string name="print_title">印刷</string>
+    <string name="splittransaction_title">取引を分割</string>
+    <string name="synchronization_title">クラウド同期</string>
+    <string name="splittransaction_description">一つの取引を複数の部分に分割できます (分類と振込)。</string>
 </resources>
