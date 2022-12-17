@@ -13,4 +13,6 @@
     <string name="professional_benefit_2">Supporto email</string>
     <string name="professional_benefit_3">Votare sulla roadmap di sviluppo</string>
     <string name="professional_benefit_1">Sblocca tutte le funzionalità premium</string>
+    <string name="accountsunlimited_title">Numero illimitato di conti</string>
+    <string name="accountsunlimited_description">Sbloccare la possibilità di creare più di cinque conti.</string>
 </resources>
