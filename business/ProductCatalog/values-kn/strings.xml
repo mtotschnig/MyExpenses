@@ -10,4 +10,13 @@
     <string name="professional_benefit_3">ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ ಮತದಾನ</string>
     <string name="accountsunlimited_title">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು</string>
     <string name="accountsunlimited_description">ಐದಕ್ಕಿಂತ ಹೆಚ್ಚು ಖಾತೆಗಳನ್ನು ರಚಿಸುವ ಸಾಮರ್ಥ್ಯವನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ.</string>
+    <string name="categorytree_description">ನಿರಂಕುಶವಾಗಿ ಆಳವಾದ ವರ್ಗ ಶ್ರೇಣಿ</string>
+    <string name="adfree_title">ಜಾಹೀರಾತುಗಳಿಲ್ಲ</string>
+    <string name="csvimport_title">ಸಿಎಸ್ವಿ ಆಮದು</string>
+    <string name="plansunlimited_title">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಯೋಜನೆಗಳು</string>
+    <string name="print_title">ಮುದ್ರಿಸಿ</string>
+    <string name="splittransaction_title">ವಿಭಜಿತ ವಹಿವಾಟು</string>
+    <string name="synchronization_title">ಮೇಘ ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
+    <string name="ocr_title">ರಶೀದಿಯನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ</string>
+    <string name="webui_title">ವೆಬ್ ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
 </resources>
