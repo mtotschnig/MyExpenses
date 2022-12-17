@@ -10,4 +10,11 @@
     <string name="professional_benefit_3">Hak mengundi dalam peta jalan</string>
     <string name="accountsunlimited_description">Buka kunci keupayaan untuk membuat lebih daripada lima akaun.</string>
     <string name="accountsunlimited_title">Bilangan akaun tidak terhad</string>
+    <string name="adfree_title">Tanpa iklan</string>
+    <string name="csvimport_title">Import CSV</string>
+    <string name="print_title">Cetak</string>
+    <string name="plansunlimited_title">Bilang plan tidak terhad</string>
+    <string name="splittransaction_title">Transaksi pengasingan</string>
+    <string name="synchronization_title">Penyegerakan awan</string>
+    <string name="ocr_title">Imbas resit</string>
 </resources>
