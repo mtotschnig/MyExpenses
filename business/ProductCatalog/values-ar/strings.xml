@@ -13,4 +13,10 @@
     <string name="accountsunlimited_title">عدد حسابات غير محدود</string>
     <string name="accountsunlimited_description">فتح القدرة على إنشاء أكثر من خمسة حسابات.</string>
     <string name="adfree_title">بدون إعلانات</string>
+    <string name="webui_title">واجهة مستخدم الويب</string>
+    <string name="csvimport_title">إستيراد ملف CSV</string>
+    <string name="plansunlimited_title">عدد غير محدود من الخطط</string>
+    <string name="print_title">طباعة</string>
+    <string name="splittransaction_title">تقسيم العمليات</string>
+    <string name="synchronization_title">تزامن سحابي</string>
 </resources>
