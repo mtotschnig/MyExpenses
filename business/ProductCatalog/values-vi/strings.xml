@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_title">Bản mẫu chia tách</string>
-  <string name="history_title">Biểu đồ thời gian</string>
-  <string name="budget_title">Ngân quỹ</string>
-  <string name="professional_benefit_2">Hỗ trợ qua email</string>
-  <string name="professional_benefit_3">Bỏ phiếu về phát triển ứng dụng</string>
+    <string name="splittemplate_title">Bản mẫu chia tách</string>
+    <string name="history_title">Biểu đồ thời gian</string>
+    <string name="budget_title">Ngân quỹ</string>
+    <string name="professional_benefit_2">Hỗ trợ qua email</string>
+    <string name="professional_benefit_3">Bỏ phiếu về phát triển ứng dụng</string>
+    <string name="accountsunlimited_title">Số lượng không giới hạn các tài khoản</string>
+    <string name="accountsunlimited_description">Mở khóa khả năng tạo nhiều hơn năm tài khoản.</string>
 </resources>
