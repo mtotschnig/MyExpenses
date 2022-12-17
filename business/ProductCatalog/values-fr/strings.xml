@@ -23,4 +23,12 @@
     <string name="print_title">Imprimer</string>
     <string name="splittransaction_title">Opération ventilée</string>
     <string name="synchronization_title">Synchronisation dans le cloud</string>
+    <string name="adfree_description">Sans publicité.</string>
+    <string name="print_description">Imprimer la liste des opérations dans un fichier PDF</string>
+    <string name="synchronization_description">Les données peuvent être synchronisées entre plusieurs appareils.</string>
+    <string name="splittransaction_description">Une seule transaction peut être divisée en plusieurs parties (catégories et transferts).</string>
+    <string name="csvimport_description">Import CSV sophistiqué et personnalisable (applications tableur)</string>
+    <string name="distribution_title">Diagramme circulaire</string>
+    <string name="distribution_description">Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)</string>
+    <string name="plansunlimited_description">Déverrouiller la possibilité de créer plus de trois plans pour les transactions récurrentes.</string>
 </resources>
