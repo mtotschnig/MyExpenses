@@ -13,4 +13,22 @@
     <string name="professional_benefit_2">E-posta desteği</string>
     <string name="professional_benefit_3">Geliştirme yol haritasına oy verin</string>
     <string name="professional_benefit_1">Tüm ücretli özelliklerin kilidini açın</string>
+    <string name="splittransaction_title">Bölünmüş muamele</string>
+    <string name="categorytree_title">Kategori Ağacı</string>
+    <string name="adfree_title">Reklamsız</string>
+    <string name="adfree_description">Reklam yok.</string>
+    <string name="csvimport_title">CSV içe aktar</string>
+    <string name="distribution_title">Yuvarlak grafik</string>
+    <string name="plansunlimited_title">Sınırsız plan sayısı</string>
+    <string name="plansunlimited_description">Tekrar eden muameleler için üçten fazla plan oluşturma özelliğinin kilidini açın.</string>
+    <string name="csvimport_description">Gelişmiş, özelleştirilebilen CSV içe aktarma (tablolama uygulamaları)</string>
+    <string name="synchronization_description">Veriler birden fazla aygıt arasında eşzamanlanabilir.</string>
+    <string name="splittransaction_description">Tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler).</string>
+    <string name="synchronization_title">Bulut eşzamanlaması</string>
+    <string name="categorytree_description">İstenilen derinlikte kategori hiyerarşisi</string>
+    <string name="accountsunlimited_title">Sınırsız sayıda hesap</string>
+    <string name="accountsunlimited_description">Beşten fazla hesap oluşturma özelliğinin kilidini açın.</string>
+    <string name="print_title">Yazdır</string>
+    <string name="print_description">Muamele listesini bir PDF dosyasına yazdırın</string>
+    <string name="distribution_description">Değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin</string>
 </resources>
