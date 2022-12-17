@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">Split template</string>
   <string name="splittemplate_description">Unlimited number of templates and plans for split transactions</string>
   <string name="history_title">History chart</string>
@@ -9,6 +9,24 @@
   <string name="ocr_description">Automatically extract amount, date and payee</string>
   <string name="webui_title">Web User Interface</string>
   <string name="webui_description">Use your desktop browser for data entry</string>
+  <string name="categorytree_title">Category Tree</string>
+  <string name="categorytree_description">Arbitrarily deep category hierarchy</string>
+  <string name="accountsunlimited_title">Unlimited number of accounts</string>
+  <string name="accountsunlimited_description">Unlock the ability to create more than five accounts.</string>
+  <string name="adfree_title">No ads</string>
+  <string name="adfree_description">No ads.</string>
+  <string name="csvimport_title">CSV import</string>
+  <string name="csvimport_description">Sophisticated, customizable CSV import (spreadsheet applications)</string>
+  <string name="distribution_title">Pie chart</string>
+  <string name="distribution_description">Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)</string>
+  <string name="plansunlimited_title">Unlimited number of plans</string>
+  <string name="plansunlimited_description">Unlock the ability to create more than three plans for recurring transactions.</string>
+  <string name="print_title">Print</string>
+  <string name="print_description">Print the transaction list to a PDF file</string>
+  <string name="splittransaction_title">Split transaction</string>
+  <string name="splittransaction_description">A single transaction can be split into multiple parts (categories and transfers).</string>
+  <string name="synchronization_title">Cloud synchronization</string>
+  <string name="synchronization_description">Data can be synced between multiple devices.</string>
   <string name="professional_benefit_1">Unlock all premium features</string>
   <string name="professional_benefit_2">Email support</string>
   <string name="professional_benefit_3">Voting right on development roadmap</string>

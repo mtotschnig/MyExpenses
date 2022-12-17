@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="history_title">Graf historie</string>
   <string name="professional_benefit_2">Emailová podpora</string>
   </resources>

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">نموذج مجزأ</string>
   <string name="splittemplate_description">عدد غير محدود من القوالب والخطط للمعاملات المقسمة</string>
   <string name="history_title">مخطط زمني</string>

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="history_title">История</string>
   <string name="history_description">Поймите, как ваше финансовое положение меняется со временем</string>
   <string name="budget_title">составление бюджета</string>

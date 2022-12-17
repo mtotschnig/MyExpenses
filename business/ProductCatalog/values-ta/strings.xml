@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">பிரிவு வார்ப்புரு</string>
   <string name="splittemplate_description">வரம்பற்ற வார்ப்புருக்கள் மற்றும் பிரிவு பரிவர்த்தனைகளுக்கான திட்டங்கள்</string>
   <string name="history_title">வரலாற்று விளக்கப்படம்</string>

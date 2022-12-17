@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">Templat pengasingan</string>
   <string name="splittemplate_description">Bilangan templat dan plan tanpa had untuk transaksi berasingan</string>
   <string name="history_title">Carta sejarah</string>

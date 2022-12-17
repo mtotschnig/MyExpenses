@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">Шаблон поділу</string>
   <string name="history_title">Історія</string>
   <string name="budget_title">Бюджетування</string>

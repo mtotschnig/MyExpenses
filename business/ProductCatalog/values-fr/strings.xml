@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">Modèle ventilé</string>
   <string name="splittemplate_description">Nombre illimité de modèles et d\'échéances pour les opérations ventilées</string>
   <string name="history_title">Graphique historique</string>

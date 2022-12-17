@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">πρότυπο διαχωρισμού</string>
   <string name="history_title">Γράφημα ιστορικού</string>
   <string name="budget_title">Προϋπολογισμός</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="splittemplate_title">Bölünmüş şablon</string>
     <string name="splittemplate_description">Sınırsız sayıda şablon ve bölünmüş muameleler için planlama</string>
     <string name="history_title">Tarihçe grafiği</string>

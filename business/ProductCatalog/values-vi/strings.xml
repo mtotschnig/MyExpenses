@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">Bản mẫu chia tách</string>
   <string name="history_title">Biểu đồ thời gian</string>
   <string name="budget_title">Ngân quỹ</string>

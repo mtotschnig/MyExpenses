@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources >
     <string name="splittemplate_title">Plantilla dividida</string>
     <string name="splittemplate_description">Número ilimitado de plantillas y proyectos para transacciones divididas</string>
     <string name="history_title">Gráfico de historial</string>

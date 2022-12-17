@@ -4,6 +4,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="2.0">
     <xsl:output encoding="UTF-8" method="xml" />
+    <xsl:include href="helpers_v1.xsl" />
     <xsl:include href="helpers.xsl" />
     <xsl:param name="version" />
     <xsl:param name="versionCode" />

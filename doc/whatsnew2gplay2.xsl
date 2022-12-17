@@ -3,6 +3,7 @@
     xmlns:my="http://myexpenses.mobi/"
     version="2.0">
     <xsl:output encoding="UTF-8" method="xml" />
+    <xsl:include href="helpers_v1.xsl" />
     <xsl:include href="helpers.xsl" />
     <xsl:param name="version" />
     <xsl:param name="languages" select="$all-languages" />

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_description">분할 트랜잭션에 대한 무제한 템플릿 및 계획</string>
   <string name="history_description">시간이 지남에 따라 재무 상황이 어떻게 전개되는지 이해</string>
   <string name="budget_description">연간, 월간 또는 주별 예산으로 지출 할 금액을 정의하십시오.</string>

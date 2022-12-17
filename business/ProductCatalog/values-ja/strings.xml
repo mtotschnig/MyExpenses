@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="splittemplate_title">しい分割テンプレート</string>
     <string name="splittemplate_description">無制限の数の テンプレートと分割取引の計画</string>
     <string name="history_title">履歴チャート</string>

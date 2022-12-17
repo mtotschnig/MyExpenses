@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್</string>
   <string name="splittemplate_description">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ವಿಭಜಿತ ವಹಿವಾಟಿನ ಯೋಜನೆಗಳು</string>
   <string name="history_title">ಇತಿಹಾಸ ಚಾರ್ಟ್</string>

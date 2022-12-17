@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">Шаблон за разпространение</string>
   <string name="splittemplate_description">Неограничен брой шаблони и планове за разпределени транзакции</string>
   <string name="history_title">Графика на историята</string>

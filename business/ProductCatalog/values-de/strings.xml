@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <string name="splittemplate_title">Mehrteilige Vorlage</string>
   <string name="splittemplate_description">Unbegrenzte Anzahl von Vorlagen und Plänen für mehrteilige Buchungen</string>
   <string name="history_title">Verlaufsdiagramm</string>
