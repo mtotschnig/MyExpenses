@@ -9,4 +9,10 @@
     <string name="adfree_title">Iragarkirik gabe</string>
     <string name="accountsunlimited_title">Kontu kopuru mugagabea</string>
     <string name="accountsunlimited_description">Bost kontu baino gehiago sortzeko gaitasuna desblokeatu du.</string>
+    <string name="csvimport_title">CSV inportazioa</string>
+    <string name="plansunlimited_title">Plan kopuru mugagabea</string>
+    <string name="print_title">Inprimatu</string>
+    <string name="splittransaction_title">Banatu transakzioa</string>
+    <string name="synchronization_title">Sinkronizazioa hodeian</string>
+    <string name="ocr_title">Eskaneatu ordainagiria</string>
 </resources>
