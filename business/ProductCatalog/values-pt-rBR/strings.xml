@@ -15,4 +15,20 @@
     <string name="professional_benefit_3">Direito de voto no roteiro de desenvolvimento</string>
     <string name="accountsunlimited_title">Número ilimitado de contas</string>
     <string name="accountsunlimited_description">Desbloquear a capacidade de criar mais de cinco contas.</string>
+    <string name="categorytree_description">Hierarquia de categorias arbitrariamente profunda</string>
+    <string name="categorytree_title">Árvore de categorias</string>
+    <string name="adfree_title">Sem anúncios</string>
+    <string name="csvimport_title">Importação CSV</string>
+    <string name="adfree_description">Sem anúncios.</string>
+    <string name="distribution_title">Gráfico de pizza</string>
+    <string name="plansunlimited_description">Desbloqueie a capacidade de criar mais de três planos para transações recorrentes.</string>
+    <string name="print_description">Imprima a lista de transações em um arquivo PDF</string>
+    <string name="splittransaction_title">Transação dividida</string>
+    <string name="synchronization_title">Sincronização na nuvem</string>
+    <string name="splittransaction_description">Uma transação única pode ser dividida em várias partes (categorias e transferências).</string>
+    <string name="synchronization_description">Os dados podem ser sincronizados entre vários dispositivos.</string>
+    <string name="csvimport_description">Importação de CSV sofisticada e personalizável (aplicativos de planilha)</string>
+    <string name="plansunlimited_title">Número ilimitado de planos</string>
+    <string name="print_title">Imprimir</string>
+    <string name="distribution_description">Visualize a distribuição estatística de transações por categoria em diferentes períodos (anos, meses, semanas, dias)</string>
 </resources>
