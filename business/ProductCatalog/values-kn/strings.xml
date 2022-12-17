@@ -1,10 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_title">ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್</string>
-  <string name="splittemplate_description">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ವಿಭಜಿತ ವಹಿವಾಟಿನ ಯೋಜನೆಗಳು</string>
-  <string name="history_title">ಇತಿಹಾಸ ಚಾರ್ಟ್</string>
-  <string name="history_description">ಕಾಲಾನಂತರದಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಥಿಕ ಪರಿಸ್ಥಿತಿ ಹೇಗೆ ವಿಕಸನಗೊಳ್ಳುತ್ತದೆ ಎಂಬುದನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ</string>
-  <string name="budget_title">ಬಜೆಟ್</string>
-  <string name="budget_description">ವಾರ್ಷಿಕ, ಮಾಸಿಕ ಅಥವಾ ಸಾಪ್ತಾಹಿಕ ಬಜೆಟ್‌ಗಳಲ್ಲಿ ನೀವು ಎಷ್ಟು ಖರ್ಚು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ವಿವರಿಸಿ</string>
-  <string name="professional_benefit_2">ಮೇಲ್ ಬೆಂಬಲ</string>
-  <string name="professional_benefit_3">ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ ಮತದಾನ</string>
+    <string name="splittemplate_title">ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್</string>
+    <string name="splittemplate_description">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ವಿಭಜಿತ ವಹಿವಾಟಿನ ಯೋಜನೆಗಳು</string>
+    <string name="history_title">ಇತಿಹಾಸ ಚಾರ್ಟ್</string>
+    <string name="history_description">ಕಾಲಾನಂತರದಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಥಿಕ ಪರಿಸ್ಥಿತಿ ಹೇಗೆ ವಿಕಸನಗೊಳ್ಳುತ್ತದೆ ಎಂಬುದನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ</string>
+    <string name="budget_title">ಬಜೆಟ್</string>
+    <string name="budget_description">ವಾರ್ಷಿಕ, ಮಾಸಿಕ ಅಥವಾ ಸಾಪ್ತಾಹಿಕ ಬಜೆಟ್‌ಗಳಲ್ಲಿ ನೀವು ಎಷ್ಟು ಖರ್ಚು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ವಿವರಿಸಿ</string>
+    <string name="professional_benefit_2">ಮೇಲ್ ಬೆಂಬಲ</string>
+    <string name="professional_benefit_3">ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ ಮತದಾನ</string>
+    <string name="accountsunlimited_title">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು</string>
+    <string name="accountsunlimited_description">ಐದಕ್ಕಿಂತ ಹೆಚ್ಚು ಖಾತೆಗಳನ್ನು ರಚಿಸುವ ಸಾಮರ್ಥ್ಯವನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ.</string>
 </resources>
