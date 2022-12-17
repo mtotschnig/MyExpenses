@@ -1,12 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_description">מספר לא מוגבל של תבניות ותוכניות לעסקאות מפוצלות</string>
-  <string name="history_title">תרשים היסטוריה</string>
-  <string name="history_description">הבן איך המצב הכלכלי שלך מתפתח לאורך זמן</string>
-  <string name="budget_title">תקצוב</string>
-  <string name="budget_description">הגדר כמה אתה מתכוון להשקיע בתקציב שנתי, חודשי או שבועי</string>
-  <string name="ocr_title">סריקת קבלה</string>
-  <string name="ocr_description">חילוץ אוטומטי של הסכום, התאריך והמקבל</string>
-  <string name="webui_title">ממשק משתמש באינטרנט</string>
-  <string name="professional_benefit_2">שלח תמיכה</string>
-  <string name="professional_benefit_3">זכות הצבעה על מפת דרכים לפיתוח</string>
+    <string name="splittemplate_description">מספר לא מוגבל של תבניות ותוכניות לעסקאות מפוצלות</string>
+    <string name="history_title">תרשים היסטוריה</string>
+    <string name="history_description">הבן איך המצב הכלכלי שלך מתפתח לאורך זמן</string>
+    <string name="budget_title">תקצוב</string>
+    <string name="budget_description">הגדר כמה אתה מתכוון להשקיע בתקציב שנתי, חודשי או שבועי</string>
+    <string name="ocr_title">סריקת קבלה</string>
+    <string name="ocr_description">חילוץ אוטומטי של הסכום, התאריך והמקבל</string>
+    <string name="webui_title">ממשק משתמש באינטרנט</string>
+    <string name="professional_benefit_2">שלח תמיכה</string>
+    <string name="professional_benefit_3">זכות הצבעה על מפת דרכים לפיתוח</string>
+    <string name="accountsunlimited_description">נפתחה האפשרות ליצור יותר מחמישה חשבונות.</string>
+    <string name="accountsunlimited_title">מספר חשבונות בלתי מוגבל</string>
 </resources>
