@@ -1,0 +1,4 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="history_title">收支歷史圖表</string>
+  <string name="history_description">了解您的財務狀況如何隨著時間的推移而演變。</string>
+  </resources>
