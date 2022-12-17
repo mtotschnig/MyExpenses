@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Modello di operazione frazionata</string>
+  <string name="splittemplate_description">Numero illimitato di modelli e piani per le transazioni frazionate</string>
+  <string name="history_title">Grafico storico</string>
+  <string name="history_description">Monitora l\'evoluzione della tua situazione finanziaria nel tempo</string>
+  <string name="budget_title">Bilancio</string>
+  <string name="budget_description">Stabilisci quanto intendi spendere in budget annuali, mensili o settimanali</string>
+  <string name="ocr_title">Scansiona lo scontrino</string>
+  <string name="ocr_description">Estrai automaticamente l\'importo, la data ed il beneficiario</string>
+  <string name="webui_title">Interfaccia utente Web</string>
+  <string name="webui_description">Usa il tuo browser desktop per l&#39;inserimento dei dati</string>
+  <string name="professional_benefit_2">Supporto email</string>
+  <string name="professional_benefit_3">Votare sulla roadmap di sviluppo</string>
+</resources>

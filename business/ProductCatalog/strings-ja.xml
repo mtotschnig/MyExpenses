@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">しい分割テンプレート</string>
+  <string name="splittemplate_description">無制限の数の テンプレートと分割取引の計画</string>
+  <string name="history_title">履歴チャート</string>
+  <string name="history_description">財政状況が時間とともにどのように変化するかを理解</string>
+  <string name="budget_title">予算作成</string>
+  <string name="budget_description">年間、月次、または週次の予算でどれぐらい消費する予定があるかを定義</string>
+  <string name="professional_benefit_2">メールサポート</string>
+  <string name="professional_benefit_3">開発ロードマップ の投票権</string>
+</resources>

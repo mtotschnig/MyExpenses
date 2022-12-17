@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Modelo de divisão</string>
+  <string name="splittemplate_description">Número ilimitado de modelos e planos para transações divididas</string>
+  <string name="history_title">Diagrama histórico</string>
+  <string name="history_description">Entenda como sua situação financeira evolui ao longo do tempo</string>
+  <string name="budget_title">Orçamento</string>
+  <string name="budget_description">Defina quanto você pretende gastar em orçamentos anuais, mensais ou semanais</string>
+  <string name="ocr_title">Digitalizar recibo</string>
+  <string name="ocr_description">Extraia automaticamente a quantia, a data e o beneficiário</string>
+  <string name="webui_title">Interface web do usuário</string>
+  <string name="webui_description">Use o navegador do seu desktop para entrada de dados</string>
+  <string name="professional_benefit_1">Desbloqueia todos os recursos premium</string>
+  <string name="professional_benefit_2">Suporte por e-mail</string>
+  <string name="professional_benefit_3">Direito de voto no roteiro de desenvolvimento</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Шаблон поділу</string>
+  <string name="history_title">Історія</string>
+  <string name="budget_title">Бюджетування</string>
+  <string name="professional_benefit_2">Сервіс підтримки</string>
+  <string name="professional_benefit_3">Можливість голосувати в плані розвитку програми</string>
+</resources>

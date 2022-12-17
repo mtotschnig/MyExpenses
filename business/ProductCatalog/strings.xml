@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Split template</string>
+  <string name="splittemplate_description">Unlimited number of templates and plans for split transactions</string>
+  <string name="history_title">History chart</string>
+  <string name="history_description">Understand how your financial situation evolves over time</string>
+  <string name="budget_title">Budgeting</string>
+  <string name="budget_description">Define how much you intend to spend in yearly, monthly or weekly budgets</string>
+  <string name="ocr_title">Scan receipt</string>
+  <string name="ocr_description">Automatically extract amount, date and payee</string>
+  <string name="webui_title">Web User Interface</string>
+  <string name="webui_description">Use your desktop browser for data entry</string>
+  <string name="professional_benefit_1">Unlock all premium features</string>
+  <string name="professional_benefit_2">Email support</string>
+  <string name="professional_benefit_3">Voting right on development roadmap</string>
+</resources>

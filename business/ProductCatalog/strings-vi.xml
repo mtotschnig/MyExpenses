@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Bản mẫu chia tách</string>
+  <string name="history_title">Biểu đồ thời gian</string>
+  <string name="budget_title">Ngân quỹ</string>
+  <string name="professional_benefit_2">Hỗ trợ qua email</string>
+  <string name="professional_benefit_3">Bỏ phiếu về phát triển ứng dụng</string>
+</resources>

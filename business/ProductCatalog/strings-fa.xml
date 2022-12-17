@@ -1,0 +1,5 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="history_title">نمودار جریان</string>
+  <string name="history_description">ببینید که چگونه وضع مالیتان در طی زمان بهتر می‌شود</string>
+  <string name="budget_description">تعریف کنید که می‌خواهید چه مقدار از بودجهٔ سالانه، ماهانه یا هفتگی خود خرج کنید</string>
+  </resources>

@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Podzielony szablon</string>
+  <string name="splittemplate_description">Nieograniczona liczba szablonów i planów podziału transakcji</string>
+  <string name="history_title">Wykres historii</string>
+  <string name="budget_title">Przydzielanie budżetu</string>
+  <string name="professional_benefit_2">Wysyłaj pocztę e-mail</string>
+  <string name="professional_benefit_3">Głosowanie na mapie drogowej rozwoju</string>
+</resources>

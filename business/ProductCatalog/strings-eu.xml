@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Banaketa txantiloi</string>
+  <string name="history_title">Historikoaren diagrama</string>
+  <string name="history_description">Ulertu zure finantzarioaren bilakaera</string>
+  <string name="budget_description">Definitu zure asmoa zenbat gastatzea den, urte betean, hilabete batean edo asteroko aurrekontuetan</string>
+  <string name="professional_benefit_2">E-mail bidezko laguntza</string>
+  <string name="professional_benefit_3">Garapen ibilbidean bozkatzeko aukera</string>
+</resources>

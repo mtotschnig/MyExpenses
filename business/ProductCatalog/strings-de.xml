@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="splittemplate_title">Mehrteilige Vorlage</string>
+  <string name="splittemplate_description">Unbegrenzte Anzahl von Vorlagen und Plänen für mehrteilige Buchungen</string>
+  <string name="history_title">Verlaufsdiagramm</string>
+  <string name="history_description">Verstehen Sie, wie sich Ihre finanzielle Situation im Laufe der Zeit entwickelt</string>
+  <string name="budget_title">Budgetierung</string>
+  <string name="budget_description">Legen Sie in jährlichen, monatlichen oder wöchentlichen Budgets fest, wie viel Sie  ausgeben möchten</string>
+  <string name="ocr_title">Quittung scannen</string>
+  <string name="ocr_description">Betrag, Datum und Zahlungsempfänger automatisch extrahieren</string>
+  <string name="webui_title">Web-Benutzeroberfläche</string>
+  <string name="webui_description">Verwenden Sie Ihren Desktop-Browser für die Dateneingabe</string>
+  <string name="professional_benefit_1">Schalte alle Premium-Funktionen frei</string>
+  <string name="professional_benefit_2">E-Mail-Support</string>
+  <string name="professional_benefit_3">Stimmrecht zum Entwicklungsfahrplan</string>
+</resources>
