@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_title">πρότυπο διαχωρισμού</string>
-  <string name="history_title">Γράφημα ιστορικού</string>
-  <string name="budget_title">Προϋπολογισμός</string>
-  <string name="ocr_title">Σάρωση απόδειξης</string>
-  <string name="professional_benefit_2">Υποστήριξη ηλεκτρονικού ταχυδρομείου</string>
-  <string name="professional_benefit_3">Δικαίωμα ψήφου για τον χάρτη πορείας</string>
+    <string name="splittemplate_title">πρότυπο διαχωρισμού</string>
+    <string name="history_title">Γράφημα ιστορικού</string>
+    <string name="budget_title">Προϋπολογισμός</string>
+    <string name="ocr_title">Σάρωση απόδειξης</string>
+    <string name="professional_benefit_2">Υποστήριξη ηλεκτρονικού ταχυδρομείου</string>
+    <string name="professional_benefit_3">Δικαίωμα ψήφου για τον χάρτη πορείας</string>
+    <string name="accountsunlimited_title">Απεριόριστος αριθμός λογαριασμών</string>
+    <string name="accountsunlimited_description">Ξεκλειδώστε τη δυνατότητα δημιουργίας περισσότερων από πέντε λογαριασμών.</string>
 </resources>
