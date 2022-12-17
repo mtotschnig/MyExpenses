@@ -1,15 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_title">Modèle ventilé</string>
-  <string name="splittemplate_description">Nombre illimité de modèles et d\'échéances pour les opérations ventilées</string>
-  <string name="history_title">Graphique historique</string>
-  <string name="history_description">Comprendre comment votre situation financière évolue avec le temps</string>
-  <string name="budget_title">Budgétisation</string>
-  <string name="budget_description">Définissez combien vous comptez dépenser en budgets annuels, mensuels ou hebdomadaires</string>
-  <string name="ocr_title">Scanner le reçu</string>
-  <string name="ocr_description">Extraire automatiquement le montant, la date et le bénéficiaire</string>
-  <string name="webui_title">Interface utilisateur Web</string>
-  <string name="webui_description">Utilisez votre navigateur de PC pour la saisie de données</string>
-  <string name="professional_benefit_1">Débloquez toutes les fonctionnalités premium</string>
-  <string name="professional_benefit_2">Assistance par e-mail</string>
-  <string name="professional_benefit_3">Voter sur la feuille de route</string>
+    <string name="splittemplate_title">Modèle ventilé</string>
+    <string name="splittemplate_description">Nombre illimité de modèles et d\'échéances pour les opérations ventilées</string>
+    <string name="history_title">Graphique historique</string>
+    <string name="history_description">Comprendre comment votre situation financière évolue avec le temps</string>
+    <string name="budget_title">Budgétisation</string>
+    <string name="budget_description">Définissez combien vous comptez dépenser en budgets annuels, mensuels ou hebdomadaires</string>
+    <string name="ocr_title">Scanner le reçu</string>
+    <string name="ocr_description">Extraire automatiquement le montant, la date et le bénéficiaire</string>
+    <string name="webui_title">Interface utilisateur Web</string>
+    <string name="webui_description">Utilisez votre navigateur de PC pour la saisie de données</string>
+    <string name="professional_benefit_1">Débloquez toutes les fonctionnalités premium</string>
+    <string name="professional_benefit_2">Assistance par e-mail</string>
+    <string name="professional_benefit_3">Voter sur la feuille de route</string>
+    <string name="categorytree_title">Arborescence des catégories</string>
+    <string name="csvimport_title">Import CSV</string>
+    <string name="accountsunlimited_title">Nombre illimité de comptes</string>
+    <string name="accountsunlimited_description">Déverrouiller la possibilité de créer plus de cinq comptes.</string>
+    <string name="adfree_title">Sans publicité</string>
+    <string name="categorytree_description">Une hiérarchie de catégories arbitrairement profonde</string>
+    <string name="plansunlimited_title">Nombre d\'échéances illimité</string>
+    <string name="print_title">Imprimer</string>
+    <string name="splittransaction_title">Opération ventilée</string>
+    <string name="synchronization_title">Synchronisation dans le cloud</string>
 </resources>
