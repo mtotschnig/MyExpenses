@@ -1,12 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="splittemplate_title">Plantilla dividida</string>
-  <string name="splittemplate_description">Número ilimitado de plantillas y proyectos para transacciones divididas</string>
-  <string name="history_title">Gráfico de historial</string>
-  <string name="history_description">Entienda cómo su situación financiera evoluciona en el tiempo</string>
-  <string name="budget_title">Presupuestar</string>
-  <string name="budget_description">Defina cuánto prevé gastar en presupuestos anual, mensual o semanalmente </string>
-  <string name="ocr_title">Escanear recibo</string>
-  <string name="ocr_description">Extrae automáticamente el importe, la fecha y el acreedor</string>
-  <string name="professional_benefit_2">Soporte por correo electrónico</string>
-  <string name="professional_benefit_3">Participar en la ruta de desarrollo</string>
+    <string name="splittemplate_title">Plantilla dividida</string>
+    <string name="splittemplate_description">Número ilimitado de plantillas y proyectos para transacciones divididas</string>
+    <string name="history_title">Gráfico de historial</string>
+    <string name="history_description">Entienda cómo su situación financiera evoluciona en el tiempo</string>
+    <string name="budget_title">Presupuestar</string>
+    <string name="budget_description">Defina cuánto prevé gastar en presupuestos anual, mensual o semanalmente </string>
+    <string name="ocr_title">Escanear recibo</string>
+    <string name="ocr_description">Extrae automáticamente el importe, la fecha y el acreedor</string>
+    <string name="professional_benefit_2">Soporte por correo electrónico</string>
+    <string name="professional_benefit_3">Participar en la ruta de desarrollo</string>
+    <string name="webui_description">Utilice su navegador para introducir los datos</string>
+    <string name="professional_benefit_1">Desbloquea todas las funciones premium</string>
+    <string name="webui_title">Interfaz de usuario web</string>
 </resources>
