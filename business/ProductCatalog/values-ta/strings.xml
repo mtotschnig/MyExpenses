@@ -11,4 +11,11 @@
     <string name="professional_benefit_3">வளர்ச்சித் திட்டத்தில் வாக்களியுங்கள்</string>
     <string name="accountsunlimited_title">கணக்குகளுக்கு வரம்பில்லை</string>
     <string name="accountsunlimited_description">ஐந்துக்கும் மேற்பட்ட கணக்குகளை உருவாக்கும் திறனைத் திறக்கவும்.</string>
+    <string name="adfree_title">விளம்பரங்கள் இல்லை</string>
+    <string name="csvimport_title">CSV இறக்குமதி</string>
+    <string name="plansunlimited_title">திட்டங்களுக்கு வரம்பில்லை</string>
+    <string name="print_title">அச்சிடு</string>
+    <string name="splittransaction_title">பிரிவு பரிவர்த்தனை</string>
+    <string name="synchronization_title">மேகக்கணினி ஒத்திசைவு</string>
+    <string name="webui_title">வலை பயனர் இடைமுகம்</string>
 </resources>
