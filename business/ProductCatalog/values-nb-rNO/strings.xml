@@ -13,4 +13,10 @@
     <string name="professional_benefit_3">Avgi din stemme på utviklingsplanen</string>
     <string name="ocr_title">Skann kvittering</string>
     <string name="splittemplate_title">Delt mal</string>
+    <string name="synchronization_title">Sky-synkronisering</string>
+    <string name="accountsunlimited_title">Ubegrenset antall konti</string>
+    <string name="adfree_title">Ingen reklamer</string>
+    <string name="csvimport_title">CSV-import</string>
+    <string name="plansunlimited_title">Ubegrenset antall planer</string>
+    <string name="print_title">Skriv ut</string>
 </resources>
