@@ -1,12 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_title">نموذج مجزأ</string>
-  <string name="splittemplate_description">عدد غير محدود من القوالب والخطط للمعاملات المقسمة</string>
-  <string name="history_title">مخطط زمني</string>
-  <string name="history_description">افهم كيف يتطور وضعك المالي بمرور الوقت</string>
-  <string name="budget_title">وضع الميزانية</string>
-  <string name="budget_description">حدد المبلغ الذي تنوي إنفاقه في الميزانيات السنوية أو الشهرية أو الأسبوعية</string>
-  <string name="ocr_title">مسح الإيصال ضوئياً</string>
-  <string name="ocr_description">استخراج المبلغ والتاريخ والمدفوع لأمره تلقائيًا</string>
-  <string name="professional_benefit_2">دعم البريد الإلكتروني</string>
-  <string name="professional_benefit_3">حق التصويت على  مخططات التنمية</string>
+    <string name="splittemplate_title">نموذج مجزأ</string>
+    <string name="splittemplate_description">عدد غير محدود من القوالب والخطط للمعاملات المقسمة</string>
+    <string name="history_title">مخطط زمني</string>
+    <string name="history_description">افهم كيف يتطور وضعك المالي بمرور الوقت</string>
+    <string name="budget_title">وضع الميزانية</string>
+    <string name="budget_description">حدد المبلغ الذي تنوي إنفاقه في الميزانيات السنوية أو الشهرية أو الأسبوعية</string>
+    <string name="ocr_title">مسح الإيصال ضوئياً</string>
+    <string name="ocr_description">استخراج المبلغ والتاريخ والمدفوع لأمره تلقائيًا</string>
+    <string name="professional_benefit_2">دعم البريد الإلكتروني</string>
+    <string name="professional_benefit_3">حق التصويت على  مخططات التنمية</string>
+    <string name="accountsunlimited_title">عدد حسابات غير محدود</string>
+    <string name="accountsunlimited_description">فتح القدرة على إنشاء أكثر من خمسة حسابات.</string>
+    <string name="adfree_title">بدون إعلانات</string>
 </resources>
