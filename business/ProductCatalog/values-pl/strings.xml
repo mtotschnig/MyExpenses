@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_title">Podzielony szablon</string>
-  <string name="splittemplate_description">Nieograniczona liczba szablonów i planów podziału transakcji</string>
-  <string name="history_title">Wykres historii</string>
-  <string name="budget_title">Przydzielanie budżetu</string>
-  <string name="professional_benefit_2">Wysyłaj pocztę e-mail</string>
-  <string name="professional_benefit_3">Głosowanie na mapie drogowej rozwoju</string>
+    <string name="splittemplate_title">Podzielony szablon</string>
+    <string name="splittemplate_description">Nieograniczona liczba szablonów i planów podziału transakcji</string>
+    <string name="history_title">Wykres historii</string>
+    <string name="budget_title">Przydzielanie budżetu</string>
+    <string name="professional_benefit_2">Wysyłaj pocztę e-mail</string>
+    <string name="professional_benefit_3">Głosowanie na mapie drogowej rozwoju</string>
+    <string name="accountsunlimited_description">Odblokowanie możliwości tworzenia więcej niż pięciu kont.</string>
+    <string name="accountsunlimited_title">Nieskończona ilość kont</string>
 </resources>
