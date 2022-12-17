@@ -16,4 +16,10 @@
     <string name="accountsunlimited_title">Неограничен брой сметки</string>
     <string name="accountsunlimited_description">Отключване на възможността за създаване на повече от пет акаунта.</string>
     <string name="adfree_title">Без реклами</string>
+    <string name="categorytree_description">Произволно дълбока йерархия на категориите</string>
+    <string name="csvimport_title">Импорт от CSV</string>
+    <string name="print_title">Разпечатай</string>
+    <string name="splittransaction_title">Разпределяне на транзакция</string>
+    <string name="synchronization_title">Синхронизация чрез облак</string>
+    <string name="plansunlimited_title">Неограничен брой планове</string>
 </resources>
