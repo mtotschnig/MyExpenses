@@ -1,5 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="history_title">نمودار جریان</string>
-  <string name="history_description">ببینید که چگونه وضع مالیتان در طی زمان بهتر می‌شود</string>
-  <string name="budget_description">تعریف کنید که می‌خواهید چه مقدار از بودجهٔ سالانه، ماهانه یا هفتگی خود خرج کنید</string>
-  </resources>
+    <string name="history_title">نمودار جریان</string>
+    <string name="history_description">ببینید که چگونه وضع مالیتان در طی زمان بهتر می‌شود</string>
+    <string name="budget_description">تعریف کنید که می‌خواهید چه مقدار از بودجهٔ سالانه، ماهانه یا هفتگی خود خرج کنید</string>
+    <string name="csvimport_title">واردات CSV</string>
+    <string name="accountsunlimited_title">تعداد نامحدود حساب ها</string>
+    <string name="adfree_title">بدون تبلیغ</string>
+    <string name="plansunlimited_title">تعداد نامحدودی از برنامه ها</string>
+    <string name="print_title">چاپ</string>
+    <string name="splittransaction_title">تراکنش سرشکن</string>
+    <string name="synchronization_title">همگام‌سازی ابری</string>
+    <string name="webui_title">رابط کاربری وب</string>
+    <string name="budget_title">بودجه بندی</string>
+</resources>
