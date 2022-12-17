@@ -133,7 +133,7 @@
     <!-- Subcategory under "Professional expenses" -->
     <string name="Sub_14_1">לא ניתן לקבל החזיר</string>
     <!-- Subcategory under "Professional expenses" -->
-    <string name="Sub_14_2">ברות החזר</string>
+    <string name="Sub_14_2">ניתן להחזר</string>
     <!-- Main category -->
     <string name="Main_15">מיסים</string>
     <!-- Subcategory under "Taxes" -->
@@ -171,7 +171,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_13">גינון</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_14">ניקיון הבית</string>
+    <string name="Sub_16_14">תחזוקת הבית</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_15">טלפון</string>
     <!-- Subcategory under "Housing" -->
@@ -219,7 +219,7 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_3">בית חולים</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_4">Kinesitherapist</string>
+    <string name="Sub_19_4">קינזיותרפיסט</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_5">רופא</string>
     <!-- Subcategory under "Health" -->
