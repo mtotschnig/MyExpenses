@@ -1,15 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="splittemplate_title">Шаблон за разпространение</string>
-  <string name="splittemplate_description">Неограничен брой шаблони и планове за разпределени транзакции</string>
-  <string name="history_title">Графика на историята</string>
-  <string name="history_description">Разберете как финансовото ви състояние се изменя в течение на времето</string>
-  <string name="budget_title">Бюджетиране</string>
-  <string name="budget_description">Определете колко възнамерявате да похарчите в годишни, месечни или седмични бюджети</string>
-  <string name="ocr_title">Сканиране на касова бележка</string>
-  <string name="ocr_description">Автоматично извличане на обща сума, дата и получател.</string>
-  <string name="webui_title">Уеб потребителски интерфейс</string>
-  <string name="webui_description">Използвайте браузър на настолен компютър за да въвеждате данни</string>
-  <string name="professional_benefit_1">Отключете всички премиум възможности</string>
-  <string name="professional_benefit_2">Поддръжка по имейл</string>
-  <string name="professional_benefit_3">Право да гласувате на карта за развитие</string>
+    <string name="splittemplate_title">Шаблон за разпространение</string>
+    <string name="splittemplate_description">Неограничен брой шаблони и планове за разпределени транзакции</string>
+    <string name="history_title">Графика на историята</string>
+    <string name="history_description">Разберете как финансовото ви състояние се изменя в течение на времето</string>
+    <string name="budget_title">Бюджетиране</string>
+    <string name="budget_description">Определете колко възнамерявате да похарчите в годишни, месечни или седмични бюджети</string>
+    <string name="ocr_title">Сканиране на касова бележка</string>
+    <string name="ocr_description">Автоматично извличане на обща сума, дата и получател.</string>
+    <string name="webui_title">Уеб потребителски интерфейс</string>
+    <string name="webui_description">Използвайте браузър на настолен компютър за да въвеждате данни</string>
+    <string name="professional_benefit_1">Отключете всички премиум възможности</string>
+    <string name="professional_benefit_2">Поддръжка по имейл</string>
+    <string name="professional_benefit_3">Право да гласувате на карта за развитие</string>
+    <string name="accountsunlimited_title">Неограничен брой сметки</string>
+    <string name="accountsunlimited_description">Отключване на възможността за създаване на повече от пет акаунта.</string>
+    <string name="adfree_title">Без реклами</string>
 </resources>
