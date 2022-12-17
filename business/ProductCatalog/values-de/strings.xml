@@ -18,4 +18,17 @@
     <string name="accountsunlimited_title">Unbegrenzte Anzahl von Konten</string>
     <string name="accountsunlimited_description">Schalten Sie die Möglichkeit frei, mehr als fünf Konten zu erstellen.</string>
     <string name="adfree_title">Ohne Werbung</string>
+    <string name="csvimport_title">CSV Import</string>
+    <string name="adfree_description">Ohne Werbung.</string>
+    <string name="csvimport_description">Ausgefeilter, anpassbarer CSV-Import (Tabellenkalkulationsanwendungen)</string>
+    <string name="distribution_title">Kreisdiagramm</string>
+    <string name="splittransaction_description">Eine einzelne Buchung kann in mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden.</string>
+    <string name="synchronization_description">Daten können zwischen mehreren Geräten synchronisiert werden.</string>
+    <string name="plansunlimited_description">Schalten Sie die Möglichkeit frei, mehr als drei Pläne für wiederkehrende Buchungen zu erstellen.</string>
+    <string name="plansunlimited_title">Unbegrenzte Anzahl von Plänen</string>
+    <string name="print_title">Drucken</string>
+    <string name="splittransaction_title">Mehrteilige Buchung</string>
+    <string name="synchronization_title">Cloud-Synchronisierung</string>
+    <string name="distribution_description">Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)</string>
+    <string name="print_description">Drucken der Buchungsliste in eine PDF-Datei</string>
 </resources>
