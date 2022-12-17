@@ -12,4 +12,11 @@
     <string name="professional_benefit_3">זכות הצבעה על מפת דרכים לפיתוח</string>
     <string name="accountsunlimited_description">נפתחה האפשרות ליצור יותר מחמישה חשבונות.</string>
     <string name="accountsunlimited_title">מספר חשבונות בלתי מוגבל</string>
+    <string name="categorytree_description">היררכיית קטגוריה עמוקה שרירותית</string>
+    <string name="adfree_title">ללא פרסומות</string>
+    <string name="csvimport_title">ייבוא CSV</string>
+    <string name="plansunlimited_title">מספר תוכניות בלתי מוגבל</string>
+    <string name="print_title">הדפס</string>
+    <string name="splittransaction_title">עסקה מפוצלת</string>
+    <string name="synchronization_title">סנכרון לענן</string>
 </resources>
