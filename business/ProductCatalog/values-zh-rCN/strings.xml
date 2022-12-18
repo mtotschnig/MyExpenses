@@ -30,5 +30,5 @@
     <string name="csvimport_title">导入 CSV</string>
     <string name="plansunlimited_title">无限数量的收支计划</string>
     <string name="print_title">打印</string>
-    <string name="plansunlimited_description">解锁为定期交易创建三个以上计划的功能。</string>
+    <string name="plansunlimited_description">解锁为循环交易创建三个以上计划的功能。</string>
 </resources>
