@@ -16,19 +16,19 @@
     <string name="accountsunlimited_title">Número de cuentas ilimitadas</string>
     <string name="accountsunlimited_description">Desbloquear la capacidad de crear más de cinco cuentas.</string>
     <string name="categorytree_title">Árbol de Categorías</string>
-    <string name="adfree_title">Sin anuncios</string>
-    <string name="csvimport_title">Importar desde CSV</string>
+    <string name="adfree_title">Sin publicidad</string>
+    <string name="csvimport_title">Importar el código CSV</string>
     <string name="adfree_description">Sin anuncios.</string>
     <string name="distribution_title">Gráfico de sectores</string>
-    <string name="plansunlimited_description">Desbloquear la capacidad de crear más de tres planes para operaciones recurrentes</string>
+    <string name="plansunlimited_description">Desbloquea la posibilidad de crear más de tres planes para transacciones recurrentes.</string>
     <string name="print_description">Imprima la lista de transacciones en un archivo PDF</string>
     <string name="synchronization_description">Los datos pueden sincronizarse entre varios dispositivos.</string>
     <string name="distribution_description">Visualice la distribución estadística de transacciones por categoría entre diferentes periodos (años, meses, semanas, días)</string>
     <string name="csvimport_description">Una sofisticada y personalizable importación a CSV (para aplicaciones de hojas de cálculo)</string>
     <string name="splittransaction_description">Una transacción puede separarse en diferentes partes (categorías y transferencias).</string>
-    <string name="categorytree_description">Jerarquía de categorías arbitraria</string>
-    <string name="plansunlimited_title">Número de proyectos ilimitados</string>
+    <string name="categorytree_description">Jerarquía de categorías arbitrariamente profunda</string>
+    <string name="plansunlimited_title">Número de planes ilimitado</string>
     <string name="print_title">Imprimir</string>
-    <string name="splittransaction_title">Transacción dividida</string>
-    <string name="synchronization_title">Sincronización en la nube</string>
+    <string name="splittransaction_title">Dividir la transacción</string>
+    <string name="synchronization_title">Sincronización con la nube</string>
 </resources>
