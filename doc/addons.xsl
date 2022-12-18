@@ -6,13 +6,14 @@
     <xsl:param name="format" select="'play'" />
 
     <xsl:template match="/">
-        <xsl:param name="addons" select="'splittemplate history budget ocr webui'" />
+        <xsl:param name="proAddons" select="'splittemplate history budget ocr webui categorytree'" />
+        <xsl:param name="addons" select="'accountsunlimited adfree csvimport distribution plansunlimited print splittransaction synchronization'" />
         <xsl:choose>
             <xsl:when test="$format = 'play'">
                 <xsl:value-of
                     select="'Product ID,Published State,Purchase Type,Auto Translate,Locale; Title; Description,Auto Fill Prices,Price,Pricing Template ID'" />
                 <xsl:value-of select="$newline" />
-                <xsl:for-each select="str:tokenize($addons)">
+                <xsl:for-each select="str:tokenize($proAddons)">
                     <xsl:call-template name="linePlay">
                         <xsl:with-param name="addon" select="." />
                     </xsl:call-template>
@@ -23,10 +24,16 @@
                 <xsl:value-of
                     select="'Product ID (SKU),Locale; Title; Description,Auto Fill Prices,Price,IAP Type'" />
                 <xsl:value-of select="$newline" />
-                <xsl:for-each select="str:tokenize($addons)">
+                <xsl:for-each select="str:tokenize($proAddons)">
                     <xsl:call-template name="lineAmazon">
                         <xsl:with-param name="addon" select="." />
                         <xsl:with-param name="prize" select="'5190000'" />
+                    </xsl:call-template>
+                </xsl:for-each>
+                <xsl:for-each select="str:tokenize($addons)">
+                    <xsl:call-template name="lineAmazon">
+                        <xsl:with-param name="addon" select="." />
+                        <xsl:with-param name="prize" select="'3240000'" />
                     </xsl:call-template>
                 </xsl:for-each>
             </xsl:when>
