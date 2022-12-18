@@ -14,24 +14,24 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  --><resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="account">rekening</string>
+    <string name="account">Rekening</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
-    <string name="account_types">soort rekening</string>
-    <string name="account_type_asset">activa</string>
+    <string name="account_types">Rekeningtypes</string>
+    <string name="account_type_asset">Activa-account</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">activarekening</string>
-    <string name="account_type_bank">bankrekening</string>
+    <string name="account_type_asset_plural">Activarekeningen</string>
+    <string name="account_type_bank">Bankrekening</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_bank_plural">bankrekeningen</string>
-    <string name="account_type_cash">kasboek</string>
+    <string name="account_type_bank_plural">Bankrekeningen</string>
+    <string name="account_type_cash">Kasboek</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">kasboeken</string>
-    <string name="account_type_ccard">creditcard</string>
+    <string name="account_type_cash_plural">Kasboeken</string>
+    <string name="account_type_ccard">Kredietkaart</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_ccard_plural">creditcards</string>
+    <string name="account_type_ccard_plural">Kredietkaarten</string>
     <string name="already_defined">%1$s bestaat al</string>
     <string name="amount">Bedrag</string>
-    <string name="app_name">My Expenses</string>
+    <string name="app_name">Mijn Uitgaven</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
     <string name="category">Categorie</string>
     <string name="color">Kleur</string>
@@ -39,10 +39,10 @@
     <string name="confirmation_dialog_dont_show_again">Niet meer weergeven</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Geen advertenties</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Onbeperkt aantal rekeningen</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Abeelding als bijlage bij transactie toevoegen</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Taartdiagram (Verdeling per categorie)</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Voeg afbeelding toe aan transactie</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Cirkeldiagram (verdeling per categorie)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Onbeperkt aantal ingeplande transacties</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Transactielijst exporteren naar PDF-bestand</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Transactielijst exporteren naar PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sjabloon widget</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV importeren</string>
     <string name="income">Inkomen</string>
@@ -52,24 +52,24 @@
     <string name="sum_income">inkomen</string>
     <string name="new_version">Nieuwe versie</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Onbeperkt aantal gesplitste sjablonen</string>
-    <string name="account_type_liability">Passivarekening</string>
+    <string name="account_type_liability">Passiva rekening</string>
     <string name="account_type_liability_plural">Passivarekeningen</string>
-    <string name="date_format">Datuminvoer</string>
-    <string name="contrib_key">Contributiecode</string>
-    <string name="extended_key">Uitbreidingscode</string>
+    <string name="date_format">Datum indeling</string>
+    <string name="contrib_key">Bijdragen Sleutel</string>
+    <string name="extended_key">Uitgebreide sleutel</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Email ondersteuning</b> met gegarandeerd antwoord binnen 2 werkdagen</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stemrecht op <b>ontwikkelingsplan</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Geschiedenisgrafiek</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stemrecht op <b>ontwikkelingsroutekaart</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Geschiedenis grafiek</string>
     <string name="licence_status_free">Gratis</string>
-    <string name="date_format_illegal">Ongeldige datuminvoer</string>
+    <string name="date_format_illegal">Illegaal datumformaat</string>
     <string name="decimal_separator">Decimaal scheidingsteken</string>
-    <string name="default_account_name">Begroting</string>
+    <string name="default_account_name">Begrotingsboek</string>
     <string name="description">Omschrijving</string>
-    <string name="number_format_illegal">Ongeldige cijferinvoer</string>
+    <string name="number_format_illegal">Illegaal getalformaat</string>
     <string name="dialog_password_new_password">Nieuw wachtwoord</string>
     <string name="dialog_password_new_password_confirmation">Nieuw wachtwoord (bevestiging)</string>
     <string name="dialog_remind_later">Later</string>
-    <string name="dialog_remind_rate_how_many_stars">Hoeveel sterren zou je geven aan {app_name}\?</string>
+    <string name="dialog_remind_rate_how_many_stars">Hoeveel sterren zou u geven aan {app_name}\?</string>
     <string name="dialog_title_warning_delete_category">Categorie verwijderen\?</string>
     <string name="menu_balance">Saldorekening</string>
     <string name="menu_cancel_plan_instance">Annuleren</string>
@@ -85,13 +85,13 @@
     <string name="dialog_command_disabled_insert_transfer">Voor overboekingen is een tweede rekening nodig.</string>
     <string name="dialog_command_disabled_reset_account">Geen transacties om te exporteren.</string>
     <string name="dialog_command_disabled_distribution">Er zijn geen transacties gekoppeld aan categorieën in deze rekening.</string>
-    <string name="grouping_none">Ongegroepeerd</string>
+    <string name="grouping_none">Niet gegroepeerd</string>
     <string name="grouping_today">Vandaag</string>
     <string name="grouping_week">Week</string>
     <string name="grouping_year">Jaar</string>
     <string name="grouping_yesterday">Gisteren</string>
     <string name="help_button_rate">Beoordelen</string>
-    <string name="help_heading_credits">Krediet</string>
+    <string name="help_heading_credits">Tegoeden</string>
     <string name="grouping_this_week">Deze week</string>
     <string name="expense">Onkosten</string>
     <string name="menu_back">Terug</string>
@@ -103,13 +103,13 @@
     <string name="menu_create_instance_edit">Toepassen en bewerken</string>
     <string name="menu_create_instance_save">Toepassen en opslaan</string>
     <string name="menu_create_account">Nieuwe rekening</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Categorieboom</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Categorie boom</string>
     <string name="contrib_key_requires">Vereist %1$s.</string>
     <string name="currency">Valuta</string>
     <string name="current_balance">Huidig saldo</string>
     <string name="date">Datum</string>
     <string name="dialog_confirm_discard_changes">Veranderingen weggooien\?</string>
-    <string name="dialog_confirm_discard_new_transaction">Nieuwe transactie negeren\?</string>
+    <string name="dialog_confirm_discard_new_transaction">Nieuwe transactie weggooien\?</string>
     <string name="dialog_confirm_discard_new_template">Nieuwe sjabloon weggooien\?</string>
     <string name="dialog_balance_delete">Verwerkte transacties verwijderen</string>
     <string name="dialog_contrib_no">Probeer</string>
@@ -121,9 +121,9 @@
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Met uw huidige licentiestatus (%2$s) kunt u %1$d plannen maken.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Met uw huidige licentiestatus (%1$s) kunt u 1 gesplitst sjabloon maken.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Met uw huidige licentiestatus (%1$s) wordt deze dialoog bij elk gebruik weergegeven.</string>
-    <string name="dialog_export_delete">Geëxporteerde transacties verwijderen</string>
-    <string name="dialog_password_activate_protection">Wachtwoordbeveiliging activeren</string>
-    <string name="dialog_password_change_password">Wachtwoord wijzigen</string>
+    <string name="dialog_export_delete">Verwijder geëxporteerde transacties</string>
+    <string name="dialog_password_activate_protection">Activeer wachtwoordbeveiliging</string>
+    <string name="dialog_password_change_password">Wijzig wachtwoord</string>
     <string name="dialog_remind_rate_1">Neem even de tijd om {app_name} te beoordelen.</string>
     <string name="dialog_remind_rate_2">Dankzij uw opmerkingen kunnen wij voortdurend verbeteringen en uitbreidingen aanbrengen.</string>
     <string name="dialog_remind_rate_yes">Beoordeel nu</string>
@@ -139,8 +139,8 @@
     <string name="external_storage_unavailable">Externe opslag (sdcard) niet beschikbaar</string>
     <string name="feedback">Feedback</string>
     <string name="ftp_uri_malformed">Misvormde URI %1$s</string>
-    <string name="grisbi_import_categories_loading">Laden van categorieën van %1$s</string>
-    <string name="grisbi_import_parties_loading">Laden van partijen van %1$s</string>
+    <string name="grisbi_import_categories_loading">Categorieën laden van %1$s</string>
+    <string name="grisbi_import_parties_loading">Partijen laden van %1$s</string>
     <string name="grouping_month">Maand</string>
     <string name="export_sdcard_failure">Exporteren naar bestand \"%1$s\" mislukt: %2$s</string>
     <string name="grouping_day">Dag</string>
@@ -153,8 +153,12 @@
     <string name="dialog_contrib_text_2">Draag bij door <i>{app_name}</i> te upgraden en krijg onbeperkte toegang tot de volgende functies:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Met uw huidige licentiestatus (%2$s) kunt u %1$d accounts aanmaken.</string>
     <string name="dialog_contrib_premium_feature">%1$s is een premium functie (%2$s).</string>
-    <string name="dialog_export_not_yet_exported">Alleen nog niet geëxporteerde transacties exporteren</string>
+    <string name="dialog_export_not_yet_exported">Exporteer alleen transacties die nog niet zijn geëxporteerd</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Neem even de tijd om ons uw suggesties voor verbeteringen te sturen.</string>
     <string name="grouping_last_week">Vorige week</string>
     <string name="invalid_number_format">Decimaal formaat niet herkend door uw locale. Gebruik %1$s</string>
+    <string name="menu_create_method">Nieuwe betalingswijze</string>
+    <string name="menu_create_split_part_category">Nieuw categorie gesplitst onderdeel</string>
+    <string name="menu_create_party">Nieuwe partij</string>
+    <string name="menu_create_split">Nieuwe split</string>
 </resources>
