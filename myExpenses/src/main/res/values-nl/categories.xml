@@ -3,13 +3,13 @@
     <!-- Main category -->
     <string name="Main_1">Ander inkomen</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_1">Werkloosheids uitkering</string>
+    <string name="Sub_1_1">Werkloosheidsuitkering</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_2">Gezins subsidie</string>
+    <string name="Sub_1_2">Gezinsbijslag</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_3">teruggave belasting</string>
+    <string name="Sub_1_3">Teruggave belasting</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_4">kansspelen</string>
+    <string name="Sub_1_4">Kansspelen</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_5">zorg verzekering</string>
     <!-- Subcategory under "Other income" -->
