@@ -67,14 +67,14 @@ class Fixture(inst: Instrumentation) {
         account1 = Account(
             appContext.getString(R.string.testData_account1Label),
             90000,
-            testContext.getString(R.string.testData_account1Description)
+            appContext.getString(R.string.testData_account1Description)
         )
         account1.grouping = Grouping.WEEK
         account1.syncAccountName = syncAccount1
         account1.save()
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
         account2 = Account(
-            testContext.getString(R.string.testData_account2Label),
+            appContext.getString(R.string.testData_account2Label),
             foreignCurrency,
             50000,
             formatter.format(LocalDate.now()), AccountType.CASH,
@@ -83,17 +83,17 @@ class Fixture(inst: Instrumentation) {
         account2.syncAccountName = syncAccount2
         account2.save()
         account3 = Account(
-            testContext.getString(R.string.testData_account3Label),
+            appContext.getString(R.string.testData_account3Label),
             Utils.getHomeCurrency(),
             200000,
-            testContext.getString(R.string.testData_account3Description), AccountType.BANK,
+            appContext.getString(R.string.testData_account3Description), AccountType.BANK,
             testContext.resources.getColor(RT.color.material_blue)
         )
         account3.grouping = Grouping.DAY
         account3.syncAccountName = syncAccount3
         account3.save()
         account4 = Account(
-            testContext.getString(R.string.testData_account3Description),
+            appContext.getString(R.string.testData_account3Description),
             foreignCurrency,
             0,
             "",
@@ -125,7 +125,7 @@ class Fixture(inst: Instrumentation) {
         )
         for (i in 0..14) {
             //Transaction 1
-            val builder = TransactionBuilder(testContext)
+            val builder = TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(12000))
                 .catId(
@@ -148,7 +148,7 @@ class Fixture(inst: Instrumentation) {
             builder.persist()
 
             //Transaction 2
-            TransactionBuilder(testContext)
+            TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(2200L))
                 .catId(
@@ -158,11 +158,11 @@ class Fixture(inst: Instrumentation) {
                     )
                 )
                 .date(offset - 7200000)
-                .comment(testContext.getString(R.string.testData_transaction2Comment))
+                .comment(appContext.getString(R.string.testData_transaction2Comment))
                 .persist()
 
             //Transaction 3 Cleared
-            TransactionBuilder(testContext)
+            TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(2500L))
                 .catId(
@@ -176,7 +176,7 @@ class Fixture(inst: Instrumentation) {
                 .persist()
 
             //Transaction 4 Cleared
-            TransactionBuilder(testContext)
+            TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(5000L))
                 .catId(
@@ -185,13 +185,13 @@ class Fixture(inst: Instrumentation) {
                         mainCat2
                     )
                 )
-                .payee(R.string.testData_transaction4Payee)
+                .payee(appContext.getString(R.string.testData_transaction4Payee))
                 .date(offset - 98030000)
                 .crStatus(CrStatus.CLEARED)
                 .persist()
 
             //Transaction 5 Reconciled
-            TransactionBuilder(testContext)
+            TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -random(10000L))
                 .date(offset - 100390000)
@@ -199,7 +199,7 @@ class Fixture(inst: Instrumentation) {
                 .persist()
 
             //Transaction 6 Gift Reconciled
-            TransactionBuilder(testContext)
+            TransactionBuilder()
                 .accountId(account1.id)
                 .amount(defaultCurrency, -10000L)
                 .catId(mainCat6)
@@ -208,7 +208,7 @@ class Fixture(inst: Instrumentation) {
                 .persist()
 
             //Salary
-            TransactionBuilder(testContext)
+            TransactionBuilder()
                 .accountId(account3.id)
                 .amount(defaultCurrency, 200000)
                 .date(offset - 100000)
@@ -223,7 +223,7 @@ class Fixture(inst: Instrumentation) {
         }
 
         //Second account foreign Currency
-        TransactionBuilder(testContext)
+        TransactionBuilder()
             .accountId(account2.id)
             .amount(foreignCurrency, -random(34567))
             .date(offset - 303900000)
@@ -234,15 +234,15 @@ class Fixture(inst: Instrumentation) {
         split.amount = Money(defaultCurrency, -8967L)
         split.status  = DatabaseConstants.STATUS_NONE
         split.save(true)
-        val label = testContext.getString(R.string.testData_tag_project)
+        val label = appContext.getString(R.string.testData_tag_project)
         val tagList = listOf(Tag(saveTag(label), label, 0))
         split.saveTags(tagList)
-        TransactionBuilder(testContext)
+        TransactionBuilder()
             .accountId(account1.id).parentId(split.id)
             .amount(defaultCurrency, -4523L)
             .catId(mainCat2)
             .persist()
-        TransactionBuilder(testContext)
+        TransactionBuilder()
             .accountId(account1.id).parentId(split.id)
             .amount(defaultCurrency, -4444L)
             .catId(mainCat6)
@@ -277,7 +277,7 @@ class Fixture(inst: Instrumentation) {
                 )
             )
         template.title = templateSubCat
-        template.payee = testContext.getString(R.string.testData_templatePayee)
+        template.payee = appContext.getString(R.string.testData_templatePayee)
         val planUri = Plan(
             LocalDate.now(),
             "FREQ=WEEKLY;COUNT=10;WKST=SU",
@@ -291,7 +291,7 @@ class Fixture(inst: Instrumentation) {
         val budget = Budget(
             0L,
             account1.id,
-            testContext.getString(R.string.testData_account1Description),
+            appContext.getString(R.string.testData_account1Description),
             "DESCRIPTION",
             defaultCurrency,
             Grouping.MONTH,
@@ -343,7 +343,7 @@ class Fixture(inst: Instrumentation) {
         return ThreadLocalRandom.current().nextLong(n)
     }
 
-    private class TransactionBuilder(private val context: Context) {
+    private class TransactionBuilder {
         private var accountId: Long = 0
         private var parentId: Long? = null
         private var amount: Money? = null
@@ -388,8 +388,8 @@ class Fixture(inst: Instrumentation) {
             return this
         }
 
-        fun payee(resId: Int): TransactionBuilder {
-            payee = context.getString(resId)
+        fun payee(payee: String): TransactionBuilder {
+            this.payee = payee
             return this
         }
 
