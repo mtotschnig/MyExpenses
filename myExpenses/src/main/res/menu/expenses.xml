@@ -130,7 +130,7 @@
         android:id="@+id/MANAGE_ACCOUNTS_COMMAND"
         android:orderInCategory="40"
         app:showAsAction="never"
-        android:title="TODO">
+        android:title="">
         <menu>
             <item
                 android:id="@id/EDIT_ACCOUNT_COMMAND"

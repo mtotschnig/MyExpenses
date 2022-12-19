@@ -753,18 +753,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                     val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
-                    val modificationAllowed = remember {
-                        derivedStateOf {
-                            !account.sealed && bulkDeleteState.value !is DeleteProgress
-                        }
-                    }
+                    val modificationAllowed = !account.sealed && bulkDeleteState.value !is DeleteProgress
                     TransactionList(
                         modifier = Modifier.weight(1f),
                         lazyPagingItems = lazyPagingItems,
                         headerData = headerData,
                         budgetData = viewModel.budgetData(account).collectAsState(null),
-                        selectionHandler = if (modificationAllowed.value) viewModel.selectionHandler else null,
-                        menuGenerator = remember(modificationAllowed.value) {
+                        selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
+                        menuGenerator = remember(modificationAllowed) {
                             { transaction ->
                                 Menu(
                                     buildList {
@@ -772,7 +768,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             icon = Icons.Filled.Loupe,
                                             label = R.string.details
                                         ) { showDetails(it.id) })
-                                        if (modificationAllowed.value) {
+                                        if (modificationAllowed) {
                                             if (transaction.crStatus != CrStatus.VOID) {
                                                 add(edit { edit(transaction) })
                                             }
