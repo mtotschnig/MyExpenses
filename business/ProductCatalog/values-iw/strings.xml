@@ -25,4 +25,10 @@
     <string name="professional_benefit_1">שחרור כל יכולות הפרימיום</string>
     <string name="categorytree_title">עץ קטגוריות</string>
     <string name="splittemplate_title">תבנית פיצול</string>
+    <string name="splittransaction_description">ניתן לפצל עסקה בודדת למספר חלקים (קטגוריות והעברות).</string>
+    <string name="distribution_description">דמיין את ההתפלגות הסטטיסטית של עסקאות לקטגוריה על פני תקופות שונות (שנים, חודשים, שבועות, ימים)</string>
+    <string name="plansunlimited_description">פתח את האפשרות ליצור יותר משלוש תוכניות לעסקאות חוזרות.</string>
+    <string name="print_description">הדפס את רשימת העסקאות לקובץ PDF</string>
+    <string name="synchronization_description">ניתן לסנכרן נתונים בין מספר מכשירים.</string>
+    <string name="webui_description">השתמש בדפדפן שולחן העבודה שלך להזנת נתונים</string>
 </resources>
