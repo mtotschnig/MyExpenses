@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="help_contextual_actions_help">Het menu voor contextuele acties wordt weergegeven door lang op een lijstitem te tikken.</string>
+    <string name="help_form_fields">Formulier velden</string>
+    <string name="cab_edit_help_text">Bewerk het geselecteerde item.</string>
+    <string name="help_MyExpenses_title">Transactie lijst</string>
+    <string name="popup_MyExpenses_toolbar_intro">Als u op de werkbalk tikt (rekeninglabel of huidig saldo), verschijnt er een menu met de volgende items:</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">Bereken het verschil tussen het huidige saldo en een nieuwe waarde.</string>
+    <string name="menu_status_handle_help_text">De status van de transactie wordt aangegeven door een gekleurde rechthoek: grijs voor niet afgestemd, blauw voor duidelijk, groen voor afgestemd. Door op de rechthoek te klikken, verandert de status.</string>
+    <string name="menu_sort_direction_help_text">Transacties kunnen oplopend (oudste bovenaan) of aflopend (laatste bovenaan) gesorteerd worden.</string>
+    <string name="menu_distribution_help_text">Toon de verdeling van uw uitgaven per categorie. U kunt ook lang op een groepskop klikken om de distributie voor een bepaalde periode te inspecteren.</string>
+    <string name="menu_manage_plans_help_text">Opent de lijst met sjablonen en plannen, waar u ze kunt toepassen, bewerken of verwijderen, en ook plannen kunt definiëren voor toekomstige en terugkerende transacties.</string>
+    <string name="help_ManageMethods_info">Dit scherm geeft een overzicht van de vooraf gedefinieerde betalingsmethoden (cheque, creditcard, storting, automatische incasso) en laat u nieuwe definiëren. Gebruik de zwevende actieknop om het formulier te openen voor het maken van een nieuwe methode.</string>
+    <string name="help_ManageParties_manage_info">Dit scherm geeft een overzicht van de partijen die zijn gebruikt voor het automatisch aanvullen van het veld Betaler/Begunstigde.</string>
+    <string name="help_ManageParties_floating_action_button">Gebruik de zwevende actieknop om een nieuw item toe te voegen.</string>
+    <string name="help_ManageTemplates_plans_title">Plan kalenderweergave</string>
+    <string name="help_ManageTemplates_planner_title">Aankomende recidieven</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Maak een transactie aan op het moment van de geselecteerde gebeurtenis en voer het bewerkingsformulier in waar u deze kunt wijzigen voordat u deze opslaat.</string>
+    <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Geef aan dat er bij de geselecteerde gebeurtenisinstanties geen transacties mogen worden aangemaakt. Als er transacties zijn gemaakt voor de geselecteerde gebeurtenisexemplaren, worden deze verwijderd.</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Als er transacties zijn gemaakt voor de geselecteerde gebeurtenisinstanties, worden deze verwijderd. Als ze zijn gemarkeerd als geannuleerd, worden de vlaggen verwijderd.</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Bewerk de transactie die is gemaakt voor de geselecteerde abonnementsinstantie.</string>
+    <string name="help_menu_commands">Menu-opdrachten</string>
+    <string name="help_contextual_actions">Contextuele acties</string>
+    <string name="cab_delete_help_text">Verwijder de geselecteerde items.</string>
+    <string name="help_MyExpenses_info">Dit scherm geeft een overzicht van alle verrichtingen voor de zichtrekening. Gebruik de zwevende actieknop om het formulier te openen om een nieuwe transactie aan te maken.</string>
+    <string name="help_MyExpenses_fab_long_press">Druk lang op de zwevende actieknop om een menu te openen waarmee u het formulier kunt voorbereiden voor overdracht, gesplitste transactie of inkomen.</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">Kopieer het huidige saldo naar het klembord.</string>
+    <string name="menu_reset_help_text">Deze opdracht exporteert alle transacties van de lopende rekening naar een bestand op de SD-kaart in QIF- of CSV-formaat. U kunt ervoor kiezen om de geëxporteerde transacties te verwijderen, in dat geval wordt het beginsaldo automatisch aangepast. Als transacties niet worden verwijderd, worden ze gemarkeerd als geëxporteerd. My Expenses kan het bestand direct na de export delen via FTP, e-mail of een andere app voor het delen van bestanden, als u dit in de instellingen configureert. Als er een zoekfilter actief is, worden alleen de transacties die door dit filter in kaart worden gebracht in aanmerking genomen.</string>
+    <string name="menu_grouping_help_text">U kunt transacties groeperen per dag, week, maand of jaar. Per groep wordt de som van inkomsten, uitgaven en afdrachten berekend en weergegeven. Wanneer u op een groepskop klikt, wordt de groep transacties samengevouwen en wordt alleen de kop weergegeven. Klik nogmaals om uit te vouwen.</string>
+    <string name="menu_budget_help_text">Beheer dagelijkse, wekelijkse, maandelijkse of jaarlijkse budgetten voor het momenteel weergegeven account.</string>
+    <string name="menu_history_help_text">Geef een cashflowdiagram weer: hoe evolueerden uw uitgaven en inkomsten over dagen, weken, maanden of jaren\?</string>
+    <string name="menu_balance_help_text">Deze opdracht opent een dialoogvenster met het laatste afgestemde saldo en het gewiste saldo. U kunt dit laatste vergelijken met uw bankafschrift en alle vereffende transacties markeren als afgestemd. Optioneel kunt u ervoor kiezen om afgestemde transacties te verwijderen.</string>
+    <string name="menu_print_help_text">Genereert een afdrukbare weergave van de transacties die momenteel worden weergegeven.</string>
+    <string name="menu_search_help_text">Dit item opent een submenu waarin u zoekcriteria kunt definiëren op basis van categorie, bedrag, opmerking, status, betaler/begunstigde en betalingsmethode. Wanneer een zoekfilter actief is, kunt u eenvoudig op het item in het submenu klikken om het te deactiveren.</string>
+    <string name="cab_create_template_from_transaction_help_text">Definieer een nieuwe sjabloon op basis van de geselecteerde transactie. Zal u vragen om de titel van de sjabloon.</string>
+    <string name="cab_clone_transaction_help_text">De geselecteerde transacties worden gekloond met de huidige datum en tijd. U kunt wijzigingen aanbrengen voordat u de kopie opslaat.</string>
+    <string name="cab_link_help_text">Een uitgave op de ene rekening kan worden gekoppeld aan een inkomen op een andere rekening. Als de rekeningen dezelfde valuta hebben, moeten de twee transacties identieke bedragen hebben.</string>
+    <string name="help_ManageParties_select_filter_info">Tik op een partij om de transactielijst te filteren. Tik lang om meerdere partijen te selecteren.</string>
+    <string name="cab_split_help_text">U kunt de transactie later bewerken om indien nodig extra onderdelen te maken.</string>
+    <string name="menu_scan_mode_help_text">Activeer de scanmodus om snel ontvangstbewijzen te scannen.</string>
+    <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;Hoewel sjablonen kunnen worden afgeleid van transacties via hun contextmenu, kunt u hier nieuwe sjablonen maken (voor transacties of overschrijvingen) door op de zwevende actieknop te klikken. Als u op een sjabloon klikt, wordt er een instantie voor gemaakt.&lt;br&gt;&lt;img src=ic_event&gt;Een plan is een sjabloon waarvoor u een evenement (eenmalig of terugkerend) hebt gemaakt in de plannerkalender. Als u op een plan klikt, wordt een kalenderweergave geopend, die eerdere en toekomstige exemplaren van een plan weergeeft.</string>
+    <string name="help_ManageTemplates_planner_intro">Lang tikken op een geopende instantie start multi-selectie. Door op het begin of einde van het datumbereik te tikken, kunt u het bereik uitbreiden naar het verleden of de toekomst.</string>
+    <string name="help_ManageParties_select_mapping_info">Selecteer een partij door erop te tikken.</string>
+    <string name="menu_merge_help_text">Als dezelfde partij meerdere keren in de lijst voorkomt met verschillende spellingsvarianten, kunt u ze samenvoegen. U wordt gevraagd om te selecteren welke variant u wilt behouden.</string>
+    <string name="help_ManageTemplates_plans_intro">Elke gemarkeerde datum vertegenwoordigt een instantie van het plan.</string>
+    <string name="help_ManageTemplates_plans_info">De status van een instantie wordt aangegeven door de volgende pictogrammen:&lt;br&gt;&lt;img src=ic_stat_open&gt; De instantie is nog niet toegepast.&lt;br&gt;&lt;img src=ic_stat_applied&gt; De instantie is toegepast.&lt;br&gt;&lt;img src =ic_stat_cancelled&gt; De instantie is geannuleerd, d.w.z. u hebt gemarkeerd dat deze moet worden overgeslagen. Er wordt geen transactie gemaakt voor deze instantie.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instantieer de geselecteerde sjabloon en voer het bewerkingsformulier in, waar u het kunt wijzigen voordat u het opslaat.</string>
+    <string name="menu_ManageTemplates_templates_sort_help_text">De sjabloonlijst kan worden gesorteerd op titel (alfabetisch), op hoeveelheid, op gebruiksfrequentie of op de laatste keer dat er een transactie van is gemaakt.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instantiseer de geselecteerde sjablonen en sla ze onmiddellijk op.</string>
+    <string name="cab_ManageTemplates_edit_help_text">Bewerk de geselecteerde sjabloon en maak of bewerk een bijbehorend plan.</string>
+    <string name="cab_ManageTemplates_delete_help_text">Verwijder de geselecteerde sjablonen en eventuele bijbehorende plannen.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Maak transacties aan op het moment van de geselecteerde gebeurtenisinstanties en sla ze onmiddellijk op.</string>
+</resources>

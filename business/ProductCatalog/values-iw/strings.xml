@@ -16,7 +16,7 @@
     <string name="adfree_title">ללא פרסומות</string>
     <string name="csvimport_title">ייבוא CSV</string>
     <string name="plansunlimited_title">מספר תוכניות בלתי מוגבל</string>
-    <string name="print_title">הדפס</string>
+    <string name="print_title">הדפסה</string>
     <string name="splittransaction_title">עסקה מפוצלת</string>
     <string name="synchronization_title">סנכרון לענן</string>
     <string name="adfree_description">ללא פרסומות.</string>
@@ -25,4 +25,10 @@
     <string name="professional_benefit_1">שחרור כל יכולות הפרימיום</string>
     <string name="categorytree_title">עץ קטגוריות</string>
     <string name="splittemplate_title">תבנית פיצול</string>
+    <string name="splittransaction_description">ניתן לפצל עסקה בודדת למספר חלקים (קטגוריות והעברות).</string>
+    <string name="distribution_description">המחשת ההתפלגות הסטטיסטית של עסקאות לקטגוריה על פני תקופות שונות (שנים, חודשים, שבועות, ימים)</string>
+    <string name="plansunlimited_description">פתיחת האפשרות ליצור יותר משלוש תוכניות לעסקאות חוזרות.</string>
+    <string name="print_description">הדפסת רשימת העסקאות לקובץ PDF</string>
+    <string name="synchronization_description">ניתן לסנכרן נתונים בין מספר מכשירים.</string>
+    <string name="webui_description">דפדפן שולחן העבודה שלך יכול לשמש להזנת נתונים</string>
 </resources>
