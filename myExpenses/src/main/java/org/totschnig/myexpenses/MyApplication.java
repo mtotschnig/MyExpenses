@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import static org.totschnig.myexpenses.feature.WebUiFeatureKt.RESTART_ACTION;
 import static org.totschnig.myexpenses.feature.WebUiFeatureKt.START_ACTION;
 import static org.totschnig.myexpenses.feature.WebUiFeatureKt.STOP_ACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
@@ -182,7 +183,7 @@ public class MyApplication extends Application implements
   public void onStart(@NonNull LifecycleOwner owner) {
     if (prefHandler.getBoolean(UI_WEB, false)) {
       if (NetworkUtilsKt.isConnectedWifi(this)) {
-        controlWebUi(true);
+        controlWebUi(START_ACTION);
       } else {
         prefHandler.putBoolean(UI_WEB, false);
       }
@@ -530,12 +531,12 @@ public class MyApplication extends Application implements
     return updated > 0;
   }
 
-  private void controlWebUi(boolean start) {
+  private void controlWebUi(String action) {
     final Intent intent = WebUiViewModel.Companion.getServiceIntent();
     if (intent != null) {
-      intent.setAction(start ? START_ACTION : STOP_ACTION);
+      intent.setAction(action);
       ComponentName componentName;
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && start) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && action.equals(START_ACTION)) {
         componentName = startForegroundService(intent);
       } else {
         componentName = startService(intent);
@@ -564,7 +565,7 @@ public class MyApplication extends Application implements
       boolean webUiRunning = sharedPreferences.getBoolean(prefHandler.getKey(UI_WEB), false);
       //If user configures https or password, while the web ui is not running, there is nothing to do
       if (key.equals(prefHandler.getKey(UI_WEB)) || webUiRunning) {
-        controlWebUi(webUiRunning);
+        controlWebUi(webUiRunning ? RESTART_ACTION : STOP_ACTION);
       }
     }
     // TODO: move to TaskExecutionFragment

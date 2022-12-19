@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.LocalDateAdapter
 import org.totschnig.myexpenses.di.LocalTimeAdapter
 import org.totschnig.myexpenses.feature.IWebInputService
+import org.totschnig.myexpenses.feature.RESTART_ACTION
 import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
@@ -146,8 +147,9 @@ class WebInputService : LifecycleService(), IWebInputService {
                     serverStateObserver?.onStopped()
                 }
             }
-            START_ACTION -> {
+            START_ACTION, RESTART_ACTION -> {
                 if (server != null) {
+                    if (intent.action == START_ACTION) return START_STICKY
                     stopServer()
                 }
                 useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
@@ -306,7 +308,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                 }
             }
         }
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     private fun Route.serve() {
