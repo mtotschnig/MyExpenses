@@ -126,7 +126,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onCreateDialog(id: Int): Dialog {
+    override fun onCreateDialog(id: Int): Dialog? {
         when (id) {
             R.id.FTP_DIALOG -> return DialogUtils.sendWithFTPDialog(this)
             R.id.MORE_INFO_DIALOG -> {
