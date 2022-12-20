@@ -16,7 +16,7 @@
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Account</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
-    <string name="account_types">Account types</string>
+    <string name="account_types">Soorten accounts</string>
     <string name="account_type_asset">Activa-account</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_asset_plural">Activa-accounts</string>
@@ -40,8 +40,8 @@
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Geen advertenties</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Onbeperkt aantal accounts</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Voeg afbeelding toe aan transactie</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Cirkeldiagram (verdeling per categorie)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Onbeperkt aantal ingeplande transacties</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Cirkeldiagram (Verdeling per categorie)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ongelimiteerd aantal plannen</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Transactielijst exporteren naar PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sjabloon widget</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV importeren</string>
@@ -53,11 +53,11 @@
     <string name="new_version">Nieuwe versie</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Onbeperkt aantal gesplitste sjablonen</string>
     <string name="account_type_liability">Passiva rekening</string>
-    <string name="account_type_liability_plural">Passivarekeningen</string>
+    <string name="account_type_liability_plural">Passiva rekeningen</string>
     <string name="date_format">Datum indeling</string>
     <string name="contrib_key">Bijdragen Sleutel</string>
     <string name="extended_key">Uitgebreide sleutel</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Email ondersteuning</b> met gegarandeerd antwoord binnen 2 werkdagen</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail ondersteuning</b> met gegarandeerd antwoord binnen 2 werkdagen</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stemrecht op <b>ontwikkelingsroutekaart</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Geschiedenis grafiek</string>
     <string name="licence_status_free">Gratis</string>
@@ -279,7 +279,7 @@
     <string name="pref_planning_calendar_create_local">Maak een nieuwe lokale planningskalender</string>
     <string name="pref_protection_delay_seconds_summary">Inactieve seconden voordat de app wordt vergrendeld met een wachtwoord.</string>
     <string name="pref_qif_export_file_encoding_title">Tekencodering</string>
-    <string name="pref_share_target_summary">Laat leeg als u wilt kiezen tussen geschikte apps (e-mail, Dropbox, Google Docs, ...), of geef een URL op in een van de ondersteunde schema\'s</string>
+    <string name="pref_share_target_summary">Laat leeg als u wilt kiezen tussen geschikte apps (E-mail, Dropbox, Google Docs, ...), of geef een URL op in een van de ondersteunde schema\'s</string>
     <string name="pref_ui_language_title">Taal</string>
     <string name="pref_ui_theme_dark">Donker</string>
     <string name="pref_ui_theme_light">Licht</string>
@@ -303,7 +303,7 @@
     <string name="status_uncreconciled">niet afgestemd</string>
     <string name="subcategory">Subcategorie</string>
     <string name="sum_expenses">Uitgaven</string>
-    <string name="sum_transfer">Transfers</string>
+    <string name="sum_transfer">Overboekingen</string>
     <string name="thank_you">Bedankt voor uw steun!</string>
     <string name="transfer">Overdracht</string>
     <string name="transfer_from_account">Van</string>
@@ -348,7 +348,7 @@
     <string name="plan_automatic">automatisch</string>
     <string name="plan_calendar_name">{app_name} planner</string>
     <string name="planner_notification_channel_name">Planner</string>
-    <string name="pm_cheque">Cheque</string>
+    <string name="pm_cheque">Check</string>
     <string name="pref_category_title_advanced">Geavanceerd</string>
     <string name="pref_category_title_export">Exporteren</string>
     <string name="pref_category_title_manage">Beheren</string>
@@ -484,7 +484,7 @@
     <string name="dialog_confirm_sync_link_local">Externe gegevens voor dit account worden verwijderd. Zorg ervoor dat er geen andere apparaten aan gekoppeld zijn.</string>
     <string name="link_account_failure_2">Er bestaat al een account met dezelfde uuid op de externe backend.</string>
     <string name="template">Sjabloon</string>
-    <string name="all_extended_key_features">Alle functies van Extended Key</string>
+    <string name="all_extended_key_features">Alle functies van Uitgebreide Sleutel</string>
     <string name="pref_backup_cloud_summary">Naast lokale opslag op het apparaat kan het back-upbestand worden gekopieerd naar een externe backend.</string>
     <string name="sync_io_error_cannot_connect">Kan geen verbinding maken met synchronisatie-backend.</string>
     <string name="pref_webdav_timeout_title">WebDAV-time-out (in seconden)</string>
@@ -544,7 +544,7 @@
     <string name="content_description_dates_are_not_linked">Boekingsdatum en valutadatum worden niet samen bijgewerkt</string>
     <string name="roadmap_vote">Routekaart Stemming</string>
     <string name="warning_account_for_transaction_is_closed">Minstens één van de geselecteerde transacties kan niet worden bewerkt:</string>
-    <string name="object_sealed">Object verwijst naar een gesloten account.</string>
+    <string name="object_sealed">Object verwijst naar een afgesloten account.</string>
     <string name="pref_exchange_rate_provider_summary">Selecteer provider om wisselkoersen te downloaden</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Gebruik deze schakelknop om inkomsten vast te leggen.</string>
     <string name="budget_duration_to">Naar</string>
@@ -590,7 +590,7 @@
     <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {account}.</string>
     <string name="pref_csv_export_split_amount_summary">Gebruik aparte kolommen voor inkomsten en uitgaven</string>
     <string name="required">Vereist</string>
-    <string name="budget_table_header_rollover">Rollover</string>
+    <string name="budget_table_header_rollover">Rol om</string>
     <string name="redesign">Herontwerp</string>
     <string name="select_all_list_too_large">Het commando %s is niet beschikbaar omdat de lijst slechts gedeeltelijk geladen is. Gebruik de zoekfunctie om de lijst kleiner te maken.</string>
     <string name="budget_table_header_allocated">Toegewezen</string>
@@ -619,7 +619,7 @@
     <string name="setup_completed">Installatie voltooid</string>
     <string name="sync_io_exception_unlocking">Fout bij het verwijderen van de vergrendeling van de externe backend.</string>
     <string name="valid_until">Tot %s</string>
-    <string name="history_chart_in_label">Omzet</string>
+    <string name="history_chart_in_label">Inkomsten</string>
     <string name="booking_date">Boekingsdatum</string>
     <string name="wifi_not_connected">Apparaat is niet verbonden met wifi. Synchronisatie is uitgesteld.</string>
     <string name="content_description_clear_method">Duidelijke methode</string>
@@ -675,7 +675,7 @@
     <string name="onboarding_privacy_intro">Uw financiële gegevens worden niet verzonden naar een server, noch beheerd door ons, noch door een derde partij.</string>
     <string name="remap_empty_list">Er is geen item gevonden dat aan alle geselecteerde transacties kan worden toegewezen.</string>
     <string name="clone_and_remap_result">De geselecteerde transacties zijn gekloond en opnieuw toegewezen.</string>
-    <string name="button_label_clone_and_remap">Klonen en opnieuw toewijzen</string>
+    <string name="button_label_clone_and_remap">Klonen en hermappen</string>
     <string name="csv_import_subcategory_requires_category">Als u een subcategorie toewijst, moet u ook een categorie toewijzen.</string>
     <string name="calendar_permission_required"><i> {app_name} </i> heeft toestemming nodig om toegang te krijgen tot uw agenda om plannen te maken voor toekomstige en terugkerende transacties.</string>
     <string name="export_to_format">Exporteer naar %s</string>
@@ -733,7 +733,7 @@
     <string name="warning_trial_limit_reached">De proefperiode voor het testen van functie %s is afgelopen.</string>
     <string name="progress_dialog_checking_sync_backend">Backend verifiëren</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronisatie</string>
-    <string name="all_contrib_key_features">Alle functies van Contrib Key</string>
+    <string name="all_contrib_key_features">Alle functies van Bijdragen Sleutel</string>
     <string name="pref_backup_cloud_title">Opslaan op synchronisatie-backend</string>
     <string name="auto_backup_cloud_failure">Er is een fout opgetreden bij het opslaan van back-upbestand %1$s op backend %2$s:</string>
     <string name="currency_symbol">Valutasymbool</string>
@@ -835,7 +835,7 @@
     <string name="home_currency_change_warning">Als u uw eigen valuta wijzigt, gaan equivalente bedragen en wisselkoersen verloren en moeten deze opnieuw worden gedefinieerd.</string>
     <string name="pref_transaction_time_summary">Toestaan om de exacte transactietijd in te stellen.</string>
     <string name="pref_value_date_summary">Toestaan om valutadatum in te stellen naast de boekingsdatum. De transactietijd wordt verborgen. Deze instelling wordt niet toegepast op geldrekeningen.</string>
-    <string name="gdpr_consent_message">We werken samen met {ad_provider} om de ondersteuning, het onderhoud en de ontwikkeling van {app_name} te ondersteunen door u advertenties te tonen. Graag vragen wij uw toestemming. Als u liever geen advertenties ziet, betaalt u voor de advertentievrije versie.</string>
+    <string name="gdpr_consent_message">We werken samen met {ad_provider} om de ondersteuning, het onderhoud en de ontwikkeling van {app_name} te ondersteunen door u advertenties te tonen. Graag vragen wij uw toestemming. Als u liever geen advertenties ziet, gelieve te betalen voor de reclamevrije versie.</string>
     <string name="sort_order">Sorteervolgorde</string>
     <string name="content_description_expand">Uitvouwen</string>
     <string name="clear_all_filters">Wis alle filters</string>
@@ -879,12 +879,12 @@
     <string name="licence_key">Licentiesleutel</string>
     <string name="dialog_title_new_currency">Nieuwe valuta</string>
     <string name="currency_code_already_definded">Valutacode is al gedefinieerd.</string>
-    <string name="budget_form_label_filter">Filter</string>
+    <string name="budget_form_label_filter">Filteren</string>
     <string name="remap_category">Alle geselecteerde transacties worden toegewezen aan categorie %s.</string>
     <string name="plan_automatic_without_amount_hint">Plan zonder bedrag mag niet worden opgeslagen met automatische uitvoering van het plan</string>
     <string name="menu_save_and_new_content_description">Sla de gegevens op, laat het formulier openstaan voor het aanmaken van een nieuwe transactie met dezelfde gegevens.</string>
     <string name="pref_ocr_engine_title">Motor voor tekstherkenning</string>
-    <string name="object_sealed_debt">Object verwijst naar een gesloten schuld.</string>
+    <string name="object_sealed_debt">Object verwijst naar een afgesloten schuld.</string>
     <string name="menu_parent_category_selection">Selecteer de bovenliggende categorie met een korte tik</string>
     <string name="account_widget_configuration_sum_total">Inclusief toekomstige transacties</string>
     <string name="upgrade_info_557">Hoe bevalt het nieuwe ontwerp\? Laat het ons weten. Een variant die dichter bij het oude ontwerp ligt, kan worden geactiveerd in de instellingen (%1$s -&gt; %2$s).</string>
