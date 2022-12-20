@@ -4,13 +4,14 @@
      Licensed to The Android Open Source Project.
 -->
 <resources>
-    <!-- packages/apps/UnifiedEmail/res/values/strings.xml -->
+    <!-- packages/apps/DocumentsUI/res/values/strings.xml -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="saving">Saving&#8230;</string>
+    <!-- packages/apps/Settings/res/values/strings.xml wifi_add_app_single_network_saving_summary -->
+    <string name="saving">Saving…</string>
     <!-- prefDialogTitle_removal_action -->
     <string name="default_action">"Default action"</string>
-    <!-- packages/apps/ContactsCommon/res/values/strings.xml -->
+    <!-- packages/apps/Dialer/java/com/android/contacts/common /res/values/strings.xml -->
     <string name="full_name">Name</string>
     <string name="postal_country">Country</string>
     <!-- packages/apps/Contacts/res/values/strings.xml -->
@@ -28,7 +29,7 @@
     <string name="button_label_continue">Continue</string>
     <!-- AndroidSDK/platforms/android-30/data/res autofill_this_form -->
     <string name="autofill">Autofill</string>
-    <!--  packages/apps/SoundRecorder/res/values/strings.xml-->
+    <!--  packages/apps/Gallery/res/values/strings.xml crop_discard_text-->
     <string name="discard">Discard</string>
     <!--  packages/apps/Camera2/res/values/strings.xml-->
     <string name="dialog_dismiss">Dismiss</string>

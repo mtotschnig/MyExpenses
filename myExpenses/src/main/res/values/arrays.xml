@@ -74,6 +74,9 @@
         <item>@string/pm_type_credit</item>
     </string-array>
 
+    <string-array name="contributors_348" tools:ignore="UnusedResources">
+        <item>Erik Paelman, Marc, Rudi Timmermans</item>
+    </string-array>
 
     <string-array name="contributors_335" tools:ignore="UnusedResources">
         <item />
