@@ -19,4 +19,16 @@
     <string name="synchronization_title">ಮೇಘ ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
     <string name="ocr_title">ರಶೀದಿಯನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ</string>
     <string name="webui_title">ವೆಬ್ ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
+    <string name="print_description">ವಹಿವಾಟು ಪಟ್ಟಿಯನ್ನು PDF ಫೈಲ್‌ಗೆ ಮುದ್ರಿಸಿ</string>
+    <string name="adfree_description">ಜಾಹೀರಾತುಗಳಿಲ್ಲ.</string>
+    <string name="categorytree_title">ವರ್ಗ ಮರ</string>
+    <string name="csvimport_description">ಅತ್ಯಾಧುನಿಕ, ಗ್ರಾಹಕೀಯಗೊಳಿಸಬಹುದಾದ CSV ಆಮದು (ಸ್ಪ್ರೆಡ್‌ಶೀಟ್ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು)</string>
+    <string name="distribution_title">ಪೈ ಚಾರ್ಟ್</string>
+    <string name="distribution_description">ವಿವಿಧ ಅವಧಿಗಳಲ್ಲಿ (ವರ್ಷಗಳು, ತಿಂಗಳುಗಳು, ವಾರಗಳು, ದಿನಗಳು) ಪ್ರತಿ ವರ್ಗದ ವಹಿವಾಟುಗಳ ಅಂಕಿಅಂಶಗಳ ವಿತರಣೆಯನ್ನು ದೃಶ್ಯೀಕರಿಸಿ</string>
+    <string name="plansunlimited_description">ಮರುಕಳಿಸುವ ವಹಿವಾಟುಗಳಿಗಾಗಿ ಮೂರಕ್ಕಿಂತ ಹೆಚ್ಚು ಯೋಜನೆಗಳನ್ನು ರಚಿಸುವ ಸಾಮರ್ಥ್ಯವನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ.</string>
+    <string name="synchronization_description">ಬಹು ಸಾಧನಗಳ ನಡುವೆ ಡೇಟಾವನ್ನು ಸಿಂಕ್ ಮಾಡಬಹುದು.</string>
+    <string name="splittransaction_description">ಒಂದೇ ವಹಿವಾಟನ್ನು ಬಹು ಭಾಗಗಳಾಗಿ ವಿಭಜಿಸಬಹುದು (ವರ್ಗಗಳು ಮತ್ತು ವರ್ಗಾವಣೆಗಳು).</string>
+    <string name="professional_benefit_1">ಎಲ್ಲಾ ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ</string>
+    <string name="ocr_description">ಮೊತ್ತ, ದಿನಾಂಕ ಮತ್ತು ಪಾವತಿಸುವವರನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹೊರತೆಗೆಯಿರಿ</string>
+    <string name="webui_description">ಡೇಟಾ ನಮೂದುಗಾಗಿ ನಿಮ್ಮ ಡೆಸ್ಕ್‌ಟಾಪ್ ಬ್ರೌಸರ್ ಬಳಸಿ</string>
 </resources>
