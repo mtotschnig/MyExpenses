@@ -209,4 +209,24 @@
         <item quantity="one">منتخب آبجیکٹ کو لین دین میں میپ کیا گیا ہے اور اسے حذف نہیں کیا جا سکتا.</item>
         <item quantity="other">%1$d اشیاء کو لین دین میں میپ کیا گیا ہے اور انہیں حذف نہیں کیا جا سکتا.</item>
     </plurals>
+    <string name="password_not_valid">پاس ورڈ غلط ہے۔ دوبارہ کوشش کریں!</string>
+    <string name="password_prompt">اپنا پاس ورڈ درج کریں</string>
+    <string name="parse_error_parse_exception">فائل کو پارس نہیں کیا جا سکا</string>
+    <string name="password_disabled_reenable">پاس ورڈ کی حفاظت کو غیر فعال کر دیا گیا ہے۔ آپ اسے سیٹنگز میں دوبارہ فعال کر سکتے ہیں.</string>
+    <string name="password_lost">پاس ورڈ کھو گیا</string>
+    <string name="password_security_answer_not_valid">غلط جواب. دوبارہ کوشش کریں!</string>
+    <string name="payee">ادا کرنے والا</string>
+    <string name="payer">ادا کرنے والا</string>
+    <string name="payer_or_payee">وصول کنندہ/ ادا کرنے والا</string>
+    <string name="plan">منصوبہ</string>
+    <string name="plan_automatic">خودکار</string>
+    <string name="plan_calendar_name">{app_name} منصوبہ ساز</string>
+    <string name="planner_notification_channel_name">منصوبہ ساز</string>
+    <string name="plan_event_deleted">اس سانچے سے وابستہ منصوبہ کیلنڈر سے حذف کر دیا گیا ہے.</string>
+    <string name="plan_execution_canceled">پلان پر عمل درآمد منسوخ کر دیا گیا</string>
+    <string name="planner_create_calendar_failure">مقامی منصوبہ ساز کیلنڈر بنانے سے قاصر</string>
+    <string name="planner_create_calendar_success">مقامی منصوبہ ساز کیلنڈر کامیابی کے ساتھ بنایا گیا</string>
+    <string name="pm_cheque">چیک</string>
+    <string name="pm_creditcard">کریڈٹ کارڈ</string>
+    <string name="pm_deposit">جمع</string>
 </resources>

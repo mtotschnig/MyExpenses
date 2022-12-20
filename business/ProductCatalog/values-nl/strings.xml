@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="splittemplate_title">Gesplitst sjabloon</string>
+    <string name="history_title">Geschiedenis grafiek</string>
+    <string name="history_description">Begrijp hoe uw financiële situatie in de loop van de tijd evolueert</string>
+    <string name="budget_title">Budgettering</string>
+    <string name="ocr_title">Bon scannen</string>
+    <string name="ocr_description">Haal automatisch bedrag, datum en begunstigde op</string>
+    <string name="webui_title">Webgebruikersinterface</string>
+    <string name="webui_description">Gebruik uw desktopbrowser voor gegevensinvoer</string>
+    <string name="categorytree_description">Willekeurig diepe categoriehiërarchie</string>
+    <string name="adfree_title">Geen advertenties</string>
+    <string name="csvimport_description">Geavanceerde, aanpasbare CSV-import (spreadsheettoepassingen)</string>
+    <string name="distribution_title">Cirkeldiagram</string>
+    <string name="distribution_description">Visualiseer de statistische verdeling van transacties per categorie over verschillende periodes (jaren, maanden, weken, dagen)</string>
+    <string name="plansunlimited_title">Onbeperkt aantal abonnementen</string>
+    <string name="plansunlimited_description">Ontgrendel de mogelijkheid om meer dan drie abonnementen voor terugkerende transacties te maken.</string>
+    <string name="print_title">Afdrukken</string>
+    <string name="print_description">Druk de transactielijst af naar een PDF-bestand</string>
+    <string name="splittransaction_description">Een enkele transactie kan worden opgesplitst in meerdere delen (categorieën en overschrijvingen).</string>
+    <string name="synchronization_title">Cloud synchronisatie</string>
+    <string name="synchronization_description">Gegevens kunnen worden gesynchroniseerd tussen meerdere apparaten.</string>
+    <string name="professional_benefit_1">Ontgrendel alle premiumfuncties</string>
+    <string name="professional_benefit_2">E-mail ondersteuning</string>
+    <string name="professional_benefit_3">Stemrecht op ontwikkelingsroutekaart</string>
+    <string name="splittemplate_description">Onbeperkt aantal sjablonen en plannen voor gesplitste transacties</string>
+    <string name="budget_description">Bepaal hoeveel u van plan bent te besteden aan jaarlijkse, maandelijkse of wekelijkse budgetten</string>
+    <string name="categorytree_title">Categorie Boom</string>
+    <string name="accountsunlimited_title">Onbeperkt aantal accounts</string>
+    <string name="accountsunlimited_description">Ontgrendel de mogelijkheid om meer dan vijf accounts aan te maken.</string>
+    <string name="adfree_description">Geen advertenties.</string>
+    <string name="csvimport_title">CSV-import</string>
+    <string name="splittransaction_title">Gesplitste transactie</string>
+</resources>
