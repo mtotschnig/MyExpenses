@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import java.io.Serializable
@@ -126,62 +127,63 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onCreateDialog(id: Int): Dialog? {
-        when (id) {
-            R.id.FTP_DIALOG -> return DialogUtils.sendWithFTPDialog(this)
-            R.id.MORE_INFO_DIALOG -> {
-                val builder = MaterialAlertDialogBuilder(this)
-                val view = LayoutInflater.from(builder.context).inflate(R.layout.more_info, null)
-                (view.findViewById<View>(R.id.aboutVersionCode) as TextView).text =
-                    getVersionInfo(this)
-                val projectContainer = view.findViewById<TextView>(R.id.project_container)
-                projectContainer.text = Utils.makeBulletList(this,
-                    Utils.getProjectDependencies(this)
-                        .map { project: Map<String, String> ->
-                            val name = project["name"]
-                            "${if (project.containsKey("extra_info")) "$name (${project["extra_info"]})" else name}, from ${project["url"]}, licenced under ${project["licence"]}"
-                        }.toList(), R.drawable.ic_menu_forward
+    override fun onCreateDialog(id: Int): Dialog? = when (id) {
+        R.id.FTP_DIALOG -> DialogUtils.sendWithFTPDialog(this)
+        R.id.MORE_INFO_DIALOG -> {
+            val builder = MaterialAlertDialogBuilder(this)
+            val view = LayoutInflater.from(builder.context).inflate(R.layout.more_info, null)
+            (view.findViewById<View>(R.id.aboutVersionCode) as TextView).text =
+                getVersionInfo(this)
+            val projectContainer = view.findViewById<TextView>(R.id.project_container)
+            projectContainer.text = Utils.makeBulletList(this,
+                Utils.getProjectDependencies(this)
+                    .map { project: Map<String, String> ->
+                        val name = project["name"]
+                        "${if (project.containsKey("extra_info")) "$name (${project["extra_info"]})" else name}, from ${project["url"]}, licenced under ${project["licence"]}"
+                    }.toList(), R.drawable.ic_menu_forward
+            )
+            val additionalContainer = view.findViewById<TextView>(R.id.additional_container)
+            val lines: List<CharSequence> = listOf(
+                *resources.getStringArray(R.array.additional_credits),
+                "${getString(R.string.translated_by)}: ${buildTranslationCredits()}"
+            )
+            additionalContainer.text =
+                Utils.makeBulletList(this, lines, R.drawable.ic_menu_forward)
+            val iconContainer = view.findViewById<LinearLayout>(R.id.additional_icons_container)
+            val iconLines =
+                listOf<CharSequence>(*resources.getStringArray(R.array.additional_icon_credits))
+            val ar = resources.obtainTypedArray(R.array.additional_icon_credits_keys)
+            val len = ar.length()
+            val height = UiUtils.dp2Px(32f, resources)
+            val drawablePadding = UiUtils.dp2Px(8f, resources)
+            var i = 0
+            while (i < len) {
+                val textView = TextView(this)
+                textView.gravity = Gravity.CENTER_VERTICAL
+                val layoutParams =
+                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
+                textView.layoutParams = layoutParams
+                textView.compoundDrawablePadding = drawablePadding
+                textView.text = iconLines[i]
+                textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    ar.getResourceId(i, 0),
+                    0,
+                    0,
+                    0
                 )
-                val additionalContainer = view.findViewById<TextView>(R.id.additional_container)
-                val lines: List<CharSequence> = listOf(
-                    *resources.getStringArray(R.array.additional_credits),
-                    "${getString(R.string.translated_by)}: ${buildTranslationCredits()}"
-                )
-                additionalContainer.text =
-                    Utils.makeBulletList(this, lines, R.drawable.ic_menu_forward)
-                val iconContainer = view.findViewById<LinearLayout>(R.id.additional_icons_container)
-                val iconLines =
-                    listOf<CharSequence>(*resources.getStringArray(R.array.additional_icon_credits))
-                val ar = resources.obtainTypedArray(R.array.additional_icon_credits_keys)
-                val len = ar.length()
-                val height = UiUtils.dp2Px(32f, resources)
-                val drawablePadding = UiUtils.dp2Px(8f, resources)
-                var i = 0
-                while (i < len) {
-                    val textView = TextView(this)
-                    textView.gravity = Gravity.CENTER_VERTICAL
-                    val layoutParams =
-                        LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
-                    textView.layoutParams = layoutParams
-                    textView.compoundDrawablePadding = drawablePadding
-                    textView.text = iconLines[i]
-                    textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        ar.getResourceId(i, 0),
-                        0,
-                        0,
-                        0
-                    )
-                    iconContainer.addView(textView)
-                    i++
-                }
-                ar.recycle()
-                return builder.setTitle(R.string.pref_more_info_dialog_title)
-                    .setView(view)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .create()
+                iconContainer.addView(textView)
+                i++
             }
+            ar.recycle()
+            builder.setTitle(R.string.pref_more_info_dialog_title)
+                .setView(view)
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
         }
-        return super.onCreateDialog(id)
+        else -> {
+            CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
+            super.onCreateDialog(id)
+        }
     }
 
     private fun buildTranslationCredits() =
