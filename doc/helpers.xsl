@@ -122,7 +122,7 @@
                 </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='debt_managment']" />
-                <xsl:text> 2.0</xsl:text>
+                <xsl:text>&#032;2.0</xsl:text>
                 <xsl:value-of select="$separator" />
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='pref_category_title_export']" />
@@ -130,13 +130,13 @@
                 <xsl:value-of select="$separator" />
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='title_scan_receipt_feature']" />
-                <xsl:text> (</xsl:text>
+                <xsl:text>&#032;(</xsl:text>
                 <xsl:value-of select="my:displayNameForScript('Han', $lang)" />
-                <xsl:text>, </xsl:text>
+                <xsl:text>,&#032;</xsl:text>
                 <xsl:value-of select="my:displayNameForScript('Deva', $lang)" />
-                <xsl:text>, </xsl:text>
+                <xsl:text>,&#032;</xsl:text>
                 <xsl:value-of select="my:displayNameForScript('Jpan', $lang)" />
-                <xsl:text>, </xsl:text>
+                <xsl:text>,&#032;</xsl:text>
                 <xsl:value-of select="my:displayNameForScript('Kore', $lang)" />
                 <xsl:text>)</xsl:text>
             </xsl:when>
@@ -214,7 +214,7 @@
                 </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='title_webui']" />
-                <xsl:text> 2.0</xsl:text>
+                <xsl:text>&#032;2.0</xsl:text>
             </xsl:when>
             <xsl:when test="$version = '3.4.3'">
                 <xsl:if test="$itemize">
@@ -222,13 +222,13 @@
                 </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($aosp)/resources/string[@name='customize']" />
-                <xsl:text>: </xsl:text>
+                <xsl:text>:&#032;</xsl:text>
                 <xsl:apply-templates mode="unescape"
                     select="my:simpleFormatRes(document($strings)/resources/string[@name='export_to_format'], 'CSV')" />
                 <xsl:value-of select="$separator" />
                 <xsl:apply-templates mode="unescape"
                     select="my:simpleFormatRes(document($strings)/resources/string[@name='export_to_format'], 'JSON')" />
-                <xsl:text> 2.0</xsl:text>
+                <xsl:text>&#032;2.0</xsl:text>
             </xsl:when>
             <xsl:when test="$version = '3.4.4'">
                 <xsl:if test="$itemize">
@@ -236,7 +236,7 @@
                 </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='whats_new_344']" />
-                <xsl:text> 2.0</xsl:text>
+                <xsl:text>&#032;2.0</xsl:text>
             </xsl:when>
             <xsl:when test="$version = '3.4.5'">
                 <xsl:if test="$itemize">
@@ -244,7 +244,7 @@
                 </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='menu_budget']" />
-                <xsl:text> 3.0</xsl:text>
+                <xsl:text>&#032;3.0</xsl:text>
                 <xsl:value-of select="$separator" />
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='title_webui']" />
@@ -256,7 +256,7 @@
                 </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($help)/resources/string[@name='help_MyExpenses_title']" />
-                <xsl:text>: </xsl:text>
+                <xsl:text>:&#032;</xsl:text>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='redesign']" />
             </xsl:when>
@@ -266,18 +266,18 @@
                 </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='synchronization']" />
-                <xsl:text>: </xsl:text>
+                <xsl:text>:&#032;</xsl:text>
                 <xsl:apply-templates mode="unescape"
                     select="document($aosp)/resources/string[@name='storage_description']" />
             </xsl:when>
             <xsl:when test="$version = '3.4.8'">
-            <xsl:if test="$itemize">
-                <xsl-text>•&#032;</xsl-text>
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='pref_translation_title']" />
                 <xsl:text>:&#032;</xsl:text>
                 <xsl:value-of select="my:displayNameForLanguage('nl', $lang)" />
-            </xsl:if>
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>

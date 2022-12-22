@@ -132,6 +132,142 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.4.8
+    - "2022-12-10"
+    -
+      ar: |
+        الترجمة: الهولندية
+      bg: |
+        Превод: нидерландски
+      ca: |
+        Traducció: neerlandès
+      cs: |
+        Překlad: nizozemština
+      da: |
+        Oversættelse: hollandsk
+      de: |
+        Übersetzung: Niederländisch
+      el: |
+        Μετάφραση: Ολλανδικά
+      es: |
+        Traducción: neerlandés
+      eu: |
+        Itzulpena: nederlandera
+      fr: |
+        Traduction: néerlandais
+      hr: |
+        Prijevod: nizozemski
+      hu: |
+        Fordítás: holland
+      it: |
+        Traduzione: olandese
+      iw: |
+        תרגום: הולנדית
+      ja: |
+        翻訳: オランダ語
+      kn: |
+        ಅನುವಾದ: ಡಚ್
+      ko: |
+        번역: 네덜란드어
+      km: |
+        ការបកប្រែ: ហូឡង់
+      ms: |
+        Terjemahan: Belanda
+      nl: |
+        Vertalen: Nederlands
+      pl: |
+        Tłumaczenie: niderlandzki
+      pt: |
+        Tradução: holandês
+      ro: |
+        Traducere: neerlandeză
+      ru: |
+        Перевод: нидерландский
+      si: |
+        පරිවර්තනය: ලන්දේසි
+      ta: |
+        மொழிபெயர்ப்பு: டச்சு
+      te: |
+        అనువాదం: డచ్
+      tr: |
+        Çeviri: Felemenkçe
+      vi: |
+        Dịch thuật: Tiếng Hà Lan
+      zh: |
+        翻译: 荷兰语
+      zh-TW: |
+        翻譯: Dutch
+      en: |
+        Translation: Dutch
+  -
+    - 3.4.7
+    - "2022-12-10"
+    -
+      ar: |
+        التزامن: التخزين المحلي
+      bg: |
+        Синхронизиране: Локално хранилище
+      ca: |
+        Sincronització: Emmagatzematge local
+      cs: |
+        Synchronizace: Místní úložiště
+      da: |
+        Synkronisering: Lokalt lager
+      de: |
+        Synchronisierung: Lokaler Speicher
+      el: |
+        Συγχρονισμός: Τοπικός χώρος αποθήκευσης
+      es: |
+        Sincronización: Almacenamiento local
+      eu: |
+        Sinkronizazioa: Biltegi lokala
+      fr: |
+        Synchronisation: Stockage local
+      hr: |
+        Sinkronizacija: Lokalna pohrana
+      hu: |
+        Szinkronizálás: Helyi tárhely
+      it: |
+        Sincronizzazione: Archiviazione locale
+      iw: |
+        סנכרון: אחסון מקומי
+      ja: |
+        同期: ローカル ストレージ
+      kn: |
+        ಸಿಂಕ್ರೊನೈಸೇಶನ್: ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆ
+      ko: |
+        동기화: 로컬 저장소
+      km: |
+        ការធ្វើសមកាលកម្ម: ទំហំផ្ទុកមូលដ្ឋាន
+      ms: |
+        Penyegerakan: Storan setempat
+      nl: |
+        Synchronisatie: Lokale opslag
+      pl: |
+        Synchronizacja: Pamięć lokalna
+      pt: |
+        Sincronização: Armazenamento local
+      ro: |
+        Sincronizare: Stocare locală
+      ru: |
+        Синхронизация: Локальное хранилище
+      si: |
+        සමමුහුර්තකරණය: පෙදෙසි ආචයනය
+      ta: |
+        ஒத்திசைவு: சாதனச் சேமிப்பகம்
+      te: |
+        సమకాలీకరణ: స్థానిక నిల్వ
+      tr: |
+        Eşzamanla: Yerel depolama
+      vi: |
+        Đồng bộ hóa: Bộ nhớ cục bộ
+      zh: |
+        同步: 本地存储空间
+      zh-TW: |
+        同步化: 本機儲存空間
+      en: |
+        Synchronization: Local storage
+  -
     - 3.4.6
     - "2022-11-19"
     -

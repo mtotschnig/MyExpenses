@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
     <xsl:variable name="all-languages"
-        select="'ar bg ca cs da de el es eu fr hr hu it iw ja kn ko ms km pl pt ro ru si ta tr vi zh zh-TW en'" />
+        select="'ar bg ca cs da de el es eu fr hr hu it iw ja kn ko km ms nl pl pt ro ru si ta te tr vi zh zh-TW en'" />
     <xsl:variable name='newline'>
         <xsl:text>&#xa;</xsl:text>
     </xsl:variable>
