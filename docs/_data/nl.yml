@@ -1,137 +1,138 @@
-all_contrib_key_features: Alle functies van Bijdragen Sleutel
-all_extended_key_features: Alle functies van Uitgebreide Sleutel
-contrib-key: Bijdragen sleutel
-extended-key: Uitgebreide sleutel
-permissions:
-  accounts:
-    explanation: Synchronisatie tussen apparaten via cloudservices.
-    label: Accounts
-  calendar:
-    label: Kalender
-    explanation: Plannen voor toekomstige en terugkerende transacties worden opgeslagen
-      in een speciale lokale kalender of in een andere kalender die u toewijst.
-  heading: <i> {app_name} </i> vereist de volgende <u>machtigingen</u>
-  internet:
-    label: Internet
-    explanation_usage_tracking: Anonieme gebruiksregistratie
-    explanation_crash_reporting: Crash rapporten
-    explanation_key_validation: Licentie sleutel validatie
-    explanation_cloud_sync: Cloud synchronisatie
-professional-key: Professionele sleutel
-screenshot_testdata:
-  account3Label: Bankrekening
-  account3Description: Bank van Amerika
-  transaction2Comment: Fruit & Groenten
-  templatePayee: John Doe
-  tag_project: Naamloos project
-  account1Description: Dagelijkse uitgaven
-  transaction4Payee: Pizzeria Antonella
-  account2Label: weekend in Parijs
-  account1Label: Mijn portemonnee
-screenshot_titles:
-  group: Groepeer op jaar, maand of week
-  summarize: Verzamel al uw accounts
-  budget: Jaarlijkse, maandelijkse en wekelijkse budgetten
-  split: Opsplitsen in meerdere categorieën
-  sync: Cloud synchronisatie
-  distribution: Cirkeldiagram diagram
-  history: Geschiedenis van uw financiële situatie
-  export: Exporteren naar PDF, QIF en CSV
-imprint_text: Verantwoordelijk voor de inhoud van deze website en voor ontwikkeling,
-  onderhoud en distributie van <i>{app_name}</i>
-imprint: Afdruk
-privacy_policy_text: <i> {app_name} </i> heeft geen toegang tot gegevens op uw apparaat,
-  behalve een eigen database, een eigen map op de SD-kaart. Als u de functie van plannen
-  voor toekomstige en terugkerende transacties gebruikt, wijst u de agenda toe, waar
-  deze plannen worden opgeslagen.
-sections:
-  premium: Ga voor premium
-  versionlist: Wijzigingenlijst
-  features: Mogelijkheden
-  participate: Deelnemen
-  faq: FAQ
-  licence: Licentie
-  credits: Tegoeden
-  sourcecode: Broncode
-  links: Links
-screenshots:
-  budget: Bepaal hoeveel u van plan bent te besteden aan jaarlijkse, maandelijkse
-    of wekelijkse budgetten
-  group: Groepeer uw transacties per dag, week, maand of jaar
-  summarize: Som al uw rekeningen op (geavanceerde verwerking van wisselkoersen per
-    rekening en per transactie)
-  distribution: Visualiseer de verdeling per categorie
-  history: Begrijp hoe uw financiële situatie in de loop van de tijd evolueert
-  export: Afdrukken naar PDF en uitwisselen via QIF en CSV.
-  sync: Synchroniseer versleutelde accountgegevens op meerdere apparaten via privé-
-    of openbare cloudservices.
-  split: Splits één transactie op in meerdere categorieën
-contrib:
-  feature:
-    distribution: '<b> Cirkeldiagram</b>: Visualiseer de statistische verdeling van
-      transacties per categorie over verschillende perioden (jaren, maanden, weken,
-      dagen)'
-    accounts_unlimited: Ontgrendel de mogelijkheid om meer dan vijf accounts aan te
-      maken
-    split_transaction: '<b>Gesplitste transactie</b>: Een enkele transactie kan worden
-      opgesplitst in meerdere delen (categorieën en overschrijvingen)'
-    print: <b>Print</b> de transactielijst naar een PDF-bestand
-    ad_free: <b>Geen advertenties</b>
-    csv_import: Geavanceerde, aanpasbare <b>CSV-import</b> (spreadsheettoepassingen)
-    auto_backup: Dagelijkse <b>geautomatiseerde back-up</b> met optionele upload naar
-      cloudopslag
-    cloud_sync: '<b>Cloudsynchronisatie</b>: gegevens kunnen worden gesynchroniseerd
-      tussen meerdere apparaten'
-    split_template: Onbeperkt aantal <b>sjablonen en abonnementen voor gesplitste
-      transacties</b>
-    email_support: <b>Ondersteuning via e-mail</b> met gegarandeerde reactie binnen
-      2 werkdagen
-    roadmap_voting: Stemrecht op <b>ontwikkelingsroutekaart</b>
-    history_chart: <b> Historie grafiek</b> (Cashflow)
-    budgeting: '<b> Budgettering</b>: Vergelijk uw uitgaven met limieten die u per
-      categorie instelt op dagelijkse, wekelijkse, maandelijkse of jaarlijkse basis.'
-    scan_receipt: '<b>Bonnen scannen</b>: Haal automatisch bedrag, datum en begunstigde
-      op'
-    webui: <b>Webgebruikersinterface</b>
-    plans_unlimited: Ontgrendel de mogelijkheid om meer dan drie plannen te maken
-      voor terugkerende transacties
-  thank_you: "Uw bijdrage ondersteunt de verdere ontwikkeling van Mijn Uitgaven. Bedankt!\n"
-  feature-list-title: 'Draag alstublieft bij door <i>{app_name}</i> te upgraden en
-    krijg onbeperkte toegang tot de volgende functies:'
-  one-time-payment: Eenmalige betaling
-  subscription: Abonnement
-features:
-  manage_accounts: Tot vijf rekeningen met <b>overboekingen</b> (ook tussen verschillende
-    valuta's)
-  export: <b>Exporteer</b> naar QIF en CSV. <b>Importeer</b> vanuit QIF
-  password: Gegevens kunnen worden beschermd met <b>wachtwoord</b> of apparaat <b>vergrendelscherm</b>
-  plans: Onbeperkt aantal <b>sjablonen</b> en maximaal drie abonnementen voor <b>terugkerende</b>
-    transacties
-  light_theme: <b> Thema </b> (donker en licht) en <b> lettergrootte </b> kunnen worden
-    aangepast
-  reconciliation: '<b> Reconciliatie</b>: vergelijk eenvoudig de transactiestatus
-    met uw bankafschriften'
-  homescreen: Startscherm <b>widget</b> en <b>snelkoppelingen</b> voor snelle gegevensinvoer
-store:
-  highlight_1: Houd uw uitgaven en inkomsten bij met meerdere accounts, sjablonen
-    en categorieën
-  short_description: 'Gebruiksvriendelijke finance manager: rijke functionaliteit
-    en Open Source'
-  full_description_intro: '{app_name} houdt uw uitgaven en uw inkomsten bij, rechtstreeks
-    op uw smartphone en op uw tablet.'
-  full_description_contrib: 'Premiumfuncties worden ontgrendeld door aankoop van een
-    van de volgende licentiesleutels:'
-  full_description_contrib_amazon: 'Veel extra functies worden ontgrendeld door aankoop
-    van een van de licentiesleutels, bijvoorbeeld:'
-  highlight_2: Deel uw gegevens tussen meerdere telefoons en tablets via WebDAV en
-    Google Drive
-  highlight_3: Vat uw financiële situatie samen per dag, week, maand of jaar
-privacy_policy_heading: Privacybeleid
-menu_title:
-  more_information: Meer informatie
-hero_main: Mijn geld manager voor Android
-hero_sub:
-  use: Makkelijk in gebruik
-  functionality: Veel mogelijkheden
-  source: Open Bron
-customer_support: Klantenondersteuning
+nl:
+  all_contrib_key_features: Alle functies van Bijdragen Sleutel
+  all_extended_key_features: Alle functies van Uitgebreide Sleutel
+  contrib-key: Bijdragen sleutel
+  extended-key: Uitgebreide sleutel
+  permissions:
+    accounts:
+      explanation: Synchronisatie tussen apparaten via cloudservices.
+      label: Accounts
+    calendar:
+      label: Kalender
+      explanation: Plannen voor toekomstige en terugkerende transacties worden opgeslagen
+        in een speciale lokale kalender of in een andere kalender die u toewijst.
+    heading: <i> {app_name} </i> vereist de volgende <u>machtigingen</u>
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonieme gebruiksregistratie
+      explanation_crash_reporting: Crash rapporten
+      explanation_key_validation: Licentie sleutel validatie
+      explanation_cloud_sync: Cloud synchronisatie
+  professional-key: Professionele sleutel
+  screenshot_testdata:
+    account3Label: Bankrekening
+    account3Description: Bank van Amerika
+    transaction2Comment: Fruit & Groenten
+    templatePayee: John Doe
+    tag_project: Naamloos project
+    account1Description: Dagelijkse uitgaven
+    transaction4Payee: Pizzeria Antonella
+    account2Label: weekend in Parijs
+    account1Label: Mijn portemonnee
+  screenshot_titles:
+    group: Groepeer op jaar, maand of week
+    summarize: Verzamel al uw accounts
+    budget: Jaarlijkse, maandelijkse en wekelijkse budgetten
+    split: Opsplitsen in meerdere categorieën
+    sync: Cloud synchronisatie
+    distribution: Cirkeldiagram diagram
+    history: Geschiedenis van uw financiële situatie
+    export: Exporteren naar PDF, QIF en CSV
+  imprint_text: Verantwoordelijk voor de inhoud van deze website en voor ontwikkeling,
+    onderhoud en distributie van <i>{app_name}</i>
+  imprint: Afdruk
+  privacy_policy_text: <i> {app_name} </i> heeft geen toegang tot gegevens op uw apparaat,
+    behalve een eigen database, een eigen map op de SD-kaart. Als u de functie van plannen
+    voor toekomstige en terugkerende transacties gebruikt, wijst u de agenda toe, waar
+    deze plannen worden opgeslagen.
+  sections:
+    premium: Ga voor premium
+    versionlist: Wijzigingenlijst
+    features: Mogelijkheden
+    participate: Deelnemen
+    faq: FAQ
+    licence: Licentie
+    credits: Tegoeden
+    sourcecode: Broncode
+    links: Links
+  screenshots:
+    budget: Bepaal hoeveel u van plan bent te besteden aan jaarlijkse, maandelijkse
+      of wekelijkse budgetten
+    group: Groepeer uw transacties per dag, week, maand of jaar
+    summarize: Som al uw rekeningen op (geavanceerde verwerking van wisselkoersen per
+      rekening en per transactie)
+    distribution: Visualiseer de verdeling per categorie
+    history: Begrijp hoe uw financiële situatie in de loop van de tijd evolueert
+    export: Afdrukken naar PDF en uitwisselen via QIF en CSV.
+    sync: Synchroniseer versleutelde accountgegevens op meerdere apparaten via privé-
+      of openbare cloudservices.
+    split: Splits één transactie op in meerdere categorieën
+  contrib:
+    feature:
+      distribution: '<b> Cirkeldiagram</b>: Visualiseer de statistische verdeling van
+        transacties per categorie over verschillende perioden (jaren, maanden, weken,
+        dagen)'
+      accounts_unlimited: Ontgrendel de mogelijkheid om meer dan vijf accounts aan te
+        maken
+      split_transaction: '<b>Gesplitste transactie</b>: Een enkele transactie kan worden
+        opgesplitst in meerdere delen (categorieën en overschrijvingen)'
+      print: <b>Print</b> de transactielijst naar een PDF-bestand
+      ad_free: <b>Geen advertenties</b>
+      csv_import: Geavanceerde, aanpasbare <b>CSV-import</b> (spreadsheettoepassingen)
+      auto_backup: Dagelijkse <b>geautomatiseerde back-up</b> met optionele upload naar
+        cloudopslag
+      cloud_sync: '<b>Cloudsynchronisatie</b>: gegevens kunnen worden gesynchroniseerd
+        tussen meerdere apparaten'
+      split_template: Onbeperkt aantal <b>sjablonen en abonnementen voor gesplitste
+        transacties</b>
+      email_support: <b>Ondersteuning via e-mail</b> met gegarandeerde reactie binnen
+        2 werkdagen
+      roadmap_voting: Stemrecht op <b>ontwikkelingsroutekaart</b>
+      history_chart: <b> Historie grafiek</b> (Cashflow)
+      budgeting: '<b> Budgettering</b>: Vergelijk uw uitgaven met limieten die u per
+        categorie instelt op dagelijkse, wekelijkse, maandelijkse of jaarlijkse basis.'
+      scan_receipt: '<b>Bonnen scannen</b>: Haal automatisch bedrag, datum en begunstigde
+        op'
+      webui: <b>Webgebruikersinterface</b>
+      plans_unlimited: Ontgrendel de mogelijkheid om meer dan drie plannen te maken
+        voor terugkerende transacties
+    thank_you: "Uw bijdrage ondersteunt de verdere ontwikkeling van Mijn Uitgaven. Bedankt!\n"
+    feature-list-title: 'Draag alstublieft bij door <i>{app_name}</i> te upgraden en
+      krijg onbeperkte toegang tot de volgende functies:'
+    one-time-payment: Eenmalige betaling
+    subscription: Abonnement
+  features:
+    manage_accounts: Tot vijf rekeningen met <b>overboekingen</b> (ook tussen verschillende
+      valuta's)
+    export: <b>Exporteer</b> naar QIF en CSV. <b>Importeer</b> vanuit QIF
+    password: Gegevens kunnen worden beschermd met <b>wachtwoord</b> of apparaat <b>vergrendelscherm</b>
+    plans: Onbeperkt aantal <b>sjablonen</b> en maximaal drie abonnementen voor <b>terugkerende</b>
+      transacties
+    light_theme: <b> Thema </b> (donker en licht) en <b> lettergrootte </b> kunnen worden
+      aangepast
+    reconciliation: '<b> Reconciliatie</b>: vergelijk eenvoudig de transactiestatus
+      met uw bankafschriften'
+    homescreen: Startscherm <b>widget</b> en <b>snelkoppelingen</b> voor snelle gegevensinvoer
+  store:
+    highlight_1: Houd uw uitgaven en inkomsten bij met meerdere accounts, sjablonen
+      en categorieën
+    short_description: 'Gebruiksvriendelijke finance manager: rijke functionaliteit
+      en Open Source'
+    full_description_intro: '{app_name} houdt uw uitgaven en uw inkomsten bij, rechtstreeks
+      op uw smartphone en op uw tablet.'
+    full_description_contrib: 'Premiumfuncties worden ontgrendeld door aankoop van een
+      van de volgende licentiesleutels:'
+    full_description_contrib_amazon: 'Veel extra functies worden ontgrendeld door aankoop
+      van een van de licentiesleutels, bijvoorbeeld:'
+    highlight_2: Deel uw gegevens tussen meerdere telefoons en tablets via WebDAV en
+      Google Drive
+    highlight_3: Vat uw financiële situatie samen per dag, week, maand of jaar
+  privacy_policy_heading: Privacybeleid
+  menu_title:
+    more_information: Meer informatie
+  hero_main: Mijn geld manager voor Android
+  hero_sub:
+    use: Makkelijk in gebruik
+    functionality: Veel mogelijkheden
+    source: Open Bron
+  customer_support: Klantenondersteuning
