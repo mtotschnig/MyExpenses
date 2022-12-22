@@ -27,13 +27,13 @@
                 <xsl:for-each select="str:tokenize($proAddons)">
                     <xsl:call-template name="lineAmazon">
                         <xsl:with-param name="addon" select="." />
-                        <xsl:with-param name="prize" select="'5190000'" />
+                        <xsl:with-param name="prize" select="'US;5190000;MX;63000000;BR;15990000;GB;4270000;AU;7760000;JP;709000000;FR;4900000;DE;4900000;ES;4900000;IN;220000000;IT;4900000;CA;7110000'" />
                     </xsl:call-template>
                 </xsl:for-each>
                 <xsl:for-each select="str:tokenize($addons)">
                     <xsl:call-template name="lineAmazon">
                         <xsl:with-param name="addon" select="." />
-                        <xsl:with-param name="prize" select="'3240000'" />
+                        <xsl:with-param name="prize" select="'US;3240000;MX;44000000;BR;9490000;GB;2670000;AU;4850000;JP;443000000;FR;3060000;DE;3060000;ES;3060000;IN;140000000;IT;3060000;CA;4440000'" />
                     </xsl:call-template>
                 </xsl:for-each>
             </xsl:when>
@@ -77,7 +77,7 @@
                 </xsl:with-param>
             </xsl:call-template>
         </xsl:for-each>
-        <xsl:text>",TRUE,USD;</xsl:text>
+        <xsl:text>",FALSE,</xsl:text>
         <xsl:value-of select="$prize" />
         <xsl:text>,Entitlement</xsl:text>
         <xsl:value-of select="$newline" />

@@ -47,64 +47,68 @@ footnote:
     F-Droid: Webdav, Dropbox<br>Play Store: Webdav, Dropbox, Google Drive
 title:
   ar: مصروفاتي
-  en: My Expenses
-  fr: Mes dépenses
-  de: Meine Ausgaben
-  it: Le mie spese
-  es: Mis gastos
-  ca: Les Meves Despeses
-  tr: Harcamalarım
-  vi: Chi Tiêu Của Tôi
-  hu: Kiadásaim
-  zh-tw: 開支助手
-  zh-cn: 开支助手
-  pt: Minhas despesas
-  pl: Moje Wydatki
-  cs: Moje výdaje
-  ru: Мои расходы
-  ro: Cheltuielile Mele
-  ja: マイ エクスペンス
-  ms: Perbelanjaan Saya
-  hr: Moji troškovi
-  eu: Nire gastuak
-  da: Mine udgifter
   bg: Моите разходи
+  ca: Les Meves Despeses
+  cs: Moje výdaje
+  da: Mine udgifter
+  de: Meine Ausgaben
   el: Έξοδα μου
+  en: My Expenses
+  es: Mis gastos
+  eu: Nire gastuak
+  fr: Mes dépenses
+  hr: Moji troškovi
+  hu: Kiadásaim
+  it: Le mie spese
   iw: ההוצאות שלי
-  uk: Мої Витрати
-  ta: எனது செலவுகள்
-  ko: 내 지출
+  ja: マイ エクスペンス
   kn: ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್
+  ko: 내 지출
+  ms: Perbelanjaan Saya
+  nl: My Expenses
+  pl: Moje Wydatki
+  pt: Minhas despesas
+  ro: Cheltuielile Mele
+  ru: Мои расходы
+  ta: எனது செலவுகள்
+  te: నా ఖర్చులు
+  tr: Harcamalarım
+  uk: Мої Витрати
+  vi: Chi Tiêu Của Tôi
+  zh-cn: 开支助手
+  zh-tw: 開支助手
 langs:
-  de: Deutsch
-  en: English
-  it: Italiano
-  fr: Français
-  pt: Português
-  es: Español
-  pl: Polski
-  ru: русский
   ar: العربية
-  cs: Čeština
-  vi: Tiếng Việt
-  hu: Magyar
-  tr: Türkçe
-  zh-tw: 中文 (繁體)
-  zh-cn: 中文 (中国)
-  ca: Català
-  ro: Română
-  ja: 日本語
-  ms: Bahasa Melayu
-  hr: hrvatski
-  eu: euskara
-  da: Dansk
   bg: български
+  ca: Català
+  cs: Čeština
+  da: Dansk
+  de: Deutsch
   el: Ελληνικά
+  en: English
+  es: Español
+  eu: euskara
+  fr: Français
+  hr: hrvatski
+  hu: Magyar
+  it: Italiano
   iw: עברית
-  uk: українська
-  ta: தமிழ்
-  ko: 한국어
+  ja: 日本語
   kn: ಕನ್ನಡ
+  ko: 한국어
+  ms: Bahasa Melayu
+  nl: Nederlands
+  pl: Polski
+  pt: Português
+  ro: Română
+  ru: русский
+  ta: தமிழ்
+  te: తెలుగు
+  tr: Türkçe
+  uk: українська
+  vi: Tiếng Việt
+  zh-cn: 中文 (中国)
+  zh-tw: 中文 (繁體)
 paypal-lc:
   de: DE
   en: US
