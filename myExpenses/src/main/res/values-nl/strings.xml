@@ -25,13 +25,13 @@
     <string name="account_type_bank_plural">Bankrekeningen</string>
     <string name="account_type_cash">Kasboek</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Kasboeken</string>
+    <string name="account_type_cash_plural">Kasrekeningen</string>
     <string name="account_type_ccard">Kredietkaart</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_ccard_plural">Kredietkaarten</string>
     <string name="already_defined">%1$s bestaat al</string>
     <string name="amount">Bedrag</string>
-    <string name="app_name">Mijn Uitgaven</string>
+    <string name="app_name">My Expenses</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
     <string name="category">Categorie</string>
     <string name="color">Kleur</string>
@@ -45,11 +45,11 @@
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Transactielijst exporteren naar PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sjabloon widget</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV importeren</string>
-    <string name="income">Inkomen</string>
-    <string name="pm_creditcard">credit card</string>
+    <string name="income">Inkomsten</string>
+    <string name="pm_creditcard">Kredietkaart</string>
     <string name="pref_security_question_title">Beveiligingsvraag</string>
     <string name="split_transaction">Gesplitte transactie</string>
-    <string name="sum_income">inkomen</string>
+    <string name="sum_income">Inkomsten</string>
     <string name="new_version">Nieuwe versie</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Onbeperkt aantal gesplitste sjablonen</string>
     <string name="account_type_liability">Passiva rekening</string>
@@ -324,7 +324,7 @@
     <string name="warning_delete_account">Account \"%1$s\" wordt verwijderd met al zijn transacties.</string>
     <string name="pref_news_title">Nieuws</string>
     <string name="menu_invert_transfer">Omkeren</string>
-    <string name="menu_manage_plans">Sjablonen en plannen</string>
+    <string name="menu_manage_plans">Sjablonen/planning</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Wachtwoord is vereist.</string>
     <string name="pm_type_neutral">Neutraal</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Gegevensinvoer vanuit widgets en snelkoppelingen</string>
@@ -348,7 +348,7 @@
     <string name="plan_automatic">automatisch</string>
     <string name="plan_calendar_name">{app_name} planner</string>
     <string name="planner_notification_channel_name">Planner</string>
-    <string name="pm_cheque">Check</string>
+    <string name="pm_cheque">Cheque</string>
     <string name="pref_category_title_advanced">Geavanceerd</string>
     <string name="pref_category_title_export">Exporteren</string>
     <string name="pref_category_title_manage">Beheren</string>
@@ -370,7 +370,7 @@
     <string name="pref_manage_parties_title">Partijen</string>
     <string name="pref_ui_home_screen_shortcuts">Startscherm Snelkoppelingen</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Toegestaan zonder wachtwoord.</string>
-    <string name="total_cleared">Totaal gewist</string>
+    <string name="total_cleared">Gewist totaal</string>
     <string name="total_reconciled">Afgestemd totaal</string>
     <string name="transaction">Transactie</string>
     <string name="tell_a_friend_message">Bekijk {app_name}, Personal Finance Manager voor {platform}, van {website}</string>
@@ -462,7 +462,7 @@
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Verleen toegang</string>
     <string name="preferences_week_start_day_title">Week begint op</string>
     <string name="preferences_month_start_date_title">Maand begint op</string>
-    <string name="pref_grouping_periods">Periodes groeperen</string>
+    <string name="pref_grouping_periods">Groepering van perioden</string>
     <string name="exchange_rate">Wisselkoers</string>
     <string name="date_format_minute">Minuut</string>
     <string name="plan_instance_state_open">open</string>
@@ -569,7 +569,7 @@
     <string name="content_description_edit_plan">Plan bewerken in agenda-app</string>
     <string name="reset_equivalent_amounts_success">Equivalente bedragen zijn gereset</string>
     <string name="tesseract_download_confirmation">Wilt u tekstherkenningsgegevens voor %s downloaden\?</string>
-    <string name="title_webui">Webgebruikersinterface</string>
+    <string name="title_webui">Web-gebruikersinterface</string>
     <string name="single_feature_info">Als alternatief kunt u onbeperkte toegang tot alleen deze functie kopen.</string>
     <string name="account_widget_configuration">Configuratie van accountwidget</string>
     <string name="merge_parties_select">Selecteer de naam van de samengevoegde partij:</string>
@@ -584,13 +584,13 @@
     <string name="whats_new_336_1">Schuldoverzicht delen</string>
     <string name="whats_new_336_2">Tags voor gesplitste onderdelen</string>
     <plurals name="purge_backup_success">
-        <item quantity="one">Eén oud back-upbestand is verwijderd.</item>
-        <item quantity="other">%d oude back-upbestanden werden verwijderd.</item>
+        <item quantity="one">Eén oud back-upbestand is schoongemaakt.</item>
+        <item quantity="other">%d oude back-upbestanden werden schoongemaakt.</item>
     </plurals>
     <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {account}.</string>
     <string name="pref_csv_export_split_amount_summary">Gebruik aparte kolommen voor inkomsten en uitgaven</string>
     <string name="required">Vereist</string>
-    <string name="budget_table_header_rollover">Rol om</string>
+    <string name="budget_table_header_rollover">Rollover</string>
     <string name="redesign">Herontwerp</string>
     <string name="select_all_list_too_large">Het commando %s is niet beschikbaar omdat de lijst slechts gedeeltelijk geladen is. Gebruik de zoekfunctie om de lijst kleiner te maken.</string>
     <string name="budget_table_header_allocated">Toegewezen</string>
@@ -623,8 +623,8 @@
     <string name="booking_date">Boekingsdatum</string>
     <string name="wifi_not_connected">Apparaat is niet verbonden met wifi. Synchronisatie is uitgesteld.</string>
     <string name="content_description_clear_method">Duidelijke methode</string>
-    <string name="pref_ocr_time_formats_title">Tijdformaten</string>
-    <string name="pref_ocr_date_formats_title">Datumformaten</string>
+    <string name="pref_ocr_time_formats_title">Tijdsindelingen</string>
+    <string name="pref_ocr_date_formats_title">Datumindelingen</string>
     <string name="button_download">Downloaden</string>
     <string name="scan_result_no_date">Geen datum gevonden</string>
     <string name="unmapped_filter_only_single">\'Niet-toegewezen\' filter kan niet worden opgenomen in meervoudige selectie</string>
@@ -639,7 +639,7 @@
     <string name="pref_feature_uninstall_languages_title">Talen</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Houd de zwevende actieknop ingedrukt om het formulier voor overschrijvingen, gesplitste transacties of inkomsten direct te openen.</string>
     <string name="pref_tesseract_language_title">Taal voor Tesseract</string>
-    <string name="account_widget_configuration_sum">Type weergegeven som</string>
+    <string name="account_widget_configuration_sum">Type getoonde som</string>
     <string name="request_for_invoice">Factuur aanvragen</string>
     <string name="pref_acra_user_email">E-mailadres van gebruiker moet worden opgenomen in crashrapport</string>
     <string name="debts">Schulden</string>
@@ -784,12 +784,12 @@
     <string name="warning_link_transfer">De twee geselecteerde transacties worden als overboeking aan elkaar gekoppeld. Informatie over begunstigde/betaler en categorie wordt verwijderd.</string>
     <string name="dialog_confirm_discard_new_debt">Nieuwe schuld weggooien\?</string>
     <string name="pref_acra_user_email_summary">Voer uw e-mailadres in als u bereid bent om te helpen bij het opsporen van fouten en ons toe te staan contact met u op te nemen.</string>
-    <string name="debt_managment">Beheer van schulden</string>
+    <string name="debt_managment">Schuld beheer</string>
     <string name="title_activity_debt_overview">Schuld overzicht</string>
     <string name="pref_purge_backup_keep_title">Maximaal aantal meest recente back-upbestanden om te bewaren</string>
     <string name="pref_csv_export_split_date_time_summary">Gebruik aparte kolommen voor datum en tijd</string>
     <string name="rollover_edit_invalid">De som van de rollovers die aan een categorie zijn toegewezen en de rollovers die aan subcategorieën zijn toegewezen, kan niet hoger zijn dan de rest.</string>
-    <string name="dialog_confirm_rollover_delete">Alle rollover-bedragen voor deze periode worden verwijderd.</string>
+    <string name="dialog_confirm_rollover_delete">Alle doorschuifbedragen voor deze periode worden verwijderd.</string>
     <string name="content_description_attachment">Bijlage</string>
     <string name="menu_categories_setup_default">Stel standaard categorieën in</string>
     <string name="import_source_select_error">Geef een bestand van het type %1$s op</string>
@@ -808,7 +808,7 @@
     <string name="download_completed">Downloaden (%s) is voltooid.</string>
     <string name="ocr_recognition_info">Tekstherkenning uitvoeren met %s</string>
     <string name="pref_enable_acra">Automatisch verzenden van crashrapporten toestaan</string>
-    <string name="pref_category_title_crash_reports">Crash rapporten</string>
+    <string name="pref_category_title_crash_reports">Crashmeldingen</string>
     <string name="dialog_title_purge_backups">Verwijder oude back-ups</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Tag %1$s is toegewezen aan één transactie. Moet het verwijderd worden\?</item>
@@ -866,15 +866,15 @@
     <string name="select_package">Selecteer een licentiepakket.</string>
     <string name="recurrence_last_day_of_month">Laatste dag</string>
     <string name="menu_merge">Samenvoegen</string>
-    <string name="auto_fill_focus">Focus instellen op begunstigde</string>
+    <string name="auto_fill_focus">Zet Focus op Begunstigde</string>
     <string name="warning_plan_instance_delete">De transactie die voor de geselecteerde datum is aangemaakt, wordt verwijderd.</string>
-    <string name="bug_fixes" tools:ignore="UnusedResources">Bugfixes</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">Foutoplossingen</string>
     <string name="performance_enhancement" tools:ignore="UnusedResources">Prestatieverbetering</string>
     <string name="menu_new_debt">Nieuwe schuld</string>
     <string name="debt_owes_me">%s is mij schuldig</string>
-    <string name="debt_I_owe">ik ben %s verschuldigd</string>
+    <string name="debt_I_owe">Ik ben %s verschuldigd</string>
     <string name="pref_purge_backup_require_confirmation_summary">Toon bevestigingsprompt voordat bestanden worden opgeschoond</string>
-    <string name="whats_new_340">Opmerkingenveld staat meerdere regels toe.</string>
+    <string name="whats_new_340">Het notitieveld staat meerdere lijnen toe.</string>
     <string name="licence_validation_error_expired">Licentie verlopen</string>
     <string name="licence_key">Licentiesleutel</string>
     <string name="dialog_title_new_currency">Nieuwe valuta</string>
