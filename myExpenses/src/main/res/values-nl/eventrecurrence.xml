@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="does_not_repeat">"Eenmalige afspraak"</string>
+    <string name="endByDate">"; tot <xliff:g id="DATE">%s</xliff:g>"</string>
+    <plurals name="endByCount">
+        <item quantity="one">"; één keer"</item>
+        <item quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> keer"</item>
+    </plurals>
+    <plurals name="daily">
+        <item quantity="one">"Dagelijks"</item>
+        <item quantity="other">"Elke <xliff:g id="NUMBER">%d</xliff:g> dagen"</item>
+    </plurals>
+    <string name="every_weekday">"Elke werkdag (ma - vr)"</string>
+    <plurals name="weekly">
+        <item quantity="one">"Wekelijks op <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item quantity="other">"Elke <xliff:g id="NUMBER">%1$d</xliff:g> weken op <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+    </plurals>
+
+    <plurals name="monthly">
+        <item quantity="one">"Maandelijks"</item>
+        <item quantity="other">"Elke <xliff:g id="COUNT">%d</xliff:g> maanden"</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">"Jaarlijks"</item>
+        <item quantity="other">"Elke <xliff:g id="COUNT">%d</xliff:g> jaar"</item>
+    </plurals>
+
+    <string name="monthly_on_day">"Maandelijks (op dag <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+
+    <string name="yearly_on_day">"Jaarlijks (op <xliff:g id="DATES">%s</xliff:g>)"</string>
+
+    <string name="monthly_plain">"Maandelijks"</string>
+    <string name="yearly_plain">"Jaarlijks"</string>
+    <string name="weekly_plain">Wekelijks</string>
+    <string name="daily_plain">Dagelijks</string>
+
+</resources>

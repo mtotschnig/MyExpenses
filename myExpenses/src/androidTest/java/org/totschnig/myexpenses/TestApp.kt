@@ -49,7 +49,6 @@ class TestApp : MyApplication() {
                 locale: Locale
             ): UserLocaleProvider {
                 return object: UserLocaleProviderImpl(prefHandler, locale) {
-                    override fun wrapContext(context: Context) = context
                     override fun getLocalCurrency(context: Context) = Utils.getSaveDefault()
                 }
             }

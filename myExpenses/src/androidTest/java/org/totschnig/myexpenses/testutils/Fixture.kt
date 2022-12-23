@@ -39,7 +39,7 @@ import java.util.concurrent.ThreadLocalRandom
 class Fixture(inst: Instrumentation) {
     private val testContext: Context
     private val appContext: MyApplication
-    private var repository: Repository? = null
+    lateinit var repository: Repository
     lateinit var account1: Account
         private set
     lateinit var account2: Account
@@ -59,7 +59,7 @@ class Fixture(inst: Instrumentation) {
         appContext = inst.targetContext.applicationContext as MyApplication
     }
 
-    fun setup(withPicture: Boolean, repository: Repository?) {
+    fun setup(withPicture: Boolean, repository: Repository) {
         this.repository = repository
         val defaultCurrency = Utils.getHomeCurrency()
         val foreignCurrency =
@@ -332,7 +332,7 @@ class Fixture(inst: Instrumentation) {
     }
 
     private fun findCat(label: String, parent: Long?): Long {
-        val result = repository!!.findCategory(label, parent)
+        val result = repository.findCategory(label, parent)
         if (result == -1L) {
             throw RuntimeException("Could not find category")
         }
