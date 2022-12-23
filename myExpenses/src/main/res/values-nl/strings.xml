@@ -170,11 +170,11 @@
     <string name="no_app_handling_pdf_available">Geen app die pdf-bestanden verwerkt.</string>
     <string name="image_capture_not_installed">Geen app gevonden voor het maken van foto\'s.</string>
     <string name="no_exportable_expenses">Er zijn geen transacties die nog niet geëxporteerd zijn.</string>
-    <string name="plan_event_deleted">Het plan dat aan deze sjabloon is gekoppeld, is uit de agenda verwijderd.</string>
+    <string name="plan_event_deleted">Het plan dat aan deze sjabloon is gekoppeld, is uit de kalender verwijderd.</string>
     <string name="parse_error_file_not_found">Kan bestand niet vinden %1$s</string>
     <string name="password_disabled_reenable">De wachtwoordbeveiliging is uitgeschakeld. U kunt het opnieuw inschakelen in de instellingen.</string>
     <string name="password_not_valid">Wachtwoord ongeldig. Probeer het opnieuw!</string>
-    <string name="planner_create_calendar_failure">Kan lokale planner-agenda niet maken</string>
+    <string name="planner_create_calendar_failure">Kan geen lokale plannerkalender maken</string>
     <string name="password_security_answer_not_valid">Fout antwoord. Probeer het opnieuw!</string>
     <string name="planner_create_calendar_success">Lokale planner kalender succesvol aangemaakt</string>
     <string name="pref_backup_summary">Maak een back-up van de database en voorkeuren.</string>
@@ -243,7 +243,7 @@
     <string name="no_categories">Geen categorieën.</string>
     <string name="no_expenses">Nog geen uitgaven!</string>
     <string name="no_filemanager_installed">Geen bestandsbeheerder geïnstalleerd</string>
-    <string name="no_calendar_app_installed">Geen app gevonden voor het bewerken van agendagebeurtenissen.</string>
+    <string name="no_calendar_app_installed">Geen app gevonden voor het bewerken van kalendergebeurtenissen.</string>
     <string name="no_mapped_transactions">Er zijn in deze periode geen transacties toegewezen aan categorieën.</string>
     <string name="no_split_parts">Geen gesplitste delen.</string>
     <string name="no_templates">Geen sjablonen.</string>
@@ -493,7 +493,7 @@
     <string name="onboarding_restore_from_cloud">Herstel vanuit cloudsynchronisatie</string>
     <string name="onboarding_restore_from_local">Herstel lokaal back-upbestand</string>
     <string name="dialog_button_add">Toevoegen</string>
-    <string name="plan_custom_recurrence_info">Sla eerst het sjabloon op. Het plan wordt vervolgens geopend in de agenda-app, waar u een aangepaste herhaling kunt instellen.</string>
+    <string name="plan_custom_recurrence_info">Sla eerst het sjabloon op. Het plan wordt vervolgens geopend in de kalender-app, waar u een aangepaste herhaling kunt instellen.</string>
     <string name="progress_validating_licence">Licentie valideren</string>
     <string name="button_validate">Valideren</string>
     <string name="progress_removing_licence">Licentie verwijderen</string>
@@ -566,7 +566,7 @@
     <string name="pref_ocr_total_indicators_title">Indicatoren voor totaalbedrag</string>
     <string name="pref_criterion_future_end_of_day">Einde van de dag</string>
     <string name="scan_result_no_payee">Geen begunstigde gevonden</string>
-    <string name="content_description_edit_plan">Plan bewerken in agenda-app</string>
+    <string name="content_description_edit_plan">Bewerk plan in kalender-app</string>
     <string name="reset_equivalent_amounts_success">Equivalente bedragen zijn gereset</string>
     <string name="tesseract_download_confirmation">Wilt u tekstherkenningsgegevens voor %s downloaden\?</string>
     <string name="title_webui">Web-gebruikersinterface</string>
@@ -677,7 +677,7 @@
     <string name="clone_and_remap_result">De geselecteerde transacties zijn gekloond en opnieuw toegewezen.</string>
     <string name="button_label_clone_and_remap">Klonen en hermappen</string>
     <string name="csv_import_subcategory_requires_category">Als u een subcategorie toewijst, moet u ook een categorie toewijzen.</string>
-    <string name="calendar_permission_required"><i> {app_name} </i> heeft toestemming nodig om toegang te krijgen tot uw agenda om plannen te maken voor toekomstige en terugkerende transacties.</string>
+    <string name="calendar_permission_required"><i> {app_name} </i> heeft toestemming nodig om toegang te krijgen tot uw kalender, om plannen te maken voor toekomstige en terugkerende transacties.</string>
     <string name="export_to_format">Exporteer naar %s</string>
     <string name="pref_csv_export_split_categories_summary">Gebruik afzonderlijke kolommen voor elk niveau van de categoriehiërarchie</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Als bedragen niet worden bijgewerkt, worden ze na de wijziging weergegeven als gedeeld door %d.</string>
@@ -795,7 +795,7 @@
     <string name="import_source_select_error">Geef een bestand van het type %1$s op</string>
     <string name="comparison_operator_equal">gelijk aan</string>
     <string name="restore_calendar_handling_ignore">Plannen niet herstellen</string>
-    <string name="restore_calendar_handling_backup">Herstel plannen naar agendaset in back-up indien beschikbaar</string>
+    <string name="restore_calendar_handling_backup">Herstel plannen naar kalenderset in back-up, indien beschikbaar</string>
     <string name="transform_subcategory_to_main">Transformeer naar hoofdcategorie</string>
     <string name="switch_on_text">Aan</string>
     <string name="pref_tracking_summary">Sta ons toe anonieme gegevens over gebruikspatronen te verzamelen die ons helpen bij het plannen van verbeteringen.</string>
