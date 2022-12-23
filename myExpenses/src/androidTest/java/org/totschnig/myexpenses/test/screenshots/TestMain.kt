@@ -2,27 +2,28 @@ package org.totschnig.myexpenses.test.screenshots
 
 import android.Manifest
 import android.content.Intent
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.contrib.DrawerActions
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
-import org.junit.*
+import org.junit.AfterClass
+import org.junit.BeforeClass
+import org.junit.ClassRule
+import org.junit.Rule
+import org.junit.Test
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TestMyExpenses
@@ -74,6 +75,7 @@ class TestMain : BaseMyExpensesTest() {
                 listNode.onChildren().onFirst()
                     .assertTextContains(getString(R.string.split_transaction), substring = true)
                 clickContextItem(R.string.details)
+                onView(withId(android.R.id.button1)).perform(click())
                 closeSoftKeyboard()
                 takeScreenshot("split")
                 pressBack()

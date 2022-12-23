@@ -69,9 +69,14 @@ class Fixture(inst: Instrumentation) {
             90000,
             appContext.getString(R.string.testData_account1Description)
         )
-        account1.grouping = Grouping.WEEK
         account1.syncAccountName = syncAccount1
         account1.save()
+        appContext.contentResolver.update(
+            ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, account1.id)
+                .buildUpon()
+                .appendPath(Grouping.WEEK.name).build(),
+            null, null, null
+        )
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
         account2 = Account(
             appContext.getString(R.string.testData_account2Label),

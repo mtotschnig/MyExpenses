@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -170,10 +171,13 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         Locale.setDefault(locale)
         val config = Configuration()
         config.locale = locale
-        val instCtx = InstrumentationRegistry.getInstrumentation().context
-        instCtx.resources.updateConfiguration(config,
-                instCtx.resources.displayMetrics)
+        testContext.resources.update(config)
+        targetContext.applicationContext.resources.update(config)
         prefHandler.putString(PrefKey.UI_LANGUAGE, locale.language + "-" + locale.country)
+    }
+
+    private fun Resources.update(configuration: Configuration) {
+        updateConfiguration(configuration, displayMetrics)
     }
 
     protected fun writeCategory(label: String, parentId: Long? = null) =
