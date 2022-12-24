@@ -7,7 +7,7 @@
     <string name="budget_title">Бюджетиране</string>
     <string name="budget_description">Определете колко възнамерявате да похарчите в годишни, месечни или седмични бюджети</string>
     <string name="ocr_title">Сканиране на касова бележка</string>
-    <string name="ocr_description">Автоматично извличане на обща сума, дата и получател.</string>
+    <string name="ocr_description">Автоматично извличане на обща сума, дата и получател</string>
     <string name="webui_title">Уеб потребителски интерфейс</string>
     <string name="webui_description">Използвайте браузър на настолен компютър за да въвеждате данни</string>
     <string name="professional_benefit_1">Отключете всички премиум възможности</string>
@@ -17,9 +17,18 @@
     <string name="accountsunlimited_description">Отключване на възможността за създаване на повече от пет акаунта.</string>
     <string name="adfree_title">Без реклами</string>
     <string name="categorytree_description">Произволно дълбока йерархия на категориите</string>
-    <string name="csvimport_title">Импорт от CSV</string>
-    <string name="print_title">Разпечатай</string>
+    <string name="csvimport_title">Импорт от CSV файл</string>
+    <string name="print_title">Печат</string>
     <string name="splittransaction_title">Разпределяне на транзакция</string>
     <string name="synchronization_title">Синхронизация чрез облак</string>
     <string name="plansunlimited_title">Неограничен брой планове</string>
+    <string name="print_description">Печат на списък на транзакциите в PDF файл</string>
+    <string name="splittransaction_description">Единична транзакция може да бъде разпределена на няколко части в категории и преводи.</string>
+    <string name="plansunlimited_description">Отключи възможност да създаваш повече от три плана за повтарящи се транзакции.</string>
+    <string name="synchronization_description">Данните могат да се синхронизират между няколко устройства.</string>
+    <string name="distribution_title">Кръгова диаграма</string>
+    <string name="distribution_description">Показва статистическото разпределение на транзакциите по категории за различни периоди (години, месеци, седмици, дни)</string>
+    <string name="categorytree_title">Категории</string>
+    <string name="csvimport_description">Усъвършенствано, с възможност за настройки, въвеждане от CSV (приложения за електронни таблици)</string>
+    <string name="adfree_description">Без реклами.</string>
 </resources>
