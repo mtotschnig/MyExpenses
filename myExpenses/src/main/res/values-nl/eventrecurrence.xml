@@ -25,9 +25,9 @@
         <item quantity="other">"Elke <xliff:g id="COUNT">%d</xliff:g> jaar"</item>
     </plurals>
 
-    <string name="monthly_on_day">"Maandelijks (op dag <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="monthly_on_day">" (op dag <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
 
-    <string name="yearly_on_day">"Jaarlijks (op <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="yearly_on_day">" (op <xliff:g id="DATES">%s</xliff:g>)"</string>
 
     <string name="monthly_plain">"Maandelijks"</string>
     <string name="yearly_plain">"Jaarlijks"</string>
