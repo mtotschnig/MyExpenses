@@ -25,7 +25,7 @@
     <string name="account_type_bank_plural">Bankrekeningen</string>
     <string name="account_type_cash">Kasboek</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Kasrekeningen</string>
+    <string name="account_type_cash_plural">Geldrekeningen</string>
     <string name="account_type_ccard">Kredietkaart</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_ccard_plural">Kredietkaarten</string>
@@ -73,7 +73,7 @@
     <string name="dialog_title_warning_delete_category">Categorie verwijderen\?</string>
     <string name="menu_balance">Saldo rekening</string>
     <string name="menu_cancel_plan_instance">Annuleren</string>
-    <string name="label">Label</string>
+    <string name="label">Tag</string>
     <string name="licence_validation_failure">Kan licentiesleutel niet valideren.</string>
     <string name="licence_validation_success">Licentiesleutel succesvol gevalideerd:</string>
     <string name="licence_validation_premium">Premium functies zijn ontgrendeld.</string>
@@ -178,7 +178,7 @@
     <string name="password_security_answer_not_valid">Fout antwoord. Probeer het opnieuw!</string>
     <string name="planner_create_calendar_success">Lokale planner kalender succesvol aangemaakt</string>
     <string name="pref_backup_summary">Maak een back-up van de database en voorkeuren.</string>
-    <string name="pref_category_title_import">Importeren</string>
+    <string name="pref_category_title_import">Import</string>
     <string name="qif_parse_result">Geparseerd: %1$s accounts; %2$s categorieën en %3$s partijen</string>
     <string name="pref_share_target_title">Upload-URL</string>
     <string name="pref_manage_sync_backends_summary">Voeg backends toe voor het synchroniseren van accounts (%s).</string>
@@ -278,7 +278,7 @@
     <string name="pref_perform_protection_title">Beveiliging</string>
     <string name="pref_planning_calendar_create_local">Maak een nieuwe lokale planningskalender</string>
     <string name="pref_protection_delay_seconds_summary">Inactieve seconden voordat de app wordt vergrendeld met een wachtwoord.</string>
-    <string name="pref_qif_export_file_encoding_title">Tekencodering</string>
+    <string name="pref_qif_export_file_encoding_title">Codering</string>
     <string name="pref_share_target_summary">Laat leeg als u wilt kiezen tussen geschikte apps (E-mail, Dropbox, Google Docs, ...), of geef een URL op in een van de ondersteunde schema\'s</string>
     <string name="pref_ui_language_title">Taal</string>
     <string name="pref_ui_theme_dark">Donker</string>
@@ -324,7 +324,7 @@
     <string name="warning_delete_account">Account \"%1$s\" wordt verwijderd met al zijn transacties.</string>
     <string name="pref_news_title">Nieuws</string>
     <string name="menu_invert_transfer">Omkeren</string>
-    <string name="menu_manage_plans">Sjablonen/planning</string>
+    <string name="menu_manage_plans">Sjablonen/Planning</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Wachtwoord is vereist.</string>
     <string name="pm_type_neutral">Neutraal</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Gegevensinvoer vanuit widgets en snelkoppelingen</string>
@@ -344,7 +344,7 @@
     <string name="menu_reset_all">Exporteer en reset alles</string>
     <string name="menu_reset_plan_instance">Resetten</string>
     <string name="menu_open">Open</string>
-    <string name="menu_import">Importeren</string>
+    <string name="menu_import">Import</string>
     <string name="plan_automatic">automatisch</string>
     <string name="plan_calendar_name">{app_name} planner</string>
     <string name="planner_notification_channel_name">Planner</string>
@@ -378,7 +378,7 @@
     <string name="unsplit_amount">Ongesplitst bedrag</string>
     <string name="unsplit_amount_greater_than_zero">Er is nog een bedrag ongesplitst.</string>
     <string name="move_category_success">Eén categorie is succesvol verplaatst.</string>
-    <string name="move_category_failure">Eén categorie is niet verplaatst, omdat hetzelfde label al bestaat bij het doel.</string>
+    <string name="move_category_failure">Eén categorie is niet verplaatst, omdat dezelfde tag al bestaat bij het doel.</string>
     <string name="menu_edit_transfer">Bewerk overdracht</string>
     <string name="numbered">genummerd</string>
     <string name="parse_error_grisbi_version_not_supported">Niet-ondersteunde Grisbi-bestandsversie: %1$s</string>
@@ -675,7 +675,7 @@
     <string name="onboarding_privacy_intro">Uw financiële gegevens worden niet verzonden naar een server, noch beheerd door ons, noch door een derde partij.</string>
     <string name="remap_empty_list">Er is geen item gevonden dat aan alle geselecteerde transacties kan worden toegewezen.</string>
     <string name="clone_and_remap_result">De geselecteerde transacties zijn gekloond en opnieuw toegewezen.</string>
-    <string name="button_label_clone_and_remap">Klonen en hermappen</string>
+    <string name="button_label_clone_and_remap">Klonen en opnieuw toewijzen</string>
     <string name="csv_import_subcategory_requires_category">Als u een subcategorie toewijst, moet u ook een categorie toewijzen.</string>
     <string name="calendar_permission_required"><i> {app_name} </i> heeft toestemming nodig om toegang te krijgen tot uw kalender, om plannen te maken voor toekomstige en terugkerende transacties.</string>
     <string name="export_to_format">Exporteer naar %s</string>
@@ -708,7 +708,7 @@
     <string name="file_name">Bestandsnaam</string>
     <string name="mark_void_instead_of_delete">Verwijder de transactie niet, maar markeer deze als ongeldig.</string>
     <string name="slash_forbidden_in_filename">/ teken is niet toegestaan in bestandsnamen</string>
-    <string name="pref_csv_import_delimiter">Scheidingsteken</string>
+    <string name="pref_csv_import_delimiter">Scheidings-teken</string>
     <string name="menu_parse">Parseren</string>
     <string name="csv_import_field_mapped_more_than_once">%s is meer dan eens in kaart gebracht.</string>
     <string name="csv_import_no_mapping_found_for_amount">Wijs één kolom toe aan bedrag, inkomsten of uitgaven.</string>
