@@ -156,7 +156,7 @@
     <string name="dialog_export_not_yet_exported">Exporteer alleen transacties die nog niet zijn geëxporteerd</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Neem even de tijd om ons uw suggesties voor verbeteringen te sturen.</string>
     <string name="grouping_last_week">Vorige week</string>
-    <string name="invalid_number_format">Decimaal formaat niet herkend door uw locale. Gebruik %1$s</string>
+    <string name="invalid_number_format">Decimale notatie wordt niet herkend door uw landinstelling. Gebruik %1$s</string>
     <string name="menu_create_method">Nieuwe betalingswijze</string>
     <string name="menu_create_split_part_category">Nieuw categorie gesplitst onderdeel</string>
     <string name="menu_create_party">Nieuwe partij</string>
@@ -427,7 +427,7 @@
     <string name="csv_import_delimiter_comma">Komma</string>
     <string name="import_accounts_success">%1$s accounts zijn succesvol geïmporteerd</string>
     <string name="import_parties_none">Geen partijen geïmporteerd</string>
-    <string name="pref_custom_decimal_format_summary">Als u niet tevreden bent met de standaardindeling voor uw locale, past u deze aan uw behoeften aan. Laat leeg om de standaardindeling te herstellen.</string>
+    <string name="pref_custom_decimal_format_summary">Als u niet tevreden bent met de standaardindeling voor uw landinstelling, past u deze aan uw behoeften aan. Laat leeg om de standaardindeling te herstellen.</string>
     <string name="warning_split_transactions">De geselecteerde transacties worden gegroepeerd in één gesplitste transactie. Hun datuminformatie gaat verloren, d.w.z. vervangen door hun gemiddelde.</string>
     <string name="split_transaction_not_possible">Alleen transacties met dezelfde rekening, begunstigde en status kunnen worden gegroepeerd in één gesplitste transactie.</string>
     <string name="professional_key_fallback_info">Een abonnement op de Professional Key dat minimaal een jaar actief is en niet wordt verlengd, wordt automatisch omgezet in een onbeperkte Extended Key.</string>
