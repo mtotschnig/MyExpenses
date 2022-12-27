@@ -308,4 +308,18 @@
     <string name="pref_manage_methods_summary">ادائیگی کے طریقے بنائیں اور ان میں ترمیم کریں اور انہیں اکاؤنٹ کی اقسام کے ساتھ منسلک کریں.</string>
     <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">پارٹیاں شامل کریں، ترمیم کریں، حذف کریں (ادائیگی کرنے والے اور وصول کنندگان).</string>
     <string name="pref_ui_home_screen_shortcuts">ہوم اسکرین شارٹ کٹس</string>
+    <string name="select">منتخب کریں</string>
+    <string name="select_category">زمرہ منتخب کریں</string>
+    <string name="select_payee">ادا کنندہ / وصول کنندہ کو منتخب کریں</string>
+    <string name="restore_backup_file_not_found">آرکائیو \"%2$s\" میں کوئی فائل %1$s نہیں ملی</string>
+    <string name="restore_preferences_success">ترجیحات کو بیک اپ سے بحال کر دیا گیا ہے.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d پلان بیک اپ سے بحال کر دیے گئے ہیں</string>
+    <string name="save_transaction_and_new_success">کامیابی کے ساتھ محفوظ ہو گیا</string>
+    <string name="save_transaction_error">ٹیمپلیٹ سے نیا ٹرانزیکشن محفوظ نہیں کیا جا سکا.</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">نئی ٹرانزیکشن ٹیمپلیٹ سے کامیابی کے ساتھ محفوظ ہو گئی.</item>
+        <item quantity="other">ٹیمپلیٹس سے %1$d نئی ٹرانزیکشنز کامیابی کے ساتھ محفوظ ہو گئیں.</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">سانچہ حذف کر دیا گیا ہے</string>
+    <string name="share_scheme_not_supported">اسکیم %1$s تعاون یافتہ نہیں ہے</string>
 </resources>
