@@ -15,40 +15,28 @@
 
 package org.totschnig.myexpenses.provider;
 
-import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
-import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
-import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
-import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategoryColor;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
-
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.content.UriMatcher;
+import android.content.*;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.Preconditions;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
+
+import java.io.File;
+import java.util.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,33 +45,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Sort;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
-import org.totschnig.myexpenses.util.Preconditions;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
+import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
+import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.*;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.*;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
@@ -893,7 +862,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {
-      c = new PlanInfoCursorWrapper(getContext(), c, sortOrder == null, withPlanInfo.equals("2") || CALENDAR.hasPermission(getContext()));
+      c = new PlanInfoCursorWrapper(wrappedContext, c, sortOrder == null, withPlanInfo.equals("2") || CALENDAR.hasPermission(getContext()));
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
