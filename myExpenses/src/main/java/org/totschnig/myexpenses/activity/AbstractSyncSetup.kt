@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.accounts.AccountManager
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +12,6 @@ import eltos.simpledialogfragment.list.CustomListDialog.SINGLE_CHOICE
 import eltos.simpledialogfragment.list.SimpleListDialog
 import icepick.State
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel

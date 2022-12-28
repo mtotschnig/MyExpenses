@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.EditText
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.totschnig.myexpenses.R
@@ -51,14 +48,6 @@ class WebdavSetup : ProtectedFragmentActivity() {
             Utils.getTextWithAppName(
                 this, R.string.description_webdav_url
             )
-        binding.edtUrl.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                binding.certificateContainer.isVisible = false
-                binding.chkTrustCertificate.isChecked = false
-            }
-        })
         binding.bOK.setOnClickListener { onOkClick() }
         viewModel.result.observe(this) { result ->
             result.onSuccess {
@@ -93,9 +82,21 @@ class WebdavSetup : ProtectedFragmentActivity() {
                 }
                 binding.progressBar.isVisible = false
                 binding.bOK.isEnabled = true
-                binding.bOK.isVisible = false
+                binding.bOK.isVisible = true
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.edtUrl.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                binding.certificateContainer.isVisible = false
+                binding.chkTrustCertificate.isChecked = false
+            }
+        })
     }
 
     private val TextInputEditText.trimmedValue

@@ -9,7 +9,7 @@
     <application tools:ignore="MissingApplicationIcon">
         <activity android:name=".dialog.WebdavSetup"
             android:label="WebDAV"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+            android:theme="@style/Configuration" />
     </application>
     <dist:module
         dist:instant="false"
