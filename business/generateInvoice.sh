@@ -56,7 +56,13 @@ while getopts "p:c:u:d:" opt; do
     esac
 done
 
-if [ -z "$KEY" ] || [ -z "$PRICE" ] || [ -z "$COUNTRY" ] || [ -z "$KUNDE" ]
+if [ -z "$PRICE" ]
+  then
+     echo "with Professional key provide PRICE in environment"
+     exit 1
+fi
+
+if [ -z "$KEY" ] || [ -z "$COUNTRY" ] || [ -z "$KUNDE" ]
   then
      show_help
 fi
