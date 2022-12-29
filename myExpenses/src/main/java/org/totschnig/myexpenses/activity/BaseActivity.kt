@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
@@ -62,8 +63,22 @@ import timber.log.Timber
 import java.math.BigDecimal
 import javax.inject.Inject
 
-abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener, EasyPermissions.PermissionCallbacks {
+abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
+    EasyPermissions.PermissionCallbacks, AmountInput.Host {
     private var snackBar: Snackbar? = null
+
+    private var _focusAfterRestoreInstanceState: Pair<Int, Int>? = null
+
+    override fun setFocusAfterRestoreInstanceState(focusView: Pair<Int, Int>?) {
+        _focusAfterRestoreInstanceState = focusView
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        _focusAfterRestoreInstanceState?.let {
+            findViewById<View>(it.first)?.findViewById<View>(it.second)?.requestFocus()
+        }
+    }
 
     val floatingActionButton: FloatingActionButton
         get() = _floatingActionButton!!
@@ -79,7 +94,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    open fun showCalculator(amount: BigDecimal?, id: Int) {
+    override fun showCalculator(amount: BigDecimal?, id: Int) {
         val intent = Intent(this, CalculatorInput::class.java).apply {
             forwardDataEntryFromWidget(this)
             if (amount != null) {

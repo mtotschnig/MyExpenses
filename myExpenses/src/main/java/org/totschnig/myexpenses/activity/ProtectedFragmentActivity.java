@@ -111,7 +111,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     implements OnSharedPreferenceChangeListener,
     ConfirmationDialogFragment.ConfirmationDialogListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
-    ProgressDialogFragment.ProgressDialogListener, AmountInput.Host {
+    ProgressDialogFragment.ProgressDialogListener {
 
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
@@ -136,8 +136,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @Inject
   protected SharedPreferences settings;
-
-  private Pair<Integer, Integer> focusAfterRestoreInstanceState;
 
   public ColorStateList getTextColorSecondary() {
     return textColorSecondary;
@@ -699,11 +697,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void setFocusAfterRestoreInstanceState(Pair<Integer, Integer> focusView) {
-    this.focusAfterRestoreInstanceState = focusView;
-  }
-
-  @Override
   public void onCurrencySelectionChanged(CurrencyUnit currencyUnit) {
   }
 
@@ -714,14 +707,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public CurrencyFormatter getCurrencyFormatter() {
     return currencyFormatter;
-  }
-
-  @Override
-  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    if (focusAfterRestoreInstanceState != null) {
-      findViewById(focusAfterRestoreInstanceState.first).findViewById(focusAfterRestoreInstanceState.second).requestFocus();
-    }
   }
 
   public enum ThemeType {
