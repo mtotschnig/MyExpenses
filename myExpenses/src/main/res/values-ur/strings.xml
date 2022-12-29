@@ -322,4 +322,52 @@
     </plurals>
     <string name="save_transaction_template_deleted">سانچہ حذف کر دیا گیا ہے</string>
     <string name="share_scheme_not_supported">اسکیم %1$s تعاون یافتہ نہیں ہے</string>
+    <string name="share_sending">برآمد فائل بھیجیں</string>
+    <string name="split_parts_heading">حصوں کو تقسیم کریں</string>
+    <string name="split_transaction">تقسیم کا لین دین</string>
+    <string name="title">عنوان</string>
+    <string name="total_cleared">کل صاف کیا گیا</string>
+    <string name="total_reconciled">مصالحت شدہ کل</string>
+    <string name="transaction">لین دین</string>
+    <string name="transfer">منتقلی</string>
+    <string name="transfer_from_account">سے</string>
+    <string name="transfer_to_account">کو</string>
+    <string name="type">قسم</string>
+    <string name="unsplit_amount">غیر منقسم رقم</string>
+    <string name="unsplit_amount_greater_than_zero">ابھی بھی کچھ رقم باقی ہے.</string>
+    <string name="warning_backup">ڈیٹا بیس اور ترجیحات کو \"%1$s\" میں محفوظ کر دیا جائے گا.</string>
+    <string name="warning_widget_disabled">آپ کو ایپ کی ترتیبات میں اس ویجیٹ کو فعال کرنے کی ضرورت ہے.</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">اس ویجیٹ سے ٹیمپلیٹس کا فوری آغاز صرف اس صورت میں کام کرتا ہے جب آپ ایپ کی ترتیبات میں پاس ورڈ کے بغیر ویجیٹس سے ڈیٹا انٹری کی اجازت دیتے ہیں.</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">ایک منتخب زمرہ میں ذیلی زمرہ جات ہیں، جنہیں بھی حذف کر دیا جائے گا.</item>
+        <item quantity="other">%1$d منتخب زمروں میں ذیلی زمرہ جات ہیں، جنہیں بھی حذف کر دیا جائے گا.</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">منتخب کردہ لین دین کو حذف کر دیا جائے گا.</item>
+        <item quantity="other">%1$d منتخب ٹرانزیکشنز کو حذف کر دیا جائے گا.</item>
+    </plurals>
+    <plurals name="warning_delete_template">
+        <item quantity="one">منتخب ٹیمپلیٹ کو حذف کر دیا جائے گا.</item>
+        <item quantity="other">%1$d منتخب ٹیمپلیٹس کو حذف کر دیا جائے گا.</item>
+    </plurals>
+    <string name="status_cleared">صاف کیا</string>
+    <string name="sum_transfer">منتقلی</string>
+    <string name="tell_a_friend_message">{app_name} کو چیک کریں، پرسنل فنانس مینیجر برائے {platform}، {website} سے</string>
+    <string name="subcategory">ذیلی زمر</string>
+    <string name="thank_you">آپ کی حمایت کا شکریہ!</string>
+    <string name="warning_delete_category_with_budget">کم از کم ایک منتخب زمرہ کے لیے، بجٹ مختص ہیں، جو بھی حذف کر دیا جائے گا.</string>
+    <string name="status_reconciled">مفاہمت</string>
+    <string name="status_uncreconciled">غیر متفق</string>
+    <string name="sum_expenses">اخراجات</string>
+    <string name="time">وقت</string>
+    <string name="continue_confirmation">کیا آپ جاری رکھنا چاہتے ہیں؟</string>
+    <string name="warning_delete_account">اکاؤنٹ \"%1$s\" کو اس کے تمام لین دین کے ساتھ حذف کر دیا جائے گا.</string>
+    <string name="status">حالت</string>
+    <string name="status_void">باطل</string>
+    <string name="sum_income">آمدنی</string>
+    <string name="move_category_success">ایک زمرہ کامیابی کے ساتھ منتقل کر دیا گیا.</string>
+    <string name="move_category_failure">ایک زمرہ منتقل نہیں کیا گیا، کیونکہ وہی لیبل ہدف پر پہلے سے موجود ہے.</string>
+    <string name="warning_balance_account">براہ کرم کلیئر شدہ کل کا اپنے بینک اسٹیٹمنٹ میں اختتامی بیلنس سے موازنہ کریں۔ اگر آپ آگے بڑھتے ہیں تو، کلیئر شدہ لین دین کو مصالحت کے طور پر نشان زد کیا جائے گا.</string>
+    <string name="warning_password_protected">ایپ پاس ورڈ سے محفوظ ہے.</string>
+    <string name="warning_delete_reconciled">مصالحت شدہ لین دین کو حذف کرنے سے آپ کے ریکارڈ بینک اسٹیٹمنٹ سے مختلف ہوں گے.</string>
 </resources>
