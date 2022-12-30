@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.dialog.GdprDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -47,32 +48,9 @@ open class DefaultAdHandlerFactory(
         if (forceShow || (!isAdDisabled && isRequestLocationInEeaOrUnknown &&
                     !prefHandler.isSet(PrefKey.PERSONALIZED_AD_CONSENT))
         ) {
-            val adProviders = "Google"
-            val positiveString = R.string.pref_ad_consent_title
-            val neutral = MessageDialogFragment.Button(
-                R.string.ad_consent_non_personalized,
-                R.id.GDPR_CONSENT_COMMAND,
-                false
-            )
-            val positive =
-                MessageDialogFragment.Button(positiveString, R.id.GDPR_CONSENT_COMMAND, true)
             context.lifecycleScope.launch {
                 context.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    MessageDialogFragment.newInstance(
-                        null,
-                        Phrase.from(context, R.string.gdpr_consent_message)
-                            .put(Utils.PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
-                            .put("ad_provider", adProviders)
-                            .format(),
-                        positive,
-                        neutral,
-                        MessageDialogFragment.Button(
-                            R.string.gdpr_consent_button_no,
-                            R.id.GDPR_NO_CONSENT_COMMAND,
-                            null
-                        )
-                    )
-                        .show(context.supportFragmentManager, "MESSAGE")
+                    GdprDialogFragment().show(context.supportFragmentManager, "GDPR")
                 }
             }
         }

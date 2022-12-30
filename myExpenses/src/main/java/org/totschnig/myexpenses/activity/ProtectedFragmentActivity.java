@@ -126,9 +126,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   protected ColorStateList textColorSecondary;
 
   @Inject
-  protected AdHandlerFactory adHandlerFactory;
-
-  @Inject
   protected CurrencyContext currencyContext;
 
   @Inject
@@ -384,21 +381,8 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     } else if (command == android.R.id.home) {
       doHome();
       return true;
-    } else if (command == R.id.GDPR_CONSENT_COMMAND) {
-      adHandlerFactory.setConsent(this, (Boolean) tag);
-      return true;
-    } else if (command == R.id.GDPR_NO_CONSENT_COMMAND) {
-      adHandlerFactory.clearConsent();
-      contribFeatureRequested(ContribFeature.AD_FREE, null);
-      return true;
     }
     return false;
-  }
-
-  public void showContribDialog(@Nullable ContribFeature feature, @Nullable Serializable tag) {
-    Intent i = ContribInfoDialogActivity.Companion.getIntentFor(this, feature);
-    i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
-    startActivityForResult(i, CONTRIB_REQUEST);
   }
 
   protected void doHome() {
@@ -638,14 +622,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       finishAffinity();
       startActivity(i);
-    }
-  }
-
-  public void contribFeatureRequested(@NonNull ContribFeature feature, @Nullable Serializable tag) {
-    if (licenceHandler.hasAccessTo(feature)) {
-      ((ContribIFace) this).contribFeatureCalled(feature, tag);
-    } else {
-      showContribDialog(feature, tag);
     }
   }
 
