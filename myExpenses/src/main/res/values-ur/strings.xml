@@ -370,4 +370,54 @@
     <string name="warning_balance_account">براہ کرم کلیئر شدہ کل کا اپنے بینک اسٹیٹمنٹ میں اختتامی بیلنس سے موازنہ کریں۔ اگر آپ آگے بڑھتے ہیں تو، کلیئر شدہ لین دین کو مصالحت کے طور پر نشان زد کیا جائے گا.</string>
     <string name="warning_password_protected">ایپ پاس ورڈ سے محفوظ ہے.</string>
     <string name="warning_delete_reconciled">مصالحت شدہ لین دین کو حذف کرنے سے آپ کے ریکارڈ بینک اسٹیٹمنٹ سے مختلف ہوں گے.</string>
+    <string name="warning_password_contrib">اگر آپ اپنا پاس ورڈ بھول جاتے ہیں تو سیکیورٹی سوال ترتیب دینے سے آپ ایپ کو غیر مقفل کر سکتے ہیں.</string>
+    <string name="warning_reset_account">اگر آپ آگے بڑھتے ہیں تو، اس اکاؤنٹ کے تمام لین دین کو ڈیٹا بیس سے حذف کر دیا جاتا ہے اور اسے بحال نہیں کیا جا سکتا.</string>
+    <string name="warning_reset_account_all">اگر آپ آگے بڑھتے ہیں تو، تمام اکاؤنٹس %1$s کے لیے، ڈیٹا بیس سے ٹرانزیکشنز کو حذف کر دیا جائے گا اور بحال نہیں کیا جا سکتا.</string>
+    <string name="warning_reset_account_matched">اگر آپ آگے بڑھتے ہیں تو، موجودہ فلٹر سے مماثل لین دین کو ڈیٹا بیس سے حذف کر دیا جائے گا اور بحال نہیں کیا جا سکتا.</string>
+    <string name="warning_change_fraction_digits_1">کسر ہندسوں کی نئی تعداد سے ملنے کے لیے ڈیٹا بیس میں رقم کو اپ ڈیٹ کرنے کی ضرورت ہے.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">اگر رقم کو اپ ڈیٹ نہیں کیا جاتا ہے، تو وہ تبدیلی کے بعد %d سے تقسیم کے طور پر دکھائی جائیں گی.</string>
+    <string name="warning_change_fraction_digits_3">اگر رقم کو اپ ڈیٹ کیا جاتا ہے، تو آپ ان کے جزوی حصے کے بارے میں معلومات کھو دیں گے.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">ڈیٹا بیس میں رقم کو اپ ڈیٹ کریں</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d ٹرانزیکشنز کو کامیابی سے اکاؤنٹ %2$s میں درآمد کیا گیا</string>
+    <string name="import_accounts_none">کوئی اکاؤنٹ درآمد نہیں کیا گیا</string>
+    <string name="warning_splitpartcategory_context">وہ منتقلی جو تقسیم کا حصہ ہیں صرف تقسیم کے تناظر میں ترمیم کی جا سکتی ہیں.</string>
+    <string name="import_categories_success">%1$d زمرے کامیابی کے ساتھ درآمد ہو گئے.</string>
+    <string name="import_parties_none">کوئی پارٹیاں درآمد نہیں کی گئیں</string>
+    <string name="import_source_select_error">براہ کرم %1$s قسم کی فائل فراہم کریں</string>
+    <string name="menu_categories_setup_default">پہلے سے طے شدہ زمرے ترتیب دیں</string>
+    <string name="widget_title_templates">میری ٹیمپلیٹس</string>
+    <string name="and">اور</string>
+    <string name="between_and">%1$s اور %2$s کے درمیان</string>
+    <string name="before">%s سے پہلے</string>
+    <string name="after">%s کے بعد</string>
+    <string name="comparison_operator_equal">برابر</string>
+    <string name="comparison_operator_lesser_than">سے کم</string>
+    <string name="hint_auto_fill">کیا ایک ہی وصول کنندہ / ادا کنندہ کے لئے آخری لین دین سے ڈیٹا خود بخود بھرنا چاہئے؟ آپ ہمیشہ ترتیبات سے اس طرز عمل کو تبدیل کر سکتے ہیں.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">کرنسی %2$s والے %1$d اکاؤنٹس کو اپ ڈیٹ کر دیا گیا ہے.</string>
+    <string name="learn_more">اورجانیے</string>
+    <string name="import_source_file">فائل</string>
+    <string name="search_amount">رقم تلاش کریں</string>
+    <string name="search_category">زمرہ تلاش کریں</string>
+    <string name="search_comment">نوٹ تلاش کریں</string>
+    <string name="search_date">تاریخ تلاش کریں</string>
+    <string name="search_status">حیثیت تلاش کریں</string>
+    <string name="search_payee">وصول کنندہ / ادا کنندہ کی تلاش کریں</string>
+    <string name="search_method">طریقہ تلاش کریں</string>
+    <string name="search_tag">ٹیگ تلاش کریں</string>
+    <string name="warning_restore">ڈیٹا بیس اور ترجیحات کو فائل \"%1$s\" سے بحال کر دیا جائے گا۔ موجودہ ڈیٹا کو حذف کر دیا جائے گا.</string>
+    <string name="import_accounts_success">%1$s اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</string>
+    <string name="widget_title_accounts">میرے اکاؤنٹس</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">براہ کرم %1$d اور %2$d کے درمیان نمبر سیٹ کریں</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر رقم کو اپ ڈیٹ نہیں کیا جاتا ہے، تو وہ تبدیلی کے بعد %d سے ضرب کے طور پر دکھائی جائیں گی.</string>
+    <string name="import_parties_success">%1$s پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</string>
+    <string name="menu_create_folder">نیا فولڈر</string>
+    <string name="import_transactions_none">اکاؤنٹ %1$s میں کوئی لین دین درآمد نہیں کیا گیا</string>
+    <string name="app_dir_not_accessible">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال منتخب کردہ فولڈر قابل رسائی نہیں ہے۔ براہ کرم ایک مختلف منتخب کریں.</string>
+    <string name="comparison_operator_greater_than">سے بڑا</string>
+    <string name="comparison_operator_between">کے درمیان</string>
+    <string name="comparison_operator_date_before">پہلے</string>
+    <string name="comparison_operator_date_after">کے بعد</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریداری ناکام یا منسوخ ہو گئی.</string>
+    <string name="import_categories_none">کوئی زمرہ درآمد نہیں کیا گیا</string>
+    <string name="app_dir_not_compatible_with_nougat">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال کنفیگر کردہ URI Android Nougat کے تحت تعاون یافتہ نہیں ہے۔ براہ کرم ایک فولڈر دوبارہ منتخب کریں.</string>
 </resources>
