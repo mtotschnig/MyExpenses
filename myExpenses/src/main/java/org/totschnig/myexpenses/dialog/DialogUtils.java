@@ -235,25 +235,12 @@ public class DialogUtils {
     }
   }
 
-  public static RadioGroup configureCalendarRestoreStrategy(View view) {
-    RadioGroup restorePlanStrategie = view.findViewById(R.id.restore_calendar_handling);
-    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
-    String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
-    RadioButton configured = view.findViewById(R.id.restore_calendar_handling_configured);
-    if ((calendarId.equals("-1")) || calendarPath.equals("")) {
-      configured.setVisibility(View.GONE);
-    } else {
-      //noinspection SetTextI18n
-      configured.setText(configured.getText() + " (" + calendarPath + ")");
-    }
-    return restorePlanStrategie;
-  }
-
   public static RadioGroup.OnCheckedChangeListener buildCalendarRestoreStrategyChangedListener(
       final Activity context, final CalendarRestoreStrategyChangedListener listener) {
     return (group, checkedId) -> {
-      if (checkedId == R.id.restore_calendar_handling_backup ||
-          checkedId == R.id.restore_calendar_handling_configured) {
+      if ((checkedId == R.id.restore_calendar_handling_backup) ||
+              (checkedId == R.id.restore_calendar_handling_create_new) ||
+              (checkedId == R.id.restore_calendar_handling_configured)) {
         if (!CALENDAR.hasPermission(context)) {
           if (context instanceof ProtectedFragmentActivity) {
             ((ProtectedFragmentActivity) context).requestPermission(PermissionGroup.CALENDAR);

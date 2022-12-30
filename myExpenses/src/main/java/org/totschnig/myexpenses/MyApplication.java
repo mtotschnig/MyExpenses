@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_HTTPS;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_PASSWORD;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.CALENDAR_FULL_PATH_PROJECTION;
 
 import android.app.ActivityManager;
 import android.app.Application;
@@ -68,6 +69,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.BaseTransactionProvider;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
@@ -128,13 +130,6 @@ public class MyApplication extends Application implements
   private long mLastPause = 0;
 
   private boolean isLocked;
-
-  public static String getCalendarFullPathProjection() {
-    return "ifnull("
-        + Calendars.ACCOUNT_NAME + ",'') || '/' ||" + "ifnull("
-        + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" + "ifnull(" + Calendars.NAME
-        + ",'')";
-  }
 
   public AppComponent getAppComponent() {
     return appComponent;
@@ -340,7 +335,7 @@ public class MyApplication extends Application implements
   private String checkPlannerInternal(String calendarId) {
     ContentResolver cr = getContentResolver();
     Cursor c = cr.query(Calendars.CONTENT_URI,
-        new String[]{getCalendarFullPathProjection() + " AS path", Calendars.SYNC_EVENTS},
+        new String[]{CALENDAR_FULL_PATH_PROJECTION + " AS path", Calendars.SYNC_EVENTS},
         Calendars._ID + " = ?", new String[]{calendarId}, null);
     boolean result = true;
     if (c == null) {
@@ -591,12 +586,8 @@ public class MyApplication extends Application implements
         // to protect against cases where a user wipes the data of the calendar
         // provider
         // and then accidentally we link to the wrong calendar
-        Uri uri = ContentUris.withAppendedId(Calendars.CONTENT_URI,
-            Long.parseLong(mPlannerCalendarId));
-        Cursor c = cr.query(uri, new String[]{getCalendarFullPathProjection()
-            + " AS path"}, null, null, null);
-        if (c != null && c.moveToFirst()) {
-          String path = c.getString(0);
+        String path = MoreDbUtilsKt.getCalendarPath(cr, mPlannerCalendarId);
+        if (path != null) {
           Timber.i("storing calendar path %s ", path);
           prefHandler.putString(PrefKey.PLANNER_CALENDAR_PATH, path);
         } else {
@@ -605,9 +596,6 @@ public class MyApplication extends Application implements
           mPlannerCalendarId = INVALID_CALENDAR_ID;
           prefHandler.remove(PrefKey.PLANNER_CALENDAR_PATH);
           prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID);
-        }
-        if (c != null) {
-          c.close();
         }
         if (mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
           return;
@@ -677,7 +665,7 @@ public class MyApplication extends Application implements
     int restoredPlansCount = 0;
     if (!(calendarId.equals(INVALID_CALENDAR_ID) || calendarPath.equals(""))) {
       Cursor c = cr.query(Calendars.CONTENT_URI,
-          new String[]{Calendars._ID}, getCalendarFullPathProjection()
+          new String[]{Calendars._ID}, CALENDAR_FULL_PATH_PROJECTION
               + " = ?", new String[]{calendarPath}, null);
       if (c != null) {
         if (c.moveToFirst()) {

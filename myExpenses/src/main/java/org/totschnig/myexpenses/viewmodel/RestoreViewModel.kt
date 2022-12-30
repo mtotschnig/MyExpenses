@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
 import org.totschnig.myexpenses.provider.BACKUP_PREF_FILE_NAME
+import org.totschnig.myexpenses.provider.CALENDAR_FULL_PATH_PROJECTION
 import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
@@ -34,6 +35,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getBackupDbFile
 import org.totschnig.myexpenses.provider.getBackupPrefFile
+import org.totschnig.myexpenses.provider.getCalendarPath
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.SyncBackendProvider
@@ -226,44 +228,51 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 return@launch
             }
             val backupPref = application.getSharedPreferences("backup_temp", 0)
-            if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
-                currentPlannerId = application.checkPlanner()
-                currentPlannerPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH,"")
-                if (MyApplication.INVALID_CALENDAR_ID == currentPlannerId) {
-                    failureResult(R.string.restore_not_possible_local_calendar_missing)
-                    return@launch
+            when (restorePlanStrategy) {
+                R.id.restore_calendar_handling_create_new -> {
+                    currentPlannerId = MyApplication.getInstance().createPlanner(false)
+                    currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
                 }
-            } else if (restorePlanStrategy == R.id.restore_calendar_handling_backup) {
-                var found = false
-                val calendarId = backupPref
-                    .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID), "-1")
-                val calendarPath = backupPref
-                    .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH), "")
-                if (!(calendarId == "-1" || calendarPath == "")) {
-
-                    try {
-                        contentResolver.query(
-                            CalendarContract.Calendars.CONTENT_URI,
-                            arrayOf(CalendarContract.Calendars._ID),
-                            MyApplication.getCalendarFullPathProjection() + " = ?",
-                            arrayOf(calendarPath),
-                            null
-                        )?.use {
-                            if (it.moveToFirst()) {
-                                found = true
-                            }
-                        }
-                    } catch (e: SecurityException) {
-                        failureResult(e)
+                R.id.restore_calendar_handling_configured -> {
+                    currentPlannerId = application.checkPlanner()
+                    currentPlannerPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH,"")
+                    if (MyApplication.INVALID_CALENDAR_ID == currentPlannerId) {
+                        failureResult(R.string.restore_not_possible_local_calendar_missing)
                         return@launch
                     }
                 }
-                if (!found) {
-                    failureResult(
-                        R.string.restore_not_possible_target_calendar_missing,
-                        calendarPath
-                    )
-                    return@launch
+                R.id.restore_calendar_handling_backup -> {
+                    var found = false
+                    val calendarId = backupPref
+                        .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID), "-1")
+                    val calendarPath = backupPref
+                        .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH), "")
+                    if (!(calendarId == "-1" || calendarPath == "")) {
+
+                        try {
+                            contentResolver.query(
+                                CalendarContract.Calendars.CONTENT_URI,
+                                arrayOf(CalendarContract.Calendars._ID),
+                                "$CALENDAR_FULL_PATH_PROJECTION = ?",
+                                arrayOf(calendarPath),
+                                null
+                            )?.use {
+                                if (it.moveToFirst()) {
+                                    found = true
+                                }
+                            }
+                        } catch (e: SecurityException) {
+                            failureResult(e)
+                            return@launch
+                        }
+                    }
+                    if (!found) {
+                        failureResult(
+                            R.string.restore_not_possible_target_calendar_missing,
+                            calendarPath
+                        )
+                        return@launch
+                    }
                 }
             }
             if (DbUtils.restore(backupFile)) {

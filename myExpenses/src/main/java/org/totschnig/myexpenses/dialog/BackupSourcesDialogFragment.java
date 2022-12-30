@@ -48,12 +48,10 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
         ? View.GONE : View.VISIBLE;
     view.findViewById(R.id.summary).setVisibility(selectorVisibility);
     view.findViewById(R.id.btn_browse).setVisibility(selectorVisibility);
-    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
-    if (mRestorePlanStrategie != null) {
-      mCalendarRestoreButtonCheckedChangeListener =
-          DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
-      mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
-    }
+    mRestorePlanStrategie = NewDialogUtilsKt.configureCalendarRestoreStrategy(view, prefHandler);
+    mCalendarRestoreButtonCheckedChangeListener =
+        DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
+    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
   }
 
   @NonNull

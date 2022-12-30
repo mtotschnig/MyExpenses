@@ -29,6 +29,12 @@
             android:layout_width="wrap_content"/>
 
         <RadioButton
+            android:id="@+id/restore_calendar_handling_create_new"
+            android:text="@string/pref_planning_calendar_create_local"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <RadioButton
             android:id="@+id/restore_calendar_handling_ignore"
             android:text="@string/restore_calendar_handling_ignore"
             android:layout_height="wrap_content"

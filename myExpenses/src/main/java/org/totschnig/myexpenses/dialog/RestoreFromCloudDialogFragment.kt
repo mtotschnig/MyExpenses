@@ -50,8 +50,7 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
             binding.backupList.adapter = backupAdapter
             binding.backupList.choiceMode = AbsListView.CHOICE_MODE_SINGLE
             binding.backupList.onItemClickListener = this
-            restorePlanStrategy =
-                DialogUtils.configureCalendarRestoreStrategy(binding.backupListContainer)
+            restorePlanStrategy = configureCalendarRestoreStrategy(binding.backupListContainer, prefHandler)
             calendarRestoreButtonCheckedChangeListener =
                 DialogUtils.buildCalendarRestoreStrategyChangedListener(
                     activity, this
