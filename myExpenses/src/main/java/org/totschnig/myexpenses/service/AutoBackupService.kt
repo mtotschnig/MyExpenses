@@ -22,14 +22,13 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
-import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.doBackup
 import org.totschnig.myexpenses.provider.listOldBackups
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
+import org.totschnig.myexpenses.util.NotificationBuilderWrapper.CHANNEL_ID_AUTO_BACKUP
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
@@ -61,11 +60,10 @@ class AutoBackupService : JobIntentService() {
     }
 
     private fun buildMessage(message: CharSequence) =
-        NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, notificationTitle, message)
+        NotificationBuilderWrapper.bigTextStyleBuilder(this, CHANNEL_ID_AUTO_BACKUP, notificationTitle, message)
 
     override fun onHandleWork(intent: Intent) {
-        val action = intent.action
-        when (action) {
+        when (intent.action) {
             ACTION_AUTO_BACKUP -> {
                 val syncAccount = prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null)
                 val result: Result<Pair<DocumentFile, List<DocumentFile>>> =

@@ -14,13 +14,13 @@ import org.totschnig.myexpenses.R;
 import androidx.core.app.NotificationCompat;
 
 public class NotificationBuilderWrapper {
-  public static int NOTIFICATION_SYNC = -1;
   public static int NOTIFICATION_AUTO_BACKUP = -2;
   public static int NOTIFICATION_CONTRIB = -3;
   public static int NOTIFICATION_WEB_UI = -4;
   public static String CHANNEL_ID_SYNC = "sync";
   public static String CHANNEL_ID_PLANNER = "planner";
   public static String CHANNEL_ID_DEFAULT = "default";
+  public static String CHANNEL_ID_AUTO_BACKUP = "autoBackup";
   private final Context context;
   private Notification.Builder api23Builder;
   private NotificationCompat.Builder compatBuilder;
@@ -41,6 +41,9 @@ public class NotificationBuilderWrapper {
       mNotificationManager.createNotificationChannel(
           new NotificationChannel(CHANNEL_ID_DEFAULT, context.getString(R.string.app_name),
               importance));
+      mNotificationManager.createNotificationChannel(
+              new NotificationChannel(CHANNEL_ID_AUTO_BACKUP, context.getString(R.string.pref_auto_backup_title),
+                      importance));
     }
   }
 
@@ -81,6 +84,7 @@ public class NotificationBuilderWrapper {
       this.api23Builder = shouldUseChannel() ? new Notification.Builder(context, channel) :
           new Notification.Builder(context);
     } else {
+      //noinspection deprecation
       this.compatBuilder = new NotificationCompat.Builder(context);
     }
   }
@@ -103,6 +107,7 @@ public class NotificationBuilderWrapper {
     return this;
   }
 
+  @SuppressWarnings("UnusedReturnValue")
   public NotificationBuilderWrapper setContentText(CharSequence content) {
     if (shouldUseNative()) {
       api23Builder.setContentText(content);
@@ -130,6 +135,7 @@ public class NotificationBuilderWrapper {
     return this;
   }
 
+  @SuppressWarnings("UnusedReturnValue")
   public NotificationBuilderWrapper setAutoCancel(boolean autoCancel) {
     if (shouldUseNative()) {
       api23Builder.setAutoCancel(autoCancel);
