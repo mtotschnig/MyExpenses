@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding
@@ -41,27 +42,31 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
             inject(viewModel)
             inject(currencyViewModel)
         }
-        currencyViewModel.getCurrencies().observe(this) { list ->
-            binding.Amount.setCurrencies(list)
-            if (savedInstanceState == null) {
-                if (debtId != 0L) {
-                    viewModel.loadDebt(debtId).observe(this) {
-                        if (it.isSealed) {
-                            setResult(RESULT_FIRST_USER)
-                            finish()
+        lifecycleScope.launchWhenStarted {
+
+            currencyViewModel.currencies.collect { list ->
+                binding.Amount.setCurrencies(list)
+                if (savedInstanceState == null) {
+                    if (debtId != 0L) {
+                        viewModel.loadDebt(debtId).observe(this@DebtEdit) {
+                            if (it.isSealed) {
+                                setResult(RESULT_FIRST_USER)
+                                finish()
+                            }
+                            binding.Label.setText(it.label)
+                            binding.Description.setText(it.description)
+                            binding.Amount.setSelectedCurrency(it.currency)
+                            binding.Amount.setAmount(Money(it.currency, it.amount).amountMajor)
+                            binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
+                            setTitle(it.amount > 0)
+                            setupListeners()
                         }
-                        binding.Label.setText(it.label)
-                        binding.Description.setText(it.description)
-                        binding.Amount.setSelectedCurrency(it.currency)
-                        binding.Amount.setAmount(Money(it.currency, it.amount).amountMajor)
-                        binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
-                        setTitle(it.amount > 0)
-                        setupListeners()
+                    } else {
+                        binding.Amount.setSelectedCurrency(Utils.getHomeCurrency())
                     }
-                } else {
-                    binding.Amount.setSelectedCurrency(Utils.getHomeCurrency())
                 }
             }
+
         }
         if (savedInstanceState == null) {
             if (debtId == 0L) {
@@ -95,8 +100,15 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
         }
         binding.Amount.selectedCurrency?.let {
             viewModel.saveDebt(
-                Debt(debtId, binding.Label.text.toString(), binding.Description.text.toString(), payeeId,
-                    binding.Amount.typedValue, currencyContext[it.code], binding.DateButton.date)
+                Debt(
+                    debtId,
+                    binding.Label.text.toString(),
+                    binding.Description.text.toString(),
+                    payeeId,
+                    binding.Amount.typedValue,
+                    currencyContext[it.code],
+                    binding.DateButton.date
+                )
             ).observe(this) {
                 finish()
             }

@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import org.totschnig.myexpenses.MyApplication
@@ -151,16 +152,17 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
         //currency
         DialogUtils.configureCurrencySpinner(binding.Currency, this)
-        val code =
-            if (savedInstanceState != null) savedInstanceState[DatabaseConstants.KEY_CURRENCY] as String? else null
+        val code = savedInstanceState?.getString(DatabaseConstants.KEY_CURRENCY)
         val currency =
             if (code != null) create(code, requireActivity()) else currencyViewModel.default
-        currencyViewModel.getCurrencies().observe(this) { currencies: List<Currency?> ->
-            val adapter = binding.Currency.adapter as CurrencyAdapter
-            adapter.clear()
-            adapter.addAll(currencies)
-            binding.Currency.setSelection(adapter.getPosition(currency))
-            nextButton.visibility = View.VISIBLE
+        lifecycleScope.launchWhenStarted {
+            currencyViewModel.currencies.collect { currencies: List<Currency?> ->
+                val adapter = binding.Currency.adapter as CurrencyAdapter
+                adapter.clear()
+                adapter.addAll(currencies)
+                binding.Currency.setSelection(adapter.getPosition(currency))
+                nextButton.visibility = View.VISIBLE
+            }
         }
 
         //type

@@ -43,6 +43,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
@@ -549,9 +550,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadCurrencies() {
-        currencyViewModel.getCurrencies().observe(this) { currencies ->
-            if (::delegate.isInitialized) {
-                delegate.setCurrencies(currencies)
+        lifecycleScope.launchWhenStarted {
+            currencyViewModel.currencies.collect {currencies ->
+                if (::delegate.isInitialized) {
+                    delegate.setCurrencies(currencies)
+                }
             }
         }
     }

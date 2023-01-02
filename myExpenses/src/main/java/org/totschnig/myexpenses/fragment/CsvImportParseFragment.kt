@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.SimpleCursorAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
@@ -104,9 +105,11 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
             onItemSelectedListener = this@CsvImportParseFragment
         }
         DialogUtils.configureCurrencySpinner(binding.AccountTable.Currency, this)
-        currencyViewModel.getCurrencies().observe(viewLifecycleOwner) { currencies: List<Currency?> ->
-            currencyAdapter.addAll(currencies)
-            binding.AccountTable.Currency.setSelection(currencyAdapter.getPosition(currencyViewModel.default))
+        lifecycleScope.launchWhenStarted {
+            currencyViewModel.currencies.collect { currencies: List<Currency?> ->
+                currencyAdapter.addAll(currencies)
+                binding.AccountTable.Currency.setSelection(currencyAdapter.getPosition(currencyViewModel.default))
+            }
         }
         with(binding.AccountTable.AccountType) {
             DialogUtils.configureTypeSpinner(this)

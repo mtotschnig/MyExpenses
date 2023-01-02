@@ -807,11 +807,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
                 requirePreference<ListPreference>(PrefKey.UI_LANGUAGE).entries = getLocaleArray()
 
-                currencyViewModel.getCurrencies().observe(this) { currencies ->
-                    with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {
-                        entries = currencies.map(Currency::toString).toTypedArray()
-                        entryValues = currencies.map { it.code }.toTypedArray()
-                        isEnabled = true
+                lifecycleScope.launchWhenStarted {
+                    currencyViewModel.currencies.collect { currencies ->
+                        with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {
+                            entries = currencies.map(Currency::toString).toTypedArray()
+                            entryValues = currencies.map { it.code }.toTypedArray()
+                            isEnabled = true
+                        }
                     }
                 }
 
