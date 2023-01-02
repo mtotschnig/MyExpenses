@@ -196,7 +196,7 @@ class Repository @Inject constructor(
             arrayOf(KEY_CATID), null, null, null
         )?.use { cursor ->
             cursor.takeIf { it.moveToFirst() }?.let {
-                DbUtils.getLongOrNull(it, 0)?.let { categoryId -> AutoFillInfo(categoryId) }
+                it.getLongOrNull(0)?.let { categoryId -> AutoFillInfo(categoryId) }
             }
         }
     }

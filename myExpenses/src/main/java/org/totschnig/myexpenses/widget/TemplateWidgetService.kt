@@ -19,15 +19,10 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplates
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.requireLong
 import org.totschnig.myexpenses.util.formatMoney
 import java.util.*
 import javax.inject.Inject
@@ -60,14 +55,14 @@ class TemplateRemoteViewsFactory(
 
     override fun RemoteViews.populate(cursor: Cursor) {
         setBackgroundColorSave(R.id.divider3, cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)))
-        val title = DbUtils.getString(cursor, DatabaseConstants.KEY_TITLE)
+        val title = cursor.getString(KEY_TITLE)
         val currencyContext = MyApplication.getInstance().appComponent.currencyContext()
-        val currency = currencyContext.get(DbUtils.getString(cursor, KEY_CURRENCY))
-        val amount = Money(currency, DbUtils.getLongOr0L(cursor, DatabaseConstants.KEY_AMOUNT))
-        val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_TRANSFER_ACCOUNT)))
-        val label = DbUtils.getString(cursor, DatabaseConstants.KEY_LABEL)
-        val comment = DbUtils.getString(cursor, DatabaseConstants.KEY_COMMENT)
-        val payee = DbUtils.getString(cursor, DatabaseConstants.KEY_PAYEE_NAME)
+        val currency = currencyContext.get(cursor.getString(KEY_CURRENCY))
+        val amount = Money(currency, cursor.requireLong(KEY_AMOUNT))
+        val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT)))
+        val label = cursor.getString(KEY_LABEL)
+        val comment = cursor.getString(KEY_COMMENT)
+        val payee = cursor.getString(KEY_PAYEE_NAME)
         setTextViewText(R.id.line1,
                 title + " : " + (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatMoney(amount))
         val commentSeparator = " / "

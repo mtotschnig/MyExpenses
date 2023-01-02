@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -405,7 +406,7 @@ public class Account extends Model implements DistributionAccountInfo {
     if (columnIndexExchangeRate != -1) {
       this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndexExchangeRate));
     }
-    long criterion = DbUtils.getLongOr0L(c, KEY_CRITERION);
+    long criterion = MoreDbUtilsKt.requireLong(c, KEY_CRITERION);
     if (criterion != 0) {
       this.criterion = new Money(this.currencyUnit, criterion);
     }

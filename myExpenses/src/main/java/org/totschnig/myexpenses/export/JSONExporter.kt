@@ -51,6 +51,8 @@ class JSONExporter(
 
     override val format = ExportFormat.JSON
 
+    override val useCategoryOfFirstPartForParent = false
+
     override fun header(context: Context) =
         "$preamble{\"uuid\":${gson.toJson(account.uuid)},\"label\":${gson.toJson(account.label)},\"currency\":${gson.toJson(account.currency.code)},\"openingBalance\":${gson.toJson(account.openingBalance.amountMajor)},\"transactions\": ["
 

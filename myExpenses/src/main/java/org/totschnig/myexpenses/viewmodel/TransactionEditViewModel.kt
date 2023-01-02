@@ -291,7 +291,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     cursor.getLong(KEY_AMOUNT),
                     cursor.getStringOrNull(KEY_COMMENT),
                     cursor.getStringOrNull(KEY_LABEL),
-                    DbUtils.getLongOrNull(cursor, KEY_TRANSFER_ACCOUNT) != null,
+                    cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT) != null,
                     cursor.getStringIfExists(KEY_DEBT_LABEL),
                     cursor.getStringListFromJson(KEY_TAGLIST).joinToString(),
                     cursor.getStringOrNull(KEY_ICON)

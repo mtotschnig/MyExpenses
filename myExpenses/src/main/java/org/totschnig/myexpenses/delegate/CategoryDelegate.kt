@@ -4,6 +4,7 @@ import android.database.Cursor
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.core.database.getLongOrNull
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
@@ -127,7 +128,7 @@ class CategoryDelegate(
             val columnIndexCatId = data.getColumnIndex(DatabaseConstants.KEY_CATID)
             val columnIndexLabel = data.getColumnIndex(DatabaseConstants.KEY_LABEL)
             if (catId == null && columnIndexCatId != -1 && columnIndexLabel != -1) {
-                catId = DbUtils.getLongOrNull(data, columnIndexCatId)
+                catId = data.getLongOrNull(columnIndexCatId)
                 label = data.getString(columnIndexLabel)
                 categoryIcon = data.getString(data.getColumnIndexOrThrow(KEY_ICON))
                 setCategoryButton()
@@ -156,7 +157,7 @@ class CategoryDelegate(
             }
             val columnIndexMethodId = data.getColumnIndex(DatabaseConstants.KEY_METHODID)
             if (methodId == null && columnIndexMethodId != -1) {
-                methodId = DbUtils.getLongOrNull(data, columnIndexMethodId)
+                methodId = data.getLongOrNull(columnIndexMethodId)
                 if (!typeHasChanged) { //if type has changed, we need to wait for methods to be reloaded, method is then selected in onLoadFinished
                     setMethodSelection()
                 }

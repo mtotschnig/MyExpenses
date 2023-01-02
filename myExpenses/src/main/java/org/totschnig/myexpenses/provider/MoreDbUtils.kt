@@ -271,6 +271,7 @@ fun Cursor.getDouble(column: String) = getDouble(getColumnIndexOrThrow(column))
 fun Cursor.getStringOrNull(column: String) = getStringOrNull(getColumnIndexOrThrow(column))?.takeIf { it.isNotEmpty() }
 fun Cursor.getIntOrNull(column: String) = getIntOrNull(getColumnIndexOrThrow(column))
 fun Cursor.getLongOrNull(column: String) = getLongOrNull(getColumnIndexOrThrow(column))
+fun Cursor.requireLong(column: String) = getLongOrNull(getColumnIndexOrThrow(column)) ?: 0L
 fun Cursor.getIntIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getInt(it) }
 fun Cursor.getIntIfExistsOr0(column: String) = getIntIfExists(column) ?: 0
 fun Cursor.getLongIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) }
@@ -353,7 +354,7 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
         Template.CONTENT_URI, arrayOf(
             KEY_PLANID
         ),
-        KEY_PLANID + " IS NOT null", null, null
+        "$KEY_PLANID IS NOT null", null, null
     )?.use { planCursor ->
         if (planCursor.moveToFirst()) {
             val projection = MyApplication.buildEventProjection()

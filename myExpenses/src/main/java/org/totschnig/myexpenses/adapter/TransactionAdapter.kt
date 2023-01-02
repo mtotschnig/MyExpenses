@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
@@ -136,7 +135,7 @@ open class TransactionAdapter(
                 catText = cursor.getString(KEY_ACCOUNT_LABEL) + " " + catText
             }
         } else {
-            val catId = DbUtils.getLongOrNull(cursor, KEY_CATID)
+            val catId = cursor.getLongOrNull(KEY_CATID)
             if (SPLIT_CATID == catId) catText =
                 context.getString(R.string.split_transaction) else if (catId == null) {
                 if (cursor.getInt(KEY_STATUS) != STATUS_HELPER) {

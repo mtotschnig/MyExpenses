@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDateTime2EpochMillis
@@ -157,10 +158,10 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             val templateId = uri.pathSegments[1].toLong()
             val instanceId = uri.pathSegments[2].toLong()
             val mapper = { cursor: Cursor ->
-                val transactionId = DbUtils.getLongOrNull(cursor, KEY_TRANSACTIONID)
+                val transactionId = cursor.getLongOrNull(KEY_TRANSACTIONID)
                 val newState =
                     if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
-                val amount = DbUtils.getLongOrNull(cursor, KEY_AMOUNT)
+                val amount = cursor.getLongOrNull(KEY_AMOUNT)
                 PlanInstanceUpdate(templateId, instanceId, newState, transactionId, amount)
             }
             updateDisposables.add(

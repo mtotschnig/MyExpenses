@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
@@ -56,6 +55,8 @@ abstract class AbstractExporter
     abstract fun header(context: Context): String?
 
     abstract fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String
+
+    open val useCategoryOfFirstPartForParent = true
 
     private val categoryTree: MutableMap<Long, Pair<String, Long>> = mutableMapOf()
     val categoryPaths: MutableMap<Long, List<String>> = mutableMapOf()
@@ -123,9 +124,9 @@ abstract class AbstractExporter
             }
         }
 
-        fun Cursor.toDTO(isPart: Boolean = false) : TransactionDTO {
+        fun Cursor.toDTO(isPart: Boolean = false): TransactionDTO {
             val rowId = getLong(getColumnIndexOrThrow(KEY_ROWID)).toString()
-            val catId = DbUtils.getLongOrNull(this, KEY_CATID)
+            val catId = getLongOrNull(KEY_CATID)
             val isSplit = SPLIT_CATID == catId
             val splitCursor = if (isSplit) context.contentResolver.query(
                 Transaction.CONTENT_URI,
@@ -134,7 +135,8 @@ abstract class AbstractExporter
                 arrayOf(rowId),
                 null
             ) else null
-            val readCat = splitCursor?.takeIf { it.moveToFirst() } ?: this
+            val readCat =
+                splitCursor?.takeIf { useCategoryOfFirstPartForParent && it.moveToFirst() } ?: this
 
             val tagList = context.contentResolver.query(
                 TransactionProvider.TRANSACTIONS_TAGS_URI,
@@ -142,14 +144,15 @@ abstract class AbstractExporter
                 "$KEY_TRANSACTIONID = ?",
                 arrayOf(rowId),
                 null
-            )?.use { tagCursor -> tagCursor.asSequence.map { it.getString(0) }.toList() }?.takeIf { it.isNotEmpty() }
+            )?.use { tagCursor -> tagCursor.asSequence.map { it.getString(0) }.toList() }
+                ?.takeIf { it.isNotEmpty() }
 
             val transactionDTO = TransactionDTO(
                 getString(KEY_UUID),
                 epoch2ZonedDateTime(getLong(getColumnIndexOrThrow(KEY_DATE))),
                 getStringOrNull(KEY_PAYEE_NAME),
                 Money(account.currencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor,
-                DbUtils.getLongOrNull(readCat, KEY_CATID),
+                readCat.getLongOrNull(KEY_CATID),
                 readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },
                 if (isPart) null else getString(getColumnIndexOrThrow(KEY_METHOD_LABEL)),
