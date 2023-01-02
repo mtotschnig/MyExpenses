@@ -101,6 +101,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
+                    modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.h6,
                     text = data.accountName
                 )
