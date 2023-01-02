@@ -72,11 +72,13 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog =
         super.onCreateDialog(savedInstanceState).apply {
             setOnShowListener {
-                getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                    onClick(this, AlertDialog.BUTTON_POSITIVE)
+                with(getButton(AlertDialog.BUTTON_POSITIVE)) {
+                    isEnabled = false
+                    setOnClickListener {
+                        onClick(this@apply, AlertDialog.BUTTON_POSITIVE)
+                    }
                 }
-                val neutral = getButton(AlertDialog.BUTTON_NEUTRAL)
-                neutral?.setOnClickListener {
+                getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
                     onClick(this, AlertDialog.BUTTON_NEUTRAL)
                 }
             }
@@ -101,6 +103,7 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
                             val dataHolder = data.items[it]
                             fun toggle() {
                                 dataViewModel.selectionState.toggle(dataHolder)
+                                updateSubmitButton()
                             }
                             Row(
                                 modifier = Modifier
@@ -124,6 +127,11 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
                 }
             }
         }
+    }
+
+    private fun updateSubmitButton() {
+        (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
+            dataViewModel.selectionState.value.isNotEmpty()
     }
 
     private fun Modifier.dialogPadding() = padding(start = 24.dp, end = 24.dp, top = 0.dp)

@@ -123,7 +123,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                         .show(supportFragmentManager, "METHOD_FILTER")
             }
             R.id.FILTER_STATUS_COMMAND -> {
-                SelectCrStatusDialogFragment.newInstance()
+                SelectCrStatusDialogFragment.newInstance(false)
                         .show(supportFragmentManager, "STATUS_FILTER")
             }
             R.id.FILTER_ACCOUNT_COMMAND -> {

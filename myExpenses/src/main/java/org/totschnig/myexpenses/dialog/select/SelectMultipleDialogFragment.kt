@@ -11,7 +11,7 @@ abstract class SelectMultipleDialogFragment(withNullItem: Boolean) :
     ): Boolean
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        dataViewModel.selection?.also { selection ->
+        dataViewModel.selection?.takeIf { it.isNotEmpty() }?.also { selection ->
             if (onResult(
                     selection.map { it.label },
                     selection.map { it.id }.toLongArray(),
