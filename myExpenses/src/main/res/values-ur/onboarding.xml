@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="testData_templatePayee">جان ڈو</string>
+    <string name="testData_account3Label">بینک اکاؤنٹ</string>
+    <string name="testData_account1Label">میرا بٹوہ</string>
+    <string name="testData_account2Label">پیرس میں اختتام ہفتہ</string>
+    <string name="testData_transaction2Comment">پھل اور سبزیاں</string>
+    <string name="testData_transaction4Payee">پزیریا انٹونیلا</string>
+    <string name="testData_account1Description">روزانہ کے اخراجات</string>
+    <string name="testData_account3Description">بینک آف امریکہ</string>
+    <string name="testData_tag_project">بلا عنوان پروجیکٹ</string>
+</resources>
