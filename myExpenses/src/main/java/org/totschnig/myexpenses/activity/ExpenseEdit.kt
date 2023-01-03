@@ -1070,7 +1070,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     override fun dispatchOnBackPressed() {
         hideKeyboard()
-        cleanup { super.dispatchOnBackPressed() }
+        cleanup {
+            backwardCanceledTagsIntent()?.let {
+                setResult(RESULT_CANCELED, it)
+            }
+            super.dispatchOnBackPressed()
+        }
     }
 
     private fun cleanup(onComplete: () -> Unit) {
@@ -1565,10 +1570,5 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         if (isSplitPart) {
             viewModel.deletedTagIds = ids
         }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        doHome()
     }
 }
