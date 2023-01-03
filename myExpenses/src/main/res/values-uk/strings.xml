@@ -68,10 +68,6 @@
     <string name="description">Опис</string>
     <string name="dialog_balance_delete">Видалити узгоджені операції</string>
     <string name="dialog_confirm_discard_changes">Відхилити змніи?</string>
-    <string name="dialog_confirm_discard_new_transaction">Відхилити створення нової операції?</string>
-    <string name="dialog_confirm_discard_new_template">Відхилити створення нового шаблону?</string>
-    <string name="dialog_confirm_discard_new_account">Відхилити створення нового облікового запису?</string>
-    <string name="dialog_confirm_discard_new_method">Відхилити додавання нового платіжного методу?</string>
     <string name="dialog_command_disabled_balance">Немає підтверджених операцій для узгодження.</string>
     <string name="dialog_command_disabled_insert_transfer">Операції переказу вимагають наявності другого рахунку.</string>
     <string name="dialog_command_disabled_reset_account">Немає операцій для експорту.</string>

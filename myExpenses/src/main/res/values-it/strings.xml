@@ -68,10 +68,6 @@
     <string name="description">Descrizione</string>
     <string name="dialog_balance_delete">Eliminare le transazioni riconciliate</string>
     <string name="dialog_confirm_discard_changes">Annullare le modifiche?</string>
-    <string name="dialog_confirm_discard_new_transaction">Scartare la nuova transazione?</string>
-    <string name="dialog_confirm_discard_new_template">Scartare il nuovo modello?</string>
-    <string name="dialog_confirm_discard_new_account">Eliminare il nuovo conto?</string>
-    <string name="dialog_confirm_discard_new_method">Scartare il nuovo metodo di pagamento?</string>
     <string name="dialog_command_disabled_balance">Nessuna transazione liquidata di riconciliarsi.</string>
     <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo conto.</string>
     <string name="dialog_command_disabled_reset_account">Nessuna transazione da esportare.</string>
@@ -802,7 +798,6 @@
     <string name="discover_feature_expense_income_switch">Usa questo pulsante per registrare le entrate.</string>
     <string name="menu_create_budget">Nuovo budget</string>
     <string name="budget_onetime">Una tantum</string>
-    <string name="dialog_confirm_discard_new_budget">Eliminare il nuovo budget?</string>
     <string name="budget_duration_from">Dal</string>
     <string name="budget_duration_to">Fino al</string>
     <string name="no_budgets">Definisci il tuo budget iniziale toccando il pulsante +.</string>
@@ -971,7 +966,6 @@
         <item quantity="other">Il debito %1$s ha %2$d transazioni mappate.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Cancellare il debito\?</string>
-    <string name="dialog_confirm_discard_new_debt">Scartare il nuovo debito\?</string>
     <string name="dialog_title_warning_delete_party">Eliminare la parte\?</string>
     <string name="warning_party_delete_debt">Quando si elimina questa parte, anche i debiti definiti per essa saranno eliminati.</string>
     <string name="debts">Debiti</string>

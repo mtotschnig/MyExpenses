@@ -46,10 +46,6 @@
     <string name="decimal_separator">Separador de decimais</string>
     <string name="description">Descrición</string>
     <string name="dialog_confirm_discard_changes">Rexeitar os cambios?</string>
-    <string name="dialog_confirm_discard_new_transaction">Rexeitar a nova transacción?</string>
-    <string name="dialog_confirm_discard_new_template">Rexeitar o novo modelo?</string>
-    <string name="dialog_confirm_discard_new_account">Rexeitar a nova conta¿</string>
-    <string name="dialog_confirm_discard_new_method">Rexeitar o novo método de pagamento?</string>
     <string name="dialog_command_disabled_reset_account">Sen transaccións para exportar.</string>
     <string name="dialog_export_not_yet_exported">Exportar só as transaccións aínda non exportadas</string>
     <string name="dialog_password_activate_protection">Activar a protección con contrasinal</string>

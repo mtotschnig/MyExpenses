@@ -655,10 +655,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Ukloni ovo ograničenje i pristupi dodatnim funkcijama nadogradnjom programa <i>{app_name}</i>.</string>
     <string name="dialog_contrib_no">Probaj</string>
     <string name="dialog_command_disabled_insert_transfer">Transakcije prijenosa trebaju drugi račun.</string>
-    <string name="dialog_confirm_discard_new_method">Odbaciti novi način plaćanja\?</string>
-    <string name="dialog_confirm_discard_new_account">Odbaciti novi račun\?</string>
-    <string name="dialog_confirm_discard_new_template">Odbaciti novi predložak\?</string>
-    <string name="dialog_confirm_discard_new_transaction">Odbaciti novu transakciju\?</string>
     <string name="dialog_confirm_discard_changes">Odbaciti promjene\?</string>
     <string name="licence_status_free">Besplatno</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Dijagram povijesti</string>
@@ -771,7 +767,6 @@
     <string name="menu_budget_allocated_only">Prikaži samo kategorije s dodjelom</string>
     <string name="budget_date_end_after_start">Datum kraja proračuna mora biti nakon datuma početka.</string>
     <string name="no_budgets">Odredi svoj prvi proračun dodirom gumba +.</string>
-    <string name="dialog_confirm_discard_new_budget">Odbaciti novi proračun\?</string>
     <string name="budget_onetime">Jednom</string>
     <string name="menu_create_budget">Novi proračun</string>
     <string name="discover_feature_expense_income_switch">Koristi ovaj gumb za zapisivanje prihoda.</string>
@@ -903,7 +898,6 @@
         <item quantity="other">Dug %1$s ima %2$d mapiranih transakcija.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Izbrisati dug\?</string>
-    <string name="dialog_confirm_discard_new_debt">Odbaciti novi dug\?</string>
     <string name="debts">Dugovi</string>
     <string name="debt_I_owe">Ja dugujem %s</string>
     <string name="debt_owes_me">%s mi duguje</string>

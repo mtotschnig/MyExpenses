@@ -68,10 +68,6 @@
     <string name="description">Leírás</string>
     <string name="dialog_balance_delete">Egyeztetett tranzakciók törlése</string>
     <string name="dialog_confirm_discard_changes">Elveti a változásokat?</string>
-    <string name="dialog_confirm_discard_new_transaction">Elveti az új tranzakciót?</string>
-    <string name="dialog_confirm_discard_new_template">Elveti az új sablont?</string>
-    <string name="dialog_confirm_discard_new_account">Elveti az új fiókot?</string>
-    <string name="dialog_confirm_discard_new_method">Új fizetési mód elvetése?</string>
     <string name="dialog_command_disabled_balance">Nincs kiegyenlíthető törölt tranzakció.</string>
     <string name="dialog_command_disabled_insert_transfer">Az átutalási tranzakciókhoz egy második fiók szükséges.</string>
     <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
@@ -802,7 +798,6 @@
     <string name="discover_feature_expense_income_switch">Ezzel a váltógombbal rögzítheti a jövedelmet.</string>
     <string name="menu_create_budget">Új költségvetés</string>
     <string name="budget_onetime">Egyszeri</string>
-    <string name="dialog_confirm_discard_new_budget">Elveti az új költségvetést?</string>
     <string name="budget_duration_from">Tól től</string>
     <string name="budget_duration_to">Amíg</string>
     <string name="no_budgets">Határozza meg első költségvetését a + gombra kattintva.</string>

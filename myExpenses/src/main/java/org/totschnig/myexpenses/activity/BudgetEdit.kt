@@ -46,7 +46,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
     private lateinit var viewModel: BudgetEditViewModel
     private lateinit var binding: OneBudgetBinding
-    override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_budget
     private var pendingBudgetLoad = 0L
     private var resumedP = false
     private var budget: Budget? = null

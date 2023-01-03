@@ -68,10 +68,6 @@
     <string name="description">شرح</string>
     <string name="dialog_balance_delete">حذف معاملات منطبق</string>
     <string name="dialog_confirm_discard_changes">لغو تغییرات؟</string>
-    <string name="dialog_confirm_discard_new_transaction">معامله جدید را نادیده بگیرید؟</string>
-    <string name="dialog_confirm_discard_new_template">الگو جدید را رد کنید؟</string>
-    <string name="dialog_confirm_discard_new_account">حساب جدید را رد کنید؟</string>
-    <string name="dialog_confirm_discard_new_method">روش پرداخت جدید را لغو کنید؟</string>
     <string name="dialog_command_disabled_balance">بدون تراکنش واضح برای وفق دادن.</string>
     <string name="dialog_command_disabled_insert_transfer">تراکنشهای انتقال نیاز به حساب دوم دارند</string>
     <string name="dialog_command_disabled_reset_account">هیچ معاملهای برای صادرات وجود ندارد.</string>

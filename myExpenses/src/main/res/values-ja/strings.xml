@@ -68,10 +68,6 @@
     <string name="description">説明</string>
     <string name="dialog_balance_delete">照合した取引を削除</string>
     <string name="dialog_confirm_discard_changes">変更を破棄しますか?</string>
-    <string name="dialog_confirm_discard_new_transaction">新しい取引を破棄しますか?</string>
-    <string name="dialog_confirm_discard_new_template">新しいテンプレートを破棄しますか?</string>
-    <string name="dialog_confirm_discard_new_account">新しい勘定を破棄しますか?</string>
-    <string name="dialog_confirm_discard_new_method">新しい支払方法を破棄しますか?</string>
     <string name="dialog_command_disabled_balance">照合すべき消込された取引はありません。</string>
     <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
     <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
@@ -789,7 +785,6 @@
     <string name="discover_feature_expense_income_switch">この切り替えボタンを使用して収入を記録します。</string>
     <string name="menu_create_budget">新しい予算</string>
     <string name="budget_onetime">１回限り</string>
-    <string name="dialog_confirm_discard_new_budget">新しい予算を破棄しますか?</string>
     <string name="budget_duration_from">開始</string>
     <string name="budget_duration_to">終了</string>
     <string name="no_budgets">+ ボタンをタップして最初の予算を定義します。</string>

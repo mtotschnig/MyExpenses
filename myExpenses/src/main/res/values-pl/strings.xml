@@ -68,10 +68,6 @@
     <string name="description">Opis</string>
     <string name="dialog_balance_delete">Usuń pojednane transakcje</string>
     <string name="dialog_confirm_discard_changes">Odrzucić zmiany?</string>
-    <string name="dialog_confirm_discard_new_transaction">Odrzucić nową transakcję?</string>
-    <string name="dialog_confirm_discard_new_template">Odrzucić nowy szablon?</string>
-    <string name="dialog_confirm_discard_new_account">Odrzucić nowe konto?</string>
-    <string name="dialog_confirm_discard_new_method">Odrzucić nową metodę płatności?</string>
     <string name="dialog_command_disabled_balance">Brak rozliczonych transakcji do uzgodnienia.</string>
     <string name="dialog_command_disabled_insert_transfer">Transakcje transferowe wymagają drugiego konta.</string>
     <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>

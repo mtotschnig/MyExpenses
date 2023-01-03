@@ -64,10 +64,6 @@
     <string name="description">설명</string>
     <string name="dialog_balance_delete">수지 결산을 맞춘 거래 내역 삭제</string>
     <string name="dialog_confirm_discard_changes">변경 사항을 취소할까요?</string>
-    <string name="dialog_confirm_discard_new_transaction">새로운 거래 내역을 취소할까요?</string>
-    <string name="dialog_confirm_discard_new_template">새로운 템플릿을 취소할까요?</string>
-    <string name="dialog_confirm_discard_new_account">새로운 계좌를 취소할까요?</string>
-    <string name="dialog_confirm_discard_new_method">새로운 지불 방식을 취소할까요?</string>
     <string name="dialog_command_disabled_balance">삭제된 거래 내역이 없습니다.</string>
     <string name="dialog_command_disabled_reset_account">내보낼 거래 내역이 없습니다.</string>
     <string name="dialog_command_disabled_distribution">이 계좌의 카테고리에 배치할 거래 내역이 없습니다.</string>

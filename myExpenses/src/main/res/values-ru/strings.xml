@@ -68,10 +68,6 @@
     <string name="description">Описание</string>
     <string name="dialog_balance_delete">Удалить согласованные операции</string>
     <string name="dialog_confirm_discard_changes">Отменить изменения\?</string>
-    <string name="dialog_confirm_discard_new_transaction">Отменить новую операцию?</string>
-    <string name="dialog_confirm_discard_new_template">Отменить создание шаблона?</string>
-    <string name="dialog_confirm_discard_new_account">Отменить создание счета?</string>
-    <string name="dialog_confirm_discard_new_method">Отменить добавление метода оплаты?</string>
     <string name="dialog_command_disabled_balance">Отсутствуют подтвержденные операций для согласования.</string>
     <string name="dialog_command_disabled_insert_transfer">Для переводов требуется второй счет.</string>
     <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
@@ -814,7 +810,6 @@
     <string name="discover_feature_expense_income_switch">Используйте этот переключатель для записи поступлений.</string>
     <string name="menu_create_budget">Новый бюджет</string>
     <string name="budget_onetime">Одноразовый </string>
-    <string name="dialog_confirm_discard_new_budget">Удалить новый бюджет?</string>
     <string name="budget_duration_from">С</string>
     <string name="budget_duration_to">До</string>
     <string name="no_budgets">Определите свой первый бюджет, нажав кнопку +.</string>
@@ -949,7 +944,6 @@
     <string name="debt_managment">Управление долгом</string>
     <string name="object_sealed_debt">Объект относится к закрытому долгу.</string>
     <string name="dialog_title_delete_debt">Удалить долг\?</string>
-    <string name="dialog_confirm_discard_new_debt">Списать новый долг\?</string>
     <string name="debts">Долги</string>
     <string name="debt_I_owe">Я должен %s</string>
     <string name="debt_owes_me">%s должен мне</string>

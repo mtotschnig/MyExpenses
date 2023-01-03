@@ -68,10 +68,6 @@
     <string name="description">ವಿವರಣೆ</string>
     <string name="dialog_balance_delete">ರಾಜಿ ಮಾಡಿಕೊಂಡ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸಿ</string>
     <string name="dialog_confirm_discard_changes">ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸುತ್ತದೆ?</string>
-    <string name="dialog_confirm_discard_new_transaction">ಹೊಸ ವಹಿವಾಟನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-    <string name="dialog_confirm_discard_new_template">ಹೊಸ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-    <string name="dialog_confirm_discard_new_account">ಹೊಸ ಖಾತೆಯನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-    <string name="dialog_confirm_discard_new_method">ಹೊಸ ಪಾವತಿ ವಿಧಾನವನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
     <string name="dialog_command_disabled_balance">ಯಾವುದೇ ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಮಾಡಿಕೊಳ್ಳಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="dialog_command_disabled_insert_transfer">ವರ್ಗಾವಣೆ ವಹಿವಾಟುಗಳಿಗೆ ಎರಡನೇ ಖಾತೆಯ ಅಗತ್ಯವಿದೆ.</string>
     <string name="dialog_command_disabled_reset_account">ರಫ್ತು ಮಾಡಲು ಯಾವುದೇ ವಹಿವಾಟು ಇಲ್ಲ.</string>
@@ -798,7 +794,6 @@
     <string name="discover_feature_expense_income_switch">ಆದಾಯವನ್ನು ದಾಖಲಿಸಲು ಈ ಸ್ವಿಚ್ ಬಟನ್ ಬಳಸಿ.</string>
     <string name="menu_create_budget">ಹೊಸ ಬಜೆಟ್</string>
     <string name="budget_onetime">ಒಂದು ಬಾರಿ</string>
-    <string name="dialog_confirm_discard_new_budget">ಹೊಸ ಬಜೆಟ್ ಅನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
     <string name="budget_duration_from">ಇಂದ</string>
     <string name="budget_duration_to">ಗೆ</string>
     <string name="no_budgets">+ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ನಿಮ್ಮ ಮೊದಲ ಬಜೆಟ್ ಅನ್ನು ವಿವರಿಸಿ.</string>
@@ -937,7 +932,6 @@
         <item quantity="other">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟುಗಳನ್ನು ಹೊಂದಿದೆ.</item>
     </plurals>
     <string name="dialog_title_delete_debt">ಸಾಲವನ್ನು ಅಳಿಸುವುದೇ\?</string>
-    <string name="dialog_confirm_discard_new_debt">ಹೊಸ ಸಾಲವನ್ನು ತಿರಸ್ಕರಿಸುವುದೇ\?</string>
     <string name="warning_party_delete_debt">ಈ ಪಕ್ಷವನ್ನು ಅಳಿಸುವಾಗ, ಅದಕ್ಕೆ ವ್ಯಾಖ್ಯಾನಿಸಲಾದ ಸಾಲಗಳನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="debts">ಸಾಲಗಳು</string>
     <string name="debt_I_owe">ನಾನು %s ಗೆ ಣಿಯಾಗಿದ್ದೇನೆ</string>

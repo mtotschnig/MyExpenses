@@ -102,10 +102,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     val rowId: Long
         get() = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
 
-    public override fun getDiscardNewMessage(): Int {
-        return R.string.dialog_confirm_discard_new_account
-    }
-
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

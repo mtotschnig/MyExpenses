@@ -80,8 +80,6 @@
     <string name="menu_aggregates">Totaal</string>
     <string name="menu_create_main_cat">Nieuwe hoofdcategorie</string>
     <string name="dialog_command_disabled_balance">Geen goedgekeurde transacties die moeten worden verwerkt.</string>
-    <string name="dialog_confirm_discard_new_account">Nieuw account verwijderen\?</string>
-    <string name="dialog_confirm_discard_new_method">Nieuwe betaalmethode weggooien\?</string>
     <string name="dialog_command_disabled_insert_transfer">Overboekingen vereisen een tweede account.</string>
     <string name="dialog_command_disabled_reset_account">Geen transacties om te exporteren.</string>
     <string name="dialog_command_disabled_distribution">Er zijn geen transacties toegewezen aan categorieën in dit account.</string>
@@ -109,8 +107,6 @@
     <string name="current_balance">Huidig saldo</string>
     <string name="date">Datum</string>
     <string name="dialog_confirm_discard_changes">Veranderingen weggooien\?</string>
-    <string name="dialog_confirm_discard_new_transaction">Nieuwe transactie weggooien\?</string>
-    <string name="dialog_confirm_discard_new_template">Nieuwe sjabloon weggooien\?</string>
     <string name="dialog_balance_delete">Verwerkte transacties verwijderen</string>
     <string name="dialog_contrib_no">Probeer</string>
     <string name="dialog_contrib_reminder_remove_limitation">Verwijder deze beperking en krijg toegang tot meer functies door <i>{app_name}</i> te upgraden.</string>
@@ -782,7 +778,6 @@
     <string name="pref_group_header_show_details_summary">Toon detailsommen in groepskop</string>
     <string name="warning_unencrypted_backup">Hoewel uw gegevens op dit apparaat zijn beschermd tegen ongeoorloofde toegang, worden back-ups gemaakt zonder codering, tenzij u %s configureert.</string>
     <string name="warning_link_transfer">De twee geselecteerde transacties worden als overboeking aan elkaar gekoppeld. Informatie over begunstigde/betaler en categorie wordt verwijderd.</string>
-    <string name="dialog_confirm_discard_new_debt">Nieuwe schuld weggooien\?</string>
     <string name="pref_acra_user_email_summary">Voer uw e-mailadres in als u bereid bent om te helpen bij het opsporen van fouten en ons toe te staan contact met u op te nemen.</string>
     <string name="debt_managment">Schuld beheer</string>
     <string name="title_activity_debt_overview">Schuld overzicht</string>
@@ -847,7 +842,6 @@
     <string name="content_description_encrypted">Versleuteld</string>
     <string name="pref_plan_executor_time_title">Meldingstijd planner</string>
     <string name="synchronization_select_folder_dialog_title">Selecteer een bestaande map of maak een nieuwe aan</string>
-    <string name="dialog_confirm_discard_new_budget">Nieuw budget weggooien\?</string>
     <string name="budget_filter_all_accounts">Alle accounts</string>
     <string name="remap_payee">Alle geselecteerde transacties worden toegewezen aan betaler/begunstigde %s.</string>
     <string name="budget_filter_all_categories">Alle categorieën</string>

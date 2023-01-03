@@ -68,10 +68,6 @@
     <string name="description">Описание</string>
     <string name="dialog_balance_delete">Изтрий изравнените транзакции</string>
     <string name="dialog_confirm_discard_changes">Да отхвърля ли промените?</string>
-    <string name="dialog_confirm_discard_new_transaction">Да отхвърля ли новата транзакция?</string>
-    <string name="dialog_confirm_discard_new_template">Да отхвърля ли новия шаблон?</string>
-    <string name="dialog_confirm_discard_new_account">Да отхвърля ли новата сметка?</string>
-    <string name="dialog_confirm_discard_new_method">Да отхвърля ли новия начин на плащане?</string>
     <string name="dialog_command_disabled_balance">Няма изчистени транзакции, които да бъдат изравнени.</string>
     <string name="dialog_command_disabled_insert_transfer">Транзакциите превод изискват втора сметка.</string>
     <string name="dialog_command_disabled_reset_account">Няма транзакции за експорт.</string>
@@ -800,7 +796,6 @@
     <string name="discover_feature_expense_income_switch">Използвайте този превключвател, за да запишете приход.</string>
     <string name="menu_create_budget">Нов бюджет</string>
     <string name="budget_onetime">Еднократно</string>
-    <string name="dialog_confirm_discard_new_budget">Да се отхвърли ли новият бюджет?</string>
     <string name="budget_duration_from">От</string>
     <string name="budget_duration_to">До</string>
     <string name="no_budgets">Дефинирайте първия си бюджет, като докоснете бутона +.</string>
@@ -969,7 +964,6 @@
         <item quantity="other">Задължението %1$s има %2$d отнесени транзакции.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Да се изтрие ли задължението\?</string>
-    <string name="dialog_confirm_discard_new_debt">Да се премахне ли новото задължение\?</string>
     <string name="warning_party_delete_debt">При изтриване на страна, задълженията дефинирани към нея също ще бъдат изтрити.</string>
     <string name="debts">Задължения</string>
     <string name="debt_owes_me">%s ми се длъжат</string>

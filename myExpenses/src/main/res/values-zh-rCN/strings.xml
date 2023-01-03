@@ -68,10 +68,6 @@
     <string name="description">描述</string>
     <string name="dialog_balance_delete">删除已对帐的交易</string>
     <string name="dialog_confirm_discard_changes">放弃更改？</string>
-    <string name="dialog_confirm_discard_new_transaction">放弃新建的交易？</string>
-    <string name="dialog_confirm_discard_new_template">放弃新建的模板？</string>
-    <string name="dialog_confirm_discard_new_account">放弃新建的账户？</string>
-    <string name="dialog_confirm_discard_new_method">放弃新建的付款方法?</string>
     <string name="dialog_command_disabled_balance">没有已结算或已入帐的交易需要去对帐。</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二个账户才可以互相转账。</string>
     <string name="dialog_command_disabled_reset_account">没有交易数据可被导出。</string>
@@ -792,7 +788,6 @@
     <string name="discover_feature_expense_income_switch">可以使用此开关钮切换记录支出或收入。</string>
     <string name="menu_create_budget">新建预算</string>
     <string name="budget_onetime">一次性</string>
-    <string name="dialog_confirm_discard_new_budget">放弃新建的预算？</string>
     <string name="budget_duration_from">从</string>
     <string name="budget_duration_to">到</string>
     <string name="no_budgets">点击 + 按钮定义您的第一笔预算。</string>
@@ -968,7 +963,6 @@
     <string name="purge_backups">以下旧备份文件将被删除：</string>
     <string name="menu_new_debt">新债务</string>
     <string name="debt_I_owe">债主 %s</string>
-    <string name="dialog_confirm_discard_new_debt">舍弃新债务？</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="other">债务“%1$s”有 %2$d 笔映射交易。</item>
     </plurals>

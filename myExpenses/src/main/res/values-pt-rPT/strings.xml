@@ -63,10 +63,6 @@
     <string name="description">Descrição</string>
     <string name="dialog_balance_delete">Excluir transações reconciliadas</string>
     <string name="dialog_confirm_discard_changes">Descartar as alterações\?</string>
-    <string name="dialog_confirm_discard_new_transaction">Descartar a nova transação\?</string>
-    <string name="dialog_confirm_discard_new_template">Descartar o novo modelo\?</string>
-    <string name="dialog_confirm_discard_new_account">Descartar a nova conta\?</string>
-    <string name="dialog_confirm_discard_new_method">Descartar a nova forma de pagamento\?</string>
     <string name="dialog_command_disabled_balance">Não existe nenhuma transação compensada para ser reconciliada.</string>
     <string name="dialog_command_disabled_insert_transfer">As transferências de transações requerem uma segunda conta.</string>
     <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
@@ -706,7 +702,6 @@
     <string name="menu_budget_allocated_only">Exibir apenas categorias com alocação</string>
     <string name="budget_date_end_after_start">A data de término do orçamento deve ser posterior à data de início.</string>
     <string name="no_budgets">Defina seu primeiro orçamento tocando no botão +.</string>
-    <string name="dialog_confirm_discard_new_budget">Descartar o novo orçamento\?</string>
     <string name="budget_onetime">Único</string>
     <string name="menu_create_budget">Novo orçamento</string>
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>

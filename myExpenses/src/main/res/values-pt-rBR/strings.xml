@@ -68,10 +68,6 @@
     <string name="description">Descrição</string>
     <string name="dialog_balance_delete">Apagar transações reconciliadas</string>
     <string name="dialog_confirm_discard_changes">Descartar as alterações?</string>
-    <string name="dialog_confirm_discard_new_transaction">Descartar a nova transação?</string>
-    <string name="dialog_confirm_discard_new_template">Descartar o novo modelo?</string>
-    <string name="dialog_confirm_discard_new_account">Descartar a nova conta?</string>
-    <string name="dialog_confirm_discard_new_method">Descartar a nova forma de pagamento?</string>
     <string name="dialog_command_disabled_balance">Não existe nenhuma transação compensada para ser reconciliada.</string>
     <string name="dialog_command_disabled_insert_transfer">As transferências de transações requerem uma segunda conta.</string>
     <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
@@ -807,7 +803,6 @@
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
     <string name="menu_create_budget">Novo orçamento</string>
     <string name="budget_onetime">Único</string>
-    <string name="dialog_confirm_discard_new_budget">Descartar o novo orçamento?</string>
     <string name="budget_duration_from">De</string>
     <string name="budget_duration_to">Até</string>
     <string name="no_budgets">Defina seu primeiro orçamento tocando no botão +.</string>
@@ -981,7 +976,6 @@
         <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Excluir a dívida\?</string>
-    <string name="dialog_confirm_discard_new_debt">Descartar a nova dívida\?</string>
     <string name="warning_party_delete_debt">Ao excluir esse parceiro, as dívidas associadas a ele serão excluídas também.</string>
     <string name="debts">Dívidas</string>
     <string name="debt_I_owe">Eu devo para %s</string>

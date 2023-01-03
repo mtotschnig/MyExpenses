@@ -68,10 +68,6 @@
     <string name="description">Azalpena</string>
     <string name="dialog_balance_delete">Ezabatu berdinkatutako transakzioak</string>
     <string name="dialog_confirm_discard_changes">Baztertu aldaketak?</string>
-    <string name="dialog_confirm_discard_new_transaction">Baztertu transakzio berria?</string>
-    <string name="dialog_confirm_discard_new_template">Baztertu txantiloi berria?</string>
-    <string name="dialog_confirm_discard_new_account">Baztertu kontu berria?</string>
-    <string name="dialog_confirm_discard_new_method">Baztertu ordainketa modu berria?</string>
     <string name="dialog_command_disabled_balance">Ez dago kitatutako transakziorik berdinkatzeko.</string>
     <string name="dialog_command_disabled_insert_transfer">Transferentzia transakzioek bigarren kontu bat behar dute</string>
     <string name="dialog_command_disabled_reset_account">Ez dago transakziorik esportatzeko</string>

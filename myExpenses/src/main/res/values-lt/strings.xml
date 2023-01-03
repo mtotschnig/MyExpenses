@@ -55,9 +55,6 @@
     <string name="description">Aprašymas</string>
     <string name="dialog_balance_delete">Ištrinti patvirtintas operacijas</string>
     <string name="dialog_confirm_discard_changes">Atsisakyti pakeitimų?</string>
-    <string name="dialog_confirm_discard_new_transaction">Panaikinti naują operaciją?</string>
-    <string name="dialog_confirm_discard_new_template">Panaikinti naują šabloną?</string>
-    <string name="dialog_confirm_discard_new_account">Panaikinti naują sąskaitą?</string>
     <string name="dialog_password_change_password">Keisti slaptažodį</string>
     <string name="dialog_password_new_password">Naujas slaptažodis</string>
     <string name="dialog_password_new_password_confirmation">Naujas slaptažodis (patvirtinimui)</string>

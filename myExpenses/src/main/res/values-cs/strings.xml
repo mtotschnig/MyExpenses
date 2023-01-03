@@ -68,10 +68,6 @@
     <string name="description">Popis</string>
     <string name="dialog_balance_delete">Odstranit odsouhlasené transakce</string>
     <string name="dialog_confirm_discard_changes">Zrušit změny?</string>
-    <string name="dialog_confirm_discard_new_transaction">Zrušit novou transakci?</string>
-    <string name="dialog_confirm_discard_new_template">Zrušit novou šablonu?</string>
-    <string name="dialog_confirm_discard_new_account">Zrušit nový účet?</string>
-    <string name="dialog_confirm_discard_new_method">Zrušit novou platební metodu?</string>
     <string name="dialog_command_disabled_balance">Žádné zúčtované transakce k odsouhlasení.</string>
     <string name="dialog_command_disabled_insert_transfer">Odeslání transakce vyžaduje druhý účet.</string>
     <string name="dialog_command_disabled_reset_account">Žádné transakce k export.</string>
@@ -816,7 +812,6 @@
     <string name="discover_feature_expense_income_switch">Pro zaznamenání příjmu použijte tento přepínač.</string>
     <string name="menu_create_budget">Nový rozpočet</string>
     <string name="budget_onetime">Jednorázový</string>
-    <string name="dialog_confirm_discard_new_budget">Chcete nový rozpočet zahodit?</string>
     <string name="budget_duration_from">Od</string>
     <string name="budget_duration_to">Do</string>
     <string name="no_budgets">Definujte svůj první rozpočet klepnutím na tlačítko +.</string>

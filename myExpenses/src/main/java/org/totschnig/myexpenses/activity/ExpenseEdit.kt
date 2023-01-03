@@ -43,7 +43,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
@@ -207,10 +206,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private val planInstanceId: Long
         get() = intent.getLongExtra(KEY_INSTANCEID, 0L)
-
-    public override fun getDiscardNewMessage(): Int {
-        return if (isTemplate) R.string.dialog_confirm_discard_new_template else R.string.dialog_confirm_discard_new_transaction
-    }
 
     override fun injectDependencies() {
         (applicationContext as MyApplication).appComponent.inject(this)

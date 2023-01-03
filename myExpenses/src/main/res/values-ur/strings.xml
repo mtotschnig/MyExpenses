@@ -46,10 +46,6 @@
     <string name="description">تفصیل</string>
     <string name="dialog_balance_delete">مصالحت شدہ لین دین کو حذف کریں</string>
     <string name="dialog_confirm_discard_changes">تبدیلیاں مسترد کریں؟</string>
-    <string name="dialog_confirm_discard_new_transaction">نئی ٹرانزیکشن کو مسترد کریں؟</string>
-    <string name="dialog_confirm_discard_new_template">نئے تمثیل کو مسترد کریں؟</string>
-    <string name="dialog_confirm_discard_new_account">نیا اکاؤنٹ مسترد کریں؟</string>
-    <string name="dialog_confirm_discard_new_method">ادائیگی کا نیا طریقہ مسترد کریں؟</string>
     <string name="dialog_command_disabled_balance">مصالحت کے لیے کوئی کلیئر شدہ لین دین نہیں۔</string>
     <string name="dialog_command_disabled_insert_transfer">ٹرانسفر ٹرانزیکشنز کے لیے دوسرا اکاؤنٹ درکار ہوتا ہے۔</string>
     <string name="dialog_command_disabled_reset_account">برآمد کرنے کے لیے کوئی لین دین نہیں۔</string>
@@ -570,7 +566,6 @@
     <string name="synchronization_select_folder_dialog_title">ایک موجودہ فولڈر منتخب کریں یا نیا بنائیں</string>
     <string name="budget_onetime">ایک بار</string>
     <string name="dialog_multi_tag_append">موجودہ ٹیگز میں نئے ٹیگز شامل کریں</string>
-    <string name="dialog_confirm_discard_new_budget">نیا بجٹ مسترد کریں؟</string>
     <string name="budget_duration_from">سے</string>
     <string name="budget_duration_to">کو</string>
     <string name="budget_date_end_after_start">بجٹ کی اختتامی تاریخ اس کے آغاز کی تاریخ کے بعد آنی چاہیے.</string>
@@ -630,7 +625,6 @@
     <string name="debt_owes_me">%s میرا مقروض ہے</string>
     <string name="debt_I_owe">میں %s کا مقروض ہوں</string>
     <string name="debt">قرضہ</string>
-    <string name="dialog_confirm_discard_new_debt">نیا قرض چھوڑ دیں؟</string>
     <string name="dialog_title_delete_debt">قرض کو حذف کریں؟</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">قرض %1$s میں %2$d میپ شدہ ٹرانزیکشن ہے.</item>

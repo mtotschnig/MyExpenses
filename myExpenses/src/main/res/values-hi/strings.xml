@@ -62,10 +62,6 @@
     <string name="description">वर्णन</string>
     <string name="dialog_balance_delete">मिलान किए गए लेन-देन हटाएं</string>
     <string name="dialog_confirm_discard_changes">परिवर्तन छोड़ें?</string>
-    <string name="dialog_confirm_discard_new_transaction">नई लेन-देन छोड़ें?</string>
-    <string name="dialog_confirm_discard_new_template">नया टेम्प्लेट छोड़ें?</string>
-    <string name="dialog_confirm_discard_new_account">नया खाता छोड़ें?</string>
-    <string name="dialog_confirm_discard_new_method">नई भुगतान विधि छोड़ें?</string>
     <string name="dialog_command_disabled_insert_transfer">स्थानांतरण लेन-देन के लिए एक दूसरा खाता आवशयक है.</string>
     <string name="dialog_command_disabled_reset_account">निर्यात करने के लिए कोई लेन-देन नहीं।</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->

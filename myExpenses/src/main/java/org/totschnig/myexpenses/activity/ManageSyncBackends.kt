@@ -1,10 +1,13 @@
 package org.totschnig.myexpenses.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo
+import androidx.activity.result.contract.ActivityResultContracts
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -14,6 +17,8 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.ACTION_RECONFIGURE
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
@@ -21,6 +26,27 @@ import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 import java.io.Serializable
 
 class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
+
+    private val reconfigure =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let {
+
+                }
+            }
+        }
+
+    fun reconfigure(syncAccount: String) {
+        BackendService.forAccount(syncAccount)
+            .instantiate()?.let {
+                reconfigure.launch(
+                    Intent(this, it.setupActivityClass).apply {
+                        action = ACTION_RECONFIGURE
+                        putExtras(viewModel.getReconfigurationData(syncAccount))
+                    }
+                )
+            }
+    }
 
     @JvmField
     @State

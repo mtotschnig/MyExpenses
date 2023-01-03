@@ -68,10 +68,6 @@
     <string name="description">Descripción</string>
     <string name="dialog_balance_delete">Eliminar transacciones reconciliadas</string>
     <string name="dialog_confirm_discard_changes">¿Descartar cambios?</string>
-    <string name="dialog_confirm_discard_new_transaction">¿Descartar nueva transacción?</string>
-    <string name="dialog_confirm_discard_new_template">¿Descartar nueva plantilla?</string>
-    <string name="dialog_confirm_discard_new_account">¿Descartar nueva cuenta?</string>
-    <string name="dialog_confirm_discard_new_method">¿Descartar nuevo método de pago?</string>
     <string name="dialog_command_disabled_balance">Ninguna transacción despejada para ser reconciliada.</string>
     <string name="dialog_command_disabled_insert_transfer">Las transacciones de transferencia requieren una segunda cuenta.</string>
     <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
@@ -808,7 +804,6 @@
     <string name="discover_feature_expense_income_switch">Utilizar este botón de intercambio para guardar ingresos.</string>
     <string name="menu_create_budget">Nuevo presupuesto</string>
     <string name="budget_onetime">Puntual</string>
-    <string name="dialog_confirm_discard_new_budget">¿Descartar nuevo presupuesto?</string>
     <string name="budget_duration_from">De</string>
     <string name="budget_duration_to">A</string>
     <string name="no_budgets">Defina su primer presupuesto pulsando la tecla +.</string>
@@ -988,7 +983,6 @@
         <item quantity="other">%1$d categorías fueron actualizadas con iconos.</item>
     </plurals>
     <string name="warning_party_delete_debt">Al eliminar esta cuenta, también se eliminarán las deudas asignadas a ella.</string>
-    <string name="dialog_confirm_discard_new_debt">¿Descartar nueva deuda\?</string>
     <string name="object_sealed_debt">El objeto se refiere a una deuda cerrada.</string>
     <string name="menu_new_debt">Nueva deuda</string>
     <string name="cb_label_merge_accounts">Combinar cuentas</string>

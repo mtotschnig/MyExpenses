@@ -58,8 +58,6 @@
     <string name="onboarding_restore_from_cloud">Pulihkan dari sinkronisasi cloud</string>
     <string name="onboarding_more_options">Opsi Lainnya</string>
     <string name="onboarding_get_started">Mulai</string>
-    <string name="dialog_confirm_discard_new_template">Buang templat baru\?</string>
-    <string name="dialog_confirm_discard_new_transaction">Buang transaksi baru\?</string>
     <string name="dialog_confirm_discard_changes">Buang perubahan\?</string>
     <string name="contrib_key_requires">Dibutuhkan %1$s.</string>
     <string name="licence_status_free">Gratis</string>
@@ -72,7 +70,6 @@
     <string name="account_type_ccard_plural">Kartu kredit</string>
     <string name="account_type_ccard">Kartu kredit</string>
     <string name="dialog_command_disabled_reset_account">Tidak ada transaksi untuk diekspor.</string>
-    <string name="dialog_confirm_discard_new_method">Buang metode pembayaran baru\?</string>
     <string name="extended_key">Kunci Diperpanjang</string>
     <string name="contrib_key">Kunci Contrib</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Ekspor daftar transaksi ke PDF</string>
@@ -137,7 +134,6 @@
     <string name="account_type_cash">Akun tunai</string>
     <string name="account_type_cash_plural">Akun tunai</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Diagram lingkaran (Distribusi per kategori)</string>
-    <string name="dialog_confirm_discard_new_account">Buang akun baru\?</string>
     <string name="title_activity_debt_overview">Ringkasan Utang</string>
     <string name="feature_download_requested">Fitur %s diminta dari Play Store.</string>
     <string name="pref_feature_uninstall_languages_title">Bahasa</string>

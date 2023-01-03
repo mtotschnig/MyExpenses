@@ -68,10 +68,6 @@
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Supprimer les transactions rapprochées</string>
     <string name="dialog_confirm_discard_changes">Annuler les changements ?</string>
-    <string name="dialog_confirm_discard_new_transaction">Annuler la nouvelle opération ?</string>
-    <string name="dialog_confirm_discard_new_template">Annuler le nouveau modèle ?</string>
-    <string name="dialog_confirm_discard_new_account">Annuler le nouveau compte ?</string>
-    <string name="dialog_confirm_discard_new_method">Annuler la nouvelle méthode de paiement ?</string>
     <string name="dialog_command_disabled_balance">Aucune transaction à rapprocher.</string>
     <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert requièrent un deuxième compte.</string>
     <string name="dialog_command_disabled_reset_account">Aucune opération à exporter.</string>
@@ -808,7 +804,6 @@
     <string name="discover_feature_expense_income_switch">Utilisez ce bouton pour enregistrer le revenu.</string>
     <string name="menu_create_budget">Nouveau budget</string>
     <string name="budget_onetime">Une fois</string>
-    <string name="dialog_confirm_discard_new_budget">Annuler le nouveau budget \?</string>
     <string name="budget_duration_from">À partir</string>
     <string name="budget_duration_to">Au</string>
     <string name="no_budgets">Définissez votre premier budget en appuyant sur le bouton +.</string>
@@ -979,7 +974,6 @@
         <item quantity="other">La dette %1$s a %2$d transactions mappées.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Supprimer la dette \?</string>
-    <string name="dialog_confirm_discard_new_debt">Effacer la nouvelle dette \?</string>
     <string name="warning_party_delete_debt">En supprimant cette partie, les dettes définies pour elle seront également supprimées.</string>
     <string name="debts">Dettes</string>
     <string name="debt_I_owe">Je dois à %s</string>

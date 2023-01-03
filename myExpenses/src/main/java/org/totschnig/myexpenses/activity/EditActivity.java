@@ -46,8 +46,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   @State
   protected boolean mNewInstance = true;
 
-  abstract int getDiscardNewMessage();
-
   protected BigDecimal validateAmountInput(AmountInput input, boolean showToUser) {
     return input.getTypedValue(true, showToUser);
   }
@@ -87,8 +85,9 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   private void showDiscardDialog() {
     Bundle b = new Bundle();
-    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(
-        mNewInstance ? getDiscardNewMessage() : R.string.dialog_confirm_discard_changes));
+    b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+            mNewInstance ? getString(R.string.discard) +"?" :
+                    getString(R.string.dialog_confirm_discard_changes));
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
     b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes);
     b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no);

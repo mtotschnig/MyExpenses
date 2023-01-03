@@ -551,10 +551,6 @@
     <string name="dialog_command_disabled_reset_account">ఎగుమతి చేయడానికి లావాదేవీలు లేవు.</string>
     <string name="dialog_command_disabled_insert_transfer">బదిలీ లావాదేవీలకు రెండవ ఖాతా అవసరం.</string>
     <string name="dialog_command_disabled_balance">రాజీపడటానికి క్లియర్ చేసిన లావాదేవీలు లేవు.</string>
-    <string name="dialog_confirm_discard_new_method">క్రొత్త చెల్లింపు పద్ధతిని విస్మరించాలా\?</string>
-    <string name="dialog_confirm_discard_new_account">క్రొత్త ఖాతాను విస్మరించాలా\?</string>
-    <string name="dialog_confirm_discard_new_template">క్రొత్త టెంప్లేట్‌ను విస్మరించాలా\?</string>
-    <string name="dialog_confirm_discard_new_transaction">క్రొత్త లావాదేవీని విస్మరించాలా\?</string>
     <string name="dialog_confirm_discard_changes">మార్పులను విస్మరించు\?</string>
     <string name="dialog_balance_delete">రాజీ చేసిన లావాదేవీలను తొలగించండి</string>
     <string name="description">వివరణ</string>
@@ -809,7 +805,6 @@
     <string name="no_budgets">+ బటన్‌ను నొక్కడం ద్వారా మీ మొదటి బడ్జెట్‌ను నిర్వచించండి.</string>
     <string name="budget_duration_to">వరకు</string>
     <string name="budget_duration_from">నుండి</string>
-    <string name="dialog_confirm_discard_new_budget">కొత్త బడ్జెట్‌ను విస్మరించాలా\?</string>
     <string name="budget_onetime">ఒక్కసారి</string>
     <string name="menu_create_budget">కొత్త బడ్జెట్</string>
     <string name="discover_feature_expense_income_switch">ఆదాయాన్ని రికార్డ్ చేయడానికి ఈ స్విచ్ బటన్‌ను ఉపయోగించండి.</string>
@@ -846,7 +841,6 @@
         <item quantity="other">%1$s రుణానికి %2$d మ్యాప్ చేయబడిన లావాదేవీలు ఉన్నాయి.</item>
     </plurals>
     <string name="dialog_title_delete_debt">రుణాన్ని తొలగించాలా\?</string>
-    <string name="dialog_confirm_discard_new_debt">కొత్త రుణాన్ని విస్మరించాలా\?</string>
     <string name="warning_party_delete_debt">ఈ పార్టీని తొలగించేటప్పుడు, దాని కోసం నిర్వచించబడిన అప్పులు కూడా తొలగించబడతాయి.</string>
     <string name="debts">అప్పులు</string>
     <string name="debt_I_owe">నేను %s కి రుణపడి ఉన్నాను</string>

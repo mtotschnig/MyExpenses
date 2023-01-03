@@ -68,10 +68,6 @@
     <string name="description">描述</string>
     <string name="dialog_balance_delete">删除已對帳的交易</string>
     <string name="dialog_confirm_discard_changes">要放棄變更?</string>
-    <string name="dialog_confirm_discard_new_transaction">要放棄新增的交易?</string>
-    <string name="dialog_confirm_discard_new_template">要放棄新增的範本?</string>
-    <string name="dialog_confirm_discard_new_account">要放棄新增的帳戶?</string>
-    <string name="dialog_confirm_discard_new_method">要放棄新增的付款方式?</string>
     <string name="dialog_command_disabled_balance">沒有已結算或已入帳的交易需要去對帳</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二個帳戶才可以互相轉帳。</string>
     <string name="dialog_command_disabled_reset_account">沒有交易資料可以輸出</string>
@@ -793,7 +789,6 @@
     <string name="discover_feature_expense_income_switch">可以使用此轉換鈕記錄收入。</string>
     <string name="menu_create_budget">新增預算</string>
     <string name="budget_onetime">單次</string>
-    <string name="dialog_confirm_discard_new_budget">捨棄新預算？</string>
     <string name="budget_duration_from">從</string>
     <string name="budget_duration_to">到</string>
     <string name="no_budgets">點擊 + 按鈕定義您的第一筆預算。</string>

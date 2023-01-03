@@ -68,10 +68,6 @@
     <string name="description">Keterangan</string>
     <string name="dialog_balance_delete">Padam transaksi tersesuai</string>
     <string name="dialog_confirm_discard_changes">Singkir perubahan?</string>
-    <string name="dialog_confirm_discard_new_transaction">Singkir transaksi baharu?</string>
-    <string name="dialog_confirm_discard_new_template">Singkir templat baharu?</string>
-    <string name="dialog_confirm_discard_new_account">Singkir akaun baharu?</string>
-    <string name="dialog_confirm_discard_new_method">Singkir kaedah pembayaran baharu?</string>
     <string name="dialog_command_disabled_balance">Tiada transaksi selesai yang disesuaikan.</string>
     <string name="dialog_command_disabled_insert_transfer">Transaksi pemindahan memerlukan akaun kedua.</string>
     <string name="dialog_command_disabled_reset_account">Tiada transaksi dieksport.</string>

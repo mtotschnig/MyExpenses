@@ -30,8 +30,6 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     private val debtId: Long
         get() = intent.getLongExtra(DatabaseConstants.KEY_DEBT_ID, 0)
 
-    override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_debt
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = OneDebtBinding.inflate(layoutInflater)

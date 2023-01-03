@@ -298,16 +298,12 @@
     <string name="dialog_security_answer">Svar</string>
     <string name="dialog_remind_rate_yes">Vurder nå</string>
     <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du gi {app_name}\?</string>
-    <string name="dialog_confirm_discard_new_transaction">Forkast ny overføring\?</string>
-    <string name="dialog_confirm_discard_new_template">Forkast ny mal\?</string>
     <string name="dialog_password_new_password">Nytt passord</string>
     <string name="dialog_password_change_password">Endre passord</string>
     <string name="dialog_export_not_yet_exported">Kun eksporter overføringer som ikke er eksportert enda</string>
     <string name="dialog_export_delete">Slett eksporterte overføringer</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Din nåværende lisensstatus (%2$s) lar deg opprette %1$d planer.</string>
     <string name="dialog_contrib_no">Prøv</string>
-    <string name="dialog_confirm_discard_new_method">Forkast ny betalingsmetode\?</string>
-    <string name="dialog_confirm_discard_new_account">Forkast ny konto\?</string>
     <string name="dialog_confirm_discard_changes">Forkast endringer\?</string>
     <string name="description">Beskrivelse</string>
     <string name="number_format_illegal">Ugyldig nummerformat</string>

@@ -68,10 +68,6 @@
     <string name="description">Beschreibung</string>
     <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
     <string name="dialog_confirm_discard_changes">Änderungen verwerfen?</string>
-    <string name="dialog_confirm_discard_new_transaction">Neue Buchung verwerfen?</string>
-    <string name="dialog_confirm_discard_new_template">Neue Vorlage verwerfen?</string>
-    <string name="dialog_confirm_discard_new_account">Neues Konto verwerfen?</string>
-    <string name="dialog_confirm_discard_new_method">Neue Zahlungsweise verwerfen?</string>
     <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
     <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto.</string>
     <string name="dialog_command_disabled_reset_account">Keine exportierbaren Buchungen vorhanden.</string>
@@ -800,7 +796,6 @@
     <string name="discover_feature_expense_income_switch">Verwenden Sie diesen Schalter, um Einnahmen zu erfassen.</string>
     <string name="menu_create_budget">Neues Budget</string>
     <string name="budget_onetime">Einmalig</string>
-    <string name="dialog_confirm_discard_new_budget">Neues Budget verwerfen?</string>
     <string name="budget_duration_from">Von</string>
     <string name="budget_duration_to">Bis</string>
     <string name="no_budgets">Definieren Sie Ihr erstes Budget, indem Sie auf die Schaltfläche + tippen.</string>
@@ -969,7 +964,6 @@
         <item quantity="other">Schuld %1$s hat %2$d zugeordnete Buchungen.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Schulden löschen\?</string>
-    <string name="dialog_confirm_discard_new_debt">Neue Schuld verwerfen\?</string>
     <string name="warning_party_delete_debt">Wenn Sie diese Partei löschen, werden auch die für sie definierten Schulden gelöscht.</string>
     <string name="debts">Schulden</string>
     <string name="debt_I_owe">Ich schulde %s</string>

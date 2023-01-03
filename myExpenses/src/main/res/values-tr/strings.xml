@@ -68,10 +68,6 @@
     <string name="description">Açıklama</string>
     <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
     <string name="dialog_confirm_discard_changes">Değişiklikler gözardı edilsin mi?</string>
-    <string name="dialog_confirm_discard_new_transaction">Yeni muamele gözardı edilsin mi?</string>
-    <string name="dialog_confirm_discard_new_template">Yeni şablon gözardı edilsin mi?</string>
-    <string name="dialog_confirm_discard_new_account">Yeni hesap gözardı edilsin mi?</string>
-    <string name="dialog_confirm_discard_new_method">Yeni ödeme yöntemi gözardı edilsin mi\?</string>
     <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
     <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri ikinci bir hesap gerektirir.</string>
     <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
@@ -800,7 +796,6 @@
     <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için bu geçiş düğmesini kullanın.</string>
     <string name="menu_create_budget">Yeni bütçe</string>
     <string name="budget_onetime">Bir kerelik</string>
-    <string name="dialog_confirm_discard_new_budget">Yeni bütçe atılsın mı?</string>
     <string name="budget_duration_from">Şundan</string>
     <string name="budget_duration_to">Şuna</string>
     <string name="no_budgets">İlk bütçenizi + düğmesine dokunarak tanımlayın.</string>
@@ -969,7 +964,6 @@
     <string name="debt_managment">Borç yönetimi</string>
     <string name="object_sealed_debt">Nesne kapalı bir borca atıfta bulunmaktadır.</string>
     <string name="dialog_title_delete_debt">Borç silinsin mi\?</string>
-    <string name="dialog_confirm_discard_new_debt">Yeni borç silinsin mi\?</string>
     <string name="warning_party_delete_debt">Bu taraf silinirken kendisine tanımlanan borçlar da silinecektir.</string>
     <string name="debts">Borçlar</string>
     <string name="debt_I_owe">%s\'e borcum var</string>

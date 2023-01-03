@@ -69,10 +69,6 @@
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Delete reconciled transactions</string>
     <string name="dialog_confirm_discard_changes">Discard changes?</string>
-    <string name="dialog_confirm_discard_new_transaction">Discard new transaction?</string>
-    <string name="dialog_confirm_discard_new_template">Discard new template?</string>
-    <string name="dialog_confirm_discard_new_account">Discard new account?</string>
-    <string name="dialog_confirm_discard_new_method">Discard new payment method?</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account.</string>
     <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
@@ -808,7 +804,6 @@
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Use this switch button to record income.</string>
     <string name="menu_create_budget">New budget</string>
     <string name="budget_onetime">One-time</string>
-    <string name="dialog_confirm_discard_new_budget">Discard new budget?</string>
     <string name="budget_duration_from">From</string>
     <string name="budget_duration_to">To</string>
     <string name="no_budgets">Define your first budget by tapping the + button.</string>
@@ -981,7 +976,6 @@
     <string name="debts">Debts</string>
     <!-- When user want to delete a party for which debts are defined, we ask for confirmation. -->
     <string name="warning_party_delete_debt">When deleting this party, debts defined for it will be deleted as well.</string>
-    <string name="dialog_confirm_discard_new_debt">Discard new debt?</string>
     <string name="dialog_title_delete_debt">Delete debt?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">Debt "%1$s" has %2$d mapped transaction.</item>

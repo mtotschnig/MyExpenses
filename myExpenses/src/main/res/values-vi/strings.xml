@@ -68,10 +68,6 @@
     <string name="description">Mô tả</string>
     <string name="dialog_balance_delete">Xoá các giao dịch đã khớp</string>
     <string name="dialog_confirm_discard_changes">Huỷ bỏ thay đổi?</string>
-    <string name="dialog_confirm_discard_new_transaction">Huỷ bỏ giao dịch mới?</string>
-    <string name="dialog_confirm_discard_new_template">Huỷ bỏ bản mẫu mới?</string>
-    <string name="dialog_confirm_discard_new_account">Huỷ bỏ tải khoản mới?</string>
-    <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức thanh toán mới?</string>
     <string name="dialog_command_disabled_balance">Không còn giao dịch nào chưa được thanh toán để khớp.</string>
     <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu một tài khoản khác.</string>
     <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>

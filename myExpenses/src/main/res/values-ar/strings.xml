@@ -68,10 +68,6 @@
     <string name="description">الوصف</string>
     <string name="dialog_balance_delete">حذف المعاملات التي تمت تسويتها</string>
     <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
-    <string name="dialog_confirm_discard_new_transaction">هل تريد تجاهل معاملة جديدة؟</string>
-    <string name="dialog_confirm_discard_new_template">هل تريد تجاهل النموذج الجديد؟</string>
-    <string name="dialog_confirm_discard_new_account">هل تودّ تجاهل الحساب الجديد؟</string>
-    <string name="dialog_confirm_discard_new_method">هل تريد الغاء طريقة الدفع الجديدة؟</string>
     <string name="dialog_command_disabled_balance">لا توجد معاملات تمت تسويتها.</string>
     <string name="dialog_command_disabled_insert_transfer">تتطلب معاملات التحويل حساباً ثانياً.</string>
     <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
@@ -831,7 +827,6 @@
     <string name="discover_feature_expense_income_switch">استخدم زر التبديل هذا لتسجيل الدخل.</string>
     <string name="menu_create_budget">ميزانية جديدة</string>
     <string name="budget_onetime">مرة واحدة</string>
-    <string name="dialog_confirm_discard_new_budget">تجاهل الميزانية الجديدة؟</string>
     <string name="budget_duration_from">من</string>
     <string name="budget_duration_to">إلى</string>
     <string name="no_budgets">حدد ميزانيتك الأولى بالضغط على زر +.</string>

@@ -68,10 +68,6 @@
     <string name="description">விளக்கம்</string>
     <string name="dialog_balance_delete">நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளை நீக்குக</string>
     <string name="dialog_confirm_discard_changes">மாற்றங்களை கைவிடவா?</string>
-    <string name="dialog_confirm_discard_new_transaction">புதிய பரிவர்த்தனையை கைவிடவா?</string>
-    <string name="dialog_confirm_discard_new_template">புதிய வார்ப்புருவை கைவிடவா?</string>
-    <string name="dialog_confirm_discard_new_account">புதிய கணக்கை கைவிடவா?</string>
-    <string name="dialog_confirm_discard_new_method">புதிய கட்டண முறையை கைவிடவா?</string>
     <string name="dialog_command_disabled_balance">ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் எதுவும் நல்லிணக்கம் செய்யப்பட வேண்டியதில்லை.</string>
     <string name="dialog_command_disabled_insert_transfer">பரிமாற்ற பரிவர்த்தனைக்கு இரண்டாவது கணக்கு தேவை.</string>
     <string name="dialog_command_disabled_reset_account">ஏற்றுமதி செய்ய பரிவர்த்தனைகள் ஏதும் இல்லை.</string>
@@ -800,7 +796,6 @@
     <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
     <string name="menu_create_budget">புதிய வரவு செலவுத் திட்டம்</string>
     <string name="budget_onetime">ஒரு முறை</string>
-    <string name="dialog_confirm_discard_new_budget">புதிய வரவு செலவுத் திட்டத்தை கைவிடவா?</string>
     <string name="budget_duration_from">இருந்து</string>
     <string name="budget_duration_to">வரை</string>
     <string name="no_budgets">+ பொத்தானைத் தட்டுவதன் மூலம் உங்கள் முதல் வரவு செலவுத் திட்டத்தை வரையறுக்கவும்.</string>
@@ -962,7 +957,6 @@
     <string name="debt_managment">கடன் மேலாண்மை</string>
     <string name="debt">கடன்</string>
     <string name="warning_party_delete_debt">இந்த தரப்பை நீக்கும்போது, அவருடன் தொடர்புடைய கடன்களும் நீக்கப்படும்.</string>
-    <string name="dialog_confirm_discard_new_debt">புதிய கடனை கைவிடவா\?</string>
     <string name="dialog_title_delete_debt">கடனை நீக்கவா\?</string>
     <string name="pref_mlkit_script_title">MlKit க்கான ஸ்கிரிப்ட்</string>
     <plurals name="import_categories_icons_updated">

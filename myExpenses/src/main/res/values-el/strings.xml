@@ -68,10 +68,6 @@
     <string name="description">περιγραφή</string>
     <string name="dialog_balance_delete">Διαγραφή διακανονισμένων συναλλαγών</string>
     <string name="dialog_confirm_discard_changes">Απόρριψη αλλαγών;</string>
-    <string name="dialog_confirm_discard_new_transaction">Απόρριψη νέας συναλλαγής;</string>
-    <string name="dialog_confirm_discard_new_template">Απόρριψη νέου προτύπου;</string>
-    <string name="dialog_confirm_discard_new_account">Απόρριψη νέου λογαριασμού;</string>
-    <string name="dialog_confirm_discard_new_method">Απόρριψη νέας μεθόδου πληρωμής;</string>
     <string name="dialog_command_disabled_balance">Δεν υπάρχουν εκκαθαρισμένες συναλλαγές που πρέπει να διακανονιστούν.</string>
     <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό.</string>
     <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
@@ -823,7 +819,6 @@
     <string name="licence_expired_yesterday">Το επαγγελματικό σας κλειδί έληξε χθες.</string>
     <string name="select_package">Επιλέξτε ένα πακέτο άδειας χρήσης.</string>
     <string name="debt">Χρέος</string>
-    <string name="dialog_confirm_discard_new_debt">Απόρριψη νέου χρέους;</string>
     <string name="whats_new_336_1">Μοιραστείτε την σύνοψη χρέους</string>
     <string name="whats_new_336_2">Ετικέτες για χωρισμένα μέρη</string>
     <string name="title_activity_debt_overview">Επισκόπηση χρέους</string>

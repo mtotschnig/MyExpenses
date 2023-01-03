@@ -68,10 +68,6 @@
     <string name="description">תאור</string>
     <string name="dialog_balance_delete">מחק עסקאות שאומתו reconciled</string>
     <string name="dialog_confirm_discard_changes">למחוק שינויים?</string>
-    <string name="dialog_confirm_discard_new_transaction">למחוק עסקאות חדשות?</string>
-    <string name="dialog_confirm_discard_new_template">למחוק תבנית חדשה?</string>
-    <string name="dialog_confirm_discard_new_account">למחוק חשבון חדש?</string>
-    <string name="dialog_confirm_discard_new_method">למחוק שיטת תשלום חדשה?</string>
     <string name="dialog_command_disabled_balance">אין עסקאות מסולקות cleared  שיש ליישב reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer">עסקאות העברה דורשות חשבון שני.</string>
     <string name="dialog_command_disabled_reset_account">אין עסקאות לייצוא.</string>
@@ -818,7 +814,6 @@
     <string name="discover_feature_expense_income_switch">השתמש בלחצן זה כדי לרשום הכנסה.</string>
     <string name="menu_create_budget">תקציב חדש</string>
     <string name="budget_onetime">חד פעמי</string>
-    <string name="dialog_confirm_discard_new_budget">למחוק תקציב חדש?</string>
     <string name="budget_duration_from">מקור</string>
     <string name="budget_duration_to">אל</string>
     <string name="no_budgets">הגדר את התקציב הראשון שלך על ידי לחיצה על כפתור +.</string>
@@ -993,7 +988,6 @@
     <string name="debt_managment">ניהול חובות</string>
     <string name="object_sealed_debt">הפריט מתייחס לחוב שנסגר.</string>
     <string name="dialog_title_delete_debt">למחוק חוב\?</string>
-    <string name="dialog_confirm_discard_new_debt">להתעלם מחוב חדש\?</string>
     <string name="debts">חובות</string>
     <string name="debt_I_owe">חוב ממני לטובת %s</string>
     <string name="debt_owes_me">חוב כלפי מצד %s</string>
