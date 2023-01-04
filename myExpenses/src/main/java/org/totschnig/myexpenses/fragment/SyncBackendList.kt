@@ -90,7 +90,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     }
 
     private fun featureForAccount(account: String): Feature? =
-        BackendService.forAccount(account)?.feature
+        BackendService.forAccount(account).feature
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -150,6 +150,15 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
             menu.add(Menu.NONE, R.id.SYNC_REMOVE_BACKEND_COMMAND, 0, R.string.menu_remove)
             if (syncBackendAdapter.isEncrypted(packedPosition)) {
                 menu.add(Menu.NONE, R.id.SHOW_PASSWORD_COMMAND, 0, R.string.input_label_passphrase)
+            }
+            if (
+                BackendService.forAccount(
+                    syncBackendAdapter.getBackendLabel(
+                        getPackedPositionGroup(packedPosition)
+                    )
+                ).supportsReconfiguration
+            ) {
+                menu.add(Menu.NONE, R.id.RECONFIGURE_COMMAND, 0, "Reconfigure")
             }
         }
         super.onCreateContextMenu(menu, v, menuInfo)
@@ -244,6 +253,10 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                             it ?: "Could not retrieve passphrase"
                         )
                     }
+                return true
+            }
+            R.id.RECONFIGURE_COMMAND -> {
+                manageSyncBackends.reconfigure(syncBackendAdapter.getSyncAccountName(packedPosition))
                 return true
             }
         }

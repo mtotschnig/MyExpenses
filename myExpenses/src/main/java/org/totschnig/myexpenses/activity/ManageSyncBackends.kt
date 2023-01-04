@@ -30,22 +30,27 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     private val reconfigure =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.let {
-
+                result.data?.extras?.let {
+                    viewModel.reconfigure(it).observe(this) { success ->
+                        if (success) {
+                            listFragment.reloadAccountList()
+                        } else {
+                            showSnackBar("Reconfiguration failed")
+                        }
+                    }
                 }
             }
         }
 
     fun reconfigure(syncAccount: String) {
-        BackendService.forAccount(syncAccount)
-            .instantiate()?.let {
-                reconfigure.launch(
-                    Intent(this, it.setupActivityClass).apply {
-                        action = ACTION_RECONFIGURE
-                        putExtras(viewModel.getReconfigurationData(syncAccount))
-                    }
-                )
-            }
+        BackendService.forAccount(syncAccount).instantiate()?.let {
+            reconfigure.launch(
+                Intent(this, it.setupActivityClass).apply {
+                    action = ACTION_RECONFIGURE
+                    putExtras(viewModel.getReconfigurationData(syncAccount))
+                }
+            )
+        }
     }
 
     @JvmField

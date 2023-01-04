@@ -12,7 +12,8 @@ enum class BackendService(
     private val className: String,
     val id: Int,
     val label: String,
-    val feature: Feature?
+    val feature: Feature?,
+    val supportsReconfiguration: Boolean = false
 ) {
     DRIVE(
         "org.totschnig.drive.sync.GoogleDriveBackendProviderFactory",
@@ -36,8 +37,10 @@ enum class BackendService(
         "org.totschnig.webdav.sync.WebDavBackendProviderFactory",
         R.id.SYNC_BACKEND_WEBDAV,
         "WebDAV",
-        Feature.WEBDAV
+        Feature.WEBDAV,
+        true
     );
+
 
     open fun isAvailable(context: Context) = if (DistributionHelper.isGithub) try {
         Class.forName(className, false, this::class.java.classLoader)
@@ -58,7 +61,7 @@ enum class BackendService(
     }
 
     companion object {
-        fun forAccount(account: String) = values().find { account.startsWith(it.label) }
+        fun forAccount(account: String) = values().first { account.startsWith(it.label) }
         fun allAvailable(context: Context) = values().filter { it.isAvailable(context) }
     }
 }

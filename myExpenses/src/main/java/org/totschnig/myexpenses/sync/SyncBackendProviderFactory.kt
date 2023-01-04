@@ -27,6 +27,7 @@ abstract class SyncBackendProviderFactory {
     abstract val setupActivityClass: Class<out ProtectedFragmentActivity>
 
     companion object {
+        const val ACTION_RECONFIGURE = "reconfigure"
         @JvmStatic
         fun getLegacy(
             context: Context,
