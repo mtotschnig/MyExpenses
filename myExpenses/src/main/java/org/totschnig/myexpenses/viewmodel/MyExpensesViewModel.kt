@@ -8,11 +8,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.Saver
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
@@ -25,8 +21,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -38,7 +32,6 @@ import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
-import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.compose.SelectionHandler
 import org.totschnig.myexpenses.compose.select
 import org.totschnig.myexpenses.compose.toggle
@@ -50,7 +43,6 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
-import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.ResultUnit
@@ -72,8 +64,6 @@ open class MyExpensesViewModel(
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
-
-    private var deferredAccountId: Long? = null
 
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
 
@@ -112,17 +102,6 @@ open class MyExpensesViewModel(
 
     val selectedTransactionSum: Long
         get() = selectionState.value.sumOf { it.amount.amountMinor }
-
-    @OptIn(ExperimentalPagerApi::class)
-    var selectedAccount: Long
-        get() = accountData.value?.getOrNull()?.getOrNull(pagerState.currentPage)?.id ?: 0
-        set(value) {
-            deferredAccountId = if (value != 0L) {
-                value
-            } else {
-                accountData.value?.getOrNull()?.firstOrNull()?.id
-            }
-        }
 
     @Parcelize
     data class SelectionInfo(
@@ -190,7 +169,7 @@ open class MyExpensesViewModel(
         }
     }
 
-    val pageSize = if (BuildConfig.DEBUG) 1500 else 150
+    private val pageSize = if (BuildConfig.DEBUG) 1500 else 150
 
     val items: Map<PageAccount, Flow<PagingData<Transaction2>>> = lazyMap {
         Pager(
@@ -203,16 +182,6 @@ open class MyExpensesViewModel(
             pagingSourceFactory = pagingSourceFactories.getValue(it)
         )
             .flow.cachedIn(viewModelScope)
-    }
-
-    @OptIn(ExperimentalPagerApi::class, SavedStateHandleSaveableApi::class)
-    val pagerState = savedStateHandle.saveable("pagerState",
-        saver = Saver(
-            save = { it.currentPage },
-            restore = { PagerState(it) }
-        )
-    ) {
-        PagerState()
     }
 
     private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2>> = lazyMap {
@@ -229,10 +198,6 @@ open class MyExpensesViewModel(
             viewModelScope
         )
 
-
-    val currentFilter: FilterPersistence
-        get() = filterPersistence.getValue(selectedAccount)
-
     val filterPersistence: Map<Long, FilterPersistence> = lazyMap {
         FilterPersistence(
             prefHandler,
@@ -242,9 +207,6 @@ open class MyExpensesViewModel(
             restoreFromPreferences = true
         )
     }
-
-    val listState: Map<Long, LazyListState> =
-        lazyMap { LazyListState(0, 0) }
 
     val scrollToCurrentDate: Map<Long, MutableState<Boolean>> =
         lazyMap {
@@ -536,18 +498,6 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun addFilterCriteria(c: Criterion<*>) {
-        currentFilter.addCriteria(c)
-    }
-
-    /**
-     * Removes a given filter
-     *
-     * @return true if the filter was set and successfully removed, false otherwise
-     */
-    fun removeFilter(id: Int) =
-        currentFilter.removeFilter(id)
-
     fun toggleCrStatus(id: Long) {
         viewModelScope.launch(coroutineDispatcher) {
             contentResolver.update(
@@ -654,17 +604,6 @@ open class MyExpensesViewModel(
                 transaction1.amount.amountMinor == -transaction2.amount.amountMinor ||
                         transaction1.amount.currencyUnit.code != transaction2.amount.currencyUnit.code
                 )
-    }
-
-    suspend fun deferredLoad() {
-        deferredAccountId?.let {
-            @OptIn(ExperimentalPagerApi::class)
-            accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }
-                .takeIf { it != -1 }.let {
-                    pagerState.scrollToPage(it ?: 0)
-                }
-            deferredAccountId = null
-        }
     }
 
     override fun onCleared() {

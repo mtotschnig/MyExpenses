@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -108,10 +108,9 @@ fun TransactionList(
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
-    renderer: ItemRenderer,
-    listState: LazyListState
+    renderer: ItemRenderer
 ) {
-
+    val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
         expansionHandler.collapsedIds.collectAsState(initial = null).value
     else emptySet()
@@ -417,7 +416,7 @@ interface SelectionHandler {
 @Preview(locale = "ar")
 @Composable
 fun RowRTL() {
-    Column() {
+    Column {
         Row {
             Text("1")
             Text("2")

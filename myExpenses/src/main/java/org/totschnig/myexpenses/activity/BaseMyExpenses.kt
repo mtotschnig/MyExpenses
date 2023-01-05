@@ -44,6 +44,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerScope
+import com.google.accompanist.pager.PagerState
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -84,6 +85,7 @@ import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFail
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
@@ -126,13 +128,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
     var selectedAccountId: Long
-        get() = viewModel.selectedAccount
+        get() = viewModel.accountData.value?.getOrNull()?.getOrNull(pagerState.currentPage)?.id ?: 0
         set(value) {
-            viewModel.selectedAccount = value
+            deferredAccountId = if (value != 0L) {
+                value
+            } else {
+                viewModel.accountData.value?.getOrNull()?.firstOrNull()?.id
+            }
         }
 
+    lateinit var pagerState: PagerState
+
+    private var deferredAccountId: Long? = null
+
+    val currentFilter: FilterPersistence
+        get() = viewModel.filterPersistence.getValue(selectedAccountId)
+
     val currentAccount: FullAccount?
-        get() = accountData.getOrNull(viewModel.pagerState.currentPage)
+        get() = accountData.getOrNull(pagerState.currentPage)
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
@@ -387,6 +400,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readAccountGroupingFromPref()
+        pagerState = PagerState(currentPage = savedInstanceState?.getInt(KEY_CURRENT_PAGE) ?: 0)
         accountSort = readAccountSortFromPref()
         viewModel = ViewModelProvider(this)[modelClass]
         with((applicationContext as MyApplication).appComponent) {
@@ -513,7 +527,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             selectedAccount = selectedAccountId,
                             onSelected = {
                                 lifecycleScope.launch {
-                                    viewModel.pagerState.scrollToPage(it)
+                                    pagerState.scrollToPage(it)
                                 }
                                 closeDrawer()
                             },
@@ -613,6 +627,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_CURRENT_PAGE, pagerState.currentPage)
+    }
+
     private fun editAccount(accountId: Long) {
         startActivityForResult(Intent(this, AccountEdit::class.java).apply {
             putExtra(KEY_ROWID, accountId)
@@ -620,10 +639,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     }
 
+    private suspend fun deferredLoad() {
+        deferredAccountId?.let {
+            @OptIn(ExperimentalPagerApi::class)
+            viewModel.accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }
+                .takeIf { it != -1 }.let {
+                    pagerState.scrollToPage(it ?: 0)
+                }
+            deferredAccountId = null
+        }
+    }
+
     @Composable
     private fun MainContent() {
 
-        LaunchedEffect(viewModel.pagerState.currentPage) {
+        LaunchedEffect(pagerState.currentPage) {
             setCurrentAccount()?.let { account ->
                 finishActionMode()
                 sumInfo = SumInfoUnknown
@@ -646,7 +676,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
                         }
-                        viewModel.deferredLoad()
+                        deferredLoad()
                         setCurrentAccount()
                     } else {
                         setTitle(R.string.app_name)
@@ -663,7 +693,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                         verticalAlignment = Alignment.Top,
                         count = accountData.count(),
-                        state = viewModel.pagerState,
+                        state = pagerState,
                         itemSpacing = 10.dp,
                         key = { accountData[it].id }
                     ) {
@@ -851,8 +881,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     onToggleCrStatus
                                 )
                             }
-                        },
-                        listState = viewModel.listState.getValue(account.id)
+                        }
                     )
                 }
             }
@@ -1211,7 +1240,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 viewModel.triggerAccountListRefresh()
             }
             R.id.CLEAR_FILTER_COMMAND -> {
-                viewModel.currentFilter.clear()
+                currentFilter.clear()
             }
             R.id.HISTORY_COMMAND -> {
                 if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
@@ -1488,7 +1517,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      * @return currently selected account
      */
     private fun setCurrentAccount() =
-        accountData.getOrNull(viewModel.pagerState.currentPage)?.also { account ->
+        accountData.getOrNull(pagerState.currentPage)?.also { account ->
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintSystemUiAndFab(account.color(resources))
             setBalance(account)
@@ -1750,7 +1779,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             currency.code,
                                             sealed,
                                             hasExported,
-                                            !viewModel.currentFilter.whereFilter.isEmpty
+                                            !currentFilter.whereFilter.isEmpty
                                         )
                                     ).show(supportFragmentManager, "EXPORT")
                                 }
@@ -1820,7 +1849,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun Bundle.addFilter() {
         putParcelableArrayList(
             KEY_FILTER,
-            ArrayList(viewModel.currentFilter.whereFilter.criteria)
+            ArrayList(currentFilter.whereFilter.criteria)
         )
     }
 
@@ -1878,10 +1907,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun addFilterCriterion(c: Criterion<*>) {
         invalidateOptionsMenu()
-        viewModel.addFilterCriteria(c)
+        currentFilter.addCriteria(c)
     }
 
-    fun removeFilter(id: Int) = if (viewModel.removeFilter(id)) {
+    fun removeFilter(id: Int) = if (currentFilter.removeFilter(id)) {
         invalidateOptionsMenu()
         true
     } else false
@@ -1952,5 +1981,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
         const val DIALOG_TAG_GROUPING = "GROUPING"
         const val DIALOG_TAG_SORTING = "SORTING"
+        const val KEY_CURRENT_PAGE = "CURRENT_PAGE"
     }
 }

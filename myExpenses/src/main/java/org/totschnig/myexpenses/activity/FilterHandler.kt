@@ -29,7 +29,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
             val sumInfoIsLoaded = sumInfo is SumInfoLoaded
             Utils.menuItemSetEnabledAndVisible(searchMenu, sumInfoIsLoaded)
             (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
-                val whereFilter = viewModel.currentFilter.whereFilter
+                val whereFilter = currentFilter.whereFilter
                 searchMenu.isChecked = !whereFilter.isEmpty
                 checkMenuIcon(searchMenu)
                 val filterMenu = searchMenu.subMenu!!
