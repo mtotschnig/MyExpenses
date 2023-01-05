@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_open">"روٹس دکھائیں"</string>
+    <string name="drawer_close">"روٹس کو چھپائیں"</string>
+    <string name="saving">"محفوظ ہو رہا ہے…"</string>
+    <string name="default_action">"ڈیفالٹ کارروائی"</string>
+    <string name="full_name">نام</string>
+    <string name="postal_country">ملک</string>
+    <string name="toast_text_copied">"متن کاپی ہوگیا"</string>
+    <string name="copy_text">"کلپ بورڈ میں کاپی کریں"</string>
+    <string name="stop">"روکیں"</string>
+    <string name="style">"طرز"</string>
+    <string name="loading">"لوڈ ہو رہا ہے…"</string>
+    <string name="no_network">"کوئی نیٹ ورک کنکشن موجود نہیں ہے۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"</string>
+    <string name="button_label_continue">"جاری رکھیں"</string>
+    <string name="autofill">"آٹوفل"</string>
+    <string name="discard">"مسترد کریں"</string>
+    <string name="dialog_dismiss">"برخاست کریں"</string>
+    <string name="details">"تفصیلات"</string>
+    <string name="response_yes">"ہاں"</string>
+    <string name="response_no">"نہیں"</string>
+    <string name="add_widget">"ویجیٹ شامل کریں"</string>
+    <string name="calendar">"کیلنڈر"</string>
+    <string name="permissions_label">"اجازتیں"</string>
+    <string name="time_format">"ٹائم فارمیٹ"</string>
+    <string name="setup">"سیٹ اپ"</string>
+    <string name="clear_cache">"کیش صاف کریں"</string>
+    <string name="customize">"پابندیوں کو حسب ضرورت بنائیں"</string>
+    <string name="compact">"کمپیکٹ"</string>
+    <string name="storage_description">"مقامی اسٹوریج"</string>
+    <string name="encryption">"مرموز کاری"</string>
+</resources>

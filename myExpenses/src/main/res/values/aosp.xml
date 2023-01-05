@@ -9,7 +9,7 @@
     <string name="drawer_close">Close navigation drawer</string>
     <!-- packages/apps/Settings/res/values/strings.xml wifi_add_app_single_network_saving_summary -->
     <string name="saving">Saving…</string>
-    <!-- prefDialogTitle_removal_action -->
+    <!--https://android.googlesource.com/platform/packages/apps/UnifiedEmail  prefDialogTitle_removal_action -->
     <string name="default_action">"Default action"</string>
     <!-- packages/apps/Dialer/java/com/android/contacts/common /res/values/strings.xml -->
     <string name="full_name">Name</string>
