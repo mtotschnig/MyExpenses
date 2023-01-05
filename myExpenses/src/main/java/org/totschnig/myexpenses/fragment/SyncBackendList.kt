@@ -158,7 +158,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                     )
                 ).supportsReconfiguration
             ) {
-                menu.add(Menu.NONE, R.id.RECONFIGURE_COMMAND, 0, "Reconfigure")
+                menu.add(Menu.NONE, R.id.RECONFIGURE_COMMAND, 0, R.string.menu_reconfigure)
             }
         }
         super.onCreateContextMenu(menu, v, menuInfo)
