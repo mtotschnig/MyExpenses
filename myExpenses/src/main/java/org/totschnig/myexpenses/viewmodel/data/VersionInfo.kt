@@ -88,6 +88,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             "348" -> arrayOf(
                 "${t(R.string.pref_translation_title)} : ${Locale("nl").displayLanguage}",
             )
+            "349" -> arrayOf(
+                "${t(R.string.synchronization)} (WebDAV): ${t(R.string.menu_reconfigure)}",
+                "${t(R.string.pref_translation_title)} : ${Locale("ur").displayLanguage}",
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",
