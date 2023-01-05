@@ -1013,4 +1013,5 @@
     <string name="content_description_attachment">Anhang</string>
     <string name="redesign">Neugestaltung</string>
     <string name="select_all_list_too_large">Der Befehl %s ist nicht verfügbar, da die Liste nur teilweise geladen ist. Bitte verwenden Sie die Suchfunktion, um die Größe der Liste zu reduzieren.</string>
+    <string name="menu_reconfigure">Neu konfigurieren</string>
 </resources>
