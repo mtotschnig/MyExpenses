@@ -690,4 +690,34 @@
     <string name="pref_debug_logging_summary">اطلاعات اشکال زدایی را در گزارش سیستم بنویسید</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">دسته بندی درختی</string>
     <string name="dialog_contrib_usage_limit_with_dialog">با وضعیت مجوز فعلی شما (%1$s)، این گفتگو در هر استفاده، نمایش داده می شود.</string>
+    <string name="ad_consent_non_personalized">تبلیغات شخصی سازی نشده</string>
+    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">بله، ادامه دادن دیدن تبلیغات</string>
+    <string name="content_description_clear_method">پاک کردن شیوه</string>
+    <string name="budget_exceeded_error_1_1">تمام بودجهٔ شما به جز %s به دسته‌های دیگر اختصاص داده شده است.</string>
+    <string name="sub_budget_exceeded_error_1_2">تمام مبلغ اختصاص یافته به دسته اصلی به سایر زیردسته‌ها اختصاص یافته است.</string>
+    <string name="ungroup_split_transaction_success">تراکنش چندبخشی با موفقیت تجزیه شد.</string>
+    <string name="pref_transaction_time_summary">اجازه دادن به تنظیم دقیق زمان تراکنش.</string>
+    <string name="split_transaction_group_success">%1$d تراکنش با موفقیت به چندبخشی تبدیل شدند.</string>
+    <string name="navigation_drawer_accounts_title">مدیریت حساب ها</string>
+    <string name="sub_budget_exceeded_error_2">مقدار تخصیص یافته به دسته اصلی را افزایش دهید یا پول را از زیردسته‌های دیگر حذف کنید.</string>
+    <string name="warning_ungroup_split_transactions">تراکنش‌های چند‌بخشی انتخاب شده تجزیه خواهند شد. به این صورت که بخش‌های آن‌ها تبدیل به تراکنش های عادی می‌شوند.</string>
+    <string name="pref_sync_wifi_only_summary">فقط هنگام اتصال به Wi-Fi همگام‌سازی شود</string>
+    <string name="clear_all_filters">پاک کردن تمام فیلترها</string>
+    <string name="menu_create_template_for_split">قالب چند‌بخشی جدید</string>
+    <string name="credit_limit">محدودیت اعتبار</string>
+    <string name="pref_category_title_privacy">حریم خصوصی</string>
+    <string name="pref_ad_consent_title">تبلیغات شخصی سازی شده</string>
+    <string name="sort_order">ترتیب چینش</string>
+    <string name="budget_exceeded_error_1_2">تمام بودجه شما به دسته‌های دیگر اختصاص یافته است.</string>
+    <string name="pref_sync_changes_immediately_summary">ارسال تغییرات محلی بلافاصله به سرور</string>
+    <string name="menu_ungroup_split_transaction">تجزیه کردن</string>
+    <string name="split_transaction_one_success">تراکنش با موفقیت به چندبخشی تبدیل شد.</string>
+    <string name="split_transaction_not_possible">تنها تراکنش‌هایی که حساب، دریافت‌کننده و وضعیت یکسانی دارند را می توان در یک تراکنش چندبخشی گروه‌بندی کرد.</string>
+    <string name="pref_scroll_to_current_date_summary">پس از اجرای برنامه، لیست تراکنش به تاریخ فعلی پیمایش شود</string>
+    <string name="budget_table_header_allocated">اختصاص داده شده</string>
+    <string name="budget_allocated_amount">مبلغ اختصاص داده شده</string>
+    <string name="plan_custom_recurrence_info">لطفاً ابتدا قالب را ذخیره کنید. سپس برنامه در برنامهٔ تقویم باز خواهد شد و می‌توانید یک تکرارشوندهٔ سفارشی بسازید.</string>
+    <string name="warning_split_transactions">تراکنش‌های انتخاب شده به یک تراکنش چندبخشی گروه‌بندی خواهند شد. اطلاعات تاریخ آنها از دست خواهد رفت (میانگین آنها جایگزین می شود).</string>
+    <string name="wifi_not_connected">دستگاه به Wi-Fi متصل نیست. همگام‌سازی به تعویق افتاد.</string>
+    <string name="budget_exceeded_error_2">مقدار بودجه را افزایش دهید یا پول را از دسته‌های دیگر حذف کنید.</string>
 </resources>
