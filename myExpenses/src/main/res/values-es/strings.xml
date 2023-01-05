@@ -1026,4 +1026,5 @@
     <string name="dialog_confirm_rollover_delete">Todas las transferencias se eliminarán durante este período.</string>
     <string name="upgrade_info_557">¿Qué le parece el nuevo diseño\? Por favor háznoslo saber. Se puede activar una variante que se acerca más al diseño anterior en la configuración (%1$s -&gt; %2$s).</string>
     <string name="select_all_list_too_large">El comando %s no está disponible porque la lista solo está parcialmente cargada. Utilice la función de búsqueda para reducir el tamaño de la lista.</string>
+    <string name="menu_reconfigure">Reconfigurar</string>
 </resources>
