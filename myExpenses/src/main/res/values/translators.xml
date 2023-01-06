@@ -110,6 +110,12 @@
         <item>Abuyop</item>
     </string-array>
 
+    <string-array name="translators_nl">
+        <item>Erik Paelman</item>
+        <item>Birdibird</item>
+        <item>Rudi Timmermans</item>
+    </string-array>
+
     <string-array name="translators_pl">
         <item>Marcin Kralka</item>
         <item>Przemysław Kuciel</item>
@@ -167,6 +173,10 @@
         <item>Володимир Галандзій</item>
         <item>Ігор Красилівський</item>
         <item>Дмитро Савицький</item>
+    </string-array>
+
+    <string-array name="translators_ur">
+        <item>Nabeel (nabeelhassan1295@gmail.com)</item>
     </string-array>
 
     <string-array name="translators_vi">
