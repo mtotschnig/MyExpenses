@@ -19,6 +19,31 @@
             select="replace(replace($trim,concat('\\',$apostrophe),$apostrophe),concat('\\',$quote),$quote)" />
     </xsl:template>
 
+    <!-- WIP     -->
+<!--    <xsl:template name="resolveWithFallBack">
+        <xsl:param name="lang" />
+        <xsl:param name="resource" />
+        <xsl:param name="name" />
+        <xsl:variable name="localResource">
+            <xsl:call-template name="values-dir">
+                <xsl:with-param name="lang" select="$lang" />
+            </xsl:call-template>
+            <xsl:text>/</xsl:text>
+            <xsl:value-of select="$resource" />
+            <xsl:text>.xml</xsl:text>
+        </xsl:variable>
+        <xsl:variable name="fallbackResource">
+            <xsl:call-template name="values-dir">
+                <xsl:with-param name="lang" select="'en'" />
+            </xsl:call-template>
+            <xsl:text>/</xsl:text>
+            <xsl:value-of select="$resource" />
+            <xsl:text>.xml</xsl:text>
+        </xsl:variable>
+        <xsl:apply-templates mode="unescape"
+            select="document($localResource)/resources/string[@name=$name]" />
+    </xsl:template>-->
+
     <xsl:template name="special-version-info">
         <xsl:param name="version" />
         <xsl:param name="strings" />
@@ -278,6 +303,22 @@
                     select="document($strings)/resources/string[@name='pref_translation_title']" />
                 <xsl:text>:&#032;</xsl:text>
                 <xsl:value-of select="my:displayNameForLanguage('nl', $lang)" />
+            </xsl:when>
+            <xsl:when test="$version = '3.4.9'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='synchronization']" />
+                <xsl:text> (WebDAV):&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='menu_reconfigure']" />
+
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='pref_translation_title']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:value-of select="my:displayNameForLanguage('ur', $lang)" />
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
