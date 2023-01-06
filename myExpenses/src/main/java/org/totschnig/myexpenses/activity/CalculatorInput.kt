@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
+import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -90,6 +91,8 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu) = false //no help at the moment
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
         menu.add(0, v.id, 0, "Paste")

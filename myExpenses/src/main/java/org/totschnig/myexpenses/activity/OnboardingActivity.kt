@@ -47,10 +47,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         binding.viewPager.offscreenPageLimit = 2
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        //skip Help
-        return true
-    }
+    override fun onCreateOptionsMenu(menu: Menu) = false //skip help
 
     fun navigateNext() {
         val currentItem = binding.viewPager.currentItem
