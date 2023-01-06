@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="does_not_repeat">ایک بار کا واقعہ</string>
+    <string name="endByDate">; %s تک</string>
+    <plurals name="endByCount">
+        <item quantity="one">; ایک وقت کے لیے</item>
+        <item quantity="other">; %d بار کے لیے</item>
+    </plurals>
+    <plurals name="daily">
+        <item quantity="one">روزانہ</item>
+        <item quantity="other">ہر %d دن بعد</item>
+    </plurals>
+    <string name="every_weekday">"ہر ہفتے کے دن (پیر\u2013 جمعہ)"</string>
+    <plurals name="weekly">
+        <item quantity="one">ہفتہ وار %2$s کو</item>
+        <item quantity="other">ہر %1$d ہفتے بعد %2$s کو</item>
+    </plurals>
+
+    <plurals name="monthly">
+        <item quantity="one">ماہانہ</item>
+        <item quantity="other">ہر %d ماہ بعد</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">سالانہ</item>
+        <item quantity="other">ہر %d سال بعد</item>
+    </plurals>
+    <string name="monthly_on_day">" (دن %s پر)"</string>
+    <string name="yearly_on_day">" (%s پر)"</string>
+
+    <string name="yearly_plain">سالانہ</string>
+    <string name="daily_plain">روزانہ</string>
+    <string name="weekly_plain">ہفتہ وار</string>
+    <string name="monthly_plain">ماہانہ</string>
+
+    <string-array name="repeat_by_nth_sun">
+        <item >ہر پہلے اتوار کو</item>
+        <item >ہر دوسرے اتوار کو</item>
+        <item >ہر تیسرے اتوار کو</item>
+        <item >ہر چوتھے اتوار کو</item>
+        <item >ہر آخری اتوار کو</item>
+    </string-array>
+    <string-array name="repeat_by_nth_mon">
+        <item >ہر پہلے پیر کو</item>
+        <item >ہر دوسرے پیر کو</item>
+        <item >ہر تیسرے پیر کو</item>
+        <item >ہر چوتھے پیر کو</item>
+        <item >ہر آخری پیر کو</item>
+    </string-array>
+    <string-array name="repeat_by_nth_tues">
+        <item >ہر پہلے منگل کو</item>
+        <item >ہر دوسرے منگل کو</item>
+        <item >ہر تیسرے منگل کو</item>
+        <item >ہر چوتھے منگل کو</item>
+        <item >ہر آخری منگل کو</item>
+    </string-array>
+    <string-array name="repeat_by_nth_wed">
+        <item >ہر پہلے بدھ کو</item>
+        <item >ہر دوسرے بدھ کو</item>
+        <item >ہر تیسرے بدھ کو</item>
+        <item >ہر چوتھے بدھ کو</item>
+        <item >ہر آخری بدھ کو</item>
+    </string-array>
+    <string-array name="repeat_by_nth_thurs">
+        <item >ہر پہلی جمعرات کو</item>
+        <item >ہر دوسری جمعرات کو</item>
+        <item >ہر تیسرے جمعرات کو</item>
+        <item >ہر چوتھی جمعرات کو</item>
+        <item >ہر آخری جمعرات کو</item>
+    </string-array>
+    <string-array name="repeat_by_nth_fri">
+        <item >ہر پہلے جمعہ کو</item>
+        <item >ہر دوسرے جمعہ کو</item>
+        <item >ہر تیسرے جمعہ کو</item>
+        <item >ہر چوتھے جمعہ کو</item>
+        <item >ہر آخری جمعہ کو</item>
+    </string-array>
+    <string-array name="repeat_by_nth_sat">
+        <item >ہر پہلے ہفتہ کو</item>
+        <item >ہر دوسرے ہفتہ کو</item>
+        <item >ہر تیسرے ہفتہ کو</item>
+        <item >ہر چوتھے ہفتہ کو</item>
+        <item >ہر آخری ہفتہ کو</item>
+    </string-array>
+</resources>
