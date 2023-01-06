@@ -1015,4 +1015,5 @@
     </plurals>
     <string name="pref_csv_export_split_amount_summary">Usa colonne separate per entrate e spese</string>
     <string name="select_all_list_too_large">Il comando %s non è disponibile perché l\'elenco è caricato solo parzialmente. Si prega di utilizzare la funzionalità di Ricerca per ridurre le dimensioni dell\'elenco.</string>
+    <string name="menu_reconfigure">Riconfigurare</string>
 </resources>
