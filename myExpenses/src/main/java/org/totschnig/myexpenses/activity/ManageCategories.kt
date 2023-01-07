@@ -9,24 +9,15 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PlaylistAdd
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -53,11 +44,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.configureSearch
-import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.prepareSearch
-import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
@@ -102,15 +89,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
     }
 
     private fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.filter = if (newText.isNullOrEmpty()) {
-            ""
-            //configureImportButton(true)
-        } else {
-            newText
-            // if a filter results in an empty list,
-            // we do not want to show the setup default categories button
-            //configureImportButton(false)
-        }
+        viewModel.filter = if (newText.isNullOrEmpty()) "" else newText
         return true
     }
 
@@ -223,13 +202,15 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                     horizontalAlignment = CenterHorizontally
                                 ) {
                                     Text(text = stringResource(id = R.string.no_categories))
-                                    Button(onClick = { importCats() }) {
-                                        Column(horizontalAlignment = CenterHorizontally) {
-                                            Icon(
-                                                imageVector = Icons.Filled.PlaylistAdd,
-                                                contentDescription = null
-                                            )
-                                            Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                                    if (viewModel.filter.isNullOrBlank()) {
+                                        Button(onClick = { importCats() }) {
+                                            Column(horizontalAlignment = CenterHorizontally) {
+                                                Icon(
+                                                    imageVector = Icons.Filled.PlaylistAdd,
+                                                    contentDescription = null
+                                                )
+                                                Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                                            }
                                         }
                                     }
                                 }
