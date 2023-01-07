@@ -336,8 +336,6 @@ document.write("Please refer to the transaction ID "+ transactionId + " .");
         {% if msg.permissions.heading %}{{msg.permissions.heading | replace:placeholder, site.title[pagelang]}}{% else %}{{site.data.en.en.permissions.heading | replace:placeholder, site.title[pagelang]}}{% endif %} :
     </p>
     <dl>
-        <dt>{% if msg.permissions.external-storage.label %}{{msg.permissions.external-storage.label}}{% else %}{{site.data.en.en.permissions.external-storage.label}}{% endif %}</dt>
-        <dd>{% if msg.permissions.external-storage.explanation %}{{msg.permissions.external-storage.explanation}}{% else %}{{site.data.en.en.permissions.external-storage.explanation}}{% endif %}</dd>
         <dt>{% if msg.permissions.calendar.label %}{{msg.permissions.calendar.label}}{% else %}{{site.data.en.en.permissions.calendar.label}}{% endif %}</dt>
         <dd>{% if msg.permissions.calendar.explanation %}{{msg.permissions.calendar.explanation}}{% else %}{{site.data.en.en.permissions.calendar.explanation}}{% endif %}</dd>
         <dt>{% if msg.permissions.internet.label %}{{msg.permissions.internet.label}}{% else %}{{site.data.en.en.permissions.internet.label}}{% endif %}</dt>
