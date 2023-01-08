@@ -25,7 +25,10 @@ import android.widget.CompoundButton
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +41,7 @@ import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.Icepick
 import icepick.State
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
@@ -154,7 +158,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     .setIcon(R.drawable.ic_menu_delete)
                 if (action == ACTION_MANAGE) {
                     val debts = viewModel.getDebts(getItem(position).party.id)
-                    val subMenu = if (debts?.size ?: 0 > 0)
+                    val subMenu = if ((debts?.size ?: 0) > 0)
                         menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debts)
                             .setIcon(R.drawable.balance_scale) else menu
                     debts?.forEachIndexed { index, debt ->
@@ -316,10 +320,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     @State
     @JvmField
-    var filter: String? = null
-
-    @State
-    @JvmField
     var mergeMode: Boolean = false
 
 
@@ -351,6 +351,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         adapter.onSaveInstanceState(outState)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (activity == null) return
         inflater.inflate(R.menu.search, menu)
@@ -366,6 +367,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         configureSearch(requireActivity(), menu, ::onQueryTextChange)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.MERGE_COMMAND -> {
@@ -394,32 +396,21 @@ class PartiesList : Fragment(), OnDialogResultListener {
         adapter.notifyDataSetChanged()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         mergeMenuItem?.let {
             it.isChecked = mergeMode
         }
-        prepareSearch(menu, filter)
+        prepareSearch(menu, viewModel.filter)
         menu.findItem(R.id.DEBT_COMMAND)?.let { menuItem ->
             menuItem.isVisible = adapter.currentList.any { it.party.mappedDebts }
         }
     }
 
     private fun onQueryTextChange(newText: String): Boolean {
-        with(newText.takeIf { !it.isEmpty() }) {
-            if (this != filter) {
-                filter = this
-                loadParties()
-            }
-        }
+        viewModel.filter = newText
         return true
-    }
-
-    private fun loadParties() {
-        viewModel.loadParties(
-            filter,
-            requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0)
-        )
     }
 
     private val action: String
@@ -445,34 +436,40 @@ class PartiesList : Fragment(), OnDialogResultListener {
         adapter = PayeeAdapter()
         savedInstanceState?.let { adapter.onRestoreInstanceState(it) }
         binding.list.adapter = adapter
-        viewModel.getParties().observe(viewLifecycleOwner) { parties: List<Party> ->
-            if (filter.isNullOrEmpty()) {
-                activity?.invalidateOptionsMenu()
-            }
-            if (action != ACTION_SELECT_FILTER) {
-                binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
-                binding.list.visibility = if (parties.isEmpty()) View.GONE else View.VISIBLE
-            }
-            val elements = parties.map { PartyWrapper(it) }
-            adapter.submitList(
-                if (action == ACTION_SELECT_FILTER)
-                    listOf(
-                        PartyWrapper(
-                            Party(
-                                NULL_ITEM_ID,
-                                getString(R.string.unmapped),
-                                mappedTransactions = false,
-                                mappedTemplates = false,
-                                mappedDebts = false
-                            )
-                        )
-                    ).plus(elements)
-                else
-                    elements
-            )
-        }
         viewModel.loadDebts().observe(viewLifecycleOwner) {
-            loadParties()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.parties(requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0))
+                        .collect { parties: List<Party> ->
+                            if (viewModel.filter.isNullOrEmpty()) {
+                                activity?.invalidateOptionsMenu()
+                            }
+                            if (action != ACTION_SELECT_FILTER) {
+                                binding.empty.visibility =
+                                    if (parties.isEmpty()) View.VISIBLE else View.GONE
+                                binding.list.visibility =
+                                    if (parties.isEmpty()) View.GONE else View.VISIBLE
+                            }
+                            val elements = parties.map { PartyWrapper(it) }
+                            adapter.submitList(
+                                if (action == ACTION_SELECT_FILTER)
+                                    listOf(
+                                        PartyWrapper(
+                                            Party(
+                                                NULL_ITEM_ID,
+                                                getString(R.string.unmapped),
+                                                mappedTransactions = false,
+                                                mappedTemplates = false,
+                                                mappedDebts = false
+                                            )
+                                        )
+                                    ).plus(elements)
+                                else
+                                    elements
+                            )
+                        }
+                }
+            }
         }
         return binding.root
     }
