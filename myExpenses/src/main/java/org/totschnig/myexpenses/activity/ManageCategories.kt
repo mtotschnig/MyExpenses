@@ -88,8 +88,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
         return true
     }
 
-    private fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.filter = if (newText.isNullOrEmpty()) "" else newText
+    private fun onQueryTextChange(newText: String): Boolean {
+        viewModel.filter = newText
         return true
     }
 
