@@ -136,7 +136,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
             defaultSortOrder = viewModel.defaultSort,
             prefKey = PrefKey.SORT_ORDER_CATEGORIES,
             options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
-            prefHandler = prefHandler
+            prefHandler = prefHandler,
+            collate = collate
         )
         parentSelectionOnTap.value = prefHandler.getBoolean(
             PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP,

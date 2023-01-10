@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.DateInfo2
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
+import javax.inject.Named
 import kotlin.collections.set
 
 const val KEY_ROW_IDS = "rowIds"
@@ -82,6 +83,10 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     @Inject
     lateinit var dataStore: DataStore<Preferences>
+
+    @Inject
+    @Named("collate")
+    lateinit var collate: String
 
     private val bulkDeleteStateInternal: MutableStateFlow<DeleteState?> = MutableStateFlow(null)
     val bulkDeleteState: StateFlow<DeleteState?> = bulkDeleteStateInternal

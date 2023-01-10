@@ -5,7 +5,6 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.os.Bundle
-import androidx.core.database.getStringOrNull
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -83,7 +82,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 .build(), arrayOf(KEY_ROWID, KEY_TITLE),
             "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
             null,
-            Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES),
+            Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES, collate),
             false
         )
             .mapToList { DataTemplate.fromCursor(it) }

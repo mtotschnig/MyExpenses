@@ -134,7 +134,7 @@ android {
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit (+ at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore') and/or tesseract module
     //drive for Sync with Google Drive
-    dynamicFeatures = [':ocr', ':webui', ':dropbox', ':webdav']
+    dynamicFeatures = [':ocr', ':webui', ':dropbox', ':webdav', ':sqlcrypt']
 
     composeOptions {
         kotlinCompilerExtensionVersion compose_compiler_version

@@ -23,13 +23,15 @@
 
 package org.totschnig.myexpenses.util.crypt;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PushbackInputStream;
 import java.io.SequenceInputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
@@ -44,9 +46,6 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 //Credits: https://github.com/andOTP/andOTP
 public class EncryptionHelper {
@@ -130,7 +129,7 @@ public class EncryptionHelper {
     }
     byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
     read(inputStream, iv);
-    SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword(password);
+    SecretKey key = generateSymmetricKeyFromPassword(password);
     final Cipher cipher = Cipher.getInstance(ALGORITHM_SYMMETRIC);
     cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
     return new CipherInputStream(inputStream, cipher);

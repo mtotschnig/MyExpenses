@@ -67,6 +67,7 @@ import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
 import javax.inject.Inject
+import javax.inject.Named
 
 const val KEY_INSTANCES = "instances"
 const val DIALOG_TAG_CONFIRM_CANCEL = "confirm_cancel"
@@ -111,6 +112,10 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    @Named("collate")
+    lateinit var collate: String
 
     lateinit var viewModel: TemplatesListViewModel
 
@@ -399,7 +404,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 null,
                 DatabaseConstants.KEY_PARENTID + " is null",
                 null,
-                preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES)
+                preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES, collate)
             )
         } else throw IllegalArgumentException()
     }

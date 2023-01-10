@@ -48,7 +48,7 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                 .build()
             contentResolver.observeQuery(
                 uri = tagsUri,
-                sortOrder = "$KEY_LABEL COLLATE LOCALIZED",
+                sortOrder = "$KEY_LABEL COLLATE $collate",
                 notifyForDescendants = true
             ).mapToList { cursor ->
                 Tag(

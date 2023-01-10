@@ -75,6 +75,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @Inject
     lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
 
+    @Inject
+    @Named("collate")
+    lateinit var collate: String
+
     val wrappedContext: Context
         get() = userLocaleProvider.wrapContext(context!!)
 

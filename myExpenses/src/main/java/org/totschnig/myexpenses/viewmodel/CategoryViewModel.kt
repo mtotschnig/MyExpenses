@@ -116,7 +116,7 @@ open class CategoryViewModel(
         categoryTree(
             selection = selection,
             selectionArgs = selectionArgs,
-            sortOrder = sortOrder.toOrderByWithDefault(defaultSort),
+            sortOrder = sortOrder.toOrderByWithDefault(defaultSort, collate),
             projection = null,
             keepCriteria = null,
             withColors = false
@@ -125,7 +125,7 @@ open class CategoryViewModel(
         .stateIn(viewModelScope, SharingStarted.Lazily, Category.LOADING)
 
     val categoryTreeForSelect: Flow<Category>
-        get() = categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort))
+        get() = categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
 
     fun categoryTree(
         selection: String? = null,

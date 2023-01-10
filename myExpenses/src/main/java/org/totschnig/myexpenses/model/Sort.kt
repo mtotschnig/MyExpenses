@@ -17,26 +17,26 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
     ALLOCATED(R.id.SORT_ALLOCATED_COMMAND),
     SPENT(R.id.SORT_SPENT_COMMAND);
 
-    private fun toDatabaseColumn() = when (this) {
+    private fun toDatabaseColumn(collate: String) = when (this) {
         USAGES -> DatabaseConstants.KEY_USAGES
         LAST_USED -> DatabaseConstants.KEY_LAST_USED
         AMOUNT -> "abs(${DatabaseConstants.KEY_AMOUNT})"
-        TITLE -> DatabaseConstants.KEY_TITLE + " COLLATE LOCALIZED"
-        LABEL -> DatabaseConstants.KEY_LABEL + " COLLATE LOCALIZED"
+        TITLE -> DatabaseConstants.KEY_TITLE + " COLLATE $collate"
+        LABEL -> DatabaseConstants.KEY_LABEL + " COLLATE $collate"
         CUSTOM -> DatabaseConstants.KEY_SORT_KEY
         ALLOCATED -> DatabaseConstants.KEY_BUDGET
         SPENT -> "-${DatabaseConstants.KEY_SUM}"
         else -> null
     }
 
-    fun toOrderBy() = toDatabaseColumn()?.let {
+    fun toOrderBy(collate: String) = toDatabaseColumn(collate)?.let {
         if (isDescending) "$it DESC" else it
     }
 
-    fun toOrderByWithDefault(defaultSort: Sort): String? {
-        val orderBy = toOrderBy()
+    fun toOrderByWithDefault(defaultSort: Sort, collate: String): String? {
+        val orderBy = toOrderBy(collate)
         return if (orderBy == null || this == defaultSort) orderBy else
-            orderBy + ", " + defaultSort.toOrderBy()
+            orderBy + ", " + defaultSort.toOrderBy(collate)
     }
 
     companion object {
@@ -54,49 +54,47 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
             return null
         }
 
-        fun preferredOrderByForBudgets(
-            prefKey: PrefKey,
+        fun preferredOrderByForTemplates(
             prefHandler: PrefHandler,
-            defaultSort: Sort
+            defaultSort: Sort,
+            collate: String = "NOCASE"
         ) =
-            preferredOrderByRestricted(prefKey, prefHandler, defaultSort, budgetSort)
-
-        fun preferredOrderByForCategories(
-            prefKey: PrefKey,
-            prefHandler: PrefHandler,
-            defaultSort: Sort
-        ) =
-            preferredOrderByRestricted(prefKey, prefHandler, defaultSort, categorySort)
-
-        fun preferredOrderByForTemplates(prefHandler: PrefHandler, defaultSort: Sort) =
             preferredOrderByRestricted(
                 PrefKey.SORT_ORDER_TEMPLATES,
                 prefHandler,
                 defaultSort,
-                templateSort
+                templateSort,
+                collate
             )
 
-        fun preferredOrderByForTemplatesWithPlans(prefHandler: PrefHandler, defaultSort: Sort) =
+        fun preferredOrderByForTemplatesWithPlans(
+            prefHandler: PrefHandler,
+            defaultSort: Sort,
+            collate: String = "NOCASE"
+        ) =
             preferredOrderByRestricted(
                 PrefKey.SORT_ORDER_TEMPLATES,
                 prefHandler,
                 defaultSort,
-                templateWithPlansSort
+                templateWithPlansSort,
+                collate
             )
 
         fun preferredOrderByForAccounts(
             prefKey: PrefKey,
             prefHandler: PrefHandler,
-            defaultSort: Sort
+            defaultSort: Sort,
+            collate: String
         ) =
-            preferredOrderByRestricted(prefKey, prefHandler, defaultSort, accountSort)
+            preferredOrderByRestricted(prefKey, prefHandler, defaultSort, accountSort, collate)
 
         //returns null if the preferred Sort has null toOrderBy, otherwise the preferred Sort (with defaultOrderBy as secondary sort), otherwise the defaultOrderBy
         fun preferredOrderByRestricted(
             prefKey: PrefKey,
             prefHandler: PrefHandler,
             defaultSort: Sort,
-            restrictedSet: Array<Sort>
+            restrictedSet: Array<Sort>,
+            collate: String
         ): String? {
             if (!restrictedSet.contains(defaultSort)) throw java.lang.IllegalArgumentException(
                 "%s is not part of %s".format(defaultSort, restrictedSet)
@@ -109,9 +107,9 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
             )?.takeIf {
                 restrictedSet.contains(it)
             } ?: defaultSort
-            val orderBy = configuredOrDefault.toOrderBy()
+            val orderBy = configuredOrDefault.toOrderBy(collate)
             return if (orderBy == null || configuredOrDefault == defaultSort) orderBy else
-                orderBy + ", " + defaultSort.toOrderBy()
+                orderBy + ", " + defaultSort.toOrderBy(collate)
         }
     }
 }

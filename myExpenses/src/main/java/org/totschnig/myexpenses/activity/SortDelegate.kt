@@ -12,7 +12,8 @@ class SortDelegate(
     val defaultSortOrder: Sort,
     val prefKey: PrefKey,
     val options: Array<Sort>,
-    val prefHandler: PrefHandler
+    val prefHandler: PrefHandler,
+    val collate: String
 ) {
     fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.SORT_COMMAND)?.subMenu?.findItem(currentSortOrder.commandId)?.isChecked = true
@@ -28,9 +29,9 @@ class SortDelegate(
     val sortOrder: String?
         get() {
             val configuredOrDefault = currentSortOrder
-            val orderBy = configuredOrDefault.toOrderBy()
+            val orderBy = configuredOrDefault.toOrderBy(collate)
             return if (orderBy == null || configuredOrDefault == defaultSortOrder) orderBy else
-                orderBy + ", " + defaultSortOrder.toOrderBy()
+                orderBy + ", " + defaultSortOrder.toOrderBy(collate)
         }
 
     val currentSortOrder: Sort

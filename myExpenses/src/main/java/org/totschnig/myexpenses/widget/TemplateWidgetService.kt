@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.requireLong
 import org.totschnig.myexpenses.util.formatMoney
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class TemplateWidgetService : RemoteViewsService() {
@@ -42,6 +43,10 @@ class TemplateRemoteViewsFactory(
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Inject
+    @Named("collate")
+    lateinit var collate: String
+
     init {
         (context.applicationContext as MyApplication).appComponent.inject(this)
     }
@@ -50,7 +55,7 @@ class TemplateRemoteViewsFactory(
         return context.contentResolver.query(
                 TransactionProvider.TEMPLATES_URI, null, String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",
                 KEY_PLANID, KEY_PARENTID, KEY_SEALED),
-                null, preferredOrderByForTemplates(prefHandler, Sort.TITLE))
+                null, preferredOrderByForTemplates(prefHandler, Sort.TITLE, collate))
     }
 
     override fun RemoteViews.populate(cursor: Cursor) {

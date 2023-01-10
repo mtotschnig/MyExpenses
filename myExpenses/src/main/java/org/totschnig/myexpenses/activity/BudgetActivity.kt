@@ -72,7 +72,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             defaultSortOrder = Sort.ALLOCATED,
             prefKey = PrefKey.SORT_ORDER_BUDGET_CATEGORIES,
             options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT),
-            prefHandler = prefHandler
+            prefHandler = prefHandler,
+            collate = collate
         )
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
         val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)

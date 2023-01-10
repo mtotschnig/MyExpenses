@@ -23,6 +23,10 @@ import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import javax.inject.Named
 import javax.inject.Singleton
 
+interface SqlCryptProvider {
+    fun provideEncryptedDatabase():  SupportSQLiteOpenHelper.Factory
+}
+
 @Module
 open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) {
     @Provides
@@ -64,10 +68,21 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
 
     @Singleton
     @Provides
+    @Named("collate")
+    fun provideCollate(): String = if (true) "NOCASE" else "LOCALIZED"
+
+    @Singleton
+    @Provides
     fun provideSQLiteOpenHelperFactory(appContext: MyApplication): SupportSQLiteOpenHelper.Factory =
-        if (frameWorkSqlite) FrameworkSQLiteOpenHelperFactory() else {
-            ReLinker.loadLibrary(appContext, io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME)
-            RequerySQLiteOpenHelperFactory()
+        when {
+            true ->
+                (Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory").newInstance() as SqlCryptProvider)
+                    .provideEncryptedDatabase()
+            frameWorkSqlite -> FrameworkSQLiteOpenHelperFactory()
+            else -> {
+                ReLinker.loadLibrary(appContext, io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME)
+                RequerySQLiteOpenHelperFactory()
+            }
         }
 
     @Singleton
