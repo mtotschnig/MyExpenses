@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import androidx.datastore.core.DataStore
@@ -24,7 +25,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 interface SqlCryptProvider {
-    fun provideEncryptedDatabase():  SupportSQLiteOpenHelper.Factory
+    fun provideEncryptedDatabase(context: Context):  SupportSQLiteOpenHelper.Factory
 }
 
 @Module
@@ -77,7 +78,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
         when {
             true ->
                 (Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory").newInstance() as SqlCryptProvider)
-                    .provideEncryptedDatabase()
+                    .provideEncryptedDatabase(appContext)
             frameWorkSqlite -> FrameworkSQLiteOpenHelperFactory()
             else -> {
                 ReLinker.loadLibrary(appContext, io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME)
