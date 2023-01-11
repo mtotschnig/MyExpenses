@@ -874,4 +874,81 @@
     <string name="bug_fixes">Correções de erros</string>
     <string name="new_version">Nova versão</string>
     <string name="pref_news_title">Notícias</string>
+    <string name="debts">Dívidas</string>
+    <string name="account_deleted">A conta foi apagada</string>
+    <string name="recurrence_last_day_of_month">Último dia</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">Melhoria de performance</string>
+    <string name="warning_party_delete_debt">Ao apagar esse parceiro, as dívidas lhe associadas serão excluídas também.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">A dívida %1$s tem %2$d transação mapeada.</item>
+        <item quantity="many">A dívida %1$s tem %2$d transações mapeadas.</item>
+        <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
+    </plurals>
+    <string name="whats_new_338">Hierarquia de categorias arbitrariamente profunda</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de purgar ficheiros</string>
+    <string name="pref_purge_backup_keep_title">Quantidade máxima de backups recentes a serem preservados</string>
+    <string name="dialog_title_warning_delete_party">Apagar parceiro\?</string>
+    <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações de beneficiário/pagador e da categoria serão descartadas.</string>
+    <string name="account_widget_configuration_sum_total">Incluir transações futuras</string>
+    <string name="account_widget_configuration">Configuração do widget de conta</string>
+    <string name="menu_merge">Unificar</string>
+    <string name="merge_parties_select">Selecione o nome do parceiro unificado:</string>
+    <string name="active_tags">Etiquetas ativas</string>
+    <string name="request_for_invoice">Pedido de fatura</string>
+    <string name="auto_fill_focus">Definir foco no beneficiário</string>
+    <string name="warning_plan_instance_delete">A transação criada para a data selecionada será apagada.</string>
+    <string name="backup_save_to_sync_backend">Gravar em %s</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">Melhorias de estabilidade</string>
+    <string name="debt">Dívida</string>
+    <string name="dialog_title_delete_debt">Apagar a dívida\?</string>
+    <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
+    <string name="debt_managment">Gestão de dívidas</string>
+    <string name="title_activity_debt_overview">Visão geral da dívida</string>
+    <string name="pref_mlkit_script_title">Script para MlKit</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Uma categoria foi atualizada com ícone.</item>
+        <item quantity="many">%1$d categorias foram atualizadas com ícones.</item>
+        <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
+    </plurals>
+    <string name="whats_new_336_1">Compartilhar o resumo da dívida</string>
+    <string name="dialog_title_purge_backups">Expurgar backups antigos</string>
+    <string name="purge_backups">Os seguintes backups antigos serão excluídos:</string>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Não foi possível apagar um ficheiro de backup antigo.</item>
+        <item quantity="many">Não foi possível apagar %d ficheiros de backup antigos.</item>
+        <item quantity="other">Não foi possível apagar %d ficheiros de backup antigos.</item>
+    </plurals>
+    <string name="pref_debug_logging_share_summary">Compartilhar ficheiros de registo</string>
+    <string name="whats_new_340">Campos de anotação permitem múltiplas linhas.</string>
+    <string name="webui_warning_move_transaction">A transação será movida para a conta {account}.</string>
+    <string name="pref_csv_export_split_categories_summary">Usa colunas separadas para cada nível da hierarquia de categoria</string>
+    <string name="pref_csv_export_split_amount_summary">Usa colunas separadas para receitas e despesas</string>
+    <string name="pref_csv_export_split_date_time_summary">Usa colunas separadas para data e hora</string>
+    <string name="required">Obrigatório</string>
+    <string name="budget_only_current_period">Definido somente para %s</string>
+    <string name="budget_table_header_rollover">Prorrogar</string>
+    <string name="rollover_edit_invalid">A soma da prorrogação atribuída a uma categoria e das prorrogações atribuídas às subcategorias não pode exceder o restante.</string>
+    <string name="dialog_confirm_rollover_delete">Todos os montantes de prorrogações para este período serão excluídos.</string>
+    <string name="content_description_attachment">Anexo</string>
+    <string name="redesign">Redesenhar</string>
+    <string name="upgrade_info_557">O que acha do novo visual\? Por favor, nos informe. Uma variante mais próxima do visual antigo pode ser ativada nas Configurações (%1$s -&gt; %2$s).</string>
+    <string name="account_widget_configuration_sum">Tipo de soma exibida</string>
+    <string name="ui_refinement">Melhorias na interface do utilizador</string>
+    <string name="menu_new_debt">Nova dívida</string>
+    <string name="debt_owes_me">%s me deve</string>
+    <string name="debt_I_owe">Devo para %s</string>
+    <string name="cb_label_merge_accounts">Fundir contas</string>
+    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Árvore de categorias</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Devido ao status atual da sua licença (%1$s), este diálogo será exibido a cada utilização.</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Um ficheiro de backup antigo foi apagado.</item>
+        <item quantity="many">%d ficheiros de backup antigos foram apagados.</item>
+        <item quantity="other">%d ficheiros de backup antigos foram apagados.</item>
+    </plurals>
+    <string name="select_all_list_too_large">O comando %s não está disponível porque a lista foi apenas parcialmente carregada. Por favor, use a funcionalidade Pesquisar para reduzir o tamanho da lista.</string>
+    <string name="whats_new_336_2">Etiquetas para as partes da divisão</string>
+    <string name="setup_completed">Configuração concluída</string>
+    <string name="icons_for_categories">Ícones para categorias</string>
+    <string name="menu_parent_category_selection">Selecionar a categoria mãe no toque breve</string>
+    <string name="menu_reconfigure">Reconfigurar</string>
 </resources>
