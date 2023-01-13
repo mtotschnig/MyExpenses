@@ -9,6 +9,19 @@
     <string name="drawer_close">Close navigation drawer</string>
     <!-- packages/apps/Settings/res/values/strings.xml wifi_add_app_single_network_saving_summary -->
     <string name="saving">Saving…</string>
+    <!-- name="vpn_no_network" -->
+    <string name="no_network">There is no network connection.</string>
+    <!-- name="encryption_continue_button" -->
+    <string name="button_label_continue">Continue</string>
+    <string name="permissions_label">Permissions</string>
+    <!-- name = time_format_category_title -->
+    <string name="time_format">Time format</string>
+    <!-- name="clear_cache_btn_text" -->
+    <string name="clear_cache">Clear cache</string>
+    <!-- name = crypt_keeper_settings_title  -->
+    <string name="encryption">Encryption</string>
+    <!-- name = experimental_category_title -->
+    <string name="experimental">Experimental</string>
     <!--https://android.googlesource.com/platform/packages/apps/UnifiedEmail  prefDialogTitle_removal_action -->
     <string name="default_action">"Default action"</string>
     <!-- packages/apps/Dialer/java/com/android/contacts/common /res/values/strings.xml -->
@@ -23,10 +36,6 @@
     <string name="style">Style</string>
     <!-- name="loading_widget" -->
     <string name="loading">"Loading…"</string>
-    <!-- packages/apps/Settings/res/values/strings.xml name="vpn_no_network" -->
-    <string name="no_network">There is no network connection.</string>
-    <!-- Settings name="encryption_continue_button" -->
-    <string name="button_label_continue">Continue</string>
     <!-- AndroidSDK/platforms/android-30/data/res autofill_this_form -->
     <string name="autofill">Autofill</string>
     <!--  packages/apps/Gallery/res/values/strings.xml crop_discard_text-->
@@ -41,21 +50,13 @@
     <string name="add_widget">Add widget</string>
     <!-- platform_packages_providers_calendarprovider/res/values/string.xml name="provider_label"-->
     <string name="calendar">Calendar</string>
-    <!-- platform_packages_apps_settings/res/values/strings.xml -->
-    <string name="permissions_label">Permissions</string>
-    <!-- name = time_format_category_title -->
-    <string name="time_format">Time format</string>
     <!-- MusicFX -->
     <string name="setup">"Setup"</string>
-    <!-- platform_packages_apps_settings/res/values/strings.xml name="clear_cache_btn_text" -->
-    <string name="clear_cache">Clear cache</string>
     <!--TvSettings/Settings/res/values/strings.xml restricted_profile_customize_restrictions -->
     <string name="customize">Customize</string>
     <!-- inputmethods/LatinIME/java/res/values/string.xml name="subtype_generic_compact" -->
     <string name="compact">Compact</string>
     <!-- providers/MediaProvider/res/values/strings.xml -->
     <string name="storage_description">Local storage</string>
-    <!--apps/Settings/res/values/strings crypt_keeper_settings_title  -->
-    <string name="encryption">Encryption</string>
 </resources>
 

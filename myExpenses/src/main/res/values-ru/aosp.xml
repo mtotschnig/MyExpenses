@@ -23,6 +23,7 @@
     <string name="details">"Информация"</string>
     <string name="response_yes">"Да"</string>
     <string name="response_no">"Нет"</string>
+     <string name="experimental">"Экспериментальная версия"</string>
     <string name="add_widget">"Добавить виджет"</string>
     <string name="calendar">"Календарь"</string>
     <string name="permissions_label">"Разрешения"</string>

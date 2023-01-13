@@ -23,6 +23,7 @@
     <string name="details">"详细信息"</string>
     <string name="response_yes">"是"</string>
     <string name="response_no">"否"</string>
+    <string name="experimental">"实验性功能"</string>
     <string name="add_widget">"添加微件"</string>
     <string name="calendar">"日历"</string>
     <string name="permissions_label">"权限"</string>

@@ -23,6 +23,7 @@
     <string name="details">"Ayrıntılar"</string>
     <string name="response_yes">"Evet"</string>
     <string name="response_no">"Hayır"</string>
+    <string name="experimental">"Deneysel"</string>
     <string name="add_widget">"Widget ekleyin"</string>
     <string name="calendar">"Takvim"</string>
     <string name="permissions_label">"İzinler"</string>

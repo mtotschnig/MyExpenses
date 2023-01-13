@@ -24,6 +24,7 @@
     <string name="details">"ವಿವರಗಳು"</string>
     <string name="response_yes">"ಹೌದು"</string>
     <string name="response_no">"ಇಲ್ಲ"</string>
+    <string name="experimental">"ಪ್ರಾಯೋಗಿಕ"</string>
     <string name="add_widget">"ವಿಜೆಟ್ ಸೇರಿಸಿ"</string>
     <string name="calendar">"ಕ್ಯಾಲೆಂಡರ್‌"</string>
     <string name="permissions_label">"ಅನುಮತಿಗಳು"</string>

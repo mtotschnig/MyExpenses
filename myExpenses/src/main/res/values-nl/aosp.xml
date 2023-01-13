@@ -19,6 +19,7 @@
     <string name="details">Details</string>
     <string name="response_yes">Ja</string>
     <string name="response_no">Nee</string>
+    <string name="experimental">"Experimenteel"</string>
     <string name="add_widget">Widget toevoegen.</string>
     <string name="calendar">Agenda</string>
     <string name="permissions_label">Rechten</string>

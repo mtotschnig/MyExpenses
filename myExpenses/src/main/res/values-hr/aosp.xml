@@ -24,6 +24,7 @@
     <string name="details">"Pojedinosti"</string>
     <string name="response_yes">"Da"</string>
     <string name="response_no">"Ne"</string>
+    <string name="experimental">"Eksperimentalno"</string>
     <string name="add_widget">"Dodavanje widgeta"</string>
     <string name="calendar">"Kalendar"</string>
     <string name="permissions_label">"Dopuštenja"</string>

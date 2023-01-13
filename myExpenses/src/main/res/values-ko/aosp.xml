@@ -24,6 +24,7 @@
     <string name="details">"세부정보"</string>
     <string name="response_yes">"예"</string>
     <string name="response_no">"아니요"</string>
+    <string name="experimental">"베타"</string>
     <string name="add_widget">"위젯 추가"</string>
     <string name="calendar">"캘린더"</string>
     <string name="permissions_label">"권한"</string>

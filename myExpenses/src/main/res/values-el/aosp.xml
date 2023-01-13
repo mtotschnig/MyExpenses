@@ -23,6 +23,7 @@
     <string name="details">"Λεπτομέρειες"</string>
     <string name="response_yes">"Ναι"</string>
     <string name="response_no">"Όχι"</string>
+    <string name="experimental">"Σε πειραματικό στάδιο"</string>
     <string name="add_widget">"Προσθήκη γραφικού στοιχείου"</string>
     <string name="calendar">"Ημερολόγιο"</string>
     <string name="permissions_label">"Άδειες"</string>

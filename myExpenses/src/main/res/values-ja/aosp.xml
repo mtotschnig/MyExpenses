@@ -24,6 +24,7 @@
     <string name="details">"詳細"</string>
     <string name="response_yes">"はい"</string>
     <string name="response_no">"いいえ"</string>
+    <string name="experimental">"試験運用版"</string>
     <string name="add_widget">"ウィジェットを追加します"</string>
     <string name="calendar">"カレンダー"</string>
     <string name="permissions_label">"権限"</string>

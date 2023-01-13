@@ -23,6 +23,7 @@
     <string name="details">"Butiran"</string>
     <string name="response_yes">"Ya"</string>
     <string name="response_no">"Tidak"</string>
+     <string name="experimental">"Percubaan"</string>
     <string name="add_widget">"Tambah widget"</string>
     <string name="calendar">"Kalendar"</string>
     <string name="permissions_label">"Kebenaran"</string>

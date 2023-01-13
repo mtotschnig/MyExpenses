@@ -24,6 +24,7 @@
     <string name="details">"Detaljer"</string>
     <string name="response_yes">"Ja"</string>
     <string name="response_no">"Nej"</string>
+    <string name="experimental">"Eksperimenterende"</string>
     <string name="add_widget">"Tilføj widget."</string>
     <string name="calendar">"Kalender"</string>
     <string name="permissions_label">"Tilladelser"</string>

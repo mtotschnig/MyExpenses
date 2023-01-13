@@ -23,6 +23,7 @@
     <string name="details">"التفاصيل"</string>
     <string name="response_yes">"نعم"</string>
     <string name="response_no">"لا"</string>
+    <string name="experimental">"إصدار تجريبي"</string>
     <string name="add_widget">"إضافة أداة"</string>
     <string name="calendar">"التقويم"</string>
     <string name="permissions_label">"الأذونات"</string>

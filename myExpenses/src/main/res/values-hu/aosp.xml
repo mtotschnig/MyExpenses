@@ -23,6 +23,7 @@
     <string name="details">"Részletek"</string>
     <string name="response_yes">"Igen"</string>
     <string name="response_no">"Nem"</string>
+    <string name="experimental">"Kísérleti"</string>
     <string name="add_widget">"Modul hozzáadása"</string>
     <string name="calendar">"Naptár"</string>
     <string name="permissions_label">"Engedélyek"</string>

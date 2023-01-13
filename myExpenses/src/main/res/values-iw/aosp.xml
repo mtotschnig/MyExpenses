@@ -24,6 +24,7 @@
     <string name="details">"פרטים"</string>
     <string name="response_yes">"כן"</string>
     <string name="response_no">"לא"</string>
+    <string name="experimental">"ניסיוני"</string>
     <string name="add_widget">"הוספת ווידג\'ט"</string>
     <string name="calendar">"יומן"</string>
     <string name="permissions_label">"הרשאות"</string>

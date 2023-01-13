@@ -23,6 +23,7 @@
     <string name="details">"Detalhes"</string>
     <string name="response_yes">"Sim"</string>
     <string name="response_no">"Não"</string>
+    <string name="experimental">"Experimentais"</string>
     <string name="add_widget">"Adicionar widget"</string>
     <string name="calendar">"Agenda"</string>
     <string name="permissions_label">"Permissões"</string>

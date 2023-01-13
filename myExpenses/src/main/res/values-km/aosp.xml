@@ -23,6 +23,7 @@
     <string name="details">"ព័ត៌មាន​លម្អិត"</string>
     <string name="response_yes">"បាទ/ចាស"</string>
     <string name="response_no">"ទេ"</string>
+    <string name="experimental">"ពិសោធន៍"</string>
     <string name="add_widget">"បន្ថែម​ធាតុ​ក្រាហ្វិក​។"</string>
     <string name="calendar">"ប្រតិទិន"</string>
     <string name="permissions_label">"ការអនុញ្ញាត"</string>

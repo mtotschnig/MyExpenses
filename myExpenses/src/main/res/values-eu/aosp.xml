@@ -24,6 +24,7 @@
     <string name="details">"Xehetasunak"</string>
     <string name="response_yes">"Bai"</string>
     <string name="response_no">"Ez"</string>
+    <string name="experimental">"Esperimentala"</string>
     <string name="add_widget">"Gehitu widgeta"</string>
     <string name="calendar">"Egutegia"</string>
     <string name="permissions_label">"Baimenak"</string>

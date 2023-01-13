@@ -24,6 +24,7 @@
     <string name="details">"Detalii"</string>
     <string name="response_yes">"Da"</string>
     <string name="response_no">"Nu"</string>
+    <string name="experimental">"Experimentale"</string>
     <string name="add_widget">"Adăugați un widget"</string>
     <string name="calendar">"Calendar"</string>
     <string name="permissions_label">"Permisiuni"</string>

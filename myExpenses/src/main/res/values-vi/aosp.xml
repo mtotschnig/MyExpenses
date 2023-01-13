@@ -23,6 +23,7 @@
     <string name="details">"Chi tiết"</string>
     <string name="response_yes">"Có"</string>
     <string name="response_no">"Không"</string>
+    <string name="experimental">"Thử nghiệm"</string>
     <string name="add_widget">"Thêm tiện ích"</string>
     <string name="calendar">"Lịch"</string>
     <string name="permissions_label">"Quyền"</string>
