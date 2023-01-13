@@ -334,13 +334,19 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @CallSuper
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         trackCommand(command)
-        if (command == R.id.TESSERACT_DOWNLOAD_COMMAND) {
-            ocrViewModel.downloadTessData().observe(this) {
-                downloadPending = it
+        return when (command) {
+            R.id.TESSERACT_DOWNLOAD_COMMAND -> {
+                ocrViewModel.downloadTessData().observe(this) {
+                    downloadPending = it
+                }
+                true
             }
-            return true
+            R.id.QUIT_COMMAND -> {
+                finish()
+                true
+            }
+            else -> false
         }
-        return false
     }
 
     fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) {

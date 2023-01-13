@@ -6,6 +6,8 @@ import android.widget.CompoundButton
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OnboardingWizzardPrivacyBinding
+import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
@@ -18,12 +20,32 @@ class OnBoardingPrivacyFragment: OnboardingFragment(), CompoundButton.OnCheckedC
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Inject
+    lateinit var featureManager: FeatureManager
+
     override fun getLayoutResId() = R.layout.onboarding_wizzard_privacy
     override fun bindView(view: View) {
        _binding = OnboardingWizzardPrivacyBinding.bind(view)
     }
 
     override fun getTitle() = getString(R.string.onboarding_privacy_title)
+
+    override fun getMenuResId() = R.menu.onboarding_privacy
+
+    override fun setupMenu() {
+        toolbar.menu.findItem(R.id.SqlEncrypt).isChecked = prefHandler.getBoolean(PrefKey.ENCRYPT_DATABASE, false)
+        toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.SqlEncrypt) {
+                val newValue = !it.isChecked
+                prefHandler.putBoolean(PrefKey.ENCRYPT_DATABASE, newValue)
+                it.isChecked = newValue
+                if (featureManager.isFeatureInstalled(Feature.SQLCRYPT, requireContext())) {
+                    featureManager.requestFeature(Feature.SQLCRYPT, requireContext())
+                }
+                true
+            } else false
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

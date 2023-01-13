@@ -39,4 +39,7 @@ interface PrefHandler {
 
     fun requireString(key: String, defaultValue: String) =
         getString(key, defaultValue)!!
+
+    val encryptDatabase
+        get() = getBoolean(PrefKey.ENCRYPT_DATABASE, false)
 }

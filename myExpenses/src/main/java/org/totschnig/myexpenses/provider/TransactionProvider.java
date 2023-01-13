@@ -1758,22 +1758,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     return getHelper();
   }
 
-  public boolean restore(File backupFile) {
-    File dataDir = new File(getInternalAppDir(), "databases");
-    dataDir.mkdir();
-    //line below gives app_databases instead of databases ???
-    //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-    File currentDb = new File(dataDir, getDatabaseName());
-    boolean result;
-    getHelper().close();
-    try {
-      result = FileCopyUtils.copy(backupFile, currentDb);
-    } finally {
-      set_helper(null);
-    }
-    return result;
-  }
-
   public static ContentProviderOperation resumeChangeTrigger() {
     return ContentProviderOperation.newDelete(
         DUAL_URI.buildUpon()

@@ -13,6 +13,7 @@ import eltos.simpledialogfragment.color.SimpleColorDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.RESTORE_REQUEST
@@ -20,6 +21,9 @@ import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -47,6 +51,9 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var featureManager: FeatureManager
 
     private val currencyViewModel: CurrencyViewModel by viewModels()
     val viewModel: OnBoardingDataViewModel by viewModels()
@@ -87,8 +94,22 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     }
 
     override fun onNextButtonClicked() {
-        prefHandler.putString(PrefKey.HOME_CURRENCY, selectedCurrency.code)
-        viewModel.saveAccount(buildAccount())
+        if (prefHandler.getBoolean(PrefKey.ENCRYPT_DATABASE, false) && !featureManager.isFeatureInstalled(Feature.SQLCRYPT, requireContext())) {
+            (requireActivity() as BaseActivity).showMessage(
+                "The module required for database encryption has not yet been downloaded from Play Store. Please try again!",
+                null,
+                null,
+                MessageDialogFragment.Button(
+                    R.string.button_label_close,
+                    R.id.QUIT_COMMAND,
+                    null
+                ),
+                false
+            )
+        } else {
+            prefHandler.putString(PrefKey.HOME_CURRENCY, selectedCurrency.code)
+            viewModel.saveAccount(buildAccount())
+        }
     }
 
     override fun getMenuResId(): Int {
@@ -107,6 +128,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     }
 
     private fun onRestoreMenuItemSelected(item: MenuItem): Boolean {
+        //TODO check if database encryption is active
         val hostActivity = requireActivity() as SyncBackendSetupActivity
         if (item.itemId == R.id.SetupFromLocal) {
             val intent = Intent(activity, BackupRestoreActivity::class.java)

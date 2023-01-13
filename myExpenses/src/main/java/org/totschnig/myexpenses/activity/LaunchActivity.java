@@ -29,15 +29,6 @@ public abstract class LaunchActivity extends IapActivity {
   }
 
   @Override
-  public boolean dispatchCommand(int command, @Nullable Object tag) {
-    if (command == R.id.QUIT_COMMAND) {
-      finish();
-      return true;
-    }
-    return super.dispatchCommand(command, tag);
-  }
-
-  @Override
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     if (savedInstanceState == null) {

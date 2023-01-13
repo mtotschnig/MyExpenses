@@ -14,7 +14,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.BuildConfig
@@ -22,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.di.SqlCryptProvider
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -78,6 +78,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @Inject
     lateinit var openHelperProvider: Provider<SupportSQLiteOpenHelper>
+
+    @set:Inject
+    var sqlCryptProvider: SqlCryptProvider? = null
 
     @Inject
     @Named("collate")
@@ -408,10 +411,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun backup(context: Context, backupDir: File): Result<Unit> {
-        val currentDb = File(helper.readableDatabase.path)
         helper.readableDatabase.beginTransaction()
         return try {
-            backupDb(getBackupDbFile(backupDir), currentDb).mapCatching {
+            (if(prefHandler.encryptDatabase) decrypt(backupDir) else backupDb(backupDir)).mapCatching {
                 val backupPrefFile = getBackupPrefFile(backupDir)
                 // Samsung has special path on some devices
                 // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
@@ -440,6 +442,26 @@ abstract class BaseTransactionProvider : ContentProvider() {
         } finally {
             helper.readableDatabase.endTransaction()
         }
+    }
+
+    open fun restore(backupFile: File): Boolean {
+        val dataDir = File(getInternalAppDir(), "databases")
+        dataDir.mkdir()
+        //line below gives app_databases instead of databases ???
+        //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
+        val currentDb = File(dataDir, databaseName)
+        helper.close()
+        val result: Boolean = try {
+            if (prefHandler.encryptDatabase) {
+                sqlCryptProvider!!.encrypt(context!!, backupFile, currentDb)
+                true
+            } else {
+                FileCopyUtils.copy(backupFile, currentDb)
+            }
+        } finally {
+            _helper = null
+        }
+        return result
     }
 
     fun budgetCategoryUpsert(db: SupportSQLiteDatabase, uri: Uri, values: ContentValues): Int {
@@ -551,7 +573,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
         })
     }
 
-    private fun backupDb(backupDb: File, currentDb: File): Result<Unit> {
+    private fun decrypt(backupDir: File): Result<Unit> {
+        val db = helper.readableDatabase
+        val backupDb = getBackupDbFile(backupDir)
+        sqlCryptProvider!!.decrypt(db, backupDb)
+        return ResultUnit
+    }
+
+    private fun backupDb(backupDir: File): Result<Unit> {
+        val backupDb = getBackupDbFile(backupDir)
+        val currentDb = File(helper.readableDatabase.path)
         if (currentDb.exists()) {
             if (FileCopyUtils.copy(currentDb, backupDb)) {
                 return ResultUnit

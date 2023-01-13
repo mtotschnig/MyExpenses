@@ -19,7 +19,7 @@ package org.totschnig.sqlcrypt
 import android.content.Context
 import android.os.Build
 import androidx.security.crypto.EncryptedFile
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 import java.io.File
 import java.security.SecureRandom
 
@@ -29,9 +29,9 @@ class PassphraseRepository(private val context: Context) {
     fun getPassphrase(): ByteArray {
         val file = File(context.filesDir, "passphrase.bin")
         val encryptedFile = EncryptedFile.Builder(
-            file,
             context,
-            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+            file,
+            MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
         ).build()
 

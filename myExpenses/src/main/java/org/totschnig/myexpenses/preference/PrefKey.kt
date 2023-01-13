@@ -171,7 +171,8 @@ enum class PrefKey {
     RUNNING_BALANCE(R.string.pref_running_balance_key),
     UI_TRANSACTION_LIST(R.string.pref_ui_transaction_list_key),
     UI_ITEM_RENDERER_LEGACY(R.string.pref_ui_item_renderer_legacy_key),
-    UI_ITEM_RENDERER_CATEGORY_ICON(R.string.pref_ui_item_renderer_category_icon_key);
+    UI_ITEM_RENDERER_CATEGORY_ICON(R.string.pref_ui_item_renderer_category_icon_key),
+    ENCRYPT_DATABASE("encrypt_database");
 
     internal val resId: Int
 
