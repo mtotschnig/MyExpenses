@@ -40,6 +40,7 @@ import java.time.Duration
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Provider
 import kotlin.math.abs
 
 fun Uri.Builder.appendBooleanQueryParameter(key: String): Uri.Builder =
@@ -54,7 +55,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             field = value
         }
 
-    lateinit var helper: SupportSQLiteOpenHelper
+    var _helper: SupportSQLiteOpenHelper? = null
+
+    val helper: SupportSQLiteOpenHelper
+        get() = requireHelper()
 
     @Inject
     @Named(AppComponent.DATABASE_NAME)
@@ -73,7 +77,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     lateinit var dataStore: DataStore<Preferences>
 
     @Inject
-    lateinit var openHelperFactory: SupportSQLiteOpenHelper.Factory
+    lateinit var openHelperProvider: Provider<SupportSQLiteOpenHelper>
 
     @Inject
     @Named("collate")
@@ -557,16 +561,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return Result.failure(Throwable("Could not find database at ${currentDb.path}"))
     }
 
-    fun initOpenHelper() {
-        helper = openHelperFactory.create(
-            SupportSQLiteOpenHelper.Configuration.builder(context!!)
-                .name(databaseName).callback(
-                    //Robolectric uses native Sqlite which as of now does not include Json extension
-                    TransactionDatabase(openHelperFactory !is FrameworkSQLiteOpenHelperFactory)
-                ).build()
-        ).also {
-            it.setWriteAheadLoggingEnabled(false)
+    private fun requireHelper(): SupportSQLiteOpenHelper {
+        if (_helper == null) {
+            _helper = openHelperProvider.get()
         }
+        return _helper!!
     }
 
     fun getInternalAppDir(): File {
@@ -623,7 +622,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         MyApplication.getInstance().appComponent.inject(this)
         shouldLog = prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
-        initOpenHelper()
         return true
     }
 

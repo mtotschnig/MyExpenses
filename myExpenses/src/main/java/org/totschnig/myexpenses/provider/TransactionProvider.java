@@ -1769,7 +1769,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     try {
       result = FileCopyUtils.copy(backupFile, currentDb);
     } finally {
-      initOpenHelper();
+      set_helper(null);
     }
     return result;
   }

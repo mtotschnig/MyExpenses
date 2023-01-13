@@ -9,6 +9,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.databinding.OnboardingWizzardBinding;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -63,17 +66,17 @@ public abstract class OnboardingFragment extends Fragment {
     }
   }
 
-  protected int getNavigationButtonId() {
+  protected @IdRes int getNavigationButtonId() {
     return R.id.suw_navbar_next;
   }
 
   protected abstract void configureView(@Nullable Bundle savedInstanceState);
 
-  protected abstract int getLayoutResId();
+  protected abstract @LayoutRes int getLayoutResId();
 
   abstract void bindView(@NonNull View view);
 
-  protected int getMenuResId() {
+  protected @MenuRes int getMenuResId() {
     return 0;
   }
 

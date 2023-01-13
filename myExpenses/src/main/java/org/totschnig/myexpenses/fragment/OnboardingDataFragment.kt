@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import org.totschnig.myexpenses.MyApplication
@@ -24,7 +23,6 @@ import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -46,13 +44,13 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     @Inject
     lateinit var currencyContext: CurrencyContext
-    
+
     @Inject
     lateinit var prefHandler: PrefHandler
-    
-    val currencyViewModel: CurrencyViewModel by viewModels()
+
+    private val currencyViewModel: CurrencyViewModel by viewModels()
     val viewModel: OnBoardingDataViewModel by viewModels()
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with((requireActivity().application as MyApplication).appComponent) {
@@ -63,7 +61,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         viewModel.accountSave.observe(this) {
             if (it) {
                 (requireActivity() as OnboardingActivity).start()
-            }  else {
+            } else {
                 val message = "Unknown error while setting up account"
                 CrashHandler.report(Exception(message))
                 (requireActivity() as OnboardingActivity).showSnackBar(message)
@@ -89,7 +87,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     }
 
     override fun onNextButtonClicked() {
-        prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().code)
+        prefHandler.putString(PrefKey.HOME_CURRENCY, selectedCurrency.code)
         viewModel.saveAccount(buildAccount())
     }
 
@@ -155,15 +153,11 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         val code = savedInstanceState?.getString(DatabaseConstants.KEY_CURRENCY)
         val currency =
             if (code != null) create(code, requireActivity()) else currencyViewModel.default
-        lifecycleScope.launchWhenStarted {
-            currencyViewModel.currencies.collect { currencies: List<Currency?> ->
-                val adapter = binding.Currency.adapter as CurrencyAdapter
-                adapter.clear()
-                adapter.addAll(currencies)
-                binding.Currency.setSelection(adapter.getPosition(currency))
-                nextButton.visibility = View.VISIBLE
-            }
-        }
+        val adapter = binding.Currency.adapter as CurrencyAdapter
+        adapter.clear()
+        adapter.addAll(currencyViewModel.currenciesFromEnum)
+        binding.Currency.setSelection(adapter.getPosition(currency))
+        nextButton.visibility = View.VISIBLE
 
         //type
         DialogUtils.configureTypeSpinner(binding.AccountType)
@@ -199,23 +193,21 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         if (parent.id == R.id.Currency) {
-            binding.Amount.setFractionDigits(validateSelectedCurrency().fractionDigits)
+            binding.Amount.setFractionDigits(selectedCurrency.fractionDigits)
         }
     }
 
-    private fun validateSelectedCurrency(): CurrencyUnit {
-        val currency = (binding.Currency.selectedItem as Currency).code
-        return currencyContext[currency]
-    }
+    private val selectedCurrency
+        get() = currencyContext[(binding.Currency.selectedItem as Currency).code]
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
-    fun buildAccount(): Account {
+    private fun buildAccount(): Account {
         var label = binding.Label.text.toString()
         if (TextUtils.isEmpty(label)) {
             label = getString(R.string.default_account_name)
         }
         val openingBalance = binding.Amount.typedValue
-        val currency = validateSelectedCurrency()
+        val currency = selectedCurrency
         return Account(
             label, Money(currency, openingBalance),
             binding.Description.text.toString(),

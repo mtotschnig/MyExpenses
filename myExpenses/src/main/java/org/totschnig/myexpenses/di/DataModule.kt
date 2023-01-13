@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
+import org.totschnig.myexpenses.provider.TransactionDatabase
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -74,7 +75,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
 
     @Singleton
     @Provides
-    fun provideSQLiteOpenHelperFactory(appContext: MyApplication): SupportSQLiteOpenHelper.Factory =
+    fun provideSQLiteOpenHelper(appContext: MyApplication, @Named(AppComponent.DATABASE_NAME) databaseName: String): SupportSQLiteOpenHelper =
         when {
             true ->
                 (Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory").newInstance() as SqlCryptProvider)
@@ -84,6 +85,14 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
                 ReLinker.loadLibrary(appContext, io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME)
                 RequerySQLiteOpenHelperFactory()
             }
+        }.create(
+            SupportSQLiteOpenHelper.Configuration.builder(appContext)
+                .name(databaseName).callback(
+                    //Robolectric uses native Sqlite which as of now does not include Json extension
+                    TransactionDatabase(!frameWorkSqlite)
+                ).build()
+        ).also {
+            it.setWriteAheadLoggingEnabled(false)
         }
 
     @Singleton
