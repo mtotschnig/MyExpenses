@@ -20,6 +20,7 @@ fun buildAmountField(
     val amountInput = AmountInput.plain(DatabaseConstants.KEY_AMOUNT)
         .label(appendCurrencySymbol(context, R.string.budget_allocated_amount, amount.currencyUnit))
         .fractionDigits(amount.currencyUnit.fractionDigits)
+        .withTypeSwitch(null)
         .required()
     if (amount.amountMajor.compareTo(BigDecimal.ZERO) != 0) {
         amountInput.amount(amount.amountMajor)
