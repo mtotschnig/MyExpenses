@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.distribution
@@ -73,9 +74,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         finish()
     }
 
-    override fun createAccountTaskShouldReturnBackups(): Boolean {
-        return true
-    }
+    override val createAccountTaskShouldReturnBackups = true
+
+    override val createAccountTaskShouldQueryLocalAccounts = false
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
         lifecycleScope.launchWhenResumed {

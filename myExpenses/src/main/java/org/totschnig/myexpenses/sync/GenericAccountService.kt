@@ -196,15 +196,19 @@ class GenericAccountService : Service() {
         }
 
         fun storePassword(
-            contentResolver: ContentResolver?,
-            accountName: String,
+            context: Context,
+            account: Account,
             encryptionPassword: String?
         ) {
-            DbUtils.storeSetting(contentResolver, getPasswordKey(accountName), encryptionPassword)
+            AccountManager.get(context).setUserData(account, KEY_PASSWORD_ENCRYPTION, encryptionPassword)
         }
 
-        fun loadPassword(contentResolver: ContentResolver?, accountName: String): String? {
-            return DbUtils.loadSetting(contentResolver, getPasswordKey(accountName))
+        fun loadPassword(context: Context, accountName: String): String? {
+            return loadPassword(context, getAccount(accountName))
+        }
+
+        fun loadPassword(context: Context, account: Account): String? {
+            return AccountManager.get(context).getUserData(account, KEY_PASSWORD_ENCRYPTION)
         }
 
         private fun getPasswordKey(accountName: String): String {
@@ -245,6 +249,10 @@ class GenericAccountService : Service() {
         @JvmStatic
         fun getAccountNames(context: Context): Array<String> =
             getAccounts(context).map { it.name }.toTypedArray()
+
+        fun activateSync(account: String, prefHandler: PrefHandler) {
+            activateSync(getAccount(account), prefHandler)
+        }
 
         fun activateSync(account: Account, prefHandler: PrefHandler) {
             ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true)

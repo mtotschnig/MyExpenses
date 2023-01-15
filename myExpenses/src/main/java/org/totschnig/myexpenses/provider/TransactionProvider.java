@@ -525,7 +525,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         final boolean withSums = Objects.equals(uri.getQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS), "1");
         final String mergeAggregate = minimal ? "1" : uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
-          sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, collate);
+          sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate());
         }
         if (mergeAggregate != null || withSums) {
           if (projection != null) {
@@ -621,7 +621,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = mapPaymentMethodProjection(projection, wrappedContext);
         }
         if (sortOrder == null) {
-          sortOrder = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL) + " COLLATE " + collate;
+          sortOrder = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL) + " COLLATE " + getCollate();
         }
         break;
       case MAPPED_METHODS:
@@ -629,7 +629,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
-          sortOrder = localizedLabel + " COLLATE " + collate;
+          sortOrder = localizedLabel + " COLLATE " + getCollate();
         }
         break;
       case METHOD_ID:
@@ -662,7 +662,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type " + WhereFilter.Operation.IN.getOp(accountTypes.length);
         selectionArgs = accountTypes;
         if (sortOrder == null) {
-          sortOrder = localizedLabel + " COLLATE " + collate;
+          sortOrder = localizedLabel + " COLLATE " + getCollate();
         }
         groupBy = KEY_ROWID;
         having = "count(*) = " + accountTypes.length;

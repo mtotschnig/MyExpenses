@@ -47,7 +47,7 @@ public class DbUtils {
   private DbUtils() {
   }
 
-  public static boolean restore(File backupFile) {
+  public static boolean restore(File backupFile, boolean encrypt) {
     boolean result = false;
     MyApplication app = MyApplication.getInstance();
     try {
@@ -59,7 +59,7 @@ public class DbUtils {
         ContentResolver resolver = app.getContentResolver();
         ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
         TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
-        result = provider.restore(backupFile);
+        result = provider.restore(backupFile, encrypt);
         client.release();
       }
     } catch (Exception e) {

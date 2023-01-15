@@ -45,10 +45,7 @@ object AppDirHelper {
     }
 
     @JvmStatic
-    fun cacheDir(context: Context): File {
-        val external = ContextCompat.getExternalCacheDirs(context)[0]
-        return if (external != null && external.canWrite()) external else context.cacheDir
-    }
+    fun cacheDir(context: Context): File = context.cacheDir
 
     /**
      * @return creates a file object in parentDir, with a timestamp appended to

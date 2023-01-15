@@ -43,10 +43,6 @@ class TemplateRemoteViewsFactory(
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    @Inject
-    @Named("collate")
-    lateinit var collate: String
-
     init {
         (context.applicationContext as MyApplication).appComponent.inject(this)
     }
@@ -55,7 +51,7 @@ class TemplateRemoteViewsFactory(
         return context.contentResolver.query(
                 TransactionProvider.TEMPLATES_URI, null, String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",
                 KEY_PLANID, KEY_PARENTID, KEY_SEALED),
-                null, preferredOrderByForTemplates(prefHandler, Sort.TITLE, collate))
+                null, preferredOrderByForTemplates(prefHandler, Sort.TITLE, prefHandler.collate))
     }
 
     override fun RemoteViews.populate(cursor: Cursor) {

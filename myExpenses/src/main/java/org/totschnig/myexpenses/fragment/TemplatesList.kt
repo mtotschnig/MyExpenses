@@ -113,10 +113,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    @Inject
-    @Named("collate")
-    lateinit var collate: String
-
     lateinit var viewModel: TemplatesListViewModel
 
     private var _binding: TemplatesListBinding? = null
@@ -404,7 +400,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 null,
                 DatabaseConstants.KEY_PARENTID + " is null",
                 null,
-                preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES, collate)
+                preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES, prefHandler.collate)
             )
         } else throw IllegalArgumentException()
     }

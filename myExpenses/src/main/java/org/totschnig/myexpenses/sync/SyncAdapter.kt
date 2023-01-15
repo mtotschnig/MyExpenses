@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateSync
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
@@ -793,20 +794,18 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
     }
 
     private fun getStringSetting(provider: ContentProviderClient, prefKey: String): String? {
-        var result: String? = null
-        try {
-            val cursor = provider.query(
+        val result: String? = try {
+            provider.query(
                 TransactionProvider.SETTINGS_URI, arrayOf(DatabaseConstants.KEY_VALUE),
                 DatabaseConstants.KEY_KEY + " = ?", arrayOf(prefKey), null
-            )
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    result = cursor.getString(0)
-                }
-                cursor.close()
+            )?.use {
+                if (it.moveToFirst()) {
+                    it.getString(0)
+                } else null
             }
         } catch (remoteException: RemoteException) {
             CrashHandler.report(remoteException)
+            null
         }
         return result
     }

@@ -335,7 +335,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (dialogTag == DIALOG_INACTIVE_BACKEND && which == OnDialogResultListener.BUTTON_POSITIVE) {
             activateSync(
-                getAccount(extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!),
+                extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!,
                 prefHandler
             )
         }

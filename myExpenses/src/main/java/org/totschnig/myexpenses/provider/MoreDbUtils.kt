@@ -383,7 +383,8 @@ fun SupportSQLiteDatabase.update(
     values: ContentValues,
     whereClause: String?,
     whereArgs: Array<Any>?
-) = update(table, SQLiteDatabase.CONFLICT_NONE, values, whereClause, whereArgs)
+) = //https://github.com/sqlcipher/android-database-sqlcipher/issues/615
+    update(table, SQLiteDatabase.CONFLICT_NONE, values, whereClause, whereArgs ?: emptyArray())
 
 fun SupportSQLiteDatabase.insert(table: String, values: ContentValues): Long =
     insert(table, SQLiteDatabase.CONFLICT_NONE, values)

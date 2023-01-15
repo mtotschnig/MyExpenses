@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.di.SqlCryptProvider
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -62,7 +63,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     @Inject
     @Named(AppComponent.DATABASE_NAME)
-    lateinit var databaseName: String
+    @JvmSuppressWildcards
+    lateinit var provideDatabaseName: (Boolean) -> String
 
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
@@ -79,12 +81,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @Inject
     lateinit var openHelperProvider: Provider<SupportSQLiteOpenHelper>
 
-    @set:Inject
-    var sqlCryptProvider: SqlCryptProvider? = null
-
-    @Inject
-    @Named("collate")
-    lateinit var collate: String
+    val collate: String
+        get() = prefHandler.collate
 
     val wrappedContext: Context
         get() = userLocaleProvider.wrapContext(context!!)
@@ -99,6 +97,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         notifyChange(TransactionProvider.ACCOUNTS_BASE_URI, false)
         notifyChange(TransactionProvider.ACCOUNTS_MINIMAL_URI, false)
     }
+
     fun notifyChange(uri: Uri, syncToNetwork: Boolean) {
         if (!bulkInProgress && callerIsNotInBulkOperation(uri)) {
             notifyChangeDo(uri, syncToNetwork)
@@ -411,9 +410,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun backup(context: Context, backupDir: File): Result<Unit> {
-        helper.readableDatabase.beginTransaction()
-        return try {
-            (if(prefHandler.encryptDatabase) decrypt(backupDir) else backupDb(backupDir)).mapCatching {
+        val currentDb = File(helper.readableDatabase.path)
+        helper.readableDatabase.close()
+        _helper = null
+        return (if (prefHandler.encryptDatabase) decrypt(currentDb, backupDir) else backupDb(currentDb, backupDir))
+            .mapCatching {
                 val backupPrefFile = getBackupPrefFile(backupDir)
                 // Samsung has special path on some devices
                 // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
@@ -439,26 +440,22 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     throw Throwable(message)
                 }
             }
-        } finally {
-            helper.readableDatabase.endTransaction()
-        }
     }
 
-    open fun restore(backupFile: File): Boolean {
+    open fun restore(backupFile: File, encrypt: Boolean): Boolean {
         val dataDir = File(getInternalAppDir(), "databases")
         dataDir.mkdir()
-        //line below gives app_databases instead of databases ???
-        //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-        val currentDb = File(dataDir, databaseName)
+        val currentDb = File(dataDir, provideDatabaseName(encrypt))
         helper.close()
         val result: Boolean = try {
-            if (prefHandler.encryptDatabase) {
-                sqlCryptProvider!!.encrypt(context!!, backupFile, currentDb)
+            if (encrypt) {
+                DataModule.cryptProvider.encrypt(context!!, backupFile, currentDb)
                 true
             } else {
                 FileCopyUtils.copy(backupFile, currentDb)
             }
         } finally {
+            prefHandler.putBoolean(PrefKey.ENCRYPT_DATABASE, encrypt)
             _helper = null
         }
         return result
@@ -573,16 +570,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
         })
     }
 
-    private fun decrypt(backupDir: File): Result<Unit> {
-        val db = helper.readableDatabase
+    private fun decrypt(currentDb: File, backupDir: File): Result<Unit> {
         val backupDb = getBackupDbFile(backupDir)
-        sqlCryptProvider!!.decrypt(db, backupDb)
+        DataModule.cryptProvider.decrypt(context!!, currentDb, backupDb)
         return ResultUnit
     }
 
-    private fun backupDb(backupDir: File): Result<Unit> {
+    private fun backupDb(currentDb: File, backupDir: File): Result<Unit> {
         val backupDb = getBackupDbFile(backupDir)
-        val currentDb = File(helper.readableDatabase.path)
         if (currentDb.exists()) {
             if (FileCopyUtils.copy(currentDb, backupDb)) {
                 return ResultUnit

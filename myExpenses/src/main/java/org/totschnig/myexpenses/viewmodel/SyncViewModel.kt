@@ -122,6 +122,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             val userData = args.getBundle(KEY_USERDATA)
             val authToken = args.getString(KEY_AUTHTOKEN)
             val shouldReturnBackups = args.getBoolean(KEY_RETURN_BACKUPS)
+            val shouldQueryLocalAccounts = args.getBoolean(KEY_QUERY_LOCAL_ACCOUNTS)
             val encryptionPassword = args.getString(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
             val accountManager = get(getApplication())
             val account = getAccount(accountName)
@@ -141,13 +142,11 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                     )
                 }
                 GenericAccountService.storePassword(
-                    contentResolver,
-                    accountName,
+                    getApplication(),
+                    account,
                     encryptionPassword
                 )
-                buildResult(accountName, shouldReturnBackups, true).onSuccess {
-                    GenericAccountService.activateSync(account, prefHandler)
-                }.onFailure {
+                buildResult(accountName, shouldReturnBackups, shouldQueryLocalAccounts, true).onFailure {
                     //we try to remove a failed account immediately, otherwise user would need to do it, before
                     //being able to try again
                     @Suppress("DEPRECATION") val accountManagerFuture =
@@ -179,9 +178,10 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     private fun buildResult(
         accountName: String,
         shouldReturnBackups: Boolean,
+        shouldQueryLocalAccounts: Boolean,
         create: Boolean
     ): Result<SyncAccountData> {
-        val localAccounts = contentResolver.query(
+        val localAccounts = if (shouldQueryLocalAccounts) contentResolver.query(
             Account.CONTENT_URI,
             arrayOf(KEY_ROWID, KEY_LABEL, KEY_UUID, "$KEY_SYNC_ACCOUNT_NAME IS NULL", KEY_SEALED),
             null, null, null
@@ -201,7 +201,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                     )
                 }
             }.toList()
-        } ?: emptyList()
+        } ?: emptyList() else emptyList()
 
         val account = getAccount(accountName)
         return SyncBackendProviderFactory[getApplication(), account, create].mapCatching { syncBackendProvider ->
@@ -263,7 +263,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                     if (numberOfRestoredAccounts == 0) {
                         emit(Result.failure(Throwable("No accounts were restored")))
                     } else {
-                        GenericAccountService.requestSync(accountName)
+                        GenericAccountService.activateSync(accountName, prefHandler)
                         emit(ResultUnit)
                     }
                 }
@@ -275,7 +275,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     fun fetchAccountData(accountName: String): LiveData<Result<SyncAccountData>> =
         liveData(context = coroutineContext()) {
-            emit(buildResult(accountName, shouldReturnBackups = true, create = false))
+            emit(buildResult(accountName, shouldReturnBackups = true, shouldQueryLocalAccounts = false, create = false))
         }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
@@ -290,6 +290,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     companion object {
         const val KEY_ORIGINAL_ACCOUNT_NAME = "originalAccountName"
         const val KEY_RETURN_BACKUPS = "returnRemoteDataList"
+        const val KEY_QUERY_LOCAL_ACCOUNTS = "queryLocalAccounts"
     }
 
     @Parcelize

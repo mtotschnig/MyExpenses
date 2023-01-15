@@ -14,22 +14,33 @@
     android:layout_height="0dp"
     android:layout_weight="1">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/padding_dialog_side"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_dialog_side">
 
-        <TextView
-            android:id="@+id/summary"
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pref_restore_summary" />
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
 
-        <include layout="@layout/filename" />
+            <TextView
+                android:id="@+id/summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_restore_summary" />
 
-        <include layout="@layout/backup_restore_calendar" />
-    </TableLayout>
+            <include layout="@layout/filename" />
 
+            <include layout="@layout/backup_restore_calendar" />
+        </TableLayout>
+        <CheckBox
+            android:id="@+id/encrypt_database"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Encrypt database" />
+    </LinearLayout>
 </ScrollView>

@@ -10,4 +10,5 @@
     <string name="title_drive">Google Drive</string>
     <string name="title_dropbox">Dropbox</string>
     <string name="title_webdav">WebDAV</string>
+    <string name="title_sqlcrypt">SqlCrypt</string>
 </resources>

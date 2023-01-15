@@ -52,10 +52,7 @@ fun doBackup(
 
             sync(context.contentResolver, withSync, backupFile)
             backupFile to listOldBackups(appDir, prefHandler)
-        } catch (e: IOException) {
-            CrashHandler.report(e)
-            throw e
-        } catch (e: GeneralSecurityException) {
+        } catch (e: Exception) {
             CrashHandler.report(e)
             throw e
         } finally {

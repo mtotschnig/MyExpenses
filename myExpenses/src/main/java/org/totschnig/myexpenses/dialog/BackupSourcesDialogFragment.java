@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -18,8 +19,10 @@ import androidx.appcompat.app.AlertDialog;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     implements DialogUtils.CalendarRestoreStrategyChangedListener {
-  RadioGroup mRestorePlanStrategie;
+  RadioGroup restorePlanStrategy;
   RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChangeListener;
+
+  CheckBox encrypt;
 
   public BackupSourcesDialogFragment() {
     super();
@@ -48,10 +51,16 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
         ? View.GONE : View.VISIBLE;
     view.findViewById(R.id.summary).setVisibility(selectorVisibility);
     view.findViewById(R.id.btn_browse).setVisibility(selectorVisibility);
-    mRestorePlanStrategie = NewDialogUtilsKt.configureCalendarRestoreStrategy(view, prefHandler);
+    restorePlanStrategy = NewDialogUtilsKt.configureCalendarRestoreStrategy(view, prefHandler);
     mCalendarRestoreButtonCheckedChangeListener =
         DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
-    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
+    restorePlanStrategy.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
+    encrypt = view.findViewById(R.id.encrypt_database);
+    if (prefHandler.getEncryptDatabase()) {
+      encrypt.setVisibility(View.VISIBLE);
+      encrypt.setChecked(true);
+    }
+
   }
 
   @NonNull
@@ -92,7 +101,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
       return true;
     if (extension.equals("zip") || extension.equals("enc")) {
       CrashHandler.report(new Exception(String.format(
-          "Found resource with extension %s and unexpeceted mime type %s/%s",
+          "Found resource with extension %s and unexpected mime type %s/%s",
           extension, typeParts[0], typeParts[1])));
       return true;
     }
@@ -107,8 +116,9 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     if (id == AlertDialog.BUTTON_POSITIVE) {
       ((BackupRestoreActivity) getActivity()).onSourceSelected(
           mUri,
-          mRestorePlanStrategie == null ? R.id.restore_calendar_handling_ignore :
-              mRestorePlanStrategie.getCheckedRadioButtonId());
+          restorePlanStrategy == null ? R.id.restore_calendar_handling_ignore :
+              restorePlanStrategy.getCheckedRadioButtonId(),
+              prefHandler.getEncryptDatabase() && encrypt.isChecked());
     } else {
       super.onClick(dialog, id);
     }
@@ -117,7 +127,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   @Override
   protected boolean isReady() {
     if (super.isReady()) {
-      return mRestorePlanStrategie == null || mRestorePlanStrategie.getCheckedRadioButtonId() != -1;
+      return restorePlanStrategy == null || restorePlanStrategy.getCheckedRadioButtonId() != -1;
     } else {
       return false;
     }
@@ -130,9 +140,9 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
 
   @Override
   public void onCalendarPermissionDenied() {
-    mRestorePlanStrategie.setOnCheckedChangeListener(null);
-    mRestorePlanStrategie.clearCheck();
-    mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
+    restorePlanStrategy.setOnCheckedChangeListener(null);
+    restorePlanStrategy.clearCheck();
+    restorePlanStrategy.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     setButtonState();
   }
 }

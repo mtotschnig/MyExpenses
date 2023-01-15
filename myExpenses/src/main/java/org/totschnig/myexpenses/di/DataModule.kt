@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.preference.PreferenceManager
-import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import com.getkeepsafe.relinker.ReLinker
@@ -29,26 +28,25 @@ import javax.inject.Singleton
 
 interface SqlCryptProvider {
     fun provideEncryptedDatabase(context: Context): SupportSQLiteOpenHelper.Factory
-    fun decrypt(db: SupportSQLiteDatabase, backupDb: File)
+    fun decrypt(context: Context, encrypted: File, backupDb: File)
     fun encrypt(context: Context, backupFile: File, currentDb: File)
 }
 
 @Module
 open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) {
-
-    @Provides
-    @Singleton
-    fun provideSqlCrypt(prefHandler: PrefHandler) =
-        if (prefHandler.encryptDatabase)
-            Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
+    companion object {
+        val cryptProvider: SqlCryptProvider
+            get() = Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
                 .newInstance() as SqlCryptProvider
-        else
-            null
+    }
+
+    open val databaseName = "data"
 
     @Provides
     @Named(AppComponent.DATABASE_NAME)
     @Singleton
-    open fun provideDatabaseName() = "data"
+    @JvmSuppressWildcards
+    open fun provideDatabaseName(): (Boolean) -> String = { if (it) "${databaseName}.enc" else databaseName }
 
     @Provides
     @Singleton
@@ -61,8 +59,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
     @Singleton
     open fun providePrefHandler(
         context: MyApplication,
-        sharedPreferences: SharedPreferences,
-        @Named(AppComponent.DATABASE_NAME) databaseName: String
+        sharedPreferences: SharedPreferences
     ): PrefHandler {
         return PrefHandlerImpl(context, sharedPreferences)
     }
@@ -70,8 +67,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
     @Singleton
     @Provides
     open fun provideSharedPreferences(
-        application: MyApplication,
-        @Named(AppComponent.DATABASE_NAME) databaseName: String
+        application: MyApplication
     ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
     @Singleton
@@ -82,21 +78,15 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
         )
     }
 
-    @Singleton
-    @Provides
-    @Named("collate")
-    fun provideCollate(prefHandler: PrefHandler): String =
-        if (prefHandler.encryptDatabase) "NOCASE" else "LOCALIZED"
-
     @Provides
     fun provideSQLiteOpenHelper(
         appContext: MyApplication,
-        sqlCryptProvider: SqlCryptProvider?,
-        @Named(AppComponent.DATABASE_NAME) databaseName: String
-    ): SupportSQLiteOpenHelper =
-        when {
-            sqlCryptProvider != null ->
-                sqlCryptProvider.provideEncryptedDatabase(appContext)
+        prefHandler: PrefHandler,
+        @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
+    ): SupportSQLiteOpenHelper {
+        val encryptDatabase = prefHandler.encryptDatabase
+        return when {
+            encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
             frameWorkSqlite -> FrameworkSQLiteOpenHelperFactory()
             else -> {
                 ReLinker.loadLibrary(
@@ -107,13 +97,14 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
             }
         }.create(
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
-                .name(databaseName + if (sqlCryptProvider != null) ".enc" else "").callback(
+                .name(provideDatabaseName(encryptDatabase)).callback(
                     //Robolectric uses native Sqlite which as of now does not include Json extension
                     TransactionDatabase(!frameWorkSqlite)
                 ).build()
         ).also {
             it.setWriteAheadLoggingEnabled(false)
         }
+    }
 
     @Singleton
     @Provides

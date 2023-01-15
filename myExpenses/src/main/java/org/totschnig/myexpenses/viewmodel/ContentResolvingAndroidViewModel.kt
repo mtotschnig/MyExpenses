@@ -84,9 +84,8 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     @Inject
     lateinit var dataStore: DataStore<Preferences>
 
-    @Inject
-    @Named("collate")
-    lateinit var collate: String
+    val collate: String
+        get() = prefHandler.collate
 
     private val bulkDeleteStateInternal: MutableStateFlow<DeleteState?> = MutableStateFlow(null)
     val bulkDeleteState: StateFlow<DeleteState?> = bulkDeleteStateInternal

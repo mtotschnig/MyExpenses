@@ -43,13 +43,13 @@ abstract class SyncBackendProviderFactory {
         ): Result<SyncBackendProvider> {
             val accountManager = AccountManager.get(context)
             return BackendService.forAccount(account.name)
-                ?.instantiate()
+                .instantiate()
                 ?.from(context, account, accountManager)
                 ?.mapCatching {
                     it.setUp(
                         accountManager,
                         account,
-                        loadPassword(context.contentResolver, account.name),
+                        loadPassword(context, account),
                         create
                     )
                     it

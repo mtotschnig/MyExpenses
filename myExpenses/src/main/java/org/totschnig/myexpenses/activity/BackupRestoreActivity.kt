@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState.Running
+import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_ENCRYPT
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_FILE_PATH
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_RESTORE_PLAN_STRATEGY
@@ -234,9 +235,10 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         )
     }
 
-    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int) = Bundle().apply {
+    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int, encrypt: Boolean) = Bundle().apply {
         putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
         putParcelable(KEY_FILE_PATH, fileUri)
+        putBoolean(KEY_ENCRYPT, encrypt)
     }
 
     override fun shouldKeepProgress(taskId: Int) = true
@@ -256,8 +258,12 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
             Utils.getSimpleClassNameFromComponentName(it)
         } == OnboardingActivity::class.java.simpleName
 
-    fun onSourceSelected(mUri: Uri, restorePlanStrategy: Int) {
-        val args = buildRestoreArgs(mUri, restorePlanStrategy)
+    fun onSourceSelected(
+        mUri: Uri,
+        restorePlanStrategy: Int,
+        encrypt: Boolean
+    ) {
+        val args = buildRestoreArgs(mUri, restorePlanStrategy, encrypt)
         backupViewModel.isEncrypted(mUri).observe(this) { result ->
             result.onFailure {
                 showDismissibleSnackBar(it.safeMessage, object : Snackbar.Callback() {

@@ -42,4 +42,8 @@ interface PrefHandler {
 
     val encryptDatabase
         get() = getBoolean(PrefKey.ENCRYPT_DATABASE, false)
+
+    val collate
+        get() = if (encryptDatabase) "NOCASE" else "LOCALIZED"
+
 }

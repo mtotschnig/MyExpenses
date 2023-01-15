@@ -79,6 +79,6 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
     }
 
     fun loadPassword(syncAccountName: String) = liveData(context = coroutineContext()) {
-        emit(loadPassword(contentResolver, syncAccountName))
+        emit(loadPassword(getApplication(), syncAccountName))
     }
 }

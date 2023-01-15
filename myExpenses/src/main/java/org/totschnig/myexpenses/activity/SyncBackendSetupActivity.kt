@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
+import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_QUERY_LOCAL_ACCOUNTS
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
 
 abstract class SyncBackendSetupActivity : RestoreActivity(),
@@ -108,7 +109,11 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         args.putParcelable(AccountManager.KEY_USERDATA, bundle)
         args.putBoolean(
             KEY_RETURN_BACKUPS,
-            createAccountTaskShouldReturnBackups()
+            createAccountTaskShouldReturnBackups
+        )
+        args.putBoolean(
+            KEY_QUERY_LOCAL_ACCOUNTS,
+            createAccountTaskShouldQueryLocalAccounts
         )
         SimpleFormDialog.build().msg(R.string.passphrase_for_synchronization)
             .fields(
@@ -157,9 +162,9 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         showProgressSnackBar(getString(R.string.progress_dialog_fetching_data_from_sync_backend))
     }
 
-    protected open fun createAccountTaskShouldReturnBackups(): Boolean {
-        return false
-    }
+    protected open val createAccountTaskShouldReturnBackups = false
+
+    protected open val createAccountTaskShouldQueryLocalAccounts= true
 
     fun addSyncProviderMenuEntries(subMenu: SubMenu) {
         for (factory in backendProviders) {

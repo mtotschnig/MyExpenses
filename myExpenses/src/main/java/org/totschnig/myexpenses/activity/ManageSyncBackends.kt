@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.ACTION_RECONFIGURE
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
@@ -209,6 +210,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
+        GenericAccountService.activateSync(data.accountName, prefHandler)
         listFragment.reloadAccountList()
         if (callingActivity == null && (data.localAccountsNotSynced.isNotEmpty() || data.remoteAccounts.isNotEmpty())) {
             //if we were called from AccountEdit, we do not show the setup account selection

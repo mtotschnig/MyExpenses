@@ -101,12 +101,11 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             val backupFromSync: String? =
                 if (fileUri == null) args.getString(KEY_BACKUP_FROM_SYNC) else null
             val password: String? = args.getString(KEY_PASSWORD)
-            val workingDir: File
             var currentPlannerId: String? = null
             var currentPlannerPath: String? = null
             val application = getApplication<MyApplication>()
 
-            workingDir = AppDirHelper.cacheDir(application)
+            val workingDir = AppDirHelper.cacheDir(application)
             try {
 
                 val syncBackendProvider: SyncBackendProvider
@@ -275,7 +274,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                 }
             }
-            if (DbUtils.restore(backupFile)) {
+            val encrypt = args.getBoolean(KEY_ENCRYPT, prefHandler.getBoolean(PrefKey.ENCRYPT_DATABASE, false))
+            if (DbUtils.restore(backupFile, encrypt)) {
                 publishProgress(R.string.restore_db_success)
 
                 //since we already started reading settings, we can not just copy the file
@@ -330,14 +330,13 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH))
                     edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))
                 }
+                edit.putBoolean(prefHandler.getKey(PrefKey.ENCRYPT_DATABASE), encrypt)
                 edit.apply()
                 application.settings
                     .registerOnSharedPreferenceChangeListener(application)
                 tempPrefFile.delete()
-                if (fileUri != null) {
-                    backupFile.delete()
-                    backupPrefFile.delete()
-                }
+                backupFile.delete()
+                backupPrefFile.delete()
                 publishProgress(R.string.restore_preferences_success)
                 //if a user restores a backup we do not want past plan instances to flood the database
                 prefHandler.putLong(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP, System.currentTimeMillis())
@@ -482,7 +481,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
         var message = ""
         val application = getApplication<MyApplication>()
         val accountManager = AccountManager.get(application)
-        val accounts = Arrays.asList(*GenericAccountService.getAccountNames(application))
+        val accounts = listOf(*GenericAccountService.getAccountNames(application))
+        val activeAccounts = mutableSetOf<String>()
         val projection =
             arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
         contentResolver.query(
@@ -511,6 +511,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             remoteKey,
                             sharedPreferences.getString(remoteKey, null)
                         )
+                        activeAccounts.add(accountName)
                         restored++
                     } else {
                         failed++
@@ -521,6 +522,9 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 editor.apply()
                 if (restored > 0) {
                     message += getString(R.string.sync_state_restored, restored)
+                    activeAccounts.forEach { account ->
+                        GenericAccountService.activateSync(account, prefHandler)
+                    }
                 }
                 if (failed > 0) {
                     message += getString(
@@ -530,7 +534,6 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 }
                 Account.checkSyncAccounts(application)
             }
-            it.close()
         }
         return message
     }
@@ -554,6 +557,6 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
         const val KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy"
         const val KEY_PASSWORD = "passwordEncryption"
         const val KEY_FILE_PATH = "filePath"
-
+        const val KEY_ENCRYPT = "encrypt"
     }
 }

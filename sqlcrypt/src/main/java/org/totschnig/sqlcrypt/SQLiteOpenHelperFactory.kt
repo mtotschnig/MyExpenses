@@ -2,22 +2,32 @@ package org.totschnig.sqlcrypt
 
 import android.content.Context
 import androidx.annotation.Keep
-import androidx.sqlite.db.SupportSQLiteDatabase
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
 import org.totschnig.myexpenses.di.SqlCryptProvider
 import java.io.File
+import java.io.IOException
 
 @Keep
-class SQLiteOpenHelperFactory: SqlCryptProvider {
-    private fun passPhrase(context: Context): ByteArray = PassphraseRepository(context).getPassphrase()
+class SQLiteOpenHelperFactory : SqlCryptProvider {
+    private fun passPhrase(context: Context): ByteArray =
+        PassphraseRepository(context).getPassphrase()
 
     override fun provideEncryptedDatabase(context: Context) = SupportFactory(passPhrase(context))
 
     /**
      * https://commonsware.com/Room/pages/chap-sqlciphermgmt-001.html
      */
-    override fun decrypt(db: SupportSQLiteDatabase, backupDb: File) {
+    override fun decrypt(context: Context, encrypted: File, backupDb: File) {
+        val originalDb = SQLiteDatabase.openDatabase(
+            encrypted.absolutePath,
+            passPhrase(context),
+            null,
+            SQLiteDatabase.OPEN_READWRITE,
+            null,
+            null
+        )
+
         SQLiteDatabase.openOrCreateDatabase(
             backupDb.absolutePath,
             "",
@@ -25,13 +35,13 @@ class SQLiteOpenHelperFactory: SqlCryptProvider {
         ).close() // create an empty database
 
         //language=text
-        val version = db.compileStatement("ATTACH DATABASE ? AS plaintext KEY ''").use {
+        val version = originalDb.compileStatement("ATTACH DATABASE ? AS plaintext KEY ''").use {
             it.bindString(1, backupDb.absolutePath)
             it.execute()
-            db.execSQL("SELECT sqlcipher_export('plaintext')")
-            db.execSQL("DETACH DATABASE plaintext")
+            originalDb.rawExecSQL("SELECT sqlcipher_export('plaintext')")
+            originalDb.rawExecSQL("DETACH DATABASE plaintext")
 
-            db.version
+            originalDb.version
         }
 
         SQLiteDatabase.openOrCreateDatabase(
@@ -47,6 +57,10 @@ class SQLiteOpenHelperFactory: SqlCryptProvider {
      * https://commonsware.com/Room/pages/chap-sqlciphermgmt-001.html
      */
     override fun encrypt(context: Context, backupFile: File, currentDb: File) {
+        if (currentDb.exists()) {
+            if (!currentDb.delete())
+                throw IOException("File $currentDb exists and cannot be deleted.")
+        }
         val version = SQLiteDatabase.openDatabase(
             backupFile.absolutePath,
             "",
