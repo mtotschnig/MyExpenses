@@ -176,22 +176,4 @@ public class DbUtils {
     }
     return result;
   }
-
-  @Nullable
-  private static String[] getArraySave(Resources resources, int resId) {
-    try {
-      return resources.getStringArray(resId);
-    } catch (Resources.NotFoundException e) {//if resource does exist in an alternate locale, but not in the default one
-      return null;
-    }
-  }
-
-  @Nullable
-  private static String getStringSafe(Resources resources, int resId) {
-    try {
-      return resources.getString(resId);
-    } catch (Resources.NotFoundException e) {//if resource does exist in an alternate locale, but not in the default one
-      return null;
-    }
-  }
 }
