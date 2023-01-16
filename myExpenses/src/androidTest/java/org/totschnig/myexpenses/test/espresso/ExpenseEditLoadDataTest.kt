@@ -383,6 +383,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 .check(matches(withText("Daily plan")))
 
         }
+        Plan.delete(plan.planId)
     }
 
     @Test

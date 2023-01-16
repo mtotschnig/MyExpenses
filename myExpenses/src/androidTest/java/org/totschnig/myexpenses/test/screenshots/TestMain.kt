@@ -19,6 +19,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
+import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.ClassRule
@@ -45,6 +46,11 @@ class TestMain : BaseMyExpensesTest() {
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
         Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
     )
+
+    @After
+    fun cleanUp() {
+        app.fixture.cleanup()
+    }
 
     @Test
     fun mkScreenShots() {

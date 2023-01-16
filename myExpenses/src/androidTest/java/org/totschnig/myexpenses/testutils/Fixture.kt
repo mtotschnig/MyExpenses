@@ -53,10 +53,15 @@ class Fixture(inst: Instrumentation) {
         get() = "Dropbox - " + testContext.getString(RT.string.testData_sync_backend_2_name)
     val syncAccount3: String
         get() = "WebDAV - https://my.private.cloud/webdav/MyExpenses"
+    var planId: Long = 0L
 
     init {
         testContext = inst.context
         appContext = inst.targetContext.applicationContext as MyApplication
+    }
+
+    fun cleanup() {
+        Plan.delete(planId)
     }
 
     fun setup(withPicture: Boolean, repository: Repository) {
@@ -283,14 +288,16 @@ class Fixture(inst: Instrumentation) {
             )
         template.title = templateSubCat
         template.payee = appContext.getString(R.string.testData_templatePayee)
-        val planUri = Plan(
-            LocalDate.now(),
-            "FREQ=WEEKLY;COUNT=10;WKST=SU",
-            template.title,
-            template.compileDescription(appContext)
+        planId = ContentUris.parseId(
+            Plan(
+                LocalDate.now(),
+                "FREQ=WEEKLY;COUNT=10;WKST=SU",
+                template.title,
+                template.compileDescription(appContext)
+            )
+                .save()!!
         )
-            .save()
-        template.planId = ContentUris.parseId(planUri!!)
+        template.planId = planId
         template.save()
             ?: throw RuntimeException("Could not save template")
         val budget = Budget(
