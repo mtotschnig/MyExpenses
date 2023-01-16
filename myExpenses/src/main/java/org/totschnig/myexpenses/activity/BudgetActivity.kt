@@ -218,7 +218,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 EDIT_BUDGET_DIALOG -> {
                     val amount = Money(
                         budget.currency,
-                        (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal?)!!
+                        (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal)
                     )
                     viewModel.updateBudget(
                         budget.id,

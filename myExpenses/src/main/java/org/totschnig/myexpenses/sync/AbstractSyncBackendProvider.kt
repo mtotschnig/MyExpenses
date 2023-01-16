@@ -50,7 +50,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     private var appInstance: String? = null
     private var encryptionPassword: String? = null
     val mimeTypeForData: String
-        get() = if (isEncrypted) MIME_TYPE_JSON else MIME_TYPE_OCTET_STREAM
+        get() = if (isEncrypted) MIME_TYPE_OCTET_STREAM else MIME_TYPE_JSON
     protected val isEncrypted: Boolean
         get() = encryptionPassword != null
     val accountMetadataFilename: String

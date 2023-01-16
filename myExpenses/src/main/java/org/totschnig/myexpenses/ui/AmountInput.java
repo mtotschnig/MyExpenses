@@ -95,11 +95,9 @@ public class AmountInput extends ConstraintLayout {
   private void init(@Nullable AttributeSet attrs) {
     final Context context = getContext();
     TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AmountInput);
-    withTypeSwitch = ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true);
     withCurrencySelection = ta.getBoolean(R.styleable.AmountInput_withCurrencySelection, false);
     withExchangeRate = ta.getBoolean(R.styleable.AmountInput_withExchangeRate, false);
     boolean alternateLayout = ta.getBoolean(R.styleable.AmountInput_alternateLayout, false);
-    ta.recycle();
     LayoutInflater inflater = LayoutInflater.from(context);
     viewBinding = alternateLayout ? AmountInputAlternateBinding.inflate(inflater, this) : AmountInputBinding.inflate(inflater, this);
     currencySpinner = new SpinnerHelper((viewBinding instanceof AmountInputAlternateBinding ?
@@ -107,16 +105,8 @@ public class AmountInput extends ConstraintLayout {
         ((AmountInputBinding) viewBinding).AmountCurrency)
         .getRoot());
     updateChildContentDescriptions();
-    if (withTypeSwitch) {
-      typeButton().setOnCheckedChangeListener((buttonView, isChecked) -> {
-        setContentDescriptionForTypeSwitch();
-        if (typeChangedListener != null) {
-          typeChangedListener.onTypeChanged(isChecked);
-        }
-      });
-    } else {
-      typeButton().setVisibility(View.GONE);
-    }
+    setWithTypeSwitch(ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true));
+    ta.recycle();
     if (withCurrencySelection) {
       currencyAdapter = new CurrencyAdapter(getContext(), android.R.layout.simple_spinner_item) {
         @NonNull
@@ -246,6 +236,19 @@ public class AmountInput extends ConstraintLayout {
 
   public void setWithTypeSwitch(boolean withTypeSwitch) {
     this.withTypeSwitch = withTypeSwitch;
+    CompoundButton button = typeButton();
+    if (withTypeSwitch) {
+      button.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        setContentDescriptionForTypeSwitch();
+        if (typeChangedListener != null) {
+          typeChangedListener.onTypeChanged(isChecked);
+        }
+        button.setVisibility(VISIBLE);
+      });
+    } else {
+      button.setOnCheckedChangeListener(null);
+      button.setVisibility(GONE);
+    }
   }
 
   public void setAmount(@NonNull BigDecimal amount) {

@@ -14,7 +14,6 @@ public class AmountInput extends FormElement<AmountInput, AmountInputViewHolder>
   String maxExceededError;
   @Nullable BigDecimal min;
   String underMinError;
-
   @Nullable Boolean withTypeSwitch;
 
   protected AmountInput(String resultKey) {

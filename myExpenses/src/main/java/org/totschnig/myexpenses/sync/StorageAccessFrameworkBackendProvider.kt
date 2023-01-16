@@ -44,7 +44,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         if (update || metaData == null) {
             saveFileContents(
                 file = metaData ?: accountDir.createFile(
-                    MIME_TYPE_JSON,
+                    mimeTypeForData,
                     accountMetadataFilename
                 ) ?: throw IOException(""),
                 fileContents = buildMetadata(account),
