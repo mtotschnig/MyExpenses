@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -138,12 +139,13 @@ class GenericAccountService : Service() {
         const val KEY_BROKEN = "broken"
         const val KEY_ENCRYPTED = "encrypted"
 
-        fun requestSync(accountName: String,
-                        manual: Boolean = true,
-                        expedited: Boolean = true,
-                        uuid: String? = null,
-                        extras: Bundle = Bundle()
-                        ) {
+        fun requestSync(
+            accountName: String,
+            manual: Boolean = true,
+            expedited: Boolean = true,
+            uuid: String? = null,
+            extras: Bundle = Bundle()
+        ) {
             ContentResolver.requestSync(
                 getAccount(accountName),
                 TransactionProvider.AUTHORITY, extras.apply {
@@ -200,7 +202,8 @@ class GenericAccountService : Service() {
             account: Account,
             encryptionPassword: String?
         ) {
-            AccountManager.get(context).setUserData(account, KEY_PASSWORD_ENCRYPTION, encryptionPassword)
+            AccountManager.get(context)
+                .setUserData(account, KEY_PASSWORD_ENCRYPTION, encryptionPassword)
         }
 
         fun loadPassword(context: Context, accountName: String): String? {
@@ -212,11 +215,15 @@ class GenericAccountService : Service() {
         }
 
         fun migratePasswords(context: Context) {
-            getAccounts(context).forEach {account ->
+            getAccounts(context).forEach { account ->
                 val legacyPasswordKey = "${account.name} - $KEY_PASSWORD_ENCRYPTION"
                 DbUtils.loadSetting(context.contentResolver, legacyPasswordKey)?.let {
                     Timber.i("Migrated password for ${account.name}")
                     storePassword(context, account, it)
+                    context.contentResolver.delete(
+                        TransactionProvider.SETTINGS_URI,
+                        DatabaseConstants.KEY_KEY + " = ?", arrayOf(legacyPasswordKey)
+                    )
                 }
             }
         }
