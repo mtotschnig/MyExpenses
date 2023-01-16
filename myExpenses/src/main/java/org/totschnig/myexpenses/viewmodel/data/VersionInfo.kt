@@ -92,6 +92,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.synchronization)} (WebDAV): ${t(R.string.menu_reconfigure)}",
                 "${t(R.string.pref_translation_title)} : ${Locale("ur").displayLanguage}",
             )
+            "350" -> arrayOf(
+                "${t(R.string.encrypt_database)} (${t(R.string.experimental)})"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",

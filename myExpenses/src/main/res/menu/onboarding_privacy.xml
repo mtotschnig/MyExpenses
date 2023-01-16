@@ -7,7 +7,7 @@
         <menu>
             <item
                 android:checkable="true"
-                android:title="Encrypt database"
+                android:title="@string/encrypt_database"
                 android:id="@+id/SqlEncrypt"/>
         </menu>
     </item>

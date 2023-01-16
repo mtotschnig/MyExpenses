@@ -22,13 +22,10 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -48,12 +45,6 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     @Inject
     lateinit var currencyContext: CurrencyContext
-
-    @Inject
-    lateinit var prefHandler: PrefHandler
-
-    @Inject
-    lateinit var featureManager: FeatureManager
 
     private val currencyViewModel: CurrencyViewModel by viewModels()
     val viewModel: OnBoardingDataViewModel by viewModels()
@@ -89,12 +80,10 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         )
     }
 
-    override fun getNavigationButtonId(): Int {
-        return R.id.suw_navbar_done
-    }
+    override val navigationButtonId = R.id.suw_navbar_done
 
     override fun onNextButtonClicked() {
-        if (prefHandler.getBoolean(PrefKey.ENCRYPT_DATABASE, false) && !featureManager.isFeatureInstalled(Feature.SQLCRYPT, requireContext())) {
+        if (prefHandler.encryptDatabase && !isSqlCryptLoaded) {
             (requireActivity() as BaseActivity).showMessage(
                 "The module required for database encryption has not yet been downloaded from Play Store. Please try again!",
                 null,
@@ -112,9 +101,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         }
     }
 
-    override fun getMenuResId(): Int {
-        return R.menu.onboarding_data
-    }
+    override val menuResId = R.menu.onboarding_data
 
     public override fun setupMenu() {
         toolbar.menu.findItem(R.id.SetupFromRemote).subMenu?.let {
@@ -128,7 +115,6 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     }
 
     private fun onRestoreMenuItemSelected(item: MenuItem): Boolean {
-        //TODO check if database encryption is active
         val hostActivity = requireActivity() as SyncBackendSetupActivity
         if (item.itemId == R.id.SetupFromLocal) {
             val intent = Intent(activity, BackupRestoreActivity::class.java)
@@ -144,11 +130,9 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         return true
     }
 
-    override fun getLayoutResId(): Int {
-        return R.layout.onboarding_wizzard_data
-    }
+    override val layoutResId = R.layout.onboarding_wizzard_data
 
-    public override fun bindView(view: View) {
+    override fun bindView(view: View) {
         _binding = OnboardingWizzardDataBinding.bind(view)
         binding.MoreOptionsButton.setOnClickListener {
             viewModel.moreOptionsShown = true
@@ -191,9 +175,8 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         }
     }
 
-    override fun getTitle(): CharSequence {
-        return getString(R.string.onboarding_data_title)
-    }
+    override val title: CharSequence
+        get() = getString(R.string.onboarding_data_title)
 
     private fun setDefaultLabel() {
         binding.Label.setText(R.string.default_account_name)

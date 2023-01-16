@@ -80,7 +80,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                             message.append(getString(R.string.warning_backup_protected)).append(" ")
                         } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
                             || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
-                            || prefHandler.getBoolean(PrefKey.ENCRYPT_DATABASE, false)
+                            || prefHandler.encryptDatabase
                         ) {
                             message.append(unencryptedBackupWarning).append(" ")
                         }

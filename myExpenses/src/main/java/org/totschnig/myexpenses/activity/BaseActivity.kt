@@ -66,7 +66,6 @@ import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import javax.inject.Inject
-import javax.inject.Named
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     EasyPermissions.PermissionCallbacks, AmountInput.Host {

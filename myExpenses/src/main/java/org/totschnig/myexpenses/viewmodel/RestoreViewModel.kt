@@ -274,7 +274,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                 }
             }
-            val encrypt = args.getBoolean(KEY_ENCRYPT, prefHandler.getBoolean(PrefKey.ENCRYPT_DATABASE, false))
+            val encrypt = args.getBoolean(KEY_ENCRYPT, false)
             if (DbUtils.restore(backupFile, encrypt)) {
                 publishProgress(R.string.restore_db_success)
 

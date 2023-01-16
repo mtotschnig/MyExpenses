@@ -34,10 +34,8 @@ import org.totschnig.myexpenses.compose.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
 import org.totschnig.myexpenses.databinding.OnboardingWizzardUiBinding
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.Utils
@@ -62,9 +60,6 @@ class OnboardingUiFragment : OnboardingFragment() {
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
 
-    @Inject
-    lateinit var prefHandler: PrefHandler
-
     private var fontScale = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,9 +69,7 @@ class OnboardingUiFragment : OnboardingFragment() {
         }
     }
 
-    override fun getLayoutResId(): Int {
-        return R.layout.onboarding_wizzard_ui
-    }
+    override val layoutResId = R.layout.onboarding_wizzard_ui
 
     override fun bindView(view: View) {
         _binding = OnboardingWizzardUiBinding.bind(view)
@@ -214,9 +207,8 @@ class OnboardingUiFragment : OnboardingFragment() {
         )
     }
 
-    override fun getTitle(): CharSequence {
-        return Utils.getTextWithAppName(context, R.string.onboarding_ui_title)
-    }
+    override val title: CharSequence
+        get() = Utils.getTextWithAppName(context, R.string.onboarding_ui_title)
 
     private fun onFontSizeSet() {
         val newValue = binding.fontSize.progress

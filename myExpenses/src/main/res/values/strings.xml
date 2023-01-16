@@ -1041,4 +1041,5 @@
     <!-- %s is replaced with the translation of "Select All" -->
     <string name="select_all_list_too_large">The command %s is not available because the list is only partially loaded. Please use the Search functionality in order to reduce the list size.</string>
     <string name="menu_reconfigure">Reconfigure</string>
+    <string name="encrypt_database">Encrypt database</string>
 </resources>

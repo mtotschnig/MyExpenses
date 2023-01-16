@@ -67,7 +67,6 @@ import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
 import javax.inject.Inject
-import javax.inject.Named
 
 const val KEY_INSTANCES = "instances"
 const val DIALOG_TAG_CONFIRM_CANCEL = "confirm_cancel"
