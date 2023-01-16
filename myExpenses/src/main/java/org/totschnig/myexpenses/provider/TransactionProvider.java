@@ -1329,47 +1329,49 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = 1;
         break;
       case CURRENCIES_CHANGE_FRACTION_DIGITS:
-        synchronized (MyApplication.getInstance()) {
-          List<String> segments = uri.getPathSegments();
-          segment = segments.get(2);
-          String[] bindArgs = new String[]{segment};
-          int oldValue = currencyContext.get(segment).getFractionDigits();
-          int newValue = Integer.parseInt(segments.get(3));
-          if (oldValue == newValue) {
-            return 0;
-          }
-          c = db.query(SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS)
-                  .columns(new String[]{"count(*)"})
-                  .selection(KEY_CURRENCY + "=?", bindArgs)
-                  .create());
-          count = 0;
-          if (c.getCount() != 0) {
-            c.moveToFirst();
-            count = c.getInt(0);
-          }
-          c.close();
-          String operation = oldValue < newValue ? "*" : "/";
-          int factor = (int) Math.pow(10, Math.abs(oldValue - newValue));
-          if (count != 0) {
-            MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
-              db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
-                      + KEY_OPENING_BALANCE + operation + factor + " WHERE " + KEY_CURRENCY + "=?",
-                  bindArgs);
-              db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
-                      + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
-                      + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
-                  bindArgs);
-
-              db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
-                      + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
-                      + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
-                  bindArgs);
-              currencyContext.storeCustomFractionDigits(segment, newValue);
-            });
-          } else {
-            currencyContext.storeCustomFractionDigits(segment, newValue);
-          }
+        List<String> segments = uri.getPathSegments();
+        segment = segments.get(2);
+        String[] bindArgs = new String[]{segment};
+        int oldValue = currencyContext.get(segment).getFractionDigits();
+        int newValue = Integer.parseInt(segments.get(3));
+        if (oldValue == newValue) {
+          return 0;
         }
+        c = db.query(SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS)
+                .columns(new String[]{"count(*)"})
+                .selection(KEY_CURRENCY + "=?", bindArgs)
+                .create());
+        count = 0;
+        if (c.getCount() != 0) {
+          c.moveToFirst();
+          count = c.getInt(0);
+        }
+        c.close();
+        boolean increase = oldValue < newValue;
+        String operation = increase ? "*" : "/";
+        String inverseOperation = increase ? "/" : "*";
+        int factor = (int) Math.pow(10, Math.abs(oldValue - newValue));
+        MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
+          db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
+                  + KEY_OPENING_BALANCE + operation + factor + " WHERE " + KEY_CURRENCY + "=?",
+              bindArgs);
+          db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
+                  + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
+                  + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+              bindArgs);
+
+          db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
+                  + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
+                  + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+              bindArgs);
+          db.execSQL("UPDATE " + TABLE_ACCOUNT_EXCHANGE_RATES + " SET " + KEY_EXCHANGE_RATE + "="
+                          + KEY_EXCHANGE_RATE + operation + factor + " WHERE " + KEY_CURRENCY_OTHER + "=?",
+                  bindArgs);
+          db.execSQL("UPDATE " + TABLE_ACCOUNT_EXCHANGE_RATES + " SET " + KEY_EXCHANGE_RATE + "="
+                          + KEY_EXCHANGE_RATE + inverseOperation + factor + " WHERE " + KEY_CURRENCY_SELF + "=?",
+                  bindArgs);
+          currencyContext.storeCustomFractionDigits(segment, newValue);
+        });
         break;
       case ACCOUNTS_SWAP_SORT_KEY:
         String sortKey1 = uri.getPathSegments().get(2);
