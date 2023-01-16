@@ -564,7 +564,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun checkCorruptedData987() = Bundle(1).apply {
         putLongArray(KEY_RESULT, helper.readableDatabase.query(
             "select distinct transactions.parent_id from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
-            null
         ).use { cursor ->
             cursor.asSequence.map { it.getLong(0) }.toList().toLongArray()
         })
@@ -615,7 +614,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
     ): Cursor {
         val query =
             columns(projection).selection(selection, selectionArgs).groupBy(groupBy).having(having)
-                .orderBy(sortOrder).limit(limit).create()
+                .orderBy(sortOrder).apply {
+                    if (limit != null) {
+                        limit(limit)
+                    }
+                }.create()
         return measure(block = {
             db.query(query)
         }) {
@@ -628,7 +631,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         selection: String?,
         sql: String,
         selectionArgs: Array<String>?
-    ): Cursor = measure(block = { query(sql, selectionArgs) }) {
+    ): Cursor = measure(block = { query(sql, selectionArgs ?: emptyArray()) }) {
         "$uri - $selection - $sql - (${selectionArgs?.joinToString()})"
     }
 

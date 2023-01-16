@@ -405,7 +405,11 @@ fun SupportSQLiteDatabase.query(
         .groupBy(groupBy)
         .having(having)
         .orderBy(orderBy)
-        .limit(limit)
+        .apply {
+            if (limit != null) {
+                limit(limit)
+            }
+        }
         .create())
 
 fun suggestNewCategoryColor(db: SupportSQLiteDatabase) = db.query(
