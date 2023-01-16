@@ -78,15 +78,11 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                             .append(" ")
                         if (isProtected) {
                             message.append(getString(R.string.warning_backup_protected)).append(" ")
-                        } else if (prefHandler.getBoolean(
-                                PrefKey.PROTECTION_LEGACY,
-                                false
-                            ) || prefHandler.getBoolean(
-                                PrefKey.PROTECTION_DEVICE_LOCK_SCREEN,
-                                false
-                            )
+                        } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
+                            || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
+                            || prefHandler.getBoolean(PrefKey.ENCRYPT_DATABASE, false)
                         ) {
-                            message.append(unencryptedBackupWarning()).append(" ")
+                            message.append(unencryptedBackupWarning).append(" ")
                         }
                         message.append(getString(R.string.continue_confirmation))
                         ConfirmationDialogFragment.newInstance(Bundle().apply {
@@ -235,11 +231,12 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         )
     }
 
-    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int, encrypt: Boolean) = Bundle().apply {
-        putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
-        putParcelable(KEY_FILE_PATH, fileUri)
-        putBoolean(KEY_ENCRYPT, encrypt)
-    }
+    private fun buildRestoreArgs(fileUri: Uri, restorePlanStrategy: Int, encrypt: Boolean) =
+        Bundle().apply {
+            putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
+            putParcelable(KEY_FILE_PATH, fileUri)
+            putBoolean(KEY_ENCRYPT, encrypt)
+        }
 
     override fun shouldKeepProgress(taskId: Int) = true
 

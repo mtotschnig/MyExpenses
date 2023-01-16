@@ -348,7 +348,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
 
     fun showUnencryptedBackupWarning() {
         if (prefHandler.getString(PrefKey.EXPORT_PASSWORD, null) == null) showMessage(
-            unencryptedBackupWarning()
+            unencryptedBackupWarning
         )
     }
 
