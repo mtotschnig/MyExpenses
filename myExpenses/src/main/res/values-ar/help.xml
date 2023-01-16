@@ -177,4 +177,7 @@
     <string name="cab_link_help_text">يمكن ربط المصروف في أحد الحسابات بدخل في حساب آخر. إذا كان للحسابات نفس العملة ، فيجب أن يكون للمعاملتين مبالغ متطابقة.</string>
     <string name="help_ManageCategories_select_filter_info">انقر فوق إدخال لبدء الاختيار المتعدد.</string>
     <string name="menu_merge_help_text">إذا ظهرت المجموعة نفسها عدة مرات في القائمة باستخدام أشكال تهجئة مختلفة ، فيمكنك دمجها معًا. سيُطلب منك تحديد المتغير الذي تريد الاحتفاظ به.</string>
+    <string name="help_ManageCategories_expand_collapse">انقر على رمز &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; لتوسيع أو تصغير فئة.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">يفتح مربع الحوار لإنشاء فئة فرعية جديدة أسفل الفئة المحددة. يمكن أن تتداخل الفئات الفرعية بعمق عشوائي.</string>
+    <string name="cab_ManageCategories_move_help_text">يمكن نقل أي فئة (مع فئاتها الفرعية) إلى فئة رئيسية جديدة. يمكن تحويل الفئات الفرعية إلى فئات رئيسية.</string>
 </resources>
