@@ -6,8 +6,6 @@ import android.content.ContentValues
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
@@ -401,6 +399,9 @@ class UpgradeHandlerViewModel(application: Application) :
                             false
                     }
                 }
+            }
+            if (fromVersion < 576) {
+                GenericAccountService.migratePasswords(getApplication())
             }
 
             if (upgradeInfoList.isNotEmpty()) {

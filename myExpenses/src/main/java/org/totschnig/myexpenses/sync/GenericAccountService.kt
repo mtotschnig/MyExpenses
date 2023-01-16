@@ -211,6 +211,16 @@ class GenericAccountService : Service() {
             return AccountManager.get(context).getUserData(account, KEY_PASSWORD_ENCRYPTION)
         }
 
+        fun migratePasswords(context: Context) {
+            getAccounts(context).forEach {account ->
+                val legacyPasswordKey = "${account.name} - $KEY_PASSWORD_ENCRYPTION"
+                DbUtils.loadSetting(context.contentResolver, legacyPasswordKey)?.let {
+                    Timber.i("Migrated password for ${account.name}")
+                    storePassword(context, account, it)
+                }
+            }
+        }
+
         private fun getPasswordKey(accountName: String): String {
             return "$accountName - $KEY_PASSWORD_ENCRYPTION"
         }
