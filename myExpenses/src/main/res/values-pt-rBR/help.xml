@@ -196,4 +196,11 @@
     <string name="help_WebUI_info_3">Você pode definir uma senha para proteger o acesso. Na campo de texto da interface web, apenas a senha é necessário, o usuário é ignorado</string>
     <string name="help_WebUI_info_4">Quando exibe trasacoes de uma conta selecionada, a interface web usa os mesmos filtros criados no app de Android.</string>
     <string name="menu_BudgetActivity_rollover_categories">Os lembrete de cada categoria estao em vigor, e as alocações do próximo período serão afetadas.</string>
+    <string name="help_ManageSyncBackends_saf">Esta opção permite selecionar uma pasta através da tela de seleção de arquivos do Android. Isso é particularmente útil caso você tenha instalado um aplicativo de armazenamento em nuvem que suporte a seleção de uma pasta para armazenamento de conteúdo, como, por exemplo, o NextCloud.</string>
+    <string name="help_Budget_amount_click_1">A alteração de um montante nunca afetará períodos passados. A não ser que você defina isso para o período atual, somente os períodos futuros serão afetados.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">Se você gastar a mais ou a menos em seu orçamento, você pode rolar a diferença para o próximo período, de modo que o montante que você possa alocar ali seja aumentado ou diminuído. Existem três opções:</string>
+    <string name="menu_BudgetActivity_rollover_total">Apenas o restante do orçamento total é rolado, de modo que apenas o orçamento total do próximo período seja aumentado ou diminuído.</string>
+    <string name="help_WebUI_info_1">Abre a URL exibida na legenda de um navegador web no seu computador desktop.</string>
+    <string name="help_WebUI_info_2">Atualmente a interface web do usuário não suporta transferências ou transações divididas.</string>
+    <string name="cab_MyExpenses_select_help_text">A seleção múltipla pode ser iniciada selecionando este comando ou dando um toque longo em uma entrada da lista.</string>
 </resources>
