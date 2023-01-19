@@ -7,6 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToOne
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
@@ -35,16 +38,12 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
 
     private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
     val appDirInfo: LiveData<Result<AppDirInfo>> = _appDirInfo
-    val hasStaleImages: LiveData<Boolean> by lazy {
-        val liveData = MutableLiveData<Boolean>()
-        disposable = briteContentResolver.createQuery(
+
+    val hasStaleImages: Flow<Boolean>
+        get() = contentResolver.observeQuery(
             TransactionProvider.STALE_IMAGES_URI,
             arrayOf("count(*)"), null, null, null, true
-        )
-            .mapToOne { cursor -> cursor.getInt(0) > 0 }
-            .subscribe { liveData.postValue(it) }
-        return@lazy liveData
-    }
+        ).mapToOne { cursor -> cursor.getInt(0) > 0 }
 
     fun logData() = liveData<Array<String>>(context = coroutineContext()) {
         getApplication<MyApplication>().getExternalFilesDir(null)?.let { dir ->

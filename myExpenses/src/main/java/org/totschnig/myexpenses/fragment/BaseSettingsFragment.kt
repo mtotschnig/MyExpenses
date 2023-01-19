@@ -34,6 +34,7 @@ import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
@@ -788,8 +789,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 csvPref.summary = getString(R.string.pref_import_summary, "CSV")
                 csvPref.title = getString(R.string.pref_import_title, "CSV")
 
-                viewModel.hasStaleImages.observe(this) { result ->
-                    requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible = result
+                lifecycleScope.launchWhenStarted {
+                    viewModel.hasStaleImages.collect { result ->
+                        requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible =
+                            result
+                    }
                 }
 
                 val privacyCategory =
