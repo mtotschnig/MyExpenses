@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
-import org.totschnig.myexpenses.di.SqlCryptProvider
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -43,6 +42,7 @@ import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
 import kotlin.math.abs
+import kotlin.math.pow
 
 fun Uri.Builder.appendBooleanQueryParameter(key: String): Uri.Builder =
     appendQueryParameter(key, "1")
@@ -410,7 +410,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun backup(context: Context, backupDir: File): Result<Unit> {
-        val currentDb = File(helper.readableDatabase.path)
+        val currentDb = File(helper.readableDatabase.path!!)
         helper.readableDatabase.close()
         _helper = null
         return (if (prefHandler.encryptDatabase) decrypt(currentDb, backupDir) else backupDb(currentDb, backupDir))
@@ -548,7 +548,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long) = db.query(
+    fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long): String = db.query(
         table = TABLE_TRANSACTIONS,
         columns = arrayOf(KEY_UUID),
         selection = "$KEY_ROWID = ?",
@@ -624,6 +624,72 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }) {
             "$uri - ${query.sql} - (${selectionArgs?.joinToString()})"
         }
+    }
+
+    fun updateFractionDigits(
+        db: SupportSQLiteDatabase,
+        currency: String,
+        newValue: Int
+    ): Int {
+        val oldValue = currencyContext[currency].fractionDigits
+        if (oldValue == newValue) {
+            return 0
+        }
+        val bindArgs = arrayOf(currency)
+        val count = db.query(
+            SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS)
+                .columns(arrayOf("count(*)"))
+                .selection("$KEY_CURRENCY=?", bindArgs)
+                .create()
+        ).use {
+            if (it.moveToFirst()) it.getInt(0) else 0
+        }
+        val increase: Boolean = oldValue < newValue
+        val operation = if (increase) "*" else "/"
+        val inverseOperation = if (increase) "/" else "*"
+        val factor = 10.0.pow(abs(oldValue - newValue).toDouble()).toInt()
+        safeUpdateWithSealed(db) {
+            db.execSQL(
+                "UPDATE $TABLE_ACCOUNTS SET $KEY_OPENING_BALANCE=$KEY_OPENING_BALANCE$operation$factor WHERE $KEY_CURRENCY=?",
+                bindArgs
+            )
+            db.execSQL(
+                "UPDATE $TABLE_TRANSACTIONS SET $KEY_AMOUNT=$KEY_AMOUNT$operation$factor WHERE $KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY=?)",
+                bindArgs
+            )
+            db.execSQL(
+                "UPDATE $TABLE_TEMPLATES SET $KEY_AMOUNT=$KEY_AMOUNT$operation$factor WHERE $KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY=?)",
+                bindArgs
+            )
+            db.execSQL(
+                "UPDATE $TABLE_ACCOUNT_EXCHANGE_RATES SET $KEY_EXCHANGE_RATE=$KEY_EXCHANGE_RATE$operation$factor WHERE $KEY_CURRENCY_OTHER=?",
+                bindArgs
+            )
+            db.execSQL(
+                "UPDATE $TABLE_ACCOUNT_EXCHANGE_RATES SET $KEY_EXCHANGE_RATE=$KEY_EXCHANGE_RATE$inverseOperation$factor WHERE $KEY_CURRENCY_SELF=?",
+                bindArgs
+            )
+            val totalBudgetClause = if (homeCurrency == currency) " OR $KEY_CURRENCY = '${AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE}'" else ""
+            db.execSQL(
+                """UPDATE $TABLE_BUDGET_ALLOCATIONS SET
+                    $KEY_BUDGET=$KEY_BUDGET$operation$factor,
+                    $KEY_BUDGET_ROLLOVER_PREVIOUS=$KEY_BUDGET_ROLLOVER_PREVIOUS$operation$factor,
+                    $KEY_BUDGET_ROLLOVER_NEXT=$KEY_BUDGET_ROLLOVER_NEXT$operation$factor
+                    WHERE $KEY_BUDGETID IN (
+                        SELECT $KEY_ROWID FROM $TABLE_BUDGETS WHERE
+                            $KEY_CURRENCY=? OR
+                            $KEY_ACCOUNTID IN (
+                                SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY=?
+                            )
+                            $totalBudgetClause
+                    )
+                """.trimIndent(),
+                arrayOf(currency,currency)
+            )
+
+            currencyContext.storeCustomFractionDigits(currency, newValue)
+        }
+        return count
     }
 
     fun SupportSQLiteDatabase.measureAndLogQuery(
