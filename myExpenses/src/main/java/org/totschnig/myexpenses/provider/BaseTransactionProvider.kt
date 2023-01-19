@@ -686,6 +686,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 """.trimIndent(),
                 arrayOf(currency,currency)
             )
+            db.execSQL(
+                "UPDATE $TABLE_DEBTS SET $KEY_AMOUNT=$KEY_AMOUNT$operation$factor WHERE $KEY_CURRENCY=?",
+                bindArgs
+            )
 
             currencyContext.storeCustomFractionDigits(currency, newValue)
         }
