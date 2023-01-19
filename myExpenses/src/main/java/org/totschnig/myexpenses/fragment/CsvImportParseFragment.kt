@@ -2,9 +2,6 @@ package org.totschnig.myexpenses.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.database.Cursor
-import android.database.MatrixCursor
-import android.database.MergeCursor
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,18 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
-import android.widget.SimpleCursorAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.loader.app.LoaderManager
-import androidx.loader.content.CursorLoader
-import androidx.loader.content.Loader
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.IMPORT_FILENAME_REQUEST_CODE
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.FilenameBinding
 import org.totschnig.myexpenses.databinding.ImportCsvParseBinding
@@ -35,18 +29,19 @@ import org.totschnig.myexpenses.dialog.configureDateFormat
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.checkNewAccountLimitation
+import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.ImportViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import javax.inject.Inject
 
-class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemSelectedListener, FileNameHostFragment {
+class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener, FileNameHostFragment {
 
     private var _binding: ImportCsvParseBinding? = null
     private var _fileNameBinding: FilenameBinding? = null
@@ -55,7 +50,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
     private val fileNameBinding
         get() = _fileNameBinding!!
     private var mUri: Uri? = null
-    private lateinit var currencyViewModel: CurrencyViewModel
+    private val currencyViewModel: CurrencyViewModel by viewModels()
+    private val viewModel: ImportViewModel by viewModels()
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -76,19 +72,17 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         return fileNameBinding.Filename
     }
 
-    private var mAccountsCursor: MergeCursor? = null
-    private val accountsAdapter: SimpleCursorAdapter? //can be called after onDestroyView
-        get() = _binding?.AccountTable?.Account?.adapter as? SimpleCursorAdapter
+    @Suppress("UNCHECKED_CAST")
+    private val accountsAdapter: IdAdapter<Account>
+        get() = binding.AccountTable.Account.adapter as IdAdapter<Account>
     private val currencyAdapter: CurrencyAdapter
         get() = binding.AccountTable.Currency.adapter as CurrencyAdapter
 
-    private var accountId: Long = 0
     private var currency: String? = null
     private var type: AccountType? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         if (savedInstanceState != null) {
-            accountId = savedInstanceState.getLong(DatabaseConstants.KEY_ACCOUNTID)
             currency = savedInstanceState.getString(DatabaseConstants.KEY_CURRENCY)
             type = savedInstanceState.getSerializable(DatabaseConstants.KEY_TYPE) as AccountType?
         }
@@ -98,10 +92,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         DialogUtils.configureEncoding(binding.EncodingTable.Encoding, activity, prefHandler, PREF_KEY_IMPORT_CSV_ENCODING)
         DialogUtils.configureDelimiter(binding.Delimiter, activity, prefHandler, PREF_KEY_IMPORT_CSV_DELIMITER)
         with(binding.AccountTable.Account) {
-            adapter = SimpleCursorAdapter(binding.root.context, android.R.layout.simple_spinner_item, null,
-                    arrayOf(DatabaseConstants.KEY_LABEL), intArrayOf(android.R.id.text1), 0).also {
-                it.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-            }
+            adapter = IdAdapter<Account>(requireContext())
             onItemSelectedListener = this@CsvImportParseFragment
         }
         DialogUtils.configureCurrencySpinner(binding.AccountTable.Currency, this)
@@ -111,11 +102,16 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
                 binding.AccountTable.Currency.setSelection(currencyAdapter.getPosition(currencyViewModel.default))
             }
         }
+        lifecycleScope.launchWhenStarted {
+            viewModel.accounts.collect {
+                accountsAdapter.addAll(it)
+                binding.AccountTable.Account.setSelection(accountsAdapter.getPosition(viewModel.accountId))
+            }
+        }
         with(binding.AccountTable.AccountType) {
             DialogUtils.configureTypeSpinner(this)
             onItemSelectedListener = this@CsvImportParseFragment
         }
-        LoaderManager.getInstance(this).initLoader(0, null, this)
         fileNameBinding.btnBrowse.setOnClickListener(this)
         return binding.root
     }
@@ -130,7 +126,6 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
         with((requireActivity().application as MyApplication).appComponent) {
             inject(this@CsvImportParseFragment)
             inject(currencyViewModel)
@@ -162,7 +157,6 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         if (mUri != null) {
             outState.putString(prefKey, mUri.toString())
         }
-        outState.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId)
         outState.putString(DatabaseConstants.KEY_CURRENCY, currency)
     }
 
@@ -214,65 +208,53 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         true
     } else super.onOptionsItemSelected(item)
 
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        return CursorLoader(requireActivity(),
-                TransactionProvider.ACCOUNTS_BASE_URI, arrayOf(
-                DatabaseConstants.KEY_ROWID,
-                DatabaseConstants.KEY_LABEL,
-                DatabaseConstants.KEY_CURRENCY,
-                DatabaseConstants.KEY_TYPE),
-                DatabaseConstants.KEY_SEALED + " = 0 ", null, null)
-    }
-
-    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor) {
-        val extras = MatrixCursor(arrayOf(
-                DatabaseConstants.KEY_ROWID,
-                DatabaseConstants.KEY_LABEL,
-                DatabaseConstants.KEY_CURRENCY,
-                DatabaseConstants.KEY_TYPE
-        ))
-        extras.addRow(arrayOf(
-                "0",
-                getString(R.string.menu_create_account),
-                Utils.getHomeCurrency().code,
-                AccountType.CASH.name
-        ))
-        mAccountsCursor = MergeCursor(arrayOf(extras, data))
-        accountsAdapter?.swapCursor(mAccountsCursor)
-        UiUtils.selectSpinnerItemByValue(binding.AccountTable.Account, accountId)
-    }
-
-    override fun onLoaderReset(loader: Loader<Cursor>) {
-        accountsAdapter?.swapCursor(null)
-    }
+    val isReady: Boolean
+        get() {
+            return mUri != null && (prefHandler.getBoolean(PrefKey.NEW_ACCOUNT_ENABLED, true) ||
+                    binding.AccountTable.Account.selectedItemId != 0L)
+        }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int,
                                 id: Long) {
-        if (parent.id == R.id.Currency) {
-            if (accountId == 0L) {
-                currency = (parent.selectedItem as Currency).code
+        when (parent.id) {
+            R.id.Currency -> {
+                if (viewModel.accountId == 0L) {
+                    currency = (parent.selectedItem as Currency).code
+                }
+                return
             }
-            return
-        }
-        if (parent.id == R.id.AccountType) {
-            if (accountId == 0L) {
-                type = parent.selectedItem as AccountType
+            R.id.AccountType -> {
+                if (viewModel.accountId == 0L) {
+                    type = parent.selectedItem as AccountType
+                }
+                return
             }
-            return
-        }
-        //account selection
-        mAccountsCursor?.let { cursor ->
-            accountId = id
-            cursor.moveToPosition(position)
-            with(binding.AccountTable.Currency) {
-                setSelection(currencyAdapter.getPosition(create(
-                        if (accountId == 0L && currency != null) currency!! else cursor.getString(2),
-                        requireActivity())))
-                isEnabled = position == 0
-            }
-            with(binding.AccountTable.AccountType) {
-                setSelection((if (accountId == 0L && type != null) type!! else AccountType.valueOf(cursor.getString(3))).ordinal)
-                isEnabled = position == 0
+            else -> {
+                requireActivity().invalidateOptionsMenu()
+                val selected = accountsAdapter.getItem(position)!!
+                viewModel.accountId = selected.id
+
+                binding.AccountTable.Account.checkNewAccountLimitation(
+                    prefHandler,
+                    requireContext()
+                )
+                with(binding.AccountTable.Currency) {
+                    setSelection(
+                        currencyAdapter.getPosition(
+                            create(
+                                if (selected.id == 0L && currency != null) currency!! else selected.currency,
+                                requireActivity()
+                            )
+                        )
+                    )
+                    isEnabled = position == 0
+                }
+                with(binding.AccountTable.AccountType) {
+                    setSelection(
+                        (if (selected.id == 0L && type != null) type!! else selected.type).ordinal
+                    )
+                    isEnabled = position == 0
+                }
             }
         }
     }

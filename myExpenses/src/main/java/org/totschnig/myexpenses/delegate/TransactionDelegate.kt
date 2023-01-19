@@ -14,7 +14,7 @@ import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.adapter.AccountAdapter
+import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
@@ -573,6 +573,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun createMethodAdapter() {
         methodsAdapter =
+            //TODO Use IdAdapter
             object : ArrayAdapter<PaymentMethod>(context, android.R.layout.simple_spinner_item) {
                 override fun getItemId(position: Int): Long {
                     return getItem(position)?.id() ?: 0L
@@ -937,7 +938,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     open fun setAccounts(data: List<Account>, currencyExtra: String?) {
         mAccounts.clear()
         mAccounts.addAll(data)
-        accountSpinner.adapter = AccountAdapter(context, data).apply {
+        accountSpinner.adapter = IdAdapter(context, data).apply {
             setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         }
 

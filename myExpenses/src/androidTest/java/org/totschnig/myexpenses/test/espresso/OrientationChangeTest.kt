@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.adapter.IAccount
+import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -62,7 +62,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         testScenario = ActivityScenario.launch(i)
         onView(withId(R.id.Account)).perform(click())
-        onData(allOf(instanceOf(IAccount::class.java), withAccount(accountLabel2))).perform(click())
+        onData(allOf(instanceOf(IdHolder::class.java), withAccount(accountLabel2))).perform(click())
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
         rotate()
         onIdle()

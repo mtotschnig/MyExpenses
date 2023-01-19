@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.adapter.AccountAdapter
+import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.databinding.OneBudgetBinding
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
@@ -146,7 +146,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountsMinimal().take(1).collect { list ->
-                    accountSpinnerHelper.adapter = AccountAdapter(this@BudgetEdit, list)
+                    accountSpinnerHelper.adapter = IdAdapter(this@BudgetEdit, list)
                     (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
                     if (pendingBudgetLoad != 0L) {
                         viewModel.budget(pendingBudgetLoad).observe(this@BudgetEdit) { populateData(it) }
@@ -281,7 +281,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private fun populateAccount(accountId: Long) {
         this.accountId = accountId
         with(accountSpinnerHelper) {
-            (adapter as AccountAdapter).getPosition(accountId).takeIf { it > -1 }?.let {
+            (adapter as IdAdapter<*>).getPosition(accountId).takeIf { it > -1 }?.let {
                 setSelection(it)
             }
         }

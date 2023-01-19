@@ -23,7 +23,7 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
-import org.totschnig.myexpenses.adapter.IAccount
+import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.*
@@ -73,7 +73,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
         onData(
             allOf(
-                instanceOf(IAccount::class.java),
+                instanceOf(IdHolder::class.java),
                 withAccount(account2.label)
             )
         ).perform(click())
@@ -81,7 +81,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.Account)).perform(scrollTo(), click())
         onData(
             allOf(
-                instanceOf(IAccount::class.java),
+                instanceOf(IdHolder::class.java),
                 withAccount(account2.label)
             )
         ).perform(click())

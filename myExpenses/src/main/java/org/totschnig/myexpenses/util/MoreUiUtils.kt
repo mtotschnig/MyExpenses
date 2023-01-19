@@ -4,12 +4,14 @@ import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.ScrollView
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils.calculateContrast
 import com.google.android.material.chip.ChipGroup
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -113,3 +115,13 @@ fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, cont
         Grouping.YEAR -> Utils.localizedYearLessDateFormat(context) to 3f
         Grouping.NONE -> Utils.ensureDateFormatWithShortYear(context) to 4.6f
     }
+
+fun Spinner.checkNewAccountLimitation(prefHandler: PrefHandler, context: Context) {
+    if (selectedItemId == 0L && !prefHandler.getBoolean(PrefKey.NEW_ACCOUNT_ENABLED, true)) {
+        (selectedView as? TextView)?.let {
+            it.error = ""
+            it.setTextColor(Color.RED)
+            it.text = ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(context)
+        }
+    }
+}

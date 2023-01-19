@@ -8,7 +8,7 @@ import android.widget.AdapterView
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.adapter.AccountAdapter
+import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
@@ -42,7 +42,7 @@ class TransferDelegate(
     override val operationType = TransactionsContract.Transactions.TYPE_TRANSFER
 
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
-    private lateinit var transferAccountsAdapter: AccountAdapter
+    private lateinit var transferAccountsAdapter: IdAdapter<Account>
 
     @JvmField
     @State
@@ -183,7 +183,7 @@ class TransferDelegate(
 
     private fun requireTransferAccountsAdapter() {
         if (!::transferAccountsAdapter.isInitialized) {
-            transferAccountsAdapter = AccountAdapter(context)
+            transferAccountsAdapter = IdAdapter(context)
             transferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
             transferAccountSpinner.adapter = transferAccountsAdapter
             transferAccountSpinner.setOnItemSelectedListener(this)

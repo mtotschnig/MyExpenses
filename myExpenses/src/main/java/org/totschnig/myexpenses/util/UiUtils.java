@@ -3,36 +3,27 @@ package org.totschnig.myexpenses.util;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.preference.PrefHandler;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.ImageViewCompat;
 
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
+import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.totschnig.myexpenses.R;
 
 public class UiUtils {
 
@@ -62,17 +53,6 @@ public class UiUtils {
     d.setBounds(0, 0, c.getWidth(), c.getHeight());
     d.draw(c);
     return b;
-  }
-
-  //http://stackoverflow.com/a/11072627/1199911
-  public static void selectSpinnerItemByValue(Spinner spnr, long value) {
-    SimpleCursorAdapter adapter = (SimpleCursorAdapter) spnr.getAdapter();
-    for (int position = 0; position < adapter.getCount(); position++) {
-      if (adapter.getItemId(position) == value) {
-        spnr.setSelection(position);
-        return;
-      }
-    }
   }
 
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {

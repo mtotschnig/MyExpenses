@@ -50,7 +50,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.PARSE_COMMAND)?.isEnabled = parseFragment.uri != null && idle
+        menu.findItem(R.id.PARSE_COMMAND)?.isEnabled = parseFragment.isReady && idle
         menu.findItem(R.id.IMPORT_COMMAND)?.isEnabled = idle
         super.onPrepareOptionsMenu(menu)
         return true

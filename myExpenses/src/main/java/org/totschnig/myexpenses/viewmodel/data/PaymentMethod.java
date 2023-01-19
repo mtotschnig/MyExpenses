@@ -9,6 +9,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
+//TODO convert to kotlin data class
 @AutoValue
 public abstract class PaymentMethod {
   @ColumnName(KEY_ROWID)

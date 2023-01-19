@@ -4,10 +4,10 @@ import android.content.Context
 import android.widget.ArrayAdapter
 import org.totschnig.myexpenses.R
 
-interface IAccount {
+interface IdHolder {
     val id: Long
 }
-class AccountAdapter(context: Context, objects: List<IAccount>): ArrayAdapter<IAccount>(context, android.R.layout.simple_spinner_item, android.R.id.text1, objects) {
+class  IdAdapter<T: IdHolder>(context: Context, objects: List<T>): ArrayAdapter<T>(context, android.R.layout.simple_spinner_item, android.R.id.text1, objects) {
     constructor(context: Context) : this(context, mutableListOf())
 
     init {

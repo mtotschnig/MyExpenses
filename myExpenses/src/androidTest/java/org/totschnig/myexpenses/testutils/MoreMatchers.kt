@@ -11,8 +11,7 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.adapter.IAccount
-import org.totschnig.myexpenses.delegate.TransactionDelegate
+import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -40,8 +39,8 @@ fun withStatus(status: CrStatus): Matcher<Any> =
         }
 
 fun withAccount(content: String): Matcher<Any> =
-        object : BoundedMatcher<Any, IAccount>(IAccount::class.java) {
-            override fun matchesSafely(myObj: IAccount): Boolean {
+        object : BoundedMatcher<Any, IdHolder>(IdHolder::class.java) {
+            override fun matchesSafely(myObj: IdHolder): Boolean {
                 return myObj.toString() == content
             }
 
