@@ -12,7 +12,7 @@ import com.android.calendar.EventRecurrenceFormatter
 import com.android.calendarcommon2.EventRecurrence
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.service.DailyScheduler
+import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -142,7 +142,7 @@ class Plan private constructor(
             }
             uri = cr().insert(CalendarContract.Events.CONTENT_URI, values)!!
             id = ContentUris.parseId(uri)
-            DailyScheduler.updatePlannerAlarms(MyApplication.getInstance(), true, true)
+            PlanExecutor.enqueueSelf(MyApplication.getInstance(), MyApplication.getInstance().appComponent.prefHandler(), true)
         } else {
             uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
             if (cr().update(uri, values, null, null) == 0) return null

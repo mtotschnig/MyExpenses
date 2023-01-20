@@ -34,7 +34,6 @@ import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
@@ -54,6 +53,7 @@ import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnV
 import org.totschnig.myexpenses.preference.PreferenceDataStore
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.DailyScheduler
+import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
@@ -421,7 +421,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.setTrackingEnabled(sharedPreferences.getBoolean(key, false))
             }
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
-                DailyScheduler.updatePlannerAlarms(preferenceActivity, false, false)
+                PlanExecutor.enqueueSelf(preferenceActivity, prefHandler)
             }
             getKey(PrefKey.TESSERACT_LANGUAGE) -> {
                 preferenceActivity.checkTessDataDownload()

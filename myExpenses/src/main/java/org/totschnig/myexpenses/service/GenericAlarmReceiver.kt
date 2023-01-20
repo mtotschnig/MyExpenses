@@ -16,7 +16,6 @@ class GenericAlarmReceiver : BroadcastReceiver() {
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED -> {
                 requestScheduleAutoBackup(context)
-                requestSchedulePlanExecutor(context)
             }
             AccountManager.LOGIN_ACCOUNTS_CHANGED_ACTION -> try {
                 if ((context.applicationContext as MyApplication).appComponent.prefHandler().getInt(PrefKey.CURRENT_VERSION, 0) > 0) {
@@ -36,12 +35,6 @@ class GenericAlarmReceiver : BroadcastReceiver() {
                 AutoBackupService.enqueueWork(context, serviceIntent)
             }
         }
-    }
-
-    private fun requestSchedulePlanExecutor(context: Context) {
-        val serviceIntent = Intent(context, PlanExecutor::class.java)
-        serviceIntent.action = PlanExecutor.ACTION_SCHEDULE_EXECUTE_PLANS
-        PlanExecutor.enqueueWork(context, serviceIntent)
     }
 
     private fun requestScheduleAutoBackup(context: Context) {

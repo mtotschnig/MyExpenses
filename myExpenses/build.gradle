@@ -298,6 +298,8 @@ dependencies {
     api "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
+    implementation 'androidx.work:work-runtime-ktx:2.8.0-rc01'
+
     androidTestImplementation composeBom
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

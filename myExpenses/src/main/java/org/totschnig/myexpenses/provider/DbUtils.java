@@ -25,7 +25,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMax;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -35,6 +34,7 @@ import androidx.annotation.VisibleForTesting;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.service.DailyScheduler;
+import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
@@ -52,7 +52,7 @@ public class DbUtils {
     MyApplication app = MyApplication.getInstance();
     try {
       DailyScheduler.cancelAutoBackup(app);
-      DailyScheduler.cancelPlans(app);
+      PlanExecutor.Companion.cancel(app);
       PaymentMethod.clear();
 
       if (backupFile.exists()) {
@@ -65,7 +65,7 @@ public class DbUtils {
     } catch (Exception e) {
       CrashHandler.report(e);
     }
-    DailyScheduler.updatePlannerAlarms(app,false, true);
+    PlanExecutor.Companion.enqueueSelf(app, app.getAppComponent().prefHandler(), true);
     DailyScheduler.updateAutoBackupAlarms(app);
     return result;
   }

@@ -10,12 +10,11 @@
  ******************************************************************************/
 package org.totschnig.myexpenses.service;
 
+import static org.totschnig.myexpenses.service.AutoBackupService.ACTION_AUTO_BACKUP;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
-import static org.totschnig.myexpenses.service.AutoBackupService.ACTION_AUTO_BACKUP;
-import static org.totschnig.myexpenses.service.PlanExecutor.ACTION_EXECUTE_PLANS;
 
 public class ScheduleReceiver extends BroadcastReceiver {
 
@@ -24,16 +23,7 @@ public class ScheduleReceiver extends BroadcastReceiver {
     String action = intent.getAction();
     if (ACTION_AUTO_BACKUP.equals(action)) {
       requestAutoBackup(context);
-    } else if (ACTION_EXECUTE_PLANS.equals(action)) {
-      requestPlanner(context, intent);
     }
-  }
-
-  private void requestPlanner(Context context, Intent intent) {
-    Intent serviceIntent = new Intent(context, PlanExecutor.class);
-    serviceIntent.setAction(ACTION_EXECUTE_PLANS);
-    serviceIntent.putExtras(intent.getExtras());
-    PlanExecutor.enqueueWork(context, serviceIntent);
   }
 
   private void requestAutoBackup(Context context) {

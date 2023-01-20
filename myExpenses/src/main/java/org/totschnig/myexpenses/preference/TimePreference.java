@@ -53,7 +53,7 @@ public class TimePreference extends IntegerDialogPreference {
         return String.format(Locale.getDefault(),"%1$02d:%2$02d",getHour(), getMinute());
     }
 
-    public static Date getScheduledTime(PrefHandler prefHandler, PrefKey prefKey) {
+    public static long getScheduledTime(PrefHandler prefHandler, PrefKey prefKey) {
         int hhmm = prefHandler.getInt(prefKey, DEFAULT_VALUE);
         int hh = hhmm / 100;
         int mm = hhmm - 100 * hh;
@@ -67,6 +67,6 @@ public class TimePreference extends IntegerDialogPreference {
         if (c.getTimeInMillis() < now) {
             c.add(Calendar.DAY_OF_MONTH, 1);
         }
-        return c.getTime();
+        return c.getTime().getTime();
     }
 }

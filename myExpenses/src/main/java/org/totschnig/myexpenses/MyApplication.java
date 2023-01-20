@@ -167,7 +167,7 @@ public class MyApplication extends Application implements
     if (!syncService) {
       ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
       mSettings.registerOnSharedPreferenceChangeListener(this);
-      DailyScheduler.updatePlannerAlarms(this, false, false);
+      PlanExecutor.Companion.enqueueSelf(this, prefHandler, false);
       WidgetObserver.Companion.register(this);
     }
     licenceHandler.init();
@@ -464,7 +464,7 @@ public class MyApplication extends Application implements
       Timber.i("successfully set up new calendar: %s", plannerCalendarId);
     }
     if (persistToSharedPref) {
-      // onSharedPreferenceChanged should now trigger initPlanner
+      // onSharedPreferenceChanged should now trigger DailyScheduler.updatePlannerAlarms
       prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, plannerCalendarId);
     }
     return plannerCalendarId;
@@ -601,7 +601,7 @@ public class MyApplication extends Application implements
           return;
         }
         if (oldValue.equals(INVALID_CALENDAR_ID)) {
-          DailyScheduler.updatePlannerAlarms(this, false, true);
+          PlanExecutor.Companion.enqueueSelf(this, prefHandler, true);
         } else if (safeToMovePlans) {
           ContentValues eventValues = new ContentValues();
           eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
