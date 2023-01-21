@@ -33,7 +33,9 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import eltos.simpledialogfragment.form.AmountInputHostDialog
 import icepick.State
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
@@ -47,6 +49,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -95,6 +98,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         configureFloatingActionButton(getString(fabDescription))
         if (icon != 0) {
             floatingActionButton.setImageResource(icon)
+        }
+    }
+
+    public fun enqueuePlanner(forceImmediate: Boolean) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                enqueueSelf(this@BaseActivity, prefHandler, forceImmediate)
+            }
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+            enqueuePlanner(true)
         }
     }
 

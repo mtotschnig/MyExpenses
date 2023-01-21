@@ -142,7 +142,6 @@ class Plan private constructor(
             }
             uri = cr().insert(CalendarContract.Events.CONTENT_URI, values)!!
             id = ContentUris.parseId(uri)
-            PlanExecutor.enqueueSelf(MyApplication.getInstance(), MyApplication.getInstance().appComponent.prefHandler(), true)
         } else {
             uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
             if (cr().update(uri, values, null, null) == 0) return null

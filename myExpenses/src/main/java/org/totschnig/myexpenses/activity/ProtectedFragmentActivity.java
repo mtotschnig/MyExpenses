@@ -622,13 +622,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     }
   }
 
-  @Override
-  public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-    if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-      PlanExecutor.Companion.enqueueSelf(this, prefHandler, true);
-    }
-  }
-
   public void requestCalendarPermission() {
     requestPermission(PermissionGroup.CALENDAR);
   }

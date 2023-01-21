@@ -7,16 +7,19 @@ import org.totschnig.myexpenses.service.AutoBackupService
 import org.totschnig.myexpenses.service.AutoBackupService.Companion.enqueueWork
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.doAsync
 
 class ExecutionTrigger : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        when (intent.action) {
-            "TRIGGER_SYNC" -> GenericAccountService.requestSync(intent.getStringExtra("ACCOUNT")!!)
-            "TRIGGER_PLANNER" -> PlanExecutor.enqueueSelf(context, MyApplication.getInstance().prefHandler, true)
-            "TRIGGER_BACKUP" -> {
-                val serviceIntent = Intent(context, AutoBackupService::class.java)
-                serviceIntent.action = AutoBackupService.ACTION_AUTO_BACKUP
-                enqueueWork(context, serviceIntent)
+        doAsync {
+            when (intent.action) {
+                "TRIGGER_SYNC" -> GenericAccountService.requestSync(intent.getStringExtra("ACCOUNT")!!)
+                "TRIGGER_PLANNER" -> PlanExecutor.enqueueSelf(context, MyApplication.getInstance().prefHandler, true)
+                "TRIGGER_BACKUP" -> {
+                    val serviceIntent = Intent(context, AutoBackupService::class.java)
+                    serviceIntent.action = AutoBackupService.ACTION_AUTO_BACKUP
+                    enqueueWork(context, serviceIntent)
+                }
             }
         }
     }

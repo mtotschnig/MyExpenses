@@ -421,7 +421,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.setTrackingEnabled(sharedPreferences.getBoolean(key, false))
             }
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
-                PlanExecutor.enqueueSelf(preferenceActivity, prefHandler)
+                preferenceActivity.enqueuePlanner(false)
             }
             getKey(PrefKey.TESSERACT_LANGUAGE) -> {
                 preferenceActivity.checkTessDataDownload()

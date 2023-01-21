@@ -87,10 +87,4 @@ public class DailyScheduler {
     return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
   }
 
-  public static void updatePlannerAlarms(Context context, boolean force, boolean now) {
-    if (CALENDAR.hasPermission(context)) {
-      PlanExecutor.Companion.enqueueSelf(context, getPrefHandler(context), force);
-    }
-  }
-
 }

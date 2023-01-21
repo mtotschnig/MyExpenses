@@ -167,7 +167,6 @@ public class MyApplication extends Application implements
     if (!syncService) {
       ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
       mSettings.registerOnSharedPreferenceChangeListener(this);
-      PlanExecutor.Companion.enqueueSelf(this, prefHandler, false);
       WidgetObserver.Companion.register(this);
     }
     licenceHandler.init();

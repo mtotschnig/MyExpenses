@@ -70,6 +70,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -500,7 +501,11 @@ public class Template extends Transaction implements ITransfer, ISplit {
    * @return the Uri of the template. Upon creation it is returned from the content provider, null if inserting fails on constraints
    */
   public Uri save(Long withLinkedTransaction) {
+    boolean runPlanner = false;
     if (plan != null) {
+       if (plan.getId() == 0) {
+         runPlanner = true;
+       }
       Uri planUri = plan.save();
       if (planUri != null) {
         planId = ContentUris.parseId(planUri);
@@ -570,6 +575,10 @@ public class Template extends Transaction implements ITransfer, ISplit {
       }
     }
     updateNewPlanEnabled();
+    if (runPlanner) {
+      PlanExecutor.Companion.enqueueSelf(MyApplication.getInstance(), MyApplication.getInstance().getAppComponent().prefHandler(), true);
+    }
+
     return uri;
   }
 

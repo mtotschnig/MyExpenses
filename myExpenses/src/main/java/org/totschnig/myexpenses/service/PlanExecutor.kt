@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.planCount
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
@@ -78,7 +79,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
         }
 
         fun enqueueSelf(context: Context, prefHandler: PrefHandler, forceImmediate: Boolean = false) {
-            if (PermissionGroup.CALENDAR.hasPermission(context)) {
+            if (PermissionGroup.CALENDAR.hasPermission(context) && planCount(context.contentResolver) > 0 ) {
 
                 WorkManager.getInstance(context).enqueueUniqueWork(
                     WORK_NAME,
@@ -173,7 +174,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
         }?.use { cursor ->
             if (cursor.moveToFirst()) {
                 val today = LocalDate.now()
-                while (!cursor.isAfterLast) {
+                while (!cursor.isAfterLast && !isStopped) {
                     val planId =
                         cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.EVENT_ID))
                     val date =
