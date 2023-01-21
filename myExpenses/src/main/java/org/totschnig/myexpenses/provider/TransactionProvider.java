@@ -222,68 +222,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String KEY_RESULT = "result";
 
   private static final UriMatcher URI_MATCHER;
-  //Basic tables
-  private static final int TRANSACTIONS = 1;
-  private static final int TRANSACTION_ID = 2;
-  private static final int CATEGORIES = 3;
-  private static final int ACCOUNTS = 4;
-  private static final int ACCOUNTS_BASE = 5;
-  private static final int ACCOUNT_ID = 6;
-  private static final int PAYEES = 7;
-  private static final int METHODS = 8;
-  private static final int METHOD_ID = 9;
-  private static final int ACCOUNTTYPES_METHODS = 10;
-  private static final int TEMPLATES = 11;
-  private static final int TEMPLATE_ID = 12;
-  private static final int CATEGORY_ID = 13;
-  private static final int PAYEE_ID = 15;
-  private static final int METHODS_FILTERED = 16;
-  private static final int TEMPLATES_INCREASE_USAGE = 17;
-  private static final int SQLITE_SEQUENCE_TABLE = 19;
-  private static final int AGGREGATE_ID = 20;
-  private static final int UNCOMMITTED = 21;
-  private static final int TRANSACTIONS_GROUPS = 22;
-  private static final int TRANSACTIONS_SUMS = 24;
-  private static final int TRANSACTION_MOVE = 25;
-  private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
-  private static final int CURRENCIES = 27;
-  private static final int TRANSACTION_TOGGLE_CRSTATUS = 29;
-  private static final int MAPPED_METHODS = 31;
-  private static final int DUAL = 32;
-  private static final int CURRENCIES_CHANGE_FRACTION_DIGITS = 33;
-  private static final int EVENT_CACHE = 34;
-  private static final int DEBUG_SCHEMA = 35;
-  private static final int STALE_IMAGES = 36;
-  private static final int STALE_IMAGES_ID = 37;
-  private static final int TRANSACTION_UNDELETE = 38;
-  private static final int TRANSACTIONS_LASTEXCHANGE = 39;
-  private static final int ACCOUNTS_SWAP_SORT_KEY = 40;
-  private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
-  private static final int CHANGES = 42;
-  private static final int SETTINGS = 43;
-  private static final int TEMPLATES_UNCOMMITTED = 44;
-  private static final int ACCOUNT_ID_GROUPING = 45;
-  private static final int ACCOUNT_ID_SORT_DIRECTION = 46;
-  private static final int AUTOFILL = 47;
-  private static final int ACCOUNT_EXCHANGE_RATE = 48;
-  private static final int UNSPLIT = 49;
-  private static final int BUDGETS = 50;
-  private static final int BUDGET_ID = 51;
-  private static final int BUDGET_CATEGORY = 52;
-  private static final int CURRENCIES_CODE = 53;
-  private static final int ACCOUNTS_MINIMAL = 54;
-  private static final int TAGS = 55;
-  private static final int TRANSACTIONS_TAGS = 56;
-  private static final int TAG_ID = 57;
-  private static final int TEMPLATES_TAGS = 58;
-  private static final int UNCOMMITTED_ID = 59;
-  private static final int PLANINSTANCE_STATUS_SINGLE = 60;
-  private static final int TRANSACTION_LINK_TRANSFER = 61;
-  private static final int ACCOUNTS_TAGS = 62;
-  private static final int DEBTS = 63;
-  private static final int DEBT_ID = 64;
-  private static final int BUDGET_ALLOCATIONS = 65;
-  private static final int ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66;
 
   @Override
   public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
@@ -879,12 +817,12 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   @Override
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-    setDirty(true);
     log("INSERT Uri: %s, values: %s", uri, values);
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     long id;
     String newUri;
     int uriMatch = URI_MATCHER.match(uri);
+    maybeSetDirty(uriMatch);
     switch (uriMatch) {
       case TRANSACTIONS:
       case UNCOMMITTED:
@@ -1031,12 +969,12 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   @Override
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
-    setDirty(true);
     log("Delete for URL: %s", uri);
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     int count;
     String segment;
     int uriMatch = URI_MATCHER.match(uri);
+    maybeSetDirty(uriMatch);
     switch (uriMatch) {
       case TRANSACTIONS:
       case UNCOMMITTED:
@@ -1218,11 +1156,11 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
-    setDirty(true);
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     String segment; // contains rowId
     int count;
     int uriMatch = URI_MATCHER.match(uri);
+    maybeSetDirty(uriMatch);
     Cursor c;
     log("UPDATE Uri: %s, values: %s", uri, values);
     switch (uriMatch) {

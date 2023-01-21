@@ -56,6 +56,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
             field = value
         }
 
+    fun maybeSetDirty(uriMatch: Int) {
+        if (uriMatch != EVENT_CACHE) {
+            dirty = true
+        }
+    }
+
     var _helper: SupportSQLiteOpenHelper? = null
 
     val helper: SupportSQLiteOpenHelper
@@ -190,6 +196,68 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .appendPath(accountId.toString())
                 .appendPath(grouping.name)
                 .build()
+
+        protected const val TRANSACTIONS = 1
+        protected const val TRANSACTION_ID = 2
+        protected const val CATEGORIES = 3
+        protected const val ACCOUNTS = 4
+        protected const val ACCOUNTS_BASE = 5
+        protected const val ACCOUNT_ID = 6
+        protected const val PAYEES = 7
+        protected const val METHODS = 8
+        protected const val METHOD_ID = 9
+        protected const val ACCOUNTTYPES_METHODS = 10
+        protected const val TEMPLATES = 11
+        protected const val TEMPLATE_ID = 12
+        protected const val CATEGORY_ID = 13
+        protected const val PAYEE_ID = 15
+        protected const val METHODS_FILTERED = 16
+        protected const val TEMPLATES_INCREASE_USAGE = 17
+        protected const val SQLITE_SEQUENCE_TABLE = 19
+        protected const val AGGREGATE_ID = 20
+        protected const val UNCOMMITTED = 21
+        protected const val TRANSACTIONS_GROUPS = 22
+        protected const val TRANSACTIONS_SUMS = 24
+        protected const val TRANSACTION_MOVE = 25
+        protected const val PLANINSTANCE_TRANSACTION_STATUS = 26
+        protected const val CURRENCIES = 27
+        protected const val TRANSACTION_TOGGLE_CRSTATUS = 29
+        protected const val MAPPED_METHODS = 31
+        protected const val DUAL = 32
+        protected const val CURRENCIES_CHANGE_FRACTION_DIGITS = 33
+        protected const val EVENT_CACHE = 34
+        protected const val DEBUG_SCHEMA = 35
+        protected const val STALE_IMAGES = 36
+        protected const val STALE_IMAGES_ID = 37
+        protected const val TRANSACTION_UNDELETE = 38
+        protected const val TRANSACTIONS_LASTEXCHANGE = 39
+        protected const val ACCOUNTS_SWAP_SORT_KEY = 40
+        protected const val MAPPED_TRANSFER_ACCOUNTS = 41
+        protected const val CHANGES = 42
+        protected const val SETTINGS = 43
+        protected const val TEMPLATES_UNCOMMITTED = 44
+        protected const val ACCOUNT_ID_GROUPING = 45
+        protected const val ACCOUNT_ID_SORT_DIRECTION = 46
+        protected const val AUTOFILL = 47
+        protected const val ACCOUNT_EXCHANGE_RATE = 48
+        protected const val UNSPLIT = 49
+        protected const val BUDGETS = 50
+        protected const val BUDGET_ID = 51
+        protected const val BUDGET_CATEGORY = 52
+        protected const val CURRENCIES_CODE = 53
+        protected const val ACCOUNTS_MINIMAL = 54
+        protected const val TAGS = 55
+        protected const val TRANSACTIONS_TAGS = 56
+        protected const val TAG_ID = 57
+        protected const val TEMPLATES_TAGS = 58
+        protected const val UNCOMMITTED_ID = 59
+        protected const val PLANINSTANCE_STATUS_SINGLE = 60
+        protected const val TRANSACTION_LINK_TRANSFER = 61
+        protected const val ACCOUNTS_TAGS = 62
+        protected const val DEBTS = 63
+        protected const val DEBT_ID = 64
+        protected const val BUDGET_ALLOCATIONS = 65
+        protected const val ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66
     }
 
     val homeCurrency: String
