@@ -47,21 +47,24 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-class PlanExecutor(context: Context, workerParameters: WorkerParameters) : CoroutineWorker(context, workerParameters) {
+class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
+    CoroutineWorker(context, workerParameters) {
     val prefHandler: PrefHandler
     val currencyFormatter: CurrencyFormatter
     private val wrappedContext: Context
+
     init {
         with((context.applicationContext as MyApplication).appComponent) {
             prefHandler = prefHandler()
             currencyFormatter = currencyFormatter()
-            wrappedContext = ContextHelper.wrap(context, userLocaleProvider().getUserPreferredLocale())
+            wrappedContext =
+                ContextHelper.wrap(context, userLocaleProvider().getUserPreferredLocale())
         }
     }
 
     companion object {
         const val TAG = "PlanExecutor"
-        private const val WORK_NAME = "PlanExecutor2"
+        private const val WORK_NAME = "PlanExecutor"
         private val OVERLAPPING_WINDOW = ((if (BuildConfig.DEBUG) 1 else 5) * 60 * 1000).toLong()
         const val ACTION_CANCEL = "Cancel"
         const val ACTION_APPLY = "Apply"
@@ -74,12 +77,15 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
                 initialDelayMillis?.let {
                     setInitialDelay(it, TimeUnit.MILLISECONDS)
                 }
-            }
-                .build()
+            }.build()
         }
 
-        fun enqueueSelf(context: Context, prefHandler: PrefHandler, forceImmediate: Boolean = false) {
-            if (PermissionGroup.CALENDAR.hasPermission(context) && planCount(context.contentResolver) > 0 ) {
+        fun enqueueSelf(
+            context: Context,
+            prefHandler: PrefHandler,
+            forceImmediate: Boolean = false
+        ) {
+            if (PermissionGroup.CALENDAR.hasPermission(context) && planCount(context.contentResolver) > 0) {
 
                 WorkManager.getInstance(context).enqueueUniqueWork(
                     WORK_NAME,
@@ -87,7 +93,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
                     buildWorkRequest(
                         if (forceImmediate) null else TimePreference.getScheduledTime(
                             prefHandler, PrefKey.PLANNER_EXECUTION_TIME
-                        ) - System.currentTimeMillis()
+                        )
                     )
                 )
             }
@@ -107,7 +113,10 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
     }
 
     private fun scheduleNextRun() {
-        enqueueSelf(applicationContext, (applicationContext as MyApplication).appComponent.prefHandler())
+        enqueueSelf(
+            applicationContext,
+            (applicationContext as MyApplication).appComponent.prefHandler()
+        )
     }
 
     @SuppressLint("InlinedApi")
@@ -196,7 +205,8 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
                                 val notificationId = (instanceId * planId % Int.MAX_VALUE).toInt()
                                 log("notification id %d", notificationId)
                                 var resultIntent: PendingIntent?
-                                val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                                val notificationManager =
+                                    applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                                 val title = account.label + " : " + template.title
                                 val builder = NotificationBuilderWrapper(
                                     applicationContext,
@@ -237,7 +247,10 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
                                     notification = builder.build()
                                 } else {
                                     val cancelIntent: Intent =
-                                        Intent(applicationContext, PlanNotificationClickHandler::class.java)
+                                        Intent(
+                                            applicationContext,
+                                            PlanNotificationClickHandler::class.java
+                                        )
                                             .setAction(ACTION_CANCEL)
                                             .putExtra(
                                                 MyApplication.KEY_NOTIFICATION_ID,
@@ -263,13 +276,17 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
                                             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                                         )
                                     )
-                                    val editIntent: Intent = Intent(applicationContext, ExpenseEdit::class.java)
-                                        .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
-                                        .putExtra(
-                                            DatabaseConstants.KEY_TEMPLATEID,
-                                            template.id
-                                        )
-                                        .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
+                                    val editIntent: Intent =
+                                        Intent(applicationContext, ExpenseEdit::class.java)
+                                            .putExtra(
+                                                MyApplication.KEY_NOTIFICATION_ID,
+                                                notificationId
+                                            )
+                                            .putExtra(
+                                                DatabaseConstants.KEY_TEMPLATEID,
+                                                template.id
+                                            )
+                                            .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
                                     val useDateFromPlan =
                                         "noon" == prefHandler.getString(
                                             PrefKey.PLANNER_MANUAL_TIME,
@@ -291,7 +308,10 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) : Corou
                                         resultIntent
                                     )
                                     val applyIntent =
-                                        Intent(applicationContext, PlanNotificationClickHandler::class.java)
+                                        Intent(
+                                            applicationContext,
+                                            PlanNotificationClickHandler::class.java
+                                        )
                                     applyIntent.setAction(ACTION_APPLY)
                                         .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                                         .putExtra(KEY_TITLE, title)

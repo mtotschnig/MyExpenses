@@ -333,15 +333,6 @@
             android:theme="@style/EditDialog" />
 
         <service
-            android:name=".service.AutoBackupService"
-            android:exported="${debug}"
-            android:permission="android.permission.BIND_JOB_SERVICE">
-            <intent-filter>
-                <action android:name="${applicationId}.ACTION_SCHEDULE_AUTO_BACKUP" />
-                <action android:name="${applicationId}.ACTION_AUTO_BACKUP" />
-            </intent-filter>
-        </service>
-        <service
             android:name=".sync.GenericAccountService"
             android:exported="false">
             <intent-filter>
@@ -367,12 +358,9 @@
 
         <receiver android:name=".service.GenericAlarmReceiver" android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".service.ScheduleReceiver" />
 
         <receiver
             android:exported="true"

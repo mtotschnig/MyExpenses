@@ -71,7 +71,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.service.DailyScheduler;
+import org.totschnig.myexpenses.service.AutoBackupWorker;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.ui.ContextHelper;
@@ -748,7 +748,7 @@ public class MyApplication extends Application implements
   public void markDataDirty() {
     try {
       prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, true);
-      DailyScheduler.updateAutoBackupAlarms(this);
+      AutoBackupWorker.Companion.enqueueOrCancel(this, prefHandler);
     } catch (Exception e) {
       CrashHandler.report(e);
     }

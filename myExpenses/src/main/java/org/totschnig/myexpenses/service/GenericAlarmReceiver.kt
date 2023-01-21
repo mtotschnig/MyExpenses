@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.preference.PrefKey
@@ -14,9 +16,6 @@ import timber.log.Timber
 class GenericAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
-            Intent.ACTION_BOOT_COMPLETED -> {
-                requestScheduleAutoBackup(context)
-            }
             AccountManager.LOGIN_ACCOUNTS_CHANGED_ACTION -> try {
                 if ((context.applicationContext as MyApplication).appComponent.prefHandler().getInt(PrefKey.CURRENT_VERSION, 0) > 0) {
                     Account.checkSyncAccounts(context)
@@ -24,22 +23,14 @@ class GenericAlarmReceiver : BroadcastReceiver() {
             } catch (e: Exception) {
                 Timber.e(e)
             }
-            AutoBackupService.ACTION_BACKUP_PURGE_CANCEL -> {
+            AutoBackupWorker.ACTION_BACKUP_PURGE_CANCEL -> {
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.cancel(
                     NOTIFICATION_AUTO_BACKUP
                 )
             }
-            AutoBackupService.ACTION_BACKUP_PURGE -> {
-                val serviceIntent = Intent(context, AutoBackupService::class.java)
-                serviceIntent.action = AutoBackupService.ACTION_BACKUP_PURGE
-                AutoBackupService.enqueueWork(context, serviceIntent)
+            AutoBackupWorker.ACTION_BACKUP_PURGE -> {
+                WorkManager.getInstance(context).enqueue(OneTimeWorkRequestBuilder<BackupPurgeWorker>().build())
             }
         }
-    }
-
-    private fun requestScheduleAutoBackup(context: Context) {
-        val serviceIntent = Intent(context, AutoBackupService::class.java)
-        serviceIntent.action = AutoBackupService.ACTION_SCHEDULE_AUTO_BACKUP
-        AutoBackupService.enqueueWork(context, serviceIntent)
     }
 }

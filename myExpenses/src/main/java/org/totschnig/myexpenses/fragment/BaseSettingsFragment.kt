@@ -52,8 +52,7 @@ import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PreferenceDataStore
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
-import org.totschnig.myexpenses.service.DailyScheduler
-import org.totschnig.myexpenses.service.PlanExecutor
+import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
@@ -407,10 +406,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 ) {
                     preferenceActivity.showUnencryptedBackupWarning()
                 }
-                DailyScheduler.updateAutoBackupAlarms(preferenceActivity)
+                AutoBackupWorker.enqueueOrCancel(preferenceActivity, prefHandler)
             }
             getKey(PrefKey.AUTO_BACKUP_TIME) -> {
-                DailyScheduler.updateAutoBackupAlarms(preferenceActivity)
+                AutoBackupWorker.enqueueOrCancel(preferenceActivity, prefHandler)
             }
             getKey(PrefKey.SYNC_FREQUCENCY) -> {
                 for (account in GenericAccountService.getAccounts(preferenceActivity)) {

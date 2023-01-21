@@ -33,7 +33,8 @@ import androidx.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.service.DailyScheduler;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.service.AutoBackupWorker;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -51,7 +52,7 @@ public class DbUtils {
     boolean result = false;
     MyApplication app = MyApplication.getInstance();
     try {
-      DailyScheduler.cancelAutoBackup(app);
+      AutoBackupWorker.Companion.cancel(app);
       PlanExecutor.Companion.cancel(app);
       PaymentMethod.clear();
 
@@ -65,8 +66,9 @@ public class DbUtils {
     } catch (Exception e) {
       CrashHandler.report(e);
     }
-    PlanExecutor.Companion.enqueueSelf(app, app.getAppComponent().prefHandler(), true);
-    DailyScheduler.updateAutoBackupAlarms(app);
+    PrefHandler prefHandler = app.getAppComponent().prefHandler();
+    PlanExecutor.Companion.enqueueSelf(app, prefHandler, true);
+    AutoBackupWorker.Companion.enqueueOrCancel(app, prefHandler);
     return result;
   }
 

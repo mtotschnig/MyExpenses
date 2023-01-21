@@ -53,6 +53,9 @@ public class TimePreference extends IntegerDialogPreference {
         return String.format(Locale.getDefault(),"%1$02d:%2$02d",getHour(), getMinute());
     }
 
+    /**
+     * @return offset from current time until scheduled time
+     */
     public static long getScheduledTime(PrefHandler prefHandler, PrefKey prefKey) {
         int hhmm = prefHandler.getInt(prefKey, DEFAULT_VALUE);
         int hh = hhmm / 100;
@@ -67,6 +70,6 @@ public class TimePreference extends IntegerDialogPreference {
         if (c.getTimeInMillis() < now) {
             c.add(Calendar.DAY_OF_MONTH, 1);
         }
-        return c.getTime().getTime();
+        return c.getTime().getTime() - System.currentTimeMillis();
     }
 }
