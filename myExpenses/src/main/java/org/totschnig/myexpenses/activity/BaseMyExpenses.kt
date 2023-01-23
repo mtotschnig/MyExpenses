@@ -1444,13 +1444,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     Utils.menuItemSetEnabledAndVisible(it, syncAccountName != null)
                 }
 
-                menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.let {
-                    Utils.menuItemSetEnabledAndVisible(it, !isAggregate)
+                menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.let { item ->
+                    Utils.menuItemSetEnabledAndVisible(item, !isAggregate)
                     if (!isAggregate) {
-                        it.title = label
-                        it.subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
-                            if (sealed) R.string.menu_reopen else R.string.menu_close
-                        )
+                        with(item) {
+                            title = label
+                            subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
+                                if (sealed) R.string.menu_reopen else R.string.menu_close
+                            )
+                            subMenu?.findItem(R.id.EDIT_ACCOUNT_COMMAND)?.let { subItem ->
+                                Utils.menuItemSetEnabledAndVisible(subItem, !sealed)
+                            }
+                        }
                     }
                 }
             }
