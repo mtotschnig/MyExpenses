@@ -49,7 +49,7 @@ data class Transaction(
     val equivalentAmount: Money?,
     val pictureUri: Uri?,
     val crStatus: CrStatus,
-    val referenceNumber: String,
+    val referenceNumber: String?,
     val originTemplate: Template?,
     val isSealed: Boolean,
     val accountLabel: String,
@@ -130,7 +130,7 @@ data class Transaction(
                 comment = cursor.getStringOrNull(KEY_COMMENT),
                 catId = cursor.getLongOrNull(KEY_CATID),
                 payee = cursor.getString(KEY_PAYEE_NAME),
-                methodLabel = cursor.getString(KEY_METHOD_LABEL),
+                methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
                 label = cursor.getStringOrNull(KEY_LABEL),
                 transferPeer = transferPeer,
                 transferAmount = transferAccountId?.let {
@@ -180,7 +180,7 @@ data class Transaction(
                     cursor.getStringOrNull(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED
                 ),
-                referenceNumber = cursor.getString(KEY_REFERENCE_NUMBER),
+                referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
                 originTemplate = cursor.getLongOrNull(KEY_TEMPLATEID)?.let {
                     Template.getInstanceFromDb(it)
                 },

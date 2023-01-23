@@ -243,15 +243,15 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     dateText += " " + transaction.date.format(timeFormatter)
                 }
                 binding.Date.text = dateText
-                if (transaction.comment != "") {
-                    binding.Comment.text = transaction.comment
-                } else {
+                if (transaction.comment.isNullOrBlank()) {
                     binding.CommentRow.visibility = View.GONE
-                }
-                if (transaction.referenceNumber != "") {
-                    binding.Number.text = transaction.referenceNumber
                 } else {
+                    binding.Comment.text = transaction.comment
+                }
+                if (transaction.referenceNumber.isNullOrBlank()) {
                     binding.NumberRow.visibility = View.GONE
+                } else {
+                    binding.Number.text = transaction.referenceNumber
                 }
                 if (transaction.payee != "" || transaction.debtLabel != null) {
                     val payeeInfo = transaction.payee + if (transaction.debtLabel == null) "" else
@@ -267,9 +267,11 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 } else {
                     binding.PayeeRow.visibility = View.GONE
                 }
-                transaction.methodLabel?.let {
-                    binding.Method.text = it
-                } ?: kotlin.run { binding.MethodRow.visibility = View.GONE }
+                if (transaction.methodLabel.isNullOrBlank()) {
+                    binding.MethodRow.visibility = View.GONE
+                } else {
+                    binding.Method.text = transaction.methodLabel
+                }
 
                 if (transaction.accountType == AccountType.CASH) {
                     binding.StatusRow.visibility = View.GONE
