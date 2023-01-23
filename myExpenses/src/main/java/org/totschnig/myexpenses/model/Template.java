@@ -356,18 +356,18 @@ public class Template extends Transaction implements ITransfer, ISplit {
     } catch (IllegalArgumentException ignored) {}
   }
 
-  public Template(Account account, int operationType, Long parentId) {
+  public Template(long id, CurrencyUnit currencyUnit, int operationType, Long parentId) {
     super();
     setTitle("");
     switch (operationType) {
       case TYPE_TRANSACTION:
-        template = Transaction.getNewInstance(account.getId());
+        template = Transaction.getNewInstance(id, currencyUnit);
         break;
       case TYPE_TRANSFER:
-        template = Transfer.getNewInstance(account.getId());
+        template = Transfer.getNewInstance(id, currencyUnit, 0L, null);
         break;
       case TYPE_SPLIT:
-        template = SplitTransaction.getNewInstance(account, false);
+        template = SplitTransaction.getNewInstance(id, currencyUnit, false);
         break;
       default:
         throw new UnsupportedOperationException(
@@ -376,13 +376,14 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setParentId(parentId);
   }
 
+  @Deprecated
+  public static Template getTypedNewInstance(int operationType, Account account, boolean forEdit, Long parentId) {
+    return getTypedNewInstance(operationType, account.getId(), account.getCurrencyUnit(), forEdit, parentId);
+  }
+
   @Nullable
-  public static Template getTypedNewInstance(int operationType, Long accountId, boolean forEdit, Long parentId) {
-    Account account = Account.getInstanceFromDbWithFallback(accountId);
-    if (account == null) {
-      return null;
-    }
-    Template t = new Template(account, operationType, parentId);
+  public static Template getTypedNewInstance(int operationType, long accountId, @NonNull CurrencyUnit currencyUnit,  boolean forEdit, Long parentId) {
+    Template t = new Template(accountId, currencyUnit, operationType, parentId);
     if (forEdit && t.isSplit()) {
       if (!t.persistForEdit()) {
         return null;
@@ -545,7 +546,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
         }
         ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, ops);
         uri = result[0].uri;
-      } catch (RemoteException | OperationApplicationException | SQLiteConstraintException e) {
+      } catch (RemoteException | OperationApplicationException e) {
         return null;
       }
       setId(ContentUris.parseId(uri));
@@ -570,7 +571,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
               .withExpectedCount(0) .build());
       try {
         cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-      } catch (RemoteException | OperationApplicationException | SQLiteConstraintException e) {
+      } catch (RemoteException | OperationApplicationException e) {
         return null;
       }
     }

@@ -382,7 +382,7 @@ public class MyApplication extends Application implements
    */
   @Nullable
   public String checkPlanner() {
-    mPlannerCalendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID);
+    mPlannerCalendarId = prefHandler.requireString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID);
     if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
       final String checkedId = checkPlannerInternal(mPlannerCalendarId);
       if (INVALID_CALENDAR_ID.equals(checkedId)) {

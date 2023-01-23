@@ -16,25 +16,6 @@ object ProviderUtils {
     //TODO add tags to contract
     @Throws(NotImplementedException::class)
     fun buildFromExtras(repository: Repository, extras: Bundle): Transaction {
-        val transaction: Transaction
-        when (extras.getInt(Transactions.OPERATION_TYPE)) {
-            Transactions.TYPE_TRANSFER -> {
-                transaction = Transfer.getNewInstance(0)
-                var transferAccountId: Long = -1
-                val transferAccountLabel = extras.getString(Transactions.TRANSFER_ACCOUNT_LABEL)
-                if (!TextUtils.isEmpty(transferAccountLabel)) {
-                    transferAccountId = Account.findAnyOpen(transferAccountLabel)
-                }
-                if (transferAccountId != -1L) {
-                    transaction.setTransferAccountId(transferAccountId)
-                    transaction.label = transferAccountLabel
-                }
-            }
-            Transactions.TYPE_SPLIT -> throw NotImplementedException("Building split transaction not yet implemented")
-            else -> {
-                transaction = Transaction.getNewInstance(0)
-            }
-        }
         var accountId: Long = -1
         val accountLabel = extras.getString(Transactions.ACCOUNT_LABEL)
         if (!TextUtils.isEmpty(accountLabel)) {
@@ -47,7 +28,26 @@ object ProviderUtils {
             }
         }
         val account = Account.getInstanceFromDb(accountId.coerceAtLeast(0))
-        transaction.accountId = account.id
+        val transaction: Transaction
+        when (extras.getInt(Transactions.OPERATION_TYPE)) {
+            Transactions.TYPE_TRANSFER -> {
+                transaction = Transfer.getNewInstance(account, null)
+                var transferAccountId: Long = -1
+                val transferAccountLabel = extras.getString(Transactions.TRANSFER_ACCOUNT_LABEL)
+                if (!TextUtils.isEmpty(transferAccountLabel)) {
+                    transferAccountId = Account.findAnyOpen(transferAccountLabel)
+                }
+                if (transferAccountId != -1L) {
+                    transaction.setTransferAccountId(transferAccountId)
+                    transaction.label = transferAccountLabel
+                }
+            }
+            Transactions.TYPE_SPLIT -> throw NotImplementedException("Building split transaction not yet implemented")
+            else -> {
+                transaction = Transaction.getNewInstance(account)
+            }
+        }
+
         val amountMicros = extras.getLong(Transactions.AMOUNT_MICROS)
         if (amountMicros != 0L) {
             transaction.amount = buildWithMicros(account.currencyUnit, amountMicros)

@@ -655,22 +655,25 @@ public class Transaction extends Model implements ITransaction {
     return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId(), Model.cr());
   }
 
-  /**
-   * factory method for creating an object of the correct type and linked to a given account
-   *
-   * @param accountId the account the transaction belongs to if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
-   * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
-   */
-  public static Transaction getNewInstance(long accountId) {
-    return getNewInstance(accountId, null);
+  @Deprecated
+  public static Transaction getNewInstance(Account account, Long parentId) {
+    return getNewInstance(account.getId(), account.getCurrencyUnit(), parentId);
+  }
+  @Deprecated
+  public static Transaction getNewInstance(Account account) {
+    return getNewInstance(account, null);
   }
 
-  public static Transaction getNewInstance(long accountId, Long parentId) {
-    Account account = Account.getInstanceFromDbWithFallback(accountId);
-    if (account == null) {
-      return null;
-    }
-    return new Transaction(account.getId(), new Money(account.getCurrencyUnit(), 0L), parentId);
+  /**
+   * factory method for creating an object of the correct type and linked to a given account
+   * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
+   */
+  public static Transaction getNewInstance(long accountId, CurrencyUnit currencyUnit) {
+    return getNewInstance(accountId, currencyUnit, null);
+  }
+
+  public static Transaction getNewInstance(long accountId, CurrencyUnit currencyUnit, Long parentId) {
+    return new Transaction(accountId, new Money(currencyUnit, 0L), parentId);
   }
 
   @Deprecated

@@ -48,7 +48,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
@@ -314,6 +314,7 @@ class WebInputService : LifecycleService(), IWebInputService {
     private fun Route.serve() {
 
         get("data.js") {
+            //noinspection Recycle
             val categories = contentResolver.query(
                 TransactionProvider.CATEGORIES_URI.buildUpon()
                     .appendBooleanQueryParameter(
@@ -321,59 +322,52 @@ class WebInputService : LifecycleService(), IWebInputService {
                     ).build(),
                 arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL, KEY_LEVEL),
                 null, null, null
-            )?.use { cursor ->
-                cursor.asSequence.map {
-                    mapOf(
-                        "id" to it.getLong(0),
-                        "parent" to it.getLongOrNull(1),
-                        "label" to it.getString(2),
-                        "level" to it.getInt(3)
-                    )
-                }
-                    .toList()
+            )?.useAndMap {
+                mapOf(
+                    "id" to it.getLong(0),
+                    "parent" to it.getLongOrNull(1),
+                    "label" to it.getString(2),
+                    "level" to it.getInt(3)
+                )
             }
             val data = mapOf(
+                //noinspection Recycle
                 "accounts" to contentResolver.query(
                     TransactionProvider.ACCOUNTS_BASE_URI,
                     arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE, KEY_CURRENCY),
                     "$KEY_SEALED = 0", null, null
-                )?.use { cursor ->
-                    cursor.asSequence.map {
-                        mapOf(
-                            "id" to it.getLong(0),
-                            "label" to it.getString(1),
-                            "type" to it.getString(2),
-                            "currency" to currencyContext[it.getString(3)].symbol
-                        )
-                    }.toList()
+                )?.useAndMap {
+                    mapOf(
+                        "id" to it.getLong(0),
+                        "label" to it.getString(1),
+                        "type" to it.getString(2),
+                        "currency" to currencyContext[it.getString(3)].symbol
+                    )
                 },
+                //noinspection Recycle
                 "payees" to contentResolver.query(
                     TransactionProvider.PAYEES_URI,
                     arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
                     null, null, null
-                )?.use { cursor ->
-                    cursor.asSequence.map {
-                        mapOf(
-                            "id" to it.getLong(0),
-                            "name" to it.getString(1)
-                        )
-                    }
-                        .toList()
+                )?.useAndMap {
+                    mapOf(
+                        "id" to it.getLong(0),
+                        "name" to it.getString(1)
+                    )
                 },
                 "categories" to categories,
+                //noinspection Recycle
                 "tags" to contentResolver.query(
                     TransactionProvider.TAGS_URI,
                     arrayOf(KEY_ROWID, KEY_LABEL),
                     null, null, null
-                )?.use { cursor ->
-                    cursor.asSequence.map {
-                        mapOf(
-                            "id" to it.getLong(0),
-                            "label" to it.getString(1)
-                        )
-                    }
-                        .toList()
+                )?.useAndMap {
+                    mapOf(
+                        "id" to it.getLong(0),
+                        "label" to it.getString(1)
+                    )
                 },
+                //noinspection Recycle
                 "methods" to contentResolver.query(
                     TransactionProvider.METHODS_URI,
                     arrayOf(
@@ -384,16 +378,14 @@ class WebInputService : LifecycleService(), IWebInputService {
                         KEY_ACCOUNT_TPYE_LIST
                     ),
                     null, null, null
-                )?.use { cursor ->
-                    cursor.asSequence.map {
-                        mapOf(
-                            "id" to it.getLong(0),
-                            "label" to it.getString(1),
-                            "isNumbered" to (it.getInt(2) > 0),
-                            "type" to it.getInt(3),
-                            "accountTypes" to it.getString(4)?.split(',')
-                        )
-                    }.toList()
+                )?.useAndMap {
+                    mapOf(
+                        "id" to it.getLong(0),
+                        "label" to it.getString(1),
+                        "isNumbered" to (it.getInt(2) > 0),
+                        "type" to it.getInt(3),
+                        "accountTypes" to it.getString(4)?.split(',')
+                    )
                 },
             )
             val categoryTreeDepth = categories?.maxOfOrNull { it["level"] as Int } ?: 0
@@ -445,7 +437,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         put("/transactions/{id}") {
             val transaction = call.receive<Transaction>()
             val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
-            if (updated != null && updated > 0) {
+            if (updated > 0) {
                 call.respond(
                     HttpStatusCode.OK,
                     getString(R.string.save_transaction_and_new_success)
@@ -461,18 +453,11 @@ class WebInputService : LifecycleService(), IWebInputService {
         post("/transactions") {
             val transaction = call.receive<Transaction>()
             val id = repository.createTransaction(transaction)
-            if (id != null) {
-                call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
-                call.respond(
-                    HttpStatusCode.Created,
-                    getString(R.string.save_transaction_and_new_success)
-                )
-            } else {
-                call.respond(
-                    HttpStatusCode.Conflict,
-                    "Error while saving transaction."
-                )
-            }
+            call.response.headers.append(HttpHeaders.Location, "/transactions/$id")
+            call.respond(
+                HttpStatusCode.Created,
+                getString(R.string.save_transaction_and_new_success)
+            )
         }
 
         get("/") {

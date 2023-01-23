@@ -55,7 +55,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldKeepAccountAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1.id)
+        val transaction = Transaction.getNewInstance(account1)
         transaction.amount = Money(currency1, 500L)
         transaction.save()
         val i = Intent(targetContext, ExpenseEdit::class.java)
@@ -72,7 +72,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldKeepMethodAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1.id)
+        val transaction = Transaction.getNewInstance(account1)
         transaction.amount = Money(currency1, -500L)
         transaction.methodId = PaymentMethod.find(PreDefinedPaymentMethod.DIRECTDEBIT.name)
         transaction.save()
@@ -99,7 +99,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldKeepStatusAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1.id)
+        val transaction = Transaction.getNewInstance(account1)
         transaction.amount = Money(currency1, -500L)
         transaction.crStatus = CrStatus.UNRECONCILED
         transaction.save()
@@ -139,7 +139,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldHandleExistingInstanceAfterOrientationChange() {
-        val id = with(Transaction.getNewInstance(account1.id)) {
+        val id = with(Transaction.getNewInstance(account1)) {
             amount = Money(currency1, -500L)
             crStatus = CrStatus.UNRECONCILED
             save()

@@ -54,7 +54,7 @@ public class TransactionTest extends ModelTest {
   public void testTransaction() {
     String payee = "N.N";
     long start = Transaction.getSequenceCount();
-    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
+    Transaction op1 = Transaction.getNewInstance(mAccount1);
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.setComment("test transaction");
@@ -80,9 +80,8 @@ public class TransactionTest extends ModelTest {
   }
 
   public void testTransfer() {
-    Transfer op = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId());
+    Transfer op = Transfer.getNewInstance(mAccount1, mAccount2.getId());
     Transfer peer;
-    assert op != null;
     op.setAmount(new Money(mAccount1.getCurrencyUnit(), (long) 100));
     op.setComment("test transfer");
     op.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
@@ -101,7 +100,7 @@ public class TransactionTest extends ModelTest {
   }
 
   public void testTransferChangeAccounts() {
-    Transfer op = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId());
+    Transfer op = Transfer.getNewInstance(mAccount1, mAccount2.getId());
     assertNotNull(op);
     op.setAmount(new Money(mAccount1.getCurrencyUnit(), (long) 100));
     op.setComment("test transfer");
@@ -122,12 +121,12 @@ public class TransactionTest extends ModelTest {
   }
 
   public void testSplitWithTransfer() {
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), true);
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1);
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.setComment("test split with transfer");
     assertTrue(op1.getId() > 0);
-    Transfer split1 = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId(), op1.getId());
+    Transfer split1 = Transfer.getNewInstance(mAccount1.getId(), mAccount1.getCurrencyUnit(), mAccount2.getId(), op1.getId());
     assert split1 != null;
     split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     assertEquals(split1.getParentId().longValue(), op1.getId());
@@ -146,21 +145,20 @@ public class TransactionTest extends ModelTest {
    * we test if split parts get the date of their parent
    */
   public void testSplit() {
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), true);
-    assert op1 != null;
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1);
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.setComment("test transaction");
     op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
     op1.setDate(new Date(System.currentTimeMillis() - 1003900000));
     assertTrue(op1.getId() > 0);
-    Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), op1.getId());
+    Transaction split1 = Transaction.getNewInstance(mAccount1, op1.getId());
     assert split1 != null;
     split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     assertEquals(split1.getParentId().longValue(), op1.getId());
     split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
     assertTrue(split1.getId() > 0);
-    Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), op1.getId());
+    Transaction split2 = Transaction.getNewInstance(mAccount1, op1.getId());
     assert split2 != null;
     split2.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     assertEquals(split2.getParentId().longValue(), op1.getId());
@@ -189,8 +187,7 @@ public class TransactionTest extends ModelTest {
   }
 
   public void testDeleteSplitWithPartTransfer() {
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), false);
-    assert op1 != null;
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1, false);
     Money money = new Money(mAccount1.getCurrencyUnit(), 100L);
     op1.setAmount(money);
     op1.save();
@@ -205,7 +202,7 @@ public class TransactionTest extends ModelTest {
     catId2 = writeCategory("Test category 2", null);
     assertEquals(getCatUsage(catId1), 0);
     assertEquals(getCatUsage(catId2), 0);
-    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
+    Transaction op1 = Transaction.getNewInstance(mAccount1);
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.setCatId(catId1);
@@ -224,7 +221,7 @@ public class TransactionTest extends ModelTest {
     assertEquals(getCatUsage(catId1), 1);
     assertEquals(getCatUsage(catId2), 1);
     //new transaction without cat, does not increase usage
-    Transaction op2 = Transaction.getNewInstance(mAccount1.getId());
+    Transaction op2 = Transaction.getNewInstance(mAccount1);
     assert op2 != null;
     op2.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op2.save();
@@ -240,14 +237,13 @@ public class TransactionTest extends ModelTest {
   public void testIncreaseAccountUsage() {
     assertEquals(0, getAccountUsage(mAccount1.getId()));
     assertEquals(0, getAccountUsage(mAccount2.getId()));
-    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
+    Transaction op1 = Transaction.getNewInstance(mAccount1);
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.save();
     assertEquals(1, getAccountUsage(mAccount1.getId()));
     //transfer
-    Transfer op2 = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId());
-    assert op2 != null;
+    Transfer op2 = Transfer.getNewInstance(mAccount1, mAccount2.getId());
     op2.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op2.save();
     assertEquals(2, getAccountUsage(mAccount1.getId()));
@@ -256,17 +252,14 @@ public class TransactionTest extends ModelTest {
     op1.save();
     assertEquals(2, getAccountUsage(mAccount2.getId()));
     //split
-    SplitTransaction op3 = SplitTransaction.getNewInstance(mAccount1.getId(), false);
-    assert op3 != null;
+    SplitTransaction op3 = SplitTransaction.getNewInstance(mAccount1, false);
     op3.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op3.save();
-    Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), op3.getId());
-    assert split1 != null;
+    Transaction split1 = Transaction.getNewInstance(mAccount1, op3.getId());
     split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
-    Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), op3.getId());
-    assert split2 != null;
+    Transaction split2 = Transaction.getNewInstance(mAccount1, op3.getId());
     split2.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     split2.setStatus(STATUS_UNCOMMITTED);
     split2.save();

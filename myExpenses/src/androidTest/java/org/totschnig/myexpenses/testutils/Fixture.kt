@@ -225,7 +225,7 @@ class Fixture(inst: Instrumentation) {
                 .persist()
 
             //Transfer
-            val transfer = Transfer.getNewInstance(account1.id, account3.id)
+            val transfer = Transfer.getNewInstance(account1, account3.id)
             transfer.setAmount(Money(defaultCurrency, 25000L))
             transfer.setDate(Date(offset))
             transfer.save()
@@ -240,7 +240,7 @@ class Fixture(inst: Instrumentation) {
             .persist()
 
         //Transaction 8: Split
-        val split: Transaction = SplitTransaction.getNewInstance(account1.id)
+        val split: Transaction = SplitTransaction.getNewInstance(account1)
         split.amount = Money(defaultCurrency, -8967L)
         split.status  = DatabaseConstants.STATUS_NONE
         split.save(true)
@@ -272,7 +272,7 @@ class Fixture(inst: Instrumentation) {
         }
         val template = Template.getTypedNewInstance(
             Transactions.TYPE_TRANSACTION,
-            account3.id,
+            account3,
             false,
             null
         )!!
@@ -411,7 +411,7 @@ class Fixture(inst: Instrumentation) {
         }
 
         fun persist(): Transaction {
-            val transaction = Transaction.getNewInstance(accountId)
+            val transaction = Transaction.getNewInstance(accountId, amount!!.currencyUnit)
             transaction.amount = amount
             transaction.catId = catId
             if (date != null) {

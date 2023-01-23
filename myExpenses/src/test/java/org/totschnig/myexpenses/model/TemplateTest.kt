@@ -12,22 +12,42 @@
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
-package org.totschnig.myexpenses.test.model
+package org.totschnig.myexpenses.model
 
+import android.content.ContentUris
+import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.viewmodel.data.Category
 
-class TemplateTest : ModelTest() {
+@RunWith(RobolectricTestRunner::class)
+class TemplateTest {
+    private val repository: Repository = Repository(
+        ApplicationProvider.getApplicationContext<MyApplication>(),
+        Mockito.mock(CurrencyContext::class.java),
+        Mockito.mock(CurrencyFormatter::class.java),
+        Mockito.mock(PrefHandler::class.java)
+    )
     private lateinit var mAccount1: Account
     private lateinit var mAccount2: Account
     private var categoryId: Long = 0
     private var payeeId: Long = 0
 
-    @Throws(Exception::class)
-    override fun setUp() {
-        super.setUp()
+    fun writeCategory(label: String, parentId: Long?) =
+        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
+
+    @Before
+    fun setUp() {
         mAccount1 = Account("TestAccount 1", 100, "Main account")
         mAccount1.save()
         mAccount2 = Account("TestAccount 2", 100, "Secondary account")
@@ -36,10 +56,11 @@ class TemplateTest : ModelTest() {
         payeeId = Payee.maybeWrite("N.N")
     }
 
+    @Test
     fun testTemplateFromTransaction() {
         val start = mAccount1.totalBalance.amountMinor
         val amount = 100.toLong()
-        val op1 = Transaction.getNewInstance(mAccount1.id)!!
+        val op1 = Transaction.getNewInstance(mAccount1)!!
         op1.amount = Money(mAccount1.currencyUnit, amount)
         op1.comment = "test transaction"
         op1.save()
@@ -55,12 +76,14 @@ class TemplateTest : ModelTest() {
         assertWithMessage("Template deleted, but can still be retrieved").that(Template.getInstanceFromDb(t.id)).isNull()
     }
 
+    @Test
     fun testTemplate() {
         val template = buildTemplate()
         val restored = Template.getInstanceFromDb(template.id)
         assertThat(restored).isEqualTo(template)
     }
 
+    @Test
     fun testTransactionFromTemplate() {
         val template = buildTemplate()
         val transaction = Transaction.getInstanceFromTemplate(template)
@@ -71,28 +94,34 @@ class TemplateTest : ModelTest() {
         assertThat(transaction.comment).isEqualTo(template.comment)
     }
 
+    @Test
     fun testGetTypedNewInstanceTransaction() {
         newInstanceTestHelper(Transactions.TYPE_TRANSACTION)
     }
 
+    @Test
     fun testGetTypedNewInstanceTransfer() {
         newInstanceTestHelper(Transactions.TYPE_TRANSFER)
     }
 
+    @Test
     fun testGetTypedNewInstanceSplit() {
         newInstanceTestHelper(Transactions.TYPE_SPLIT)
     }
 
     private fun newInstanceTestHelper(type: Int) {
-        val t: Template = Template.getTypedNewInstance(type, mAccount1.id, false, null)!!.apply {
+        val t: Template = Template.getTypedNewInstance(type, mAccount1, false, null)!!.apply {
             title = "Template"
+            if (type == Transactions.TYPE_TRANSFER) {
+                setTransferAccountId(mAccount2.id)
+            }
             save()
         }
         assertThat(t.operationType()).isEqualTo(type)
         assertThat(Template.getInstanceFromDb(t.id)).isEqualTo(t)
     }
 
-    private fun buildTemplate() = Template(mAccount1, Transactions.TYPE_TRANSACTION, null).apply {
+    private fun buildTemplate() = Template(mAccount1.id, mAccount1.currencyUnit, Transactions.TYPE_TRANSACTION, null).apply {
         catId = this@TemplateTest.categoryId
         payeeId = this@TemplateTest.payeeId
         comment = "Some comment"

@@ -243,6 +243,14 @@ public class TransactionProvider extends BaseTransactionProvider {
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
     final Context wrappedContext = getWrappedContext();
+    //noinspection InlinedApi
+    String queryParameterLimit = uri.getQueryParameter(ContentResolver.QUERY_ARG_LIMIT);
+    if (queryParameterLimit != null) {
+      //noinspection InlinedApi
+      String queryParameterOffset = uri.getQueryParameter(ContentResolver.QUERY_ARG_OFFSET);
+      limit = (queryParameterOffset == null) ? queryParameterLimit : queryParameterOffset + "," + queryParameterLimit;
+      log("limit %s", limit);
+    }
     switch (uriMatch) {
       case TRANSACTIONS: {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, false)) {
@@ -272,14 +280,6 @@ public class TransactionProvider extends BaseTransactionProvider {
           String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + keepTransferPartCriterion;
           selection = selection == null ? mergeTransferSelection :
                   selection + " AND (" + mergeTransferSelection + ")";
-        }
-        //noinspection InlinedApi
-        String queryParameterLimit = uri.getQueryParameter(ContentResolver.QUERY_ARG_LIMIT);
-        if (queryParameterLimit != null) {
-          //noinspection InlinedApi
-          String queryParameterOffset = uri.getQueryParameter(ContentResolver.QUERY_ARG_OFFSET);
-          limit = queryParameterOffset + "," + queryParameterLimit;
-          log("limit %s", limit);
         }
         break;
       }

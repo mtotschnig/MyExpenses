@@ -41,7 +41,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             AccountType.CASH, Account.DEFAULT_COLOR
         )
         account.save()
-        val op0 = Transaction.getNewInstance(account.id)
+        val op0 = Transaction.getNewInstance(account)
         op0.amount = Money(home, -100L)
         op0.save()
         for (i in 2 until 7) {

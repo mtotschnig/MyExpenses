@@ -545,15 +545,16 @@ open class MyExpensesViewModel(
             } else {
                 cursor.moveToFirst()
                 val accountId = cursor.getLong(KEY_ACCOUNTID)
+                val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
                 val amount = Money(
-                    currencyContext[cursor.getString(KEY_CURRENCY)],
+                    currencyUnit,
                     cursor.getLong(KEY_AMOUNT)
                 )
                 val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
                 val date = cursor.getLong(KEY_DATE)
                 val crStatus =
                     enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
-                SplitTransaction.getNewInstance(accountId, false).also {
+                SplitTransaction.getNewInstance(accountId, currencyUnit, false).also {
                     it.amount = amount
                     it.date = date
                     it.payeeId = payeeId

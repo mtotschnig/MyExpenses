@@ -15,16 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.net.Uri;
-
-import org.totschnig.myexpenses.util.Preconditions;
-
-import java.util.ArrayList;
-
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -38,6 +28,16 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
+
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.net.Uri;
+
+import org.totschnig.myexpenses.util.Preconditions;
+
+import java.util.ArrayList;
 
 /**
  * a transfer consists of a pair of transactions, one for each account
@@ -106,31 +106,22 @@ public class Transfer extends Transaction implements ITransfer {
     this.setTransferAmount(transferAmount);
   }
 
-  public static Transfer getNewInstance(long accountId) {
-    return getNewInstance(accountId, null);
+  @Deprecated
+  public static Transfer getNewInstance(Account account, Long transferAccountId) {
+    return getNewInstance(account, transferAccountId, null);
   }
 
-  /**
-   * @param accountId         if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
-   * @param transferAccountId
-   * @return
-   */
-  public static Transfer getNewInstance(long accountId, Long transferAccountId) {
-    return getNewInstance(accountId, transferAccountId, null);
+  @Deprecated
+  public static Transfer getNewInstance(Account account, Long transferAccountId, Long parentId) {
+    return getNewInstance(account.getId(), account.getCurrency(), transferAccountId, parentId);
   }
 
-  public static Transfer getNewInstance(long accountId, Long transferAccountId, Long parentId) {
-    Account account = Account.getInstanceFromDbWithFallback(accountId);
-    if (account == null) {
-      return null;
-    }
-    if (transferAccountId != null) {
-      Account transferAccount = Account.getInstanceFromDbWithFallback(transferAccountId);
-      if (transferAccount == null) {
-        return null;
-      }
-    }
-    return new Transfer(accountId, new Money(account.getCurrencyUnit(), 0L), transferAccountId, parentId);
+  public static Transfer getNewInstance(long accountId, CurrencyUnit currencyUnit, Long transferAccountId) {
+    return getNewInstance(accountId, currencyUnit, transferAccountId, null);
+  }
+
+  public static Transfer getNewInstance(long accountId, CurrencyUnit currencyUnit, Long transferAccountId, Long parentId) {
+    return new Transfer(accountId, new Money(currencyUnit, 0L), transferAccountId, parentId);
   }
 
   @Override

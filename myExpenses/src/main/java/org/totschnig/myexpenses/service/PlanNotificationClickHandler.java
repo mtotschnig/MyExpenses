@@ -27,6 +27,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
+//TODO migrate to WorkManager
 public class PlanNotificationClickHandler extends IntentService {
   public PlanNotificationClickHandler() {
     super("PlanNotificationClickHandler");

@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
@@ -26,12 +25,12 @@ class SealedAccountMarkExportedTest {
         val resolver = ApplicationProvider.getApplicationContext<MyApplication>().contentResolver
         val sealedAccount = Account("EUR-Account", currency, 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
         sealedAccount.save()
-        val sealed = Transaction.getNewInstance(sealedAccount.id)
+        val sealed = Transaction.getNewInstance(sealedAccount)
         sealed.amount = Money(currency, 500L)
         sealed.save()
         val openAccount = Account("EUR-Account", currency, 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
         openAccount.save()
-        val open = Transaction.getNewInstance(openAccount.id)
+        val open = Transaction.getNewInstance(openAccount)
         open.amount = Money(currency, 500L)
         open.save()
         val values = ContentValues(1)

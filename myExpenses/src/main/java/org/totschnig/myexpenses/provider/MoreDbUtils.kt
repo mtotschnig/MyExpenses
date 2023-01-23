@@ -254,6 +254,11 @@ private fun findSubCategory(database: SupportSQLiteDatabase, parentId: Long, lab
 private fun findMainCategory(database: SupportSQLiteDatabase, label: String) =
     findCategory(database, "$KEY_PARENTID is null and $KEY_LABEL = ?" , arrayOf(label))
 
+fun <T> Cursor.useAndMap(mapper: (Cursor) -> T) =
+    use {
+        generateSequence { takeIf { it.moveToNext() } }.map(mapper).toList()
+    }
+
 /**
  * requires the Cursor to be positioned BEFORE first row
  */

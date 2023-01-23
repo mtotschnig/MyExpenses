@@ -18,8 +18,8 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
 class CategoryDelegate(
@@ -82,8 +82,8 @@ class CategoryDelegate(
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
     }
 
-    override fun buildMainTransaction(accountId: Long): ITransaction =
-        (if (isTemplate) buildTemplate(accountId) else Transaction(accountId, parentId)).apply {
+    override fun buildMainTransaction(account: Account): ITransaction =
+        (if (isTemplate) buildTemplate(account) else Transaction(account.id, parentId)).apply {
             this.catId = this@CategoryDelegate.catId
             this.label = this@CategoryDelegate.label
         }

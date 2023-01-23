@@ -17,6 +17,8 @@ public class NotificationBuilderWrapper {
   public static int NOTIFICATION_AUTO_BACKUP = -2;
   public static int NOTIFICATION_CONTRIB = -3;
   public static int NOTIFICATION_WEB_UI = -4;
+
+  public static int NOTIFICATION_PLANNER_ERROR = -5;
   public static String CHANNEL_ID_SYNC = "sync";
   public static String CHANNEL_ID_PLANNER = "planner";
   public static String CHANNEL_ID_DEFAULT = "default";

@@ -75,7 +75,7 @@ class DistributionTest {
     private fun fixtureWithMappedTransaction() {
         baseFixture {
             categoryId =  ContentUris.parseId(repository.saveCategory(Category(label = "TestCategory"))!!)
-            with(Transaction.getNewInstance(account.id)) {
+            with(Transaction.getNewInstance(account)) {
                 amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
                 catId = categoryId
                 save()

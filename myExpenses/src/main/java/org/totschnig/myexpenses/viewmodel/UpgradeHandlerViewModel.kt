@@ -25,9 +25,9 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -194,22 +194,20 @@ class UpgradeHandlerViewModel(application: Application) :
                         prefHandler.remove(PrefKey.CUSTOM_DATE_FORMAT)
                     }
                 }
-                contentResolver.query(
-                    TEMPLATES_URI, null, "$KEY_PLANID is not null", null, null
-                )?.use { cursor ->
-                    val templateSequence = cursor.asSequence.map { Template(it) }
-                    try {
-                        templateSequence.forEach {
-                            Plan.updateDescription(
-                                it.planId,
-                                it.compileDescription(getApplication())
-                            )
-                        }
-                    } catch (e: SecurityException) {
-                        //permission missing
-                        CrashHandler.report(e)
-
+                //noinspection Recycle
+                try {
+                    contentResolver.query(
+                        TEMPLATES_URI, null, "$KEY_PLANID is not null", null, null
+                    )?.useAndMap { Template(it) }?.forEach {
+                        Plan.updateDescription(
+                            it.planId,
+                            it.compileDescription(getApplication())
+                        )
                     }
+                } catch (e: SecurityException) {
+                    //permission missing
+                    CrashHandler.report(e)
+
                 }
             }
 
@@ -257,12 +255,12 @@ class UpgradeHandlerViewModel(application: Application) :
             }
 
             if (fromVersion < 552) {
+                //noinspection Recycle
                 val budgetIds: List<Long> = contentResolver.query(
                     BUDGETS_URI,
                     arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
                     null, null, null
-                )?.use { cursor -> cursor.asSequence.map { it.getLong(0) }.toList() }
-                    ?: emptyList()
+                )?.useAndMap { it.getLong(0) }?.toList() ?: emptyList()
                 val defaultBudgetKeys =
                     settings.all.entries.map { it.key }
                         .filter { it.startsWith("defaultBudget") }

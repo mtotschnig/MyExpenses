@@ -51,7 +51,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         val account = Account("TEST ACCOUNT", currencyUnit, 5000L, "", AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         try {
-            val op = Transaction.getNewInstance(account.id)
+            val op = Transaction.getNewInstance(account)
             op.amount = Money(currencyUnit, -1200L)
             op.save()
             val before = account.totalBalance

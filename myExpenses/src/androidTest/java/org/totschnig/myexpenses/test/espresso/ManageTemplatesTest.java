@@ -54,23 +54,23 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
   }
 
   public void createInstances(Template.Action defaultAction) {
-    Template template = new Template(account1, TYPE_TRANSACTION, null);
+    Template template = new Template(account1.getId(), account1.getCurrencyUnit(), TYPE_TRANSACTION, null);
     template.setAmount(new Money(account1.getCurrencyUnit(), -1200L));
     template.setDefaultAction(defaultAction);
     template.setTitle("Espresso Transaction Template " + defaultAction.name());
     template.save();
-    template = Template.getTypedNewInstance(TYPE_TRANSFER, account1.getId(), false, null);
+    template = Template.getTypedNewInstance(TYPE_TRANSFER, account1, false, null);
     template.setAmount(new Money(account1.getCurrencyUnit(), -1200L));
     template.setTransferAccountId(account2.getId());
     template.setTitle("Espresso Transfer Template " + defaultAction.name());
     template.setDefaultAction(defaultAction);
     template.save();
-    template = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), false, null);
+    template = Template.getTypedNewInstance(TYPE_SPLIT, account1, false, null);
     template.setAmount(new Money(account1.getCurrencyUnit(), -1200L));
     template.setTitle("Espresso Split Template " + defaultAction.name());
     template.setDefaultAction(defaultAction);
     template.save(true);
-    Template part = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), false, template.getId());
+    Template part = Template.getTypedNewInstance(TYPE_SPLIT, account1, false, template.getId());
     part.save();
     assertThat(Transaction.countPerAccount(account1.getId())).isEqualTo(0);
   }

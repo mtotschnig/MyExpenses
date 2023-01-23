@@ -178,12 +178,20 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     fun newTemplate(operationType: Int, accountId: Long, parentId: Long?): LiveData<Template?> =
         liveData(context = coroutineContext()) {
-            emit(Template.getTypedNewInstance(operationType, accountId, true, parentId))
+            emit(
+                fallbackToLastUsed(accountId)?.let {
+                    Template.getTypedNewInstance(operationType, it, repository.getCurrencyUnitForAccount(it), true, parentId)
+                }
+            )
         }
 
     fun newTransaction(accountId: Long, parentId: Long?): LiveData<Transaction?> =
         liveData(context = coroutineContext()) {
-            emit(Transaction.getNewInstance(accountId, parentId))
+            emit(
+                fallbackToLastUsed(accountId)?.let {
+                    Transaction.getNewInstance(it, repository.getCurrencyUnitForAccount(it), parentId)
+                }
+            )
         }
 
     fun newTransfer(
@@ -191,13 +199,24 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         transferAccountId: Long?,
         parentId: Long?
     ): LiveData<Transfer?> = liveData(context = coroutineContext()) {
-        emit(Transfer.getNewInstance(accountId, transferAccountId, parentId))
+        emit(
+            fallbackToLastUsed(accountId)?.let {
+                Transfer.getNewInstance(it,
+                    repository.getCurrencyUnitForAccount(it), transferAccountId, parentId)
+            }
+        )
     }
 
     fun newSplit(accountId: Long): LiveData<SplitTransaction?> =
         liveData(context = coroutineContext()) {
-            emit(SplitTransaction.getNewInstance(accountId))
+            emit(
+                fallbackToLastUsed(accountId)?.let {
+                    SplitTransaction.getNewInstance(it, repository.getCurrencyUnitForAccount(it), true)
+                }
+            )
         }
+
+    private fun fallbackToLastUsed(accountId: Long) = accountId.takeIf { it != 0L } ?: repository.getLastUsedOpenAccount()
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
         loadJob?.cancel()

@@ -56,11 +56,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         account2 =
             Account("Test account 2", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
         account2.save()
-        transaction = Transaction.getNewInstance(account1.id).apply {
+        transaction = Transaction.getNewInstance(account1).apply {
             amount = Money(currency, 500L)
             save()
         }
-        transfer = Transfer.getNewInstance(account1.id, account2.id).apply {
+        transfer = Transfer.getNewInstance(account1, account2.id).apply {
             setAmount(Money(currency, -600L))
             save()
         }
@@ -112,7 +112,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             Account.DEFAULT_COLOR
         )
         foreignAccount.save()
-        val foreignTransfer = Transfer.getNewInstance(account1.id, foreignAccount.id)
+        val foreignTransfer = Transfer.getNewInstance(account1, foreignAccount.id)
         foreignTransfer.setAmountAndTransferAmount(
             Money(currency, 100L), Money(
                 foreignCurrency, 200L
@@ -284,7 +284,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithSplitTransactionAndPrepareForm() {
-        val splitTransaction: Transaction = SplitTransaction.getNewInstance(account1.id)
+        val splitTransaction: Transaction = SplitTransaction.getNewInstance(account1)
         splitTransaction.status = DatabaseConstants.STATUS_NONE
         splitTransaction.save(true)
         load(splitTransaction.id).use {
@@ -333,11 +333,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     private fun buildSplitTemplate(): Long {
         val template =
-            Template.getTypedNewInstance(Transactions.TYPE_SPLIT, account1.id, false, null)
+            Template.getTypedNewInstance(Transactions.TYPE_SPLIT, account1, false, null)
         template!!.save(true)
         val part = Template.getTypedNewInstance(
             Transactions.TYPE_SPLIT,
-            account1.id,
+            account1,
             false,
             template.id
         )
@@ -349,7 +349,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldPopulateWithPlanAndPrepareForm() {
         val plan = Template.getTypedNewInstance(
             Transactions.TYPE_TRANSACTION,
-            account1.id,
+            account1,
             false,
             null
         )
@@ -390,7 +390,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldInstantiateFromTemplateAndPrepareForm() {
         val template = Template.getTypedNewInstance(
             Transactions.TYPE_TRANSACTION,
-            account1.id,
+            account1,
             false,
             null
         )
@@ -457,7 +457,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         val sealedAccount =
             Account("Sealed account", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
         sealedAccount.save()
-        val sealed = Transaction.getNewInstance(sealedAccount.id)
+        val sealed = Transaction.getNewInstance(sealedAccount)
         sealed.amount = Money(currency, 500L)
         sealed.save()
         val values = ContentValues(1)

@@ -84,12 +84,12 @@ abstract class MainDelegate<T : ITransaction>(
 
     override fun buildTransaction(
         forSave: Boolean,
-        accountId: Long
+        account: Account
     ): T? {
         val amount = validateAmountInput(forSave, currentAccount()!!.currency).getOrNull()
             ?: //Snackbar is shown in validateAmountInput
             return null
-        return buildMainTransaction(accountId).apply {
+        return buildMainTransaction(account).apply {
             this.amount = amount
             payee = viewBinding.Payee.text.toString()
             this.debtId = this@MainDelegate.debtId
@@ -148,7 +148,7 @@ abstract class MainDelegate<T : ITransaction>(
             viewBinding.Payee.setText(transaction.payee)
     }
 
-    abstract fun buildMainTransaction(accountId: Long): T
+    abstract fun buildMainTransaction(account: Account): T
 
     private fun createPayeeAdapter(withAutoFill: Boolean) {
         payeeAdapter = SimpleCursorAdapter(

@@ -62,7 +62,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         account2 = Account("Account 2", openingBalance, "Account 2")
         account2.save()
         categoryId = writeCategory(TEST_CAT, null)
-        Transaction.getNewInstance(account1.id).apply {
+        Transaction.getNewInstance(account1).apply {
             amount = Money(account1.currencyUnit, -expense1)
             crStatus = CrStatus.CLEARED
             save()
@@ -75,7 +75,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
             saveAsNew()
         }
 
-        Transfer.getNewInstance(account1.id, account2.id).apply {
+        Transfer.getNewInstance(account1, account2.id).apply {
             setAmount(Money(account1.currencyUnit, transferP))
             save()
             setAmount(Money(account1.currencyUnit, -transferN))

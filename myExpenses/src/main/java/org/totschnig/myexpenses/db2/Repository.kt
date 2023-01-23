@@ -13,42 +13,20 @@ import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
@@ -71,119 +49,116 @@ class Repository @Inject constructor(
 
     val contentResolver: ContentResolver = context.contentResolver
 
-    private fun Transaction.toContentValues() =
-        getCurrencyUnitForAccount(account)?.let { currencyUnit ->
-            ContentValues().apply {
-                put(KEY_ACCOUNTID, account)
-                put(
-                    KEY_AMOUNT,
-                    Money(currencyUnit, BigDecimal(amount.toString())).amountMinor
-                )
-                put(KEY_DATE, time?.let {
-                    localDateTime2Epoch(LocalDateTime.of(date, time))
-                } ?: localDate2Epoch(date))
-                put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
-                payee.takeIf { it.isNotEmpty() }?.let { put(KEY_PAYEEID, findOrWritePayee(it)) }
-                put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
-                method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
-                put(KEY_REFERENCE_NUMBER, number)
-                put(KEY_COMMENT, comment)
-                put(KEY_UUID, Model.generateUuid())
-            }
-        }
+    private fun Transaction.toContentValues() = ContentValues().apply {
+        put(KEY_ACCOUNTID, account)
+        put(
+            KEY_AMOUNT,
+            Money(getCurrencyUnitForAccount(account), BigDecimal(amount.toString())).amountMinor
+        )
+        put(KEY_DATE, time?.let {
+            localDateTime2Epoch(LocalDateTime.of(date, time))
+        } ?: localDate2Epoch(date))
+        put(KEY_VALUE_DATE, localDate2Epoch(valueDate))
+        payee.takeIf { it.isNotEmpty() }?.let { put(KEY_PAYEEID, findOrWritePayee(it)) }
+        put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+        category?.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
+        method.takeIf { it > 0 }?.let { put(KEY_METHODID, it) }
+        put(KEY_REFERENCE_NUMBER, number)
+        put(KEY_COMMENT, comment)
+        put(KEY_UUID, Model.generateUuid())
+    }
 
     //Transaction
-    fun updateTransaction(id: String, transaction: Transaction) =
-        transaction.toContentValues()?.let {
-            val ops = ArrayList<ContentProviderOperation>()
-            ops.add(
-                ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValues(it)
-                    .withSelection("$KEY_ROWID = ?", arrayOf(id))
-                    .build()
-            )
-            ops.add(
-                ContentProviderOperation.newDelete(TRANSACTIONS_TAGS_URI)
-                    .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(id))
-                    .build()
-            )
-            for (tag in transaction.tags) {
-                ops.add(
-                    ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
-                        .withValue(KEY_TRANSACTIONID, id)
-                        .withValue(KEY_TAGID, tag).build()
-                )
-            }
-            val results = contentResolver.applyBatch(
-                TransactionProvider.AUTHORITY,
-                ops
-            )
-            results[0].count
-        }
-
-    fun createTransaction(transaction: Transaction) = transaction.toContentValues()?.let { values ->
+    fun updateTransaction(id: String, transaction: Transaction): Int {
         val ops = ArrayList<ContentProviderOperation>()
-        values.put(KEY_UUID, Model.generateUuid())
         ops.add(
-            ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(values)
+            ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                .withValues(transaction.toContentValues())
+                .withSelection("$KEY_ROWID = ?", arrayOf(id))
+                .build()
+        )
+        ops.add(
+            ContentProviderOperation.newDelete(TRANSACTIONS_TAGS_URI)
+                .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(id))
                 .build()
         )
         for (tag in transaction.tags) {
             ops.add(
                 ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
-                    .withValueBackReference(KEY_TRANSACTIONID, 0)
+                    .withValue(KEY_TRANSACTIONID, id)
                     .withValue(KEY_TAGID, tag).build()
             )
         }
-        contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)[0].uri?.let {
+        val results = contentResolver.applyBatch(
+            AUTHORITY,
+            ops
+        )
+        return results[0].count ?: 0
+    }
+
+    fun createTransaction(transaction: Transaction): Long {
+        val values = transaction.toContentValues().apply {
+            put(KEY_UUID, Model.generateUuid())
+        }
+        val ops = ArrayList<ContentProviderOperation>().apply {
+            add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                    .withValues(values)
+                    .build()
+            )
+            for (tag in transaction.tags) {
+                add(
+                    ContentProviderOperation.newInsert(TRANSACTIONS_TAGS_URI)
+                        .withValueBackReference(KEY_TRANSACTIONID, 0)
+                        .withValue(KEY_TAGID, tag).build()
+                )
+            }
+        }
+        return contentResolver.applyBatch(AUTHORITY, ops)[0].uri!!.let {
             ContentUris.parseId(it)
         }
     }
 
-    fun loadTransactions(accountId: Long): List<Transaction> =
-        getCurrencyUnitForAccount(accountId)?.let { currencyUnit ->
-            val filter = FilterPersistence(
-                prefHandler = prefHandler,
-                keyTemplate = prefNameForCriteria(accountId),
-                savedInstanceState = null,
-                immediatePersist = false,
-                restoreFromPreferences = true
-            ).whereFilter.takeIf { !it.isEmpty }?.let {
-                it.getSelectionForParents(VIEW_EXTENDED) to it.getSelectionArgs(false)
-            }
-            contentResolver.query(
-                Account.extendedUriForTransactionList(true),
-                PROJECTION_EXTENDED,
-                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${
-                    filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
-                }",
-                filter?.let { arrayOf(accountId.toString(), *it.second) }
-                    ?: arrayOf(accountId.toString()),
-                null
-            )?.use { cursor ->
-                cursor.asSequence.map { cursor ->
-                    Transaction.fromCursor(
-                        context,
-                        cursor,
-                        accountId,
-                        currencyUnit,
-                        currencyFormatter,
-                        Utils.ensureDateFormatWithShortYear(context)
-                    ).copy(
-                        tags = contentResolver.query(
-                            TRANSACTIONS_TAGS_URI,
-                            arrayOf(KEY_ROWID),
-                            "$KEY_TRANSACTIONID = ?",
-                            arrayOf(cursor.getLong(KEY_ROWID).toString()),
-                            null
-                        )?.use { tagCursor ->
-                            tagCursor.asSequence.map { it.getLong(0) }.toList()
-                        } ?: emptyList()
-                    )
-                }.toList()
-            }
-        } ?: emptyList()
+    fun loadTransactions(accountId: Long): List<Transaction> {
+        val filter = FilterPersistence(
+            prefHandler = prefHandler,
+            keyTemplate = prefNameForCriteria(accountId),
+            savedInstanceState = null,
+            immediatePersist = false,
+            restoreFromPreferences = true
+        ).whereFilter.takeIf { !it.isEmpty }?.let {
+            it.getSelectionForParents(VIEW_EXTENDED) to it.getSelectionArgs(false)
+        }
+        //noinspection Recycle
+        return contentResolver.query(
+            Account.extendedUriForTransactionList(true),
+            PROJECTION_EXTENDED,
+            "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${
+                filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
+            }",
+            filter?.let { arrayOf(accountId.toString(), *it.second) }
+                ?: arrayOf(accountId.toString()),
+            null
+        )!!.useAndMap { cursor ->
+            Transaction.fromCursor(
+                context,
+                cursor,
+                accountId,
+                getCurrencyUnitForAccount(accountId),
+                currencyFormatter,
+                Utils.ensureDateFormatWithShortYear(context)
+            ).copy(
+                //noinspection Recycle
+                tags = contentResolver.query(
+                    TRANSACTIONS_TAGS_URI,
+                    arrayOf(KEY_ROWID),
+                    "$KEY_TRANSACTIONID = ?",
+                    arrayOf(cursor.getLong(KEY_ROWID).toString()),
+                    null
+                )?.useAndMap { it.getLong(0) } ?: emptyList()
+            )
+        }
+    }
 
     //Payee
     fun findOrWritePayeeInfo(payeeName: String, autoFill: Boolean) = findPayee(payeeName)?.let {
@@ -192,7 +167,7 @@ class Repository @Inject constructor(
 
     private fun autoFill(payeeId: Long): AutoFillInfo? {
         return contentResolver.query(
-            ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, payeeId),
+            ContentUris.withAppendedId(AUTOFILL_URI, payeeId),
             arrayOf(KEY_CATID), null, null, null
         )?.use { cursor ->
             cursor.takeIf { it.moveToFirst() }?.let {
@@ -204,7 +179,7 @@ class Repository @Inject constructor(
     private fun findOrWritePayee(name: String) = findPayee(name) ?: createPayee(name)
 
     private fun findPayee(name: String) = contentResolver.query(
-        TransactionProvider.PAYEES_URI,
+        PAYEES_URI,
         arrayOf(KEY_ROWID),
         "$KEY_PAYEE_NAME = ?",
         arrayOf(name.trim()), null
@@ -213,19 +188,22 @@ class Repository @Inject constructor(
     }
 
     private fun createPayee(name: String) =
-        contentResolver.insert(TransactionProvider.PAYEES_URI, ContentValues().apply {
+        contentResolver.insert(PAYEES_URI, ContentValues().apply {
             put(KEY_PAYEE_NAME, name.trim())
             put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name))
         })?.let { ContentUris.parseId(it) }
 
     //Account
-    private fun getCurrencyUnitForAccount(accountId: Long) =
-        contentResolver.query(
-            ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+    fun getCurrencyUnitForAccount(accountId: Long): CurrencyUnit {
+        require(accountId != 0L)
+        return contentResolver.query(
+            ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
             arrayOf(KEY_CURRENCY), null, null, null
-        )?.use {
-            if (it.moveToFirst()) it.getString(0) else null
-        }?.let { currencyContext[it] }
+        )!!.use {
+            it.moveToFirst()
+            it.getString(0)
+        }.let { currencyContext[it] }
+    }
 
     //Transaction
     fun getUuidForTransaction(transactionId: Long) =
@@ -236,12 +214,19 @@ class Repository @Inject constructor(
             if (it.moveToFirst()) it.getString(0) else null
         }
 
+    fun getLastUsedOpenAccount() =
+        contentResolver.query(
+            ACCOUNTS_URI.withLimit(1), arrayOf(KEY_ROWID), "$KEY_SEALED = 0", null, KEY_LAST_USED
+        )?.use {
+            if (it.moveToFirst()) it.getLong(0) else null
+        }
+
     fun saveDebt(debt: Debt) {
         if (debt.id == 0L) {
-            contentResolver.insert(TransactionProvider.DEBTS_URI, debt.toContentValues())
+            contentResolver.insert(DEBTS_URI, debt.toContentValues())
         } else {
             contentResolver.update(
-                ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debt.id),
+                ContentUris.withAppendedId(DEBTS_URI, debt.id),
                 debt.toContentValues(), null, null
             )
         }

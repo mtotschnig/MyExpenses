@@ -632,9 +632,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun checkCorruptedData987() = Bundle(1).apply {
         putLongArray(KEY_RESULT, helper.readableDatabase.query(
             "select distinct transactions.parent_id from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
-        ).use { cursor ->
-            cursor.asSequence.map { it.getLong(0) }.toList().toLongArray()
-        })
+        ).useAndMap { it.getLong(0) }.toLongArray())
     }
 
     private fun decrypt(currentDb: File, backupDir: File): Result<Unit> {

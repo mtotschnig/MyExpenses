@@ -60,30 +60,22 @@ public class SplitTransaction extends Transaction implements ISplit {
     setCatId(DatabaseConstants.SPLIT_CATID);
   }
 
-  public static SplitTransaction getNewInstance(long accountId) {
-    return getNewInstance(accountId, true);
-  }
-
-  /**
-   * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
-   * @param forEdit   if true transaction is immediately persisted to DB in uncommitted state
-   * @return new SplitTransactionw with Account set to accountId
-   */
-  public static SplitTransaction getNewInstance(long accountId, boolean forEdit) {
-    Account account = Account.getInstanceFromDbWithFallback(accountId);
-    if (account == null) {
-      return null;
-    }
-    return getNewInstance(account, forEdit);
-  }
-
   @Override
   protected Uri getUriForSave(boolean callerIsSyncAdapter) {
     return getStatus() == STATUS_UNCOMMITTED ? UNCOMMITTED_URI : super.getUriForSave(callerIsSyncAdapter);
   }
 
-  static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
-    SplitTransaction t = new SplitTransaction(account.getId(), new Money(account.getCurrencyUnit(), 0L));
+  @Deprecated
+  public static SplitTransaction getNewInstance(@NonNull Account account)  {
+    return getNewInstance(account, true);
+  }
+  @Deprecated
+  public static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
+    return getNewInstance(account.getAccountId(), account.getCurrencyUnit(), forEdit);
+  }
+
+  public static SplitTransaction getNewInstance(long accountId, CurrencyUnit currencyUnit, boolean forEdit)  {
+    SplitTransaction t = new SplitTransaction(accountId, new Money(currencyUnit, 0L));
     if (forEdit) {
       t.setStatus(STATUS_UNCOMMITTED);
       //TODO: Strict mode

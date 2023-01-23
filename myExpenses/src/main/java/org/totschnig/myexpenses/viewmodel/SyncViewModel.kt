@@ -18,8 +18,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.KEY_SYNC_PROVIDER_URL
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.KEY_SYNC_PROVIDER_USERNAME
@@ -181,12 +181,12 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         shouldQueryLocalAccounts: Boolean,
         create: Boolean
     ): Result<SyncAccountData> {
+        //noinspection Recycle
         val localAccounts = if (shouldQueryLocalAccounts) contentResolver.query(
             Account.CONTENT_URI,
             arrayOf(KEY_ROWID, KEY_LABEL, KEY_UUID, "$KEY_SYNC_ACCOUNT_NAME IS NULL", KEY_SEALED),
             null, null, null
-        )?.use { cursor ->
-            cursor.asSequence.mapNotNull {
+        )?.useAndMap {
                 val uuid = it.getString(2)
                 if (uuid == null) {
                     CrashHandler.report(Exception("Account with null uuid"))
@@ -200,8 +200,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                         isSealed = it.getInt(4) == 1
                     )
                 }
-            }.toList()
-        } ?: emptyList() else emptyList()
+            }?.filterNotNull() ?: emptyList() else emptyList()
 
         val account = getAccount(accountName)
         return SyncBackendProviderFactory[getApplication(), account, create].mapCatching { syncBackendProvider ->

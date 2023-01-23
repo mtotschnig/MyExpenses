@@ -273,7 +273,7 @@ class TransferDelegate(
 
     override fun buildTransaction(
         forSave: Boolean,
-        accountId: Long
+        account: Account
     ): ITransfer? {
         val currentAccount = currentAccount()!!
         val transferAccount = transferAccount()!!
@@ -289,11 +289,11 @@ class TransferDelegate(
         return if (isTemplate) {
             if (amount == null && transferAmount == null) {
                 null
-            } else buildTemplate(accountId).apply {
+            } else buildTemplate(account).apply {
                 if (amount != null) {
                     this.amount = amount
                     setTransferAccountId(transferAccount.id)
-                } else if (!isSame && transferAmount != null) {
+                } else if (!isSame) {
                     this.accountId = transferAccount.id
                     setTransferAccountId(currentAccount.id)
                     this.amount = transferAmount
@@ -303,7 +303,7 @@ class TransferDelegate(
         } else {
             if (amount == null || transferAmount == null) {
                 null
-            } else Transfer(accountId, transferAccount.id, parentId).apply {
+            } else Transfer(account.id, transferAccount.id, parentId).apply {
                 transferPeer = this@TransferDelegate.transferPeer
                 setAmountAndTransferAmount(amount, transferAmount)
             }

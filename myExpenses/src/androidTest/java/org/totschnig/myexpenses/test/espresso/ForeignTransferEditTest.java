@@ -31,7 +31,7 @@ public class ForeignTransferEditTest extends BaseExpenseEditTest {
     String accountLabel2 = "Test label 2";
     Account account2 = new Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account2.save();
-    transfer = Transfer.getNewInstance(account1.getId(), account2.getId());
+    transfer = Transfer.getNewInstance(account1, account2.getId());
     transfer.setAmountAndTransferAmount(new Money(currency1, -2000L), new Money(currency2, -3000L));
     transfer.save();
   }

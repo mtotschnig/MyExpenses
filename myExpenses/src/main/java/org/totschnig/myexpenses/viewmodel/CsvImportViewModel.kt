@@ -112,10 +112,10 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
             }
             if (isSplitPart) {
                 if (transferAccountId != -1L) {
-                    t = Transfer.getNewInstance(account.id, transferAccountId, splitParent)
+                    t = Transfer.getNewInstance(account, transferAccountId, splitParent)
                     t.setAmount(m)
                 } else {
-                    t = Transaction.getNewInstance(account.id, splitParent)
+                    t = Transaction.getNewInstance(account, splitParent)
                     t.amount = m
                 }
             } else {

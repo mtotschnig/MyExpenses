@@ -1,17 +1,13 @@
 package org.totschnig.myexpenses.service
 
 import android.app.Notification
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
-import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -19,38 +15,17 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
 import org.totschnig.myexpenses.provider.doBackup
 import org.totschnig.myexpenses.provider.listOldBackups
-import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import java.util.concurrent.TimeUnit
 
-abstract class BaseAutoBackupWorker(context: Context, workerParameters: WorkerParameters): CoroutineWorker(context, workerParameters) {
-    val wrappedContext: Context
-    val prefHandler: PrefHandler
-    init {
-        with((context.applicationContext as MyApplication).appComponent) {
-            wrappedContext = ContextHelper.wrap(context, userLocaleProvider().getUserPreferredLocale())
-            prefHandler = prefHandler()
-        }
-    }
-    private val notificationTitle: String
-        get() = TextUtils.concatResStrings(
-            wrappedContext,
-            " ",
-            R.string.app_name,
-            R.string.contrib_feature_auto_backup_label
-        )
+abstract class BaseAutoBackupWorker(context: Context, workerParameters: WorkerParameters): BaseWorker(context, workerParameters) {
 
-    protected fun buildMessage(message: CharSequence): NotificationBuilderWrapper =
-        NotificationBuilderWrapper.bigTextStyleBuilder(applicationContext,
-            NotificationBuilderWrapper.CHANNEL_ID_AUTO_BACKUP, notificationTitle, message)
-
-    protected fun notify(notification: Notification) {
-        (applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
-            .notify(NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP, notification)
-    }
+    override val notificationId = NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP
+    override val channelId: String = NotificationBuilderWrapper.CHANNEL_ID_AUTO_BACKUP
+    override val notificationTitleResId = R.string.contrib_feature_auto_backup_label
 }
 
 class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : BaseAutoBackupWorker(context, workerParameters) {

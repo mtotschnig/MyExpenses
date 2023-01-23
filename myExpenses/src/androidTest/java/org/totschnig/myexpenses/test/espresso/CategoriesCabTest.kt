@@ -66,7 +66,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
 
     private fun fixtureWithMappedTransaction() {
         baseFixture()
-        with(Transaction.getNewInstance(account.id)) {
+        with(Transaction.getNewInstance(account)) {
             amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
             save()
@@ -75,7 +75,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
 
     private fun fixtureWithMappedTemplate() {
         baseFixture()
-        with(Template(account, Transactions.TYPE_TRANSACTION, null)) {
+        with(Template(account.id, account.currencyUnit, Transactions.TYPE_TRANSACTION, null)) {
             amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
             save()

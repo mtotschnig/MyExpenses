@@ -2,13 +2,11 @@ package org.totschnig.myexpenses.service
 
 import android.annotation.SuppressLint
 import android.app.Notification
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
-import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
@@ -28,7 +26,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -37,6 +34,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.repor
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.localDateTime2EpochMillis
+import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
@@ -48,19 +46,18 @@ import java.util.concurrent.TimeUnit
 
 
 class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
-    CoroutineWorker(context, workerParameters) {
-    val prefHandler: PrefHandler
+    BaseWorker(context, workerParameters) {
     val currencyFormatter: CurrencyFormatter
-    private val wrappedContext: Context
 
     init {
         with((context.applicationContext as MyApplication).appComponent) {
-            prefHandler = prefHandler()
             currencyFormatter = currencyFormatter()
-            wrappedContext =
-                ContextHelper.wrap(context, userLocaleProvider().getUserPreferredLocale())
         }
     }
+
+    override val channelId = NotificationBuilderWrapper.CHANNEL_ID_PLANNER
+    override val notificationId = NotificationBuilderWrapper.NOTIFICATION_PLANNER_ERROR
+    override val notificationTitleResId = R.string.planner_notification_channel_name
 
     companion object {
         const val TAG = "PlanExecutor"
@@ -119,6 +116,15 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
         )
     }
 
+    private fun logAndNotifyError(message: String) {
+        log(message)
+        notifyError(message)
+    }
+
+    private fun notifyError(message: String) {
+        notify(buildMessage(message).build())
+    }
+
     @SuppressLint("InlinedApi")
     override suspend fun doWork(): Result {
         val nowZDT = ZonedDateTime.now()
@@ -131,23 +137,17 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
         )
         log("now %d compared to System.currentTimeMillis %d", nowMillis, System.currentTimeMillis())
         if (!hasCalendarPermission(applicationContext)) {
-            log("Calendar permission not granted")
+            logAndNotifyError("Calendar permission not granted")
             return Result.failure()
         }
-        val plannerCalendarId: String? = try {
-            (applicationContext as MyApplication).checkPlanner()
-        } catch (e: Exception) {
-            log(e)
-            report(e)
-            return Result.failure()
-        }
+        val plannerCalendarId: String? = (applicationContext as MyApplication).checkPlanner()
         if (plannerCalendarId == null) {
-            log("planner verification failed, try later")
+            logAndNotifyError("planner verification failed, will try later")
             scheduleNextRun()
             return Result.failure()
         }
         if (plannerCalendarId == MyApplication.INVALID_CALENDAR_ID) {
-            log("no planner set, nothing to do")
+            logAndNotifyError("no planner set, nothing to do")
             return Result.failure()
         }
         //we use an overlapping window of 5 minutes to prevent plans that are just created by the user while
@@ -155,7 +155,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
         val instancesFrom =
             (lastExecution - OVERLAPPING_WINDOW).coerceAtMost(beginningOfDay)
         if (nowMillis < instancesFrom) {
-            log("Broken system time? Cannot execute plans.")
+            logAndNotifyError("Broken system time? Cannot execute plans.")
             return Result.failure()
         }
         log("now %d compared to end of day %d", nowMillis, endOfDay)
@@ -175,7 +175,8 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
             )
         } catch (e: Exception) {
             //} catch (SecurityException | IllegalArgumentException e) {
-            report(e)
+            report(e, TAG)
+            notifyError(e.safeMessage)
             //android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing (SecurityException)
             //buggy calendar provider implementation on Sony (IllegalArgumentException)
             //sqlite database not yet available observed on samsung GT-N7100 (SQLiteException)
@@ -205,8 +206,6 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                 val notificationId = (instanceId * planId % Int.MAX_VALUE).toInt()
                                 log("notification id %d", notificationId)
                                 var resultIntent: PendingIntent?
-                                val notificationManager =
-                                    applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                                 val title = account.label + " : " + template.title
                                 val builder = NotificationBuilderWrapper(
                                     applicationContext,

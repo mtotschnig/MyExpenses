@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData

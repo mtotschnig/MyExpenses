@@ -89,12 +89,13 @@ class SplitDelegate(
 
     }
 
-    override fun buildMainTransaction(accountId: Long): ISplit =
-        if (isTemplate) buildTemplate(accountId) else SplitTransaction(accountId)
+    override fun buildMainTransaction(account: Account): ISplit =
+        if (isTemplate) buildTemplate(account) else SplitTransaction(account.id)
 
     override fun prepareForNew() {
         super.prepareForNew()
-        rowId = SplitTransaction.getNewInstance(accountId!!).id
+        val account = currentAccount()!!
+        rowId = SplitTransaction.getNewInstance(account.id, account.currency, true).id
         host.viewModel.loadSplitParts(rowId, isTemplate)
     }
 

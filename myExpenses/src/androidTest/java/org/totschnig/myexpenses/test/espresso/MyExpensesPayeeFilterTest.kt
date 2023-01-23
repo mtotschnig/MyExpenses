@@ -26,7 +26,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         account = Account("Test account 1", currency, 0, "",
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
-        val op = Transaction.getNewInstance(account.id)
+        val op = Transaction.getNewInstance(account)
         op.amount = Money(currency, -1200L)
         op.payee = payee1
         op.save()

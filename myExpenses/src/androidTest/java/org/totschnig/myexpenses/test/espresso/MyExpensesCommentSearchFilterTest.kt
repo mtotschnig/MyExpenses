@@ -22,7 +22,7 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
             AccountType.CASH, Account.DEFAULT_COLOR
         )
         account.save()
-        val op = Transaction.getNewInstance(account.id)
+        val op = Transaction.getNewInstance(account)
         op.amount = Money(currency, 1000L)
         op.comment = comment1
         op.save()

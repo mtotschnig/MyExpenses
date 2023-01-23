@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
@@ -138,14 +139,14 @@ abstract class AbstractExporter
             val readCat =
                 splitCursor?.takeIf { useCategoryOfFirstPartForParent && it.moveToFirst() } ?: this
 
+            //noinspection Recycle
             val tagList = context.contentResolver.query(
                 TransactionProvider.TRANSACTIONS_TAGS_URI,
                 arrayOf(KEY_LABEL),
                 "$KEY_TRANSACTIONID = ?",
                 arrayOf(rowId),
                 null
-            )?.use { tagCursor -> tagCursor.asSequence.map { it.getString(0) }.toList() }
-                ?.takeIf { it.isNotEmpty() }
+            )?.useAndMap { it.getString(0) }?.takeIf { it.isNotEmpty() }
 
             val transactionDTO = TransactionDTO(
                 getString(KEY_UUID),

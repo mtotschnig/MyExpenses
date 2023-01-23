@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -104,16 +105,7 @@ open class TransactionPagingSource(
         val startTime = if (BuildConfig.DEBUG) Instant.now() else null
         val data = withContext(Dispatchers.IO) {
             contentResolver.query(
-                uri.buildUpon()
-                    .appendQueryParameter(
-                        ContentResolver.QUERY_ARG_LIMIT,
-                        params.loadSize.toString()
-                    )
-                    .appendQueryParameter(
-                        ContentResolver.QUERY_ARG_OFFSET,
-                        position.toString()
-                    )
-                    .build(),
+                uri.withLimit(params.loadSize, position),
                 projection,
                 "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
                 selectionArgs,

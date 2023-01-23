@@ -748,14 +748,12 @@ abstract class TransactionDelegate<T : ITransaction>(
         return null
     }
 
-    //TODO make getTypedNewInstance return non-null
-    //TODO Strict mode violation
-    protected fun buildTemplate(accountId: Long) =
-        Template.getTypedNewInstance(operationType, accountId, false, parentId)!!
+    protected fun buildTemplate(account: Account) =
+        Template.getTypedNewInstance(operationType, account.id, account.currency, false, parentId)!!
 
     abstract fun buildTransaction(
         forSave: Boolean,
-        accountId: Long
+        account: Account
     ): T?
 
     abstract val operationType: Int
@@ -764,7 +762,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         return currentAccount()?.let {
             buildTransaction(
                 forSave && !isMainTemplate,
-                it.id
+                it
             )
         }?.apply {
             originTemplateId = this@TransactionDelegate.originTemplateId

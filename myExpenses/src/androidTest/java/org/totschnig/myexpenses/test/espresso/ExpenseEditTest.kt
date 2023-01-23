@@ -193,7 +193,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     @Test
     fun shouldSaveTemplateWithAmount() {
         val template =
-            Template.getTypedNewInstance(Transactions.TYPE_TRANSFER, account1.id, false, null)
+            Template.getTypedNewInstance(Transactions.TYPE_TRANSFER, account1, false, null)
         template!!.setTransferAccountId(account2.id)
         template.title = "Test template"
         template.save()

@@ -115,7 +115,7 @@ class ExportTest {
         val cat2Id = writeCategory("Sub", cat1Id)
         val cat3Id = writeCategory("Sub2", cat1Id)
         val cat4Id = writeCategory("Sub3", cat1Id)
-        val op = Transaction.getNewInstance(account1.id) ?: throw IllegalStateException()
+        val op = Transaction.getNewInstance(account1) ?: throw IllegalStateException()
         op.amount = Money(account1.currencyUnit, expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
@@ -156,7 +156,7 @@ class ExportTest {
         op.date = baseSinceEpoch + 3
         op.saveAsNew()
         uuidList.add(op.uuid!!)
-        val transfer = Transfer.getNewInstance(account1.id, account2.id)
+        val transfer = Transfer.getNewInstance(account1, account2.id)
             ?: throw IllegalStateException()
         transfer.setAmount(Money(account1.currencyUnit, transferP))
         transfer.crStatus = CrStatus.RECONCILED
@@ -168,10 +168,10 @@ class ExportTest {
         transfer.date = baseSinceEpoch + 5
         transfer.saveAsNew()
         uuidList.add(transfer.uuid!!)
-        val split = SplitTransaction.getNewInstance(account1.id) ?: throw IllegalStateException()
+        val split = SplitTransaction.getNewInstance(account1) ?: throw IllegalStateException()
         split.amount = Money(account1.currencyUnit, split1)
         split.date = baseSinceEpoch + 6
-        val part = Transaction.getNewInstance(account1.id, split.id)
+        val part = Transaction.getNewInstance(account1, split.id)
             ?: throw IllegalStateException()
         part.amount = Money(account1.currencyUnit, part1)
         part.catId = cat3Id
@@ -193,7 +193,7 @@ class ExportTest {
     }
 
     private fun insertData2(account: Account) {
-        with(Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+        with(Transaction.getNewInstance(account) ?: throw IllegalStateException()) {
             amount = Money(account.currencyUnit, expense3)
             methodId = PaymentMethod.find("CHEQUE")
             comment = "Expense inserted after first export"
@@ -223,7 +223,7 @@ class ExportTest {
         var op: Transaction?
         val account1 = buildAccount1()
         val account2 = buildAccount2()
-        op = Transaction.getNewInstance(account1.id)
+        op = Transaction.getNewInstance(account1)
         if (op == null) {
             throw IllegalStateException()
         }
@@ -233,7 +233,7 @@ class ExportTest {
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
         op.save()
-        op = Transaction.getNewInstance(account2.id)
+        op = Transaction.getNewInstance(account2)
         if (op == null) {
             throw IllegalStateException()
         }
@@ -252,7 +252,7 @@ class ExportTest {
         val cat1Id = writeCategory("A")
         val cat2Id = writeCategory("B", cat1Id)
         val cat3Id = writeCategory("C", cat2Id)
-        with(Transaction.getNewInstance(account.id) ?: throw IllegalStateException()) {
+        with(Transaction.getNewInstance(account) ?: throw IllegalStateException()) {
             amount = Money(account.currencyUnit, income1)
             date = baseSinceEpoch
             catId = cat1Id
@@ -269,7 +269,7 @@ class ExportTest {
             saveAsNew()
         }
         with(
-            Transfer.getNewInstance(account.id, transferAccount.id)
+            Transfer.getNewInstance(account, transferAccount.id)
                 ?: throw IllegalStateException()
         ) {
             setAmount(Money(account.currencyUnit, transferP))
@@ -466,7 +466,7 @@ class ExportTest {
             type = AccountType.BANK
             save()
         }
-        val op = Transaction.getNewInstance(account.id) ?: throw IllegalStateException()
+        val op = Transaction.getNewInstance(account) ?: throw IllegalStateException()
         op.amount = Money(account.currencyUnit, income2)
         op.catId = writeCategory("With/and:Sub", writeCategory("With/and:Main"))
         op.date = baseSinceEpoch
