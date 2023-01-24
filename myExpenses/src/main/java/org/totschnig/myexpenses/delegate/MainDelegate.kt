@@ -19,7 +19,14 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.*
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_NEGATIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_PREFKEY
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
@@ -188,7 +195,7 @@ abstract class MainDelegate<T : ITransaction>(
                             if (shouldStartAutoFill(prefHandler)) {
                                 host.startAutoFill(it, false)
                             } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
-                                newInstance(Bundle().apply {
+                                ConfirmationDialogFragment.newInstance(Bundle().apply {
                                     putLong(KEY_ROWID, it)
                                     putInt(KEY_TITLE, R.string.dialog_title_information)
                                     putString(

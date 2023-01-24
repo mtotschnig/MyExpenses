@@ -103,7 +103,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     override val menuResId = R.menu.onboarding_data
 
-    public override fun setupMenu() {
+    override fun setupMenu() {
         toolbar.menu.findItem(R.id.SetupFromRemote).subMenu?.let {
             it.clear()
             (requireActivity() as SyncBackendSetupActivity).addSyncProviderMenuEntries(it)

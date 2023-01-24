@@ -39,6 +39,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
@@ -71,7 +72,7 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
-    EasyPermissions.PermissionCallbacks, AmountInput.Host {
+    ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host {
     private var snackBar: Snackbar? = null
 
     private var _focusAfterRestoreInstanceState: Pair<Int, Int>? = null
@@ -638,4 +639,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun isFeatureAvailable(feature: Feature) = featureViewModel.isFeatureAvailable(this, feature)
+
+    override fun onNeutral(args: Bundle) {}
+    override fun onNegative(args: Bundle) {}
+    override fun onDismissOrCancel() {}
 }

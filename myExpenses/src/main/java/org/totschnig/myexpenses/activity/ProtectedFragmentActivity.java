@@ -106,7 +106,6 @@ import icepick.Icepick;
 
 public abstract class ProtectedFragmentActivity extends BaseActivity
     implements OnSharedPreferenceChangeListener,
-    ConfirmationDialogFragment.ConfirmationDialogListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
     ProgressDialogFragment.ProgressDialogListener {
 
@@ -627,23 +626,9 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onPositive(Bundle args, boolean checked) {
+  public void onPositive(@NonNull Bundle args, boolean checked) {
     dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),
         args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE));
-  }
-
-  @Override
-  public void onNegative(Bundle args) {
-  }
-
-  @Override
-  public void onDismissOrCancel(Bundle args) {
-  }
-
-  @VisibleForTesting
-  @Nullable
-  public Fragment getCurrentFragment() {
-    return null;
   }
 
   public void hideWindow() {

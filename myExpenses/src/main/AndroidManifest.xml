@@ -73,6 +73,8 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
+        android:backupAgent=".MyBackupAgent"
+        android:fullBackupOnly="true"
         android:fullBackupContent="@xml/mybackupscheme"
         android:icon="@mipmap/ic_myexpenses"
         android:label="${appName}"

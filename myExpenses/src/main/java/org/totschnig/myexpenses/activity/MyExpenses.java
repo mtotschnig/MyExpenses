@@ -326,10 +326,6 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   @Override
-  public void onDismissOrCancel(Bundle args) {
-  }
-
-  @Override
   protected void onResume() {
     super.onResume();
     adHandler.onResume();

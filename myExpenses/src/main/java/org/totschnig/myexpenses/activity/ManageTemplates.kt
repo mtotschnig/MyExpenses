@@ -34,13 +34,7 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
     var calledFromCalendarWithId = NOT_CALLED
         private set
 
-    @VisibleForTesting
-    override fun getCurrentFragment(): TemplatesList {
-        return mListFragment
-    }
-
     private lateinit var mListFragment: TemplatesList
-
 
     enum class HelpVariant {
         templates, plans, planner

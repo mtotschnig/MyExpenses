@@ -27,9 +27,4 @@ public class ManageCurrencies extends ProtectedFragmentActivity  {
     }
     return false;
   }
-
-  @Override
-  public Fragment getCurrentFragment() {
-    return getSupportFragmentManager().findFragmentById(R.id.currency_list);
-  }
 }

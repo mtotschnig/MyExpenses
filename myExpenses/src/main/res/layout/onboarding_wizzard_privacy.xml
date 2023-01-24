@@ -13,6 +13,7 @@
         android:text="@string/onboarding_privacy_intro" />
 
     <TextView
+        android:id="@+id/tracking_label"
         style="@style/OnboardingInputLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
         tools:ignore="UnusedAttribute" />
 
     <TextView
+        android:id="@+id/crash_reports_label"
         style="@style/OnboardingInputLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

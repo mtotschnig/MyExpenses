@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OnboardingBinding
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment
@@ -62,9 +63,13 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     private val dataFragment: OnboardingDataFragment?
-        get() = supportFragmentManager.findFragmentByTag(
-            pagerAdapter.getFragmentName(pagerAdapter.count - 1)
-        ) as? OnboardingDataFragment
+        get() = getFragmentAtPosition(2) as? OnboardingDataFragment
+
+    private val privacyFragment: OnBoardingPrivacyFragment?
+        get() = getFragmentAtPosition(1) as? OnBoardingPrivacyFragment
+
+    private fun getFragmentAtPosition(pos: Int) =
+        supportFragmentManager.findFragmentByTag(pagerAdapter.getFragmentName(pos))
 
     fun start() {
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
@@ -130,28 +135,25 @@ class OnboardingActivity : SyncBackendSetupActivity() {
             return makeFragmentName(binding.viewPager.id, getItemId(currentPosition))
         }
 
-        override fun getItem(pos: Int): Fragment {
-            return when (pos) {
-                0 -> OnboardingUiFragment.newInstance()
-                1 -> {
-                    if (showPrivacyPage()) OnBoardingPrivacyFragment.newInstance() else OnboardingDataFragment.newInstance()
-                }
-                else -> OnboardingDataFragment.newInstance()
-            }
+        override fun getItem(pos: Int) = when (pos) {
+            0 -> OnboardingUiFragment.newInstance()
+            1 -> OnBoardingPrivacyFragment.newInstance()
+            else -> OnboardingDataFragment.newInstance()
         }
 
-        override fun getCount(): Int {
-            return if (showPrivacyPage()) 3 else 2
-        }
-
-        private fun showPrivacyPage(): Boolean {
-            return distribution.supportsTrackingAndCrashReporting
-        }
+        override fun getCount() = 3
     }
 
     @Suppress("UNUSED_PARAMETER")
     fun editAccountColor(view: View) {
         dataFragment?.editAccountColor()
+    }
+
+    override fun onNegative(args: Bundle) {
+        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE) == R.id.ENCRYPT_CANCEL_COMMAND) {
+            prefHandler.putBoolean(PrefKey.ENCRYPT_DATABASE, false)
+            privacyFragment?.setupMenu()
+        }
     }
 
     override val snackBarContainerId: Int

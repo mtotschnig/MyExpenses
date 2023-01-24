@@ -96,7 +96,8 @@ abstract class OnboardingFragment : Fragment() {
         }
     }
 
-    protected open fun setupMenu() {}
+    open fun setupMenu() {}
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -67,7 +67,7 @@ object DistributionHelper {
             override val marketPrefix = "amzn://apps/android?p="
         },
         GITHUB {
-            override val supportsTrackingAndCrashReporting = BuildConfig.DEBUG
+            override val supportsTrackingAndCrashReporting = false
         },
         HUAWEI;
 

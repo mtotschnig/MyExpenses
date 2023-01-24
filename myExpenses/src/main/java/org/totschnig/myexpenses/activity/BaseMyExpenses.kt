@@ -1004,7 +1004,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun showConfirmationDialog(bundle: Bundle?, tag: String) {
+    fun showConfirmationDialog(bundle: Bundle, tag: String) {
         lifecycleScope.launchWhenResumed {
             ConfirmationDialogFragment.newInstance(bundle).show(supportFragmentManager, tag)
         }

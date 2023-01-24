@@ -112,7 +112,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                                     getString(R.string.backup_save_to_sync_backend, withSync)
                                 )
                                 putBoolean(
-                                    ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHHECKED,
+                                    ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,
                                     prefHandler.getBoolean(
                                         PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED,
                                         false
@@ -329,7 +329,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         finish()
     }
 
-    override fun onDismissOrCancel(args: Bundle) {
+    override fun onDismissOrCancel() {
         abort()
     }
 
