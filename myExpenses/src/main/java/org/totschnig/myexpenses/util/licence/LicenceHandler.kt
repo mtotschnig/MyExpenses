@@ -38,7 +38,6 @@ open class LicenceHandler(
 ) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
-    private val localBackend = false
     var licenceStatus: LicenceStatus? = null
         protected set(value) {
             crashHandler.putCustomData("Licence", value?.name ?: "null")
@@ -281,8 +280,7 @@ open class LicenceHandler(
     }
 
     val backendUri = when {
-        localBackend -> "http://10.0.2.2:3000/"
-        isSandbox -> "https://myexpenses-licencedb-staging.herokuapp.com"
+        isSandbox -> "http://10.0.2.2:3000/"
         else -> "https://licencedb.myexpenses.mobi/"
     }
 

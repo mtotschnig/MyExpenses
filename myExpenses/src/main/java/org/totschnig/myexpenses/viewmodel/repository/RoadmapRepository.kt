@@ -33,10 +33,8 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
         const val ISSUE_CACHE = "issue_cache.json"
         const val ROADMAP_VOTE = "roadmap_vote.json"
         private val isSandbox = BuildConfig.DEBUG
-        private const val localBackend = false
         val ROADMAP_URL = when {
-            localBackend -> "http://10.0.2.2:3000/"
-            isSandbox -> "https://votedb-staging.herokuapp.com/"
+            isSandbox -> "http://10.0.2.2:3000/"
             else -> "https://roadmap.myexpenses.mobi/"
         }
     }
