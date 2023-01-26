@@ -359,7 +359,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">بعد</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریدن شکست خورد یا متوقف شد.</string>
-    <string name="learn_more">بیشتر بدانید</string>
     <string name="import_source_file">فایل</string>
     <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
     <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
