@@ -1014,4 +1014,5 @@
     <string name="upgrade_info_557">Yeni tasarımı nasıl buldunuz\? Lütfen bize bildirin. Eski tasarıma daha yakın bir görünüm Ayarlar (%1$s -&gt; %2$s) kısmında etkinleştirilebilir.</string>
     <string name="select_all_list_too_large">Liste yalnızca kısmen yüklenmiş olduğundan %s komutu kullanılamıyor. Liste boyutunu küçültmek için lütfen Arama işlevini kullanın.</string>
     <string name="menu_reconfigure">Yeniden yapılandır</string>
+    <string name="encrypt_database">Veri tabanını şifrele</string>
 </resources>

@@ -5,17 +5,17 @@
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_1">Werkloosheidsuitkering</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_2">Gezinsbijslag</string>
+    <string name="Sub_1_2">Kinderbijslag</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_3">Teruggave belasting</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_4">Kansspelen</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_5">Onderlinge verzekering</string>
+    <string name="Sub_1_5">Sociale verzekering</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_6">Sociale zekerheid</string>
     <!-- Main category -->
-    <string name="Main_2">Pensionering</string>
+    <string name="Main_2">Pensioen</string>
     <!-- Subcategory under "Retirement" -->
     <string name="Sub_2_1">Pensioenfonds</string>
     <!-- Subcategory under "Retirement" -->
@@ -35,11 +35,11 @@
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_1">Overuren</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_2">Vakantie toeslag</string>
+    <string name="Sub_4_2">Vakantietoeslag</string>
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_3">Diversen premies</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_4">Promotie toeslag</string>
+    <string name="Sub_4_4">Promotietoeslag</string>
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_5">Nettoloon</string>
     <!-- Main category -->
@@ -51,7 +51,7 @@
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_3">Tweedehands verkoop</string>
     <!-- Main category -->
-    <string name="Main_6">Voedsel</string>
+    <string name="Main_6">Eten</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_1">Bar</string>
     <!-- Subcategory under "Food" -->
@@ -71,11 +71,11 @@
     <!-- Main category -->
     <string name="Main_7">Huisdieren</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_1">Voedsel</string>
+    <string name="Sub_7_1">Voer</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_2">Overige boodschappen</string>
+    <string name="Sub_7_2">Overige benodigdheden</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_3">Uiterlijke verzorging</string>
+    <string name="Sub_7_3">Vachtverzorging</string>
     <!-- Subcategory under "Pets" -->
     <string name="Sub_7_4">Dierenarts</string>
     <!-- Main category -->
@@ -83,11 +83,11 @@
     <!-- Subcategory under "Insurance" -->
     <string name="Sub_8_1">Auto</string>
     <!-- Subcategory under "Insurance" -->
-    <string name="Sub_8_2">Gezondheid</string>
+    <string name="Sub_8_2">Zorg</string>
     <!-- Subcategory under "Insurance" -->
-    <string name="Sub_8_3">Huis</string>
+    <string name="Sub_8_3">Opstal/Inboedel</string>
     <!-- Subcategory under "Insurance" -->
-    <string name="Sub_8_4">Burgerlijke aansprakelijkheid</string>
+    <string name="Sub_8_4">Wettelijke aansprakelijkheid</string>
     <!-- Subcategory under "Insurance" -->
     <string name="Sub_8_5">Leven</string>
     <!-- Main category -->
@@ -107,7 +107,7 @@
     <!-- Main category -->
     <string name="Main_11">Kinderen</string>
     <!-- Subcategory under "Children" -->
-    <string name="Sub_11_1">Verpleegster</string>
+    <string name="Sub_11_1">Kraamverzorging</string>
     <!-- Subcategory under "Children" -->
     <string name="Sub_11_2">Studies</string>
     <!-- Main category -->
@@ -117,11 +117,11 @@
     <!-- Subcategory under "Studies" -->
     <string name="Sub_12_2">Schoolgeld</string>
     <!-- Subcategory under "Studies" -->
-    <string name="Sub_12_3">Studie boeken</string>
+    <string name="Sub_12_3">Studieboeken</string>
     <!-- Main category -->
     <string name="Main_13">Financiële uitgaven</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_1">Bank kosten</string>
+    <string name="Sub_13_1">Bankkosten</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_2">Lening/Hypotheek</string>
     <!-- Subcategory under "Financial expenses" -->
@@ -157,7 +157,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_10">Witgoed</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_11">Reis uitrusting</string>
+    <string name="Sub_16_11">Apparatuur</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_12">Gas</string>
     <!-- Subcategory under "Housing" -->
@@ -183,7 +183,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_6">Spellen</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_7">Studie boeken</string>
+    <string name="Sub_17_7">Boeken</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_8">Parken</string>
     <!-- Subcategory under "Leisures" -->
@@ -211,7 +211,7 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_3">Ziekenhuis</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_4">Kinesitherapeut</string>
+    <string name="Sub_19_4">Fysiotherapeut</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_5">Dokter</string>
     <!-- Subcategory under "Health" -->
@@ -223,7 +223,7 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_9">Sociale zekerheid</string>
     <!-- Main category -->
-    <string name="Main_20">Zorg</string>
+    <string name="Main_20">Persoonlijke verzorging</string>
     <!-- Subcategory under "Care" -->
     <string name="Sub_20_1">Kapper</string>
     <!-- Subcategory under "Care" -->
@@ -243,15 +243,15 @@
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_6">Vliegtuig</string>
     <!-- Main category -->
-    <string name="Main_22">Vakanties</string>
+    <string name="Main_22">Vakantie</string>
     <!-- Subcategory under "Holidays" -->
-    <string name="Sub_22_1">Huisvesting</string>
+    <string name="Sub_22_1">Accomodatie</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_2">Bezoeken</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_3">Reizen</string>
-    <string name="Sub_16_4">Woning Inrichting</string>
-    <string name="Sub_15_3">Verkoop belasting</string>
+    <string name="Sub_16_4">Meubels</string>
+    <string name="Sub_15_3">BTW</string>
     <string name="Sub_15_2">Gemeentelijke belasting</string>
-    <string name="Sub_15_1">Inkomsten belasting</string>
+    <string name="Sub_15_1">Inkomstenbelasting</string>
 </resources>

@@ -946,7 +946,10 @@
     <string name="budget_table_header_rollover">Iznos prijenosa</string>
     <string name="dialog_confirm_rollover_delete">Svi iznosi prijenosa za ovo razdoblje će se izbrisati.</string>
     <string name="rollover_edit_invalid">Zbroj iznosa prijenosa koji je dodijeljen kategoriji i iznosi prijenosa koji su dodijeljeni podkategorijama ne može biti veći od ostatka.</string>
-    <string name="upgrade_info_557">Kako ti se sviđa novi dizajn\? Javi nam tvoje mišljenje. Varijanta bliža starom dizajnu može se aktivirati u Ppstavkama (%1$s -&gt; %2$s).</string>
+    <string name="upgrade_info_557">Kako ti se sviđa novi dizajn\? Javi nam tvoje mišljenje. Varijanta bliža starom dizajnu može se aktivirati u postavkama (%1$s -&gt; %2$s).</string>
     <string name="content_description_attachment">Prilog</string>
     <string name="redesign">Novi dizajn</string>
+    <string name="encrypt_database">Šifriraj bazu podataka</string>
+    <string name="select_all_list_too_large">Naredba %s nije dostupna jer je popis samo djelomično učitan. Koristi funkciju pretraživanja za dobivanje kraćeg popisa.</string>
+    <string name="menu_reconfigure">Konfiguriraj ponovo</string>
 </resources>
