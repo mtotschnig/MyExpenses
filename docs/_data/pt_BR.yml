@@ -21,8 +21,9 @@ contrib:
       em várias partes (categorias e transferências)'
     distribution: '<b>Gráfico de pizza</b>: visualize a distribuição estatística de
       transações por categoria em diferentes períodos (anos, meses, semanas, dias)'
-    plans_unlimited: Número ilimitado de planos para transações <b>recorrentes</b>
-    accounts_unlimited: Número ilimitado de <b>contas</b>
+    plans_unlimited: Desbloqueie a habilidade de criar mais de três planos para transações
+      recorrentes
+    accounts_unlimited: Desbloqueie a habilidade de criar mais de cinco contas
     budgeting: '<b>Orçamento</b> : compare seus gastos com os limites definidos por
       categoria em uma base diária, semanal, mensal ou anual.'
     webui: <b>Interface web do usuário</b>
