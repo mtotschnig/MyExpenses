@@ -40,18 +40,17 @@
     <string name="color">Barva</string>
     <string name="comment">Poznámky</string>
     <string name="confirmation_dialog_dont_show_again">Znovu již nezobrazit</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Bez reklam</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neomezený počet účtů</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Připojte obrázek k transakci</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Koláčový graf (Distribuce na kategorii)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neomezený počet plánů</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export seznamu transakcí do PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV souboru</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Neomezený počet rozdělených šablon</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Právo na hlasování v <b>plánu vyvíjených součástí</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graf historie</string>
+    <string name="contrib_feature_ad_free_label">Bez reklam</string>
+    <string name="contrib_feature_accounts_unlimited_label">Neomezený počet účtů</string>
+    <string name="contrib_feature_attach_picture_label">Připojte obrázek k transakci</string>
+    <string name="contrib_feature_distribution_label">Koláčový graf (Distribuce na kategorii)</string>
+    <string name="contrib_feature_plans_unlimited_label">Neomezený počet plánů</string>
+    <string name="contrib_feature_print_label">Export seznamu transakcí do PDF</string>
+    <string name="contrib_feature_csv_import_label">Import CSV souboru</string>
+    <string name="contrib_feature_split_template_label">Neomezený počet rozdělených šablon</string>
+    <string name="contrib_feature_pro_support_label"><b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů</string>
+    <string name="contrib_feature_roadmap_voting_label">Právo na hlasování v <b>plánu vyvíjených součástí</b></string>
+    <string name="contrib_feature_history_label">Graf historie</string>
     <string name="licence_status_free">Zdarma</string>
     <string name="contrib_key">Klíč Contrib</string>
     <string name="extended_key">Rozšířený klíč</string>
@@ -289,8 +288,8 @@
     <string name="pref_contrib_purchase_title_in_app">Platba v aplikaci</string>
     <string name="pref_custom_currency_title">Přizpůsobit měny</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Vložte klíč</string>
+    <string name="pref_enter_licence_summary">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
+    <string name="pref_enter_licence_title">Vložte klíč</string>
     <string name="pref_export_format_title">Formát dat</string>
     <string name="pref_import_from_grisbi_summary">Import kategorií a stran Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Importovat z Grisbi</string>
@@ -593,7 +592,7 @@
     <string name="link_account_failure_3">Konflikt je možné vyřešit ručně z kontextového menu položky.</string>
     <string name="progress_dialog_checking_sync_backend">Ověřování rozhraní backend</string>
     <string name="template">Šablona</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudová synchronizace</string>
+    <string name="contrib_feature_synchronization_label">Cloudová synchronizace</string>
     <string name="all_contrib_key_features">Všechny funkce přispěvatelského klíče</string>
     <string name="all_extended_key_features">Všechny funkce Rozšířeného klíče</string>
     <!-- button leading user to purchase flow for licence keys -->

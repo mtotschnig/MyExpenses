@@ -37,14 +37,13 @@
     <string name="color">Kleur</string>
     <string name="comment">Notities</string>
     <string name="confirmation_dialog_dont_show_again">Niet meer weergeven</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Geen advertenties</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Onbeperkt aantal accounts</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Voeg afbeelding toe aan transactie</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Cirkeldiagram (Verdeling per categorie)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ongelimiteerd aantal plannen</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Transactielijst exporteren naar PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sjabloon widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV importeren</string>
+    <string name="contrib_feature_ad_free_label">Geen advertenties</string>
+    <string name="contrib_feature_accounts_unlimited_label">Onbeperkt aantal accounts</string>
+    <string name="contrib_feature_attach_picture_label">Voeg afbeelding toe aan transactie</string>
+    <string name="contrib_feature_distribution_label">Cirkeldiagram (Verdeling per categorie)</string>
+    <string name="contrib_feature_plans_unlimited_label">Ongelimiteerd aantal plannen</string>
+    <string name="contrib_feature_print_label">Transactielijst exporteren naar PDF</string>
+    <string name="contrib_feature_csv_import_label">CSV importeren</string>
     <string name="income">Inkomsten</string>
     <string name="pm_creditcard">Kredietkaart</string>
     <string name="pref_security_question_title">Beveiligingsvraag</string>
@@ -261,7 +260,7 @@
     <string name="pref_app_dir_title">Map voor back-ups en exports</string>
     <string name="pref_auto_fill_summary">Vul de gegevens in van de laatste transactie voor dezelfde begunstigde/betaler</string>
     <string name="pref_custom_currency_title">Valuta\'s aanpassen</string>
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Als u een sleutel hebt ontvangen, krijgt u toegang tot premiumfuncties.</string>
+    <string name="pref_enter_licence_summary">Als u een sleutel hebt ontvangen, krijgt u toegang tot premiumfuncties.</string>
     <string name="pref_import_summary">Importeer transacties, categorieën en partijen uit %s bestand</string>
     <string name="pref_import_title">%s importeren</string>
     <string name="pref_manage_accounts_title">Accounts</string>
@@ -357,7 +356,7 @@
     <string name="pref_contrib_purchase_title_upgrade">Upgradesleutel</string>
     <string name="pref_contrib_purchase_title_in_app">In-app betaling</string>
     <string name="pref_contrib_purchase_summary">Koop toegang tot premiumfuncties.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Sleutel invoeren</string>
+    <string name="pref_enter_licence_title">Sleutel invoeren</string>
     <string name="pref_export_format_title">Dataformaat</string>
     <string name="pref_import_from_grisbi_summary">Importeer categorieën en partijen uit het Grisbi XML-bestand</string>
     <string name="pref_import_from_grisbi_title">Importeren uit Grisbi</string>

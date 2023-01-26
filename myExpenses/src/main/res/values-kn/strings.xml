@@ -40,15 +40,14 @@
     <string name="color">ಬಣ್ಣ</string>
     <string name="comment">ಟಿಪ್ಪಣಿಗಳು</string>
     <string name="confirmation_dialog_dont_show_again">ಮತ್ತೆ ತೋರಿಸಬೇಡ</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ಜಾಹೀರಾತುಗಳಿಲ್ಲ</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">ವ್ಯವಹಾರಕ್ಕೆ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">ಪೈ ಚಾರ್ಟ್ (ಪ್ರತಿ ವರ್ಗಕ್ಕೆ ವಿತರಣೆ)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಯೋಜನೆಗಳು</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">ವಹಿವಾಟಿನ ಪಟ್ಟಿಯನ್ನು ಪಿಡಿಎಫ್‌ಗೆ ರಫ್ತು ಮಾಡಿ</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ಟೆಂಪ್ಲೇಟು ವಿಜೆಟ್</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ಸಿಎಸ್ವಿ ಆಮದು</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">ವಿಭಜಿತ ಟೆಂಪ್ಲೆಟ್ಗಳ ಅನಿಯಮಿತ ಸಂಖ್ಯೆ</string>
+    <string name="contrib_feature_ad_free_label">ಜಾಹೀರಾತುಗಳಿಲ್ಲ</string>
+    <string name="contrib_feature_accounts_unlimited_label">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು</string>
+    <string name="contrib_feature_attach_picture_label">ವ್ಯವಹಾರಕ್ಕೆ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
+    <string name="contrib_feature_distribution_label">ಪೈ ಚಾರ್ಟ್ (ಪ್ರತಿ ವರ್ಗಕ್ಕೆ ವಿತರಣೆ)</string>
+    <string name="contrib_feature_plans_unlimited_label">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಯೋಜನೆಗಳು</string>
+    <string name="contrib_feature_print_label">ವಹಿವಾಟಿನ ಪಟ್ಟಿಯನ್ನು ಪಿಡಿಎಫ್‌ಗೆ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="contrib_feature_csv_import_label">ಸಿಎಸ್ವಿ ಆಮದು</string>
+    <string name="contrib_feature_split_template_label">ವಿಭಜಿತ ಟೆಂಪ್ಲೆಟ್ಗಳ ಅನಿಯಮಿತ ಸಂಖ್ಯೆ</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 ವ್ಯವಹಾರ ದಿನಗಳಲ್ಲಿ ಖಾತರಿಯ ಪ್ರತಿಕ್ರಿಯೆಯೊಂದಿಗೆ <b>ಇಮೇಲ್ ಬೆಂಬಲ</b></string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ</b> ಮತದಾನ</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">ಇತಿಹಾಸ ಚಾರ್ಟ್</string>
@@ -282,8 +281,8 @@
     <string name="pref_contrib_purchase_title_in_app">ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಪಾವತಿ</string>
     <string name="pref_custom_currency_title">ಕರೆನ್ಸಿಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">ನೀವು ಕೀಲಿಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದರೆ, ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="pref_enter_licence_summary">ನೀವು ಕೀಲಿಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದರೆ, ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ.</string>
+    <string name="pref_enter_licence_title">ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ</string>
     <string name="pref_export_format_title">ಡೇಟಾ ಸ್ವರೂಪ</string>
     <string name="pref_import_from_grisbi_summary">ಗ್ರಿಸ್ಬಿ ಎಕ್ಸ್‌ಎಂಎಲ್ ಫೈಲ್‌ನಿಂದ ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
     <string name="pref_import_from_grisbi_title">ಗ್ರಿಸ್ಬಿಯಿಂದ ಆಮದು ಮಾಡಿ</string>

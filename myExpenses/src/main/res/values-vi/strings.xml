@@ -46,7 +46,6 @@
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Biểu đồ quạt (dựa theo phân phối danh mục)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Tạo các kế hoạch với số lượng không giới hạn</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Xuất danh sách giao dịch sang dạng PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Tiện ích cho bản mẫu</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Nhập CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Không giới hạn số lượng bản mẫu chia tách</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Hỗ trợ qua email</b> với đảm bảo sẽ nhận được phản hồi sau 2 ngày làm việc</string>
@@ -274,8 +273,8 @@
     <string name="pref_contrib_purchase_title_in_app">Mua hàng trong ứng dụng</string>
     <string name="pref_custom_currency_title">Tùy chỉnh các loại tiền tệ</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Nếu bạn đã nhận một khóa, hãy nâng cấp lên các tính năng trả phí.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Nhập khóa</string>
+    <string name="pref_enter_licence_summary">Nếu bạn đã nhận một khóa, hãy nâng cấp lên các tính năng trả phí.</string>
+    <string name="pref_enter_licence_title">Nhập khóa</string>
     <string name="pref_export_format_title">Định dạng dữ liệu</string>
     <string name="pref_import_from_grisbi_summary">Nhập các phân loại (và các nhóm) Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Nhập dữ liệu về Grisbi</string>

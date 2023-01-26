@@ -40,16 +40,15 @@
     <string name="color">צבע</string>
     <string name="comment">הערות</string>
     <string name="confirmation_dialog_dont_show_again">אל תציג שוב</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ללא פרסומות</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">מספר חשבונות בלתי מוגבל</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">צרף תמונה לעסקה</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">תרשים עוגה (הפצה לקטגוריה)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">מספר תוכניות בלתי מוגבל</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">ייצא רשימת עסקאות ל- PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">תבנית widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ייבוא CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">מספר בלתי מוגבל של תבניות מפוצלות</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>שלח תמיכה</b> בדוא\"ל עם תגובה מובטחת בתוך 2 ימי עסקים</string>
+    <string name="contrib_feature_ad_free_label">ללא פרסומות</string>
+    <string name="contrib_feature_accounts_unlimited_label">מספר חשבונות בלתי מוגבל</string>
+    <string name="contrib_feature_attach_picture_label">צרף תמונה לעסקה</string>
+    <string name="contrib_feature_distribution_label">תרשים עוגה (הפצה לקטגוריה)</string>
+    <string name="contrib_feature_plans_unlimited_label">מספר תוכניות בלתי מוגבל</string>
+    <string name="contrib_feature_print_label">ייצא רשימת עסקאות ל- PDF</string>
+    <string name="contrib_feature_csv_import_label">ייבוא CSV</string>
+    <string name="contrib_feature_split_template_label">מספר בלתי מוגבל של תבניות מפוצלות</string>
+    <string name="contrib_feature_pro_support_label"><b>שלח תמיכה</b> בדוא\"ל עם תגובה מובטחת בתוך 2 ימי עסקים</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">זכות הצבעה על <b>מפת דרכים לפיתוח</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">תרשים היסטוריה</string>
     <string name="licence_status_free">חופשי</string>
@@ -289,8 +288,8 @@
     <string name="pref_contrib_purchase_title_in_app">תשלום מתוך האפליקציה</string>
     <string name="pref_custom_currency_title">התאמה אישית של מטבעות</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">אם קיבלת מפתח, קבל גישה לתכונות פרימיום.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">הכנס מפתח</string>
+    <string name="pref_enter_licence_summary">אם קיבלת מפתח, קבל גישה לתכונות פרימיום.</string>
+    <string name="pref_enter_licence_title">הכנס מפתח</string>
     <string name="pref_export_format_title">פורמט נתונים</string>
     <string name="pref_import_from_grisbi_summary">ייבוא קטגוריות וקבוצות מקובץ XML של Grisbi</string>
     <string name="pref_import_from_grisbi_title">יבא מ- Grisbi</string>

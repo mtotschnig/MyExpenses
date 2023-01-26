@@ -40,15 +40,14 @@
     <string name="color">Цвет</string>
     <string name="comment">Заметки</string>
     <string name="confirmation_dialog_dont_show_again">Не показывать снова</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Без рекламы</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество счетов</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Присоединение изображения к операции</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Круговая диаграмма (по категориям)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество планов</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Экспорт списка операций в PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон виджет</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Импорт данных в формате CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Неограниченное число шаблонов разделенных операций</string>
+    <string name="contrib_feature_ad_free_label">Без рекламы</string>
+    <string name="contrib_feature_accounts_unlimited_label">Неограниченное количество счетов</string>
+    <string name="contrib_feature_attach_picture_label">Присоединение изображения к операции</string>
+    <string name="contrib_feature_distribution_label">Круговая диаграмма (по категориям)</string>
+    <string name="contrib_feature_plans_unlimited_label">Неограниченное количество планов</string>
+    <string name="contrib_feature_print_label">Экспорт списка операций в PDF</string>
+    <string name="contrib_feature_csv_import_label">Импорт данных в формате CSV</string>
+    <string name="contrib_feature_split_template_label">Неограниченное число шаблонов разделенных операций</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail поддержка</b> с обязательным ответом в течении 2 рабочих дней</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право голоса на <b>дорожной карте разработки</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">История</string>
@@ -288,8 +287,8 @@
     <string name="pref_contrib_purchase_title_in_app">в-App платежей</string>
     <string name="pref_custom_currency_title">Настроить курс обмена</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Если вы получили ключ, получите доступ к премиум функциям.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Ввести ключ</string>
+    <string name="pref_enter_licence_summary">Если вы получили ключ, получите доступ к премиум функциям.</string>
+    <string name="pref_enter_licence_title">Ввести ключ</string>
     <string name="pref_export_format_title">Формат даты</string>
     <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML файла</string>
     <string name="pref_import_from_grisbi_title">Ипортировать из Grisbi</string>

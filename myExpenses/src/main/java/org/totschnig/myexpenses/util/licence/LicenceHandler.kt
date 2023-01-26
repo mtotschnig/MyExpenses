@@ -326,7 +326,7 @@ open class LicenceHandler(
     fun prettyPrintStatus(context: Context): String? {
         var result = licenceStatus?.let { context.getString(it.resId) }
         addOnFeatures.takeIf { it.isNotEmpty() }
-            ?.joinToString { context.getString(it.getLabelResIdOrThrow(context)) }?.let {
+            ?.joinToString { context.getString(it.labelResId) }?.let {
             if (result == null) {
                 result = ""
             } else {
@@ -348,7 +348,7 @@ open class LicenceHandler(
             Package.Upgrade -> R.string.pref_contrib_purchase_title_upgrade
             Package.Extended -> LicenceStatus.EXTENDED.resId
             is ProfessionalPackage -> LicenceStatus.PROFESSIONAL.resId
-            is AddOnPackage -> aPackage.feature.getLabelResIdOrThrow(context)
+            is AddOnPackage -> aPackage.feature.labelResId
         }
         return String.format(
             "%s (%s)",

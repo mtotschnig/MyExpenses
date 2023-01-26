@@ -40,18 +40,17 @@
     <string name="color">رنگ</string>
     <string name="comment">یادداشت</string>
     <string name="confirmation_dialog_dont_show_again">دیگر نشان نده</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون تبلیغ</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">تعداد نامحدود حساب ها</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">تصویر را به تراکنش اضافه کنید</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">نمودار پایه (توزیع در هر رده)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">تعداد نامحدودی از برنامه ها</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">صادرات لیست معامله به PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ویجت الگو</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">واردات CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">تعداد نامحدودی از قالب های تقسیم شده</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>پشتیبانی از طریق رایانامه</b> با ضمانت پاسخگویی در حداکثر مدت ۲ روز کاری</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق رای دادن در <b> نقشه راه توسعه</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">نمودار جریان</string>
+    <string name="contrib_feature_ad_free_label">بدون تبلیغ</string>
+    <string name="contrib_feature_accounts_unlimited_label">تعداد نامحدود حساب ها</string>
+    <string name="contrib_feature_attach_picture_label">تصویر را به تراکنش اضافه کنید</string>
+    <string name="contrib_feature_distribution_label">نمودار پایه (توزیع در هر رده)</string>
+    <string name="contrib_feature_plans_unlimited_label">تعداد نامحدودی از برنامه ها</string>
+    <string name="contrib_feature_print_label">صادرات لیست معامله به PDF</string>
+    <string name="contrib_feature_csv_import_label">واردات CSV</string>
+    <string name="contrib_feature_split_template_label">تعداد نامحدودی از قالب های تقسیم شده</string>
+    <string name="contrib_feature_pro_support_label"><b>پشتیبانی از طریق رایانامه</b> با ضمانت پاسخگویی در حداکثر مدت ۲ روز کاری</string>
+    <string name="contrib_feature_roadmap_voting_label">حق رای دادن در <b> نقشه راه توسعه</b></string>
+    <string name="contrib_feature_history_label">نمودار جریان</string>
     <string name="licence_status_free">آزاد</string>
     <string name="contrib_key">لایسنس مشارکت</string>
     <string name="extended_key">لایسنس توسعه یافته</string>
@@ -252,7 +251,7 @@
     <string name="pref_contrib_purchase_title_upgrade">کلید ارتقاء</string>
     <string name="pref_contrib_purchase_title_in_app">پرداخت درون‌برنامه‌ای</string>
     <string name="pref_custom_currency_title">سفارشی‌سازی واحد پول</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">کلید را وارد کنید</string>
+    <string name="pref_enter_licence_title">کلید را وارد کنید</string>
     <string name="pref_export_format_title">فرمت تاریخ</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">وارد کردن %s</string>
@@ -430,7 +429,7 @@
     <string name="warning_limited_trial">ویژگی %1$sتا %2$s مهلت تست دارد.</string>
     <string name="warning_trial_limit_reached">دورهٔ امتحانی تست کردن ویژگی %s تمام شده‌است.</string>
     <string name="template">قالب</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">همگام‌سازی ابری</string>
+    <string name="contrib_feature_synchronization_label">همگام‌سازی ابری</string>
     <string name="all_contrib_key_features">کلیهٔ قابلیت‌های لایسنس مشارکت</string>
     <string name="all_extended_key_features">کلیهٔ قابلیت‌های لایسنس توسعه یافته</string>
     <!-- button leading user to purchase flow for licence keys -->
@@ -537,7 +536,7 @@
     <string name="no_split_parts">دسته تسهیم وجود ندارد.</string>
     <string name="numbered">شماره گذاری شده</string>
     <string name="pref_contrib_purchase_summary">دسترسی به ویژگی های پریمیوم را خریداری کنید.</string>
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">در صورت دریافت کلید، به ویژگی‌های پریمیوم دسترسی پیدا می کنید.</string>
+    <string name="pref_enter_licence_summary">در صورت دریافت کلید، به ویژگی‌های پریمیوم دسترسی پیدا می کنید.</string>
     <string name="pref_import_from_grisbi_summary">وارد کردن دسته‌ها و اشخاص از فایل XML Grisbi</string>
     <string name="pref_import_from_grisbi_title">وارد کردن از Grisbi</string>
     <string name="pref_import_summary">وارد کردن تراکنش ها، دسته ها و اشخاص از فایل %s</string>
@@ -688,7 +687,7 @@
     <string name="pref_tracking_title">جمع آوری داده های کاربردی</string>
     <string name="onboarding_ui_title">{app_name} با تنظیمات شما سازگار است</string>
     <string name="pref_debug_logging_summary">اطلاعات اشکال زدایی را در گزارش سیستم بنویسید</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">دسته بندی درختی</string>
+    <string name="contrib_feature_category_tree_label">دسته بندی درختی</string>
     <string name="dialog_contrib_usage_limit_with_dialog">با وضعیت مجوز فعلی شما (%1$s)، این گفتگو در هر استفاده، نمایش داده می شود.</string>
     <string name="ad_consent_non_personalized">تبلیغات شخصی سازی نشده</string>
     <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">بله، ادامه دادن دیدن تبلیغات</string>

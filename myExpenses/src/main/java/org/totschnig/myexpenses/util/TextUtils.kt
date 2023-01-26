@@ -6,7 +6,9 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.*
 
 object TextUtils {
@@ -59,6 +61,10 @@ object TextUtils {
                     ), 0, length, 0
                 )
             }
+
+    fun getContribFeatureLabelsAsList(ctx: Context, type: LicenceStatus) =
+        ContribFeature.values().filter { feature: ContribFeature -> feature.licenceStatus === type }
+            .map { feature: ContribFeature -> ctx.getText(feature.labelResId) }
 }
 
 fun getDisplayNameForScript(context: Context, script: String) =

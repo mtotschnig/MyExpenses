@@ -41,7 +41,6 @@
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neobmedzený počet účtov</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neobmedzený počet plánov</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportovať zoznam transakcií do PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget šablóny</string>
     <string name="help_heading_credits">Poďakovania</string>
     <string name="pm_creditcard">Kreditná karta</string>
     <string name="pref_category_title_more_information">Ďalšie informácie</string>

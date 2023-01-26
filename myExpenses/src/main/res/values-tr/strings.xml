@@ -46,7 +46,6 @@
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Dilim grafik (kategori başına dağılım)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Sınırsız plan sayısı</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Muamele listesini PDF dosyasına aktar</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV içe aktar</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Sınırsız sayıda bölünmüş şablonlar</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 iş günü sonrasında cevap garantili <b>e-posta desteği</b></string>
@@ -283,8 +282,8 @@
     <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
     <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Anahtarını gir</string>
+    <string name="pref_enter_licence_summary">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
+    <string name="pref_enter_licence_title">Anahtarını gir</string>
     <string name="pref_export_format_title">Veri biçimi</string>
     <string name="pref_import_from_grisbi_summary">Kategorileri ve tarafları Grisbi XML dosyasından içe aktarın</string>
     <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>

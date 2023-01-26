@@ -40,18 +40,17 @@
     <string name="color">اللون</string>
     <string name="comment">ملاحظات</string>
     <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون إعلانات</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">إرفاق صورة إلى عملية</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">مخطط دائري (التوزيع حسب الفئة)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">تصدير قائمة العمليات إلى PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">مختصر النموذج</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">عدد غير محدود من القوالب المنقسمة</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>دعم البريد الإلكتروني</b> مع استجابة مضمونة في غضون يومي عمل</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق التصويت على <b> مخططات التنمية</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">مخطط زمني</string>
+    <string name="contrib_feature_ad_free_label">بدون إعلانات</string>
+    <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
+    <string name="contrib_feature_attach_picture_label">إرفاق صورة إلى عملية</string>
+    <string name="contrib_feature_distribution_label">مخطط دائري (التوزيع حسب الفئة)</string>
+    <string name="contrib_feature_plans_unlimited_label">عدد غير محدود من الخطط</string>
+    <string name="contrib_feature_print_label">تصدير قائمة العمليات إلى PDF</string>
+    <string name="contrib_feature_csv_import_label">إستيراد ملف CSV</string>
+    <string name="contrib_feature_split_template_label">عدد غير محدود من القوالب المنقسمة</string>
+    <string name="contrib_feature_pro_support_label"><b>دعم البريد الإلكتروني</b> مع استجابة مضمونة في غضون يومي عمل</string>
+    <string name="contrib_feature_roadmap_voting_label">حق التصويت على <b> مخططات التنمية</b></string>
+    <string name="contrib_feature_history_label">مخطط زمني</string>
     <string name="licence_status_free">خالي</string>
     <string name="contrib_key">مفتاح المساهمة</string>
     <string name="extended_key">مفتاح موسع</string>
@@ -295,8 +294,8 @@
     <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
     <string name="pref_custom_currency_title">تخصيص العملات</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
+    <string name="pref_enter_licence_summary">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة.</string>
+    <string name="pref_enter_licence_title">أدخل المفتاح</string>
     <string name="pref_export_format_title">تنسيق البيانات</string>
     <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
     <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
@@ -606,7 +605,7 @@
     <string name="link_account_failure_3">يمكن حل التعارض يدوياً من قائمة سياق الإدخال.</string>
     <string name="progress_dialog_checking_sync_backend">التحقق من الواجهة الخلفية</string>
     <string name="template">نموذج</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">تزامن سحابي</string>
+    <string name="contrib_feature_synchronization_label">تزامن سحابي</string>
     <string name="all_contrib_key_features">جميع ميزات مفتاح المساهمة</string>
     <string name="all_extended_key_features">جميع ميزات Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->

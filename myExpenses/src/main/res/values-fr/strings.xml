@@ -40,18 +40,17 @@
     <string name="color">Couleur</string>
     <string name="comment">Remarques</string>
     <string name="confirmation_dialog_dont_show_again">Ne pas montrer à nouveau</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sans publicité</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nombre illimité de comptes</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Lier une image avec une transaction</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Diagramme circulaire (Répartition par catégorie)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre d\'échéances illimité</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export de la liste des opérations au format PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modèles</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nombre illimité de modèles ventilés</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">&lt;b xmlns:tools=\"http://schemas.android.com/tools\"&gt;Assistance par courriel&lt;/b&gt; avec réponse garantie sous 2 jours ouvrables</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voter sur la <b>feuille de route pour le développement</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graphique historique</string>
+    <string name="contrib_feature_ad_free_label">Sans publicité</string>
+    <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
+    <string name="contrib_feature_attach_picture_label">Lier une image avec une transaction</string>
+    <string name="contrib_feature_distribution_label">Diagramme circulaire (Répartition par catégorie)</string>
+    <string name="contrib_feature_plans_unlimited_label">Nombre d\'échéances illimité</string>
+    <string name="contrib_feature_print_label">Export de la liste des opérations au format PDF</string>
+    <string name="contrib_feature_csv_import_label">Import CSV</string>
+    <string name="contrib_feature_split_template_label">Nombre illimité de modèles ventilés</string>
+    <string name="contrib_feature_pro_support_label"><b>Assistance par courriel</b> avec réponse garantie sous 2 jours ouvrables</string>
+    <string name="contrib_feature_roadmap_voting_label">Voter sur la <b>feuille de route pour le développement</b></string>
+    <string name="contrib_feature_history_label">Graphique historique</string>
     <string name="licence_status_free">Gratuit</string>
     <string name="contrib_key">Clé Contrib</string>
     <string name="extended_key">Clé étendue</string>
@@ -286,8 +285,8 @@
     <string name="pref_contrib_purchase_title_in_app">Paiement dans l\'application</string>
     <string name="pref_custom_currency_title">Personnaliser les devises</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si vous avez reçu une clé, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Saisir la clé</string>
+    <string name="pref_enter_licence_summary">Si vous avez reçu une clé, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
+    <string name="pref_enter_licence_title">Saisir la clé</string>
     <string name="pref_export_format_title">Format de données</string>
     <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir de Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
@@ -586,7 +585,7 @@
     <string name="link_account_failure_3">Le conflit peut être résolu manuellement à partir du menu contextuel de l\'entrée.</string>
     <string name="progress_dialog_checking_sync_backend">Vérification du backend</string>
     <string name="template">Modèle</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronisation dans le cloud</string>
+    <string name="contrib_feature_synchronization_label">Synchronisation dans le cloud</string>
     <string name="all_contrib_key_features">Toutes les fonctions de la Clé Contrib</string>
     <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
     <!-- button leading user to purchase flow for licence keys -->
@@ -992,7 +991,7 @@
     <string name="whats_new_336_2">Étiquettes pour les sous-opérations</string>
     <string name="setup_completed">Configuration terminée</string>
     <string name="whats_new_338">Une hiérarchie de catégories arbitrairement profonde</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Arborescence des catégories</string>
+    <string name="contrib_feature_category_tree_label">Arborescence des catégories</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Avec votre statut de licence actuel (%1$s), ce dialogue s\'affichera à chaque utilisation.</string>
     <string name="menu_parent_category_selection">Sélectionnez la catégorie parent en appuyant brièvement</string>
     <string name="pref_purge_backup_require_confirmation_summary">Afficher une demande de confirmation avant la purge des fichiers</string>

@@ -39,13 +39,12 @@
     <string name="color">रंग</string>
     <string name="comment">टिप्पणियाँ</string>
     <string name="confirmation_dialog_dont_show_again">पुनः न दिखाएँ</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">बिना विज्ञापन</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">असीमित खातों की संख्या</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">लेन-देन से छवि जोड़ें</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">असीमित योजनाओं की संख्या</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">लेनदेन सूची पीडीएफ में निर्यात करें</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">टेम्पलेट विजेट</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">सीएसवी आयात</string>
+    <string name="contrib_feature_ad_free_label">बिना विज्ञापन</string>
+    <string name="contrib_feature_accounts_unlimited_label">असीमित खातों की संख्या</string>
+    <string name="contrib_feature_attach_picture_label">लेन-देन से छवि जोड़ें</string>
+    <string name="contrib_feature_plans_unlimited_label">असीमित योजनाओं की संख्या</string>
+    <string name="contrib_feature_print_label">लेनदेन सूची पीडीएफ में निर्यात करें</string>
+    <string name="contrib_feature_csv_import_label">सीएसवी आयात</string>
     <string name="licence_status_free">मुफ़्त</string>
     <string name="contrib_key">योगदान कुंजी</string>
     <string name="extended_key">विस्तारित कुंजी</string>
@@ -215,7 +214,7 @@
     <string name="pref_contrib_purchase_title">कुंजी ख़रीदें</string>
     <string name="pref_contrib_purchase_title_upgrade">कुंजी अपग्रेड करें</string>
     <string name="pref_contrib_purchase_title_in_app">इन-ऐप भुगतान</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">कुंजी दर्ज करें</string>
+    <string name="pref_enter_licence_title">कुंजी दर्ज करें</string>
     <string name="pref_export_format_title">डाटा प्रारूप</string>
     <string name="pref_manage_accounts_title">हिसाब किताब</string>
     <string name="pref_manage_categories_title">श्रेणियाँ</string>
@@ -268,7 +267,7 @@
     <string name="folder_name">फोल्डर का नाम</string>
     <string name="pref_auto_backup_title">ऑटो बैकअप</string>
     <string name="content_description_calculator">कैलकुलेटर</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">क्लाउड तुल्यकालन</string>
+    <string name="contrib_feature_synchronization_label">क्लाउड तुल्यकालन</string>
     <string name="budget_duration_from">से</string>
     <string name="budget_duration_to">को</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
@@ -279,6 +278,6 @@
     <string name="pref_acra_user_email_summary">यदि आप डिबगिंग में सहायता करने और आपसे संपर्क करने की अनुमति देने के लिए तैयार हैं तो कृपया अपना ईमेल पता दर्ज करें।</string>
     <string name="new_version">नया संस्करण</string>
     <string name="backup_success">डेटाबेस और प्राथमिकताएं सफलतापूर्वक \"%1$s\" पर लिख दी गईं।</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">पाई चार्ट (प्रति श्रेणी वितरण)</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">विभाजित टेम्पलेट्स की असीमित संख्या</string>
+    <string name="contrib_feature_distribution_label">पाई चार्ट (प्रति श्रेणी वितरण)</string>
+    <string name="contrib_feature_split_template_label">विभाजित टेम्पलेट्स की असीमित संख्या</string>
 </resources>

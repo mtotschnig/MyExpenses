@@ -46,11 +46,10 @@
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">圆饼统计图 (会根据每个类别作出统计图表)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">无限数量的收支计划</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">可将交易记录清单以PDF的文件型式导出</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板小部件</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">导入 CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">无限数量的拆分款项模板</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>电子邮件支持</b>，保证在2个工作日内回复</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">对<b>程序开发者的未来蓝图 </b>进行投票</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">对<b>程序开发者的未来蓝图</b>进行投票</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支历史图表</string>
     <string name="licence_status_free">免费版</string>
     <string name="contrib_key">贡献版密钥(Contrib Key)</string>
@@ -280,8 +279,8 @@
     <string name="pref_contrib_purchase_title_in_app">应用程序内付款</string>
     <string name="pref_custom_currency_title">自定义货币</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果您收到密钥，则可以使用高级功能。</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
+    <string name="pref_enter_licence_summary">如果您收到密钥，则可以使用高级功能。</string>
+    <string name="pref_enter_licence_title">输入密钥</string>
     <string name="pref_export_format_title">数据格式</string>
     <string name="pref_import_from_grisbi_summary">从 Grisbi XML 文件导入类别和交易对象</string>
     <string name="pref_import_from_grisbi_title">从 Grisbi 导入</string>

@@ -40,19 +40,19 @@
     <string name="color">Color</string>
     <string name="comment">Notes</string>
     <string name="confirmation_dialog_dont_show_again">Do not show again</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">No ads</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unlimited number of accounts</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Attach image to transaction</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Pie chart (Distribution per category)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export transaction list to PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Template widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unlimited number of split templates</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Email support</b> with guaranteed response within 2 business days</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voting right on <b>development roadmap</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">History chart</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Category tree</string>
+    <string name="contrib_feature_ad_free_label">No ads</string>
+    <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
+    <string name="contrib_feature_attach_picture_label">Attach image to transaction</string>
+    <string name="contrib_feature_distribution_label">Pie chart (Distribution per category)</string>
+    <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
+    <string name="contrib_feature_print_label">Export transaction list to PDF</string>
+    <string name="contrib_feature_csv_import_label">CSV import</string>
+    <string name="contrib_feature_split_template_label">Unlimited number of split templates</string>
+    <string name="contrib_feature_pro_support_label"><b>Email support</b> with guaranteed response within 2 business days</string>
+    <string name="contrib_feature_roadmap_voting_label">Voting right on <b>development roadmap</b></string>
+    <string name="contrib_feature_history_label">History chart</string>
+    <string name="contrib_feature_category_tree_label">Category tree</string>
+    <string name="contrib_feature_synchronization_label">Cloud synchronization</string>
     <string name="licence_status_free">Free</string>
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>
@@ -287,8 +287,8 @@
     <string name="pref_contrib_purchase_title_in_app">In-App payment</string>
     <string name="pref_custom_currency_title">Customize currencies</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">If you received a key, gain access to premium features.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Enter key</string>
+    <string name="pref_enter_licence_summary">If you received a key, gain access to premium features.</string>
+    <string name="pref_enter_licence_title">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
     <string name="pref_import_from_grisbi_summary">Import categories and parties from Grisbi XML file</string>
     <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
@@ -587,7 +587,6 @@
     <string name="link_account_failure_3">The conflict can be resolved manually from the entry\'s context menu.</string>
     <string name="progress_dialog_checking_sync_backend">Verifying backend</string>
     <string name="template">Template</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronization</string>
     <string name="all_contrib_key_features">All features of Contrib Key</string>
     <string name="all_extended_key_features">All features of Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->

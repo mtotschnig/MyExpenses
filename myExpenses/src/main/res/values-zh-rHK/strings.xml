@@ -31,7 +31,6 @@
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">將圖像附加到交易項目</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">計劃數量不限</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">匯出交易記錄清單成PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
     <string name="contrib_key">貢獻密鑰</string>
     <string name="extended_key">延伸版金鑰</string>
     <string name="currency">貨幣</string>

@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.ContribDialogBinding
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.TextUtils.getContribFeatureLabelsAsList
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -100,7 +101,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val message = feature?.let { feature ->
             val featureDescription = feature.buildFullInfoString(ctx)
             val linefeed: CharSequence = HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY)
-            val removePhrase = feature.buildRemoveLimitation(activity, true)
+            val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
             feature.buildUsagesLeftString(ctx, prefHandler)?.let {
                 binding.usagesLeft.text = it
                 binding.usagesLeft.visibility = View.VISIBLE
@@ -114,8 +115,8 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
 
         }
         binding.featureInfo.text = message
-        val contribFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceStatus.CONTRIB)
-        val extendedFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceStatus.EXTENDED)
+        val contribFeatureLabelsAsList = getContribFeatureLabelsAsList(ctx, LicenceStatus.CONTRIB)
+        val extendedFeatureLabelsAsList = getContribFeatureLabelsAsList(ctx, LicenceStatus.EXTENDED)
 
         //prepare CONTRIB section
         with(binding.contribFeatureContainer) {
@@ -169,7 +170,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                     lines.addAll(extendedFeatureLabelsAsList)
                 }
             }
-            lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, LicenceStatus.PROFESSIONAL))
+            lines.addAll(getContribFeatureLabelsAsList(ctx, LicenceStatus.PROFESSIONAL))
             packageFeatureList.text = Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done)
             packageLabel.setText(R.string.professional_key)
             packagePrice.text = licenceHandler.professionalPriceShortInfo
@@ -188,7 +189,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.professional_licence, null))
             feature?.let {
                 singleVisible = true
-                packageLabel.setText(it.getLabelResIdOrThrow(requireContext()))
+                packageLabel.setText(it.labelResId)
                 packagePrice.text = licenceHandler.getFormattedPrice(getSinglePackage())
                 root.setOnClickListener(this@ContribDialogFragment)
                 singleButton.setOnClickListener(this@ContribDialogFragment)

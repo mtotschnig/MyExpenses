@@ -45,7 +45,6 @@
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Ataseaza imagine la tranzactie</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de scadenţe</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export listă tranzacţii în PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
     <string name="licence_status_free">Gratuit</string>
     <string name="contrib_key">Cheie Contrib</string>
@@ -267,8 +266,8 @@
     <string name="pref_contrib_purchase_title_in_app">In-App plată</string>
     <string name="pref_custom_currency_title">Personalizează valutele</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduceţi cheia</string>
+    <string name="pref_enter_licence_summary">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium.</string>
+    <string name="pref_enter_licence_title">Introduceţi cheia</string>
     <string name="pref_export_format_title">Format date</string>
     <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Import din Grisbi</string>

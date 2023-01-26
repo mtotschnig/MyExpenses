@@ -40,18 +40,17 @@
     <string name="color">Colore</string>
     <string name="comment">Note</string>
     <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Nessun annuncio</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di conti</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Allega un\'immagine alla transazione</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Grafico a torta (Distribuzione per categoria)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di piani</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esporta l\'elenco delle transazioni in formato PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget dei modelli</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importa CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Numero illimitato di modelli per operazioni frazionate</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Supporto per e-mail </b> con risposta garantita entro 2 giorni lavorativi</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Votare direttamente sulla <b>roadmap di sviluppo</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Grafico storico</string>
+    <string name="contrib_feature_ad_free_label">Nessun annuncio</string>
+    <string name="contrib_feature_accounts_unlimited_label">Numero illimitato di conti</string>
+    <string name="contrib_feature_attach_picture_label">Allega un\'immagine alla transazione</string>
+    <string name="contrib_feature_distribution_label">Grafico a torta (Distribuzione per categoria)</string>
+    <string name="contrib_feature_plans_unlimited_label">Numero illimitato di piani</string>
+    <string name="contrib_feature_print_label">Esporta l\'elenco delle transazioni in formato PDF</string>
+    <string name="contrib_feature_csv_import_label">Importa CSV</string>
+    <string name="contrib_feature_split_template_label">Numero illimitato di modelli per operazioni frazionate</string>
+    <string name="contrib_feature_pro_support_label"><b>Supporto per e-mail</b> con risposta garantita entro 2 giorni lavorativi</string>
+    <string name="contrib_feature_roadmap_voting_label">Votare direttamente sulla <b>roadmap di sviluppo</b></string>
+    <string name="contrib_feature_history_label">Grafico storico</string>
     <string name="licence_status_free">Gratuito</string>
     <string name="contrib_key">Licenza Contributore</string>
     <string name="extended_key">Licenza Funzionalità Estese</string>
@@ -284,8 +283,8 @@
     <string name="pref_contrib_purchase_title_in_app">pagamento nel applicazione</string>
     <string name="pref_custom_currency_title">Personalizzare le valute</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una licenza, otterrete l\'accesso a funzionalità premium.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la licenza</string>
+    <string name="pref_enter_licence_summary">Se avete ricevuto una licenza, otterrete l\'accesso a funzionalità premium.</string>
+    <string name="pref_enter_licence_title">Inserisci la licenza</string>
     <string name="pref_export_format_title">Formato dati</string>
     <string name="pref_import_from_grisbi_summary">Importa categorie e beneficiari da file Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Importa da Grisbi</string>

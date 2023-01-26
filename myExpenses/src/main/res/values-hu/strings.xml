@@ -40,18 +40,17 @@
     <string name="color">Szín</string>
     <string name="comment">Megjegyzés</string>
     <string name="confirmation_dialog_dont_show_again">Ne mutasd újra</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Hirdetések kikapcsolása</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú számla</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Kép csatolása a tranzakcióhoz</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Tortadiagram (Elosztás kategóriánként)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú terv</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Tranzakciók listájának exportálása PDF-be</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sablon widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV-importálás</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Korlátlan számú osztott sablon</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Támogatás e-mailben </b> garantált válasszal 2 munkanapon belül</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Szavazási jog a <b>fejlesztési ütemtervről</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Előzménydiagram</string>
+    <string name="contrib_feature_ad_free_label">Hirdetések kikapcsolása</string>
+    <string name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
+    <string name="contrib_feature_attach_picture_label">Kép csatolása a tranzakcióhoz</string>
+    <string name="contrib_feature_distribution_label">Tortadiagram (Elosztás kategóriánként)</string>
+    <string name="contrib_feature_plans_unlimited_label">Korlátlan számú terv</string>
+    <string name="contrib_feature_print_label">Tranzakciók listájának exportálása PDF-be</string>
+    <string name="contrib_feature_csv_import_label">CSV-importálás</string>
+    <string name="contrib_feature_split_template_label">Korlátlan számú osztott sablon</string>
+    <string name="contrib_feature_pro_support_label"><b>Támogatás e-mailben</b> garantált válasszal 2 munkanapon belül</string>
+    <string name="contrib_feature_roadmap_voting_label">Szavazási jog a <b>fejlesztési ütemtervről</b></string>
+    <string name="contrib_feature_history_label">Előzménydiagram</string>
     <string name="licence_status_free">Ingyenes</string>
     <string name="contrib_key">Contrib Kulcs</string>
     <string name="extended_key">Kiterjesztett Kulcs</string>
@@ -283,8 +282,8 @@
     <string name="pref_contrib_purchase_title_in_app">Alkalmazáson belüli fizetés</string>
     <string name="pref_custom_currency_title">Pénznemek testreszabása</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ha kapott egy kulcsot, nyerjen hozzáférést a prémium funkciókhoz.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Kulcs megadása</string>
+    <string name="pref_enter_licence_summary">Ha kapott egy kulcsot, nyerjen hozzáférést a prémium funkciókhoz.</string>
+    <string name="pref_enter_licence_title">Kulcs megadása</string>
     <string name="pref_export_format_title">Adat formátum</string>
     <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>
     <string name="pref_import_from_grisbi_title">Importálás innen: Grisbi</string>

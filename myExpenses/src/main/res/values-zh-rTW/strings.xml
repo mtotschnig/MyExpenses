@@ -40,18 +40,17 @@
     <string name="color">顏色</string>
     <string name="comment">備註</string>
     <string name="confirmation_dialog_dont_show_again">不再顯示</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">無廣告</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">無限數量的帳戶</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">可附加交易圖片</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">圓餅統計圖(會根據每個類別作出統計圖表)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">無限數量的收支計畫</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">可將交易清單以PDF的檔案型式輸出</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">範本小工具</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">以CSV的檔案型式輸入</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">無限數量的分割款項範本</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>電子郵件支援</b> 保證在2個工作天內回覆</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">對<b>程式開發者的未來藍圖 </b>進行投票</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支歷史圖表</string>
+    <string name="contrib_feature_ad_free_label">無廣告</string>
+    <string name="contrib_feature_accounts_unlimited_label">無限數量的帳戶</string>
+    <string name="contrib_feature_attach_picture_label">可附加交易圖片</string>
+    <string name="contrib_feature_distribution_label">圓餅統計圖(會根據每個類別作出統計圖表)</string>
+    <string name="contrib_feature_plans_unlimited_label">無限數量的收支計畫</string>
+    <string name="contrib_feature_print_label">可將交易清單以PDF的檔案型式輸出</string>
+    <string name="contrib_feature_csv_import_label">以CSV的檔案型式輸入</string>
+    <string name="contrib_feature_split_template_label">無限數量的分割款項範本</string>
+    <string name="contrib_feature_pro_support_label"><b>電子郵件支援</b> 保證在2個工作天內回覆</string>
+    <string name="contrib_feature_roadmap_voting_label">對<b>程式開發者的未來藍圖</b>進行投票</string>
+    <string name="contrib_feature_history_label">收支歷史圖表</string>
     <string name="licence_status_free">免費版</string>
     <string name="contrib_key">貢獻版金鑰(Contrib Key)</string>
     <string name="extended_key">延伸版金鑰(Extended Key)</string>
@@ -280,8 +279,8 @@
     <string name="pref_contrib_purchase_title_in_app">程式內付款</string>
     <string name="pref_custom_currency_title">自定義貨幣</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果您收到金鑰，就可以使用高級功能。</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">請輸入金鑰號碼</string>
+    <string name="pref_enter_licence_summary">如果您收到金鑰，就可以使用高級功能。</string>
+    <string name="pref_enter_licence_title">請輸入金鑰號碼</string>
     <string name="pref_export_format_title">數據資料格式</string>
     <string name="pref_import_from_grisbi_summary">從Grisbi XML 檔案匯入類別項目和交易對象(收款人/付款人)</string>
     <string name="pref_import_from_grisbi_title">由Grisbi匯入</string>

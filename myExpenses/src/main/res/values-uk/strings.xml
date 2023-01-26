@@ -40,18 +40,17 @@
     <string name="color">Колір</string>
     <string name="comment">Нотатки</string>
     <string name="confirmation_dialog_dont_show_again">Не показувати знову</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Без реклами</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Необмежена кількість облікових записів</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Прикріпити зображення до операції</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Секторна діаграма (розподіл за категоріями)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Необмежена кількість планів</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Експорт операцій в PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон віджет</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Імпортування CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Необмежена кількість шаблонів поділу</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Сервіс підтримки</b> через електронну пошту з гарантованою відповіддю протягом 2 робочих днів</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Можливість голосувати <b>в плані розвитку програми</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Історія</string>
+    <string name="contrib_feature_ad_free_label">Без реклами</string>
+    <string name="contrib_feature_accounts_unlimited_label">Необмежена кількість облікових записів</string>
+    <string name="contrib_feature_attach_picture_label">Прикріпити зображення до операції</string>
+    <string name="contrib_feature_distribution_label">Секторна діаграма (розподіл за категоріями)</string>
+    <string name="contrib_feature_plans_unlimited_label">Необмежена кількість планів</string>
+    <string name="contrib_feature_print_label">Експорт операцій в PDF</string>
+    <string name="contrib_feature_csv_import_label">Імпортування CSV</string>
+    <string name="contrib_feature_split_template_label">Необмежена кількість шаблонів поділу</string>
+    <string name="contrib_feature_pro_support_label"><b>Сервіс підтримки</b> через електронну пошту з гарантованою відповіддю протягом 2 робочих днів</string>
+    <string name="contrib_feature_roadmap_voting_label">Можливість голосувати <b>в плані розвитку програми</b></string>
+    <string name="contrib_feature_history_label">Історія</string>
     <string name="licence_status_free">Безкоштовна версія</string>
     <string name="contrib_key">Платна версія</string>
     <string name="extended_key">Розширена платна версія</string>
@@ -278,8 +277,8 @@
     <string name="pref_contrib_purchase_title_in_app">Платіж з програми</string>
     <string name="pref_custom_currency_title">Налаштування валют</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Якщо Ви отримали ключ, отримаєте доступ до преміум-функцій.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Введіть ключ</string>
+    <string name="pref_enter_licence_summary">Якщо Ви отримали ключ, отримаєте доступ до преміум-функцій.</string>
+    <string name="pref_enter_licence_title">Введіть ключ</string>
     <string name="pref_export_format_title">Формат даних</string>
     <string name="pref_import_from_grisbi_summary">Імпортуйте категорії та учасників з XML-файлу Grisbi</string>
     <string name="pref_import_from_grisbi_title">Імпортувати з Grisbi</string>

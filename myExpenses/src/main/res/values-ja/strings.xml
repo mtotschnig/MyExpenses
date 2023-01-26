@@ -40,18 +40,17 @@
     <string name="color">色</string>
     <string name="comment">メモ</string>
     <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">広告なし</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">無制限の勘定数</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">取引に画像を添付</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">円グラフ (分類ごとの分布)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">無制限の計画数</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">取引リストを PDF にエクスポート</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV インポート</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">無制限の分割テンプレート</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 営業日以内の <b>メールサポート</b> 対応を保証</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>開発ロードマップ</b> の投票権</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">履歴チャート</string>
+    <string name="contrib_feature_ad_free_label">広告なし</string>
+    <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
+    <string name="contrib_feature_attach_picture_label">取引に画像を添付</string>
+    <string name="contrib_feature_distribution_label">円グラフ (分類ごとの分布)</string>
+    <string name="contrib_feature_plans_unlimited_label">無制限の計画数</string>
+    <string name="contrib_feature_print_label">取引リストを PDF にエクスポート</string>
+    <string name="contrib_feature_csv_import_label">CSV インポート</string>
+    <string name="contrib_feature_split_template_label">無制限の分割テンプレート</string>
+    <string name="contrib_feature_pro_support_label">2 営業日以内の <b>メールサポート</b> 対応を保証</string>
+    <string name="contrib_feature_roadmap_voting_label"><b>開発ロードマップ</b> の投票権</string>
+    <string name="contrib_feature_history_label">履歴チャート</string>
     <string name="licence_status_free">無料</string>
     <string name="contrib_key">貢献キー</string>
     <string name="extended_key">拡張キー</string>
@@ -278,8 +277,8 @@
     <string name="pref_contrib_purchase_title_in_app">アプリ内課金</string>
     <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">キーを入力</string>
+    <string name="pref_enter_licence_summary">キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
+    <string name="pref_enter_licence_title">キーを入力</string>
     <string name="pref_export_format_title">データ形式</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
     <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>

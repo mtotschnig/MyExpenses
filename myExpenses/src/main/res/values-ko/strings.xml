@@ -45,7 +45,6 @@
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">템플릿 위젯</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV 가져오기</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">영업일 기준 2 일 이내에 응답이 보장되는 <b>이메일 지원</b></string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>개발 로드맵에</b> 바로 투표</string>
@@ -257,8 +256,8 @@
     <string name="pref_contrib_purchase_title_in_app">인앱 결제</string>
     <string name="pref_custom_currency_title">화폐 단위 설정</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">기부 확인 키 입력</string>
+    <string name="pref_enter_licence_summary">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
+    <string name="pref_enter_licence_title">기부 확인 키 입력</string>
     <string name="pref_export_format_title">데이터 형식</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>
     <string name="pref_import_from_grisbi_title">Grisbi에서 가져오기</string>

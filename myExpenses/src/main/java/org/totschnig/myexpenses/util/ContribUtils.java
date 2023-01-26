@@ -16,7 +16,7 @@ import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICAT
 public class ContribUtils {
   public static void showContribNotification(Context context, ContribFeature feature) {
     String notifTitle = TextUtils.concatResStrings(context, " ", R.string.app_name,
-        feature.getLabelResIdOrThrow(context));
+        feature.getLabelResId());
     CharSequence content = android.text.TextUtils.concat(
         feature.getLimitReachedWarning(context), " ",
         feature.buildRemoveLimitation(context, true));

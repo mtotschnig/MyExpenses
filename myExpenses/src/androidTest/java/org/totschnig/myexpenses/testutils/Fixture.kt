@@ -112,6 +112,8 @@ class Fixture(inst: Instrumentation) {
         )
         account4.save()
 
+        val johnDoe = appContext.getString(R.string.testData_templatePayee)
+
         //set up categories
         setUpCategories(appContext)
         //set up transactions
@@ -206,6 +208,7 @@ class Fixture(inst: Instrumentation) {
                 .amount(defaultCurrency, -random(10000L))
                 .date(offset - 100390000)
                 .crStatus(CrStatus.RECONCILED)
+                .payee(johnDoe)
                 .persist()
 
             //Transaction 6 Gift Reconciled
@@ -287,7 +290,7 @@ class Fixture(inst: Instrumentation) {
                 )
             )
         template.title = templateSubCat
-        template.payee = appContext.getString(R.string.testData_templatePayee)
+        template.payee = johnDoe
         planId = ContentUris.parseId(
             Plan(
                 LocalDate.now(),

@@ -46,7 +46,6 @@
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Carta pai (Agihan per katagori)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Bilang plan tidak terhad</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport senarai transaksi menjadi PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget  templat</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Bilang templat berasingan tidak terhad</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja</string>
@@ -278,8 +277,8 @@
     <string name="pref_contrib_purchase_title_in_app">Pembayaran In-App</string>
     <string name="pref_custom_currency_title">Suaikan matawang</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Jika anda menerima kunci, dapatkan capaian ke fitur premium.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Masukkan kunci</string>
+    <string name="pref_enter_licence_summary">Jika anda menerima kunci, dapatkan capaian ke fitur premium.</string>
+    <string name="pref_enter_licence_title">Masukkan kunci</string>
     <string name="pref_export_format_title">Format data</string>
     <string name="pref_import_from_grisbi_summary">Import kategori dan pihak dari fail XML Grisbi</string>
     <string name="pref_import_from_grisbi_title">Import dari Grisbi</string>

@@ -38,11 +38,10 @@
     <string name="color">Color</string>
     <string name="comment">Notes</string>
     <string name="confirmation_dialog_dont_show_again">No ho tornis a mostrar</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nombre il·limitat de comptes</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre de planificacions il·limitat</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exporta la llista de transaccions en PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de plantilla</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importació CSV</string>
+    <string name="contrib_feature_accounts_unlimited_label">Nombre il·limitat de comptes</string>
+    <string name="contrib_feature_plans_unlimited_label">Nombre de planificacions il·limitat</string>
+    <string name="contrib_feature_print_label">Exporta la llista de transaccions en PDF</string>
+    <string name="contrib_feature_csv_import_label">Importació CSV</string>
     <string name="contrib_key">Clau del Contribuïdor</string>
     <string name="extended_key">Clau estesa</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
@@ -222,8 +221,8 @@
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_contrib_purchase_summary">Compreu accés a funcions premium.</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
+    <string name="pref_enter_licence_summary">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
+    <string name="pref_enter_licence_title">Entreu la clau</string>
     <string name="pref_export_format_title">Format de les dades</string>
     <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
@@ -318,7 +317,7 @@
     <string name="preferences_week_start_day_title">La setmana comença el</string>
     <string name="content_description_calculator">Calculadora</string>
     <string name="template">Plantilla</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronització del núvol</string>
+    <string name="contrib_feature_synchronization_label">Sincronització del núvol</string>
     <string name="professional_key">Clau professional</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Tanca</string>
@@ -342,12 +341,12 @@
     <string name="pref_news_title">Notícies</string>
     <string name="title_scan_receipt_feature">Escaneja el rebut</string>
     <string name="debt_managment">Gestió del deute</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Adjuntar imatge a la transacció</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Gràfic de sectors (Distribuïts per categories)</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número il·limitat de plantilles dividides</string>
+    <string name="contrib_feature_attach_picture_label">Adjuntar imatge a la transacció</string>
+    <string name="contrib_feature_distribution_label">Gràfic de sectors (Distribuïts per categories)</string>
+    <string name="contrib_feature_split_template_label">Número il·limitat de plantilles dividides</string>
     <string name="account_types">Tipus de comptes</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sense anuncis</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suport per correu</b> amb resposta garantit de 2 dies laborals</string>
+    <string name="contrib_feature_ad_free_label">Sense anuncis</string>
+    <string name="contrib_feature_pro_support_label"><b>Suport per correu</b> amb resposta garantit de 2 dies laborals</string>
     <string name="synchronization_none">Sense sincronització</string>
     <string name="ui_refinement">Refinament de la interfície d\'usuari</string>
     <string name="synchronization">Sincronització</string>
@@ -359,8 +358,8 @@
     <string name="pref_ui_home_screen_shortcuts">Dreceres a la pantalla d\'inici</string>
     <string name="progress_dialog_printing">Generant %s</string>
     <string name="qif_parse_failure_found_multiple_accounts">Múltiples comptes trobats a l\'arxiu QIF.</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Votació correcta a <b> fulla de ruta per al desenvolupament </b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Gràfica històrica</string>
+    <string name="contrib_feature_roadmap_voting_label">Votació correcta a <b> fulla de ruta per al desenvolupament </b></string>
+    <string name="contrib_feature_history_label">Gràfica històrica</string>
     <string name="licence_status_free">Gratuït</string>
     <string name="number_format_illegal">Format de nombre il·legal</string>
     <string name="no_accounts">Sense comptes.</string>
@@ -406,7 +405,7 @@
     <string name="pref_perform_protection_title">Protecció</string>
     <string name="qif_parse_result">Analitzat: %1$s comptes; %2$s categories i %3$s parts</string>
     <string name="restore_backup_file_not_found">L\'arxiu %1$s no s\'ha trobat a l\'arxiu \"%2$s\"</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Arbre de categories</string>
+    <string name="contrib_feature_category_tree_label">Arbre de categories</string>
     <string name="default_account_name">Llibre de Pressupost</string>
     <string name="dialog_confirm_discard_changes">Invalidar canvis\?</string>
     <string name="dialog_contrib_no">Provar</string>

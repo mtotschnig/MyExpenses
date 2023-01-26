@@ -40,18 +40,17 @@
     <string name="color">Χρώμα</string>
     <string name="comment">Σημειώσεις</string>
     <string name="confirmation_dialog_dont_show_again">Να μην εμφανιστεί ξανά</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Χωρίς διαφημίσεις</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός λογαριασμών</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Επισυνάψτε εικόνα στην συναλλαγή</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Γράφημα πίτας (Κατανομή ανά κατηγορία)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός σχεδίων</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Πρότυπο γραφικού στοιχείου</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Εισαγωγή CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός προτύπων διαίρεσης</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Υποστήριξη ηλεκτρονικού ταχυδρομείου</b> με εγγυημένη απόκριση εντός 2 εργάσιμων ημερών</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Γράφημα ιστορικού</string>
+    <string name="contrib_feature_ad_free_label">Χωρίς διαφημίσεις</string>
+    <string name="contrib_feature_accounts_unlimited_label">Απεριόριστος αριθμός λογαριασμών</string>
+    <string name="contrib_feature_attach_picture_label">Επισυνάψτε εικόνα στην συναλλαγή</string>
+    <string name="contrib_feature_distribution_label">Γράφημα πίτας (Κατανομή ανά κατηγορία)</string>
+    <string name="contrib_feature_plans_unlimited_label">Απεριόριστος αριθμός σχεδίων</string>
+    <string name="contrib_feature_print_label">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
+    <string name="contrib_feature_csv_import_label">Εισαγωγή CSV</string>
+    <string name="contrib_feature_split_template_label">Απεριόριστος αριθμός προτύπων διαίρεσης</string>
+    <string name="contrib_feature_pro_support_label"><b>Υποστήριξη ηλεκτρονικού ταχυδρομείου</b> με εγγυημένη απόκριση εντός 2 εργάσιμων ημερών</string>
+    <string name="contrib_feature_roadmap_voting_label">Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b></string>
+    <string name="contrib_feature_history_label">Γράφημα ιστορικού</string>
     <string name="licence_status_free">Ελεύθερο</string>
     <string name="contrib_key">Contrib κλειδί</string>
     <string name="extended_key">Κλειδί Εκτεταμένης λειτουργίας</string>
@@ -283,8 +282,8 @@
     <string name="pref_contrib_purchase_title_in_app">Αγορά εντός της εφαρμογής</string>
     <string name="pref_custom_currency_title">Προσαρμογή νομισμάτων</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Εάν λάβατε ένα κλειδί, έχετε πρόσβαση σε αναβαθμισμένα χαρακτηριστικά.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Εισάγετε το κλειδί</string>
+    <string name="pref_enter_licence_summary">Εάν λάβατε ένα κλειδί, έχετε πρόσβαση σε αναβαθμισμένα χαρακτηριστικά.</string>
+    <string name="pref_enter_licence_title">Εισάγετε το κλειδί</string>
     <string name="pref_export_format_title"> Μορφή δεδομένων</string>
     <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Εισαγωγή από Grisbi</string>
@@ -567,7 +566,7 @@
     <string name="warning_synchronization_folder_usage">Αυτός ο φάκελος χρησιμοποιείται για το συγχρονισμό δεδομένων μεταξύ εγκαταστάσεων του {app_name} σε διαφορετικές συσκευές. Παρακαλώ μην τροποποιήσετε οτιδήποτε από τα περιεχόμενά του χειροκίνητα.</string>
     <string name="link_account_failure_3">Η διένεξη μπορεί να επιλυθεί χειροκίνητα από το μενού περιβάλλοντος της καταχώρησης.</string>
     <string name="template">Πρότυπο</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Συγχρονισμός σύννεφου</string>
+    <string name="contrib_feature_synchronization_label">Συγχρονισμός σύννεφου</string>
     <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
     <string name="all_extended_key_features">Όλες οι δυνατότητες του Εκτεταμένου Κλειδιού</string>
     <!-- button leading user to purchase flow for licence keys -->

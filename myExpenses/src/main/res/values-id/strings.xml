@@ -21,10 +21,9 @@
     <string name="date">Tanggal</string>
     <string name="current_balance">Saldo</string>
     <string name="currency">Mata uang</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Impor CSV</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Templat widget</string>
+    <string name="contrib_feature_csv_import_label">Impor CSV</string>
     <string name="backup_success">Basis data dan preferensi berhasil ditulis ke \"%1$s\".</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Tanpa iklan</string>
+    <string name="contrib_feature_ad_free_label">Tanpa iklan</string>
     <string name="confirmation_dialog_dont_show_again">Jangan tampilkan lagi</string>
     <string name="comment">Catatan</string>
     <string name="color">Warna</string>
@@ -61,9 +60,9 @@
     <string name="dialog_confirm_discard_changes">Buang perubahan\?</string>
     <string name="contrib_key_requires">Dibutuhkan %1$s.</string>
     <string name="licence_status_free">Gratis</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Bagan riwayat</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Ikut tentukan <b>peta jalan pengembangan</b></string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Bantuan email</b> dengan respons yang dijamin dalam waktu 2 hari kerja</string>
+    <string name="contrib_feature_history_label">Bagan riwayat</string>
+    <string name="contrib_feature_roadmap_voting_label">Ikut tentukan <b>peta jalan pengembangan</b></string>
+    <string name="contrib_feature_pro_support_label"><b>Bantuan email</b> dengan respons yang dijamin dalam waktu 2 hari kerja</string>
     <string name="app_name">Pengeluaran Ku</string>
     <string name="account_type_bank_plural">Akun bank</string>
     <string name="account_type_bank">Akun Bank</string>
@@ -72,8 +71,8 @@
     <string name="dialog_command_disabled_reset_account">Tidak ada transaksi untuk diekspor.</string>
     <string name="extended_key">Kunci Diperpanjang</string>
     <string name="contrib_key">Kunci Contrib</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Ekspor daftar transaksi ke PDF</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Jumlah paket tidak terbatas</string>
+    <string name="contrib_feature_print_label">Ekspor daftar transaksi ke PDF</string>
+    <string name="contrib_feature_plans_unlimited_label">Jumlah paket tidak terbatas</string>
     <string name="already_defined">%1$s sudah ditentukan</string>
     <string name="menu_show_transactions">Tampilkan transaksi</string>
     <string name="switch_off_text">Mati</string>

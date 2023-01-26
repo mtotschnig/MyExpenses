@@ -14,7 +14,7 @@ data class Licence(@SerializedName("valid_since") val validSince: LocalDate?,
         get() = parseFeatures(features)
 
     fun featureListAsResIDs(context: Context) =
-            parseFeatures(features).map { it.getLabelResIdOrThrow(context) }.toIntArray()
+            parseFeatures(features).map { it.labelResId }.toIntArray()
 
     companion object {
         fun parseFeatures(features: List<String>?) = AddOnPackage::class.sealedSubclasses.filter { features?.contains(it.simpleName) == true }

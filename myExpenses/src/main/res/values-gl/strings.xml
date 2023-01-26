@@ -30,13 +30,12 @@
     <string name="color">Cor</string>
     <string name="comment">Notas</string>
     <string name="confirmation_dialog_dont_show_again">Non volver mostrar</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sen anuncios</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de contas</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Anexar imaxe á transacción</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número de plans ilimitado</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar a listaxe de transaccións a PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Modelo de widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar CSV</string>
+    <string name="contrib_feature_ad_free_label">Sen anuncios</string>
+    <string name="contrib_feature_accounts_unlimited_label">Número ilimitado de contas</string>
+    <string name="contrib_feature_attach_picture_label">Anexar imaxe á transacción</string>
+    <string name="contrib_feature_plans_unlimited_label">Número de plans ilimitado</string>
+    <string name="contrib_feature_print_label">Exportar a listaxe de transaccións a PDF</string>
+    <string name="contrib_feature_csv_import_label">Importar CSV</string>
     <string name="currency">Moeda</string>
     <string name="current_balance">Saldo actual</string>
     <string name="date">Data</string>

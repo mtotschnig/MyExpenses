@@ -30,7 +30,6 @@
     <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත සැලසුම් ගණනක්</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources"/>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">අ.වි.අ. (CSV) ආයාත කරන්න</string>
     <string name="contrib_key">සහදායක යතුර</string>
     <string name="extended_key">දීර්ඝ කළ යතුර</string>
@@ -206,7 +205,7 @@
     <string name="pref_checkbox_disabled">අබල කරනවා</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_contrib_purchase_summary">වාරික විශේෂාංග සඳහා ප්‍රවේශය මිලදී ගන්න.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">යතුර ඇතුළු කරන්න </string>
+    <string name="pref_enter_licence_title">යතුර ඇතුළු කරන්න </string>
     <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
     <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
     <string name="pref_import_from_grisbi_title">ග්රිස්බි වලින් අපනයනය කරන්න </string>

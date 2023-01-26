@@ -45,15 +45,12 @@ import androidx.core.util.Pair;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
 import com.squareup.phrase.Phrase;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -66,7 +63,6 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
@@ -84,10 +80,8 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -328,22 +322,6 @@ public class Utils {
   @SuppressLint("DefaultLocale")
   public static String toLocalizedString(int i) {
     return String.format("%d", i);
-  }
-
-  public static List<CharSequence> getContribFeatureLabelsAsList(Context ctx, LicenceStatus type) {
-    Stream<ContribFeature> features = Stream.of(EnumSet.allOf(ContribFeature.class));
-    if (type != null) {
-      features = features.filter(feature -> feature.getLicenceStatus() == type);
-    }
-    return features
-        .map(feature -> {
-          String resName = "contrib_feature_" + feature.toString() + "_label";
-          int resId = ctx.getResources().getIdentifier(
-              resName, "string",
-              ctx.getPackageName());
-          return ctx.getText(resId);
-        })
-        .collect(Collectors.toList());
   }
 
   public static String md5(String s) {
@@ -647,7 +625,7 @@ public class Utils {
   }
 
   private static CharSequence withIconMargin(Bitmap bitmap, CharSequence text, boolean withNewLine) {
-    Spannable spannable = new SpannableString(text + (withNewLine ? "\n" : ""));
+    Spannable spannable = new SpannableString(withNewLine ? TextUtils.concat(text, "\n") : text);
     spannable.setSpan(new IconMarginSpan(bitmap, 25), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     return spannable;
   }

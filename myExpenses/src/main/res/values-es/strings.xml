@@ -40,18 +40,17 @@
     <string name="color">Color</string>
     <string name="comment">Notas</string>
     <string name="confirmation_dialog_dont_show_again">No mostrar de nuevo</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sin anuncios</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número de cuentas ilimitadas</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Adjuntar imagen a la transacción</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Gráfico de sectores (Distribución por categoría)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número de proyectos ilimitados</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar lista de transacciones a PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Plantilla de widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar desde CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de plantillas divididas</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Derecho a participar en la <b>hoja de ruta de desarrollo</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Historial gráfico</string>
+    <string name="contrib_feature_ad_free_label">Sin anuncios</string>
+    <string name="contrib_feature_accounts_unlimited_label">Número de cuentas ilimitadas</string>
+    <string name="contrib_feature_attach_picture_label">Adjuntar imagen a la transacción</string>
+    <string name="contrib_feature_distribution_label">Gráfico de sectores (Distribución por categoría)</string>
+    <string name="contrib_feature_plans_unlimited_label">Número de proyectos ilimitados</string>
+    <string name="contrib_feature_print_label">Exportar lista de transacciones a PDF</string>
+    <string name="contrib_feature_csv_import_label">Importar desde CSV</string>
+    <string name="contrib_feature_split_template_label">Número ilimitado de plantillas divididas</string>
+    <string name="contrib_feature_pro_support_label"><b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales</string>
+    <string name="contrib_feature_roadmap_voting_label">Derecho a participar en la <b>hoja de ruta de desarrollo</b></string>
+    <string name="contrib_feature_history_label">Historial gráfico</string>
     <string name="licence_status_free">Gratis</string>
     <string name="contrib_key">Clave Contrib</string>
     <string name="extended_key">Clave Extendida</string>
@@ -286,8 +285,8 @@
     <string name="pref_contrib_purchase_title_in_app">Pago desde la aplicación</string>
     <string name="pref_custom_currency_title">Personalizar moneda</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si ha recibido una clave, puede desbloquear las características Premium.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduzcir clave</string>
+    <string name="pref_enter_licence_summary">Si ha recibido una clave, puede desbloquear las características Premium.</string>
+    <string name="pref_enter_licence_title">Introduzcir clave</string>
     <string name="pref_export_format_title">Formato de datos</string>
     <string name="pref_import_from_grisbi_summary">Importar categorías y grupos desde un archivo Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Importar desde Grisbi</string>
@@ -586,7 +585,7 @@
     <string name="link_account_failure_3">El conflicto puede resolverse manualmente desde el menú de contexto de la entrada.</string>
     <string name="progress_dialog_checking_sync_backend">Comprobación de servicio</string>
     <string name="template">Plantilla</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronización en la nube</string>
+    <string name="contrib_feature_synchronization_label">Sincronización en la nube</string>
     <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
     <string name="all_extended_key_features">Todas las características de la llave Extendida</string>
     <!-- button leading user to purchase flow for licence keys -->
@@ -661,7 +660,6 @@
     <string name="sync_login_again">Por favor, inicie sesión de nuevo.</string>
     <plurals name="delete_success">
         <item quantity="one">Un objeto fue eliminado correctamente.</item>
-        <item quantity="many">Se han eliminado %d objetos con éxito.</item>
         <item quantity="other">Se han eliminado %d objetos con éxito.</item>
     </plurals>
     <string name="feature_deprecated">Descartado</string>

@@ -38,13 +38,12 @@
     <string name="color">Farve</string>
     <string name="comment">Noter</string>
     <string name="confirmation_dialog_dont_show_again">Vis ikke igen</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen annoncer</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal konti</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Vedhæft et billede til postering</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal planer</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Udskriv posteringer som PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Skabelon widget</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+    <string name="contrib_feature_ad_free_label">Ingen annoncer</string>
+    <string name="contrib_feature_accounts_unlimited_label">Ubegrænset antal konti</string>
+    <string name="contrib_feature_attach_picture_label">Vedhæft et billede til postering</string>
+    <string name="contrib_feature_plans_unlimited_label">Ubegrænset antal planer</string>
+    <string name="contrib_feature_print_label">Udskriv posteringer som PDF</string>
+    <string name="contrib_feature_csv_import_label">CSV import</string>
     <string name="contrib_key">Contrib Nøgle</string>
     <string name="extended_key">Nøgle til udvidet version</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
@@ -250,8 +249,8 @@
     <string name="pref_contrib_purchase_title_in_app">In-app-betaling</string>
     <string name="pref_custom_currency_title">Ændre valutaer</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Hvis du har modtaget en nøgle, kan du få adgang til premium funktionerne.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Indtast nøgle</string>
+    <string name="pref_enter_licence_summary">Hvis du har modtaget en nøgle, kan du få adgang til premium funktionerne.</string>
+    <string name="pref_enter_licence_title">Indtast nøgle</string>
     <string name="pref_export_format_title">Dataformat</string>
     <string name="pref_import_from_grisbi_summary">Importere kategorier og parterne fra Grisbi XML fil</string>
     <string name="pref_import_from_grisbi_title">Import fra Grisbi</string>
@@ -454,7 +453,7 @@
     <string name="switch_off_text">Fra</string>
     <string name="preferences_week_start_day_title">Ugen starter</string>
     <string name="content_description_calculator">Lommeregner</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synkronisering</string>
+    <string name="contrib_feature_synchronization_label">Cloud synkronisering</string>
     <string name="professional_key">Professionel Nøgle</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Krypteret</string>

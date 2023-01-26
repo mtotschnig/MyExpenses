@@ -436,8 +436,8 @@
     <string name="pref_import_from_grisbi_title">గ్రిస్బీ నుండి దిగుమతి</string>
     <string name="pref_import_from_grisbi_summary">గ్రిస్బీ XML ఫైల్ నుండి వర్గాలు మరియు పార్టీలను దిగుమతి చేయండి</string>
     <string name="pref_export_format_title">డేటా ఫార్మాట్</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">కీని నమోదు చేయండి</string>
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">మీరు కీని అందుకుంటే, ప్రీమియం లక్షణాలకు ప్రాప్యతను పొందండి.</string>
+    <string name="pref_enter_licence_title">కీని నమోదు చేయండి</string>
+    <string name="pref_enter_licence_summary">మీరు కీని అందుకుంటే, ప్రీమియం లక్షణాలకు ప్రాప్యతను పొందండి.</string>
     <string name="pref_custom_currency_title">కరెన్సీలను అనుకూలీకరించండి</string>
     <string name="pref_contrib_purchase_title_in_app">అనువర్తనంలో చెల్లింపు</string>
     <string name="pref_contrib_purchase_title_upgrade">కీని అప్‌గ్రేడ్ చేయండి</string>
@@ -570,7 +570,6 @@
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> ఇమెయిల్ మద్దతు </b> 2 పనిదినాలలో హామీ ప్రతిస్పందనతో</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">స్ప్లిట్ టెంప్లేట్ల అపరిమిత సంఖ్య</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV దిగుమతి</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">మూస విడ్జెట్</string>
     <string name="export_to_format">%s కి ఎగుమతి చేయండి</string>
     <string name="io_error_unable_to_create_file">%2$s ఫోల్డర్‌లో %1$s ఫైల్‌ను సృష్టించడం సాధ్యం కాలేదు</string>
     <string name="menu_undelete_transaction">రాబట్టుకోవటం</string>

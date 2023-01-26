@@ -40,13 +40,12 @@
     <string name="color">நிறம்</string>
     <string name="comment">குறிப்புக்கள்</string>
     <string name="confirmation_dialog_dont_show_again">மீண்டும் காட்ட வேண்டாம்</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">விளம்பரங்கள் இல்லை</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">கணக்குகளுக்கு வரம்பில்லை</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">பரிவர்த்தனையுடன் படத்தை இணைக்கலாம்</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">பை விளக்கப்படம் (வகை ஒன்றுக்கு பங்கீடு)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">திட்டங்களுக்கு வரம்பில்லை</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">பரிவர்த்தனை பட்டியலை PDF ஆக ஏற்றுமதி</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">வார்ப்புரு நிரல் பலகை</string>
+    <string name="contrib_feature_ad_free_label">விளம்பரங்கள் இல்லை</string>
+    <string name="contrib_feature_accounts_unlimited_label">கணக்குகளுக்கு வரம்பில்லை</string>
+    <string name="contrib_feature_attach_picture_label">பரிவர்த்தனையுடன் படத்தை இணைக்கலாம்</string>
+    <string name="contrib_feature_distribution_label">பை விளக்கப்படம் (வகை ஒன்றுக்கு பங்கீடு)</string>
+    <string name="contrib_feature_plans_unlimited_label">திட்டங்களுக்கு வரம்பில்லை</string>
+    <string name="contrib_feature_print_label">பரிவர்த்தனை பட்டியலை PDF ஆக ஏற்றுமதி</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV இறக்குமதி</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">வரம்பற்ற பிரிவு வார்ப்புருக்கள்</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 வணிக நாட்களுக்குள் உத்தரவாத பதிலுடன் <b> மின்னஞ்சல் ஆதரவு </b></string>
@@ -283,8 +282,8 @@
     <string name="pref_contrib_purchase_title_in_app">செயலி சார்ந்த கட்டணம்</string>
     <string name="pref_custom_currency_title">நாணயங்களைத் தனி விருப்பமாக்குதல்</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">நீங்கள் ஒரு திறவுகோலைப் பெற்றிருந்தால் மதிப்பு அம்சங்களை அணுகலாம்.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">திறவுகோலை உள்ளிடவும்</string>
+    <string name="pref_enter_licence_summary">நீங்கள் ஒரு திறவுகோலைப் பெற்றிருந்தால் மதிப்பு அம்சங்களை அணுகலாம்.</string>
+    <string name="pref_enter_licence_title">திறவுகோலை உள்ளிடவும்</string>
     <string name="pref_export_format_title">தரவு வடிவம்</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
     <string name="pref_import_from_grisbi_title">Grisbi-யிலிருந்து இறக்குமதி செய்</string>

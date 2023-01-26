@@ -38,11 +38,10 @@
     <string name="color">Boja</string>
     <string name="comment">Bilješke</string>
     <string name="confirmation_dialog_dont_show_again">Ne prikazuj ponovo</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neograničen broj računa</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neograničen broj planova</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Izvezi popis transakcija u PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget za predloške</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV uvoz</string>
+    <string name="contrib_feature_accounts_unlimited_label">Neograničen broj računa</string>
+    <string name="contrib_feature_plans_unlimited_label">Neograničen broj planova</string>
+    <string name="contrib_feature_print_label">Izvezi popis transakcija u PDF</string>
+    <string name="contrib_feature_csv_import_label">CSV uvoz</string>
     <string name="contrib_key">Ključ doprinositelja</string>
     <string name="extended_key">Prošireni ključ</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
@@ -247,8 +246,8 @@
     <string name="pref_contrib_purchase_title_in_app">Plaćanje unutar programa</string>
     <string name="pref_custom_currency_title">Prilagodi valute</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ako si primio/la ključ, pristupi premium funkcijama.</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Upiši ključ</string>
+    <string name="pref_enter_licence_summary">Ako si primio/la ključ, pristupi premium funkcijama.</string>
+    <string name="pref_enter_licence_title">Upiši ključ</string>
     <string name="pref_export_format_title">Format podataka</string>
     <string name="pref_import_from_grisbi_summary">Uvezi kategorije i stranke iz Grisbi XML datoteke</string>
     <string name="pref_import_from_grisbi_title">Uvezi iz Grisbija</string>
@@ -415,7 +414,7 @@
     <string name="preferences_week_start_day_title">Tjedan počinje u</string>
     <string name="content_description_calculator">Kalkulator</string>
     <string name="template">Predložak</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinkronizacija u oblaku</string>
+    <string name="contrib_feature_synchronization_label">Sinkronizacija u oblaku</string>
     <string name="professional_key">Profesionalni ključ</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Šifrirano</string>
@@ -431,9 +430,9 @@
     <string name="dialog_contrib_text_2">Doprinesi putem nadogradnje programa <i>{app_name}</i> i dobij neograničen pristup sljedećim funkcijama:</string>
     <string name="pref_value_date_summary">Dozvoli postavljanje datuma vrijednosti uz datuma uknjiženja. Vrijeme transakcije će se sakriti. Ova se postavka ne primjenjuje na gotovinske račune.</string>
     <string name="roadmap_vote">Glas u planu razvoja</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Pravo glasa u <b>planu razvoja</b></string>
+    <string name="contrib_feature_roadmap_voting_label">Pravo glasa u <b>planu razvoja</b></string>
     <string name="menu_distribution_show_pie_char">Prikaži kružni dijagram</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kružni dijagram (distribucija po kategorijama)</string>
+    <string name="contrib_feature_distribution_label">Kružni dijagram (distribucija po kategorijama)</string>
     <string name="discover_feature_fab_long_press">Dodirni i drži plutajući gumb radnje pritisnutim za izravno otvaranje obrasca za prijenose, višedjelne transakcije ili prihod.</string>
     <string name="currency_code_already_definded">Valuta je već definirana.</string>
     <string name="ungroup_split_transaction_success">Višedjelna transakcija je uspješno razgrupirana.</string>
@@ -656,11 +655,11 @@
     <string name="dialog_command_disabled_insert_transfer">Transakcije prijenosa trebaju drugi račun.</string>
     <string name="dialog_confirm_discard_changes">Odbaciti promjene\?</string>
     <string name="licence_status_free">Besplatno</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Dijagram povijesti</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Email podrška</b> uz zajamčen odgovor u roku od 2 radna dana</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Neograničen broj predložaka za višedjelnu transakciju</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Priloži sliku transakciji</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Bez oglasa</string>
+    <string name="contrib_feature_history_label">Dijagram povijesti</string>
+    <string name="contrib_feature_pro_support_label"><b>Email podrška</b> uz zajamčen odgovor u roku od 2 radna dana</string>
+    <string name="contrib_feature_split_template_label">Neograničen broj predložaka za višedjelnu transakciju</string>
+    <string name="contrib_feature_attach_picture_label">Priloži sliku transakciji</string>
+    <string name="contrib_feature_ad_free_label">Bez oglasa</string>
     <string name="account_types">Vrste računa</string>
     <string name="warning_plan_instance_delete">Stvorena transakcija za odabrani datum će se izbrisati.</string>
     <string name="auto_fill_focus">Postavi polje primaoca aktivnim</string>
@@ -932,7 +931,7 @@
     <string name="whats_new_336_1">Dijeli sažetak dugova</string>
     <string name="whats_new_336_2">Oznake za podijeljene dijelove</string>
     <string name="pref_purge_backup_keep_title">Maksimalni broj najnovijih datoteka sigurnosnih kopija koje će se zadržati</string>
-    <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Stablo kategorija</string>
+    <string name="contrib_feature_category_tree_label">Stablo kategorija</string>
     <string name="dialog_contrib_usage_limit_with_dialog">S tvojim trenutačnim stanjem licence (%1$s), ovaj će se dijalog prikazati pri svakoj upotrebi.</string>
     <string name="menu_parent_category_selection">Odaberi nadređenu kategoriju kratkim dodirom</string>
     <string name="webui_warning_move_transaction">Transakcija će se premjestiti na račun {account}.</string>
