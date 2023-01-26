@@ -1013,4 +1013,5 @@
     <string name="select_all_list_too_large">Liste yalnızca kısmen yüklenmiş olduğundan %s komutu kullanılamıyor. Liste boyutunu küçültmek için lütfen Arama işlevini kullanın.</string>
     <string name="menu_reconfigure">Yeniden yapılandır</string>
     <string name="encrypt_database">Veri tabanını şifrele</string>
+    <string name="encrypt_database_info">Veri tabanı, bu aygıttan dışarı alınamayacak bir parola ile şifrelenecektir. Sonuç olarak aygıtınızın yedekleme hizmeti tarafından yedeklenmeyecektir.</string>
 </resources>
