@@ -460,7 +460,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Закупуването е неуспешно или отменено.</string>
     <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия получател / платец? Винаги можете да промените това поведение от настройките.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
-    <string name="learn_more">Научете повече</string>
     <string name="import_source_file">Файл</string>
     <string name="restore_calendar_handling">Възстановяване на данни в календара</string>
     <string name="restore_calendar_handling_configured">Възстанови плановете в текущия календар</string>

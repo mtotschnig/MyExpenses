@@ -34,4 +34,5 @@
     <string name="compact">compacte</string>
     <string name="storage_description">"Emmagatzematge local"</string>
     <string name="encryption">"Encriptació"</string>
+    <string name="learn_more">"Més informació"</string>
 </resources>

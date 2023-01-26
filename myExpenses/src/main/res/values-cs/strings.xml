@@ -474,7 +474,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Nákup se nezdařil nebo byl zrušen.</string>
     <string name="hint_auto_fill">Měla by být data vyplněna automaticky podle poslední transakce pro stejného příjemce/odesílate platby? Toto chování můžete v kdykoliv změnit v nastavení.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Bylo aktualizováno %1$d účtů s měnou %2$s.</string>
-    <string name="learn_more">Dozvědět se více</string>
     <string name="import_source_file">Soubor</string>
     <string name="restore_calendar_handling">Zpracování dat kalendáře</string>
     <string name="restore_calendar_handling_configured">Obnovit plány do momentálně konfigurovaného kalendáře</string>

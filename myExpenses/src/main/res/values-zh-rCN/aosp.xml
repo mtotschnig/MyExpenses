@@ -34,5 +34,6 @@
     <string name="compact">紧凑型</string>
     <string name="storage_description">"本地存储空间"</string>
     <string name="encryption">"加密"</string>
+    <string name="learn_more">"了解详情"</string>
 </resources>
 

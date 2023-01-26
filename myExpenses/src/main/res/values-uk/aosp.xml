@@ -35,5 +35,6 @@
     <string name="compact">компактна</string>
     <string name="storage_description">"Локальна пам’ять"</string>
     <string name="encryption">"Шифрування"</string>
+    <string name="learn_more">"Докладніше"</string>
 </resources>
 

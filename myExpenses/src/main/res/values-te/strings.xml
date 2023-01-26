@@ -257,7 +257,6 @@
     <string name="restore_calendar_handling_configured">ప్రస్తుతం కాన్ఫిగర్ చేసిన క్యాలెండర్‌కు ప్రణాళికలను పునరుద్ధరించండి</string>
     <string name="restore_calendar_handling">క్యాలెండర్ డేటా నిర్వహణ</string>
     <string name="import_source_file">ఫైల్</string>
-    <string name="learn_more">ఇంకా నేర్చుకో</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s కరెన్సీ ఉన్న%1$d ఖాతాలు నవీకరించబడ్డాయి.</string>
     <string name="hint_auto_fill">అదే చెల్లింపుదారు / చెల్లించువారు కోసం చివరి లావాదేవీ నుండి డేటా స్వయంచాలకంగా నింపాలా\? మీరు ఈ ప్రవర్తనను ఎల్లప్పుడూ సెట్టింగ్‌ల నుండి మార్చవచ్చు.</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">కొనుగోలు విఫలమైంది లేదా రద్దు చేయబడింది.</string>

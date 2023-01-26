@@ -436,7 +436,6 @@
     <string name="comparison_operator_date_after">após</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">A compra falhou ou foi cancelada.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d contas com a moeda %2$s foram atualizadas.</string>
-    <string name="learn_more">Saiba Mais</string>
     <string name="import_source_file">Arquivo</string>
     <string name="restore_calendar_handling">Manipulação de dados da agenda</string>
     <string name="restore_calendar_handling_configured">Restaurar os planos para a agenda configurada atualmente</string>

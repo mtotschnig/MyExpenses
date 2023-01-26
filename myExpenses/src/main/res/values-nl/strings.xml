@@ -643,7 +643,6 @@
     <string name="warning_party_delete_debt">Bij het verwijderen van deze partij worden ook de schulden die voor deze partij zijn gedefinieerd, verwijderd.</string>
     <string name="paypal_callback_info">Uw transactie is voltooid en er is een ontvangstbewijs voor uw aankoop naar u gemaild. U kunt inloggen op uw account op www.paypal.com om de details van deze transactie te bekijken.</string>
     <string name="search_amount">Zoek op bedrag</string>
-    <string name="learn_more">Leer meer</string>
     <string name="csv_import_delimiter_semicolon">Puntkomma</string>
     <string name="image_deleted">Afbeelding is verwijderd</string>
     <string name="switch_off_text">Uit</string>

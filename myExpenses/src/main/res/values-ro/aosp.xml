@@ -35,5 +35,6 @@
     <string name="compact">Compact</string>
     <string name="storage_description">"Stocare locală"</string>
     <string name="encryption">"Criptare"</string>
+    <string name="learn_more">"Aflați mai multe"</string>
 </resources>
 

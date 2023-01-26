@@ -34,5 +34,6 @@
     <string name="compact">Συμπαγές</string>
     <string name="storage_description">"Τοπικός χώρος αποθήκευσης"</string>
     <string name="encryption">"Κρυπτογράφηση"</string>
+    <string name="learn_more">"Μάθετε περισσότερα"</string>
 </resources>
 

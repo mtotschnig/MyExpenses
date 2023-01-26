@@ -403,7 +403,6 @@
     <string name="comparison_operator_between">između</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili prekinuta.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d računi s valutom %2$s su aktualizirani.</string>
-    <string name="learn_more">Saznaj više</string>
     <string name="import_source_file">Datoteka</string>
     <string name="restore_calendar_handling">Upravljanje kalendarskim podacima</string>
     <string name="restore_calendar_handling_configured">Obnovi planove za trenutačno postavljeni kalendar</string>

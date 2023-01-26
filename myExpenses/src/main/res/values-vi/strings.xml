@@ -444,7 +444,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Giao dịch thất bại hoặc đã bị huỷ bỏ</string>
     <string name="hint_auto_fill">Dữ liệu từ giao dịch liền trước với cùng người nhận/trả có nên được tự động thêm vào? Bạn luôn có thể thay đổi tuỳ chọn này trong mục cài đặt.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d tài khoản với loại tiền %2$s đã được cập nhật.</string>
-    <string name="learn_more">Tìm hiểu thêm</string>
     <string name="import_source_file">Tập tin</string>
     <string name="restore_calendar_handling">Xử lý dữ liệu lịch</string>
     <string name="restore_calendar_handling_configured">Khôi phục kế hoạch tới lịch được thiết lập hiện tại</string>

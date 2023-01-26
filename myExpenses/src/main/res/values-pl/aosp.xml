@@ -33,6 +33,7 @@
     <string name="customize">"Dostosuj"</string>
     <string name="compact">kompaktowa</string>
     <string name="storage_description">"Pamięć lokalna"</string>
-     <string name="encryption">"Szyfrowanie"</string>
+    <string name="encryption">"Szyfrowanie"</string>
+    <string name="learn_more">"Więcej informacji"</string>
 </resources>
 

@@ -473,7 +473,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка была прервана или отменена.</string>
     <string name="hint_auto_fill">Позволить автозаполнение на основе последней операции для того же получателя/плательщика\? Вы всегда можете изменить это поведение в настройках.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d счетов с валютой %2$s было обновлено.</string>
-    <string name="learn_more">Узнать больше</string>
     <string name="import_source_file">Файл</string>
     <string name="restore_calendar_handling">Работа с календарем</string>
     <string name="restore_calendar_handling_configured">Восстановить планы на текущий настроенный календарь</string>

@@ -456,7 +456,6 @@
     <string name="comparison_operator_date_after">beranduago</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Erosketak huts egin du eta bertan behera utzi da.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s monetako %1$d kontu eguneratu dira.</string>
-    <string name="learn_more">Ikasi gehiago</string>
     <string name="import_source_file">Fitxategia</string>
     <string name="restore_calendar_handling">Egutegiko datuen kudeaketa</string>
     <string name="restore_calendar_handling_configured">Berreskuratu planak orain konfiguratuta dagoen egutegira</string>

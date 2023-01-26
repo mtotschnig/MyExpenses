@@ -35,5 +35,6 @@
     <string name="compact">kompakt</string>
     <string name="storage_description">"Lokalt lager"</string>
     <string name="encryption">"Kryptering"</string>
+    <string name="learn_more">"Få flere oplysninger"</string>
 </resources>
 

@@ -411,7 +411,6 @@
     <string name="comparison_operator_date_after">efter</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s opdateret.</string>
-    <string name="learn_more">Læs mere</string>
     <string name="import_source_file">Fil</string>
     <string name="restore_calendar_handling">Kalender datahåndtering</string>
     <string name="restore_calendar_handling_configured">Planer gemmes i den aktuelt konfigurerede kalender</string>

@@ -460,7 +460,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">A vásárlás sikertelen vagy törölt.</string>
     <string name="hint_auto_fill">Azonos kedvezményezett/fizető esetén kitöltsük automatikusan az utolsó tranzakció adataival? Ez a viselkedés a beállításokban bármikor megváltoztatható.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d fiók frissítve, amely %2$s pénznemmel rendelkezik.</string>
-    <string name="learn_more">További információk</string>
     <string name="import_source_file">Fájl</string>
     <string name="restore_calendar_handling">Naptári dátum kezelése</string>
     <string name="restore_calendar_handling_configured">Tervek visszaállítása a jelenleg konfigurált naptárra</string>

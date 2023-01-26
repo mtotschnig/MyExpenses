@@ -320,6 +320,17 @@
                 <xsl:text>:&#032;</xsl:text>
                 <xsl:value-of select="my:displayNameForLanguage('ur', $lang)" />
             </xsl:when>
+            <xsl:when test="$version = '3.5.0'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='encrypt_database']" />
+                <xsl:text>&#032;(</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($aosp)/resources/string[@name='experimental']" />
+                <xsl:text>)</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

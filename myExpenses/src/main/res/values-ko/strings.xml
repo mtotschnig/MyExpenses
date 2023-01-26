@@ -415,7 +415,6 @@
     <string name="comparison_operator_date_after">이후에</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
-    <string name="learn_more">자세히 알아보기</string>
     <string name="import_source_file">파일</string>
     <string name="restore_calendar_handling">캘린더 자료 다루기</string>
     <string name="restore_calendar_handling_configured">재무 계획을 현재 설정된 캘린더로 복원</string>

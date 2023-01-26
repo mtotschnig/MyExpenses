@@ -467,7 +467,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancelada.</string>
     <string name="hint_auto_fill">¿Los datos deberían de rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre podrá cambiarlo desde configuración.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d cuentas con moneda de %2$s han sido actualizadas.</string>
-    <string name="learn_more">Más información</string>
     <string name="import_source_file">Archivo</string>
     <string name="restore_calendar_handling">Manejo de datos desde el calendario</string>
     <string name="restore_calendar_handling_configured">Restaurar los proyectos en el calendario configurado actualmente</string>

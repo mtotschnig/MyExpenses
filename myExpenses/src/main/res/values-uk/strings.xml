@@ -460,7 +460,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка не вдалася або була скасована.</string>
     <string name="hint_auto_fill">Чи повинні дані заповнюватися автоматично з останньої операції для того самого одержувача / платника? Ви завжди можете змінити цю поведінку в налаштуваннях.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Було оновлено %1$d рахунків з валютою %2$s.</string>
-    <string name="learn_more">Дізнатись більше</string>
     <string name="import_source_file">Файл</string>
     <string name="restore_calendar_handling">Обробка даних календаря</string>
     <string name="restore_calendar_handling_configured">Відновити плани до поточного календаря</string>

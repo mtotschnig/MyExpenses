@@ -433,7 +433,6 @@
     <string name="comparison_operator_date_after">după</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
-    <string name="learn_more">Învaţă mai mult</string>
     <string name="import_source_file">Fişier</string>
     <string name="restore_calendar_handling">Manipulare date calendar</string>
     <string name="restore_calendar_handling_configured">Restaurează scadenţe în calendarul curent configurat</string>

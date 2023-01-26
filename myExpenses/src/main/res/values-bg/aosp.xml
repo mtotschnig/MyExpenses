@@ -35,4 +35,5 @@
     <string name="compact">компактна</string>
     <string name="storage_description">"Локално хранилище"</string>
     <string name="encryption">"Шифроване"</string>
+    <string name="learn_more">"Научете повече"</string>
 </resources>

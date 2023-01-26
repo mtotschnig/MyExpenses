@@ -390,7 +390,6 @@
     <string name="comparison_operator_lesser_than">سے کم</string>
     <string name="hint_auto_fill">کیا ایک ہی وصول کنندہ / ادا کنندہ کے لئے آخری لین دین سے ڈیٹا خود بخود بھرنا چاہئے؟ آپ ہمیشہ ترتیبات سے اس طرز عمل کو تبدیل کر سکتے ہیں.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">کرنسی %2$s والے %1$d اکاؤنٹس کو اپ ڈیٹ کر دیا گیا ہے.</string>
-    <string name="learn_more">اورجانیے</string>
     <string name="import_source_file">فائل</string>
     <string name="search_amount">رقم تلاش کریں</string>
     <string name="search_category">زمرہ تلاش کریں</string>

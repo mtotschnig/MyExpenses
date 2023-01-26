@@ -453,7 +453,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或被取消。</string>
     <string name="hint_auto_fill">当交易对象（收款人/付款人）相同时，是否自动填入上次交易的内容？您可以随时在设置中更改此行为。</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">货币为 %2$s 的账户 %1$d 已更新。</string>
-    <string name="learn_more">了解更多</string>
     <string name="import_source_file">文件</string>
     <string name="restore_calendar_handling">日历数据处理中</string>
     <string name="restore_calendar_handling_configured">将计划还原到当前配置的日历</string>
