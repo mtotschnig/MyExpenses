@@ -1028,4 +1028,5 @@
     <string name="select_all_list_too_large">El comando %s no está disponible porque la lista solo está parcialmente cargada. Utilice la función de búsqueda para reducir el tamaño de la lista.</string>
     <string name="menu_reconfigure">Reconfigurar</string>
     <string name="encrypt_database">Encriptar la base de datos</string>
+    <string name="encrypt_database_info">La base de datos se cifrará con una frase de contraseña que no se puede extraer de este dispositivo. En consecuencia, el servicio de copia de seguridad de su dispositivo no realizará una copia de seguridad.</string>
 </resources>
