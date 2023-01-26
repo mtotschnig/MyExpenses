@@ -37,7 +37,7 @@ class OnBoardingPrivacyFragment: OnboardingFragment(), CompoundButton.OnCheckedC
                     requireSqlCrypt()
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
                         putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                        "The database will be encrypted with a passphrase that cannot be extracted from this device. Consequently it will not be backed up by your device's backup service. "
+                        getString(R.string.encrypt_database_info)
                             )
                         putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.ENCRYPT_CANCEL_COMMAND)
                         putInt(ConfirmationDialogFragment.KEY_COMMAND_NEUTRAL, R.id.ENCRYPT_LEARN_MORE_COMMAND)
