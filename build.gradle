@@ -40,7 +40,7 @@ ext {
     appcompatVersion = "1.6.0"
     picassoVersion = "2.8"
     recyclerview = "1.2.1"
-    materialComponents = "1.7.0"
+    materialComponents = "1.8.0"
     junitVersion = "4.13.2"
     timberVersion = "5.0.1"
     assertjVersion = "3.19.0"
