@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 android {
+    namespace 'org.totschnig.mlkit_jpan'
     compileSdk project.compileSdkVersion
 
     defaultConfig {
