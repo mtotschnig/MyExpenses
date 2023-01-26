@@ -1027,4 +1027,6 @@
     <string name="upgrade_info_557">Comment trouvez-vous le nouveau design \? Faites-le nous savoir. Une variante plus proche de l\'ancien design peut être activée dans les paramètres (%1$s -&gt; %2$s).</string>
     <string name="select_all_list_too_large">La commande %s n\'est pas disponible car la liste n\'est que partiellement chargée. Veuillez utiliser la fonctionnalité de recherche afin de réduire la taille de la liste.</string>
     <string name="menu_reconfigure">Reconfigurer</string>
+    <string name="encrypt_database">Chiffrer la base de données</string>
+    <string name="encrypt_database_info">La base de données sera cryptée avec une phrase secrète qui ne peut pas être extraite de cet appareil. Par conséquent, elle ne sera pas sauvegardé par le service de sauvegarde de votre appareil.</string>
 </resources>
