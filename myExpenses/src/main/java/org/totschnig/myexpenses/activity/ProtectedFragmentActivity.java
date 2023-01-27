@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.PREFERENCES_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
@@ -31,12 +30,9 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
 import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo;
 
-import android.app.KeyguardManager;
-import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -60,21 +56,16 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.annimon.stream.Optional;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -82,12 +73,10 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -97,7 +86,6 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -116,9 +104,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public static final String ASYNC_TAG = "ASYNC_TASK";
   public static final String PROGRESS_TAG = "PROGRESS";
 
-  private AlertDialog pwDialog;
-  private boolean scheduledRestart = false;
-  private Optional<Boolean> confirmCredentialResult = Optional.empty();
   protected ColorStateList textColorSecondary;
 
   @Inject
@@ -132,10 +117,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public ColorStateList getTextColorSecondary() {
     return textColorSecondary;
-  }
-
-  MyApplication requireApplication() {
-    return ((MyApplication) getApplication());
   }
 
   @Override
@@ -214,17 +195,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  protected void onPause() {
-    super.onPause();
-    MyApplication app = requireApplication();
-    if (app.isLocked() && pwDialog != null) {
-      pwDialog.dismiss();
-    } else {
-      app.setLastPause(this);
-    }
-  }
-
-  @Override
   protected void onDestroy() {
     super.onDestroy();
     settings.unregisterOnSharedPreferenceChangeListener(this);
@@ -234,55 +204,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   protected void onResume() {
     super.onResume();
     getCrashHandler().addBreadcrumb(getClass().getSimpleName());
-    if (scheduledRestart) {
-      scheduledRestart = false;
-      recreate();
-    } else {
-      if (confirmCredentialResult.isPresent()) {
-        if (!confirmCredentialResult.get()) {
-          moveTaskToBack(true);
-        }
-        confirmCredentialResult = Optional.empty();
-      } else {
-        MyApplication app = requireApplication();
-        if (app.shouldLock(this)) {
-          confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST, null, true);
-        }
-      }
-    }
-  }
-
-  protected void confirmCredentials(int requestCode, DialogUtils.PasswordDialogUnlockedCallback legacyUnlockCallback, boolean shouldHideWindow) {
-    if (prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false)) {
-      Intent intent = ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
-          .createConfirmDeviceCredentialIntent(null, null);
-      if (intent != null) {
-        if (shouldHideWindow) hideWindow();
-        try {
-          startActivityForResult(intent, requestCode);
-          requireApplication().setLocked(true);
-        } catch (ActivityNotFoundException e) {
-          showSnackBar("No activity found for confirming device credentials");
-        }
-      } else {
-        showDeviceLockScreenWarning();
-        if (legacyUnlockCallback != null) {
-          legacyUnlockCallback.onPasswordDialogUnlocked();
-        }
-      }
-    } else if (prefHandler.getBoolean(PROTECTION_LEGACY, true)) {
-      if (shouldHideWindow) hideWindow();
-      if (pwDialog == null) {
-        pwDialog = DialogUtils.passwordDialog(this, false);
-      }
-      DialogUtils.showPasswordDialog(this, pwDialog, legacyUnlockCallback);
-      requireApplication().setLocked(true);
-    }
-  }
-
-  public void showDeviceLockScreenWarning() {
-    showSnackBar(
-        concatResStrings(this, " ", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2));
   }
 
   @Override
@@ -290,7 +211,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
                                         String key) {
     if (prefHandler.matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY, DB_SAFE_MODE,
         PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT)) {
-      scheduledRestart = true;
+      setScheduledRestart(true);
     }
   }
 
@@ -592,15 +513,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     if ((requestCode == PREFERENCES_REQUEST || requestCode == RESTORE_REQUEST) && resultCode == RESULT_RESTORE_OK) {
       restartAfterRestore();
     }
-    if (requestCode == CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST) {
-      if (resultCode == RESULT_OK) {
-        confirmCredentialResult = Optional.of(true);
-        showWindow();
-        requireApplication().setLocked(false);
-      } else {
-        confirmCredentialResult = Optional.of(false);
-      }
-    }
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
       if (target instanceof AmountInput) {
@@ -629,18 +541,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void onPositive(@NonNull Bundle args, boolean checked) {
     dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),
         args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE));
-  }
-
-  public void hideWindow() {
-    findViewById(android.R.id.content).setVisibility(View.GONE);
-    final ActionBar actionBar = getSupportActionBar();
-    if (actionBar != null) actionBar.hide();
-  }
-
-  public void showWindow() {
-    findViewById(android.R.id.content).setVisibility(View.VISIBLE);
-    final ActionBar actionBar = getSupportActionBar();
-    if (actionBar != null) actionBar.show();
   }
 
   public void checkGdprConsent(boolean forceShow) {

@@ -24,6 +24,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_HTTPS;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_PASSWORD;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.CALENDAR_FULL_PATH_PROJECTION;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
@@ -54,7 +55,6 @@ import androidx.preference.PreferenceManager;
 
 import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.feature.FeatureManager;
@@ -277,7 +277,7 @@ public class MyApplication extends Application implements
     return mLastPause;
   }
 
-  public void setLastPause(ProtectedFragmentActivity ctx) {
+  public void setLastPause(Activity ctx) {
     if (ctx instanceof OnboardingActivity) return;
     if (!isLocked()) {
       // if we are dealing with an activity called from widget that allows to
@@ -305,7 +305,7 @@ public class MyApplication extends Application implements
    * from widget or from an activity called from widget and passwordless
    * data entry from widget is allowed sets isLocked as a side effect
    */
-  public boolean shouldLock(ProtectedFragmentActivity ctx) {
+  public boolean shouldLock(@Nullable Activity ctx) {
     if (ctx instanceof OnboardingActivity) return false;
     boolean isStartFromWidget = ctx == null
         || ctx.getIntent().getBooleanExtra(

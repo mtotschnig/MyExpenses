@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.DownloadManager
+import android.app.KeyguardManager
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.ClipData
@@ -20,6 +21,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
@@ -40,6 +42,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallback
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
@@ -49,11 +53,13 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -74,8 +80,12 @@ import javax.inject.Inject
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host {
     private var snackBar: Snackbar? = null
+    private var pwDialog: AlertDialog? = null
 
     private var _focusAfterRestoreInstanceState: Pair<Int, Int>? = null
+
+    var scheduledRestart = false
+    private var confirmCredentialResult: Boolean? = null
 
     override fun setFocusAfterRestoreInstanceState(focusView: Pair<Int, Int>?) {
         _focusAfterRestoreInstanceState = focusView
@@ -102,7 +112,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    public fun enqueuePlanner(forceImmediate: Boolean) {
+    fun enqueuePlanner(forceImmediate: Boolean) {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 enqueueSelf(this@BaseActivity, prefHandler, forceImmediate)
@@ -307,14 +317,102 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                confirmCredentialResult = true
+                showWindow()
+                requireApplication().isLocked = false
+            } else {
+                confirmCredentialResult = false
+            }
+        }
+    }
+
+    open fun requireApplication() = application as MyApplication
+
     override fun onResume() {
         super.onResume()
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         featureViewModel.registerCallback()
+        if (scheduledRestart) {
+            scheduledRestart = false
+            recreate()
+        } else {
+            confirmCredentialResult?.also {
+                if (!it) {
+                    moveTaskToBack(true)
+                }
+                confirmCredentialResult = null
+            } ?: run {
+                if (requireApplication().shouldLock(this)) {
+                    confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST, null, true)
+                }
+            }
+        }
+    }
+
+    open fun hideWindow() {
+        findViewById<View>(android.R.id.content).visibility = View.GONE
+        supportActionBar?.hide()
+    }
+
+    open fun showWindow() {
+        findViewById<View>(android.R.id.content).visibility = View.VISIBLE
+        supportActionBar?.show()
+    }
+
+    protected open fun confirmCredentials(
+        requestCode: Int,
+        legacyUnlockCallback: PasswordDialogUnlockedCallback?,
+        shouldHideWindow: Boolean
+    ) {
+        if (prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)) {
+            val intent = (getSystemService(KEYGUARD_SERVICE) as KeyguardManager)
+                .createConfirmDeviceCredentialIntent(null, null)
+            if (intent != null) {
+                if (shouldHideWindow) hideWindow()
+                try {
+                    startActivityForResult(intent, requestCode)
+                    requireApplication().isLocked = true
+                } catch (e: ActivityNotFoundException) {
+                    showSnackBar("No activity found for confirming device credentials")
+                }
+            } else {
+                showDeviceLockScreenWarning()
+                legacyUnlockCallback?.onPasswordDialogUnlocked()
+            }
+        } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, true)) {
+            if (shouldHideWindow) hideWindow()
+            if (pwDialog == null) {
+                pwDialog = DialogUtils.passwordDialog(this, false)
+            }
+            DialogUtils.showPasswordDialog(this, pwDialog, legacyUnlockCallback)
+            requireApplication().isLocked = true
+        }
+    }
+
+    open fun showDeviceLockScreenWarning() {
+        showSnackBar(
+            concatResStrings(
+                this,
+                " ",
+                R.string.warning_device_lock_screen_not_set_up_1,
+                R.string.warning_device_lock_screen_not_set_up_2
+            )
+        )
     }
 
     override fun onPause() {
         super.onPause()
+        val app = requireApplication()
+        if (app.isLocked && pwDialog != null) {
+            pwDialog!!.dismiss()
+        } else {
+            app.setLastPause(this)
+        }
         try {
             unregisterReceiver(downloadReceiver)
         } catch (e: IllegalArgumentException) {
