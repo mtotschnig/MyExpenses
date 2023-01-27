@@ -187,10 +187,10 @@ public class DialogUtils {
 
   static class PasswordDialogListener implements View.OnClickListener {
     private final AlertDialog dialog;
-    private final ProtectedFragmentActivity ctx;
+    private final BaseActivity ctx;
     private final PasswordDialogUnlockedCallback callback;
 
-    public PasswordDialogListener(ProtectedFragmentActivity ctx, AlertDialog dialog,
+    public PasswordDialogListener(BaseActivity ctx, AlertDialog dialog,
                                   PasswordDialogUnlockedCallback callback) {
       this.dialog = dialog;
       this.ctx = ctx;
