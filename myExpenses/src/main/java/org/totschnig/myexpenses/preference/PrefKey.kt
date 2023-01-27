@@ -172,7 +172,8 @@ enum class PrefKey {
     UI_TRANSACTION_LIST(R.string.pref_ui_transaction_list_key),
     UI_ITEM_RENDERER_LEGACY(R.string.pref_ui_item_renderer_legacy_key),
     UI_ITEM_RENDERER_CATEGORY_ICON(R.string.pref_ui_item_renderer_category_icon_key),
-    ENCRYPT_DATABASE("encrypt_database");
+    ENCRYPT_DATABASE("encrypt_database"),
+    ENCRYPT_DATABASE_INFO(R.string.pref_encrypt_database_info_key);
 
     internal val resId: Int
 

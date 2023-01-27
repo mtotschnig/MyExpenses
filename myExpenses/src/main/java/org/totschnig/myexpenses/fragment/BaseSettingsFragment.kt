@@ -840,6 +840,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
                 requirePreference<Preference>(PrefKey.NEWS).title =
                     "${getString(R.string.pref_news_title)} (Mastodon)"
+
+                requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible = prefHandler.encryptDatabase
             }
             getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
                 val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)

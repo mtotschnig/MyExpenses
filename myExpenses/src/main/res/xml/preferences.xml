@@ -467,6 +467,11 @@
             android:key="@string/pref_security_export_password_key"
             android:summary="@string/pref_security_export_passphrase_summary"
             android:title="@string/pref_security_export_passphrase_title" />
+        <Preference
+            android:key="@string/pref_encrypt_database_info_key"
+            android:selectable="false"
+            my:isPreferenceVisible="false"
+            android:summary="@string/database_is_encrypted" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_more_information">
