@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.util.*
 
 class SyncDelegate @JvmOverloads constructor(
     val currencyContext: CurrencyContext,
@@ -105,7 +104,15 @@ class SyncDelegate @JvmOverloads constructor(
                 }
             }
         }
-        return changeList.map { change: TransactionChange -> if (splitsPerUuid.containsKey(change.uuid())) change.toBuilder().setSplitPartsAndValidate(splitsPerUuid[change.uuid()]).build() else change }
+        return changeList.map { change: TransactionChange -> if (splitsPerUuid.containsKey(change.uuid())) change.toBuilder().setSplitPartsAndValidate(splitsPerUuid[change.uuid()]!!).build() else change }
+    }
+
+    private fun TransactionChange.Builder.setSplitPartsAndValidate(value: List<TransactionChange>): TransactionChange.Builder {
+        return if (value.all { it.parentUuid() == uuid() }) {
+            setSplitParts(value)
+        } else {
+            throw IllegalStateException("parts parentUuid does not match parents uuid")
+        }
     }
 
     fun mergeChangeSets(

@@ -1,23 +1,6 @@
 package org.totschnig.myexpenses.sync.json;
 
 
-import android.database.Cursor;
-
-import com.annimon.stream.Stream;
-import com.gabrielittner.auto.value.cursor.ColumnAdapter;
-import com.gabrielittner.auto.value.cursor.ColumnName;
-import com.google.auto.value.AutoValue;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DbConstantsKt;
-import org.totschnig.myexpenses.util.TextUtils;
-
-import java.util.List;
-
-import androidx.annotation.Nullable;
-
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
@@ -37,6 +20,22 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_ACCOUNT_UUID;
+
+import android.database.Cursor;
+
+import androidx.annotation.Nullable;
+
+import com.gabrielittner.auto.value.cursor.ColumnAdapter;
+import com.gabrielittner.auto.value.cursor.ColumnName;
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DbConstantsKt;
+import org.totschnig.myexpenses.util.TextUtils;
+
+import java.util.List;
 
 @AutoValue
 public abstract class TransactionChange {
@@ -212,7 +211,7 @@ public abstract class TransactionChange {
 
     public abstract Builder setUuid(String value);
 
-    abstract String uuid();
+    public abstract String uuid();
 
     public abstract Builder setTimeStamp(Long value);
 
@@ -251,14 +250,6 @@ public abstract class TransactionChange {
     public abstract Builder setSplitParts(List<TransactionChange> value);
 
     public abstract Builder setTags(List<String> vale);
-
-    public Builder setSplitPartsAndValidate(List<TransactionChange> value) {
-      if (Stream.of(value).allMatch(value1 -> value1.parentUuid().equals(uuid()))) {
-        return setSplitParts(value);
-      } else {
-        throw new IllegalStateException("parts parentUuid does not match parents uuid");
-      }
-    }
 
     public Builder setCurrentTimeStamp() {
       return setTimeStamp(System.currentTimeMillis() / 1000);

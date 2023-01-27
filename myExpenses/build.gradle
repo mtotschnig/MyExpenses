@@ -215,8 +215,6 @@ dependencies {
     implementation 'com.github.mtotschnig:Caldroid:e40729670a'
     api('io.github.eltos:simpledialogfragments:3.5.2')
 
-    //noinspection GradleDependency
-    implementation 'com.annimon:stream:1.2.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
 
     implementation 'org.apache.commons:commons-collections4:4.4'

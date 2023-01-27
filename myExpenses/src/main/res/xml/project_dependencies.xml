@@ -122,11 +122,6 @@
         <licence>Apache License, Version 2.0</licence>
     </project>
     <project>
-        <name>Lightweight-Stream-API</name>
-        <url>https://github.com/aNNiMON/Lightweight-Stream-API</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
         <name>OkHttp</name>
         <url>http://square.github.io/okhttp/</url>
         <licence>Apache License, Version 2.0</licence>
