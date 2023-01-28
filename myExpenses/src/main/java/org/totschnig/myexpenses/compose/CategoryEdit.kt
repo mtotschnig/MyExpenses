@@ -86,18 +86,19 @@ fun CategoryEdit(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = buttonRowTopPadding),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .padding(top = buttonRowTopPadding)
                 ) {
                     TextButton(
+                        modifier = Modifier.weight(1f),
                         enabled = !dialogState.saving,
                         onClick = {
                             onDismissRequest()
                         }) {
                         Text(stringResource(id = android.R.string.cancel))
                     }
+
                     TextButton(
-                        modifier = Modifier.testTag(TEST_TAG_POSITIVE_BUTTON),
+                        modifier = Modifier.testTag(TEST_TAG_POSITIVE_BUTTON).weight(1f),
                         enabled = !dialogState.saving && isError == null,
                         onClick = {
                             shouldValidate = true
@@ -106,7 +107,7 @@ fun CategoryEdit(
                             }
                         }) {
                         Text(
-                            stringResource(
+                            text = stringResource(
                                 id = if (dialogState.id == 0L) R.string.dialog_button_add
                                 else R.string.menu_save
                             )
@@ -161,7 +162,7 @@ fun CategoryEdit(
     }
 }
 
-@Preview
+@Preview(widthDp = 200)
 @Composable
 fun PreviewDialog() {
     CategoryEdit(dialogState = CategoryViewModel.Show(0L))
