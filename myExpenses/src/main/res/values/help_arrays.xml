@@ -379,12 +379,6 @@
         <item>autofill</item>
     </string-array>
 
-    <string-array name="FolderBrowser_menuitems">
-        <item>create_folder</item>
-        <item>select</item>
-        <item>up</item>
-    </string-array>
-
     <string-array name="help_MyExpenses_info">
         <item>help_MyExpenses_info</item>
         <item>help_MyExpenses_fab_long_press</item>

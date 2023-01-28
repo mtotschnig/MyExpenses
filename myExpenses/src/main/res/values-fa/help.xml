@@ -61,8 +61,6 @@
     <string name="menu_save_help_text">ذخیرهٔ داده‌ها و بستن فرم.</string>
     <string name="form_description_help_text">توضیحات فقط جنبهٔ آموزشی دارند.</string>
     <string name="form_currency_help_text">یک واحد پول از لیست ارائه شده از تمام واحد‌های پول انتخاب نمایید.</string>
-    <string name="menu_create_folder_help_text">ساختن یک پوشهٔ جدید، درون پوشهٔ فعلی.</string>
-    <string name="menu_FolderBrowser_select_help_text">انتخاب پوشه‌ٔ فعلی به عنوان مقصد ذخیرهٔ نسخه‌های پشتیبان.</string>
     <string name="menu_create_account_help_text">حساب جدیدی بسازید. در نسخهٔ رایگان می‌توانید تا پنج حساب بسازید.</string>
     <string name="cab_NavigationDrawer_hide_help_text">حذف کردن حساب از لیست.</string>
     <string name="help_ManageSyncBackends_drive"> یک پوشه که مال شماست یا با شما به اشتراک گذاشته شده‌است انتخاب کنید.</string>

@@ -46,7 +46,7 @@ Credits
 and on the contribution of many users that helped make My Expenses available in 34 different 
 <a href="http://www.myexpenses.mobi/en/#translate">languages</a>.
 
-Various components (CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService) have been inspired by [Financisto](https://launchpad.net/financisto). WebDAV setup inspired by [Car report](https://bitbucket.org/frigus02/car-report/).
+Various components (CalculatorInput, QifParser, HomeScreenWidgets, WhereFilter) have been inspired by [Financisto](https://launchpad.net/financisto). WebDAV setup inspired by [Car report](https://bitbucket.org/frigus02/car-report/).
 
 Code has also been contributed by:
 

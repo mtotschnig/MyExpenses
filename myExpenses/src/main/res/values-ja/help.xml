@@ -112,10 +112,6 @@
   <string name="help_ManageCurrencies_info">各通貨に対して、使用される小数点以下の桁数を変更することができます。例えばユーロで、1 ¢ の 1/10、すなわち 1/1000 を処理する必要がある場合は、番号に 3 を設定します。通貨を使用する既存の勘定は、新しい設定に切り替わります。</string>
   <string name="help_ManageCurrencies_symbol">指定した通貨の金額の書式に使用される通貨記号を設定することもできます。</string>
   <string name="help_ManageCurrencies_new">通貨をカスタマイズする場合は、通貨を選択するメニューに表示されるラベルと、通則 3 文字からなるアルファベットコードを追加定義します。</string>
-  <string name="help_FolderBrowser_info">ここで選択したフォルダーは、バックアップやエクスポートを保存するために使用されます。目的のフォルダに到達するまで、フォルダーの階層を移動してください。</string>
-  <string name="menu_create_folder_help_text">現在のフォルダーの中に新しいフォルダーを作成します。</string>
-  <string name="menu_FolderBrowser_select_help_text">エクスポートやバックアップ用の対象ストレージとして現在のフォルダを選択します。</string>
-  <string name="menu_up_help_text">現在のフォルダーの親に移動します。</string>
   <string name="help_ManageStaleImages_info">この画面は、削除された取引から残っている画像ファイルを扱うことができます。エントリー上で長押しして、削除するか、または (おそらく内部) ストレージフォルダーから、外部ストレージのバックアップフォルダー (Android/data/org.totschnig.mxexpenses/files/images.old) に移動します。</string>
   <string name="help_CsvImportActivity_info"><![CDATA[インポートしたいファイルを選択した後、ファイルのエンコード (UTF-8 または ISO-8859-1)、フィールドの区切り文字 (カンマ、セミコロン、またはタブ) 、そして日付の書式を設定する必要があります。データは、既存または新しい勘定にインポートすることができ、通貨と勘定の種類を設定することができます。<br><br>アクションバーから解析ボタンを押した後、テーブルにデータが表示されます。アクションバーにあるボタンからインポートを実行する前に、破棄したい行を選択することができ、対応するデータフィールドに列をマップする必要があります。<br><br>最初の行を破棄するとき、ヘッダー行として扱うべきかを訊ねられます。この場合、<i>マイ エクスペンス</i> は自動的にヘッダーセルの内容に基づいて列をマップしようとします。また、ヘッダー行に基づいたマッピングを記憶し、次回同じヘッダー形式でファイルをインポートするときに、それを復元します。]]></string>
   <string name="help_ExportDialog_date_format"><![CDATA[テキストが解釈されるのを避けるために単一引用符 (\') で囲むことができます。 \'\' (2 つの単一引用符) は、単一引用符を表します。 さらに詳細は、すべての <a href="%s">仕様</a> を参照するか、 support@myexpenses.mobi にご連絡ください。]]></string>

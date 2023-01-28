@@ -19,9 +19,6 @@
     <string name="form_title_help_text">输入唯一标识该模板的标题。</string>
     <string name="menu_save_help_text">保存数据并且关闭表格。</string>
     <string name="menu_invert_transfer_help_text">交换 “From” 和 “To” 账户反转交易的方向。</string>
-    <string name="menu_create_folder_help_text">在当前文件夹内创建新文件夹。</string>
-    <string name="menu_FolderBrowser_select_help_text">选择当前文件夹作为导出和备份的存储目标。</string>
-    <string name="menu_up_help_text">导航到当前文件夹的父目录。</string>
     <string name="menu_create_account_help_text">创建一个新账户。免费版仅可创建5个账户。</string>
     <string name="popup_MyExpenses_toolbar_intro">轻按工具栏（账户文本标签或当前余额）弹出包含以下条目的菜单：</string>
     <string name="help_MyExpenses_fab_long_press">长按悬浮操作按钮，通过弹出菜单编制转账、分拆交易或收入表单。</string>

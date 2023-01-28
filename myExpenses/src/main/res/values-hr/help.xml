@@ -68,13 +68,10 @@
     <string name="menu_distribution_show_pie_char_help_text">Uključi/isključi vidljivost kružnog dijagrama.</string>
     <string name="menu_distribution_aggreate_help_text">Prema zadanim postavkama, izračunati zbrojevi uključuju troškove i prihode. Mogu se prikazati zasebno, gumb u traci radnji omogućuje prebacivanje između troškova i prihoda.</string>
     <string name="menu_ManageCategories_search_help_text">Prikazat će se samo glavne kategorije i potkategorije koje odgovaraju tvom upitu.</string>
-    <string name="menu_FolderBrowser_select_help_text">Odaberi trenutačnu mapu kao cilj za spremanje izvoza i sigurnosnih kopija.</string>
     <string name="menu_ManageCategories_sort_help_text">Popis kategorija može se razvrstati po naslovu (abecednim redom), po učestalosti korištenja ili po zadnjem vremenu mapiranja transakcije.</string>
-    <string name="menu_up_help_text">Idi na nadređenu mapu trenutačne mape.</string>
     <string name="cab_ManageCategories_color_help_text">Glavnim kategorijama možeš dodijeliti boju. Ova će se boja koristiti za predstavljanje kategorije u dijagramima. Potkategorije će koristiti nijanse boje glavne kategorije.</string>
     <string name="help_ExpenseEdit_split_title">Obrazac za podjele</string>
     <string name="help_AccountEdit_title">Obrazac za račune</string>
-    <string name="menu_create_folder_help_text">Stvori novu mapu unutar trenutačne mape.</string>
     <string name="menu_forward_help_text">Idi na sljedeću grupu. To se može obaviti i povlačenjem ekrana prstom zdesna nalijevo.</string>
     <string name="menu_reset_help_text">Ova naredba će izvesti sve transakcije trenutačnog računa u datoteku na SD karticu u QIF ili CSV formatu. Možeš odlučiti izbrisati izvezene transakcije, u tom slučaju se početni saldo automatski prilagođava. Alternativno, ako se transakcije ne izbrišu, bit će označene kao izvezene. Program „Moji troškovi” može dijeliti datoteku odmah nakon izvoza putem FTP-a, e-maila ili bilo koje drugog programa za dijeljenje datoteka, ako je tako konfiguriran u postavkama. Ako je filtar pretraživanja aktivan, u obzir će se uzeti samo transakcije mapirane ovim filtrom.</string>
     <string name="menu_balance_help_text">Ova naredba otvara dijaloški okvir koji prikazuje zadnje usklađeno stanje i odobreno stanje. Potonje možete usporediti sa svojim bankovnim izvodom i označiti sve odobrene transakcije kao usklađene. Po izboru možete odlučiti izbrisati usklađene transakcije.</string>

@@ -69,9 +69,6 @@
     <string name="menu_exclude_from_totals_help_text">Dacă bifaţi această opţiune, acest cont nu va fi inclus în agregatele pe moneda.</string>
     <string name="help_MethodEdit_title">Formular pentru metode de plată</string>
     <string name="help_ManageCurrencies_info">Pentru fiecare valută, aveţi posibilitatea să modificaţi numărul de zecimale utilizate. De exemplu, dacă pentru Euro, trebuie să mânuiti  1/10 din un  ¢, adică 1/1000 din Euro, ar trebui setat numărul la trei. Conturile existente care utilizează moneda, vor folosi noua setare.</string>
-    <string name="menu_create_folder_help_text">Creaza un nou subfolder in folderul curent</string>
-    <string name="menu_FolderBrowser_select_help_text">Selectaţi folderul curent ca targhet de stocare pentru export şi backup.</string>
-    <string name="menu_up_help_text">Navigheaza in folderul parinte al folderului curent.</string>
     <string name="menu_create_account_help_text">Creaza un cont nou. Versiunea gratuită este limitată la cinci conturi.</string>
     <string name="cab_ManageCategories_select_help_text">Mapează categoria selectată la tranzacţie şi a revine la formularul de tranzacţie.</string>
     <string name="help_WebUI_info_2">În prezent, interfața de utilizator web nu acceptă transferuri sau tranzacții divizate.</string>
