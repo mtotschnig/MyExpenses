@@ -16,7 +16,9 @@ import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
+import androidx.test.uiautomator.UiDevice
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
 import org.junit.After
@@ -97,7 +99,15 @@ class TestMain : BaseMyExpensesTest() {
                 clickMenuItem(R.id.BUDGET_COMMAND)
                 onView(withId(R.id.recycler_view))
                     .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+                val device = UiDevice.getInstance(getInstrumentation())
+                device.setOrientationRight()
+                onIdle()
+                //wait for sum to load IdlingResource is too cumbersome to set up, since
+                //onActivity does not get us hold on BudgetActivity
+                Thread.sleep(500)
                 takeScreenshot("budget")
+                device.setOrientationNatural()
+                onIdle()
                 pressBack()
                 pressBack()
                 clickMenuItem(R.id.SETTINGS_COMMAND)
