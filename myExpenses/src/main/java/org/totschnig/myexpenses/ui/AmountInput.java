@@ -243,8 +243,8 @@ public class AmountInput extends ConstraintLayout {
         if (typeChangedListener != null) {
           typeChangedListener.onTypeChanged(isChecked);
         }
-        button.setVisibility(VISIBLE);
       });
+      button.setVisibility(VISIBLE);
     } else {
       button.setOnCheckedChangeListener(null);
       button.setVisibility(GONE);
@@ -320,10 +320,6 @@ public class AmountInput extends ConstraintLayout {
   public void setSelectedCurrency(CurrencyUnit currency) {
     currencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(currency.getCode(), getContext())));
     configureCurrency(currency);
-  }
-
-  public void setSelectedCurrency(String currency) {
-    setSelectedCurrency(getHost().getCurrencyContext().get(currency));
   }
 
   public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
