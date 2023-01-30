@@ -164,7 +164,7 @@ class TransferDelegate(
         val transferAccountCurrencyUnit = transferAccount.currency
         val isSame = currency == transferAccountCurrencyUnit
         setVisibility(viewBinding.TransferAmountRow, !isSame)
-        setVisibility(viewBinding.ERR.root as ViewGroup, !isSame /*&& mTransaction !is Template*/)
+        setVisibility(viewBinding.ERR.root as ViewGroup, !isSame && !isTemplate)
         addCurrencyToInput(
             viewBinding.TransferAmountLabel,
             viewBinding.TransferAmount,
@@ -173,12 +173,6 @@ class TransferDelegate(
         )
         viewBinding.TransferAmount.setFractionDigits(transferAccountCurrencyUnit.fractionDigits)
         viewBinding.ERR.ExchangeRate.setCurrencies(currency, transferAccountCurrencyUnit)
-        //TODO check history of this dead code
-        val bundle = Bundle(2)
-        bundle.putStringArray(
-            DatabaseConstants.KEY_CURRENCY,
-            arrayOf(currency.code, transferAccountCurrencyUnit.code)
-        )
     }
 
     private fun requireTransferAccountsAdapter() {
