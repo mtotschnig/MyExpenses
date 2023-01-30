@@ -85,7 +85,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
     ): SupportSQLiteOpenHelper {
         val encryptDatabase = prefHandler.encryptDatabase
-        return when {
+        val factory = when {
             encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
             frameWorkSqlite -> FrameworkSQLiteOpenHelperFactory()
             else -> {
@@ -95,15 +95,17 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
                         io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME
                     )
                     RequerySQLiteOpenHelperFactory()
+                    throw Exception("just kidding")
                 } catch (e: Exception) {
                     FrameworkSQLiteOpenHelperFactory()
                 }
             }
-        }.create(
+        }
+        return factory.create(
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
                 .name(provideDatabaseName(encryptDatabase)).callback(
                     //Robolectric uses native Sqlite which as of now does not include Json extension
-                    TransactionDatabase(!frameWorkSqlite)
+                    TransactionDatabase(!(factory is FrameworkSQLiteOpenHelperFactory))
                 ).build()
         ).also {
             it.setWriteAheadLoggingEnabled(false)
