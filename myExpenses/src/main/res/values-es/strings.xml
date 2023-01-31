@@ -659,8 +659,9 @@
     <string name="sync_auth_exception">Autorización fallida.</string>
     <string name="sync_login_again">Por favor, inicie sesión de nuevo.</string>
     <plurals name="delete_success">
-        <item quantity="one">Un objeto fue eliminado correctamente.</item>
-        <item quantity="other">Se han eliminado %d objetos con éxito.</item>
+        <item quantity="one">Se ha eliminado un objeto con éxito.</item>
+        <item quantity="many">%d objetos han sido borrados con éxito.</item>
+        <item quantity="other">%d objetos han sido borrados con éxito.</item>
     </plurals>
     <string name="feature_deprecated">Descartado</string>
     <string name="pref_protection_device_lock_screen_title">Bloqueo de pantalla</string>
@@ -1026,4 +1027,5 @@
     <string name="menu_reconfigure">Reconfigurar</string>
     <string name="encrypt_database">Encriptar la base de datos</string>
     <string name="encrypt_database_info">La base de datos se cifrará con una frase de contraseña que no se puede extraer de este dispositivo. En consecuencia, el servicio de copia de seguridad de su dispositivo no realizará una copia de seguridad.</string>
+    <string name="database_is_encrypted">La base de datos está cifrada.</string>
 </resources>

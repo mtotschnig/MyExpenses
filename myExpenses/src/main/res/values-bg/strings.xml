@@ -1014,4 +1014,5 @@
     <string name="menu_reconfigure">Преконфигуриране</string>
     <string name="encrypt_database">Криптиране на базата данни</string>
     <string name="encrypt_database_info">Базата данни ще бъде шифрована с парола, която не може да бъде извлечена от устройството. Също така, тя няма да бъде архивирана от услугата за архивиране на вашето устройство.</string>
+    <string name="database_is_encrypted">Базата данни е шифрована.</string>
 </resources>

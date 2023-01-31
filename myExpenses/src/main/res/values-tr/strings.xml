@@ -1014,4 +1014,5 @@
     <string name="menu_reconfigure">Yeniden yapılandır</string>
     <string name="encrypt_database">Veri tabanını şifrele</string>
     <string name="encrypt_database_info">Veri tabanı, bu aygıttan dışarı alınamayacak bir parola ile şifrelenecektir. Sonuç olarak aygıtınızın yedekleme hizmeti tarafından yedeklenmeyecektir.</string>
+    <string name="database_is_encrypted">Veri tabanı şifrelendi.</string>
 </resources>

@@ -1042,4 +1042,5 @@
     <string name="menu_reconfigure">הגדרה מחדש</string>
     <string name="encrypt_database">הצפנת מסד הנתונים</string>
     <string name="encrypt_database_info">מסד הנתונים יוצפן עם מילת מפתח שלא ניתן לחלץ מהמכשיר הזה. כתוצאה מכך הוא לא יגובה על ידי שירות הגיבוי של המכשיר שלך.</string>
+    <string name="database_is_encrypted">מסד הנתונים מוצפן.</string>
 </resources>
