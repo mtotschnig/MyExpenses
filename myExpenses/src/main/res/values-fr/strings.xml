@@ -1027,4 +1027,5 @@
     <string name="menu_reconfigure">Reconfigurer</string>
     <string name="encrypt_database">Chiffrer la base de données</string>
     <string name="encrypt_database_info">La base de données sera cryptée avec une phrase secrète qui ne peut pas être extraite de cet appareil. Par conséquent, elle ne sera pas sauvegardé par le service de sauvegarde de votre appareil.</string>
+    <string name="database_is_encrypted">La base de données est cryptée.</string>
 </resources>
