@@ -215,8 +215,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
         }
 
-    private fun fallbackToLastUsed(accountId: Long): Pair<Long, CurrencyUnit>? = accountId.takeIf { it != 0L }?.let {
-        it to repository.getCurrencyUnitForAccount(it)
+    private fun fallbackToLastUsed(accountId: Long) = accountId.takeIf { it != 0L }?.let { account ->
+        repository.getCurrencyUnitForAccount(account)?.let { currencyUnit -> account to currencyUnit }
     } ?: repository.getLastUsedOpenAccount()
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {

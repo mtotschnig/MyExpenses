@@ -53,7 +53,7 @@ class Repository @Inject constructor(
         put(KEY_ACCOUNTID, account)
         put(
             KEY_AMOUNT,
-            Money(getCurrencyUnitForAccount(account), BigDecimal(amount.toString())).amountMinor
+            Money(getCurrencyUnitForAccount(account)!!, BigDecimal(amount.toString())).amountMinor
         )
         put(KEY_DATE, time?.let {
             localDateTime2Epoch(LocalDateTime.of(date, time))
@@ -144,7 +144,7 @@ class Repository @Inject constructor(
                 context,
                 cursor,
                 accountId,
-                getCurrencyUnitForAccount(accountId),
+                getCurrencyUnitForAccount(accountId)!!,
                 currencyFormatter,
                 Utils.ensureDateFormatWithShortYear(context)
             ).copy(
@@ -194,14 +194,14 @@ class Repository @Inject constructor(
         })?.let { ContentUris.parseId(it) }
 
     //Account
-    fun getCurrencyUnitForAccount(accountId: Long): CurrencyUnit {
+    fun getCurrencyUnitForAccount(accountId: Long): CurrencyUnit? {
         require(accountId != 0L)
         return contentResolver.query(
             ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
             arrayOf(KEY_CURRENCY), null, null, null
         )?.use {
             if (it.moveToFirst()) currencyContext[it.getString(0)] else null
-        } ?: Utils.getHomeCurrency()
+        }
     }
 
     //Transaction
