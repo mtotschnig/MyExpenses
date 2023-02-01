@@ -718,6 +718,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   }
 
   @Override
+  public void onCorruption(@NonNull SupportSQLiteDatabase db) {
+    throw new IllegalStateException("Database is corrupted");
+  }
+
+  @Override
   public void onOpen(@NonNull SupportSQLiteDatabase db) {
     super.onOpen(db);
     //since API 16 we could use onConfigure to enable foreign keys

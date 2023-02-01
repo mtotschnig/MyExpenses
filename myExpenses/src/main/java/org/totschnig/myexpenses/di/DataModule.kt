@@ -33,7 +33,7 @@ interface SqlCryptProvider {
 }
 
 @Module
-open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) {
+open class DataModule(private val frameWorkSqlite: Boolean = false) {
     companion object {
         val cryptProvider: SqlCryptProvider
             get() = Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
@@ -85,26 +85,21 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
     ): SupportSQLiteOpenHelper {
         val encryptDatabase = prefHandler.encryptDatabase
-        val factory = when {
+        return when {
             encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
             frameWorkSqlite -> FrameworkSQLiteOpenHelperFactory()
             else -> {
-                try {
-                    ReLinker.loadLibrary(
-                        appContext,
-                        io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME
-                    )
-                    RequerySQLiteOpenHelperFactory()
-                } catch (e: Exception) {
-                    FrameworkSQLiteOpenHelperFactory()
-                }
+                ReLinker.loadLibrary(
+                    appContext,
+                    io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME
+                )
+                RequerySQLiteOpenHelperFactory()
             }
-        }
-        return factory.create(
+        }.create(
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
                 .name(provideDatabaseName(encryptDatabase)).callback(
                     //Robolectric uses native Sqlite which as of now does not include Json extension
-                    TransactionDatabase(!(factory is FrameworkSQLiteOpenHelperFactory))
+                    TransactionDatabase(!frameWorkSqlite)
                 ).build()
         ).also {
             it.setWriteAheadLoggingEnabled(false)
