@@ -129,6 +129,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         with((requireActivity().application as MyApplication).appComponent) {
             inject(this@CsvImportParseFragment)
             inject(currencyViewModel)
+            inject(viewModel)
         }
     }
 
