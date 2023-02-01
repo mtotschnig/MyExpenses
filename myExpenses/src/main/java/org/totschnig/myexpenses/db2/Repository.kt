@@ -199,10 +199,9 @@ class Repository @Inject constructor(
         return contentResolver.query(
             ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
             arrayOf(KEY_CURRENCY), null, null, null
-        )!!.use {
-            it.moveToFirst()
-            it.getString(0)
-        }.let { currencyContext[it] }
+        )?.use {
+            if (it.moveToFirst()) currencyContext[it.getString(0)] else null
+        } ?: Utils.getHomeCurrency()
     }
 
     //Transaction
@@ -216,9 +215,9 @@ class Repository @Inject constructor(
 
     fun getLastUsedOpenAccount() =
         contentResolver.query(
-            ACCOUNTS_URI.withLimit(1), arrayOf(KEY_ROWID), "$KEY_SEALED = 0", null, KEY_LAST_USED
+            ACCOUNTS_URI.withLimit(1), arrayOf(KEY_ROWID, KEY_CURRENCY), "$KEY_SEALED = 0", null, KEY_LAST_USED
         )?.use {
-            if (it.moveToFirst()) it.getLong(0) else null
+            if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
         }
 
     fun saveDebt(debt: Debt) {

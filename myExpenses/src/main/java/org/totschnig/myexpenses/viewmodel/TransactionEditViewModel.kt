@@ -180,7 +180,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         liveData(context = coroutineContext()) {
             emit(
                 fallbackToLastUsed(accountId)?.let {
-                    Template.getTypedNewInstance(operationType, it, repository.getCurrencyUnitForAccount(it), true, parentId)
+                    Template.getTypedNewInstance(operationType, it.first, it.second, true, parentId)
                 }
             )
         }
@@ -189,7 +189,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         liveData(context = coroutineContext()) {
             emit(
                 fallbackToLastUsed(accountId)?.let {
-                    Transaction.getNewInstance(it, repository.getCurrencyUnitForAccount(it), parentId)
+                    Transaction.getNewInstance(it.first, it.second, parentId)
                 }
             )
         }
@@ -201,8 +201,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     ): LiveData<Transfer?> = liveData(context = coroutineContext()) {
         emit(
             fallbackToLastUsed(accountId)?.let {
-                Transfer.getNewInstance(it,
-                    repository.getCurrencyUnitForAccount(it), transferAccountId, parentId)
+                Transfer.getNewInstance(it.first, it.second, transferAccountId, parentId)
             }
         )
     }
@@ -211,12 +210,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         liveData(context = coroutineContext()) {
             emit(
                 fallbackToLastUsed(accountId)?.let {
-                    SplitTransaction.getNewInstance(it, repository.getCurrencyUnitForAccount(it), true)
+                    SplitTransaction.getNewInstance(it.first, it.second, true)
                 }
             )
         }
 
-    private fun fallbackToLastUsed(accountId: Long) = accountId.takeIf { it != 0L } ?: repository.getLastUsedOpenAccount()
+    private fun fallbackToLastUsed(accountId: Long): Pair<Long, CurrencyUnit>? = accountId.takeIf { it != 0L }?.let {
+        it to repository.getCurrencyUnitForAccount(it)
+    } ?: repository.getLastUsedOpenAccount()
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
         loadJob?.cancel()
