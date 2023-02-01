@@ -95,7 +95,6 @@ open class DataModule(private val frameWorkSqlite: Boolean = BuildConfig.DEBUG) 
                         io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME
                     )
                     RequerySQLiteOpenHelperFactory()
-                    throw Exception("just kidding")
                 } catch (e: Exception) {
                     FrameworkSQLiteOpenHelperFactory()
                 }
