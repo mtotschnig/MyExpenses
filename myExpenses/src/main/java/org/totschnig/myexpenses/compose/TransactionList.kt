@@ -370,7 +370,7 @@ fun HeaderRenderer(
                 toggle = toggle
             )
         }
-        if (budget?.second != null) {
+        if (budget?.second != null && budget.second != 0L) {
             val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second).roundToInt()
             Row(verticalAlignment = Alignment.CenterVertically) {
                 DonutInABox(
