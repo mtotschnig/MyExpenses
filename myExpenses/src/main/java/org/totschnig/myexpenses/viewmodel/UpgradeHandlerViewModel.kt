@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -400,6 +401,10 @@ class UpgradeHandlerViewModel(application: Application) :
             }
             if (fromVersion < 576) {
                 GenericAccountService.migratePasswords(getApplication())
+            }
+
+            if (fromVersion < 583) {
+                PlanExecutor.enqueueSelf(getApplication(), prefHandler, true)
             }
 
             if (upgradeInfoList.isNotEmpty()) {
