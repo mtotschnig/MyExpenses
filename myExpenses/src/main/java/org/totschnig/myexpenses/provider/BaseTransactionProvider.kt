@@ -652,6 +652,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return Result.failure(Throwable("Could not find database at ${currentDb.path}"))
     }
 
+    @Synchronized
     private fun requireHelper(): SupportSQLiteOpenHelper {
         if (_helper == null) {
             _helper = openHelperProvider.get()
