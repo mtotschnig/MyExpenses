@@ -160,22 +160,37 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         get() = (supportFragmentManager.findFragmentByTag(LaunchActivity.PROGRESS_TAG) as? ProgressDialogFragment)
 
     fun copyToClipboard(text: String) {
-        showSnackBar(try {
-            ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, text))
-            "${getString(R.string.toast_text_copied)}: $text"
-        } catch (e: RuntimeException) {
-            Timber.e(e)
-            e.safeMessage
-        })
+        showSnackBar(
+            try {
+                ContextCompat.getSystemService(this, ClipboardManager::class.java)
+                    ?.setPrimaryClip(ClipData.newPlainText(null, text))
+                "${getString(R.string.toast_text_copied)}: $text"
+            } catch (e: RuntimeException) {
+                Timber.e(e)
+                e.safeMessage
+            }
+        )
     }
 
-    fun sendEmail(recipient: String, subject: String, body: String, forResultRequestCode: Int? = null) {
-        startActivity(Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-            putExtra(Intent.EXTRA_TEXT, body)
-            selector = Intent(Intent.ACTION_SENDTO).setData(Uri.parse("mailto:$recipient"))
-        }, R.string.no_app_handling_email_available, forResultRequestCode)
+    fun sendEmail(
+        recipient: String,
+        subject: String,
+        body: String,
+        forResultRequestCode: Int? = null
+    ) {
+        startActivity(
+            Intent.createChooser(
+                Intent(Intent.ACTION_SEND).apply {
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
+                    putExtra(Intent.EXTRA_SUBJECT, subject)
+                    putExtra(Intent.EXTRA_TEXT, body)
+                    selector = Intent(Intent.ACTION_SENDTO).setData(Uri.parse("mailto:$recipient"))
+                },
+                null
+            ),
+            R.string.no_app_handling_email_available,
+            forResultRequestCode
+        )
     }
 
 
@@ -521,7 +536,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     private val snackBarContainer: View?
         get() = findViewById(snackBarContainerId) ?: findViewById(android.R.id.content)
 
-    fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0, container: View? = null) {
+    fun showProgressSnackBar(
+        message: CharSequence,
+        total: Int = 0,
+        progress: Int = 0,
+        container: View? = null
+    ) {
         (container ?: snackBarContainer)?.also {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
             if (snackBar == null) {
@@ -542,7 +562,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 }
                             }
                         )
-                    addCallback(object: Snackbar.Callback() {
+                    addCallback(object : Snackbar.Callback() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                             snackBar = null
                         }
@@ -573,7 +593,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             if (callback != null) {
                 addCallback(callback)
             }
-            addCallback(object: Snackbar.Callback() {
+            addCallback(object : Snackbar.Callback() {
                 override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                     snackBar = null
                 }
@@ -727,7 +747,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             SettingsDialog.Builder(this)
                 .title(R.string.permissions_label)
-                .rationale(PermissionHelper.PermissionGroup.fromRequestCode(requestCode).permissionRequestRationale(this))
+                .rationale(
+                    PermissionHelper.PermissionGroup.fromRequestCode(requestCode)
+                        .permissionRequestRationale(this)
+                )
                 .build().show()
         }
     }
