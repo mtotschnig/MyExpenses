@@ -236,7 +236,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     }
 
     private fun getSinglePackage(): AddOnPackage =
-        AddOnPackage::class.sealedSubclasses.find { it.objectInstance?.feature == feature }?.objectInstance ?: throw  IllegalStateException()
+        AddOnPackage.values.find { it.feature == feature } ?: throw  IllegalStateException()
 
     private fun onUpgradeClicked() {
         val ctx = activity as ContribInfoDialogActivity? ?: return

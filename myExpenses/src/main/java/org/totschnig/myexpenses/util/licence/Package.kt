@@ -114,6 +114,15 @@ sealed class AddOnPackage(
     val feature: ContribFeature,
     val isPro: Boolean = true
 ) : Package(if (isPro) 430 else 270) {
+
+    companion object {
+        val values: List<AddOnPackage> = listOf(
+            SplitTemplate, History, Budget, Ocr, WebUi, CategoryTree,
+            AccountsUnlimited, PlansUnlimited, SplitTransaction, Distribution, Print, AdFree,
+            CsvImport, Synchronization
+        )
+    }
+
     override val optionName = "AddOn"
     val sku: String
         get() = this::class.simpleName!!.lowercase(Locale.ROOT)
