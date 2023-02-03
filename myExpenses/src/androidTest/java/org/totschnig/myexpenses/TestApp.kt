@@ -45,10 +45,14 @@ class TestApp : MyApplication() {
         .appmodule(object : AppModule() {
             override fun provideUserLocaleProvider(
                 prefHandler: PrefHandler,
-                locale: Locale
+                systemLocale: Locale
             ): UserLocaleProvider {
-                return object: UserLocaleProviderImpl(prefHandler, locale) {
-                    override fun getLocalCurrency(context: Context) = Currency.getInstance(context.resources.configuration.locale)
+                return object: UserLocaleProviderImpl(prefHandler, systemLocale) {
+                    override fun getLocalCurrency(context: Context): Currency {
+                        val locale = context.resources.configuration.locale
+                        return if (locale.country == "VI") Currency.getInstance("VND") else
+                            Currency.getInstance(locale)
+                    }
                 }
             }
         })

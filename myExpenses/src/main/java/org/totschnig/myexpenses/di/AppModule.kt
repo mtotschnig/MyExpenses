@@ -76,6 +76,6 @@ open class AppModule {
     @Singleton
     open fun provideUserLocaleProvider(
         prefHandler: PrefHandler,
-        locale: Locale
-    ): UserLocaleProvider = UserLocaleProviderImpl(prefHandler, locale)
+        systemLocale: Locale
+    ): UserLocaleProvider = UserLocaleProviderImpl(prefHandler, systemLocale)
 }
