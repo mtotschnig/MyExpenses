@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.os.Debug
 import com.google.common.truth.Truth
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -47,12 +48,9 @@ class Fixture(inst: Instrumentation) {
     lateinit var account3: Account
         private set
     private lateinit var account4: Account
-    val syncAccount1: String
-        get() = "Drive - " + appContext.getString(R.string.content_description_encrypted)
-    val syncAccount2: String
-        get() = "Dropbox - " + testContext.getString(RT.string.testData_sync_backend_2_name)
-    val syncAccount3: String
-        get() = "WebDAV - https://my.private.cloud/webdav/MyExpenses"
+    lateinit var syncAccount1: String
+    lateinit var syncAccount2: String
+    lateinit var syncAccount3: String
     var planId: Long = 0L
 
     init {
@@ -69,6 +67,9 @@ class Fixture(inst: Instrumentation) {
         val defaultCurrency = Utils.getHomeCurrency()
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
+        syncAccount1 = "Drive - " + appContext.getString(R.string.content_description_encrypted)
+        syncAccount2 = "Dropbox - " + testContext.getString(RT.string.testData_sync_backend_2_name)
+        syncAccount3 = "WebDAV - https://my.private.cloud/webdav/MyExpenses"
         account1 = Account(
             appContext.getString(R.string.testData_account1Label),
             90000,

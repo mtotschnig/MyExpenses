@@ -17,19 +17,23 @@ locales([
     'el-GR',
     'en-US',
     'es-ES',
+    'es-US'
     'eu-ES',
     'fr-FR',
+    'fr-CA',
     'hr-HR',
     'hu-HU',
     'it-IT',
     'iw-IL',
     'ja-JP',
     'km-KH',
+    'kn-IN',
     'ko-KR',
     'ms-MY',
     'nl-NL'
     'pl-PL',
     'pt-BR',
+    'pt-PT'
     'ro-RO',
     'ru-RU',
     'si-LK',

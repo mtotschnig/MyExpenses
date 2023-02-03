@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.testutils.TestDataModule
 import org.totschnig.myexpenses.testutils.TestFeatureModule
 import org.totschnig.myexpenses.testutils.TestViewModelModule
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.locale.UserLocaleProviderImpl
@@ -49,7 +48,7 @@ class TestApp : MyApplication() {
                 locale: Locale
             ): UserLocaleProvider {
                 return object: UserLocaleProviderImpl(prefHandler, locale) {
-                    override fun getLocalCurrency(context: Context) = Utils.getSaveDefault()
+                    override fun getLocalCurrency(context: Context) = Currency.getInstance(context.resources.configuration.locale)
                 }
             }
         })
