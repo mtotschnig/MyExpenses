@@ -1,0 +1,3 @@
+• Encriptar la base de datos (Experimental)
+
+https://github.com/mtotschnig/MyExpenses/projects/86#column-19285466
