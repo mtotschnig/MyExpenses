@@ -48,14 +48,23 @@ class Fixture(inst: Instrumentation) {
     lateinit var account3: Account
         private set
     private lateinit var account4: Account
-    lateinit var syncAccount1: String
-    lateinit var syncAccount2: String
-    lateinit var syncAccount3: String
     var planId: Long = 0L
 
     init {
         testContext = inst.context
         appContext = inst.targetContext.applicationContext as MyApplication
+    }
+
+    val syncAccount1 by lazy {
+        "Drive - " + appContext.getString(R.string.content_description_encrypted)
+    }
+
+    val syncAccount2 by lazy {
+        "Dropbox - " + testContext.getString(RT.string.testData_sync_backend_2_name)
+    }
+
+    val syncAccount3 by lazy {
+        "WebDAV - https://my.private.cloud/webdav/MyExpenses"
     }
 
     fun cleanup() {
@@ -67,9 +76,6 @@ class Fixture(inst: Instrumentation) {
         val defaultCurrency = Utils.getHomeCurrency()
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
-        syncAccount1 = "Drive - " + appContext.getString(R.string.content_description_encrypted)
-        syncAccount2 = "Dropbox - " + testContext.getString(RT.string.testData_sync_backend_2_name)
-        syncAccount3 = "WebDAV - https://my.private.cloud/webdav/MyExpenses"
         account1 = Account(
             appContext.getString(R.string.testData_account1Label),
             90000,

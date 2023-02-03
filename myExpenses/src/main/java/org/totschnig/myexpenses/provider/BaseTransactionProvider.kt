@@ -62,7 +62,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    var _helper: SupportSQLiteOpenHelper? = null
+    @Volatile
+    private var _helper: SupportSQLiteOpenHelper? = null
 
     val helper: SupportSQLiteOpenHelper
         get() = requireHelper()
