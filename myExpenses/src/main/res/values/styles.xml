@@ -267,6 +267,7 @@
     <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
         <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
+        <item name="android:background">@color/toolbarBackground</item>
     </style>
 
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">

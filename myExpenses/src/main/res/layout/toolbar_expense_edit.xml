@@ -3,7 +3,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/toolbarBackground">
+    android:elevation="@dimen/design_appbar_elevation">
 
     <Spinner
         android:id="@+id/OperationType"
