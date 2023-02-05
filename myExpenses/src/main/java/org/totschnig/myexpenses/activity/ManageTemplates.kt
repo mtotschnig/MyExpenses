@@ -44,7 +44,7 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
         super.onCreate(savedInstanceState)
         setHelpVariant(HelpVariant.templates, true)
         setContentView(R.layout.manage_templates)
-        setupToolbar(true)
+        setupToolbar()
         title = getString(R.string.menu_manage_plans)
         val uriString = intent.getStringExtra(CalendarContract.Events.CUSTOM_APP_URI)
         if (uriString != null) {

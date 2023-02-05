@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.R
 fun linkInputsWithLabels(table: TableLayout) {
     val listener = OnFocusChangeListener { v: View, hasFocus: Boolean ->
         (findParentWithTypeRecursively(v, TableRow::class.java)?.getChildAt(0) as? TextView)?.setTextColor(
-                if (hasFocus) readAccentColor(table.context) else readNormalColor(table.context))
+                if (hasFocus) readAccentColor(table.context) else readSecondaryTextColor(table.context))
     }
     for (i in 0 until table.childCount) {
         (table.getChildAt(i) as? TableRow)?.let {
@@ -26,7 +26,9 @@ fun linkInputsWithLabels(table: TableLayout) {
     }
 }
 
-fun readNormalColor(context: Context) = readThemeColor(context, android.R.attr.textColorSecondary)
+fun readPrimaryTextColor(context: Context) = readThemeColor(context, android.R.attr.textColorPrimary)
+
+fun readSecondaryTextColor(context: Context) = readThemeColor(context, android.R.attr.textColorSecondary)
 
 fun readAccentColor(context: Context) = readThemeColor(context, R.attr.colorAccent)
 

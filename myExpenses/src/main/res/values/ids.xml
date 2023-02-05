@@ -205,4 +205,5 @@
     <item name="RECONFIGURE_COMMAND" type="id" />
     <item name="ENCRYPT_CANCEL_COMMAND" type="id" />
     <item name="ENCRYPT_LEARN_MORE_COMMAND" type="id" />
+    <item name="SHOW_ALL_COMMAND" type="id" />
 </resources>

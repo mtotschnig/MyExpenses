@@ -32,7 +32,7 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
     fun setupView(): ActivityComposeBinding {
         val binding = ActivityComposeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupToolbar(true)
+        setupToolbar()
         return binding
     }
 

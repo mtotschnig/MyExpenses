@@ -69,7 +69,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         super.onCreate(savedInstanceState)
         binding = SettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupToolbar(true)
+        setupToolbar()
         if (savedInstanceState == null) {
             val ft = supportFragmentManager.beginTransaction()
             ft.replace(binding.fragmentContainer.id, SettingsFragment(), FRAGMENT_TAG)

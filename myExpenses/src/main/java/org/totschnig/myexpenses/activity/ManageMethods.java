@@ -26,7 +26,7 @@ public class ManageMethods extends ProtectedFragmentActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_methods);
-    setupToolbar(true);
+    setupToolbar();
     setTitle(R.string.pref_manage_methods_title);
     configureFloatingActionButton(R.string.menu_create_method);
   }

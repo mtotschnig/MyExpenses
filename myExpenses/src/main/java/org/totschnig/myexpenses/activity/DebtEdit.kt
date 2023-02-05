@@ -35,7 +35,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
         binding = OneDebtBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setupToolbar(true)
+        setupToolbarWithClose()
         with((application as MyApplication).appComponent) {
             inject(viewModel)
             inject(currencyViewModel)

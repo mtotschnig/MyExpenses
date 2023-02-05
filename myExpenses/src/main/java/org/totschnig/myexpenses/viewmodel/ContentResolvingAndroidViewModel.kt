@@ -99,8 +99,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     val contentResolver: ContentResolver
         get() = getApplication<MyApplication>().contentResolver
 
-    private val debts = MutableLiveData<List<Debt>>()
-
     val renderer: Flow<RenderType> by lazy {
         dataStore.data.map {
             if (it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_ITEM_RENDERER_LEGACY)] == true)
@@ -153,8 +151,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             default = cursor.getBoolean(KEY_IS_DEFAULT)
         )
     }
-
-    fun getDebts(): LiveData<List<Debt>> = debts
 
     fun accountsMinimal(withHidden: Boolean = true) = contentResolver.observeQuery(
         ACCOUNTS_MINIMAL_URI, null,
@@ -277,24 +273,17 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      * @param rowId For split transactions, we check if any of their children is linked to a debt,
      * in which case the parent should not be linkable to a debt, and we return an empty list
      */
-    fun loadDebts(rowId: Long? = null) {
-        viewModelScope.launch {
-            contentResolver.observeQuery(
-                uri = with(DEBTS_URI.buildUpon()) {
-                    rowId?.let {
-                        appendQueryParameter(KEY_TRANSACTIONID, rowId.toString())
-                    }
-                    build()
-                },
-                selection = "$KEY_SEALED = 0",
-                notifyForDescendants = true
-            )
-                .mapToList { Debt.fromCursor(it, currencyContext) }
-                .collect {
-                    debts.postValue(it)
+    fun loadDebts(rowId: Long? = null, showAll: Boolean = false) = contentResolver.observeQuery(
+            uri = with(DEBTS_URI.buildUpon()) {
+                rowId?.let {
+                    appendQueryParameter(KEY_TRANSACTIONID, rowId.toString())
                 }
-        }
-    }
+                build()
+            },
+            selection = if(showAll) null else  "$KEY_SEALED = 0 AND $KEY_AMOUNT-$KEY_SUM != 0",
+            notifyForDescendants = true
+        )
+            .mapToList { Debt.fromCursor(it, currencyContext) }
 
     /**
      * deletes all expenses and updates account according to value of handleDelete

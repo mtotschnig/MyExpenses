@@ -1,66 +1,41 @@
 package org.totschnig.myexpenses.compose
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockOpen
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import arrow.core.Either
 import org.totschnig.myexpenses.R
-
-@SuppressLint("PrivateResource")
-@Composable
-fun Navigation(
-    onNavigation: () -> Unit = {},
-    title: String,
-    actions: @Composable RowScope.() -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit
-) {
-    Navigation(
-        onNavigation = onNavigation,
-        title = { Text(text = title, style = MaterialTheme.typography.h6) },
-        actions = actions,
-        content = content
-    )
-}
-
-@SuppressLint("PrivateResource")
-@Composable
-fun Navigation(
-    onNavigation: () -> Unit = {},
-    title: @Composable () -> Unit,
-    actions: @Composable RowScope.() -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit
-) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = title,
-                navigationIcon = {
-                    IconButton(onClick = onNavigation) {
-                        Icon(
-                            painterResource(id = R.drawable.ic_menu_back),
-                            contentDescription = stringResource(R.string.abc_action_bar_up_description)
-                        )
-                    }
-                },
-                backgroundColor = colorResource(id = R.color.toolbarBackground),
-                actions = actions
-            )
-        },
-        content = content
-    )
-}
 
 data class Menu<T>(val entries: List<MenuEntry<T>>)
 data class MenuEntry<T>(
@@ -194,15 +169,6 @@ private fun <T> EntryListRenderer(expanded: MutableState<Boolean>, menu: Menu<T>
             }
         })
     }
-}
-
-
-@Preview
-@Composable
-fun Activity() {
-    Navigation(
-        title = "Main Title"
-    ) { Text(text = "Main Content") }
 }
 
 @Preview

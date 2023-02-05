@@ -174,7 +174,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 KEY_DESCRIPTION,
                 KEY_PAYEE_NAME,
                 KEY_SEALED,
-                "(select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause) AS $KEY_SUM"
+                "coalesce((select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM"
             )
         }
 

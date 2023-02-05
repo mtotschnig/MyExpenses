@@ -47,6 +47,8 @@
     <!--  packages/apps/Calendar/res/values/strings.xml-->
     <string name="response_yes">Yes</string>
     <string name="response_no">No</string>
+    <!-- edit_event_show_all -->
+    <string name="show_all">Show all</string>
     <!-- platform_frameworks_base/core/res/res/values/strings.xml name="keyguard_accessibility_add_widget"-->
     <string name="add_widget">Add widget</string>
     <!-- platform_packages_providers_calendarprovider/res/values/string.xml name="provider_label"-->

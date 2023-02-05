@@ -65,10 +65,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     setDirty();
   }
 
-  protected Toolbar setupToolbar() {
-    Toolbar toolbar = super.setupToolbar(true);
-    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_close_clear_cancel);
-    return toolbar;
+  protected void setupToolbarWithClose() {
+    setupToolbar(true, R.drawable.ic_menu_close_clear_cancel);
   }
 
   @Override

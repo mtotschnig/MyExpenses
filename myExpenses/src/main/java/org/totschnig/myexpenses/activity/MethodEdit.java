@@ -52,7 +52,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     super.onCreate(savedInstanceState);
         
     setContentView(R.layout.one_method);
-    setupToolbar();
+    setupToolbarWithClose();
 
     mLabelText = findViewById(R.id.Label);
     mAccountTypesGrid = findViewById(R.id.AccountTypeGrid);

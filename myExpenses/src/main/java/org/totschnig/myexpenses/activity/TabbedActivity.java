@@ -30,7 +30,7 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityWithTabsBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-    setupToolbar(true);
+    setupToolbar();
 
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 

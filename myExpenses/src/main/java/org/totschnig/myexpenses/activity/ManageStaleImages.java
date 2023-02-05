@@ -24,7 +24,7 @@ public class ManageStaleImages extends ProtectedFragmentActivity  {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_stale_images);
-    setupToolbar(true);
+    setupToolbar();
     setTitle("Stale images");
   }
 }

@@ -52,7 +52,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         roadmapAdapter = RoadmapAdapter()
         binding.myRecyclerView.adapter = roadmapAdapter
         registerForContextMenu(binding.myRecyclerView)
-        setupToolbar(true)
+        setupToolbar()
         supportActionBar?.setTitle(R.string.roadmap_vote)
         isPro = licenceHandler.hasAccessTo(ContribFeature.ROADMAP_VOTING)
         showIsLoading()

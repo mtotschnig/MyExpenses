@@ -139,7 +139,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         super.onCreate(savedInstanceState)
         binding = OneBudgetBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupToolbar()
+        setupToolbarWithClose()
         viewModel = ViewModelProvider(this)[BudgetEditViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L

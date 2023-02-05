@@ -16,7 +16,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -158,8 +157,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     @Inject
     lateinit var modelClass: Class<out MyExpensesViewModel>
-
-    lateinit var toolbar: Toolbar
 
     private var drawerToggle: ActionBarDrawerToggle? = null
 
@@ -410,7 +407,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        toolbar = setupToolbar(false)
+        setupToolbar(false)
         toolbar.isVisible = false
         if (savedInstanceState == null) {
             selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
@@ -1542,13 +1539,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 currencyFormatter.formatMoney(Money(account.currency, account.currentBalance))
         title = if (isHome) getString(R.string.grand_total) else account.label
         toolbar.subtitle = currentBalance
-        toolbar.setSubtitleTextColor(
-            ResourcesCompat.getColor(
-                resources,
-                if (account.currentBalance < 0) R.color.colorExpense else R.color.colorIncome,
-                null
-            )
-        )
+        setSignedToolbarColor(account.currentBalance)
     }
 
     private fun copyToClipBoard() {

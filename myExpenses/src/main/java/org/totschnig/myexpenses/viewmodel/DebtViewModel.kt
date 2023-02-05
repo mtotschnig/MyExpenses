@@ -30,7 +30,7 @@ import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
-class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+open class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter

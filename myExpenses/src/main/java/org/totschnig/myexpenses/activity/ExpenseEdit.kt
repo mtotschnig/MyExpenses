@@ -43,6 +43,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
@@ -224,7 +225,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         dateEditBinding = DateEditBinding.bind(rootBinding.root)
         methodRowBinding = MethodRowBinding.bind(rootBinding.root)
         setContentView(rootBinding.root)
-        setupToolbar()
+        setupToolbarWithClose()
         mManager = LoaderManager.getInstance(this)
         val viewModelProvider = ViewModelProvider(this)
         viewModel = viewModelProvider[TransactionEditViewModel::class.java]
@@ -405,12 +406,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 delegate.setMethods(paymentMethods)
             }
         }
-        viewModel.getDebts().observe(this) { debts ->
-            (delegate as? MainDelegate)?.let {
-                it.setDebts(debts)
-                it.setupDebtChangedListener()
-            }
-        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.bulkDeleteState.filterNotNull().collect {
@@ -488,7 +484,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private fun loadDebts() {
         if (shouldLoadDebts) {
-            viewModel.loadDebts(delegate.rowId)
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.loadDebts(delegate.rowId).collect { debts ->
+                        (delegate as? MainDelegate)?.let {
+                            it.setDebts(debts)
+                            it.setupDebtChangedListener()
+                        }
+                    }
+                }
+            }
         }
     }
 

@@ -108,7 +108,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding = OneAccountBinding.inflate(layoutInflater)
         binding.TagRow.TagLabel.setText(R.string.active_tags)
         setContentView(binding.root)
-        setupToolbar()
+        setupToolbarWithClose()
         val viewModelProvider = ViewModelProvider(this)
         currencyViewModel = viewModelProvider[CurrencyViewModel::class.java]
         viewModel = viewModelProvider[AccountEditViewModel::class.java]

@@ -18,7 +18,8 @@ import timber.log.Timber
 
 abstract class DebtActivity : ProtectedFragmentActivity() {
 
-    protected val debtViewModel: DebtViewModel by viewModels()
+
+    protected abstract val debtViewModel: DebtViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

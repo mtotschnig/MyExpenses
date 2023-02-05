@@ -184,16 +184,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
   }
 
-  protected Toolbar setupToolbar(boolean withHome) {
-    Toolbar toolbar = findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-    if (withHome) {
-      final ActionBar actionBar = getSupportActionBar();
-      actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-    return toolbar;
-  }
-
   @Override
   protected void onDestroy() {
     super.onDestroy();

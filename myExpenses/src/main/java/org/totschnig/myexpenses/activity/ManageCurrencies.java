@@ -13,7 +13,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity  {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.currency_list);
-    setupToolbar(true);
+    setupToolbar();
     getSupportActionBar().setTitle(R.string.pref_custom_currency_title);
   }
 

@@ -60,7 +60,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_sync_backends)
-        setupToolbar(true)
+        setupToolbar()
         setTitle(R.string.pref_manage_sync_backends_title)
         if (savedInstanceState == null) {
             if (!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)) {

@@ -16,14 +16,17 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.fragment.PartiesList
+import org.totschnig.myexpenses.viewmodel.DebtViewModel
 
 class ManageParties : DebtActivity() {
+    override val debtViewModel: DebtViewModel by viewModels()
     private lateinit var listFragment: PartiesList
     fun configureFabMergeMode(mergeMode: Boolean) {
         configureFloatingActionButton(
@@ -43,7 +46,7 @@ class ManageParties : DebtActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_parties)
-        setupToolbar(true)
+        setupToolbar()
         var title = 0
         when (action) {
             Intent.ACTION_MAIN, ACTION_MANAGE -> {
