@@ -101,7 +101,11 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
     object DROPBOX : SyncBackend(R.string.title_dropbox, "dropbox")
     object WEBDAV : SyncBackend(R.string.title_webdav, "webdav")
 
-    object SQLCRYPT: Feature(R.string.title_sqlcrypt, "sqlcrypt")
+    object SQLCRYPT: Feature(R.string.title_sqlcrypt, "sqlcrypt") {
+        override fun canUninstall(context: Context, prefHandler: PrefHandler): Boolean {
+            return !prefHandler.encryptDatabase
+        }
+    }
 }
 
 enum class Script {
