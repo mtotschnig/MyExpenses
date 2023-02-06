@@ -90,10 +90,7 @@ abstract class OnboardingFragment : Fragment() {
         @MenuRes get() = 0
 
     protected open fun onNextButtonClicked() {
-        val activity = activity
-        if (activity is OnboardingActivity) {
-            activity.navigateNext()
-        }
+        hostActivity.navigateNext()
     }
 
     open fun setupMenu() {}
@@ -111,4 +108,7 @@ abstract class OnboardingFragment : Fragment() {
 
     val isSqlCryptLoaded
         get() = featureManager.isFeatureInstalled(Feature.SQLCRYPT, requireContext())
+
+    val hostActivity
+        get() = requireActivity() as OnboardingActivity
 }

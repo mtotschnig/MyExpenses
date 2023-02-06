@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.util.crashreporting
 import android.content.Context
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import timber.log.Timber
@@ -12,43 +10,38 @@ import java.util.*
 
 abstract class CrashHandler {
     private var currentBreadCrumb: String? = null
-    private var enabled = false
 
-    abstract fun onAttachBaseContext(application: MyApplication)
-    abstract fun setupLoggingDo(context: Context)
-    abstract fun putCustomData(key: String, value: String?)
-
-    fun setupLogging(context: Context, prefHandler: PrefHandler) {
-        enabled = prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED,true)
-        if (enabled) {
-            setupLoggingDo(context)
-        }
-    }
+    open fun onAttachBaseContext(application: MyApplication) {}
+    open fun setupLogging(context: Context) {}
+    open fun putCustomData(key: String, value: String) {}
+    open fun setEnabled(enabled: Boolean) {}
 
     open fun setKeys(context: Context) {
         putCustomData("Distribution", getVersionInfo(context))
-        putCustomData(
-            "Installer",
-            context.packageManager.getInstallerPackageName(context.packageName)
-        )
+        context.packageManager.getInstallerPackageName(context.packageName)?.let {
+            putCustomData(
+                "Installer",
+                it
+            )
+        }
         putCustomData("Locale", Locale.getDefault().toString())
     }
 
     fun setUserEmail(value: String?) {
-        putCustomData("UserEmail", value)
+        if (value != null) {
+            putCustomData("UserEmail", value)
+        }
     }
 
     @Synchronized
     fun addBreadcrumb(breadcrumb: String) {
         Timber.i("Breadcrumb: %s", breadcrumb)
-        if (enabled) {
-            currentBreadCrumb =
-                if (currentBreadCrumb == null) "" else currentBreadCrumb!!.substring(
-                    Math.max(0, currentBreadCrumb!!.length - 500)
-                )
-            currentBreadCrumb += "->$breadcrumb"
-            putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, currentBreadCrumb)
-        }
+        currentBreadCrumb =
+            (if (currentBreadCrumb == null) "" else currentBreadCrumb!!.substring(
+                Math.max(0, currentBreadCrumb!!.length - 500)
+            ) + "->$breadcrumb").also {
+                putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, it)
+            }
     }
 
     open fun initProcess(context: Context, syncService: Boolean) {}
@@ -99,10 +92,6 @@ abstract class CrashHandler {
             Timber.e(e)
         }
 
-        var NO_OP: CrashHandler = object : CrashHandler() {
-            override fun onAttachBaseContext(application: MyApplication) {}
-            override fun setupLoggingDo(context: Context) {}
-            override fun putCustomData(key: String, value: String?) {}
-        }
+        var NO_OP: CrashHandler = object : CrashHandler() {}
     }
 }

@@ -119,6 +119,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var preferenceDataStore: PreferenceDataStore
 
+    @Inject
+    lateinit var tracker: Tracker
+
     private val webUiViewModel: WebUiViewModel by viewModels()
     private val currencyViewModel: CurrencyViewModel by viewModels()
     private val viewModel: SettingsViewModel by viewModels()
@@ -356,6 +359,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 crashHandler.setUserEmail(sharedPreferences.getString(key, null))
             }
             getKey(PrefKey.CRASHREPORT_ENABLED) -> {
+                crashHandler.setEnabled(sharedPreferences.getBoolean(key, false))
                 preferenceActivity.showSnackBar(R.string.app_restart_required)
             }
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
@@ -417,7 +421,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
             getKey(PrefKey.TRACKING) -> {
-                preferenceActivity.setTrackingEnabled(sharedPreferences.getBoolean(key, false))
+                tracker.setEnabled(sharedPreferences.getBoolean(key, false))
             }
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
                 preferenceActivity.enqueuePlanner(false)

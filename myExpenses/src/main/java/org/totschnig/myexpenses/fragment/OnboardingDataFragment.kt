@@ -58,11 +58,11 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         }
         viewModel.accountSave.observe(this) {
             if (it) {
-                (requireActivity() as OnboardingActivity).start()
+                hostActivity.start()
             } else {
                 val message = "Unknown error while setting up account"
                 CrashHandler.report(Exception(message))
-                (requireActivity() as OnboardingActivity).showSnackBar(message)
+                hostActivity.showSnackBar(message)
             }
         }
     }

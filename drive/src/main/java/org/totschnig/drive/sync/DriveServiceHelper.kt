@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
-import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 
@@ -98,7 +97,7 @@ class DriveServiceHelper(context: Context, accountName: String) {
         try {
             mDriveService.files().update(fileId, null, contentStream).execute()
         } catch (e: GoogleJsonResponseException) {
-            crashHandler.putCustomData("GoogleJsonResponseException", e.details?.message)
+            crashHandler.putCustomData("GoogleJsonResponseException", e.details?.message ?: "ERROR")
             throw e
         }
     }

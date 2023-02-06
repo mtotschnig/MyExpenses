@@ -245,7 +245,9 @@ public class MyApplication extends Application implements
         CrashHandler.report(e);
       }
     }
-    crashHandler.setupLogging(this, prefHandler);
+    if (prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED,true)) {
+      crashHandler.setupLogging(this);
+    }
   }
 
   @Deprecated

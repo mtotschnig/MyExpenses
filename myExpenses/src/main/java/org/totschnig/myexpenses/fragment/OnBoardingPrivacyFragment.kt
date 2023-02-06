@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.CompoundButton
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -10,11 +9,20 @@ import org.totschnig.myexpenses.databinding.OnboardingWizzardPrivacyBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.distribution
+import org.totschnig.myexpenses.util.tracking.Tracker
+import javax.inject.Inject
 
-class OnBoardingPrivacyFragment: OnboardingFragment(), CompoundButton.OnCheckedChangeListener {
+class OnBoardingPrivacyFragment: OnboardingFragment() {
     private var _binding: OnboardingWizzardPrivacyBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var crashHandler: CrashHandler
+
+    @Inject
+    lateinit var tracker: Tracker
 
     override val layoutResId = R.layout.onboarding_wizzard_privacy
     override fun bindView(view: View) {
@@ -58,8 +66,6 @@ class OnBoardingPrivacyFragment: OnboardingFragment(), CompoundButton.OnCheckedC
         if (distribution.supportsTrackingAndCrashReporting) {
             binding.crashReports.text =
                 Utils.getTextWithAppName(context, R.string.crash_reports_user_info)
-            binding.crashReports.setOnCheckedChangeListener(this)
-            binding.tracking.setOnCheckedChangeListener(this)
         } else {
             binding.crashReports.isVisible = false
             binding.crashReportsLabel.isVisible = false
@@ -74,14 +80,14 @@ class OnBoardingPrivacyFragment: OnboardingFragment(), CompoundButton.OnCheckedC
         fun newInstance() = OnBoardingPrivacyFragment()
     }
 
-    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-        when(buttonView.id) {
-            R.id.crash_reports -> PrefKey.CRASHREPORT_ENABLED
-            R.id.tracking -> PrefKey.TRACKING
-            else -> null
-        }?.let {
-            prefHandler.putBoolean(it, isChecked)
-        }
+    override fun onNextButtonClicked() {
+        val trackingEnabled = binding.tracking.isChecked
+        prefHandler.putBoolean(PrefKey.TRACKING, trackingEnabled)
+        tracker.setEnabled(trackingEnabled)
+        val crashReportEnabled = binding.crashReports.isChecked
+        prefHandler.putBoolean(PrefKey.CRASHREPORT_ENABLED, crashReportEnabled)
+        crashHandler.setEnabled(crashReportEnabled)
+        super.onNextButtonClicked()
     }
 
     override fun onDestroyView() {

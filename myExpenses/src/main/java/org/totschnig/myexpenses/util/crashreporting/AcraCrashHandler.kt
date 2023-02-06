@@ -31,11 +31,11 @@ class AcraCrashHandler : CrashHandler() {
         }
     }
 
-    override fun setupLoggingDo(context: Context) {
+    override fun setupLogging(context: Context) {
         setKeys(context)
     }
 
-    override fun putCustomData(key: String, value: String?) {
-        value?.let { errorReporter.putCustomData(key, it) }
+    override fun putCustomData(key: String, value: String) {
+        errorReporter.putCustomData(key, value)
     }
 }

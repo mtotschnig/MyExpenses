@@ -472,10 +472,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         featureViewModel.unregisterCallback()
     }
 
-    fun setTrackingEnabled(enabled: Boolean) {
-        tracker.setEnabled(enabled)
-    }
-
     fun logEvent(event: String, params: Bundle?) {
         tracker.logEvent(event, params)
     }
