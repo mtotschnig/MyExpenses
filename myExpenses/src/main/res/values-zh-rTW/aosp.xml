@@ -35,5 +35,6 @@
     <string name="storage_description">"本機儲存空間"</string>
     <string name="encryption">"加密"</string>
     <string name="learn_more">"瞭解詳情"</string>
+    <string name="show_all">"全部顯示"</string>
 </resources>
 

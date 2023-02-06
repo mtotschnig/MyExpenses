@@ -35,6 +35,7 @@
     <string name="compact">trinkoa</string>
     <string name="storage_description">"Biltegi lokala"</string>
     <string name="encryption">"Enkriptatzea"</string>
-     <string name="learn_more">"Lortu informazio gehiago"</string>
+    <string name="learn_more">"Lortu informazio gehiago"</string>
+    <string name="show_all">"Erakutsi guztiak"</string>
 </resources>
 

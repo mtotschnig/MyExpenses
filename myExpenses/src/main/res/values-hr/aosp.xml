@@ -36,5 +36,6 @@
     <string name="storage_description">"Lokalna pohrana"</string>
     <string name="encryption">"Enkripcija"</string>
     <string name="learn_more">"Saznajte više"</string>
+    <string name="show_all">"Pokaži sve"</string>
 </resources>
 

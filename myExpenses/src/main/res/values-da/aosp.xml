@@ -36,5 +36,6 @@
     <string name="storage_description">"Lokalt lager"</string>
     <string name="encryption">"Kryptering"</string>
     <string name="learn_more">"Få flere oplysninger"</string>
+    <string name="show_all">"Vis alle"</string>
 </resources>
 

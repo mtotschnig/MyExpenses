@@ -35,5 +35,6 @@
     <string name="storage_description">"Τοπικός χώρος αποθήκευσης"</string>
     <string name="encryption">"Κρυπτογράφηση"</string>
     <string name="learn_more">"Μάθετε περισσότερα"</string>
+    <string name="show_all">"Εμφάνιση όλων"</string>
 </resources>
 

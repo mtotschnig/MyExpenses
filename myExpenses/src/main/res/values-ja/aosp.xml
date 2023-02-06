@@ -36,5 +36,6 @@
     <string name="storage_description">"ローカル ストレージ"</string>
     <string name="encryption">"暗号化"</string>
     <string name="learn_more">"詳細"</string>
+    <string name="show_all">"すべて表示"</string>
 </resources>
 

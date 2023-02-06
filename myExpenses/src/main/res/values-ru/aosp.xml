@@ -35,5 +35,6 @@
     <string name="storage_description">"Локальное хранилище"</string>
     <string name="encryption">"Шифрование"</string>
     <string name="learn_more">"Подробнее"</string>
+    <string name="show_all">"Показать все"</string>
 </resources>
 

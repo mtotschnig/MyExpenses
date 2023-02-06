@@ -35,5 +35,6 @@
     <string name="storage_description">"Bộ nhớ cục bộ"</string>
     <string name="encryption">"Mã hóa"</string>
     <string name="learn_more">"Tìm hiểu thêm"</string>
+    <string name="show_all">"Hiển thị tất cả"</string>
 </resources>
 

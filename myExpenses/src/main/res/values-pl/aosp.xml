@@ -35,5 +35,6 @@
     <string name="storage_description">"Pamięć lokalna"</string>
     <string name="encryption">"Szyfrowanie"</string>
     <string name="learn_more">"Więcej informacji"</string>
+    <string name="show_all">"Pokaż wszystkie"</string>
 </resources>
 

@@ -35,5 +35,6 @@
     <string name="storage_description">"Almacenamiento local"</string>
     <string name="encryption">"Cifrado"</string>
     <string name="learn_more">"Más información"</string>
+    <string name="show_all">"Mostrar todo"</string>
 </resources>
 

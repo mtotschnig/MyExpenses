@@ -36,4 +36,5 @@
     <!--apps/Settings/res/values/strings crypt_keeper_settings_title  -->
     <string name="encryption">Versleuteling</string>
     <string name="learn_more">"Meer informatie"</string>
+    <string name="show_all">"Alles weergeven"</string>
 </resources>

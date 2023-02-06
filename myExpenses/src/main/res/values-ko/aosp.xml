@@ -36,5 +36,6 @@
     <string name="storage_description">"로컬 저장소"</string>
     <string name="encryption">"암호화"</string>
     <string name="learn_more">"자세히 알아보기"</string>
+    <string name="show_all">"모두 표시"</string>
 </resources>
 

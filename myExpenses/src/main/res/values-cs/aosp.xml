@@ -35,5 +35,6 @@
     <string name="storage_description">"Místní úložiště"</string>
     <string name="encryption">"Šifrování"</string>
     <string name="learn_more">"Další informace"</string>
+    <string name="show_all">"Zobrazit vše"</string>
 </resources>
 

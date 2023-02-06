@@ -35,5 +35,6 @@
     <string name="storage_description">"Helyi tárhely"</string>
     <string name="encryption">"Titkosítás"</string>
     <string name="learn_more">"További információ"</string>
+    <string name="show_all">"Összes megjelenítése"</string>
 </resources>
 

@@ -36,5 +36,6 @@
     <string name="storage_description">"Локальна пам’ять"</string>
     <string name="encryption">"Шифрування"</string>
     <string name="learn_more">"Докладніше"</string>
+    <string name="show_all">"Показати все"</string>
 </resources>
 

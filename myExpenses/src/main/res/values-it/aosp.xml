@@ -35,5 +35,6 @@
     <string name="storage_description">"Archiviazione locale"</string>
     <string name="encryption">"Crittografia"</string>
     <string name="learn_more">"Scopri di più"</string>
+    <string name="show_all">"Mostra tutto"</string>
 </resources>
 
