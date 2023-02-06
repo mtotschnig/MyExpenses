@@ -8,4 +8,5 @@
     <string name="testData_account2Label">పారిస్‌లో వారాంతం</string>
     <string name="testData_account1Description">రోజువారీ ఖర్చులు</string>
     <string name="testData_transaction4Payee">పిజ్జేరియా ఆంటోనెల్లా</string>
+    <string name="testData_tag_project">పేరులేని ప్రాజెక్ట్</string>
 </resources>
