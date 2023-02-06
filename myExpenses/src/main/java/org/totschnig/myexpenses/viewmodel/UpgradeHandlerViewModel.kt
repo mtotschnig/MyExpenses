@@ -403,7 +403,10 @@ class UpgradeHandlerViewModel(application: Application) :
                 GenericAccountService.migratePasswords(getApplication())
             }
 
-            if (fromVersion < 583) {
+            if (fromVersion < 583 && prefHandler.requireString(
+                    PrefKey.PLANNER_CALENDAR_ID,
+                    MyApplication.INVALID_CALENDAR_ID
+                ) != MyApplication.INVALID_CALENDAR_ID) {
                 PlanExecutor.enqueueSelf(getApplication(), prefHandler, true)
             }
 
