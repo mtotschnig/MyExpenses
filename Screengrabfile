@@ -38,6 +38,7 @@ locales([
     'ru-RU',
     'si-LK',
     'ta-IN',
+    'te-IN',
     'tr-TR',
     'vi-VI',
     'zh-TW'
