@@ -331,6 +331,16 @@
                     select="document($aosp)/resources/string[@name='experimental']" />
                 <xsl:text>)</xsl:text>
             </xsl:when>
+            <xsl:when test="$version = '3.5.1'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='debt_managment']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='ui_refinement']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>
