@@ -114,16 +114,6 @@ tr:
   all_contrib_key_features: Katkı Anahtarının tüm işlevleri
   all_extended_key_features: Genişletilmiş Anahtar'ın tüm işlevleri
   customer_support: Müşteri desteği
-  screenshot_testdata:
-    account1Label: Cüzdanım
-    account1Description: Günlük giderler
-    account2Label: İngiltere\'ye seyahat
-    account3Label: Banka hesabı
-    account3Description: Türkiye İş Bankası
-    transaction2Comment: Meyve ve sebzeler
-    transaction4Payee: Osmanya Restaurant
-    templatePayee: Sarı Çizmeli Mehmet Ağa
-    tag_project: Adsız proje
   screenshot_titles:
     group: Senelik, aylık veya haftalık gruplamalar
     summarize: Tüm hesapların toplamı

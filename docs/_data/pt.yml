@@ -116,16 +116,6 @@ pt:
   all_contrib_key_features: Todas os recursos da chave de contribuição
   all_extended_key_features: Todos os recursos da chave estendida
   customer_support: Suporte ao cliente
-  screenshot_testdata:
-    account1Label: Minha carteira
-    account1Description: Despesas diárias
-    account2Label: final de semana em Paris
-    account3Label: Conta em banco
-    account3Description: Banco da América
-    transaction2Comment: Frutas & Vegetais
-    transaction4Payee: Café do Brasil
-    templatePayee: Fulano de tal
-    tag_project: Projeto sem título
   screenshot_titles:
     group: Agrupar por ano, mês ou semana
     summarize: Resuma todas as suas contas

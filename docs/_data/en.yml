@@ -88,16 +88,6 @@ en:
   all_contrib_key_features: All features of Contrib Key
   all_extended_key_features: All features of Extended Key
   customer_support: Customer support
-  screenshot_testdata:
-    account1Label: My wallet
-    account1Description: Daily expenses
-    account2Label: weekend in Paris
-    account3Label: Bank account
-    account3Description: Bank of America
-    transaction2Comment: Fruits & Vegetables
-    transaction4Payee: Pizzeria Antonella
-    templatePayee: John Doe
-    tag_project: Untitled project
   screenshot_titles:
     group: Group by year, month or week
     summarize: Sum up all your accounts

@@ -32,15 +32,6 @@ si:
   contrib-key: 'සහදායක යතුර'
   extended-key: දීර්ඝ කළ යතුර
   professional-key: ''
-  screenshot_testdata:
-    account1Label: මාගේ පසුම්බිය
-    account1Description: දෛනික වියදම්
-    account2Label: පැරිසියේ සති අන්තය
-    account3Label: බැංකු ගිණුම
-    account3Description: අමෙරිකානු බැංකුව
-    transaction2Comment: පලතුරු සහ එළවලු
-    transaction4Payee: පිසේරියා ඇන්ටනෙල්ලා
-    tag_project: නම් නොකළ ව්‍යාපෘතිය
   screenshot_titles:
     group: අවුරුද්ද, මාසය හෝ සතිය අනුව සමූහගත කරන්න
     summarize: ඔබගේ සියලු ගිණුම් සාරාංශ කරන්න

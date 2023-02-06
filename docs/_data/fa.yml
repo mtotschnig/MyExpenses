@@ -114,16 +114,6 @@ fa_IR:
   all_contrib_key_features: کلیهٔ قابلیت‌های لایسنس مشارکت
   all_extended_key_features: کلیهٔ قابلیت‌های لایسنس توسعه یافته
   customer_support: پشتیبانی مشتری
-  screenshot_testdata:
-    account1Label: کیف پول من
-    account1Description: هزینه‌های روزانه
-    account2Label: آخر هفته در پاریس
-    account3Label: حساب بانک
-    account3Description: بانک آمریکا
-    transaction2Comment: میوه و سبزیجات
-    transaction4Payee: پیتزافروشی آنتونلا
-    templatePayee: فلانی
-    tag_project: پروژه بدون عنوان
   screenshot_titles:
     group: گروه‌بندی بر اساس سال، ماه و یا هفته
     summarize: همه حسابهای خود را جمع بندی کنید

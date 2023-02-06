@@ -121,16 +121,6 @@ it:
   all_contrib_key_features: Tutte le funzionalità della Licenza Contributore
   all_extended_key_features: Tutte le funzionalità della Licenza Funzionalità Estese
   customer_support: Servizio Clienti
-  screenshot_testdata:
-    account1Label: Il mio portafoglio
-    account1Description: Spese quotidiane
-    account2Label: Weekend a Parigi
-    account3Label: Conto bancario
-    account3Description: Unicredit
-    transaction2Comment: Frutta e verdura
-    transaction4Payee: Pizzeria Bella Napoli
-    templatePayee: Piero Pers
-    tag_project: Progetto senza titolo
   screenshot_titles:
     group: Raggruppa per anno, mese o settimana
     summarize: Somma tutti i tuoi account

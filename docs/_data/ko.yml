@@ -89,16 +89,6 @@ ko:
   all_contrib_key_features: Contrib Key의 모든 기능
   all_extended_key_features: 확장 키의 모든 기능
   customer_support: 고객 지원
-  screenshot_testdata:
-    account1Label: 내 지갑
-    account1Description: 일일 지출
-    account2Label: 파리에서의 주말
-    account3Label: 은행 계좌
-    account3Description: Bank of America
-    transaction2Comment: 과일 및 야채
-    transaction4Payee: 기사 식당
-    templatePayee: 홍길동
-    tag_project: 제목없는 프로젝트
   screenshot_titles:
     group: 연도, 월 또는 주별로 그룹화
     summarize: 모든 계정 요약

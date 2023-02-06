@@ -37,16 +37,6 @@ zh-tw:
   all_contrib_key_features: 貢獻版密鑰的所有功能
   all_extended_key_features: 延伸版密鑰的所有功能
   customer_support: 客戶支持
-  screenshot_testdata:
-    account3Label: 銀行賬戶
-    tag_project: 未命名項目
-    account1Label: 我的錢包
-    account1Description: 每日支出
-    account2Label: 週末在巴黎
-    transaction4Payee: 海底撈
-    templatePayee: 張三
-    transaction2Comment: 水果蔬菜
-    account3Description: 美國銀行
   screenshot_titles:
     distribution: 餅圖展示
     group: 按年、月或星期分組

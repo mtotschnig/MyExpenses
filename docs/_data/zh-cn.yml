@@ -88,16 +88,6 @@ zh-cn:
   all_contrib_key_features: '贡献版密钥的所有功能'
   all_extended_key_features: '扩展版密钥的所有功能'
   customer_support: 客户支持
-  screenshot_testdata:
-    account1Label: 我的钱包
-    tag_project: 未命名项目
-    templatePayee: 张三
-    transaction4Payee: 海底捞
-    transaction2Comment: 水果蔬菜
-    account3Description: 美国银行
-    account3Label: 银行账户
-    account2Label: 周末在巴黎
-    account1Description: 每日支出
   screenshot_titles:
     sync: 云同步
     export: 导出为 PDF、QIF 和 CSV

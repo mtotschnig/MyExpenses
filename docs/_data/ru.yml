@@ -119,16 +119,6 @@ ru:
   all_contrib_key_features: Все возможности Contrib-ключа
   all_extended_key_features: Все возможности Extended-ключа
   customer_support: Служба поддержки
-  screenshot_testdata:
-    account1Label: Мой кошелёк
-    account1Description: Ежедневные расходы
-    account2Label: уикэнд в Париже
-    account3Label: Банковский счёт
-    account3Description: Банк Америки
-    transaction2Comment: Овощи и фрукты
-    transaction4Payee: Пиццерия Антонелла
-    templatePayee: Иван Иванович Иванов
-    tag_project: Без названия проект
   screenshot_titles:
     group: Группировать по году, месяцу или неделе
     summarize: Подведите итоги по всем вашим счетам

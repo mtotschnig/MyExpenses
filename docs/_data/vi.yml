@@ -38,16 +38,6 @@ vi:
   all_contrib_key_features: Tất cả các tính năng của Khóa đóng góp
   all_extended_key_features: Tất cả tính năng trong bản Mở rộng
   customer_support: Hỗ trợ khách hàng
-  screenshot_testdata:
-    account1Label: Ví của tôi
-    account1Description: Chi tiêu hàng ngày
-    account2Label: Du lịch Paris cuối tuần
-    account3Label: Tài khoản ngân hàng
-    account3Description: BIDV
-    transaction2Comment: Trái cây và rau
-    transaction4Payee: Hanoi Cuisine
-    templatePayee: Nguyễn Văn A
-    tag_project: Dự án chưa có tiêu đề
   screenshot_titles:
     group: Nhóm theo năm, tháng hoặc tuần
     summarize: Tổng hợp tất cả các tài khoản của bạn

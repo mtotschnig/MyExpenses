@@ -50,16 +50,6 @@ te:
     budget: వార్షిక, నెలవారీ మరియు వారపు బడ్జెట్లు
     summarize: మీ అన్ని ఖాతాలను సంకలనం చేయండి
     group: సంవత్సరం, నెల లేదా వారం వారీగా సమూహం
-  screenshot_testdata:
-    tag_project: పేరులేని ప్రాజెక్ట్
-    templatePayee: జాన్ డో
-    transaction4Payee: పిజ్జేరియా ఆంటోనెల్లా
-    transaction2Comment: పండ్లు & కూరగాయలు
-    account3Description: బ్యాంక్ ఆఫ్ అమెరికా
-    account3Label: బ్యాంకు ఖాతా
-    account2Label: పారిస్‌లో వారాంతం
-    account1Description: రోజువారీ ఖర్చులు
-    account1Label: నా పర్సు
   customer_support: వినియోగదారుని మద్దతు
   all_extended_key_features: విస్తరించిన కీ యొక్క అన్ని లక్షణాలు
   all_contrib_key_features: కాంట్రిబ్ కీ యొక్క అన్ని లక్షణాలు

@@ -64,16 +64,6 @@ hu:
   contrib-key: Contrib Kulcs
   extended-key: Kiterjesztett Kulcs
   professional-key: Szakmai kulcs
-  screenshot_testdata:
-    account1Label: Saját pénztárca
-    account1Description: Napi kiadások
-    account2Label: Párizsi hétvége
-    account3Label: Bankszámla
-    account3Description: OTP Bank
-    transaction2Comment: Zöldség, gyümölcs
-    transaction4Payee: Antonella Pizzéria
-    templatePayee: Minta János
-    tag_project: Cím nélküli projekt
   screenshot_titles:
     group: Csoportosítás év, hónap vagy hét szerint
     summarize: Összegezze az összes fiókját

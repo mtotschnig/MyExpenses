@@ -119,16 +119,6 @@ es:
   all_contrib_key_features: Todas las características de licencia Contrib
   all_extended_key_features: Todas las características de la llave Extendida
   customer_support: Atención al cliente
-  screenshot_testdata:
-    account1Label: Mi cartera
-    account1Description: Gastos diarios
-    account2Label: Viaje a Inglaterra
-    account3Label: Cuenta bancaria
-    account3Description: Banco de América
-    transaction2Comment: Frutas y verduras
-    transaction4Payee: Tapas España
-    templatePayee: John Doe
-    tag_project: Proyecto sin título
   screenshot_titles:
     group: Agrupar por año, mes o semana
     summarize: Sumar todas las cuentas

@@ -48,13 +48,3 @@ uk:
   professional-key: Професійна версія
   all_contrib_key_features: Всі можливості платної версії
   all_extended_key_features: Всі можливості розширеної версії
-  screenshot_testdata:
-    account1Label: Мій гаманець
-    account1Description: Щоденні витрати
-    account2Label: вихідні в Парижі
-    account3Label: Банківський рахунок
-    account3Description: Банк Америки
-    transaction2Comment: Фрукти & овочі
-    transaction4Payee: Піцерія Антонелла
-    templatePayee: John Doe
-    tag_project: Без назви проекту

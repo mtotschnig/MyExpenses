@@ -42,16 +42,6 @@ el:
   all_contrib_key_features: Όλα οι δυνατότητες ενός Contrib κλειδιού
   all_extended_key_features: Όλες οι δυνατότητες του Εκτεταμένου Κλειδιού
   customer_support: Υποστήριξη πελατών
-  screenshot_testdata:
-    account1Label: Το πορτοφόλι μου
-    account1Description: Καθημερινά έξοδα
-    account2Label: Σαββατοκύριακο στο Λονδίνο
-    account3Label: Τραπεζικός λογαριασμός
-    account3Description: Τράπεζα της Αμερικής
-    transaction2Comment: Φρούτα & Λαχανικά
-    transaction4Payee: Μύθος εστιατορίου
-    templatePayee: John Doe
-    tag_project: Έργο χωρίς τίτλο
   screenshot_titles:
     group: Ομαδοποίηση ανά έτος, μήνα ή εβδομάδα
     summarize: Συνοψίστε όλους τους λογαριασμούς σας

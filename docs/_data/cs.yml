@@ -37,16 +37,6 @@ cs:
   contrib-key: Klíč Contrib
   extended-key: Rozšířený klíč
   professional-key: Profesionální klíč
-  screenshot_testdata:
-    account1Label: Moje peněženka
-    account1Description: Denní výdaje
-    account2Label: víkend v Paříži
-    account3Label: Bankovní účet
-    account3Description: Bank of America
-    transaction2Comment: Ovoce a zelenina
-    transaction4Payee: Do české vesnice
-    templatePayee: Jan Novák
-    tag_project: Projekt bez názvu
   screenshot_titles:
     group: Seskupit podle roku, měsíce nebo týdne
     summarize: Sečtěte všechny své účty

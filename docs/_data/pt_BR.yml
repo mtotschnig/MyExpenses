@@ -91,16 +91,6 @@ screenshot_titles:
   budget: Orçamentos anuais, mensais e semanais
   summarize: Somar todas as suas contas
   group: Agrupar por ano, mês ou semana
-screenshot_testdata:
-  tag_project: Projeto sem título
-  templatePayee: Fulano de tal
-  transaction4Payee: Mesa do Sábio
-  transaction2Comment: Frutas e verduras
-  account3Description: Banco do Brasil
-  account3Label: Conta em banco
-  account2Label: final de semana em Paris
-  account1Description: Despesas diárias
-  account1Label: Minha carteira
 customer_support: Suporte ao cliente
 professional-key: Chave profissional
 extended-key: Chave estendida

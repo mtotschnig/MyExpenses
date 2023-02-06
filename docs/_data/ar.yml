@@ -104,16 +104,6 @@ ar:
   all_contrib_key_features: جميع ميزات مفتاح المساهمة
   all_extended_key_features: جميع ميزات المفتاح الممتد
   customer_support: دعم العملاء
-  screenshot_testdata:
-    account1Label: محفظتي
-    account1Description: المصروفات اليومية
-    account2Label: عطلة نهاية الاسبوع في باريس
-    account3Label: حساب البنك
-    account3Description: البنك الامريكي
-    transaction2Comment: فواكه & خضروات
-    transaction4Payee: حبيبي
-    templatePayee: فلان الفلاني
-    tag_project: مشروع بلا عنوان
   screenshot_titles:
     group: تصنيف حسب السنة أو الشهر أو الأسبوع
     summarize: لخص جميع حساباتك

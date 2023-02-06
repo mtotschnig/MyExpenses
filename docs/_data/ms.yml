@@ -117,16 +117,6 @@ ms:
   all_contrib_key_features: Semua fitur Kunci Contrib
   all_extended_key_features: Semua fitur Kunci Lanjutan
   customer_support: Sokongan pengguna
-  screenshot_testdata:
-    account1Label: Dompet saya
-    account1Description: Perbelanjaan harian
-    account2Label: hujung minggu di Paris
-    account3Label: Akaun bank
-    account3Description: Bank of America
-    transaction2Comment: Buah-buahan & Sayuran
-    transaction4Payee: Seri Melayu
-    templatePayee: anu
-    tag_project: Projek tanpa tajuk
   screenshot_titles:
     group: Kumpulkan mengikut tahun, bulan atau minggu
     summarize: Jumlahkan semua akaun anda

@@ -114,16 +114,6 @@ kn:
   all_contrib_key_features: ಕೊಡುಗೆ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು
   all_extended_key_features: ವಿಸ್ತೃತ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು
   customer_support: ಗ್ರಾಹಕರ ಬೆಂಬಲ
-  screenshot_testdata:
-    account1Label: ನನ್ನ ವಾಲೆಟ್
-    account1Description: ದೈನಂದಿನ ವೆಚ್ಚಗಳು
-    account2Label: ಪ್ಯಾರಿಸ್ನಲ್ಲಿ ವಾರಾಂತ್ಯ
-    account3Label: ಬ್ಯಾಂಕ್ ಖಾತೆ
-    account3Description: ಬ್ಯಾಂಕ್ ಆಫ್ ಅಮೇರಿಕಾ
-    transaction2Comment: ಹಣ್ಣುಗಳು ಮತ್ತು ತರಕಾರಿಗಳು
-    transaction4Payee: ಪಿಜ್ಜೇರಿಯಾ ಆಂಟೊನೆಲ್ಲಾ
-    templatePayee: ಜಾನ್ ಡೋ
-    tag_project: ಶೀರ್ಷಿಕೆರಹಿತ ಯೋಜನೆ
   screenshot_titles:
     sync: ಮೇಘ ಸಿಂಕ್ರೊನೈಸೇಶನ್
     export: ಪಿಡಿಎಫ್, ಕ್ಯೂಐಎಫ್ ಮತ್ತು ಸಿಎಸ್‌ವಿಗಳಿಗೆ ರಫ್ತು ಮಾಡಿ

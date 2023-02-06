@@ -70,16 +70,6 @@ ca_ES:
   contrib-key: Clau del Contribuïdor
   extended-key: Clau estesa
   professional-key: Clau professional
-  screenshot_testdata:
-    account1Label: La meva cartera
-    account1Description: Les despeses diaris
-    account2Label: Cap de setmana a Londres
-    account3Label: Compte bancari
-    account3Description: CatalunyaCaixa
-    transaction2Comment: Fruites i verdures
-    transaction4Payee: Begur
-    templatePayee: Fulano de Tal
-    tag_project: Projecte sense títol
   screenshot_titles:
     group: Grup per any, mes o setmana
     summarize: Resumeix tots els teus comptes

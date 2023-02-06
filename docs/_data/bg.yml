@@ -120,16 +120,6 @@ bg:
   all_contrib_key_features: Всички възможности на Основен вариант
   all_extended_key_features: Всички възможности на Разширен вариант
   customer_support: Поддръжка на клиенти
-  screenshot_testdata:
-    account1Label: Моят портфейл
-    account1Description: Дневни разходи
-    account2Label: уикенд в Париж
-    account3Label: Банкова сметка
-    account3Description: Bank of America
-    transaction2Comment: Плодове & зеленчуци
-    transaction4Payee: Пицария Антонела
-    templatePayee: Джон Доу
-    tag_project: Без заглавие проект
   screenshot_titles:
     group: Групиране по година, месец или седмица
     summarize: Обобщение на всичките Ви сметки

@@ -27,15 +27,6 @@ km:
   contrib-key: កូនសោកុងតឺន័រ
   extended-key: កូនសោពង្រីក
   professional-key: គន្លឹះវិជ្ជាជីវៈ
-  screenshot_testdata:
-    account1Label: កាបូបលុយខ្ញុំ
-    account1Description: ការចំណាយ​ប្រចាំថ្ងៃ
-    account2Label: ចុងសប្តាហ៍​នៅប៉ារីស
-    account3Label: គណនីធនាគារ
-    account3Description: ធនាគាអាមេរិក
-    transaction2Comment: ផ្លែឈើ & បន្លែ
-    transaction4Payee: ត្បាល់ខ្មែរ​
-    tag_project: គម្រោងគ្មានចំណងជើង
   screenshot_titles:
     group: ដាក់ជាក្រុមតាមឆ្នាំខែឬសប្តាហ៍
     summarize: បូកសរុបគណនីរបស់អ្នកទាំងអស់

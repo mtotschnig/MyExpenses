@@ -101,16 +101,6 @@ iw:
   all_contrib_key_features: כל התכונות של מפתח Contrib
   all_extended_key_features: כל התכונות של מפתח מורחב
   customer_support: שירות לקוחות
-  screenshot_testdata:
-    account1Label: הארנק שלי
-    account1Description: הוצאות יומיות
-    account2Label: סוף שבוע בפריס
-    account3Label: חשבון בנק
-    account3Description: בנק אמריקה
-    transaction2Comment: פירות וירקות
-    transaction4Payee: פיצריה אנטונלה
-    templatePayee: פלוני אלמוני
-    tag_project: פרויקט ללא כותרת
   screenshot_titles:
     group: קיבוץ לפי שנה, חודש או שבוע
     summarize: סכם את כל החשבונות שלך

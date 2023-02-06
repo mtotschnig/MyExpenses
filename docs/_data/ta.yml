@@ -118,16 +118,6 @@ ta:
   all_contrib_key_features: பங்களிப்பு திறவுகோலின் அனைத்து அம்சங்கள்
   all_extended_key_features: விரிவாக்கப்பட்ட திறவுகோலின் அனைத்து அம்சங்கள்
   customer_support: வாடிக்கையாளர் ஆதரவு
-  screenshot_testdata:
-    account1Label: என் பணப்பை
-    account1Description: தினசரி செலவுகள்
-    account2Label: பாரிஸில் வார இறுதி
-    account3Label: வங்கி கணக்கு
-    account3Description: பேங்க் ஆஃப் அமெரிக்கா
-    transaction2Comment: பழங்கள் & காய்கறிகள்
-    transaction4Payee: கையேந்தி பவன்
-    templatePayee: அப்துல் கலாம்
-    tag_project: பெயரிடப்படாத திட்டம்
   screenshot_titles:
     group: ஆண்டு, மாதம் அல்லது வாரம் வாரியாக குழுவமைத்தல்
     summarize: உங்கள் எல்லா கணக்குகளையும் தொகுத்தல்

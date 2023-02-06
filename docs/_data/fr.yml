@@ -120,16 +120,6 @@ fr:
   all_contrib_key_features: Toutes les fonctions de la Clé Contrib
   all_extended_key_features: Toutes les fonctions de la Clé Étendue
   customer_support: Service client
-  screenshot_testdata:
-    account1Label: Mon porte-monnaie
-    account1Description: Dépenses courantes
-    account2Label: Week-end à Londres
-    account3Label: Compte bancaire
-    account3Description: Crédit agricole
-    transaction2Comment: Fruits et légumes
-    transaction4Payee: Brasserie Le Paris
-    templatePayee: Jean Martin
-    tag_project: Projet sans titre
   screenshot_titles:
     group: Regroupez par année, mois ou semaine
     summarize: Résumez tous vos comptes

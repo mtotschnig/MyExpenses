@@ -68,16 +68,6 @@ hr:
   contrib-key: Contrib Ključ
   extended-key: Prošireni ključ
   professional-key: Profesionalni ključ
-  screenshot_testdata:
-    account1Label: Moj novčanik
-    account1Description: Dnevni troškovi
-    account2Label: vikend u Parizu
-    account3Label: Bankovni račun
-    account3Description: Bank of America
-    transaction2Comment: Voće i povrće
-    transaction4Payee: Marjan Grill
-    templatePayee: Hrvoje Horvat
-    tag_project: Projekt bez naslova
   screenshot_titles:
     group: Grupirajte se po godini, mjesecu ili tjednu
     summarize: Zbroji sve tvoje račune

@@ -89,16 +89,6 @@ ja:
   all_contrib_key_features: 貢献キーのすべての機能
   all_extended_key_features: 拡張キーのすべての機能
   customer_support: 顧客サポート
-  screenshot_testdata:
-    account1Label: マイ ウォレット
-    account1Description: 毎日の支出
-    account2Label: パリの週末
-    account3Label: 銀行口座
-    account3Description: バンク オブ アメリカ
-    transaction2Comment: 果物 & 野菜
-    transaction4Payee: ピッツェリア アントネッラ
-    templatePayee: だれだれ
-    tag_project: 無題のプロジェクト
   screenshot_titles:
     group: 年、月、または週でグループ化
     summarize: すべてのアカウントをまとめます

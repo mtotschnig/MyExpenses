@@ -121,16 +121,6 @@ eu:
   all_contrib_key_features: Kontribuzio gakoaren eginbide guztiak
   all_extended_key_features: Giltza hedatuaren ezaugarri guztiak
   customer_support: Bezeroarentzako arreta
-  screenshot_testdata:
-    account1Label: Nire diru-zorroa
-    account1Description: Eguneroko gastuak
-    account2Label: asteburua Parisen
-    account3Label: Banku kontua
-    account3Description: Bank of America
-    transaction2Comment: Frutak eta barazkiak
-    transaction4Payee: On Egin
-    templatePayee: Don Inorrez
-    tag_project: Titulurik gabeko proiektua
   screenshot_titles:
     group: Taldeka, hilabetero edo astez
     summarize: Labur itzazu zure kontu guztiak

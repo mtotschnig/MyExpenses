@@ -124,16 +124,6 @@ de:
   all_contrib_key_features: Alle Funktionen des Contrib Schlüssels
   all_extended_key_features: Alle Funktionen des erweiterten Schlüssels
   customer_support: Kundendienst
-  screenshot_testdata:
-    account1Label: Meine Geldtasche
-    account1Description: Tägliche Ausgaben
-    account2Label: Wochenende in London
-    account3Label: Bankkonto
-    account3Description: Deutsche Bank
-    transaction2Comment: Obst und Gemüse
-    transaction4Payee: Restaurant Zum Nussbaum
-    templatePayee: Erika Musterfrau
-    tag_project: Projekt ohne Titel
   screenshot_titles:
     group: Gruppierung nach Jahr, Monat oder Woche
     summarize: Zusammenfassung aller Konten

@@ -19,16 +19,6 @@ nl:
       explanation_key_validation: Licentie sleutel validatie
       explanation_cloud_sync: Cloud synchronisatie
   professional-key: Professionele sleutel
-  screenshot_testdata:
-    account3Label: Bankrekening
-    account3Description: Bank van Amerika
-    transaction2Comment: Fruit & Groenten
-    templatePayee: John Doe
-    tag_project: Naamloos project
-    account1Description: Dagelijkse uitgaven
-    transaction4Payee: Pizzeria Antonella
-    account2Label: weekend in Parijs
-    account1Label: Mijn portemonnee
   screenshot_titles:
     group: Groepeer op jaar, maand of week
     summarize: Verzamel al uw accounts
