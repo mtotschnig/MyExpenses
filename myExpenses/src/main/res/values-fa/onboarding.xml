@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Description">هزینه‌های روزانه</string>
+    <string name="testData_account1Label">کیف پول من</string>
+    <string name="testData_account2Label">آخر هفته در پاریس</string>
+    <string name="testData_account3Label">حساب بانک</string>
+    <string name="testData_account3Description">بانک آمریکا</string>
+    <string name="testData_transaction2Comment">میوه و سبزیجات</string>
+    <string name="testData_transaction4Payee">پیتزافروشی آنتونلا</string>
+    <string name="testData_templatePayee">فلانی</string>
+    <string name="testData_tag_project">پروژه بدون عنوان</string>
+</resources>

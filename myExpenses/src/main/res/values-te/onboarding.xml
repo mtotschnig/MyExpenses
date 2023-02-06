@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">నా పర్సు</string>
+    <string name="testData_account3Label">బ్యాంకు ఖాతా</string>
+    <string name="testData_account3Description">బ్యాంక్ ఆఫ్ అమెరికా</string>
+    <string name="testData_transaction2Comment">పండ్లు &amp; కూరగాయలు</string>
+    <string name="testData_templatePayee">జాన్ డో</string>
+    <string name="testData_account2Label">పారిస్‌లో వారాంతం</string>
+    <string name="testData_account1Description">రోజువారీ ఖర్చులు</string>
+    <string name="testData_transaction4Payee">పిజ్జేరియా ఆంటోనెల్లా</string>
+</resources>
