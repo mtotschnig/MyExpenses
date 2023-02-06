@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.DebtActivity
 import org.totschnig.myexpenses.compose.DebtRenderer
@@ -38,7 +39,10 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
                             onEdit = debtActivity::editDebt,
                             onDelete = debtActivity::deleteDebt,
                             onToggle = debtActivity::toggleDebt,
-                            onShare = { debt, exportFormat -> debtActivity.shareDebt(debt, exportFormat, snackBarContainer) }
+                            onShare = { debt, exportFormat -> debtActivity.shareDebt(debt, exportFormat, snackBarContainer) },
+                            onTransactionClick = {
+                                showDetails(it)
+                            }
                         )
                     }
             }

@@ -69,7 +69,10 @@ class DebtOverview : DebtActivity() {
                     onEdit = this::editDebt,
                     onDelete = this::deleteDebt,
                     onToggle = this::toggleDebt,
-                    onShare = { debt, exportFormat -> this.shareDebt(debt, exportFormat, null) }
+                    onShare = { debt, exportFormat -> this.shareDebt(debt, exportFormat, null) },
+                    onTransactionClick = {
+                        showDetails(it)
+                    }
                 )
             }
         }
@@ -114,7 +117,8 @@ fun DebtList(
     onEdit: (Debt) -> Unit = {},
     onDelete: (Debt, Int) -> Unit = { _, _ -> },
     onToggle: (Debt) -> Unit = {},
-    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> }
+    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> },
+    onTransactionClick: (Long) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier
@@ -132,7 +136,8 @@ fun DebtList(
                 onEdit = onEdit,
                 onDelete = onDelete,
                 onToggle = onToggle,
-                onShare = onShare
+                onShare = onShare,
+                onTransactionClick = onTransactionClick
             )
         }
     }
@@ -173,7 +178,7 @@ fun DebtListPreview() {
             },
             loadTransactionsForDebt = {
                 emptyList()
-            },
+            }
         )
     }
 }

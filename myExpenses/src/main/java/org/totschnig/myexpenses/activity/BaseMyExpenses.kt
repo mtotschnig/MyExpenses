@@ -885,12 +885,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun showDetails(transactionId: Long) {
-        lifecycleScope.launchWhenResumed {
-            TransactionDetailFragment.show(transactionId, supportFragmentManager)
-        }
-    }
-
     private fun undelete(transaction: Transaction2) {
         checkSealed(listOf(transaction.id)) {
             viewModel.undeleteTransactions(transaction.id).observe(this) { result: Int ->

@@ -46,7 +46,8 @@ fun DebtCard(
     onEdit: (Debt) -> Unit,
     onDelete: (Debt, Int) -> Unit,
     onToggle: (Debt) -> Unit,
-    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit
+    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit,
+    onTransactionClick: (Long) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -63,7 +64,8 @@ fun DebtCard(
             onEdit,
             onDelete,
             onToggle,
-            onShare
+            onShare,
+            onTransactionClick = onTransactionClick
         )
     }
 }
@@ -76,7 +78,8 @@ fun DebtRenderer(
     onEdit: (Debt) -> Unit = {},
     onDelete: (Debt, Int) -> Unit = { _, _ -> },
     onToggle: (Debt) -> Unit = {},
-    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> }
+    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> },
+    onTransactionClick: (Long) -> Unit = {}
 ) {
     CompositionLocalProvider(
         LocalColors provides LocalColors.current.copy(
@@ -155,7 +158,8 @@ fun DebtRenderer(
                         TransactionRenderer(
                             transaction = transaction,
                             debt.currency,
-                            index == count - 1
+                            index == count - 1,
+                            onTransactionClick = onTransactionClick
                         )
                     }
                 }
@@ -194,9 +198,15 @@ fun TransactionRenderer(
     transaction: DebtViewModel.Transaction,
     currency: CurrencyUnit,
     boldBalance: Boolean,
-    withIcon: Boolean = true
+    withIcon: Boolean = true,
+    onTransactionClick: ((Long) -> Unit)? = null
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier.optional(onTransactionClick, ifPresent = {
+            clickable { it(transaction.id) }
+        }),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
         Text(
             modifier = Modifier.padding(start = 4.dp),

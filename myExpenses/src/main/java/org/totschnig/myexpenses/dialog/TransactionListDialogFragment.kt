@@ -95,9 +95,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
                 val c = mAdapter.getItem(position) as Cursor
                 val index = c.getColumnIndexOrThrow(DatabaseConstants.KEY_PARENTID)
                 val idToDisplay = if (c.isNull(index)) id else c.getLong(index)
-                lifecycleScope.launchWhenResumed {
-                    TransactionDetailFragment.show(idToDisplay, parentFragmentManager)
-                }
+                showDetails(idToDisplay)
             }
         //TODO prettify layout
 //    View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.transaction_list_dialog_title, null);

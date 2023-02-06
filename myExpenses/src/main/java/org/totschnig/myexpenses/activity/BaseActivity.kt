@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallbac
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -786,6 +787,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         .permissionRequestRationale(this)
                 )
                 .build().show()
+        }
+    }
+
+    fun showDetails(transactionId: Long) {
+        lifecycleScope.launchWhenResumed {
+            TransactionDetailFragment.show(transactionId, supportFragmentManager)
         }
     }
 

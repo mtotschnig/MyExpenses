@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
@@ -77,6 +78,12 @@ abstract class BaseDialogFragment : DialogFragment() {
                 it.setAction(snackBarAction.label, snackBarAction.listener)
             }
             it.show()
+        }
+    }
+
+    fun showDetails(transactionId: Long) {
+        lifecycleScope.launchWhenResumed {
+            TransactionDetailFragment.show(transactionId, parentFragmentManager)
         }
     }
 
