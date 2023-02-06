@@ -1525,10 +1525,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintSystemUiAndFab(account.color(resources))
             setBalance(account)
-            if (account.sealed) {
-                floatingActionButton.hide()
-            } else {
-                floatingActionButton.show()
+            with(floatingActionButton) {
+                show()
+                isEnabled = !account.sealed
+                alpha = if (account.sealed) 0.5f else 1f
+                setImageResource(
+                    if (account.sealed) R.drawable.ic_lock else R.drawable.ic_menu_add_fab
+                )
             }
             invalidateOptionsMenu()
         }

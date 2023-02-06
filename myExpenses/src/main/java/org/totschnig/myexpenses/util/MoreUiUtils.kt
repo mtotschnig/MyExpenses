@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.View
 import android.widget.ScrollView
@@ -8,7 +9,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils.calculateContrast
+import androidx.core.widget.ImageViewCompat
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
@@ -124,4 +127,9 @@ fun Spinner.checkNewAccountLimitation(prefHandler: PrefHandler, context: Context
             it.text = ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(context)
         }
     }
+}
+
+fun FloatingActionButton.setBackgroundTintList(color: Int) {
+    backgroundTintList = ColorStateList.valueOf(color)
+    ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(getBestForeground(color)))
 }

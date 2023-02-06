@@ -17,10 +17,8 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
-import androidx.core.widget.ImageViewCompat;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
@@ -55,14 +53,8 @@ public class UiUtils {
     return b;
   }
 
-  public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
-    fab.setBackgroundTintList(ColorStateList.valueOf(color));
-    ImageViewCompat.setImageTintList(fab, ColorStateList.valueOf(MoreUiUtilsKt.getBestForeground(color)));
-  }
-
   public static void setBackgroundOnButton(AppCompatButton button, int color) {
-    //noinspection RestrictedApi
-    button.setSupportBackgroundTintList(new ColorStateList(new int[][]{{0}}, new int[]{color}));
+    ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(color));
   }
 
   public static void configureAmountTextViewForHebrew(TextView amount) {
