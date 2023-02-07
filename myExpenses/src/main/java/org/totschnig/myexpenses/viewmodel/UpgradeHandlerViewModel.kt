@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.validateDateFormat
 import timber.log.Timber
 import java.io.File
@@ -46,6 +47,12 @@ class UpgradeHandlerViewModel(application: Application) :
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
+
+    @Inject
+    lateinit var crashHandler: CrashHandler
+
+    @Inject
+    lateinit var tracker: Tracker
 
     private var upgradeInfoShowIndex: Int = -1
     private val upgradeInfoList: MutableList<String> = mutableListOf()
@@ -408,6 +415,10 @@ class UpgradeHandlerViewModel(application: Application) :
                     MyApplication.INVALID_CALENDAR_ID
                 ) != MyApplication.INVALID_CALENDAR_ID) {
                 PlanExecutor.enqueueSelf(getApplication(), prefHandler, true)
+            }
+            if (fromVersion < 586) {
+                crashHandler.setEnabled(prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, false))
+                tracker.setEnabled(prefHandler.getBoolean(PrefKey.TRACKING, false))
             }
 
             if (upgradeInfoList.isNotEmpty()) {

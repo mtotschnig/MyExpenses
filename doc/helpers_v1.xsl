@@ -64,11 +64,13 @@
             <xsl:when test="$lang = 'km'">km-KH</xsl:when>
             <xsl:when test="$lang = 'kn'">kn-IN</xsl:when>
             <xsl:when test="$lang = 'ko'">ko-KR</xsl:when>
+            <xsl:when test="$lang = 'nl'">nl-NL</xsl:when>
             <xsl:when test="$lang = 'pl'">pl-PL</xsl:when>
             <xsl:when test="$lang = 'pt'">pt-PT</xsl:when>
             <xsl:when test="$lang = 'ru'">ru-RU</xsl:when>
             <xsl:when test="$lang = 'si'">si-LK</xsl:when>
             <xsl:when test="$lang = 'ta'">ta-IN</xsl:when>
+            <xsl:when test="$lang = 'te'">te-IN</xsl:when>
             <xsl:when test="$lang = 'tr'">tr-TR</xsl:when>
             <xsl:when test="$lang = 'zh'">zh-CN</xsl:when>
             <xsl:otherwise>
