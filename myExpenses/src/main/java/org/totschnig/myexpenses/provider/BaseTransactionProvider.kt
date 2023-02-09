@@ -66,7 +66,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
     private var _helper: SupportSQLiteOpenHelper? = null
 
     val helper: SupportSQLiteOpenHelper
-        get() = requireHelper()
+        get() = _helper
+            ?: synchronized(this) {
+                if (_helper == null) {
+                    _helper = openHelperProvider.get()
+                }
+                return _helper!!
+            }
 
     @Inject
     @Named(AppComponent.DATABASE_NAME)
@@ -478,11 +484,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return "$cte\n$query"
     }
 
+    @Synchronized
     fun backup(context: Context, backupDir: File): Result<Unit> {
         val currentDb = File(helper.readableDatabase.path!!)
-        helper.readableDatabase.close()
+        helper.close()
         _helper = null
-        return (if (prefHandler.encryptDatabase) decrypt(currentDb, backupDir) else backupDb(currentDb, backupDir))
+        return (if (prefHandler.encryptDatabase) decrypt(currentDb, backupDir) else backupDb(
+            currentDb,
+            backupDir
+        ))
             .mapCatching {
                 val backupPrefFile = getBackupPrefFile(backupDir)
                 // Samsung has special path on some devices
@@ -511,11 +521,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
     }
 
+    @Synchronized
     open fun restore(backupFile: File, encrypt: Boolean): Boolean {
         val dataDir = File(getInternalAppDir(), "databases")
         dataDir.mkdir()
         val currentDb = File(dataDir, provideDatabaseName(encrypt))
         helper.close()
+        _helper = null
         val result: Boolean = try {
             if (encrypt) {
                 DataModule.cryptProvider.encrypt(context!!, backupFile, currentDb)
@@ -525,7 +537,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
         } finally {
             prefHandler.putBoolean(PrefKey.ENCRYPT_DATABASE, encrypt)
-            _helper = null
         }
         return result
     }
@@ -631,9 +642,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
      * @return number of corrupted entries
      */
     fun checkCorruptedData987() = Bundle(1).apply {
-        putLongArray(KEY_RESULT, helper.readableDatabase.query(
-            "select distinct transactions.parent_id from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
-        ).useAndMap { it.getLong(0) }.toLongArray())
+        putLongArray(
+            KEY_RESULT, helper.readableDatabase.query(
+                "select distinct transactions.parent_id from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
+            ).useAndMap { it.getLong(0) }.toLongArray()
+        )
     }
 
     private fun decrypt(currentDb: File, backupDir: File): Result<Unit> {
@@ -651,14 +664,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             return Result.failure(Throwable("Error while copying ${currentDb.path} to ${backupDb.path}"))
         }
         return Result.failure(Throwable("Could not find database at ${currentDb.path}"))
-    }
-
-    @Synchronized
-    private fun requireHelper(): SupportSQLiteOpenHelper {
-        if (_helper == null) {
-            _helper = openHelperProvider.get()
-        }
-        return _helper!!
     }
 
     fun getInternalAppDir(): File {
@@ -737,7 +742,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 "UPDATE $TABLE_ACCOUNT_EXCHANGE_RATES SET $KEY_EXCHANGE_RATE=$KEY_EXCHANGE_RATE$inverseOperation$factor WHERE $KEY_CURRENCY_SELF=?",
                 bindArgs
             )
-            val totalBudgetClause = if (homeCurrency == currency) " OR $KEY_CURRENCY = '${AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE}'" else ""
+            val totalBudgetClause =
+                if (homeCurrency == currency) " OR $KEY_CURRENCY = '${AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE}'" else ""
             db.execSQL(
                 """UPDATE $TABLE_BUDGET_ALLOCATIONS SET
                     $KEY_BUDGET=$KEY_BUDGET$operation$factor,
@@ -752,7 +758,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                             $totalBudgetClause
                     )
                 """.trimIndent(),
-                arrayOf(currency,currency)
+                arrayOf(currency, currency)
             )
             db.execSQL(
                 "UPDATE $TABLE_DEBTS SET $KEY_AMOUNT=$KEY_AMOUNT$operation$factor WHERE $KEY_CURRENCY=?",
