@@ -8,6 +8,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -26,6 +27,7 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SettingsViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
@@ -113,7 +115,28 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
     }
 
     fun storeSetting(key: String, value: String) = liveData(context = coroutineContext()) {
-        emit(DbUtils.storeSetting(contentResolver, key, value) != null)
+        emit(doAndWait(
+            shouldWait = { it } //in case of error we show a new snackbar, so no need to delay
+        ) {
+            DbUtils.storeSetting(
+                contentResolver,
+                key,
+                value
+            ) != null
+        })
+    }
+
+    private suspend inline fun <T> doAndWait(
+        delayMillis: Long = 1000,
+        shouldWait: (T) -> Boolean = { true },
+        block: () -> T
+    ): T {
+        val start = System.nanoTime()
+        val result = block()
+        if (shouldWait(result)) {
+            delay(delayMillis - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start))
+        }
+        return result
     }
 
     fun resetEquivalentAmounts() = liveData(context = coroutineContext()) {
