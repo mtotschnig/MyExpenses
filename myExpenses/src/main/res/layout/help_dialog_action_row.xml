@@ -29,7 +29,8 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="@id/title"
+        app:layout_constraintTop_toTopOf="@id/title">
 
         <ImageView
             android:id="@+id/list_image"
@@ -52,23 +53,24 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:minHeight="32dp"
+        android:gravity="center_vertical"
         android:textSize="15sp"
         android:textStyle="bold"
         android:typeface="sans"
-        app:layout_constraintBottom_toBottomOf="@id/list_image_container"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/list_image_container"
-        app:layout_constraintTop_toTopOf="@id/list_image_container"
-        tools:text="Command title" />
+        tools:text="Command title +++ " />
 
     <TextView
         android:id="@+id/help_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/list_image_container"
+        app:layout_constraintTop_toBottomOf="@id/title"
         tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
             tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
             At vero eos et accusam et justo duo dolores et ea rebum." />
