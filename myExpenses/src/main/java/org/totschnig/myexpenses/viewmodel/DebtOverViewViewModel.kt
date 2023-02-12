@@ -23,6 +23,6 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun loadDebts() = showAll().flatMapLatest {
-        super.loadDebts(null, it)
+        loadDebts(null, showSealed = it, showZero = it)
     }
 }
