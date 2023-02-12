@@ -116,7 +116,7 @@ public class MyExpenses extends BaseMyExpenses implements
     ((MyApplication) getApplicationContext()).getAppComponent().inject(roadmapViewModel);
     if (savedInstanceState == null) {
       newVersionCheck();
-      voteReminderCheck();
+      //voteReminderCheck();
       //voteReminderCheck2();
     }
     reviewManager.init(this);
