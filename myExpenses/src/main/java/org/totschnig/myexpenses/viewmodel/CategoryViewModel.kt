@@ -186,22 +186,18 @@ open class CategoryViewModel(
 
     fun saveCategory(label: String, icon: String?) {
         viewModelScope.launch(context = coroutineContext()) {
-            dialogState.let {
-                if (it is Show) {
-                    val category = Category(
-                        id = it.id ?: 0,
-                        label = label,
-                        icon = icon,
-                        parentId = it.parentId
-                    )
-                    dialogState = it.copy(saving = true)
-                    dialogState = if (repository.saveCategory(category) == null) {
-                        it.copy(error = true)
-                    } else {
-                        NoShow
-                    }
+            (dialogState as? Show)?.takeIf { !it.saving }?.let {
+                val category = Category(
+                    id = it.id ?: 0,
+                    label = label,
+                    icon = icon,
+                    parentId = it.parentId
+                )
+                dialogState = it.copy(saving = true)
+                dialogState = if (repository.saveCategory(category) == null) {
+                    it.copy(error = true)
                 } else {
-                    throw java.lang.IllegalStateException("SaveCategory called without dialogState")
+                    NoShow
                 }
             }
         }
