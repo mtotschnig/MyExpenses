@@ -88,13 +88,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
         return when {
             encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
             frameWorkSqlite -> FrameworkSQLiteOpenHelperFactory()
-            else -> {
-                ReLinker.loadLibrary(
-                    appContext,
-                    io.requery.android.database.sqlite.SQLiteDatabase.LIBRARY_NAME
-                )
-                RequerySQLiteOpenHelperFactory()
-            }
+            else -> RequerySQLiteOpenHelperFactory()
         }.create(
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
                 .name(provideDatabaseName(encryptDatabase)).callback(
