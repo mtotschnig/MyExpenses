@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
+import timber.log.Timber
 import java.io.File
 import javax.inject.Named
 import javax.inject.Singleton
@@ -84,6 +85,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
         prefHandler: PrefHandler,
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
     ): SupportSQLiteOpenHelper {
+        Timber.w("building SupportSQLiteOpenHelper")
         val encryptDatabase = prefHandler.encryptDatabase
         return when {
             encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
