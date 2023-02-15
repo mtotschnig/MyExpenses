@@ -62,6 +62,9 @@ class SplitDelegate(
             recurrence,
             withAutoFill
         )
+        if (transaction?.amount?.amountMinor != 0L) {
+            userSetAmount = true
+        }
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 if (!automaticAmountUpdate) {
@@ -127,7 +130,7 @@ class SplitDelegate(
     val unsplitAmountFormatted: String?
         get() = unsplitAmount?.let { currencyFormatter.formatMoney(it) }
 
-    val unsplitAmount: Money?
+    private val unsplitAmount: Money?
         get() = host.amount?.let {
             Money(it.currencyUnit, it.amountMinor - transactionSum)
         }
