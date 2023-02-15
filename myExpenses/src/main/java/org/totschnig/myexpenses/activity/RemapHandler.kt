@@ -9,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
@@ -138,7 +137,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                     else -> throw java.lang.IllegalArgumentException()
                 }
             ).apply {
-                action = ACTION_SELECT_MAPPING
+                action = Action.SELECT_MAPPING.name
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {

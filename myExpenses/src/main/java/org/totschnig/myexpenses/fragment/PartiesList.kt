@@ -43,9 +43,11 @@ import icepick.Icepick
 import icepick.State
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
+import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.ManageParties
+import org.totschnig.myexpenses.activity.asAction
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
@@ -148,7 +150,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             }
             val index2IdMap: MutableMap<Int, Long> = mutableMapOf()
             with(PopupMenu(requireContext(), binding.root)) {
-                if (action == ACTION_SELECT_MAPPING) {
+                if (action == Action.SELECT_MAPPING) {
                     menu.add(Menu.NONE, SELECT_COMMAND, Menu.NONE, R.string.select)
                         .setIcon(R.drawable.ic_menu_done)
                 }
@@ -156,7 +158,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     .setIcon(R.drawable.ic_menu_edit)
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
-                if (action == ACTION_MANAGE) {
+                if (action == Action.MANAGE) {
                     val debts = viewModel.getDebts(getItem(position).party.id)
                     val subMenu = if ((debts?.size ?: 0) > 0)
                         menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debts)
@@ -287,7 +289,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     private fun updateFabEnabled() {
         manageParties.setFabEnabled(
             adapter.checkedCount >=
-                    if (mergeMode) 2 else if (action == ACTION_SELECT_FILTER) 1 else 0
+                    if (mergeMode) 2 else if (action == Action.SELECT_FILTER) 1 else 0
         )
     }
 
@@ -355,7 +357,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (activity == null) return
         inflater.inflate(R.menu.search, menu)
-        if (action == ACTION_MANAGE) {
+        if (action == Action.MANAGE) {
             mergeMenuItem = menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge).apply {
                 setIcon(R.drawable.ic_menu_split_transaction)
                 isCheckable = true
@@ -413,8 +415,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
         return true
     }
 
-    private val action: String
-        get() = manageParties.action
+    private val action
+        get() = requireActivity().intent.asAction
 
     private fun doSingleSelection(party: Party) {
         requireActivity().apply {
@@ -444,7 +446,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                             if (viewModel.filter.isNullOrEmpty()) {
                                 activity?.invalidateOptionsMenu()
                             }
-                            if (action != ACTION_SELECT_FILTER) {
+                            if (action != Action.SELECT_FILTER) {
                                 binding.empty.visibility =
                                     if (parties.isEmpty()) View.VISIBLE else View.GONE
                                 binding.list.visibility =
@@ -452,7 +454,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                             }
                             val elements = parties.map { PartyWrapper(it) }
                             adapter.submitList(
-                                if (action == ACTION_SELECT_FILTER)
+                                if (action == Action.SELECT_FILTER)
                                     listOf(
                                         PartyWrapper(
                                             Party(
@@ -475,7 +477,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     private fun hasSelectMultiple(): Boolean {
-        return action == ACTION_SELECT_FILTER || mergeMode
+        return action == Action.SELECT_FILTER || mergeMode
     }
 
     companion object {
@@ -543,7 +545,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     fun dispatchFabClick() {
-        if (action == ACTION_SELECT_FILTER) {
+        if (action == Action.SELECT_FILTER) {
             val selected = adapter.getSelected().map { it.party }
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }

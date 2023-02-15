@@ -51,15 +51,8 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.Operati
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
 
-enum class Action {
-    SELECT_MAPPING, SELECT_FILTER, MANAGE
-}
-
 open class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
-    enum class HelpVariant {
-        manage, select_mapping, select_filter
-    }
 
     private var actionMode: ActionMode? = null
     private val viewModel: CategoryViewModel by viewModels()
@@ -69,6 +62,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
     private val parentSelectionOnTap: MutableState<Boolean> = mutableStateOf(false)
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val action = intent.asAction
         if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
             val exportMenu = menu.findItem(R.id.EXPORT_COMMAND)
@@ -110,6 +104,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
         } else super.onOptionsItemSelected(item)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val action = intent.asAction
         super.onCreate(savedInstanceState)
         binding = ActivityComposeFabBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -335,6 +330,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                     mode: ActionMode,
                     menu: Menu
                 ): Boolean {
+                    val action = intent.asAction
                     if (action == Action.MANAGE) {
                         menu.add(
                             Menu.NONE,
@@ -613,8 +609,6 @@ open class ManageCategories : ProtectedFragmentActivity(),
             }
         }
     }
-
-    val action get() = enumValueOrDefault(intent.action, Action.SELECT_MAPPING)
 
     companion object {
         const val KEY_PROTECTION_INFO = "protection_info"

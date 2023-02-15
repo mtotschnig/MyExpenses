@@ -5,10 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentResultListener
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.fragment.ConfirmTagDialogFragment
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
-import timber.log.Timber
 
 class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
 
@@ -29,7 +27,7 @@ class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
         with(activity) {
             checkSealed(selectionState.map { it.id }) {
                 getTags.launch(Intent(this, ManageTags::class.java).apply {
-                    action = ACTION_SELECT_MAPPING
+                    action = Action.SELECT_MAPPING.name
                 })
             }
         }

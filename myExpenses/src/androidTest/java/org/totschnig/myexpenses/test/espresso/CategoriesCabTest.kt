@@ -22,7 +22,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.Rule
 import org.junit.Test
-import org.totschnig.myexpenses.ACTION_MANAGE
+import org.totschnig.myexpenses.Action
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
@@ -58,7 +58,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private fun launch() =
         ActivityScenario.launch<ManageCategories>(
             Intent(InstrumentationRegistry.getInstrumentation().targetContext, ManageCategories::class.java).also {
-                it.action = ACTION_MANAGE
+                it.action = Action.MANAGE.name
             }
         ).also {
             testScenario = it

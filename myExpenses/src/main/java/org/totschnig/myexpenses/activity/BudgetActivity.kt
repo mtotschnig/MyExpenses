@@ -7,7 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
@@ -25,10 +29,8 @@ import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInputHostDialog
 import eltos.simpledialogfragment.form.Check
-import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
@@ -45,7 +47,6 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.math.BigDecimal
@@ -256,7 +257,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         } else when (command) {
             R.id.MANAGE_CATEGORIES_COMMAND -> {
                 startActivity(Intent(this, ManageCategories::class.java).apply {
-                    action = ACTION_MANAGE
+                    action = Action.MANAGE.name
                 })
                 true
             }

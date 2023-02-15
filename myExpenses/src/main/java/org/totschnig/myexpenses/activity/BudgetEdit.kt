@@ -15,7 +15,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import icepick.State
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdAdapter
@@ -101,19 +100,19 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         when (id) {
             R.id.FILTER_CATEGORY_COMMAND -> {
                 Intent(this, ManageCategories::class.java).apply {
-                    action = ACTION_SELECT_FILTER
+                    action = Action.SELECT_FILTER.name
                     startActivityForResult(this, FILTER_CATEGORY_REQUEST)
                 }
             }
             R.id.FILTER_TAG_COMMAND -> {
                 Intent(this, ManageTags::class.java).apply {
-                    action = ACTION_SELECT_FILTER
+                    action = Action.SELECT_FILTER.name
                     startActivityForResult(this, FILTER_TAGS_REQUEST)
                 }
             }
             R.id.FILTER_PAYEE_COMMAND -> {
                 Intent(this, ManageParties::class.java).apply {
-                    action = ACTION_SELECT_FILTER
+                    action = Action.SELECT_FILTER.name
                     startActivityForResult(this, FILTER_PAYEE_REQUEST)
                 }
             }

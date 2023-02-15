@@ -14,14 +14,9 @@
 */
 package org.totschnig.myexpenses.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import org.totschnig.myexpenses.ACTION_MANAGE
-import org.totschnig.myexpenses.ACTION_SELECT_FILTER
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 
@@ -39,33 +34,30 @@ class ManageParties : DebtActivity() {
         floatingActionButton.isEnabled = enabled
     }
 
-    enum class HelpVariant {
-        manage, select_mapping, select_filter
-    }
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_parties)
         setupToolbar()
         var title = 0
+        val action = intent.asAction
         when (action) {
-            Intent.ACTION_MAIN, ACTION_MANAGE -> {
+            Action.MANAGE -> {
                 setHelpVariant(HelpVariant.manage, true)
                 title = R.string.pref_manage_parties_title
             }
-            ACTION_SELECT_FILTER -> {
+            Action.SELECT_FILTER -> {
                 setHelpVariant(HelpVariant.select_filter, true)
                 configureFloatingActionButton(R.string.select, R.drawable.ic_menu_done)
                 setFabEnabled(false)
                 title = R.string.search_payee
             }
-            ACTION_SELECT_MAPPING -> {
+            Action.SELECT_MAPPING -> {
                 setHelpVariant(HelpVariant.select_mapping, true)
                 title = R.string.select_payee
             }
         }
         if (title != 0) supportActionBar!!.setTitle(title)
-        if (action == ACTION_SELECT_MAPPING || action == ACTION_MANAGE) {
+        if (action == Action.SELECT_MAPPING || action == Action.MANAGE) {
             configureFabMergeMode(false)
         }
         listFragment = supportFragmentManager.findFragmentById(R.id.parties_list) as PartiesList
@@ -81,7 +73,4 @@ class ManageParties : DebtActivity() {
         }
         return false
     }
-
-    val action: String
-        get() = intent.action ?: ACTION_MANAGE
 }

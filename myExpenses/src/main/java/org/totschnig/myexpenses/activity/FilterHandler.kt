@@ -6,7 +6,6 @@ import android.content.Intent
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContract
 import eltos.simpledialogfragment.input.SimpleInputDialog
-import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.DateFilterDialog
@@ -17,7 +16,11 @@ import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragmen
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.*
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
@@ -75,10 +78,11 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         with(activity) {
             if (accountCount == 0) return false
             if (removeFilter(itemId)) return true
+            val accountId = currentAccount!!.id
             when (itemId) {
-                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(Unit)
-                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(Unit)
-                R.id.FILTER_TAG_COMMAND -> getTags.launch(Unit)
+                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(accountId)
+                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(accountId)
+                R.id.FILTER_TAG_COMMAND -> getTags.launch(accountId)
                 R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(currentAccount!!.currency)
                     .show(supportFragmentManager, "AMOUNT_FILTER")
                 R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance()
@@ -90,10 +94,10 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     .show(this, FILTER_COMMENT_DIALOG)
                 R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance()
                     .show(supportFragmentManager, "STATUS_FILTER")
-                R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(currentAccount!!.id)
+                R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(accountId)
                     .show(supportFragmentManager, "METHOD_FILTER")
                 R.id.FILTER_TRANSFER_COMMAND -> SelectTransferAccountDialogFragment.newInstance(
-                    currentAccount!!.id
+                    accountId
                 ).show(supportFragmentManager, "TRANSFER_FILTER")
                 R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(
                     currentAccount!!.currency.code
@@ -113,8 +117,8 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         activity.registerForActivityResult(PickObjectContract(FILTER_TAGS_REQUEST)) {}
 
     private inner class PickObjectContract(private val requestKey: String) :
-        ActivityResultContract<Unit, Unit>() {
-        override fun createIntent(context: Context, input: Unit) =
+        ActivityResultContract<Long, Unit>() {
+        override fun createIntent(context: Context, input: Long) =
             Intent(
                 context, when (requestKey) {
                     FILTER_CATEGORY_REQUEST -> ManageCategories::class.java
@@ -123,7 +127,8 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     else -> throw IllegalArgumentException()
                 }
             ).apply {
-                action = ACTION_SELECT_FILTER
+                action = Action.SELECT_FILTER.name
+                putExtra(DatabaseConstants.KEY_ACCOUNTID, input)
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {
