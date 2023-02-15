@@ -950,4 +950,6 @@
     <string name="encrypt_database">Šifriraj bazu podataka</string>
     <string name="select_all_list_too_large">Naredba %s nije dostupna jer je popis samo djelomično učitan. Koristi funkciju pretraživanja za dobivanje kraćeg popisa.</string>
     <string name="menu_reconfigure">Konfiguriraj ponovo</string>
+    <string name="database_is_encrypted">Baza podataka je šifrirana.</string>
+    <string name="encrypt_database_info">Baza podataka će se šifrirati pristupnim izrazom koji se ne može izdvojiti iz ovog uređaja. Slijedom toga, usluga sigurnosnog kopiranja neće sigurnosno kopirati bazu podataka.</string>
 </resources>
