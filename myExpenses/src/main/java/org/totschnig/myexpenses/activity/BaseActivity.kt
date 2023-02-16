@@ -279,7 +279,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     val featureViewModel: FeatureViewModel by viewModels()
     val shareViewModel: ShareViewModel by viewModels()
 
-    private var helpVariant: Enum<*>? = null
+    private var helpVariant: String? = null
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -712,7 +712,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     protected open fun doHelp(variant: String?): Boolean {
         startActivity(Intent(this, Help::class.java).apply {
             putExtra(HelpDialogFragment.KEY_CONTEXT, helpContext)
-            putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant?.name)
+            putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant)
         })
         return true
     }
@@ -721,9 +721,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         get() = javaClass.simpleName
 
     fun setHelpVariant(helpVariant: Enum<*>, addBreadCrumb: Boolean = false) {
-        this.helpVariant = helpVariant
+        this.helpVariant = helpVariant.name
         if (addBreadCrumb) {
-            crashHandler.addBreadcrumb(helpVariant.toString())
+            crashHandler.addBreadcrumb(helpVariant.name)
         }
     }
 

@@ -273,6 +273,7 @@ public class MyExpenses extends BaseMyExpenses implements
       startActivity(i);
     } else if (command == R.id.MANAGE_PARTIES_COMMAND) {
       i = new Intent(this, ManageParties.class);
+      i.setAction(Action.MANAGE.name());
       startActivity(i);
     }
     return false;

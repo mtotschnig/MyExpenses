@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
-    <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
     <string name="help_ManageTemplates_templates_title">@string/menu_manage_plans</string>
     <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
     <string name="help_ManageParties_manage_title">@string/pref_manage_parties_title</string>
