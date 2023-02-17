@@ -18,6 +18,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -28,6 +29,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
+import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import icepick.Icepick
 import icepick.State
@@ -104,7 +106,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
             feature.buildUsagesLeftString(ctx, prefHandler)?.let {
                 binding.usagesLeft.text = it
-                binding.usagesLeft.visibility = View.VISIBLE
+                binding.usagesLeft.isVisible = true
             }
 
             TextUtils.concat(featureDescription, linefeed, removePhrase)
@@ -120,7 +122,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
 
         //prepare CONTRIB section
         with(binding.contribFeatureContainer) {
-            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.premium_licence, null))
+            root.setBackgroundColor(ResourcesCompat.getColor(resources, LicenceStatus.CONTRIB.color, null))
             if (licenceStatus == null && LicenceStatus.CONTRIB.covers(feature)) {
                 contribVisible = true
                 val contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList, R.drawable.ic_menu_done)
@@ -130,13 +132,13 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 root.setOnClickListener(this@ContribDialogFragment)
                 contribButton.setOnClickListener(this@ContribDialogFragment)
             } else {
-                root.visibility = View.GONE
+                root.isVisible = false
             }
         }
 
         //prepare EXTENDED section
         with(binding.extendedFeatureContainer) {
-            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.extended_licence, null))
+            root.setBackgroundColor(ResourcesCompat.getColor(resources, LicenceStatus.EXTENDED.color, null))
             if (LicenceStatus.CONTRIB.greaterOrEqual(licenceStatus) && LicenceStatus.EXTENDED.covers(feature)) {
                 extendedVisible = true
                 val lines = ArrayList<CharSequence>()
@@ -152,14 +154,14 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 root.setOnClickListener(this@ContribDialogFragment)
                 extendedButton.setOnClickListener(this@ContribDialogFragment)
             } else {
-                root.visibility = View.GONE
+                root.isVisible = false
             }
         }
 
         //prepare PROFESSIONAL section
         with(binding.professionalFeatureContainer) {
             val lines = ArrayList<CharSequence>()
-            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.professional_licence, null))
+            root.setBackgroundColor(ResourcesCompat.getColor(resources, LicenceStatus.PROFESSIONAL.color, null))
             if (extendedVisible) {
                 lines.add(getString(R.string.all_extended_key_features) + "\n+")
             } else if (feature?.isProfessional == true) {
@@ -186,25 +188,31 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
 
         //single FEATURE
         with(binding.singleFeatureContainer) {
-            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.professional_licence, null))
             feature?.let {
+                root.setBackgroundColor(ResourcesCompat.getColor(resources, it.licenceStatus.color, null))
                 singleVisible = true
                 packageLabel.setText(it.labelResId)
                 packagePrice.text = licenceHandler.getFormattedPrice(getSinglePackage())
                 root.setOnClickListener(this@ContribDialogFragment)
                 singleButton.setOnClickListener(this@ContribDialogFragment)
-                packageFeatureList.visibility = View.GONE
-                binding.singleFeatureInfo.visibility = View.VISIBLE
+                packageFeatureList.isVisible = false
+                binding.singleFeatureInfo.isVisible = true
             } ?: run {
-                root.visibility = View.GONE
+                root.isVisible = false
             }
         }
 
         //FOOTER
         if (isGithub) {
-            binding.githubExtraInfo.visibility = View.VISIBLE
+            binding.githubExtraInfo.isVisible = true
             binding.githubExtraInfo.text = concatResStrings(requireActivity(),
-                    ". ", R.string.professional_key_fallback_info, R.string.eu_vat_info)
+                    " ", R.string.professional_key_fallback_info, R.string.eu_vat_info)
+            binding.githubSponsors.isVisible = true
+            binding.githubSponsors.setText(HtmlCompat.fromHtml(
+                getString(R.string.github_sponsors, "https://github.com/sponsors/mtotschnig"),
+                FROM_HTML_MODE_LEGACY
+            ))
+            binding.githubSponsors.setMovementMethod(LinkMovementMethod.getInstance())
         }
         builder.setTitle(if (feature == null) R.string.menu_contrib else R.string.dialog_title_contrib_feature)
                 .setView(dialogView)

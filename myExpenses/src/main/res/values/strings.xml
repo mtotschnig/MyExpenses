@@ -1042,4 +1042,5 @@
     <string name="encrypt_database">Encrypt database</string>
     <string name="encrypt_database_info">The database will be encrypted with a passphrase that cannot be extracted from this device. Consequently it will not be backed up by your device\'s backup service.</string>
     <string name="database_is_encrypted">Database is encrypted.</string>
+    <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">Github Sponsors</a>.]]></string>
 </resources>
