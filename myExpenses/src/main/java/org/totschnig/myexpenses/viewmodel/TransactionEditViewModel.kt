@@ -312,7 +312,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     cursor.getStringOrNull(KEY_LABEL),
                     cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT) != null,
                     cursor.getStringIfExists(KEY_DEBT_LABEL),
-                    cursor.getStringListFromJson(KEY_TAGLIST).joinToString(),
+                    cursor.splitStringList(KEY_TAGLIST).joinToString(),
                     cursor.getStringOrNull(KEY_ICON)
                 )
         }

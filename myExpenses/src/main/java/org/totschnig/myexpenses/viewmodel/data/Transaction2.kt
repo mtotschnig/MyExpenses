@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
-import org.totschnig.myexpenses.provider.getStringListFromJson
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
@@ -190,7 +190,7 @@ data class Transaction2(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT),
-                tagList = cursor.getStringListFromJson(KEY_TAGLIST),
+                tagList = cursor.splitStringList(KEY_TAGLIST),
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
                 year = cursor.getInt(KEY_YEAR),

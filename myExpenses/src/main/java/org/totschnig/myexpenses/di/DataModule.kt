@@ -42,7 +42,9 @@ open class DataModule {
 
     open val databaseName = "data"
 
-    private fun frameWorkSqlite(prefHandler: PrefHandler) = prefHandler.getBoolean(PrefKey.REPAIRED_REQUERY_SCHEMA, false)
+    private fun frameWorkSqlite(prefHandler: PrefHandler) =
+        prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, Integer.MAX_VALUE) >= 133 ||
+        prefHandler.getBoolean(PrefKey.REPAIRED_REQUERY_SCHEMA, false)
 
     @Provides
     @Named(AppComponent.DATABASE_NAME)

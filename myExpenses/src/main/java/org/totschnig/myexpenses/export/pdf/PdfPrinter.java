@@ -447,7 +447,7 @@ public class PdfPrinter {
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);
-      List<String> tagList = MoreDbUtilsKt.getStringListFromJson(transactionCursor, KEY_TAGLIST);
+      List<String> tagList = MoreDbUtilsKt.splitStringList(transactionCursor, KEY_TAGLIST);
       final boolean hasComment = comment != null && comment.length() > 0;
       final boolean hasTags = tagList.size() > 0;
       if (hasComment || hasTags) {

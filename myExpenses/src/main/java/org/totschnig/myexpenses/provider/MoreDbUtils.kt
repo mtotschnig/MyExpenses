@@ -280,7 +280,10 @@ fun Cursor.getLongIfExistsOr0(column: String) = getColumnIndex(column).takeIf { 
 fun Cursor.getStringIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 
-fun Cursor.splitQuotedStringList(colum: String) = getString(colum).split('')
+/**
+ * Splits the value of column by ASCII UnitSeparator char
+ */
+fun Cursor.splitStringList(colum: String) = getString(colum).split('')
 
 fun cacheSyncState(context: Context) {
     val accountManager = AccountManager.get(context)

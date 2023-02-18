@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringListFromJson
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.epoch2LocalDate
@@ -102,7 +102,7 @@ data class Transaction(
                         payee.takeIf { it.isNotEmpty() }?.let {
                             add("<span class='underline'>$it</span>")
                         }
-                        cursor.getStringListFromJson(KEY_TAGLIST).takeIf { it.isNotEmpty() }?.let {
+                        cursor.splitStringList(KEY_TAGLIST).takeIf { it.isNotEmpty() }?.let {
                             add("<span class='font-semibold'>${it.joinToString()}</span>")
                         }
                     }.joinToString(separator = " / "),

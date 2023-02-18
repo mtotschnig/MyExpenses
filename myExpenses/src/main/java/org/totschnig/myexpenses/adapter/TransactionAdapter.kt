@@ -32,7 +32,7 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringListFromJson
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -167,7 +167,7 @@ open class TransactionAdapter(
                 ssb
             ) else ssb
         }
-        val tagList = cursor.getStringListFromJson(KEY_TAGLIST).joinToString()
+        val tagList = cursor.splitStringList(KEY_TAGLIST).joinToString()
         if (tagList.isNotEmpty()) {
             ssb = SpannableStringBuilder(tagList)
             ssb.setSpan(StyleSpan(Typeface.BOLD), 0, tagList.length, 0)

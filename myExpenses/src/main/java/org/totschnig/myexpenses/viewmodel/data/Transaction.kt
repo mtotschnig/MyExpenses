@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_LABEL_EXPRESSION
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.DbUtils.*
 import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.provider.getDouble
@@ -18,7 +17,7 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringListFromJson
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.requireLong
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -192,7 +191,7 @@ data class Transaction(
                 ),
                 hasTransferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT) != null,
                 debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL),
-                tagList = cursor.getStringListFromJson(KEY_TAGLIST).joinToString(),
+                tagList = cursor.splitStringList(KEY_TAGLIST).joinToString(),
                 icon = cursor.getStringOrNull(KEY_ICON)
             )
         }
