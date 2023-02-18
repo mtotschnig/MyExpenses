@@ -173,7 +173,9 @@ enum class PrefKey {
     UI_ITEM_RENDERER_LEGACY(R.string.pref_ui_item_renderer_legacy_key),
     UI_ITEM_RENDERER_CATEGORY_ICON(R.string.pref_ui_item_renderer_category_icon_key),
     ENCRYPT_DATABASE("encrypt_database"),
-    ENCRYPT_DATABASE_INFO(R.string.pref_encrypt_database_info_key);
+    ENCRYPT_DATABASE_INFO(R.string.pref_encrypt_database_info_key),
+    REPAIRED_REQUERY_SCHEMA("repaired_requery_schema")
+    ;
 
     internal val resId: Int
 

@@ -18,9 +18,6 @@ import androidx.core.database.getStringOrNull
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -37,7 +34,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.File
-import java.lang.reflect.Type
 
 fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
     db.beginTransaction()
@@ -284,17 +280,7 @@ fun Cursor.getLongIfExistsOr0(column: String) = getColumnIndex(column).takeIf { 
 fun Cursor.getStringIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 
-private val typeToken: Type = object : TypeToken<List<String>>() {}.type
-private val gson = Gson()
-fun Cursor.getStringListFromJson(colum: String) = getString(colum).let {
-    try {
-        gson.fromJson<List<String>>(it, typeToken)
-    } catch (e: JsonSyntaxException) {
-        // on Robolectric we run without json support, if we ever use an SQLITE version
-        //Without JSON extension in production, we need to change this
-        null
-    } ?: if (it.isEmpty()) emptyList() else it.split(',')
-}
+fun Cursor.splitQuotedStringList(colum: String) = getString(colum).split('')
 
 fun cacheSyncState(context: Context) {
     val accountManager = AccountManager.get(context)

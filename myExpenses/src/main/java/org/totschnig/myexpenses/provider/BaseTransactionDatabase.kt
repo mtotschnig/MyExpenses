@@ -7,11 +7,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 133
+const val DATABASE_VERSION = 134
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -84,7 +85,7 @@ END
 """
 
 
-abstract class BaseTransactionDatabase :
+abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
 
     fun upgradeTo117(db: SupportSQLiteDatabase) {
@@ -275,7 +276,7 @@ abstract class BaseTransactionDatabase :
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {
-        PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION.putInt(DATABASE_VERSION)
+        prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }
 
     private fun upgradeIcons(db: SupportSQLiteDatabase, map: Map<String, String>) {

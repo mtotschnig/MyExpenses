@@ -310,9 +310,4 @@ with data as
        exists(select 1 from data where $KEY_TAGID is not null) AS $KEY_MAPPED_TAGS
 """.trimIndent()
 
-fun tagListExpression(supportsJson: Boolean) = if (supportsJson) {
-    "json_group_array($TABLE_TAGS.$KEY_LABEL) filter ( where $TABLE_TAGS.$KEY_LABEL is not null )  AS $KEY_TAGLIST"
-} else  {
-    "group_concat($TABLE_TAGS.$KEY_LABEL, ', ') AS $KEY_TAGLIST"
-
-}
+const val TAG_LIST_EXPRESSION = "group_concat($TABLE_TAGS.$KEY_LABEL,'') AS $KEY_TAGLIST"

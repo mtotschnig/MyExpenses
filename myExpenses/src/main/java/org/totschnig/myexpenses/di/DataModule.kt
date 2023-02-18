@@ -10,16 +10,15 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.preference.PreferenceManager
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
-import com.getkeepsafe.relinker.ReLinker
 import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
 import io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
 import timber.log.Timber
@@ -34,7 +33,7 @@ interface SqlCryptProvider {
 }
 
 @Module
-open class DataModule(private val frameWorkSqlite: Boolean = false) {
+open class DataModule {
     companion object {
         val cryptProvider: SqlCryptProvider
             get() = Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
@@ -42,6 +41,8 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
     }
 
     open val databaseName = "data"
+
+    private fun frameWorkSqlite(prefHandler: PrefHandler) = prefHandler.getBoolean(PrefKey.REPAIRED_REQUERY_SCHEMA, false)
 
     @Provides
     @Named(AppComponent.DATABASE_NAME)
@@ -85,7 +86,8 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
         prefHandler: PrefHandler,
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
     ): SupportSQLiteOpenHelper {
-        Timber.w("building SupportSQLiteOpenHelper")
+        val frameWorkSqlite = frameWorkSqlite(prefHandler)
+        Timber.w("building SupportSQLiteOpenHelper - frameWorkSqlite: $frameWorkSqlite")
         val encryptDatabase = prefHandler.encryptDatabase
         return when {
             encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
@@ -95,7 +97,7 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
                 .name(provideDatabaseName(encryptDatabase)).callback(
                     //Robolectric uses native Sqlite which as of now does not include Json extension
-                    TransactionDatabase(!frameWorkSqlite)
+                    TransactionDatabase(prefHandler)
                 ).build()
         ).also {
             it.setWriteAheadLoggingEnabled(false)
@@ -104,10 +106,10 @@ open class DataModule(private val frameWorkSqlite: Boolean = false) {
 
     @Singleton
     @Provides
-    open fun providePeekHelper(): DatabaseVersionPeekHelper =
+    open fun providePeekHelper(prefHandler: PrefHandler): DatabaseVersionPeekHelper =
         DatabaseVersionPeekHelper { path ->
             when {
-                frameWorkSqlite -> {
+                frameWorkSqlite(prefHandler) -> {
                     SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
                         it.version
                     }

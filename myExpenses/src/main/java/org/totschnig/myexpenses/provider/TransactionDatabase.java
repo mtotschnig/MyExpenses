@@ -19,6 +19,7 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.PictureDirHelper;
@@ -61,20 +63,6 @@ import java.util.Locale;
 import timber.log.Timber;
 
 public class TransactionDatabase extends BaseTransactionDatabase {
-
-  private final boolean supportsJson;
-
-  /**
-   *
-   * @param supportsJson
-   * If true, it is assumed that we can rely on SQLITE's JSON extension. This parameter is used when
-   * creating views, so changing the value has only effect, if the database version is incremented
-   * and {@link #createOrRefreshViews(SupportSQLiteDatabase)} is called in
-   * {@link #onUpgrade(SupportSQLiteDatabase, int, int)}.
-   */
-  public TransactionDatabase(boolean supportsJson) {
-    this.supportsJson = supportsJson;
-  }
 
   /**
    * SQL statement for expenses TABLE
@@ -114,6 +102,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
       + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
 
+  public TransactionDatabase(@NonNull PrefHandler prefHandler) {
+    super(prefHandler);
+  }
+
   public static String TAG_JOIN(String mainTable, String tagTable, String referenceColumn) {
     return String.format(Locale.ROOT, " LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
             tagTable, referenceColumn, mainTable, KEY_ROWID, TABLE_TAGS, KEY_TAGID);
@@ -137,7 +129,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     }
 
     if (withTags) {
-      stringBuilder.append(", ").append(DbConstantsKt.tagListExpression(supportsJson));
+      stringBuilder.append(", ").append(TAG_LIST_EXPRESSION);
     }
 
     stringBuilder.append(" FROM ").append(tableName)
@@ -189,7 +181,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
-      stringBuilder.append(", ").append(DbConstantsKt.tagListExpression(supportsJson));
+      stringBuilder.append(", ").append(TAG_LIST_EXPRESSION);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
@@ -1538,10 +1530,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           }
         }
         c.close();
-        String legacy = PrefKey.SORT_ORDER_LEGACY.getString("USAGES");
+        @SuppressWarnings("deprecation") String legacy =  PrefKey.SORT_ORDER_LEGACY.getString("USAGES");
+        //noinspection deprecation
         PrefKey.SORT_ORDER_TEMPLATES.putString(legacy);
+        //noinspection deprecation
         PrefKey.SORT_ORDER_CATEGORIES.putString(legacy);
+        //noinspection deprecation
         PrefKey.SORT_ORDER_ACCOUNTS.putString(hasAccountSortKeySet ? "CUSTOM" : legacy);
+        //noinspection deprecation
         PrefKey.SORT_ORDER_LEGACY.remove();
       }
 
@@ -2149,7 +2145,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         repairSplitPartDates(db);
       }
       if (oldVersion < 112) {
-        String templateDefaultAction = PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE");
+        String templateDefaultAction = getPrefHandler().requireString(PrefKey.TEMPLATE_CLICK_DEFAULT,"SAVE");
         if (!(templateDefaultAction.equals("SAVE") || templateDefaultAction.equals("EDIT"))) {
           templateDefaultAction = "SAVE";
         }
@@ -2245,6 +2241,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 133) {
         upgradeTo133(db);
+      }
+      if(oldVersion < 134) {
+        createOrRefreshViews(db);
+        getPrefHandler().putBoolean(PrefKey.REPAIRED_REQUERY_SCHEMA, true);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
