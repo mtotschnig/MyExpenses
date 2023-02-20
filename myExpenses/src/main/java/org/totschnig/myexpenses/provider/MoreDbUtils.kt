@@ -283,7 +283,10 @@ fun Cursor.getBoolean(column: String) = getInt(column) == 1
 /**
  * Splits the value of column by ASCII UnitSeparator char
  */
-fun Cursor.splitStringList(colum: String) = getString(colum).split('')
+fun Cursor.splitStringList(colum: String) = getString(colum)
+    .takeIf { it.isNotEmpty() }
+    ?.split('')
+    ?: emptyList()
 
 fun cacheSyncState(context: Context) {
     val accountManager = AccountManager.get(context)
@@ -474,6 +477,7 @@ fun maybeRepairRequerySchema(path: String) {
 }
 
 fun doRepairRequerySchema(path: String) {
+    Timber.w("Dropping views with requery")
     io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
         path,
         null,
