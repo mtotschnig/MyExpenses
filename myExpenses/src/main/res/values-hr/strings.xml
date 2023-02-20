@@ -343,7 +343,7 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Vrsta</string>
     <string name="unsplit_amount">Nepodijeljen iznos</string>
-    <string name="unsplit_amount_greater_than_zero">Dio iznosa je još podijeljen.</string>
+    <string name="unsplit_amount_greater_than_zero">Dio iznosa je još nije podijeljen.</string>
     <string name="warning_backup">Baza podataka i osobne postavke spremit će se u „%1$s”.</string>
     <string name="continue_confirmation">Želiš li nastaviti\?</string>
     <string name="warning_delete_account">Račun „%1$s” će se izbrisati sa svim njegovim transakcijama.</string>
