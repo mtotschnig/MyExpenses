@@ -8,7 +8,7 @@ hr:
   menu_title:
     more_information: VIše informacija
   sections:
-    features: Mogućnosti
+    features: Funkcije
     premium: Premium
     participate: Uključi se
     faq: ČPP
@@ -29,7 +29,7 @@ hr:
       history_chart: <b>Dijagram povijesti</b> (Novčani tok)
       email_support: <b>Podrška putem e-pošte</b> sa zajamčenim odgovorom u roku od
         2 radna dana
-      split_template: Neograničen broj <b>predložaka i planova za podijeljene transakcije</b>
+      split_template: Neograničen broj <b>predložaka i planova za višedjelne transakcije</b>
       cloud_sync: '<b>Sinkronizacija u oblaku</b>: Podaci se mogu sinkronizirati između
         više uređaja'
       auto_backup: Dnevno <b>automatizirano spremanje sigurnosnih kopija</b> s mogućnošću
@@ -38,8 +38,8 @@ hr:
         tablica)
       ad_free: <b>Bez oglasa</b>
       print: <b>Ispiši</b> popis transakcija u PDF datoteku
-      split_transaction: '<b>Podijeljena transakcija</b>: Pojedinačna transakcija
-        može se podijeliti na više dijelova (kategorije i prijenosi)'
+      split_transaction: '<b>Višedjelna transakcija</b>: Svaka transakcija može se
+        podijeliti na više dijelova (kategorije i prijenosi)'
       distribution: '<b>Kružni dijagram</b>: Vizualiziraj statističku distribuciju
         transakcija po kategorijama kroz različita razdoblja (godine, mjeseci, tjedni,
         dani)'
@@ -72,7 +72,7 @@ hr:
     group: Grupirajte se po godini, mjesecu ili tjednu
     summarize: Zbroji sve tvoje račune
     budget: Godišnji, mjesečni i tjedni proračun
-    split: Podijeli na više kategorija
+    split: Podijeli u kategorije
     distribution: Kružni dijagram
     history: Povijest tvoje financijske situacije
     export: Izvezi u PDF, QIF i CSV
