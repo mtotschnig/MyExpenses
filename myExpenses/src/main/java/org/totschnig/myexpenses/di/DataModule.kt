@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.di
 import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteDatabaseCorruptException
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
@@ -14,13 +15,15 @@ import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
-import io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
-import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
+import org.totschnig.myexpenses.provider.doRepairRequerySchema
+import org.totschnig.myexpenses.util.failure
 import timber.log.Timber
 import java.io.File
 import javax.inject.Named
@@ -42,15 +45,12 @@ open class DataModule {
 
     open val databaseName = "data"
 
-    private fun frameWorkSqlite(prefHandler: PrefHandler) =
-        prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, Integer.MAX_VALUE) >= 133 ||
-        prefHandler.getBoolean(PrefKey.REPAIRED_REQUERY_SCHEMA, false)
-
     @Provides
     @Named(AppComponent.DATABASE_NAME)
     @Singleton
     @JvmSuppressWildcards
-    open fun provideDatabaseName(): (Boolean) -> String = { if (it) "${databaseName}.enc" else databaseName }
+    open fun provideDatabaseName(): (Boolean) -> String =
+        { if (it) "${databaseName}.enc" else databaseName }
 
     @Provides
     @Singleton
@@ -88,13 +88,11 @@ open class DataModule {
         prefHandler: PrefHandler,
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
     ): SupportSQLiteOpenHelper {
-        val frameWorkSqlite = frameWorkSqlite(prefHandler)
-        Timber.w("building SupportSQLiteOpenHelper - frameWorkSqlite: $frameWorkSqlite")
+        Timber.w("building SupportSQLiteOpenHelper")
         val encryptDatabase = prefHandler.encryptDatabase
         return when {
             encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
-            frameWorkSqlite -> FrameworkSQLiteOpenHelperFactory()
-            else -> RequerySQLiteOpenHelperFactory()
+            else -> FrameworkSQLiteOpenHelperFactory()
         }.create(
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
                 .name(provideDatabaseName(encryptDatabase)).callback(
@@ -109,20 +107,30 @@ open class DataModule {
     @Singleton
     @Provides
     open fun providePeekHelper(prefHandler: PrefHandler): DatabaseVersionPeekHelper =
-        DatabaseVersionPeekHelper { path ->
-            when {
-                frameWorkSqlite(prefHandler) -> {
-                    SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
-                        it.version
+        DatabaseVersionPeekHelper { context, path ->
+            kotlin.runCatching {
+                val version = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
+                    .use { database ->
+                        database.version.also {
+                            if (it > DATABASE_VERSION)
+                                throw Throwable(
+                                    context.getString(
+                                        R.string.restore_cannot_downgrade, it, DATABASE_VERSION
+                                    )
+                                )
+                        }
                     }
+                if (version == 132 || version == 133) {
+                    doRepairRequerySchema(path)
                 }
-                else -> {
-                    io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
-                        path,
-                        null,
-                        io.requery.android.database.sqlite.SQLiteDatabase.OPEN_READONLY
-                    ).use {
-                        it.version
+                SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
+                    if (!try {
+                            it.isDatabaseIntegrityOk
+                        } catch (e: SQLiteDatabaseCorruptException) {
+                            false
+                        }
+                    ) {
+                        throw Exception("Database integrity check failed")
                     }
                 }
             }

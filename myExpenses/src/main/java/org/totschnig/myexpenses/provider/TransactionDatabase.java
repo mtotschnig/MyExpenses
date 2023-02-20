@@ -711,7 +711,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   @Override
   public void onCorruption(@NonNull SupportSQLiteDatabase db) {
-    throw new IllegalStateException("Database is corrupted");
+    MoreDbUtilsKt.maybeRepairRequerySchema(db.getPath());
   }
 
   @Override
