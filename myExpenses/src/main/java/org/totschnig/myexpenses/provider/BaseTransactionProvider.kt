@@ -487,7 +487,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @Synchronized
     fun backup(context: Context, backupDir: File): Result<Unit> {
         val currentDb = File(helper.readableDatabase.path!!)
-        helper.close()
+        _helper?.close()
         _helper = null
         return (if (prefHandler.encryptDatabase) decrypt(currentDb, backupDir) else backupDb(
             currentDb,
@@ -526,7 +526,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val dataDir = File(getInternalAppDir(), "databases")
         dataDir.mkdir()
         val currentDb = File(dataDir, provideDatabaseName(encrypt))
-        helper.close()
+        _helper?.close()
         _helper = null
         val result: Boolean = try {
             if (encrypt) {
