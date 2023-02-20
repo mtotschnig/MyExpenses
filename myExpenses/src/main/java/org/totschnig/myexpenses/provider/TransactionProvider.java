@@ -33,6 +33,7 @@ import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMe
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
+import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 import android.content.ContentProviderOperation;
@@ -346,7 +347,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         String amountCalculation;
         qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         if (accountSelector != null) {
-          selectionArgs = Utils.joinArrays(new String[]{accountSelector}, selectionArgs);
+          selectionArgs = joinArrays(new String[]{accountSelector}, selectionArgs);
           additionalWhere.append(" AND " + KEY_ACCOUNTID).append(accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
@@ -450,7 +451,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         selection = accountSelectionQuery
             + (selection != null ? " AND " + selection : "");
         if (accountSelector != null) {
-          selectionArgs = Utils.joinArrays(
+          selectionArgs = joinArrays(
               new String[]{accountSelector},
               selectionArgs);
         }

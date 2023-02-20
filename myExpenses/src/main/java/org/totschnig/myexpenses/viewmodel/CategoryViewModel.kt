@@ -107,15 +107,14 @@ open class CategoryViewModel(
         Timber.d("new emission: $filter/$sort")
         filter to sort
     }.flatMapLatest { (filter, sortOrder) ->
-        val (selection, selectionArgs) = if (filter.isNotBlank()) {
-            val selectionArgs =
-                arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
-            //The filter is applied twice in the CTE
-            "$KEY_LABEL_NORMALIZED LIKE ?" to selectionArgs + selectionArgs
-        } else null to emptyArray()
+        val (selection, selectionArgs) = joinQueryAndAccountFilter(
+            filter,
+            savedStateHandle.get<Long>(KEY_ACCOUNTID),
+            KEY_LABEL_NORMALIZED, KEY_CATID, "_Tree_"
+        )
         categoryTree(
             selection = selection,
-            selectionArgs = selectionArgs,
+            selectionArgs = selectionArgs?.let { it + it } ?: emptyArray(),
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort, collate),
             projection = null,
             keepCriteria = null,

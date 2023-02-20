@@ -7,7 +7,6 @@ import android.content.ContentProviderOperation.newUpdate
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
-import android.text.TextUtils
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -15,13 +14,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -45,39 +42,21 @@ class PartyListViewModel(
     fun getDebts(partyId: Long): List<Debt>? = if (::debts.isInitialized) debts[partyId] else null
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun parties(accountId: Long) = savedStateHandle.getLiveData(KEY_FILTER, "")
-        .asFlow()
-        .distinctUntilChanged()
-        .flatMapLatest {
-            val filterSelection =
-                if (TextUtils.isEmpty(filter)) null else "$KEY_PAYEE_NAME_NORMALIZED LIKE ?"
-            val filterSelectionArgs = if (TextUtils.isEmpty(filter)) null else
-                arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
-            val accountSelection = if (accountId == 0L) null else
-                StringBuilder("exists (SELECT 1 from $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID").apply {
-                    SelectFromMappedTableDialogFragment.accountSelection(accountId)?.let {
-                        append(" AND ")
-                        append(it)
-                    }
-                    append(")")
-                }
-            val accountSelectionArgs =
-                if (accountId == 0L) null else SelectFromMappedTableDialogFragment.accountSelectionArgs(
-                    accountId
+    val parties = savedStateHandle.getLiveData(KEY_FILTER, "")
+            .asFlow()
+            .distinctUntilChanged()
+            .flatMapLatest {
+                val (selection, selectionArgs) = joinQueryAndAccountFilter(
+                    filter,
+                    savedStateHandle.get<Long>(KEY_ACCOUNTID),
+                    KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
                 )
-            val selection = StringBuilder().apply {
-                filterSelection?.let { append(it) }
-                accountSelection?.let {
-                    if (isNotEmpty()) append(" AND ")
-                    append(it)
-                }
-            }.takeIf { it.isNotEmpty() }?.toString()
-            contentResolver.observeQuery(
-                PAYEES_URI, null,
-                selection, Utils.joinArrays(filterSelectionArgs, accountSelectionArgs), null, true
-            ).mapToList { Party.fromCursor(it) }
+                contentResolver.observeQuery(
+                    PAYEES_URI, null,
+                    selection, selectionArgs, null, true
+                ).mapToList { Party.fromCursor(it) }
 
-        }
+            }
 
     fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
         contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)

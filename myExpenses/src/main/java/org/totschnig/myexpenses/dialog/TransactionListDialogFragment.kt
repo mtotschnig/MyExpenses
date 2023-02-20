@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import javax.inject.Inject
 
@@ -167,7 +168,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
                 selection += " AND "
             }
             selection += groupingClause
-            selectionArgs = Utils.joinArrays(
+            selectionArgs = joinArrays(
                 selectionArgs,
                 requireArguments().getStringArray(KEY_GROUPING_ARGS)
             )

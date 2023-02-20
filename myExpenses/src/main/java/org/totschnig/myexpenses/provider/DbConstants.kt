@@ -188,7 +188,7 @@ SELECT
     $KEY_USAGES,
     $KEY_LAST_USED,
     1 AS $KEY_LEVEL,
-    ${matches ?: "1"} AS $KEY_MATCHES_FILTER
+    ${matches?.replace("_Tree_","main") ?: "1"} AS $KEY_MATCHES_FILTER
 FROM $TABLE_CATEGORIES main
 WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
 UNION ALL
@@ -207,7 +207,7 @@ SELECT
     subtree.$KEY_USAGES,
     subtree.$KEY_LAST_USED,
     level + 1,
-    ${matches ?: "1"} AS $KEY_MATCHES_FILTER
+    ${matches?.replace("_Tree_","subtree") ?: "1"} AS $KEY_MATCHES_FILTER
 FROM $TABLE_CATEGORIES subtree
 JOIN Tree ON Tree._id = subtree.parent_id
 ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}

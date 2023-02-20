@@ -6,6 +6,7 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
+import android.text.TextUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.LiveData
@@ -32,6 +33,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.AggregateAccount
@@ -54,6 +56,7 @@ import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.DateInfo2
@@ -318,7 +321,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         val rowSelect = Account.buildTransactionRowSelect(filter)
         var selectionArgs: Array<String>? = arrayOf(account.id.toString())
         if (filter != null && !filter.isEmpty) {
-            selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
+            selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         account.updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs)
         ops.add(
@@ -334,6 +337,40 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         //needs to be last, otherwise helper transaction would be deleted
         if (handleDeleteOperation != null) ops.add(handleDeleteOperation)
         contentResolver.applyBatch(AUTHORITY, ops)
+    }
+
+    fun joinQueryAndAccountFilter(
+        filter: String?,
+        accountId: Long?,
+        filterColumn: String,
+        linkColumn: String,
+        tableName: String,
+    ): Pair<String?, Array<String>?> {
+        val filterSelection =
+            if (TextUtils.isEmpty(filter)) null else "$filterColumn LIKE ?"
+        val filterSelectionArgs: Array<String>? = if (TextUtils.isEmpty(filter)) null else
+            arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
+        val accountSelection = if (accountId == null) null else
+            StringBuilder("exists (SELECT 1 from $TABLE_TRANSACTIONS WHERE $linkColumn = $tableName.$KEY_ROWID").apply {
+                SelectFromMappedTableDialogFragment.accountSelection(accountId)?.let {
+                    append(" AND ")
+                    append(it)
+                }
+                append(")")
+            }
+        val accountSelectionArgs: Array<String>? =
+            if (accountId == null) null else SelectFromMappedTableDialogFragment.accountSelectionArgs(
+                accountId
+            )
+
+        val selection = StringBuilder().apply {
+            filterSelection?.let { append(it) }
+            accountSelection?.let {
+                if (isNotEmpty()) append(" AND ")
+                append(it)
+            }
+        }.takeIf { it.isNotEmpty() }?.toString()
+        return selection to joinArrays(filterSelectionArgs, accountSelectionArgs)
     }
 
 /*    fun loadDebugDebts(count: Int = 10) {

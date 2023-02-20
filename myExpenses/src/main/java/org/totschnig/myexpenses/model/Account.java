@@ -86,6 +86,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
+import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 
 /**
  * Account represents an account stored in the database.
@@ -435,7 +436,7 @@ public class Account extends Model implements DistributionAccountInfo {
     String[] selectionArgs = new String[]{String.valueOf(getId())};
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
-      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+      selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     Cursor c = cr().query(Transaction.CONTENT_URI,
         new String[]{"sum(" + KEY_AMOUNT + ")"},
@@ -460,7 +461,7 @@ public class Account extends Model implements DistributionAccountInfo {
     String[] selectionArgs = new String[]{String.valueOf(getId()), String.valueOf(STATUS_NONE)};
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
-      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
+      selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
     ops.add(newUpdate(Transaction.CONTENT_URI)
         .withValue(KEY_STATUS, STATUS_EXPORTED).withSelection(selection, selectionArgs)

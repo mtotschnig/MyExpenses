@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
+import org.totschnig.myexpenses.util.joinArrays
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -80,11 +81,11 @@ abstract class AbstractExporter
         //first we check if there are any exportable transactions
         var selection =
             "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null"
-        var selectionArgs: Array<String?>? = arrayOf(account.id.toString())
+        var selectionArgs: Array<String>? = arrayOf(account.id.toString())
         if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
         if (filter != null && !filter.isEmpty) {
             selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED)
-            selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
+            selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         val projection = arrayOf(
             KEY_UUID,
