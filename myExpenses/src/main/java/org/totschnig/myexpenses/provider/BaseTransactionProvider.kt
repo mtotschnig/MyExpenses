@@ -487,12 +487,21 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @Synchronized
     fun backup(context: Context, backupDir: File): Result<Unit> {
         val currentDb = File(helper.readableDatabase.path!!)
-        _helper?.close()
-        _helper = null
-        return (if (prefHandler.encryptDatabase) decrypt(currentDb, backupDir) else backupDb(
-            currentDb,
-            backupDir
-        ))
+        return (if (prefHandler.encryptDatabase) {
+            _helper?.close()
+            _helper = null
+            decrypt(currentDb, backupDir)
+        } else {
+            helper.readableDatabase.beginTransaction()
+            try {
+                backupDb(
+                    currentDb,
+                    backupDir
+                )
+            } finally {
+                helper.readableDatabase.endTransaction()
+            }
+        })
             .mapCatching {
                 val backupPrefFile = getBackupPrefFile(backupDir)
                 // Samsung has special path on some devices
