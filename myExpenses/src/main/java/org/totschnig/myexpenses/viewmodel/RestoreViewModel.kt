@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
 import org.totschnig.myexpenses.provider.BACKUP_PREF_FILE_NAME
 import org.totschnig.myexpenses.provider.CALENDAR_FULL_PATH_PROJECTION
-import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.DbUtils
@@ -187,18 +186,11 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             }
 
             //peek into file to inspect version
-            try {
-                val version = versionPeekHelper.peekVersion(backupFile.path)
-                if (version > DATABASE_VERSION) {
-                    failureResult(
-                        R.string.restore_cannot_downgrade,
-                        version, DATABASE_VERSION
-                    )
-                    return@launch
+            versionPeekHelper.checkVersion(application, backupFile.path).onFailure {
+                failureResult(it)
+                if (it is SQLiteException) {
+                    CrashHandler.report(it)
                 }
-            } catch (e: SQLiteException) {
-                CrashHandler.report(e)
-                failureResult(e)
                 return@launch
             }
 

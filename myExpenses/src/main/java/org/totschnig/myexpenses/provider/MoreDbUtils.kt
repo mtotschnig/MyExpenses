@@ -459,3 +459,34 @@ fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<
         }
     }
 }
+
+fun maybeRepairRequerySchema(path: String) {
+    val version = io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
+        path,
+        null,
+        io.requery.android.database.sqlite.SQLiteDatabase.OPEN_READONLY
+    ).use {
+        it.version
+    }
+    if (version == 132 || version == 133) {
+        doRepairRequerySchema(path)
+    }
+}
+
+fun doRepairRequerySchema(path: String) {
+    io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
+        path,
+        null,
+        io.requery.android.database.sqlite.SQLiteDatabase.OPEN_READWRITE
+    ).use { db ->
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_WITH_ACCOUNT")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_ALL")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_EXTENDED")
+        db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_UNCOMMITTED")
+    }
+}
