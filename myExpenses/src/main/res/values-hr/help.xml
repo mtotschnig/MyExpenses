@@ -93,4 +93,6 @@
     <string name="form_amount_switch_help_text">Koristi sklopku za prikazivanje troškova ili prihoda.</string>
     <string name="form_calculator_help_text">Gumb &lt;img src=\?calcIcon&gt; otvara kalukulator.</string>
     <string name="menu_HistoryActivity_history_transfers_help_text">Uključi/Isključi, ako se prijenosi trebaju tretirati kao redovni prihod ili rashod.</string>
+    <string name="form_account_help_text">Odaberi račun kojemu transakcija pripada.</string>
+    <string name="form_date_time_help_text">Upiši datum i vrijeme izvršavanja transakcije.</string>
 </resources>
