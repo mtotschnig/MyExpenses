@@ -37,7 +37,7 @@ ext {
     mockitoVersion = '4.9.0'
     retrofitVersion = "2.9.0"
     ktxVersion = "1.8.0"
-    appcompatVersion = "1.6.0"
+    appcompatVersion = "1.6.1"
     picassoVersion = "2.8"
     recyclerview = "1.2.1"
     materialComponents = "1.8.0"

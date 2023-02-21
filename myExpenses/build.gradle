@@ -174,7 +174,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata"
     debugImplementation "androidx.compose.ui:ui-tooling"
     implementation "androidx.compose.material:material-icons-extended"
-    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha18"
     implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-themeadapter-material:$accompanist"
