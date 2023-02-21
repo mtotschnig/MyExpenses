@@ -685,7 +685,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             withTypeSpinner,
             null,
             cached?.recurrence,
-            withAutoFill
+            withAutoFill,
+            cached != null
         )
         cached?.cachedTemplate?.date?.let {
             delegate.planButton.setDate(it)

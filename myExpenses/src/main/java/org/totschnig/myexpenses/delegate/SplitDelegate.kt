@@ -48,6 +48,28 @@ class SplitDelegate(
     var userSetAmount: Boolean = false
     var automaticAmountUpdate: Boolean = false
 
+    override fun bindUnsafe(
+        transaction: ITransaction?,
+        newInstance: Boolean,
+        savedInstanceState: Bundle?,
+        recurrence: Plan.Recurrence?,
+        withAutoFill: Boolean,
+        isCached: Boolean
+    ) {
+        super.bindUnsafe(
+            transaction,
+            newInstance,
+            savedInstanceState,
+            recurrence,
+            withAutoFill,
+            isCached
+        )
+        if (transaction?.amount?.amountMinor != 0L && isCached) {
+            userSetAmount = true
+        }
+
+    }
+
     override fun bind(
         transaction: ISplit?,
         withTypeSpinner: Boolean,
@@ -62,9 +84,7 @@ class SplitDelegate(
             recurrence,
             withAutoFill
         )
-        if (transaction?.amount?.amountMinor != 0L) {
-            userSetAmount = true
-        }
+
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 if (!automaticAmountUpdate) {

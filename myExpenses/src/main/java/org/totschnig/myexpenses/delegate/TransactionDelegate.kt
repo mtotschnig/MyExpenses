@@ -189,12 +189,13 @@ abstract class TransactionDelegate<T : ITransaction>(
     private val planExecutionButton: CompoundButton
         get() = viewBinding.TB
 
-    fun bindUnsafe(
+    open fun bindUnsafe(
         transaction: ITransaction?,
         newInstance: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
-        withAutoFill: Boolean
+        withAutoFill: Boolean,
+        isCached: Boolean = false
     ) {
         bind(
             transaction as T?,

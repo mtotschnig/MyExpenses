@@ -22,8 +22,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.Rule
 import org.junit.Test
-import org.totschnig.myexpenses.Action
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
