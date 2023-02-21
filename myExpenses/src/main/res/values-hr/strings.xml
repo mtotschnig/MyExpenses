@@ -59,7 +59,7 @@
     <string name="dialog_command_disabled_reset_account">Ne postoje transakcije za izvoz.</string>
     <string name="dialog_command_disabled_distribution">Nijedna transakcija nije povezana s kategorijama u ovom računu.</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s mogu koristiti samo premium korisnici (%2$s).</string>
+    <string name="dialog_contrib_premium_feature">%1$s je premium funkcija (%2$s).</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> otvorenog je koda.</string>
     <string name="dialog_export_delete">Izbriši izvezene transakcije</string>
     <string name="dialog_export_not_yet_exported">Izvezi samo trasakcije koje još nisu izvezene</string>
@@ -78,7 +78,7 @@
     <string name="dialog_title_information">Informacije</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Uskladi %1$s</string>
-    <string name="dialog_title_contrib_feature">Premium opcija</string>
+    <string name="dialog_title_contrib_feature">Premium funkcija</string>
     <string name="dialog_title_warning_delete_template">Izbrisati predložak\?</string>
     <string name="dialog_title_warning_delete_transaction">Izbrisati transakciju\?</string>
     <string name="expense">Trošak</string>
@@ -241,7 +241,7 @@
     <string name="pref_checkbox_enabled">Omogućeno</string>
     <string name="pref_checkbox_disabled">Onemogućeno</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Kupi pristup premium značajkama.</string>
+    <string name="pref_contrib_purchase_summary">Kupi pristup premium funkcijama.</string>
     <string name="pref_contrib_purchase_title">Kupi ključ</string>
     <string name="pref_contrib_purchase_title_in_app">Plaćanje unutar programa</string>
     <string name="pref_custom_currency_title">Prilagodi valute</string>
@@ -343,7 +343,7 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Vrsta</string>
     <string name="unsplit_amount">Nepodijeljen iznos</string>
-    <string name="unsplit_amount_greater_than_zero">Dio iznosa je još podijeljen.</string>
+    <string name="unsplit_amount_greater_than_zero">Dio iznosa je još nije podijeljen.</string>
     <string name="warning_backup">Baza podataka i osobne postavke spremit će se u „%1$s”.</string>
     <string name="continue_confirmation">Želiš li nastaviti\?</string>
     <string name="warning_delete_account">Račun „%1$s” će se izbrisati sa svim njegovim transakcijama.</string>
@@ -950,4 +950,6 @@
     <string name="encrypt_database">Šifriraj bazu podataka</string>
     <string name="select_all_list_too_large">Naredba %s nije dostupna jer je popis samo djelomično učitan. Koristi funkciju pretraživanja za dobivanje kraćeg popisa.</string>
     <string name="menu_reconfigure">Konfiguriraj ponovo</string>
+    <string name="database_is_encrypted">Baza podataka je šifrirana.</string>
+    <string name="encrypt_database_info">Baza podataka će se šifrirati pristupnim izrazom koji se ne može izdvojiti iz ovog uređaja. Slijedom toga, usluga sigurnosnog kopiranja neće sigurnosno kopirati bazu podataka.</string>
 </resources>

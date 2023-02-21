@@ -1,2 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="history_title">Dijagram povijesti</string>
+    <string name="history_description">Saznaj kako se tvoja financijska situacija mijenja tijekom vremena</string>
+    <string name="budget_description">Odredi koliko namjeravaš trošiti u godišnjim, mjesečnim ili tjednim proračunima</string>
+    <string name="ocr_title">Uslikaj račun</string>
+    <string name="ocr_description">Automatski izdvoji iznos, datum i primaoca</string>
+    <string name="webui_title">Internetsko korisničko sučelje</string>
+    <string name="categorytree_title">Stablo kategorija</string>
+    <string name="categorytree_description">Proizvoljna razina hijerarhije kategorija</string>
+    <string name="accountsunlimited_title">Neograničen broj računa</string>
+    <string name="accountsunlimited_description">Otključaj mogućnost stvaranja više od pet računa.</string>
+    <string name="adfree_title">Bez oglasa</string>
+    <string name="adfree_description">Bez oglasa.</string>
+    <string name="csvimport_description">Sofisticiran, prilagodljiv CSV uvoz (programi za proračunske tablice)</string>
+    <string name="distribution_title">Kružni dijagram</string>
+    <string name="plansunlimited_title">Neograničen broj planova</string>
+    <string name="plansunlimited_description">Otključaj mogućnost stvaranja više od tri plana za ponavljajuće transakcije.</string>
+    <string name="print_title">Ispiši</string>
+    <string name="print_description">Ispiši popis transakcija u PDF datoteku</string>
+    <string name="splittransaction_title">Višedjelna transakcija</string>
+    <string name="synchronization_title">Sinkronizacija u oblaku</string>
+    <string name="synchronization_description">Podaci se mogu sinkronizirati na više uređaja.</string>
+    <string name="professional_benefit_1">Otključaj sve premium funkcije</string>
+    <string name="professional_benefit_2">E-mail podrška</string>
+    <string name="professional_benefit_3">Pravo glasa o planu razvoja</string>
+    <string name="splittemplate_title">Predložak višedjelne transakcije</string>
+    <string name="splittemplate_description">Neograničen broj predložaka i planova za višedjelne transakcije</string>
+    <string name="budget_title">Izrada proračuna</string>
+    <string name="webui_description">Za unos podataka koristi tvoj desktop preglednik</string>
+    <string name="csvimport_title">CSV uvoz</string>
+    <string name="distribution_description">Prikaži statističku distribuciju transakcija po kategorijama kroz razdoblja (godine, mjeseci, tjedni, dani)</string>
+    <string name="splittransaction_description">Svaka transakcija se može podijeliti na više dijelova (kategorije i prijenosi).</string>
+</resources>
