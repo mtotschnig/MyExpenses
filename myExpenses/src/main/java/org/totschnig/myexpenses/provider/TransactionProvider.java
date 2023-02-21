@@ -237,8 +237,9 @@ public class TransactionProvider extends BaseTransactionProvider {
    */
   public static final String QUERY_PARAMETER_ACCOUNTY_TYPE_LIST = "accountTypeList";
 
-
   public static final String QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT = "withHiddenAccountCount";
+
+  public static final String QUERY_PARAMETER_WITH_FILTER = "withFilter";
   @Deprecated
   public static final String METHOD_BULK_START = "bulkStart";
   @Deprecated
@@ -784,11 +785,22 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case TAGS:
         boolean withCount = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_COUNT, false);
-        qb = SupportSQLiteQueryBuilder.builder(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")" : TABLE_TAGS);
+        boolean withFilter = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_FILTER, false);
+        String tableName;
         if (withCount) {
+          tableName = TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")";
           projection = new String[]{KEY_ROWID, KEY_LABEL, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
           groupBy = KEY_ROWID;
         }
+        else if (withFilter) {
+          tableName = TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + TABLE_TAGS + "." + KEY_ROWID + " = " + KEY_TAGID + ") LEFT JOIN " +
+                  TABLE_TRANSACTIONS + " ON (" + TABLE_TRANSACTIONS + "." + KEY_ROWID + " = " + KEY_TRANSACTIONID  + ")";
+          projection = new String[]{TABLE_TAGS + "." + KEY_ROWID, KEY_LABEL};
+          groupBy = TABLE_TAGS + "." + KEY_ROWID;
+        } else {
+          tableName = TABLE_TAGS;
+        }
+        qb = SupportSQLiteQueryBuilder.builder(tableName);
         break;
       case TRANSACTIONS_TAGS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTIONS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");

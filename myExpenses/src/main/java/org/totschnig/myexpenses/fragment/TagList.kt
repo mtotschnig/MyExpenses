@@ -11,9 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +24,6 @@ import eltos.simpledialogfragment.input.SimpleInputDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action
-import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.asAction
 import org.totschnig.myexpenses.databinding.TagListBinding
@@ -36,7 +34,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TagList : Fragment(), OnDialogResultListener {
     private var _binding: TagListBinding? = null
-    private lateinit var viewModel: TagListViewModel
+    private val viewModel: TagListViewModel by activityViewModels()
     private lateinit var adapter: Adapter
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -44,8 +42,6 @@ class TagList : Fragment(), OnDialogResultListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factory = SavedStateViewModelFactory(requireActivity().application, this, null)
-        viewModel = ViewModelProvider(this, factory)[TagListViewModel::class.java]
         (requireActivity().application as MyApplication).appComponent.inject(viewModel)
     }
 
@@ -56,10 +52,6 @@ class TagList : Fragment(), OnDialogResultListener {
     ): View {
         _binding = TagListBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
     }
 
     private val action
