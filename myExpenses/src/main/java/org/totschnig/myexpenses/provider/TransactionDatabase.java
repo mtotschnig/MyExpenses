@@ -2244,7 +2244,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if(oldVersion < 134) {
         createOrRefreshViews(db);
-        getPrefHandler().putBoolean(PrefKey.REPAIRED_REQUERY_SCHEMA, true);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

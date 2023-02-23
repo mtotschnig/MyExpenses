@@ -269,7 +269,6 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
     implementation "com.github.requery:sqlite-android:$requery"
 
     // Lifecycle components
