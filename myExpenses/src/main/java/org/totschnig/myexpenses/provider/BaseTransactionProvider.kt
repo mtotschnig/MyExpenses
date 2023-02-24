@@ -594,17 +594,18 @@ abstract class BaseTransactionProvider : ContentProvider() {
             argsList.addAll(baseArgs)
             argsList.addAll(baseArgs)
         }
-        val statement = db.compileStatement(statementBuilder.toString())
-        argsList.forEachIndexed { index, arg ->
-            val bindIndex = index + 1
-            if (arg != null) {
-                statement.bindString(bindIndex, arg)
-            } else {
-                statement.bindNull(bindIndex)
+        return db.compileStatement(statementBuilder.toString()).use {
+            argsList.forEachIndexed { index, arg ->
+                val bindIndex = index + 1
+                if (arg != null) {
+                    it.bindString(bindIndex, arg)
+                } else {
+                    it.bindNull(bindIndex)
+                }
             }
+            log("$it - ${argsList.joinToString()}")
+            it.executeUpdateDelete()
         }
-        log("$statement - ${argsList.joinToString()}")
-        return statement.executeUpdateDelete()
     }
 
     fun budgetDefaultSelect(

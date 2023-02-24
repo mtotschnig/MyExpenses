@@ -70,11 +70,13 @@ fun linkTransfers(db: SupportSQLiteDatabase, uuid1: String, uuid2: String, write
             "UPDATE $TABLE_TRANSACTIONS SET $KEY_CATID = null, $KEY_PAYEEID = null, $KEY_UUID = ?," +
                     "$KEY_TRANSFER_PEER = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)," +
                     "$KEY_TRANSFER_ACCOUNT = (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?) WHERE $KEY_UUID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS where $KEY_UUID = ?)"
-        val statement: SupportSQLiteStatement = db.compileStatement(sql)
-        statement.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid2, uuid1, uuid2))
-        count += statement.executeUpdateDelete()
-        statement.bindAllArgsAsStrings(listOf(uuid1, uuid1, uuid1, uuid2, uuid1))
-        count += statement.executeUpdateDelete()
+        db.compileStatement(sql).use {
+            it.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid2, uuid1, uuid2))
+            count += it.executeUpdateDelete()
+            it.bindAllArgsAsStrings(listOf(uuid1, uuid1, uuid1, uuid2, uuid1))
+            count += it.executeUpdateDelete()
+        }
+
         if (writeChange) {
             // This is a hack, we abuse the number field of the changes table for storing uuid of transfer_peer
             // We do not want to extend the table since the whole trigger based concept of recording changes
@@ -83,10 +85,11 @@ fun linkTransfers(db: SupportSQLiteDatabase, uuid1: String, uuid2: String, write
                 "INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_REFERENCE_NUMBER) " +
                         "SELECT '${TransactionChange.Type.link.name}', $KEY_ROWID, $KEY_SYNC_SEQUENCE_LOCAL, ?, ? FROM " +
                         "$TABLE_ACCOUNTS WHERE $KEY_ROWID IN ((SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?), (SELECT $KEY_TRANSFER_ACCOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)) AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL"
-            val updateStatement: SupportSQLiteStatement = db.compileStatement(updateSql)
-            //we write identical changes for the two accounts, so that on the other end of the synchronization we know which part of the transfer keeps its uuid
-            updateStatement.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid1, uuid1))
-            updateStatement.execute()
+            db.compileStatement(updateSql).use {
+                //we write identical changes for the two accounts, so that on the other end of the synchronization we know which part of the transfer keeps its uuid
+                it.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid1, uuid1))
+                it.execute()
+            }
         }
         db.setTransactionSuccessful()
     } finally {
