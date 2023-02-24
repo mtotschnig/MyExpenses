@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model.extractTagIds
 import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -209,6 +210,9 @@ class SyncDelegate @JvmOverloads constructor(
         if (change.tags() != null) {
             builder.setTags(change.tags())
         }
+        if (change.categoryInfo() != null) {
+            builder.setCategoryInfo(change.categoryInfo())
+        }
         return builder.setCurrentTimeStamp().build()
     }
 
@@ -342,6 +346,10 @@ class SyncDelegate @JvmOverloads constructor(
         return categoryToId[label] ?: -1
     }
 
+    private fun TransactionChange.extractCategoryInfo(): Long? {
+        return categoryInfo()?.fold(null) { parentId: Long?,  categoryInfo: CategoryInfo -> repository.findCategory(categoryInfo.label, parentId) }
+    }
+
     private fun extractMethodId(methodLabel: String): Long =
             methodToId[methodLabel] ?: (PaymentMethod.find(methodLabel).takeIf { it != -1L }
                     ?: PaymentMethod.maybeWrite(methodLabel, account.type)).also {
@@ -357,7 +365,7 @@ class SyncDelegate @JvmOverloads constructor(
 
     private fun getContentProviderOperationsForCreate(
             change: TransactionChange, offset: Int, parentOffset: Int): ArrayList<ContentProviderOperation> {
-        if (!change.isCreate) throw java.lang.AssertionError()
+        check(change.isCreate)
         val amount = change.amount() ?: 0L
         val money = Money(account.currencyUnit, amount)
         val t: Transaction = if (change.splitParts() != null) {

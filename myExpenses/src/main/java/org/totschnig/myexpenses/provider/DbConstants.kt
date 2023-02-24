@@ -180,6 +180,7 @@ fun categoryTreeCTE(
 WITH Tree as (
 SELECT
     $KEY_LABEL,
+    $KEY_UUID,
     ${maybeEscapeLabel(categorySeparator, "main")} AS $KEY_PATH,
     $KEY_COLOR,
     $KEY_ICON,
@@ -194,6 +195,7 @@ WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
 UNION ALL
 SELECT
     subtree.$KEY_LABEL,
+    subtree.$KEY_UUID,
     Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${
     maybeEscapeLabel(
         categorySeparator,
@@ -220,13 +222,12 @@ fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
     categorySeparator = categorySeparator
 ) + ")"
 
-fun fullLabel(categorySeparator: String?) = "CASE WHEN " +
-        "  " + KEY_TRANSFER_ACCOUNT + " " +
-        " THEN " +
-        "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
-        " ELSE " +
-        fullCatCase(categorySeparator) +
-        " END AS  " + KEY_LABEL
+fun categoryPathFromLeave(rowId: String) = """
+    WITH Tree as (SELECT parent_id, label, icon, uuid  from categories child where _id = $rowId
+    UNION ALL
+    SELECT parent.parent_id, parent.label, parent.icon, parent.uuid from categories parent JOIN Tree on Tree.parent_id = parent._id
+    ) SELECT * FROM Tree
+""".trimIndent()
 
 /**
  * for transfer label of transfer_account, for transaction full breadcrumb of category

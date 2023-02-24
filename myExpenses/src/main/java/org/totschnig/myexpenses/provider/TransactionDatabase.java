@@ -262,6 +262,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_LAST_USED + " datetime, "
           + KEY_COLOR + " integer, "
           + KEY_ICON + " string, "
+          + KEY_UUID + " text, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
@@ -2221,9 +2222,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 126) {
         upgradeTo126(db);
       }
-      if (oldVersion < 127) {
+      //if (oldVersion < 127) {
         //createOrRefreshViews(db);
-      }
+      //}
       if (oldVersion < 128) {
         upgradeTo128(db);
       }

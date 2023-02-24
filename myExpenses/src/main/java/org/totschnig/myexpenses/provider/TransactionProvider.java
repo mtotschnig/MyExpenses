@@ -483,9 +483,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
       }
       case CATEGORY_ID:
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
-        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
-        break;
+        String rowId = uri.getPathSegments().get(1);
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
+          c = measureAndLogQuery(db, uri, selection, DbConstantsKt.categoryPathFromLeave(rowId), selectionArgs);
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
+        } else {
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
+          additionalWhere.append(KEY_ROWID + "=").append(rowId);
+          break;
+        }
       case ACCOUNTS:
       case ACCOUNTS_BASE:
       case ACCOUNTS_MINIMAL:

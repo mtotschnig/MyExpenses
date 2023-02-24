@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -247,6 +248,7 @@ class Repository @Inject constructor(
         }
         return try {
             if (category.id == 0L) {
+                initialValues.put(KEY_UUID, category.uuid ?: UUID.randomUUID().toString())
                 contentResolver.insert(CATEGORIES_URI, initialValues)
             } else {
                 CATEGORIES_URI.buildUpon().appendPath(category.id.toString()).build().let {
