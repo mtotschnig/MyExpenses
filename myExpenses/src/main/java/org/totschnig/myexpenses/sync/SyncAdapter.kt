@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateSync
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
@@ -169,7 +170,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                 provider.query(
                     TransactionProvider.ACCOUNTS_URI,
                     projection,
-                    selection + " AND " + KEY_SYNC_SEQUENCE_LOCAL + " = 0",
+                    "$selection AND $KEY_SYNC_SEQUENCE_LOCAL = 0",
                     selectionArgs,
                     KEY_ROWID
                 ).also {
@@ -763,7 +764,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                         CategoryInfo(
                                             it.getString(KEY_UUID),
                                             it.getString(KEY_LABEL),
-                                            it.getString(KEY_ICON)
+                                            it.getStringOrNull(KEY_ICON)
                                         ) }.toList().asReversed()
                                 ).build()
                             }

@@ -25,8 +25,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.provider.withLimit
+import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
@@ -34,6 +36,7 @@ import org.totschnig.myexpenses.util.localDateTime2Epoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.io.IOException
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
@@ -216,7 +219,11 @@ class Repository @Inject constructor(
 
     fun getLastUsedOpenAccount() =
         contentResolver.query(
-            ACCOUNTS_URI.withLimit(1), arrayOf(KEY_ROWID, KEY_CURRENCY), "$KEY_SEALED = 0", null, KEY_LAST_USED
+            ACCOUNTS_URI.withLimit(1),
+            arrayOf(KEY_ROWID, KEY_CURRENCY),
+            "$KEY_SEALED = 0",
+            null,
+            KEY_LAST_USED
         )?.use {
             if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
         }
@@ -322,6 +329,78 @@ class Repository @Inject constructor(
                 it.getLong(0)
             }
         } ?: -1
+    }
+
+    /**
+     * 1 if the category with provided uuid exists
+     * 1.1 if it has a different label, change label
+     * 1.2 if it has a different parent, change parent
+     * 1.3 if it has a different icon, change icon
+     * 1.4 return category
+     * 2. otherwise
+     * 2.1 if a category with the provided label and parent exists, (update icon), append uuid and return it
+     * 2.2 otherwise create category with label and uuid and return it
+     */
+    fun ensureCategory(categoryInfo: CategoryInfo, parentId: Long?): Long {
+        val (uuid, label, icon) = categoryInfo
+        val stripped = label.trim()
+
+        contentResolver.query(
+            CATEGORIES_URI,
+            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID, KEY_ICON),
+            "instr($KEY_UUID, ?) > 0",
+            arrayOf(uuid),
+            null
+        )?.use {
+            if (it.moveToFirst()) {
+                val categoryId = it.getLong(0)
+                if (it.getString(1) != label || it.getLongOrNull(2) != parentId || it.getString(3) != icon)
+                    contentResolver.update(
+                        ContentUris.withAppendedId(CATEGORIES_URI, categoryId),
+                        ContentValues(3).apply {
+                            put(KEY_LABEL, label)
+                            put(KEY_ICON, icon)
+                            put(KEY_PARENTID, parentId)
+                        },
+                        null, null
+                    )
+                return categoryId
+            }
+        }
+        val (parentSelection, parentSelectionArgs) = if (parentId == null) {
+            "$KEY_PARENTID is null" to emptyArray()
+        } else {
+            "$KEY_PARENTID = ?" to arrayOf(parentId.toString())
+        }
+        contentResolver.query(
+            CATEGORIES_URI,
+            arrayOf(KEY_ROWID, KEY_UUID),
+            "$KEY_LABEL = ? AND $parentSelection",
+            arrayOf(stripped) + parentSelectionArgs,
+            null
+        )?.use {
+            if (it.moveToFirst()) {
+                val categoryId = it.getLong(0)
+                val existingUuid = it.getString(1)
+                contentResolver.update(
+                    ContentUris.withAppendedId(CATEGORIES_URI, categoryId),
+                    ContentValues(2).apply {
+                        put(KEY_UUID, "$existingUuid:$uuid")
+                        put(KEY_ICON, icon)
+                    },
+                    null, null
+                )
+                return categoryId
+            }
+        }
+        return saveCategory(
+            Category(
+                label = label,
+                parentId = parentId,
+                icon = icon
+            )
+        )?.let { ContentUris.parseId(it) }
+            ?: throw IOException("Saving category failed")
     }
 
     @VisibleForTesting

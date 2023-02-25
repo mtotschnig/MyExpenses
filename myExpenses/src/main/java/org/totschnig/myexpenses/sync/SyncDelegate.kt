@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import java.io.IOException
 
 class SyncDelegate @JvmOverloads constructor(
     val currencyContext: CurrencyContext,
@@ -316,9 +317,7 @@ class SyncDelegate @JvmOverloads constructor(
         change.date()?.let { values.put(DatabaseConstants.KEY_DATE, it) }
         change.valueDate()?.let { values.put(DatabaseConstants.KEY_VALUE_DATE, it) }
         change.amount()?.let { values.put(DatabaseConstants.KEY_AMOUNT, it) }
-        change.label()?.let { label ->
-            extractCatId(label).takeIf { it != -1L }?.let { values.put(DatabaseConstants.KEY_CATID, it) }
-        }
+        change.extractCatId()?.let { values.put(DatabaseConstants.KEY_CATID, it) }
         change.payeeName()?.let { name ->
             Payee.extractPayeeId(name, payeeToId).takeIf { it != -1L }?.let { values.put(DatabaseConstants.KEY_PAYEEID, it) }
         }
@@ -341,13 +340,11 @@ class SyncDelegate @JvmOverloads constructor(
         return values
     }
 
-    private fun extractCatId(label: String): Long {
-        CategoryHelper.insert(repository, label, categoryToId, false)
-        return categoryToId[label] ?: -1
-    }
-
-    private fun TransactionChange.extractCategoryInfo(): Long? {
-        return categoryInfo()?.fold(null) { parentId: Long?,  categoryInfo: CategoryInfo -> repository.findCategory(categoryInfo.label, parentId) }
+    private fun TransactionChange.extractCatId(): Long? {
+        return label()?.let {
+            CategoryHelper.insert(repository, it, categoryToId, false)
+            categoryToId[it] ?: throw IOException("Saving category $it failed")
+        } ?: categoryInfo()?.fold(null) { parentId: Long?,  categoryInfo: CategoryInfo -> repository.ensureCategory(categoryInfo, parentId) }
     }
 
     private fun extractMethodId(methodLabel: String): Long =
@@ -378,9 +375,7 @@ class SyncDelegate @JvmOverloads constructor(
                 findTransferAccount(transferAccount).takeIf { accountId -> resolver(accountId, change.uuid()) != -1L }?.let { Transfer(account.id, money, it) }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
-                    change.label()?.let { label ->
-                        extractCatId(label).takeIf { it != -1L }?.let { catId = it }
-                    }
+                    catId = change.extractCatId()
                 }
             }
         }

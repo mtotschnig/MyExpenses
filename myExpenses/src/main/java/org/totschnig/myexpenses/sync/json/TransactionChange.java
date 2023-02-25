@@ -176,7 +176,7 @@ public abstract class TransactionChange {
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
         crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null
         && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L)
-        && parentUuid() == null && tags() == null;
+        && parentUuid() == null && tags() == null && categoryInfo() == null;
         //we ignore changes of equivalent amount which result from change of home currency
   }
 
