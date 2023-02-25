@@ -397,7 +397,8 @@ class Repository @Inject constructor(
             Category(
                 label = label,
                 parentId = parentId,
-                icon = icon
+                icon = icon,
+                uuid = uuid
             )
         )?.let { ContentUris.parseId(it) }
             ?: throw IOException("Saving category failed")
