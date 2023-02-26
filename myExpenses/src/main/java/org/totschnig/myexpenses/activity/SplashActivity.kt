@@ -12,21 +12,23 @@ class SplashActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val prefHandler = (application as MyApplication).appComponent.prefHandler()
-        val version = prefHandler
-            .getInt(PrefKey.CURRENT_VERSION, -1)
-        if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && version < 591) {
-            maybeRepairRequerySchema(getDatabasePath("data").path)
-            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
-            getStarted(version)
-        } else {
-            getStarted(version)
+        val version = prefHandler.getInt(PrefKey.CURRENT_VERSION, -1)
+        if (version == -1) {
+            getStarted(OnboardingActivity::class.java)
+        }
+        else {
+            if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && version < 591) {
+                maybeRepairRequerySchema(getDatabasePath("data").path)
+                prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
+            }
+            getStarted(MyExpenses::class.java)
         }
     }
 
-    fun getStarted(version: Int) {
-        val intent = Intent(this, if (version == -1) OnboardingActivity::class.java else  MyExpenses::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-        startActivity(intent)
+    private fun getStarted(clazz: Class<out Activity>) {
+        startActivity(Intent(this, clazz).apply {
+            flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+        })
         finish()
     }
 }
