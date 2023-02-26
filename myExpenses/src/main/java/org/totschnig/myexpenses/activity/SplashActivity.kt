@@ -15,8 +15,7 @@ class SplashActivity : Activity() {
         val version = prefHandler.getInt(PrefKey.CURRENT_VERSION, -1)
         if (version == -1) {
             getStarted(OnboardingActivity::class.java)
-        }
-        else {
+        } else {
             if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && version < 591) {
                 maybeRepairRequerySchema(getDatabasePath("data").path)
                 prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
