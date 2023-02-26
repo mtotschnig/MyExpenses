@@ -61,7 +61,12 @@ fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
     }
 }
 
-fun linkTransfers(db: SupportSQLiteDatabase, uuid1: String, uuid2: String, writeChange: Boolean): Int {
+fun linkTransfers(
+    db: SupportSQLiteDatabase,
+    uuid1: String,
+    uuid2: String,
+    writeChange: Boolean
+): Int {
     db.beginTransaction()
     var count = 0
     try {
@@ -100,7 +105,7 @@ fun linkTransfers(db: SupportSQLiteDatabase, uuid1: String, uuid2: String, write
 
 fun SupportSQLiteStatement.bindAllArgsAsStrings(argsList: List<String>) {
     argsList.forEachIndexed { index, arg ->
-        bindString(index+1, arg)
+        bindString(index + 1, arg)
     }
 }
 
@@ -127,32 +132,63 @@ fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context): Array<S
     }.toTypedArray()
 }
 
+fun SupportSQLiteDatabase.findCategory(selection: String, selectionArgs: Array<Any>) = query(
+    TABLE_CATEGORIES,
+    arrayOf(KEY_ROWID),
+    selection,
+    selectionArgs,
+    null,
+    null,
+    null
+).use {
+    if (it.moveToFirst()) {
+        it.getLong(0)
+    } else {
+        null
+    }
+}
+
+fun SupportSQLiteDatabase.findSubCategory(parentId: Long, label: String) = findCategory(
+    selection = "$KEY_PARENTID = ? and $KEY_LABEL = ?",
+    selectionArgs = arrayOf(parentId.toString(), label)
+)
+
+fun SupportSQLiteDatabase.findMainCategory(label: String) = findCategory(
+    selection = "$KEY_PARENTID is null and $KEY_LABEL = ?",
+    selectionArgs = arrayOf(label)
+)
+
+fun SupportSQLiteDatabase.findCategoryByUuid(uuid: String) = findCategory(
+    selection = "$KEY_UUID = ?",
+    selectionArgs = arrayOf(uuid)
+)
+
+val categoryDefinitions = arrayOf(
+    Triple(R.array.Cat_1, R.array.Cat_1_Icons, R.array.Cat_1_Uuids),
+    Triple(R.array.Cat_2, R.array.Cat_2_Icons, R.array.Cat_2_Uuids),
+    Triple(R.array.Cat_3, R.array.Cat_3_Icons, R.array.Cat_3_Uuids),
+    Triple(R.array.Cat_4, R.array.Cat_4_Icons, R.array.Cat_4_Uuids),
+    Triple(R.array.Cat_5, R.array.Cat_5_Icons, R.array.Cat_5_Uuids),
+    Triple(R.array.Cat_6, R.array.Cat_6_Icons, R.array.Cat_6_Uuids),
+    Triple(R.array.Cat_7, R.array.Cat_7_Icons, R.array.Cat_7_Uuids),
+    Triple(R.array.Cat_8, R.array.Cat_8_Icons, R.array.Cat_8_Uuids),
+    Triple(R.array.Cat_9, R.array.Cat_9_Icons, R.array.Cat_9_Uuids),
+    Triple(R.array.Cat_10, R.array.Cat_10_Icons, R.array.Cat_10_Uuids),
+    Triple(R.array.Cat_11, R.array.Cat_11_Icons, R.array.Cat_11_Uuids),
+    Triple(R.array.Cat_12, R.array.Cat_12_Icons, R.array.Cat_12_Uuids),
+    Triple(R.array.Cat_13, R.array.Cat_13_Icons, R.array.Cat_13_Uuids),
+    Triple(R.array.Cat_14, R.array.Cat_14_Icons, R.array.Cat_14_Uuids),
+    Triple(R.array.Cat_15, R.array.Cat_15_Icons, R.array.Cat_15_Uuids),
+    Triple(R.array.Cat_16, R.array.Cat_16_Icons, R.array.Cat_16_Uuids),
+    Triple(R.array.Cat_17, R.array.Cat_17_Icons, R.array.Cat_17_Uuids),
+    Triple(R.array.Cat_18, R.array.Cat_18_Icons, R.array.Cat_18_Uuids),
+    Triple(R.array.Cat_19, R.array.Cat_19_Icons, R.array.Cat_19_Uuids),
+    Triple(R.array.Cat_20, R.array.Cat_20_Icons, R.array.Cat_20_Uuids),
+    Triple(R.array.Cat_21, R.array.Cat_21_Icons, R.array.Cat_21_Uuids),
+    Triple(R.array.Cat_22, R.array.Cat_22_Icons, R.array.Cat_22_Uuids),
+)
+
 fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources): Pair<Int, Int> {
-    fun findCategory(selection: String, selectionArgs: Array<Any>) =
-        database.query(
-            TABLE_CATEGORIES,
-            arrayOf(KEY_ROWID),
-            selection,
-            selectionArgs,
-            null,
-            null,
-            null
-        ).use {
-            if (it.moveToFirst()) {
-                it.getLong(0)
-            } else {
-                null
-            }
-        }
-
-    fun findSubCategory(parentId: Long, label: String) =
-        findCategory("$KEY_PARENTID = ? and $KEY_LABEL = ?" , arrayOf(parentId.toString(), label))
-
-    fun findMainCategory(label: String) =
-        findCategory("$KEY_PARENTID is null and $KEY_LABEL = ?" , arrayOf(label))
-
-    fun findCategoryByUuid(uuid: String) =
-        findCategory("$KEY_UUID = ?" , arrayOf(uuid))
 
     var totalInserted = 0
     var totalUpdated = 0
@@ -163,31 +199,6 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
     )
     val stmtUpdateIcon = database.compileStatement(
         "UPDATE $TABLE_CATEGORIES SET $KEY_ICON = ? WHERE $KEY_ICON IS NULL AND $KEY_ROWID = ?"
-    )
-
-    val categoryDefinitions = arrayOf(
-        Triple(R.array.Cat_1, R.array.Cat_1_Icons, R.array.Cat_1_Uuids),
-        Triple(R.array.Cat_2, R.array.Cat_2_Icons, R.array.Cat_2_Uuids),
-        Triple(R.array.Cat_3, R.array.Cat_3_Icons, R.array.Cat_3_Uuids),
-        Triple(R.array.Cat_4, R.array.Cat_4_Icons, R.array.Cat_4_Uuids),
-        Triple(R.array.Cat_5, R.array.Cat_5_Icons, R.array.Cat_5_Uuids),
-        Triple(R.array.Cat_6, R.array.Cat_6_Icons, R.array.Cat_6_Uuids),
-        Triple(R.array.Cat_7, R.array.Cat_7_Icons, R.array.Cat_7_Uuids),
-        Triple(R.array.Cat_8, R.array.Cat_8_Icons, R.array.Cat_8_Uuids),
-        Triple(R.array.Cat_9, R.array.Cat_9_Icons, R.array.Cat_9_Uuids),
-        Triple(R.array.Cat_10, R.array.Cat_10_Icons, R.array.Cat_10_Uuids),
-        Triple(R.array.Cat_11, R.array.Cat_11_Icons, R.array.Cat_11_Uuids),
-        Triple(R.array.Cat_12, R.array.Cat_12_Icons, R.array.Cat_12_Uuids),
-        Triple(R.array.Cat_13, R.array.Cat_13_Icons, R.array.Cat_13_Uuids),
-        Triple(R.array.Cat_14, R.array.Cat_14_Icons, R.array.Cat_14_Uuids),
-        Triple(R.array.Cat_15, R.array.Cat_15_Icons, R.array.Cat_15_Uuids),
-        Triple(R.array.Cat_16, R.array.Cat_16_Icons, R.array.Cat_16_Uuids),
-        Triple(R.array.Cat_17, R.array.Cat_17_Icons, R.array.Cat_17_Uuids),
-        Triple(R.array.Cat_18, R.array.Cat_18_Icons, R.array.Cat_18_Uuids),
-        Triple(R.array.Cat_19, R.array.Cat_19_Icons, R.array.Cat_19_Uuids),
-        Triple(R.array.Cat_20, R.array.Cat_20_Icons, R.array.Cat_20_Uuids),
-        Triple(R.array.Cat_21, R.array.Cat_21_Icons, R.array.Cat_21_Uuids),
-        Triple(R.array.Cat_22, R.array.Cat_22_Icons,  R.array.Cat_22_Uuids),
     )
 
     for ((categoriesResId, iconsResId, uuidResId) in categoryDefinitions) {
@@ -201,7 +212,7 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
         val mainLabel = categories[0]
         val mainIcon = icons[0]
         val mainUUid = uuids[0]
-        catIdMain = findMainCategory(mainLabel) ?: findCategoryByUuid(mainUUid)
+        catIdMain = database.findMainCategory(mainLabel) ?: database.findCategoryByUuid(mainUUid)
         if (catIdMain != null) {
             Timber.i("category with label %s already defined", mainLabel)
             stmtUpdateIcon.bindString(1, mainIcon)
@@ -230,7 +241,7 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
             val subLabel = subLabels[i]
             val subIcon = subIconNames[i]
             val subUUid = subUuids[i]
-            val catIdSub = findSubCategory(catIdMain, subLabel) ?: findCategoryByUuid(subUUid)
+            val catIdSub = database.findSubCategory(catIdMain, subLabel) ?: database.findCategoryByUuid(subUUid)
             if (catIdSub != null) {
                 Timber.i("category with label %s already defined", subLabel)
                 stmtUpdateIcon.bindString(1, subIcon)
@@ -262,6 +273,42 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
     return totalInserted to totalUpdated
 }
 
+fun insertUuidsForDefaultCategories(database: SupportSQLiteDatabase, resources: Resources) {
+    database.compileStatement(
+        "UPDATE $TABLE_CATEGORIES SET $KEY_UUID = ? WHERE $KEY_UUID IS NULL AND $KEY_ROWID = ?"
+    ).use { statement ->
+        var catIdMain: Long?
+        for ((categoriesResId, _, uuidResId) in categoryDefinitions) {
+            val categories = resources.getStringArray(categoriesResId)
+            val uuids = resources.getStringArray(uuidResId)
+            if (categories.size != uuids.size) {
+                CrashHandler.report(Exception("Inconsistent category definitions"))
+                continue
+            }
+            val mainLabel = categories[0]
+            val mainUUid = uuids[0]
+            catIdMain = database.findMainCategory(mainLabel)
+            if (catIdMain != null) {
+                statement.bindString(1, mainUUid)
+                statement.bindLong(2, catIdMain)
+            }
+            val subLabels = categories.drop(1)
+            val subUuids = uuids.drop(1)
+            if (catIdMain != null) {
+                for (i in subLabels.indices) {
+                    val subLabel = subLabels[i]
+                    val subUUid = subUuids[i]
+                    val catIdSub = database.findSubCategory(catIdMain, subLabel)
+                    if (catIdSub != null) {
+                        statement.bindString(1, subUUid)
+                        statement.bindLong(2, catIdSub)
+                    }
+                }
+            }
+        }
+    }
+}
+
 fun <T> Cursor.useAndMap(mapper: (Cursor) -> T) =
     use {
         generateSequence { takeIf { it.moveToNext() } }.map(mapper).toList()
@@ -281,15 +328,25 @@ fun Cursor.getString(column: String) = requireString(getColumnIndexOrThrow(colum
 fun Cursor.getInt(column: String) = getInt(getColumnIndexOrThrow(column))
 fun Cursor.getLong(column: String) = getLong(getColumnIndexOrThrow(column))
 fun Cursor.getDouble(column: String) = getDouble(getColumnIndexOrThrow(column))
-fun Cursor.getStringOrNull(column: String) = getStringOrNull(getColumnIndexOrThrow(column))?.takeIf { it.isNotEmpty() }
+fun Cursor.getStringOrNull(column: String) =
+    getStringOrNull(getColumnIndexOrThrow(column))?.takeIf { it.isNotEmpty() }
+
 fun Cursor.getIntOrNull(column: String) = getIntOrNull(getColumnIndexOrThrow(column))
 fun Cursor.getLongOrNull(column: String) = getLongOrNull(getColumnIndexOrThrow(column))
 fun Cursor.requireLong(column: String) = getLongOrNull(getColumnIndexOrThrow(column)) ?: 0L
-fun Cursor.getIntIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getInt(it) }
+fun Cursor.getIntIfExists(column: String) =
+    getColumnIndex(column).takeIf { it != -1 }?.let { getInt(it) }
+
 fun Cursor.getIntIfExistsOr0(column: String) = getIntIfExists(column) ?: 0
-fun Cursor.getLongIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) }
-fun Cursor.getLongIfExistsOr0(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
-fun Cursor.getStringIfExists(column: String) = getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
+fun Cursor.getLongIfExists(column: String) =
+    getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) }
+
+fun Cursor.getLongIfExistsOr0(column: String) =
+    getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
+
+fun Cursor.getStringIfExists(column: String) =
+    getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
+
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 
 /**
@@ -349,7 +406,7 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
     if (!PermissionGroup.CALENDAR.hasPermission(context)) {
         return
     }
-    val plannerCalendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID,"-1")
+    val plannerCalendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, "-1")
     if (plannerCalendarId == "-1") {
         return
     }
