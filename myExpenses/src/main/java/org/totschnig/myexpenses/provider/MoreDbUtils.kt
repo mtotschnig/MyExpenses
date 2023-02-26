@@ -128,53 +128,81 @@ fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context): Array<S
 }
 
 fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources): Pair<Int, Int> {
+    fun findCategory(selection: String, selectionArgs: Array<Any>) =
+        database.query(
+            TABLE_CATEGORIES,
+            arrayOf(KEY_ROWID),
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        ).use {
+            if (it.moveToFirst()) {
+                it.getLong(0)
+            } else {
+                null
+            }
+        }
+
+    fun findSubCategory(parentId: Long, label: String) =
+        findCategory("$KEY_PARENTID = ? and $KEY_LABEL = ?" , arrayOf(parentId.toString(), label))
+
+    fun findMainCategory(label: String) =
+        findCategory("$KEY_PARENTID is null and $KEY_LABEL = ?" , arrayOf(label))
+
+    fun findCategoryByUuid(uuid: String) =
+        findCategory("$KEY_UUID = ?" , arrayOf(uuid))
+
     var totalInserted = 0
     var totalUpdated = 0
-    var catIdMain: Long
+    var catIdMain: Long?
     database.beginTransaction()
     val stmt = database.compileStatement(
-        "INSERT INTO $TABLE_CATEGORIES ($KEY_LABEL, $KEY_LABEL_NORMALIZED, $KEY_PARENTID, $KEY_COLOR, $KEY_ICON) VALUES (?, ?, ?, ?, ?)"
+        "INSERT INTO $TABLE_CATEGORIES ($KEY_LABEL, $KEY_LABEL_NORMALIZED, $KEY_PARENTID, $KEY_COLOR, $KEY_ICON, $KEY_UUID) VALUES (?, ?, ?, ?, ?, ?)"
     )
     val stmtUpdateIcon = database.compileStatement(
         "UPDATE $TABLE_CATEGORIES SET $KEY_ICON = ? WHERE $KEY_ICON IS NULL AND $KEY_ROWID = ?"
     )
 
     val categoryDefinitions = arrayOf(
-        R.array.Cat_1 to R.array.Cat_1_Icons,
-        R.array.Cat_2 to R.array.Cat_2_Icons,
-        R.array.Cat_3 to R.array.Cat_3_Icons,
-        R.array.Cat_4 to R.array.Cat_4_Icons,
-        R.array.Cat_5 to R.array.Cat_5_Icons,
-        R.array.Cat_6 to R.array.Cat_6_Icons,
-        R.array.Cat_7 to R.array.Cat_7_Icons,
-        R.array.Cat_8 to R.array.Cat_8_Icons,
-        R.array.Cat_9 to R.array.Cat_9_Icons,
-        R.array.Cat_10 to R.array.Cat_10_Icons,
-        R.array.Cat_11 to R.array.Cat_11_Icons,
-        R.array.Cat_12 to R.array.Cat_12_Icons,
-        R.array.Cat_13 to R.array.Cat_13_Icons,
-        R.array.Cat_14 to R.array.Cat_14_Icons,
-        R.array.Cat_15 to R.array.Cat_15_Icons,
-        R.array.Cat_16 to R.array.Cat_16_Icons,
-        R.array.Cat_17 to R.array.Cat_17_Icons,
-        R.array.Cat_18 to R.array.Cat_18_Icons,
-        R.array.Cat_19 to R.array.Cat_19_Icons,
-        R.array.Cat_20 to R.array.Cat_20_Icons,
-        R.array.Cat_21 to R.array.Cat_21_Icons,
-        R.array.Cat_22 to R.array.Cat_22_Icons
+        Triple(R.array.Cat_1, R.array.Cat_1_Icons, R.array.Cat_1_Uuids),
+        Triple(R.array.Cat_2, R.array.Cat_2_Icons, R.array.Cat_2_Uuids),
+        Triple(R.array.Cat_3, R.array.Cat_3_Icons, R.array.Cat_3_Uuids),
+        Triple(R.array.Cat_4, R.array.Cat_4_Icons, R.array.Cat_4_Uuids),
+        Triple(R.array.Cat_5, R.array.Cat_5_Icons, R.array.Cat_5_Uuids),
+        Triple(R.array.Cat_6, R.array.Cat_6_Icons, R.array.Cat_6_Uuids),
+        Triple(R.array.Cat_7, R.array.Cat_7_Icons, R.array.Cat_7_Uuids),
+        Triple(R.array.Cat_8, R.array.Cat_8_Icons, R.array.Cat_8_Uuids),
+        Triple(R.array.Cat_9, R.array.Cat_9_Icons, R.array.Cat_9_Uuids),
+        Triple(R.array.Cat_10, R.array.Cat_10_Icons, R.array.Cat_10_Uuids),
+        Triple(R.array.Cat_11, R.array.Cat_11_Icons, R.array.Cat_11_Uuids),
+        Triple(R.array.Cat_12, R.array.Cat_12_Icons, R.array.Cat_12_Uuids),
+        Triple(R.array.Cat_13, R.array.Cat_13_Icons, R.array.Cat_13_Uuids),
+        Triple(R.array.Cat_14, R.array.Cat_14_Icons, R.array.Cat_14_Uuids),
+        Triple(R.array.Cat_15, R.array.Cat_15_Icons, R.array.Cat_15_Uuids),
+        Triple(R.array.Cat_16, R.array.Cat_16_Icons, R.array.Cat_16_Uuids),
+        Triple(R.array.Cat_17, R.array.Cat_17_Icons, R.array.Cat_17_Uuids),
+        Triple(R.array.Cat_18, R.array.Cat_18_Icons, R.array.Cat_18_Uuids),
+        Triple(R.array.Cat_19, R.array.Cat_19_Icons, R.array.Cat_19_Uuids),
+        Triple(R.array.Cat_20, R.array.Cat_20_Icons, R.array.Cat_20_Uuids),
+        Triple(R.array.Cat_21, R.array.Cat_21_Icons, R.array.Cat_21_Uuids),
+        Triple(R.array.Cat_22, R.array.Cat_22_Icons,  R.array.Cat_22_Uuids),
     )
 
-    for ((categoriesResId, iconsResId) in categoryDefinitions) {
+    for ((categoriesResId, iconsResId, uuidResId) in categoryDefinitions) {
         val categories = resources.getStringArray(categoriesResId)
         val icons = resources.getStringArray(iconsResId)
-        if (categories.size != icons.size) {
+        val uuids = resources.getStringArray(uuidResId)
+        if (categories.size != icons.size || categories.size != uuids.size) {
             CrashHandler.report(Exception("Inconsistent category definitions"))
             continue
         }
         val mainLabel = categories[0]
         val mainIcon = icons[0]
-        catIdMain = findMainCategory(database, mainLabel)
-        if (catIdMain != -1L) {
+        val mainUUid = uuids[0]
+        catIdMain = findMainCategory(mainLabel) ?: findCategoryByUuid(mainUUid)
+        if (catIdMain != null) {
             Timber.i("category with label %s already defined", mainLabel)
             stmtUpdateIcon.bindString(1, mainIcon)
             stmtUpdateIcon.bindLong(2, catIdMain)
@@ -185,8 +213,9 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
             stmt.bindNull(3)
             stmt.bindLong(4, suggestNewCategoryColor(database).toLong())
             stmt.bindString(5, mainIcon)
-            catIdMain = stmt.executeInsert()
-            if (catIdMain != -1L) {
+            stmt.bindString(6, mainUUid)
+            catIdMain = stmt.executeInsert().takeIf { it != -1L }
+            if (catIdMain != null) {
                 totalInserted++
             } else {
                 // this should not happen
@@ -196,11 +225,13 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
         }
         val subLabels = categories.drop(1)
         val subIconNames = icons.drop(1)
+        val subUuids = uuids.drop(1)
         for (i in subLabels.indices) {
             val subLabel = subLabels[i]
             val subIcon = subIconNames[i]
-            val catIdSub = findSubCategory(database, catIdMain, subLabel)
-            if (catIdSub != -1L) {
+            val subUUid = subUuids[i]
+            val catIdSub = findSubCategory(catIdMain, subLabel) ?: findCategoryByUuid(subUUid)
+            if (catIdSub != null) {
                 Timber.i("category with label %s already defined", subLabel)
                 stmtUpdateIcon.bindString(1, subIcon)
                 stmtUpdateIcon.bindLong(2, catIdSub)
@@ -211,6 +242,7 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
                 stmt.bindLong(3, catIdMain)
                 stmt.bindNull(4)
                 stmt.bindString(5, subIcon)
+                stmt.bindString(6, subUUid)
                 try {
                     if (stmt.executeInsert() != -1L) {
                         totalInserted++
@@ -229,29 +261,6 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
     database.endTransaction()
     return totalInserted to totalUpdated
 }
-
-private fun findCategory(database: SupportSQLiteDatabase, selection: String, selectionArgs: Array<Any>) =
-    database.query(
-        TABLE_CATEGORIES,
-        arrayOf(KEY_ROWID),
-        selection,
-        selectionArgs,
-        null,
-        null,
-        null
-    ).use {
-        if (it.moveToFirst()) {
-            it.getLong(0)
-        } else {
-            -1
-        }
-    }
-
-private fun findSubCategory(database: SupportSQLiteDatabase, parentId: Long, label: String) =
-    findCategory(database, "$KEY_PARENTID = ? and $KEY_LABEL = ?" , arrayOf(parentId.toString(), label))
-
-private fun findMainCategory(database: SupportSQLiteDatabase, label: String) =
-    findCategory(database, "$KEY_PARENTID is null and $KEY_LABEL = ?" , arrayOf(label))
 
 fun <T> Cursor.useAndMap(mapper: (Cursor) -> T) =
     use {
