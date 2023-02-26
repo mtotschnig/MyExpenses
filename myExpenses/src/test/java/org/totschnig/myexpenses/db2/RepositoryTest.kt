@@ -10,6 +10,7 @@ import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
 
@@ -92,6 +93,86 @@ class RepositoryTest {
             assertThat(label).isEqualTo("Sub")
             assertThat(icon).isEqualTo("bread")
             assertThat(color).isNull()
+        }
+    }
+
+    @Test
+    fun ensureCategoryNew() {
+        val categoryInfo = CategoryInfo(label ="Main", icon = "food", uuid = "uuid")
+        val id = repository.ensureCategory(categoryInfo,null)
+        with(repository.loadCategory(id)!!) {
+            assertThat(label).isEqualTo("Main")
+            assertThat(icon).isEqualTo("food")
+            assertThat(uuid).isEqualTo("uuid")
+            //assertThat(color).isEqualTo(android.graphics.Color.RED)
+        }
+    }
+    @Test
+    fun ensureCategoryExisting() {
+        val category = Category(label ="Main", icon = "food", uuid = "uuid")
+        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        val categoryInfo = CategoryInfo(label ="Main", icon = "food", uuid = "uuid")
+        assertThat(repository.ensureCategory(categoryInfo,null)).isEqualTo(id)
+    }
+
+    @Test
+    fun ensureCategoryUpdate() {
+        val category = Category(label ="Main", icon = "food", uuid = "uuid")
+        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        val categoryInfo = CategoryInfo(label ="New", icon = "apple", uuid = "uuid")
+        assertThat(repository.ensureCategory(categoryInfo,null)).isEqualTo(id)
+        with(repository.loadCategory(id)!!) {
+            assertThat(label).isEqualTo("New")
+            assertThat(icon).isEqualTo("apple")
+            assertThat(uuid).isEqualTo("uuid")
+            //assertThat(color).isEqualTo(android.graphics.Color.RED)
+        }
+    }
+
+    @Test
+    fun ensureCategoryAppendUuid() {
+        val category = Category(label ="Main", icon = "food", uuid = "uuid1")
+        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        val categoryInfo = CategoryInfo(label ="Main", icon = "food", uuid = "uuid2")
+        assertThat(repository.ensureCategory(categoryInfo,null)).isEqualTo(id)
+        with(repository.loadCategory(id)!!) {
+            assertThat(uuid).isEqualTo("uuid1:uuid2")
+            //assertThat(color).isEqualTo(android.graphics.Color.RED)
+        }
+    }
+
+    @Test
+    fun ensureCategoryMultipleUuidsInDatabase() {
+        val category = Category(label ="Main", icon = "food", uuid = "uuid1:uuid2")
+        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        val categoryInfo = CategoryInfo(label ="Main", icon = "food", uuid = "uuid1")
+        assertThat(repository.ensureCategory(categoryInfo,null)).isEqualTo(id)
+        with(repository.loadCategory(id)!!) {
+            assertThat(uuid).isEqualTo("uuid1:uuid2")
+            //assertThat(color).isEqualTo(android.graphics.Color.RED)
+        }
+    }
+
+    @Test
+    fun ensureCategoryMultipleUuidsInUpdate() {
+        val category = Category(label ="Main", icon = "food", uuid = "uuid1")
+        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        val categoryInfo = CategoryInfo(label ="Main", icon = "food", uuid = "uuid1:uuid2")
+        assertThat(repository.ensureCategory(categoryInfo,null)).isEqualTo(id)
+        with(repository.loadCategory(id)!!) {
+            assertThat(uuid).isEqualTo("uuid1")
+            //assertThat(color).isEqualTo(android.graphics.Color.RED)
+        }
+    }
+    @Test
+    fun ensureCategoryMultipleUuidsInDatabaseAndUpdate() {
+        val category = Category(label ="Main", icon = "food", uuid = "uuid2:uuid1")
+        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        val categoryInfo = CategoryInfo(label ="Main", icon = "food", uuid = "uuid1:uuid2")
+        assertThat(repository.ensureCategory(categoryInfo,null)).isEqualTo(id)
+        with(repository.loadCategory(id)!!) {
+            assertThat(uuid).isEqualTo("uuid2:uuid1")
+            //assertThat(color).isEqualTo(android.graphics.Color.RED)
         }
     }
 }

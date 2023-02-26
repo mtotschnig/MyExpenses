@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.sync.json.CategoryInfo
@@ -39,7 +38,7 @@ import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -50,6 +49,9 @@ class Repository @Inject constructor(
     val currencyFormatter: CurrencyFormatter,
     val prefHandler: PrefHandler
 ) {
+    companion object {
+        const val UUID_SEPARATOR = ':'
+    }
 
     val contentResolver: ContentResolver = context.contentResolver
 
@@ -344,12 +346,13 @@ class Repository @Inject constructor(
     fun ensureCategory(categoryInfo: CategoryInfo, parentId: Long?): Long {
         val (uuid, label, icon) = categoryInfo
         val stripped = label.trim()
+        val uuids = uuid.split(UUID_SEPARATOR)
 
         contentResolver.query(
             CATEGORIES_URI,
             arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID, KEY_ICON),
-            "instr($KEY_UUID, ?) > 0",
-            arrayOf(uuid),
+            Array(uuids.size) { "instr($KEY_UUID, ?) > 0" }.joinToString(" OR "),
+            uuids.toTypedArray(),
             null
         )?.use {
             if (it.moveToFirst()) {
@@ -385,7 +388,7 @@ class Repository @Inject constructor(
                 contentResolver.update(
                     ContentUris.withAppendedId(CATEGORIES_URI, categoryId),
                     ContentValues(2).apply {
-                        put(KEY_UUID, "$existingUuid:$uuid")
+                        put(KEY_UUID, "$existingUuid$UUID_SEPARATOR$uuid")
                         put(KEY_ICON, icon)
                     },
                     null, null
@@ -407,7 +410,7 @@ class Repository @Inject constructor(
     @VisibleForTesting
     fun loadCategory(id: Long): Category? = contentResolver.query(
         CATEGORIES_URI,
-        arrayOf(KEY_PARENTID, KEY_LABEL, KEY_COLOR, KEY_ICON),
+        arrayOf(KEY_PARENTID, KEY_LABEL, KEY_COLOR, KEY_ICON, KEY_UUID),
         "$KEY_ROWID = ?",
         arrayOf(id.toString()),
         null
@@ -418,7 +421,8 @@ class Repository @Inject constructor(
                 parentId = it.getLongOrNull(0),
                 label = it.getString(1),
                 color = it.getIntOrNull(2),
-                icon = it.getString(3)
+                icon = it.getString(3),
+                uuid = it.getString(4)
             ) else null
     }
 
