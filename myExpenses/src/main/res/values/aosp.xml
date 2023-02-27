@@ -61,5 +61,7 @@
     <string name="compact">Compact</string>
     <!-- providers/MediaProvider/res/values/strings.xml -->
     <string name="storage_description">Local storage</string>
+    <!-- AndroidSDK/platforms/android-33/data -->
+    <string name="write_fail_reason_cannot_write">Error writing content</string>
 </resources>
 

@@ -7,9 +7,8 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.TransactionDTO
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.StringBuilderWrapper
 import java.time.format.DateTimeFormatter
@@ -52,10 +51,7 @@ class CsvExporter(
         append: Boolean
     ): Result<DocumentFile> {
         numberOfCategoryColumns = context.contentResolver.query(
-            TransactionProvider.CATEGORIES_URI
-                .buildUpon()
-                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
-                .build(),
+            BaseTransactionProvider.CATEGORY_TREE_URI,
             arrayOf("max(${DatabaseConstants.KEY_LEVEL})"),
             null, null, null
         )?.use {

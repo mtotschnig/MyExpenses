@@ -587,7 +587,6 @@
     <string name="upgrade_now">Acquista una licenza</string>
     <string name="pref_backup_cloud_title">Salva sul back-end di sincronizzazione</string>
     <string name="pref_backup_cloud_summary">Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.</string>
-    <string name="auto_backup_cloud_failure">Si è verificato un errore durante il backup del file %1$s sul back-end %2$s:</string>
     <string name="auto_backup_cloud_success">Il file di backup %1$s è stato salvato correttamente sul back-end %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata principale.</string>
     <string name="currency_symbol">Simbolo di valuta</string>

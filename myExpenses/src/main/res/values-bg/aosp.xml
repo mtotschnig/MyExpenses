@@ -37,4 +37,5 @@
     <string name="encryption">"Шифроване"</string>
     <string name="learn_more">"Научете повече"</string>
     <string name="show_all">"Показване на всички"</string>
+    <string name="write_fail_reason_cannot_write">"Грешка при записване на съдържанието"</string>
 </resources>

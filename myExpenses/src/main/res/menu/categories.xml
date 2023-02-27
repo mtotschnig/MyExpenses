@@ -39,6 +39,12 @@
         </menu>
     </item>
     <item
+        android:id="@+id/SYNC_COMMAND"
+        app:showAsAction="never"
+        android:title="@string/synchronization">
+        <menu/>
+    </item>
+    <item
         android:id="@id/SORT_COMMAND"
         android:icon="@drawable/ic_menu_sort"
         android:title="@string/menu_sort"

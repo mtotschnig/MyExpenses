@@ -470,7 +470,6 @@
     <string name="all_contrib_key_features">کنٹریب کلید کی تمام خصوصیات</string>
     <string name="upgrade_now">اپ گریڈ</string>
     <string name="pref_backup_cloud_title">سنکرونائزیشن بیک اینڈ پر اسٹور کریں</string>
-    <string name="auto_backup_cloud_failure">بیک اپ فائل %1$s کو بیک اینڈ %2$s پر اسٹور کرنے کی کوشش کے دوران ایک خرابی پیش آگئی:</string>
     <string name="auto_backup_cloud_success">بیک اپ فائل %1$s کامیابی سے بیک اینڈ %2$s پر محفوظ ہو گئی ہے.</string>
     <string name="currency_symbol">کرنسی کی علامت</string>
     <string name="number_of_fraction_digits">فریکشن ہندسوں کی تعداد</string>

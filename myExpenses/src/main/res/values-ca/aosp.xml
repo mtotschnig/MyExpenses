@@ -36,4 +36,5 @@
     <string name="encryption">"Encriptació"</string>
     <string name="learn_more">"Més informació"</string>
     <string name="show_all">"Mostra-ho tot"</string>
+    <string name="write_fail_reason_cannot_write">"Error en escriure el contingut"</string>
 </resources>

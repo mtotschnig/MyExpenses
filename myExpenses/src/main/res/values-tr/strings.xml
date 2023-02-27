@@ -585,7 +585,6 @@
     <string name="upgrade_now">Yükselt</string>
     <string name="pref_backup_cloud_title">Eşzamanlama arka ucunda sakla</string>
     <string name="pref_backup_cloud_summary">Aygıttaki yerel depolamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
-    <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
     <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
     <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
     <string name="currency_symbol">Para birimi sembolü</string>

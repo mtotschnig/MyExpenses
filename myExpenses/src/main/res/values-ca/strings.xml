@@ -587,7 +587,6 @@
     <string name="link_account_failure_2">Un compte amb el mateix UUID ja existeix al sistema de servei remot.</string>
     <string name="link_account_failure_3">El conflicte es pot resoldre manualment des del menú de context de l\'entrada.</string>
     <string name="pref_backup_cloud_title">Desa amb sincronització al sistema de servei</string>
-    <string name="auto_backup_cloud_failure">S\'ha produït un error mentre s\'intentava desar la còpia de seguretat %1$s al sistema de servei%2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Pot afegir dreceres tocant prolongadament l\'icona de l\'aplicació a la vostra Pantalla d\'Inici.</string>
     <string name="currency_symbol">Simbol de divisa</string>
     <string name="number_of_fraction_digits">Nombre de decimals</string>

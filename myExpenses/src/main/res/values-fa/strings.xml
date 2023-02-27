@@ -657,7 +657,6 @@
     <string name="onboarding_data_title">اجازه دهید اولین حساب شما را راه اندازی کنیم</string>
     <string name="onboarding_get_started">شروع کنید</string>
     <string name="onboarding_more_options">گزینه های بیشتر</string>
-    <string name="auto_backup_cloud_failure">هنگام تلاش برای ذخیره فایل پشتیبان %1$s در سرور %2$s خطایی روی داد:</string>
     <string name="sync_io_exception_unlocking">خطا هنگام برداشتن قفل از سرور.</string>
     <string name="sync_io_exception_syncing">خطا هنگام همگام سازی تغییرات با سرور.</string>
     <string name="progress_dialog_checking_sync_backend">در خال تایید سرور</string>

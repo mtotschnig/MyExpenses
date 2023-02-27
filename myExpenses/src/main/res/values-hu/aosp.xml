@@ -36,5 +36,6 @@
     <string name="encryption">"Titkosítás"</string>
     <string name="learn_more">"További információ"</string>
     <string name="show_all">"Összes megjelenítése"</string>
+    <string name="write_fail_reason_cannot_write">"Hiba történt a tartalomírás közben"</string>
 </resources>
 

@@ -32,4 +32,5 @@
     <string name="encryption">"مرموز کاری"</string>
     <string name="learn_more">"مزید جانیں"</string>
     <string name="show_all">"سبھی دکھائیں"</string>
+    <string name="write_fail_reason_cannot_write">"مواد لکھنے میں خرابی"</string>
 </resources>

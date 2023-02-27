@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
@@ -66,13 +67,9 @@ open class ManageCategories : ProtectedFragmentActivity(),
         if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
             val exportMenu = menu.findItem(R.id.EXPORT_COMMAND)
-            Utils.menuItemSetEnabledAndVisible(
-                exportMenu,
-                action == Action.MANAGE
-            )
+            exportMenu.setEnabledAndVisible(action == Action.MANAGE)
             exportMenu.title = getString(R.string.export_to_format, "QIF")
-            Utils.menuItemSetEnabledAndVisible(
-                menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP),
+            menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP).setEnabledAndVisible(
                 action == Action.SELECT_MAPPING
             )
         }
@@ -93,6 +90,16 @@ open class ManageCategories : ProtectedFragmentActivity(),
             it.isChecked = parentSelectionOnTap.value
         }
         prepareSearch(menu, viewModel.filter)
+        val accountNames = GenericAccountService.getAccountNames(this)
+        menu.findItem(R.id.SYNC_COMMAND)?.let { item ->
+            item.setEnabledAndVisible(accountNames.isNotEmpty())
+            item.subMenu?.let {
+                it.clear()
+                for (account in accountNames) {
+                    it.add(Menu.NONE, Menu.NONE, Menu.NONE, account)
+                }
+            }
+        }
         return true
     }
 
@@ -100,6 +107,9 @@ open class ManageCategories : ProtectedFragmentActivity(),
         if (sortDelegate.onOptionsItemSelected(item)) {
             invalidateOptionsMenu()
             viewModel.setSortOrder(sortDelegate.currentSortOrder)
+            true
+        } else if (item.itemId == Menu.NONE) {
+            viewModel.syncCats(item.title.toString())
             true
         } else super.onOptionsItemSelected(item)
 

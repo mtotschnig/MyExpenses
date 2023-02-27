@@ -769,14 +769,13 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         inflater.inflate(R.menu.templates, menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val menuItem = menu.findItem(R.id.PLANNER_COMMAND)
-        if (menuItem != null) {
-            Utils.menuItemSetEnabledAndVisible(menuItem, hasPlans)
-        }
+        menu.findItem(R.id.PLANNER_COMMAND)?.setEnabledAndVisible(hasPlans)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.PLANNER_COMMAND) {
             PlannerFragment().show(childFragmentManager, PLANNER_FRAGMENT_TAG)

@@ -585,7 +585,6 @@
     <string name="upgrade_now">Надстрой</string>
     <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
     <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
-    <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на архивен файл %1$s в отдалеченото хранилище %2$s:</string>
     <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Може да се добавят шорткъти чрез продължително натискане върху иконата на приложението на начален екран.</string>
     <string name="currency_symbol">Знак за валута</string>

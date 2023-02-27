@@ -101,7 +101,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             it.isChecked = showChart.value
         }
         val item = menu.findItem(R.id.switchId)
-        Utils.menuItemSetEnabledAndVisible(item, !viewModel.aggregateTypes)
+        item.setEnabledAndVisible(!viewModel.aggregateTypes)
         if (!viewModel.aggregateTypes) {
             (item.actionView?.findViewById<View>(R.id.TaType) as? SwitchCompat)?.isChecked =
                 viewModel.incomeType

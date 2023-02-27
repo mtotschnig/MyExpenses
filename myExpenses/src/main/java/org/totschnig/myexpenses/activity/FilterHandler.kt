@@ -21,8 +21,8 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
@@ -30,7 +30,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
     fun configureSearchMenu(searchMenu: MenuItem) {
         with(activity) {
             val sumInfoIsLoaded = sumInfo is SumInfoLoaded
-            Utils.menuItemSetEnabledAndVisible(searchMenu, sumInfoIsLoaded)
+            searchMenu.setEnabledAndVisible(sumInfoIsLoaded)
             (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
                 val whereFilter = currentFilter.whereFilter
                 searchMenu.isChecked = !whereFilter.isEmpty
@@ -64,7 +64,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                         }
                     }
                     val c: Criterion<*>? = whereFilter[filterItem.itemId]
-                    Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null)
+                    filterItem.setEnabledAndVisible(enabled || c != null)
                     if (c != null) {
                         filterItem.isChecked = true
                         filterItem.title = c.prettyPrint(this)

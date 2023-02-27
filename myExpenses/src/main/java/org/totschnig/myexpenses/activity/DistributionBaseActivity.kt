@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Category
 
@@ -43,8 +43,8 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
             it.isChecked = viewModel.aggregateTypes
         }
         val grouped = viewModel.grouping != Grouping.NONE
-        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped)
-        Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped)
+        menu.findItem(R.id.FORWARD_COMMAND).setEnabledAndVisible(grouped)
+        menu.findItem(R.id.BACK_COMMAND).setEnabledAndVisible(grouped)
         return true
     }
 

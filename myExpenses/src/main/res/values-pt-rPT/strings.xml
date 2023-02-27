@@ -556,7 +556,6 @@
     <string name="all_contrib_key_features">Todas os recursos da Chave Contrib</string>
     <string name="pref_backup_cloud_title">Armazenar no destino de sincronização</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no dispositivo, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
-    <string name="auto_backup_cloud_failure">Ocorreu um erro ao tentar armazenar o ficheiro de backup %1$s no destino %2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Atalhos podem ser adicionados ao se pressionar longamente o ícone do app na tela inicial.</string>
     <string name="currency_symbol">Símbolo da moeda</string>
     <string name="number_of_fraction_digits">Número de casas decimais</string>

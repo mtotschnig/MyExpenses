@@ -342,20 +342,6 @@ public class Utils {
     return "";
   }
 
-  public static void menuItemSetEnabledAndVisible(@NonNull MenuItem item, boolean enabled) {
-    item.setEnabled(enabled).setVisible(enabled);
-  }
-
-  public static boolean doesPackageExist(Context context, String targetPackage) {
-    try {
-      context.getPackageManager().getPackageInfo(targetPackage,
-          PackageManager.GET_META_DATA);
-    } catch (NameNotFoundException e) {
-      return false;
-    }
-    return true;
-  }
-
   public static DateFormat getFrameworkDateFormatSafe(Context context) {
     try {
       return android.text.format.DateFormat.getDateFormat(context);

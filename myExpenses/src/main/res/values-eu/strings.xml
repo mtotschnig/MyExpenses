@@ -581,7 +581,6 @@
     <string name="upgrade_now">Eguneratu</string>
     <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
     <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
-    <string name="auto_backup_cloud_failure">Errore bat gertatu da %1$s babeskopia fitxategia %2$s atzealdekoan biltegiratzen saiatzean:</string>
     <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
     <string name="home_screen_shortcuts_nougate_info">Lasterbideak gehitu daitezke Hasiera Pantailatik aplikazioaren ikonoa luze sakatuz.</string>
     <string name="currency_symbol">Moneta-ikurra</string>

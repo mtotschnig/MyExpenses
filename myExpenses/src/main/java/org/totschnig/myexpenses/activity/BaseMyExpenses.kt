@@ -1424,12 +1424,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     Utils.configureSortDirectionMenu(it, sortDirection)
                 }
 
-                menu.findItem(R.id.BALANCE_COMMAND)?.let {
-                    Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable && !isAggregate)
-                }
+                menu.findItem(R.id.BALANCE_COMMAND)?.setEnabledAndVisible(reconciliationAvailable && !isAggregate)
 
                 menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.let {
-                    Utils.menuItemSetEnabledAndVisible(it, reconciliationAvailable)
+                    it.setEnabledAndVisible(reconciliationAvailable)
                     if (reconciliationAvailable) {
                         lifecycleScope.launch {
                             it.isChecked = viewModel.showStatusHandle().first()
@@ -1437,21 +1435,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                 }
 
-                menu.findItem(R.id.SYNC_COMMAND)?.let {
-                    Utils.menuItemSetEnabledAndVisible(it, syncAccountName != null)
-                }
+                menu.findItem(R.id.SYNC_COMMAND)?.setEnabledAndVisible(syncAccountName != null)
 
                 menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.let { item ->
-                    Utils.menuItemSetEnabledAndVisible(item, !isAggregate)
+                    item.setEnabledAndVisible(!isAggregate)
                     if (!isAggregate) {
                         with(item) {
                             title = label
                             subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
                                 if (sealed) R.string.menu_reopen else R.string.menu_close
                             )
-                            subMenu?.findItem(R.id.EDIT_ACCOUNT_COMMAND)?.let { subItem ->
-                                Utils.menuItemSetEnabledAndVisible(subItem, !sealed)
-                            }
+                            subMenu?.findItem(R.id.EDIT_ACCOUNT_COMMAND)?.setEnabledAndVisible(!sealed)
                         }
                     }
                 }
@@ -1472,9 +1466,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 R.id.SHOW_STATUS_HANDLE_COMMAND,
                 R.id.MANAGE_ACCOUNTS_COMMAND
             )) {
-                menu.findItem(item)?.let {
-                    Utils.menuItemSetEnabledAndVisible(it, false)
-                }
+                menu.findItem(item)?.setEnabledAndVisible(false)
             }
         }
 

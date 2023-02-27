@@ -578,7 +578,6 @@
     <string name="upgrade_now">升级</string>
     <string name="pref_backup_cloud_title">存储在同步后端</string>
     <string name="pref_backup_cloud_summary">除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。</string>
-    <string name="auto_backup_cloud_failure">尝试在后端%2$s上存储备份文件%1$s时发生错误：</string>
     <string name="auto_backup_cloud_success">备份文件%1$s已成功存储在后端%2$s上。</string>
     <string name="home_screen_shortcuts_nougate_info">可以通过长按主屏幕上的应用程序图标来添加快捷方式。</string>
     <string name="currency_symbol">货币符号</string>

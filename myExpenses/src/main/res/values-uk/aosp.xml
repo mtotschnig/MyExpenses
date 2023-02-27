@@ -37,5 +37,6 @@
     <string name="encryption">"Шифрування"</string>
     <string name="learn_more">"Докладніше"</string>
     <string name="show_all">"Показати все"</string>
+    <string name="write_fail_reason_cannot_write">"Помилка записування вмісту"</string>
 </resources>
 

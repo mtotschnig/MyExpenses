@@ -36,5 +36,6 @@
     <string name="encryption">"Chiffrement"</string>
     <string name="learn_more">"En savoir plus"</string>
     <string name="show_all">"Tout afficher"</string>
+    <string name="write_fail_reason_cannot_write">"Erreur lors de l\'écriture du contenu"</string>
 </resources>
 

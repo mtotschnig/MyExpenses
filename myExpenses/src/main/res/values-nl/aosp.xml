@@ -37,4 +37,5 @@
     <string name="encryption">Versleuteling</string>
     <string name="learn_more">"Meer informatie"</string>
     <string name="show_all">"Alles weergeven"</string>
+    <string name="write_fail_reason_cannot_write">"Fout bij schrijven van content"</string>
 </resources>

@@ -37,6 +37,10 @@ fun prepareSearch(menu: Menu, filter: String?) {
     }
 }
 
+fun MenuItem.setEnabledAndVisible(enabled: Boolean) {
+    setEnabled(enabled).isVisible = enabled
+}
+
 fun checkMenuIcon(menuItem: MenuItem) {
     menuItem.icon?.let {DrawableCompat.setTintList(it, if (menuItem.isChecked) ColorStateList.valueOf(Color.GREEN) else null) }
 }

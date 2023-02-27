@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
+import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -37,8 +37,9 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.SyncAdapter.Companion.KEY_WRITE_CATEGORIES
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.displayName
@@ -147,8 +148,7 @@ open class CategoryViewModel(
     }
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
-        TransactionProvider.CATEGORIES_URI.buildUpon()
-            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
+        BaseTransactionProvider.CATEGORY_TREE_URI.buildUpon()
             .apply {
                 queryParameter.forEach {
                     appendQueryParameter(it.key, it.value)
@@ -170,7 +170,6 @@ open class CategoryViewModel(
                     label = "ROOT",
                     children = ingest(
                         withColors,
-                        getApplication(),
                         cursor,
                         null,
                         1
@@ -356,11 +355,16 @@ open class CategoryViewModel(
         }
     }
 
+    fun syncCats(accountName: String) {
+        GenericAccountService.requestSync(accountName, extras = Bundle(1).apply {
+            putBoolean(KEY_WRITE_CATEGORIES, true)
+        })
+    }
+
     companion object {
 
         fun ingest(
             withColors: Boolean,
-            context: Context,
             cursor: Cursor,
             parentId: Long?,
             level: Int
@@ -394,7 +398,6 @@ open class CategoryViewModel(
                                     nextPath,
                                     ingest(
                                         withColors,
-                                        context,
                                         cursor,
                                         nextId,
                                         level + 1

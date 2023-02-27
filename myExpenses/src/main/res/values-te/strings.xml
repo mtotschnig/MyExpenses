@@ -158,7 +158,6 @@
     <string name="currency_symbol">కరెన్సీ చిహ్నం</string>
     <string name="home_screen_shortcuts_nougate_info">హోమ్ స్క్రీన్‌లో అనువర్తన చిహ్నాన్ని దీర్ఘ-నొక్కడం ద్వారా సత్వరమార్గాలను జోడించవచ్చు.</string>
     <string name="auto_backup_cloud_success">%1$s బ్యాకప్ ఫైల్ విజయవంతంగా బ్యాకెండ్ %2$s లో నిల్వ చేయబడింది.</string>
-    <string name="auto_backup_cloud_failure">బ్యాకెండ్ %2$s లో బ్యాకప్ ఫైల్ %1$s ని నిల్వ చేయడానికి ప్రయత్నిస్తున్నప్పుడు లోపం సంభవించింది:</string>
     <string name="pref_backup_cloud_summary">పరికరంలో స్థానిక నిల్వతో పాటు, బ్యాకప్ ఫైల్‌ను రిమోట్ బ్యాకెండ్‌కు కాపీ చేయవచ్చు.</string>
     <string name="pref_backup_cloud_title">సింక్రొనైజేషన్ బ్యాకెండ్‌లో నిల్వ చేయండి</string>
     <string name="upgrade_now">అప్‌గ్రేడ్ చేయండి</string>

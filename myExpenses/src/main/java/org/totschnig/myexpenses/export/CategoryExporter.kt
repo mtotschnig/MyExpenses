@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.util.failure
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -24,8 +24,7 @@ object CategoryExporter {
         ) = Result.failure<T>(context, resId, formatArgs)
 
         return context.contentResolver.query(
-            TransactionProvider.CATEGORIES_URI.buildUpon()
-                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
+            BaseTransactionProvider.CATEGORY_TREE_URI.buildUpon()
                 .appendQueryParameter(
                     TransactionProvider.QUERY_PARAMETER_CATEGORY_SEPARATOR,
                     ":"

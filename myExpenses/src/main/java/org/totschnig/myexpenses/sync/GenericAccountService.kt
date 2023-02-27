@@ -228,10 +228,6 @@ class GenericAccountService : Service() {
             }
         }
 
-        private fun getPasswordKey(accountName: String): String {
-            return "$accountName - $KEY_PASSWORD_ENCRYPTION"
-        }
-
         fun updateAccountsIsSyncable(
             context: Application,
             licenceHandler: LicenceHandler,

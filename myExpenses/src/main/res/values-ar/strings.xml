@@ -612,7 +612,6 @@
     <string name="upgrade_now">ترقية</string>
     <string name="pref_backup_cloud_title">تخزين في خلفية المزامنة</string>
     <string name="pref_backup_cloud_summary">بالإضافة إلى التخزين المحلي على الجهاز، يمكن نسخ ملف النسخ الاحتياطي إلى خلفية بعيدة.</string>
-    <string name="auto_backup_cloud_failure">حدث خطأ أثناء محاولة تخزين ملف النسخ الاحتياطي %1$s على الواجهة الخلفية %2$s:</string>
     <string name="auto_backup_cloud_success">تم تخزين ملف النسخ الاحتياطي %1$s بنجاح على الواجهة الخلفية %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية.</string>
     <string name="currency_symbol">رمز العملة</string>

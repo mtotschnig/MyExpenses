@@ -16,6 +16,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.OperationApplicationException
 import android.content.SyncResult
+import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.net.Uri
@@ -30,11 +31,13 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getIntOrNull
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -43,6 +46,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateS
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
 import org.totschnig.myexpenses.sync.SyncBackendProvider.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
@@ -156,12 +160,72 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             }
             return
         }.onSuccess { backend ->
-
+            if (extras.getBoolean(KEY_WRITE_CATEGORIES)) {
+                val categories = try {
+                    provider.query(
+                        BaseTransactionProvider.CATEGORY_TREE_URI,
+                        null,
+                        null,
+                        null,
+                        null,
+                    )
+                } catch (e: RemoteException) {
+                    notifyDatabaseError(e, account)
+                    null
+                }?.use {
+                    fun ingest(
+                        cursor: Cursor,
+                        parentId: Long?,
+                    ): List<CategoryExport> =
+                        buildList {
+                            var index = 0
+                            while (!cursor.isAfterLast) {
+                                val nextId = cursor.getLong(KEY_ROWID)
+                                val nextParent = cursor.getLongOrNull(KEY_PARENTID)
+                                val nextLabel = cursor.getString(KEY_LABEL)
+                                val nextColor = cursor.getIntOrNull(KEY_COLOR)
+                                val nextIcon = cursor.getStringOrNull(KEY_ICON)
+                                val nextUuid = cursor.getString(KEY_UUID)
+                                if (nextParent == parentId) {
+                                    cursor.moveToNext()
+                                    add(
+                                        CategoryExport(
+                                            nextUuid,
+                                            nextLabel,
+                                            nextIcon,
+                                            nextColor,
+                                            ingest(
+                                                cursor,
+                                                nextId,
+                                            )
+                                        )
+                                    )
+                                    index++
+                                } else return@buildList
+                            }
+                        }
+                    if (it.moveToFirst()) {
+                        ingest(it, null)
+                    } else emptyList()
+                }
+                categories?.let {
+                    try {
+                        maybeNotifyUser(
+                            title = notificationTitle,
+                            content = "${backend.writeCategories(categories)} -> ${account.name}",
+                            account = account
+                        )
+                    } catch (e: IOException) {
+                        notifyIoException(R.string.write_fail_reason_cannot_write, account)
+                    }
+                }
+                return
+            }
             handleAutoBackupSync(account, provider, backend)
             val selectionArgs: Array<String>
-            var selection = KEY_SYNC_ACCOUNT_NAME + " = ?"
+            var selection = "$KEY_SYNC_ACCOUNT_NAME = ?"
             if (uuidFromExtras != null) {
-                selection += " AND " + KEY_UUID + " = ?"
+                selection += " AND $KEY_UUID = ?"
                 selectionArgs = arrayOf(account.name, uuidFromExtras)
             } else {
                 selectionArgs = arrayOf(account.name)
@@ -569,11 +633,9 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         notifyUser(
                             context.getString(R.string.pref_auto_backup_title),
                             context.getString(
-                                R.string.auto_backup_cloud_failure,
-                                fileName,
-                                account.name
+                                R.string.write_fail_reason_cannot_write,
                             )
-                                    + " " + e.message, null, null
+                                    + "(" + fileName + "): " + e.message, null, null
                         )
                     }
                 }
@@ -755,9 +817,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                             }
                         }
                         changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
-                            provider.query(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, catId).buildUpon()
-                                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
-                                .build(),
+                            provider.query(ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, catId),
                                 null, null, null, null
                             )?.use { cursor ->
                                 transactionChange = transactionChange.toBuilder().setCategoryInfo(
@@ -849,6 +909,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"
 
         const val KEY_NOTIFICATION_CANCELLED = "notification_cancelled"
+        const val KEY_WRITE_CATEGORIES = "write_categories"
         val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1 else 5
         private val IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5)
         private val IO_LOCK_DELAY_SECONDS =
