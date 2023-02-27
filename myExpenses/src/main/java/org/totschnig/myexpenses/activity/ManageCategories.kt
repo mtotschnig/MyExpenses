@@ -93,11 +93,17 @@ open class ManageCategories : ProtectedFragmentActivity(),
         val accountNames = GenericAccountService.getAccountNames(this)
         menu.findItem(R.id.SYNC_COMMAND)?.let { item ->
             item.setEnabledAndVisible(accountNames.isNotEmpty())
-            item.subMenu?.let {
-                it.clear()
-                for (account in accountNames) {
-                    it.add(Menu.NONE, Menu.NONE, Menu.NONE, account)
+            item.subMenu?.let { subMenu1 ->
+                fun populateMenu(command: Int) {
+                    subMenu1.findItem(command)?.subMenu?.let {
+                        it.clear()
+                        for (account in accountNames) {
+                            it.add(command, Menu.NONE, Menu.NONE, account)
+                        }
+                    }
                 }
+                populateMenu(R.id.SYNC_COMMAND_EXPORT_CATEGORIES)
+                populateMenu(R.id.SYNC_COMMAND_IMPORT_CATEGORIES)
             }
         }
         return true
@@ -109,7 +115,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
             viewModel.setSortOrder(sortDelegate.currentSortOrder)
             true
         } else if (item.itemId == Menu.NONE) {
-            viewModel.syncCats(item.title.toString())
+            when(item.groupId) {
+                R.id.SYNC_COMMAND_EXPORT_CATEGORIES -> viewModel.syncCats(item.title.toString())
+                R.id.SYNC_COMMAND_IMPORT_CATEGORIES -> TODO()
+            }
             true
         } else super.onOptionsItemSelected(item)
 
