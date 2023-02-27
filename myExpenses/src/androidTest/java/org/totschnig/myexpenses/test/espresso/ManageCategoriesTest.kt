@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -9,7 +8,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest

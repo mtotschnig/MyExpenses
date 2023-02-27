@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -87,6 +88,7 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -396,6 +398,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(PrefKey.CURRENT_VERSION, -1) < 593) {
+            maybeRepairRequerySchema(getDatabasePath("data").path)
+            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
+        }
         readAccountGroupingFromPref()
         pagerState = PagerState(currentPage = savedInstanceState?.getInt(KEY_CURRENT_PAGE) ?: 0)
         accountSort = readAccountSortFromPref()

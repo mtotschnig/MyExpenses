@@ -5,7 +5,6 @@ import dagger.Provides
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import javax.inject.Singleton
 

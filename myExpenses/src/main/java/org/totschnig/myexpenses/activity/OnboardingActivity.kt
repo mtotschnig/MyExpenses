@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import icepick.State
@@ -17,10 +16,8 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter
-import org.totschnig.myexpenses.util.distrib.DistributionHelper.distribution
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_BACKUP_FROM_SYNC

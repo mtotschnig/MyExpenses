@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*

@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.RESTORE_REQUEST
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity

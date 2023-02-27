@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.DebtActivity
 import org.totschnig.myexpenses.compose.DebtRenderer
