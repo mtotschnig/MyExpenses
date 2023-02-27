@@ -1,7 +1,5 @@
 <?xml version='1.0' ?>
-<xsl:stylesheet
-    xmlns:my="http://myexpenses.mobi/"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:my="http://myexpenses.mobi/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="2.0">
     <xsl:output encoding="UTF-8" method="xml" />
     <xsl:include href="helpers_v1.xsl" />
@@ -10,7 +8,7 @@
     <xsl:param name="versionCode" />
     <xsl:param name="languages" select="'bg de en es fr hu it iw ja ko ms pl pt ro ru tr zh'" />
 
-    <xsl:template match="/" name="main">
+    <xsl:template name="main" match="/">
         <xsl:if test="$versionCode =''">
             <xsl:message terminate="yes">Required parameter versionCode is missing</xsl:message>
         </xsl:if>
@@ -63,7 +61,8 @@
                         <xsl:value-of select="$special-version-info" />
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:for-each select="document($strings)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
+                        <xsl:for-each
+                            select="document($strings)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
                             <xsl-text>•&#032;</xsl-text>
                             <xsl:apply-templates mode="unescape" select="." />
                             <xsl:if test="position() != last()">
@@ -84,18 +83,23 @@
                 <xsl:with-param name="lang" select="$lang" />
             </xsl:call-template>
             <xsl:text>/changelogs/</xsl:text>
-            <xsl:value-of select="$versionCode"/>
+            <xsl:value-of select="$versionCode" />
             <xsl:text>.txt</xsl:text>
         </xsl:variable>
-        <xsl:variable name="github" select="document($info)/resources/string[@name=my:githubBoardResourceName($version)]" />
+        <xsl:variable name="github"
+            select="document($info)/resources/string[@name=my:githubBoardResourceName($version)]" />
         <xsl:result-document href="{$output}" method="text">
             <xsl:value-of select="$changelog" />
             <xsl:value-of select="$newline" />
             <xsl:if test="$github != ''">
-            <xsl:text>https://github.com/mtotschnig/MyExpenses/projects/</xsl:text>
-            <xsl:value-of select="$github" />
-            <xsl:value-of select="$newline" />
+                <xsl:text>https://github.com/mtotschnig/MyExpenses/projects/</xsl:text>
+                <xsl:value-of select="$github" />
+                <xsl:value-of select="$newline" />
             </xsl:if>
+            <!-- if needed manually add bug fix version:
+            <xsl:text>https://github.com/mtotschnig/MyExpenses/projects/</xsl:text>
+            <xsl:value-of select="document($info)/resources/string[@name=my:githubBoardResourceName('3.5.1.1')]" />
+            <xsl:value-of select="$newline" />-->
         </xsl:result-document>
     </xsl:template>
 </xsl:stylesheet>
