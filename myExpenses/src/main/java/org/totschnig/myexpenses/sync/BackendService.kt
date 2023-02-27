@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.sync
 
-import android.Manifest
 import android.content.Context
-import com.vmadalin.easypermissions.EasyPermissions
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler

@@ -17,7 +17,6 @@ import org.totschnig.myexpenses.provider.doBackup
 import org.totschnig.myexpenses.provider.listOldBackups
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
-import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import java.util.concurrent.TimeUnit
 

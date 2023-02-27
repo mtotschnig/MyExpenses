@@ -18,7 +18,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
-import androidx.annotation.VisibleForTesting
 import androidx.core.app.NavUtils
 import androidx.core.app.TaskStackBuilder
 import org.totschnig.myexpenses.R

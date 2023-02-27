@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.MockLicenceHandler
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar

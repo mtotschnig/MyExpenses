@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
-import timber.log.Timber
 import java.io.*
 import java.security.GeneralSecurityException
 import java.util.*
