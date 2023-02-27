@@ -223,9 +223,9 @@ fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
 ) + ")"
 
 fun categoryPathFromLeave(rowId: String) = """
-    WITH Tree as (SELECT parent_id, label, icon, uuid  from categories child where _id = $rowId
+    WITH Tree as (SELECT parent_id, label, icon, uuid, color  from categories child where _id = $rowId
     UNION ALL
-    SELECT parent.parent_id, parent.label, parent.icon, parent.uuid from categories parent JOIN Tree on Tree.parent_id = parent._id
+    SELECT parent.parent_id, parent.label, parent.icon, parent.uuid, parent.color from categories parent JOIN Tree on Tree.parent_id = parent._id
     ) SELECT * FROM Tree
 """.trimIndent()
 

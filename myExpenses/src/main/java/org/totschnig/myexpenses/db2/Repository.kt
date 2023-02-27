@@ -334,39 +334,46 @@ class Repository @Inject constructor(
     }
 
     /**
-     * 1 if the category with provided uuid exists
-     * 1.1 if it has a different label, change label
-     * 1.2 if it has a different parent, change parent
-     * 1.3 if it has a different icon, change icon
-     * 1.4 return category
+     * 1 if the category with provided uuid exists, update label, parent, icon, color and return category
      * 2. otherwise
      * 2.1 if a category with the provided label and parent exists, (update icon), append uuid and return it
      * 2.2 otherwise create category with label and uuid and return it
      */
     fun ensureCategory(categoryInfo: CategoryInfo, parentId: Long?): Long {
-        val (uuid, label, icon) = categoryInfo
+        val (uuid, label, icon, color) = categoryInfo
         val stripped = label.trim()
         val uuids = uuid.split(UUID_SEPARATOR)
 
         contentResolver.query(
             CATEGORIES_URI,
-            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID, KEY_ICON),
+            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID, KEY_ICON, KEY_COLOR),
             Array(uuids.size) { "instr($KEY_UUID, ?) > 0" }.joinToString(" OR "),
             uuids.toTypedArray(),
             null
         )?.use {
             if (it.moveToFirst()) {
                 val categoryId = it.getLong(0)
-                if (it.getString(1) != label || it.getLongOrNull(2) != parentId || it.getString(3) != icon)
+                val contentValues = ContentValues().apply {
+                    if (it.getString(1) != label) {
+                        put(KEY_LABEL, label)
+                    }
+                    if (it.getLongOrNull(2) != parentId) {
+                        put(KEY_ICON, icon)
+                    }
+                    if (it.getLongOrNull(2) != parentId) {
+                        put(KEY_PARENTID, parentId)
+                    }
+                    if (it.getIntOrNull(4) != color) {
+                        put(KEY_COLOR, color)
+                    }
+                }
+                if (contentValues.size() > 0) {
                     contentResolver.update(
                         ContentUris.withAppendedId(CATEGORIES_URI, categoryId),
-                        ContentValues(3).apply {
-                            put(KEY_LABEL, label)
-                            put(KEY_ICON, icon)
-                            put(KEY_PARENTID, parentId)
-                        },
+                        contentValues,
                         null, null
                     )
+                }
                 return categoryId
             }
         }

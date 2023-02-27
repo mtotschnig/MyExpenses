@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -764,7 +765,8 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                         CategoryInfo(
                                             it.getString(KEY_UUID),
                                             it.getString(KEY_LABEL),
-                                            it.getStringOrNull(KEY_ICON)
+                                            it.getStringOrNull(KEY_ICON),
+                                            it.getIntOrNull(KEY_COLOR)
                                         ) }.toList().asReversed()
                                 ).build()
                             }
