@@ -291,6 +291,7 @@ fun insertUuidsForDefaultCategories(database: SupportSQLiteDatabase, resources: 
             if (catIdMain != null) {
                 statement.bindString(1, mainUUid)
                 statement.bindLong(2, catIdMain)
+                statement.executeUpdateDelete()
             }
             val subLabels = categories.drop(1)
             val subUuids = uuids.drop(1)
@@ -302,6 +303,7 @@ fun insertUuidsForDefaultCategories(database: SupportSQLiteDatabase, resources: 
                     if (catIdSub != null) {
                         statement.bindString(1, subUUid)
                         statement.bindLong(2, catIdSub)
+                        statement.executeUpdateDelete()
                     }
                 }
             }
