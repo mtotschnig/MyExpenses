@@ -344,7 +344,7 @@ class SyncDelegate @JvmOverloads constructor(
         return label()?.let {
             CategoryHelper.insert(repository, it, categoryToId, false)
             categoryToId[it] ?: throw IOException("Saving category $it failed")
-        } ?: categoryInfo()?.fold(null) { parentId: Long?,  categoryInfo: CategoryInfo -> repository.ensureCategory(categoryInfo, parentId) }
+        } ?: categoryInfo()?.fold(null) { parentId: Long?,  categoryInfo: CategoryInfo -> repository.ensureCategory(categoryInfo, parentId).first }
     }
 
     private fun extractMethodId(methodLabel: String): Long =

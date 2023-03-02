@@ -10,6 +10,7 @@ import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -25,6 +26,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.sync.json.CategoryExport
@@ -335,11 +337,13 @@ class Repository @Inject constructor(
         } ?: -1
     }
 
-    fun ensureCategoryTree(categoryExport: CategoryExport, parentId: Long?) {
-        val nextParent = ensureCategory(categoryExport, parentId)
+    fun ensureCategoryTree(categoryExport: CategoryExport, parentId: Long?): Int {
+        val (nextParent, created) = ensureCategory(categoryExport, parentId)
+        var count = if(created) 1 else 0
         categoryExport.children.forEach {
-            ensureCategory(it, nextParent)
+            count += ensureCategoryTree(it, nextParent)
         }
+        return count
     }
 
     /**
@@ -347,8 +351,10 @@ class Repository @Inject constructor(
      * 2. otherwise
      * 2.1 if a category with the provided label and parent exists, (update icon), append uuid and return it
      * 2.2 otherwise create category with label and uuid and return it
+     *
+     * @return pair of category id and boolean that is true if a new category has been created
      */
-    fun ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Long {
+    fun ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pair<Long, Boolean> {
         val stripped = categoryInfo.label.trim()
         val uuids = categoryInfo.uuid.split(UUID_SEPARATOR)
 
@@ -365,7 +371,7 @@ class Repository @Inject constructor(
                     if (it.getString(1) != categoryInfo.label) {
                         put(KEY_LABEL, categoryInfo.label)
                     }
-                    if (it.getLongOrNull(2) != parentId) {
+                    if (it.getStringOrNull(2) != categoryInfo.icon) {
                         put(KEY_ICON, categoryInfo.icon)
                     }
                     if (it.getLongOrNull(2) != parentId) {
@@ -382,7 +388,7 @@ class Repository @Inject constructor(
                         null, null
                     )
                 }
-                return categoryId
+                return categoryId to false
             }
         }
         val (parentSelection, parentSelectionArgs) = if (parentId == null) {
@@ -408,7 +414,7 @@ class Repository @Inject constructor(
                     },
                     null, null
                 )
-                return categoryId
+                return categoryId to false
             }
         }
         return saveCategory(
@@ -416,9 +422,10 @@ class Repository @Inject constructor(
                 label = categoryInfo.label,
                 parentId = parentId,
                 icon = categoryInfo.icon,
-                uuid = categoryInfo.uuid
+                uuid = categoryInfo.uuid,
+                color = categoryInfo.color
             )
-        )?.let { ContentUris.parseId(it) }
+        )?.let { ContentUris.parseId(it) to true }
             ?: throw IOException("Saving category failed")
     }
 

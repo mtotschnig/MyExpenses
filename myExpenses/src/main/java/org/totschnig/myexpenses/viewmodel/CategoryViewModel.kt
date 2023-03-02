@@ -423,7 +423,9 @@ open class CategoryViewModel(
             GenericAccountService.getSyncBackendProvider(getApplication(), accountName)
                 .flatMap { it.categories }
                 .fold(
-                    onSuccess = { "Read ${it.size} categories" },
+                    onSuccess = { list ->
+                        "Imported ${list.sumOf { repository.ensureCategoryTree(it, null) }} categories"
+                                },
                     onFailure = {
                         Timber.e(it)
                         it.safeMessage
