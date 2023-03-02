@@ -27,7 +27,9 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.provider.withLimit
+import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.CategoryInfo
+import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
@@ -333,16 +335,22 @@ class Repository @Inject constructor(
         } ?: -1
     }
 
+    fun ensureCategoryTree(categoryExport: CategoryExport, parentId: Long?) {
+        val nextParent = ensureCategory(categoryExport, parentId)
+        categoryExport.children.forEach {
+            ensureCategory(it, nextParent)
+        }
+    }
+
     /**
      * 1 if the category with provided uuid exists, update label, parent, icon, color and return category
      * 2. otherwise
      * 2.1 if a category with the provided label and parent exists, (update icon), append uuid and return it
      * 2.2 otherwise create category with label and uuid and return it
      */
-    fun ensureCategory(categoryInfo: CategoryInfo, parentId: Long?): Long {
-        val (uuid, label, icon, color) = categoryInfo
-        val stripped = label.trim()
-        val uuids = uuid.split(UUID_SEPARATOR)
+    fun ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Long {
+        val stripped = categoryInfo.label.trim()
+        val uuids = categoryInfo.uuid.split(UUID_SEPARATOR)
 
         contentResolver.query(
             CATEGORIES_URI,
@@ -354,17 +362,17 @@ class Repository @Inject constructor(
             if (it.moveToFirst()) {
                 val categoryId = it.getLong(0)
                 val contentValues = ContentValues().apply {
-                    if (it.getString(1) != label) {
-                        put(KEY_LABEL, label)
+                    if (it.getString(1) != categoryInfo.label) {
+                        put(KEY_LABEL, categoryInfo.label)
                     }
                     if (it.getLongOrNull(2) != parentId) {
-                        put(KEY_ICON, icon)
+                        put(KEY_ICON, categoryInfo.icon)
                     }
                     if (it.getLongOrNull(2) != parentId) {
                         put(KEY_PARENTID, parentId)
                     }
-                    if (it.getIntOrNull(4) != color) {
-                        put(KEY_COLOR, color)
+                    if (it.getIntOrNull(4) != categoryInfo.color) {
+                        put(KEY_COLOR, categoryInfo.color)
                     }
                 }
                 if (contentValues.size() > 0) {
@@ -395,8 +403,8 @@ class Repository @Inject constructor(
                 contentResolver.update(
                     ContentUris.withAppendedId(CATEGORIES_URI, categoryId),
                     ContentValues(2).apply {
-                        put(KEY_UUID, "$existingUuid$UUID_SEPARATOR$uuid")
-                        put(KEY_ICON, icon)
+                        put(KEY_UUID, "$existingUuid$UUID_SEPARATOR${categoryInfo.uuid}")
+                        put(KEY_ICON, categoryInfo.icon)
                     },
                     null, null
                 )
@@ -405,10 +413,10 @@ class Repository @Inject constructor(
         }
         return saveCategory(
             Category(
-                label = label,
+                label = categoryInfo.label,
                 parentId = parentId,
-                icon = icon,
-                uuid = uuid
+                icon = categoryInfo.icon,
+                uuid = categoryInfo.uuid
             )
         )?.let { ContentUris.parseId(it) }
             ?: throw IOException("Saving category failed")

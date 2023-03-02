@@ -437,7 +437,7 @@ class SyncDelegate @JvmOverloads constructor(
             }
 
     fun requireFeatureForAccount(context: Context, name: String): Feature? {
-        BackendService.forAccount(name)?.feature?.let {
+        BackendService.forAccount(name).getOrNull()?.feature?.let {
             if (!featureManager.isFeatureInstalled(it, context)) {
                 featureManager.requestFeature(it, context)
                 return it

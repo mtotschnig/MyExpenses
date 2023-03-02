@@ -116,8 +116,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
             true
         } else if (item.itemId == Menu.NONE) {
             when(item.groupId) {
-                R.id.SYNC_COMMAND_EXPORT_CATEGORIES -> viewModel.syncCats(item.title.toString())
-                R.id.SYNC_COMMAND_IMPORT_CATEGORIES -> TODO()
+                R.id.SYNC_COMMAND_EXPORT_CATEGORIES -> viewModel.syncCatsExport(item.title.toString())
+                R.id.SYNC_COMMAND_IMPORT_CATEGORIES -> viewModel.syncCatsImport(item.title.toString())
             }
             true
         } else super.onOptionsItemSelected(item)
@@ -162,6 +162,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
         observeMoveResult()
         observeImportResult()
         observeExportResult()
+        observeSyncResult()
         binding.composeView.setContent {
             AppTheme {
                 choiceMode = when (action) {
@@ -412,7 +413,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
             transientBottomBar: Snackbar,
             event: Int
         ) {
-            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION || event == DISMISS_EVENT_TIMEOUT)
                 viewModel.messageShown()
         }
     }
@@ -547,6 +548,16 @@ open class ManageCategories : ProtectedFragmentActivity(),
                             dismissCallback
                         )
                     }
+                }
+            }
+        }
+    }
+
+    private fun observeSyncResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.syncResult.collect {
+                    showSnackBar(it, callback = dismissCallback)
                 }
             }
         }

@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.util.Base64
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -383,6 +384,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         saveFileContents(false, null, categoriesFilename, gson.toJson(categories), mimeTypeForData, true)
         return categoriesFilename
     }
+
+    override val categories: Result<List<CategoryExport>>
+        get() = kotlin.runCatching {
+            readFileContents(false, categoriesFilename)?.let {
+                    gson.fromJson<List<CategoryExport>>(it, object : TypeToken<ArrayList<CategoryExport>>() {}.type)
+            } ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
+        }
 
     @Throws(IOException::class)
     protected abstract fun writeAccount(account: Account, update: Boolean)

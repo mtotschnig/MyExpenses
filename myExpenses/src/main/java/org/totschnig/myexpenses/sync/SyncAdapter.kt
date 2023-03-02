@@ -160,67 +160,6 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             }
             return
         }.onSuccess { backend ->
-            if (extras.getBoolean(KEY_WRITE_CATEGORIES)) {
-                val categories = try {
-                    provider.query(
-                        BaseTransactionProvider.CATEGORY_TREE_URI,
-                        null,
-                        null,
-                        null,
-                        null,
-                    )
-                } catch (e: RemoteException) {
-                    notifyDatabaseError(e, account)
-                    null
-                }?.use {
-                    fun ingest(
-                        cursor: Cursor,
-                        parentId: Long?,
-                    ): List<CategoryExport> =
-                        buildList {
-                            var index = 0
-                            while (!cursor.isAfterLast) {
-                                val nextId = cursor.getLong(KEY_ROWID)
-                                val nextParent = cursor.getLongOrNull(KEY_PARENTID)
-                                val nextLabel = cursor.getString(KEY_LABEL)
-                                val nextColor = cursor.getIntOrNull(KEY_COLOR)
-                                val nextIcon = cursor.getStringOrNull(KEY_ICON)
-                                val nextUuid = cursor.getString(KEY_UUID)
-                                if (nextParent == parentId) {
-                                    cursor.moveToNext()
-                                    add(
-                                        CategoryExport(
-                                            nextUuid,
-                                            nextLabel,
-                                            nextIcon,
-                                            nextColor,
-                                            ingest(
-                                                cursor,
-                                                nextId,
-                                            )
-                                        )
-                                    )
-                                    index++
-                                } else return@buildList
-                            }
-                        }
-                    if (it.moveToFirst()) {
-                        ingest(it, null)
-                    } else emptyList()
-                }
-                categories?.let {
-                    try {
-                        maybeNotifyUser(
-                            title = notificationTitle,
-                            content = "${backend.writeCategories(categories)} -> ${account.name}",
-                            account = account
-                        )
-                    } catch (e: IOException) {
-                        notifyIoException(R.string.write_fail_reason_cannot_write, account)
-                    }
-                }
-                return
-            }
             handleAutoBackupSync(account, provider, backend)
             val selectionArgs: Array<String>
             var selection = "$KEY_SYNC_ACCOUNT_NAME = ?"
@@ -909,7 +848,6 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"
 
         const val KEY_NOTIFICATION_CANCELLED = "notification_cancelled"
-        const val KEY_WRITE_CATEGORIES = "write_categories"
         val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1 else 5
         private val IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5)
         private val IO_LOCK_DELAY_SECONDS =

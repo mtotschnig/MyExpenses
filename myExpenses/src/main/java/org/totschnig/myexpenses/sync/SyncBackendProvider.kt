@@ -66,6 +66,8 @@ interface SyncBackendProvider {
     fun readAccountMetaData(): Result<AccountMetaData>
     fun writeCategories(categories: List<CategoryExport>): String
 
+    val categories: Result<List<CategoryExport>>
+
     class SyncParseException : Exception {
         constructor(e: Exception) : super(e.message, e)
         constructor(message: String) : super(message)

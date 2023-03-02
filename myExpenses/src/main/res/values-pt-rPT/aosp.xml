@@ -9,4 +9,5 @@
     <string name="encryption">"Encriptação"</string>
     <string name="experimental">"Experimental"</string>
     <string name="learn_more">"Saber mais"</string>
+    <string name="not_exist_file_desc">"O ficheiro não existe"</string>
 </resources>

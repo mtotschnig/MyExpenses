@@ -74,8 +74,8 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
 
     override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
         (if (fromAccountDir) accountDir else baseDir).findFile(fileName)?.let { documentFile ->
-        contentResolver.openInputStream(documentFile.uri)?.use { StreamReader(it).read() }
-    }
+            contentResolver.openInputStream(documentFile.uri)?.use { StreamReader(it).read() }
+        }
 
     @Throws(IOException::class)
     override fun getInputStreamForPicture(relativeUri: String) =
@@ -132,7 +132,8 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     override fun collectionForShard(shardNumber: Int) =
         if (shardNumber == 0) accountDir else accountDir.findFile(folderForShard(shardNumber))
 
-    override fun childrenForCollection(folder: DocumentFile?) = (folder ?: accountDir).listFiles().asList()
+    override fun childrenForCollection(folder: DocumentFile?) =
+        (folder ?: accountDir).listFiles().asList()
 
     override fun nameForResource(resource: DocumentFile) = resource.name
 
@@ -173,13 +174,22 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         saveFileContents(dir, fileName, fileContents, mimeType, maybeEncrypt)
     }
 
-    private fun saveFileContents(folder: DocumentFile, fileName: String, fileContents: String, mimeType: String, maybeEncrypt: Boolean) {
-        saveFileContents(folder.createFile(mimeType, fileName) ?: throw  IOException(), fileContents, maybeEncrypt)
+    private fun saveFileContents(
+        folder: DocumentFile,
+        fileName: String,
+        fileContents: String,
+        mimeType: String,
+        maybeEncrypt: Boolean
+    ) {
+        saveFileContents(
+            folder.findFile(fileName) ?: folder.createFile(mimeType, fileName)
+            ?: throw IOException(), fileContents, maybeEncrypt
+        )
     }
 
     @Throws(IOException::class)
     private fun saveFileContents(file: DocumentFile, fileContents: String, maybeEncrypt: Boolean) {
-        (contentResolver.openOutputStream(file.uri) ?: throw IOException()).use { out ->
+        (contentResolver.openOutputStream(file.uri, "rwt") ?: throw IOException()).use { out ->
             (if (maybeEncrypt) maybeEncrypt(out) else out).bufferedWriter().use {
                 it.write(fileContents)
             }

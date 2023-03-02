@@ -80,7 +80,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         val backendService = getBackendServiceById(selectedFactoryId)
         val feature = backendService?.feature
         if (feature == null || featureManager.isFeatureInstalled(feature, this)) {
-            backendService?.instantiate()?.setupActivityClass?.let {
+            backendService?.instantiate()?.getOrNull()?.setupActivityClass?.let {
                 startSetup.launch(Intent(this, it))
             }
             selectedFactoryId = 0

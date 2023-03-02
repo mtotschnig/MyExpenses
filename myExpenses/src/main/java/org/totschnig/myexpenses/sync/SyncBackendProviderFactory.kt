@@ -4,6 +4,7 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
+import arrow.core.flatMap
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
@@ -29,13 +30,6 @@ abstract class SyncBackendProviderFactory {
     companion object {
         const val ACTION_RECONFIGURE = "reconfigure"
         @JvmStatic
-        fun getLegacy(
-            context: Context,
-            account: Account,
-            create: Boolean
-        ) = get(context, account, create).getOrThrow()
-
-        @JvmStatic
         operator fun get(
             context: Context,
             account: Account,
@@ -43,9 +37,9 @@ abstract class SyncBackendProviderFactory {
         ): Result<SyncBackendProvider> {
             val accountManager = AccountManager.get(context)
             return BackendService.forAccount(account.name)
-                .instantiate()
-                ?.from(context, account, accountManager)
-                ?.mapCatching {
+                .flatMap { it.instantiate() }
+                .flatMap { it.from(context, account, accountManager) }
+                .mapCatching {
                     it.setUp(
                         accountManager,
                         account,
@@ -53,7 +47,7 @@ abstract class SyncBackendProviderFactory {
                         create
                     )
                     it
-                } ?: Result.failure(SyncParseException("No Provider found for account $account"))
+                }
         }
     }
 }
