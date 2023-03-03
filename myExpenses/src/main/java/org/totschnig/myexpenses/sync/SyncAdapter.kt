@@ -30,14 +30,21 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
+import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.getIntOrNull
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateSync
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
 import org.totschnig.myexpenses.sync.SyncBackendProvider.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
@@ -89,12 +96,12 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         log().i("onPerformSync %s", extras)
         if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED, false)) {
             if (ContentResolver.isSyncPending(account, authority)) {
-                ContentResolver.cancelSync(account, authority);
+                ContentResolver.cancelSync(account, authority)
             }
             notificationContent.remove(account.hashCode())
             return
         }
-        val uuidFromExtras = extras.getString(DatabaseConstants.KEY_UUID)
+        val uuidFromExtras = extras.getString(KEY_UUID)
         val notificationId = account.hashCode()
         if (notificationContent[notificationId] == null) {
             notificationContent.put(notificationId, ArrayList())
@@ -150,24 +157,23 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             }
             return
         }.onSuccess { backend ->
-
             handleAutoBackupSync(account, provider, backend)
             val selectionArgs: Array<String>
-            var selection = DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " = ?"
+            var selection = "$KEY_SYNC_ACCOUNT_NAME = ?"
             if (uuidFromExtras != null) {
-                selection += " AND " + DatabaseConstants.KEY_UUID + " = ?"
+                selection += " AND $KEY_UUID = ?"
                 selectionArgs = arrayOf(account.name, uuidFromExtras)
             } else {
                 selectionArgs = arrayOf(account.name)
             }
-            val projection = arrayOf(DatabaseConstants.KEY_ROWID)
+            val projection = arrayOf(KEY_ROWID)
             try {
                 provider.query(
                     TransactionProvider.ACCOUNTS_URI,
                     projection,
-                    selection + " AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " = 0",
+                    "$selection AND $KEY_SYNC_SEQUENCE_LOCAL = 0",
                     selectionArgs,
-                    DatabaseConstants.KEY_ROWID
+                    KEY_ROWID
                 ).also {
                     if (it == null) {
                         syncResult.databaseError = true
@@ -219,7 +225,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
             try {
                 provider.query(
                     TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,
-                    DatabaseConstants.KEY_ROWID
+                    KEY_ROWID
                 )
             } catch (e: RemoteException) {
                 syncResult.databaseError = true
@@ -405,7 +411,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                     // on debug build for auditing purposes, we keep changes in the table
                                     provider.delete(
                                         TransactionProvider.CHANGES_URI,
-                                        DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                                        "$KEY_ACCOUNTID = ? AND $KEY_SYNC_SEQUENCE_LOCAL <= ?",
                                         arrayOf(accountId.toString(), lastSyncedLocal.toString())
                                     )
                                 }
@@ -478,16 +484,16 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(TransactionProvider.pauseChangeTrigger())
         val values = ContentValues()
-        values.put(DatabaseConstants.KEY_LABEL, accountMetaData.label())
-        values.put(DatabaseConstants.KEY_OPENING_BALANCE, accountMetaData.openingBalance())
-        values.put(DatabaseConstants.KEY_DESCRIPTION, accountMetaData.description())
+        values.put(KEY_LABEL, accountMetaData.label())
+        values.put(KEY_OPENING_BALANCE, accountMetaData.openingBalance())
+        values.put(KEY_DESCRIPTION, accountMetaData.description())
         val currency = accountMetaData.currency()
-        values.put(DatabaseConstants.KEY_CURRENCY, currency)
-        values.put(DatabaseConstants.KEY_TYPE, accountMetaData.type())
-        values.put(DatabaseConstants.KEY_COLOR, accountMetaData.color())
-        values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, accountMetaData._excludeFromTotals())
+        values.put(KEY_CURRENCY, currency)
+        values.put(KEY_TYPE, accountMetaData.type())
+        values.put(KEY_COLOR, accountMetaData.color())
+        values.put(KEY_EXCLUDE_FROM_TOTALS, accountMetaData._excludeFromTotals())
         if (accountMetaData._criterion() != 0L) {
-            values.put(DatabaseConstants.KEY_CRITERION, accountMetaData._criterion())
+            values.put(KEY_CRITERION, accountMetaData._criterion())
         }
         val id: Long = syncDelegate.account.id
         ops.add(
@@ -509,7 +515,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                 Utils.getHomeCurrency().fractionDigits - currencyContext[currency].fractionDigits
             ops.add(
                 ContentProviderOperation.newInsert(uri).withValue(
-                    DatabaseConstants.KEY_EXCHANGE_RATE,
+                    KEY_EXCHANGE_RATE,
                     exchangeRate * 10.0.pow(minorUnitDelta.toDouble())
                 ).build()
             )
@@ -563,11 +569,9 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         notifyUser(
                             context.getString(R.string.pref_auto_backup_title),
                             context.getString(
-                                R.string.auto_backup_cloud_failure,
-                                fileName,
-                                account.name
+                                R.string.write_fail_reason_cannot_write,
                             )
-                                    + " " + e.message, null, null
+                                    + "(" + fileName + "): " + e.message, null, null
                         )
                     }
                 }
@@ -649,7 +653,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         }
         if (account != null) {
             val dismissIntent = Intent(context, SyncNotificationDismissHandler::class.java)
-            dismissIntent.putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, account.name)
+            dismissIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name)
             //noinspection InlinedApi
             builder.setDeleteIntent(
                 PendingIntent.getService(
@@ -701,7 +705,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         if (hasLocalChanges) {
             val currentSyncIncrease = ContentValues(1)
             val nextSequence = sequenceNumber + 1
-            currentSyncIncrease.put(DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL, nextSequence)
+            currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence)
             //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
             //we must take care to not decrease it here
             provider.update(
@@ -710,24 +714,24 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER
                     ).build(),
                 currentSyncIncrease,
-                DatabaseConstants.KEY_ROWID + " = ? AND " + DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL + " < ?",
+                "$KEY_ROWID = ? AND $KEY_SYNC_SEQUENCE_LOCAL < ?",
                 arrayOf(accountId.toString(), nextSequence.toString())
             )
 
-            provider.query(changesUri, null, null, null, null)?.use {
-                if (it.moveToFirst()) {
+            provider.query(changesUri, null, null, null, null)?.use { changesCursor ->
+                if (changesCursor.moveToFirst()) {
                     do {
-                        var transactionChange = TransactionChange.create(it)
+                        var transactionChange = TransactionChange.create(changesCursor)
                         if (transactionChange.type() == TransactionChange.Type.created || transactionChange.type() == TransactionChange.Type.updated) {
                             provider.query(
                                 TransactionProvider.TRANSACTIONS_TAGS_URI,
                                 null,
                                 String.format(
                                     "%s = (SELECT %s FROM %s WHERE %s = ?)",
-                                    DatabaseConstants.KEY_TRANSACTIONID,
-                                    DatabaseConstants.KEY_ROWID,
-                                    DatabaseConstants.TABLE_TRANSACTIONS,
-                                    DatabaseConstants.KEY_UUID
+                                    KEY_TRANSACTIONID,
+                                    KEY_ROWID,
+                                    TABLE_TRANSACTIONS,
+                                    KEY_UUID
                                 ),
                                 arrayOf(transactionChange.uuid()),
                                 null
@@ -738,7 +742,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                         tags.add(
                                             tagCursor.getString(
                                                 tagCursor.getColumnIndexOrThrow(
-                                                    DatabaseConstants.KEY_LABEL
+                                                    KEY_LABEL
                                                 )
                                             )
                                         )
@@ -748,8 +752,23 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                 }
                             }
                         }
+                        changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
+                            provider.query(ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, catId),
+                                null, null, null, null
+                            )?.use { cursor ->
+                                transactionChange = transactionChange.toBuilder().setCategoryInfo(
+                                    cursor.asSequence.map {
+                                        CategoryInfo(
+                                            it.getString(KEY_UUID),
+                                            it.getString(KEY_LABEL),
+                                            it.getStringOrNull(KEY_ICON),
+                                            it.getIntOrNull(KEY_COLOR)
+                                        ) }.toList().asReversed()
+                                ).build()
+                            }
+                        }
                         result.add(transactionChange)
-                    } while (it.moveToNext())
+                    } while (changesCursor.moveToNext())
                 }
             }
         }
@@ -758,9 +777,9 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
 
     private fun buildChangesUri(current_sync: Long, accountId: Long): Uri {
         return TransactionProvider.CHANGES_URI.buildUpon()
-            .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId.toString())
+            .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
             .appendQueryParameter(
-                DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL,
+                KEY_SYNC_SEQUENCE_LOCAL,
                 current_sync.toString()
             )
             .build()
@@ -768,7 +787,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
 
     private fun buildInitializationUri(accountId: Long): Uri {
         return TransactionProvider.CHANGES_URI.buildUpon()
-            .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId.toString())
+            .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
             .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INIT)
             .build()
     }
@@ -793,8 +812,8 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
     private fun getStringSetting(provider: ContentProviderClient, prefKey: String): String? {
         val result: String? = try {
             provider.query(
-                TransactionProvider.SETTINGS_URI, arrayOf(DatabaseConstants.KEY_VALUE),
-                DatabaseConstants.KEY_KEY + " = ?", arrayOf(prefKey), null
+                TransactionProvider.SETTINGS_URI, arrayOf(KEY_VALUE),
+                "$KEY_KEY = ?", arrayOf(prefKey), null
             )?.use {
                 if (it.moveToFirst()) {
                     it.getString(0)
@@ -811,7 +830,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         try {
             provider.delete(
                 TransactionProvider.SETTINGS_URI,
-                DatabaseConstants.KEY_KEY + " = ?",
+                "$KEY_KEY = ?",
                 arrayOf(prefKey)
             )
         } catch (remoteException: RemoteException) {

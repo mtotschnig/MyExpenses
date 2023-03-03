@@ -47,11 +47,10 @@ enum class BackendService(
         false
     } else true
 
-    fun instantiate(): SyncBackendProviderFactory? = try {
-        Class.forName(className).newInstance() as? SyncBackendProviderFactory
-    } catch (e: Exception) {
-        CrashHandler.report(e)
-        null
+    fun instantiate(): Result<SyncBackendProviderFactory> = kotlin.runCatching {
+        Class.forName(className).newInstance() as SyncBackendProviderFactory
+    }.onFailure {
+        CrashHandler.report(it)
     }
 
     fun buildAccountName(extra: String): String {
@@ -59,7 +58,9 @@ enum class BackendService(
     }
 
     companion object {
-        fun forAccount(account: String) = values().first { account.startsWith(it.label) }
+        fun forAccount(account: String) = kotlin.runCatching {
+            values().firstOrNull { account.startsWith(it.label) } ?: throw IllegalArgumentException("No Backend found for $account")
+        }
         fun allAvailable(context: Context) = values().filter { it.isAvailable(context) }
     }
 }

@@ -7,6 +7,7 @@ import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import java.io.IOException
@@ -63,6 +64,9 @@ interface SyncBackendProvider {
     fun updateAccount(account: Account)
 
     fun readAccountMetaData(): Result<AccountMetaData>
+    fun writeCategories(categories: List<CategoryExport>): String
+
+    val categories: Result<List<CategoryExport>>
 
     class SyncParseException : Exception {
         constructor(e: Exception) : super(e.message, e)

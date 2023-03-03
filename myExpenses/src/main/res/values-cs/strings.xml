@@ -599,7 +599,6 @@
     <string name="upgrade_now">Upgradovat</string>
     <string name="pref_backup_cloud_title">Ukládat na synchronizačním back-endu</string>
     <string name="pref_backup_cloud_summary">Kromě lokálního úložiště na zařízení může být zálohovací soubor zkopírován na vzdálený back-end.</string>
-    <string name="auto_backup_cloud_failure">Při pokusu o uložení souboru zálohy %1$s v rozhraní backend %2$s došlo k chybě:</string>
     <string name="auto_backup_cloud_success">Záložní soubor %1$s byl úspěšně uložen do rozhraní backend %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Zkratky lze přidat podržením ikony aplikace na Domovské obrazovce.</string>
     <string name="currency_symbol">Symbol měny</string>

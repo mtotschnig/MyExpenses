@@ -37,5 +37,7 @@
     <string name="encryption">"Шифрування"</string>
     <string name="learn_more">"Докладніше"</string>
     <string name="show_all">"Показати все"</string>
+    <string name="write_fail_reason_cannot_write">"Помилка записування вмісту"</string>
+    <string name="not_exist_file_desc">"Файл не існує"</string>
 </resources>
 

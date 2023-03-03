@@ -21,7 +21,8 @@ data class Category(
     val color: Int? = null,
     val icon: String? = null,
     val sum: Long = 0L,
-    val budget: BudgetAllocation = BudgetAllocation.EMPTY
+    val budget: BudgetAllocation = BudgetAllocation.EMPTY,
+    val uuid: String? = null
 ) : Parcelable, Serializable {
 
     fun flatten(): List<Category> = buildList {

@@ -779,8 +779,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             }
             val currentAccount = currentAccount
             menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)?.let {
-                Utils.menuItemSetEnabledAndVisible(
-                    it,
+                it.setEnabledAndVisible(
                     !(currentAccount == null || hasHomeCurrency(currentAccount))
                 )
                 it.isChecked = delegate.equivalentAmountVisible
@@ -792,7 +791,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         subMenu.add(Menu.NONE, entry.key, Menu.NONE, entry.value.title)
                     }
                 }
-                Utils.menuItemSetEnabledAndVisible(it, menuItem2TemplateMap.isNotEmpty())
+                it.setEnabledAndVisible(menuItem2TemplateMap.isNotEmpty())
             }
         }
         return super.onPrepareOptionsMenu(menu)

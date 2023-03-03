@@ -25,16 +25,13 @@
     <string name="permissions_label">Rechten</string>
     <string name="time_format">Tijdnotatie</string>
     <string name="setup">"Instellen"</string>
-    <!-- platform_packages_apps_settings/res/values/strings.xml name="clear_cache_btn_text" -->
     <string name="clear_cache">Cache wissen</string>
-    <!--TvSettings/Settings/res/values/strings.xml restricted_profile_customize_restrictions -->
     <string name="customize">Aanpassen</string>
-    <!-- inputmethods/LatinIME/java/res/values/string.xml name="subtype_generic_compact" -->
     <string name="compact">Compact</string>
-    <!-- providers/MediaProvider/res/values/strings.xml -->
     <string name="storage_description">Lokale opslag</string>
-    <!--apps/Settings/res/values/strings crypt_keeper_settings_title  -->
     <string name="encryption">Versleuteling</string>
     <string name="learn_more">"Meer informatie"</string>
     <string name="show_all">"Alles weergeven"</string>
+    <string name="write_fail_reason_cannot_write">"Fout bij schrijven van content"</string>
+    <string name="not_exist_file_desc">"Het bestand bestaat niet"</string>
 </resources>

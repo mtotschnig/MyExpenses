@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync.json;
 
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
@@ -32,7 +33,6 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DbConstantsKt;
 import org.totschnig.myexpenses.util.TextUtils;
 
 import java.util.List;
@@ -52,9 +52,9 @@ public abstract class TransactionChange {
       KEY_ORIGINAL_AMOUNT,
       KEY_ORIGINAL_CURRENCY,
       KEY_EQUIVALENT_AMOUNT,
-      DbConstantsKt.fullLabel(":"),
       "NULLIF(TRIM(" + KEY_PAYEE_NAME + "),'') AS " + KEY_PAYEE_NAME,
       TRANSFER_ACCOUNT_UUID,
+      KEY_CATID,
       KEY_METHOD_LABEL,
       KEY_CR_STATUS,
       "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
@@ -167,13 +167,16 @@ public abstract class TransactionChange {
   @Nullable
   public abstract List<TransactionChange> splitParts();
 
+  @Nullable
+  public abstract List<CategoryInfo> categoryInfo();
+
   public boolean isEmpty() {
     final Long equivalentAmount = equivalentAmount();
     return isCreateOrUpdate() && comment() == null && date() == null && amount() == null &&
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
         crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null
         && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L)
-        && parentUuid() == null && tags() == null;
+        && parentUuid() == null && tags() == null && categoryInfo() == null;
         //we ignore changes of equivalent amount which result from change of home currency
   }
 
@@ -249,7 +252,9 @@ public abstract class TransactionChange {
 
     public abstract Builder setSplitParts(List<TransactionChange> value);
 
-    public abstract Builder setTags(List<String> vale);
+    public abstract Builder setTags(List<String> value);
+
+    public abstract Builder setCategoryInfo(List<CategoryInfo> value);
 
     public Builder setCurrentTimeStamp() {
       return setTimeStamp(System.currentTimeMillis() / 1000);

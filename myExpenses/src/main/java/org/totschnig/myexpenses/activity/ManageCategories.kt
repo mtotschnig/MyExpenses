@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
@@ -66,13 +67,9 @@ open class ManageCategories : ProtectedFragmentActivity(),
         if (action != Action.SELECT_FILTER) {
             menuInflater.inflate(R.menu.categories, menu)
             val exportMenu = menu.findItem(R.id.EXPORT_COMMAND)
-            Utils.menuItemSetEnabledAndVisible(
-                exportMenu,
-                action == Action.MANAGE
-            )
+            exportMenu.setEnabledAndVisible(action == Action.MANAGE)
             exportMenu.title = getString(R.string.export_to_format, "QIF")
-            Utils.menuItemSetEnabledAndVisible(
-                menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP),
+            menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP).setEnabledAndVisible(
                 action == Action.SELECT_MAPPING
             )
         }
@@ -93,6 +90,22 @@ open class ManageCategories : ProtectedFragmentActivity(),
             it.isChecked = parentSelectionOnTap.value
         }
         prepareSearch(menu, viewModel.filter)
+        val accountNames = GenericAccountService.getAccountNames(this)
+        menu.findItem(R.id.SYNC_COMMAND)?.let { item ->
+            item.setEnabledAndVisible(accountNames.isNotEmpty())
+            item.subMenu?.let { subMenu1 ->
+                fun populateMenu(command: Int) {
+                    subMenu1.findItem(command)?.subMenu?.let {
+                        it.clear()
+                        for (account in accountNames) {
+                            it.add(command, Menu.NONE, Menu.NONE, account)
+                        }
+                    }
+                }
+                populateMenu(R.id.SYNC_COMMAND_EXPORT_CATEGORIES)
+                populateMenu(R.id.SYNC_COMMAND_IMPORT_CATEGORIES)
+            }
+        }
         return true
     }
 
@@ -100,6 +113,12 @@ open class ManageCategories : ProtectedFragmentActivity(),
         if (sortDelegate.onOptionsItemSelected(item)) {
             invalidateOptionsMenu()
             viewModel.setSortOrder(sortDelegate.currentSortOrder)
+            true
+        } else if (item.itemId == Menu.NONE) {
+            when(item.groupId) {
+                R.id.SYNC_COMMAND_EXPORT_CATEGORIES -> viewModel.syncCatsExport(item.title.toString())
+                R.id.SYNC_COMMAND_IMPORT_CATEGORIES -> viewModel.syncCatsImport(item.title.toString())
+            }
             true
         } else super.onOptionsItemSelected(item)
 
@@ -143,6 +162,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
         observeMoveResult()
         observeImportResult()
         observeExportResult()
+        observeSyncResult()
         binding.composeView.setContent {
             AppTheme {
                 choiceMode = when (action) {
@@ -393,7 +413,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
             transientBottomBar: Snackbar,
             event: Int
         ) {
-            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION || event == DISMISS_EVENT_TIMEOUT)
                 viewModel.messageShown()
         }
     }
@@ -528,6 +548,16 @@ open class ManageCategories : ProtectedFragmentActivity(),
                             dismissCallback
                         )
                     }
+                }
+            }
+        }
+    }
+
+    private fun observeSyncResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.syncResult.collect {
+                    showSnackBar(it, callback = dismissCallback)
                 }
             }
         }

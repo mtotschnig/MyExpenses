@@ -729,7 +729,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronisatie</string>
     <string name="all_contrib_key_features">Alle functies van Bijdragen Sleutel</string>
     <string name="pref_backup_cloud_title">Opslaan op synchronisatie-backend</string>
-    <string name="auto_backup_cloud_failure">Er is een fout opgetreden bij het opslaan van back-upbestand %1$s op backend %2$s:</string>
     <string name="currency_symbol">Valutasymbool</string>
     <string name="number_of_fraction_digits">Aantal breukcijfers</string>
     <string name="sync_database_error">Er is een databasefout opgetreden tijdens de synchronisatie.</string>

@@ -37,5 +37,7 @@
     <string name="encryption">"Enkriptatzea"</string>
     <string name="learn_more">"Lortu informazio gehiago"</string>
     <string name="show_all">"Erakutsi guztiak"</string>
+    <string name="write_fail_reason_cannot_write">"Errore bat gertatu da edukia idaztean"</string>
+    <string name="not_exist_file_desc">"Ez dago horrelako fitxategirik"</string>
 </resources>
 

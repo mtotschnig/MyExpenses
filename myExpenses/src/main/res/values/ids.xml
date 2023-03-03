@@ -206,4 +206,6 @@
     <item name="ENCRYPT_CANCEL_COMMAND" type="id" />
     <item name="ENCRYPT_LEARN_MORE_COMMAND" type="id" />
     <item name="SHOW_ALL_COMMAND" type="id" />
+    <item name="SYNC_COMMAND_EXPORT_CATEGORIES" type="id" />
+    <item name="SYNC_COMMAND_IMPORT_CATEGORIES" type="id" />
 </resources>

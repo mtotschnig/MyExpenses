@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays,Typos">
+    <string-array name="Cat_1_Uuids">
+        <item>c4e22afc-6c68-4f71-834d-bba275ccd0c5</item>
+        <item>124f35e0-1ca5-4ca3-9446-c4a4d55b99aa</item>
+        <item>f92063a0-5405-4d28-b716-23d4d40bdecd</item>
+        <item>0b7ef7e8-a7b1-4b43-8fc1-00d9db0c9822</item>
+        <item>4980f66c-6bc9-42b7-bc38-4a5dbd7d1a5d</item>
+        <item>4312eb5a-6ce5-43eb-af10-023ff346e598</item>
+        <item>ced250b9-75ca-4491-aa45-127427d29c90</item>
+    </string-array>
+    <string-array name="Cat_2_Uuids">
+        <item>6b364a96-8000-4968-97d2-581ac56de8da</item>
+        <item>50aab817-ceb0-4321-af17-d04fdb71a791</item>
+        <item>e20d1a38-75f4-4956-aa00-5dee22059f68</item>
+        <item>8c9a2f34-1e2b-4003-8c77-b0717e93da2c</item>
+    </string-array>
+    <string-array name="Cat_3_Uuids">
+        <item>27c48df9-3157-464d-8e3e-3cad79e5ccd6</item>
+        <item>5bf55130-22e6-4020-9c3f-db6fb1919c95</item>
+        <item>6e75f783-9732-4838-921f-4531b3ae1ba0</item>
+        <item>ffd5840b-6df1-4470-b50c-dd3f164d3644</item>
+    </string-array>
+    <string-array name="Cat_4_Uuids">
+        <item>e8b5f268-2de7-4245-8f67-dc9954edf109</item>
+        <item>9af9f973-a913-448c-bd04-4332ae579c57</item>
+        <item>6cc88341-5205-4cac-a5c7-7af2ab6e44e4</item>
+        <item>0ad8f565-581f-4b6b-8732-16e961214866</item>
+        <item>8d646ff8-9a2b-4a0b-93dc-ffbf05d29bcc</item>
+        <item>b54209e3-1f58-4bf1-997c-824bd7507d99</item>
+    </string-array>
+    <string-array name="Cat_5_Uuids">
+        <item>e5181bcc-3072-49cd-8df3-2224dba39d0b</item>
+        <item>355ed500-28fd-49aa-ac20-92ff07b8fff9</item>
+        <item>a6c7be8f-112e-4dc4-ad47-03783acaebc2</item>
+        <item>b179f945-f41c-4348-b7ce-96e794b64b12</item>
+    </string-array>
+    <string-array name="Cat_6_Uuids">
+        <item>d9184855-652b-44ca-bb7a-187f2e61a941</item>
+        <item>5db0590b-d68f-4849-829c-4d9ad3e16cc8</item>
+        <item>40fb1d80-3ae4-4fa8-b2df-db6224196452</item>
+        <item>f8ff8327-112a-4231-ac68-e0437b887f0f</item>
+        <item>3516e0c5-3c95-4920-af25-ca3d4ed9409e</item>
+        <item>5122b54e-18ee-4a66-bd09-80dfd00d32b7</item>
+        <item>54983354-29f3-4ff5-b2dd-8851edbed476</item>
+        <item>3f4b8e9a-dbbd-4ddf-a374-bba988f8b703</item>
+        <item>ea09c0b3-8f61-4546-b8c5-4b7b451320a9</item>
+    </string-array>
+    <string-array name="Cat_7_Uuids">
+        <item>b2bf387c-331b-4de9-bcdd-2deef99d6b03</item>
+        <item>88e9207a-efb6-458d-892c-d86285bb4edf</item>
+        <item>ad99ca31-23a9-4436-94d0-0d9b0b4e1a0a</item>
+        <item>18f95752-3bde-4d7b-be30-0de4a3dbe210</item>
+        <item>6bef355c-f109-42b5-a016-151ba10b9a89</item>
+    </string-array>
+    <string-array name="Cat_8_Uuids">
+        <item>7d2c9954-aced-4fc2-9717-14e91906db23</item>
+        <item>aad65bd6-7e5b-4bb0-9c7b-7f19ea98a02a</item>
+        <item>5370b8af-b8c1-4c9d-96fe-dc9d33688e38</item>
+        <item>d3454849-838a-410a-991b-1100cfa7a268</item>
+        <item>fa7818c9-5142-45a8-819a-6512f8f4741a</item>
+        <item>774cfc7d-e905-4520-947c-ea79f3c80917</item>
+    </string-array>
+    <string-array name="Cat_9_Uuids">
+        <item>db1106db-0d20-4032-b37e-71f4a7740746</item>
+        <item>02553494-1e49-4965-b693-4564d9600546</item>
+        <item>d499e7f6-a9e8-4ca6-8869-796a8bed4a9a</item>
+        <item>10891df5-e286-490a-aa3e-09bdbf884c9d</item>
+        <item>54502ce8-4b5a-4c09-b59d-ca9060c93727</item>
+        <item>87cc8743-85df-4985-956a-edfdbe7e3281</item>
+    </string-array>
+    <string-array name="Cat_10_Uuids">
+        <item>09a9373c-88cd-4420-9a6c-4663b103f59b</item>
+    </string-array>
+    <string-array name="Cat_11_Uuids">
+        <item>01b59329-fa18-43f2-9c40-959ebafdebea</item>
+        <item>e553fb46-dbb2-4908-bcee-35e703dfa111</item>
+        <item>0ff0dde0-247e-458e-befe-b4c30b96048e</item>
+    </string-array>
+    <string-array name="Cat_12_Uuids">
+        <item>1cca7431-c33c-44e0-82dd-857147e3b933</item>
+        <item>6fe5713c-75e5-4351-91e6-17f738a77a91</item>
+        <item>c32278d3-5aab-47d3-854c-5c6b7c33d6a5</item>
+        <item>e499bc72-95dd-46c8-8eea-d8988d8b32de</item>
+    </string-array>
+    <string-array name="Cat_13_Uuids">
+        <item>7c114bca-fe60-48eb-a644-dbbf0f3f041c</item>
+        <item>48e47f4e-f06a-434e-a35b-da7af806a386</item>
+        <item>e624a8c9-e9c6-4b59-bc6d-78021361be4f</item>
+        <item>d18820cf-19cf-4539-ba71-1d0b73da75b3</item>
+        <item>ccf193fd-08aa-4762-99dd-5f30c8d7df85</item>
+    </string-array>
+    <string-array name="Cat_14_Uuids">
+        <item>89d05082-e26f-438e-be39-a12ad69af079</item>
+        <item>eed387f6-ac2c-4eb1-aa81-95f37631e70f</item>
+        <item>84b9d742-f77f-485a-8e47-249806ed5aa8</item>
+    </string-array>
+    <string-array name="Cat_15_Uuids">
+        <item>d221a436-2da1-4de5-bd9f-04ecdb72a163</item>
+        <item>384694c9-0d7f-4f85-a1f9-fa9bef3ec439</item>
+        <item>46fa0f43-105a-4bd6-afef-0b414448a40e</item>
+        <item>43fe5aeb-6177-453a-8059-266bf522809e</item>
+    </string-array>
+    <string-array name="Cat_16_Uuids">
+        <item>fa80d0f4-4c6e-4d01-9cab-170ab2e8f50f</item>
+        <item>6e04b2c1-dec1-44dd-bada-a3d64da5ab88</item>
+        <item>189909e3-9695-4d5b-b5e6-f538e46f0fba</item>
+        <item>97e682c5-b1a5-4ec8-80d7-7d48ec904fb3</item>
+        <item>3a30f0d5-6dee-4611-b811-9f367ef0a35c</item>
+        <item>1b0af696-352f-4d7f-8105-c7f583bd81fc</item>
+        <item>b10b1d4b-a85d-4971-ac6b-c6812d9094fd</item>
+        <item>f1f2cec7-3501-410b-992b-24ab976171c9</item>
+        <item>e1da822b-edce-48cb-82f4-947b71a60634</item>
+        <item>08388ddf-12d4-401c-bc31-e56e61626a0d</item>
+        <item>ef2574fc-72dd-4bca-abd2-c270549ad02a</item>
+        <item>a7f56337-6229-4860-97b7-6cf06ba3d946</item>
+        <item>7eb040d0-f5df-422c-a6d9-f15473904aaf</item>
+        <item>57f15dcb-90ba-405b-b796-ef92b23957d1</item>
+        <item>cd541383-6e96-466a-93dc-f69eff829962</item>
+        <item>094fb7a2-137a-42b8-9c75-53607793f326</item>
+        <item>1ad859ab-7ad2-494a-8f23-955819a117cb</item>
+    </string-array>
+    <string-array name="Cat_17_Uuids">
+        <item>4e8dce96-2289-4506-891e-96d72100ca2c</item>
+        <item>335ce002-ab2e-4d39-b8af-a12750a6923f</item>
+        <item>98c69bfc-fd87-47f1-a14c-21f3b0e9460b</item>
+        <item>281c3ee7-71ae-4110-a2ae-ce158fd5ea68</item>
+        <item>d7b619e0-48fa-4f1c-9e44-c96db2b6d599</item>
+        <item>f6ffa5df-1101-4778-8b50-1896a5357cb9</item>
+        <item>d0be5662-6d60-483f-a1ff-3dcc081498c0</item>
+        <item>822f344a-82b8-4c35-97b4-7a0d990e36ff</item>
+        <item>3f0bc2b6-5922-4110-94d7-b1de0b45203b</item>
+        <item>104580f8-8da8-4029-9f96-fdb9cb888dc2</item>
+        <item>203275c7-27b5-42dd-aa33-fb5aa873c1bc</item>
+        <item>d3d1d1e3-5f98-4a33-a080-0b2a7c0e3665</item>
+        <item>d956e1cc-af5e-45bb-9580-2ced0b9bbd46</item>
+        <item>76961ef7-e926-4945-88cb-907baed5670f</item>
+        <item>fe5076d1-cb56-4f71-8de2-52cd96cc5a68</item>
+    </string-array>
+    <string-array name="Cat_18_Uuids">
+        <item>22c3c24f-d4ae-487d-a2ac-22c3ba7e512b</item>
+        <item>6990f9a8-0bc0-43f2-a660-55764d5ddbaa</item>
+    </string-array>
+    <string-array name="Cat_19_Uuids">
+        <item>e0e22110-e8e6-4da1-9720-71c6473d137a</item>
+        <item>0959e56e-8c32-4b46-a594-f28f386a5fbc</item>
+        <item>56c41de4-d3bb-4cc6-86b8-a875b9bb6559</item>
+        <item>f5f268db-dbab-41f8-8f26-1bdcba6aea52</item>
+        <item>a8ed562a-4d58-4ce4-b0ab-96ce5bcf26a8</item>
+        <item>02115c21-3425-4d64-9451-e7817176bb53</item>
+        <item>88b61760-bd4b-442d-a642-923c2a75dcbb</item>
+        <item>604d62a9-2677-4dad-a622-c32be54d7761</item>
+        <item>cae62115-836f-4645-a9b6-987c8a7569b4</item>
+        <item>810643f8-f98b-4bc5-ab8c-2e8030c4a06f</item>
+    </string-array>
+    <string-array name="Cat_20_Uuids">
+        <item>7f24dd0a-499d-4e64-b836-c647b388e236</item>
+        <item>389c2a1d-e85e-4697-be4d-16f9569b375b</item>
+        <item>1a170066-15ee-4261-911a-18ec6c012f2f</item>
+    </string-array>
+    <string-array name="Cat_21_Uuids">
+        <item>14df38db-3551-4f35-8044-a5cd939c84b4</item>
+        <item>d6af1543-a008-462f-acbf-d2f85f51cc34</item>
+        <item>c51e0355-5d81-490b-84ff-23d1544f26d8</item>
+        <item>1b7df51f-7258-4eb0-955e-4327050a3671</item>
+        <item>d1ab55cd-5d7e-434b-9e25-bef274ba7837</item>
+        <item>257c764e-d5a6-496e-9876-5a478d6fe07b</item>
+        <item>9c434014-529d-4a19-9e04-36c2aa229281</item>
+    </string-array>
+    <string-array name="Cat_22_Uuids">
+        <item>1baf786f-993b-4414-bc3f-9d85d14b988b</item>
+        <item>03b335e0-2953-418f-a5f2-d9ad2de6297b</item>
+        <item>fb7d2c2d-a90a-4d96-bb38-32d910b1213b</item>
+        <item>fcb1d08c-93c4-4cc4-a70b-2d2c3d72141b</item>
+    </string-array>
+</resources>

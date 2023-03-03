@@ -36,5 +36,7 @@
     <string name="encryption">"Шифрование"</string>
     <string name="learn_more">"Подробнее"</string>
     <string name="show_all">"Показать все"</string>
+    <string name="write_fail_reason_cannot_write">"Ошибка записи"</string>
+    <string name="not_exist_file_desc">"Файл не существует"</string>
 </resources>
 

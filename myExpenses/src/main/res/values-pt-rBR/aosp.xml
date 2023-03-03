@@ -36,5 +36,7 @@
     <string name="encryption">"Criptografia"</string>
     <string name="learn_more">"Saiba mais"</string>
     <string name="show_all">"Mostrar tudo"</string>
+    <string name="write_fail_reason_cannot_write">"Erro ao gravar o conteúdo"</string>
+    <string name="not_exist_file_desc">"O arquivo não existe"</string>
 </resources>
 

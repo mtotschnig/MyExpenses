@@ -575,7 +575,6 @@
     <string name="upgrade_now">アップグレード</string>
     <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
     <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
-    <string name="auto_backup_cloud_failure">バックアップファイル %1$s をバックエンド %2$s に保存しようとしているときにエラーが発生しました:</string>
     <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
     <string name="home_screen_shortcuts_nougate_info">ショートカットは、ホーム画面のアプリアイコンを長押しして追加することができます。</string>
     <string name="currency_symbol">通貨記号</string>

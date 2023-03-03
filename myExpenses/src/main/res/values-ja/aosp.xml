@@ -37,5 +37,7 @@
     <string name="encryption">"暗号化"</string>
     <string name="learn_more">"詳細"</string>
     <string name="show_all">"すべて表示"</string>
+    <string name="write_fail_reason_cannot_write">"コンテンツの書き込み中にエラーが発生しました"</string>
+    <string name="not_exist_file_desc">"そのファイルは存在しません"</string>
 </resources>
 

@@ -36,5 +36,7 @@
     <string name="encryption">"加密"</string>
     <string name="learn_more">"了解详情"</string>
     <string name="show_all">"显示全部选择"</string>
+    <string name="write_fail_reason_cannot_write">"写入内容时出错"</string>
+    <string name="not_exist_file_desc">"该文件不存在"</string>
 </resources>
 

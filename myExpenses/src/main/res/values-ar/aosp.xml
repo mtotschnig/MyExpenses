@@ -36,5 +36,7 @@
     <string name="encryption">"التشفير"</string>
     <string name="learn_more">"مزيد من المعلومات"</string>
     <string name="show_all">"عرض الكل"</string>
+    <string name="write_fail_reason_cannot_write">"حدث خطأ أثناء كتابة المحتوى"</string>
+    <string name="not_exist_file_desc">"الملف غير موجود"</string>
 </resources>
 

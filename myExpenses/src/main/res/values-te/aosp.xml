@@ -32,4 +32,6 @@
     <string name="encryption">"ఎన్‌క్రిప్షన్"</string>
     <string name="learn_more">"మరింత తెలుసుకోండి"</string>
     <string name="show_all">"అన్నీ చూపు"</string>
+    <string name="write_fail_reason_cannot_write">"కంటెంట్‌ను వ్రాయడంలో ఎర్రర్"</string>
+    <string name="not_exist_file_desc">"ఫైల్ ఉనికిలో లేదు"</string>
 </resources>

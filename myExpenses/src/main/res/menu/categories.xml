@@ -39,6 +39,24 @@
         </menu>
     </item>
     <item
+        android:id="@+id/SYNC_COMMAND"
+        app:showAsAction="never"
+        android:title="@string/synchronization">
+        <menu>
+            <item
+                android:id="@id/SYNC_COMMAND_EXPORT_CATEGORIES"
+                android:title="@string/pref_category_title_export">
+                <menu/>
+            </item>
+
+            <item
+                android:id="@id/SYNC_COMMAND_IMPORT_CATEGORIES"
+                android:title="@string/pref_category_title_import">
+                <menu/>
+            </item>
+        </menu>
+    </item>
+    <item
         android:id="@id/SORT_COMMAND"
         android:icon="@drawable/ic_menu_sort"
         android:title="@string/menu_sort"

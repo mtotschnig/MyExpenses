@@ -150,6 +150,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     companion object {
+        val CATEGORY_TREE_URI: Uri
+            get() = TransactionProvider.CATEGORIES_URI.buildUpon()
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL).build()
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
             "$TABLE_CURRENCIES LEFT JOIN (SELECT coalesce($KEY_ORIGINAL_CURRENCY, $KEY_CURRENCY) AS currency_coalesced, count(*) AS $KEY_USAGES FROM $VIEW_EXTENDED GROUP BY currency_coalesced) on currency_coalesced = $KEY_CODE"
 

@@ -36,5 +36,7 @@
     <string name="encryption">"Szyfrowanie"</string>
     <string name="learn_more">"Więcej informacji"</string>
     <string name="show_all">"Pokaż wszystkie"</string>
+    <string name="write_fail_reason_cannot_write">"Błąd podczas zapisu treści"</string>
+    <string name="not_exist_file_desc">"Plik nie istnieje"</string>
 </resources>
 

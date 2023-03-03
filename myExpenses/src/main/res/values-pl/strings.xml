@@ -589,7 +589,6 @@
     <string name="upgrade_now">Aktualizuj</string>
     <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
-    <string name="auto_backup_cloud_failure">Wystąpił błąd podczas próby zapisania pliku kopii zapasowej %1$s na serwerze %2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Skróty można dodać, naciskając długo ikonę aplikacji na ekranie głównym.</string>
     <string name="currency_symbol">Symbol waluty</string>
     <string name="number_of_fraction_digits">Liczba cyfr ułamkowych</string>

@@ -36,5 +36,7 @@
     <string name="encryption">"Penyulitan"</string>
     <string name="learn_more">"Ketahui lebih lanjut"</string>
     <string name="show_all">"Tunjukkan semua"</string>
+    <string name="write_fail_reason_cannot_write">"Ralat menulis kandungan"</string>
+    <string name="not_exist_file_desc">"Fail tidak wujud"</string>
 </resources>
 

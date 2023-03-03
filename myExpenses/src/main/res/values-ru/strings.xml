@@ -597,7 +597,6 @@
     <string name="upgrade_now">Обновить</string>
     <string name="pref_backup_cloud_title">Хранить на сервере синхронизации</string>
     <string name="pref_backup_cloud_summary">В дополнение к локальному хранению на устройстве, файл резервной копии может быть скопирован на удаленный сервер.</string>
-    <string name="auto_backup_cloud_failure">Произошла ошибка при попытке сохранить файл резервной копии %1$s на сервере %2$s:</string>
     <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на сервере %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Ярлыки можно добавить, нажав значок приложения на главном экране.</string>
     <string name="currency_symbol">Символ валюты</string>

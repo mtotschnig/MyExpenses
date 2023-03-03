@@ -262,7 +262,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_LAST_USED + " datetime, "
           + KEY_COLOR + " integer, "
           + KEY_ICON + " string, "
+          + KEY_UUID + " text, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
+
+  private static final String CATEGORY_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX categories_uuid ON "
+      + TABLE_CATEGORIES + "(" + KEY_UUID + ")";
 
   private static final String PAYMENT_METHODS_CREATE =
       "CREATE TABLE " + TABLE_METHODS + " ("
@@ -749,6 +753,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(CATEGORIES_CREATE);
+    db.execSQL(CATEGORY_UUID_INDEX_CREATE);
     createOrRefreshCategoryMainCategoryUniqueLabel(db);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
@@ -1602,16 +1607,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 58) {
         //cache fraction digits
         Cursor c = db.query("SELECT distinct currency from accounts");
-        if (c != null) {
-          if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-              CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
-              currencyContext.ensureFractionDigitsAreCached(currencyContext.get(c.getString(0)));
-              c.moveToNext();
-            }
+        if (c.moveToFirst()) {
+          while (!c.isAfterLast()) {
+            CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
+            currencyContext.ensureFractionDigitsAreCached(currencyContext.get(c.getString(0)));
+            c.moveToNext();
           }
-          c.close();
         }
+        c.close();
       }
 
       if (oldVersion < 59) {
@@ -1675,26 +1678,24 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         //in the rare case where an existing instance_id equals a newly calculated one
         db.execSQL("update planinstance_transaction set instance_id = - rowid");
         Cursor c = db.query("SELECT rowid, (SELECT date from transactions where _id = transaction_id) FROM planinstance_transaction");
-        if (c != null) {
-          if (c.moveToFirst()) {
-            ContentValues v = new ContentValues();
-            while (c.getPosition() < c.getCount()) {
-              String rowId = c.getString(0);
-              long date = c.getLong(1);
-              String whereClause = "rowid = ?";
-              String[] whereArgs = {rowId};
-              //This will be correct only for instances where date has not been edited by user, but it is the best we can do
-              v.put("instance_id", CalendarProviderProxy.calculateId(date * 1000));
-              try {
-                db.update("planinstance_transaction", CONFLICT_NONE, v, whereClause, whereArgs);
-              } catch (Exception e) {
-                CrashHandler.report(e);
-              }
-              c.moveToNext();
+        if (c.moveToFirst()) {
+          ContentValues v = new ContentValues();
+          while (c.getPosition() < c.getCount()) {
+            String rowId = c.getString(0);
+            long date = c.getLong(1);
+            String whereClause = "rowid = ?";
+            String[] whereArgs = {rowId};
+            //This will be correct only for instances where date has not been edited by user, but it is the best we can do
+            v.put("instance_id", CalendarProviderProxy.calculateId(date * 1000));
+            try {
+              db.update("planinstance_transaction", CONFLICT_NONE, v, whereClause, whereArgs);
+            } catch (Exception e) {
+              CrashHandler.report(e);
             }
+            c.moveToNext();
           }
-          c.close();
         }
+        c.close();
       }
 
       if (oldVersion < 66) {
@@ -1877,36 +1878,34 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("ALTER TABLE currency add column grouping text not null check (grouping in " +
             "('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
         Cursor c = db.query("SELECT distinct currency from accounts");
-        if (c != null) {
-          if (c.moveToFirst()) {
-            String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
-            final SharedPreferences settings = MyApplication.getInstance().getSettings();
-            final SharedPreferences.Editor editor = settings.edit();
-            boolean updated = false;
-            while (!c.isAfterLast()) {
-              final String currency = c.getString(0);
-              final String key = GROUPING_PREF_PREFIX + currency;
-              final String grouping = settings.getString(key, "NONE");
-              if (!grouping.equals("NONE")) {
-                ContentValues initialValues = new ContentValues();
-                initialValues.put("grouping", grouping);
-                try {
-                  db.update("currency", CONFLICT_NONE, initialValues, "code = ?", new String[]{currency});
-                  editor.remove(key);
-                  updated = true;
-                } catch (Exception e) {
-                  //since this setting is not critical, we can live with failure of migration
-                  Timber.e(e);
-                }
+        if (c.moveToFirst()) {
+          String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
+          final SharedPreferences settings = MyApplication.getInstance().getSettings();
+          final SharedPreferences.Editor editor = settings.edit();
+          boolean updated = false;
+          while (!c.isAfterLast()) {
+            final String currency = c.getString(0);
+            final String key = GROUPING_PREF_PREFIX + currency;
+            final String grouping = settings.getString(key, "NONE");
+            if (!grouping.equals("NONE")) {
+              ContentValues initialValues = new ContentValues();
+              initialValues.put("grouping", grouping);
+              try {
+                db.update("currency", CONFLICT_NONE, initialValues, "code = ?", new String[]{currency});
+                editor.remove(key);
+                updated = true;
+              } catch (Exception e) {
+                //since this setting is not critical, we can live with failure of migration
+                Timber.e(e);
               }
-              c.moveToNext();
             }
-            if (updated) {
-              editor.apply();
-            }
+            c.moveToNext();
           }
-          c.close();
+          if (updated) {
+            editor.apply();
+          }
         }
+        c.close();
       }
 
       if (oldVersion < 81) {
@@ -2221,9 +2220,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 126) {
         upgradeTo126(db);
       }
-      if (oldVersion < 127) {
+      //if (oldVersion < 127) {
         //createOrRefreshViews(db);
-      }
+      //}
       if (oldVersion < 128) {
         upgradeTo128(db);
       }
@@ -2244,6 +2243,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if(oldVersion < 134) {
         createOrRefreshViews(db);
+      }
+      if(oldVersion < 135) {
+        db.execSQL("ALTER TABLE categories add column uuid text");
+        db.execSQL("CREATE UNIQUE INDEX categories_uuid ON categories(uuid)");
+        MoreDbUtilsKt.insertUuidsForDefaultCategories(db, MyApplication.getInstance().getResources());
       }
 
       TransactionProvider.resumeChangeTrigger(db);

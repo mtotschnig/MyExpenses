@@ -36,5 +36,7 @@
     <string name="encryption">"Mã hóa"</string>
     <string name="learn_more">"Tìm hiểu thêm"</string>
     <string name="show_all">"Hiển thị tất cả"</string>
+    <string name="write_fail_reason_cannot_write">"Lỗi ghi nội dung"</string>
+    <string name="not_exist_file_desc">"Tệp không tồn tại"</string>
 </resources>
 

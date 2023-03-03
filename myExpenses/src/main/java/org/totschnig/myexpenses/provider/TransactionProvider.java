@@ -483,9 +483,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
       }
       case CATEGORY_ID:
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
-        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
-        break;
+        String rowId = uri.getPathSegments().get(1);
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
+          c = measureAndLogQuery(db, uri, selection, DbConstantsKt.categoryPathFromLeave(rowId), selectionArgs);
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
+        } else {
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
+          additionalWhere.append(KEY_ROWID + "=").append(rowId);
+          break;
+        }
       case ACCOUNTS:
       case ACCOUNTS_BASE:
       case ACCOUNTS_MINIMAL:
@@ -1244,8 +1251,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CATEGORIES:
         throw new UnsupportedOperationException("Bulk update of categories is not supported");
       case CATEGORY_ID:
-        if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
-          throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
         if (values.containsKey(KEY_PARENTID)) {
           Long parentId = values.getAsLong(KEY_PARENTID);
           if (parentId == null && !values.containsKey(KEY_COLOR)) {

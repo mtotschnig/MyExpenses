@@ -37,5 +37,7 @@
     <string name="encryption">"Kryptering"</string>
     <string name="learn_more">"Få flere oplysninger"</string>
     <string name="show_all">"Vis alle"</string>
+    <string name="write_fail_reason_cannot_write">"Fejl ved skrivning af indhold"</string>
+    <string name="not_exist_file_desc">"Filen findes ikke"</string>
 </resources>
 

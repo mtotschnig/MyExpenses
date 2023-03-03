@@ -37,5 +37,7 @@
     <string name="encryption">"ಎನ್‌ಕ್ರಿಪ್ಷನ್"</string>
     <string name="learn_more">"ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"</string>
     <string name="show_all">"ಎಲ್ಲ ತೋರಿಸು"</string>
+    <string name="write_fail_reason_cannot_write">"ವಿಷಯವನ್ನು ಬರೆಯುವಲ್ಲಿ ದೋಷ ಎದುರಾಗಿದೆ"</string>
+    <string name="not_exist_file_desc">"ಫೈಲ್‌ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ"</string>
 </resources>
 

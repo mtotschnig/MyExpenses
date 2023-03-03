@@ -10,6 +10,7 @@ import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -25,8 +26,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.provider.withLimit
+import org.totschnig.myexpenses.sync.json.CategoryExport
+import org.totschnig.myexpenses.sync.json.CategoryInfo
+import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.localDate2Epoch
@@ -34,8 +39,10 @@ import org.totschnig.myexpenses.util.localDateTime2Epoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.io.IOException
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,6 +53,9 @@ class Repository @Inject constructor(
     val currencyFormatter: CurrencyFormatter,
     val prefHandler: PrefHandler
 ) {
+    companion object {
+        const val UUID_SEPARATOR = ':'
+    }
 
     val contentResolver: ContentResolver = context.contentResolver
 
@@ -215,7 +225,11 @@ class Repository @Inject constructor(
 
     fun getLastUsedOpenAccount() =
         contentResolver.query(
-            ACCOUNTS_URI.withLimit(1), arrayOf(KEY_ROWID, KEY_CURRENCY), "$KEY_SEALED = 0", null, KEY_LAST_USED
+            ACCOUNTS_URI.withLimit(1),
+            arrayOf(KEY_ROWID, KEY_CURRENCY),
+            "$KEY_SEALED = 0",
+            null,
+            KEY_LAST_USED
         )?.use {
             if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
         }
@@ -247,6 +261,7 @@ class Repository @Inject constructor(
         }
         return try {
             if (category.id == 0L) {
+                initialValues.put(KEY_UUID, category.uuid ?: UUID.randomUUID().toString())
                 contentResolver.insert(CATEGORIES_URI, initialValues)
             } else {
                 CATEGORIES_URI.buildUpon().appendPath(category.id.toString()).build().let {
@@ -322,10 +337,102 @@ class Repository @Inject constructor(
         } ?: -1
     }
 
+    fun ensureCategoryTree(categoryExport: CategoryExport, parentId: Long?): Int {
+        val (nextParent, created) = ensureCategory(categoryExport, parentId)
+        var count = if(created) 1 else 0
+        categoryExport.children.forEach {
+            count += ensureCategoryTree(it, nextParent)
+        }
+        return count
+    }
+
+    /**
+     * 1 if the category with provided uuid exists, update label, parent, icon, color and return category
+     * 2. otherwise
+     * 2.1 if a category with the provided label and parent exists, (update icon), append uuid and return it
+     * 2.2 otherwise create category with label and uuid and return it
+     *
+     * @return pair of category id and boolean that is true if a new category has been created
+     */
+    fun ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pair<Long, Boolean> {
+        val stripped = categoryInfo.label.trim()
+        val uuids = categoryInfo.uuid.split(UUID_SEPARATOR)
+
+        contentResolver.query(
+            CATEGORIES_URI,
+            arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID, KEY_ICON, KEY_COLOR),
+            Array(uuids.size) { "instr($KEY_UUID, ?) > 0" }.joinToString(" OR "),
+            uuids.toTypedArray(),
+            null
+        )?.use {
+            if (it.moveToFirst()) {
+                val categoryId = it.getLong(0)
+                val contentValues = ContentValues().apply {
+                    if (it.getString(1) != categoryInfo.label) {
+                        put(KEY_LABEL, categoryInfo.label)
+                    }
+                    if (it.getStringOrNull(2) != categoryInfo.icon) {
+                        put(KEY_ICON, categoryInfo.icon)
+                    }
+                    if (it.getLongOrNull(2) != parentId) {
+                        put(KEY_PARENTID, parentId)
+                    }
+                    if (it.getIntOrNull(4) != categoryInfo.color) {
+                        put(KEY_COLOR, categoryInfo.color)
+                    }
+                }
+                if (contentValues.size() > 0) {
+                    contentResolver.update(
+                        ContentUris.withAppendedId(CATEGORIES_URI, categoryId),
+                        contentValues,
+                        null, null
+                    )
+                }
+                return categoryId to false
+            }
+        }
+        val (parentSelection, parentSelectionArgs) = if (parentId == null) {
+            "$KEY_PARENTID is null" to emptyArray()
+        } else {
+            "$KEY_PARENTID = ?" to arrayOf(parentId.toString())
+        }
+        contentResolver.query(
+            CATEGORIES_URI,
+            arrayOf(KEY_ROWID, KEY_UUID),
+            "$KEY_LABEL = ? AND $parentSelection",
+            arrayOf(stripped) + parentSelectionArgs,
+            null
+        )?.use {
+            if (it.moveToFirst()) {
+                val categoryId = it.getLong(0)
+                val existingUuid = it.getString(1)
+                contentResolver.update(
+                    ContentUris.withAppendedId(CATEGORIES_URI, categoryId),
+                    ContentValues(2).apply {
+                        put(KEY_UUID, "$existingUuid$UUID_SEPARATOR${categoryInfo.uuid}")
+                        put(KEY_ICON, categoryInfo.icon)
+                    },
+                    null, null
+                )
+                return categoryId to false
+            }
+        }
+        return saveCategory(
+            Category(
+                label = categoryInfo.label,
+                parentId = parentId,
+                icon = categoryInfo.icon,
+                uuid = categoryInfo.uuid,
+                color = categoryInfo.color
+            )
+        )?.let { ContentUris.parseId(it) to true }
+            ?: throw IOException("Saving category failed")
+    }
+
     @VisibleForTesting
     fun loadCategory(id: Long): Category? = contentResolver.query(
         CATEGORIES_URI,
-        arrayOf(KEY_PARENTID, KEY_LABEL, KEY_COLOR, KEY_ICON),
+        arrayOf(KEY_PARENTID, KEY_LABEL, KEY_COLOR, KEY_ICON, KEY_UUID),
         "$KEY_ROWID = ?",
         arrayOf(id.toString()),
         null
@@ -336,7 +443,8 @@ class Repository @Inject constructor(
                 parentId = it.getLongOrNull(0),
                 label = it.getString(1),
                 color = it.getIntOrNull(2),
-                icon = it.getString(3)
+                icon = it.getString(3),
+                uuid = it.getString(4)
             ) else null
     }
 

@@ -599,7 +599,6 @@
     <string name="upgrade_now">שדרג</string>
     <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
     <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
-    <string name="auto_backup_cloud_failure">אירעה שגיאה בעת ניסיון לאחסן קובץ גיבוי %1$s על backend %2$s:</string>
     <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">קיצורי דרך ניתן להוסיף על ידי הקשה ארוכה על סמל היישום במסך הבית.</string>
     <string name="currency_symbol">סמל המטבע</string>

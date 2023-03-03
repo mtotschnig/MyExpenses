@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 
 object CategoryHelper {
     private val unicodeEscaper = UnicodeUnescaper()
-    var countInserted = 0
+    private var countInserted = 0
     /**
      * inserts the category to the database if needed
      * @param categoryToId a map which caches the relation between the category name and the database
@@ -42,7 +42,7 @@ object CategoryHelper {
         var parentId: Long? = null
         var path = ""
         name.forEach {
-            if (!path.isEmpty()) path += ":"
+            if (path.isNotEmpty()) path += ":"
             path += it
             var id = categoryToId[path]
             if (id == null) {

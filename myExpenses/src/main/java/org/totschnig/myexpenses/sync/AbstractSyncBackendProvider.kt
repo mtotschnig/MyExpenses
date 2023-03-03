@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.util.Base64
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Com
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.AdapterFactory
+import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.sync.json.Utils.getChanges
@@ -54,6 +56,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         get() = encryptionPassword != null
     val accountMetadataFilename: String
         get() = String.format("%s.%s", ACCOUNT_METADATA_FILENAME, extensionForData)
+    val categoriesFilename: String
+        get() = String.format("%s.%s", CATEGORIES_FILENAME, extensionForData)
     override val extensionForData: String
         get() = if (isEncrypted) "enc" else "json"
 
@@ -376,6 +380,18 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         writeAccount(account, true)
     }
 
+    override fun writeCategories(categories: List<CategoryExport>): String {
+        saveFileContents(false, null, categoriesFilename, gson.toJson(categories), mimeTypeForData, true)
+        return categoriesFilename
+    }
+
+    override val categories: Result<List<CategoryExport>>
+        get() = kotlin.runCatching {
+            readFileContents(false, categoriesFilename)?.let {
+                    gson.fromJson<List<CategoryExport>>(it, object : TypeToken<ArrayList<CategoryExport>>() {}.type)
+            } ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
+        }
+
     @Throws(IOException::class)
     protected abstract fun writeAccount(account: Account, update: Boolean)
 
@@ -436,6 +452,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         const val BACKUP_FOLDER_NAME = "BACKUPS"
         const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
+        private const val CATEGORIES_FILENAME = "categories"
         private const val KEY_OWNED_BY_US = "ownedByUs"
         private const val KEY_TIMESTAMP = "timestamp"
         private val LOCK_TIMEOUT_MILLIS =

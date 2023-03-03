@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
@@ -14,13 +13,16 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
+import arrow.core.flatMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -37,11 +39,13 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.displayName
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
@@ -55,13 +59,15 @@ open class CategoryViewModel(
     private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     private val _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
     private val _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
-    val deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult
-    val moveResult: StateFlow<Boolean?> = _moveResult
-    val importResult: StateFlow<Pair<Int, Int>?> = _importResult
-    val exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult
+    private val _syncResult: MutableStateFlow<String?> = MutableStateFlow(null)
+    val deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult.asStateFlow()
+    val moveResult: StateFlow<Boolean?> = _moveResult.asStateFlow()
+    val importResult: StateFlow<Pair<Int, Int>?> = _importResult.asStateFlow()
+    val exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult.asStateFlow()
+    val syncResult: Flow<String> = _syncResult.asStateFlow().filterNotNull()
     val defaultSort = Sort.USAGES
 
-    sealed class DialogState: java.io.Serializable
+    sealed class DialogState : java.io.Serializable
     object NoShow : DialogState()
     data class Show(
         val id: Long? = null,
@@ -70,7 +76,7 @@ open class CategoryViewModel(
         val icon: String? = null,
         val saving: Boolean = false,
         val error: Boolean = false
-    ): DialogState()
+    ) : DialogState()
 
     @OptIn(SavedStateHandleSaveableApi::class)
     var dialogState: DialogState by savedStateHandle.saveable { mutableStateOf(NoShow) }
@@ -93,7 +99,9 @@ open class CategoryViewModel(
 
     var filter: String?
         get() = savedStateHandle.get<String>(KEY_FILTER)
-        set(value) { savedStateHandle[KEY_FILTER] = value }
+        set(value) {
+            savedStateHandle[KEY_FILTER] = value
+        }
 
     fun setSortOrder(sort: Sort) {
         sortOrder.tryEmit(sort)
@@ -147,8 +155,7 @@ open class CategoryViewModel(
     }
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
-        TransactionProvider.CATEGORIES_URI.buildUpon()
-            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
+        BaseTransactionProvider.CATEGORY_TREE_URI.buildUpon()
             .apply {
                 queryParameter.forEach {
                     appendQueryParameter(it.key, it.value)
@@ -170,7 +177,6 @@ open class CategoryViewModel(
                     label = "ROOT",
                     children = ingest(
                         withColors,
-                        getApplication(),
                         cursor,
                         null,
                         1
@@ -308,6 +314,9 @@ open class CategoryViewModel(
         _importResult.update {
             null
         }
+        _syncResult.update {
+            null
+        }
     }
 
     fun moveCategory(source: Long, target: Long?) {
@@ -344,7 +353,7 @@ open class CategoryViewModel(
                                 destDir,
                                 fileName,
                                 ExportFormat.QIF.mimeType, "qif"
-                            ) ?.let {
+                            )?.let {
                                 Result.success(it)
                             } ?: Result.failure(createFileFailure(context, destDir, fileName))
                         }
@@ -356,18 +365,85 @@ open class CategoryViewModel(
         }
     }
 
+    fun syncCatsExport(accountName: String) {
+        viewModelScope.launch(context = coroutineContext()) {
+            GenericAccountService.getSyncBackendProvider(localizedContext, accountName)
+                .mapCatching { backend ->
+                    contentResolver.query(
+                        BaseTransactionProvider.CATEGORY_TREE_URI,
+                        null,
+                        null,
+                        null,
+                        null,
+                    )?.use {
+                        fun ingest(
+                            cursor: Cursor,
+                            parentId: Long?,
+                        ): List<CategoryExport> =
+                            buildList {
+                                while (!cursor.isAfterLast) {
+                                    val nextId = cursor.getLong(KEY_ROWID)
+                                    val nextParent = cursor.getLongOrNull(KEY_PARENTID)
+                                    val nextLabel = cursor.getString(KEY_LABEL)
+                                    val nextColor = cursor.getIntOrNull(KEY_COLOR)
+                                    val nextIcon = cursor.getStringOrNull(KEY_ICON)
+                                    val nextUuid = cursor.getString(KEY_UUID)
+                                    if (nextParent == parentId) {
+                                        cursor.moveToNext()
+                                        add(
+                                            CategoryExport(
+                                                nextUuid,
+                                                nextLabel,
+                                                nextIcon,
+                                                nextColor,
+                                                ingest(cursor, nextId)
+                                            )
+                                        )
+                                    } else return@buildList
+                                }
+                            }
+                        if (it.moveToFirst()) {
+                            ingest(it, null)
+                        } else null
+                    }?.let {
+                        "${backend.writeCategories(it)} -> $accountName"
+                    }
+                }.fold(
+                    onSuccess = { it },
+                    onFailure = {
+                        Timber.e(it)
+                        getString(R.string.write_fail_reason_cannot_write) + ": " + it.message
+                    }
+                )?.let { message -> _syncResult.update { message } }
+        }
+    }
+
+    fun syncCatsImport(accountName: String) {
+        viewModelScope.launch(context = coroutineContext()) {
+            GenericAccountService.getSyncBackendProvider(getApplication(), accountName)
+                .flatMap { it.categories }
+                .fold(
+                    onSuccess = { list ->
+                        "Imported ${list.sumOf { repository.ensureCategoryTree(it, null) }} categories"
+                                },
+                    onFailure = {
+                        Timber.e(it)
+                        it.safeMessage
+                    }
+                ).let { message -> _syncResult.update { message } }
+        }
+    }
+
     companion object {
 
         fun ingest(
             withColors: Boolean,
-            context: Context,
             cursor: Cursor,
             parentId: Long?,
             level: Int
         ): List<Category> =
             buildList {
                 if (!cursor.isBeforeFirst) {
-                    var index = 0
                     while (!cursor.isAfterLast) {
                         val nextParent = cursor.getLongOrNull(KEY_PARENTID)
                         val nextId = cursor.getLong(KEY_ROWID)
@@ -379,8 +455,10 @@ open class CategoryViewModel(
                         val nextLevel = cursor.getInt(KEY_LEVEL)
                         val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)
                         val nextBudget = cursor.getLongIfExistsOr0(KEY_BUDGET)
-                        val nextBudgetRollOverPrevious = cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_PREVIOUS)
-                        val nextBudgetRollOverNext = cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_NEXT)
+                        val nextBudgetRollOverPrevious =
+                            cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_PREVIOUS)
+                        val nextBudgetRollOverNext =
+                            cursor.getLongIfExistsOr0(KEY_BUDGET_ROLLOVER_NEXT)
                         val nextBudgetOneTime = cursor.getIntIfExistsOr0(KEY_ONE_TIME) != 0
                         if (nextParent == parentId) {
                             check(level == nextLevel)
@@ -394,7 +472,6 @@ open class CategoryViewModel(
                                     nextPath,
                                     ingest(
                                         withColors,
-                                        context,
                                         cursor,
                                         nextId,
                                         level + 1
@@ -403,10 +480,14 @@ open class CategoryViewModel(
                                     nextColor,
                                     nextIcon,
                                     nextSum,
-                                    BudgetAllocation(nextBudget, nextBudgetRollOverPrevious, nextBudgetRollOverNext, nextBudgetOneTime)
+                                    BudgetAllocation(
+                                        nextBudget,
+                                        nextBudgetRollOverPrevious,
+                                        nextBudgetRollOverNext,
+                                        nextBudgetOneTime
+                                    )
                                 )
                             )
-                            index++
                         } else return@buildList
                     }
                 }

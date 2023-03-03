@@ -592,7 +592,6 @@
     <string name="upgrade_now">Atualizar</string>
     <string name="pref_backup_cloud_title">Armazenar no destino de sincronização</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
-    <string name="auto_backup_cloud_failure">Ocorreu um erro ao tentar armazenar o ficheiro de backup %1$s no destino %2$s:</string>
     <string name="auto_backup_cloud_success">O ficheiro de backup %1$s foi armazenado com sucesso no destino %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Atalhos podem ser adicionados ao se pressionar longamente o ícone da app no ecrã inicial.</string>
     <string name="currency_symbol">Símbolo da moeda</string>

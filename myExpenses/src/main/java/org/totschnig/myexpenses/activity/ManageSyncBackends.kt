@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo
 import androidx.activity.result.contract.ActivityResultContracts
+import arrow.core.flatMap
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -44,7 +45,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
 
     fun reconfigure(syncAccount: String) {
-        BackendService.forAccount(syncAccount).instantiate()?.let {
+        BackendService.forAccount(syncAccount).flatMap { it.instantiate() }.onSuccess {
             reconfigure.launch(
                 Intent(this, it.setupActivityClass).apply {
                     action = ACTION_RECONFIGURE

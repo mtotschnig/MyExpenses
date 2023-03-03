@@ -36,5 +36,7 @@
     <string name="encryption">"Şifreleme"</string>
     <string name="learn_more">"Daha fazla bilgi"</string>
     <string name="show_all">"Tümünü göster"</string>
+    <string name="write_fail_reason_cannot_write">"İçerik yazılırken hata oluştu"</string>
+    <string name="not_exist_file_desc">"Dosya mevcut değil"</string>
 </resources>
 

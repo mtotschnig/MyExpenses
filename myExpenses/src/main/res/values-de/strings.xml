@@ -585,7 +585,6 @@
     <string name="upgrade_now">Lizenz kaufen</string>
     <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
     <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
-    <string name="auto_backup_cloud_failure">Beim Versuch, Sicherungsdatei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
     <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
     <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
     <string name="currency_symbol">Währungssymbol</string>

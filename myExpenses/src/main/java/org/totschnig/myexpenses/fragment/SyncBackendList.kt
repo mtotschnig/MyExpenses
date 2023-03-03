@@ -90,7 +90,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     }
 
     private fun featureForAccount(account: String): Feature? =
-        BackendService.forAccount(account).feature
+        BackendService.forAccount(account).getOrNull()?.feature
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -156,7 +156,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                     syncBackendAdapter.getBackendLabel(
                         getPackedPositionGroup(packedPosition)
                     )
-                ).supportsReconfiguration
+                ).getOrNull()?.supportsReconfiguration == true
             ) {
                 menu.add(Menu.NONE, R.id.RECONFIGURE_COMMAND, 0, R.string.menu_reconfigure)
             }

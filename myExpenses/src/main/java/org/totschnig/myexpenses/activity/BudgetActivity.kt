@@ -44,9 +44,9 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.math.BigDecimal
@@ -361,11 +361,11 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 it.isChecked = viewModel.allocatedOnly
             }
             val grouped = viewModel.grouping != Grouping.NONE
-            Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ROLLOVER_COMMAND), grouped)
+            menu.findItem(R.id.ROLLOVER_COMMAND).setEnabledAndVisible(grouped)
             if (grouped) {
-                Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ROLLOVER_TOTAL), hasRollovers == false)
-                Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ROLLOVER_CATEGORIES), hasRollovers == false)
-                Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ROLLOVER_CLEAR), hasRollovers == true)
+                menu.findItem(R.id.ROLLOVER_TOTAL).setEnabledAndVisible(hasRollovers == false)
+                menu.findItem(R.id.ROLLOVER_CATEGORIES).setEnabledAndVisible(hasRollovers == false)
+                menu.findItem(R.id.ROLLOVER_CLEAR).setEnabledAndVisible(hasRollovers == true)
             }
         }
         return true

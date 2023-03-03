@@ -36,5 +36,7 @@
     <string name="encryption">"ការអ៊ីនគ្រីប"</string>
     <string name="learn_more">"ស្វែងយល់បន្ថែម"</string>
     <string name="show_all">"បង្ហាញ​ទាំងអស់"</string>
+    <string name="write_fail_reason_cannot_write">"កំហុស​ក្នុង​ការ​សរសេរ​មាតិកា"</string>
+    <string name="not_exist_file_desc">"គ្មាន​ឯកសារ។ "</string>
 </resources>
 

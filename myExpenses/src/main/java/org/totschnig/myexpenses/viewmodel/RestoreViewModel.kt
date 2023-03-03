@@ -106,32 +106,22 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
             val workingDir = AppDirHelper.cacheDir(application)
             try {
-
-                val syncBackendProvider: SyncBackendProvider
                 val inputStream: PushbackInputStream? = if (syncAccountName != null) {
                     val account = GenericAccountService.getAccount(syncAccountName)
-                    try {
-                        syncBackendProvider =
-                            SyncBackendProviderFactory.getLegacy(application, account, false)
-                    } catch (throwable: Throwable) {
+                    SyncBackendProviderFactory[application, account, false].onFailure {
                         val error = Exception(
                             "Unable to get sync backend provider for $syncAccountName",
-                            throwable
+                            it
                         )
                         CrashHandler.report(error)
                         failureResult(error)
                         return@launch
-                    }
-                    try {
-                        EncryptionHelper.wrap(
-                            syncBackendProvider.getInputStreamForBackup(
-                                backupFromSync!!
-                            )
-                        )
-                    } catch (e: IOException) {
-                        failureResult(e)
+                    }.mapCatching {
+                        EncryptionHelper.wrap(it.getInputStreamForBackup(backupFromSync!!))
+                    }.onFailure {
+                        failureResult(it)
                         return@launch
-                    }
+                    }.getOrNull()
                 } else {
                     EncryptionHelper.wrap(contentResolver.openInputStream(fileUri!!))
                 }
