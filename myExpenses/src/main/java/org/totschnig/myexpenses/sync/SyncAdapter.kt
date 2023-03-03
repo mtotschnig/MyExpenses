@@ -16,7 +16,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.OperationApplicationException
 import android.content.SyncResult
-import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.net.Uri
@@ -37,7 +36,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getIntOrNull
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -46,7 +44,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateS
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
 import org.totschnig.myexpenses.sync.SyncBackendProvider.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
@@ -414,7 +411,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                     // on debug build for auditing purposes, we keep changes in the table
                                     provider.delete(
                                         TransactionProvider.CHANGES_URI,
-                                        KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                                        "$KEY_ACCOUNTID = ? AND $KEY_SYNC_SEQUENCE_LOCAL <= ?",
                                         arrayOf(accountId.toString(), lastSyncedLocal.toString())
                                     )
                                 }
@@ -717,7 +714,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                         TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER
                     ).build(),
                 currentSyncIncrease,
-                KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
+                "$KEY_ROWID = ? AND $KEY_SYNC_SEQUENCE_LOCAL < ?",
                 arrayOf(accountId.toString(), nextSequence.toString())
             )
 
@@ -816,7 +813,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         val result: String? = try {
             provider.query(
                 TransactionProvider.SETTINGS_URI, arrayOf(KEY_VALUE),
-                KEY_KEY + " = ?", arrayOf(prefKey), null
+                "$KEY_KEY = ?", arrayOf(prefKey), null
             )?.use {
                 if (it.moveToFirst()) {
                     it.getString(0)
