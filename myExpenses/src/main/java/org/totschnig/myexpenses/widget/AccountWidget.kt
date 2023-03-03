@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.doAsync
+import org.totschnig.myexpenses.util.safeMessage
 
 const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
@@ -71,21 +72,27 @@ class AccountWidget :
         appWidgetId: Int,
         accountId: String
     ) {
-        val widget = AccountRemoteViewsFactory.buildCursor(context, accountId)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                RemoteViews(context.packageName, R.layout.widget_row).also { widget ->
-                    AccountRemoteViewsFactory.populate(
-                        context, widget, cursor,
-                        AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
-                        availableWidth(context, appWidgetManager, appWidgetId),
-                        Pair(appWidgetId, clickBaseIntent(context))
-                    )
+        val widget = kotlin.runCatching {
+            AccountRemoteViewsFactory.buildCursor(context, accountId)
+        }.mapCatching {
+            it?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    RemoteViews(context.packageName, R.layout.widget_row).also { widget ->
+                        AccountRemoteViewsFactory.populate(
+                            context, widget, cursor,
+                            AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
+                            availableWidth(context, appWidgetManager, appWidgetId),
+                            Pair(appWidgetId, clickBaseIntent(context))
+                        )
+                    }
+                } else {
+                    throw Exception(context.getString(R.string.account_deleted))
                 }
-            } else RemoteViews(context.packageName, R.layout.widget_list).apply {
-                setTextViewText(R.id.emptyView, context.getString(R.string.account_deleted))
+            } ?: throw Exception("Cursor returned null")
+        }.getOrElse {
+            RemoteViews(context.packageName, R.layout.widget_list).apply {
+                setTextViewText(R.id.emptyView, it.safeMessage)
             }
-        } ?: RemoteViews(context.packageName, R.layout.widget_list).apply {
-            setTextViewText(R.id.emptyView, "Cursor returned null")
         }
         appWidgetManager.updateAppWidget(appWidgetId, widget)
     }
