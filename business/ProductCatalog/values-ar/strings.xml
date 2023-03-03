@@ -19,4 +19,5 @@
     <string name="print_title">طباعة</string>
     <string name="splittransaction_title">تقسيم العمليات</string>
     <string name="synchronization_title">تزامن سحابي</string>
+    <string name="adfree_description">لا إعلانات.</string>
 </resources>
