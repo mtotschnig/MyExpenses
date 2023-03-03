@@ -8,7 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -49,20 +51,24 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
     }
 
     fun shareDebt(debt: Debt, exportFormat: DebtViewModel.ExportFormat, snackBarContainer: View?) {
-        showProgressSnackBar(getString(R.string.progress_dialog_printing, exportFormat.name), container = snackBarContainer)
-        when(exportFormat) {
-            DebtViewModel.ExportFormat.HTML -> debtViewModel.exportHtml(this, debt).observe(this) { uri ->
-                dismissSnackBar()
+        showProgressSnackBar(
+            getString(R.string.progress_dialog_printing, exportFormat.name),
+            container = snackBarContainer
+        )
+        when (exportFormat) {
+            DebtViewModel.ExportFormat.HTML -> debtViewModel.exportHtml(this, debt)
+                .observe(this) { uri ->
+                    dismissSnackBar()
 /*                startActivity(Intent(Intent.ACTION_VIEW).apply {
                     setDataAndType(uri, "text/html")
                     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 })*/
-                ShareCompat.IntentBuilder(this)
-                    .setType(exportFormat.mimeType)
-                    .setSubject(debt.title(this))
-                    .setStream(uri)
-                    .startChooser()
-            }
+                    ShareCompat.IntentBuilder(this)
+                        .setType(exportFormat.mimeType)
+                        .setSubject(debt.title(this))
+                        .setStream(uri)
+                        .startChooser()
+                }
             DebtViewModel.ExportFormat.TXT -> debtViewModel.exportText(this, debt).observe(this) {
                 dismissSnackBar()
                 Timber.d("Debt Export: %s", it)
@@ -110,7 +116,9 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
 
     private fun deleteDebtDo(debtId: Long) {
         debtViewModel.deleteDebt(debtId).observe(this) {
-            if (!it) {
+            if (it) {
+                (supportFragmentManager.findFragmentByTag(PartiesList.DIALOG_DEBT_DETAILS) as? DebtDetailsDialogFragment)?.dismiss()
+            } else {
                 lifecycleScope.launchWhenResumed {
                     showSnackBar("ERROR", Snackbar.LENGTH_LONG, null)
                 }
