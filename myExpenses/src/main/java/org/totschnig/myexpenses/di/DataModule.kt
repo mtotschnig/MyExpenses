@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabaseCorruptException
+import android.database.sqlite.SQLiteException
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
@@ -23,7 +24,6 @@ import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
 import org.totschnig.myexpenses.provider.doRepairRequerySchema
-import org.totschnig.myexpenses.util.failure
 import timber.log.Timber
 import java.io.File
 import javax.inject.Named
@@ -109,8 +109,12 @@ open class DataModule {
     open fun providePeekHelper(prefHandler: PrefHandler): DatabaseVersionPeekHelper =
         DatabaseVersionPeekHelper { context, path ->
             kotlin.runCatching {
-                val version = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
-                    .use { database ->
+                val version = try {
+                    SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
+                } catch (e: SQLiteException) {
+                    doRepairRequerySchema(path)
+                    null
+                }?.use { database ->
                         database.version.also {
                             if (it > DATABASE_VERSION)
                                 throw Throwable(
