@@ -358,9 +358,21 @@
                 android:resource="@xml/sync_adapter" />
         </service>
 
-        <receiver android:name=".service.GenericAlarmReceiver" android:exported="true">
+        <receiver
+            android:name=".service.BackupPurgeReceiver"
+            android:exported="true" />
+
+        <receiver android:name=".service.LegacyAccountChangedReceiver"
+            android:exported="true" android:enabled="@bool/isBelow26">
             <intent-filter>
                 <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".service.AccountRemovedReceiver"
+            android:exported="true" android:enabled="@bool/is26">
+            <intent-filter>
+                <action android:name="android.accounts.action.ACCOUNT_REMOVED" />
             </intent-filter>
         </receiver>
 

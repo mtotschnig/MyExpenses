@@ -5,9 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RemoteViews
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
@@ -16,7 +13,7 @@ import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.doAsync
 
 const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
@@ -53,20 +50,6 @@ class AccountWidget :
     ) {
         doAsync {
             super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
-        }
-    }
-
-    private fun doAsync(
-        block: suspend () -> Unit
-    ) {
-        val pendingResult = goAsync()
-        CoroutineScope(Dispatchers.IO).launch {
-            block()
-            try {
-                pendingResult.finish()
-            } catch (e: Exception) {
-                CrashHandler.report(e)
-            }
         }
     }
 

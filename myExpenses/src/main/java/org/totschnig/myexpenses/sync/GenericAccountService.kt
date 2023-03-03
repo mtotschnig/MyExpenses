@@ -130,7 +130,7 @@ class GenericAccountService : Service() {
 
     companion object {
         const val AUTH_TOKEN_TYPE = "Default"
-        private const val ACCOUNT_TYPE = BuildConfig.APPLICATION_ID + ".sync"
+        const val ACCOUNT_TYPE = BuildConfig.APPLICATION_ID + ".sync"
         const val KEY_SYNC_PROVIDER_URL = "sync_provider_url"
         const val KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name"
         const val KEY_PASSWORD_ENCRYPTION = "passwordEncryption"

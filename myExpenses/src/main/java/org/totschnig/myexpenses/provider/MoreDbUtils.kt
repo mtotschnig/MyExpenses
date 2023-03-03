@@ -25,7 +25,9 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.ColorUtils
@@ -564,4 +566,18 @@ fun doRepairRequerySchema(path: String) {
         db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_EXTENDED")
         db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_UNCOMMITTED")
     }
+}
+
+fun checkSyncAccounts(context: Context) {
+    val validAccounts = getAccountNames(context)
+    val where =
+        if (validAccounts.isNotEmpty())
+            "$KEY_SYNC_ACCOUNT_NAME NOT " + WhereFilter.Operation.IN.getOp(validAccounts.size)
+        else null
+    context.contentResolver.update(
+        TransactionProvider.ACCOUNTS_URI, ContentValues(1).apply {
+            putNull(KEY_SYNC_ACCOUNT_NAME)
+        },
+        where, validAccounts
+    )
 }

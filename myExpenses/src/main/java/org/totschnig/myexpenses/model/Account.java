@@ -15,46 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.accounts.AccountManager;
-import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.RemoteException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.util.ShortcutHelper;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.viewmodel.data.Debt;
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.annotation.WorkerThread;
-
 import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -87,6 +47,45 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
 import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
+
+import android.accounts.AccountManager;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
+
+import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.util.ShortcutHelper;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.viewmodel.data.Debt;
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Account represents an account stored in the database.
@@ -272,17 +271,6 @@ public class Account extends Model implements DistributionAccountInfo {
       account = getInstanceFromDb(0, true);
     }
     return account;
-  }
-
-  public static void checkSyncAccounts(Context context) {
-    String[] validAccounts = GenericAccountService.getAccountNames(context);
-    ContentValues values = new ContentValues(1);
-    values.putNull(KEY_SYNC_ACCOUNT_NAME);
-    String where = validAccounts.length > 0 ?
-        KEY_SYNC_ACCOUNT_NAME + " NOT " + WhereFilter.Operation.IN.getOp(validAccounts.length) :
-        null;
-    context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
-        where, validAccounts);
   }
 
   public static void delete(long id) throws RemoteException, OperationApplicationException {

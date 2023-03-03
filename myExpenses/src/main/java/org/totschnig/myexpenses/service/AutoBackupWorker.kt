@@ -83,7 +83,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
                         PendingIntent.getBroadcast(
                             applicationContext,
                             0,
-                            Intent(applicationContext, GenericAlarmReceiver::class.java).setAction(
+                            Intent(applicationContext, BackupPurgeReceiver::class.java).setAction(
                                 ACTION_BACKUP_PURGE
                             ),
                             //noinspection InlinedApi
@@ -97,7 +97,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
                         PendingIntent.getBroadcast(
                             applicationContext,
                             0,
-                            Intent(applicationContext, GenericAlarmReceiver::class.java).setAction(
+                            Intent(applicationContext, BackupPurgeReceiver::class.java).setAction(
                                 ACTION_BACKUP_PURGE_CANCEL
                             ),
                             //noinspection InlinedApi
