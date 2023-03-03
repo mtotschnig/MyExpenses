@@ -556,6 +556,7 @@ fun doRepairRequerySchema(path: String) {
         null,
         io.requery.android.database.sqlite.SQLiteDatabase.OPEN_READWRITE
     ).use { db ->
+        if (db.version < 132 || db.version > 133) throw IllegalStateException()
         db.execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
         db.execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
         db.execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
