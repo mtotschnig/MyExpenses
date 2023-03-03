@@ -6,7 +6,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
-import java.util.UUID
 import kotlin.math.absoluteValue
 
 @Immutable
