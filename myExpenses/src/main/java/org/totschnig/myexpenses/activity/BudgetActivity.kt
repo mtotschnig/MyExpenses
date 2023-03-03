@@ -161,6 +161,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
             }
         }
+        viewModel.setAllocatedOnly(prefHandler.getBoolean(templateForAllocatedOnlyKey(budgetId), false))
     }
 
     private fun showEditBudgetDialog(
