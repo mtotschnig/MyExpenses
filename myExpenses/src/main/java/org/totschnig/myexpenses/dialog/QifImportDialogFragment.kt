@@ -125,6 +125,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
         }
         lifecycleScope.launchWhenStarted {
             viewModel.accounts.collect {
+                accountsAdapter.clear()
                 accountsAdapter.addAll(it)
                 accountSpinner.setSelection(accountsAdapter.getPosition(viewModel.accountId))
             }

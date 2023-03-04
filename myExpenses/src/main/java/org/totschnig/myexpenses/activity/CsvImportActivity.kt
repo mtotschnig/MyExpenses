@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
+import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import icepick.State
 import org.apache.commons.csv.CSVRecord
@@ -18,6 +19,7 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
 import java.io.FileNotFoundException
 
@@ -50,8 +52,9 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.PARSE_COMMAND)?.isEnabled = parseFragment.isReady && idle
-        menu.findItem(R.id.IMPORT_COMMAND)?.isEnabled = idle
+        val allowed = parseFragment.isReady && idle
+        menu.findItem(R.id.PARSE_COMMAND)?.isEnabled = allowed
+        menu.findItem(R.id.IMPORT_COMMAND)?.isEnabled = allowed
         super.onPrepareOptionsMenu(menu)
         return true
     }
@@ -88,17 +91,22 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
 
     private fun addTab(index: Int) {
         when (index) {
-            0 -> mSectionsPagerAdapter.addFragment(CsvImportParseFragment.newInstance(), getString(
-                    R.string.menu_parse))
-            1 -> mSectionsPagerAdapter.addFragment(CsvImportDataFragment.newInstance(), getString(
-                    R.string.csv_import_preview))
+            0 -> mSectionsPagerAdapter.addFragment(
+                CsvImportParseFragment.newInstance(),
+                getString(R.string.menu_parse)
+            )
+            1 -> mSectionsPagerAdapter.addFragment(
+                CsvImportDataFragment.newInstance(),
+                getString(R.string.csv_import_preview)
+            )
         }
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.SET_HEADER_COMMAND) {
             (supportFragmentManager.findFragmentByTag(
-                    mSectionsPagerAdapter.getFragmentName(1)) as? CsvImportDataFragment)?.setHeader(args.getInt(CsvImportDataFragment.KEY_HEADER_LINE_POSITION))
+                mSectionsPagerAdapter.getFragmentName(1)
+            ) as? CsvImportDataFragment)?.setHeader(args.getInt(CsvImportDataFragment.KEY_HEADER_LINE_POSITION))
         }
     }
 
@@ -125,7 +133,8 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         setDataReady()
                     }
                     (supportFragmentManager.findFragmentByTag(
-                            mSectionsPagerAdapter.getFragmentName(1)) as? CsvImportDataFragment)?.let {
+                        mSectionsPagerAdapter.getFragmentName(1)
+                    ) as? CsvImportDataFragment)?.let {
                         it.setData(data)
                         binding.viewPager.currentItem = 1
                     }
@@ -133,59 +142,87 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                     showSnackBar(R.string.parse_error_no_data_found)
                 }
             }.onFailure {
-                showSnackBar(when (it) {
-                    is FileNotFoundException -> getString(R.string.parse_error_file_not_found, uri)
-                    else -> getString(R.string.parse_error_other_exception, it.message)
-                })
+                showSnackBar(
+                    when (it) {
+                        is FileNotFoundException -> getString(
+                            R.string.parse_error_file_not_found,
+                            uri
+                        )
+                        else -> getString(R.string.parse_error_other_exception, it.message)
+                    }
+                )
             }
         }
     }
 
     fun importData(dataSet: List<CSVRecord>, columnToFieldMap: IntArray, discardedRows: Int) {
         val totalToImport = dataSet.size
-        showProgress(total = totalToImport)
-        csvImportViewModel.progress.observe(this) {
-            showProgress(total = totalToImport, progress = it)
-        }
-        csvImportViewModel.importData(dataSet, columnToFieldMap, dateFormat, parseFragment.autoFillCategories) {
-            if (accountId == 0L) {
-                Account(getString(R.string.pref_import_title, "CSV"), currency, 0, accountType).apply {
-                    save()
-                }
-            } else {
-                @Suppress("DEPRECATION") //runs on background thread
-                Account.getInstanceFromDb(accountId)
+        accountId.takeIf { it != AdapterView.INVALID_ROW_ID }?.also { accountId ->
+            showProgress(total = totalToImport)
+            csvImportViewModel.progress.observe(this) {
+                showProgress(total = totalToImport, progress = it)
             }
-        }.observe(this) { result ->
-            hideProgress()
-            result.onSuccess {
-                if (!mUsageRecorded) {
-                    recordUsage(ContribFeature.CSV_IMPORT)
-                    mUsageRecorded = true
+            csvImportViewModel.importData(
+                dataSet,
+                columnToFieldMap,
+                dateFormat,
+                parseFragment.autoFillCategories
+            ) {
+                if (accountId == 0L) {
+                    Account(
+                        getString(R.string.pref_import_title, "CSV"),
+                        currency,
+                        0,
+                        accountType
+                    ).apply {
+                        save()
+                    }
+                } else {
+                    @Suppress("DEPRECATION") //runs on background thread
+                    Account.getInstanceFromDb(accountId)
                 }
-                val success = it.first
-                val failure: Int = it.second
-                val count: Int = success.first
-                val label = success.second
-                var msg = "${getString(R.string.import_transactions_success, count, label)}."
-                if (failure > 0) {
-                    msg += " ${getString(R.string.csv_import_records_failed, failure)}"
-                }
-                if (discardedRows > 0) {
-                    msg += " ${getString(R.string.csv_import_records_discarded, discardedRows)}"
-                }
-                showMessage(msg,
+            }.observe(this) { result ->
+                hideProgress()
+                result.onSuccess {
+                    if (!mUsageRecorded) {
+                        recordUsage(ContribFeature.CSV_IMPORT)
+                        mUsageRecorded = true
+                    }
+                    val success = it.first
+                    val failure: Int = it.second
+                    val count: Int = success.first
+                    val label = success.second
+                    var msg = "${getString(R.string.import_transactions_success, count, label)}."
+                    if (failure > 0) {
+                        msg += " ${getString(R.string.csv_import_records_failed, failure)}"
+                    }
+                    if (discardedRows > 0) {
+                        msg += " ${getString(R.string.csv_import_records_discarded, discardedRows)}"
+                    }
+                    showMessage(
+                        msg,
                         neutral = MessageDialogFragment.nullButton(R.string.button_label_continue),
-                        positive = MessageDialogFragment.Button(R.string.button_label_close, R.id.CLOSE_COMMAND, null))
-            }.onFailure {
-                showSnackBar(it.message ?: it.javaClass.simpleName)
+                        positive = MessageDialogFragment.Button(
+                            R.string.button_label_close,
+                            R.id.CLOSE_COMMAND,
+                            null
+                        )
+                    )
+                }.onFailure {
+                    showSnackBar(it.message ?: it.javaClass.simpleName)
+                }
             }
+        } ?: kotlin.run {
+            val exception = Exception("No account selected")
+            CrashHandler.report(exception)
+            showSnackBar(exception.message!!)
         }
     }
 
     private val parseFragment: CsvImportParseFragment
         get() = supportFragmentManager.findFragmentByTag(
-                mSectionsPagerAdapter.getFragmentName(0)) as CsvImportParseFragment
+            mSectionsPagerAdapter.getFragmentName(0)
+        ) as CsvImportParseFragment
 
     val accountId: Long
         get() {

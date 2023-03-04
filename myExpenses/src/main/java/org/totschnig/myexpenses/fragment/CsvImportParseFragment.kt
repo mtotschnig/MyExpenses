@@ -104,6 +104,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         }
         lifecycleScope.launchWhenStarted {
             viewModel.accounts.collect {
+                accountsAdapter.clear()
                 accountsAdapter.addAll(it)
                 binding.AccountTable.Account.setSelection(accountsAdapter.getPosition(viewModel.accountId))
             }
