@@ -15,9 +15,8 @@ import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.displayName
+import timber.log.Timber
 import java.io.File
-import java.io.IOException
-import java.security.GeneralSecurityException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,6 +55,7 @@ fun doBackup(
             CrashHandler.report(e)
             throw e
         } finally {
+            Timber.w("now cleaning up cacheDir")
             getBackupDbFile(cacheDir).delete()
             getBackupPrefFile(cacheDir).delete()
         }

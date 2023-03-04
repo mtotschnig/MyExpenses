@@ -70,6 +70,6 @@ public class TimePreference extends IntegerDialogPreference {
         if (c.getTimeInMillis() < now) {
             c.add(Calendar.DAY_OF_MONTH, 1);
         }
-        return c.getTime().getTime() - System.currentTimeMillis();
+        return c.getTime().getTime() - now;
     }
 }

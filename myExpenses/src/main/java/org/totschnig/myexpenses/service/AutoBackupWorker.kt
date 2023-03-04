@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.Operation
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import org.totschnig.myexpenses.R
@@ -18,6 +19,7 @@ import org.totschnig.myexpenses.provider.listOldBackups
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 abstract class BaseAutoBackupWorker(context: Context, workerParameters: WorkerParameters): BaseWorker(context, workerParameters) {
@@ -33,17 +35,20 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
         const val ACTION_BACKUP_PURGE_CANCEL = "BACKUP_PURGE_CANCEL"
         const val ACTION_BACKUP_PURGE = "BACKUP_PURGE"
 
-        private fun WorkManager.cancel() = cancelUniqueWork(WORK_NAME)
-        private fun WorkManager.enqueue(initialDelayMillis: Long?) = enqueueUniqueWork(
-            WORK_NAME,
-            ExistingWorkPolicy.REPLACE,
-            OneTimeWorkRequestBuilder<AutoBackupWorker>()
-                .apply {
-                    initialDelayMillis?.let {
-                        setInitialDelay(it, TimeUnit.MILLISECONDS)
-                    }
-                }.build()
-        )
+        private fun WorkManager.cancelWork() = cancelUniqueWork(WORK_NAME)
+        private fun WorkManager.enqueue(initialDelayMillis: Long?): Operation {
+            Timber.w("enqueuing $WORK_NAME with initialDelayMillis $initialDelayMillis")
+            return enqueueUniqueWork(
+                WORK_NAME,
+                ExistingWorkPolicy.REPLACE,
+                OneTimeWorkRequestBuilder<AutoBackupWorker>()
+                    .apply {
+                        initialDelayMillis?.let {
+                            setInitialDelay(it, TimeUnit.MILLISECONDS)
+                        }
+                    }.build()
+            )
+        }
         private const val WORK_NAME = "AutoBackupService"
         fun enqueueOrCancel(context: Context, prefHandler: PrefHandler) {
             val workManager = WorkManager.getInstance(context)
@@ -55,11 +60,11 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
                     prefHandler, PrefKey.AUTO_BACKUP_TIME
                 ))
             } else {
-                workManager.cancel()
+                workManager.cancelWork()
             }
         }
         fun cancel(context: Context) {
-            WorkManager.getInstance(context).cancel()
+            WorkManager.getInstance(context).cancelWork()
         }
         fun enqueue(context: Context) {
             WorkManager.getInstance(context).enqueue(null)
@@ -67,6 +72,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
     }
 
     override suspend fun doWork(): Result {
+        Timber.w("now doWork $WORK_NAME")
         val syncAccount = prefHandler.getString(PrefKey.AUTO_BACKUP_CLOUD, null)
         doBackup(applicationContext, prefHandler, syncAccount).onSuccess { (_, oldBackups) ->
             if (oldBackups.isNotEmpty()) {
