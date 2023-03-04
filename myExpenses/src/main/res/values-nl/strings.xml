@@ -906,4 +906,8 @@
         <item quantity="one">Eén oud back-upbestand kon niet worden verwijderd.</item>
         <item quantity="other">%d oude back-upbestanden konden niet worden verwijderd.</item>
     </plurals>
+    <string name="encrypt_database_info">De database wordt versleuteld met een wachtwoord dat niet van dit apparaat kan worden gehaald. Bijgevolg wordt er geen back-up van gemaakt door de back-updienst van uw apparaat.</string>
+    <string name="database_is_encrypted">Database is versleuteld.</string>
+    <string name="menu_reconfigure">Herconfigureren</string>
+    <string name="encrypt_database">Database versleutelen</string>
 </resources>
