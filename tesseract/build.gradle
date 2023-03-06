@@ -21,7 +21,7 @@ android {
 dependencies {
     implementation project(":ocr")
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
-    implementation 'com.github.adaptech-cz:tesseract4android:4.3.0'
+    implementation 'cz.adaptech.tesseract4android:tesseract4android-openmp:4.3.0'
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
