@@ -74,13 +74,13 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
-        "${if (fromAccountDir) accountPath else basePath}/$fileName".takeIf {
-            exists(
-                it
-            )
-        }?.let {
-            StreamReader(getInputStream(it)).read()
+    override fun readFileContents(
+        fromAccountDir: Boolean,
+        fileName: String,
+        maybeDecrypt: Boolean
+    ) = "${if (fromAccountDir) accountPath else basePath}/$fileName"
+        .takeIf { exists(it) }?.let { file ->
+            getInputStream(file)?.use { StreamReader(maybeDecrypt(it, maybeDecrypt)).read() }
         }
 
     @Throws(IOException::class)
@@ -224,10 +224,14 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
 
     @Throws(IOException::class)
     private fun saveUriToFolder(fileName: String, uri: Uri, folder: String, maybeEncrypt: Boolean) {
-        val `in` = context.contentResolver.openInputStream(uri)
-            ?: throw IOException("Could not read $uri")
-        val finalFileName = getLastFileNamePart(fileName)
-        saveInputStream("$folder/$finalFileName", if (maybeEncrypt) maybeEncrypt(`in`) else `in`)
+        saveInputStream(
+            "$folder/${getLastFileNamePart(fileName)}",
+            maybeEncrypt(
+                context.contentResolver.openInputStream(uri)
+                    ?: throw IOException("Could not read $uri"),
+                maybeEncrypt
+            )
+        )
     }
 
     override fun getLastSequence(start: SequenceNumber): SequenceNumber {

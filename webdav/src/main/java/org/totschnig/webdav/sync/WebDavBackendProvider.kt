@@ -17,6 +17,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.internal.closeQuietly
 import okio.BufferedSink
 import okio.source
+import org.acra.util.StreamReader
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SequenceNumber
@@ -88,15 +89,21 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    override fun readFileContents(fromAccountDir: Boolean, fileName: String) = if (fromAccountDir)
-            readResourceIfExists(webDavClient.getResource(fileName, accountUuid)) else
-            readResourceIfExists(webDavClient.getResource(fileName))
+    override fun readFileContents(
+        fromAccountDir: Boolean,
+        fileName: String,
+        maybeDecrypt: Boolean
+    ): String? = readResourceIfExists(
+        if (fromAccountDir)
+            webDavClient.getResource(fileName, accountUuid)
+        else
+            webDavClient.getResource(fileName), maybeDecrypt)
 
     @Throws(IOException::class)
-    private fun readResourceIfExists(resource: LockableDavResource): String? {
+    private fun readResourceIfExists(resource: LockableDavResource, maybeDecrypt: Boolean): String? {
         return if (resource.exists()) {
             try {
-                resource["text/plain"].string()
+               StreamReader(maybeDecrypt(resource["text/plain"].byteStream(), maybeDecrypt)).read()
             } catch (e: HttpException) {
                 throw IOException(e)
             } catch (e: DavException) {
@@ -213,7 +220,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             override fun writeTo(sink: BufferedSink) {
                 val `in` = context.contentResolver.openInputStream(uri)
                     ?: throw IOException("Could not read $uri")
-                val source = (if (maybeEncrypt) maybeEncrypt(`in`) else `in`).source()
+                val source = maybeEncrypt(`in`, maybeEncrypt).source()
                 try {
                     sink.writeAll(source)
                 } finally {

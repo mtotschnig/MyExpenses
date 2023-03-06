@@ -41,12 +41,19 @@ class GoogleDriveBackendProvider internal constructor(
     }
     override val sharedPreferencesName = "google_drive"
 
-    override fun readFileContents(fromAccountDir: Boolean, fileName: String): String? {
+    override fun readFileContents(
+        fromAccountDir: Boolean,
+        fileName: String,
+        maybeDecrypt: Boolean
+    ): String? {
         return try {
             StreamReader(
-                getInputStream(
-                    if (fromAccountDir) accountFolder else baseFolder,
-                    fileName
+                maybeDecrypt(
+                    getInputStream(
+                        if (fromAccountDir) accountFolder else baseFolder,
+                        fileName
+                    ),
+                    maybeDecrypt
                 )
             ).read()
         } catch (e: FileNotFoundException) {

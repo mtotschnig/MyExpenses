@@ -72,9 +72,9 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     // currently not used
     override val sharedPreferencesName = "saf" // currently not used
 
-    override fun readFileContents(fromAccountDir: Boolean, fileName: String) =
+    override fun readFileContents(fromAccountDir: Boolean, fileName: String, maybeDecrypt: Boolean) =
         (if (fromAccountDir) accountDir else baseDir).findFile(fileName)?.let { documentFile ->
-            contentResolver.openInputStream(documentFile.uri)?.use { StreamReader(it).read() }
+            contentResolver.openInputStream(documentFile.uri)?.use { StreamReader(maybeDecrypt(it, maybeDecrypt)).read() }
         }
 
     @Throws(IOException::class)
@@ -146,14 +146,13 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         )
     }
 
-    private fun getAccountMetaData(file: DocumentFile): Result<AccountMetaData> {
-        return try {
-            val inputStream = contentResolver.openInputStream(file.uri)
-            getAccountMetaDataFromInputStream(inputStream)
-        } catch (e: IOException) {
-            log().e(e)
-            Result.failure(e)
-        }
+    private fun getAccountMetaData(file: DocumentFile) = try {
+        getAccountMetaDataFromInputStream(
+            contentResolver.openInputStream(file.uri) ?: throw IOException()
+        )
+    } catch (e: IOException) {
+        log().e(e)
+        Result.failure(e)
     }
 
     override fun deleteLockTokenFile() {

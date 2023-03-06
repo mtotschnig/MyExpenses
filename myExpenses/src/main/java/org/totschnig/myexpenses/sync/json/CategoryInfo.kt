@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.sync.json
 
+import androidx.annotation.Keep
+
 interface ICategoryInfo {
     val uuid: String
     val label: String
@@ -7,6 +9,7 @@ interface ICategoryInfo {
     val color: Int?
 }
 
+@Keep
 data class CategoryInfo(
     override val uuid: String,
     override val label: String,
@@ -14,6 +17,7 @@ data class CategoryInfo(
     override val color: Int?
 ) : ICategoryInfo
 
+@Keep
 data class CategoryExport(
     override val uuid: String,
     override val label: String,

@@ -162,9 +162,20 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     @Throws(IOException::class)
-    protected fun maybeEncrypt(inputStream: InputStream): InputStream {
+    protected fun maybeEncrypt(inputStream: InputStream, maybeEncrypt: Boolean = true): InputStream =
+        if (maybeEncrypt && isEncrypted)  try {
+            EncryptionHelper.encrypt(
+                inputStream,
+                encryptionPassword
+            )
+        } catch (e: GeneralSecurityException) {
+            throw IOException(e)
+        }  else inputStream
+
+    @Throws(IOException::class)
+    protected fun maybeDecrypt(inputStream: InputStream, maybeDecrypt: Boolean = true): InputStream {
         return try {
-            if (isEncrypted) EncryptionHelper.encrypt(
+            if (maybeDecrypt && isEncrypted) EncryptionHelper.decrypt(
                 inputStream,
                 encryptionPassword
             ) else inputStream
@@ -174,22 +185,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     @Throws(IOException::class)
-    protected fun maybeDecrypt(inputStream: InputStream?): InputStream {
-        return try {
-            if (isEncrypted) EncryptionHelper.decrypt(
-                inputStream,
-                encryptionPassword
-            ) else inputStream!!
-        } catch (e: GeneralSecurityException) {
-            throw IOException(e)
-        }
-    }
-
-    @Throws(IOException::class)
-    protected fun toInputStream(fileContents: String, maybeEncrypt: Boolean): InputStream {
-        val inputStream: InputStream = ByteArrayInputStream(fileContents.toByteArray())
-        return if (maybeEncrypt) maybeEncrypt(inputStream) else inputStream
-    }
+    protected fun toInputStream(fileContents: String, maybeEncrypt: Boolean) =
+        maybeEncrypt(ByteArrayInputStream(fileContents.toByteArray()), maybeEncrypt)
 
     @Throws(IOException::class)
     protected fun getChangeSetFromInputStream(
@@ -243,7 +240,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     protected abstract fun getInputStreamForPicture(relativeUri: String): InputStream
 
-    protected fun getAccountMetaDataFromInputStream(inputStream: InputStream?): Result<AccountMetaData> =
+    protected fun getAccountMetaDataFromInputStream(inputStream: InputStream): Result<AccountMetaData> =
         try {
             BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { bufferedReader ->
                 val accountMetaData = gson.fromJson(bufferedReader, AccountMetaData::class.java)
@@ -359,7 +356,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
 
     protected abstract fun readFileContents(
         fromAccountDir: Boolean,
-        fileName: String
+        fileName: String,
+        maybeDecrypt: Boolean = false
     ): String?
 
     protected fun createWarningFile() {
@@ -387,7 +385,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
 
     override val categories: Result<List<CategoryExport>>
         get() = kotlin.runCatching {
-            readFileContents(false, categoriesFilename)?.let {
+            readFileContents(false, categoriesFilename, true)?.let {
                     gson.fromJson<List<CategoryExport>>(it, object : TypeToken<ArrayList<CategoryExport>>() {}.type)
             } ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
         }
