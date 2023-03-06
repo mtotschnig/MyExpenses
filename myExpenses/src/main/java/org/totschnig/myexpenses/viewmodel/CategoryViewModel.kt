@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
+import java.io.FileNotFoundException
 
 open class CategoryViewModel(
     application: Application,
@@ -427,7 +428,9 @@ open class CategoryViewModel(
                         "Imported ${list.sumOf { repository.ensureCategoryTree(it, null) }} categories"
                                 },
                     onFailure = {
-                        Timber.e(it)
+                        if (it !is FileNotFoundException) {
+                            Timber.e(it)
+                        }
                         it.safeMessage
                     }
                 ).let { message -> _syncResult.update { message } }
