@@ -19,6 +19,7 @@ import android.content.SyncResult
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.SparseArray
@@ -39,6 +40,7 @@ import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateSync
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
@@ -105,6 +107,9 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         val notificationId = account.hashCode()
         if (notificationContent[notificationId] == null) {
             notificationContent.put(notificationId, ArrayList())
+        }
+        if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(PrefKey.CURRENT_VERSION, -1) < 593) {
+            maybeRepairRequerySchema(context.getDatabasePath("data").path)
         }
         shouldNotify = getBooleanSetting(provider, PrefKey.SYNC_NOTIFICATION, true)
         if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) &&
