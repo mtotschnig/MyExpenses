@@ -757,7 +757,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                                 }
                             }
                         }
-                        changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
+                        changesCursor.getLongOrNull(KEY_CATID)?.takeIf { it > 0 }?.let { catId ->
                             provider.query(ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, catId),
                                 null, null, null, null
                             )?.use { cursor ->

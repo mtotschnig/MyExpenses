@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 135
+const val DATABASE_VERSION = 136
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -273,6 +273,29 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         db.execSQL(
             "ALTER TABLE currency add column sort_direction text not null check (sort_direction  in ('ASC','DESC')) default 'DESC'"
         )
+    }
+
+    fun upgradeTo136(db: SupportSQLiteDatabase) {
+        db.query(
+            "categories",
+            arrayOf("_id"),
+            "uuid is null",
+            null,
+            null,
+            null,
+            null
+        ).use {
+            it.asSequence.forEach {
+                db.update(
+                    "categories",
+                    ContentValues(1).apply {
+                        put(KEY_UUID, Model.generateUuid())
+                    },
+                    "_id = ?",
+                    arrayOf(it.getLong(0).toString())
+                )
+            }
+        }
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {

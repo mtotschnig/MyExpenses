@@ -222,12 +222,15 @@ fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
     categorySeparator = categorySeparator
 ) + ")"
 
-fun categoryPathFromLeave(rowId: String) = """
+fun categoryPathFromLeave(rowId: String): String {
+    check(rowId.toInt() > 0) { "rowId must be positive" }
+    return """
     WITH Tree as (SELECT parent_id, label, icon, uuid, color  from categories child where _id = $rowId
     UNION ALL
     SELECT parent.parent_id, parent.label, parent.icon, parent.uuid, parent.color from categories parent JOIN Tree on Tree.parent_id = parent._id
     ) SELECT * FROM Tree
 """.trimIndent()
+}
 
 /**
  * for transfer label of transfer_account, for transaction full breadcrumb of category

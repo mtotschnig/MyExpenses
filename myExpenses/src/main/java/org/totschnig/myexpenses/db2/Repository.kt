@@ -338,6 +338,7 @@ class Repository @Inject constructor(
     }
 
     fun ensureCategoryTree(categoryExport: CategoryExport, parentId: Long?): Int {
+        check(categoryExport.uuid.isNotEmpty())
         val (nextParent, created) = ensureCategory(categoryExport, parentId)
         var count = if(created) 1 else 0
         categoryExport.children.forEach {

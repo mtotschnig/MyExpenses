@@ -2249,6 +2249,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("CREATE UNIQUE INDEX categories_uuid ON categories(uuid)");
         MoreDbUtilsKt.insertUuidsForDefaultCategories(db, MyApplication.getInstance().getResources());
       }
+      if (oldVersion < 136) {
+        upgradeTo136(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
