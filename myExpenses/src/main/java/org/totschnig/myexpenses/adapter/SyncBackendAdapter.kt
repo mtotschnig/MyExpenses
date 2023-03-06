@@ -15,18 +15,20 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
+data class LocalAccountInfo(val uuid: String, val syncAccountName: String?, val isSealed: Boolean)
+
 class SyncBackendAdapter(
     context: Context,
     private val currencyContext: CurrencyContext,
     private var syncAccounts: List<Pair<String, Boolean>>
 ) : BaseExpandableListAdapter() {
     enum class SyncState {
-        SYNCED_TO_THIS, SYNCED_TO_OTHER, UNSYNCED, UNKNOWN, ERROR
+        SYNCED_TO_THIS, SYNCED_TO_OTHER, UNSYNCED, SEALED, UNKNOWN, ERROR
     }
 
     private val accountMetaDataMap = SparseArray<List<Result<AccountMetaData>>?>()
     private val layoutInflater = LayoutInflater.from(context)
-    private var localAccountInfo: Map<String, String?>? = null
+    private var localAccountInfo: List<LocalAccountInfo>? = null
 
     fun getMetaData(groupPosition: Int, childPosititon: Int) = getChild(groupPosition, childPosititon).getOrNull()
 
@@ -58,6 +60,10 @@ class SyncBackendAdapter(
                 SyncState.UNSYNCED, SyncState.SYNCED_TO_OTHER -> {
                     syncStateView.visibility = View.VISIBLE
                     syncStateView.setImageResource(R.drawable.ic_action_sync_unlink)
+                }
+                SyncState.SEALED -> {
+                    syncStateView.visibility = View.VISIBLE
+                    syncStateView.setImageResource(R.drawable.ic_lock)
                 }
             }
         }.onFailure {
@@ -132,8 +138,8 @@ class SyncBackendAdapter(
         return accountMetaDataMap[groupPosition] != null
     }
 
-    fun setLocalAccountInfo(uuid2syncMap: Map<String, String?>?) {
-        localAccountInfo = uuid2syncMap
+    fun setLocalAccountInfo(localAccountInfo: List<LocalAccountInfo>) {
+        this.localAccountInfo = localAccountInfo
         notifyDataSetChanged()
     }
 
@@ -144,27 +150,16 @@ class SyncBackendAdapter(
         )
     }
 
-    private fun getSyncState(groupPosition: Int, childPosition: Int): SyncState {
-        val syncAccount = getBackendLabel(groupPosition)
-        val result = getChild(groupPosition, childPosition)
-        result.onSuccess { accountMetaData ->
-            val uuid = accountMetaData.uuid()
-            localAccountInfo?.let {
-                if (it.containsKey(uuid)) {
-                    return when(it[uuid]) {
-                        syncAccount -> SyncState.SYNCED_TO_THIS
-                        null -> SyncState.UNSYNCED
-                        else -> SyncState.SYNCED_TO_OTHER
-                    }
+    private fun getSyncState(groupPosition: Int, childPosition: Int) =
+        getChild(groupPosition, childPosition).map { accountMetaData ->
+            localAccountInfo?.find { it.uuid == accountMetaData.uuid() }?.let {
+                if (it.isSealed) SyncState.SEALED else when (it.syncAccountName) {
+                    getBackendLabel(groupPosition) -> SyncState.SYNCED_TO_THIS
+                    null -> SyncState.UNSYNCED
+                    else -> SyncState.SYNCED_TO_OTHER
                 }
-            }
-        }
-        return if (result.isSuccess) {
-            SyncState.UNKNOWN
-        } else {
-            SyncState.ERROR
-        }
-    }
+            } ?: SyncState.UNKNOWN
+        }.getOrElse { SyncState.ERROR }
 
     fun getAccountForSync(packedPosition: Long): Account? {
         val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)

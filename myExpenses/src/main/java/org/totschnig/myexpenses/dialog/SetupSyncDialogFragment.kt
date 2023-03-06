@@ -42,14 +42,15 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         val label: String,
         val uuid: String,
         val isLocal: Boolean,
-        val isRemote: Boolean
+        val isRemote: Boolean,
+        val isSealed: Boolean
     ) : Parcelable
 
     private val viewModel: SetupSyncViewModel by viewModels()
 
     private lateinit var accountRows: List<AccountRow>
 
-    fun SyncViewModel.SyncAccountData.prepare(): List<AccountRow> =
+    private fun SyncViewModel.SyncAccountData.prepare(): List<AccountRow> =
         buildList {
             localAccountsNotSynced.forEach { local ->
                 val remoteAccount = remoteAccounts.find { remote -> remote.uuid() == local.uuid }
@@ -61,7 +62,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         } ?: local.label,
                         uuid = local.uuid,
                         isLocal = true,
-                        isRemote = remoteAccount != null
+                        isRemote = remoteAccount != null,
+                        isSealed = local.isSealed
                     )
                 )
             }
@@ -73,7 +75,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                             label = it.label(),
                             uuid = it.uuid(),
                             isLocal = false,
-                            isRemote = true
+                            isRemote = true,
+                            isSealed = false
                         )
                     )
                 }
@@ -223,7 +226,12 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 if (item.isLocal) {
                     Icon(
                         modifier = cell(1),
-                        painter = painterResource(id = if (linkState.value == SyncSource.REMOTE) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
+                        painter = painterResource(id = when  {
+                            item.isSealed -> R.drawable.ic_lock
+                            linkState.value == SyncSource.REMOTE -> R.drawable.ic_menu_delete
+                            else -> R.drawable.ic_menu_done
+                        }
+                        ),
                         tint = if (linkState.value == SyncSource.LOCAL) Color.Green else
                             LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                         contentDescription = "Local"
@@ -231,33 +239,37 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 } else {
                     Spacer(modifier = cell(1))
                 }
-                Icon(
-                    modifier = cell(2).conditional(linkState.value != SyncSource.COMPLETED) {
-                        clickable {
-                            if (linkState.value == null) {
-                                if (item.isLocal && item.isRemote) {
-                                    SimpleDialog.build()
-                                        .extra(Bundle().apply {
-                                            putParcelable(KEY_DATA, item)
-                                        })
-                                        .msg(
-                                            getString(R.string.dialog_sync_link, item.uuid)
-                                        )
-                                        .pos(R.string.dialog_command_sync_link_remote)
-                                        .neut()
-                                        .neg(R.string.dialog_command_sync_link_local)
-                                        .show(this@SetupSyncDialogFragment, SYNC_CONFLICT_DIALOG)
+                if (!item.isSealed) {
+                    Icon(
+                        modifier = cell(2).conditional(linkState.value != SyncSource.COMPLETED) {
+                            clickable {
+                                if (linkState.value == null) {
+                                    if (item.isLocal && item.isRemote) {
+                                        SimpleDialog.build()
+                                            .extra(Bundle().apply {
+                                                putParcelable(KEY_DATA, item)
+                                            })
+                                            .msg(
+                                                getString(R.string.dialog_sync_link, item.uuid)
+                                            )
+                                            .pos(R.string.dialog_command_sync_link_remote)
+                                            .neut()
+                                            .neg(R.string.dialog_command_sync_link_local)
+                                            .show(this@SetupSyncDialogFragment, SYNC_CONFLICT_DIALOG)
+                                    } else {
+                                        linkState.value = SyncSource.DEFAULT
+                                    }
                                 } else {
-                                    linkState.value = SyncSource.DEFAULT
+                                    linkState.value = null
                                 }
-                            } else {
-                                linkState.value = null
                             }
-                        }
-                    },
-                    painter = painterResource(id = if (linkState.value != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
-                    contentDescription = stringResource(id = R.string.menu_sync_link)
-                )
+                        },
+                        painter = painterResource(id = if (linkState.value != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
+                        contentDescription = stringResource(id = R.string.menu_sync_link)
+                    )
+                } else {
+                    Spacer(modifier = cell(2))
+                }
                 if (item.isRemote) {
                     Icon(
                         modifier = cell(3),

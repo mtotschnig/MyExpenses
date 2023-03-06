@@ -3,15 +3,19 @@ package org.totschnig.myexpenses.viewmodel
 import android.accounts.AccountManager
 import android.app.Application
 import android.content.Context
+import androidx.core.database.getStringOrNull
 import androidx.core.util.Pair
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.adapter.LocalAccountInfo
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_BASE_URI
-import org.totschnig.myexpenses.provider.mapToStringMap
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
@@ -24,12 +28,12 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
     val localAccountInfo = contentResolver.observeQuery(
         uri = ACCOUNTS_BASE_URI,
-        projection = arrayOf(DatabaseConstants.KEY_UUID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME),
+        projection = arrayOf(KEY_UUID, KEY_SYNC_ACCOUNT_NAME, KEY_SEALED),
         selection = null,
         selectionArgs = null,
         sortOrder = null,
         notifyForDescendants = false
-    ).mapToStringMap()
+    ).mapToList { LocalAccountInfo(it.getString(0), it.getStringOrNull(1), it.getBoolean(2)) }
 
     abstract fun getAccounts(context: Context): List<Pair<String, Boolean>>
 

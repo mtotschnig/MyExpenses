@@ -352,6 +352,7 @@ fun Cursor.getStringIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
 
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
+fun Cursor.getBoolean(columnIndex: Int) = getInt(columnIndex) == 1
 
 /**
  * Splits the value of column by ASCII UnitSeparator char

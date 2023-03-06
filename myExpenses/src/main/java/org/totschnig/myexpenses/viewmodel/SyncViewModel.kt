@@ -214,7 +214,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 accountName,
                 syncAccounts,
                 backups,
-                localAccounts.filter { !it.isSynced && !it.isSealed }
+                localAccounts.filter { !it.isSynced }
             )
         }.onFailure { throwable ->
             if (!(throwable is IOException || throwable is SyncBackendProvider.EncryptionException)) {
