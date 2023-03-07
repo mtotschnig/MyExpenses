@@ -1027,4 +1027,5 @@
     <string name="encrypt_database">Encriptar la base de datos</string>
     <string name="encrypt_database_info">La base de datos se cifrará con una frase de contraseña que no se puede extraer de este dispositivo. En consecuencia, el servicio de copia de seguridad de su dispositivo no realizará una copia de seguridad.</string>
     <string name="database_is_encrypted">La base de datos está cifrada.</string>
+    <string name="github_sponsors">También se proporcionan claves de licencia a &lt;a href=%s&gt;Patrocinadores de Github&lt;/a&gt;.</string>
 </resources>
