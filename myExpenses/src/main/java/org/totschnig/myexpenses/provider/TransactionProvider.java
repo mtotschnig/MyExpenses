@@ -1227,7 +1227,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
         v.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
-        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
+        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, "(" + WHERE_SELF_OR_DEPENDENT + ") AND " + KEY_CR_STATUS + "='" + CrStatus.VOID.name() + "'", whereArgs);
         break;
       case ACCOUNTS:
         count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values, where, whereArgs);

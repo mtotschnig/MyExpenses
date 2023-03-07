@@ -685,10 +685,10 @@ public class Transaction extends Model implements ITransaction {
     cr().delete(builder.build(), null, null);
   }
 
-  public static void undelete(long id) {
+  public static int undelete(long id) {
     Uri uri = ContentUris.appendId(CONTENT_URI.buildUpon(), id)
         .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE).build();
-    cr().update(uri, null, null, null);
+    return cr().update(uri, null, null, null);
   }
 
   public Transaction() {

@@ -35,6 +35,13 @@
         android:title="@string/menu_split_transaction"
         app:showAsAction="never" />
     <item
+        android:id="@id/UNDELETE_COMMAND"
+        android:icon="@drawable/ic_menu_undelete"
+        android:orderInCategory="45"
+        android:title="@string/menu_undelete_transaction"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/REMAP_PARENT"
         android:orderInCategory="50"
         android:icon="@drawable/redo"

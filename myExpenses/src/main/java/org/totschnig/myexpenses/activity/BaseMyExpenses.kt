@@ -232,7 +232,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 R.id.SPLIT_TRANSACTION_COMMAND,
                                 R.id.REMAP_PARENT,
                                 R.id.LINK_TRANSFER_COMMAND,
-                                R.id.SELECT_ALL_COMMAND
+                                R.id.SELECT_ALL_COMMAND,
+                                R.id.UNDELETE_COMMAND
                             ).forEach {
                                 menu.findItem(it).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
                             }
@@ -259,6 +260,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         selectionState.count() == 2 &&
                                 !hasSplit && !hasTransfer && !hasVoid &&
                                 viewModel.canLinkSelection()
+                    findItem(R.id.UNDELETE_COMMAND).isVisible = hasVoid
                     true
                 }
 
@@ -273,6 +275,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         R.id.SPLIT_TRANSACTION_COMMAND -> split(selectionState.map { it.id })
                         R.id.LINK_TRANSFER_COMMAND -> linkTransfer()
                         R.id.SELECT_ALL_COMMAND -> selectAll()
+                        R.id.UNDELETE_COMMAND -> undelete(selectionState.map { it.id })
                         else -> return false
                     }
                     return true
@@ -820,7 +823,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                                 add(MenuEntry(
                                                     icon = Icons.Filled.RestoreFromTrash,
                                                     label = R.string.menu_undelete_transaction
-                                                ) { undelete(transaction) })
+                                                ) { undelete(listOf(transaction.id)) })
                                             }
                                             add(
                                                 select {
@@ -891,10 +894,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun undelete(transaction: Transaction2) {
-        checkSealed(listOf(transaction.id)) {
-            viewModel.undeleteTransactions(transaction.id).observe(this) { result: Int ->
-                if (result == 0) showDeleteFailureFeedback(null)
+    private fun undelete(itemIds: List<Long>) {
+        checkSealed(itemIds) {
+            viewModel.undeleteTransactions(itemIds).observe(this) { result: Int ->
+                finishActionMode()
+                showSnackBar("${getString(R.string.menu_undelete_transaction)}: $result")
             }
         }
     }

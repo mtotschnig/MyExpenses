@@ -419,17 +419,16 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun undeleteTransactions(itemId: Long): LiveData<Int> =
+    fun undeleteTransactions(itemIds: List<Long>): LiveData<Int> =
         liveData(context = coroutineContext()) {
-            emit(
+            emit(itemIds.count {
                 try {
-                    Transaction.undelete(itemId)
-                    1
+                    Transaction.undelete(it) > 0
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(e)
-                    0
+                    false
                 }
-            )
+            })
         }
 
     private val cloneAndRemapProgressInternal = MutableLiveData<Pair<Int, Int>>()
