@@ -66,6 +66,10 @@ document.addEventListener('alpine:init', () => {
                 method: this.method,
                 number: this.number
             }
+            if (data.date == '') {
+                this.errorHandler(Error("date must not be empty"));
+                return;
+            }
             let uri = "/transactions" + (this.id == 0 ? "" : ("/" + this.id))
             let method = this.id == 0 ? "POST" : "PUT"
             fetch(uri, {
