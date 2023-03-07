@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.SelectionHandler
 import org.totschnig.myexpenses.compose.select
 import org.totschnig.myexpenses.compose.toggle
+import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
@@ -498,6 +499,7 @@ open class MyExpensesViewModel(
     }
 
     fun toggleCrStatus(id: Long) {
+        selectionState.unselect { it.id == id }
         viewModelScope.launch(coroutineDispatcher) {
             contentResolver.update(
                 TRANSACTIONS_URI

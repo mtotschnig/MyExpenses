@@ -46,3 +46,7 @@ fun <T> MutableState<List<T>>.select(element: T) {
         value = value + element
     }
 }
+
+fun <T> MutableState<List<T>>.unselect(selector: (T) -> Boolean) {
+    value = value.filterNot { selector(it) }
+}
