@@ -37,6 +37,7 @@ import androidx.preference.PreferenceScreen
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
@@ -175,6 +176,8 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
                 i++
             }
             ar.recycle()
+            //noinspection SetTextI18n
+            view.findViewById<TextView>(R.id.copyRight).text = "© 2011 - ${BuildConfig.BUILD_DATE.year} Michael Totschnig"
             builder.setTitle(R.string.pref_more_info_dialog_title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, null)
