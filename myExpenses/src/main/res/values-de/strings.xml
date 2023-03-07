@@ -1014,4 +1014,5 @@
     <string name="encrypt_database">Datenbank verschlüsseln</string>
     <string name="encrypt_database_info">Die Datenbank wird mit einer Passphrase verschlüsselt, die nicht von diesem Gerät extrahiert werden kann. Folglich wird sie nicht vom Backup-Service Ihres Geräts gesichert.</string>
     <string name="database_is_encrypted">Die Datenbank ist verschlüsselt.</string>
+    <string name="github_sponsors">Lizenzschlüssel werden auch &lt;a href=%s&gt;Github-Sponsoren&lt;/a&gt; zur Verfügung gestellt.</string>
 </resources>
