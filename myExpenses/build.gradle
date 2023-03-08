@@ -1,5 +1,7 @@
 import com.novoda.gradle.command.Files
 
+import java.time.LocalDateTime
+
 buildscript {
     repositories {
 //        mavenLocal()
@@ -74,13 +76,13 @@ android {
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             applicationIdSuffix ""
             //ndk.debugSymbolLevel = 'FULL'
-            buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
+            buildConfigField "java.time.LocalDateTime", "BUILD_DATE", getDate()
         }
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
-            buildConfigField "String", "BUILD_DATE", "\"now\""
+            buildConfigField "java.time.LocalDateTime", "BUILD_DATE", "java.time.LocalDateTime.now()"
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
             buildConfigField "boolean", "BETA", getPropertyIfDefined("BETA", "false")
         }
@@ -342,7 +344,7 @@ dependencies {
 
 static def getDate() {
     def date = new Date()
-    def formattedDate = date.format('yyyyMMdd-HHmm')
+    def formattedDate = "java.time.LocalDateTime.of(" + date.format('yyyy,MM,dd,HH,mm') + ")"
     return formattedDate
 }
 

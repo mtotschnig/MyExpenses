@@ -70,8 +70,8 @@
             android:orientation="vertical" />
 
         <TextView
-            style="@style/about_text"
-            android:text="© 2011 - 2019 Michael Totschnig" />
+            android:id="@+id/copyRight"
+            style="@style/about_text" />
 
     </LinearLayout>
 </ScrollView>

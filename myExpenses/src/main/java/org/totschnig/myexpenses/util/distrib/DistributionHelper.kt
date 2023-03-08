@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util.distrib
 
 import android.content.Context
 import org.totschnig.myexpenses.BuildConfig
+import java.time.format.DateTimeFormatter
 
 object DistributionHelper {
     @JvmStatic
@@ -45,8 +46,11 @@ object DistributionHelper {
     @JvmStatic
     fun getVersionInfo(ctx: Context): String {
         val installer = ctx.packageManager.getInstallerPackageName(ctx.packageName)
-        return "${BuildConfig.VERSION_NAME} (revision $versionNumber) ${BuildConfig.BUILD_DATE} $distributionAsString $installer"
+        return "${BuildConfig.VERSION_NAME} (revision $versionNumber) $buildDateFormatted $distributionAsString $installer"
     }
+
+    @JvmStatic
+    val buildDateFormatted: String = DateTimeFormatter.ofPattern("yyyyMMdd-HHmm").format(BuildConfig.BUILD_DATE)
 
     /**
      * @return version number (versionCode)
