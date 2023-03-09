@@ -13,6 +13,8 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.observeQuery
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +26,6 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getDateTimeFormatter
@@ -120,13 +121,11 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             val plannerCalendarId = withContext(Dispatchers.Default) {
                 getApplication<MyApplication>().checkPlanner()
             }
-            disposable = briteContentResolver.createQuery(
-                builder.build(), null,
+            contentResolver.observeQuery( builder.build(), null,
                 CalendarContract.Events.CALENDAR_ID + " = " + plannerCalendarId,
-                null, CalendarContract.Instances.BEGIN + " ASC", false
-            )
-                .mapToList(PlanInstance.Companion::fromEventCursor)
-                .subscribe {
+                null, CalendarContract.Instances.BEGIN + " ASC", false)
+                .mapToList(mapper = PlanInstance.Companion::fromEventCursor)
+                .collect {
                     val start = SpannableString(first.startDate().format(formatter))
                     val end = SpannableString(last.endDate().format(formatter))
                     start.setSpan(
