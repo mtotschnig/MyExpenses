@@ -66,6 +66,21 @@ document.addEventListener('alpine:init', () => {
                 method: this.method,
                 number: this.number
             }
+            let invalidFields = [];
+            if (data.date == '') {
+                invalidFields.push(this.currentDateMode == dateMode.bookingValue ? messages.booking_date : messages.date)
+            }
+            if (this.currentDateMode == dateMode.dateTime && data.time == '') {
+                invalidFields.push(messages.time)
+            }
+            if (this.currentDateMode == dateMode.bookingValue && data.valueDate == '') {
+                invalidFields.push(messages.value_date)
+            }
+            if (invalidFields.length > 0) {
+                this.errorHandler(Error(messages.validate_error_not_empty + ": " + invalidFields.join(', ')));
+                return;
+            }
+
             let uri = "/transactions" + (this.id == 0 ? "" : ("/" + this.id))
             let method = this.id == 0 ? "POST" : "PUT"
             fetch(uri, {

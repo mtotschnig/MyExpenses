@@ -257,7 +257,8 @@ class WebInputService : LifecycleService(), IWebInputService {
                                     ${i18nJson("menu_clone_transaction")},
                                     ${i18nJson("menu_delete")},
                                     ${i18nJson("no_expenses")},
-                                    ${i18nJson("webui_warning_move_transaction")}                                    ,
+                                    ${i18nJson("webui_warning_move_transaction")},
+                                    ${i18nJson("validate_error_not_empty")},
                                     ${i18nJsonPlurals("warning_delete_transaction")}
                                     };
                                 """.trimIndent(), ContentType.Text.JavaScript
