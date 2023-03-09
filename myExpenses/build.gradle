@@ -340,7 +340,7 @@ dependencies {
 
 static def getDate() {
     def date = new Date()
-    def formattedDate = "java.time.LocalDateTime.of(" + date.format('yyyy,MM,dd,HH,mm') + ")"
+    def formattedDate = "java.time.LocalDateTime.of(" + date.format('yyyy,M,d,H,m') + ")"
     return formattedDate
 }
 
