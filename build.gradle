@@ -20,7 +20,7 @@ ext {
     versionName = '3.5.2'
     compileSdkVersion = 33
     minSdkVersion = 21
-    targetSdkVersion = 31
+    targetSdkVersion = 33
     espressoVersion = "3.5.1"
     androidSupportTestVersion = "1.5.0"
     androidxTextExtJunit = "1.1.5"
