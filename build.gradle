@@ -30,7 +30,7 @@ ext {
     butterknifeVersion = "10.2.3"
     robolectricVersion = "4.9"
     roomVersion = "2.5.0"
-    archLifecycleVersion = '2.5.1'
+    archLifecycleVersion = '2.6.0'
     androidxArchVersion = '2.2.0'
     fragmentVersion = "1.5.5"
     coroutines = '1.6.4'

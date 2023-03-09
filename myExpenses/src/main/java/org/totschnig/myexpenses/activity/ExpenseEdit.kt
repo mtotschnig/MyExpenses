@@ -508,12 +508,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadTemplates() {
-        viewModel.getTemplates().observe(this) { templates ->
-            menuItem2TemplateMap.clear()
-            for (template in templates) {
-                val menuId = ViewCompat.generateViewId()
-                menuItem2TemplateMap[menuId] = template
-                invalidateOptionsMenu()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.templates.collect { templates ->
+                    menuItem2TemplateMap.clear()
+                    for (template in templates) {
+                        val menuId = ViewCompat.generateViewId()
+                        menuItem2TemplateMap[menuId] = template
+                        invalidateOptionsMenu()
+                    }
+                }
             }
         }
     }
@@ -540,10 +544,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadAccounts(fromSavedState: Boolean) {
-        viewModel.getAccounts().observe(this) { accounts ->
-            setAccounts(accounts, fromSavedState)
-            if (operationType == Transactions.TYPE_SPLIT) {
-                viewModel.loadSplitParts(delegate.rowId, isTemplate)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accounts.collect {
+                    setAccounts(it, fromSavedState)
+                    if (operationType == Transactions.TYPE_SPLIT) {
+                        viewModel.loadSplitParts(delegate.rowId, isTemplate)
+                    }
+                }
             }
         }
     }

@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -77,18 +76,13 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
         (requireActivity().applicationContext as MyApplication).appComponent.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
-        viewModel.tags.observe(this) { tags ->
+        viewModel.tags(rowId).observe(this) { tags ->
             if (tags.isNotEmpty()) {
                 binding.TagGroup.addChipsBulk(tags)
             } else {
                 binding.TagRow.visibility = View.GONE
             }
         }
-        viewModel.loadOriginalTags(
-            rowId,
-            TransactionProvider.TRANSACTIONS_TAGS_URI,
-            DatabaseConstants.KEY_TRANSACTIONID
-        )
         val alertDialog =
             builder.setTitle(R.string.loading) //.setIcon(android.R.color.transparent)
                 .setNegativeButton(android.R.string.ok, this)

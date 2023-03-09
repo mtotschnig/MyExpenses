@@ -157,8 +157,8 @@
         <licence>MIT licence</licence>
     </project>
     <project>
-        <name>Sqlbrite</name>
-        <url>https://github.com/square/sqlbrite</url>
+        <name>Copper</name>
+        <url>https://github.com/cashapp/copper</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
     <project>

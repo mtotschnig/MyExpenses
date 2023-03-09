@@ -10,15 +10,11 @@ import android.text.TextUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import com.squareup.sqlbrite3.BriteContentResolver
-import io.reactivex.disposables.Disposable
-import io.reactivex.exceptions.CompositeException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,8 +66,6 @@ object AccountSealedException : IllegalStateException()
 
 abstract class ContentResolvingAndroidViewModel(application: Application) :
     BaseViewModel(application) {
-    @Inject
-    lateinit var briteContentResolver: BriteContentResolver
 
     @Inject
     lateinit var repository: Repository
@@ -96,8 +90,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             null
         }
     }
-
-    var disposable: Disposable? = null
 
     val contentResolver: ContentResolver
         get() = getApplication<MyApplication>().contentResolver
@@ -186,16 +178,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         }
     }
 
-    override fun onCleared() {
-        dispose()
-    }
-
-    fun dispose() {
-        disposable?.let {
-            if (!it.isDisposed) it.dispose()
-        }
-    }
-
     sealed class DeleteState {
         data class DeleteProgress(val count: Int, val total: Int) : DeleteState()
         data class DeleteComplete(val success: Int, val failure: Int) : DeleteState()
@@ -263,13 +245,14 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 try {
                     Account.delete(accountId)
                 } catch (e: Exception) {
+                    CrashHandler.report(e)
                     failures.add(e)
                 }
             }
             if (failures.isEmpty())
                 ResultUnit
             else
-                Result.failure(CompositeException(failures))
+                Result.failure(Exception("${failures.size} exceptions occurred. "))
         }
 
     /**

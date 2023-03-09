@@ -5,11 +5,15 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.os.Bundle
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
@@ -21,10 +25,18 @@ import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.ProviderUtils
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
@@ -43,75 +55,61 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagHandlingViewModel(application, savedStateHandle) {
 
-    private val disposables = CompositeDisposable()
-
     private val splitParts = MutableLiveData<List<SplitPart>>()
-    private var loadJob: Job? = null
+    private var loadSplitPartJob: Job? = null
+    private var loadMethodJob: Job? = null
     fun getSplitParts(): LiveData<List<SplitPart>> = splitParts
 
     private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val moveResult: StateFlow<Boolean?> = _moveResult
 
-    //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
-
-    private val accounts by lazy {
-        val liveData = MutableLiveData<List<Account>>()
-        disposables.add(briteContentResolver.createQuery(
-            TransactionProvider.ACCOUNTS_BASE_URI,
-            null,
-            "$KEY_SEALED = 0",
-            null,
-            null,
-            false
-        )
-            .mapToList {
-                buildAccount(it, currencyContext)
-            }
-            .subscribe {
-                liveData.postValue(it)
-            }
-        )
-        return@lazy liveData
-    }
-
-    private val templates by lazy {
-        val liveData = MutableLiveData<List<DataTemplate>>()
-        disposables.add(briteContentResolver.createQuery(
-            TransactionProvider.TEMPLATES_URI.buildUpon()
-                .build(), arrayOf(KEY_ROWID, KEY_TITLE),
-            "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
-            null,
-            Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES, collate),
-            false
-        )
-            .mapToList { DataTemplate.fromCursor(it) }
-            .subscribe { liveData.postValue(it) }
-        )
-        return@lazy liveData
-    }
-
     fun getMethods(): LiveData<List<PaymentMethod>> = methods
 
-    fun getAccounts(): LiveData<List<Account>> = accounts
+    val accounts: Flow<List<Account>>
+        get() = contentResolver.observeQuery(
+            uri = TransactionProvider.ACCOUNTS_BASE_URI,
+            projection = null,
+            selection = "$KEY_SEALED = 0",
+            selectionArgs = null,
+            sortOrder = null,
+            notifyForDescendants = false
+        ).mapToList {
+            buildAccount(it, currencyContext)
+        }
 
-    fun getTemplates(): LiveData<List<DataTemplate>> = templates
+    val templates: Flow<List<DataTemplate>>
+        get() = contentResolver.observeQuery(
+            uri = TransactionProvider.TEMPLATES_URI.buildUpon()
+                .build(), projection = arrayOf(KEY_ROWID, KEY_TITLE),
+            selection = "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
+            selectionArgs = null,
+            sortOrder = Sort.preferredOrderByForTemplatesWithPlans(
+                prefHandler,
+                Sort.USAGES,
+                collate
+            ),
+            notifyForDescendants = false
+        ).mapToList { DataTemplate.fromCursor(it) }
+
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {
-        disposables.add(briteContentResolver.createQuery(
-            TransactionProvider.METHODS_URI.buildUpon()
-                .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
-                .appendPath(if (isIncome) "1" else "-1")
-                .appendQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST, type.name)
-                .build(), null, null, null, null, false
-        )
-            .mapToList { PaymentMethod.create(it) }
-            .subscribe { methods.postValue(it) }
-        )
+        loadMethodJob?.cancel()
+        viewModelScope.launch {
+            contentResolver.observeQuery(
+                TransactionProvider.METHODS_URI.buildUpon()
+                    .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
+                    .appendPath(if (isIncome) "1" else "-1")
+                    .appendQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST, type.name)
+                    .build(), null, null, null, null, false
+            )
+                .mapToList { PaymentMethod.create(it) }
+                .collect { methods.postValue(it) }
+        }
     }
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
@@ -128,11 +126,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 currency
             )
         )
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.clear()
     }
 
     fun save(transaction: ITransaction): LiveData<Long> = liveData(context = coroutineContext()) {
@@ -215,13 +208,15 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
         }
 
-    private fun fallbackToLastUsed(accountId: Long) = accountId.takeIf { it != 0L }?.let { account ->
-        repository.getCurrencyUnitForAccount(account)?.let { currencyUnit -> account to currencyUnit }
-    } ?: repository.getLastUsedOpenAccount()
+    private fun fallbackToLastUsed(accountId: Long) =
+        accountId.takeIf { it != 0L }?.let { account ->
+            repository.getCurrencyUnitForAccount(account)
+                ?.let { currencyUnit -> account to currencyUnit }
+        } ?: repository.getLastUsedOpenAccount()
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
-        loadJob?.cancel()
-        loadJob = viewModelScope.launch {
+        loadSplitPartJob?.cancel()
+        loadSplitPartJob = viewModelScope.launch {
             contentResolver.observeQuery(
                 uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
                 else TransactionProvider.UNCOMMITTED_URI,
@@ -246,7 +241,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
         _moveResult.update {
             contentResolver.query(
-                if (isTemplate)  TransactionProvider.TEMPLATES_UNCOMMITTED_URI else TransactionProvider.UNCOMMITTED_URI,
+                if (isTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI else TransactionProvider.UNCOMMITTED_URI,
                 arrayOf("count(*)"),
                 "$KEY_PARENTID = ? AND $KEY_TRANSFER_ACCOUNT  = ?",
                 arrayOf(transactionId.toString(), accountId.toString()),
@@ -273,18 +268,38 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, forEdit: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+    fun transaction(
+        transactionId: Long,
+        task: InstantiationTask,
+        clone: Boolean,
+        forEdit: Boolean,
+        extras: Bundle?
+    ): LiveData<Transaction?> = liveData(context = coroutineContext()) {
         when (task) {
             InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(transactionId)
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(transactionId)
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(
+                transactionId
+            )
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId)
-            InstantiationTask.FROM_INTENT_EXTRAS -> Pair(ProviderUtils.buildFromExtras(repository, extras!!), emptyList())
-            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(Transaction.getInstanceFromDb(transactionId))  {
+            InstantiationTask.FROM_INTENT_EXTRAS -> Pair(
+                ProviderUtils.buildFromExtras(
+                    repository,
+                    extras!!
+                ), emptyList()
+            )
+            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(
+                Transaction.getInstanceFromDb(
+                    transactionId
+                )
+            ) {
                 Pair(Template(this, payee ?: label), this.loadTags())
             }
         }?.also { pair ->
             if (forEdit) {
-                pair.first.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
+                pair.first.prepareForEdit(
+                    clone,
+                    clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true)
+                )
             }
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
