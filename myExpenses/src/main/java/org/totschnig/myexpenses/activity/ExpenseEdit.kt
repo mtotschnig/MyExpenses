@@ -1391,14 +1391,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         super.onPermissionsGranted(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR &&
+            PermissionHelper.PermissionGroup.CALENDAR.androidPermissions.all { perms.contains(it) } ) {
             delegate.onCalendarPermissionsResult(true)
         }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         super.onPermissionsDenied(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR&&
+            PermissionHelper.PermissionGroup.CALENDAR.androidPermissions.any { perms.contains(it) } ) {
             delegate.onCalendarPermissionsResult(false)
         }
     }

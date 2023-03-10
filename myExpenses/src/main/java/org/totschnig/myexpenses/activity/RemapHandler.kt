@@ -10,6 +10,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity.Companion.PROGRESS_TAG
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
@@ -109,7 +110,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                 progressDialog.max = checkedItemIds.size
                 supportFragmentManager
                     .beginTransaction()
-                    .add(progressDialog, LaunchActivity.PROGRESS_TAG)
+                    .add(progressDialog, PROGRESS_TAG)
                     .commit()
                 viewModel.cloneAndRemap(
                     checkedItemIds,

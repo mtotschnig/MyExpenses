@@ -208,11 +208,11 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             binding.githubExtraInfo.text = concatResStrings(requireActivity(),
                     " ", R.string.professional_key_fallback_info, R.string.eu_vat_info)
             binding.githubSponsors.isVisible = true
-            binding.githubSponsors.setText(HtmlCompat.fromHtml(
+            binding.githubSponsors.text = HtmlCompat.fromHtml(
                 getString(R.string.github_sponsors, "https://github.com/sponsors/mtotschnig"),
                 FROM_HTML_MODE_LEGACY
-            ))
-            binding.githubSponsors.setMovementMethod(LinkMovementMethod.getInstance())
+            )
+            binding.githubSponsors.movementMethod = LinkMovementMethod.getInstance()
         }
         builder.setTitle(if (feature == null) R.string.menu_contrib else R.string.dialog_title_contrib_feature)
                 .setView(dialogView)

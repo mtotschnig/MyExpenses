@@ -1633,7 +1633,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 TaskExecutionFragment.newInstanceWithBundle(
                                     args,
                                     TaskExecutionFragment.TASK_PRINT
-                                ), ProtectedFragmentActivity.ASYNC_TAG
+                                ), ASYNC_TAG
                             )
                             .add(
                                 ProgressDialogFragment.newInstance(
@@ -1642,7 +1642,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         "PDF"
                                     )
                                 ),
-                                ProtectedFragmentActivity.PROGRESS_TAG
+                                PROGRESS_TAG
                             )
                             .commit()
                     }
@@ -1827,9 +1827,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun checkCalendarPermission() {
         if ("-1" != prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, "-1")) {
-            if (!PermissionHelper.PermissionGroup.CALENDAR.hasPermission(this)) {
-                requestPermission(PermissionHelper.PermissionGroup.CALENDAR)
-            }
+            checkPermissionsForPlaner()
         }
     }
 
@@ -1859,7 +1857,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     null,
                     ProgressDialog.STYLE_SPINNER,
                     true
-                ), ProtectedFragmentActivity.PROGRESS_TAG
+                ), PROGRESS_TAG
             )
             .commitNow()
         exportViewModel.startExport(args)

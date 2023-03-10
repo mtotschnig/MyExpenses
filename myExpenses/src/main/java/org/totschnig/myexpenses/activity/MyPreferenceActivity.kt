@@ -29,6 +29,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -136,7 +137,8 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
             (view.findViewById<View>(R.id.aboutVersionCode) as TextView).text =
                 getVersionInfo(this)
             val projectContainer = view.findViewById<TextView>(R.id.project_container)
-            projectContainer.text = Utils.makeBulletList(this,
+            projectContainer.text = Utils.makeBulletList(
+                this,
                 Utils.getProjectDependencies(this)
                     .map { project: Map<String, String> ->
                         val name = project["name"]
@@ -177,7 +179,8 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
             }
             ar.recycle()
             //noinspection SetTextI18n
-            view.findViewById<TextView>(R.id.copyRight).text = "© 2011 - ${BuildConfig.BUILD_DATE.year} Michael Totschnig"
+            view.findViewById<TextView>(R.id.copyRight).text =
+                "© 2011 - ${BuildConfig.BUILD_DATE.year} Michael Totschnig"
             builder.setTitle(R.string.pref_more_info_dialog_title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, null)
@@ -250,7 +253,13 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
     }
 
     private fun activateWebUi() {
-        fragment.activateWebUi()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !NotificationManagerCompat.from(this).areNotificationsEnabled()
+        ) {
+            requestNotificationPermission()
+        } else {
+            fragment.activateWebUi()
+        }
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
@@ -271,6 +280,16 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         super.onPermissionsGranted(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
             initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
+        }
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS) {
+            fragment.activateWebUi()
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        super.onPermissionsDenied(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS) {
+            fragment.activateWebUi()
         }
     }
 

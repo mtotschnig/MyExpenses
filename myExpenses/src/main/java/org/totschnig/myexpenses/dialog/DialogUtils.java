@@ -33,7 +33,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,12 +46,10 @@ import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.AccountTypeAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
-import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 
@@ -242,10 +239,8 @@ public class DialogUtils {
       if ((checkedId == R.id.restore_calendar_handling_backup) ||
               (checkedId == R.id.restore_calendar_handling_create_new) ||
               (checkedId == R.id.restore_calendar_handling_configured)) {
-        if (!CALENDAR.hasPermission(context)) {
-          if (context instanceof ProtectedFragmentActivity) {
-            ((ProtectedFragmentActivity) context).requestPermission(PermissionGroup.CALENDAR);
-          }
+        if (context instanceof ProtectedFragmentActivity) {
+          ((ProtectedFragmentActivity) context).checkPermissionsForPlaner();
         }
       }
       listener.onCheckedChanged();

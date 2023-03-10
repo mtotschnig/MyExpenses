@@ -208,4 +208,5 @@
     <item name="SHOW_ALL_COMMAND" type="id" />
     <item name="SYNC_COMMAND_EXPORT_CATEGORIES" type="id" />
     <item name="SYNC_COMMAND_IMPORT_CATEGORIES" type="id" />
+    <item name="NOTIFICATION_SETTINGS_COMMAND" type="id" />
 </resources>

@@ -101,9 +101,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   public static final String EDIT_COLOR_DIALOG = "editColorDialog";
 
-  public static final String ASYNC_TAG = "ASYNC_TASK";
-  public static final String PROGRESS_TAG = "PROGRESS";
-
   protected ColorStateList textColorSecondary;
 
   @Inject
@@ -521,10 +518,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       finishAffinity();
       startActivity(i);
     }
-  }
-
-  public void requestCalendarPermission() {
-    requestPermission(PermissionGroup.CALENDAR);
   }
 
   @Override

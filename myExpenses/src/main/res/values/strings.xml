@@ -1042,4 +1042,7 @@
     <string name="encrypt_database_info">The database will be encrypted with a passphrase that cannot be extracted from this device. Consequently it will not be backed up by your device\'s backup service.</string>
     <string name="database_is_encrypted">Database is encrypted.</string>
     <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">Github Sponsors</a>.]]></string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> needs permission to send you notifications, when future transactions are posted.</string>
+    <string name="notifications_permission_required_webui">Allow to control the status of the web server from a notification.</string>
+    <string name="notifications_channel_required">Please enable channel %s.</string>
 </resources>

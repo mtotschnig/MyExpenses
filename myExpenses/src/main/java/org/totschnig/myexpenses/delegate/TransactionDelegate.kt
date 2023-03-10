@@ -632,9 +632,8 @@ abstract class TransactionDelegate<T : ITransaction>(
                             showCustomRecurrenceInfo()
                             configureLastDayButton()
                         }
-                    } else {
-                        host.requestPermission(PermissionHelper.PermissionGroup.CALENDAR)
                     }
+                    host.checkPermissionsForPlaner()
                 }
                 if (isTemplate) {
                     configurePlanDependents(planVisibility)

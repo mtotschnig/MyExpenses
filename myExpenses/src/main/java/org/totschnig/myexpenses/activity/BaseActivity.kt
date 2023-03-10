@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.app.DownloadManager
 import android.app.KeyguardManager
+import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.ClipData
@@ -11,7 +12,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Resources
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +25,13 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
@@ -44,6 +50,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallback
@@ -62,9 +69,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
+import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -192,7 +202,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     val progressDialogFragment: ProgressDialogFragment?
-        get() = (supportFragmentManager.findFragmentByTag(LaunchActivity.PROGRESS_TAG) as? ProgressDialogFragment)
+        get() = (supportFragmentManager.findFragmentByTag(PROGRESS_TAG) as? ProgressDialogFragment)
 
     fun copyToClipboard(text: String) {
         showSnackBar(
@@ -505,6 +515,28 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 finish()
                 true
             }
+            R.id.NOTIFICATION_SETTINGS_COMMAND -> {
+                val intent = Intent().apply {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val channelId = if (
+                            NotificationManagerCompat.from(this@BaseActivity)
+                                .areNotificationsEnabled()
+                        ) NotificationBuilderWrapper.CHANNEL_ID_PLANNER else null
+                        action = when (channelId) {
+                            null -> Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                            else -> Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
+                        }
+                        channelId?.let { putExtra(Settings.EXTRA_CHANNEL_ID, it) }
+                        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                    } else {
+                        action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                        putExtra("app_package", packageName)
+                        putExtra("app_uid", applicationInfo.uid)
+                    }
+                }
+                startActivity(intent)
+                true
+            }
             else -> false
         }
     }
@@ -762,15 +794,96 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }, CONTRIB_REQUEST)
     }
 
-    open fun requestPermission(permissionGroup: PermissionHelper.PermissionGroup) {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun requestNotificationPermission() {
+        requestPermission(
+            PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS,
+            PermissionGroup.NOTIFICATION
+        )
+    }
+
+    fun checkPermissionsForPlaner() {
+
+        val missingPermissions = buildList {
+            add(PermissionGroup.CALENDAR)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(PermissionGroup.NOTIFICATION)
+            }
+        }.filter { !it.hasPermission(this) }
+
+        if (missingPermissions.isNotEmpty()) {
+            requestPermission(
+                PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR,
+                *missingPermissions.toTypedArray()
+            )
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || !missingPermissions.contains(
+                PermissionGroup.NOTIFICATION
+            )
+        ) {
+            val prefKey = "notification_permission_rationale_shown"
+            if (!areNotificationsEnabled(NotificationBuilderWrapper.CHANNEL_ID_PLANNER) &&
+                !prefHandler.getBoolean(prefKey, false)
+            ) {
+                ConfirmationDialogFragment.newInstance(
+                    Bundle().apply {
+                        putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey)
+                        putCharSequence(
+                            ConfirmationDialogFragment.KEY_MESSAGE,
+                            TextUtils.concat(
+                                Utils.getTextWithAppName(
+                                    this@BaseActivity,
+                                    R.string.notifications_permission_required_planner
+                                ),
+                                " ",
+                                getString(
+                                    R.string.notifications_channel_required,
+                                    getString(R.string.planner_notification_channel_name)
+                                )
+                            )
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                            R.id.NOTIFICATION_SETTINGS_COMMAND
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                            R.string.menu_reconfigure
+                        )
+                    }
+                ).show(supportFragmentManager, "NOTIFICATION_PERMISSION_RATIONALE")
+            }
+        }
+    }
+
+    private fun areNotificationsEnabled(channelId: String) =
+        if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                val channel = manager.getNotificationChannel(channelId)
+                channel?.importance != NotificationManager.IMPORTANCE_NONE
+            } else {
+                true
+            }
+        } else false
+
+    fun requestCalendarPermission() {
+        requestPermission(
+            PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR,
+            PermissionGroup.CALENDAR
+        )
+    }
+
+    open fun requestPermission(requestCode: Int, vararg permissionGroup: PermissionGroup) {
         _floatingActionButton?.let {
             it.isEnabled = false
         }
         EasyPermissions.requestPermissions(
             host = this,
-            rationale = permissionGroup.permissionRequestRationale(this),
-            requestCode = permissionGroup.requestCode,
-            perms = permissionGroup.androidPermissions
+            rationale = PermissionHelper.getRationale(this, requestCode, *permissionGroup),
+            requestCode = requestCode,
+            perms = permissionGroup.flatMap { it.androidPermissions }.toTypedArray()
         )
     }
 
@@ -779,8 +892,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             SettingsDialog.Builder(this)
                 .title(R.string.permissions_label)
                 .rationale(
-                    PermissionHelper.PermissionGroup.fromRequestCode(requestCode)
-                        .permissionRequestRationale(this)
+                    PermissionHelper.getRationale(
+                        this, requestCode,
+                        *perms.map { PermissionGroup.fromPermission(it) }.distinct().toTypedArray()
+                    )
                 )
                 .build().show()
         }
@@ -801,4 +916,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onNeutral(args: Bundle) {}
     override fun onNegative(args: Bundle) {}
     override fun onDismissOrCancel() {}
+
+    companion object {
+        const val ASYNC_TAG = "ASYNC_TASK"
+        const val PROGRESS_TAG = "PROGRESS"
+    }
 }
