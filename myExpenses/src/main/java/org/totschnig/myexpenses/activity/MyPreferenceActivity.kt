@@ -248,15 +248,11 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         }
     }
 
-    fun showRestartInfo() {
-        showSnackBar(R.string.app_restart_required)
-    }
-
     private fun activateWebUi() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             !NotificationManagerCompat.from(this).areNotificationsEnabled()
         ) {
-            requestNotificationPermission()
+            requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI)
         } else {
             fragment.activateWebUi()
         }
@@ -281,14 +277,14 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
             initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
         }
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS) {
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
             fragment.activateWebUi()
         }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         super.onPermissionsDenied(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS) {
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
             fragment.activateWebUi()
         }
     }

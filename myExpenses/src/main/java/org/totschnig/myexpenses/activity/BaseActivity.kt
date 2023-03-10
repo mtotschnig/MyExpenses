@@ -120,7 +120,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         get() = _floatingActionButton!!
 
     private val _floatingActionButton: FloatingActionButton?
-        get() = findViewById(R.id.CREATE_COMMAND)
+        get() = findViewById(R.id.CREATE_COMMAND) as? FloatingActionButton
 
     @JvmOverloads
     protected fun configureFloatingActionButton(fabDescription: Int, icon: Int = 0) {
@@ -795,9 +795,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun requestNotificationPermission() {
+    fun requestNotificationPermission(requestCode: Int) {
         requestPermission(
-            PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS,
+            requestCode,
             PermissionGroup.NOTIFICATION
         )
     }

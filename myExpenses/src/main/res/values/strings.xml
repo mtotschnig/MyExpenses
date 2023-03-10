@@ -1043,6 +1043,7 @@
     <string name="database_is_encrypted">Database is encrypted.</string>
     <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">Github Sponsors</a>.]]></string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> needs permission to send you notifications, when future transactions are posted.</string>
-    <string name="notifications_permission_required_webui">Allow to control the status of the web server from a notification.</string>
+    <string name="notifications_permission_required_webui">By granting the permission to send notifications, you can control the status of the web server.</string>
+    <string name="notifications_permission_required_sync">By granting the permission to send notifications, you can monitor the progress of the synchronization operations.</string>
     <string name="notifications_channel_required">Please enable channel %s.</string>
 </resources>

@@ -15,7 +15,8 @@ import java.io.File
 
 object PermissionHelper {
     const val PERMISSIONS_REQUEST_WRITE_CALENDAR = 1
-    const val PERMISSIONS_REQUEST_NOTIFICATIONS = 2
+    const val PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI = 2
+    const val PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC = 3
 
     @JvmStatic
     fun hasCalendarPermission(context: Context) = PermissionGroup.CALENDAR.hasPermission(context)
@@ -48,7 +49,8 @@ object PermissionHelper {
                         }).toString()
                 }
             }
-            PERMISSIONS_REQUEST_NOTIFICATIONS -> context.getString(R.string.notifications_permission_required_webui)
+            PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI -> context.getString(R.string.notifications_permission_required_webui)
+            PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC -> context.getString(R.string.notifications_permission_required_sync)
             else -> throw IllegalArgumentException()
         }
 

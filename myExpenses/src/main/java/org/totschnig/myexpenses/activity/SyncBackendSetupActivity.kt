@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.SubMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.NotificationManagerCompat
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_QUERY_LOCAL_ACCOUNTS
@@ -46,7 +48,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         super.onResume()
         isResumed = true
         if (selectedFactoryId != 0) {
-            startSetupDo()
+            startSetupCheckPrerequisites()
         }
     }
 
@@ -58,7 +60,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     fun startSetup(itemId: Int) {
         selectedFactoryId = itemId
         if (isResumed) {
-            startSetupDo()
+            startSetupCheckPrerequisites()
         }
     }
 
@@ -76,22 +78,46 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
             }
         }
 
-    private fun startSetupDo() {
+    private fun startSetupCheckPrerequisites() {
         val backendService = getBackendServiceById(selectedFactoryId)
         val feature = backendService?.feature
         if (feature == null || featureManager.isFeatureInstalled(feature, this)) {
-            backendService?.instantiate()?.getOrNull()?.setupActivityClass?.let {
-                startSetup.launch(Intent(this, it))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                !NotificationManagerCompat.from(this).areNotificationsEnabled()
+            ) {
+                requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC)
+            } else {
+                startSetupDo()
             }
-            selectedFactoryId = 0
         } else {
             featureManager.requestFeature(feature, this)
         }
     }
 
+    private fun startSetupDo() {
+        getBackendServiceById(selectedFactoryId)?.instantiate()?.getOrNull()?.setupActivityClass?.let {
+            startSetup.launch(Intent(this, it))
+        }
+        selectedFactoryId = 0
+    }
+
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
         if (selectedFactoryId != 0 && getBackendServiceByIdOrThrow(selectedFactoryId).feature == feature) {
+            startSetupCheckPrerequisites()
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        super.onPermissionsDenied(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC) {
+            startSetupDo()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        super.onPermissionsGranted(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC) {
             startSetupDo()
         }
     }
