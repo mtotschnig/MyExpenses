@@ -132,8 +132,212 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.5.2
+    - "2023-03-07"
+    -
+      ar: |
+        التزامن: التصنيفات
+      bg: |
+        Синхронизиране: Категории
+      ca: |
+        Sincronització: Categories
+      cs: |
+        Synchronizace: Kategorie
+      da: |
+        Synkronisering: Kategorier
+      de: |
+        Synchronisierung: Kategorien
+      el: |
+        Συγχρονισμός: Κατηγορίες
+      es: |
+        Sincronización: Categorías
+      eu: |
+        Sinkronizazioa: Kategoriak
+      fr: |
+        Synchronisation: Catégories
+      hr: |
+        Sinkronizacija: Kategorije
+      hu: |
+        Szinkronizálás: Kategóriák
+      it: |
+        Sincronizzazione: Categorie
+      iw: |
+        סנכרון: קטגוריות
+      ja: |
+        同期: 分類
+      kn: |
+        ಸಿಂಕ್ರೊನೈಸೇಶನ್: ವರ್ಗಗಳು
+      ko: |
+        동기화: 카테고리
+      km: |
+        ការធ្វើសមកាលកម្ម: ចំណាត់ថ្នាក់
+      ms: |
+        Penyegerakan: Kategori
+      nl: |
+        Synchronisatie: Categorieën
+      pl: |
+        Synchronizacja: Kategorie
+      pt: |
+        Sincronização: Categorias
+      ro: |
+        Sincronizare: Categorii
+      ru: |
+        Синхронизация: Категории
+      si: |
+        සමමුහුර්තකරණය: වර්ග
+      ta: |
+        ஒத்திசைவு: வகைகள்
+      te: |
+        సమకాలీకరణ: కేటగిరీలు
+      tr: |
+        Eşzamanla: Kategoriler
+      vi: |
+        Đồng bộ hóa: Phân loại
+      zh: |
+        同步: 类别
+      zh-TW: |
+        同步化: 類別設定
+      en: |
+        Synchronization: Categories
+  -
+    - 3.5.1
+    - "2023-02-07"
+    -
+      ar: |
+        إدارة الديون: صقل واجهة المستخدم
+      bg: |
+        Управление на задължения: Подобрения в потребителския интерфейс
+      ca: |
+        Gestió del deute: Refinament de la interfície d'usuari
+      cs: |
+        Správa dluhů: Zdokonalení uživatelského rozhraní
+      da: |
+        Forvaltning af gæld: Forbedring af brugergrænsefladen
+      de: |
+        Schuldenverwaltung: Verfeinerung der Benutzeroberfläche
+      el: |
+        Διαχείριση χρέους: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Gestión de la deuda: Interfaz de usuario mejorada
+      eu: |
+        Zorraren kudeaketa: Erabiltzaile-interfazea hobetzea
+      fr: |
+        Gestion des dettes: Raffinement de l'interface utilisateur
+      hr: |
+        Upravljanje dugovima: Poboljšanje korisničkog sučelja
+      hu: |
+        Adósságkezelés: A felhasználói felület finomítása
+      it: |
+        Gestione dei debiti: Miglioramento dell'interfaccia utente
+      iw: |
+        ניהול חובות: חידוד ממשק המשתמש
+      ja: |
+        債務管理: ユーザーインターフェースの洗練
+      kn: |
+        ಸಾಲ ನಿರ್ವಹಣೆ: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ko: |
+        부채 관리: 사용자 인터페이스 개선
+      km: |
+        ការគ្រប់គ្រងបំណុល: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ
+      ms: |
+        Pengurusan hutang: Penghalusan antaramuka pengguna
+      nl: |
+        Schuld beheer: Verfijning van de gebruikersinterface
+      pl: |
+        Zarządzanie długiem: Dopracowanie interfejsu użytkownika
+      pt: |
+        Gestão de dívidas: Melhorias na interface do usuário
+      ro: |
+        Gestionarea datoriilor: Perfecționarea interfeței cu utilizatorul
+      ru: |
+        Управление долгом: Усовершенствование пользовательского интерфейса
+      si: |
+        ණය කළමනාකරණය: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම
+      ta: |
+        கடன் மேலாண்மை: பயனர் இடைமுகத்தை மெருகேற்றுதல்
+      te: |
+        రుణ నిర్వహణ: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ
+      tr: |
+        Borç yönetimi: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Quản lý nợ: Cải tiến giao diện người dùng
+      zh: |
+        债务管理: 用户界面的改进
+      zh-TW: |
+        债务管理: 完善用户界面
+      en: |
+        Debt management: Refinement of the user interface
+  -
+    - 3.5.0
+    - "2023-01-30"
+    -
+      bg: |
+        Криптиране на базата данни (Експериментални)
+      de: |
+        Datenbank verschlüsseln (Experimentell)
+      es: |
+        Encriptar la base de datos (Experimental)
+      fr: |
+        Chiffrer la base de données (Expérimental)
+      hr: |
+        Šifriraj bazu podataka (Eksperimentalno)
+      nl: |
+        Database versleutelen (Experimenteel)
+      pt: |
+        Criptografar o banco de dados (Experimentais)
+      tr: |
+        Veri tabanını şifrele (Deneysel)
+      en: |
+        Encrypt database (Experimental)
+  -
+    - 3.4.9
+    - "2023-01-07"
+    -
+      ar: |
+        التزامن (WebDAV): إعادة التكوين. الترجمة: الأوردية
+      bg: |
+        Синхронизиране (WebDAV): Преконфигуриране. Превод: урду
+      ca: |
+        Sincronització (WebDAV): Reconfigurar. Traducció: urdú
+      cs: |
+        Synchronizace (WebDAV): Překonfigurovat. Překlad: urdština
+      da: |
+        Synkronisering (WebDAV): Omkonfigurere. Oversættelse: urdu
+      de: |
+        Synchronisierung (WebDAV): Neu konfigurieren. Übersetzung: Urdu
+      el: |
+        Συγχρονισμός (WebDAV): Επαναδιαμόρφωση. Μετάφραση: Ουρντού
+      es: |
+        Sincronización (WebDAV): Reconfigurar. Traducción: urdu
+      eu: |
+        Sinkronizazioa (WebDAV): Birmoldatu. Itzulpena: urdua
+      fr: |
+        Synchronisation (WebDAV): Reconfigurer. Traduction: ourdou
+      hr: |
+        Sinkronizacija (WebDAV): Konfiguriraj ponovo. Prijevod: urdski
+      hu: |
+        Szinkronizálás (WebDAV): Újrakonfigurálás. Fordítás: urdu
+      it: |
+        Sincronizzazione (WebDAV): Riconfigurare. Traduzione: urdu
+      iw: |
+        סנכרון (WebDAV): הגדרה מחדש. תרגום: אורדו
+      nl: |
+        Synchronisatie (WebDAV): Herconfigureren. Vertalen: Urdu
+      pl: |
+        Synchronizacja (WebDAV): Przekonfiguruj. Tłumaczenie: urdu
+      pt: |
+        Sincronização (WebDAV): Reconfigurar. Tradução: urdu
+      tr: |
+        Eşzamanla (WebDAV): Yeniden yapılandır. Çeviri: Urduca
+      zh: |
+        同步 (WebDAV): 重新配置. 翻译: 乌尔都语
+      zh-TW: |
+        同步化 (WebDAV): 重新配置. 翻譯: Urdu
+      en: |
+        Synchronization (WebDAV): Reconfigure. Translation: Urdu
+  -
     - 3.4.8
-    - "2022-12-10"
+    - "2022-12-23"
     -
       ar: |
         الترجمة: الهولندية
