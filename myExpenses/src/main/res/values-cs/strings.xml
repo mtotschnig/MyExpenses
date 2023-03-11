@@ -963,4 +963,5 @@
     <string name="ui_refinement">Zdokonalení uživatelského rozhraní</string>
     <string name="whats_new_338">Arbitrárně hluboká hierarchie kategorií</string>
     <string name="dialog_title_purge_backups">Vyčištění starých záloh</string>
+    <string name="menu_reconfigure">Překonfigurovat</string>
 </resources>
