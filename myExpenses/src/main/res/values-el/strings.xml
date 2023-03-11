@@ -825,4 +825,5 @@
     <string name="pref_scroll_to_current_date_summary">Κατά την έναρξη της εφαρμογής, μεταβείτε στη λίστα συναλλαγών στην τρέχουσα ημερομηνία</string>
     <string name="whats_new_338">Αυθαίρετα βαθιά ιεραρχία κατηγοριών</string>
     <string name="dialog_title_purge_backups">Εκκαθάριση παλαιών αντιγράφων ασφαλείας</string>
+    <string name="menu_reconfigure">Επαναδιαμόρφωση</string>
 </resources>

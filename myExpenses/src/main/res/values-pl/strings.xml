@@ -788,4 +788,5 @@
         <item quantity="many">Usunąć %1$d kont\?</item>
         <item quantity="other">Usunąć %1$d kont\?</item>
     </plurals>
+    <string name="menu_reconfigure">Przekonfiguruj</string>
 </resources>
