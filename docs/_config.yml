@@ -199,6 +199,9 @@ versions:
         同步化: 類別設定
       en: |
         Synchronization: Categories
+    -
+      github: 90#column-19374068
+      mastodon: 109976902058363075
   -
     - 3.5.1
     - "2023-02-07"
@@ -267,6 +270,9 @@ versions:
         债务管理: 完善用户界面
       en: |
         Debt management: Refinement of the user interface
+    -
+      github: 87#column-19319144
+      mastodon: 109818360069127682
   -
     - 3.5.0
     - "2023-01-30"
@@ -289,6 +295,9 @@ versions:
         Veri tabanını şifrele (Deneysel)
       en: |
         Encrypt database (Experimental)
+    -
+      github: 86#column-19285466
+      mastodon: 109752659104831459
   -
     - 3.4.9
     - "2023-01-07"
@@ -335,6 +344,9 @@ versions:
         同步化 (WebDAV): 重新配置. 翻譯: Urdu
       en: |
         Synchronization (WebDAV): Reconfigure. Translation: Urdu
+    -
+      github: 85#column-19278068
+      mastodon: 109643054367091295
   -
     - 3.4.8
     - "2022-12-23"
@@ -403,6 +415,9 @@ versions:
         翻譯: Dutch
       en: |
         Translation: Dutch
+    -
+      github: 84#column-19269697
+      mastodon: 109563991653414173
   -
     - 3.4.7
     - "2022-12-10"
@@ -471,6 +486,9 @@ versions:
         同步化: 本機儲存空間
       en: |
         Synchronization: Local storage
+    -
+      github: 83#column-19256564
+      mastodon: 109483685675967566
   -
     - 3.4.6
     - "2022-11-19"
@@ -497,6 +515,9 @@ versions:
         Muamele listesi: Yeniden tasarla
       en: |
         Transaction list: Redesign
+    -
+      github: 77#column-19151870
+      mastodon: 109286685602682940
   -
     - 3.4.5
     - "2022-09-05"
@@ -537,6 +558,9 @@ versions:
         預算編訂 3.0. 網頁版的使用者介面: https
       en: |
         Budgeting 3.0. Web User Interface: https
+    -
+      github: 76#column-19128229
+      mastodon: 108935518422101199
   -
     - 3.4.4
     - "2022-08-12"
@@ -573,6 +597,9 @@ versions:
         Kategoriler için ikonlar 2.0
       en: |
         Icons for categories 2.0
+    -
+      github: 74#column-19103001
+      mastodon: 108809607824665506
   -
     - 3.4.3
     - "2022-08-01"
@@ -631,6 +658,9 @@ versions:
         自訂: 以CSV檔匯出. 以JSON檔匯出 2.0
       en: |
         Customize: Export to CSV. Export to JSON 2.0
+    -
+      github: 73#column-19080863
+      mastodon: 108747302097004279
   -
     - 3.4.2
     - "2022-07-20"
@@ -671,6 +701,9 @@ versions:
         網頁版的使用者介面 2.0
       en: |
         Web User Interface 2.0
+    -
+      github: 71#column-18889056
+      mastodon: 108646207090890572
   -
     - 3.4.1
     - "2022-06-10"
@@ -735,6 +768,9 @@ versions:
         分割交易: 完善用户界面. 分割款項: 原始金額
       en: |
         Split transaction: Refinement of the user interface. Split parts: Original amount
+    -
+      github: 69#column-18649612
+      mastodon: 108453949261184111
   -
     - 3.4.0
     - "2022-05-23"
@@ -759,6 +795,9 @@ versions:
         支持多行备注. 错误修复: 同步
       en: |
         Notes field allows multiple lines.. Bug fixes: Synchronization
+    -
+      github: 70#column-18752877
+      mastodon: 108345073884573364
   -
     - 3.3.9
     - "2022-05-06"
@@ -811,6 +850,9 @@ versions:
         清除旧的备份. 共享匯出的備份檔: HTTP
       en: |
         Purge old backups. Share exports and backups: HTTP
+    -
+      github: 67#column-18533219
+      mastodon: 108256043745255728
   -
     - 3.3.8
     - "2022-04-19"
@@ -875,6 +917,9 @@ versions:
         任意深入的类别层次结构. 預算編訂: 完善用户界面
       en: |
         Arbitrarily deep category hierarchy. Budgeting: Refinement of the user interface
+    -
+      github: 65#column-17887806
+      mastodon: 108159979078178826
   -
     - 3.3.7
     - "2022-03-02"
@@ -939,6 +984,9 @@ versions:
         同步化 - 設定: 完善用户界面.
       en: |
         Synchronization - Setup: Refinement of the user interface.
+    -
+      github: 64#column-17809661
+      mastodon: 107877987796717018
   -
     - 3.3.6
     - "2022-02-07"
@@ -965,6 +1013,9 @@ versions:
         Borç özetini paylaşın. Alt muameleler için etiketler.
       en: |
         Share debt summary. Tags for split parts.
+    -
+      github: 61#column-17032814
+      mastodon: 107745551599621121
   -
     - 3.3.5
     - "2021-12-11"
@@ -1029,6 +1080,9 @@ versions:
         债务管理 2.0. 匯出: JSON. 掃描收據 (Chinese, Devanagari, Japanese, Korean)
       en: |
         Debt management 2.0. Export: JSON. Scan receipt (Chinese, Devanagari, Japanese, Korean)
+    -
+      github: 58#column-16107025
+      mastodon: 107389729386210664
   -
     - 3.3.4
     - "2021-09-25"
@@ -1093,6 +1147,9 @@ versions:
         债务管理
       en: |
         Debt management
+    -
+      github: 57#column-15356254
+      mastodon: 106976016336053121
   -
     - 3.3.3
     - "2021-07-09"
@@ -1143,6 +1200,9 @@ versions:
          匯率提供者: https://exchangerate.host. 除了儲存在本機裝置中之外，備份檔案還可以複製到遠程後端或雲端儲存空間。
         en: |
           Exchange Rate Provider: https://exchangerate.host. In addition to local storage on the device, the backup file can be copied to a remote backend.
+    -
+      github: 55#column-14888706
+      mastodon: 106547283868308478
   -
     - 3.3.2
     - "2021-06-15"
@@ -1167,6 +1227,8 @@ versions:
         Çeviri: Telugu dili. Döviz: Kullanıcı arayüzü iyileştirildi.
       en: |
         Translation: Telugu. Currency: Refinement of the user interface.
+    -
+      github: 54#column-14601926
   -
     - 3.3.1
     - "2021-05-31"
@@ -1191,6 +1253,8 @@ versions:
         Ayarlar - Otomatik Doldur: Kullanıcı arayüzü iyileştirildi.
       en: |
         Settings - Autofill: Refinement of the user interface.
+    -
+      github: 52#column-14150674
   -
     - 3.3.0
     - "2021-04-30"
@@ -1223,6 +1287,8 @@ versions:
         CSV içe aktar: Etiketler. Etkin Etiketler.
       en: |
         CSV import: Tags. Active Tags.
+    -
+      github: 50#column-13929647
   -
     - 3.2.9
     - "2021-04-18"
@@ -1245,6 +1311,8 @@ versions:
         Yinelenen taraflar birleştirilebilir. Bölünmüş muamelelerdeki kalan meblağ panoya kopyalanabilir.
       en: |
         Duplicate parties can be merged. Remaining amount in split transactions can be copied to clipboard.
+    -
+      github: 49#column-13853714
   -
     - 3.2.8
     - "2021-04-09"
@@ -1265,6 +1333,8 @@ versions:
         Hesap wigdet'ı tek bir hesabı gösterecek ve gelecek muameleleri dikkate alacak şekilde yapılandırılabilir. Seçili muamelelerin toplam meblağını göster.
       en: |
         Account widget can be configured to display single account and to take future transactions into account. Show total amount of selected transactions.
+    -
+      github: 48#column-13591495
   -
     - 3.2.7
     - "2021-04-02"
@@ -1287,6 +1357,8 @@ versions:
         İki mevcut muamele, transfer olarak ilişkilendirilebilir.
       en: |
         Two existing transactions can be linked as transfer.
+    -
+      github: 47#column-13500972
   -
     - 3.2.6
     - "2021-03-20"
@@ -1309,6 +1381,8 @@ versions:
         Muameleler ayın son gününde tekrarlanabilir.
       en: |
         Transactions can repeat on last day of month.
+    -
+      github: 46#column-13353640
   -
     - 3.2.5
     - "2021-03-12"
@@ -1369,6 +1443,8 @@ versions:
         以CSV的檔案型式輸入: 自動填入
       en: |
         CSV import: Autofill
+    -
+      github: 44#column-13183753
   -
     - 3.2.4
     - "2021-02-22"
@@ -1389,6 +1465,8 @@ versions:
         İnternet Kullanıcı Arayüzü
       en: |
         Web User Interface
+    -
+      github: 42#column-12850531
   -
     - 3.2.3
     - "2021-01-30"
@@ -1411,6 +1489,8 @@ versions:
         Tarih düğmesi önceki ve sonraki güne çabuk geçmeye izin verir.
       en: |
         Date button allows quick navigation to previous and next day.
+    -
+      github: 41#column-12654018
   -
     - 3.2.2
     - "2021-01-25"
@@ -1435,6 +1515,8 @@ versions:
         Grup başlıklarında harcama, gelir ve transfer toplamları gizlenebilir. Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir. Filtreler ve bütçeler hesapların alt kümeleri için tanımlanabilir.
       en: |
         The sums for expenses, income and transfers in the group headers can be hidden. Calculate the difference between the current balance and a new value. Filter and budgets can be defined for a subset of accounts.
+    -
+      github: 38#column-12291166
   -
     - 3.2.1
     - "2020-12-21"
@@ -1459,6 +1541,8 @@ versions:
        Metin tanıma artık daha fazla lisan ile çalışıyor.
       en: |
        Text recognition now works with more languages.
+    -
+      github: 37#column-11936721
   -
     - 3.2.0
     - "2020-12-05"
@@ -1482,7 +1566,9 @@ versions:
       tr: |
        Görüntüler kırpılabilir.
       en: |
-       Images can be cropped.  
+       Images can be cropped.
+    -
+      github: 36#column-11936717
   -
     - 3.1.9
     - "2020-11-29"
@@ -1503,6 +1589,8 @@ versions:
        חידוד ממשק המשתמש.
       es: |
        Interfaz de usuario mejorada
+    -
+      github: 33#column-11450748
   -
     - 3.1.8
     - "2020-11-19"
@@ -1523,6 +1611,8 @@ versions:
         Дефиниране на действието по подразбиране за всеки шаблон.
       iw: |
         ניתן להגדיר פעולת קליק ברירת מחדל לכל תבנית.
+    -
+      github: 35#column-11734963
   -
     - 3.1.7
     - "2020-11-14"
@@ -1543,6 +1633,8 @@ versions:
         Шаблон може да се зареди от страницата за транзакции.
       iw: |
         ניתן לטעון תבניות מטופס העסקה.
+    -
+      github: 34#column-11664847
   -
     - 3.1.6
     - "2020-10-30"
@@ -1563,6 +1655,8 @@ versions:
         Бутонът за запис във формата за транзакция е по забележим. Дълго натискане на плаващия бутон отваря меню, където ще подготвите форма за превод, разпределена транзакция или приход.
       iw: |
         לחצן שמור בטופס העסקה בולט יותר. לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר להכין את הטופס להעברה, לעסקה מפוצלת או להכנסה.
+    -
+      github: 32#column-11377778
   -
     - 3.1.5
     - "2020-10-22"
@@ -1581,6 +1675,8 @@ versions:
         Тъмната тема е свързана със системната настройка по подразбиране. Подобрения в потребителския интерфейс.
       iw: |
         עיצוב כהה מקושר לברירת המחדל של המערכת. חידוד ממשק המשתמש.
+    -
+      github: 31#column-11152071
   -
     - 3.1.4
     - "2020-10-03"
@@ -1603,6 +1699,8 @@ versions:
         סריקת קבלה.
       ta: |
         ரசீது ஸ்கேன.
+    -
+      github: 30#column-10686300
   -
     - 3.1.3
     - "2020-08-21"
