@@ -1043,4 +1043,8 @@
     <string name="encrypt_database_info">מסד הנתונים יוצפן עם מילת מפתח שלא ניתן לחלץ מהמכשיר הזה. כתוצאה מכך הוא לא יגובה על ידי שירות הגיבוי של המכשיר שלך.</string>
     <string name="database_is_encrypted">מסד הנתונים מוצפן.</string>
     <string name="github_sponsors">מפתחות רישוי מסופקים גם ל־&lt;a href=%s&gt;GitHub Sponsors&lt;/a&gt; (נותני החסות).</string>
+    <string name="notifications_permission_required_sync">הענקת הרשאות לשליחת התראות מאפשרת לעקוב אחר התקדמות פעילויות הסנכרון.</string>
+    <string name="notifications_channel_required">נא להפעיל את הערוץ %s.</string>
+    <string name="notifications_permission_required_webui">הענקת ההרשאות לשליחת התראות מאפשרת שליטה במצב השרת של האתר.</string>
+    <string name="notifications_permission_required_planner">ל־<i>{app_name}</i> נדרשות הרשאות כדי לשלוח לך התראות, כאשר מפורסמות העברות עתידיות.</string>
 </resources>
