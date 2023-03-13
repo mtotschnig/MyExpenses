@@ -8,7 +8,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel
 
@@ -33,8 +35,8 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 restoreViewModel.result.collect { result ->
                     result?.let {
-                        result.onFailure {
-                            progressDialogFragment?.appendToMessage(it.safeMessage)
+                        result.onFailure { throwable ->
+                            progressDialogFragment?.appendToMessage(throwable.safeMessage)
                         }
                         progressDialogFragment?.onTaskCompleted()
                         onPostRestoreTask(it)
@@ -45,14 +47,43 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
         }
     }
 
+    fun doWithEncryptionCheck(block: () -> Unit) {
+        if (prefHandler.encryptDatabase && !isSqlCryptLoaded) {
+            showMessage(
+                "The module required for database encryption has not yet been downloaded from Play Store. Please try again!",
+                null,
+                null,
+                MessageDialogFragment.Button(
+                    R.string.button_label_close,
+                    R.id.QUIT_COMMAND,
+                    null
+                ),
+                false
+            )
+        } else {
+           block()
+        }
+    }
+
+    fun requireSqlCrypt() {
+        if (!isSqlCryptLoaded) {
+            featureManager.requestFeature(Feature.SQLCRYPT, this)
+        }
+    }
+
+    private val isSqlCryptLoaded
+        get() = featureManager.isFeatureInstalled(Feature.SQLCRYPT, this)
+
     protected fun doRestore(args: Bundle) {
-        supportFragmentManager
-            .beginTransaction()
-            .add(
-                ProgressDialogFragment.newInstance(getString(R.string.pref_restore_title), true),
-                PROGRESS_TAG
-            ).commitNow()
-        restoreViewModel.startRestore(args)
+        doWithEncryptionCheck {
+            supportFragmentManager
+                .beginTransaction()
+                .add(
+                    ProgressDialogFragment.newInstance(getString(R.string.pref_restore_title), true),
+                    PROGRESS_TAG
+                ).commitNow()
+            restoreViewModel.startRestore(args)
+        }
     }
 
     protected open fun onPostRestoreTask(result: Result<Unit>) {
@@ -61,7 +92,7 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
             // if the backup is password protected, we want to force the password
             // check
             // is it not enough to set mLastPause to zero, since it would be
-            // overwritten by the callings activity onpause
+            // overwritten by the callings activity onPause
             // hence we need to set isLocked if necessary
             val myApplication = requireApplication()
             myApplication.resetLastPause()

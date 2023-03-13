@@ -13,14 +13,11 @@ import eltos.simpledialogfragment.color.SimpleColorDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
-import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.RESTORE_REQUEST
-import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -82,19 +79,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     override val navigationButtonId = R.id.suw_navbar_done
 
     override fun onNextButtonClicked() {
-        if (prefHandler.encryptDatabase && !isSqlCryptLoaded) {
-            (requireActivity() as BaseActivity).showMessage(
-                "The module required for database encryption has not yet been downloaded from Play Store. Please try again!",
-                null,
-                null,
-                MessageDialogFragment.Button(
-                    R.string.button_label_close,
-                    R.id.QUIT_COMMAND,
-                    null
-                ),
-                false
-            )
-        } else {
+        hostActivity.doWithEncryptionCheck {
             prefHandler.putString(PrefKey.HOME_CURRENCY, selectedCurrency.code)
             viewModel.saveAccount(buildAccount())
         }
@@ -105,7 +90,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     override fun setupMenu() {
         toolbar.menu.findItem(R.id.SetupFromRemote).subMenu?.let {
             it.clear()
-            (requireActivity() as SyncBackendSetupActivity).addSyncProviderMenuEntries(it)
+            hostActivity.addSyncProviderMenuEntries(it)
             for (account in getAccountNames(requireActivity())) {
                 it.add(Menu.NONE, Menu.NONE, Menu.NONE, account)
             }
@@ -114,15 +99,18 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     }
 
     private fun onRestoreMenuItemSelected(item: MenuItem): Boolean {
-        val hostActivity = requireActivity() as SyncBackendSetupActivity
-        if (item.itemId == R.id.SetupFromLocal) {
-            val intent = Intent(activity, BackupRestoreActivity::class.java)
-            intent.action = BackupRestoreActivity.ACTION_RESTORE
-            hostActivity.startActivityForResult(intent, RESTORE_REQUEST)
-        } else if (item.itemId == Menu.NONE) {
-            hostActivity.fetchAccountData(item.title.toString())
-        } else if (item.itemId !in arrayOf(R.id.SetupMain, R.id.SetupFromRemote)) {
-            hostActivity.startSetup(item.itemId)
+        when (item.itemId) {
+            R.id.SetupFromLocal -> {
+                val intent = Intent(activity, BackupRestoreActivity::class.java)
+                intent.action = BackupRestoreActivity.ACTION_RESTORE
+                hostActivity.startActivityForResult(intent, RESTORE_REQUEST)
+            }
+            Menu.NONE -> {
+                hostActivity.fetchAccountData(item.title.toString())
+            }
+            !in arrayOf(R.id.SetupMain, R.id.SetupFromRemote) -> {
+                hostActivity.startSetup(item.itemId)
+            }
         }
         return true
     }

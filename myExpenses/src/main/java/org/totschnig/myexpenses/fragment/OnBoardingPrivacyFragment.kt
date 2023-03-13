@@ -42,7 +42,7 @@ class OnBoardingPrivacyFragment: OnboardingFragment() {
                 prefHandler.putBoolean(PrefKey.ENCRYPT_DATABASE, newValue)
                 it.isChecked = newValue
                 if (newValue) {
-                    requireSqlCrypt()
+                    hostActivity.requireSqlCrypt()
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
                         putString(ConfirmationDialogFragment.KEY_MESSAGE,
                         getString(R.string.encrypt_database_info)

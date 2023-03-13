@@ -13,8 +13,6 @@ import androidx.fragment.app.Fragment
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.databinding.OnboardingWizzardBinding
-import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.PrefHandler
 import javax.inject.Inject
 
@@ -26,9 +24,6 @@ abstract class OnboardingFragment : Fragment() {
 
     @Inject
     lateinit var prefHandler: PrefHandler
-
-    @Inject
-    lateinit var featureManager: FeatureManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,15 +94,6 @@ abstract class OnboardingFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    fun requireSqlCrypt() {
-        if (!isSqlCryptLoaded) {
-            featureManager.requestFeature(Feature.SQLCRYPT, requireContext())
-        }
-    }
-
-    val isSqlCryptLoaded
-        get() = featureManager.isFeatureInstalled(Feature.SQLCRYPT, requireContext())
 
     val hostActivity
         get() = requireActivity() as OnboardingActivity

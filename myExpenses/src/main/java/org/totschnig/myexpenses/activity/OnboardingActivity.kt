@@ -105,25 +105,27 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     fun setupFromBackup(backup: String?, restorePlanStrategy: Int, password: String?) {
-        val arguments = Bundle(4)
-        arguments.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
-        arguments.putString(KEY_BACKUP_FROM_SYNC, backup)
-        arguments.putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
-        arguments.putString(KEY_PASSWORD, password)
-        doRestore(arguments)
+        doRestore(Bundle(4).apply {
+            putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
+            putString(KEY_BACKUP_FROM_SYNC, backup)
+            putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy)
+            putString(KEY_PASSWORD, password)
+        })
     }
 
     fun setupFromSyncAccounts(syncAccounts: List<AccountMetaData>) {
-        showSnackBarIndefinite(R.string.progress_dialog_fetching_data_from_sync_backend)
-        viewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid() }, accountName!!)
-            .observe(this) { result ->
-                dismissSnackBar()
-                result.onSuccess {
-                    start()
-                }.onFailure {
-                    showDismissibleSnackBar(it.safeMessage)
+        doWithEncryptionCheck {
+            showSnackBarIndefinite(R.string.progress_dialog_fetching_data_from_sync_backend)
+            viewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid() }, accountName!!)
+                .observe(this) { result ->
+                    dismissSnackBar()
+                    result.onSuccess {
+                        start()
+                    }.onFailure {
+                        showDismissibleSnackBar(it.safeMessage)
+                    }
                 }
-            }
+        }
     }
 
     private inner class MyPagerAdapter(fm: FragmentManager?) :
