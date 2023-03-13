@@ -258,7 +258,7 @@
     <string name="planner_create_calendar_failure">No se pudo crear un calendario de planificación local</string>
     <string name="planner_create_calendar_success">Calendario de planificación local creado con éxito</string>
     <!-- payment methods -->
-    <string name="pm_cheque">Cheque</string>
+    <string name="pm_cheque">Cheque bancario</string>
     <string name="pm_creditcard">Tarjeta de crédito</string>
     <string name="pm_deposit">Déposito</string>
     <string name="pm_directdebit">Cargo directo</string>
@@ -1028,4 +1028,8 @@
     <string name="encrypt_database_info">La base de datos se cifrará con una frase de contraseña que no se puede extraer de este dispositivo. En consecuencia, el servicio de copia de seguridad de su dispositivo no realizará una copia de seguridad.</string>
     <string name="database_is_encrypted">La base de datos está cifrada.</string>
     <string name="github_sponsors">También se proporcionan claves de licencia a &lt;a href=%s&gt;Patrocinadores de Github&lt;/a&gt;.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> necesita permiso para enviarte notificaciones, cuando se publiquen futuras transacciones.</string>
+    <string name="notifications_permission_required_webui">Al conceder el permiso para enviar notificaciones, puede controlar el estado del servidor web.</string>
+    <string name="notifications_permission_required_sync">Al conceder el permiso para enviar notificaciones, puede supervisar el progreso de las operaciones de sincronización.</string>
+    <string name="notifications_channel_required">Por favor, active el canal %s.</string>
 </resources>
