@@ -399,12 +399,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    open fun maybeRepairRequerySchema() {
         if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(PrefKey.CURRENT_VERSION, -1) < 593) {
             maybeRepairRequerySchema(getDatabasePath("data").path)
             prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        maybeRepairRequerySchema()
         readAccountGroupingFromPref()
         pagerState = PagerState(currentPage = savedInstanceState?.getInt(KEY_CURRENT_PAGE) ?: 0)
         accountSort = readAccountSortFromPref()
