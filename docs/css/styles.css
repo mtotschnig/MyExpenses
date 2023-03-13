@@ -22,11 +22,16 @@ dl.versionlist dd {
 }
 .versioncode {
   display: inline-block;
-  width: 4.5em;
+  width: 3.5em;
   }
 .versiondate {
   display: inline-block;
   width: 6em;
+}
+img.versionlinks {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
 }
 .jumbotron {
   text-align: center;

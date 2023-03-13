@@ -283,13 +283,13 @@
     <h2>{{page.sections.versionlist}}</h2>
     <dl class="versionlist">
         {% for version in site.versions %}
-        <dt><span class="versioncode">{{version[0]}}</span><span
-                class="versiondate">{{version[1]}}</span>
-                {% if version.size == 4 %}<span class="versionlinks">
-                <a href="https://github.com/mtotschnig/MyExpenses/projects/{{version[3]['github']}}"><img height="16" width="16" src="https://github.com/favicon.ico"></a>
-                {% if version[3]['mastodon'] %}<a href="https://mastodon.social/@myexpenses/{{version[3]['mastodon']}}"><img height="16" width="16" src="https://mastodon.social/favicon.ico"></a>{% endif %}
-                </span>{% endif %}</dt>
-        <dd>{% if version[2][page.lang] %}{{version[2][page.lang]}}{% else %}{{version[2]['en']}}{% endif %}
+        <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
+        <dd>
+        {% if version.size == 4 %}
+                <a href="https://github.com/mtotschnig/MyExpenses/projects/{{version[3]['github']}}"><img class="versionlinks" src="https://github.com/favicon.ico"></a>
+                {% if version[3]['mastodon'] %}<a href="https://mastodon.social/@myexpenses/{{version[3]['mastodon']}}"><img class="versionlinks" src="https://mastodon.social/favicon.ico"></a>{% endif %}
+        {% endif %}
+        {% if version[2][page.lang] %}{{version[2][page.lang]}}{% else %}{{version[2]['en']}}{% endif %}
         </dd>
         {% endfor %}
     </dl>
