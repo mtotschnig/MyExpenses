@@ -5,7 +5,6 @@ import android.os.Bundle
 import org.totschnig.myexpenses.viewmodel.data.Account
 
 class TestExpenseEdit: ExpenseEdit() {
-    var setAccountsCalled = 0
     private var activityIsRecreated = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +21,6 @@ class TestExpenseEdit: ExpenseEdit() {
         super.setAccounts(accounts, fromSavedState)
         if (activityIsRecreated) {
             activityIsRecreated = false
-        } else {
-            setAccountsCalled++
         }
     }
 }

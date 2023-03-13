@@ -472,11 +472,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         linkInputsWithLabels()
         loadTags()
         loadCurrencies()
-        viewModel.getSplitParts().observe(this) { transactions ->
-            (delegate as? SplitDelegate)?.also {
-                it.showSplits(transactions)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.splitParts.collect { transactions ->
+                    (delegate as? SplitDelegate)?.also {
+                        it.showSplits(transactions)
+                    }
+                        ?: run { CrashHandler.report(java.lang.IllegalStateException("expected SplitDelegate, found ${delegate::class.java.name}")) }
+                }
             }
-                ?: run { CrashHandler.report(java.lang.IllegalStateException("expected SplitDelegate, found ${delegate::class.java.name}")) }
         }
         observeMoveResult()
     }
@@ -545,8 +549,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private fun loadAccounts(fromSavedState: Boolean) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.accounts.collect {
+            viewModel.accounts.collect {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
                     setAccounts(it, fromSavedState)
                     if (operationType == Transactions.TYPE_SPLIT) {
                         viewModel.loadSplitParts(delegate.rowId, isTemplate)

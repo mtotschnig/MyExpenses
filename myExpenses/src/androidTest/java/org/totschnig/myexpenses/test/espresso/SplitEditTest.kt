@@ -102,18 +102,12 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun createPartAndSave() {
         testScenario = ActivityScenario.launchActivityForResult(baseIntent)
-        testScenario.onActivity {
-            assertThat(it.setAccountsCalled).isEqualTo(1)
-        }
         createParts(5)
         onView(withId(R.id.CREATE_COMMAND)).perform(click())//amount is now updated automatically
         assertFinishing()
     }
 
     private fun createParts(times: Int) {
-        testScenario.onActivity {
-            assertThat(it.setAccountsCalled).isEqualTo(1)
-        }
         repeat(times) {
             closeSoftKeyboard()
             onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
@@ -121,9 +115,6 @@ class SplitEditTest : BaseExpenseEditTest() {
             onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
             enterAmountSave("50")
             onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
-            testScenario.onActivity {
-                assertThat(it.setAccountsCalled).isEqualTo(1)
-            }
         }
     }
 

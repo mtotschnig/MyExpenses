@@ -12,11 +12,13 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
@@ -55,10 +57,9 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagHandlingViewModel(application, savedStateHandle) {
 
-    private val splitParts = MutableLiveData<List<SplitPart>>()
-    private var loadSplitPartJob: Job? = null
+    private val splitPartLoader = MutableStateFlow<Pair<Long, Boolean>?>(null)
+
     private var loadMethodJob: Job? = null
-    fun getSplitParts(): LiveData<List<SplitPart>> = splitParts
 
     private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val moveResult: StateFlow<Boolean?> = _moveResult
@@ -215,8 +216,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         } ?: repository.getLastUsedOpenAccount()
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
-        loadSplitPartJob?.cancel()
-        loadSplitPartJob = viewModelScope.launch {
+        splitPartLoader.tryEmit(parentId to parentIsTemplate)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val splitParts = splitPartLoader.filterNotNull().flatMapLatest {
+        val (parentId, parentIsTemplate) = it
             contentResolver.observeQuery(
                 uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
                 else TransactionProvider.UNCOMMITTED_URI,
@@ -232,11 +237,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 ).toTypedArray(),
                 selection = "$KEY_PARENTID = ?",
                 selectionArgs = arrayOf(parentId.toString())
-            ).cancellable().mapToList {
-                SplitPart.fromCursor(it)
-            }.collect { splitParts.postValue(it) }
+            ).mapToList { cursor ->
+                SplitPart.fromCursor(cursor)
+            }
         }
-    }
 
     fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
         _moveResult.update {
