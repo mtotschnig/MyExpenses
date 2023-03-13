@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
+        <item>598;3.5.2.1</item>
         <item>597;3.5.2</item>
         <item>586;3.5.1</item>
         <item>582;3.5.0</item>
@@ -149,5 +150,8 @@
     <string-array name="whats_new_336">
         <item>@string/whats_new_336_1</item>
         <item>@string/whats_new_336_2</item>
+    </string-array>
+    <string-array name="whats_new_3521">
+        <item>@string/bug_fixes</item>
     </string-array>
 </resources>
