@@ -119,12 +119,10 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             val intent = Intent(activity, BackupRestoreActivity::class.java)
             intent.action = BackupRestoreActivity.ACTION_RESTORE
             hostActivity.startActivityForResult(intent, RESTORE_REQUEST)
-        } else {
-            if (item.itemId == Menu.NONE) {
-                hostActivity.fetchAccountData(item.title.toString())
-            } else {
-                hostActivity.startSetup(item.itemId)
-            }
+        } else if (item.itemId == Menu.NONE) {
+            hostActivity.fetchAccountData(item.title.toString())
+        } else if (item.itemId !in arrayOf(R.id.SetupMain, R.id.SetupFromRemote)) {
+            hostActivity.startSetup(item.itemId)
         }
         return true
     }
