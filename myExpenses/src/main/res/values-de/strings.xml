@@ -1015,4 +1015,8 @@
     <string name="encrypt_database_info">Die Datenbank wird mit einer Passphrase verschlüsselt, die nicht von diesem Gerät extrahiert werden kann. Folglich wird sie nicht vom Backup-Service Ihres Geräts gesichert.</string>
     <string name="database_is_encrypted">Die Datenbank ist verschlüsselt.</string>
     <string name="github_sponsors">Lizenzschlüssel werden auch &lt;a href=%s&gt;Github-Sponsoren&lt;/a&gt; zur Verfügung gestellt.</string>
+    <string name="notifications_permission_required_webui">Indem Sie die Erlaubnis zum Senden von Benachrichtigungen erteilen, können Sie den Status des Webservers kontrollieren.</string>
+    <string name="notifications_channel_required">Bitte aktivieren Sie den Kanal %s.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> benötigt die Berechtigung, Ihnen Benachrichtigungen zu senden, wenn zukünftige Transaktionen gebucht werden.</string>
+    <string name="notifications_permission_required_sync">Indem Sie die Berechtigung zum Senden von Benachrichtigungen erteilen, können Sie den Fortschritt der Synchronisierungsvorgänge überwachen.</string>
 </resources>
