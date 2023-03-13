@@ -1015,4 +1015,8 @@
     <string name="encrypt_database_info">Veri tabanı, bu aygıttan dışarı alınamayacak bir parola ile şifrelenecektir. Sonuç olarak aygıtınızın yedekleme hizmeti tarafından yedeklenmeyecektir.</string>
     <string name="database_is_encrypted">Veri tabanı şifrelendi.</string>
     <string name="github_sponsors">&lt;a href=%s&gt;Github Sponsorlarına&lt;/a&gt; da lisans anahtarları sağlanmaktadır.</string>
+    <string name="notifications_permission_required_planner">Gelecekteki muameleler gönderildiğinde size bildirim göndermek için <i>{app_name}</i> izne ihtiyaç duyuyor.</string>
+    <string name="notifications_permission_required_webui">Bildirim gönderme izni vererek web sunucusunun durumunu denetleyebilirsiniz.</string>
+    <string name="notifications_permission_required_sync">Bildirim gönderme izni vererek, eşzamanlama işlemlerinin ilerleyişini izleyebilirsiniz.</string>
+    <string name="notifications_channel_required">Lütfen %s kanalını etkinleştirin.</string>
 </resources>
