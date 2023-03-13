@@ -44,6 +44,25 @@ fun categoryTreeSelect(
     categorySeparator = categorySeparator
 ) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
+val categoryTreeSelectForTrigger = """
+WITH Tree as (
+SELECT
+    $KEY_ROWID,
+    $KEY_PARENTID,
+    1 AS $KEY_LEVEL
+FROM $TABLE_CATEGORIES main
+WHERE $KEY_ROWID= new.$KEY_ROWID
+UNION ALL
+SELECT
+    subtree.$KEY_ROWID,
+    subtree.$KEY_PARENTID,
+    level + 1
+FROM $TABLE_CATEGORIES subtree
+JOIN Tree ON Tree._id = subtree.parent_id
+ORDER BY $KEY_LEVEL DESC
+)
+""".trimIndent() + " SELECT $KEY_ROWID From Tree"
+
 fun budgetColumn(year: String?, second: String?): String {
     val mainSelect = subSelectFromAllocations(
         KEY_BUDGET,

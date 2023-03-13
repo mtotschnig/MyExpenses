@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 136
+const val DATABASE_VERSION = 137
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -52,12 +52,7 @@ END
 
 private val CATEGORY_HIERARCHY_TRIGGER = """
 CREATE TRIGGER category_hierarchy_update
-BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IS NOT old.$KEY_PARENTID AND new.$KEY_PARENTID IN (${
-    categoryTreeSelect(
-        projection = arrayOf(KEY_ROWID),
-        rootExpression = "= new.$KEY_ROWID"
-    )
-})
+BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IS NOT old.$KEY_PARENTID AND new.$KEY_PARENTID IN ($categoryTreeSelectForTrigger)
 BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
 """
 

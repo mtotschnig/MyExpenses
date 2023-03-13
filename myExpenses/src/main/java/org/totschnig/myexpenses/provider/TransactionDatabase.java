@@ -2252,6 +2252,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 136) {
         upgradeTo136(db);
       }
+      if (oldVersion < 137) {
+        createOrRefreshCategoryHierarchyTrigger(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
