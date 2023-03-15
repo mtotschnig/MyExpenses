@@ -1015,4 +1015,8 @@
     <string name="encrypt_database_info">Базата данни ще бъде шифрована с парола, която не може да бъде извлечена от устройството. Също така, тя няма да бъде архивирана от услугата за архивиране на вашето устройство.</string>
     <string name="database_is_encrypted">Базата данни е шифрована.</string>
     <string name="github_sponsors">Предоставени са лицензионни ключове и за &lt;a href=%s&gt;спонсори чрез Github&lt;/a&gt;.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> се нуждае от разрешение да ви изпраща известия, когато бъдат публикувани бъдещи транзакции.</string>
+    <string name="notifications_permission_required_webui">Чрез предоставяне на разрешение за изпращане на известия, вие контролирате състоянието на уеб сървъра.</string>
+    <string name="notifications_permission_required_sync">При предоставяне на разрешение за изпращане на известия, вие може да следите развитието на действията по синхронизиране.</string>
+    <string name="notifications_channel_required">Моля, разрешете канала %s.</string>
 </resources>
