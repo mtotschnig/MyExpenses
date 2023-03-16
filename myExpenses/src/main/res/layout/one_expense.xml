@@ -305,10 +305,26 @@
                             android:labelFor="@+id/Debt"
                             android:text="@string/debt" />
 
+                        <LinearLayout
+                            style="@style/FormField"
+                            android:orientation="horizontal">
                         <CheckBox
                             android:id="@+id/DebtCheckBox"
-                            style="@style/FormField"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:layout_gravity="center_horizontal" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/DebtSummaryPopup"
+                            style="?actionButtonStyle"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="Explanation"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/ic_menu_help" />
+                        </LinearLayout>
                     </TableRow>
 
                     <TableRow android:id="@+id/CategoryRow">

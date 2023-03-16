@@ -13,6 +13,7 @@ import android.widget.FilterQueryProvider
 import android.widget.SimpleCursorAdapter
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.bold
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
@@ -37,10 +38,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.configurePopupAnchor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.math.BigDecimal
 import kotlin.math.sign
 
 //Transaction or Split
@@ -249,10 +252,29 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     private fun updateDebtCheckBox(debt: Debt?) {
-        viewBinding.DebtCheckBox.text = debt?.let { formatDebt(it, true) } ?: ""
+        val installment = debt?.let { calculateInstallment(it) }
+        viewBinding.DebtCheckBox.text = debt?.let { formatDebt(it, installment) } ?: ""
+        viewBinding.DebtSummaryPopup.isVisible = installment != null
+        viewBinding.DebtSummaryPopup.configurePopupAnchor(
+            "TODO"
+        ) { (host.window!!.decorView.width * 0.75).toInt() }
     }
 
-    private fun formatDebt(debt: Debt, withInstallment: Boolean = false): CharSequence {
+    private fun calculateInstallment(debt: Debt) =
+        (if (debt.currency != currentAccount()!!.currency)
+            with(
+                validateAmountInput(
+                    viewBinding.EquivalentAmount,
+                    showToUser = false,
+                    ifPresent = false
+                )
+            ) {
+                if (isIncome) this else this?.negate()
+            }
+        else
+            validateAmountInput()).takeIf { it != BigDecimal.ZERO }
+
+    private fun formatDebt(debt: Debt, withInstallment: BigDecimal? = null): CharSequence {
         val amount = debt.currentBalance
         val money = Money(debt.currency, amount)
         val elements = mutableListOf<CharSequence>().apply {
@@ -263,34 +285,17 @@ abstract class MainDelegate<T : ITransaction>(
                     .withAmountColor(viewBinding.root.context.resources, amount.sign)
             )
         }
-        val account = currentAccount()
-        if (withInstallment && account != null) {
-            val isForeignExchangeDebt = debt.currency != account.currency
 
-            val installment = if (isForeignExchangeDebt)
-                with(
-                    validateAmountInput(
-                        viewBinding.EquivalentAmount,
-                        showToUser = false,
-                        ifPresent = false
+        withInstallment?.let {
+            elements.add(" ${Transfer.RIGHT_ARROW} ")
+            val futureBalance = money.amountMajor - it
+            elements.add(
+                currencyFormatter.formatMoney(Money(debt.currency, futureBalance))
+                    .withAmountColor(
+                        viewBinding.root.context.resources,
+                        futureBalance.signum()
                     )
-                ) {
-                    if (isIncome) this else this?.negate()
-                }
-            else
-                validateAmountInput()
-
-            if (installment != null) {
-                elements.add(" ${Transfer.RIGHT_ARROW} ")
-                val futureBalance = money.amountMajor - installment
-                elements.add(
-                    currencyFormatter.formatMoney(Money(debt.currency, futureBalance))
-                        .withAmountColor(
-                            viewBinding.root.context.resources,
-                            futureBalance.signum()
-                        )
-                )
-            }
+            )
         }
         return TextUtils.concat(*elements.toTypedArray())
     }
@@ -400,9 +405,7 @@ abstract class MainDelegate<T : ITransaction>(
                         }
                     }
                 } else {
-                    if (debts.size > 1) {
-                        updateUiWithDebt(null)
-                    }
+                    updateUiWithDebt(null)
                     debtId = null
                 }
             }

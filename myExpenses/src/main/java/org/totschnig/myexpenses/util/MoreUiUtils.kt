@@ -1,9 +1,15 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.method.LinkMovementMethod
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
@@ -13,6 +19,7 @@ import androidx.core.widget.ImageViewCompat
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Grouping
@@ -132,4 +139,38 @@ fun Spinner.checkNewAccountLimitation(prefHandler: PrefHandler, context: Context
 fun FloatingActionButton.setBackgroundTintList(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
     ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(getBestForeground(color)))
+}
+
+fun View.configurePopupAnchor(
+    infoText: CharSequence,
+    widthInPixels: () -> Int
+) {
+    setOnClickListener {
+        val host = context.getActivity() ?: throw java.lang.IllegalStateException("BaseActivity expected")
+        host.hideKeyboard()
+        val infoTextView = LayoutInflater.from(host).inflate(R.layout.textview_info, null) as TextView
+        PopupWindow(infoTextView).apply {
+            isOutsideTouchable = true
+            isFocusable = true
+            chooseSize(infoText, infoTextView, widthInPixels())
+
+            infoTextView.text = infoText
+            infoTextView.movementMethod = LinkMovementMethod.getInstance()
+            showAsDropDown(this@configurePopupAnchor)
+        }
+    }
+}
+
+tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
+    ?: (this as? ContextWrapper)?.baseContext?.getActivity()
+
+private fun PopupWindow.chooseSize(text: CharSequence, tv: TextView, widthInPixels: Int) {
+    var ht = tv.paddingTop + tv.paddingBottom
+    val l: Layout = StaticLayout(
+        text, tv.paint, widthInPixels,
+        Layout.Alignment.ALIGN_NORMAL, 1F, 0F, true
+    )
+    ht += l.height
+    width = widthInPixels
+    height = ht
 }

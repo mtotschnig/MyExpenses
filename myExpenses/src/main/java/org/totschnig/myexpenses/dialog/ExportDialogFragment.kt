@@ -16,7 +16,6 @@ package org.totschnig.myexpenses.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -25,8 +24,6 @@ import android.text.Spanned
 import android.text.StaticLayout
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.text.method.LinkMovementMethod
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -47,6 +44,7 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.configurePopupAnchor
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.postScrollToBottom
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DATE_FORMAT
@@ -273,23 +271,11 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             }
             binding.mergeAccounts.isChecked = mergeAccounts
         }
-        val helpIcon = dialogView!!.findViewById<View>(R.id.date_format_help)
-        helpIcon.setOnClickListener {
-            val inflater = LayoutInflater.from(activity)
-            val infoTextView = inflater.inflate(
-                R.layout.textview_info, null
-            ) as TextView
-            val infoText = buildDateFormatHelpText()
-            val infoWindow = PopupWindow(infoTextView)
-            infoWindow.setBackgroundDrawable(BitmapDrawable())
-            infoWindow.isOutsideTouchable = true
-            infoWindow.isFocusable = true
-            chooseSize(infoWindow, infoText, infoTextView)
-            infoTextView.text = infoText
-            infoTextView.movementMethod = LinkMovementMethod.getInstance()
-            //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
-            infoWindow.showAsDropDown(helpIcon)
-        }
+
+        dialogView!!.findViewById<View>(R.id.date_format_help).configurePopupAnchor(
+            infoText = buildDateFormatHelpText()
+        ) { (dialog!!.window!!.decorView.width * 0.75).toInt() }
+
         builder.setTitle(if (allP) R.string.menu_reset_all else R.string.menu_reset)
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(android.R.string.ok, this)

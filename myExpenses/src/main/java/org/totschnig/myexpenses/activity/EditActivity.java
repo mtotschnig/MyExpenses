@@ -15,14 +15,15 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -33,9 +34,6 @@ import org.totschnig.myexpenses.util.FormAccentUtilKt;
 
 import java.math.BigDecimal;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import icepick.State;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher, ButtonWithDialog.Host {
@@ -166,8 +164,4 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     return R.id.edit_container;
   }
 
-  protected void hideKeyboard() {
-    InputMethodManager im = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-    im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-  }
 }

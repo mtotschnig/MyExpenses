@@ -19,6 +19,7 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -916,6 +917,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onNeutral(args: Bundle) {}
     override fun onNegative(args: Bundle) {}
     override fun onDismissOrCancel() {}
+
+    fun hideKeyboard() {
+        val im = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        im.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+    }
 
     companion object {
         const val ASYNC_TAG = "ASYNC_TASK"
