@@ -321,9 +321,9 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
-                            android:contentDescription="Explanation"
                             android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/ic_menu_help" />
+                            app:srcCompat="@drawable/ic_menu_help"
+                            tools:ignore="ContentDescription" />
                         </LinearLayout>
                     </TableRow>
 

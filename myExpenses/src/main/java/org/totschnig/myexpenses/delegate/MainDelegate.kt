@@ -256,8 +256,10 @@ abstract class MainDelegate<T : ITransaction>(
         viewBinding.DebtCheckBox.text = debt?.let { formatDebt(it, installment) } ?: ""
         viewBinding.DebtSummaryPopup.isVisible = installment != null
         installment?.let {
+            val infoText = formatDebtHelp(debt, it)
+            viewBinding.DebtSummaryPopup.contentDescription = infoText
             viewBinding.DebtSummaryPopup.configurePopupAnchor(
-                formatDebtHelp(debt, it)
+                infoText
             ) { (host.window!!.decorView.width * 0.75).toInt() }
         }
     }
