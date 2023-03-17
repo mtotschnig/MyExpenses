@@ -242,7 +242,11 @@ abstract class MainDelegate<T : ITransaction>(
         handleDebts()
     }
 
-    private fun updateUiWithDebt(debt: Debt?) {
+    fun updateUiWithDebt() {
+        updateUiWithDebt(debts.find { it.id == debtId })
+    }
+
+    fun updateUiWithDebt(debt: Debt?) {
         if (debt == null) {
             if (viewBinding.DebtCheckBox.isChecked) {
                 viewBinding.DebtCheckBox.isChecked = false
@@ -374,7 +378,7 @@ abstract class MainDelegate<T : ITransaction>(
             viewBinding.DebtRow.visibility = if (hasDebts) View.VISIBLE else View.GONE
             if (hasDebts) {
                 if (debtId != null) {
-                    updateUiWithDebt(debts.find { it.id == debtId })
+                    updateUiWithDebt()
                     if (!viewBinding.DebtCheckBox.isChecked) {
                         viewBinding.DebtCheckBox.isChecked = true
                     }

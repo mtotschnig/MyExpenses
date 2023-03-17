@@ -146,6 +146,10 @@
                 android:title="@string/method" />
             <SwitchPreferenceCompat
                 android:defaultValue="true"
+                android:key="@string/pref_auto_fill_debt_key"
+                android:title="@string/debt" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
                 android:key="@string/pref_auto_fill_focus_key"
                 android:title="@string/auto_fill_focus"
                 my:singleLineTitle="false" />

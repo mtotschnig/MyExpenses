@@ -35,7 +35,9 @@ import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.splitStringList
@@ -63,6 +65,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val moveResult: StateFlow<Boolean?> = _moveResult
+
+    private val _autoFillData: MutableStateFlow<AutoFillData?> = MutableStateFlow(null)
+    val autoFillData: StateFlow<AutoFillData?> = _autoFillData
 
     private val methods = MutableLiveData<List<PaymentMethod>>()
     fun getMethods(): LiveData<List<PaymentMethod>> = methods
@@ -222,25 +227,25 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     @OptIn(ExperimentalCoroutinesApi::class)
     val splitParts = splitPartLoader.filterNotNull().flatMapLatest {
         val (parentId, parentIsTemplate) = it
-            contentResolver.observeQuery(
-                uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
-                else TransactionProvider.UNCOMMITTED_URI,
-                projection = listOfNotNull(
-                    KEY_ROWID,
-                    KEY_AMOUNT,
-                    KEY_COMMENT,
-                    FULL_LABEL,
-                    KEY_TRANSFER_ACCOUNT,
-                    if (parentIsTemplate) null else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
-                    KEY_TAGLIST,
-                    KEY_ICON
-                ).toTypedArray(),
-                selection = "$KEY_PARENTID = ?",
-                selectionArgs = arrayOf(parentId.toString())
-            ).mapToList { cursor ->
-                SplitPart.fromCursor(cursor)
-            }
+        contentResolver.observeQuery(
+            uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
+            else TransactionProvider.UNCOMMITTED_URI,
+            projection = listOfNotNull(
+                KEY_ROWID,
+                KEY_AMOUNT,
+                KEY_COMMENT,
+                FULL_LABEL,
+                KEY_TRANSFER_ACCOUNT,
+                if (parentIsTemplate) null else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
+                KEY_TAGLIST,
+                KEY_ICON
+            ).toTypedArray(),
+            selection = "$KEY_PARENTID = ?",
+            selectionArgs = arrayOf(parentId.toString())
+        ).mapToList { cursor ->
+            SplitPart.fromCursor(cursor)
         }
+    }
 
     fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
         _moveResult.update {
@@ -309,6 +314,86 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
         } ?: run {
             emit(null)
+        }
+    }
+
+    fun startAutoFill(id: Long, overridePreferences: Boolean, autoFillAccountFromExtra: Boolean) {
+        val dataToLoad = buildList {
+
+            val autoFillAccountFromPreference =
+                prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "aggregate")
+            val mayLoadAccount =
+                overridePreferences && autoFillAccountFromExtra || autoFillAccountFromPreference == "always" ||
+                        autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
+            if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, true)) {
+                add(KEY_CURRENCY)
+                add(KEY_AMOUNT)
+            }
+            if (overridePreferences || prefHandler.getBoolean(
+                    PrefKey.AUTO_FILL_CATEGORY,
+                    true
+                )
+            ) {
+                add(KEY_CATID)
+                add(CAT_AS_LABEL)
+                add(CATEGORY_ICON)
+            }
+            if (overridePreferences || prefHandler.getBoolean(
+                    PrefKey.AUTO_FILL_COMMENT,
+                    true
+                )
+            ) {
+                add(KEY_COMMENT)
+            }
+            if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_METHOD, true)) {
+                add(KEY_METHODID)
+            }
+            if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_DEBT, true)) {
+                add(KEY_DEBT_ID)
+            }
+            if (mayLoadAccount) {
+                add(KEY_ACCOUNTID)
+            }
+        }
+        viewModelScope.launch(coroutineContext()) {
+            contentResolver.query(
+                ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, id),
+                dataToLoad.toTypedArray(), null, null, null
+            )?.use {
+                if (it.moveToFirst()) {
+                    _autoFillData.tryEmit(AutoFillData.fromCursor(it, currencyContext))
+                }
+            }
+        }
+    }
+
+    fun autoFillDone() {
+        _autoFillData.tryEmit(null)
+    }
+
+    data class AutoFillData(
+        val catId: Long?,
+        val label: String?,
+        val icon: String?,
+        val comment: String?,
+        val amount: Money?,
+        val methodId: Long?,
+        val accountId: Long?,
+        val debId: Long?
+    ) {
+        companion object {
+            fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = AutoFillData(
+                cursor.getLongIfExists(KEY_CATID),
+                cursor.getStringIfExists(KEY_LABEL),
+                cursor.getStringIfExists(KEY_ICON),
+                cursor.getStringIfExists(KEY_COMMENT),
+                cursor.getLongIfExists(KEY_AMOUNT)?.let {
+                    Money(currencyContext[cursor.getString(KEY_CURRENCY)], it)
+                },
+                cursor.getLongIfExists(KEY_METHODID),
+                cursor.getLongIfExists(KEY_AMOUNT),
+                cursor.getLongIfExists(KEY_DEBT_ID)
+            )
         }
     }
 

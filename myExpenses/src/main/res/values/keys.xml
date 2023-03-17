@@ -90,6 +90,7 @@
     <string name="pref_auto_fill_comment_key">auto_fill_comment</string>
     <string name="pref_auto_fill_account_key">auto_fill_account</string>
     <string name="pref_auto_fill_method_key">auto_fill_method</string>
+    <string name="pref_auto_fill_debt_key">auto_fill_debt</string>
     <string name="pref_auto_fill_focus_key">auto_fill_focus</string>
     <string name="pref_debug_show_ads_key">debug_show_ads</string>
     <string name="pref_protection_device_lock_screen_key">protection_device_lock_screen</string>

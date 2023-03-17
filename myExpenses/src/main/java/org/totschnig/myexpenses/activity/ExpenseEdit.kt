@@ -20,7 +20,6 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.database.ContentObserver
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -37,8 +36,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
-import androidx.loader.content.CursorLoader
-import androidx.loader.content.Loader
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -67,7 +64,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.*
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -92,9 +88,8 @@ import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
  *
  * @author Michael Totschnig
  */
-open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
-    LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener,
-    ExchangeRateEdit.Host {
+open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFace,
+    ConfirmationDialogListener, ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private lateinit var methodRowBinding: MethodRowBinding
@@ -483,6 +478,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             }
         }
         observeMoveResult()
+        observeAutoFillData()
     }
 
     private fun loadDebts() {
@@ -1226,69 +1222,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         mIsSaving = false
     }
 
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor?> {
-        when (id) {
-            AUTOFILL_CURSOR -> {
-                val dataToLoad: MutableList<String> = ArrayList()
-                val autoFillAccountFromPreference =
-                    prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "aggregate")
-                val autoFillAccountFromExtra =
-                    intent.getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
-                val overridePreferences = args!!.getBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES)
-                val mayLoadAccount =
-                    overridePreferences && autoFillAccountFromExtra || autoFillAccountFromPreference == "always" ||
-                            autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, true)) {
-                    dataToLoad.add(KEY_CURRENCY)
-                    dataToLoad.add(KEY_AMOUNT)
-                }
-                if (overridePreferences || prefHandler.getBoolean(
-                        PrefKey.AUTO_FILL_CATEGORY,
-                        true
-                    )
-                ) {
-                    dataToLoad.add(KEY_CATID)
-                    dataToLoad.add(CAT_AS_LABEL)
-                    dataToLoad.add(CATEGORY_ICON)
-                }
-                if (overridePreferences || prefHandler.getBoolean(
-                        PrefKey.AUTO_FILL_COMMENT,
-                        true
-                    )
-                ) {
-                    dataToLoad.add(KEY_COMMENT)
-                }
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_METHOD, true)) {
-                    dataToLoad.add(KEY_METHODID)
-                }
-                if (mayLoadAccount) {
-                    dataToLoad.add(KEY_ACCOUNTID)
-                }
-                return CursorLoader(
-                    this,
-                    ContentUris.withAppendedId(
-                        TransactionProvider.AUTOFILL_URI,
-                        args.getLong(KEY_ROWID)
-                    ),
-                    dataToLoad.toTypedArray(), null, null, null
-                )
-            }
-        }
-        throw IllegalStateException()
-    }
-
-    override fun onLoadFinished(loader: Loader<Cursor?>, data: Cursor?) {
-        if (data == null || isFinishing) {
-            return
-        }
-        when (loader.id) {
-            AUTOFILL_CURSOR -> {
-                (delegate as? CategoryDelegate)?.autoFill(data)
-                mManager.destroyLoader(AUTOFILL_CURSOR)
-            }
-        }
-    }
-
     fun launchPlanView(forResult: Boolean, planId: Long) {
         val intent = Intent(Intent.ACTION_VIEW)
         //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
@@ -1300,9 +1233,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             R.string.no_calendar_app_installed,
             if (forResult) PLAN_REQUEST else null
         )
-    }
-
-    override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autoCompleteTextView
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
@@ -1335,10 +1265,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
      * @param overridePreferences if true data is loaded irrespective of what is set in preferences
      */
     fun startAutoFill(id: Long, overridePreferences: Boolean) {
-        val extras = Bundle(2)
-        extras.putLong(KEY_ROWID, id)
-        extras.putBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES, overridePreferences)
-        Utils.requireLoader(mManager, AUTOFILL_CURSOR, extras, this)
+        viewModel.startAutoFill(id, overridePreferences, intent.getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false))
     }
 
     override fun onNegative(args: Bundle) {
@@ -1532,8 +1459,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         const val KEY_CREATE_TEMPLATE = "createTemplate"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
         const val KEY_OCR_RESULT = "ocrResult"
-        private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
-        const val AUTOFILL_CURSOR = 8
         const val KEY_INCOME = "income"
         const val KEY_PARENT_HAS_DEBT = "parentHasSplit"
 
@@ -1572,6 +1497,19 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         dismissSnackBar()
                         (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(it)
                         viewModel.moveResultProcessed()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeAutoFillData() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.autoFillData.collect { data ->
+                    data?.let {
+                        (delegate as? CategoryDelegate)?.autoFill(it)
+                        viewModel.autoFillDone()
                     }
                 }
             }

@@ -1,10 +1,8 @@
 package org.totschnig.myexpenses.delegate
 
-import android.database.Cursor
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import androidx.core.database.getLongOrNull
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
@@ -12,13 +10,11 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.ITransaction
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
@@ -122,59 +118,50 @@ class CategoryDelegate(
         }
     }
 
-    fun autoFill(data: Cursor) {
-        if (data.moveToFirst()) {
-            var typeHasChanged = false
-            val columnIndexCatId = data.getColumnIndex(DatabaseConstants.KEY_CATID)
-            val columnIndexLabel = data.getColumnIndex(DatabaseConstants.KEY_LABEL)
-            if (catId == null && columnIndexCatId != -1 && columnIndexLabel != -1) {
-                catId = data.getLongOrNull(columnIndexCatId)
-                label = data.getString(columnIndexLabel)
-                categoryIcon = data.getString(data.getColumnIndexOrThrow(KEY_ICON))
-                setCategoryButton()
+    fun autoFill(data: TransactionEditViewModel.AutoFillData) {
+        var typeHasChanged = false
+        if (catId == null && data.catId != null && data.label != null) {
+            catId = data.catId
+            label = data.label
+            categoryIcon = data.icon
+            setCategoryButton()
+        }
+        if (TextUtils.isEmpty(viewBinding.Comment.text.toString()) && data.comment != null) {
+            viewBinding.Comment.setText(data.comment)
+        }
+
+        if (validateAmountInput(
+                viewBinding.Amount,
+                showToUser = false,
+                ifPresent = true
+            ) == null && data.amount != null
+        ) {
+            val beforeType = isIncome
+            fillAmount(data.amount.amountMajor)
+            configureType()
+            typeHasChanged = beforeType != isIncome
+        }
+        if (methodId == null && data.methodId != null) {
+            methodId = data.methodId
+            if (!typeHasChanged) { //if type has changed, we need to wait for methods to be reloaded, method is then selected in onLoadFinished
+                setMethodSelection()
             }
-            val columnIndexComment = data.getColumnIndex(DatabaseConstants.KEY_COMMENT)
-            if (TextUtils.isEmpty(viewBinding.Comment.text.toString()) && columnIndexComment != -1) {
-                viewBinding.Comment.setText(data.getString(columnIndexComment))
-            }
-            val columnIndexAmount = data.getColumnIndex(DatabaseConstants.KEY_AMOUNT)
-            val columnIndexCurrency = data.getColumnIndex(DatabaseConstants.KEY_CURRENCY)
-            if (validateAmountInput(
-                    viewBinding.Amount,
-                    showToUser = false,
-                    ifPresent = true
-                ) == null && columnIndexAmount != -1 && columnIndexCurrency != -1
-            ) {
-                val beforeType = isIncome
-                fillAmount(
-                    Money(
-                        currencyContext[data.getString(columnIndexCurrency)],
-                        data.getLong(columnIndexAmount)
-                    ).amountMajor
-                )
-                configureType()
-                typeHasChanged = beforeType != isIncome
-            }
-            val columnIndexMethodId = data.getColumnIndex(DatabaseConstants.KEY_METHODID)
-            if (methodId == null && columnIndexMethodId != -1) {
-                methodId = data.getLongOrNull(columnIndexMethodId)
-                if (!typeHasChanged) { //if type has changed, we need to wait for methods to be reloaded, method is then selected in onLoadFinished
-                    setMethodSelection()
+        }
+        if (data.accountId != null) {
+            val accountId = data.accountId
+            var i = 0
+            while (i < mAccounts.size) {
+                if (mAccounts[i].id == accountId) {
+                    accountSpinner.setSelection(i)
+                    updateAccount(mAccounts[i])
+                    break
                 }
+                i++
             }
-            val columnIndexAccountId = data.getColumnIndex(DatabaseConstants.KEY_ACCOUNTID)
-            if (columnIndexAccountId != -1) {
-                val accountId = data.getLong(columnIndexAccountId)
-                var i = 0
-                while (i < mAccounts.size) {
-                    if (mAccounts[i].id == accountId) {
-                        accountSpinner.setSelection(i)
-                        updateAccount(mAccounts[i])
-                        break
-                    }
-                    i++
-                }
-            }
+        }
+        if (data.debId != null) {
+            debtId = data.debId
+            updateUiWithDebt()
         }
     }
 
