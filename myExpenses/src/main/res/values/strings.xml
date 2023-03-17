@@ -1048,10 +1048,10 @@
     <string name="notifications_channel_required">Please enable channel %s.</string>
     <string name="debt_installment_pay">I pay an installment of %s.</string>
     <string name="debt_installment_receive">I receive an installment of %s.</string>
-    <string name="debt_lend_additional">I lend an additional %s.</string>
-    <string name="debt_borrow_additional">I borrow an additional %s.</string>
+    <string name="debt_lend_additional">I lend %s.</string>
+    <string name="debt_borrow_additional">I borrow %s.</string>
     <string name="debt_paid_off_other">Their debt is paid off.</string>
     <string name="debt_paid_off_self">My debt is paid off.</string>
-    <string name="debt_balance_self">I now owe %s.</string>
-    <string name="debt_balance_other">They now owe %s.</string>
+    <string name="debt_balance_i_owe">I now owe %s.</string>
+    <string name="debt_balance_they_owe">They now owe %s.</string>
 </resources>
