@@ -276,56 +276,54 @@ abstract class MainDelegate<T : ITransaction>(
         else
             validateAmountInput()).takeIf { it != BigDecimal.ZERO }
 
-    private fun formatDebtHelp(debt: Debt, installment: BigDecimal): CharSequence {
-        val elements = buildList {
+    private fun formatDebtHelp(debt: Debt, installment: BigDecimal) =
+        TextUtils.concat(*buildList {
             val installmentSign = installment.signum()
             val debtSign = debt.currentBalance.sign
-            val resIdPayment = when (debtSign) {
-                1 -> {
-                    when (installmentSign) {
-                        1 -> R.string.debt_installment_receive
-                        -1 -> R.string.debt_lend_additional
-                        else -> throw IllegalStateException()
-                    }
-                }
-                -1 -> {
-                    when (installmentSign) {
-                        1 -> R.string.debt_borrow_additional
-                        -1 -> R.string.debt_installment_pay
-                        else -> throw IllegalStateException()
-                    }
-                }
-                else -> TODO()
-            }
 
-            add(context.getString(
-                resIdPayment,
-                currencyFormatter.formatMoney(Money(debt.currency, installment.abs()))
-            ))
+            add(
+                context.getString(
+                    when (installmentSign) {
+                        1 -> {
+                            when (debtSign) {
+                                1 -> R.string.debt_installment_receive
+                                else -> R.string.debt_borrow_additional
+                            }
+                        }
+                        -1 -> {
+                            when (debtSign) {
+                                -1 -> R.string.debt_installment_pay
+                                else -> R.string.debt_lend_additional
+                            }
+                        }
+                        else -> throw IllegalStateException()
+                    },
+                    currencyFormatter.formatMoney(Money(debt.currency, installment.abs()))
+                )
+            )
 
             val currentBalance = Money(debt.currency, debt.currentBalance)
             val futureBalance = Money(debt.currency, currentBalance.amountMajor - installment)
 
-            val resIdBalance = when (futureBalance.amountMajor.signum()) {
-                1 -> R.string.debt_balance_they_owe
-                -1 -> R.string.debt_balance_i_owe
-                0 -> {
-                    when (debtSign) {
-                        1 -> R.string.debt_paid_off_other
-                        -1 -> R.string.debt_paid_off_self
-                        0 -> TODO()
-                        else -> throw IllegalStateException()
-                    }
-                }
-                else -> throw IllegalStateException()
+            val futureSign = futureBalance.amountMajor.signum()
+
+            if (futureSign != debtSign) {
+                when (debtSign) {
+                    1 -> context.getString(R.string.debt_paid_off_other, debt.payeeName)
+                    -1 -> context.getString(R.string.debt_paid_off_self)
+                    else -> null
+                }?.let { add(it) }
             }
-            add(context.getString(
-                resIdBalance,
-                currencyFormatter.formatMoney(futureBalance)
-            ))
-        }
-        return TextUtils.concat(*elements.toTypedArray())
-    }
+
+            val futureBalanceAbs =
+                currencyFormatter.formatMoney(Money(debt.currency, futureBalance.amountMajor.abs()))
+            when (futureSign) {
+                1 -> context.getString(R.string.debt_balance_they_owe,  debt.payeeName, futureBalanceAbs)
+                -1 -> context.getString(R.string.debt_balance_i_owe, futureBalanceAbs)
+                else -> null
+            }?.let { add(it) }
+
+        }.toTypedArray())
 
     private fun formatDebt(debt: Debt, withInstallment: BigDecimal? = null): CharSequence {
         val amount = debt.currentBalance

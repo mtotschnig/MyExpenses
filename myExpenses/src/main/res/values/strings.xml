@@ -1033,7 +1033,7 @@
     <!-- For icon that represents the fact that an image has been attached to a transaction -->
     <string name="content_description_attachment">Attachment</string>
     <string name="redesign">Redesign</string>
-    <!-- %1$s will be replaced with the section title (User Interface) and %2$s with the item label ("Trsnaction list: Style: Legacy") -->
+    <!-- %1$s will be replaced with the section title (User Interface) and %2$s with the item label ("Transaction list: Style: Legacy") -->
     <string name="upgrade_info_557">How do you like the new design? Please let us know. A variant closer to the old design can be activated in the Settings (%1$s -> %2$s).</string>
     <!-- %s is replaced with the translation of "Select All" -->
     <string name="select_all_list_too_large">The command %s is not available because the list is only partially loaded. Please use the Search functionality in order to reduce the list size.</string>
@@ -1046,12 +1046,19 @@
     <string name="notifications_permission_required_webui">By granting the permission to send notifications, you can control the status of the web server.</string>
     <string name="notifications_permission_required_sync">By granting the permission to send notifications, you can monitor the progress of the synchronization operations.</string>
     <string name="notifications_channel_required">Please enable channel %s.</string>
+    <!--%s is replaced with the amount. -->
     <string name="debt_installment_pay">I pay an installment of %s.</string>
+    <!--%s is replaced with the amount. -->
     <string name="debt_installment_receive">I receive an installment of %s.</string>
+    <!--%s is replaced with the amount. -->
     <string name="debt_lend_additional">I lend %s.</string>
+    <!--%s is replaced with the amount. -->
     <string name="debt_borrow_additional">I borrow %s.</string>
-    <string name="debt_paid_off_other">Their debt is paid off.</string>
+    <!--%s is replaced with the name of the debtor -->
+    <string name="debt_paid_off_other">%s\'s debt is paid off.</string>
     <string name="debt_paid_off_self">My debt is paid off.</string>
+    <!--%s is replaced with the amount. -->
     <string name="debt_balance_i_owe">I now owe %s.</string>
-    <string name="debt_balance_they_owe">They now owe %s.</string>
+    <!--%1$s is replaced with the name of the debtor. %2$s is replaced with the amount. -->
+    <string name="debt_balance_they_owe">%1$s now owes %2$s.</string>
 </resources>
