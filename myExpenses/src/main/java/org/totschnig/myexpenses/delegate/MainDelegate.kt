@@ -367,6 +367,17 @@ abstract class MainDelegate<T : ITransaction>(
                 configureEquivalentAmount()
             }
         }
+        if (viewBinding.Payee.text.isEmpty()) {
+            val focussed: Boolean = viewBinding.Payee.hasFocus()
+            if (focussed) {
+                viewBinding.Payee.clearFocus()
+            }
+            viewBinding.Payee.setText(debt.payeeName)
+            if (focussed) {
+                viewBinding.Payee.requestFocus()
+            }
+            payeeId = debt.payeeId
+        }
     }
 
     private val applicableDebts: List<Debt>
@@ -397,8 +408,10 @@ abstract class MainDelegate<T : ITransaction>(
     override fun setupListeners(watcher: TextWatcher) {
         super.setupListeners(watcher)
         viewBinding.Payee.addTextChangedListener {
-            payeeId = null
-            handleDebts()
+            if (viewBinding.Payee.isFocused) {
+                payeeId = null
+                handleDebts()
+            }
         }
     }
 
