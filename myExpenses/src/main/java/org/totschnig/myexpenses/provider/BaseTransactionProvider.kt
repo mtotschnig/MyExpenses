@@ -149,6 +149,31 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return !uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK, false)
     }
 
+    /**
+     * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
+     */
+    fun debtProjection(transactionId: String?, withSum: Boolean): Array<String> {
+        val exclusionClause = transactionId?.let {
+            "AND $KEY_ROWID != $it"
+        } ?: ""
+
+        return listOfNotNull(
+            "$TABLE_DEBTS.$KEY_ROWID",
+            KEY_PAYEEID,
+            KEY_DATE,
+            KEY_LABEL,
+            KEY_AMOUNT,
+            KEY_CURRENCY,
+            KEY_DESCRIPTION,
+            KEY_PAYEE_NAME,
+            KEY_SEALED,
+            if (withSum) "coalesce((select sum(${debtSumExpression}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null
+        ).toTypedArray()
+    }
+
+    private val debtSumExpression
+        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${getAmountHomeEquivalent(VIEW_EXTENDED)} ELSE $KEY_AMOUNT END"
+
     companion object {
         val CATEGORY_TREE_URI: Uri
             get() = TransactionProvider.CATEGORIES_URI.buildUpon()
@@ -165,27 +190,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
-
-        /**
-         * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
-         */
-        fun debtProjection(transactionId: String?): Array<String> {
-            val exclusionClause = transactionId?.let {
-                "AND $KEY_ROWID != $it"
-            } ?: ""
-            return arrayOf(
-                "$TABLE_DEBTS.$KEY_ROWID",
-                KEY_PAYEEID,
-                KEY_DATE,
-                KEY_LABEL,
-                KEY_AMOUNT,
-                KEY_CURRENCY,
-                KEY_DESCRIPTION,
-                KEY_PAYEE_NAME,
-                KEY_SEALED,
-                "coalesce((select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM"
-            )
-        }
 
         fun shortenComment(projectionIn: Array<String>): Array<String> = projectionIn.map {
             if (it == KEY_COMMENT)

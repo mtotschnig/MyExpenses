@@ -825,14 +825,14 @@ public class TransactionProvider extends BaseTransactionProvider {
                   .append(transactionId).append(")");
         }
         if (projection == null) {
-          projection = Companion.debtProjection(transactionId);
+          projection = debtProjection(transactionId, true);
         }
         qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
         break;
       }
       case DEBT_ID: {
         if (projection == null) {
-          projection = Companion.debtProjection(null);
+          projection = debtProjection(null, false);
         }
         qb = SupportSQLiteQueryBuilder.builder(DEBT_PAYEE_JOIN);
         additionalWhere.append(TABLE_DEBTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
