@@ -474,7 +474,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     ) == null
                 ) {
                     val rate = BigDecimal(it.exchangeRate)
-                    viewBinding.EquivalentAmount.setExchangeRate(rate)
+                    viewBinding.EquivalentAmount.exchangeRate = rate
                 }
             }
             viewBinding.EquivalentAmount.requestFocus()

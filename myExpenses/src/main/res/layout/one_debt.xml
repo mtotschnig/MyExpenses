@@ -91,7 +91,23 @@
                         style="@style/FormField"
                         app:withCurrencySelection="true" />
                 </TableRow>
+                <TableRow
+                    android:id="@+id/EquivalentAmountRow"
+                    android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/EquivalentAmountLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@id/AmountEditText"
+                        android:text="@string/menu_equivalent_amount" />
+
+                    <org.totschnig.myexpenses.ui.AmountInput
+                        android:id="@+id/EquivalentAmount"
+                        style="@style/FormField"
+                        app:alternateLayout="true"
+                        app:withExchangeRate="true"
+                        app:withTypeSwitch="false" />
+                </TableRow>
                 <TableRow>
 
                     <TextView

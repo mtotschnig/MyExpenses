@@ -341,6 +341,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_DATE + " datetime not null, "
           + KEY_LABEL + " text not null, "
           + KEY_AMOUNT + " integer, "
+          + KEY_EQUIVALENT_AMOUNT + " integer,  "
           + KEY_CURRENCY + " text not null, "
           + KEY_DESCRIPTION + " text, "
           + KEY_SEALED + " boolean default 0);";
@@ -2258,6 +2259,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 138) {
         db.execSQL("ALTER TABLE templates add column debt_id integer references debts (_id) ON DELETE SET NULL");
+      }
+      if (oldVersion < 139) {
+        db.execSQL("ALTER TABLE debts add column equivalent_amount integer");
       }
 
       TransactionProvider.resumeChangeTrigger(db);
