@@ -590,6 +590,7 @@ public class Transaction extends Model implements ITransaction {
         tr.setMethodId(te.getMethodId());
         tr.setMethodLabel(te.getMethodLabel());
         tr.setCatId(te.getCatId());
+        tr.setDebtId(te.getDebtId());
         break;
       case TYPE_TRANSFER:
         tr = new Transfer(te.getAccountId(), te.getAmount());
@@ -600,6 +601,7 @@ public class Transaction extends Model implements ITransaction {
         tr.setStatus(STATUS_UNCOMMITTED);
         tr.setMethodId(te.getMethodId());
         tr.setMethodLabel(te.getMethodLabel());
+        tr.setDebtId(te.getDebtId());
         break;
       default:
         throw new IllegalStateException(

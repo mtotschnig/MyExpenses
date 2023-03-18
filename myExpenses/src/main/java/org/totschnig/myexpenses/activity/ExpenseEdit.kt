@@ -534,9 +534,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     accounts,
                     if (fromSavedState) null else intent.getStringExtra(KEY_CURRENCY)
                 )
-                if (!isTemplate) {
-                    loadDebts()
-                }
+                loadDebts()
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
             }

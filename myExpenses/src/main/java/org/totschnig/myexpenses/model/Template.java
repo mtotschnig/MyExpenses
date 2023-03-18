@@ -24,6 +24,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -150,7 +151,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_UUID,
         KEY_PARENTID,
         KEY_PLAN_EXECUTION_ADVANCE,
-        KEY_DEFAULT_ACTION
+        KEY_DEFAULT_ACTION,
+        KEY_DEBT_ID
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 3];
@@ -354,6 +356,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     try {
       defaultAction = Action.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_DEFAULT_ACTION)));
     } catch (IllegalArgumentException ignored) {}
+    setDebtId(DbUtils.getLongOrNull(c, KEY_DEBT_ID));
   }
 
   public Template(long id, CurrencyUnit currencyUnit, int operationType, Long parentId) {
@@ -530,6 +533,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     initialValues.put(KEY_PLAN_EXECUTION_ADVANCE, planExecutionAdvance);
     initialValues.put(KEY_DEFAULT_ACTION, defaultAction.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
+    initialValues.put(KEY_DEBT_ID, getDebtId());
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     if (getId() == 0) {
       initialValues.put(KEY_UUID, requireUuid());

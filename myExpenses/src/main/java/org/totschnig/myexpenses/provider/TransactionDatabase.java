@@ -303,11 +303,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_PLANID + " integer, "
           + KEY_PLAN_EXECUTION + " boolean default 0, "
           + KEY_UUID + " text, "
-          + KEY_LAST_USED + " datetime,"
+          + KEY_LAST_USED + " datetime, "
           + KEY_PARENTID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_STATUS + " integer default 0,"
-          + KEY_PLAN_EXECUTION_ADVANCE + " integer default 0,"
-          + KEY_DEFAULT_ACTION + " text not null check (" + KEY_DEFAULT_ACTION + " in (" + Template.Action.JOIN + ")) default '" + Template.Action.SAVE.name() + "');";
+          + KEY_STATUS + " integer default 0, "
+          + KEY_PLAN_EXECUTION_ADVANCE + " integer default 0, "
+          + KEY_DEFAULT_ACTION + " text not null check (" + KEY_DEFAULT_ACTION + " in (" + Template.Action.JOIN + ")) default '" + Template.Action.SAVE.name() + "', "
+          + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String EVENT_CACHE_CREATE =
       "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
@@ -2254,6 +2255,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 137) {
         createOrRefreshCategoryHierarchyTrigger(db);
+      }
+      if (oldVersion < 138) {
+        db.execSQL("ALTER TABLE templates add column debt_id integer references debts (_id) ON DELETE SET NULL");
       }
 
       TransactionProvider.resumeChangeTrigger(db);
