@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
@@ -29,6 +30,16 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
 
     private val debtId: Long
         get() = intent.getLongExtra(DatabaseConstants.KEY_DEBT_ID, 0)
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_CURRENCY, binding.Amount.selectedCurrency?.code)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        setTitle(binding.Amount.type)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +72,10 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
                         }
                     } else {
                         binding.Amount.setSelectedCurrency(Utils.getHomeCurrency())
+                    }
+                } else {
+                    savedInstanceState.getString(KEY_CURRENCY)?.let {
+                        binding.Amount.setSelectedCurrency(currencyContext.get(it))
                     }
                 }
             }
