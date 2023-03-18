@@ -324,7 +324,11 @@ abstract class MainDelegate<T : ITransaction>(
             val futureBalanceAbs =
                 currencyFormatter.formatMoney(Money(debt.currency, futureBalance.amountMajor.abs()))
             when (futureSign) {
-                1 -> context.getString(R.string.debt_balance_they_owe,  debt.payeeName, futureBalanceAbs)
+                1 -> context.getString(
+                    R.string.debt_balance_they_owe,
+                    debt.payeeName,
+                    futureBalanceAbs
+                )
                 -1 -> context.getString(R.string.debt_balance_i_owe, futureBalanceAbs)
                 else -> null
             }?.let { add(it) }
@@ -420,9 +424,10 @@ abstract class MainDelegate<T : ITransaction>(
             applicableDebts.let { debts ->
                 if (isChecked && !host.isFinishing) {
                     when (debts.size) {
-                        0 -> { /*should not happen*/ CrashHandler.throwOrReport(
-                            "Debt checked without applicable debt"
-                        )
+                        0 -> { /*should not happen*/
+                            CrashHandler.throwOrReport(
+                                "Debt checked without applicable debt"
+                            )
                         }
                         else -> {
                             singleDebtForPayee(debts)?.also {
