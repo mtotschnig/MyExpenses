@@ -393,8 +393,8 @@ abstract class MainDelegate<T : ITransaction>(
                     if (!viewBinding.DebtCheckBox.isChecked) {
                         viewBinding.DebtCheckBox.isChecked = true
                     }
-                } else if (isSingleDebtForPayee(debts)) {
-                    updateUiWithDebt(debts.first())
+                } else {
+                    updateUiWithDebt(singleDebtForPayee(debts))
                 }
             } else {
                 updateUiWithDebt(null)
@@ -402,8 +402,8 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    private fun isSingleDebtForPayee(debts: List<Debt>) =
-        debts.size == 1 && debts.first().payeeId == payeeId
+    private fun singleDebtForPayee(debts: List<Debt>) =
+        if (debts.size == 1) debts.first().takeIf { it.payeeId == payeeId } else null
 
     override fun setupListeners(watcher: TextWatcher) {
         super.setupListeners(watcher)
@@ -425,9 +425,9 @@ abstract class MainDelegate<T : ITransaction>(
                         )
                         }
                         else -> {
-                            if (isSingleDebtForPayee(debts)) {
-                                setDebt(debts.first())
-                            } else {
+                            singleDebtForPayee(debts)?.also {
+                                setDebt(it)
+                            } ?: run {
                                 val sortedDebts =
                                     debts.sortedWith(compareBy<Debt> { it.payeeId != payeeId }.thenBy { it.payeeId })
                                 with(PopupMenu(context, viewBinding.DebtCheckBox)) {
