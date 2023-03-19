@@ -1032,4 +1032,12 @@
     <string name="notifications_permission_required_webui">Al conceder el permiso para enviar notificaciones, puede controlar el estado del servidor web.</string>
     <string name="notifications_permission_required_sync">Al conceder el permiso para enviar notificaciones, puede supervisar el progreso de las operaciones de sincronización.</string>
     <string name="notifications_channel_required">Por favor, active el canal %s.</string>
+    <string name="debt_installment_receive">Recibo una cuota de %s.</string>
+    <string name="debt_lend_additional">Presto %s.</string>
+    <string name="debt_borrow_additional">Me prestan %s.</string>
+    <string name="debt_paid_off_self">Mi deuda está pagada.</string>
+    <string name="debt_balance_i_owe">Ahora debo %s.</string>
+    <string name="debt_balance_they_owe">%1$s debe ahora %2$s.</string>
+    <string name="debt_installment_pay">Pago una cuota de %s.</string>
+    <string name="debt_paid_off_other">La deuda de %s está pagada.</string>
 </resources>
