@@ -370,8 +370,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 MenuEntry(
                                     Icons.Filled.List,
                                     R.string.menu_show_transactions,
-                                    ::showTransactions
-                                )
+                                ) { showTransactions(category) }
                             )
                         }
                         if (it.level == 1)
@@ -379,7 +378,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 MenuEntry(
                                     Icons.Filled.Palette,
                                     R.string.color
-                                ) { category ->
+                                ) {
                                     category.color?.let {
                                         editCategoryColor(
                                             category.id,

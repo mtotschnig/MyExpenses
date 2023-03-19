@@ -48,7 +48,7 @@ fun Category(
     modifier: Modifier = Modifier,
     category: Category,
     expansionMode: ExpansionMode,
-    menuGenerator: (Category) -> Menu<Category>? = { null },
+    menuGenerator: (Category) -> Menu? = { null },
     selectedAncestor: Category? = null,
     choiceMode: ChoiceMode,
     excludedSubTree: Long? = null,
@@ -130,7 +130,7 @@ fun CategoryRenderer(
     category: Category,
     expansionMode: ExpansionMode,
     choiceMode: ChoiceMode,
-    menuGenerator: (Category) -> Menu<Category>?,
+    menuGenerator: (Category) -> Menu?,
     startPadding: Dp,
     onToggleSelection: () -> Unit,
     sumCurrency: CurrencyUnit?
@@ -230,7 +230,7 @@ fun CategoryRenderer(
         }
 
         menu?.let {
-            HierarchicalMenu(showMenu, menu, category)
+            HierarchicalMenu(showMenu, menu)
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.ui.res.colorResource
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 
 @Composable
@@ -24,7 +25,8 @@ fun AppTheme(
                 income = colorResource(id = R.color.colorIncome),
                 expense = colorResource(id = R.color.colorExpense),
                 transfer = colorResource(id = R.color.colorTransfer),
-            )
+            ),
+            LocalHomeCurrency provides Utils.getHomeCurrency()
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.body2, content = content)
         }

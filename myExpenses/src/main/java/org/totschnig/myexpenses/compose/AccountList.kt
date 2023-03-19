@@ -234,29 +234,29 @@ fun AccountCard(
 
             }
             ExpansionHandle(isExpanded = !isCollapsed, toggle = toggleExpansion)
-            val menu: Menu<FullAccount> = Menu(
+            val menu= Menu(
                 buildList {
                     if (account.id > 0) {
                         if (!account.sealed) {
-                            add(edit { onEdit(it.id) })
+                            add(edit { onEdit(account.id) })
                         }
-                        add(delete { onDelete(it) })
+                        add(delete { onDelete(account) })
                         add(MenuEntry(
                             icon = Icons.Filled.VisibilityOff,
                             label = R.string.menu_hide
                         ) {
-                            onHide(it.id)
+                            onHide(account.id)
                         }
                         )
                         add(
                             toggle(account.sealed) {
-                                onToggleSealed(it)
+                                onToggleSealed(account)
                             }
                         )
                     }
                 }
             )
-            HierarchicalMenu(showMenu, menu, account)
+            HierarchicalMenu(showMenu, menu)
         }
 
         val visibleState = remember { MutableTransitionState(!isCollapsed) }

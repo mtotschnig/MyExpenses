@@ -256,8 +256,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                         select { doSingleSelection(it) }
                                                     } else null,
                                                     edit { editCat(it) },
-                                                    delete { category ->
-                                                        if (category.flatten().map { it.id }
+                                                    delete {
+                                                        if (it.flatten().map { it.id }
                                                                 .contains(protectionInfo?.id)) {
                                                             showSnackBar(
                                                                 resources.getQuantityString(
@@ -268,9 +268,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                             )
                                                         } else {
                                                             viewModel.deleteCategories(
-                                                                listOf(
-                                                                    category.id
-                                                                )
+                                                                listOf(it.id)
                                                             )
                                                         }
                                                     },

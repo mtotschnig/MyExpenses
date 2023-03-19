@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import java.time.format.DateTimeFormatter
@@ -23,5 +24,6 @@ val LocalColors = compositionLocalOf {
 
 val LocalCurrencyFormatter = staticCompositionLocalOf<ICurrencyFormatter> { DebugCurrencyFormatter }
 
-val LocalDateFormatter =
-    staticCompositionLocalOf<DateTimeFormatter> { DateTimeFormatter.BASIC_ISO_DATE }
+val LocalDateFormatter = staticCompositionLocalOf { DateTimeFormatter.BASIC_ISO_DATE }
+
+val LocalHomeCurrency = staticCompositionLocalOf { CurrencyUnit.DebugInstance }

@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.DebtCard
+import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -51,12 +52,13 @@ class DebtOverview : DebtActivity() {
         setContentView(binding.root)
         setupToolbar()
         binding.composeView.setContent {
+            val homeCurrency = LocalHomeCurrency.current
             AppTheme {
                 val debts = debtViewModel.loadDebts().collectAsState(initial = emptyList())
                 LaunchedEffect(debts.value) {
                     val total = debts.value.sumOf { it.currentBalance }
                     toolbar.subtitle = currencyFormatter.formatMoney(
-                        Money(Utils.getHomeCurrency(), total)
+                        Money(homeCurrency, total)
                     )
                     setSignedToolbarColor(total)
                 }

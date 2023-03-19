@@ -149,7 +149,7 @@ abstract class ItemRenderer(
         transaction: Transaction2,
         modifier: Modifier = Modifier,
         selectionHandler: SelectionHandler? = null,
-        menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null }
+        menuGenerator: (Transaction2) -> Menu? = { null }
     ) {
         val showMenu = remember { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -195,7 +195,7 @@ abstract class ItemRenderer(
             RenderInner(transaction = transaction)
             if (showMenu.value) {
                 remember { menuGenerator(transaction) }?.let {
-                    HierarchicalMenu(showMenu, it, transaction)
+                    HierarchicalMenu(showMenu, it)
                 }
             }
         }

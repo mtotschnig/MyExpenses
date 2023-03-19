@@ -102,7 +102,7 @@ fun TransactionList(
     headerData: HeaderData,
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler?,
-    menuGenerator: (Transaction2) -> Menu<Transaction2>? = { null },
+    menuGenerator: (Transaction2) -> Menu? = { null },
     futureCriterion: FutureCriterion,
     expansionHandler: ExpansionHandler?,
     onBudgetClick: (Long, Int) -> Unit,

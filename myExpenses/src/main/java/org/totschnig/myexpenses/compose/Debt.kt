@@ -2,17 +2,27 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -81,6 +91,8 @@ fun DebtRenderer(
     onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> },
     onTransactionClick: (Long) -> Unit = {}
 ) {
+    val showEquivalentAmount = rememberSaveable { mutableStateOf(false) }
+
     CompositionLocalProvider(
         LocalColors provides LocalColors.current.copy(
             income = colorResource(id = R.color.colorIncomeOnCard),
@@ -169,24 +181,30 @@ fun DebtRenderer(
                     modifier = Modifier.align(Alignment.TopEnd),
                     menu = Menu(buildList {
                         if (!debt.isSealed) {
-                            add(edit { onEdit(it) })
+                            add(edit { onEdit(debt) })
                         }
-                        add(toggle(debt.isSealed) { onToggle(it) })
-                        add(delete { onDelete(it, transactions.size) })
+                        add(toggle(debt.isSealed) { onToggle(debt) })
+                        add(delete { onDelete(debt, transactions.size) })
                         add(
-                            MenuEntry(
+                            SubMenuEntry(
                                 icon = Icons.Filled.Share,
                                 label = R.string.button_label_share_file,
                                 subMenu = Menu(
                                     DebtViewModel.ExportFormat.values().map { format ->
                                         MenuEntry(label = format.resId) {
-                                            onShare(it, format)
+                                            onShare(debt, format)
                                         }
                                     }
                                 )
                             ))
-                    }),
-                    target = debt
+                        if (debt.currency.code != LocalHomeCurrency.current.code) {
+                            add(
+                                CheckableMenuEntry(label = R.string.menu_equivalent_amount, showEquivalentAmount.value) {
+                                    showEquivalentAmount.value = !showEquivalentAmount.value
+                                }
+                            )
+                        }
+                    })
                 )
             }
         }

@@ -807,7 +807,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         add(MenuEntry(
                                             icon = Icons.Filled.Loupe,
                                             label = R.string.details
-                                        ) { showDetails(it.id) })
+                                        ) { showDetails(transaction.id) })
                                         if (modificationAllowed) {
                                             if (transaction.crStatus != CrStatus.VOID) {
                                                 add(edit { edit(transaction) })
@@ -832,7 +832,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                             add(
                                                 select {
                                                     viewModel.selectionState.value = listOf(
-                                                        MyExpensesViewModel.SelectionInfo(it)
+                                                        MyExpensesViewModel.SelectionInfo(transaction)
                                                     )
                                                 }
                                             )
