@@ -1047,4 +1047,12 @@
     <string name="notifications_channel_required">נא להפעיל את הערוץ %s.</string>
     <string name="notifications_permission_required_webui">הענקת ההרשאות לשליחת התראות מאפשרת שליטה במצב השרת של האתר.</string>
     <string name="notifications_permission_required_planner">ל־<i>{app_name}</i> נדרשות הרשאות כדי לשלוח לך התראות, כאשר מפורסמות העברות עתידיות.</string>
+    <string name="debt_lend_additional">הלוויתי %s.</string>
+    <string name="debt_borrow_additional">לוויתי %s.</string>
+    <string name="debt_paid_off_self">החוב שלי שולם במלואו.</string>
+    <string name="debt_paid_off_other">החוב של %s שולם במלואו.</string>
+    <string name="debt_installment_pay">התשלום שלי הוא בשיעור %s.</string>
+    <string name="debt_installment_receive">קבלת התשלום שלי היא בשיעור של %s.</string>
+    <string name="debt_balance_they_owe">החוב של %1$s הוא %2$s.</string>
+    <string name="debt_balance_i_owe">החוב שלי הוא %s.</string>
 </resources>
