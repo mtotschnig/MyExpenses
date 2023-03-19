@@ -1019,4 +1019,12 @@
     <string name="notifications_permission_required_webui">Bildirim gönderme izni vererek web sunucusunun durumunu denetleyebilirsiniz.</string>
     <string name="notifications_permission_required_sync">Bildirim gönderme izni vererek, eşzamanlama işlemlerinin ilerleyişini izleyebilirsiniz.</string>
     <string name="notifications_channel_required">Lütfen %s kanalını etkinleştirin.</string>
+    <string name="debt_lend_additional">%s borç veriyorum.</string>
+    <string name="debt_paid_off_other">%s kişisinin borcu ödendi.</string>
+    <string name="debt_balance_i_owe">Şimdi %s borcum var.</string>
+    <string name="debt_installment_receive">%s taksit alıyorum.</string>
+    <string name="debt_installment_pay">%s taksit ödüyorum.</string>
+    <string name="debt_borrow_additional">%s borç alıyorum.</string>
+    <string name="debt_paid_off_self">Borcum ödendi.</string>
+    <string name="debt_balance_they_owe">%1$s şimdi %2$s borçlu.</string>
 </resources>
