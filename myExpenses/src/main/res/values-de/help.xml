@@ -199,7 +199,7 @@
     <string name="menu_BudgetActivity_rollover_edit">Mit dieser Option können Sie die Überträge genau konfigurieren. So können Sie zum Beispiel nur für einige Kategorien oder Unterkategorien einen Teil des Budgets übertragen und den restlichen Teil auf das Gesamtbudget übertragen.</string>
     <string name="cab_MyExpenses_select_help_text">Die Mehrfachauswahl kann durch Auswahl dieses Befehls oder durch langes Tippen auf einen Listeneintrag gestartet werden.</string>
     <string name="help_ManageSyncBackends_saf">Mit dieser Option können Sie einen Ordner über den Dateiauswahldialog von Android auswählen. Es ist hauptsächlich nützlich, wenn Sie eine Cloud-Speicher-App installiert haben, von der die Auswahl eines Ordners zum Speichern von Inhalten unterstützt wird, wie es für NextCloud der Fall ist.</string>
-    <string name="debt_help_overflow">Für jede Schuld gibt es ein Überlaufmenü, mit dem man sie bearbeiten, schließen, löschen oder teilen kann. Fremdwährungsschulden können optional mit den entsprechenden Beträgen in der Heimatwährung aufgeführt werden.</string>
+    <string name="debt_help_overflow">Für jede Schuld gibt es rechts oben ein Menü, mit dem man sie bearbeiten, schließen, löschen oder teilen kann. Fremdwährungsschulden können optional mit den entsprechenden Beträgen in der Heimatwährung aufgeführt werden.</string>
     <string name="menu_show_all_help_text">Schulden, die geschlossen oder abgezahlt wurden (ihr Saldo ist 0), werden nur angezeigt, wenn diese Option aktiviert ist.</string>
     <string name="help_DebtOverview_info">Klicken Sie auf einen Eintrag, um ihn ein- oder auszublenden.</string>
 </resources>
