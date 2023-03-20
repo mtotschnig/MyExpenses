@@ -200,4 +200,7 @@
     <string name="menu_BudgetActivity_rollover_total">Seul le reste du budget total est reconduit, de sorte que seul le budget total de la période suivante est augmenté ou diminué.</string>
     <string name="cab_MyExpenses_select_help_text">La multi-sélection peut être lancée en sélectionnant cette commande, ou en tapant longuement sur une entrée de la liste.</string>
     <string name="help_ManageSyncBackends_saf">Cette option permet de sélectionner un dossier via le dialogue de sélection de fichiers d’Android. Il est principalement utile si vous avez installé une application de stockage en nuage qui prend en charge la sélection d’un dossier pour stocker du contenu, comme le fait NextCloud.</string>
+    <string name="help_DebtOverview_info">Cliquez sur une entrée pour agrandir / réduire.</string>
+    <string name="debt_help_overflow">Pour chaque dette, utilisez le menu en haut à droite pour la modifier, la fermer, la supprimer ou la partager. Les dettes en devises étrangères peuvent être listées avec les montants équivalents dans la devise locale.</string>
+    <string name="menu_show_all_help_text">Les dettes qui ont été clôturées ou payées (leur solde est de 0) ne seront affichées que si cette option est cochée.</string>
 </resources>
