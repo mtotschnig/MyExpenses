@@ -168,7 +168,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_PAYEE_NAME,
             KEY_SEALED,
             KEY_EQUIVALENT_AMOUNT,
-            if (withSum) "coalesce((select sum(${debtSumExpression}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null
+            if (withSum) "coalesce((select sum(${debtSumExpression}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
+            if (withSum) "coalesce((select sum(${getAmountHomeEquivalent(VIEW_EXTENDED)}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
         ).toTypedArray()
     }
 

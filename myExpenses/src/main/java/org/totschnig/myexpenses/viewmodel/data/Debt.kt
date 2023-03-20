@@ -27,7 +27,8 @@ data class Debt(
     val payeeName: String? = null,
     val isSealed: Boolean = false,
     val sum: Long = 0,
-    val equivalentAmount: Long? = null
+    val equivalentAmount: Long? = null,
+    val equivalentSum: Long? = null
 ) {
     constructor(
         id: Long,
@@ -60,6 +61,9 @@ data class Debt(
     val currentBalance: Long
         get() = amount - sum
 
+    val currentEquivalentBalance: Long
+        get() = (equivalentAmount ?: amount) - (equivalentSum ?: sum)
+
     fun toContentValues() = ContentValues().apply {
         put(KEY_LABEL, label)
         put(KEY_DESCRIPTION, description)
@@ -88,7 +92,9 @@ data class Debt(
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_PAYEE_NAME)),
             cursor.getInt(cursor.getColumnIndexOrThrow(KEY_SEALED)) == 1,
             cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }?.let { cursor.getLong(it) } ?: 0,
-            cursor.getLongOrNull(KEY_EQUIVALENT_AMOUNT)
+            cursor.getLongOrNull(KEY_EQUIVALENT_AMOUNT),
+            cursor.getColumnIndex(KEY_EQUIVALENT_SUM).takeIf { it != -1 }?.let { cursor.getLong(it) } ?: 0
+
         )
     }
 }

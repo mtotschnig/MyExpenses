@@ -64,39 +64,35 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
 
     private fun transactionsFlow(debt: Debt): Flow<List<Transaction>> {
         var runningTotal: Long = 0
+        var runningEquivalentTotal: Long = 0
         val homeCurrency = Utils.getHomeCurrency()
-        val amountColumn = if (debt.currency == homeCurrency) {
-            "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${
+        val equivalentAmountColumn =
+            "CASE WHEN $KEY_CURRENCY = '${homeCurrency.code}' THEN $KEY_AMOUNT ELSE ${
                 getAmountHomeEquivalent(
                     VIEW_EXTENDED
                 )
             } END"
-        } else {
-            KEY_AMOUNT
-        }
         return contentResolver.observeQuery(
             uri = EXTENDED_URI,
-            projection = arrayOf(KEY_ROWID, KEY_DATE, amountColumn),
+            projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_AMOUNT, equivalentAmountColumn),
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),
             sortOrder = "$KEY_DATE ASC"
         ).onEach {
             runningTotal = debt.amount
+            runningEquivalentTotal = debt.equivalentAmount?: debt.amount
         }.mapToList {
             val amount = it.getLong(2)
-            val previousBalance = runningTotal
+            val equivalentAmount = it.getLong(3)
             runningTotal -= amount
-            val trend =
-                if (previousBalance.sign * runningTotal.sign == -1)
-                    0
-                else
-                    runningTotal.absoluteValue.compareTo(previousBalance.absoluteValue)
+            runningEquivalentTotal -= equivalentAmount
             Transaction(
                 it.getLong(0),
                 epoch2LocalDate(it.getLong(1)),
                 -amount,
                 runningTotal,
-                trend
+                equivalentAmount,
+                runningEquivalentTotal
             )
         }
     }
@@ -252,7 +248,8 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
         val date: LocalDate,
         val amount: Long,
         val runningTotal: Long,
-        val trend: Int = 0
+        val equivalentAmount: Long = 0,
+        val equivalentRunningTotal: Long = 0,
     )
 
     enum class ExportFormat(val mimeType: String, val resId: Int) {

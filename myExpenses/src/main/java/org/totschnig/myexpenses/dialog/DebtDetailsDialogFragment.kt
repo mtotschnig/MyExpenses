@@ -28,22 +28,17 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
     override fun BuildContent() {
         viewModel.loadDebt(requireArguments().getLong(DatabaseConstants.KEY_DEBT_ID))
             .observeAsState().value?.let { debt ->
-                viewModel.loadTransactions(debt)
-                    .observeAsState().value?.let { transactions ->
-                        val debtActivity = requireActivity() as DebtActivity
-                        DebtRenderer(
-                            debt = debt,
-                            transactions = transactions,
-                            expanded = true,
-                            onEdit = debtActivity::editDebt,
-                            onDelete = debtActivity::deleteDebt,
-                            onToggle = debtActivity::toggleDebt,
-                            onShare = { debt, exportFormat -> debtActivity.shareDebt(debt, exportFormat, snackBarContainer) },
-                            onTransactionClick = {
-                                showDetails(it)
-                            }
-                        )
-                    }
+                val debtActivity = requireActivity() as DebtActivity
+                DebtRenderer(
+                    debt = debt,
+                    transactions = viewModel.loadTransactions(debt).observeAsState(emptyList()).value,
+                    expanded = true,
+                    onEdit = { debtActivity.editDebt(debt) },
+                    onDelete = { count -> debtActivity.deleteDebt(debt, count) },
+                    onToggle = { debtActivity.toggleDebt(debt) },
+                    onShare = { exportFormat -> debtActivity.shareDebt(debt, exportFormat, snackBarContainer) },
+                    onTransactionClick = { showDetails(debt.id) }
+                )
             }
     }
 

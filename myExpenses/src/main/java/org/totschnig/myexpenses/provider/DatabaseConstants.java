@@ -261,6 +261,8 @@ public class DatabaseConstants {
    */
   public static final String KEY_ONE_TIME = "oneTime";
 
+  public static final String KEY_EQUIVALENT_SUM = "equivalentSum";
+
   /**
    * No special status
    */

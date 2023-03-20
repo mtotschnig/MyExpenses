@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtOverViewViewModel
@@ -53,10 +52,10 @@ class DebtOverview : DebtActivity() {
         setupToolbar()
         binding.composeView.setContent {
             val homeCurrency = LocalHomeCurrency.current
+            val debts = debtViewModel.debts.collectAsState()
             AppTheme {
-                val debts = debtViewModel.loadDebts().collectAsState(initial = emptyList())
                 LaunchedEffect(debts.value) {
-                    val total = debts.value.sumOf { it.currentBalance }
+                    val total = debts.value.sumOf { it.currentEquivalentBalance }
                     toolbar.subtitle = currencyFormatter.formatMoney(
                         Money(homeCurrency, total)
                     )
@@ -66,7 +65,7 @@ class DebtOverview : DebtActivity() {
                     debts = debts,
                     loadTransactionsForDebt = { debt ->
                         debtViewModel.loadTransactions(debt)
-                            .observeAsState(emptyList()).value
+                            .observeAsState(emptyList())
                     },
                     onEdit = this::editDebt,
                     onDelete = this::deleteDebt,
@@ -115,7 +114,7 @@ class DebtOverview : DebtActivity() {
 fun DebtList(
     modifier: Modifier = Modifier,
     debts: State<List<Debt>>,
-    loadTransactionsForDebt: @Composable (Debt) -> List<Transaction>,
+    loadTransactionsForDebt: @Composable (Debt) -> State<List<Transaction>>,
     onEdit: (Debt) -> Unit = {},
     onDelete: (Debt, Int) -> Unit = { _, _ -> },
     onToggle: (Debt) -> Unit = {},
@@ -131,14 +130,15 @@ fun DebtList(
         itemsIndexed(items = debts.value) { index, item ->
             Timber.d("rendering item $index")
             val expandedState = rememberSaveable { mutableStateOf(false) }
+            val transactions = if (expandedState.value)  loadTransactionsForDebt(item).value else emptyList()
             DebtCard(
                 debt = item,
-                transactions = loadTransactionsForDebt(item),
+                transactions =  transactions,
                 expanded = expandedState,
-                onEdit = onEdit,
-                onDelete = onDelete,
-                onToggle = onToggle,
-                onShare = onShare,
+                onEdit = { onEdit(item) },
+                onDelete = { count-> onDelete(item, count) },
+                onToggle = { onToggle(item) },
+                onShare = { format -> onShare(item, format) },
                 onTransactionClick = onTransactionClick
             )
         }
@@ -179,7 +179,7 @@ fun DebtListPreview() {
                 )
             },
             loadTransactionsForDebt = {
-                emptyList()
+                remember { mutableStateOf(emptyList()) }
             }
         )
     }
