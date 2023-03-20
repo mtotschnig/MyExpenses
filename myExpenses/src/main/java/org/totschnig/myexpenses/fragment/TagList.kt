@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.asAction
 import org.totschnig.myexpenses.databinding.TagListBinding
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
 import org.totschnig.myexpenses.viewmodel.TagListViewModel
 import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
@@ -184,6 +185,7 @@ class TagList : Fragment(), OnDialogResultListener {
      * why we add it explicitly here
      */
     private fun resultIntent(newTag: Tag?) = Intent().apply {
+        putExtra(KEY_ACCOUNTID, requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0))
         putParcelableArrayListExtra(
             KEY_TAG_LIST,
             ArrayList(

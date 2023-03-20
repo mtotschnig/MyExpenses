@@ -1904,6 +1904,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return result
     }
 
+    fun addFilterCriterion(c: Criterion<*>, accountId: Long) {
+        invalidateOptionsMenu()
+        viewModel.filterPersistence.getValue(accountId).addCriteria(c)
+    }
+
     fun addFilterCriterion(c: Criterion<*>) {
         invalidateOptionsMenu()
         currentFilter.addCriteria(c)

@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragmen
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
@@ -128,16 +129,17 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                 }
             ).apply {
                 action = Action.SELECT_FILTER.name
-                putExtra(DatabaseConstants.KEY_ACCOUNTID, input)
+                putExtra(KEY_ACCOUNTID, input)
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {
+            val accountId = intent?.getLongExtra(KEY_ACCOUNTID, 0) ?: 0L
             if (resultCode == Activity.RESULT_OK) {
                 if (requestKey == FILTER_TAGS_REQUEST) {
                     intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.let { tagList ->
                         val ids = tagList.map { it.id }.toLongArray()
                         val labels = tagList.joinToString { it.label }
-                        activity.addFilterCriterion(TagCriterion(labels, *ids))
+                        activity.addFilterCriterion(TagCriterion(labels, *ids), accountId)
                     }
                 } else {
                     intent?.extras?.let {
@@ -145,11 +147,10 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                         val label = it.getString(DatabaseConstants.KEY_LABEL)
                         if (rowId != 0L && label != null) {
                             when (requestKey) {
-                                FILTER_CATEGORY_REQUEST -> addCategoryFilter(label, rowId)
-                                FILTER_PAYEE_REQUEST -> addPayeeFilter(label, rowId)
+                                FILTER_CATEGORY_REQUEST -> addCategoryFilter(accountId, label, rowId)
+                                FILTER_PAYEE_REQUEST -> addPayeeFilter(accountId, label, rowId)
                             }
                         }
-                        Unit
                     }
                 }
             }
@@ -159,30 +160,31 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     val label = it.getString(DatabaseConstants.KEY_LABEL)
                     if (rowIds != null && label != null) {
                         when (requestKey) {
-                            FILTER_CATEGORY_REQUEST -> addCategoryFilter(label, *rowIds)
-                            FILTER_PAYEE_REQUEST -> addPayeeFilter(label, *rowIds)
+                            FILTER_CATEGORY_REQUEST -> addCategoryFilter(accountId, label, *rowIds)
+                            FILTER_PAYEE_REQUEST -> addPayeeFilter(accountId, label, *rowIds)
                         }
                     }
-                    Unit
                 }
             }
         }
     }
 
-    private fun addCategoryFilter(label: String, vararg catIds: Long) {
+    private fun addCategoryFilter(accountId: Long, label: String, vararg catIds: Long) {
         with(activity) {
             addFilterCriterion(
                 if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriterion() else
-                    CategoryCriterion(label, *catIds)
+                    CategoryCriterion(label, *catIds),
+                accountId
             )
         }
     }
 
-    private fun addPayeeFilter(label: String, vararg catIds: Long) {
+    private fun addPayeeFilter(accountId: Long, label: String, vararg catIds: Long) {
         with(activity) {
             addFilterCriterion(
                 if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) PayeeCriterion() else
-                    PayeeCriterion(label, *catIds)
+                    PayeeCriterion(label, *catIds),
+                accountId
             )
         }
     }

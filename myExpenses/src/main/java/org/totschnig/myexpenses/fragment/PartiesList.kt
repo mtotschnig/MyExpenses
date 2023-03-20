@@ -553,6 +553,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             } else {
                 requireActivity().apply {
                     setResult(Activity.RESULT_FIRST_USER, Intent().apply {
+                        putExtra(KEY_ACCOUNTID, requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0))
                         putExtra(KEY_ROWID, itemIds.toLongArray())
                         putExtra(KEY_LABEL, labels.joinToString(separator = ","))
                     })

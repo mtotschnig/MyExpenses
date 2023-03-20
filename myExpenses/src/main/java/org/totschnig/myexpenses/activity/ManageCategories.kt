@@ -305,6 +305,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
 
     private fun doSingleSelection(category: Category) {
         val intent = Intent().apply {
+            putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
             putExtra(KEY_ROWID, category.id)
             putExtra(KEY_LABEL, category.path)
             putExtra(KEY_ICON, category.icon)
@@ -319,6 +320,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
             val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }
                 .joinToString(separator = ",") { it.label }
             setResult(RESULT_FIRST_USER, Intent().apply {
+                putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
                 putExtra(KEY_ROWID, selected.toLongArray())
                 putExtra(KEY_LABEL, label)
             })
