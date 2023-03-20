@@ -1019,4 +1019,12 @@
     <string name="notifications_channel_required">Bitte aktivieren Sie den Kanal %s.</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> benötigt die Berechtigung, Ihnen Benachrichtigungen zu senden, wenn zukünftige Transaktionen gebucht werden.</string>
     <string name="notifications_permission_required_sync">Indem Sie die Berechtigung zum Senden von Benachrichtigungen erteilen, können Sie den Fortschritt der Synchronisierungsvorgänge überwachen.</string>
+    <string name="debt_paid_off_self">Meine Schulden sind beglichen.</string>
+    <string name="debt_balance_i_owe">Jetzt schulde ich %s.</string>
+    <string name="debt_installment_pay">Ich zahle eine Rate von %s.</string>
+    <string name="debt_borrow_additional">Ich leihe mir %s aus.</string>
+    <string name="debt_lend_additional">Ich leihe %s.</string>
+    <string name="debt_paid_off_other">Die Schulden von %s sind beglichen.</string>
+    <string name="debt_balance_they_owe">%1$s schuldet jetzt %2$s.</string>
+    <string name="debt_installment_receive">Ich erhalte eine Ratenzahlung von %s.</string>
 </resources>
