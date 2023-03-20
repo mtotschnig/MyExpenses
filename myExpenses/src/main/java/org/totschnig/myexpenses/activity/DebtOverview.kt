@@ -45,6 +45,8 @@ import java.time.LocalDate
 class DebtOverview : DebtActivity() {
     override val debtViewModel: DebtOverViewViewModel by viewModels()
 
+    val debts by lazy { debtViewModel.debts }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityComposeBinding.inflate(layoutInflater)
@@ -52,7 +54,7 @@ class DebtOverview : DebtActivity() {
         setupToolbar()
         binding.composeView.setContent {
             val homeCurrency = LocalHomeCurrency.current
-            val debts = debtViewModel.debts.collectAsState()
+            val debts = debts.collectAsState()
             AppTheme {
                 LaunchedEffect(debts.value) {
                     val total = debts.value.sumOf { it.currentEquivalentBalance }

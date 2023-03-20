@@ -2,9 +2,10 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.text.Editable
-import androidx.core.view.isVisible
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.filterNotNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding
@@ -66,20 +67,22 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
                 binding.Amount.setCurrencies(list)
                 if (savedInstanceState == null) {
                     if (debtId != 0L) {
-                        viewModel.loadDebt(debtId).observe(this@DebtEdit) {
-                            if (it.isSealed) {
+                        viewModel.loadDebt(debtId).filterNotNull().collect { debt ->
+                            if (debt.isSealed) {
                                 setResult(RESULT_FIRST_USER)
                                 finish()
                             }
-                            binding.Label.setText(it.label)
-                            binding.Description.setText(it.description)
-                            setSelectedCurrency(it.currency)
-                            binding.Amount.setAmount(Money(it.currency, it.amount).amountMajor)
-                            binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
-                            it.equivalentAmount?.let {
-                                binding.EquivalentAmount.setAmount(Money(homeCurrency, it).amountMajor)
+                            binding.Label.setText(debt.label)
+                            binding.Description.setText(debt.description)
+                            setSelectedCurrency(debt.currency)
+                            binding.Amount.setAmount(Money(debt.currency, debt.amount).amountMajor)
+                            binding.DateButton.setDate(epoch2ZonedDateTime(debt.date).toLocalDate())
+                            debt.equivalentAmount?.let {
+                                binding.EquivalentAmount.setAmount(
+                                    Money(homeCurrency, it).amountMajor
+                                )
                             }
-                            setTitle(it.amount > 0)
+                            setTitle(debt.amount > 0)
                             setupListeners()
                         }
                     } else {

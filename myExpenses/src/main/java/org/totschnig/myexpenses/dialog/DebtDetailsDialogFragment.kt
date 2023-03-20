@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModelProvider
 import org.totschnig.myexpenses.MyApplication
@@ -24,10 +25,11 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
 
+    val debt by lazy { viewModel.loadDebt(requireArguments().getLong(DatabaseConstants.KEY_DEBT_ID)) }
+
     @Composable
     override fun BuildContent() {
-        viewModel.loadDebt(requireArguments().getLong(DatabaseConstants.KEY_DEBT_ID))
-            .observeAsState().value?.let { debt ->
+        debt.collectAsState(null).value?.let { debt ->
                 val debtActivity = requireActivity() as DebtActivity
                 DebtRenderer(
                     debt = debt,

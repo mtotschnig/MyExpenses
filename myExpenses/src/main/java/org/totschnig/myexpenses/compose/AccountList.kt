@@ -234,7 +234,7 @@ fun AccountCard(
 
             }
             ExpansionHandle(isExpanded = !isCollapsed, toggle = toggleExpansion)
-            val menu= Menu(
+            val menu = Menu(
                 buildList {
                     if (account.id > 0) {
                         if (!account.sealed) {

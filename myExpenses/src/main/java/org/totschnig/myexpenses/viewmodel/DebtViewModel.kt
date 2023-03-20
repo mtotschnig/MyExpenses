@@ -12,9 +12,7 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
@@ -27,8 +25,6 @@ import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.io.File
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.math.absoluteValue
-import kotlin.math.sign
 
 open class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -39,7 +35,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
         emit(repository.saveDebt(debt))
     }
 
-    fun loadDebt(debtId: Long): LiveData<Debt> = liveData {
+    fun loadDebt(debtId: Long): StateFlow<Debt?> =
         contentResolver.observeQuery(
             singleDebtUri(debtId),
             null,
@@ -48,8 +44,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
             null
         ).mapToOne {
             Debt.fromCursor(it, currencyContext)
-        }.collect(this::emit)
-    }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     private fun singleDebtUri(debtId: Long) =
         ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId)
