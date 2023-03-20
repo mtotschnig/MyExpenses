@@ -31,7 +31,7 @@ class VersionInfoTest {
         versions.forEach {
             val parts = it.split(';')
             Truth.assertThat(parts.size).isEqualTo(2)
-            Truth.assertThat(VersionInfo(parts[0].toInt(), parts[1]).getChanges(context)).isNotNull()
+            Truth.assertWithMessage("No changes for version $it").that(VersionInfo(parts[0].toInt(), parts[1]).getChanges(context)).isNotNull()
         }
     }
 
