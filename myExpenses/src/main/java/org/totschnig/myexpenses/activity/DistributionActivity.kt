@@ -265,7 +265,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         Row(modifier = Modifier.weight(1f)) {
                                             RenderTree(
                                                 modifier = Modifier.weight(0.5f),
-                                                category = categoryTree.value,
+                                                tree = categoryTree.value,
                                                 choiceMode = choiceMode,
                                                 expansionMode = expansionMode,
                                                 accountInfo = accountInfo.value
@@ -284,7 +284,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     Column {
                                         RenderTree(
                                             modifier = Modifier.weight(0.5f),
-                                            category = categoryTree.value,
+                                            tree = categoryTree.value,
                                             choiceMode = choiceMode,
                                             expansionMode = expansionMode,
                                             accountInfo = accountInfo.value
@@ -351,18 +351,18 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     @Composable
     fun RenderTree(
         modifier: Modifier,
-        category: Category,
+        tree: Category,
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
         accountInfo: DistributionAccountInfo?
     ) {
         Category(
             modifier = modifier,
-            category = category,
+            category = tree,
             choiceMode = choiceMode,
             expansionMode = expansionMode,
             sumCurrency = accountInfo?.currency,
-            menuGenerator = {
+            menuGenerator = { category ->
                 org.totschnig.myexpenses.compose.Menu(
                     buildList {
                         if (accountInfo != null) {
@@ -373,18 +373,13 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 ) { showTransactions(category) }
                             )
                         }
-                        if (it.level == 1)
+                        if (category.level == 1)
                             add(
                                 MenuEntry(
                                     Icons.Filled.Palette,
                                     R.string.color
                                 ) {
-                                    category.color?.let {
-                                        editCategoryColor(
-                                            category.id,
-                                            it
-                                        )
-                                    }
+                                    editCategoryColor(category.id, category.color!!)
                                 }
                             )
                     }
