@@ -274,7 +274,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
 
         dialogView!!.findViewById<View>(R.id.date_format_help).configurePopupAnchor(
             infoText = buildDateFormatHelpText()
-        ) { (dialog!!.window!!.decorView.width * 0.75).toInt() }
+        )
 
         builder.setTitle(if (allP) R.string.menu_reset_all else R.string.menu_reset)
             .setNegativeButton(android.R.string.cancel, null)

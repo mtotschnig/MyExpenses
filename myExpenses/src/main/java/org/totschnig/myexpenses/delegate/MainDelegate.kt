@@ -262,9 +262,7 @@ abstract class MainDelegate<T : ITransaction>(
         installment?.let {
             val infoText = formatDebtHelp(debt, it)
             viewBinding.DebtSummaryPopup.contentDescription = infoText
-            viewBinding.DebtSummaryPopup.configurePopupAnchor(
-                infoText
-            ) { (host.window!!.decorView.width * 0.75).toInt() }
+            viewBinding.DebtSummaryPopup.configurePopupAnchor(infoText)
         }
     }
 

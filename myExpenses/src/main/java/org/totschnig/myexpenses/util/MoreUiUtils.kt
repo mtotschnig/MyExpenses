@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.text.Layout
-import android.text.StaticLayout
+import android.graphics.drawable.ColorDrawable
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.Spinner
@@ -142,8 +142,7 @@ fun FloatingActionButton.setBackgroundTintList(color: Int) {
 }
 
 fun View.configurePopupAnchor(
-    infoText: CharSequence,
-    widthInPixels: () -> Int
+    infoText: CharSequence
 ) {
     setOnClickListener {
         val host = context.getActivity() ?: throw java.lang.IllegalStateException("BaseActivity expected")
@@ -152,7 +151,10 @@ fun View.configurePopupAnchor(
         PopupWindow(infoTextView).apply {
             isOutsideTouchable = true
             isFocusable = true
-            chooseSize(infoText, infoTextView, widthInPixels())
+            //without setting background drawable, popup does not close on back button or touch outside, on older API levels
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            width = ViewGroup.LayoutParams.WRAP_CONTENT
+            height = ViewGroup.LayoutParams.WRAP_CONTENT
 
             infoTextView.text = infoText
             infoTextView.movementMethod = LinkMovementMethod.getInstance()
@@ -163,14 +165,3 @@ fun View.configurePopupAnchor(
 
 tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()
-
-private fun PopupWindow.chooseSize(text: CharSequence, tv: TextView, widthInPixels: Int) {
-    var ht = tv.paddingTop + tv.paddingBottom
-    val l: Layout = StaticLayout(
-        text, tv.paint, widthInPixels,
-        Layout.Alignment.ALIGN_NORMAL, 1F, 0F, true
-    )
-    ht += l.height
-    width = widthInPixels
-    height = ht
-}
