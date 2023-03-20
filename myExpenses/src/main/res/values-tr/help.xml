@@ -199,4 +199,7 @@
     <string name="menu_BudgetActivity_rollover_edit">Bu seçenek, devretmeyi tam olarak yapılandırmanıza olanak tanır. Örneğin, yalnızca bazı kategoriler veya alt kategoriler için kısmi devretmeler ayarlayabilir ve kalan kısmı toplam bütçe üzerinden devredebilirsiniz.</string>
     <string name="cab_MyExpenses_select_help_text">Çoklu seçim, bu komut seçilerek veya bir liste unsuruna uzun dokunarak başlatılabilir.</string>
     <string name="help_ManageSyncBackends_saf">Bu seçenek, Android dosya seçme iletişim kutusu aracılığıyla bir klasör seçmeye olanak tanır. Özellikle NextCloud gibi içerik depolamak için bir klasör seçmeyi destekleyen bir bulut depolama uygulaması kurduysanız kullanışlıdır.</string>
+    <string name="menu_show_all_help_text">Kapatılan veya ödenen (bakiyesi 0 olan) borçlar, yalnızca bu seçenek işaretliyse gösterilecektir.</string>
+    <string name="help_DebtOverview_info">Genişletmek / daraltmak için bir unsura tıklayın.</string>
+    <string name="debt_help_overflow">Her borç için, düzenlemek, kapatmak, silmek veya paylaşmak için sağ üst köşedeki menüyü kullanın. Yabancı para borçları isteğe bağlı olarak ana para birimindeki eş değer tutarlarla listelenebilir.</string>
 </resources>
