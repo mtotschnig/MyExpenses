@@ -1032,4 +1032,12 @@
     <string name="notifications_channel_required">Veuillez activer le canal %s.</string>
     <string name="notifications_permission_required_planner">i&gt;{app_name}&lt;/i&gt; requiert votre permission d\'envoyer des notifications lorsque des transactions futures sont enregistrées.</string>
     <string name="notifications_permission_required_sync">En accordant l’autorisation d’envoyer des notifications, vous pouvez surveiller la progression des opérations de synchronisation.</string>
+    <string name="debt_paid_off_self">Ma dette est remboursée.</string>
+    <string name="debt_installment_pay">Je paie un acompte de %s.</string>
+    <string name="debt_installment_receive">Je reçois un versement de %s.</string>
+    <string name="debt_lend_additional">Je prête %s.</string>
+    <string name="debt_borrow_additional">J\'emprunte %s.</string>
+    <string name="debt_paid_off_other">La dette de %s est remboursée.</string>
+    <string name="debt_balance_i_owe">Je dois maintenant %s.</string>
+    <string name="debt_balance_they_owe">%1$s doit maintenant %2$s.</string>
 </resources>
