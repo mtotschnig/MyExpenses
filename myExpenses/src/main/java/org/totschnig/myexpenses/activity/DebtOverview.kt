@@ -84,6 +84,7 @@ class DebtOverview : DebtActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.debt_overview, menu)
         return true
     }

@@ -214,4 +214,7 @@
     <string name="help_WebUI_info_3">You can set a password to protect access. In the dialogue presented by the web browser, only password is taken into account, username is ignored.</string>
     <string name="help_WebUI_info_4">When displaying transactions for the selected account, the web user interface will use the same filters that you have set with the app on the Android device.</string>
     <string name="cab_MyExpenses_select_help_text">Multi-selection can be started by selecting this command, or by long tapping on a list entry.</string>
+    <string name="help_DebtOverview_info">Click on an entry in order to expand / collapse.</string>
+    <string name="debt_help_overflow">For each debt, an overflow menu allows to edit, close, delete or share it. Foreign currency debts can optionally be listed with equivalent amounts in the home currency.</string>
+    <string name="menu_show_all_help_text">Debt that have been closed or paid off (their balance is 0), will only be shown, if this option is checked.</string>
 </resources>

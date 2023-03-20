@@ -58,5 +58,6 @@
     <string name="help_ManageSyncBackends_drive_title">@string/title_drive</string>
     <string name="help_ManageSyncBackends_saf_title">SAF</string>
     <string name="help_ManageSyncBackends_encryption_title">@string/encryption</string>
-
+    <string name="help_DebtOverview_title">@string/title_activity_debt_overview</string>
+    <string name="menu_show_all">@string/show_all</string>
 </resources>

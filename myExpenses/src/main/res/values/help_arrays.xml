@@ -516,4 +516,17 @@
         <item>help_WebUI_info_4</item>
     </string-array>
 
+    <string-array name="help_DebtOverview_info">
+        <item>help_DebtOverview_info</item>
+        <item>debt_help_overflow</item>
+    </string-array>
+
+    <string-array name="cab_debts_help_text">
+        <item>cab_debts_help_text</item>
+        <item>debt_help_overflow</item>
+    </string-array>
+
+    <string-array name="DebtOverview_menuitems">
+        <item>show_all</item>
+    </string-array>
 </resources>
