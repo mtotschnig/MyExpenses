@@ -176,8 +176,8 @@ fun DebtRenderer(
                     transactions.forEachIndexed { index, transaction ->
                         val runningTotal =
                             if (showEquivalentAmount.value) transaction.equivalentRunningTotal else transaction.runningTotal
-                        val previousBalance = if (index == 0) start else with(transactions.get(index-1)) {
-                            if (showEquivalentAmount.value) equivalentRunningTotal else runningTotal
+                        val previousBalance = if (index == 0) start else with(transactions[index-1]) {
+                            if (showEquivalentAmount.value) equivalentRunningTotal else this.runningTotal
                         }
 
                         val trend =
