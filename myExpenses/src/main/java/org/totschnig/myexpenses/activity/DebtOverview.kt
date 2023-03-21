@@ -53,9 +53,9 @@ class DebtOverview : DebtActivity() {
         setContentView(binding.root)
         setupToolbar()
         binding.composeView.setContent {
-            val homeCurrency = LocalHomeCurrency.current
             val debts = debts.collectAsState()
             AppTheme {
+                val homeCurrency = LocalHomeCurrency.current
                 LaunchedEffect(debts.value) {
                     val total = debts.value.sumOf { it.currentEquivalentBalance }
                     toolbar.subtitle = currencyFormatter.formatMoney(
