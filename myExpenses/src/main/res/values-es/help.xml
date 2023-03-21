@@ -199,4 +199,7 @@
     <string name="menu_BudgetActivity_rollover_help_text">Si gasta menos o más de su presupuesto, puede transferir la diferencia al próximo período, de modo que la cantidad que puede asignar allí aumente o disminuya. Hay tres opciones:</string>
     <string name="cab_MyExpenses_select_help_text">La selección múltiple se puede iniciar seleccionando este comando o tocando prolongadamente una entrada en la lista.</string>
     <string name="help_ManageSyncBackends_saf">Esta opción permite seleccionar una carpeta a través del diálogo de selección de archivos de Android. Es útil sobre todo si ha instalado una aplicación de almacenamiento en la nube que permite seleccionar una carpeta para almacenar contenido, como NextCloud.</string>
+    <string name="help_DebtOverview_info">Haga clic en una entrada para ampliarla o contraerla.</string>
+    <string name="debt_help_overflow">Para cada deuda, utilice el menú de la esquina superior derecha para editarla, cerrarla, eliminarla o compartirla. Las deudas en moneda extranjera pueden listarse opcionalmente con importes equivalentes en la moneda nacional.</string>
+    <string name="menu_show_all_help_text">Las deudas que han sido cerradas o pagadas (su saldo es 0), sólo se mostrarán, si esta opción está marcada.</string>
 </resources>

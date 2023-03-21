@@ -199,4 +199,7 @@
     <string name="menu_BudgetActivity_rollover_help_text">אם התקציב שלך מוצה מעבר או לא מוצה מספיק, אפשר לגלגל את ההפרש לתקופה הבאה כדי שהסכום שניתן להקצות שם הוא מוגדל או מוקטן. יש שלוש אפשרויות:</string>
     <string name="cab_MyExpenses_select_help_text">אפשר לבחור במספר פריטים על ידי בחירת הפקודה הזאת או בלחיצה ארוכה על רשומה ברשימה.</string>
     <string name="help_ManageSyncBackends_saf">אפשרות זו מאפשרת לבחור תיקייה דרך חלונית בחירת הקבצים של Android. היא שימושית בעיקר אם התקנת יישומון אחסון בענן שתומך בבחירת תיקייה לאחסון תוכן כמו למשל NextCloud.</string>
+    <string name="help_DebtOverview_info">לחיצה על רשומה תרחיב/תצמצם אותה.</string>
+    <string name="menu_show_all_help_text">חובות שנסגרו או שולמו במלואם (יתרה 0), יופיעו רק אם האפשרות הזאת מסומנת.</string>
+    <string name="debt_help_overflow">לכל חוב, ניתן להשתמש בתפריט בפינה השמאלית העליונה כדי לערוך, לסגור, למחוק או לשתף אותה. אפשר להציג חובות במטבע זר עם המקבילה במטבע המקומי.</string>
 </resources>
