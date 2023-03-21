@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.Manifest
 import android.os.Bundle
 import android.text.format.DateUtils
 import com.vmadalin.easypermissions.EasyPermissions.somePermissionPermanentlyDenied
@@ -65,9 +66,11 @@ abstract class LaunchActivity : IapActivity() {
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         super.onPermissionsDenied(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR && somePermissionPermanentlyDenied(
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR &&
+            (PermissionHelper.PermissionGroup.CALENDAR.androidPermissions.any { perms.contains(it) }) &&
+            somePermissionPermanentlyDenied(
                 this,
-                perms
+                PermissionHelper.PermissionGroup.CALENDAR.androidPermissions
             )
         ) {
             requireApplication().removePlanner()

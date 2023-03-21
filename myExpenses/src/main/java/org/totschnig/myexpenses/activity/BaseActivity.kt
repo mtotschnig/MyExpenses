@@ -517,25 +517,33 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 true
             }
             R.id.NOTIFICATION_SETTINGS_COMMAND -> {
-                val intent = Intent().apply {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        val channelId = if (
-                            NotificationManagerCompat.from(this@BaseActivity)
-                                .areNotificationsEnabled()
-                        ) NotificationBuilderWrapper.CHANNEL_ID_PLANNER else null
-                        action = when (channelId) {
-                            null -> Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                            else -> Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !PermissionGroup.NOTIFICATION.hasPermission(this)) {
+                    requestPermission(
+                        PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER,
+                        PermissionGroup.NOTIFICATION
+                    )
+                } else {
+
+                    val intent = Intent().apply {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val channelId = if (
+                                NotificationManagerCompat.from(this@BaseActivity)
+                                    .areNotificationsEnabled()
+                            ) NotificationBuilderWrapper.CHANNEL_ID_PLANNER else null
+                            action = when (channelId) {
+                                null -> Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                                else -> Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
+                            }
+                            channelId?.let { putExtra(Settings.EXTRA_CHANNEL_ID, it) }
+                            putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                        } else {
+                            action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                            putExtra("app_package", packageName)
+                            putExtra("app_uid", applicationInfo.uid)
                         }
-                        channelId?.let { putExtra(Settings.EXTRA_CHANNEL_ID, it) }
-                        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-                    } else {
-                        action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                        putExtra("app_package", packageName)
-                        putExtra("app_uid", applicationInfo.uid)
                     }
+                    startActivity(intent)
                 }
-                startActivity(intent)
                 true
             }
             else -> false
@@ -812,17 +820,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
         }.filter { !it.hasPermission(this) }
 
-        if (missingPermissions.isNotEmpty()) {
+        if (missingPermissions.contains(PermissionGroup.CALENDAR)) {
             requestPermission(
                 PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR,
                 *missingPermissions.toTypedArray()
             )
-        }
+        } else {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || !missingPermissions.contains(
-                PermissionGroup.NOTIFICATION
-            )
-        ) {
             val prefKey = "notification_permission_rationale_shown"
             if (!areNotificationsEnabled(NotificationBuilderWrapper.CHANNEL_ID_PLANNER) &&
                 !prefHandler.getBoolean(prefKey, false)

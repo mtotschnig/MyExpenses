@@ -8,15 +8,21 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
+import androidx.annotation.IntDef
 import androidx.annotation.RequiresApi
 import com.vmadalin.easypermissions.EasyPermissions
 import org.totschnig.myexpenses.R
 import java.io.File
 
+
 object PermissionHelper {
+    @IntDef(PERMISSIONS_REQUEST_WRITE_CALENDAR, PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI, PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC, PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER)
+    annotation class PermissionRequestCode
+
     const val PERMISSIONS_REQUEST_WRITE_CALENDAR = 1
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI = 2
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC = 3
+    const val PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER = 4
 
     @JvmStatic
     fun hasCalendarPermission(context: Context) = PermissionGroup.CALENDAR.hasPermission(context)
@@ -38,7 +44,7 @@ object PermissionHelper {
     }
 
     @TargetApi(Build.VERSION_CODES.TIRAMISU)
-    fun getRationale(context: Context, requestCode: Int, vararg group: PermissionGroup) =
+    fun getRationale(context: Context, @PermissionRequestCode requestCode: Int, vararg group: PermissionGroup) =
         when (requestCode) {
             PERMISSIONS_REQUEST_WRITE_CALENDAR -> {
                 group.joinToString(" ") {
@@ -51,6 +57,7 @@ object PermissionHelper {
             }
             PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI -> context.getString(R.string.notifications_permission_required_webui)
             PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC -> context.getString(R.string.notifications_permission_required_sync)
+            PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER -> context.getString(R.string.notifications_permission_required_planner)
             else -> throw IllegalArgumentException()
         }
 
