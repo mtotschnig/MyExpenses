@@ -376,7 +376,7 @@ abstract class MainDelegate<T : ITransaction>(
             }
             viewBinding.Payee.setText(debt.payeeName)
             if (focussed) {
-                viewBinding.Payee.requestFocus()
+                viewBinding.Amount.requestFocus()
             }
             payeeId = debt.payeeId
         }
