@@ -523,17 +523,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     @VisibleForTesting
-    open fun setAccounts(accounts: List<Account>, fromSavedState: Boolean) {
+    open fun setAccounts(accounts: List<Account>, currencyExtra: String?) {
         if (accounts.isEmpty()) {
             abortWithMessage(getString(R.string.warning_no_account))
         } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
             abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
         } else {
             if (::delegate.isInitialized) {
-                delegate.setAccounts(
-                    accounts,
-                    if (fromSavedState) null else intent.getStringExtra(KEY_CURRENCY)
-                )
+                delegate.setAccounts(accounts, currencyExtra)
                 loadDebts()
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
@@ -543,9 +540,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun loadAccounts(fromSavedState: Boolean) {
         lifecycleScope.launch {
-            viewModel.accounts.collect {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    setAccounts(it, fromSavedState)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accounts.collect {
+                    setAccounts(
+                        it,
+                        if (fromSavedState && !accountsLoaded) intent.getStringExtra(KEY_CURRENCY)
+                        else null
+                    )
                     if (operationType == Transactions.TYPE_SPLIT) {
                         viewModel.loadSplitParts(delegate.rowId, isTemplate)
                     }
@@ -556,7 +557,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun loadCurrencies() {
         lifecycleScope.launchWhenStarted {
-            currencyViewModel.currencies.collect {currencies ->
+            currencyViewModel.currencies.collect { currencies ->
                 if (::delegate.isInitialized) {
                     delegate.setCurrencies(currencies)
                 }
@@ -1263,7 +1264,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
      * @param overridePreferences if true data is loaded irrespective of what is set in preferences
      */
     fun startAutoFill(id: Long, overridePreferences: Boolean) {
-        viewModel.startAutoFill(id, overridePreferences, intent.getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false))
+        viewModel.startAutoFill(
+            id,
+            overridePreferences,
+            intent.getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
+        )
     }
 
     override fun onNegative(args: Bundle) {
@@ -1321,15 +1326,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         super.onPermissionsGranted(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR &&
-            PermissionHelper.PermissionGroup.CALENDAR.androidPermissions.all { perms.contains(it) } ) {
+            PermissionHelper.PermissionGroup.CALENDAR.androidPermissions.all { perms.contains(it) }
+        ) {
             delegate.onCalendarPermissionsResult(true)
         }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         super.onPermissionsDenied(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR&&
-            PermissionHelper.PermissionGroup.CALENDAR.androidPermissions.any { perms.contains(it) } ) {
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR &&
+            PermissionHelper.PermissionGroup.CALENDAR.androidPermissions.any { perms.contains(it) }
+        ) {
             delegate.onCalendarPermissionsResult(false)
         }
     }

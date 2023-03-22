@@ -76,6 +76,7 @@ import org.totschnig.myexpenses.dialog.*
 import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
@@ -1135,13 +1136,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         Intent(this, ExpenseEdit::class.java).apply {
             putExtra(Transactions.OPERATION_TYPE, type)
             putExtra(ExpenseEdit.KEY_INCOME, isIncome)
-            //if we are called from an aggregate account, we also hand over the currency
-            if (selectedAccountId < 0) {
+            val accountId = selectedAccountId
+            if (accountId >= 0) {
+                //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
+                putExtra(KEY_ACCOUNTID, accountId)
+            } else if (!Account.isHomeAggregate(accountId)) {
+                //if we are called from an aggregate account, we also hand over the currency
                 putExtra(KEY_CURRENCY, currentAccount!!.currency.code)
                 putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
-            } else {
-                //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-                putExtra(KEY_ACCOUNTID, selectedAccountId)
             }
         }
 
