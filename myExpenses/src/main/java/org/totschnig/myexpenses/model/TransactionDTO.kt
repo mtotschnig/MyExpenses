@@ -22,7 +22,7 @@ data class TransactionDTO(
     fun fullLabel(categoryPaths: Map<Long, List<String>>) =
         transferAccount?.let { "[$it]" } ?: categoryPath(categoryPaths)
 
-    fun categoryPath(categoryPaths: Map<Long, List<String>>) = catId?.let { cat ->
+    private fun categoryPath(categoryPaths: Map<Long, List<String>>) = catId?.let { cat ->
         categoryPaths[cat]?.joinToString(":") { label ->
             label.replace("/","\\u002F").replace(":","\\u003A")
         }
