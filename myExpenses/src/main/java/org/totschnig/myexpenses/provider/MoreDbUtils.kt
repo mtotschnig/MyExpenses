@@ -343,7 +343,7 @@ fun Cursor.getIntIfExists(column: String) =
 
 fun Cursor.getIntIfExistsOr0(column: String) = getIntIfExists(column) ?: 0
 fun Cursor.getLongIfExists(column: String) =
-    getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) }
+    getColumnIndex(column).takeIf { it != -1 }?.let { getLongOrNull(it) }
 
 fun Cursor.getLongIfExistsOr0(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L

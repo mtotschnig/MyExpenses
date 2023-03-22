@@ -159,8 +159,8 @@ class CategoryDelegate(
                 i++
             }
         }
-        if (data.debId != null) {
-            debtId = data.debId
+        if (data.debtId != null) {
+            debtId = data.debtId
             updateUiWithDebt()
         }
     }

@@ -379,20 +379,20 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         val amount: Money?,
         val methodId: Long?,
         val accountId: Long?,
-        val debId: Long?
+        val debtId: Long?
     ) {
         companion object {
             fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = AutoFillData(
-                cursor.getLongIfExists(KEY_CATID),
-                cursor.getStringIfExists(KEY_LABEL),
-                cursor.getStringIfExists(KEY_ICON),
-                cursor.getStringIfExists(KEY_COMMENT),
-                cursor.getLongIfExists(KEY_AMOUNT)?.let {
+                catId = cursor.getLongIfExists(KEY_CATID),
+                label = cursor.getStringIfExists(KEY_LABEL),
+                icon = cursor.getStringIfExists(KEY_ICON),
+                comment = cursor.getStringIfExists(KEY_COMMENT),
+                amount = cursor.getLongIfExists(KEY_AMOUNT)?.let {
                     Money(currencyContext[cursor.getString(KEY_CURRENCY)], it)
                 },
-                cursor.getLongIfExists(KEY_METHODID),
-                cursor.getLongIfExists(KEY_AMOUNT),
-                cursor.getLongIfExists(KEY_DEBT_ID)
+                methodId = cursor.getLongIfExists(KEY_METHODID),
+                accountId = cursor.getLongIfExists(KEY_ACCOUNTID),
+                debtId = cursor.getLongIfExists(KEY_DEBT_ID)
             )
         }
     }
