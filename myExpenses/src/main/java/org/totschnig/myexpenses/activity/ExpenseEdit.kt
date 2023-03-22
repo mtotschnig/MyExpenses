@@ -544,7 +544,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 viewModel.accounts.collect {
                     setAccounts(
                         it,
-                        if (fromSavedState && !accountsLoaded) intent.getStringExtra(KEY_CURRENCY)
+                        if (!fromSavedState && !accountsLoaded) intent.getStringExtra(KEY_CURRENCY)
                         else null
                     )
                     if (operationType == Transactions.TYPE_SPLIT) {
