@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
@@ -173,7 +175,9 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         config.locale = locale
         testContext.resources.update(config)
         targetContext.applicationContext.resources.update(config)
-        prefHandler.putString(PrefKey.UI_LANGUAGE, locale.language + "-" + locale.country)
+        AppCompatDelegate.setApplicationLocales(
+            LocaleListCompat.forLanguageTags(locale.language + "-" + locale.country)
+        )
     }
 
     private fun Resources.update(configuration: Configuration) {

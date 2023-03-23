@@ -47,7 +47,7 @@ class TestApp : MyApplication() {
                 prefHandler: PrefHandler,
                 systemLocale: Locale
             ): UserLocaleProvider {
-                return object: UserLocaleProviderImpl(prefHandler, systemLocale) {
+                return object: UserLocaleProviderImpl(systemLocale) {
                     override fun getLocalCurrency(context: Context): Currency {
                         val locale = context.resources.configuration.locale
                         return if (locale.country == "VI") Currency.getInstance("VND") else

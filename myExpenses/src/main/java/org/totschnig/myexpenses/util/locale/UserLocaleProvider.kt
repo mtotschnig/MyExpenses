@@ -5,8 +5,6 @@ import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import java.util.*
 
 interface UserLocaleProvider {
-    fun invalidate()
-    fun getPreferredLanguage(): String
     fun getUserPreferredLocale(): Locale
     fun wrapContext(context: Context): Context
     fun getLocalCurrency(context: Context): Currency
@@ -18,7 +16,7 @@ interface UserLocaleProvider {
                 systemLocale
             }
             language.contains("-") -> {
-                val parts = language.split("-").toTypedArray()
+                val parts = language.split("-")
                 Locale(parts[0], parts[1])
             }
             else -> {

@@ -552,9 +552,6 @@ public class MyApplication extends Application implements
     if (!key.equals(prefHandler.getKey(PrefKey.AUTO_BACKUP_DIRTY))) {
       markDataDirty();
     }
-    if (key.equals(prefHandler.getKey(PrefKey.UI_LANGUAGE))) {
-      userLocaleProvider.invalidate();
-    }
     if (key.equals(prefHandler.getKey(DEBUG_LOGGING))) {
       setupLogging();
     }

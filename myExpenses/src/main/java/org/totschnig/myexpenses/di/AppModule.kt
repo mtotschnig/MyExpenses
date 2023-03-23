@@ -77,5 +77,5 @@ open class AppModule {
     open fun provideUserLocaleProvider(
         prefHandler: PrefHandler,
         systemLocale: Locale
-    ): UserLocaleProvider = UserLocaleProviderImpl(prefHandler, systemLocale)
+    ): UserLocaleProvider = UserLocaleProviderImpl(systemLocale)
 }

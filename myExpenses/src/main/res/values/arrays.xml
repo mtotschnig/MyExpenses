@@ -31,7 +31,6 @@
     </string-array>
 
     <string-array name="pref_ui_language_values">
-        <item>default</item>
         <item>ar</item>
         <item>bg</item>
         <item>ca</item>

@@ -97,6 +97,7 @@
             android:entryValues="@array/pref_ui_language_values"
             android:key="@string/pref_ui_language_key"
             android:title="@string/pref_ui_language_title"
+            android:persistent="false"
             my:useSimpleSummaryProvider="true" />
 
         <PreferenceScreen

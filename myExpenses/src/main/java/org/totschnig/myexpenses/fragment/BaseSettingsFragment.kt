@@ -22,11 +22,14 @@ import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
 import android.widget.CompoundButton
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
+import androidx.preference.Preference.OnPreferenceChangeListener
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
@@ -35,6 +38,7 @@ import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.Help
@@ -193,7 +197,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
             }
         }
-        if(onScreen(PrefKey.UI_WEB)) {
+        if (onScreen(PrefKey.UI_WEB)) {
             webUiViewModel.getServiceState().observe(this) { result ->
                 preferenceActivity.supportActionBar?.let { actionBar ->
                     (actionBar.customView as? SwitchCompat)?.let { switch ->
@@ -215,7 +219,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     override fun onStart() {
         super.onStart()
-        if (onScreen(PrefKey.UI_WEB) && featureManager.isFeatureInstalled(Feature.WEBUI, requireContext())) {
+        if (onScreen(PrefKey.UI_WEB) && featureManager.isFeatureInstalled(
+                Feature.WEBUI,
+                requireContext()
+            )
+        ) {
             bindToWebUiService()
         }
     }
@@ -363,14 +371,19 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.showSnackBar(R.string.app_restart_required)
             }
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                configureOpenExchangeRatesPreference(sharedPreferences.getString(key, ExchangeRateSource.defaultSource.name))
+                configureOpenExchangeRatesPreference(
+                    sharedPreferences.getString(
+                        key,
+                        ExchangeRateSource.defaultSource.name
+                    )
+                )
             }
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
                 currencyFormatter.invalidateAll(requireContext().contentResolver)
             }
-            getKey(PrefKey.UI_LANGUAGE) -> {
+/*            getKey(PrefKey.UI_LANGUAGE) -> {
                 featureManager.requestLocale(preferenceActivity)
-            }
+            }*/
             getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS) -> {
                 preferenceActivity.rebuildDbConstants()
             }
@@ -812,7 +825,24 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceScreen.removePreference(privacyCategory)
                 }
 
-                requirePreference<ListPreference>(PrefKey.UI_LANGUAGE).entries = getLocaleArray()
+                with(requirePreference<ListPreference>(PrefKey.UI_LANGUAGE)) {
+                    entries = getLocaleArray()
+                    value = AppCompatDelegate.getApplicationLocales()[0]?.language
+                    onPreferenceChangeListener =
+                        OnPreferenceChangeListener { _, newValue ->
+                            val newLocale = newValue as String
+                            AppCompatDelegate.setApplicationLocales(
+                                if (newLocale == DEFAULT_LANGUAGE)
+                                    LocaleListCompat.getEmptyLocaleList() else
+                                    LocaleListCompat.forLanguageTags(
+                                        newValue as String?
+                                    )
+                            )
+                            value = newValue
+                            false
+                        }
+                }
+
 
                 lifecycleScope.launchWhenStarted {
                     currencyViewModel.currencies.collect { currencies ->
@@ -845,7 +875,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.NEWS).title =
                     "${getString(R.string.pref_news_title)} (Mastodon)"
 
-                requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible = prefHandler.encryptDatabase
+                requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
+                    prefHandler.encryptDatabase
             }
             getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
                 val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)
@@ -1084,15 +1115,15 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 actionBar.customView = actionBarSwitch
                 actionBarSwitch.isChecked = status
                 masterSwitchChangeLister = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-                        if (onPreferenceChange(preferenceScreen, isChecked)) {
-                            prefHandler.putBoolean(prefKey, isChecked)
-                            if (disableDependents) {
-                                updateDependents(isChecked)
-                            }
-                        } else {
-                            actionBarSwitch.isChecked = !isChecked
+                    if (onPreferenceChange(preferenceScreen, isChecked)) {
+                        prefHandler.putBoolean(prefKey, isChecked)
+                        if (disableDependents) {
+                            updateDependents(isChecked)
                         }
+                    } else {
+                        actionBarSwitch.isChecked = !isChecked
                     }
+                }
                 actionBarSwitch.setOnCheckedChangeListener(masterSwitchChangeLister)
                 if (disableDependents) {
                     updateDependents(status)
