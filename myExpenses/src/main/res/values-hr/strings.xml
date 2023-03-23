@@ -238,8 +238,8 @@
     <string name="pref_category_title_more_information">VIše informacija</string>
     <string name="pref_category_title_security">Sigurnost</string>
     <string name="pref_category_title_ui">Korisničko sučelje</string>
-    <string name="pref_checkbox_enabled">Omogućeno</string>
-    <string name="pref_checkbox_disabled">Onemogućeno</string>
+    <string name="pref_checkbox_enabled">Aktivirano</string>
+    <string name="pref_checkbox_disabled">Deaktivirano</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_contrib_purchase_summary">Kupi pristup premium funkcijama.</string>
     <string name="pref_contrib_purchase_title">Kupi ključ</string>
@@ -365,7 +365,7 @@
     <string name="warning_delete_reconciled">Brisanjem usklađenih transakcija tvoji će se zapisi razlikovati od bankovnog izvatka.</string>
     <string name="warning_balance_account">Usporedi iznos ukupno odobrenih sa završnim saldom tvog bankovnog izvatka. Ako nastaviš, odobrene transakcije će se označiti kao usklađene.</string>
     <string name="warning_password_protected">Program je zaštićen lozinkom.</string>
-    <string name="warning_widget_disabled">Aktiviraj rad widgeta u postavkama programa.</string>
+    <string name="warning_widget_disabled">Ovaj widget moraš aktivirati u postavkama programa.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Brza izrada predložaka iz ovog widgeta radi jedino ako u postavkama programa dozvoliš unos podataka iz widgeta bez lozinke.</string>
     <string name="warning_password_contrib">Postavljanje sigurnosnog pitanja omogućuje otključavanje programa u slučaju da zaboraviš lozinku.</string>
     <string name="warning_reset_account">Ako nastaviš, sve transakcije na ovom računu će se nepovratno izbrisati iz baze podataka.</string>
@@ -877,7 +877,7 @@
     <string name="button_label_share_file">Dijeli</string>
     <string name="crash_reports_user_info">{app_name} automatski šalje izvještaje o prestanku rada programa svojim programerima kako bi brže ispravili greške.</string>
     <string name="pref_category_title_crash_reports">Izvještaji o prekidu rada programa</string>
-    <string name="pref_enable_acra">Omogući automatsko slanje izvještaja o prekidu rada programa</string>
+    <string name="pref_enable_acra">Dozvoli automatsko slanje izvještaja o prekidu rada programa</string>
     <string name="pref_acra_user_email">Korisnički e-mail će biti sadržan u izvještaju o prekidu rada programa</string>
     <string name="pref_acra_user_email_summary">Upiši svoju e-mail adresu ako želiš pomoći u ispravljanju grešaka i dopustiti nam da te kontaktiramo.</string>
     <string name="bug_fixes">Popravci grešaka</string>
@@ -951,4 +951,17 @@
     <string name="menu_reconfigure">Konfiguriraj ponovo</string>
     <string name="database_is_encrypted">Baza podataka je šifrirana.</string>
     <string name="encrypt_database_info">Baza podataka će se šifrirati pristupnim izrazom koji se ne može izdvojiti iz ovog uređaja. Slijedom toga, usluga sigurnosnog kopiranja neće sigurnosno kopirati bazu podataka.</string>
+    <string name="debt_installment_pay">Plaćam ratu od %s.</string>
+    <string name="debt_lend_additional">Posuđujem %s.</string>
+    <string name="debt_borrow_additional">Uzajmljujem %s.</string>
+    <string name="debt_paid_off_other">%s je otplatio/la dug.</string>
+    <string name="github_sponsors">Licencni ključevi se također daju &lt;a href=%s&gt;Github sponzorima&lt;/a&gt;.</string>
+    <string name="notifications_permission_required_webui">Davanjem dozvole za slanje obavijesti možeš kontrolirati stanje web poslužitelja.</string>
+    <string name="notifications_permission_required_sync">Davanjem dozvole za slanje obavijesti možeš pratiti napredak sinkronizacije.</string>
+    <string name="notifications_channel_required">Aktiviraj kanal %s.</string>
+    <string name="debt_balance_they_owe">%1$s sada duguje %2$s.</string>
+    <string name="debt_balance_i_owe">Sada dugujem %s.</string>
+    <string name="debt_paid_off_self">Moj dug je otplaćen.</string>
+    <string name="debt_installment_receive">Primam ratu od %s.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> treba dozvolu za slanje obavijesti kad se objave buduće transakcije.</string>
 </resources>
