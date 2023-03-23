@@ -331,7 +331,7 @@
                     select="document($aosp)/resources/string[@name='experimental']" />
                 <xsl:text>)</xsl:text>
             </xsl:when>
-            <xsl:when test="$version = '3.5.1'">
+            <xsl:when test="$version = '3.5.1' or $version = '3.5.3'">
                 <xsl:if test="$itemize">
                     <xsl-text>•&#032;</xsl-text>
                 </xsl:if>
