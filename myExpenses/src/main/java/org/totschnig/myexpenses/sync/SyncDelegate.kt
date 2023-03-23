@@ -255,19 +255,17 @@ class SyncDelegate @JvmOverloads constructor(
             }
             TransactionChange.Type.updated -> {
                 val values: ContentValues = toContentValues(change)
-                if (values.size() > 0) {
-                    val transactionId = resolver(account.id, change.uuid())
-                    if (transactionId != -1L) {
+                val transactionId = resolver(account.id, change.uuid())
+                if (transactionId != -1L) {
+                    if (values.size() > 0) {
                         val builder = ContentProviderOperation.newUpdate(uri)
-                                .withSelection(DatabaseConstants.KEY_ROWID + " = ?", arrayOf(transactionId.toString()))
-                        if (values.size() > 0) {
-                            builder.withValues(values)
-                        }
+                            .withSelection(DatabaseConstants.KEY_ROWID + " = ?", arrayOf(transactionId.toString()))
+                        builder.withValues(values)
                         ops.add(builder.build())
-                        val tagOps: ArrayList<ContentProviderOperation> = saveTagLinks(tagIds, transactionId, null, true)
-                        ops.addAll(tagOps)
-                        tagOpsCount = tagOps.size
                     }
+                    val tagOps: ArrayList<ContentProviderOperation> = saveTagLinks(tagIds, transactionId, null, true)
+                    ops.addAll(tagOps)
+                    tagOpsCount = tagOps.size
                 }
             }
             TransactionChange.Type.deleted -> {
