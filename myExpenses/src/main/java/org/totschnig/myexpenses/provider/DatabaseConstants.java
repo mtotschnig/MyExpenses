@@ -82,7 +82,7 @@ public class DatabaseConstants {
 
   private static void ensureLocalized() {
     if (!isLocalized) {
-      throw new IllegalStateException();
+      buildLocalized(Locale.getDefault());
     }
   }
 

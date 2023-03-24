@@ -25,6 +25,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +37,6 @@ import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import org.totschnig.myexpenses.R
@@ -68,7 +68,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -103,9 +102,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     lateinit var prefHandler: PrefHandler
 
     @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
-
-    @Inject
     lateinit var settings: SharedPreferences
 
     @Inject
@@ -134,7 +130,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
     private val storeInDatabaseChangeListener =
-        Preference.OnPreferenceChangeListener { preference, newValue ->
+        OnPreferenceChangeListener { preference, newValue ->
             preferenceActivity.showSnackBarIndefinite(R.string.saving)
             viewModel.storeSetting(preference.key, newValue.toString())
                 .observe(this@BaseSettingsFragment) { result ->
@@ -167,6 +163,34 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
         }
         return true
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        //we configure language picker here, so that we can override the outdated value
+        //that might get set in ListPreference onRestoreInstanceState, when activity is recreated
+        //due to user changing app language in Android 13 system settings
+        findPreference<ListPreference>(PrefKey.UI_LANGUAGE)?.apply {
+            entries = getLocaleArray()
+            value = AppCompatDelegate.getApplicationLocales()[0]?.language ?: DEFAULT_LANGUAGE
+            onPreferenceChangeListener =
+                OnPreferenceChangeListener { _, newValue ->
+                    val newLocale = newValue as String
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && newLocale != DEFAULT_LANGUAGE) {
+                        featureManager.requestLocale(newLocale)
+                    } else {
+                        AppCompatDelegate.setApplicationLocales(
+                            if (newLocale == DEFAULT_LANGUAGE)
+                                LocaleListCompat.getEmptyLocaleList() else
+                                LocaleListCompat.forLanguageTags(
+                                    newValue as String?
+                                )
+                        )
+                    }
+                    value = newValue
+                    false
+                }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -339,7 +363,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return (requireActivity().application as MyApplication)
     }
 
-    fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
+    private fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
         if (matches(preference, prefKey)) {
             if (licenceHandler.hasAccessTo(feature)) {
                 preferenceActivity.contribFeatureCalled(feature, null)
@@ -381,11 +405,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
                 currencyFormatter.invalidateAll(requireContext().contentResolver)
             }
-/*            getKey(PrefKey.UI_LANGUAGE) -> {
-                featureManager.requestLocale(preferenceActivity)
-            }*/
             getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS) -> {
-                preferenceActivity.rebuildDbConstants()
+                preferenceActivity.initLocaleContext()
             }
             getKey(PrefKey.UI_FONTSIZE) -> {
                 updateAllWidgets()
@@ -677,7 +698,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             if (integer != null) {
                 preferenceActivity.showSnackBar(
                     String.format(
-                        resources.configuration.locale,
+                        ConfigurationCompat.getLocales(resources.configuration).get(0),
                         "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer
                     )
                 )
@@ -757,7 +778,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     var pickFolderRequestStart: Long = 0
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -824,25 +844,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 if (privacyCategory.preferenceCount == 0) {
                     preferenceScreen.removePreference(privacyCategory)
                 }
-
-                with(requirePreference<ListPreference>(PrefKey.UI_LANGUAGE)) {
-                    entries = getLocaleArray()
-                    value = AppCompatDelegate.getApplicationLocales()[0]?.language
-                    onPreferenceChangeListener =
-                        OnPreferenceChangeListener { _, newValue ->
-                            val newLocale = newValue as String
-                            AppCompatDelegate.setApplicationLocales(
-                                if (newLocale == DEFAULT_LANGUAGE)
-                                    LocaleListCompat.getEmptyLocaleList() else
-                                    LocaleListCompat.forLanguageTags(
-                                        newValue as String?
-                                    )
-                            )
-                            value = newValue
-                            false
-                        }
-                }
-
 
                 lifecycleScope.launchWhenStarted {
                     currencyViewModel.currencies.collect { currencies ->
@@ -958,13 +959,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         FormatStyle.SHORT,
                         null,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        Locale.getDefault()
                     )
                     val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
                         FormatStyle.MEDIUM,
                         null,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        Locale.getDefault()
                     )
                     ocrDatePref.text = shortFormat + "\n" + mediumFormat
                 }
@@ -975,13 +976,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         null,
                         FormatStyle.SHORT,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        Locale.getDefault()
                     )
                     val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
                         null,
                         FormatStyle.MEDIUM,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        Locale.getDefault()
                     )
                     ocrTimePref.text = shortFormat + "\n" + mediumFormat
                 }

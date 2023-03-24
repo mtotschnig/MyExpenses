@@ -41,7 +41,6 @@ import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -70,6 +69,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -249,6 +249,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
   public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
 
+  public static final String METHOD_INIT = "init";
+
+  public static final String KEY_LOCALE = "locale";
+
   public static final String KEY_RESULT = "result";
 
   private static final UriMatcher URI_MATCHER;
@@ -272,7 +276,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
-    final Context wrappedContext = getWrappedContext();
     //noinspection InlinedApi
     String queryParameterLimit = uri.getQueryParameter(ContentResolver.QUERY_ARG_LIMIT);
     if (queryParameterLimit != null) {
@@ -591,16 +594,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         groupBy = groupByForPaymentMethodQuery(projection);
         having = havingForPaymentMethodQuery(projection);
         if (projection == null) {
-          projection = PaymentMethod.PROJECTION(wrappedContext);
+          projection = PaymentMethod.PROJECTION(getWrappedContext());
         } else {
-          projection = mapPaymentMethodProjection(projection, wrappedContext);
+          projection = mapPaymentMethodProjection(projection, getWrappedContext());
         }
         if (sortOrder == null) {
-          sortOrder = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL) + " COLLATE " + getCollate();
+          sortOrder = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL) + " COLLATE " + getCollate();
         }
         break;
       case MAPPED_METHODS:
-        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
+        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
@@ -610,11 +613,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_ID:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS);
         if (projection == null)
-          projection = PaymentMethod.PROJECTION(wrappedContext);
+          projection = PaymentMethod.PROJECTION(getWrappedContext());
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case METHODS_FILTERED:
-        localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
+        localizedLabel = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
         projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
         String paymentType = uri.getPathSegments().get(2);
@@ -848,7 +851,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {
-      c = new PlanInfoCursorWrapper(wrappedContext, c, sortOrder == null, withPlanInfo.equals("2") || CALENDAR.hasPermission(getContext()));
+      c = new PlanInfoCursorWrapper(getWrappedContext(), c, sortOrder == null, withPlanInfo.equals("2") || CALENDAR.hasPermission(getContext()));
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
@@ -1616,6 +1619,12 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_CHECK_CORRUPTED_DATA_987: {
         return checkCorruptedData987();
+      }
+      case METHOD_INIT: {
+        Locale locale = (Locale) Objects.requireNonNull(extras).getSerializable(KEY_LOCALE);
+        setWrappedContextInternal(ContextHelper.wrap(getContext(), locale));
+        DatabaseConstants.buildLocalized(locale);
+        Transaction.buildProjection(getWrappedContext());
       }
     }
     return null;

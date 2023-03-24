@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -24,7 +23,7 @@ import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.absoluteValue
 
-abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrHandler {
+abstract class AbstractOcrHandlerImpl(prefHandler: PrefHandler, private val context: Context) : OcrHandler {
     private val numberFormatList: List<NumberFormat>
     private val dateFormatterList: List<DateTimeFormatter>
     private val timeFormatterList: List<DateTimeFormatter>
@@ -32,17 +31,17 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
 
     init {
         numberFormatList = mutableListOf<NumberFormat>().apply {
-            val userFormat = NumberFormat.getInstance(userLocaleProvider.systemLocale)
+            val userFormat = NumberFormat.getInstance(Locale.getDefault())
             add(userFormat)
             val rootFormat = NumberFormat.getInstance(Locale.ROOT)
             if (rootFormat != userFormat) {
                 add(rootFormat)
             }
         }
-        val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(userLocaleProvider.systemLocale) }
+        val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(Locale.getDefault()) }
         dateFormatterList = prefHandler.getString(PrefKey.OCR_DATE_FORMATS, null)?.lines()?.mapNotNull {
             try {
-                DateTimeFormatter.ofPattern(it, userLocaleProvider.systemLocale)
+                DateTimeFormatter.ofPattern(it, Locale.getDefault())
             } catch (e: Exception) {
                 null
             }
@@ -52,7 +51,7 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
                 .map(withSystemLocale)
         timeFormatterList = prefHandler.getString(PrefKey.OCR_TIME_FORMATS, null)?.lines()?.mapNotNull {
             try {
-                DateTimeFormatter.ofPattern(it, userLocaleProvider.systemLocale)
+                DateTimeFormatter.ofPattern(it, Locale.getDefault())
             } catch (e: Exception) {
                 null
             }

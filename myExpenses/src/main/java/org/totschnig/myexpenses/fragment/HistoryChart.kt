@@ -36,6 +36,7 @@ import icepick.Icepick
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
@@ -53,7 +54,6 @@ import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.viewmodel.HistoryViewModel
 import org.totschnig.myexpenses.viewmodel.data.HistoryAccountInfo
 import java.text.DateFormat
@@ -81,9 +81,6 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
-
-    @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -182,7 +179,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         Grouping.WEEK -> LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, julianDayFromWeekNumber(value))
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
         Grouping.MONTH -> Grouping.getDisplayTitleForMonth((value / MONTH_GROUPING_YEAR_X).toInt(), (value % MONTH_GROUPING_YEAR_X).toInt(), DateFormat.SHORT,
-                userLocaleProvider.getUserPreferredLocale())
+            (requireActivity() as BaseActivity).getLocale()
+        )
         Grouping.YEAR -> String.format(Locale.ROOT, "%d", value.toInt())
         else -> ""
     }

@@ -59,7 +59,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.BaseAdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -146,7 +146,7 @@ public interface AppComponent {
 
   ExchangeRateService exchangeRateService();
 
-  UserLocaleProvider userLocaleProvider();
+  HomeCurrencyProvider userLocaleProvider();
 
   Picasso picasso();
 

@@ -29,12 +29,14 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -63,10 +65,10 @@ import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
@@ -79,7 +81,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -91,6 +92,7 @@ import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
 
@@ -272,9 +274,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     lateinit var tracker: Tracker
 
     @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
-
-    @Inject
     lateinit var crashHandler: CrashHandler
 
     @Inject
@@ -349,7 +348,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     )
                 )
                 is FeatureViewModel.FeatureState.LanguageAvailable -> {
-                    rebuildDbConstants()
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(featureState.language)
+                    )
                     recreate()
                 }
             }
@@ -517,7 +518,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 true
             }
             R.id.NOTIFICATION_SETTINGS_COMMAND -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !PermissionGroup.NOTIFICATION.hasPermission(this)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                    !PermissionGroup.NOTIFICATION.hasPermission(this)
+                ) {
                     requestPermission(
                         PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER,
                         PermissionGroup.NOTIFICATION
@@ -732,11 +735,21 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             getString(R.string.pref_security_export_passphrase_title)
         )
 
+    fun getLocale(): Locale = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+        AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault() else Locale.getDefault()
+
     override fun onMessageDialogDismissOrCancel() {}
 
-    fun rebuildDbConstants() {
-        DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
-        Transaction.buildProjection(this)
+    fun initLocaleContext() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            requireApplication().userPreferredLocale = AppCompatDelegate.getApplicationLocales()[0]
+        }
+        contentResolver.call(
+            TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null,
+            Bundle(1).apply {
+                putSerializable(TransactionProvider.KEY_LOCALE, getLocale())
+            }
+        )
     }
 
     fun showMessage(resId: Int) {

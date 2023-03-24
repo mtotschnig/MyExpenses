@@ -63,7 +63,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -132,12 +132,12 @@ public class Utils {
   public static CurrencyUnit getHomeCurrency(Context context,
                                              PrefHandler prefHandler,
                                              CurrencyContext currencyContext,
-                                             UserLocaleProvider userLocaleProvider
+                                             HomeCurrencyProvider userLocaleProvider
                                              ) {
     return currencyContext.get(getHomeCurrency(context, prefHandler, userLocaleProvider));
   }
 
-  public static String getHomeCurrency(Context context, PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
+  public static String getHomeCurrency(Context context, PrefHandler prefHandler, HomeCurrencyProvider userLocaleProvider) {
     String home = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
     return home != null ? home : userLocaleProvider.getLocalCurrency(context).getCurrencyCode();
   }
@@ -243,7 +243,7 @@ public class Utils {
   @NonNull
   public static Currency getSaveDefault() {
     try {
-      return Currency.getInstance(MyApplication.getInstance().getSystemLocale());
+      return Currency.getInstance(Locale.getDefault());
     } catch (NullPointerException | IllegalArgumentException ex) {
       return Currency.getInstance(new Locale("en", "US"));
     }

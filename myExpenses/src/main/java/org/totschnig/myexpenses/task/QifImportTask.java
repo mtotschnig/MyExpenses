@@ -118,7 +118,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   @Override
   protected Void doInBackground(Void... params) {
     final MyApplication application = MyApplication.getInstance();
-    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
+    final Context context = application.getWrappedContext();
     long t0 = System.currentTimeMillis();
     QifBufferedReader r;
     QifParser parser;

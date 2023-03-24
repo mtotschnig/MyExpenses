@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import timber.log.Timber
 import java.io.File
 import java.time.Duration
@@ -80,7 +80,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     lateinit var provideDatabaseName: (Boolean) -> String
 
     @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -97,8 +97,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val collate: String
         get() = prefHandler.collate
 
+    var wrappedContextInternal: Context? = null
+        set(value) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                field = value
+            }
+        }
+
     val wrappedContext: Context
-        get() = userLocaleProvider.wrapContext(context!!)
+        get() = wrappedContextInternal ?: context!!
 
     private var shouldLog = false
 
@@ -277,7 +284,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     val homeCurrency: String
-        get() = Utils.getHomeCurrency(context, prefHandler, userLocaleProvider)
+        get() = Utils.getHomeCurrency(context, prefHandler, homeCurrencyProvider)
 
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)

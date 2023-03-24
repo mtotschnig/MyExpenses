@@ -20,10 +20,9 @@ abstract class BaseWorker(context: Context, workerParameters: WorkerParameters) 
     val prefHandler: PrefHandler
 
     init {
-        with((context.applicationContext as MyApplication).appComponent) {
-            wrappedContext =
-                ContextHelper.wrap(context, userLocaleProvider().getUserPreferredLocale())
-            prefHandler = prefHandler()
+        with((context.applicationContext as MyApplication)) {
+            this@BaseWorker.wrappedContext = wrappedContext
+            prefHandler = appComponent.prefHandler()
         }
     }
 

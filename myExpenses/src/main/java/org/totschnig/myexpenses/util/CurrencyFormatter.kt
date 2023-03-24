@@ -1,12 +1,12 @@
 package org.totschnig.myexpenses.util
 
 import android.content.ContentResolver
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -45,7 +45,7 @@ fun ICurrencyFormatter.convAmount(amount: Long, currency: CurrencyUnit): String 
 @Singleton
 open class CurrencyFormatter @Inject constructor(
     private val prefHandler: PrefHandler,
-    private val userLocaleProvider: UserLocaleProvider
+    private val application: MyApplication
 ): ICurrencyFormatter {
     private val numberFormats: MutableMap<String, NumberFormat> = HashMap()
     fun invalidate(currency: String, contentResolver: ContentResolver) {
@@ -76,7 +76,7 @@ open class CurrencyFormatter @Inject constructor(
                 //fallback to default currency instance
             }
         }
-        return NumberFormat.getCurrencyInstance(userLocaleProvider.getUserPreferredLocale())
+        return NumberFormat.getCurrencyInstance(application.userPreferredLocale)
     }
 
     private fun getNumberFormat(currencyUnit: CurrencyUnit): NumberFormat {

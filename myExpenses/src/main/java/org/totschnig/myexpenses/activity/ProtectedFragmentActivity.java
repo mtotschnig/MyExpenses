@@ -78,7 +78,6 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

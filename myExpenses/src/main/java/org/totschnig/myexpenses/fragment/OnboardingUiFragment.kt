@@ -40,14 +40,12 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asDateTimeFormatter
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import javax.inject.Inject
 
 class OnboardingUiFragment : OnboardingFragment() {
     private var _binding: OnboardingWizzardUiBinding? = null
@@ -56,9 +54,6 @@ class OnboardingUiFragment : OnboardingFragment() {
     private val themeSelectionBinding get() = _themeSelectionBinding!!
 
     private val viewModel: OnBoardingUiViewModel by viewModels()
-
-    @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
 
     private var fontScale = 0
     override fun onCreate(savedInstanceState: Bundle?) {

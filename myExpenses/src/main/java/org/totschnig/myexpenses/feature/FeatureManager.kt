@@ -187,8 +187,8 @@ abstract class FeatureManager {
         }
     }
 
-    open fun requestLocale(context: Context) {
-        callback?.onLanguageAvailable()
+    open fun requestLocale(language: String) {
+        callback?.onLanguageAvailable(language)
     }
 
     open fun registerCallback(callback: Callback) {
@@ -212,7 +212,7 @@ abstract class FeatureManager {
 }
 
 interface Callback {
-    fun onLanguageAvailable() {}
+    fun onLanguageAvailable(language: String) {}
     fun onFeatureAvailable(moduleNames: List<String>) {}
     fun onAsyncStartedFeature(feature: Feature) {}
     fun onAsyncStartedLanguage(displayLanguage: String) {}

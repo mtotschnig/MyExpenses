@@ -4,11 +4,7 @@ import android.content.Context
 import org.totschnig.myexpenses.util.Utils
 import java.util.*
 
-open class UserLocaleProviderImpl(override var systemLocale: Locale): UserLocaleProvider {
-
-    override fun getUserPreferredLocale(): Locale = Locale.getDefault()
-
-    override fun wrapContext(context: Context): Context = context
+open class HomeCurrencyProviderImpl : HomeCurrencyProvider {
 
     override fun getLocalCurrency(context: Context) =
         Utils.getCountryFromTelephonyManager(context)?.let {

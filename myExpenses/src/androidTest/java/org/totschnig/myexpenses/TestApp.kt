@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses
 
 import android.content.Context
+import androidx.core.os.ConfigurationCompat
 import androidx.test.platform.app.InstrumentationRegistry
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.AppModule
@@ -16,8 +17,8 @@ import org.totschnig.myexpenses.testutils.TestFeatureModule
 import org.totschnig.myexpenses.testutils.TestViewModelModule
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import org.totschnig.myexpenses.util.locale.UserLocaleProviderImpl
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProviderImpl
 import java.util.*
 
 class TestApp : MyApplication() {
@@ -44,12 +45,11 @@ class TestApp : MyApplication() {
         .systemLocale(systemLocale)
         .appmodule(object : AppModule() {
             override fun provideUserLocaleProvider(
-                prefHandler: PrefHandler,
-                systemLocale: Locale
-            ): UserLocaleProvider {
-                return object: UserLocaleProviderImpl(systemLocale) {
+                prefHandler: PrefHandler
+            ): HomeCurrencyProvider {
+                return object: HomeCurrencyProviderImpl() {
                     override fun getLocalCurrency(context: Context): Currency {
-                        val locale = context.resources.configuration.locale
+                        val locale = ConfigurationCompat.getLocales(context.resources.configuration).get(0)!!
                         return if (locale.country == "VI") Currency.getInstance("VND") else
                             Currency.getInstance(locale)
                     }
