@@ -230,20 +230,16 @@ public class MyApplication extends Application implements
   @Override
   protected void attachBaseContext(Context base) {
     mSelf = this;
-    //we cannot use the standard way of reading preferences, since this works only after base context
-    //has been attached
-    final Locale systemLocale = Locale.getDefault();
     super.attachBaseContext(base);
-    appComponent = buildAppComponent(systemLocale);
+    appComponent = buildAppComponent();
     appComponent.inject(this);
     featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
   }
 
   @NonNull
-  protected AppComponent buildAppComponent(Locale systemLocale) {
+  protected AppComponent buildAppComponent() {
     return DaggerAppComponent.builder()
-        .systemLocale(systemLocale)
         .applicationContext(this)
         .build();
   }

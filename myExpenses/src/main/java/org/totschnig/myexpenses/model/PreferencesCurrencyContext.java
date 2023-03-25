@@ -11,6 +11,8 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class PreferencesCurrencyContext implements CurrencyContext {
   /**
    * used with currencies where Currency.getDefaultFractionDigits returns -1
@@ -22,6 +24,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   final private MyApplication application;
   private static final Map<String, CurrencyUnit> INSTANCES = Collections.synchronizedMap(new HashMap<>());
 
+  @Inject
   public PreferencesCurrencyContext(PrefHandler prefHandler, MyApplication application) {
     this.prefHandler = prefHandler;
     this.application = application;

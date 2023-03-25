@@ -51,7 +51,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Before
     fun fixture() {
         account = Account(
-            "Test account 1", Utils.getHomeCurrency(), 0, "",
+            "Test account 1", homeCurrency, 0, "",
             AccountType.CASH, Account.DEFAULT_COLOR
         )
         account.save()

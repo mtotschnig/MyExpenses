@@ -81,6 +81,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -284,6 +285,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     @Inject
     lateinit var adHandlerFactory: AdHandlerFactory
+
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
+
+    val homeCurrency by lazy {
+        homeCurrencyProvider.homeCurrencyUnit
+    }
 
     val ocrViewModel: OcrViewModel by viewModels()
     val featureViewModel: FeatureViewModel by viewModels()

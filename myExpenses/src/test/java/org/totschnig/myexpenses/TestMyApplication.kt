@@ -22,11 +22,10 @@ import java.util.*
 
 //Used by Robolectric
 class TestMyApplication : MyApplication() {
-    override fun buildAppComponent(systemLocale: Locale): AppComponent {
+    override fun buildAppComponent(): AppComponent {
         return DaggerAppComponent.builder()
             .licenceModule(MockLicenceModule())
             .applicationContext(this)
-            .systemLocale(systemLocale)
             .uiModule(object : UiModule() {
                 override fun provideDiscoveryHelper(prefHandler: PrefHandler) =
                     IDiscoveryHelper.NO_OP

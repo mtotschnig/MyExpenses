@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.di.AppModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.di.UiModule
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.Fixture
 import org.totschnig.myexpenses.testutils.MockLicenceModule
@@ -28,7 +29,7 @@ class TestApp : MyApplication() {
         fixture = Fixture(InstrumentationRegistry.getInstrumentation())
     }
 
-    override fun buildAppComponent(systemLocale: Locale): AppComponent = DaggerAppComponent.builder()
+    override fun buildAppComponent(): AppComponent = DaggerAppComponent.builder()
         .coroutineModule(TestCoroutineModule)
         .viewModelModule(TestViewModelModule)
         .dataModule(TestDataModule)
@@ -42,13 +43,15 @@ class TestApp : MyApplication() {
         })
         .licenceModule(MockLicenceModule())
         .applicationContext(this)
-        .systemLocale(systemLocale)
         .appmodule(object : AppModule() {
-            override fun provideUserLocaleProvider(
-                prefHandler: PrefHandler
+            override fun provideHomeCurrencyProvider(
+                prefHandler: PrefHandler,
+                context: Context,
+                currencyContext: CurrencyContext
             ): HomeCurrencyProvider {
-                return object: HomeCurrencyProviderImpl() {
-                    override fun getLocalCurrency(context: Context): Currency {
+                return object: HomeCurrencyProviderImpl(prefHandler, context, currencyContext) {
+                    override val localCurrency: Currency
+                        get() {
                         val locale = ConfigurationCompat.getLocales(context.resources.configuration).get(0)!!
                         return if (locale.country == "VI") Currency.getInstance("VND") else
                             Currency.getInstance(locale)

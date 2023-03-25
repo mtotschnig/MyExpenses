@@ -35,7 +35,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private lateinit var account: Account
     @Before
     fun fixture() {
-        val home = Utils.getHomeCurrency()
+        val home = homeCurrency
         account = Account(
             "Test account 1", home, 0, "",
             AccountType.CASH, Account.DEFAULT_COLOR

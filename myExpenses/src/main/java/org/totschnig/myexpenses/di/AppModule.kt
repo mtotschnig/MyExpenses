@@ -75,6 +75,8 @@ open class AppModule {
     @Provides
     @Singleton
     open fun provideHomeCurrencyProvider(
-        prefHandler: PrefHandler
-    ): HomeCurrencyProvider = HomeCurrencyProviderImpl()
+        prefHandler: PrefHandler,
+        context: Context,
+        currencyContext: CurrencyContext
+    ): HomeCurrencyProvider = HomeCurrencyProviderImpl(prefHandler, context, currencyContext)
 }

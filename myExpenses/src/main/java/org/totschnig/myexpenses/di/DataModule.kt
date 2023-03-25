@@ -55,9 +55,7 @@ open class DataModule {
     open fun providePrefHandler(
         context: MyApplication,
         sharedPreferences: SharedPreferences
-    ): PrefHandler {
-        return PrefHandlerImpl(context, sharedPreferences)
-    }
+    ): PrefHandler = PrefHandlerImpl(context, sharedPreferences)
 
     @Singleton
     @Provides

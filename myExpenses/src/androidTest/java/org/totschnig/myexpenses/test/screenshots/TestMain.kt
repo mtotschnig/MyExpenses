@@ -160,7 +160,7 @@ class TestMain : BaseMyExpensesTest() {
         //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
         LocaleUtil.localeFromString(LocaleUtil.getTestLocale())?.let { configureLocale(it) }
         (app.licenceHandler as MockLicenceHandler).setLockState(false)
-        app.fixture.setup(withPicture, repository)
+        app.fixture.setup(withPicture, repository, homeCurrency)
         prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, app.fixture.account1.id)
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)

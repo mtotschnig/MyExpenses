@@ -118,11 +118,12 @@ open class TransactionPagingSource(
                 }
                 withContext(Dispatchers.Main) {
                     cursor.asSequence.map {
+                        val appComponent = (context.applicationContext as MyApplication).appComponent
                         Transaction2.fromCursor(
                             context,
                             it,
-                            (context.applicationContext as MyApplication).appComponent.currencyContext(),
-                            if (account.isHomeAggregate) Utils.getHomeCurrency() else null
+                            appComponent.currencyContext(),
+                            if (account.isHomeAggregate) appComponent.homeCurrencyProvider().homeCurrencyUnit else null
                         )
                     }.toList()
                 }

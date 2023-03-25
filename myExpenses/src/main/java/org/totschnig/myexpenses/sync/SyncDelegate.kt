@@ -15,29 +15,21 @@ import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Payee
-import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.model.extractTagIds
-import org.totschnig.myexpenses.model.saveTagLinks
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import java.io.IOException
 
-class SyncDelegate @JvmOverloads constructor(
+class SyncDelegate(
     val currencyContext: CurrencyContext,
     val featureManager: FeatureManager,
     val repository: Repository,
+    val homeCurrency: CurrencyUnit,
     val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid
 ) {
 
@@ -330,7 +322,6 @@ class SyncDelegate @JvmOverloads constructor(
             values.put(DatabaseConstants.KEY_ORIGINAL_CURRENCY, change.originalCurrency())
         }
         if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
-            val homeCurrency = Utils.getHomeCurrency()
             if (change.equivalentCurrency() == homeCurrency.code) {
                 values.put(DatabaseConstants.KEY_EQUIVALENT_AMOUNT, change.equivalentAmount())
             }
@@ -406,7 +397,7 @@ class SyncDelegate @JvmOverloads constructor(
         }
         change.equivalentAmount()?.let { equivalentAmount ->
             change.equivalentCurrency()?.let { equivalentCurrency ->
-                with(Utils.getHomeCurrency()) {
+                with(homeCurrency) {
                     if (equivalentCurrency == code) {
                         t.equivalentAmount = Money(this, equivalentAmount)
                     }

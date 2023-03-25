@@ -108,7 +108,8 @@ data class Transaction(
         fun fromCursor(
             context: Context,
             cursor: Cursor,
-            currencyContext: CurrencyContext
+            currencyContext: CurrencyContext,
+            homeCurrency: CurrencyUnit
         ): Transaction {
             val currencyUnit =
                 currencyContext.get(cursor.getString(KEY_CURRENCY))
@@ -117,7 +118,6 @@ data class Transaction(
             val transferAccountId = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT)
             val date: Long = cursor.getLong(KEY_DATE)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
-            val homeCurrency = Utils.getHomeCurrency()
 
             return Transaction(
                 id = cursor.requireLong(KEY_ROWID),

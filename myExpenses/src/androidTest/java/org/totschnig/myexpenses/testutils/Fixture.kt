@@ -6,7 +6,6 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.os.Debug
 import com.google.common.truth.Truth
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -71,9 +70,8 @@ class Fixture(inst: Instrumentation) {
         Plan.delete(planId)
     }
 
-    fun setup(withPicture: Boolean, repository: Repository) {
+    fun setup(withPicture: Boolean, repository: Repository, defaultCurrency: CurrencyUnit) {
         this.repository = repository
-        val defaultCurrency = Utils.getHomeCurrency()
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
         account1 = Account(
@@ -101,7 +99,7 @@ class Fixture(inst: Instrumentation) {
         account2.save()
         account3 = Account(
             appContext.getString(R.string.testData_account3Label),
-            Utils.getHomeCurrency(),
+            defaultCurrency,
             200000,
             appContext.getString(R.string.testData_account3Description), AccountType.BANK,
             testContext.resources.getColor(RT.color.material_blue)

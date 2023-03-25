@@ -57,7 +57,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SortDirection;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -118,28 +117,11 @@ public class Utils {
     return null;
   }
 
+  @Deprecated
   public static CurrencyUnit getHomeCurrency() {
-    //TODO provide home currency in a cleaner way
     final MyApplication context = MyApplication.getInstance();
     AppComponent appComponent = context.getAppComponent();
-    return getHomeCurrency(context,
-            appComponent.prefHandler(),
-            appComponent.currencyContext(),
-            appComponent.userLocaleProvider()
-            );
-  }
-
-  public static CurrencyUnit getHomeCurrency(Context context,
-                                             PrefHandler prefHandler,
-                                             CurrencyContext currencyContext,
-                                             HomeCurrencyProvider userLocaleProvider
-                                             ) {
-    return currencyContext.get(getHomeCurrency(context, prefHandler, userLocaleProvider));
-  }
-
-  public static String getHomeCurrency(Context context, PrefHandler prefHandler, HomeCurrencyProvider userLocaleProvider) {
-    String home = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
-    return home != null ? home : userLocaleProvider.getLocalCurrency(context).getCurrencyCode();
+    return appComponent.homeCurrencyProvider().getHomeCurrencyUnit();
   }
 
   public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit) {

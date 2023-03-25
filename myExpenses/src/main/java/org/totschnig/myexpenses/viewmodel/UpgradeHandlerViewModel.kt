@@ -143,7 +143,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 prefHandler.remove(PrefKey.AUTO_FILL_LEGACY)
             }
             if (fromVersion < 316) {
-                prefHandler.putString(PrefKey.HOME_CURRENCY, Utils.getHomeCurrency().code)
+                prefHandler.putString(PrefKey.HOME_CURRENCY, homeCurrencyProvider.homeCurrencyString)
                 getApplication<MyApplication>().invalidateHomeCurrency()
             }
 

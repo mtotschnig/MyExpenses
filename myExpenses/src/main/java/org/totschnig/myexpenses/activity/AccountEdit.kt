@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
@@ -252,7 +251,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     }
 
     private fun setExchangeRateVisibility(currencyUnit: CurrencyUnit) {
-        val homeCurrency = Utils.getHomeCurrency()
         val isHomeAccount = currencyUnit.code == homeCurrency.code
         binding.ERR.root.visibility = if (isHomeAccount) View.GONE else View.VISIBLE
         if (!isHomeAccount) {

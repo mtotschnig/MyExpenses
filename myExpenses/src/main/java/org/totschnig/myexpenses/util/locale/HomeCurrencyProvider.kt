@@ -1,8 +1,12 @@
 package org.totschnig.myexpenses.util.locale
 
 import android.content.Context
+import org.totschnig.myexpenses.model.CurrencyUnit
 import java.util.*
 
 interface HomeCurrencyProvider {
-    fun getLocalCurrency(context: Context): Currency
+
+    val homeCurrencyString: String
+    val homeCurrencyUnit: CurrencyUnit
+    val localCurrency: Currency
 }

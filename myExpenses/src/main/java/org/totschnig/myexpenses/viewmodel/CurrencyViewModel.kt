@@ -45,7 +45,7 @@ open class CurrencyViewModel(application: Application) :
 
     val default: Currency
         get() = Currency.create(
-            Utils.getHomeCurrency().code,
+            homeCurrencyProvider.homeCurrencyUnit.code,
             userPreferredLocale
         )
 }

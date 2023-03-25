@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -29,17 +30,18 @@ class SyncAdapterWriteToDbTest {
     }
 
     private fun setupSync() {
-        syncDelegate = SyncDelegate(currencyContext, featureManager, repository)
+        syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency)
         syncDelegate.account = Account()
     }
 
     private fun setupSyncWithFakeResolver() {
-        syncDelegate = SyncDelegate(currencyContext, featureManager, repository) { _, _ -> 1 }
+        syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency) { _, _ -> 1 }
         syncDelegate.account = Account()
     }
 
     private val currencyContext = Mockito.mock(CurrencyContext::class.java)
     private val featureManager = Mockito.mock(FeatureManager::class.java)
+    private val homeCurrency = CurrencyUnit.DebugInstance
     private val repository = Repository(
         ApplicationProvider.getApplicationContext<MyApplication>(),
         currencyContext,

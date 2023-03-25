@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
 import java.time.Instant
@@ -62,6 +63,9 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
 
     @Inject
     lateinit var picasso: Picasso
+
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -216,7 +220,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     binding.OriginalAmountRow.visibility = View.VISIBLE
                     binding.OriginalAmount.text = formatCurrencyAbs(it)
                 }
-                if (!transaction.isTransfer && transaction.amount.currencyUnit.code != Utils.getHomeCurrency().code) {
+                if (!transaction.isTransfer && transaction.amount.currencyUnit.code != homeCurrencyProvider.homeCurrencyUnit.code) {
                     binding.EquivalentAmountRow.visibility = View.VISIBLE
                     binding.EquivalentAmount.text = formatCurrencyAbs(transaction.equivalentAmount)
                 }

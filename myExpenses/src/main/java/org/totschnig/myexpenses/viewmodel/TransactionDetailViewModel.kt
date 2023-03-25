@@ -23,7 +23,7 @@ class TransactionDetailViewModel(application: Application) :
             "$KEY_ROWID = ? OR $KEY_PARENTID = ?",
             Array(2) { transactionId.toString() },
             "$KEY_PARENTID IS NULL DESC")?.useAndMap {
-                fromCursor(getApplication(), it, currencyContext)
+                fromCursor(getApplication(), it, currencyContext, homeCurrencyProvider.homeCurrencyUnit)
         }?.let { emit(it) }
     }
 

@@ -47,6 +47,9 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
         testScenario = ActivityScenario.launch(Intent(InstrumentationRegistry.getInstrumentation().targetContext, DistributionActivity::class.java).apply {
             putExtra(KEY_ACCOUNTID, account.id)
         })
+        testScenario.onActivity {
+            it.initLocaleContext()
+        }
     }
 
     private fun fixtureWithMappedTransaction() {

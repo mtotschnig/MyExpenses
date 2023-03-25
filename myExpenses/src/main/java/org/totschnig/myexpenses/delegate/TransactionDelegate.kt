@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencyDescription
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -61,6 +62,13 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
+
+    val homeCurrency by lazy {
+        homeCurrencyProvider.homeCurrencyUnit
+    }
 
     private val methodSpinner = SpinnerHelper(methodRowBinding.Method.root)
     val accountSpinner = SpinnerHelper(viewBinding.Account)
@@ -412,7 +420,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun populateOriginalCurrency() {
         viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode?.let { currencyContext[it] }
-            ?: Utils.getHomeCurrency())
+            ?: homeCurrency)
     }
 
     protected fun setVisibility(view: View, visible: Boolean) {
@@ -888,7 +896,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             viewBinding.EquivalentAmountRow.visibility = View.GONE
             equivalentAmountVisible = false
         } else {
-            viewBinding.EquivalentAmount.configureExchange(currencyUnit, Utils.getHomeCurrency())
+            viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
         }
         configureDateInput(account)
         configureStatusSpinner()
@@ -897,7 +905,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {
-        return account.currency == Utils.getHomeCurrency()
+        return account.currency == homeCurrency
     }
 
     private fun configureDateInput(account: Account) {

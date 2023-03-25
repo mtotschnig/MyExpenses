@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.isConnectedWifi
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.io.IOException
@@ -70,6 +71,12 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
     constructor(context: Context, autoInitialize: Boolean) : this(context, autoInitialize, false)
 
     constructor(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean) : super(
@@ -80,7 +87,8 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         syncDelegate = SyncDelegate(
             currencyContext,
             (context.applicationContext as MyApplication).appComponent.featureManager(),
-            (context.applicationContext as MyApplication).appComponent.repository()
+            (context.applicationContext as MyApplication).appComponent.repository(),
+            homeCurrencyProvider.homeCurrencyUnit
         )
     }
 
@@ -478,9 +486,6 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         }
     }
 
-    private val currencyContext: CurrencyContext
-        get() = (context.applicationContext as MyApplication).appComponent.currencyContext()
-
     @Throws(RemoteException::class, OperationApplicationException::class)
     private fun updateAccountFromMetadata(
         provider: ContentProviderClient,
@@ -517,7 +522,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                     .appendEncodedPath(currency)
                     .appendEncodedPath(homeCurrency).build()
             val minorUnitDelta =
-                Utils.getHomeCurrency().fractionDigits - currencyContext[currency].fractionDigits
+                homeCurrencyProvider.homeCurrencyUnit.fractionDigits - currencyContext[currency].fractionDigits
             ops.add(
                 ContentProviderOperation.newInsert(uri).withValue(
                     KEY_EXCHANGE_RATE,

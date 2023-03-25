@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -53,6 +54,9 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     val prefHandler: PrefHandler
         get() = app.appComponent.prefHandler()
+
+    val homeCurrency: CurrencyUnit
+        get() = app.appComponent.homeCurrencyProvider().homeCurrencyUnit
 
     @Before
     fun setUp() {

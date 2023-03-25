@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.util.ResultUnit
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
@@ -284,7 +283,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     val homeCurrency: String
-        get() = Utils.getHomeCurrency(context, prefHandler, homeCurrencyProvider)
+        get() = homeCurrencyProvider.homeCurrencyString
 
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)

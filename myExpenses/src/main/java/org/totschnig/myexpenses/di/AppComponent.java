@@ -83,8 +83,6 @@ import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 
-import java.util.Locale;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -102,8 +100,6 @@ public interface AppComponent {
 
   @Component.Builder
   interface Builder {
-    @BindsInstance
-    Builder systemLocale(Locale locale);
 
     @BindsInstance
     Builder applicationContext(MyApplication applicationContext);
@@ -146,7 +142,7 @@ public interface AppComponent {
 
   ExchangeRateService exchangeRateService();
 
-  HomeCurrencyProvider userLocaleProvider();
+  HomeCurrencyProvider homeCurrencyProvider();
 
   Picasso picasso();
 

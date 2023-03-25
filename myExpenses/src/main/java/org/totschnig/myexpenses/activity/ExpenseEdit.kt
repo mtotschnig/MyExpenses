@@ -805,7 +805,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {
-        return account.currency == Utils.getHomeCurrency()
+        return account.currency == homeCurrency
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

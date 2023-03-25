@@ -40,18 +40,23 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asDateTimeFormatter
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
 class OnboardingUiFragment : OnboardingFragment() {
     private var _binding: OnboardingWizzardUiBinding? = null
     private var _themeSelectionBinding: OnboardingThemeSelectionBinding? = null
     private val binding get() = _binding!!
     private val themeSelectionBinding get() = _themeSelectionBinding!!
+
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     private val viewModel: OnBoardingUiViewModel by viewModels()
 
@@ -131,7 +136,7 @@ class OnboardingUiFragment : OnboardingFragment() {
             val demo = Transaction2(
                 id = -1,
                 _date = System.currentTimeMillis() / 1000,
-                amount = Money(Utils.getHomeCurrency(), -7000),
+                amount = Money(homeCurrencyProvider.homeCurrencyUnit, -7000),
                 methodLabel = "CHEQUE",
                 referenceNumber = "1",
                 accountId = -1,
