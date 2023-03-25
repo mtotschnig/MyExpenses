@@ -93,7 +93,7 @@ import okhttp3.OkHttpClient;
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class,
     DataModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
-    CrashHandlerModule.class})
+    CrashHandlerModule.class, SyncModule.class})
 public interface AppComponent {
   String USER_COUNTRY = "userCountry";
   String DATABASE_NAME = "databaseName";

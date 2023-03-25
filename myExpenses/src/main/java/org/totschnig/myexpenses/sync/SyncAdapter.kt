@@ -63,8 +63,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.pow
 
-class SyncAdapter : AbstractThreadedSyncAdapter {
-    private val syncDelegate: SyncDelegate
+class SyncAdapter @JvmOverloads constructor(
+    context: Context,
+    autoInitialize: Boolean,
+    allowParallelSyncs: Boolean = false
+) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
     private val notificationContent = SparseArray<MutableList<StringBuilder>?>()
     private var shouldNotify = true
 
@@ -77,20 +80,8 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    constructor(context: Context, autoInitialize: Boolean) : this(context, autoInitialize, false)
-
-    constructor(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean) : super(
-        context,
-        autoInitialize,
-        allowParallelSyncs
-    ) {
-        syncDelegate = SyncDelegate(
-            currencyContext,
-            (context.applicationContext as MyApplication).appComponent.featureManager(),
-            (context.applicationContext as MyApplication).appComponent.repository(),
-            homeCurrencyProvider.homeCurrencyUnit
-        )
-    }
+    @Inject
+    lateinit var syncDelegate: SyncDelegate
 
     @Suppress("SameParameterValue")
     private fun getUserDataWithDefault(
