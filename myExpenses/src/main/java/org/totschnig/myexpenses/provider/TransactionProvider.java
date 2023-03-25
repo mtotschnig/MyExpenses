@@ -41,6 +41,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -300,7 +301,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           sortOrder = KEY_DATE + " DESC";
         }
         if (projection == null) {
-          projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
+          projection = extended ? DatabaseConstants.getProjectionExtended() : DatabaseConstants.getProjectionBase();
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false)) {
           projection = Companion.shortenComment(projection);
@@ -319,7 +320,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case UNCOMMITTED:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_UNCOMMITTED);
         if (projection == null)
-          projection = Transaction.PROJECTION_BASE;
+          projection = DatabaseConstants.getProjectionBase();
         break;
       case TRANSACTION_ID:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL);
@@ -1622,9 +1623,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_INIT: {
         Locale locale = (Locale) Objects.requireNonNull(extras).getSerializable(KEY_LOCALE);
-        setWrappedContextInternal(ContextHelper.wrap(getContext(), locale));
-        DatabaseConstants.buildLocalized(locale);
-        Transaction.buildProjection(getWrappedContext());
+        Context context = ContextHelper.wrap(getContext(), locale);
+        setWrappedContextInternal(context);
+        DatabaseConstants.buildLocalized(locale, context, prefHandler);
       }
     }
     return null;

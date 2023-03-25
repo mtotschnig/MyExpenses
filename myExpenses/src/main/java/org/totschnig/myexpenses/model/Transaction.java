@@ -194,67 +194,6 @@ public class Transaction extends Model implements ITransaction {
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
   private int status = 0;
-  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTION_EXTENDED_HOME;
-
-  public static void buildProjection(Context context) {
-    PROJECTION_BASE = new String[]{
-        KEY_ROWID,
-        KEY_DATE,
-        KEY_VALUE_DATE,
-        KEY_AMOUNT,
-        KEY_COMMENT,
-        KEY_CATID,
-        FULL_LABEL,
-        KEY_PAYEE_NAME,
-        KEY_TRANSFER_PEER,
-        KEY_TRANSFER_ACCOUNT,
-        KEY_METHODID,
-        PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
-        KEY_CR_STATUS,
-        KEY_REFERENCE_NUMBER,
-        KEY_PICTURE_URI,
-        getYearOfWeekStart() + " AS " + KEY_YEAR_OF_WEEK_START,
-        getYearOfMonthStart() + " AS " + KEY_YEAR_OF_MONTH_START,
-        YEAR + " AS " + KEY_YEAR,
-        getMonth() + " AS " + KEY_MONTH,
-        getWeek() + " AS " + KEY_WEEK,
-        DAY + " AS " + KEY_DAY,
-        getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
-        getThisYearOfMonthStart() + " AS " + KEY_THIS_YEAR_OF_MONTH_START,
-        THIS_YEAR + " AS " + KEY_THIS_YEAR,
-        getThisWeek() + " AS " + KEY_THIS_WEEK,
-        THIS_DAY + " AS " + KEY_THIS_DAY,
-        getWeekStart() + " AS " + KEY_WEEK_START,
-        getWeekEnd() + " AS " + KEY_WEEK_END
-    };
-
-    //extended
-    int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 7];
-    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
-    PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
-    //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
-    //thus can not be used in PROJECTION_BASE
-    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS " + KEY_TRANSFER_PEER_PARENT;
-    PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
-    PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
-    PROJECTION_EXTENDED[baseLength + 4] = KEY_ACCOUNT_TYPE;
-    PROJECTION_EXTENDED[baseLength + 5] = KEY_TAGLIST;
-    PROJECTION_EXTENDED[baseLength + 6] = KEY_PARENTID;
-
-    //extended for aggregate include is_same_currecny
-    int extendedLength = PROJECTION_EXTENDED.length;
-    PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 2];
-    System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_EXTENDED_AGGREGATE, 0, extendedLength);
-    PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
-    PROJECTION_EXTENDED_AGGREGATE[extendedLength + 1] = KEY_ACCOUNTID;
-
-    int aggregateLength = PROJECTION_EXTENDED_AGGREGATE.length;
-    PROJECTION_EXTENDED_HOME = new String[aggregateLength + 2];
-    System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTION_EXTENDED_HOME, 0, aggregateLength);
-    PROJECTION_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
-    PROJECTION_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED) + " AS " + KEY_EQUIVALENT_AMOUNT;
-  }
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   public static final Uri EXTENDED_URI = CONTENT_URI.buildUpon().appendQueryParameter(

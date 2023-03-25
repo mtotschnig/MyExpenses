@@ -203,7 +203,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                         mTemplatesCursor!!.getString(columnIndexTitle),
                         id,
                         mTemplatesCursor!!.getLong(columnIndexPlanId),
-                        mTemplatesCursor!!.getInt(columnIndexColor), isSealed
+                        mTemplatesCursor!!.getInt(columnIndexColor), isSealed, prefHandler
                     )
                     if (!childFragmentManager.isStateSaved) {
                         planMonthFragment.show(childFragmentManager, CALDROID_DIALOG_FRAGMENT_TAG)
@@ -442,7 +442,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                             templateId,
                             planId,
                             mTemplatesCursor!!.getInt(columnIndexColor),
-                            mTemplatesCursor!!.getInt(columnIndexIsSealed) != 0
+                            mTemplatesCursor!!.getInt(columnIndexIsSealed) != 0,
+                            prefHandler
                         )
                     }
                     mTemplatesCursor!!.moveToNext()

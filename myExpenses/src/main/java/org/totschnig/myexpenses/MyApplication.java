@@ -779,8 +779,7 @@ public class MyApplication extends Application implements
   public void invalidateHomeCurrency() {
     currencyContext.invalidateHomeCurrency();
     currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
-    Transaction.buildProjection(this);
-    Account.buildProjection();
+    DatabaseConstants.buildProjection(this);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 }

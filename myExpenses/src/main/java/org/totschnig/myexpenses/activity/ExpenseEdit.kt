@@ -1378,7 +1378,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             originTemplate.title,
             originTemplate.id,
             originTemplate.planId,
-            color, true
+            color, true, prefHandler
         ).show(
             supportFragmentManager,
             TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG

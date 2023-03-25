@@ -41,7 +41,7 @@ public class DateCalculationTest {
 
   @Before
   public void setUp() {
-    final Context targetContext = RuntimeEnvironment.application;
+    final Context targetContext = RuntimeEnvironment.getApplication();
     mDb = new MyDbHelper(targetContext).getWritableDatabase();
     ContentValues v = new ContentValues();
     for (int year = 2010; year < 2022; year++) {
@@ -82,7 +82,7 @@ public class DateCalculationTest {
   private void doTheTest(String timeZone, int configuredWeekStart) {
     calendar = Calendar.getInstance();
     PrefKey.GROUP_WEEK_STARTS.putString(String.valueOf(configuredWeekStart));
-    DatabaseConstants.buildLocalized(Locale.getDefault());
+    DatabaseConstants.buildLocalized(Locale.getDefault(), RuntimeEnvironment.getApplication());
     assertEquals(configuredWeekStart, DatabaseConstants.weekStartsOn);
     String[] projection = {
         DatabaseConstants.getYearOfWeekStart() + " AS year",

@@ -149,32 +149,24 @@ public class Account extends Model implements DistributionAccountInfo {
     return currencyUnit;
   }
 
-  public static String[] PROJECTION_BASE;
-
-  static {
-    buildProjection();
-  }
-
-  public static void buildProjection() {
-    PROJECTION_BASE = new String[]{
-        TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
-        KEY_LABEL,
-        TABLE_ACCOUNTS + "." + KEY_DESCRIPTION + " AS " + KEY_DESCRIPTION,
-        KEY_OPENING_BALANCE,
-        TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
-        KEY_COLOR,
-        TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
-        KEY_TYPE,
-        KEY_SORT_KEY,
-        KEY_EXCLUDE_FROM_TOTALS,
-        KEY_SYNC_ACCOUNT_NAME,
-        KEY_UUID,
-        KEY_SORT_DIRECTION,
-        KEY_EXCHANGE_RATE,
-        KEY_CRITERION,
-        KEY_SEALED
-    };
-  }
+  public final static String[] PROJECTION_BASE = new String[] {
+    TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
+            KEY_LABEL,
+            TABLE_ACCOUNTS + "." + KEY_DESCRIPTION + " AS " + KEY_DESCRIPTION,
+            KEY_OPENING_BALANCE,
+            TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
+            KEY_COLOR,
+            TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
+            KEY_TYPE,
+            KEY_SORT_KEY,
+            KEY_EXCLUDE_FROM_TOTALS,
+            KEY_SYNC_ACCOUNT_NAME,
+            KEY_UUID,
+            KEY_SORT_DIRECTION,
+            KEY_EXCHANGE_RATE,
+            KEY_CRITERION,
+            KEY_SEALED
+  };
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
@@ -749,7 +741,7 @@ public class Account extends Model implements DistributionAccountInfo {
   }
 
   public String[] getExtendedProjectionForTransactionList() {
-    return Transaction.PROJECTION_EXTENDED;
+    return DatabaseConstants.getProjectionExtended();
   }
 
   public String getSelectionForTransactionList() {

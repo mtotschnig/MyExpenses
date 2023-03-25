@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SortDirection;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -463,8 +464,8 @@ public class Utils {
     return new GregorianCalendar(locale).getFirstDayOfWeek();
   }
 
-  public static int getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale locale) {
-    String weekStartsOn = PrefKey.GROUP_WEEK_STARTS.getString("-1");
+  public static int getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale locale, PrefHandler prefHandler) {
+    String weekStartsOn = prefHandler.requireString(PrefKey.GROUP_WEEK_STARTS,"-1");
     return weekStartsOn.equals("-1") ? Utils.getFirstDayOfWeek(locale) :
         Integer.parseInt(weekStartsOn);
   }
