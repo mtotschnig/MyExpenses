@@ -7,11 +7,10 @@ import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -96,52 +95,65 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         Column(
             modifier = Modifier
                 .padding(dialogPadding)
-                .verticalScroll(rememberScrollState())
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.h6,
-                    text = data.accountName
-                )
-                OverFlowMenu(
-                    menu = Menu(
-                        listOf(
-                            MenuEntry(
-                                label = R.string.menu_help
-                            ) {
-                                startActivity(Intent(requireContext(), Help::class.java).apply {
-                                    putExtra(HelpDialogFragment.KEY_CONTEXT, "SetupSync")
-                                    putExtra(
-                                        HelpDialogFragment.KEY_TITLE,
-                                        "${getString(R.string.synchronization)} - ${getString(R.string.setup)}"
-                                    )
-                                })
-                            }
+
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            style = MaterialTheme.typography.h6,
+                            text = data.accountName
                         )
-                    )
-                )
-            }
-            Row {
-                Text(
-                    modifier = cell(0),
-                    text = stringResource(id = R.string.account) + " (UUID)",
-                    fontWeight = FontWeight.Bold
-                )
-                Text(modifier = cell(1), text = "Local", fontWeight = FontWeight.Bold)
-                Spacer(modifier = cell(2))
-                Text(modifier = cell(3), text = "Remote", fontWeight = FontWeight.Bold)
-            }
-            Divider()
-            accountRows.forEach {
-                Account(item = it, linkState = viewModel.dialogState.getOrPut(it.uuid) {
-                    mutableStateOf(null)
-                })
-                Divider()
+                        OverFlowMenu(
+                            menu = Menu(
+                                listOf(
+                                    MenuEntry(
+                                        label = R.string.menu_help
+                                    ) {
+                                        startActivity(
+                                            Intent(
+                                                requireContext(),
+                                                Help::class.java
+                                            ).apply {
+                                                putExtra(
+                                                    HelpDialogFragment.KEY_CONTEXT,
+                                                    "SetupSync"
+                                                )
+                                                putExtra(
+                                                    HelpDialogFragment.KEY_TITLE,
+                                                    "${getString(R.string.synchronization)} - ${
+                                                        getString(
+                                                            R.string.setup
+                                                        )
+                                                    }"
+                                                )
+                                            })
+                                    }
+                                )
+                            )
+                        )
+                    }
+                    Row {
+                        Text(
+                            modifier = cell(0),
+                            text = stringResource(id = R.string.account) + " (UUID)",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(modifier = cell(1), text = "Local", fontWeight = FontWeight.Bold)
+                        Spacer(modifier = cell(2))
+                        Text(modifier = cell(3), text = "Remote", fontWeight = FontWeight.Bold)
+                    }
+                    Divider()
+                }
+                items(accountRows) {
+                    Account(item = it)
+                    Divider()
+                }
             }
 
             when (progress.value) {
@@ -150,28 +162,28 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         Button(onClick = { dismiss() }) {
                             Text(stringResource(id = android.R.string.cancel))
                         }
-                        if (viewModel.dialogState.values.any { it.value != null }) {
+                        if (viewModel.dialogState.values.any { it != null }) {
                             Button(onClick = {
                                 progress.value = SetupProgress.RUNNING
                                 viewModel.setupSynchronization(
                                     accountName = data.accountName,
                                     localAccounts = data.localAccountsNotSynced.filter { account ->
                                         viewModel.dialogState.any {
-                                            it.key == account.uuid && it.value.value == SyncSource.DEFAULT
+                                            it.key == account.uuid && it.value == SyncSource.DEFAULT
                                         }
                                     },
                                     remoteAccounts = data.remoteAccounts.filter { account ->
                                         viewModel.dialogState.any {
-                                            it.key == account.uuid() && it.value.value == SyncSource.DEFAULT
+                                            it.key == account.uuid() && it.value == SyncSource.DEFAULT
                                         }
                                     },
                                     conflicts = viewModel.dialogState.entries.filter {
-                                        it.value.value == SyncSource.LOCAL || it.value.value == SyncSource.REMOTE
+                                        it.value == SyncSource.LOCAL || it.value == SyncSource.REMOTE
                                     }.map { entry ->
                                         Triple(
                                             data.localAccountsNotSynced.first { it.uuid == entry.key },
                                             data.remoteAccounts.first { it.uuid() == entry.key },
-                                            entry.value.value!!
+                                            entry.value!!
                                         )
                                     }
                                 ).observe(this@SetupSyncDialogFragment) {
@@ -207,10 +219,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     override fun initBuilder(): AlertDialog.Builder = super.initBuilder().setCancelable(false)
 
     @Composable
-    fun Account(
-        item: AccountRow,
-        linkState: MutableState<SyncSource?>
-    ) {
+    fun Account(item: AccountRow) {
+        val linkState = viewModel.dialogState[item.uuid]
         Column {
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -226,13 +236,14 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 if (item.isLocal) {
                     Icon(
                         modifier = cell(1),
-                        painter = painterResource(id = when  {
-                            item.isSealed -> R.drawable.ic_lock
-                            linkState.value == SyncSource.REMOTE -> R.drawable.ic_menu_delete
-                            else -> R.drawable.ic_menu_done
-                        }
+                        painter = painterResource(
+                            id = when {
+                                item.isSealed -> R.drawable.ic_lock
+                                linkState == SyncSource.REMOTE -> R.drawable.ic_menu_delete
+                                else -> R.drawable.ic_menu_done
+                            }
                         ),
-                        tint = if (linkState.value == SyncSource.LOCAL) Color.Green else
+                        tint = if (linkState == SyncSource.LOCAL) Color.Green else
                             LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                         contentDescription = "Local"
                     )
@@ -241,9 +252,9 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 }
                 if (!item.isSealed) {
                     Icon(
-                        modifier = cell(2).conditional(linkState.value != SyncSource.COMPLETED) {
+                        modifier = cell(2).conditional(linkState != SyncSource.COMPLETED) {
                             clickable {
-                                if (linkState.value == null) {
+                                if (linkState == null) {
                                     if (item.isLocal && item.isRemote) {
                                         SimpleDialog.build()
                                             .extra(Bundle().apply {
@@ -255,16 +266,19 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                                             .pos(R.string.dialog_command_sync_link_remote)
                                             .neut()
                                             .neg(R.string.dialog_command_sync_link_local)
-                                            .show(this@SetupSyncDialogFragment, SYNC_CONFLICT_DIALOG)
+                                            .show(
+                                                this@SetupSyncDialogFragment,
+                                                SYNC_CONFLICT_DIALOG
+                                            )
                                     } else {
-                                        linkState.value = SyncSource.DEFAULT
+                                        viewModel.dialogState[item.uuid] = SyncSource.DEFAULT
                                     }
                                 } else {
-                                    linkState.value = null
+                                    viewModel.dialogState[item.uuid] = null
                                 }
                             }
                         },
-                        painter = painterResource(id = if (linkState.value != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
+                        painter = painterResource(id = if (linkState != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
                         contentDescription = stringResource(id = R.string.menu_sync_link)
                     )
                 } else {
@@ -273,8 +287,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 if (item.isRemote) {
                     Icon(
                         modifier = cell(3),
-                        painter = painterResource(id = if (linkState.value == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
-                        tint = if (linkState.value == SyncSource.REMOTE) Color.Green else
+                        painter = painterResource(id = if (linkState == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
+                        tint = if (linkState == SyncSource.REMOTE) Color.Green else
                             LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                         contentDescription = "Remote"
                     )
@@ -284,7 +298,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
             }
         }
         val errorColor = colorResource(id = R.color.colorErrorDialog)
-        when (linkState.value) {
+        when (linkState) {
             SyncSource.LOCAL -> errorColor to R.string.dialog_confirm_sync_link_local
             SyncSource.REMOTE -> errorColor to R.string.dialog_confirm_sync_link_remote
             SyncSource.COMPLETED -> Color.Green to R.string.setup_completed
@@ -326,7 +340,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         when (dialogTag) {
             SYNC_CONFLICT_DIALOG -> {
                 val account = extras.getParcelable<AccountRow>(KEY_DATA)!!
-                viewModel.dialogState[account.uuid]?.value = when (which) {
+                viewModel.dialogState[account.uuid] = when (which) {
                     SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> SyncSource.REMOTE
                     SimpleDialog.OnDialogResultListener.BUTTON_NEGATIVE -> SyncSource.LOCAL
                     else -> null
