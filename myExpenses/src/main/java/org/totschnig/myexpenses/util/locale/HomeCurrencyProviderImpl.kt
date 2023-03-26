@@ -14,22 +14,16 @@ open class HomeCurrencyProviderImpl(
     val currencyContext: CurrencyContext
 ) : HomeCurrencyProvider {
     override val homeCurrencyUnit: CurrencyUnit
-        get() {
-            return currencyContext[homeCurrencyString]
-        }
+        get() = currencyContext[homeCurrencyString]
 
     override val homeCurrencyString: String
-        get() {
-            val home: String? = prefHandler.getString(PrefKey.HOME_CURRENCY, null)
-            return home ?: localCurrency.currencyCode
-        }
+        get() = prefHandler.getString(PrefKey.HOME_CURRENCY, null) ?: localCurrency.currencyCode
 
-    override val localCurrency
-        get() = Utils.getCountryFromTelephonyManager(context)?.let {
-            try {
-                Currency.getInstance(Locale("", it))
-            } catch (ignore: Exception) {
-                null
-            }
-        } ?: Utils.getSaveDefault()
+    override val localCurrency = Utils.getCountryFromTelephonyManager(context)?.let {
+        try {
+            Currency.getInstance(Locale("", it))
+        } catch (ignore: Exception) {
+            null
+        }
+    } ?: Utils.getSaveDefault()
 }

@@ -776,10 +776,10 @@ public class MyApplication extends Application implements
     StrictMode.setVmPolicy(vmPolicyBuilder.build());
   }
 
-  public void invalidateHomeCurrency() {
+  public void invalidateHomeCurrency(String newValue) {
     currencyContext.invalidateHomeCurrency();
     currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
-    DatabaseConstants.buildProjection(this);
+    DatabaseConstants.buildProjection(this, newValue);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 }

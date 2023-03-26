@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.withLimit
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
@@ -32,6 +31,7 @@ open class TransactionPagingSource(
     val context: Context,
     val account: PageAccount,
     val whereFilter: StateFlow<WhereFilter>,
+    homeCurrency: String,
     coroutineScope: CoroutineScope
 ) :
     ClearingPagingSource<Int, Transaction2>() {
@@ -45,7 +45,7 @@ open class TransactionPagingSource(
     private val observer: ContentObserver
 
     init {
-        account.loadingInfo().also {
+        account.loadingInfo(homeCurrency).also {
             uri = it.first
             projection = it.second
             selection = it.third

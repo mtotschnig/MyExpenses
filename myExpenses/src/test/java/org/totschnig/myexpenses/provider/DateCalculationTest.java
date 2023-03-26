@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 import java.text.SimpleDateFormat;
@@ -82,7 +83,7 @@ public class DateCalculationTest {
   private void doTheTest(String timeZone, int configuredWeekStart) {
     calendar = Calendar.getInstance();
     PrefKey.GROUP_WEEK_STARTS.putString(String.valueOf(configuredWeekStart));
-    DatabaseConstants.buildLocalized(Locale.getDefault(), RuntimeEnvironment.getApplication());
+    DatabaseConstants.buildLocalized(Locale.getDefault(), (MyApplication) RuntimeEnvironment.getApplication());
     assertEquals(configuredWeekStart, DatabaseConstants.weekStartsOn);
     String[] projection = {
         DatabaseConstants.getYearOfWeekStart() + " AS year",

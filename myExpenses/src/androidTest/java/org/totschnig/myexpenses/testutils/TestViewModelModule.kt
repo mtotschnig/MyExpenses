@@ -41,6 +41,7 @@ class DecoratingMyExpensesViewModel(application: Application,
             getApplication(),
             account,
             filterPersistence.getValue(account.id).whereFilterAsFlow,
+            homeCurrencyProvider.homeCurrencyString,
             viewModelScope,
             countingResource
         )
@@ -75,10 +76,18 @@ class FakeSyncBackendViewModel(application: Application) :
 
 class DecoratedTransactionPagingSource(
     context: Context,
-    account: PageAccount, whereFilter: StateFlow<WhereFilter>,
+    account: PageAccount,
+    whereFilter: StateFlow<WhereFilter>,
+    homeCurrency: String,
     coroutineScope: CoroutineScope,
     private val countingIdlingResource: CountingIdlingResource
-) : TransactionPagingSource(context, account, whereFilter, coroutineScope) {
+) : TransactionPagingSource(
+    context,
+    account,
+    whereFilter,
+    homeCurrency,
+    coroutineScope
+) {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         countingIdlingResource.increment()

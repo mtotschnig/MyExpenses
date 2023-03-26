@@ -481,7 +481,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   protected void restartAfterRestore() {
-    ((MyApplication) getApplication()).invalidateHomeCurrency();
+    ((MyApplication) getApplication()).invalidateHomeCurrency(homeCurrencyProvider.getHomeCurrencyString());
     if (!isFinishing()) {
       Intent i = new Intent(this, MyExpenses.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.joinArrays
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import javax.inject.Inject
 
@@ -56,6 +57,9 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     private var catId: Long = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,7 +132,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
                 selection = ""
                 accountSelect = null
                 amountCalculation =
-                    DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED)
+                    DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED, homeCurrencyProvider.homeCurrencyString)
             }
             mAccount.isAggregate -> {
                 selection = DatabaseConstants.KEY_ACCOUNTID + " IN " +

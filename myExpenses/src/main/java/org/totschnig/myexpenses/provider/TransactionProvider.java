@@ -356,7 +356,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           additionalWhere.append(" AND " + KEY_ACCOUNTID).append(accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
-          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
+          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, getHomeCurrency());
         }
         String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
         if (groupByType) sumExpression = "abs(" + sumExpression + ")";
@@ -376,7 +376,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           accountSelectionQuery = KEY_ACCOUNTID + " = ?";
         }
-        boolean forHome = accountSelector == null;
+        String forHome = accountSelector == null ? getHomeCurrency() : null;
 
         Grouping group;
         try {
@@ -442,7 +442,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (!includeTransfers) {
           //for the Grand total account transfer calculation is neither possible (adding amounts in
           //different currencies) nor necessary (should result in 0)
-          projection[index++] = (forHome ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
+          projection[index++] = (forHome != null ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
         }
         projection[index++] = MAPPED_CATEGORIES;
         if (withJulianStart) {
@@ -535,7 +535,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
               "'' AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
-              aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID)
+              aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, getHomeCurrency())
                   + ") AS " + KEY_OPENING_BALANCE,
               "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
@@ -1625,7 +1625,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         Locale locale = (Locale) Objects.requireNonNull(extras).getSerializable(KEY_LOCALE);
         Context context = ContextHelper.wrap(getContext(), locale);
         setWrappedContextInternal(context);
-        DatabaseConstants.buildLocalized(locale, context, prefHandler);
+        DatabaseConstants.buildLocalized(locale, context, prefHandler, getHomeCurrency());
       }
     }
     return null;

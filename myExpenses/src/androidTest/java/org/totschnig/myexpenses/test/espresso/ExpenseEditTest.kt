@@ -31,7 +31,6 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Before
     fun fixture() {
-        configureLocale(Locale.GERMANY)
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         val accountLabel1 = "Test label 1"

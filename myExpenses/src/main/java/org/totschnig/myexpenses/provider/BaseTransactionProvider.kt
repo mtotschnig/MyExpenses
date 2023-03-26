@@ -175,12 +175,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_SEALED,
             KEY_EQUIVALENT_AMOUNT,
             if (withSum) "coalesce((select sum(${debtSumExpression}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
-            if (withSum) "coalesce((select sum(${getAmountHomeEquivalent(VIEW_EXTENDED)}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
+            if (withSum) "coalesce((select sum(${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
         ).toTypedArray()
     }
 
     private val debtSumExpression
-        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${getAmountHomeEquivalent(VIEW_EXTENDED)} ELSE $KEY_AMOUNT END"
+        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)} ELSE $KEY_AMOUNT END"
 
     companion object {
         val CATEGORY_TREE_URI: Uri

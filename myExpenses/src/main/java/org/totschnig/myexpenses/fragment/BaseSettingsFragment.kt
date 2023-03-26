@@ -691,7 +691,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         } ?: run {
             prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
         }
-        requireApplication().invalidateHomeCurrency()
+        requireApplication().invalidateHomeCurrency(currencyCode)
         preferenceActivity.showSnackBarIndefinite(R.string.saving)
         viewModel.resetEquivalentAmounts().observe(this) { integer ->
             preferenceActivity.dismissSnackBar()

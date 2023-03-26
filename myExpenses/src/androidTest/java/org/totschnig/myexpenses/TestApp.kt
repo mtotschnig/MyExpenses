@@ -48,15 +48,15 @@ class TestApp : MyApplication() {
                 prefHandler: PrefHandler,
                 context: Context,
                 currencyContext: CurrencyContext
-            ): HomeCurrencyProvider {
-                return object: HomeCurrencyProviderImpl(prefHandler, context, currencyContext) {
-                    override val localCurrency: Currency
-                        get() {
-                        val locale = ConfigurationCompat.getLocales(context.resources.configuration).get(0)!!
+            ) = object : HomeCurrencyProviderImpl(prefHandler, context, currencyContext) {
+                override val localCurrency: Currency
+                    get() {
+                        val locale =
+                            ConfigurationCompat.getLocales(context.resources.configuration)
+                                .get(0)!!
                         return if (locale.country == "VI") Currency.getInstance("VND") else
                             Currency.getInstance(locale)
                     }
-                }
             }
         })
         .build()

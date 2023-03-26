@@ -2,9 +2,11 @@ package org.totschnig.myexpenses.test.screenshots
 
 import android.Manifest
 import android.content.Intent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
+import androidx.core.os.LocaleListCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.*
@@ -57,6 +59,7 @@ class TestMain : BaseMyExpensesTest() {
     fun mkScreenShots() {
         loadFixture(BuildConfig.TEST_SCENARIO == 2)
         scenario()
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
     }
 
     private fun drawerAction(action: ViewAction) {
@@ -174,11 +177,14 @@ class TestMain : BaseMyExpensesTest() {
     }
 
     companion object {
+
+        @JvmStatic
         @BeforeClass
         fun beforeAll() {
             CleanStatusBar.enableWithDefaults()
         }
 
+        @JvmStatic
         @AfterClass
         fun afterAll() {
             CleanStatusBar.disable()

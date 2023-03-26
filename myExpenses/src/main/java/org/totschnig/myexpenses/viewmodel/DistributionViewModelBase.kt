@@ -278,7 +278,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             accountInfo.accountId == Account.HOME_AGGREGATE_ID -> {
                 accountSelection = null
                 amountCalculation =
-                    getAmountHomeEquivalent(VIEW_WITH_ACCOUNT)
+                    getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrencyProvider.homeCurrencyString)
                 table = VIEW_WITH_ACCOUNT
             }
             accountInfo.accountId < 0 -> {
