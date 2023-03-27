@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
 
@@ -35,6 +36,8 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
 
     fun buildAccount(label: String, openingBalance: Long = 0L) =
         Account(label, homeCurrency, openingBalance, AccountType.CASH).also { it.save(homeCurrency) }
+
+    fun getTransactionFromDb(id: Long): Transaction? = Transaction.getInstanceFromDb(id, homeCurrency)
 
     @Throws(Exception::class)
     override fun setUp() {

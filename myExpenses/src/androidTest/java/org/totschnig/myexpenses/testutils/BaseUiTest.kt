@@ -58,6 +58,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     fun buildAccount(label: String, openingBalance: Long = 0L) =
         Account(label, homeCurrency, openingBalance, AccountType.CASH).also { it.save(homeCurrency) }
 
+    fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(id, homeCurrency)
+
     @Before
     fun setUp() {
         isLarge = testContext.resources.getBoolean(RT.bool.isLarge)

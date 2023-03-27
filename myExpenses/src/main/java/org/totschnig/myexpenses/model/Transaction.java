@@ -406,10 +406,10 @@ public class Transaction extends Model implements ITransaction {
   /**
    * factory method for retrieving an instance from the db with the given id
    *
-   * @param id
+   * @param homeCurrency May be null in case of split part
    * @return instance of {@link Transaction} or {@link Transfer} or null if not found
    */
-  public static Transaction getInstanceFromDb(long id) {
+  public static Transaction getInstanceFromDb(long id, @Nullable CurrencyUnit homeCurrency) {
     Transaction t;
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
@@ -473,9 +473,11 @@ public class Transaction extends Model implements ITransaction {
     if (originalAmount != null) {
       t.setOriginalAmount(new Money(currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_ORIGINAL_CURRENCY))), originalAmount));
     }
-    Long equivalentAmount = getLongOrNull(c, KEY_EQUIVALENT_AMOUNT);
-    if (equivalentAmount != null) {
-      t.setEquivalentAmount(new Money(Utils.getHomeCurrency(), equivalentAmount));
+    if (homeCurrency != null) {
+      Long equivalentAmount = getLongOrNull(c, KEY_EQUIVALENT_AMOUNT);
+      if (equivalentAmount != null) {
+        t.setEquivalentAmount(new Money(homeCurrency, equivalentAmount));
+      }
     }
 
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
@@ -498,9 +500,13 @@ public class Transaction extends Model implements ITransaction {
     return t;
   }
 
+  /**
+   *
+   * @param homeCurrency may be null in case of split part
+   */
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id) {
-    Transaction t = getInstanceFromDb(id);
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id, @Nullable CurrencyUnit homeCurrency) {
+    Transaction t = getInstanceFromDb(id, homeCurrency);
     return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
   }
 
@@ -830,7 +836,7 @@ public class Transaction extends Model implements ITransaction {
   }
 
   protected Pair<Transaction, List<Tag>> getSplitPart(long partId) {
-    return Transaction.getInstanceFromDbWithTags(partId);
+    return Transaction.getInstanceFromDbWithTags(partId, null);
   }
 
   public Uri getContentUri() {

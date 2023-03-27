@@ -89,7 +89,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             val uuid = transaction.uuid
             val status = transaction.status
             closeKeyboardAndSave()
-            val t = Transaction.getInstanceFromDb(transaction.id)
+            val t = getTransactionFromDb(transaction.id)
             Assertions.assertThat(t.status).isEqualTo(status)
             Assertions.assertThat(t.uuid).isEqualTo(uuid)
         }

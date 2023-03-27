@@ -157,7 +157,7 @@ data class Transaction(
                             BigDecimal(
                                 Utils.adjustExchangeRate(
                                     cursor.getDouble(KEY_EXCHANGE_RATE),
-                                    currencyUnit
+                                    currencyUnit, homeCurrency
                                 )
                             )
                         )

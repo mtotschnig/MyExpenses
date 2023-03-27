@@ -65,7 +65,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.AppComponent;
@@ -178,32 +177,18 @@ public class Account extends Model implements DistributionAccountInfo {
 
   public static final int DEFAULT_COLOR = 0xff009688;
 
-  /**
-   * @param id id of account to be retrieved, if id == 0, the account with the lowest id will be fetched from db,
-   *           if id < 0 we forward to AggregateAccount
-   * @return Account object or null if no account with id exists in db
-   * TODO: We should no longer allow calling this from the UI thread and consistently load account in the background
-   */
+
   @WorkerThread
   @Deprecated
   public static Account getInstanceFromDb(long id) {
-    return getInstanceFromDb(id, false);
-  }
-
-  @Deprecated
-  private static Account getInstanceFromDb(long id, boolean openOnly) {
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);
     Account account;
     String selection = TABLE_ACCOUNTS + "." + KEY_ROWID + " = ";
     if (id == 0) {
-      selection += String.format("(SELECT min(%s) FROM %s%s)", KEY_ROWID, TABLE_ACCOUNTS,
-          openOnly ? String.format(" WHERE %s = 0", KEY_SEALED) : "");
+      selection += String.format("(SELECT min(%s) FROM %s)", KEY_ROWID, TABLE_ACCOUNTS);
     } else {
       selection += id;
-      if (openOnly) {
-        selection += String.format(" AND %s = 0", KEY_SEALED);
-      }
     }
     Cursor c = cr().query(
         CONTENT_URI, null, selection, null, null);
@@ -240,8 +225,8 @@ public class Account extends Model implements DistributionAccountInfo {
         .appendEncodedPath(homeCurrency.getCode()).build();
   }
 
-  private double adjustExchangeRate(double raw) {
-    return Utils.adjustExchangeRate(raw, currencyUnit);
+  private double adjustExchangeRate(double raw, CurrencyUnit homeCurrency) {
+    return Utils.adjustExchangeRate(raw, currencyUnit, homeCurrency);
   }
 
   private void storeExchangeRate(CurrencyUnit homeCurrency) {
@@ -319,16 +304,17 @@ public class Account extends Model implements DistributionAccountInfo {
    * @param c Cursor positioned at the row we want to extract into the object
    */
   public Account(Cursor c) {
-    extract(c);
+    extract(c, MyApplication.getInstance().getAppComponent().homeCurrencyProvider().getHomeCurrencyUnit());
   }
 
   /**
    * extract information from Cursor and populate fields
    *
-   * @param c a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
+   * @param c            a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
+   * @param homeCurrency
    */
 
-  protected void extract(Cursor c) {
+  protected void extract(Cursor c, CurrencyUnit homeCurrency) {
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     this.setLabel(c.getString(c.getColumnIndexOrThrow(KEY_LABEL)));
@@ -366,7 +352,7 @@ public class Account extends Model implements DistributionAccountInfo {
     }
     int columnIndexExchangeRate = c.getColumnIndex(KEY_EXCHANGE_RATE);
     if (columnIndexExchangeRate != -1) {
-      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndexExchangeRate));
+      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndexExchangeRate), homeCurrency);
     }
     long criterion = MoreDbUtilsKt.requireLong(c, KEY_CRITERION);
     if (criterion != 0) {

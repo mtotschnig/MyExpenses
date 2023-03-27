@@ -118,15 +118,8 @@ public class Utils {
     return null;
   }
 
-  @Deprecated
-  public static CurrencyUnit getHomeCurrency() {
-    final MyApplication context = MyApplication.getInstance();
-    AppComponent appComponent = context.getAppComponent();
-    return appComponent.homeCurrencyProvider().getHomeCurrencyUnit();
-  }
-
-  public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit) {
-    int minorUnitDelta = currencyUnit.getFractionDigits() - Utils.getHomeCurrency().getFractionDigits();
+  public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
+    int minorUnitDelta = currencyUnit.getFractionDigits() - homeCurrency.getFractionDigits();
     return raw * Math.pow(10, minorUnitDelta);
   }
 

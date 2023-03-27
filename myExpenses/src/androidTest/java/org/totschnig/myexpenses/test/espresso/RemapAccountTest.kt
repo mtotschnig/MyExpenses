@@ -2,11 +2,7 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.test.filterToOne
-import androidx.compose.ui.test.hasAnyAncestor
-import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -23,7 +19,6 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
@@ -86,10 +81,10 @@ class RemapAccountTest : BaseMyExpensesTest() {
                 )
             )
         ).perform(ViewActions.scrollTo(), click())
-        val self = Transaction.getInstanceFromDb(transfer.id)
+        val self = getTransactionFromDb(transfer.id)
         Truth.assertThat(self.accountId).isEqualTo(account3.id)
         Truth.assertThat(self.transferAccountId).isEqualTo(account2.id)
-        val peer = Transaction.getInstanceFromDb(transfer.transferPeer!!)
+        val peer = getTransactionFromDb(transfer.transferPeer!!)
         Truth.assertThat(peer.accountId).isEqualTo(account2.id)
         Truth.assertThat(peer.transferAccountId).isEqualTo(account3.id)
     }
