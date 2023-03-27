@@ -5,13 +5,9 @@ import android.database.Cursor
 import androidx.documentfile.provider.DocumentFile
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.TransactionDTO
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -41,6 +37,7 @@ abstract class AbstractExporter
  */
     (
     val account: Account,
+    val currencyContext: CurrencyContext,
     private val filter: WhereFilter?,
     private val notYetExportedP: Boolean,
     private val dateFormat: String,
@@ -48,7 +45,11 @@ abstract class AbstractExporter
     private val encoding: String
 ) {
 
-    val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
+    val currencyUnit = currencyContext.get(account.currency)
+
+    val openingBalance = Money(currencyUnit, account.openingBalance).amountMajor
+
+    val nfFormat = Utils.getDecimalFormat(currencyUnit, decimalSeparator)
 
     val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat)
 
@@ -153,7 +154,7 @@ abstract class AbstractExporter
                 getString(KEY_UUID),
                 epoch2ZonedDateTime(getLong(getColumnIndexOrThrow(KEY_DATE))),
                 getStringOrNull(KEY_PAYEE_NAME),
-                Money(account.currencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor,
+                Money(currencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor,
                 readCat.getLongOrNull(KEY_CATID),
                 readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },

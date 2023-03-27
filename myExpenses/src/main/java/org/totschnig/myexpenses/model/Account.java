@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.model;
 
 import static android.content.ContentProviderOperation.newUpdate;
+import static org.totschnig.myexpenses.db2.RepositoryAccountKt.updateTransferPeersForTransactionDelete;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -250,7 +251,7 @@ public class Account extends Model implements DistributionAccountInfo {
       accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
     }
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    account.updateTransferPeersForTransactionDelete(ops,
+    updateTransferPeersForTransactionDelete(ops,
         buildTransactionRowSelect(null),
         new String[]{String.valueOf(account.getId())});
     ops.add(ContentProviderOperation.newDelete(
@@ -396,51 +397,12 @@ public class Account extends Model implements DistributionAccountInfo {
     return result;
   }
 
-  public void markAsExported(WhereFilter filter) throws OperationApplicationException, RemoteException {
-    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    Uri accountUri = Account.CONTENT_URI;
-    Uri debtUri = Debt.Companion.getCONTENT_URI();
-    ops.add(newUpdate(accountUri).withValue(KEY_SEALED, -1)
-        .withSelection(KEY_SEALED + " = 1", null).build());
-    ops.add(newUpdate(debtUri).withValue(KEY_SEALED, -1)
-        .withSelection(KEY_SEALED + " = 1", null).build());
-    String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " + KEY_STATUS + " = ?";
-    String[] selectionArgs = new String[]{String.valueOf(getId()), String.valueOf(STATUS_NONE)};
-    if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
-      selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false));
-    }
-    ops.add(newUpdate(Transaction.CONTENT_URI)
-        .withValue(KEY_STATUS, STATUS_EXPORTED).withSelection(selection, selectionArgs)
-        .build());
-    ops.add(newUpdate(accountUri).withValue(KEY_SEALED, 1)
-        .withSelection(KEY_SEALED + " = -1", null).build());
-    ops.add(newUpdate(debtUri).withValue(KEY_SEALED, 1)
-        .withSelection(KEY_SEALED + " = -1", null).build());
-    cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-  }
-
   public static String buildTransactionRowSelect(WhereFilter filter) {
     String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
     if (filter != null && !filter.isEmpty()) {
       rowSelect += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
     }
     return rowSelect;
-  }
-
-  public void updateTransferPeersForTransactionDelete(
-      ArrayList<ContentProviderOperation> ops, String rowSelect, String[] selectionArgs) {
-    ops.add(newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1).withSelection(KEY_SEALED + " = 1", null).build());
-    ContentValues args = new ContentValues();
-    args.putNull(KEY_TRANSFER_ACCOUNT);
-    args.putNull(KEY_TRANSFER_PEER);
-    ops.add(newUpdate(Transaction.CONTENT_URI)
-        .withValues(args)
-        .withSelection(
-            KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
-            selectionArgs)
-        .build());
-    ops.add(newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1).withSelection(KEY_SEALED + " = -1", null).build());
   }
 
   @Nullable

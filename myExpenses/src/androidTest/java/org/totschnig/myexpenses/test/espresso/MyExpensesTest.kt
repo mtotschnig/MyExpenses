@@ -5,17 +5,7 @@ import android.os.RemoteException
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.filter
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.longClick
-import androidx.compose.ui.test.onChildren
-import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
@@ -37,20 +27,19 @@ import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.formatMoney
 
 class MyExpensesTest : BaseMyExpensesTest() {
     lateinit var account: Account
     @Before
     fun fixture() {
-        account =  buildAccount("Test account 1")
+        account =  buildAccount2("Test account 1")
         launch(account.id)
         Intents.init()
     }
@@ -249,8 +238,8 @@ class MyExpensesTest : BaseMyExpensesTest() {
                 ViewMatchers.withText(R.string.menu_delete)
             )
         ).perform(ViewActions.click())
-        Truth.assertThat(Account.getInstanceFromDb(account1.id)).isNull()
-        Truth.assertThat(Account.getInstanceFromDb(account2.id)).isNotNull()
+        Truth.assertThat(repository.loadAccount(account1.id)).isNull()
+        Truth.assertThat(repository.loadAccount(account2.id)).isNotNull()
     }
 
     @Test
@@ -272,7 +261,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     private fun checkTitle() {
         val currencyFormatter = app.appComponent.currencyFormatter()
-        val balance = currencyFormatter.formatMoney(Money(account.currencyUnit, 0))
+        val balance = currencyFormatter.formatMoney(Money(homeCurrency, 0))
         Espresso.onView(
             Matchers.allOf(
                 CoreMatchers.instanceOf(

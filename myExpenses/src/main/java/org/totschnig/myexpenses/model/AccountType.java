@@ -61,12 +61,12 @@ public enum AccountType {
   }
 
   public static String sqlOrderExpression() {
-    String result = "CASE " + KEY_TYPE;
+    StringBuilder result = new StringBuilder("CASE " + KEY_TYPE);
     for (AccountType type : AccountType.values()) {
-      result += " WHEN '" + type.name() + "' THEN " + type.getSortOrder();
+      result.append(" WHEN '").append(type.name()).append("' THEN ").append(type.getSortOrder());
     }
-    result += " ELSE -1 END AS " + KEY_SORT_KEY_TYPE;
-    return result;
+    result.append(" ELSE -1 END AS " + KEY_SORT_KEY_TYPE);
+    return result.toString();
   }
 
   private String getSortOrder() {

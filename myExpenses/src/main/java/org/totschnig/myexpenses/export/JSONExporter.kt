@@ -7,10 +7,11 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import java.lang.reflect.Type
 import java.math.BigDecimal
@@ -26,6 +27,7 @@ import java.time.ZonedDateTime
  */
 class JSONExporter(
     account: Account,
+    currencyContext: CurrencyContext,
     filter: WhereFilter?,
     notYetExportedP: Boolean,
     dateFormat: String,
@@ -35,7 +37,7 @@ class JSONExporter(
     private val appendix: String = ""
 ) :
     AbstractExporter(
-        account, filter, notYetExportedP, dateFormat,
+        account, currencyContext, filter, notYetExportedP, dateFormat,
         decimalSeparator, encoding
     ) {
 
@@ -54,7 +56,7 @@ class JSONExporter(
     override val useCategoryOfFirstPartForParent = false
 
     override fun header(context: Context) =
-        "$preamble{\"uuid\":${gson.toJson(account.uuid)},\"label\":${gson.toJson(account.label)},\"currency\":${gson.toJson(account.currency.code)},\"openingBalance\":${gson.toJson(account.openingBalance.amountMajor)},\"transactions\": ["
+        "$preamble{\"uuid\":${gson.toJson(account.uuid)},\"label\":${gson.toJson(account.label)},\"currency\":${gson.toJson(account.currency)},\"openingBalance\":${gson.toJson(openingBalance)},\"transactions\": ["
 
     override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String =
         gson.toJson(convert(this))

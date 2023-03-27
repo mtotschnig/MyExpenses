@@ -18,7 +18,7 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.checkNewAccountLimitation
-import org.totschnig.myexpenses.viewmodel.Account
+import org.totschnig.myexpenses.viewmodel.AccountImport
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -30,8 +30,8 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
     private lateinit var currencySpinner: Spinner
     private lateinit var encodingSpinner: Spinner
     @Suppress("UNCHECKED_CAST")
-    private val accountsAdapter: IdAdapter<Account>
-        get() = accountSpinner.adapter as IdAdapter<Account>
+    private val accountsAdapter: IdAdapter<AccountImport>
+        get() = accountSpinner.adapter as IdAdapter<AccountImport>
     private val currencyAdapter: CurrencyAdapter
         get() = currencySpinner.adapter as CurrencyAdapter
     private var currency: String? = null
@@ -103,7 +103,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
     override fun setupDialogView(view: View) {
         super.setupDialogView(view)
         accountSpinner = view.findViewById(R.id.Account)
-        accountSpinner.adapter = IdAdapter<Account>(requireContext())
+        accountSpinner.adapter = IdAdapter<AccountImport>(requireContext())
         accountSpinner.onItemSelectedListener = this
         dateFormatSpinner = view.findViewById(R.id.DateFormat)
         dateFormatSpinner.configureDateFormat(requireContext(), prefHandler, PREF_KEY_IMPORT_DATE_FORMAT)

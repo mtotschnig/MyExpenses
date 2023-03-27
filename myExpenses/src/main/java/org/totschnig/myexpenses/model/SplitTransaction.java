@@ -74,6 +74,10 @@ public class SplitTransaction extends Transaction implements ISplit {
     return getNewInstance(account.getAccountId(), account.getCurrencyUnit(), forEdit);
   }
 
+  public static SplitTransaction getNewInstance(long accountId, CurrencyUnit currencyUnit)  {
+    return getNewInstance(accountId, currencyUnit, true);
+  }
+
   public static SplitTransaction getNewInstance(long accountId, CurrencyUnit currencyUnit, boolean forEdit)  {
     SplitTransaction t = new SplitTransaction(accountId, new Money(currencyUnit, 0L));
     if (forEdit) {

@@ -11,8 +11,13 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
+import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -40,41 +45,41 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
 
     private lateinit var account1: Account
     private lateinit var account2: Account
-    var openingBalance = 100L
-    var expense1 = 10L
-    var expense2 = 20L
-    var income1 = 30L
-    var income2 = 40L
-    var transferP = 50L
-    var transferN = 60L
+    private val openingBalance = 100L
+    private val expense1 = 10L
+    private val expense2 = 20L
+    private val income1 = 30L
+    private val income2 = 40L
+    private val transferP = 50L
+    private val transferN = 60L
     private var categoryId: Long = 0
 
     private fun writeCategory(label: String, parentId: Long?) =
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 
     private fun insertData() {
-        account1 = Account("Account 1", CurrencyUnit.DebugInstance, openingBalance, "Account 1")
-        account1.save(CurrencyUnit.DebugInstance)
-        account2 = Account("Account 2", CurrencyUnit.DebugInstance, openingBalance, "Account 2")
-        account2.save(CurrencyUnit.DebugInstance)
+        account1 = Account(label = "Account 1", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)
+            .createIn(repository)
+        account2 = Account(label = "Account 2", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)
+            .createIn(repository)
         categoryId = writeCategory(TEST_CAT, null)
-        Transaction.getNewInstance(account1).apply {
-            amount = Money(account1.currencyUnit, -expense1)
+        Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance).apply {
+            amount = Money(CurrencyUnit.DebugInstance, -expense1)
             crStatus = CrStatus.CLEARED
             save()
-            amount = Money(account1.currencyUnit, -expense2)
+            amount = Money(CurrencyUnit.DebugInstance, -expense2)
             saveAsNew()
-            amount = Money(account1.currencyUnit, income1)
+            amount = Money(CurrencyUnit.DebugInstance, income1)
             saveAsNew()
-            amount = Money(account1.currencyUnit, income2)
+            amount = Money(CurrencyUnit.DebugInstance, income2)
             this.catId = categoryId
             saveAsNew()
         }
 
-        Transfer.getNewInstance(account1, account2.id).apply {
-            setAmount(Money(account1.currencyUnit, transferP))
+        Transfer.getNewInstance(account1.id, CurrencyUnit.DebugInstance, account2.id).apply {
+            setAmount(Money(CurrencyUnit.DebugInstance, transferP))
             save()
-            setAmount(Money(account1.currencyUnit, -transferN))
+            setAmount(Money(CurrencyUnit.DebugInstance, -transferN))
             saveAsNew()
         }
     }
@@ -85,46 +90,46 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         application.appComponent.inject(viewModel)
     }
 
+    private fun getTotalAccountBalance(accountId: Long) =
+        repository.loadAccount(accountId)!!.openingBalance + repository.getTransactionSum(accountId, null)
+
     @Test
     fun testReset() {
         insertData()
-        val initialTotalBalance = account1.totalBalance
+        val initialTotalBalance = getTotalAccountBalance(account1.id)
         Truth.assertThat(count()).isEqualTo(6)
-        viewModel.reset(account1,null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
+        viewModel.reset(account1,null, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
         Truth.assertThat(count()).isEqualTo(0)
-        val resetAccount = Account.getInstanceFromDb(account1.id)
-        Truth.assertThat(resetAccount.totalBalance).isEqualTo(initialTotalBalance)
+        Truth.assertThat(getTotalAccountBalance(account1.id)).isEqualTo(initialTotalBalance)
     }
 
 
     @Test
     fun testResetWithFilterUpdateBalance() {
         insertData()
-        val initialTotalBalance = account1.totalBalance
+        val initialTotalBalance = getTotalAccountBalance(account1.id)
         Truth.assertThat(count()).isEqualTo(6)
         val filter = WhereFilter.empty().put(CategoryCriterion(TEST_CAT, categoryId))
-        viewModel.reset(account1, filter, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
+        viewModel.reset(account1, filter, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
         Truth.assertThat(count()).isEqualTo(5) //1 Transaction deleted
-        val resetAccount = Account.getInstanceFromDb(account1.id)
-        Truth.assertThat(resetAccount.totalBalance).isEqualTo(initialTotalBalance)
+        Truth.assertThat(getTotalAccountBalance(account1.id)).isEqualTo(initialTotalBalance)
     }
 
     @Test
     fun testResetWithFilterCreateHelper() {
         insertData()
-        val initialTotalBalance = account1.totalBalance
+        val initialTotalBalance = getTotalAccountBalance(account1.id)
         Truth.assertThat(count()).isEqualTo(6)
         Truth.assertThat(count(condition = "$KEY_CATID=$categoryId")).isEqualTo(1)
         Truth.assertThat(count(condition = "$KEY_STATUS=$STATUS_HELPER")).isEqualTo(0)
 
         val filter = WhereFilter.empty().put(CategoryCriterion(TEST_CAT, categoryId))
-        viewModel.reset(account1, filter, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER, null)
+        viewModel.reset(account1, filter, EXPORT_HANDLE_DELETED_CREATE_HELPER, null)
 
         Truth.assertThat(count()).isEqualTo(6) //-1 Transaction deleted;+1 helper
         Truth.assertThat(count(condition = "$KEY_CATID=$categoryId")).isEqualTo(0)
         Truth.assertThat(count(condition = "$KEY_STATUS=$STATUS_HELPER")).isEqualTo(1)
-        val resetAccount = Account.getInstanceFromDb(account1.id)
-        Truth.assertThat(resetAccount.totalBalance).isEqualTo(initialTotalBalance)
+        Truth.assertThat(getTotalAccountBalance(account1.id)).isEqualTo(initialTotalBalance)
     }
 
     @Test
@@ -137,8 +142,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         Truth.assertThat(viewModel.balanceAccount(account1.id, false).getOrAwaitValue().isSuccess).isTrue()
         Truth.assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(0)
         Truth.assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(4)
-        val balanceAccount = Account.getInstanceFromDb(account1.id)
-        Truth.assertThat(balanceAccount.reconciledBalance).isEqualTo(initialCleared)
+        Truth.assertThat(account1.reconciledBalance).isEqualTo(initialCleared)
     }
 
     @Test
@@ -150,8 +154,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         Truth.assertThat(viewModel.balanceAccount(account1.id, true).getOrAwaitValue().isSuccess).isTrue()
         Truth.assertThat(count(condition = "$KEY_CR_STATUS != '${CrStatus.UNRECONCILED.name}'")).isEqualTo(0)
         Truth.assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.UNRECONCILED.name}'")).isEqualTo(2)
-        val balanceAccount = Account.getInstanceFromDb(account1.id)
-        Truth.assertThat(balanceAccount.reconciledBalance).isEqualTo(initialCleared)
+        Truth.assertThat(account1.reconciledBalance).isEqualTo(initialCleared)
     }
 
     private fun count(id: Long = account1.id, condition: String? = null): Int {
@@ -173,9 +176,9 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
      */
     private val Account.clearedBalance
         get() = Money(
-            currencyUnit,
-            openingBalance.amountMinor +
-                    getTransactionSum(WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED, CrStatus.CLEARED))))
+            CurrencyUnit.DebugInstance,
+            openingBalance +
+                    repository.getTransactionSum(id, WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED, CrStatus.CLEARED))))
         )
 
     /**
@@ -183,9 +186,9 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
      */
     private val Account.reconciledBalance: Money
         get() = Money(
-            currencyUnit,
-            openingBalance.amountMinor +
-                    getTransactionSum(WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))))
+            CurrencyUnit.DebugInstance,
+            openingBalance +
+                    repository.getTransactionSum(id, WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))))
         )
 
     companion object {

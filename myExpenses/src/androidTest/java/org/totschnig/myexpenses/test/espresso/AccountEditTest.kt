@@ -13,6 +13,7 @@ import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AccountEdit
+import org.totschnig.myexpenses.db2.getUuidForAccount
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -46,8 +47,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         }
         testScenario = ActivityScenario.launchActivityForResult(i)
         Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
-        val account = Account.getInstanceFromDb(id)
-        assertThat(account.uuid).isEqualTo(uuid)
+        assertThat(repository.getUuidForAccount(id)).isEqualTo(uuid)
     }
 
     companion object {

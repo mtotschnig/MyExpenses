@@ -12,9 +12,8 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.Utils
 
-data class Account(override val id: Long, val label: String, val currency: String, val type: AccountType): IdHolder {
+data class AccountImport(override val id: Long, val label: String, val currency: String, val type: AccountType): IdHolder {
     override fun toString() = label
 }
 
@@ -24,7 +23,7 @@ open class ImportViewModel(application: Application, val savedStateHandle: Saved
         get() = savedStateHandle.get<Long>(KEY_ACCOUNTID) ?: 0L
         set(value) { savedStateHandle[KEY_ACCOUNTID] = value }
 
-    val accounts: Flow<List<Account>>
+    val accounts: Flow<List<AccountImport>>
         get() = contentResolver.observeQuery(
             TransactionProvider.ACCOUNTS_BASE_URI, arrayOf(
                 DatabaseConstants.KEY_ROWID,
@@ -34,7 +33,7 @@ open class ImportViewModel(application: Application, val savedStateHandle: Saved
             null, false
         )
             .mapToList {
-                Account(
+                AccountImport(
                     it.getLong(0),
                     it.getString(1),
                     it.getString(2),
@@ -44,7 +43,7 @@ open class ImportViewModel(application: Application, val savedStateHandle: Saved
             .map {
                 buildList {
                     add(
-                        Account(
+                        AccountImport(
                             0, getString(R.string.menu_create_account),
                             homeCurrencyProvider.homeCurrencyString,
                             AccountType.CASH

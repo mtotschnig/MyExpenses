@@ -3,10 +3,11 @@ package org.totschnig.myexpenses.export
 import android.content.Context
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.TransactionDTO
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -25,6 +26,7 @@ import java.time.format.DateTimeFormatter
  */
 class CsvExporter(
     account: Account,
+    currencyContext: CurrencyContext,
     filter: WhereFilter?,
     notYetExportedP: Boolean,
     dateFormat: String,
@@ -38,7 +40,7 @@ class CsvExporter(
     timeFormat: String? = null
 ) :
     AbstractExporter(
-        account, filter, notYetExportedP, dateFormat,
+        account, currencyContext, filter, notYetExportedP, dateFormat,
         decimalSeparator, encoding
     ) {
     private val timeFormatter: DateTimeFormatter? = timeFormat?.let { DateTimeFormatter.ofPattern(it)  }

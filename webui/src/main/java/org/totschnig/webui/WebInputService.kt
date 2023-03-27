@@ -33,6 +33,9 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createTransaction
+import org.totschnig.myexpenses.db2.loadTransactions
+import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.di.LocalDateAdapter
 import org.totschnig.myexpenses.di.LocalTimeAdapter
 import org.totschnig.myexpenses.feature.IWebInputService

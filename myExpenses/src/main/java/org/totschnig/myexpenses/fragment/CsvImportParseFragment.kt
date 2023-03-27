@@ -34,7 +34,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.checkNewAccountLimitation
-import org.totschnig.myexpenses.viewmodel.Account
+import org.totschnig.myexpenses.viewmodel.AccountImport
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -73,8 +73,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
     }
 
     @Suppress("UNCHECKED_CAST")
-    private val accountsAdapter: IdAdapter<Account>
-        get() = binding.AccountTable.Account.adapter as IdAdapter<Account>
+    private val accountsAdapter: IdAdapter<AccountImport>
+        get() = binding.AccountTable.Account.adapter as IdAdapter<AccountImport>
     private val currencyAdapter: CurrencyAdapter
         get() = binding.AccountTable.Currency.adapter as CurrencyAdapter
 
@@ -92,7 +92,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         DialogUtils.configureEncoding(binding.EncodingTable.Encoding, activity, prefHandler, PREF_KEY_IMPORT_CSV_ENCODING)
         DialogUtils.configureDelimiter(binding.Delimiter, activity, prefHandler, PREF_KEY_IMPORT_CSV_DELIMITER)
         with(binding.AccountTable.Account) {
-            adapter = IdAdapter<Account>(requireContext())
+            adapter = IdAdapter<AccountImport>(requireContext())
             onItemSelectedListener = this@CsvImportParseFragment
         }
         DialogUtils.configureCurrencySpinner(binding.AccountTable.Currency, this)

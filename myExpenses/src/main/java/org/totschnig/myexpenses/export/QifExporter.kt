@@ -1,21 +1,23 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.StringBuilderWrapper
 
 class QifExporter(
     account: Account,
+    currencyContext: CurrencyContext,
     filter: WhereFilter?,
     notYetExportedP: Boolean,
     dateFormat: String,
     decimalSeparator: Char,
     encoding: String
 ) :
-    AbstractExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding) {
+    AbstractExporter(account, currencyContext, filter, notYetExportedP, dateFormat, decimalSeparator, encoding) {
     override val format = ExportFormat.QIF
     override fun header(context: Context) = StringBuilderWrapper().append("!Account\nN")
         .append(account.label)

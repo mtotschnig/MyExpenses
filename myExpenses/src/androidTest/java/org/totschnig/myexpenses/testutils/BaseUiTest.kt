@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -57,6 +56,13 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     fun buildAccount(label: String, openingBalance: Long = 0L) =
         Account(label, homeCurrency, openingBalance, AccountType.CASH).also { it.save(homeCurrency) }
+
+    fun buildAccount2(label: String, openingBalance: Long = 0L) =
+        org.totschnig.myexpenses.model2.Account(
+            label = label,
+            openingBalance = openingBalance,
+            currency = homeCurrency.code
+        ).createIn(repository)
 
     fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(id, homeCurrency)
 

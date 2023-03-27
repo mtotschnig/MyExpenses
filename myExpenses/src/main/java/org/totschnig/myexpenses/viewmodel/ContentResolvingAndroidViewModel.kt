@@ -29,6 +29,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
@@ -287,19 +289,19 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      * if equals [.EXPORT_HANDLE_DELETED_CREATE_HELPER] a helper transaction
      * @param helperComment comment used for the helper transaction
      */
-    fun reset(account: Account, filter: WhereFilter?, handleDelete: Int, helperComment: String?) {
+    fun reset(account: org.totschnig.myexpenses.model2.Account, filter: WhereFilter?, handleDelete: Int, helperComment: String?) {
         val ops = ArrayList<ContentProviderOperation>()
         var handleDeleteOperation: ContentProviderOperation? = null
-        val sum = account.getTransactionSum(filter)
+        val sum = repository.getTransactionSum(account.id!!, filter)
         if (handleDelete == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
-            val currentBalance: Long = account.openingBalance.amountMinor + sum
+            val currentBalance: Long = account.openingBalance + sum
             handleDeleteOperation = ContentProviderOperation.newUpdate(
                 Account.CONTENT_URI.buildUpon().appendPath(account.id.toString()).build()
             )
                 .withValue(KEY_OPENING_BALANCE, currentBalance)
                 .build()
         } else if (handleDelete == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-            val helper = Transaction(account.id, Money(account.currencyUnit, sum))
+            val helper = Transaction(account.id, Money(currencyContext[account.currency], sum))
             helper.comment = helperComment
             helper.status = STATUS_HELPER
             handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
@@ -310,7 +312,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         if (filter != null && !filter.isEmpty) {
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
-        account.updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs)
+        updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs)
         ops.add(
             ContentProviderOperation.newDelete(
                 Transaction.CONTENT_URI
