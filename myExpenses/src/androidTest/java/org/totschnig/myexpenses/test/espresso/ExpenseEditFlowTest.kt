@@ -21,9 +21,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     @Before
     fun fixture() {
         val accountLabel1 = "Test label 1"
-        val account1 =
-            Account(accountLabel1, CurrencyUnit.DebugInstance, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
-        Truth.assertThat(account1.save()).isNotNull()
+        buildAccount(accountLabel1)
         val paymentMethod = PaymentMethod("TEST").apply {
             paymentType = PaymentMethod.EXPENSE
             addAccountType(AccountType.CASH)

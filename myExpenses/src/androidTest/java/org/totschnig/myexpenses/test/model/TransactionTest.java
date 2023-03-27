@@ -43,19 +43,15 @@ public class TransactionTest extends ModelTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    mAccount1 = new Account("TestAccount 1", 100, "Main account");
-    mAccount1.save();
-    mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
-    mAccount2.save();
-    mAccount3 = new Account("TestAccount 3", 100, "Secondary account");
-    mAccount3.save();
+    mAccount1 = buildAccount("TestAccount 1", 100);
+    mAccount2 = buildAccount("TestAccount 2", 100);
+    mAccount3 = buildAccount("TestAccount 3", 100);
   }
 
   public void testTransaction() {
     String payee = "N.N";
     long start = Transaction.getSequenceCount();
     Transaction op1 = Transaction.getNewInstance(mAccount1);
-    assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.setComment("test transaction");
     op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));//we need an uri that is considered "home"
@@ -90,7 +86,6 @@ public class TransactionTest extends ModelTest {
     Transaction restored = Transaction.getInstanceFromDb(op.getId());
     assertEquals(op, restored);
     peer = (Transfer) Transaction.getInstanceFromDb(op.getTransferPeer());
-    assert peer != null;
     assertEquals(peer.getId(), op.getTransferPeer().longValue());
     assertEquals(op.getId(), peer.getTransferPeer().longValue());
     assertEquals(op.getTransferAccountId().longValue(), peer.getAccountId());
@@ -122,12 +117,10 @@ public class TransactionTest extends ModelTest {
 
   public void testSplitWithTransfer() {
     SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1);
-    assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.setComment("test split with transfer");
     assertTrue(op1.getId() > 0);
     Transfer split1 = Transfer.getNewInstance(mAccount1.getId(), mAccount1.getCurrencyUnit(), mAccount2.getId(), op1.getId());
-    assert split1 != null;
     split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     assertEquals(split1.getParentId().longValue(), op1.getId());
     split1.setStatus(STATUS_UNCOMMITTED);
@@ -152,14 +145,12 @@ public class TransactionTest extends ModelTest {
     op1.setDate(new Date(System.currentTimeMillis() - 1003900000));
     assertTrue(op1.getId() > 0);
     Transaction split1 = Transaction.getNewInstance(mAccount1, op1.getId());
-    assert split1 != null;
     split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     assertEquals(split1.getParentId().longValue(), op1.getId());
     split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
     assertTrue(split1.getId() > 0);
     Transaction split2 = Transaction.getNewInstance(mAccount1, op1.getId());
-    assert split2 != null;
     split2.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
     assertEquals(split2.getParentId().longValue(), op1.getId());
     split2.setStatus(STATUS_UNCOMMITTED);
@@ -170,13 +161,10 @@ public class TransactionTest extends ModelTest {
     //we expect the parent to make sure that parts have the same date
     Transaction restored = Transaction.getInstanceFromDb(op1.getId());
     assertEquals(op1, restored);
-    assert restored != null;
     Transaction split1Restored = Transaction.getInstanceFromDb(split1.getId());
-    assert split1Restored != null;
     assertEquals(restored.getDate(), split1Restored.getDate());
     assertTrue(Transaction.hasParent(split1.getId()));
     Transaction split2Restored = Transaction.getInstanceFromDb(split2.getId());
-    assert split2Restored != null;
     assertEquals(restored.getDate(), split2Restored.getDate());
     assertTrue(Transaction.hasParent(split2.getId()));
     restored.setCrStatus(CrStatus.CLEARED);
@@ -203,7 +191,6 @@ public class TransactionTest extends ModelTest {
     assertEquals(getCatUsage(catId1), 0);
     assertEquals(getCatUsage(catId2), 0);
     Transaction op1 = Transaction.getNewInstance(mAccount1);
-    assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.setCatId(catId1);
     op1.save();
@@ -222,7 +209,6 @@ public class TransactionTest extends ModelTest {
     assertEquals(getCatUsage(catId2), 1);
     //new transaction without cat, does not increase usage
     Transaction op2 = Transaction.getNewInstance(mAccount1);
-    assert op2 != null;
     op2.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op2.save();
     assertEquals(getCatUsage(catId1), 1);
@@ -238,7 +224,6 @@ public class TransactionTest extends ModelTest {
     assertEquals(0, getAccountUsage(mAccount1.getId()));
     assertEquals(0, getAccountUsage(mAccount2.getId()));
     Transaction op1 = Transaction.getNewInstance(mAccount1);
-    assert op1 != null;
     op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
     op1.save();
     assertEquals(1, getAccountUsage(mAccount1.getId()));
@@ -270,7 +255,6 @@ public class TransactionTest extends ModelTest {
   private int countPayee(String name) {
     Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI, new String[]{"count(*)"},
         "name = ?", new String[]{name}, null);
-    assert cursor != null;
     if (cursor.getCount() == 0) {
       cursor.close();
       return 0;

@@ -22,7 +22,9 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CrStatus;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
@@ -47,15 +49,16 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    mAccount1 = new Account("TestAccount 1", 100, "Main account");
+    CurrencyUnit currencyUnit = CurrencyUnit.Companion.getDebugInstance();
+    mAccount1 = new Account("TestAccount 1", currencyUnit, 100, AccountType.CASH);
     mAccount1.setSyncAccountName("DEBUG");
-    mAccount1.save();
-    mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
+    mAccount1.save(currencyUnit);
+    mAccount2 = new Account("TestAccount 2", currencyUnit, 100, AccountType.CASH);
     mAccount2.setSyncAccountName("DEBUG");
-    mAccount2.save();
-    mAccount3 = new Account("TestAccount 3", 100, "Secondary account");
+    mAccount2.save(currencyUnit);
+    mAccount3 = new Account("TestAccount 3", currencyUnit, 100, AccountType.CASH);
     mAccount3.setSyncAccountName("DEBUG");
-    mAccount3.save();
+    mAccount3.save(currencyUnit);
     ContentValues values = new ContentValues(1);
     values.put(DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL, 1);
     MoreDbUtilsKt.update(getProvider().getOpenHelperForTest().getWritableDatabase(), DatabaseConstants.TABLE_ACCOUNTS, values, null, null);

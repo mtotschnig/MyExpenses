@@ -247,10 +247,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
   public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
 
-  public static final String METHOD_INIT = "init";
-
-  public static final String KEY_LOCALE = "locale";
-
   public static final String KEY_RESULT = "result";
 
   private static final UriMatcher URI_MATCHER;

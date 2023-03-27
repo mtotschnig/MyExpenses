@@ -43,7 +43,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             } else {
                 emit(deleteAccountsInternal(longArrayOf(accountId)).also {
                     it.onSuccess {
-                        account.save()
+                        account.save(homeCurrencyProvider.homeCurrencyUnit)
                     }
                 })
             }
@@ -257,7 +257,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                             }
                             .sumOf {
                                 @Suppress("USELESS_CAST")
-                                (if (it.save() == null) 0 else 1) as Int
+                                (if (it.save(homeCurrencyProvider.homeCurrencyUnit) == null) 0 else 1) as Int
                             }
                     if (numberOfRestoredAccounts == 0) {
                         emit(Result.failure(Throwable("No accounts were restored")))
@@ -283,7 +283,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     fun save(account: Account): LiveData<Uri?> =
         liveData(context = coroutineContext()) {
-            emit(account.save())
+            emit(account.save(homeCurrencyProvider.homeCurrencyUnit))
         }
 
     companion object {

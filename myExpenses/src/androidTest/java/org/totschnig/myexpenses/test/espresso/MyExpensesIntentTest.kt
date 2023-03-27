@@ -6,7 +6,7 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matchers
-import org.junit.BeforeClass
+import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TestMyExpenses
@@ -15,6 +15,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
 class MyExpensesIntentTest : BaseMyExpensesTest() {
+
+    private lateinit var account1: Account
+    private lateinit var account2: Account
+
+    @Before
+    fun fixture() {
+        account1 = buildAccount("Test label 1")
+        account2 = buildAccount("Test label 2")
+    }
+
     @Test
     fun shouldNavigateToAccountReceivedThroughIntent1() {
        doTheTest(account1)
@@ -37,21 +47,5 @@ class MyExpensesIntentTest : BaseMyExpensesTest() {
             )
         )
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-    }
-
-    companion object {
-        private lateinit var account1: Account
-        private lateinit var account2: Account
-
-        @JvmStatic
-        @BeforeClass
-        fun fixture() {
-            account1 = Account("Test label 1", 0, "").also {
-                it.save()
-            }
-            account2 = Account("Test label 2", 0, "").also {
-                it.save()
-            }
-        }
     }
 }

@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -84,6 +85,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
   @Inject
   Repository repository;
+
+  @Inject
+  HomeCurrencyProvider homeCurrencyProvider;
 
   public QifImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -295,7 +299,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
           displayName = displayName.replace('-', ' ').replace('_', ' ');
           a.setLabel(displayName);
         }
-        if (a.save() != null)
+        if (a.save(homeCurrencyProvider.getHomeCurrencyUnit()) != null)
           importCount++;
         account.dbAccount = a;
       }

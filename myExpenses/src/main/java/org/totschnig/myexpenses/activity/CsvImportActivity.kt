@@ -175,7 +175,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         0,
                         accountType
                     ).apply {
-                        save()
+                        save(homeCurrency)
                     }
                 } else {
                     @Suppress("DEPRECATION") //runs on background thread

@@ -31,12 +31,12 @@ class SyncAdapterWriteToDbTest {
 
     private fun setupSync() {
         syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency)
-        syncDelegate.account = Account()
+        syncDelegate.account = Account(CurrencyUnit.DebugInstance)
     }
 
     private fun setupSyncWithFakeResolver() {
         syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency) { _, _ -> 1 }
-        syncDelegate.account = Account()
+        syncDelegate.account = Account(CurrencyUnit.DebugInstance)
     }
 
     private val currencyContext = Mockito.mock(CurrencyContext::class.java)

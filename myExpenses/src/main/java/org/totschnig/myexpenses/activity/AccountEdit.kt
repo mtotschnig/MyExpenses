@@ -139,12 +139,14 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                     }
                 }
             } else {
-                populateFields(Account().apply {
-                    setCurrency(
-                        currencyContext[extras?.getString(DatabaseConstants.KEY_CURRENCY)
-                            ?: currencyViewModel.default.code]
+                populateFields(
+                    Account(
+                        currencyContext[
+                                extras?.getString(DatabaseConstants.KEY_CURRENCY)
+                                    ?: currencyViewModel.default.code
+                        ]
                     )
-                })
+                )
             }
         } else {
             configureForCurrency(currencyUnit)

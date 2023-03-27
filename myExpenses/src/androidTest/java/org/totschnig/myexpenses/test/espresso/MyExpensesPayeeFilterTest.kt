@@ -23,9 +23,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     @Before
     fun fixture() {
         val currency = CurrencyUnit.DebugInstance
-        account = Account("Test account 1", currency, 0, "",
-                AccountType.CASH, Account.DEFAULT_COLOR)
-        account.save()
+        account =  buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account)
         op.amount = Money(currency, -1200L)
         op.payee = payee1

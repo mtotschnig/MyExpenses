@@ -196,7 +196,8 @@ open class MyExpensesViewModel(
             getApplication(),
             account,
             filterPersistence.getValue(account.id).whereFilterAsFlow,
-            homeCurrencyProvider.homeCurrencyString,
+            homeCurrencyProvider,
+            currencyContext,
             viewModelScope
         )
 

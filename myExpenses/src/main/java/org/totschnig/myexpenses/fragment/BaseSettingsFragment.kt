@@ -25,8 +25,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.ConfigurationCompat
-import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
@@ -692,7 +690,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             if (integer != null) {
                 preferenceActivity.showSnackBar(
                     String.format(
-                        ConfigurationCompat.getLocales(resources.configuration).get(0),
+                        preferenceActivity.getLocale(),
                         "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer
                     )
                 )
@@ -907,7 +905,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             getKey(PrefKey.GROUPING_START_SCREEN) -> {
                 var startPref = requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)
-                val locale = Locale.getDefault()
+                val locale = preferenceActivity.getLocale()
                 val dfs = DateFormatSymbols(locale)
                 val entries = arrayOfNulls<String>(7)
                 System.arraycopy(dfs.weekdays, 1, entries, 0, 7)
@@ -942,6 +940,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
             }
             getKey(PrefKey.OCR) -> {
+                val locale = Locale.getDefault()
                 if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
                     requirePreference<EditTextPreference>(PrefKey.OCR_TOTAL_INDICATORS).text =
                         getString(R.string.pref_ocr_total_indicators_default)
@@ -953,13 +952,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         FormatStyle.SHORT,
                         null,
                         IsoChronology.INSTANCE,
-                        Locale.getDefault()
+                        locale
                     )
                     val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
                         FormatStyle.MEDIUM,
                         null,
                         IsoChronology.INSTANCE,
-                        Locale.getDefault()
+                        locale
                     )
                     ocrDatePref.text = shortFormat + "\n" + mediumFormat
                 }
@@ -970,13 +969,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         null,
                         FormatStyle.SHORT,
                         IsoChronology.INSTANCE,
-                        Locale.getDefault()
+                        locale
                     )
                     val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
                         null,
                         FormatStyle.MEDIUM,
                         IsoChronology.INSTANCE,
-                        Locale.getDefault()
+                        locale
                     )
                     ocrTimePref.text = shortFormat + "\n" + mediumFormat
                 }

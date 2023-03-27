@@ -146,7 +146,7 @@ public interface AppComponent {
 
   Picasso picasso();
 
-  Context context();
+  MyApplication myApplication();
 
   Repository repository();
 

@@ -24,12 +24,12 @@ class SealedAccountMarkExportedTest {
         val currency = CurrencyUnit.DebugInstance
         val resolver = ApplicationProvider.getApplicationContext<MyApplication>().contentResolver
         val sealedAccount = Account("EUR-Account", currency, 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
-        sealedAccount.save()
+        sealedAccount.save(currency)
         val sealed = Transaction.getNewInstance(sealedAccount)
         sealed.amount = Money(currency, 500L)
         sealed.save()
         val openAccount = Account("EUR-Account", currency, 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
-        openAccount.save()
+        openAccount.save(currency)
         val open = Transaction.getNewInstance(openAccount)
         open.amount = Money(currency, 500L)
         open.save()

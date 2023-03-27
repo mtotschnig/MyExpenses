@@ -28,9 +28,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -55,8 +53,10 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     val prefHandler: PrefHandler
         get() = app.appComponent.prefHandler()
 
-    val homeCurrency: CurrencyUnit
-        get() = app.appComponent.homeCurrencyProvider().homeCurrencyUnit
+    val homeCurrency: CurrencyUnit by lazy { app.appComponent.homeCurrencyProvider().homeCurrencyUnit }
+
+    fun buildAccount(label: String, openingBalance: Long = 0L) =
+        Account(label, homeCurrency, openingBalance, AccountType.CASH).also { it.save(homeCurrency) }
 
     @Before
     fun setUp() {
@@ -67,6 +67,11 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         closeSoftKeyboard()
         onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
     }
+
+        /**
+     * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher
+     * Click on a menu item, that might be visible or hidden in overflow menu
+     */
 
     /**
      * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher
@@ -174,14 +179,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     }
 
     protected fun configureLocale(locale: Locale) {
-        Locale.setDefault(locale)
-        val config = Configuration()
-        config.locale = locale
-        testContext.resources.update(config)
-        targetContext.applicationContext.resources.update(config)
-        AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(locale.language + "-" + locale.country)
-        )
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(locale))
     }
 
     private fun Resources.update(configuration: Configuration) {

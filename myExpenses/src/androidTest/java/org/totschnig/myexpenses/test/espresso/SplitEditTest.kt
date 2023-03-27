@@ -39,7 +39,6 @@ import java.util.*
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
     lateinit var account1: Account
-    private var currency1: CurrencyUnit? = null
 
     private val baseIntent: Intent
         get() = Intent(targetContext, TestExpenseEdit::class.java).apply {
@@ -48,8 +47,7 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     @Before
     fun fixture() {
-        currency1 = CurrencyUnit(Currency.getInstance("USD"))
-        account1 = Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
+        account1 = buildAccount(accountLabel1)
     }
 
     /*
@@ -58,7 +56,7 @@ class SplitEditTest : BaseExpenseEditTest() {
      */
     @Test
     fun bug987() {
-        val account2 = Account("Test Account 2", currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
+        val account2 = buildAccount("Test Account 2")
         testScenario = ActivityScenario.launch(baseIntent.apply { putExtra(KEY_ACCOUNTID, account1.id) })
         closeSoftKeyboard()
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())

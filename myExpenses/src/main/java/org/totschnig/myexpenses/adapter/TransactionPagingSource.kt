@@ -15,12 +15,13 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.withLimit
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
@@ -31,7 +32,8 @@ open class TransactionPagingSource(
     val context: Context,
     val account: PageAccount,
     val whereFilter: StateFlow<WhereFilter>,
-    homeCurrency: String,
+    val homeCurrencyProvider: HomeCurrencyProvider,
+    val currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope
 ) :
     ClearingPagingSource<Int, Transaction2>() {
@@ -45,7 +47,7 @@ open class TransactionPagingSource(
     private val observer: ContentObserver
 
     init {
-        account.loadingInfo(homeCurrency).also {
+        account.loadingInfo(homeCurrencyProvider.homeCurrencyString).also {
             uri = it.first
             projection = it.second
             selection = it.third
@@ -118,12 +120,11 @@ open class TransactionPagingSource(
                 }
                 withContext(Dispatchers.Main) {
                     cursor.asSequence.map {
-                        val appComponent = (context.applicationContext as MyApplication).appComponent
                         Transaction2.fromCursor(
                             context,
                             it,
-                            appComponent.currencyContext(),
-                            if (account.isHomeAggregate) appComponent.homeCurrencyProvider().homeCurrencyUnit else null
+                            currencyContext,
+                            if (account.isHomeAggregate) homeCurrencyProvider.homeCurrencyUnit else null
                         )
                     }.toList()
                 }

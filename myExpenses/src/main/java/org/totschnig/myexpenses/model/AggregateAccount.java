@@ -29,7 +29,7 @@ public class AggregateAccount extends Account {
    * @param c Cursor positioned at the row we want to extract into the object
    */
   AggregateAccount(Cursor c) {
-    extract(c);
+    super(c);
     if (isHomeAggregate()) {
       try {
         //TODO refactor

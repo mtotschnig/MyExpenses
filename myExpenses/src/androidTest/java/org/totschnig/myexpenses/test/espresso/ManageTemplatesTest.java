@@ -40,12 +40,8 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
   @Before
   public void fixture() {
     CurrencyUnit currencyUnit = CurrencyUnit.Companion.getDebugInstance();
-    account1 = new Account("Test account 1", currencyUnit, 0, "",
-        AccountType.CASH, Account.DEFAULT_COLOR);
-    account1.save();
-    account2 = new Account("Test account 1", currencyUnit, 0, "",
-        AccountType.CASH, Account.DEFAULT_COLOR);
-    account2.save();
+    account1 = buildAccount("Test account 1", 0);
+    account2 = buildAccount("Test account 2", 0);
     createInstances(Template.Action.SAVE);
     createInstances(Template.Action.EDIT);
     Intent i = new Intent(getTargetContext(), ManageTemplates.class);

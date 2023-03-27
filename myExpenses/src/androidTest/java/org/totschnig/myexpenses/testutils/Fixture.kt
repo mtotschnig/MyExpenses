@@ -76,11 +76,12 @@ class Fixture(inst: Instrumentation) {
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
         account1 = Account(
             appContext.getString(R.string.testData_account1Label),
+            defaultCurrency,
             90000,
             appContext.getString(R.string.testData_account1Description)
         )
         account1.syncAccountName = syncAccount1
-        account1.save()
+        account1.save(defaultCurrency)
         appContext.contentResolver.update(
             ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, account1.id)
                 .buildUpon()
@@ -96,7 +97,7 @@ class Fixture(inst: Instrumentation) {
             testContext.resources.getColor(RT.color.material_red)
         )
         account2.syncAccountName = syncAccount2
-        account2.save()
+        account2.save(defaultCurrency)
         account3 = Account(
             appContext.getString(R.string.testData_account3Label),
             defaultCurrency,
@@ -106,7 +107,7 @@ class Fixture(inst: Instrumentation) {
         )
         account3.grouping = Grouping.DAY
         account3.syncAccountName = syncAccount3
-        account3.save()
+        account3.save(defaultCurrency)
         account4 = Account(
             appContext.getString(R.string.testData_account3Description),
             foreignCurrency,
@@ -115,7 +116,7 @@ class Fixture(inst: Instrumentation) {
             AccountType.CCARD,
             testContext.resources.getColor(RT.color.material_cyan)
         )
-        account4.save()
+        account4.save(defaultCurrency)
 
         val johnDoe = appContext.getString(R.string.testData_templatePayee)
 

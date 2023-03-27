@@ -23,11 +23,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
     @Before
     fun fixture() {
         val currency = DebugInstance
-        val account = Account(
-            "Test account 1", currency, 0, "",
-            AccountType.CASH, Account.DEFAULT_COLOR
-        )
-        account.save()
+        val account = buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account)
         op.amount =  Money(currency, amount1)
         op.save()

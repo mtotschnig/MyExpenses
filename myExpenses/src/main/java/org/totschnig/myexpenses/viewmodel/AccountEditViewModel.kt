@@ -20,7 +20,7 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
 
     fun save(account: Account): LiveData<Long> = liveData(context = coroutineContext()) {
         val result = try {
-            account.save()?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
+            account.save(homeCurrencyProvider.homeCurrencyUnit)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
         } catch (e: Exception) {
             CrashHandler.report(e)
             ERROR_UNKNOWN

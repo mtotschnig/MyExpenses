@@ -13,7 +13,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.platform.app.InstrumentationRegistry
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
@@ -23,7 +22,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -35,16 +33,13 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
 
-    val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
     private var categoryId: Long = 0
 
     private fun baseFixture(additionalFixture: () -> Unit = {}) {
-        account = Account("Test account 1", currency, 0, "",
-                AccountType.CASH, Account.DEFAULT_COLOR)
-        account.save()
+        account = buildAccount("Test account 1")
         additionalFixture()
-        testScenario = ActivityScenario.launch(Intent(InstrumentationRegistry.getInstrumentation().targetContext, DistributionActivity::class.java).apply {
+        testScenario = ActivityScenario.launch(Intent(targetContext, DistributionActivity::class.java).apply {
             putExtra(KEY_ACCOUNTID, account.id)
         })
     }

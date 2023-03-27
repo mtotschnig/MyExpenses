@@ -27,7 +27,7 @@ class SetupSyncViewModel(application: Application) : SyncViewModel(application) 
                 throw it
             }
             (remoteAccounts + syncRemoteList.map { it.second }).map { it.toAccount(currencyContext, accountName) }.forEach {
-                it.save()
+                it.save(homeCurrencyProvider.homeCurrencyUnit)
                 dialogState[it.uuid]?.value = SyncSource.COMPLETED
             }
             val uuids =

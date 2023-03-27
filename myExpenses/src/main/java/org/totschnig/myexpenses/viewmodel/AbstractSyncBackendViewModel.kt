@@ -57,7 +57,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
                         null
                     )
                     account.syncAccountName = null
-                    account.save()
+                    account.save(homeCurrencyProvider.homeCurrencyUnit)
                 }
             } != null) ResultUnit else Result.failure(Exception("ERROR")))
     }

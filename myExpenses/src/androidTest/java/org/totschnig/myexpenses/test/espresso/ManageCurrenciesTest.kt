@@ -48,7 +48,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         val currencyContext = appComponent.currencyContext()
         val currencyUnit = currencyContext[CURRENCY_CODE]
         val account = Account("TEST ACCOUNT", currencyUnit, 5000L, "", AccountType.CASH, Account.DEFAULT_COLOR)
-        account.save()
+        account.save(homeCurrency)
         try {
             val op = Transaction.getNewInstance(account)
             op.amount = Money(currencyUnit, -1200L)

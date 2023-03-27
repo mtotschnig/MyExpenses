@@ -6,18 +6,13 @@ import android.content.ContentValues
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performSemanticsAction
-import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.platform.app.InstrumentationRegistry
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.Rule
@@ -43,21 +38,18 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private val contentResolver
         get() = targetContext.contentResolver
 
-    val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
     private var categoryId: Long = 0
     private val origListSize = 1
 
     private fun baseFixture() {
-        account = Account("Test account 1", currency, 0, "",
-                AccountType.CASH, Account.DEFAULT_COLOR)
-        account.save()
+        account = buildAccount("Test account 1")
         categoryId = writeCategory(label = "TestCategory")
     }
 
     private fun launch() =
         ActivityScenario.launch<ManageCategories>(
-            Intent(InstrumentationRegistry.getInstrumentation().targetContext, ManageCategories::class.java).also {
+            Intent(targetContext, ManageCategories::class.java).also {
                 it.action = Action.MANAGE.name
             }
         ).also {
@@ -84,7 +76,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
 
     private fun fixtureWithMappedBudget() {
         baseFixture()
-        val budget = Budget(0L, account.id, "TITLE", "DESCRIPTION", currency, Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.label, true)
+        val budget = Budget(0L, account.id, "TITLE", "DESCRIPTION", homeCurrency, Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.label, true)
         val budgetId = ContentUris.parseId(contentResolver.insert(TransactionProvider.BUDGETS_URI, budget.toContentValues(200000L))!!)
         setCategoryBudget(budgetId, categoryId, 50000)
     }

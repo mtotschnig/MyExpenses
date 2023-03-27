@@ -735,7 +735,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             getString(R.string.pref_security_export_passphrase_title)
         )
 
-    fun getLocale() =
+    fun getLocale(): Locale =
         ConfigurationCompat.getLocales(resources.configuration).get(0) ?: Locale.getDefault()
 
     override fun onMessageDialogDismissOrCancel() {}

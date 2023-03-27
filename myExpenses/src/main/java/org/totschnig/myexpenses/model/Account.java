@@ -65,6 +65,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.AppComponent;
@@ -233,36 +234,23 @@ public class Account extends Model implements DistributionAccountInfo {
     return ModelWithLinkedTagsKt.saveTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, tags, getId(), contentResolver);
   }
 
-  private Uri buildExchangeRateUri() {
+  private Uri buildExchangeRateUri(CurrencyUnit homeCurrency) {
     return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
         .appendEncodedPath(currencyUnit.getCode())
-        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode())).build();
+        .appendEncodedPath(homeCurrency.getCode()).build();
   }
 
   private double adjustExchangeRate(double raw) {
     return Utils.adjustExchangeRate(raw, currencyUnit);
   }
 
-  private void storeExchangeRate() {
-    ContentValues exchangeRateValues = new ContentValues();
-    int minorUnitDelta = Utils.getHomeCurrency().getFractionDigits() - currencyUnit.getFractionDigits();
-    exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
-    cr().insert(buildExchangeRateUri(), exchangeRateValues);
-  }
-
-  private boolean hasForeignCurrency() {
-    return !PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode()).equals(currencyUnit.getCode());
-  }
-
-  /**
-   * the account returned by this method is guaranteed not to be sealed
-   */
-  static Account getInstanceFromDbWithFallback(long id) {
-    Account account = getInstanceFromDb(id, true);
-    if (account == null && id > 0) {
-      account = getInstanceFromDb(0, true);
+  private void storeExchangeRate(CurrencyUnit homeCurrency) {
+    if (!currencyUnit.getCode().equals(homeCurrency.getCode())) {
+      ContentValues exchangeRateValues = new ContentValues();
+      int minorUnitDelta = homeCurrency.getFractionDigits() - currencyUnit.getFractionDigits();
+      exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
+      cr().insert(buildExchangeRateUri(homeCurrency), exchangeRateValues);
     }
-    return account;
   }
 
   public static void delete(long id) throws RemoteException, OperationApplicationException {
@@ -291,23 +279,16 @@ public class Account extends Model implements DistributionAccountInfo {
   /**
    * returns an empty Account instance
    */
-  public Account() {
-    this("", (long) 0, "");
-  }
-
-  /**
-   * Account with currency from locale, of type CASH and with DEFAULT_COLOR
-   *
-   * @param label          the label
-   * @param openingBalance the opening balance
-   * @param description    the description
-   */
-  public Account(String label, long openingBalance, String description) {
-    this(label, Utils.getHomeCurrency(), openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
+  public Account(CurrencyUnit currencyUnit) {
+    this("", currencyUnit, (long) 0, "");
   }
 
   public Account(String label, CurrencyUnit currencyUnit, long openingBalance, AccountType accountType) {
     this(label, currencyUnit, openingBalance, "", accountType, DEFAULT_COLOR);
+  }
+
+  public Account(String label, CurrencyUnit currencyUnit, long openingBalance, String description) {
+    this(label, currencyUnit, openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
   }
 
   public Account(String label, CurrencyUnit currency, long openingBalance, String description,
@@ -476,12 +457,19 @@ public class Account extends Model implements DistributionAccountInfo {
     ops.add(newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1).withSelection(KEY_SEALED + " = -1", null).build());
   }
 
+  @Nullable
+  @Override
+  public Uri save() {
+    //temporary placeholder until we reimplmented Account model
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Saves the account, creating it new if necessary
    *
    * @return the id of the account. Upon creation it is returned from the database
    */
-  public Uri save() {
+  public Uri save(CurrencyUnit homeCurrency) {
     Uri uri;
     ensureCurrency(currencyUnit);
     ContentValues initialValues = new ContentValues();
@@ -510,9 +498,7 @@ public class Account extends Model implements DistributionAccountInfo {
       uri = ContentUris.withAppendedId(CONTENT_URI, getId());
       if (cr().update(uri, initialValues, null, null) == 0) return null;
     }
-    if (hasForeignCurrency()) {
-      storeExchangeRate();
-    }
+    storeExchangeRate(homeCurrency);
     updateNewAccountEnabled();
     updateTransferShortcut();
     return uri;

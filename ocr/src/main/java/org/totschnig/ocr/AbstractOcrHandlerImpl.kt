@@ -1,10 +1,10 @@
 package org.totschnig.ocr
 
-import android.content.Context
 import android.graphics.Rect
 import android.text.TextUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.OcrResult
@@ -23,25 +23,31 @@ import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.absoluteValue
 
-abstract class AbstractOcrHandlerImpl(prefHandler: PrefHandler, private val context: Context) : OcrHandler {
+@Suppress("CanBeParameter")
+abstract class AbstractOcrHandlerImpl(@Suppress("MemberVisibilityCanBePrivate") val prefHandler: PrefHandler, private val application: MyApplication) : OcrHandler {
     private val numberFormatList: List<NumberFormat>
     private val dateFormatterList: List<DateTimeFormatter>
     private val timeFormatterList: List<DateTimeFormatter>
     private val totalIndicators: List<String>
 
+
+    val locale: Locale
+        get() = application.userPreferredLocale
+
+
     init {
         numberFormatList = mutableListOf<NumberFormat>().apply {
-            val userFormat = NumberFormat.getInstance(Locale.getDefault())
+            val userFormat = NumberFormat.getInstance(locale)
             add(userFormat)
             val rootFormat = NumberFormat.getInstance(Locale.ROOT)
             if (rootFormat != userFormat) {
                 add(rootFormat)
             }
         }
-        val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(Locale.getDefault()) }
+        val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(locale) }
         dateFormatterList = prefHandler.getString(PrefKey.OCR_DATE_FORMATS, null)?.lines()?.mapNotNull {
             try {
-                DateTimeFormatter.ofPattern(it, Locale.getDefault())
+                DateTimeFormatter.ofPattern(it, locale)
             } catch (e: Exception) {
                 null
             }
@@ -51,7 +57,7 @@ abstract class AbstractOcrHandlerImpl(prefHandler: PrefHandler, private val cont
                 .map(withSystemLocale)
         timeFormatterList = prefHandler.getString(PrefKey.OCR_TIME_FORMATS, null)?.lines()?.mapNotNull {
             try {
-                DateTimeFormatter.ofPattern(it, Locale.getDefault())
+                DateTimeFormatter.ofPattern(it, locale)
             } catch (e: Exception) {
                 null
             }
@@ -60,7 +66,7 @@ abstract class AbstractOcrHandlerImpl(prefHandler: PrefHandler, private val cont
                 DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM))
                 .map(withSystemLocale)
         totalIndicators = (prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, null).takeIf { !TextUtils.isEmpty(it) }
-                ?: context.getString(R.string.pref_ocr_total_indicators_default)).lines()
+                ?: application.wrappedContext.getString(R.string.pref_ocr_total_indicators_default)).lines()
     }
 
     private fun Rect?.bOr0() = this?.bottom ?: 0
@@ -70,7 +76,7 @@ abstract class AbstractOcrHandlerImpl(prefHandler: PrefHandler, private val cont
 
     suspend fun queryPayees() = withContext(Dispatchers.Default) {
         buildList {
-            context.contentResolver.query(TransactionProvider.PAYEES_URI,
+            application.contentResolver.query(TransactionProvider.PAYEES_URI,
                     arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
                     null, null, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {

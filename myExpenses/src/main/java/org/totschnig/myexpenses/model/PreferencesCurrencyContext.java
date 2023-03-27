@@ -24,7 +24,6 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   final private MyApplication application;
   private static final Map<String, CurrencyUnit> INSTANCES = Collections.synchronizedMap(new HashMap<>());
 
-  @Inject
   public PreferencesCurrencyContext(PrefHandler prefHandler, MyApplication application) {
     this.prefHandler = prefHandler;
     this.application = application;
