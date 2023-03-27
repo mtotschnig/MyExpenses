@@ -1,24 +1,13 @@
 package org.totschnig.myexpenses.db2
 
-import android.content.ContentProviderOperation
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.Context
+import android.content.*
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Payee
-import org.totschnig.myexpenses.model.Transaction.PROJECTION_EXTENDED
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -26,11 +15,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.sync.json.CategoryExport
-import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
@@ -142,7 +129,7 @@ class Repository @Inject constructor(
         //noinspection Recycle
         return contentResolver.query(
             Account.extendedUriForTransactionList(true),
-            PROJECTION_EXTENDED,
+            getProjectionExtended(),
             "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL ${
                 filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
             }",

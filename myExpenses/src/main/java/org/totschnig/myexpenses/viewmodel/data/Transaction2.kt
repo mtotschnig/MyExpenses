@@ -131,11 +131,10 @@ data class Transaction2(
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
-        val additionGrandTotalColumns: Array<String>
-            get() = arrayOf(
-                KEY_CURRENCY,
-                "${getAmountHomeEquivalent(VIEW_EXTENDED)} AS $KEY_EQUIVALENT_AMOUNT"
-            )
+        fun getAdditionGrandTotalColumns(homeCurrency: String): Array<String> = arrayOf(
+            KEY_CURRENCY,
+            "${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)} AS $KEY_EQUIVALENT_AMOUNT"
+        )
 
         fun fromCursor(
             context: Context,

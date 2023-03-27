@@ -149,32 +149,24 @@ public class Account extends Model implements DistributionAccountInfo {
     return currencyUnit;
   }
 
-  public static String[] PROJECTION_BASE;
-
-  static {
-    buildProjection();
-  }
-
-  public static void buildProjection() {
-    PROJECTION_BASE = new String[]{
-        TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
-        KEY_LABEL,
-        TABLE_ACCOUNTS + "." + KEY_DESCRIPTION + " AS " + KEY_DESCRIPTION,
-        KEY_OPENING_BALANCE,
-        TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
-        KEY_COLOR,
-        TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
-        KEY_TYPE,
-        KEY_SORT_KEY,
-        KEY_EXCLUDE_FROM_TOTALS,
-        KEY_SYNC_ACCOUNT_NAME,
-        KEY_UUID,
-        KEY_SORT_DIRECTION,
-        KEY_EXCHANGE_RATE,
-        KEY_CRITERION,
-        KEY_SEALED
-    };
-  }
+  public final static String[] PROJECTION_BASE = new String[] {
+    TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
+            KEY_LABEL,
+            TABLE_ACCOUNTS + "." + KEY_DESCRIPTION + " AS " + KEY_DESCRIPTION,
+            KEY_OPENING_BALANCE,
+            TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
+            KEY_COLOR,
+            TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
+            KEY_TYPE,
+            KEY_SORT_KEY,
+            KEY_EXCLUDE_FROM_TOTALS,
+            KEY_SYNC_ACCOUNT_NAME,
+            KEY_UUID,
+            KEY_SORT_DIRECTION,
+            KEY_EXCHANGE_RATE,
+            KEY_CRITERION,
+            KEY_SEALED
+  };
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
@@ -185,32 +177,18 @@ public class Account extends Model implements DistributionAccountInfo {
 
   public static final int DEFAULT_COLOR = 0xff009688;
 
-  /**
-   * @param id id of account to be retrieved, if id == 0, the account with the lowest id will be fetched from db,
-   *           if id < 0 we forward to AggregateAccount
-   * @return Account object or null if no account with id exists in db
-   * TODO: We should no longer allow calling this from the UI thread and consistently load account in the background
-   */
+
   @WorkerThread
   @Deprecated
   public static Account getInstanceFromDb(long id) {
-    return getInstanceFromDb(id, false);
-  }
-
-  @Deprecated
-  private static Account getInstanceFromDb(long id, boolean openOnly) {
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);
     Account account;
     String selection = TABLE_ACCOUNTS + "." + KEY_ROWID + " = ";
     if (id == 0) {
-      selection += String.format("(SELECT min(%s) FROM %s%s)", KEY_ROWID, TABLE_ACCOUNTS,
-          openOnly ? String.format(" WHERE %s = 0", KEY_SEALED) : "");
+      selection += String.format("(SELECT min(%s) FROM %s)", KEY_ROWID, TABLE_ACCOUNTS);
     } else {
       selection += id;
-      if (openOnly) {
-        selection += String.format(" AND %s = 0", KEY_SEALED);
-      }
     }
     Cursor c = cr().query(
         CONTENT_URI, null, selection, null, null);
@@ -241,36 +219,23 @@ public class Account extends Model implements DistributionAccountInfo {
     return ModelWithLinkedTagsKt.saveTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, tags, getId(), contentResolver);
   }
 
-  private Uri buildExchangeRateUri() {
+  private Uri buildExchangeRateUri(CurrencyUnit homeCurrency) {
     return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
         .appendEncodedPath(currencyUnit.getCode())
-        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode())).build();
+        .appendEncodedPath(homeCurrency.getCode()).build();
   }
 
-  private double adjustExchangeRate(double raw) {
-    return Utils.adjustExchangeRate(raw, currencyUnit);
+  private double adjustExchangeRate(double raw, CurrencyUnit homeCurrency) {
+    return Utils.adjustExchangeRate(raw, currencyUnit, homeCurrency);
   }
 
-  private void storeExchangeRate() {
-    ContentValues exchangeRateValues = new ContentValues();
-    int minorUnitDelta = Utils.getHomeCurrency().getFractionDigits() - currencyUnit.getFractionDigits();
-    exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
-    cr().insert(buildExchangeRateUri(), exchangeRateValues);
-  }
-
-  private boolean hasForeignCurrency() {
-    return !PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode()).equals(currencyUnit.getCode());
-  }
-
-  /**
-   * the account returned by this method is guaranteed not to be sealed
-   */
-  static Account getInstanceFromDbWithFallback(long id) {
-    Account account = getInstanceFromDb(id, true);
-    if (account == null && id > 0) {
-      account = getInstanceFromDb(0, true);
+  private void storeExchangeRate(CurrencyUnit homeCurrency) {
+    if (!currencyUnit.getCode().equals(homeCurrency.getCode())) {
+      ContentValues exchangeRateValues = new ContentValues();
+      int minorUnitDelta = homeCurrency.getFractionDigits() - currencyUnit.getFractionDigits();
+      exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
+      cr().insert(buildExchangeRateUri(homeCurrency), exchangeRateValues);
     }
-    return account;
   }
 
   public static void delete(long id) throws RemoteException, OperationApplicationException {
@@ -299,23 +264,16 @@ public class Account extends Model implements DistributionAccountInfo {
   /**
    * returns an empty Account instance
    */
-  public Account() {
-    this("", (long) 0, "");
-  }
-
-  /**
-   * Account with currency from locale, of type CASH and with DEFAULT_COLOR
-   *
-   * @param label          the label
-   * @param openingBalance the opening balance
-   * @param description    the description
-   */
-  public Account(String label, long openingBalance, String description) {
-    this(label, Utils.getHomeCurrency(), openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
+  public Account(CurrencyUnit currencyUnit) {
+    this("", currencyUnit, (long) 0, "");
   }
 
   public Account(String label, CurrencyUnit currencyUnit, long openingBalance, AccountType accountType) {
     this(label, currencyUnit, openingBalance, "", accountType, DEFAULT_COLOR);
+  }
+
+  public Account(String label, CurrencyUnit currencyUnit, long openingBalance, String description) {
+    this(label, currencyUnit, openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
   }
 
   public Account(String label, CurrencyUnit currency, long openingBalance, String description,
@@ -346,16 +304,17 @@ public class Account extends Model implements DistributionAccountInfo {
    * @param c Cursor positioned at the row we want to extract into the object
    */
   public Account(Cursor c) {
-    extract(c);
+    extract(c, MyApplication.getInstance().getAppComponent().homeCurrencyProvider().getHomeCurrencyUnit());
   }
 
   /**
    * extract information from Cursor and populate fields
    *
-   * @param c a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
+   * @param c            a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
+   * @param homeCurrency
    */
 
-  protected void extract(Cursor c) {
+  protected void extract(Cursor c, CurrencyUnit homeCurrency) {
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     this.setLabel(c.getString(c.getColumnIndexOrThrow(KEY_LABEL)));
@@ -393,7 +352,7 @@ public class Account extends Model implements DistributionAccountInfo {
     }
     int columnIndexExchangeRate = c.getColumnIndex(KEY_EXCHANGE_RATE);
     if (columnIndexExchangeRate != -1) {
-      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndexExchangeRate));
+      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndexExchangeRate), homeCurrency);
     }
     long criterion = MoreDbUtilsKt.requireLong(c, KEY_CRITERION);
     if (criterion != 0) {
@@ -484,12 +443,19 @@ public class Account extends Model implements DistributionAccountInfo {
     ops.add(newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1).withSelection(KEY_SEALED + " = -1", null).build());
   }
 
+  @Nullable
+  @Override
+  public Uri save() {
+    //temporary placeholder until we reimplmented Account model
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Saves the account, creating it new if necessary
    *
    * @return the id of the account. Upon creation it is returned from the database
    */
-  public Uri save() {
+  public Uri save(CurrencyUnit homeCurrency) {
     Uri uri;
     ensureCurrency(currencyUnit);
     ContentValues initialValues = new ContentValues();
@@ -518,9 +484,7 @@ public class Account extends Model implements DistributionAccountInfo {
       uri = ContentUris.withAppendedId(CONTENT_URI, getId());
       if (cr().update(uri, initialValues, null, null) == 0) return null;
     }
-    if (hasForeignCurrency()) {
-      storeExchangeRate();
-    }
+    storeExchangeRate(homeCurrency);
     updateNewAccountEnabled();
     updateTransferShortcut();
     return uri;
@@ -749,7 +713,7 @@ public class Account extends Model implements DistributionAccountInfo {
   }
 
   public String[] getExtendedProjectionForTransactionList() {
-    return Transaction.PROJECTION_EXTENDED;
+    return DatabaseConstants.getProjectionExtended();
   }
 
   public String getSelectionForTransactionList() {

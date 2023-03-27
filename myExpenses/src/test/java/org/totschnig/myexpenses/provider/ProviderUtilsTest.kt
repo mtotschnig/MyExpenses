@@ -38,15 +38,17 @@ class ProviderUtilsTest {
 
     @Before
     fun setupAccounts() {
+
+        val homeCurrency = CurrencyUnit(Currency.getInstance("EUR"))
         euroAccount = Account(
             "EUR-Account",
-            CurrencyUnit(Currency.getInstance("EUR")),
+            homeCurrency,
             0L,
             null,
             AccountType.CASH,
             Account.DEFAULT_COLOR
         )
-        euroAccount.save()
+        euroAccount.save(homeCurrency)
         dollarAccount = Account(
             "USD-Account",
             CurrencyUnit(Currency.getInstance("USD")),
@@ -55,7 +57,7 @@ class ProviderUtilsTest {
             AccountType.CASH,
             Account.DEFAULT_COLOR
         )
-        dollarAccount.save()
+        dollarAccount.save(homeCurrency)
     }
 
     private fun buildFromExtras(extras: Bundle) = ProviderUtils.buildFromExtras(repository, extras)

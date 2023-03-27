@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.DateInfo2
@@ -78,6 +79,9 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     @Inject
     lateinit var dataStore: DataStore<Preferences>
+
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     val collate: String
         get() = prefHandler.collate
@@ -128,7 +132,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(KEY_CURRENCY)
         val currencyUnit = if (currency == AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)
-            Utils.getHomeCurrency() else currencyContext.get(currency)
+            homeCurrencyProvider.homeCurrencyUnit else currencyContext.get(currency)
         val budgetId = cursor.getLong(KEY_ROWID)
         val accountId = cursor.getLong(KEY_ACCOUNTID)
         val grouping = Grouping.valueOf(cursor.getString(KEY_GROUPING))

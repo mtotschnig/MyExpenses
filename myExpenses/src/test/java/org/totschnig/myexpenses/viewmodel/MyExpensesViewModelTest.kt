@@ -11,12 +11,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -57,10 +53,10 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 
     private fun insertData() {
-        account1 = Account("Account 1", openingBalance, "Account 1")
-        account1.save()
-        account2 = Account("Account 2", openingBalance, "Account 2")
-        account2.save()
+        account1 = Account("Account 1", CurrencyUnit.DebugInstance, openingBalance, "Account 1")
+        account1.save(CurrencyUnit.DebugInstance)
+        account2 = Account("Account 2", CurrencyUnit.DebugInstance, openingBalance, "Account 2")
+        account2.save(CurrencyUnit.DebugInstance)
         categoryId = writeCategory(TEST_CAT, null)
         Transaction.getNewInstance(account1).apply {
             amount = Money(account1.currencyUnit, -expense1)

@@ -48,10 +48,10 @@ class TemplateTest {
 
     @Before
     fun setUp() {
-        mAccount1 = Account("TestAccount 1", 100, "Main account")
-        mAccount1.save()
-        mAccount2 = Account("TestAccount 2", 100, "Secondary account")
-        mAccount2.save()
+        mAccount1 = Account("TestAccount 1", CurrencyUnit.DebugInstance, 100, "Main account")
+        mAccount1.save(CurrencyUnit.DebugInstance)
+        mAccount2 = Account("TestAccount 2", CurrencyUnit.DebugInstance, 100, "Secondary account")
+        mAccount2.save(CurrencyUnit.DebugInstance)
         categoryId = writeCategory("TestCategory", null)
         payeeId = Payee.maybeWrite("N.N")
     }

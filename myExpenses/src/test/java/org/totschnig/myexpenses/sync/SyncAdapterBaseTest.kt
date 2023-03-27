@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -19,9 +20,10 @@ open class SyncAdapterBaseTest {
         Mockito.mock(PrefHandler::class.java)
     )
     val syncDelegate = SyncDelegate(
-        currencyContext, Mockito.mock(
-            FeatureManager::class.java
-        ), repository
+        currencyContext = currencyContext,
+        featureManager = Mockito.mock(FeatureManager::class.java),
+        repository = repository,
+        homeCurrency = CurrencyUnit.DebugInstance
     )
 
     fun buildCreated(): TransactionChange.Builder {

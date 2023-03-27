@@ -49,12 +49,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMap
-import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getWifiIpAddress
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.io.IOException
 import java.lang.ref.WeakReference
 import java.net.ServerSocket
@@ -77,9 +75,6 @@ class WebInputService : LifecycleService(), IWebInputService {
     lateinit var prefHandler: PrefHandler
 
     @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
-
-    @Inject
     lateinit var currencyContext: CurrencyContext
 
     private lateinit var wrappedContext: Context
@@ -98,7 +93,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         super.onCreate()
         DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent)
             .build().inject(this)
-        wrappedContext = ContextHelper.wrap(this, userLocaleProvider.getUserPreferredLocale())
+        wrappedContext = (application as MyApplication).wrapContext(this)
     }
 
     override fun onBind(intent: Intent): IBinder {

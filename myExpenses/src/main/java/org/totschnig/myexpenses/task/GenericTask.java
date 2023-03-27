@@ -53,12 +53,10 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
    */
   @Override
   protected Object doInBackground(T... ids) {
-    Long transactionId;
     final MyApplication application = MyApplication.getInstance();
-    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
+    final Context context = application.getWrappedContext();
     ContentResolver cr = context.getContentResolver();
     ContentValues values;
-    Cursor c;
     switch (mTaskId) {
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);

@@ -60,12 +60,10 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
     private fun transactionsFlow(debt: Debt): Flow<List<Transaction>> {
         var runningTotal: Long = 0
         var runningEquivalentTotal: Long = 0
-        val homeCurrency = Utils.getHomeCurrency()
+        val homeCurrency = homeCurrencyProvider.homeCurrencyString
         val equivalentAmountColumn =
-            "CASE WHEN $KEY_CURRENCY = '${homeCurrency.code}' THEN $KEY_AMOUNT ELSE ${
-                getAmountHomeEquivalent(
-                    VIEW_EXTENDED
-                )
+            "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${
+                getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)
             } END"
         return contentResolver.observeQuery(
             uri = EXTENDED_URI,

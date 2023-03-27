@@ -27,6 +27,7 @@ import android.database.Cursor;
 import android.os.RemoteException;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -34,7 +35,6 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
 
 public class AccountTest extends ModelTest {
   public static final String TEST_CAT = "TestCat";
@@ -50,13 +50,10 @@ public class AccountTest extends ModelTest {
 
   private void insertData() {
     Transaction op;
-    account1 = new Account("Account 1", openingBalance, "Account 1");
-    account1.save();
-    account2 = new Account("Account 2", openingBalance, "Account 2");
-    account2.save();
+    account1 = buildAccount("Account 1", openingBalance);
+    account2 = buildAccount("Account 2", openingBalance);
     catId = writeCategory(TEST_CAT, null);
     op = Transaction.getNewInstance(account1);
-    assert op != null;
     op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
     op.setCrStatus(CrStatus.CLEARED);
     op.save();
@@ -77,23 +74,21 @@ public class AccountTest extends ModelTest {
   public void testAccount() throws RemoteException, OperationApplicationException {
     Account account, restored;
     long openingBalance = (long) 100;
-    account = new Account("TestAccount", openingBalance, "Testing with Junit");
-    account.setCurrency(CurrencyUnit.Companion.getDebugInstance());
+    account = new Account("TestAccount", CurrencyUnit.Companion.getDebugInstance(), openingBalance, AccountType.CASH);
     assertEquals("EUR", account.getCurrencyUnit().getCode());
-    account.save();
+    account.save(CurrencyUnit.Companion.getDebugInstance());
     assertTrue(account.getId() > 0);
     restored = Account.getInstanceFromDb(account.getId());
     assertEquals(account, restored);
     long trAmount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(account);
-    assert op1 != null;
     op1.setAmount(new Money(account.getCurrencyUnit(), trAmount));
     op1.setComment("test transaction");
     op1.save();
     assertEquals(account.getTotalBalance().getAmountMinor(), openingBalance + trAmount);
     Account.delete(account.getId());
     assertNull("Account deleted, but can still be retrieved", Account.getInstanceFromDb(account.getId()));
-    assertNull("Account delete should delete transaction, but operation can still be retrieved", Transaction.getInstanceFromDb(op1.getId()));
+    assertNull("Account delete should delete transaction, but operation can still be retrieved", getTransactionFromDb(op1.getId()));
   }
 
   /**
@@ -111,7 +106,6 @@ public class AccountTest extends ModelTest {
     );
 
     //the database setup creates the default account
-    assert cursor != null;
     insertData();
     cursor.close();
 
@@ -123,7 +117,6 @@ public class AccountTest extends ModelTest {
         null                        // use default the sort order
     );
 
-    assert cursor != null;
     assertEquals(2, cursor.getCount());
     cursor.close();
 
@@ -134,7 +127,6 @@ public class AccountTest extends ModelTest {
         null,                       // no selection criteria
         null                        // use default the sort order
     );
-    assert cursor != null;
     assertTrue(cursor.moveToFirst());
 
     // Since no projection was used, get the column indexes of the returned columns
@@ -156,7 +148,6 @@ public class AccountTest extends ModelTest {
         null                        // use default the sort order
     );
 
-    assert cursor != null;
     assertTrue(cursor.moveToFirst());
     assertEquals(0L, cursor.getLong(incomeIndex));
     assertEquals(0L, cursor.getLong(expensesIndex));
@@ -172,19 +163,17 @@ public class AccountTest extends ModelTest {
 
   public void testGetAggregateAccountFromDb() {
     insertData();
-    String currency = Utils.getHomeCurrency().getCode();
+    String currency = getHomeCurrency().getCode();
     Cursor c = getMockContentResolver().query(
         TransactionProvider.CURRENCIES_URI,
         new String[]{KEY_ROWID},
         KEY_CODE + " = ?",
         new String[]{currency},
         null);
-    assert c != null;
     c.moveToFirst();
     long id = -c.getLong(0);
     c.close();
     AggregateAccount aa = (AggregateAccount) Account.getInstanceFromDb(id);
-    assert aa != null;
     assertEquals(currency, aa.getCurrencyUnit().getCode());
     assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor());
   }

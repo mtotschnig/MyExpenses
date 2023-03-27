@@ -126,7 +126,7 @@ abstract class MainDelegate<T : ITransaction>(
                 viewBinding.EquivalentAmount,
                 showToUser = true,
                 ifPresent = true,
-                Utils.getHomeCurrency()
+                homeCurrency
             )
             equivalentAmount.onFailure {
                 return null
@@ -383,7 +383,7 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     private val applicableDebts: List<Debt>
-        get() = debts.filter { it.currency == currentAccount()?.currency || it.currency == Utils.getHomeCurrency() }
+        get() = debts.filter { it.currency == currentAccount()?.currency || it.currency == homeCurrency }
 
     private fun handleDebts() {
         applicableDebts.let { debts ->

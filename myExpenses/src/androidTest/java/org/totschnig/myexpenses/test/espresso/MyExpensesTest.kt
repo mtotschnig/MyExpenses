@@ -50,11 +50,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     lateinit var account: Account
     @Before
     fun fixture() {
-        account = Account(
-            "Test account 1", Utils.getHomeCurrency(), 0, "",
-            AccountType.CASH, Account.DEFAULT_COLOR
-        )
-        account.save()
+        account =  buildAccount("Test account 1")
         launch(account.id)
         Intents.init()
     }
@@ -228,10 +224,8 @@ class MyExpensesTest : BaseMyExpensesTest() {
     fun deleteCorrectAccount() {
         val label1 = "Konto A"
         val label2 = "Konto B"
-        val account1 = Account(label1, 0, "")
-        account1.save()
-        val account2 = Account(label2, 0, "")
-        account2.save()
+        val account1 = buildAccount(label1)
+        val account2 = buildAccount(label2)
 
         //we try to delete account 1
         openDrawer()

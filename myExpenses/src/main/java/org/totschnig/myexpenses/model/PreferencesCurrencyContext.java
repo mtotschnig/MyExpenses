@@ -1,15 +1,17 @@
 package org.totschnig.myexpenses.model;
 
+import androidx.annotation.NonNull;
+
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.util.Collections;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
+import javax.inject.Inject;
 
 public class PreferencesCurrencyContext implements CurrencyContext {
   /**
@@ -19,12 +21,12 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   private static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
   private static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
   final private PrefHandler prefHandler;
-  final private UserLocaleProvider userLocaleProvider;
+  final private MyApplication application;
   private static final Map<String, CurrencyUnit> INSTANCES = Collections.synchronizedMap(new HashMap<>());
 
-  public PreferencesCurrencyContext(PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
+  public PreferencesCurrencyContext(PrefHandler prefHandler, MyApplication application) {
     this.prefHandler = prefHandler;
-    this.userLocaleProvider = userLocaleProvider;
+    this.application = application;
   }
 
   @Override
@@ -60,7 +62,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
 
   public String getSymbol(@NonNull Currency currency) {
     String custom = getCustomSymbol(currency.getCurrencyCode());
-    return custom != null ? custom : currency.getSymbol(userLocaleProvider.getUserPreferredLocale());
+    return custom != null ? custom : currency.getSymbol(application.getUserPreferredLocale());
   }
 
   public int getFractionDigits(Currency currency) {

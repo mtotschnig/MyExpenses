@@ -1,12 +1,14 @@
 package org.totschnig.myexpenses
 
 import android.content.Context
+import androidx.core.os.ConfigurationCompat
 import androidx.test.platform.app.InstrumentationRegistry
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.AppModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.di.UiModule
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.Fixture
 import org.totschnig.myexpenses.testutils.MockLicenceModule
@@ -16,8 +18,8 @@ import org.totschnig.myexpenses.testutils.TestFeatureModule
 import org.totschnig.myexpenses.testutils.TestViewModelModule
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import org.totschnig.myexpenses.util.locale.UserLocaleProviderImpl
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProviderImpl
 import java.util.*
 
 class TestApp : MyApplication() {
@@ -27,7 +29,7 @@ class TestApp : MyApplication() {
         fixture = Fixture(InstrumentationRegistry.getInstrumentation())
     }
 
-    override fun buildAppComponent(systemLocale: Locale): AppComponent = DaggerAppComponent.builder()
+    override fun buildAppComponent(): AppComponent = DaggerAppComponent.builder()
         .coroutineModule(TestCoroutineModule)
         .viewModelModule(TestViewModelModule)
         .dataModule(TestDataModule)
@@ -41,19 +43,20 @@ class TestApp : MyApplication() {
         })
         .licenceModule(MockLicenceModule())
         .applicationContext(this)
-        .systemLocale(systemLocale)
         .appmodule(object : AppModule() {
-            override fun provideUserLocaleProvider(
+            override fun provideHomeCurrencyProvider(
                 prefHandler: PrefHandler,
-                systemLocale: Locale
-            ): UserLocaleProvider {
-                return object: UserLocaleProviderImpl(prefHandler, systemLocale) {
-                    override fun getLocalCurrency(context: Context): Currency {
-                        val locale = context.resources.configuration.locale
+                context: Context,
+                currencyContext: CurrencyContext
+            ) = object : HomeCurrencyProviderImpl(prefHandler, context, currencyContext) {
+                override val localCurrency: Currency
+                    get() {
+                        val locale =
+                            ConfigurationCompat.getLocales(context.resources.configuration)
+                                .get(0)!!
                         return if (locale.country == "VI") Currency.getInstance("VND") else
                             Currency.getInstance(locale)
                     }
-                }
             }
         })
         .build()

@@ -151,7 +151,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
   @Override
   protected Result doInBackground(Void... ignored) {
     final MyApplication application = MyApplication.getInstance();
-    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
+    final Context context = application.getWrappedContext();
     Result<Pair<CategoryTree, ArrayList<String>>> r = parseXML();
     if (!r.isSuccess()) {
       return r;

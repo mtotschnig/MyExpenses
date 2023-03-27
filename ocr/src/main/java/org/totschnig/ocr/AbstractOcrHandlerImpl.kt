@@ -1,10 +1,10 @@
 package org.totschnig.ocr
 
-import android.content.Context
 import android.graphics.Rect
 import android.text.TextUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.OcrResult
@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -24,25 +23,31 @@ import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.absoluteValue
 
-abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrHandler {
+@Suppress("CanBeParameter")
+abstract class AbstractOcrHandlerImpl(@Suppress("MemberVisibilityCanBePrivate") val prefHandler: PrefHandler, private val application: MyApplication) : OcrHandler {
     private val numberFormatList: List<NumberFormat>
     private val dateFormatterList: List<DateTimeFormatter>
     private val timeFormatterList: List<DateTimeFormatter>
     private val totalIndicators: List<String>
 
+
+    val locale: Locale
+        get() = application.userPreferredLocale
+
+
     init {
         numberFormatList = mutableListOf<NumberFormat>().apply {
-            val userFormat = NumberFormat.getInstance(userLocaleProvider.systemLocale)
+            val userFormat = NumberFormat.getInstance(locale)
             add(userFormat)
             val rootFormat = NumberFormat.getInstance(Locale.ROOT)
             if (rootFormat != userFormat) {
                 add(rootFormat)
             }
         }
-        val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(userLocaleProvider.systemLocale) }
+        val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(locale) }
         dateFormatterList = prefHandler.getString(PrefKey.OCR_DATE_FORMATS, null)?.lines()?.mapNotNull {
             try {
-                DateTimeFormatter.ofPattern(it, userLocaleProvider.systemLocale)
+                DateTimeFormatter.ofPattern(it, locale)
             } catch (e: Exception) {
                 null
             }
@@ -52,7 +57,7 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
                 .map(withSystemLocale)
         timeFormatterList = prefHandler.getString(PrefKey.OCR_TIME_FORMATS, null)?.lines()?.mapNotNull {
             try {
-                DateTimeFormatter.ofPattern(it, userLocaleProvider.systemLocale)
+                DateTimeFormatter.ofPattern(it, locale)
             } catch (e: Exception) {
                 null
             }
@@ -61,7 +66,7 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
                 DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM))
                 .map(withSystemLocale)
         totalIndicators = (prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, null).takeIf { !TextUtils.isEmpty(it) }
-                ?: context.getString(R.string.pref_ocr_total_indicators_default)).lines()
+                ?: application.wrappedContext.getString(R.string.pref_ocr_total_indicators_default)).lines()
     }
 
     private fun Rect?.bOr0() = this?.bottom ?: 0
@@ -71,7 +76,7 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
 
     suspend fun queryPayees() = withContext(Dispatchers.Default) {
         buildList {
-            context.contentResolver.query(TransactionProvider.PAYEES_URI,
+            application.contentResolver.query(TransactionProvider.PAYEES_URI,
                     arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
                     null, null, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {

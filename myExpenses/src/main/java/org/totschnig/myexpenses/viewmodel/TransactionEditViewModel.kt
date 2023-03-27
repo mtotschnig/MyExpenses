@@ -5,21 +5,12 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
@@ -27,21 +18,10 @@ import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.FULL_LABEL
-import org.totschnig.myexpenses.provider.ProviderUtils
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongIfExists
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringIfExists
-import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.provider.splitStringList
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -165,7 +145,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
         val minorUnitDelta: Int =
-            currencyUnit.fractionDigits - Utils.getHomeCurrency().fractionDigits
+            currencyUnit.fractionDigits - homeCurrencyProvider.homeCurrencyUnit.fractionDigits
         return raw * 10.0.pow(minorUnitDelta.toDouble())
     }
 
@@ -289,7 +269,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(
                 transactionId
             )
-            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId)
+            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId, homeCurrencyProvider.homeCurrencyUnit)
             InstantiationTask.FROM_INTENT_EXTRAS -> Pair(
                 ProviderUtils.buildFromExtras(
                     repository,
@@ -298,7 +278,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(
                 Transaction.getInstanceFromDb(
-                    transactionId
+                    transactionId, homeCurrencyProvider.homeCurrencyUnit
                 )
             ) {
                 Pair(Template(this, payee ?: label), this.loadTags())

@@ -22,7 +22,9 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CrStatus;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
@@ -47,15 +49,16 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    mAccount1 = new Account("TestAccount 1", 100, "Main account");
+    CurrencyUnit currencyUnit = CurrencyUnit.Companion.getDebugInstance();
+    mAccount1 = new Account("TestAccount 1", currencyUnit, 100, AccountType.CASH);
     mAccount1.setSyncAccountName("DEBUG");
-    mAccount1.save();
-    mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
+    mAccount1.save(currencyUnit);
+    mAccount2 = new Account("TestAccount 2", currencyUnit, 100, AccountType.CASH);
     mAccount2.setSyncAccountName("DEBUG");
-    mAccount2.save();
-    mAccount3 = new Account("TestAccount 3", 100, "Secondary account");
+    mAccount2.save(currencyUnit);
+    mAccount3 = new Account("TestAccount 3", currencyUnit, 100, AccountType.CASH);
     mAccount3.setSyncAccountName("DEBUG");
-    mAccount3.save();
+    mAccount3.save(currencyUnit);
     ContentValues values = new ContentValues(1);
     values.put(DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL, 1);
     MoreDbUtilsKt.update(getProvider().getOpenHelperForTest().getWritableDatabase(), DatabaseConstants.TABLE_ACCOUNTS, values, null, null);
@@ -75,14 +78,14 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     assertEquals(start  + 1, Transaction.getSequenceCount().longValue());
     //save creates a payee as side effect
     assertEquals(1, countPayee(payee));
-    Transaction restored = Transaction.getInstanceFromDb(op1.getId());
+    Transaction restored = getTransactionFromDb(op1.getId());
     assertEquals(op1, restored);
 
     Long id = op1.getId();
     Transaction.delete(id, false);
     //Transaction sequence should report on the number of transactions that have been created
     assertEquals(start  + 1, Transaction.getSequenceCount().longValue());
-    assertNull("Transaction deleted, but can still be retrieved", Transaction.getInstanceFromDb(id));
+    assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(id));
     op1.saveAsNew();
     assertNotSame(op1.getId(), id);
     //the payee is still the same, so there should still be only one
@@ -97,16 +100,16 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     op.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
     op.save();
     assertTrue(op.getId() > 0);
-    Transaction restored = Transaction.getInstanceFromDb(op.getId());
+    Transaction restored = getTransactionFromDb(op.getId());
     assertEquals(op, restored);
-    peer = (Transfer) Transaction.getInstanceFromDb(op.getTransferPeer());
+    peer = (Transfer) getTransactionFromDb(op.getTransferPeer());
     assert peer != null;
     assertEquals(peer.getId(), op.getTransferPeer().longValue());
     assertEquals(op.getId(), peer.getTransferPeer().longValue());
     assertEquals(op.getTransferAccountId().longValue(), peer.getAccountId());
     Transaction.delete(op.getId(), false);
-    assertNull("Transaction deleted, but can still be retrieved", Transaction.getInstanceFromDb(op.getId()));
-    assertNull("Transfer delete should delete peer, but peer can still be retrieved", Transaction.getInstanceFromDb(peer.getId()));
+    assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op.getId()));
+    assertNull("Transfer delete should delete peer, but peer can still be retrieved", getTransactionFromDb(peer.getId()));
   }
 
   public void testTransferChangeAccounts() {
@@ -117,11 +120,11 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     op.setAccountId(mAccount2.getId());
     op.setTransferAccountId(mAccount3.getId());
     assertNotNull(op.save());
-    Transaction restored = Transaction.getInstanceFromDb(op.getId());
+    Transaction restored = getTransactionFromDb(op.getId());
     assertEquals(restored.getAccountId(), mAccount2.getId());
     assertEquals(restored.getTransferAccountId().longValue(), mAccount3.getId());
     assertEquals(restored.getUuid(), op.getUuid());
-    Transaction peer = Transaction.getInstanceFromDb(op.getTransferPeer());
+    Transaction peer = getTransactionFromDb(op.getTransferPeer());
     assertEquals(peer.getAccountId(), mAccount3.getId());
     assertEquals(peer.getTransferAccountId().longValue(), mAccount2.getId());
     assertEquals(peer.getUuid(), op.getUuid());
@@ -153,20 +156,20 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     assertTrue(split2.getId() > 0);
     op1.save();
     //we expect the parent to make sure that parts have the same date
-    Transaction restored = Transaction.getInstanceFromDb(op1.getId());
+    Transaction restored = getTransactionFromDb(op1.getId());
     assertEquals(op1, restored);
     assert restored != null;
-    Transaction split1Restored = Transaction.getInstanceFromDb(split1.getId());
+    Transaction split1Restored = getTransactionFromDb(split1.getId());
     assert split1Restored != null;
     assertEquals(restored.getDate(), split1Restored.getDate());
-    Transaction split2Restored = Transaction.getInstanceFromDb(split2.getId());
+    Transaction split2Restored = getTransactionFromDb(split2.getId());
     assert split2Restored != null;
     assertEquals(restored.getDate(), split2Restored.getDate());
     restored.setCrStatus(CrStatus.CLEARED);
     restored.save();
     //splits should not be touched by simply saving the parent
-    assertNotNull("Split parts deleted after saving parent", Transaction.getInstanceFromDb(split1.getId()));
-    assertNotNull("Split parts deleted after saving parent", Transaction.getInstanceFromDb(split2.getId()));
+    assertNotNull("Split parts deleted after saving parent", getTransactionFromDb(split1.getId()));
+    assertNotNull("Split parts deleted after saving parent", getTransactionFromDb(split2.getId()));
   }
 
   public void testDeleteSplitWithPartTransfer() {
@@ -177,7 +180,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transaction split1 = new Transfer(mAccount1.getId(), money, mAccount2.getId(), op1.getId());
     split1.save();
     Transaction.delete(op1.getId(), false);
-    assertNull("Transaction deleted, but can still be retrieved", Transaction.getInstanceFromDb(op1.getId()));
+    assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op1.getId()));
   }
 
   public void testIncreaseCatUsage() {

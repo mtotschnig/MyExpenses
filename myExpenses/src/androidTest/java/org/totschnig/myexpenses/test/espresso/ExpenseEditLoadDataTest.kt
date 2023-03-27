@@ -38,7 +38,6 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
         Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
     )
-    private lateinit var currency: CurrencyUnit
     private lateinit var foreignCurrency: CurrencyUnit
     private lateinit var account1: Account
     private lateinit var account2: Account
@@ -48,20 +47,16 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Before
     fun fixture() {
         //IdlingRegistry.getInstance().register(getIdlingResource());
-        currency = CurrencyUnit(Currency.getInstance("EUR"))
         foreignCurrency = CurrencyUnit(Currency.getInstance("USD"))
-        account1 =
-            Account("Test account 1", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
-        account1.save()
-        account2 =
-            Account("Test account 2", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
-        account2.save()
+        account1 = buildAccount("Test account 1")
+        account2 = buildAccount("Test account 2")
+        account2.save(homeCurrency)
         transaction = Transaction.getNewInstance(account1).apply {
-            amount = Money(currency, 500L)
+            amount = Money(homeCurrency, 500L)
             save()
         }
         transfer = Transfer.getNewInstance(account1, account2.id).apply {
-            setAmount(Money(currency, -600L))
+            setAmount(Money(homeCurrency, -600L))
             save()
         }
     }
@@ -94,7 +89,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             val uuid = transaction.uuid
             val status = transaction.status
             closeKeyboardAndSave()
-            val t = Transaction.getInstanceFromDb(transaction.id)
+            val t = getTransactionFromDb(transaction.id)
             Assertions.assertThat(t.status).isEqualTo(status)
             Assertions.assertThat(t.uuid).isEqualTo(uuid)
         }
@@ -111,10 +106,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             AccountType.CASH,
             Account.DEFAULT_COLOR
         )
-        foreignAccount.save()
+        foreignAccount.save(homeCurrency)
         val foreignTransfer = Transfer.getNewInstance(account1, foreignAccount.id)
         foreignTransfer.setAmountAndTransferAmount(
-            Money(currency, 100L), Money(
+            Money(homeCurrency, 100L), Money(
                 foreignCurrency, 200L
             )
         )
@@ -354,7 +349,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             null
         )
         plan!!.title = "Daily plan"
-        plan.amount = Money(currency, 700L)
+        plan.amount = Money(homeCurrency, 700L)
         plan.plan = Plan(
             LocalDate.now(),
             Plan.Recurrence.DAILY,
@@ -395,7 +390,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             null
         )
         template!!.title = "Nothing but a plan"
-        template.amount = Money(currency, 800L)
+        template.amount = Money(homeCurrency, 800L)
         template.save()
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
@@ -454,11 +449,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     @Throws(Exception::class)
     fun shouldNotEditSealed() {
-        val sealedAccount =
-            Account("Sealed account", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
-        sealedAccount.save()
+        val sealedAccount = buildAccount("Sealed account")
         val sealed = Transaction.getNewInstance(sealedAccount)
-        sealed.amount = Money(currency, 500L)
+        sealed.amount = Money(homeCurrency, 500L)
         sealed.save()
         val values = ContentValues(1)
         values.put(DatabaseConstants.KEY_SEALED, true)

@@ -35,11 +35,7 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         catLabel1Sub = "Sub category 1"
         catLabel2 = "Test category 2"
         val currency = DebugInstance
-        val account = Account(
-            "Test account 1", currency, 0, "",
-            AccountType.CASH, Account.DEFAULT_COLOR
-        )
-        account.save()
+        val account =  buildAccount("Test account 1")
         val categoryId1 = writeCategory(catLabel1)
         val categoryId1Sub = writeCategory(catLabel1Sub, categoryId1)
         val categoryId2 = writeCategory(catLabel2)

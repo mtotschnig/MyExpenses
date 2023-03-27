@@ -35,12 +35,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private lateinit var account: Account
     @Before
     fun fixture() {
-        val home = Utils.getHomeCurrency()
-        account = Account(
-            "Test account 1", home, 0, "",
-            AccountType.CASH, Account.DEFAULT_COLOR
-        )
-        account.save()
+        val home = homeCurrency
+        account = buildAccount("Test account 1")
         val op0 = Transaction.getNewInstance(account)
         op0.amount = Money(home, -100L)
         op0.save()

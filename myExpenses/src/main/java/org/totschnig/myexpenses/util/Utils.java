@@ -63,7 +63,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -118,32 +118,8 @@ public class Utils {
     return null;
   }
 
-  public static CurrencyUnit getHomeCurrency() {
-    //TODO provide home currency in a cleaner way
-    final MyApplication context = MyApplication.getInstance();
-    AppComponent appComponent = context.getAppComponent();
-    return getHomeCurrency(context,
-            appComponent.prefHandler(),
-            appComponent.currencyContext(),
-            appComponent.userLocaleProvider()
-            );
-  }
-
-  public static CurrencyUnit getHomeCurrency(Context context,
-                                             PrefHandler prefHandler,
-                                             CurrencyContext currencyContext,
-                                             UserLocaleProvider userLocaleProvider
-                                             ) {
-    return currencyContext.get(getHomeCurrency(context, prefHandler, userLocaleProvider));
-  }
-
-  public static String getHomeCurrency(Context context, PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
-    String home = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
-    return home != null ? home : userLocaleProvider.getLocalCurrency(context).getCurrencyCode();
-  }
-
-  public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit) {
-    int minorUnitDelta = currencyUnit.getFractionDigits() - Utils.getHomeCurrency().getFractionDigits();
+  public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
+    int minorUnitDelta = currencyUnit.getFractionDigits() - homeCurrency.getFractionDigits();
     return raw * Math.pow(10, minorUnitDelta);
   }
 
@@ -243,7 +219,7 @@ public class Utils {
   @NonNull
   public static Currency getSaveDefault() {
     try {
-      return Currency.getInstance(MyApplication.getInstance().getSystemLocale());
+      return Currency.getInstance(Locale.getDefault());
     } catch (NullPointerException | IllegalArgumentException ex) {
       return Currency.getInstance(new Locale("en", "US"));
     }
@@ -481,8 +457,8 @@ public class Utils {
     return new GregorianCalendar(locale).getFirstDayOfWeek();
   }
 
-  public static int getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale locale) {
-    String weekStartsOn = PrefKey.GROUP_WEEK_STARTS.getString("-1");
+  public static int getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale locale, PrefHandler prefHandler) {
+    String weekStartsOn = prefHandler.requireString(PrefKey.GROUP_WEEK_STARTS,"-1");
     return weekStartsOn.equals("-1") ? Utils.getFirstDayOfWeek(locale) :
         Integer.parseInt(weekStartsOn);
   }

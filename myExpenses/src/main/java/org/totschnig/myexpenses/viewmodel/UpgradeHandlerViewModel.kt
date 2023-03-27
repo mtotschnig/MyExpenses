@@ -6,15 +6,19 @@ import android.content.ContentValues
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
@@ -32,7 +36,6 @@ import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.validateDateFormat
@@ -143,8 +146,9 @@ class UpgradeHandlerViewModel(application: Application) :
                 prefHandler.remove(PrefKey.AUTO_FILL_LEGACY)
             }
             if (fromVersion < 316) {
-                prefHandler.putString(PrefKey.HOME_CURRENCY, Utils.getHomeCurrency().code)
-                getApplication<MyApplication>().invalidateHomeCurrency()
+                val homeCurrency = homeCurrencyProvider.homeCurrencyString
+                prefHandler.putString(PrefKey.HOME_CURRENCY, homeCurrency)
+                getApplication<MyApplication>().invalidateHomeCurrency(homeCurrency)
             }
 
             if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication()).isNotEmpty()) {
@@ -419,6 +423,18 @@ class UpgradeHandlerViewModel(application: Application) :
             if (fromVersion < 586) {
                 crashHandler.setEnabled(prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, false))
                 tracker.setEnabled(prefHandler.getBoolean(PrefKey.TRACKING, false))
+            }
+            if (fromVersion < 604) {
+                prefHandler.getString(PrefKey.UI_LANGUAGE)
+                    .takeIf { it != MyApplication.DEFAULT_LANGUAGE }
+                    ?.let {
+                        withContext(Dispatchers.Main)  {
+                            AppCompatDelegate.setApplicationLocales(
+                                LocaleListCompat.forLanguageTags(it)
+                            )
+                        }
+                    }
+                prefHandler.remove(PrefKey.UI_LANGUAGE)
             }
 
             if (upgradeInfoList.isNotEmpty()) {

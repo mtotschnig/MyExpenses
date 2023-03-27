@@ -56,7 +56,7 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
   protected Result<Uri> doInBackground(Void... ignored) {
     Account account;
     final MyApplication application = MyApplication.getInstance();
-    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
+    final Context context = application.getWrappedContext();
     DocumentFile appDir = AppDirHelper.getAppDir(application);
     if (appDir == null) {
       return Result.ofFailure(R.string.external_storage_unavailable);

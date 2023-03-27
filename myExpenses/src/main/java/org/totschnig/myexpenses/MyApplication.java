@@ -51,7 +51,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
-import androidx.preference.PreferenceManager;
 
 import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
@@ -82,7 +81,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
@@ -109,8 +107,6 @@ public class MyApplication extends Application implements
   @Inject
   PrefHandler prefHandler;
   @Inject
-  UserLocaleProvider userLocaleProvider;
-  @Inject
   SharedPreferences mSettings;
 
   @Inject
@@ -130,6 +126,35 @@ public class MyApplication extends Application implements
   private long mLastPause = 0;
 
   private boolean isLocked;
+
+
+  @Nullable
+  private Locale _userPreferredLocale = null;
+
+  public Locale getUserPreferredLocale() {
+    if (_userPreferredLocale != null) {
+      return _userPreferredLocale;
+    }
+    return Locale.getDefault();
+  }
+
+  /**
+   * We would not need this, if <a href="https://issuetracker.google.com/issues/243457462">243457462</a> were fixed
+   */
+  public void setUserPreferredLocale(@Nullable Locale locale) {
+    _userPreferredLocale = locale;
+  }
+
+  public Context getWrappedContext() {
+    return wrapContext(this);
+  }
+
+  public Context wrapContext(Context context) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && _userPreferredLocale != null) {
+      return ContextHelper.wrap(context, _userPreferredLocale);
+    }
+    return context;
+  }
 
   public AppComponent getAppComponent() {
     return appComponent;
@@ -209,24 +234,16 @@ public class MyApplication extends Application implements
   @Override
   protected void attachBaseContext(Context base) {
     mSelf = this;
-    //we cannot use the standard way of reading preferences, since this works only after base context
-    //has been attached
-    final Locale systemLocale = Locale.getDefault();
     super.attachBaseContext(base);
-    appComponent = buildAppComponent(systemLocale);
+    appComponent = buildAppComponent();
     appComponent.inject(this);
     featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
-    DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
-    final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
-        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
-    Transaction.buildProjection(wrapped);
   }
 
   @NonNull
-  protected AppComponent buildAppComponent(Locale systemLocale) {
+  protected AppComponent buildAppComponent() {
     return DaggerAppComponent.builder()
-        .systemLocale(systemLocale)
         .applicationContext(this)
         .build();
   }
@@ -255,10 +272,6 @@ public class MyApplication extends Application implements
     return mSelf;
   }
 
-  public Locale getSystemLocale() {
-    return userLocaleProvider.getSystemLocale();
-  }
-
   @Deprecated
   public SharedPreferences getSettings() {
     return mSettings;
@@ -271,7 +284,6 @@ public class MyApplication extends Application implements
   @Override
   public void onConfigurationChanged(@NonNull Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    userLocaleProvider.setSystemLocale(newConfig.locale);
     AbstractWidgetKt.onConfigurationChanged(this);
   }
 
@@ -552,9 +564,6 @@ public class MyApplication extends Application implements
     if (!key.equals(prefHandler.getKey(PrefKey.AUTO_BACKUP_DIRTY))) {
       markDataDirty();
     }
-    if (key.equals(prefHandler.getKey(PrefKey.UI_LANGUAGE))) {
-      userLocaleProvider.invalidate();
-    }
     if (key.equals(prefHandler.getKey(DEBUG_LOGGING))) {
       setupLogging();
     }
@@ -771,11 +780,10 @@ public class MyApplication extends Application implements
     StrictMode.setVmPolicy(vmPolicyBuilder.build());
   }
 
-  public void invalidateHomeCurrency() {
+  public void invalidateHomeCurrency(String newValue) {
     currencyContext.invalidateHomeCurrency();
     currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
-    Transaction.buildProjection(this);
-    Account.buildProjection();
+    DatabaseConstants.buildProjection(this, newValue);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 }

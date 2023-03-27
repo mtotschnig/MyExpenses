@@ -15,8 +15,16 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
+
+import android.content.Context;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
+import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -46,12 +54,24 @@ public class DatabaseConstants {
   //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
   private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
 
+  private static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTION_EXTENDED_HOME;
+
   private DatabaseConstants() {
   }
 
-  public static void buildLocalized(Locale locale) {
-    weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale);
-    monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
+  public static void buildLocalized(Locale locale, MyApplication myApplication) {
+    AppComponent appComponent = myApplication.getAppComponent();
+    buildLocalized(
+            locale,
+            myApplication,
+            appComponent.prefHandler(),
+            appComponent.homeCurrencyProvider().getHomeCurrencyString()
+    );
+  }
+
+  public static void buildLocalized(Locale locale, Context context, PrefHandler prefHandler, String homeCurrency) {
+    weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale, prefHandler);
+    monthStartsOn = Integer.parseInt(prefHandler.requireString(PrefKey.GROUP_MONTH_STARTS,"1"));
     int monthDelta = monthStartsOn - 1;
     int nextWeekEndSqlite;
     int nextWeekStartsSqlite = weekStartsOn - 1; //Sqlite starts with Sunday = 0
@@ -77,12 +97,74 @@ public class DatabaseConstants {
         "' ,'+%d day','utc')";
     WEEK_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ",'weekday " + nextWeekEndSqlite + "', '-6 day')";
     WEEK_MAX= "CAST((strftime('%%j','%d-12-31','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)";
+    buildProjection(context, homeCurrency);
     isLocalized = true;
   }
 
+  public static void buildProjection(Context context, String homeCurrency) {
+    PROJECTION_BASE = new String[]{
+            KEY_ROWID,
+            KEY_DATE,
+            KEY_VALUE_DATE,
+            KEY_AMOUNT,
+            KEY_COMMENT,
+            KEY_CATID,
+            FULL_LABEL,
+            KEY_PAYEE_NAME,
+            KEY_TRANSFER_PEER,
+            KEY_TRANSFER_ACCOUNT,
+            KEY_METHODID,
+            PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
+            KEY_CR_STATUS,
+            KEY_REFERENCE_NUMBER,
+            KEY_PICTURE_URI,
+            YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
+            YEAR_OF_MONTH_START + " AS " + KEY_YEAR_OF_MONTH_START,
+            YEAR + " AS " + KEY_YEAR,
+            MONTH + " AS " + KEY_MONTH,
+            WEEK + " AS " + KEY_WEEK,
+            DAY + " AS " + KEY_DAY,
+            THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+            THIS_YEAR_OF_MONTH_START + " AS " + KEY_THIS_YEAR_OF_MONTH_START,
+            THIS_YEAR + " AS " + KEY_THIS_YEAR,
+            THIS_WEEK + " AS " + KEY_THIS_WEEK,
+            THIS_DAY + " AS " + KEY_THIS_DAY,
+            WEEK_START + " AS " + KEY_WEEK_START,
+            WEEK_END + " AS " + KEY_WEEK_END
+    };
+
+    //extended
+    int baseLength = PROJECTION_BASE.length;
+    PROJECTION_EXTENDED = new String[baseLength + 7];
+    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
+    PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
+    //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
+    //thus can not be used in PROJECTION_BASE
+    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS " + KEY_TRANSFER_PEER_PARENT;
+    PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
+    PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
+    PROJECTION_EXTENDED[baseLength + 4] = KEY_ACCOUNT_TYPE;
+    PROJECTION_EXTENDED[baseLength + 5] = KEY_TAGLIST;
+    PROJECTION_EXTENDED[baseLength + 6] = KEY_PARENTID;
+
+    //extended for aggregate include is_same_currecny
+    int extendedLength = PROJECTION_EXTENDED.length;
+    PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 2];
+    System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_EXTENDED_AGGREGATE, 0, extendedLength);
+    PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
+    PROJECTION_EXTENDED_AGGREGATE[extendedLength + 1] = KEY_ACCOUNTID;
+
+    int aggregateLength = PROJECTION_EXTENDED_AGGREGATE.length;
+    PROJECTION_EXTENDED_HOME = new String[aggregateLength + 2];
+    System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTION_EXTENDED_HOME, 0, aggregateLength);
+    PROJECTION_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
+    PROJECTION_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED, homeCurrency) + " AS " + KEY_EQUIVALENT_AMOUNT;
+  }
+
+
   private static void ensureLocalized() {
     if (!isLocalized) {
-      throw new IllegalStateException();
+      buildLocalized(Locale.getDefault(), MyApplication.getInstance());
     }
   }
 
@@ -469,9 +551,29 @@ public class DatabaseConstants {
     return WEEK_MAX;
   }
 
-  public static String getAmountHomeEquivalent(String forTable) {
+  public static String[] getProjectionBase() {
+    ensureLocalized();
+    return PROJECTION_BASE;
+  }
+
+  public static String[] getProjectionExtended() {
+    ensureLocalized();
+    return PROJECTION_EXTENDED;
+  }
+  public static String[] getProjectionExtendedAggregate() {
+    ensureLocalized();
+    return PROJECTION_EXTENDED_AGGREGATE;
+  }
+
+  public static String[] getProjectionExtendedHome() {
+    ensureLocalized();
+    return PROJECTION_EXTENDED_HOME;
+  }
+
+
+  public static String getAmountHomeEquivalent(String forTable, String homeCurrency) {
     return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
-        getExchangeRate(forTable, KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+        getExchangeRate(forTable, KEY_ACCOUNTID, homeCurrency) + " * " + KEY_AMOUNT + ")";
   }
 
   private static String calcEquivalentAmountForSplitParts(String forTable) {
@@ -483,29 +585,29 @@ public class DatabaseConstants {
         + KEY_EQUIVALENT_AMOUNT + " END";
   }
 
-  public static String getExchangeRate(String forTable, String accountIdColumn) {
+  public static String getExchangeRate(String forTable, String accountIdColumn, String homeCurrency) {
     final String accountReference = forTable  + "."+ accountIdColumn;
     return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
-        " AND " + KEY_CURRENCY_SELF + "=" + forTable + "." + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
+        " AND " + KEY_CURRENCY_SELF + "=" + forTable + "." + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1)";
   }
 
-  private static String getAmountCalculation(boolean forHome) {
-    return forHome ? getAmountHomeEquivalent(VIEW_WITH_ACCOUNT) : KEY_AMOUNT;
+  private static String getAmountCalculation(String homeCurrency) {
+    return homeCurrency != null ? getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) : KEY_AMOUNT;
   }
 
-  static String getInAggregate(boolean forHome, String aggregateFunction) {
+  static String getInAggregate(String forHome, String aggregateFunction) {
     return aggregateFunction + "(CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   }
 
-  static String getIncomeAggregate(boolean forHome, String aggregateFunction) {
+  static String getIncomeAggregate(String forHome, String aggregateFunction) {
     return aggregateFunction + "(CASE WHEN " + WHERE_INCOME + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   }
 
-  static String getOutAggregate(boolean forHome, String aggregateFunction) {
+  static String getOutAggregate(String forHome, String aggregateFunction) {
     return aggregateFunction + "(CASE WHEN " + WHERE_OUT + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
   }
 
-  static String getExpenseAggregate(boolean forHome, String aggregateFunction) {
+  static String getExpenseAggregate(String forHome, String aggregateFunction) {
     return aggregateFunction + "(CASE WHEN " + WHERE_EXPENSE + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
   }
 }

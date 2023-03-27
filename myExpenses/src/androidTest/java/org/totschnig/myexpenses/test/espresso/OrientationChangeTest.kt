@@ -41,7 +41,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
             "",
             AccountType.BANK,
             Account.DEFAULT_COLOR
-        ).apply { save() }
+        ).apply { save(homeCurrency) }
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         account2 = Account(
             accountLabel2,
@@ -50,7 +50,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
             "",
             AccountType.CASH,
             Account.DEFAULT_COLOR
-        ).apply { save() }
+        ).apply { save(homeCurrency) }
     }
 
     @Test

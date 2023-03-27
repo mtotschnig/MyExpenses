@@ -17,7 +17,6 @@ class ExchangeRateServiceTest {
         .networkModule(object: NetworkModule() {
             override fun provideSocketFactory() = SocketFactory.getDefault()
         })
-        .systemLocale(Locale.ROOT)
         .applicationContext(mock(MyApplication::class.java))
         .build().exchangeRateService()
     private val date = LocalDate.now()

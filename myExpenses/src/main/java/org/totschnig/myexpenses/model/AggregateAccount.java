@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,7 @@ public class AggregateAccount extends Account {
    * @param c Cursor positioned at the row we want to extract into the object
    */
   AggregateAccount(Cursor c) {
-    extract(c);
+    super(c);
     if (isHomeAggregate()) {
       try {
         //TODO refactor
@@ -80,7 +81,7 @@ public class AggregateAccount extends Account {
 
   @Override
   public String[] getExtendedProjectionForTransactionList() {
-    return isHomeAggregate() ? Transaction.PROJECTION_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
+    return isHomeAggregate() ? DatabaseConstants.getProjectionExtendedHome() : DatabaseConstants.getProjectionExtendedAggregate();
   }
 
   @Override

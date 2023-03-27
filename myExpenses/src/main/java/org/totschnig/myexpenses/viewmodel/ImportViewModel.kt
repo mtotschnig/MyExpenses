@@ -46,7 +46,7 @@ open class ImportViewModel(application: Application, val savedStateHandle: Saved
                     add(
                         Account(
                             0, getString(R.string.menu_create_account),
-                            Utils.getHomeCurrency().code,
+                            homeCurrencyProvider.homeCurrencyString,
                             AccountType.CASH
                         )
                     )

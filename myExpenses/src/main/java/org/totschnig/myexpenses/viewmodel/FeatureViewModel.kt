@@ -38,8 +38,8 @@ class FeatureViewModel(application: Application) : AndroidViewModel(application)
                 postAsEvent(FeatureState.Error(throwable))
             }
 
-            override fun onLanguageAvailable() {
-                postAsEvent(FeatureState.LanguageAvailable)
+            override fun onLanguageAvailable(language: String) {
+                postAsEvent(FeatureState.LanguageAvailable(language))
             }
 
         })
@@ -54,7 +54,7 @@ class FeatureViewModel(application: Application) : AndroidViewModel(application)
         class FeatureLoading(val feature: Feature) : FeatureState()
         class LanguageLoading(val language: String) : FeatureState()
         class FeatureAvailable(val modules: List<String>) : FeatureState()
-        object LanguageAvailable : FeatureState()
+        class LanguageAvailable(val language: String) : FeatureState()
     }
 
     private val featureState = MutableLiveData<Event<FeatureState>>()

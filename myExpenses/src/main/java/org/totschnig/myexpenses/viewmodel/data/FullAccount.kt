@@ -153,7 +153,7 @@ data class PageAccount(
     }
 
     //Tuple4 of Uri / projection / selection / selectionArgs
-    fun loadingInfo(): Tuple4<Uri, Array<String>, String, Array<String>?> {
+    fun loadingInfo(homeCurrency: String): Tuple4<Uri, Array<String>, String, Array<String>?> {
         val builder = Transaction.EXTENDED_URI.buildUpon()
             .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT)
         if (id < 0) {
@@ -164,7 +164,7 @@ data class PageAccount(
         val projection = when {
             !isAggregate -> Transaction2.projection(grouping)
             isHomeAggregate -> Transaction2.projection(grouping) +
-                    Transaction2.additionalAggregateColumns + Transaction2.additionGrandTotalColumns
+                    Transaction2.additionalAggregateColumns + Transaction2.getAdditionGrandTotalColumns(homeCurrency)
             else -> Transaction2.projection(grouping) + Transaction2.additionalAggregateColumns
         }
         return Tuple4(uri, projection, selection, selectionArgs)

@@ -14,8 +14,10 @@ import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.di.ViewModelModule
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
@@ -41,6 +43,8 @@ class DecoratingMyExpensesViewModel(application: Application,
             getApplication(),
             account,
             filterPersistence.getValue(account.id).whereFilterAsFlow,
+            homeCurrencyProvider,
+            currencyContext,
             viewModelScope,
             countingResource
         )
@@ -75,10 +79,20 @@ class FakeSyncBackendViewModel(application: Application) :
 
 class DecoratedTransactionPagingSource(
     context: Context,
-    account: PageAccount, whereFilter: StateFlow<WhereFilter>,
+    account: PageAccount,
+    whereFilter: StateFlow<WhereFilter>,
+    homeCurrencyProvider: HomeCurrencyProvider,
+    currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
     private val countingIdlingResource: CountingIdlingResource
-) : TransactionPagingSource(context, account, whereFilter, coroutineScope) {
+) : TransactionPagingSource(
+    context,
+    account,
+    whereFilter,
+    homeCurrencyProvider,
+    currencyContext,
+    coroutineScope
+) {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         countingIdlingResource.increment()

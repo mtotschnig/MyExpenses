@@ -36,6 +36,7 @@ import com.roomorama.caldroid.CellView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -76,7 +77,7 @@ public class PlanMonthFragment extends CaldroidFragment
   HashMap<DateTime, Long> dateTime2TimeStampMap = new HashMap<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color,
-                                              boolean readOnly) {
+                                              boolean readOnly, PrefHandler prefHandler) {
     PlanMonthFragment f = new PlanMonthFragment();
     Bundle args = new Bundle();
     args.putString(TOOLBAR_TITLE, title);
@@ -87,7 +88,7 @@ public class PlanMonthFragment extends CaldroidFragment
     args.putBoolean(CaldroidFragment.SIX_WEEKS_IN_CALENDAR, false);
     args.putBoolean(KEY_READ_ONLY, readOnly);
     args.putInt(CaldroidFragment.START_DAY_OF_WEEK,
-        Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale.getDefault()));
+        Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale.getDefault(), prefHandler));
     f.setArguments(args);
     return f;
   }

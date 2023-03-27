@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.isConnectedWifi
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.io.IOException
@@ -62,27 +63,25 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.pow
 
-class SyncAdapter : AbstractThreadedSyncAdapter {
-    private val syncDelegate: SyncDelegate
+class SyncAdapter @JvmOverloads constructor(
+    context: Context,
+    autoInitialize: Boolean,
+    allowParallelSyncs: Boolean = false
+) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
     private val notificationContent = SparseArray<MutableList<StringBuilder>?>()
     private var shouldNotify = true
 
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    constructor(context: Context, autoInitialize: Boolean) : this(context, autoInitialize, false)
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
-    constructor(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean) : super(
-        context,
-        autoInitialize,
-        allowParallelSyncs
-    ) {
-        syncDelegate = SyncDelegate(
-            currencyContext,
-            (context.applicationContext as MyApplication).appComponent.featureManager(),
-            (context.applicationContext as MyApplication).appComponent.repository()
-        )
-    }
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var syncDelegate: SyncDelegate
 
     @Suppress("SameParameterValue")
     private fun getUserDataWithDefault(
@@ -478,9 +477,6 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
         }
     }
 
-    private val currencyContext: CurrencyContext
-        get() = (context.applicationContext as MyApplication).appComponent.currencyContext()
-
     @Throws(RemoteException::class, OperationApplicationException::class)
     private fun updateAccountFromMetadata(
         provider: ContentProviderClient,
@@ -517,7 +513,7 @@ class SyncAdapter : AbstractThreadedSyncAdapter {
                     .appendEncodedPath(currency)
                     .appendEncodedPath(homeCurrency).build()
             val minorUnitDelta =
-                Utils.getHomeCurrency().fractionDigits - currencyContext[currency].fractionDigits
+                homeCurrencyProvider.homeCurrencyUnit.fractionDigits - currencyContext[currency].fractionDigits
             ops.add(
                 ContentProviderOperation.newInsert(uri).withValue(
                     KEY_EXCHANGE_RATE,

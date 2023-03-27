@@ -68,7 +68,6 @@ class CategoryDelegate(
             hideRowsSpecificToMain()
         }
         setCategoryButton()
-        val homeCurrency = Utils.getHomeCurrency()
         addCurrencyToInput(
             viewBinding.EquivalentAmountLabel,
             viewBinding.EquivalentAmount,

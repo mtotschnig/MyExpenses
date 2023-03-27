@@ -2,11 +2,7 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.test.filterToOne
-import androidx.compose.ui.test.hasAnyAncestor
-import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -23,8 +19,6 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
@@ -38,21 +32,12 @@ class RemapAccountTest : BaseMyExpensesTest() {
     private lateinit var account3: Account
     private lateinit var transfer: Transfer
 
-    private val currencyUnit = CurrencyUnit.DebugInstance
-
-    private fun createAccount(label: String): Account = Account(
-        label, currencyUnit, 0, "", AccountType.CASH, Account.DEFAULT_COLOR
-    ).also {
-        it.save()
-    }
-
-    private fun createMoney() = Money(currencyUnit, 2000)
-
+    private fun createMoney() = Money(homeCurrency, 2000)
     @Before
     fun fixture() {
-        account1 = createAccount("K1")
-        account2 = createAccount("K2")
-        account3 = createAccount("K3")
+        account1 = buildAccount("K1")
+        account2 = buildAccount("K2")
+        account3 = buildAccount("K3")
         Transaction(account1.id, createMoney()).also {
             it.setDate(ZonedDateTime.now().minusDays(4))
             it.save()
@@ -96,10 +81,10 @@ class RemapAccountTest : BaseMyExpensesTest() {
                 )
             )
         ).perform(ViewActions.scrollTo(), click())
-        val self = Transaction.getInstanceFromDb(transfer.id)
+        val self = getTransactionFromDb(transfer.id)
         Truth.assertThat(self.accountId).isEqualTo(account3.id)
         Truth.assertThat(self.transferAccountId).isEqualTo(account2.id)
-        val peer = Transaction.getInstanceFromDb(transfer.transferPeer!!)
+        val peer = getTransactionFromDb(transfer.transferPeer!!)
         Truth.assertThat(peer.accountId).isEqualTo(account2.id)
         Truth.assertThat(peer.transferAccountId).isEqualTo(account3.id)
     }

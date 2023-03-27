@@ -65,7 +65,7 @@ class DistributionTest {
     private fun baseFixture(additionalFixture: () -> Unit = {}) {
         account = Account("Test account 1", currency, 0, "",
             AccountType.CASH, Account.DEFAULT_COLOR)
-        account.save()
+        account.save(CurrencyUnit.DebugInstance)
         additionalFixture()
         scenario = ActivityScenario.launch(Intent(targetContext, DistributionActivity::class.java).apply {
             putExtra(KEY_ACCOUNTID, account.id)
@@ -76,7 +76,7 @@ class DistributionTest {
         baseFixture {
             categoryId =  ContentUris.parseId(repository.saveCategory(Category(label = "TestCategory"))!!)
             with(Transaction.getNewInstance(account)) {
-                amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
+                amount = Money(CurrencyUnit.DebugInstance, -1200L)
                 catId = categoryId
                 save()
             }

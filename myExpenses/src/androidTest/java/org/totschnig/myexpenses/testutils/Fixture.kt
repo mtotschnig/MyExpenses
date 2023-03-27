@@ -6,7 +6,6 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.os.Debug
 import com.google.common.truth.Truth
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -71,18 +70,18 @@ class Fixture(inst: Instrumentation) {
         Plan.delete(planId)
     }
 
-    fun setup(withPicture: Boolean, repository: Repository) {
+    fun setup(withPicture: Boolean, repository: Repository, defaultCurrency: CurrencyUnit) {
         this.repository = repository
-        val defaultCurrency = Utils.getHomeCurrency()
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
         account1 = Account(
             appContext.getString(R.string.testData_account1Label),
+            defaultCurrency,
             90000,
             appContext.getString(R.string.testData_account1Description)
         )
         account1.syncAccountName = syncAccount1
-        account1.save()
+        account1.save(defaultCurrency)
         appContext.contentResolver.update(
             ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, account1.id)
                 .buildUpon()
@@ -98,17 +97,17 @@ class Fixture(inst: Instrumentation) {
             testContext.resources.getColor(RT.color.material_red)
         )
         account2.syncAccountName = syncAccount2
-        account2.save()
+        account2.save(defaultCurrency)
         account3 = Account(
             appContext.getString(R.string.testData_account3Label),
-            Utils.getHomeCurrency(),
+            defaultCurrency,
             200000,
             appContext.getString(R.string.testData_account3Description), AccountType.BANK,
             testContext.resources.getColor(RT.color.material_blue)
         )
         account3.grouping = Grouping.DAY
         account3.syncAccountName = syncAccount3
-        account3.save()
+        account3.save(defaultCurrency)
         account4 = Account(
             appContext.getString(R.string.testData_account3Description),
             foreignCurrency,
@@ -117,7 +116,7 @@ class Fixture(inst: Instrumentation) {
             AccountType.CCARD,
             testContext.resources.getColor(RT.color.material_cyan)
         )
-        account4.save()
+        account4.save(defaultCurrency)
 
         val johnDoe = appContext.getString(R.string.testData_templatePayee)
 

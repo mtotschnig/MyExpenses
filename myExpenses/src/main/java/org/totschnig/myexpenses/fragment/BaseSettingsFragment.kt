@@ -22,19 +22,21 @@ import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
 import android.widget.CompoundButton
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
+import androidx.preference.Preference.OnPreferenceChangeListener
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.Help
@@ -64,7 +66,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -99,9 +100,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     lateinit var prefHandler: PrefHandler
 
     @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
-
-    @Inject
     lateinit var settings: SharedPreferences
 
     @Inject
@@ -130,7 +128,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
     private val storeInDatabaseChangeListener =
-        Preference.OnPreferenceChangeListener { preference, newValue ->
+        OnPreferenceChangeListener { preference, newValue ->
             preferenceActivity.showSnackBarIndefinite(R.string.saving)
             viewModel.storeSetting(preference.key, newValue.toString())
                 .observe(this@BaseSettingsFragment) { result ->
@@ -165,6 +163,28 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return true
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        //we configure language picker here, so that we can override the outdated value
+        //that might get set in ListPreference onRestoreInstanceState, when activity is recreated
+        //due to user changing app language in Android 13 system settings
+        findPreference<ListPreference>(PrefKey.UI_LANGUAGE)?.apply {
+            entries = getLocaleArray()
+            value = AppCompatDelegate.getApplicationLocales()[0]?.language ?: DEFAULT_LANGUAGE
+            onPreferenceChangeListener =
+                OnPreferenceChangeListener { _, newValue ->
+                    val newLocale = newValue as String
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && newLocale != DEFAULT_LANGUAGE) {
+                        featureManager.requestLocale(newLocale)
+                    } else {
+                        preferenceActivity.setLanguage(newLocale)
+                    }
+                    value = newValue
+                    false
+                }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         with((requireActivity().application as MyApplication).appComponent) {
             inject(currencyViewModel)
@@ -193,7 +213,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
             }
         }
-        if(onScreen(PrefKey.UI_WEB)) {
+        if (onScreen(PrefKey.UI_WEB)) {
             webUiViewModel.getServiceState().observe(this) { result ->
                 preferenceActivity.supportActionBar?.let { actionBar ->
                     (actionBar.customView as? SwitchCompat)?.let { switch ->
@@ -215,7 +235,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     override fun onStart() {
         super.onStart()
-        if (onScreen(PrefKey.UI_WEB) && featureManager.isFeatureInstalled(Feature.WEBUI, requireContext())) {
+        if (onScreen(PrefKey.UI_WEB) && featureManager.isFeatureInstalled(
+                Feature.WEBUI,
+                requireContext()
+            )
+        ) {
             bindToWebUiService()
         }
     }
@@ -331,7 +355,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return (requireActivity().application as MyApplication)
     }
 
-    fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
+    private fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
         if (matches(preference, prefKey)) {
             if (licenceHandler.hasAccessTo(feature)) {
                 preferenceActivity.contribFeatureCalled(feature, null)
@@ -363,16 +387,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.showSnackBar(R.string.app_restart_required)
             }
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                configureOpenExchangeRatesPreference(sharedPreferences.getString(key, ExchangeRateSource.defaultSource.name))
+                configureOpenExchangeRatesPreference(
+                    sharedPreferences.getString(
+                        key,
+                        ExchangeRateSource.defaultSource.name
+                    )
+                )
             }
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
                 currencyFormatter.invalidateAll(requireContext().contentResolver)
             }
-            getKey(PrefKey.UI_LANGUAGE) -> {
-                featureManager.requestLocale(preferenceActivity)
-            }
             getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS) -> {
-                preferenceActivity.rebuildDbConstants()
+                preferenceActivity.initLocaleContext()
             }
             getKey(PrefKey.UI_FONTSIZE) -> {
                 updateAllWidgets()
@@ -657,14 +683,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         } ?: run {
             prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
         }
-        requireApplication().invalidateHomeCurrency()
+        requireApplication().invalidateHomeCurrency(currencyCode)
         preferenceActivity.showSnackBarIndefinite(R.string.saving)
         viewModel.resetEquivalentAmounts().observe(this) { integer ->
             preferenceActivity.dismissSnackBar()
             if (integer != null) {
                 preferenceActivity.showSnackBar(
                     String.format(
-                        resources.configuration.locale,
+                        preferenceActivity.getLocale(),
                         "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer
                     )
                 )
@@ -744,7 +770,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     var pickFolderRequestStart: Long = 0
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -812,8 +837,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceScreen.removePreference(privacyCategory)
                 }
 
-                requirePreference<ListPreference>(PrefKey.UI_LANGUAGE).entries = getLocaleArray()
-
                 lifecycleScope.launchWhenStarted {
                     currencyViewModel.currencies.collect { currencies ->
                         with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {
@@ -845,7 +868,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.NEWS).title =
                     "${getString(R.string.pref_news_title)} (Mastodon)"
 
-                requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible = prefHandler.encryptDatabase
+                requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
+                    prefHandler.encryptDatabase
             }
             getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
                 val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)
@@ -881,7 +905,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             getKey(PrefKey.GROUPING_START_SCREEN) -> {
                 var startPref = requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)
-                val locale = Locale.getDefault()
+                val locale = preferenceActivity.getLocale()
                 val dfs = DateFormatSymbols(locale)
                 val entries = arrayOfNulls<String>(7)
                 System.arraycopy(dfs.weekdays, 1, entries, 0, 7)
@@ -916,6 +940,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
             }
             getKey(PrefKey.OCR) -> {
+                val locale = Locale.getDefault()
                 if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
                     requirePreference<EditTextPreference>(PrefKey.OCR_TOTAL_INDICATORS).text =
                         getString(R.string.pref_ocr_total_indicators_default)
@@ -927,13 +952,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         FormatStyle.SHORT,
                         null,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        locale
                     )
                     val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
                         FormatStyle.MEDIUM,
                         null,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        locale
                     )
                     ocrDatePref.text = shortFormat + "\n" + mediumFormat
                 }
@@ -944,13 +969,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         null,
                         FormatStyle.SHORT,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        locale
                     )
                     val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
                         null,
                         FormatStyle.MEDIUM,
                         IsoChronology.INSTANCE,
-                        userLocaleProvider.systemLocale
+                        locale
                     )
                     ocrTimePref.text = shortFormat + "\n" + mediumFormat
                 }
@@ -1084,15 +1109,15 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 actionBar.customView = actionBarSwitch
                 actionBarSwitch.isChecked = status
                 masterSwitchChangeLister = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-                        if (onPreferenceChange(preferenceScreen, isChecked)) {
-                            prefHandler.putBoolean(prefKey, isChecked)
-                            if (disableDependents) {
-                                updateDependents(isChecked)
-                            }
-                        } else {
-                            actionBarSwitch.isChecked = !isChecked
+                    if (onPreferenceChange(preferenceScreen, isChecked)) {
+                        prefHandler.putBoolean(prefKey, isChecked)
+                        if (disableDependents) {
+                            updateDependents(isChecked)
                         }
+                    } else {
+                        actionBarSwitch.isChecked = !isChecked
                     }
+                }
                 actionBarSwitch.setOnCheckedChangeListener(masterSwitchChangeLister)
                 if (disableDependents) {
                     updateDependents(status)

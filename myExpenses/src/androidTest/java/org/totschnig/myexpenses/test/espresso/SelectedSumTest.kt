@@ -10,8 +10,6 @@ import org.hamcrest.Matchers.containsString
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -21,9 +19,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
-        val account = Account("Test account 1", CurrencyUnit.DebugInstance, 0, "",
-                AccountType.CASH, Account.DEFAULT_COLOR)
-        account.save()
+        val account =  buildAccount("Test account 1")
         val op0 = Transaction.getNewInstance(account)
         op0.amount = Money(CurrencyUnit.DebugInstance, -1200L)
         op0.save()

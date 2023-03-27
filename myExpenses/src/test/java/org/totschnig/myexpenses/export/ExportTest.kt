@@ -30,18 +30,8 @@ import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.model.saveTagLinks
-import org.totschnig.myexpenses.model.write
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -210,13 +200,13 @@ class ExportTest {
         }
     }
 
-    private fun buildAccount1() = Account("Account 1", openingBalance, "Account 1").apply {
+    private fun buildAccount1() = Account("Account 1", CurrencyUnit.DebugInstance, openingBalance, "Account 1").apply {
         type = AccountType.BANK
-        save()
+        save(CurrencyUnit.DebugInstance)
     }
 
-    private fun buildAccount2() = Account("Account 2", openingBalance, "Account 2").apply {
-        save()
+    private fun buildAccount2() = Account("Account 2", CurrencyUnit.DebugInstance, openingBalance, "Account 2").apply {
+        save(CurrencyUnit.DebugInstance)
     }
 
     private fun insertData3(): Pair<Account, Account> {
@@ -392,7 +382,7 @@ class ExportTest {
             expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
                 JsonParser.parseString(
                     """
-{"uuid":"${account.uuid}","label":"Account 1","currency":"USD","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":["Main"],"methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub"],"status":"UNRECONCILED","pictureFileName":"picture.png"},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub"],"comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","amount":0.70,"status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub2"]},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub3"],"tags":["Tag One","Tags, Tags, Tags"]}]}]}
+{"uuid":"${account.uuid}","label":"Account 1","currency":"${CurrencyUnit.DebugInstance.code}","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":["Main"],"methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub"],"status":"UNRECONCILED","pictureFileName":"picture.png"},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub"],"comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","amount":0.70,"status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub2"]},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub3"],"tags":["Tag One","Tags, Tags, Tags"]}]}]}
                          """
                 )
             )
@@ -462,9 +452,9 @@ class ExportTest {
             "^"
         )
 
-        val account = Account("Account 1", openingBalance, "Account 1").apply {
+        val account = Account("Account 1", CurrencyUnit.DebugInstance, openingBalance, "Account 1").apply {
             type = AccountType.BANK
-            save()
+            save(CurrencyUnit.DebugInstance)
         }
         val op = Transaction.getNewInstance(account) ?: throw IllegalStateException()
         op.amount = Money(account.currencyUnit, income2)

@@ -19,7 +19,7 @@ class OnBoardingDataViewModel(
 
     fun saveAccount(account: Account) {
         viewModelScope.launch(context = coroutineContext()) {
-            _accountSaved.postValue(account.save() != null)
+            _accountSaved.postValue(account.save(homeCurrencyProvider.homeCurrencyUnit) != null)
         }
     }
 

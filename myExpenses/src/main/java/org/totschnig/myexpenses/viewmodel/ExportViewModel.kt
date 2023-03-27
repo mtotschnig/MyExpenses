@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -99,12 +98,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     }
                     var account: Account?
                     val appDir = AppDirHelper.getAppDir(application)
-                    val context = ContextHelper.wrap(
-                        application,
-                        application.appComponent.userLocaleProvider().getUserPreferredLocale()
-                    )
                     if (appDir == null) {
-                        publishProgress(context.getString(R.string.external_storage_unavailable))
+                        publishProgress(localizedContext.getString(R.string.external_storage_unavailable))
 
                     } else {
                         val oneFile = accountIds.size == 1 || mergeP
@@ -162,7 +157,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             appendix = if (mergeP) if (i < accountIds.size - 1) "," else "]" else ""
                                         )
                                     }
-                                    val result = exporter.export(context, lazy {
+                                    val result = exporter.export(localizedContext, lazy {
                                         AppDirHelper.buildFile(
                                             destDir,
                                             "$fileNameForAccount.${format.extension}",
@@ -170,7 +165,13 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             append
                                         )?.let {
                                             Result.success(it)
-                                        } ?: Result.failure(createFileFailure(context, destDir, fileName))
+                                        } ?: Result.failure(
+                                            createFileFailure(
+                                                localizedContext,
+                                                destDir,
+                                                fileName
+                                            )
+                                        )
                                     }, append)
                                     result.onSuccess {
                                         if (!append && prefHandler.getBoolean(
@@ -182,7 +183,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                         }
                                         successfullyExported.add(account)
                                         publishProgress(
-                                            "..." + context.getString(
+                                            "..." + localizedContext.getString(
                                                 R.string.export_sdcard_success,
                                                 it.displayName
                                             )
@@ -192,7 +193,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                     }
                                 } catch (e: IOException) {
                                     publishProgress(
-                                        "... " + context.getString(
+                                        "... " + localizedContext.getString(
                                             R.string.export_sdcard_failure,
                                             appDir.name,
                                             e.message
@@ -219,7 +220,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                         } else {
                             publishProgress(
                                 "ERROR: " + createFileFailure(
-                                    context,
+                                    localizedContext,
                                     appDir,
                                     fileName
                                 ).message

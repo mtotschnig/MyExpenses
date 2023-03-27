@@ -59,7 +59,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.BaseAdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -83,8 +83,6 @@ import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 
-import java.util.Locale;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -95,15 +93,13 @@ import okhttp3.OkHttpClient;
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class,
     DataModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
-    CrashHandlerModule.class})
+    CrashHandlerModule.class, SyncModule.class})
 public interface AppComponent {
   String USER_COUNTRY = "userCountry";
   String DATABASE_NAME = "databaseName";
 
   @Component.Builder
   interface Builder {
-    @BindsInstance
-    Builder systemLocale(Locale locale);
 
     @BindsInstance
     Builder applicationContext(MyApplication applicationContext);
@@ -146,11 +142,11 @@ public interface AppComponent {
 
   ExchangeRateService exchangeRateService();
 
-  UserLocaleProvider userLocaleProvider();
+  HomeCurrencyProvider homeCurrencyProvider();
 
   Picasso picasso();
 
-  Context context();
+  MyApplication myApplication();
 
   Repository repository();
 

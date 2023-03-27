@@ -31,15 +31,14 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Before
     fun fixture() {
-        configureLocale(Locale.GERMANY)
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
-        val accountLabel1 = "Test label 1"
-        account1 = Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
-        account1.save()
-        val accountLabel2 = "Test label 2"
-        account2 = Account(accountLabel2, currency2, 0, "", AccountType.BANK, Account.DEFAULT_COLOR)
-        account2.save()
+        account1 =
+            Account("Test label 1", currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
+        account1.save(homeCurrency)
+        account2 =
+            Account("Test label 2", currency2, 0, "", AccountType.BANK, Account.DEFAULT_COLOR)
+        account2.save(homeCurrency)
     }
 
     private fun launch(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {

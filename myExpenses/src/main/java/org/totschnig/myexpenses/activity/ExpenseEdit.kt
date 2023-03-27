@@ -805,7 +805,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {
-        return account.currency == Utils.getHomeCurrency()
+        return account.currency == homeCurrency
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1378,7 +1378,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             originTemplate.title,
             originTemplate.id,
             originTemplate.planId,
-            color, true
+            color, true, prefHandler
         ).show(
             supportFragmentManager,
             TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG

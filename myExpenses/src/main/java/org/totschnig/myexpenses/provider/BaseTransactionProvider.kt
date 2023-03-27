@@ -29,11 +29,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.util.ResultUnit
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import timber.log.Timber
 import java.io.File
 import java.time.Duration
@@ -80,7 +79,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     lateinit var provideDatabaseName: (Boolean) -> String
 
     @Inject
-    lateinit var userLocaleProvider: UserLocaleProvider
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -98,7 +97,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         get() = prefHandler.collate
 
     val wrappedContext: Context
-        get() = userLocaleProvider.wrapContext(context!!)
+        get() = with(context!!) {
+            (applicationContext as? MyApplication)?.wrapContext(this) ?: this
+        }
 
     private var shouldLog = false
 
@@ -169,12 +170,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_SEALED,
             KEY_EQUIVALENT_AMOUNT,
             if (withSum) "coalesce((select sum(${debtSumExpression}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
-            if (withSum) "coalesce((select sum(${getAmountHomeEquivalent(VIEW_EXTENDED)}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
+            if (withSum) "coalesce((select sum(${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
         ).toTypedArray()
     }
 
     private val debtSumExpression
-        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${getAmountHomeEquivalent(VIEW_EXTENDED)} ELSE $KEY_AMOUNT END"
+        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)} ELSE $KEY_AMOUNT END"
 
     companion object {
         val CATEGORY_TREE_URI: Uri
@@ -277,7 +278,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     val homeCurrency: String
-        get() = Utils.getHomeCurrency(context, prefHandler, userLocaleProvider)
+        get() = homeCurrencyProvider.homeCurrencyString
 
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)

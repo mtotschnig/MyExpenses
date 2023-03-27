@@ -28,7 +28,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.setBackgroundTintList;
 import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
@@ -57,8 +56,6 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -78,11 +75,9 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -139,37 +134,12 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     super.attachBaseContext(newBase);
     final MyApplication application = MyApplication.getInstance();
     final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONTSIZE, 0);
-    if (customFontScale > 0 || !application.getAppComponent().userLocaleProvider().getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
+    if (customFontScale > 0) {
       Configuration config = new Configuration();
       config.fontScale = getFontScale(customFontScale, application.getContentResolver());
       applyOverrideConfiguration(config);
     }
     featureManager.initActivity(this);
-  }
-
-  @Override
-  public void applyOverrideConfiguration(Configuration newConfig) {
-    super.applyOverrideConfiguration(updateConfigurationIfSupported(newConfig));
-  }
-
-  private Configuration updateConfigurationIfSupported(Configuration config) {
-    final UserLocaleProvider userLocaleProvider = MyApplication.getInstance().getAppComponent().userLocaleProvider();
-    if (userLocaleProvider.getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
-      return config;
-    }
-    // Configuration.getLocales is added after 24 and Configuration.locale is deprecated in 24
-    if (Build.VERSION.SDK_INT >= 24) {
-      if (!config.getLocales().isEmpty()) {
-        return config;
-      }
-    } else {
-      if (config.locale != null) {
-        return config;
-      }
-    }
-
-    config.setLocale(userLocaleProvider.getUserPreferredLocale());
-    return config;
   }
 
   private float getFontScale(int customFontScale, ContentResolver contentResolver) {
@@ -196,7 +166,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (prefHandler.matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY, DB_SAFE_MODE,
+    if (prefHandler.matches(key, UI_FONTSIZE, PROTECTION_LEGACY, DB_SAFE_MODE,
         PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT)) {
       setScheduledRestart(true);
     }
@@ -511,7 +481,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   protected void restartAfterRestore() {
-    ((MyApplication) getApplication()).invalidateHomeCurrency();
+    ((MyApplication) getApplication()).invalidateHomeCurrency(homeCurrencyProvider.getHomeCurrencyString());
     if (!isFinishing()) {
       Intent i = new Intent(this, MyExpenses.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

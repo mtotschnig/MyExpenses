@@ -76,6 +76,7 @@
         android:backupAgent=".MyBackupAgent"
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/mybackupscheme"
+        android:localeConfig="@xml/locales_config"
         android:icon="@mipmap/ic_myexpenses"
         android:label="${appName}"
         android:largeHeap="true"
@@ -409,6 +410,16 @@
             android:name=".widget.TemplateWidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
 
         <meta-data
             android:name="com.samsung.android.sdk.multiwindow.enable"

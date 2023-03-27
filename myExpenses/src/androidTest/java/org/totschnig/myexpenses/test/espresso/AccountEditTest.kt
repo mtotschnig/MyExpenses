@@ -38,9 +38,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
 
     @Test
     fun shouldKeepUuidAfterSave() {
-        val (id, uuid) = with(Account(LABEL,
-            CurrencyUnit.DebugInstance, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)) {
-            save()
+        val (id, uuid) =  with(buildAccount(LABEL)) {
             id to uuid
         }
         val i = Intent(targetContext, AccountEdit::class.java).apply {

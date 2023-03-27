@@ -65,7 +65,7 @@ data class Transaction(
         get() = SPLIT_CATID == catId
 
     companion object {
-        fun projection(context: Context) = arrayOf(
+        fun projection(context: Context, homeCurrency: String) = arrayOf(
             KEY_ROWID,
             KEY_DATE,
             KEY_VALUE_DATE,
@@ -98,7 +98,7 @@ data class Transaction(
             KEY_EQUIVALENT_AMOUNT,
             KEY_ICON,
             checkSealedWithAlias(VIEW_EXTENDED, TABLE_TRANSACTIONS),
-            getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE,
+            getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID, homeCurrency) + " AS " + KEY_EXCHANGE_RATE,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             DEBT_LABEL_EXPRESSION,
@@ -108,7 +108,8 @@ data class Transaction(
         fun fromCursor(
             context: Context,
             cursor: Cursor,
-            currencyContext: CurrencyContext
+            currencyContext: CurrencyContext,
+            homeCurrency: CurrencyUnit
         ): Transaction {
             val currencyUnit =
                 currencyContext.get(cursor.getString(KEY_CURRENCY))
@@ -117,7 +118,6 @@ data class Transaction(
             val transferAccountId = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT)
             val date: Long = cursor.getLong(KEY_DATE)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
-            val homeCurrency = Utils.getHomeCurrency()
 
             return Transaction(
                 id = cursor.requireLong(KEY_ROWID),
@@ -157,7 +157,7 @@ data class Transaction(
                             BigDecimal(
                                 Utils.adjustExchangeRate(
                                     cursor.getDouble(KEY_EXCHANGE_RATE),
-                                    currencyUnit
+                                    currencyUnit, homeCurrency
                                 )
                             )
                         )

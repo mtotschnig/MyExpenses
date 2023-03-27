@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,12 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.retrofit.ValidationService
-import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.safeMessage
@@ -68,11 +65,6 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
     private val service: ValidationService
         get() = retrofit.create(ValidationService::class.java)
 
-    private val context: Context
-        get() = with(getApplication<MyApplication>()) {
-            ContextHelper.wrap(this, this.appComponent.userLocaleProvider().getUserPreferredLocale())
-        }
-
     fun removeLicence() {
         viewModelScope.launch(context = coroutineContext()) {
             _result.update {
@@ -112,12 +104,12 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
                             licenceHandler.updateLicenceStatus(licence)
                             val type = licence.type
                             var successMessage =
-                                context.getString(R.string.licence_validation_success)
+                                localizedContext.getString(R.string.licence_validation_success)
                             successMessage += if (type == null) concatResStrings(
-                                context,
+                                localizedContext,
                                 ", ",
-                                *licence.featureListAsResIDs(context)
-                            ) else " " + context.getString(type.resId)
+                                *licence.featureListAsResIDs(localizedContext)
+                            ) else " " + localizedContext.getString(type.resId)
                             successMessage
                         } else {
                             when (licenceResponse.code()) {

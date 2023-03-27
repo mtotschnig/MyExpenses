@@ -5,10 +5,10 @@ import org.totschnig.myexpenses.di.FeatureModule
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 
 object TestFeatureModule: FeatureModule() {
-    override fun provideFeatureManager(localeProvider: UserLocaleProvider, prefHandler: PrefHandler) = TestFeatureManager
+    override fun provideFeatureManager(localeProvider: HomeCurrencyProvider, prefHandler: PrefHandler) = TestFeatureManager
 }
 
 object TestFeatureManager: FeatureManager() {

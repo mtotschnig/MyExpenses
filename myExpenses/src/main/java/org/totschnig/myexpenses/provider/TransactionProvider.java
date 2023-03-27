@@ -41,7 +41,6 @@ import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -66,7 +65,6 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
@@ -272,7 +270,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
-    final Context wrappedContext = getWrappedContext();
     //noinspection InlinedApi
     String queryParameterLimit = uri.getQueryParameter(ContentResolver.QUERY_ARG_LIMIT);
     if (queryParameterLimit != null) {
@@ -297,7 +294,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           sortOrder = KEY_DATE + " DESC";
         }
         if (projection == null) {
-          projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
+          projection = extended ? DatabaseConstants.getProjectionExtended() : DatabaseConstants.getProjectionBase();
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false)) {
           projection = Companion.shortenComment(projection);
@@ -316,7 +313,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case UNCOMMITTED:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_UNCOMMITTED);
         if (projection == null)
-          projection = Transaction.PROJECTION_BASE;
+          projection = DatabaseConstants.getProjectionBase();
         break;
       case TRANSACTION_ID:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL);
@@ -352,7 +349,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           additionalWhere.append(" AND " + KEY_ACCOUNTID).append(accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
-          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
+          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, getHomeCurrency());
         }
         String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
         if (groupByType) sumExpression = "abs(" + sumExpression + ")";
@@ -372,7 +369,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           accountSelectionQuery = KEY_ACCOUNTID + " = ?";
         }
-        boolean forHome = accountSelector == null;
+        String forHome = accountSelector == null ? getHomeCurrency() : null;
 
         Grouping group;
         try {
@@ -438,7 +435,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (!includeTransfers) {
           //for the Grand total account transfer calculation is neither possible (adding amounts in
           //different currencies) nor necessary (should result in 0)
-          projection[index++] = (forHome ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
+          projection[index++] = (forHome != null ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
         }
         projection[index++] = MAPPED_CATEGORIES;
         if (withJulianStart) {
@@ -531,7 +528,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
               "'' AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
-              aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID)
+              aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, getHomeCurrency())
                   + ") AS " + KEY_OPENING_BALANCE,
               "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
@@ -591,16 +588,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         groupBy = groupByForPaymentMethodQuery(projection);
         having = havingForPaymentMethodQuery(projection);
         if (projection == null) {
-          projection = PaymentMethod.PROJECTION(wrappedContext);
+          projection = PaymentMethod.PROJECTION(getWrappedContext());
         } else {
-          projection = mapPaymentMethodProjection(projection, wrappedContext);
+          projection = mapPaymentMethodProjection(projection, getWrappedContext());
         }
         if (sortOrder == null) {
-          sortOrder = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL) + " COLLATE " + getCollate();
+          sortOrder = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL) + " COLLATE " + getCollate();
         }
         break;
       case MAPPED_METHODS:
-        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
+        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
@@ -610,11 +607,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_ID:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS);
         if (projection == null)
-          projection = PaymentMethod.PROJECTION(wrappedContext);
+          projection = PaymentMethod.PROJECTION(getWrappedContext());
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case METHODS_FILTERED:
-        localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
+        localizedLabel = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
         projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
         String paymentType = uri.getPathSegments().get(2);
@@ -848,7 +845,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {
-      c = new PlanInfoCursorWrapper(wrappedContext, c, sortOrder == null, withPlanInfo.equals("2") || CALENDAR.hasPermission(getContext()));
+      c = new PlanInfoCursorWrapper(getWrappedContext(), c, sortOrder == null, withPlanInfo.equals("2") || CALENDAR.hasPermission(getContext()));
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;

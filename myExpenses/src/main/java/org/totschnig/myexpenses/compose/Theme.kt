@@ -18,15 +18,16 @@ fun AppTheme(
 ) {
     val context = LocalContext.current
     MdcTheme {
+        val appComponent = (context.applicationContext as MyApplication).appComponent
         CompositionLocalProvider(
-            LocalCurrencyFormatter provides (context.applicationContext as MyApplication).appComponent.currencyFormatter(),
+            LocalCurrencyFormatter provides appComponent.currencyFormatter(),
             LocalDateFormatter provides getDateTimeFormatter(context),
             LocalColors provides Colors(
                 income = colorResource(id = R.color.colorIncome),
                 expense = colorResource(id = R.color.colorExpense),
                 transfer = colorResource(id = R.color.colorTransfer),
             ),
-            LocalHomeCurrency provides Utils.getHomeCurrency()
+            LocalHomeCurrency provides appComponent.homeCurrencyProvider().homeCurrencyUnit
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.body2, content = content)
         }

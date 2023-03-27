@@ -71,7 +71,6 @@ import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.DocumentFileExtensionKt;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
@@ -95,8 +94,6 @@ public class PdfPrinter {
 
   @Inject
   CurrencyFormatter currencyFormatter;
-  @Inject
-  UserLocaleProvider userLocaleProvider;
 
   public PdfPrinter(Account account, DocumentFile destDir, WhereFilter filter, long currentBalance) {
     this.account = account;

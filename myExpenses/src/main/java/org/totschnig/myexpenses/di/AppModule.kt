@@ -11,8 +11,8 @@ import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceStatus
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import org.totschnig.myexpenses.util.locale.UserLocaleProviderImpl
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProviderImpl
 import org.totschnig.myexpenses.util.tracking.Tracker
 import timber.log.Timber
 import java.util.*
@@ -69,13 +69,14 @@ open class AppModule {
     @Singleton
     fun provideCurrencyContext(
         prefHandler: PrefHandler,
-        userLocaleProvider: UserLocaleProvider
-    ): CurrencyContext = PreferencesCurrencyContext(prefHandler, userLocaleProvider)
+        application: MyApplication
+    ): CurrencyContext = PreferencesCurrencyContext(prefHandler, application)
 
     @Provides
     @Singleton
-    open fun provideUserLocaleProvider(
+    open fun provideHomeCurrencyProvider(
         prefHandler: PrefHandler,
-        systemLocale: Locale
-    ): UserLocaleProvider = UserLocaleProviderImpl(prefHandler, systemLocale)
+        context: Context,
+        currencyContext: CurrencyContext
+    ): HomeCurrencyProvider = HomeCurrencyProviderImpl(prefHandler, context, currencyContext)
 }
