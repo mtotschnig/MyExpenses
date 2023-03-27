@@ -409,9 +409,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            initLocaleContext()
-        }
+        initLocaleContext()
         maybeRepairRequerySchema()
         readAccountGroupingFromPref()
         pagerState = PagerState(currentPage = savedInstanceState?.getInt(KEY_CURRENT_PAGE) ?: 0)

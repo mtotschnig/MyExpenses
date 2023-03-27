@@ -20,10 +20,9 @@ abstract class BaseWorker(context: Context, workerParameters: WorkerParameters) 
     val prefHandler: PrefHandler
 
     init {
-        with((context.applicationContext as MyApplication)) {
-            this@BaseWorker.wrappedContext = wrappedContext
-            prefHandler = appComponent.prefHandler()
-        }
+        val app = context.applicationContext as MyApplication
+        wrappedContext = app.wrapContext(context)
+        prefHandler = app.appComponent.prefHandler()
     }
 
     private val notificationTitle: String

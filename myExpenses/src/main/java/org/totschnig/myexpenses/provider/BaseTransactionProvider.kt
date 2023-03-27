@@ -96,15 +96,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val collate: String
         get() = prefHandler.collate
 
-    var wrappedContextInternal: Context? = null
-        set(value) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                field = value
-            }
-        }
-
     val wrappedContext: Context
-        get() = wrappedContextInternal ?: context!!
+        get() = with(context!!) {
+            (applicationContext as? MyApplication)?.wrapContext(this) ?: this
+        }
 
     private var shouldLog = false
 

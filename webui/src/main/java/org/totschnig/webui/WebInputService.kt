@@ -93,7 +93,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         super.onCreate()
         DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent)
             .build().inject(this)
-        wrappedContext = (application as MyApplication).wrappedContext
+        wrappedContext = (application as MyApplication).wrapContext(this)
     }
 
     override fun onBind(intent: Intent): IBinder {

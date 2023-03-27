@@ -3,13 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.app.DownloadManager
 import android.app.KeyguardManager
 import android.app.NotificationManager
-import android.content.ActivityNotFoundException
-import android.content.BroadcastReceiver
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -36,6 +30,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -53,15 +48,9 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.*
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallback
-import org.totschnig.myexpenses.dialog.HelpDialogFragment
-import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment
-import org.totschnig.myexpenses.dialog.TransactionDetailFragment
-import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
@@ -72,18 +61,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
-import org.totschnig.myexpenses.util.NotificationBuilderWrapper
-import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
-import org.totschnig.myexpenses.util.readPrimaryTextColor
-import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
@@ -93,7 +77,7 @@ import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.sign
 
@@ -356,9 +340,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     )
                 )
                 is FeatureViewModel.FeatureState.LanguageAvailable -> {
-                    AppCompatDelegate.setApplicationLocales(
-                        LocaleListCompat.forLanguageTags(featureState.language)
-                    )
+                    setLanguage(featureState.language)
                     recreate()
                 }
             }
@@ -385,6 +367,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
         }
+    }
+
+    fun setLanguage(language: String) {
+        AppCompatDelegate.setApplicationLocales(
+            if (language == MyApplication.DEFAULT_LANGUAGE)
+                LocaleListCompat.getEmptyLocaleList() else
+                LocaleListCompat.forLanguageTags(
+                    language
+                )
+        )
     }
 
     @Deprecated("Deprecated in Java")
@@ -743,8 +735,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             getString(R.string.pref_security_export_passphrase_title)
         )
 
-    fun getLocale(): Locale = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-        AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault() else Locale.getDefault()
+    fun getLocale() =
+        ConfigurationCompat.getLocales(resources.configuration).get(0) ?: Locale.getDefault()
 
     override fun onMessageDialogDismissOrCancel() {}
 
@@ -752,11 +744,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             requireApplication().userPreferredLocale = AppCompatDelegate.getApplicationLocales()[0]
         }
-        contentResolver.call(
-            TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null,
-            Bundle(1).apply {
-                putSerializable(TransactionProvider.KEY_LOCALE, getLocale())
-            }
+        DatabaseConstants.buildLocalized(
+            getLocale(),
+            this,
+            prefHandler,
+            homeCurrencyProvider.homeCurrencyString
         )
     }
 

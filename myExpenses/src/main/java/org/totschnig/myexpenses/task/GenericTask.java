@@ -57,7 +57,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     final Context context = application.getWrappedContext();
     ContentResolver cr = context.getContentResolver();
     ContentValues values;
-    Cursor c;
     switch (mTaskId) {
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);

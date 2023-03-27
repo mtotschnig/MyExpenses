@@ -179,13 +179,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && newLocale != DEFAULT_LANGUAGE) {
                         featureManager.requestLocale(newLocale)
                     } else {
-                        AppCompatDelegate.setApplicationLocales(
-                            if (newLocale == DEFAULT_LANGUAGE)
-                                LocaleListCompat.getEmptyLocaleList() else
-                                LocaleListCompat.forLanguageTags(
-                                    newValue as String?
-                                )
-                        )
+                        preferenceActivity.setLanguage(newLocale)
                     }
                     value = newValue
                     false

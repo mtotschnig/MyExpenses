@@ -146,10 +146,14 @@ public class MyApplication extends Application implements
   }
 
   public Context getWrappedContext() {
+    return wrapContext(this);
+  }
+
+  public Context wrapContext(Context context) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && _userPreferredLocale != null) {
-      return ContextHelper.wrap(this, _userPreferredLocale);
+      return ContextHelper.wrap(context, _userPreferredLocale);
     }
-    return this;
+    return context;
   }
 
   public AppComponent getAppComponent() {

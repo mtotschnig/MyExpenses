@@ -41,7 +41,6 @@ import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -66,11 +65,9 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -1620,12 +1617,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_CHECK_CORRUPTED_DATA_987: {
         return checkCorruptedData987();
-      }
-      case METHOD_INIT: {
-        Locale locale = (Locale) Objects.requireNonNull(extras).getSerializable(KEY_LOCALE);
-        Context context = ContextHelper.wrap(getContext(), locale);
-        setWrappedContextInternal(context);
-        DatabaseConstants.buildLocalized(locale, context, prefHandler, getHomeCurrency());
       }
     }
     return null;
