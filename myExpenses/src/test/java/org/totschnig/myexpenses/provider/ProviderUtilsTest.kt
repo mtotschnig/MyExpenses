@@ -7,18 +7,15 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.util.*
@@ -26,9 +23,14 @@ import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 class ProviderUtilsTest {
+
     private val repository: Repository = Repository(
         ApplicationProvider.getApplicationContext<MyApplication>(),
-        Mockito.mock(CurrencyContext::class.java),
+        Mockito.mock(CurrencyContext::class.java).also { currencyContext ->
+            Mockito.`when`(currencyContext.get(anyString())).thenAnswer {
+                CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
+            }
+        },
         Mockito.mock(CurrencyFormatter::class.java),
         Mockito.mock(PrefHandler::class.java)
     )
@@ -39,25 +41,14 @@ class ProviderUtilsTest {
     @Before
     fun setupAccounts() {
 
-        val homeCurrency = CurrencyUnit(Currency.getInstance("EUR"))
-        euroAccount = Account(
-            "EUR-Account",
-            homeCurrency,
-            0L,
-            null,
-            AccountType.CASH,
-            Account.DEFAULT_COLOR
-        )
-        euroAccount.save(homeCurrency)
-        dollarAccount = Account(
-            "USD-Account",
-            CurrencyUnit(Currency.getInstance("USD")),
-            0L,
-            null,
-            AccountType.CASH,
-            Account.DEFAULT_COLOR
-        )
-        dollarAccount.save(homeCurrency)
+        euroAccount = repository.createAccount(Account(
+            label = "EUR-Account",
+            currency = "EUR"
+        ))
+        dollarAccount = repository.createAccount(Account(
+            label = "USD-Account",
+            currency = "USD"
+        ))
     }
 
     private fun buildFromExtras(extras: Bundle) = ProviderUtils.buildFromExtras(repository, extras)
@@ -93,8 +84,8 @@ class ProviderUtilsTest {
         extras.putLong(Transactions.AMOUNT_MICROS, 1230000)
         val transaction = buildFromExtras(extras)
         assertEquals(
-            Money(CurrencyUnit(Currency.getInstance("EUR")), 123L),
-            transaction.amount
+            123,
+            transaction.amount.amountMinor
         )
     }
 

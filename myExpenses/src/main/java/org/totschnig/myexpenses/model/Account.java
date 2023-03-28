@@ -545,53 +545,6 @@ public class Account extends Model implements DistributionAccountInfo {
     return result;
   }
 
-  /**
-   * Returns the first account which uses the passed in currency, order is undefined
-   *
-   * @param currency ISO 4217 currency code
-   * @return id or -1 if not found
-   */
-  public static long findAnyByCurrency(String currency) {
-    String selection = KEY_CURRENCY + " = ?";
-    String[] selectionArgs = new String[]{currency};
-
-    Cursor mCursor = cr().query(CONTENT_URI,
-        new String[]{KEY_ROWID}, selection, selectionArgs, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return -1;
-    } else {
-      mCursor.moveToFirst();
-      long result = mCursor.getLong(0);
-      mCursor.close();
-      return result;
-    }
-  }
-
-  /**
-   * Looks for an account with a label, that is not sealed. WARNING: If several accounts have the same label, this
-   * method fill return the first account retrieved in the cursor, order is undefined
-   *
-   * @param label label of the account we want to retrieve
-   * @return id or -1 if not found
-   */
-  public static long findAnyOpen(String label) {
-    String selection = KEY_LABEL + " = ? AND  " + KEY_SEALED + " = 0";
-    String[] selectionArgs = new String[]{label};
-
-    Cursor mCursor = cr().query(CONTENT_URI,
-        new String[]{KEY_ROWID}, selection, selectionArgs, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return -1;
-    } else {
-      mCursor.moveToFirst();
-      long result = mCursor.getLong(0);
-      mCursor.close();
-      return result;
-    }
-  }
-
   public static long findByUuid(String uuid) {
     String selection = KEY_UUID + " = ?";
     String[] selectionArgs = new String[]{uuid};

@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.withLimit
@@ -126,6 +127,32 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
     }
     contentResolver.applyBatch(TransactionProvider.AUTHORITY, ArrayList(ops))
 }
+
+/**
+ * Looks for an account with a label, that is not sealed. WARNING: If several accounts have the same label, this
+ * method fill return the first account retrieved in the cursor, order is undefined
+ *
+ * @param label label of the account we want to retrieve
+ * @return id or -1 if not found
+ */
+fun Repository.findAnyOpenByLabel(label: String) = findAnyOpen(DatabaseConstants.KEY_LABEL, label)
+
+/**
+ * Returns the first account which uses the passed in currency, order is undefined
+ *
+ * @param currency ISO 4217 currency code
+ * @return id or -1 if not found
+ */
+fun Repository.findAnyOpenByCurrency(currency: String) =
+    findAnyOpen(DatabaseConstants.KEY_CURRENCY, currency)
+
+fun Repository.findAnyOpen(column: String? = null, search: String? = null) = contentResolver.query(
+    TransactionProvider.ACCOUNTS_URI,
+    arrayOf(DatabaseConstants.KEY_ROWID),
+    (if (column == null) "" else ("$column = ? AND  ")) + "$KEY_SEALED = 0",
+    search?.let { arrayOf(it) },
+    null
+)?.use { if (it.moveToFirst()) it.getLong(0) else -1L } ?: -1L
 
 fun updateTransferPeersForTransactionDelete(
     ops: java.util.ArrayList<ContentProviderOperation>,

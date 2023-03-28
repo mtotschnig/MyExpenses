@@ -14,9 +14,9 @@ import org.apache.commons.text.matcher.StringMatcherFactory
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.db2.CategoryHelper
+import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model.extractTagIds
 import org.totschnig.myexpenses.model.saveTagLinks
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.TransactionProvider
 import java.io.InputStreamReader
 import java.math.BigDecimal
@@ -78,19 +79,20 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 isSplitPart = saveGetFromRecord(record, columnIndexSplit) == SplitTransaction.CSV_PART_INDICATOR
                 isSplitParent = saveGetFromRecord(record, columnIndexSplit) == SplitTransaction.CSV_INDICATOR
             }
+            val currencyUnit = currencyContext[account.currency]
             val amount = try {
                 if (columnIndexAmount != -1) {
-                    QifUtils.parseMoney(saveGetFromRecord(record, columnIndexAmount), account.currencyUnit)
+                    QifUtils.parseMoney(saveGetFromRecord(record, columnIndexAmount), currencyUnit)
                 } else {
-                    val income = if (columnIndexIncome != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexIncome), account.currencyUnit).abs() else BigDecimal(0)
-                    val expense = if (columnIndexExpense != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexExpense), account.currencyUnit).abs() else BigDecimal(0)
+                    val income = if (columnIndexIncome != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexIncome), currencyUnit).abs() else BigDecimal(0)
+                    val expense = if (columnIndexExpense != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexExpense), currencyUnit).abs() else BigDecimal(0)
                     income.subtract(expense)
                 }
             } catch (e: IllegalArgumentException) {
                 emit(Result.failure(Exception("Amounts in data exceed storage limit")))
                 return@liveData
             }
-            val m = Money(account.currencyUnit, amount)
+            val m = Money(currencyUnit, amount)
             if (!isSplitParent && columnIndexCategory != -1) {
                 val category: String = saveGetFromRecord(record, columnIndexCategory)
                 if (category != "") {
@@ -98,9 +100,9 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                     if (category == localizedContext.getString(R.string.transfer) &&
                             subCategory != "" &&
                             QifUtils.isTransferCategory(subCategory)) {
-                        transferAccountId = Account.findAnyOpen(subCategory.substring(1, subCategory.length - 1))
+                        transferAccountId = repository.findAnyOpenByLabel(subCategory.substring(1, subCategory.length - 1))
                     } else if (QifUtils.isTransferCategory(category)) {
-                        transferAccountId = Account.findAnyOpen(category.substring(1, category.length - 1))
+                        transferAccountId = repository.findAnyOpenByLabel(category.substring(1, category.length - 1))
                     }
                     if (transferAccountId == -1L) {
                         categoryInfo = category
@@ -112,10 +114,10 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
             }
             if (isSplitPart) {
                 if (transferAccountId != -1L) {
-                    t = Transfer.getNewInstance(account, transferAccountId, splitParent)
+                    t = Transfer.getNewInstance(account.id, currencyUnit, transferAccountId, splitParent)
                     t.setAmount(m)
                 } else {
-                    t = Transaction.getNewInstance(account, splitParent)
+                    t = Transaction.getNewInstance(account.id, currencyUnit, splitParent)
                     t.amount = m
                 }
             } else {

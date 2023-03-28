@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.db2.CategoryHelper;
 import org.totschnig.myexpenses.db2.Repository;
+import org.totschnig.myexpenses.db2.RepositoryAccountKt;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.export.qif.QifAccount;
@@ -44,7 +45,6 @@ import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -281,7 +281,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                 ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(context, false));
         break;
       }
-      long dbAccountId = TextUtils.isEmpty(account.memo) ? -1 : Account.findAnyOpen(account.memo);
+      long dbAccountId = TextUtils.isEmpty(account.memo) ? -1 : RepositoryAccountKt.findAnyOpenByLabel(repository, account.memo);
       if (dbAccountId != -1) {
         Account dbAccount = Account.getInstanceFromDb(dbAccountId);
         account.dbAccount = dbAccount;

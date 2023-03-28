@@ -13,10 +13,8 @@ import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AccountEdit
+import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.getUuidForAccount
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.wait
@@ -34,7 +32,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
         Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
         assertFinishing()
-        assertThat(Account.findAnyOpen(LABEL) > -1).isTrue
+        assertThat(repository.findAnyOpenByLabel(LABEL)).isGreaterThan(-1)
     }
 
     @Test

@@ -9,19 +9,21 @@ import icepick.State
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
 import java.io.FileNotFoundException
+import javax.inject.Inject
 
 
 class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
@@ -36,6 +38,9 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     @JvmField
     @State
     var idle = true
+
+    @Inject
+    lateinit var repository: Repository
 
     private fun setDataReady() {
         dataReady = true
@@ -170,16 +175,13 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
             ) {
                 if (accountId == 0L) {
                     Account(
-                        getString(R.string.pref_import_title, "CSV"),
-                        currency,
-                        0,
-                        accountType
-                    ).apply {
-                        save(homeCurrency)
-                    }
+                        label = getString(R.string.pref_import_title, "CSV"),
+                        currency = currency,
+                        openingBalance = 0,
+                        type = accountType
+                    )
                 } else {
-                    @Suppress("DEPRECATION") //runs on background thread
-                    Account.getInstanceFromDb(accountId)
+                    repository.loadAccount(accountId)!!
                 }
             }.observe(this) { result ->
                 hideProgress()
@@ -229,10 +231,8 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
             return parseFragment.getSelectedAccountId()
         }
 
-    val currency: CurrencyUnit
-        get() {
-            return currencyContext[parseFragment.getSelectedCurrency()]
-        }
+    val currency: String
+        get() = parseFragment.getSelectedCurrency()
 
     val dateFormat: QifDateFormat
         get() {

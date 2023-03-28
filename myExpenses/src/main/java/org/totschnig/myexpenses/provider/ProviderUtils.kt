@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import org.apache.commons.lang3.NotImplementedException
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.db2.CategoryHelper
-import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.model.Money.Companion.buildWithMicros
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Transaction
@@ -16,41 +14,35 @@ object ProviderUtils {
     //TODO add tags to contract
     @Throws(NotImplementedException::class)
     fun buildFromExtras(repository: Repository, extras: Bundle): Transaction {
-        var accountId: Long = -1
-        val accountLabel = extras.getString(Transactions.ACCOUNT_LABEL)
-        if (!TextUtils.isEmpty(accountLabel)) {
-            accountId = Account.findAnyOpen(accountLabel)
-        }
-        if (accountId == -1L) {
-            val currency = extras.getString(Transactions.CURRENCY)
-            if (currency != null) {
-                accountId = Account.findAnyByCurrency(currency)
-            }
-        }
-        val account = Account.getInstanceFromDb(accountId.coerceAtLeast(0))
+        val accountId = extras.getString(Transactions.ACCOUNT_LABEL)
+            ?.takeIf { it.isNotEmpty() }?.let {
+                repository.findAnyOpenByLabel(it)
+            } ?: extras.getString(Transactions.CURRENCY)?.let {
+            repository.findAnyOpenByCurrency(it)
+        } ?: repository.findAnyOpen()
+        val account = repository.loadAccount(accountId)!!
+        val currencyUnit = repository.currencyContext[account.currency]
         val transaction: Transaction
         when (extras.getInt(Transactions.OPERATION_TYPE)) {
             Transactions.TYPE_TRANSFER -> {
-                transaction = Transfer.getNewInstance(account, null)
-                var transferAccountId: Long = -1
+                transaction = Transfer.getNewInstance(account.id, currencyUnit, null)
                 val transferAccountLabel = extras.getString(Transactions.TRANSFER_ACCOUNT_LABEL)
-                if (!TextUtils.isEmpty(transferAccountLabel)) {
-                    transferAccountId = Account.findAnyOpen(transferAccountLabel)
-                }
-                if (transferAccountId != -1L) {
-                    transaction.setTransferAccountId(transferAccountId)
+                transferAccountLabel?.takeIf { it.isNotEmpty() }?.let {
+                    repository.findAnyOpenByLabel(it)
+                }?.takeIf { it != -1L }?.let {
+                    transaction.setTransferAccountId(it)
                     transaction.label = transferAccountLabel
                 }
             }
             Transactions.TYPE_SPLIT -> throw NotImplementedException("Building split transaction not yet implemented")
             else -> {
-                transaction = Transaction.getNewInstance(account)
+                transaction = Transaction.getNewInstance(account.id, currencyUnit)
             }
         }
 
         val amountMicros = extras.getLong(Transactions.AMOUNT_MICROS)
         if (amountMicros != 0L) {
-            transaction.amount = buildWithMicros(account.currencyUnit, amountMicros)
+            transaction.amount = buildWithMicros(currencyUnit, amountMicros)
         }
         val date = extras.getLong(Transactions.DATE)
         if (date != 0L) {
