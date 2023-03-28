@@ -46,6 +46,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.databinding.TemplatesListBinding
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.getCurrencyForAccount
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
@@ -111,6 +113,9 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var repository: Repository
 
     lateinit var viewModel: TemplatesListViewModel
 
@@ -745,10 +750,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     private fun isForeignExchangeTransfer(position: Int): Boolean {
         if (mTemplatesCursor != null && mTemplatesCursor!!.moveToPosition(position)) {
             if (!mTemplatesCursor!!.isNull(columnIndexTransferAccount)) {
-                val transferAccount = Account.getInstanceFromDb(
-                    mTemplatesCursor!!.getLong(columnIndexTransferAccount)
-                )
-                return mTemplatesCursor!!.getString(columnIndexCurrency) != transferAccount.currencyUnit.code
+                return mTemplatesCursor!!.getString(columnIndexCurrency) != repository.getCurrencyForAccount(mTemplatesCursor!!.getLong(columnIndexTransferAccount))
             }
         }
         return false

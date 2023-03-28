@@ -281,8 +281,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                 ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(context, false));
         break;
       }
-      long dbAccountId = TextUtils.isEmpty(account.memo) ? -1 : RepositoryAccountKt.findAnyOpenByLabel(repository, account.memo);
-      if (dbAccountId != -1) {
+      Long dbAccountId = TextUtils.isEmpty(account.memo) ? null : RepositoryAccountKt.findAnyOpenByLabel(repository, account.memo);
+      if (dbAccountId != null) {
         Account dbAccount = Account.getInstanceFromDb(dbAccountId);
         account.dbAccount = dbAccount;
         if (dbAccount == null) {

@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.ChangeSet

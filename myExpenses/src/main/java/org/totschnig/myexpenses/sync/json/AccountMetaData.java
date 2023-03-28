@@ -89,19 +89,19 @@ public abstract class  AccountMetaData implements Parcelable {
     return account;
   }
 
-  public static AccountMetaData from(Account account) {
+  public static AccountMetaData from(org.totschnig.myexpenses.model2.Account account) {
     String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
-    final String accountCurrency = account.getCurrencyUnit().getCode();
+    final String accountCurrency = account.getCurrency();
     final Builder builder = builder()
         .setCurrency(accountCurrency)
-        .setColor(account.color)
+        .setColor(account.getColor())
         .setUuid(account.getUuid())
-        .setDescription(account.description)
+        .setDescription(account.getDescription())
         .setLabel(account.getLabel())
-        .setOpeningBalance(account.openingBalance.getAmountMinor())
+        .setOpeningBalance(account.getOpeningBalance())
         .setType(account.getType().name())
-        .setExcludeFromTotals(account.excludeFromTotals)
-        .setCriterion(account.getCriterion() != null ? account.getCriterion().getAmountMinor() : 0);
+        .setExcludeFromTotals(account.getExcludeFromTotals())
+        .setCriterion(account.getCriterion() != null ? account.getCriterion() : 0);
     if (homeCurrency != null && !homeCurrency.equals(accountCurrency)) {
       builder.setExchangeRate(account.getExchangeRate()).setExchangeRateOtherCurrency(homeCurrency);
     }

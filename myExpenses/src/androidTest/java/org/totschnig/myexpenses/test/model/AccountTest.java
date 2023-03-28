@@ -71,26 +71,6 @@ public class AccountTest extends ModelTest {
     op1.saveAsNew();
   }
 
-  public void testAccount() throws RemoteException, OperationApplicationException {
-    Account account, restored;
-    long openingBalance = (long) 100;
-    account = new Account("TestAccount", CurrencyUnit.Companion.getDebugInstance(), openingBalance, AccountType.CASH);
-    assertEquals("EUR", account.getCurrencyUnit().getCode());
-    account.save(CurrencyUnit.Companion.getDebugInstance());
-    assertTrue(account.getId() > 0);
-    restored = Account.getInstanceFromDb(account.getId());
-    assertEquals(account, restored);
-    long trAmount = (long) 100;
-    Transaction op1 = Transaction.getNewInstance(account);
-    op1.setAmount(new Money(account.getCurrencyUnit(), trAmount));
-    op1.setComment("test transaction");
-    op1.save();
-    assertEquals(account.getTotalBalance().getAmountMinor(), openingBalance + trAmount);
-    Account.delete(account.getId());
-    assertNull("Account deleted, but can still be retrieved", Account.getInstanceFromDb(account.getId()));
-    assertNull("Account delete should delete transaction, but operation can still be retrieved", getTransactionFromDb(op1.getId()));
-  }
-
   /**
    * we test if the db calculates the aggregate sums correctly
    * this is rather a test of the cursor exposed through the content provider
@@ -156,10 +136,6 @@ public class AccountTest extends ModelTest {
     cursor.close();
   }
 
-  public void testGetInstanceZeroReturnsAccount() {
-    //without inserting, there is no account in the database
-    assertNull("getInstanceFromDb(0) should return null on an empty database", Account.getInstanceFromDb(0));
-  }
 
   public void testGetAggregateAccountFromDb() {
     insertData();

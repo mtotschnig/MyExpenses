@@ -1,11 +1,6 @@
 package org.totschnig.myexpenses.sync
 
-import android.content.ContentProviderClient
-import android.content.ContentProviderOperation
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.Context
-import android.content.OperationApplicationException
+import android.content.*
 import android.net.Uri
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
@@ -13,6 +8,7 @@ import androidx.core.util.Pair
 import org.apache.commons.collections4.ListUtils
 import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.findAccountByUuid
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.*
@@ -20,9 +16,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import java.io.IOException
 
 class SyncDelegate(
@@ -39,7 +33,7 @@ class SyncDelegate(
     private val tagToId: MutableMap<String, Long> = HashMap()
     private val accountUuidToId: MutableMap<String, Long> = HashMap()
 
-    lateinit var account: Account
+    lateinit var account: org.totschnig.myexpenses.model2.Account
 
     @Throws(RemoteException::class, OperationApplicationException::class)
     fun writeRemoteChangesToDb(provider: ContentProviderClient, remoteChanges: List<TransactionChange>) {
@@ -342,18 +336,16 @@ class SyncDelegate(
                 methodToId[methodLabel] = it
             }
 
-    private fun findTransferAccount(uuid: String): Long =
-            accountUuidToId[uuid] ?: Account.findByUuid(uuid).also {
-                if (it != -1L) {
-                    accountUuidToId[uuid] = it
-                }
+    private fun findTransferAccount(uuid: String): Long? =
+            accountUuidToId[uuid] ?: repository.findAccountByUuid(uuid)?.also {
+                accountUuidToId[uuid] = it
             }
 
     private fun getContentProviderOperationsForCreate(
             change: TransactionChange, offset: Int, parentOffset: Int): ArrayList<ContentProviderOperation> {
         check(change.isCreate)
         val amount = change.amount() ?: 0L
-        val money = Money(account.currencyUnit, amount)
+        val money = Money(currencyContext[account.currency], amount)
         val t: Transaction = if (change.splitParts() != null) {
             SplitTransaction(account.id, money)
         } else {
@@ -361,7 +353,7 @@ class SyncDelegate(
                 //if the account exists locally and the peer has already been synced
                 //we create a Transfer, the Transfer class will take care in buildSaveOperations
                 //of linking them together
-                findTransferAccount(transferAccount).takeIf { accountId -> resolver(accountId, change.uuid()) != -1L }?.let { Transfer(account.id, money, it) }
+                findTransferAccount(transferAccount)?.takeIf { accountId -> resolver(accountId, change.uuid()) != -1L }?.let { Transfer(account.id, money, it) }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
                     catId = change.extractCatId()

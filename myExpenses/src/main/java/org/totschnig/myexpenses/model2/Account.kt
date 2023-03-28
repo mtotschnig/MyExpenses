@@ -21,7 +21,8 @@ data class Account(
     val syncAccountName: String? = null,
     val excludeFromTotals: Boolean = false,
     val uuid: String? = null,
-    val isSealed: Boolean = false
+    val isSealed: Boolean = false,
+    val exchangeRate: Double = 1.0
 ) {
 
     fun createIn(repository: Repository) = repository.createAccount(this)

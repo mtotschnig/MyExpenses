@@ -32,7 +32,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
         Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
         assertFinishing()
-        assertThat(repository.findAnyOpenByLabel(LABEL)).isGreaterThan(-1)
+        assertThat(repository.findAnyOpenByLabel(LABEL)).isNotNull
     }
 
     @Test

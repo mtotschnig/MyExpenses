@@ -15,6 +15,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.findAccountByUuid
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -37,8 +38,8 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     fun syncLinkRemote(account: Account): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
-            val accountId = Account.findByUuid(account.uuid)
-            if (accountId == -1L) {
+            val accountId = repository.findAccountByUuid(account.uuid!!)
+            if (accountId == null) {
                 emit(Result.failure(IllegalStateException("Account with uuid ${account.uuid} not found")))
             } else {
                 emit(deleteAccountsInternal(longArrayOf(accountId)).also {

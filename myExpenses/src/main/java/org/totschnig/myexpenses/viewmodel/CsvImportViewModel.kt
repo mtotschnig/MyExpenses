@@ -72,7 +72,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
         var splitParent: Long? = null
         contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_START, null, null)
         for (i in data.indices) {
-            var transferAccountId: Long = -1
+            var transferAccountId: Long? = null
             val record: CSVRecord = data[i]
             var categoryInfo: String? = null
             if (columnIndexSplit != -1) {
@@ -104,7 +104,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                     } else if (QifUtils.isTransferCategory(category)) {
                         transferAccountId = repository.findAnyOpenByLabel(category.substring(1, category.length - 1))
                     }
-                    if (transferAccountId == -1L) {
+                    if (transferAccountId == null) {
                         categoryInfo = category
                         if (subCategory != "") {
                             categoryInfo += ":$subCategory"
@@ -113,7 +113,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 }
             }
             if (isSplitPart) {
-                if (transferAccountId != -1L) {
+                if (transferAccountId != null) {
                     t = Transfer.getNewInstance(account.id, currencyUnit, transferAccountId, splitParent)
                     t.setAmount(m)
                 } else {
@@ -124,7 +124,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 t = if (isSplitParent) {
                     SplitTransaction(account.id, m)
                 } else {
-                    if (transferAccountId != -1L) {
+                    if (transferAccountId != null) {
                         Transfer(account.id, m, transferAccountId)
                     } else {
                         Transaction(account.id, m)

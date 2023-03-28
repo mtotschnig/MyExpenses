@@ -18,7 +18,7 @@ import org.acra.util.StreamReader
 import org.totschnig.dropbox.activity.ACTION_RE_AUTHENTICATE
 import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData

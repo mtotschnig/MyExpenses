@@ -17,6 +17,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.getLabelForAccount
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
@@ -43,16 +45,18 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     BaseWorker(context, workerParameters) {
-    val currencyFormatter: CurrencyFormatter
+    @Inject
+    lateinit var currencyFormatter: CurrencyFormatter
+    @Inject
+    lateinit var repository: Repository
 
     init {
-        with((context.applicationContext as MyApplication).appComponent) {
-            currencyFormatter = currencyFormatter()
-        }
+        (context.applicationContext as MyApplication).appComponent.inject(this)
     }
 
     override val channelId = NotificationBuilderWrapper.CHANNEL_ID_PLANNER
@@ -199,14 +203,14 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                     val template = Template.getInstanceForPlanIfInstanceIsOpen(planId, instanceId)
                     if (!(template == null || template.isSealed)) {
                         if (template.planExecutionAdvance >= diff) {
-                            val account = Account.getInstanceFromDb(template.accountId)
-                            if (account != null) {
+                            val accountLabel = repository.getLabelForAccount(template.accountId)
+                            if (accountLabel != null) {
                                 log("belongs to template %d", template.id)
                                 var notification: Notification
                                 val notificationId = (instanceId * planId % Int.MAX_VALUE).toInt()
                                 log("notification id %d", notificationId)
                                 var resultIntent: PendingIntent?
-                                val title = account.label + " : " + template.title
+                                val title = accountLabel + " : " + template.title
                                 val builder = NotificationBuilderWrapper(
                                     applicationContext,
                                     NotificationBuilderWrapper.CHANNEL_ID_PLANNER

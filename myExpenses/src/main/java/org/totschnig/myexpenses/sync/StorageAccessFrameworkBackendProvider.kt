@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import org.acra.util.StreamReader
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.io.FileCopyUtils

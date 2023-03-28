@@ -276,7 +276,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 ProviderUtils.buildFromExtras(
                     repository,
                     extras!!
-                ), emptyList()
+                )!!, emptyList()
             )
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(
                 Transaction.getInstanceFromDb(

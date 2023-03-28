@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.accounts.AccountManager
 import android.app.Application
+import android.content.ContentValues
 import android.content.Context
 import androidx.core.database.getStringOrNull
 import androidx.core.util.Pair
@@ -11,11 +12,11 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.LocalAccountInfo
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.db2.findAccountByUuidWithExtraColumn
+import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_BASE_URI
 import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
@@ -40,24 +41,23 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
     abstract fun accountMetadata(accountName: String, isFeatureAvailable: Boolean): LiveData<Result<List<Result<AccountMetaData>>>>?
 
     fun syncUnlink(uuid: String) = liveData(context = coroutineContext()) {
-        emit(if (Account.findByUuid(uuid).takeIf { it != -1L }?.let {
-                Account.getInstanceFromDb(it)
-            }?.let { account ->
-                account.syncAccountName?.let { syncAccountName ->
+        emit(if (repository.findAccountByUuidWithExtraColumn(uuid, KEY_SYNC_ACCOUNT_NAME)?.let { account ->
+                account.second?.let { syncAccountName ->
                     val accountManager = AccountManager.get(getApplication())
                     val syncAccount = getAccount(syncAccountName)
                     accountManager.setUserData(
                         syncAccount,
-                        SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.id),
+                        SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.first),
                         null
                     )
                     accountManager.setUserData(
                         syncAccount,
-                        SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.id),
+                        SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.first),
                         null
                     )
-                    account.syncAccountName = null
-                    account.save(homeCurrencyProvider.homeCurrencyUnit)
+                    repository.updateAccount(account.first, ContentValues().apply {
+                        putNull(KEY_SYNC_ACCOUNT_NAME)
+                    })
                 }
             } != null) ResultUnit else Result.failure(Exception("ERROR")))
     }

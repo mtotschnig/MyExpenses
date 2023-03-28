@@ -51,7 +51,7 @@ class ProviderUtilsTest {
         ))
     }
 
-    private fun buildFromExtras(extras: Bundle) = ProviderUtils.buildFromExtras(repository, extras)
+    private fun buildFromExtras(extras: Bundle) = ProviderUtils.buildFromExtras(repository, extras)!!
 
     @Test
     fun shouldPickAccountBasedOnCurrency() {

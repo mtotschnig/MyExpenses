@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
+import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Transaction
@@ -16,29 +17,48 @@ import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long): CurrencyUnit? {
     require(accountId != 0L)
-    return contentResolver.query(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
-        arrayOf(DatabaseConstants.KEY_CURRENCY), null, null, null
-    )?.use {
-        if (it.moveToFirst()) currencyContext[it.getString(0)] else null
-    }
+    return getCurrencyForAccount(accountId)?.let { currencyContext[it] }
 }
 
-fun Repository.getUuidForAccount(accountId: Long): String? {
+fun Repository.getUuidForAccount(accountId: Long) = getStringValue(accountId, DatabaseConstants.KEY_UUID)
+fun Repository.getCurrencyForAccount(accountId: Long) = getStringValue(accountId, DatabaseConstants.KEY_CURRENCY)
+fun Repository.getLabelForAccount(accountId: Long) = getStringValue(accountId, DatabaseConstants.KEY_LABEL)
+
+private fun Repository.getStringValue(accountId: Long, column: String): String? {
     require(accountId != 0L)
     return contentResolver.query(
         ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
-        arrayOf(DatabaseConstants.KEY_UUID), null, null, null
+        arrayOf(column), null, null, null
     )?.use {
         if (it.moveToFirst()) it.getString(0) else null
     }
+}
+
+fun Repository.findAccountByUuid(uuid: String) = contentResolver.query(
+    TransactionProvider.ACCOUNTS_URI,
+    arrayOf(DatabaseConstants.KEY_ROWID),
+    DatabaseConstants.KEY_UUID + " = ?",
+    arrayOf(uuid),
+    null
+)?.use {
+    if (it.moveToFirst()) it.getLong(0) else null
+}
+
+fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: String) = contentResolver.query(
+    TransactionProvider.ACCOUNTS_URI,
+    arrayOf(DatabaseConstants.KEY_ROWID, extraColumn),
+    DatabaseConstants.KEY_UUID + " = ?",
+    arrayOf(uuid),
+    null
+)?.use {
+    if (it.moveToFirst()) it.getLong(0) to it.getStringOrNull(1) else null
 }
 
 fun Repository.getLastUsedOpenAccount() =
     contentResolver.query(
         TransactionProvider.ACCOUNTS_URI.withLimit(1),
         arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_CURRENCY),
-        "${DatabaseConstants.KEY_SEALED} = 0",
+        "$KEY_SEALED = 0",
         null,
         DatabaseConstants.KEY_LAST_USED
     )?.use {
@@ -86,18 +106,25 @@ fun Repository.createAccount(account: Account): Account {
     return account.copy(id = id, uuid = uuid)
 }
 
+fun Repository.updateAccount(accountId: Long, data: ContentValues) {
+    contentResolver.update(
+        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        data, null, null
+    )
+}
+
 fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
     val ops = buildList {
         val accountUri = TransactionProvider.ACCOUNTS_URI
         val debtUri = TransactionProvider.DEBTS_URI
         add(
             ContentProviderOperation.newUpdate(accountUri)
-                .withValue(DatabaseConstants.KEY_SEALED, -1)
-                .withSelection(DatabaseConstants.KEY_SEALED + " = 1", null).build()
+                .withValue(KEY_SEALED, -1)
+                .withSelection("$KEY_SEALED = 1", null).build()
         )
         add(
-            ContentProviderOperation.newUpdate(debtUri).withValue(DatabaseConstants.KEY_SEALED, -1)
-                .withSelection(DatabaseConstants.KEY_SEALED + " = 1", null).build()
+            ContentProviderOperation.newUpdate(debtUri).withValue(KEY_SEALED, -1)
+                .withSelection("$KEY_SEALED = 1", null).build()
         )
         var selection =
             DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " is null AND " + DatabaseConstants.KEY_STATUS + " = ?"
@@ -115,12 +142,12 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
         )
         add(
             ContentProviderOperation.newUpdate(accountUri)
-                .withValue(DatabaseConstants.KEY_SEALED, 1)
-                .withSelection(DatabaseConstants.KEY_SEALED + " = -1", null).build()
+                .withValue(KEY_SEALED, 1)
+                .withSelection("$KEY_SEALED = -1", null).build()
         )
         add(
-            ContentProviderOperation.newUpdate(debtUri).withValue(DatabaseConstants.KEY_SEALED, 1)
-                .withSelection(DatabaseConstants.KEY_SEALED + " = -1", null).build()
+            ContentProviderOperation.newUpdate(debtUri).withValue(KEY_SEALED, 1)
+                .withSelection("$KEY_SEALED = -1", null).build()
         )
 
 
@@ -133,7 +160,7 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
  * method fill return the first account retrieved in the cursor, order is undefined
  *
  * @param label label of the account we want to retrieve
- * @return id or -1 if not found
+ * @return id or null if not found
  */
 fun Repository.findAnyOpenByLabel(label: String) = findAnyOpen(DatabaseConstants.KEY_LABEL, label)
 
@@ -152,7 +179,7 @@ fun Repository.findAnyOpen(column: String? = null, search: String? = null) = con
     (if (column == null) "" else ("$column = ? AND  ")) + "$KEY_SEALED = 0",
     search?.let { arrayOf(it) },
     null
-)?.use { if (it.moveToFirst()) it.getLong(0) else -1L } ?: -1L
+)?.use { if (it.moveToFirst()) it.getLong(0) else null }
 
 fun updateTransferPeersForTransactionDelete(
     ops: java.util.ArrayList<ContentProviderOperation>,
@@ -161,8 +188,8 @@ fun updateTransferPeersForTransactionDelete(
 ) {
     ops.add(
         ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
-            .withValue(DatabaseConstants.KEY_SEALED, -1)
-            .withSelection(DatabaseConstants.KEY_SEALED + " = 1", null).build()
+            .withValue(KEY_SEALED, -1)
+            .withSelection("$KEY_SEALED = 1", null).build()
     )
     val args = ContentValues().apply {
         putNull(DatabaseConstants.KEY_TRANSFER_ACCOUNT)
@@ -179,7 +206,7 @@ fun updateTransferPeersForTransactionDelete(
     )
     ops.add(
         ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
-            .withValue(DatabaseConstants.KEY_SEALED, 1)
-            .withSelection(DatabaseConstants.KEY_SEALED + " = -1", null).build()
+            .withValue(KEY_SEALED, 1)
+            .withSelection("$KEY_SEALED = -1", null).build()
     )
 }

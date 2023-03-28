@@ -49,9 +49,9 @@ private fun Repository.toContentValues(transaction: Transaction) = with(transact
 fun Repository.updateTransaction(id: String, transaction: Transaction): Int {
     val ops = ArrayList<ContentProviderOperation>()
     ops.add(
-        ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+        ContentProviderOperation.newUpdate(
+            TransactionProvider.TRANSACTIONS_URI.buildUpon().appendEncodedPath(id).build())
             .withValues(toContentValues(transaction))
-            .withSelection("${DatabaseConstants.KEY_ROWID} = ?", arrayOf(id))
             .build()
     )
     ops.add(

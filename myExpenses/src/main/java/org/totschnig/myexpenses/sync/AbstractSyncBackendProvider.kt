@@ -14,16 +14,11 @@ import com.google.gson.reflect.TypeToken
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
-import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.AdapterFactory
-import org.totschnig.myexpenses.sync.json.CategoryExport
-import org.totschnig.myexpenses.sync.json.ChangeSet
-import org.totschnig.myexpenses.sync.json.TransactionChange
+import org.totschnig.myexpenses.sync.json.*
 import org.totschnig.myexpenses.sync.json.Utils.getChanges
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -61,7 +56,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     override val extensionForData: String
         get() = if (isEncrypted) "enc" else "json"
 
-    fun setAccountUuid(account: Account) {
+    fun setAccountUuid(account: org.totschnig.myexpenses.model2.Account) {
         accountUuid = account.uuid
     }
 
@@ -333,7 +328,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     protected abstract fun saveUriToAccountDir(fileName: String, uri: Uri)
 
-    protected fun buildMetadata(account: Account?): String {
+    protected fun buildMetadata(account: org.totschnig.myexpenses.model2.Account?): String {
         return gson.toJson(AccountMetaData.from(account))
     }
 
@@ -374,7 +369,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     @Throws(IOException::class)
-    override fun updateAccount(account: Account) {
+    override fun updateAccount(account: org.totschnig.myexpenses.model2.Account) {
         writeAccount(account, true)
     }
 
@@ -391,7 +386,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         }
 
     @Throws(IOException::class)
-    protected abstract fun writeAccount(account: Account, update: Boolean)
+    protected abstract fun writeAccount(account: org.totschnig.myexpenses.model2.Account, update: Boolean)
 
     @Throws(IOException::class)
     override fun lock() {

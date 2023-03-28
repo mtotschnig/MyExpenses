@@ -44,14 +44,14 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     private val fallbackToClass1: Boolean
 
     @Throws(IOException::class)
-    override fun withAccount(account: org.totschnig.myexpenses.model.Account) {
+    override fun withAccount(account: org.totschnig.myexpenses.model2.Account) {
         setAccountUuid(account)
         webDavClient.mkCol(accountUuid)
         writeAccount(account, false)
     }
 
     @Throws(IOException::class)
-    override fun writeAccount(account: org.totschnig.myexpenses.model.Account, update: Boolean) {
+    override fun writeAccount(account: org.totschnig.myexpenses.model2.Account, update: Boolean) {
         val accountMetadataFilename = accountMetadataFilename
         val metaData = webDavClient.getResource(accountMetadataFilename, accountUuid)
         if (update || !metaData.exists()) {

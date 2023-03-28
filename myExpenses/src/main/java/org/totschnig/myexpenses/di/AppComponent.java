@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.BaseTransactionProvider;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
+import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -286,5 +287,7 @@ public interface AppComponent {
   void inject(MyExpensesViewModel myExpensesViewModel);
 
   void inject(RestoreViewModel restoreViewModel);
+
+  void inject(PlanExecutor planExecutor);
 
 }
