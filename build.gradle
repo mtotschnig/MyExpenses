@@ -24,15 +24,15 @@ ext {
     espressoVersion = "3.5.1"
     androidSupportTestVersion = "1.5.0"
     androidxTextExtJunit = "1.1.5"
-    daggerVersion = "2.44.2"
+    daggerVersion = "2.45"
     okHttpVersion = "4.10.0"
     acraVersion = "5.9.7"
     butterknifeVersion = "10.2.3"
     robolectricVersion = "4.9"
-    roomVersion = "2.5.0"
-    archLifecycleVersion = '2.6.0'
+    roomVersion = "2.5.1"
+    archLifecycleVersion = '2.6.1'
     androidxArchVersion = '2.2.0'
-    fragmentVersion = "1.5.5"
+    fragmentVersion = "1.5.6"
     coroutines = '1.6.4'
     mockitoVersion = '4.9.0'
     retrofitVersion = "2.9.0"
@@ -55,5 +55,5 @@ ext {
     truthVersion = "1.1.3"
     accompanist = "0.28.0"
     requery = "3.36.0"
-    androidxSqlite = "2.3.0"
+    androidxSqlite = "2.3.1"
 }
