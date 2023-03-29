@@ -34,6 +34,8 @@ import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.enumValueOrNull
 import timber.log.Timber
 import java.io.File
 
@@ -353,6 +355,9 @@ fun Cursor.getStringIfExists(column: String) =
 
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 fun Cursor.getBoolean(columnIndex: Int) = getInt(columnIndex) == 1
+
+inline fun <reified T : Enum<T>> Cursor.getEnum(column: String, default: T) =
+    enumValueOrDefault(getString(column), default)
 
 /**
  * Splits the value of column by ASCII UnitSeparator char

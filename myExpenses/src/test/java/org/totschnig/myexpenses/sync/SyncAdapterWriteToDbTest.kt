@@ -6,18 +6,21 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 @RunWith(RobolectricTestRunner::class)
 class SyncAdapterWriteToDbTest {
@@ -31,15 +34,19 @@ class SyncAdapterWriteToDbTest {
 
     private fun setupSync() {
         syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency)
-        syncDelegate.account = Account(CurrencyUnit.DebugInstance)
+        syncDelegate.account = Account(label = "", currency = "EUR")
     }
 
     private fun setupSyncWithFakeResolver() {
         syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency) { _, _ -> 1 }
-        syncDelegate.account = Account(CurrencyUnit.DebugInstance)
+        syncDelegate.account = Account(label = "", currency = "EUR")
     }
 
-    private val currencyContext = Mockito.mock(CurrencyContext::class.java)
+    private val currencyContext = Mockito.mock(CurrencyContext::class.java).also { currencyContext ->
+        Mockito.`when`(currencyContext.get(ArgumentMatchers.anyString())).thenAnswer {
+            CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
+        }
+    }
     private val featureManager = Mockito.mock(FeatureManager::class.java)
     private val homeCurrency = CurrencyUnit.DebugInstance
     private val repository = Repository(

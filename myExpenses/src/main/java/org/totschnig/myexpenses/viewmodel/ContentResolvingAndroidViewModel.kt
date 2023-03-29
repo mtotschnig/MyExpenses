@@ -42,15 +42,10 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
-import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -292,11 +287,11 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     fun reset(account: org.totschnig.myexpenses.model2.Account, filter: WhereFilter?, handleDelete: Int, helperComment: String?) {
         val ops = ArrayList<ContentProviderOperation>()
         var handleDeleteOperation: ContentProviderOperation? = null
-        val sum = repository.getTransactionSum(account.id!!, filter)
+        val sum = repository.getTransactionSum(account.id, filter)
         if (handleDelete == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
             val currentBalance: Long = account.openingBalance + sum
             handleDeleteOperation = ContentProviderOperation.newUpdate(
-                Account.CONTENT_URI.buildUpon().appendPath(account.id.toString()).build()
+                ACCOUNTS_URI.buildUpon().appendPath(account.id.toString()).build()
             )
                 .withValue(KEY_OPENING_BALANCE, currentBalance)
                 .build()

@@ -4,8 +4,10 @@ import android.database.Cursor
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 
@@ -22,7 +24,8 @@ data class Account(
     val excludeFromTotals: Boolean = false,
     val uuid: String? = null,
     val isSealed: Boolean = false,
-    val exchangeRate: Double = 1.0
+    val exchangeRate: Double = 1.0,
+    val grouping: Grouping = Grouping.NONE
 ) {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
@@ -57,7 +60,8 @@ data class Account(
                 label = cursor.getString(KEY_LABEL),
                 description = cursor.getString(KEY_DESCRIPTION),
                 uuid = cursor.getString(KEY_UUID),
-                isSealed = cursor.getBoolean(KEY_SEALED)
+                isSealed = cursor.getBoolean(KEY_SEALED),
+                grouping = cursor.getEnum(KEY_GROUPING, Grouping.NONE)
             )
     }
 }

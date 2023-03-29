@@ -9,23 +9,12 @@ import android.net.Uri
 import com.google.common.truth.Truth
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.test.R as RT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import timber.log.Timber
@@ -34,6 +23,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
+import org.totschnig.myexpenses.test.R as RT
 
 @SuppressLint("InlinedApi")
 class Fixture(inst: Instrumentation) {
@@ -75,13 +65,12 @@ class Fixture(inst: Instrumentation) {
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
         account1 = Account(
-            appContext.getString(R.string.testData_account1Label),
-            defaultCurrency,
-            90000,
-            appContext.getString(R.string.testData_account1Description)
-        )
-        account1.syncAccountName = syncAccount1
-        account1.save(defaultCurrency)
+            label = appContext.getString(R.string.testData_account1Label),
+            currency = defaultCurrency.code,
+            openingBalance = 90000,
+            description = appContext.getString(R.string.testData_account1Description),
+            syncAccountName = syncAccount1
+        ).createIn(repository)
         appContext.contentResolver.update(
             ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, account1.id)
                 .buildUpon()
@@ -90,33 +79,30 @@ class Fixture(inst: Instrumentation) {
         )
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
         account2 = Account(
-            appContext.getString(R.string.testData_account2Label),
-            foreignCurrency,
-            50000,
-            formatter.format(LocalDate.now()), AccountType.CASH,
-            testContext.resources.getColor(RT.color.material_red)
-        )
-        account2.syncAccountName = syncAccount2
-        account2.save(defaultCurrency)
+            label = appContext.getString(R.string.testData_account2Label),
+            currency = foreignCurrency.code,
+            openingBalance = 50000,
+            description = formatter.format(LocalDate.now()),
+            type = AccountType.CASH,
+            color = testContext.resources.getColor(RT.color.material_red),
+            syncAccountName = syncAccount2
+        ).createIn(repository)
         account3 = Account(
-            appContext.getString(R.string.testData_account3Label),
-            defaultCurrency,
-            200000,
-            appContext.getString(R.string.testData_account3Description), AccountType.BANK,
-            testContext.resources.getColor(RT.color.material_blue)
-        )
-        account3.grouping = Grouping.DAY
-        account3.syncAccountName = syncAccount3
-        account3.save(defaultCurrency)
+            label = appContext.getString(R.string.testData_account3Label),
+            currency = defaultCurrency.code,
+            openingBalance = 200000,
+            description = appContext.getString(R.string.testData_account3Description),
+            type = AccountType.BANK,
+            color = testContext.resources.getColor(RT.color.material_blue),
+            grouping = Grouping.DAY,
+            syncAccountName = syncAccount3
+        ).createIn(repository)
         account4 = Account(
-            appContext.getString(R.string.testData_account3Description),
-            foreignCurrency,
-            0,
-            "",
-            AccountType.CCARD,
-            testContext.resources.getColor(RT.color.material_cyan)
-        )
-        account4.save(defaultCurrency)
+            label = appContext.getString(R.string.testData_account3Description),
+            currency = foreignCurrency.code,
+            type = AccountType.CCARD,
+            color = testContext.resources.getColor(RT.color.material_cyan)
+        ).createIn(repository)
 
         val johnDoe = appContext.getString(R.string.testData_templatePayee)
 
@@ -234,7 +220,7 @@ class Fixture(inst: Instrumentation) {
                 .persist()
 
             //Transfer
-            val transfer = Transfer.getNewInstance(account1, account3.id)
+            val transfer = Transfer.getNewInstance(account1.id, defaultCurrency, account3.id)
             transfer.setAmount(Money(defaultCurrency, 25000L))
             transfer.setDate(Date(offset))
             transfer.save()
@@ -249,7 +235,7 @@ class Fixture(inst: Instrumentation) {
             .persist()
 
         //Transaction 8: Split
-        val split: Transaction = SplitTransaction.getNewInstance(account1)
+        val split: Transaction = SplitTransaction.getNewInstance(account1.id, defaultCurrency, true)
         split.amount = Money(defaultCurrency, -8967L)
         split.status  = DatabaseConstants.STATUS_NONE
         split.save(true)
@@ -281,7 +267,7 @@ class Fixture(inst: Instrumentation) {
         }
         val template = Template.getTypedNewInstance(
             Transactions.TYPE_TRANSACTION,
-            account3,
+            account3.id, defaultCurrency,
             false,
             null
         )!!
