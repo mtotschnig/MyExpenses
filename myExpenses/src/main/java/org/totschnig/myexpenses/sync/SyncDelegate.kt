@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.db2.findAccountByUuid
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.CategoryInfo
@@ -33,7 +34,7 @@ class SyncDelegate(
     private val tagToId: MutableMap<String, Long> = HashMap()
     private val accountUuidToId: MutableMap<String, Long> = HashMap()
 
-    lateinit var account: org.totschnig.myexpenses.model2.Account
+    lateinit var account: Account
 
     @Throws(RemoteException::class, OperationApplicationException::class)
     fun writeRemoteChangesToDb(provider: ContentProviderClient, remoteChanges: List<TransactionChange>) {
