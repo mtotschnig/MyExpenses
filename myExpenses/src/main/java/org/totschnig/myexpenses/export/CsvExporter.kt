@@ -158,6 +158,8 @@ class CsvExporter(
         }
     }
 
+    override val useCategoryOfFirstPartForParent = false
+
     override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>) =
         StringBuilderWrapper().apply {
             if (withAccountColumn) {
@@ -187,26 +189,24 @@ class CsvExporter(
                 if (withAccountColumn) {
                     appendQ("").append(delimiter)
                 }
-                with(it) {
-                    appendQ(SplitTransaction.CSV_PART_INDICATOR)
-                    append(delimiter)
-                    handleDateTime(this@apply)
-                    appendQ(payee ?: "")
-                    append(delimiter)
-                    handleAmount(this@apply)
-                    handleLabel(this@apply)
-                    appendQ(comment ?: "")
-                    append(delimiter)
-                    appendQ("")
-                    append(delimiter)
-                    appendQ("")
-                    append(delimiter)
-                    appendQ("")
-                    append(delimiter)
-                    appendQ(pictureFileName ?: "")
-                    append(delimiter)
-                    handleTags(this@apply)
-                }
+                appendQ(SplitTransaction.CSV_PART_INDICATOR)
+                append(delimiter)
+                it.handleDateTime(this@apply)
+                appendQ(payee ?: "")
+                append(delimiter)
+                it.handleAmount(this@apply)
+                it.handleLabel(this@apply)
+                appendQ(it.comment ?: "")
+                append(delimiter)
+                appendQ("")
+                append(delimiter)
+                appendQ("")
+                append(delimiter)
+                appendQ("")
+                append(delimiter)
+                appendQ(it.pictureFileName ?: "")
+                append(delimiter)
+                it.handleTags(this@apply)
             }
         }.toString()
 }
