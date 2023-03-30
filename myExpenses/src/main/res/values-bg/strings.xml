@@ -1019,4 +1019,12 @@
     <string name="notifications_permission_required_webui">Чрез предоставяне на разрешение за изпращане на известия, вие контролирате състоянието на уеб сървъра.</string>
     <string name="notifications_permission_required_sync">При предоставяне на разрешение за изпращане на известия, вие може да следите развитието на действията по синхронизиране.</string>
     <string name="notifications_channel_required">Моля, разрешете канала %s.</string>
+    <string name="debt_installment_pay">Плащам вноска от %s.</string>
+    <string name="debt_installment_receive">Получавам вноска %s.</string>
+    <string name="debt_lend_additional">Аз давам назаем %s.</string>
+    <string name="debt_borrow_additional">Аз вземам на заем %s.</string>
+    <string name="debt_paid_off_other">%s е изплатил дълга си.</string>
+    <string name="debt_paid_off_self">Моят дълг е изплатен.</string>
+    <string name="debt_balance_i_owe">Сега дължа %s.</string>
+    <string name="debt_balance_they_owe">%1$s сега дължи %2$s.</string>
 </resources>

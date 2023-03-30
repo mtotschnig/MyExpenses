@@ -95,4 +95,19 @@
     <string name="menu_HistoryActivity_history_transfers_help_text">Uključi/Isključi, ako se prijenosi trebaju tretirati kao redovni prihod ili rashod.</string>
     <string name="form_account_help_text">Odaberi račun kojemu transakcija pripada.</string>
     <string name="form_date_time_help_text">Upiši datum i vrijeme izvršavanja transakcije.</string>
+    <string name="form_payer_or_payee_help_text">Ovo polje pamti vrijednosti koje uneseš i predložit će ih u budućnosti.</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">Dodijeli račune u koje ili iz kojih se ovaj objekt prenosi.</string>
+    <string name="form_title_help_text">Upiši naslov koji identificira predložak.</string>
+    <string name="form_date_time_help_text_configuration">U postavkama možeš deaktivirati unos vremena i aktivirati razlikovanje datuma uknjiženja i datuma vrijednosti.</string>
+    <string name="help_ExpenseEdit_transaction_info">Koristi ovaj obrazac za unos nove transakcije ili za uređivanje postojeće. Koristi padajući izbornik u traci radnji za prebacivanje na obrazac za dodavanje novog prijenosa ili višedjelne transakcije.</string>
+    <string name="help_ExpenseEdit_templateCategory_info">Koristi ovaj obrazac za unos nove transakcije ili za uređivanje postojeće. Koristi padajući izbornik u traci radnji za prebacivanje na obrazce za transakcije, prijenose i višedjelne transakcije.</string>
+    <string name="help_ExpenseEdit_split_info">Višedjelna transakcija je transakcija podijeljena na dijelove, pri čemu se svaki dio može dodijeliti jednoj drugoj kategoriji ili prenijeti na jedan drugi račun.</string>
+    <string name="form_comment_help_text">Upiši bilo koju napomenu o objektu.</string>
+    <string name="form_attach_image_help_text">Gumb &lt;img src=android:ic_menu_camera&gt; omogućuje prilaganje slike objektu (npr. iz galerije ili pomoću kamere).</string>
+    <string name="form_category_help_text">Ovaj gumb otvara popis kategorija, gdje možeš odabrati kategoriju za transakciju.</string>
+    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Odaberi kategoriju za ovaj dio podjele.</string>
+    <string name="form_exchange_rate_help_text">Tečaj možeš odrediti u oba smjera prijenosa. Inverzni tečaj i iznos koji odgovara ovisnom dijelu tečaja izračunavaju se automatski.</string>
+    <string name="form_split_parts_heading_help_text_1">Koristi ikonu + za dodavanje dijelova po potrebi.</string>
+    <string name="form_split_parts_heading_help_text_2">Polje iznosa će se automatski akatualizirati sa zbrojem dijelova, osim ako ručno ne uneseš iznos. U tom slučaju će se prikazati razlika između zbroja dijelova i iznosa (nepodijeljeni iznos).</string>
+    <string name="form_split_parts_heading_help_text_3">Višedjeljnu transakciju možeš spremiti samo ako je iznos transakcije točno dodijeljen.</string>
 </resources>
