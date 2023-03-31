@@ -10,10 +10,9 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
-fun loadTags(linkUri: Uri, column: String, id: Long, contentResolver: ContentResolver): List<Tag>? =
+fun loadTags(linkUri: Uri, column: String, id: Long, contentResolver: ContentResolver): List<Tag> =
         //noinspection Recycle
-        contentResolver.query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)
-            ?.useAndMap {
+        contentResolver.query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMap {
                 Tag(
                     id = it.getLong(DatabaseConstants.KEY_ROWID),
                     label = it.getString(DatabaseConstants.KEY_LABEL),

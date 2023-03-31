@@ -34,7 +34,10 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
@@ -56,6 +59,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
+import org.totschnig.myexpenses.model2.Account
 
 /**
  * Activity for editing an account
@@ -130,7 +134,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         setTitle(if (rowId != 0L) R.string.menu_edit_account else R.string.menu_create_account)
         if (savedInstanceState == null || !dataLoaded) {
             if (rowId != 0L) {
-                viewModel.accountWithTags(rowId).observe(this) {
+                viewModel.loadAccount(rowId).observe(this) {
                     if (it != null) {
                         populateFields(it)
                     } else {
@@ -141,10 +145,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             } else {
                 populateFields(
                     Account(
-                        currencyContext[
-                                extras?.getString(DatabaseConstants.KEY_CURRENCY)
-                                    ?: currencyViewModel.default.code
-                        ]
+                        currency = extras?.getString(DatabaseConstants.KEY_CURRENCY) ?: currencyViewModel.default.code
                     )
                 )
             }
@@ -229,17 +230,17 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.Label.setText(account.label)
         binding.Description.setText(account.description)
         syncAccountName = account.syncAccountName
-        _currencyUnit = account.currencyUnit
+        _currencyUnit = currencyContext[account.currency]
         binding.ERR.ExchangeRate.setRate(BigDecimal(account.exchangeRate), true)
         color = account.color
         excludeFromTotals = account.excludeFromTotals
         uuid = account.uuid
         configureForCurrency(currencyUnit)
-        binding.Amount.setAmount(account.openingBalance.amountMajor)
+        binding.Amount.setAmount(Money(currencyUnit, account.openingBalance).amountMajor)
         accountTypeSpinner.setSelection(account.type.ordinal)
         val criterion = account.criterion
         if (criterion != null) {
-            binding.Criterion.setAmount(criterion.amountMajor)
+            binding.Criterion.setAmount(Money(currencyUnit, account.criterion).amountMajor)
             updateCriterionLabel()
         }
         setup()
@@ -277,39 +278,35 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val currency = (currencySpinner.selectedItem as Currency).code
         val currencyUnit = currencyContext[currency]
         val account = Account(
-            label,
-            Money(currencyUnit, openingBalance),
-            binding.Description.text.toString(),
-            accountTypeSpinner.selectedItem as AccountType,
-            color
-        ).apply {
-            id = rowId
-            uuid = this@AccountEdit.uuid
-            if (syncSpinner.selectedItemPosition > 0) {
-                syncAccountName = syncSpinner.selectedItem as String
-            }
-            if (prefHandler.getString(PrefKey.HOME_CURRENCY, currency) != currency) {
-                val rate = binding.ERR.ExchangeRate.getRate(false)
-                if (rate != null) {
-                    exchangeRate = rate.toDouble()
-                }
-            }
-            setCriterion(binding.Criterion.typedValue)
-            excludeFromTotals = this@AccountEdit.excludeFromTotals
-        }
-        viewModel.save(account).observe(this) { id ->
-            if (id < 0) {
-                showSnackBar("ERROR")
-            } else {
+            id = rowId,
+            label = label,
+            currency = currency,
+            openingBalance = Money(currencyUnit, openingBalance).amountMinor,
+            description = binding.Description.text.toString(),
+            type = accountTypeSpinner.selectedItem as AccountType,
+            color = color,
+            uuid = uuid,
+            syncAccountName =  if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,
+            criterion = Money(currencyUnit, binding.Criterion.typedValue).amountMinor,
+            excludeFromTotals = excludeFromTotals,
+            exchangeRate = (if (prefHandler.getString(PrefKey.HOME_CURRENCY, currency) != currency) {
+                binding.ERR.ExchangeRate.getRate(false)?.toDouble()
+            } else null) ?: 1.0
+        )
+        viewModel.save(account).observe(this) { result ->
+            result.onFailure {
+                CrashHandler.report(it)
+                showSnackBar(it.safeMessage)
+            }.onSuccess {
                 account.syncAccountName?.let {
                     requestSync(
                         accountName = it,
                         uuid = account.uuid!!
                     )
                 }
-                intent.putExtra(DatabaseConstants.KEY_ROWID, id)
+                intent.putExtra(DatabaseConstants.KEY_ROWID, it)
                 setResult(RESULT_OK, intent)
-                currencyContext.ensureFractionDigitsAreCached(account.currencyUnit)
+                currencyContext.ensureFractionDigitsAreCached(currencyUnit)
                 finish()
             }
         }

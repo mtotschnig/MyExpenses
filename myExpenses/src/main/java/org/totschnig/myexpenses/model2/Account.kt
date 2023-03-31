@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
 data class Account(
     override val id: Long = 0L,
-    val label: String,
+    val label: String  = "",
     val description: String = "",
     val openingBalance: Long = 0L,
     override val currency: String,

@@ -1,30 +1,49 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.ContentUris
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.toContentValues
+import org.totschnig.myexpenses.db2.updateAccount
+import org.totschnig.myexpenses.model.loadTags
+import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 
 class AccountEditViewModel(application: Application, savedStateHandle: SavedStateHandle)
     : TagHandlingViewModel(application, savedStateHandle) {
 
-    fun accountWithTags(id: Long): LiveData<Account?> = liveData(context = coroutineContext()) {
-        Account.getInstanceFromDbWithTags(id, contentResolver)?.also { pair ->
-            emit(pair.first)
-            pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
+    fun loadAccount(id: Long): LiveData<Account?> = liveData(context = coroutineContext()) {
+        emit(repository.loadAccount(id))
+    }
+
+    fun loadTags(accountId: Long) {
+        viewModelScope.launch(coroutineContext()) {
+            updateTags(
+                loadTags(
+                    TransactionProvider.ACCOUNTS_TAGS_URI,
+                    DatabaseConstants.KEY_ACCOUNTID,
+                    accountId,
+                    contentResolver
+                ), false
+            )
         }
     }
 
-    fun save(account: Account): LiveData<Long> = liveData(context = coroutineContext()) {
-        val result = try {
-            account.save(homeCurrencyProvider.homeCurrencyUnit)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
-        } catch (e: Exception) {
-            CrashHandler.report(e)
-            ERROR_UNKNOWN
-        }
-        emit(if (result > 0 && !account.saveTags(tagsLiveData.value, contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
+    fun save(account: Account): LiveData<Result<Long>> = liveData(context = coroutineContext()) {
+        emit(kotlin.runCatching {
+            if (account.id == 0L) {
+                repository.createAccount(account)
+            } else {
+                repository.updateAccount(account.id, account.toContentValues())
+                account
+            }.id
+        })
+        //emit(if (result > 0 && !account.saveTags(tagsLiveData.value, contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
     }
 }
