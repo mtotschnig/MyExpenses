@@ -8,43 +8,17 @@ import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
 import arrow.core.Tuple4
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 
-abstract class BaseAccount {
-    abstract val id:Long
+abstract class BaseAccount: DataBaseAccount() {
     abstract val _color: Int
-    abstract val currency: CurrencyUnit
-
-    val isHomeAggregate get() = id == Account.HOME_AGGREGATE_ID
-
-    val isAggregate get() = id < 0
     fun color(resources: Resources): Int = if (isAggregate)
         ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
-
-    val selection: String
-        get() = when {
-            !isAggregate -> "$KEY_ACCOUNTID = ?"
-            isHomeAggregate -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)"
-            else -> "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_EXCLUDE_FROM_TOTALS = 0)"
-        }
-
-    val selectionArgs: Array<String>?
-        get() = when {
-            !isAggregate -> arrayOf(id.toString())
-            isHomeAggregate -> null
-            else -> arrayOf(currency.code)
-        }
 }
 
 @Stable
@@ -52,7 +26,7 @@ data class FullAccount(
     override val id: Long,
     val label: String,
     val description: String?,
-    override val currency: CurrencyUnit,
+    val currencyUnit: CurrencyUnit,
     override val _color: Int = -1,
     val type: AccountType?,
     val sealed: Boolean = false,
@@ -61,7 +35,7 @@ data class FullAccount(
     val sumIncome: Long,
     val sumExpense: Long,
     val sumTransfer: Long = 0L,
-    val grouping: Grouping = Grouping.NONE,
+    override val grouping: Grouping = Grouping.NONE,
     val sortDirection: SortDirection = SortDirection.DESC,
     val syncAccountName: String? = null,
     val reconciledTotal: Long = 0L,
@@ -72,23 +46,20 @@ data class FullAccount(
     val total: Long? = null
 ): BaseAccount() {
 
+    override val currency: String = currencyUnit.code
+
     val toPageAccount: PageAccount
         get() = PageAccount(
-            id, type, sortDirection, grouping, currency, sealed, openingBalance, _color
+            id, type, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
         )
 
     companion object {
-
-        fun isHomeAggregate(id: Long) = id == Account.HOME_AGGREGATE_ID
-
-        fun isAggregate(id: Long) = id < 0
-
 
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = FullAccount(
             id = cursor.getLong(KEY_ROWID),
             label = cursor.getString(KEY_LABEL),
             description = cursor.getStringOrNull(KEY_DESCRIPTION),
-            currency = currencyContext.get(cursor.getString(KEY_CURRENCY)),
+            currencyUnit = currencyContext.get(cursor.getString(KEY_CURRENCY)),
             _color = cursor.getInt(KEY_COLOR),
             type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
             sealed = cursor.getInt(KEY_SEALED) == 1,
@@ -115,12 +86,13 @@ data class PageAccount(
     override val id: Long,
     val type: AccountType?,
     val sortDirection: SortDirection,
-    val grouping: Grouping,
-    override val currency: CurrencyUnit,
+    override val grouping: Grouping,
+    val currencyUnit: CurrencyUnit,
     val sealed: Boolean,
     val openingBalance: Long,
     override val _color: Int
 ): BaseAccount() {
+    override val currency: String = currencyUnit.code
     fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
         val filter = whereFilter.takeIf { !it.isEmpty }
         val selection = filter?.getSelectionForParts(VIEW_WITH_ACCOUNT)
@@ -130,8 +102,8 @@ data class PageAccount(
                 .appendPath(grouping.name).apply {
                     if (id > 0) {
                         appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                    } else if (!FullAccount.isHomeAggregate(id)) {
-                        appendQueryParameter(KEY_CURRENCY, currency.code)
+                    } else if (!isHomeAggregate(id)) {
+                        appendQueryParameter(KEY_CURRENCY, currency)
                     }
                 }.build(),
             selection,
@@ -147,13 +119,14 @@ data class PageAccount(
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS,
             if (isHomeAggregate) "2" else "1")
         }
-        val uri = builder.build()
+        val uri = extendedUriForTransactionList(shortenComment = true)
         val projection = when {
             !isAggregate -> Transaction2.projection(grouping)
             isHomeAggregate -> Transaction2.projection(grouping) +
                     Transaction2.additionalAggregateColumns + Transaction2.getAdditionGrandTotalColumns(homeCurrency)
             else -> Transaction2.projection(grouping) + Transaction2.additionalAggregateColumns
         }
+        val (selection, selectionArgs) = selectionInfo
         return Tuple4(uri, projection, selection, selectionArgs)
     }
 

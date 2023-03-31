@@ -84,7 +84,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                 R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(accountId)
                 R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(accountId)
                 R.id.FILTER_TAG_COMMAND -> getTags.launch(accountId)
-                R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(currentAccount!!.currency)
+                R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(currentAccount!!.currencyUnit)
                     .show(supportFragmentManager, "AMOUNT_FILTER")
                 R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance()
                     .show(supportFragmentManager, "DATE_FILTER")
@@ -101,7 +101,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     accountId
                 ).show(supportFragmentManager, "TRANSFER_FILTER")
                 R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(
-                    currentAccount!!.currency.code
+                    currentAccount!!.currency
                 )
                     .show(supportFragmentManager, "ACCOUNT_FILTER")
                 else -> return false

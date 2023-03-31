@@ -84,36 +84,6 @@ public class AggregateAccount extends Account {
     return isHomeAggregate() ? DatabaseConstants.getProjectionExtendedHome() : DatabaseConstants.getProjectionExtendedAggregate();
   }
 
-  @Override
-  public String getSelectionForTransactionList() {
-    if (isHomeAggregate()) {
-      return KEY_ACCOUNTID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0)";
-    } else {
-      return KEY_ACCOUNTID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-          KEY_EXCLUDE_FROM_TOTALS + " = 0)";
-    }
-  }
-
-  @Override
-  public String[] getSelectionArgsForTransactionList() {
-    if (isHomeAggregate()) {
-      return null;
-    } else {
-      return new String[]{getCurrencyUnit().getCode()};
-    }
-  }
-
-  @Override
-  public Uri.Builder getGroupingUri(Grouping grouping) {
-    Uri.Builder base = getGroupingBaseUri(grouping);
-    if (!isHomeAggregate()) {
-      base.appendQueryParameter(KEY_CURRENCY, getCurrencyUnit().getCode());
-    }
-    return base;
-  }
-
   public static void persistGroupingHomeAggregate(@NonNull PrefHandler prefHandler, @NonNull Grouping grouping) {
     prefHandler.putString(GROUPING_AGGREGATE, grouping.name());
   }

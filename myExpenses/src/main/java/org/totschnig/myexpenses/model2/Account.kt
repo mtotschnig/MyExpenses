@@ -5,18 +5,15 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getEnum
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getString
 
 data class Account(
-    val id: Long = 0L,
+    override val id: Long = 0L,
     val label: String,
     val description: String = "",
     val openingBalance: Long = 0L,
-    val currency: String,
+    override val currency: String,
     val type: AccountType = AccountType.CASH,
     val color: Int = DEFAULT_COLOR,
     val criterion: Long? = null,
@@ -25,10 +22,14 @@ data class Account(
     val uuid: String? = null,
     val isSealed: Boolean = false,
     val exchangeRate: Double = 1.0,
-    val grouping: Grouping = Grouping.NONE
-) {
+    override val grouping: Grouping = Grouping.NONE
+): DataBaseAccount() {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
+
+    @Suppress("DeprecatedCallableAddReplaceWith")
+    @Deprecated("Helper for legacy Java code")
+    fun withLabel(label: String) = copy(label = label)
 
     companion object {
 
@@ -63,5 +64,6 @@ data class Account(
                 isSealed = cursor.getBoolean(KEY_SEALED),
                 grouping = cursor.getEnum(KEY_GROUPING, Grouping.NONE)
             )
+
     }
 }

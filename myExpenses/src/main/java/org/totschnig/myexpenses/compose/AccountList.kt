@@ -134,7 +134,7 @@ private fun getHeader(
             when (grouping) {
                 AccountGrouping.NONE -> account.id < 0 && previous.id > 0
                 AccountGrouping.TYPE -> account.type != previous.type
-                AccountGrouping.CURRENCY -> account.id == AggregateAccount.HOME_AGGREGATE_ID || account.currency != previous.currency
+                AccountGrouping.CURRENCY -> account.id == AggregateAccount.HOME_AGGREGATE_ID || account.currencyUnit != previous.currencyUnit
             }
     return if (needsHeader) {
         when (grouping) {
@@ -153,7 +153,7 @@ private fun getHeader(
             AccountGrouping.CURRENCY -> {
                 if (account.id == AggregateAccount.HOME_AGGREGATE_ID)
                     AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE to context.getString(R.string.menu_aggregates)
-                else account.currency.code to Currency.create(account.currency.code, context)
+                else account.currency to Currency.create(account.currency, context)
                     .toString()
             }
         }
@@ -228,7 +228,7 @@ fun AccountCard(
                 Text(text = account.label)
                 AnimatedVisibility(visible = isCollapsed) {
                     Text(
-                        text = format.convAmount(account.currentBalance, account.currency)
+                        text = format.convAmount(account.currentBalance, account.currencyUnit)
                     )
                 }
 
@@ -267,27 +267,27 @@ fun AccountCard(
                 account.description?.let { Text(it) }
                 SumRow(
                     R.string.opening_balance,
-                    format.convAmount(account.openingBalance, account.currency)
+                    format.convAmount(account.openingBalance, account.currencyUnit)
                 )
                 SumRow(
                     R.string.sum_income,
-                    format.convAmount(account.sumIncome, account.currency)
+                    format.convAmount(account.sumIncome, account.currencyUnit)
                 )
                 SumRow(
                     R.string.sum_expenses,
-                    format.convAmount(account.sumExpense, account.currency)
+                    format.convAmount(account.sumExpense, account.currencyUnit)
                 )
 
                 if (account.sumTransfer != 0L) {
                     SumRow(
                         R.string.sum_transfer,
-                        format.convAmount(account.sumTransfer, account.currency)
+                        format.convAmount(account.sumTransfer, account.currencyUnit)
                     )
                 }
                 val borderColor = MaterialTheme.colors.onSurface
                 SumRow(
                     R.string.current_balance,
-                    format.convAmount(account.currentBalance, account.currency),
+                    format.convAmount(account.currentBalance, account.currencyUnit),
                     Modifier.drawBehind {
                         val strokeWidth = 2 * density
                         drawLine(
@@ -301,24 +301,24 @@ fun AccountCard(
                 account.criterion?.let {
                     SumRow(
                         if (it > 0) R.string.saving_goal else R.string.credit_limit,
-                        format.convAmount(it, account.currency)
+                        format.convAmount(it, account.currencyUnit)
                     )
                 }
 
                 account.total?.let {
                     SumRow(
                         R.string.menu_aggregates,
-                        format.convAmount(it, account.currency)
+                        format.convAmount(it, account.currencyUnit)
                     )
                 }
                 if (!(account.isAggregate || account.type == AccountType.CASH)) {
                     SumRow(
                         R.string.total_cleared,
-                        format.convAmount(account.clearedTotal, account.currency)
+                        format.convAmount(account.clearedTotal, account.currencyUnit)
                     )
                     SumRow(
                         R.string.total_reconciled,
-                        format.convAmount(account.reconciledTotal, account.currency)
+                        format.convAmount(account.reconciledTotal, account.currencyUnit)
                     )
                 }
             }
@@ -345,7 +345,7 @@ fun AccountPreview() {
             id = 1,
             label = "Account",
             description = "Description",
-            currency = CurrencyUnit.DebugInstance,
+            currencyUnit = CurrencyUnit.DebugInstance,
             _color = android.graphics.Color.RED,
             openingBalance = 0,
             currentBalance = 1000,

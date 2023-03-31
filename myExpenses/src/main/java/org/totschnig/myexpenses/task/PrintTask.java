@@ -61,9 +61,8 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
     if (appDir == null) {
       return Result.ofFailure(R.string.external_storage_unavailable);
     }
-    account = Account.getInstanceFromDb(accountId);
     try {
-      return new PdfPrinter(account, appDir, filter, currentBalance).print(context);
+      return new PdfPrinter(accountId, appDir, filter, currentBalance).print(context);
     } catch (Exception e) {
       Timber.e(e, "Error while printing");
       return Result.ofFailure(R.string.export_sdcard_failure, appDir.getName(), e.getMessage());

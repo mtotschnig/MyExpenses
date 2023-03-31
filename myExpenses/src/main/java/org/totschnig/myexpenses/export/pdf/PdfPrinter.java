@@ -53,13 +53,17 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.db2.Repository;
+import org.totschnig.myexpenses.db2.RepositoryAccountKt;
 import org.totschnig.myexpenses.model.CrStatus;
+import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
@@ -83,6 +87,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import kotlin.Pair;
 import timber.log.Timber;
 
 public class PdfPrinter {
@@ -95,12 +100,24 @@ public class PdfPrinter {
   @Inject
   CurrencyFormatter currencyFormatter;
 
-  public PdfPrinter(Account account, DocumentFile destDir, WhereFilter filter, long currentBalance) {
-    this.account = account;
+  @Inject
+  CurrencyContext currencyContext;
+
+  @Inject
+  Repository repository;
+
+  private CurrencyUnit currencyUnit() {
+    return currencyContext.get(account.getCurrency());
+  }
+
+  public PdfPrinter(long accountId, DocumentFile destDir, WhereFilter filter, long currentBalance) {
     this.destDir = destDir;
     this.filter = filter;
     this.currentBalance = currentBalance;
     MyApplication.getInstance().getAppComponent().inject(this);
+    //TODO aggregate
+    this.account = accountId > 0 ? RepositoryAccountKt.loadAccount(repository, accountId) :
+      RepositoryAccountKt.loadAggregateAccount(repository, accountId);
   }
 
   public Result<Uri> print(Context context) throws IOException, DocumentException {
@@ -108,8 +125,9 @@ public class PdfPrinter {
     Timber.d("Print start %d", start);
     PdfHelper helper = new PdfHelper();
     Timber.d("Helper created %d", (System.currentTimeMillis() - start));
-    String selection = account.getSelectionForTransactionList();
-    String[] selectionArgs = account.getSelectionArgsForTransactionList();
+    Pair<String, String[]> selectionInfo = account.getSelectionInfo();
+    String selection = selectionInfo.getFirst();
+    String[] selectionArgs = selectionInfo.getSecond();
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
       selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false));
@@ -121,8 +139,9 @@ public class PdfPrinter {
         fileName,
         "application/pdf", "pdf");
     Document document = new Document();
-    transactionCursor = Model.cr().query(
-        account.getExtendedUriForTransactionList(false, false), account.getExtendedProjectionForTransactionList(),
+    transactionCursor = context.getContentResolver().query(
+        account.extendedUriForTransactionList(false, false),
+        account.extendedProjectionForTransactionList(),
         selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
@@ -139,7 +158,7 @@ public class PdfPrinter {
           DocumentFileExtensionKt.getDisplayName(destDir)
       );
     }
-    PdfWriter.getInstance(document, Model.cr().openOutputStream(outputFile.getUri()));
+    PdfWriter.getInstance(document, context.getContentResolver().openOutputStream(outputFile.getUri()));
     Timber.d("All setup %d", (System.currentTimeMillis() - start));
     document.open();
     Timber.d("Document open %d", (System.currentTimeMillis() - start));
@@ -171,7 +190,7 @@ public class PdfPrinter {
         java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(new Date()), FontType.BOLD));
     preface.addCell(helper.printToCell(
         context.getString(R.string.current_balance) + " : " +
-            formatMoney(currencyFormatter, new Money(account.getCurrencyUnit(), currentBalance)), FontType.BOLD));
+            formatMoney(currencyFormatter, new Money(currencyUnit(), currentBalance)), FontType.BOLD));
 
     document.add(preface);
     Paragraph empty = new Paragraph();
@@ -179,7 +198,7 @@ public class PdfPrinter {
     document.add(empty);
   }
 
-  private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper, WhereFilter filter, Context ctx)
+  private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper, WhereFilter filter, Context context)
       throws DocumentException, IOException {
     String selection;
     String[] selectionArgs;
@@ -190,8 +209,7 @@ public class PdfPrinter {
       selection = null;
       selectionArgs = null;
     }
-    Uri.Builder builder = account.getGroupingUri();
-    Cursor groupCursor = Model.cr().query(builder.build(), null, selection, selectionArgs,
+    Cursor groupCursor = context.getContentResolver().query(account.getGroupingUri(), null, selection, selectionArgs,
         KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC");
 
     int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
@@ -215,7 +233,7 @@ public class PdfPrinter {
     DateFormat itemDateFormat;
     switch (account.getGrouping()) {
       case DAY:
-        itemDateFormat = android.text.format.DateFormat.getTimeFormat(ctx);
+        itemDateFormat = android.text.format.DateFormat.getTimeFormat(context);
         break;
       case MONTH:
         //noinspection SimpleDateFormat
@@ -226,7 +244,7 @@ public class PdfPrinter {
         itemDateFormat = new SimpleDateFormat("EEE");
         break;
       default:
-        itemDateFormat = Utils.localizedYearLessDateFormat(ctx);
+        itemDateFormat = Utils.localizedYearLessDateFormat(context);
     }
     PdfPTable table = null;
 
@@ -234,7 +252,7 @@ public class PdfPrinter {
 
     transactionCursor.moveToFirst();
     groupCursor.moveToFirst();
-    long previousBalance = account.openingBalance.getAmountMinor();
+    long previousBalance = account.getOpeningBalance();
 
     while (transactionCursor.getPosition() < transactionCursor.getCount()) {
       int year = transactionCursor.getInt(account.getGrouping().equals(Grouping.WEEK) ? columnIndexYearOfWeekStart : columnIndexYear);
@@ -276,7 +294,7 @@ public class PdfPrinter {
         }
         table = helper.newTable(2);
         table.setWidthPercentage(100f);
-        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, DateInfo.fromCursor(transactionCursor)), FontType.HEADER);
+        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(context, year, second, DateInfo.fromCursor(transactionCursor)), FontType.HEADER);
         table.addCell(cell);
         if (groupCursor.isAfterLast()) {
           Timber.w("Grouping: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s",
@@ -289,11 +307,11 @@ public class PdfPrinter {
         long delta = sumIncome + sumExpense + sumTransfer;
         long interimBalance = previousBalance + delta;
         String formattedDelta = String.format("%s %s", Long.signum(delta) > -1 ? "+" : "-",
-            convAmount(currencyFormatter, Math.abs(delta), account.getCurrencyUnit()));
+            convAmount(currencyFormatter, Math.abs(delta), currencyUnit()));
         cell = helper.printToCell(
             filter.isEmpty() ? String.format("%s %s = %s",
-                convAmount(currencyFormatter, previousBalance, account.getCurrencyUnit()), formattedDelta,
-                convAmount(currencyFormatter, interimBalance, account.getCurrencyUnit())) :
+                convAmount(currencyFormatter, previousBalance, currencyUnit()), formattedDelta,
+                convAmount(currencyFormatter, interimBalance, currencyUnit())) :
                 formattedDelta, FontType.HEADER);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
@@ -301,15 +319,15 @@ public class PdfPrinter {
         table = helper.newTable(3);
         table.setWidthPercentage(100f);
         cell = helper.printToCell("+ " + convAmount(currencyFormatter, sumIncome,
-            account.getCurrencyUnit()), FontType.NORMAL);
+            currencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         cell = helper.printToCell("- " + convAmount(currencyFormatter, -sumExpense,
-            account.getCurrencyUnit()), FontType.NORMAL);
+            currencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         cell = helper.printToCell(Transfer.BI_ARROW + " " + convAmount(currencyFormatter, sumTransfer,
-            account.getCurrencyUnit()), FontType.NORMAL);
+            currencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         table.setSpacingAfter(2f);
@@ -386,7 +404,7 @@ public class PdfPrinter {
       } else {
         Long catId = DbUtils.getLongOrNull(transactionCursor, KEY_CATID);
         if (SPLIT_CATID.equals(catId)) {
-          Cursor splits = Model.cr().query(Transaction.CONTENT_URI, null,
+          Cursor splits = context.getContentResolver().query(Transaction.CONTENT_URI, null,
               KEY_PARENTID + " = " + transactionCursor.getLong(columnIndexRowId), null, null);
           splits.moveToFirst();
           StringBuilder catTextBuilder = new StringBuilder();
@@ -400,7 +418,7 @@ public class PdfPrinter {
               splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
             }
             splitText += " " + convAmount(currencyFormatter, splits.getLong(
-                splits.getColumnIndexOrThrow(KEY_AMOUNT)), account.getCurrencyUnit());
+                splits.getColumnIndexOrThrow(KEY_AMOUNT)), currencyUnit());
             String splitComment = DbUtils.getString(splits, KEY_COMMENT);
             if (splitComment != null && splitComment.length() > 0) {
               splitText += " (" + splitComment + ")";
@@ -441,7 +459,7 @@ public class PdfPrinter {
       } else {
         t = amount < 0 ? FontType.EXPENSE : FontType.INCOME;
       }
-      cell = helper.printToCell(convAmount(currencyFormatter, amount, account.getCurrencyUnit()), t);
+      cell = helper.printToCell(convAmount(currencyFormatter, amount, currencyUnit()), t);
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);

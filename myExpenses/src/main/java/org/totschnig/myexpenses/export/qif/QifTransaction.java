@@ -4,13 +4,13 @@
 
 package org.totschnig.myexpenses.export.qif;
 
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.model2.Account;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -148,9 +148,9 @@ public class QifTransaction {
   // return qifTransaction;
   // }
 
-  public Transaction toTransaction(Account a) {
+  public Transaction toTransaction(Account a, CurrencyUnit currencyUnit) {
     Transaction t;
-    Money m = new Money(a.getCurrencyUnit(), amount);
+    Money m = new Money(currencyUnit, amount);
     if (isSplit()) {
       t = new SplitTransaction(a.getId(), m);
     } else if (isTransfer()) {

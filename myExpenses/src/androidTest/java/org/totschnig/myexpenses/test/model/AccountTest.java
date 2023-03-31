@@ -149,7 +149,7 @@ public class AccountTest extends ModelTest {
     c.moveToFirst();
     long id = -c.getLong(0);
     c.close();
-    AggregateAccount aa = (AggregateAccount) Account.getInstanceFromDb(id);
+    AggregateAccount aa = AggregateAccount.getInstanceFromDb(id);
     assertEquals(currency, aa.getCurrencyUnit().getCode());
     assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor());
   }

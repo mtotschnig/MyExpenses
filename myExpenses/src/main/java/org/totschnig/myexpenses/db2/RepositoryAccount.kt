@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long): CurrencyUnit? {
-    require(accountId != 0L)
+    require(accountId > 0L)
     return getCurrencyForAccount(accountId)?.let { currencyContext[it] }
 }
 
@@ -25,7 +25,7 @@ fun Repository.getCurrencyForAccount(accountId: Long) = getStringValue(accountId
 fun Repository.getLabelForAccount(accountId: Long) = getStringValue(accountId, DatabaseConstants.KEY_LABEL)
 
 private fun Repository.getStringValue(accountId: Long, column: String): String? {
-    require(accountId != 0L)
+    require(accountId > 0L)
     return contentResolver.query(
         ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
         arrayOf(column), null, null, null
@@ -65,12 +65,25 @@ fun Repository.getLastUsedOpenAccount() =
         if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
     }
 
-fun Repository.loadAccount(accountId: Long) = contentResolver.query(
-    ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
-    Account.PROJECTION,
-    null, null, null
-)!!.use {
-    if (it.moveToFirst()) Account.fromCursor(it) else null
+fun Repository.loadAccount(accountId: Long): Account? {
+    require(accountId > 0L)
+    return contentResolver.query(
+        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        Account.PROJECTION,
+        null, null, null
+    )!!.use {
+        if (it.moveToFirst()) Account.fromCursor(it) else null
+    }
+}
+
+fun Repository.loadAggregateAccount(accountId: Long): Account? {
+    require(accountId < 0L)
+    return contentResolver.query(
+        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_AGGREGATE_URI, accountId),
+        null, null, null, null
+    )!!.use {
+        if (it.moveToFirst()) Account.fromCursor(it) else null
+    }
 }
 
 fun Account.toContentValues() = ContentValues().apply {
@@ -210,3 +223,12 @@ fun updateTransferPeersForTransactionDelete(
             .withSelection("$KEY_SEALED = -1", null).build()
     )
 }
+
+fun Repository.countAccounts(selection: String?, selectionArgs: Array<String?>?) =
+    contentResolver.query(
+        TransactionProvider.ACCOUNTS_URI, arrayOf("count(*)"),
+        selection, selectionArgs, null
+    )!!.use {
+        it.moveToFirst()
+        it.getInt(0)
+    }

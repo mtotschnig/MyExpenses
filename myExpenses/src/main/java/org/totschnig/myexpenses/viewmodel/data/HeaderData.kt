@@ -30,7 +30,7 @@ data class HeaderData(
             buildMap {
                 var previousBalance = account.openingBalance
                 for (cursor in sequence) {
-                    val value = HeaderRow.rowFromCursor(previousBalance, account.currency, cursor)
+                    val value = HeaderRow.rowFromCursor(previousBalance, account.currencyUnit, cursor)
                     put(account.grouping.calculateGroupId(value.year, value.second), value)
                     previousBalance = value.interimBalance.amountMinor
                 }

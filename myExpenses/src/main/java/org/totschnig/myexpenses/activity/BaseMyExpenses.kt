@@ -201,7 +201,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private val formattedSelectedTransactionSum
         get() = with(viewModel.selectedTransactionSum) {
-            currencyFormatter.convAmount(this, currentAccount!!.currency)
+            currencyFormatter.convAmount(this, currentAccount!!.currencyUnit)
                 .withAmountColor(resources, sign)
         }
 
@@ -1143,7 +1143,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 putExtra(KEY_ACCOUNTID, accountId)
             } else if (!Account.isHomeAggregate(accountId)) {
                 //if we are called from an aggregate account, we also hand over the currency
-                putExtra(KEY_CURRENCY, currentAccount!!.currency.code)
+                putExtra(KEY_CURRENCY, currentAccount!!.currency)
                 putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
             }
         }
@@ -1204,7 +1204,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 KEY_AMOUNT,
                                 (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
                                         Money(
-                                            currentAccount!!.currency,
+                                            currentAccount!!.currencyUnit,
                                             currentAccount!!.currentBalance
                                         ).amountMajor
                             )
@@ -1345,13 +1345,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             putString(
                                 KEY_RECONCILED_TOTAL,
                                 currencyFormatter.formatMoney(
-                                    Money(currency, reconciledTotal)
+                                    Money(currencyUnit, reconciledTotal)
                                 )
                             )
                             putString(
                                 KEY_CLEARED_TOTAL,
                                 currencyFormatter.formatMoney(
-                                    Money(currency, clearedTotal)
+                                    Money(currencyUnit, clearedTotal)
                                 )
                             )
                         }).show(supportFragmentManager, "BALANCE_ACCOUNT")
@@ -1507,7 +1507,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
                             AmountInputHostDialog.build().fields(
                                 AmountInput.plain(KEY_AMOUNT).label(R.string.new_balance)
-                                    .fractionDigits(currentAccount!!.currency.fractionDigits)
+                                    .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
                                     .withTypeSwitch(currentAccount!!.currentBalance > 0)
                             ).show(this, DIALOG_TAG_NEW_BALANCE)
                         }
@@ -1542,7 +1542,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun setBalance(account: FullAccount) {
         val isHome = account.id == HOME_AGGREGATE_ID
         currentBalance = (if (isHome) " ≈ " else "") +
-                currencyFormatter.formatMoney(Money(account.currency, account.currentBalance))
+                currencyFormatter.formatMoney(Money(account.currencyUnit, account.currentBalance))
         title = if (isHome) getString(R.string.grand_total) else account.label
         toolbar.subtitle = currentBalance
         setSignedToolbarColor(account.currentBalance)
@@ -1780,7 +1780,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         ExportDialogFragment.AccountInfo(
                                             id,
                                             label,
-                                            currency.code,
+                                            currency,
                                             sealed,
                                             hasExported,
                                             !currentFilter.whereFilter.isEmpty

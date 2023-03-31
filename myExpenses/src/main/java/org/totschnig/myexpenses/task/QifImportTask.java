@@ -38,11 +38,11 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.export.qif.QifParser;
 import org.totschnig.myexpenses.export.qif.QifTransaction;
 import org.totschnig.myexpenses.export.qif.QifUtils;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -231,7 +231,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         if (parser.accounts.isEmpty()) {
           return;
         }
-        Account dbAccount = Account.getInstanceFromDb(accountId);
+        Account dbAccount = RepositoryAccountKt.loadAccount(repository, accountId);
         parser.accounts.get(0).dbAccount = dbAccount;
         if (dbAccount == null) {
           CrashHandler.report(new Exception("Exception during QIF import. Did not get instance from DB for id "
@@ -268,7 +268,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   }
 
   private int insertAccounts(List<QifAccount> accounts, Context context) {
-    int nrOfAccounts = Account.count(null, null);
+    int nrOfAccounts = RepositoryAccountKt.countAccounts(repository, null, null);
 
     int importCount = 0;
     for (QifAccount account : accounts) {
@@ -283,25 +283,24 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       }
       Long dbAccountId = TextUtils.isEmpty(account.memo) ? null : RepositoryAccountKt.findAnyOpenByLabel(repository, account.memo);
       if (dbAccountId != null) {
-        Account dbAccount = Account.getInstanceFromDb(dbAccountId);
+        Account dbAccount = RepositoryAccountKt.loadAccount(repository, dbAccountId);
         account.dbAccount = dbAccount;
         if (dbAccount == null) {
           CrashHandler.report(new Exception("Exception during QIF import. Did not get instance from DB for id " +
               dbAccountId));
         }
       } else {
-        Account a = account.toAccount(currencyUnit);
-        if (TextUtils.isEmpty(a.getLabel())) {
+        Account dbAccount = account.toAccount(currencyUnit);
+        if (TextUtils.isEmpty(dbAccount.getLabel())) {
           String displayName = DialogUtils.getDisplayName(fileUri);
           if (FileUtils.getExtension(displayName).equalsIgnoreCase(".qif")) {
             displayName = displayName.substring(0, displayName.lastIndexOf('.'));
           }
           displayName = displayName.replace('-', ' ').replace('_', ' ');
-          a.setLabel(displayName);
+          dbAccount = dbAccount.withLabel(displayName);
         }
-        if (a.save(homeCurrencyProvider.getHomeCurrencyUnit()) != null)
-          importCount++;
-        account.dbAccount = a;
+        importCount++;
+        account.dbAccount = RepositoryAccountKt.createAccount(repository, dbAccount);
       }
       accountTitleToAccount.put(account.memo, account);
     }
@@ -410,10 +409,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     fromTransaction.toAccount = null;
   }
 
-  private int insertTransactions(Account a, List<QifTransaction> transactions) {
+  private int insertTransactions(Account account, List<QifTransaction> transactions) {
     int count = 0;
     for (QifTransaction transaction : transactions) {
-      Transaction t = transaction.toTransaction(a);
+      Transaction t = transaction.toTransaction(account, currencyUnit);
       t.setPayeeId(findPayee(transaction.payee));
       // t.projectId = findProject(transaction.categoryClass);
       findToAccount(transaction, t);
@@ -421,7 +420,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       if (transaction.splits != null) {
         t.save();
         for (QifTransaction split : transaction.splits) {
-          Transaction s = split.toTransaction(a);
+          Transaction s = split.toTransaction(account, currencyUnit);
           s.setParentId(t.getId());
           s.setStatus(STATUS_UNCOMMITTED);
           findToAccount(split, s);
