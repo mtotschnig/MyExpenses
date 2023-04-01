@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.db2.RepositoryAccountKt.updateTransferPeersForTransactionDelete;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -39,19 +38,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
-import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
 import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
+import static org.totschnig.myexpenses.util.ExchangeRateKt.calculateRealExchangeRate;
 
-import android.accounts.AccountManager;
-import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.RemoteException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,15 +62,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 /**
  * Account represents an account stored in the database.
@@ -193,23 +185,8 @@ public class Account extends Model implements DistributionAccountInfo {
     return account;
   }
 
-  private Uri buildExchangeRateUri(CurrencyUnit homeCurrency) {
-    return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
-        .appendEncodedPath(currencyUnit.getCode())
-        .appendEncodedPath(homeCurrency.getCode()).build();
-  }
-
   private double adjustExchangeRate(double raw, CurrencyUnit homeCurrency) {
-    return Utils.adjustExchangeRate(raw, currencyUnit, homeCurrency);
-  }
-
-  private void storeExchangeRate(CurrencyUnit homeCurrency) {
-    if (!currencyUnit.getCode().equals(homeCurrency.getCode())) {
-      ContentValues exchangeRateValues = new ContentValues();
-      int minorUnitDelta = homeCurrency.getFractionDigits() - currencyUnit.getFractionDigits();
-      exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
-      cr().insert(buildExchangeRateUri(homeCurrency), exchangeRateValues);
-    }
+    return calculateRealExchangeRate(raw, currencyUnit, homeCurrency);
   }
   /**
    * returns an empty Account instance
@@ -315,45 +292,6 @@ public class Account extends Model implements DistributionAccountInfo {
     openingBalance = new Money(this.currencyUnit, openingBalance.getAmountMajor());
   }
 
-  /**
-   * @return the sum of opening balance and all transactions for the account
-   */
-  @VisibleForTesting
-  public Money getTotalBalance() {
-    return new Money(currencyUnit,
-        openingBalance.getAmountMinor() + getTransactionSum(null)
-    );
-  }
-
-  /**
-   * @return sum of all transactions
-   */
-  public long getTransactionSum(WhereFilter filter) {
-    String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART + " AND " + WHERE_NOT_VOID;
-    String[] selectionArgs = new String[]{String.valueOf(getId())};
-    if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
-      selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false));
-    }
-    Cursor c = cr().query(Transaction.CONTENT_URI,
-        new String[]{"sum(" + KEY_AMOUNT + ")"},
-        selection,
-        selectionArgs,
-        null);
-    c.moveToFirst();
-    long result = c.getLong(0);
-    c.close();
-    return result;
-  }
-
-  public static String buildTransactionRowSelect(WhereFilter filter) {
-    String rowSelect = "SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?";
-    if (filter != null && !filter.isEmpty()) {
-      rowSelect += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
-    }
-    return rowSelect;
-  }
-
   @Nullable
   @Override
   public Uri save() {
@@ -395,7 +333,6 @@ public class Account extends Model implements DistributionAccountInfo {
       uri = ContentUris.withAppendedId(CONTENT_URI, getId());
       if (cr().update(uri, initialValues, null, null) == 0) return null;
     }
-    storeExchangeRate(homeCurrency);
     updateNewAccountEnabled();
     updateTransferShortcut();
     return uri;

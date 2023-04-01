@@ -38,7 +38,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private val contentResolver
         get() = targetContext.contentResolver
 
-    private lateinit var account: Account
+    private lateinit var account: org.totschnig.myexpenses.model2.Account
     private var categoryId: Long = 0
     private val origListSize = 1
 
@@ -58,8 +58,8 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
 
     private fun fixtureWithMappedTransaction() {
         baseFixture()
-        with(Transaction.getNewInstance(account)) {
-            amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
+        with(Transaction.getNewInstance(account.id, homeCurrency)) {
+            amount = Money(homeCurrency, -1200L)
             catId = categoryId
             save()
         }
@@ -67,7 +67,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
 
     private fun fixtureWithMappedTemplate() {
         baseFixture()
-        with(Template(account.id, account.currencyUnit, Transactions.TYPE_TRANSACTION, null)) {
+        with(Template(account.id, homeCurrency, Transactions.TYPE_TRANSACTION, null)) {
             amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
             save()

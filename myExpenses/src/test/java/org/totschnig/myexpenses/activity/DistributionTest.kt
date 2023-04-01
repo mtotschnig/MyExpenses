@@ -26,15 +26,15 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -43,29 +43,19 @@ import java.util.*
 
 @Ignore("Robolectric does not seem to be able interact with Compose Popups, we run this connected at the moment")
 @RunWith(AndroidJUnit4::class)
-class DistributionTest {
+class DistributionTest : BaseTestWithRepository(){
     private lateinit var scenario: ActivityScenario<DistributionActivity>
     @get:Rule
     val composeTestRule = createEmptyComposeRule()
     private val targetContext: Context
         get() = InstrumentationRegistry.getInstrumentation().targetContext
 
-    private val repository: Repository
-        get() = Repository(
-            ApplicationProvider.getApplicationContext<MyApplication>(),
-            Mockito.mock(CurrencyContext::class.java),
-            Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java)
-        )
-
     private val currency = CurrencyUnit.DebugInstance
     private lateinit var account: Account
     private var categoryId: Long = 0
 
     private fun baseFixture(additionalFixture: () -> Unit = {}) {
-        account = Account("Test account 1", currency, 0, "",
-            AccountType.CASH, Account.DEFAULT_COLOR)
-        account.save(CurrencyUnit.DebugInstance)
+        account = Account(label = "Test account 1", currency = currency.code).createIn(repository)
         additionalFixture()
         scenario = ActivityScenario.launch(Intent(targetContext, DistributionActivity::class.java).apply {
             putExtra(KEY_ACCOUNTID, account.id)
@@ -75,7 +65,7 @@ class DistributionTest {
     private fun fixtureWithMappedTransaction() {
         baseFixture {
             categoryId =  ContentUris.parseId(repository.saveCategory(Category(label = "TestCategory"))!!)
-            with(Transaction.getNewInstance(account)) {
+            with(Transaction.getNewInstance(account.id, currency)) {
                 amount = Money(CurrencyUnit.DebugInstance, -1200L)
                 catId = categoryId
                 save()

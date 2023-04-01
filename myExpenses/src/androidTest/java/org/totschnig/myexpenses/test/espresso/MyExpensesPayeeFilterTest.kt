@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
-    private lateinit var account: Account
+    private lateinit var account: org.totschnig.myexpenses.model2.Account
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
 
@@ -24,7 +24,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     fun fixture() {
         val currency = CurrencyUnit.DebugInstance
         account =  buildAccount("Test account 1")
-        val op = Transaction.getNewInstance(account)
+        val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, -1200L)
         op.payee = payee1
         op.save()

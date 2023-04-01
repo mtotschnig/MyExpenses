@@ -23,43 +23,52 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest: BaseTestWithRepository() {
 
-    private lateinit var mAccount1: Account
-    private lateinit var mAccount2: Account
+    private lateinit var mAccount1: org.totschnig.myexpenses.model2.Account
+    private lateinit var mAccount2: org.totschnig.myexpenses.model2.Account
     private var categoryId: Long = 0
     private var payeeId: Long = 0
 
-    fun writeCategory(label: String, parentId: Long?) =
+    private fun writeCategory(label: String, parentId: Long?) =
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 
     @Before
     fun setUp() {
-        mAccount1 = Account("TestAccount 1", CurrencyUnit.DebugInstance, 100, "Main account")
-        mAccount1.save(CurrencyUnit.DebugInstance)
-        mAccount2 = Account("TestAccount 2", CurrencyUnit.DebugInstance, 100, "Secondary account")
-        mAccount2.save(CurrencyUnit.DebugInstance)
+        mAccount1 = org.totschnig.myexpenses.model2.Account(
+            label = "TestAccount 1",
+            currency = CurrencyUnit.DebugInstance.code,
+            openingBalance = 100,
+            description = "Main account"
+        ).createIn(repository)
+        mAccount2 = org.totschnig.myexpenses.model2.Account(
+            label = "TestAccount 2",
+            currency = CurrencyUnit.DebugInstance.code,
+            openingBalance = 100,
+            description = "Secondary account"
+        ).createIn(repository)
         categoryId = writeCategory("TestCategory", null)
         payeeId = Payee.maybeWrite("N.N")
     }
 
     @Test
     fun testTemplateFromTransaction() {
-        val start = mAccount1.totalBalance.amountMinor
+        val start = repository.getTransactionSum(mAccount1.id)
         val amount = 100.toLong()
-        val op1 = Transaction.getNewInstance(mAccount1)!!
-        op1.amount = Money(mAccount1.currencyUnit, amount)
+        val op1 = Transaction.getNewInstance(mAccount1.id, CurrencyUnit.DebugInstance)!!
+        op1.amount = Money(CurrencyUnit.DebugInstance, amount)
         op1.comment = "test transaction"
         op1.save()
-        assertThat(mAccount1.totalBalance.amountMinor).isEqualTo(start + amount)
+        assertThat(repository.getTransactionSum(mAccount1.id)).isEqualTo(start + amount)
         val t = Template(op1, "Template")
         t.save()
         val op2: Transaction = Transaction.getInstanceFromTemplate(t.id)
         op2.save()
-        assertThat(mAccount1.totalBalance.amountMinor).isEqualTo(start + 2 * amount)
+        assertThat(repository.getTransactionSum(mAccount1.id)).isEqualTo(start + 2 * amount)
         val restored: Template? = Template.getInstanceFromDb(t.id)
         assertThat(restored).isEqualTo(t)
         Template.delete(t.id, false)
@@ -100,7 +109,7 @@ class TemplateTest: BaseTestWithRepository() {
     }
 
     private fun newInstanceTestHelper(type: Int) {
-        val t: Template = Template.getTypedNewInstance(type, mAccount1, false, null)!!.apply {
+        val t: Template = Template.getTypedNewInstance(type, mAccount1.id, CurrencyUnit.DebugInstance, false, null)!!.apply {
             title = "Template"
             if (type == Transactions.TYPE_TRANSFER) {
                 setTransferAccountId(mAccount2.id)
@@ -111,7 +120,7 @@ class TemplateTest: BaseTestWithRepository() {
         assertThat(Template.getInstanceFromDb(t.id)).isEqualTo(t)
     }
 
-    private fun buildTemplate() = Template(mAccount1.id, mAccount1.currencyUnit, Transactions.TYPE_TRANSACTION, null).apply {
+    private fun buildTemplate() = Template(mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
         catId = this@TemplateTest.categoryId
         payeeId = this@TemplateTest.payeeId
         comment = "Some comment"

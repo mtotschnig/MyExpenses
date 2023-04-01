@@ -2,11 +2,12 @@ package org.totschnig.myexpenses.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import org.totschnig.myexpenses.BaseTestWithRepository
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-open class BaseViewModelTest {
+open class BaseViewModelTest: BaseTestWithRepository() {
     //from https://github.com/googlecodelabs/android-testing
     fun <T> LiveData<T>.getOrAwaitValue(
         time: Long = 2,

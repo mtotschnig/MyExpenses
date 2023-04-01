@@ -15,10 +15,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.Espresso.*
 import java.util.*
@@ -33,12 +34,10 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     fun fixture() {
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
-        account1 =
-            Account("Test label 1", currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR)
-        account1.save(homeCurrency)
+        account1 = Account(label = "Test label 1", currency = currency1.code).createIn(repository)
         account2 =
-            Account("Test label 2", currency2, 0, "", AccountType.BANK, Account.DEFAULT_COLOR)
-        account2.save(homeCurrency)
+            Account(label = "Test label 2", currency = currency2.code, type = AccountType.BANK)
+                .createIn(repository)
     }
 
     private fun launch(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
@@ -183,7 +182,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             //we assume two fraction digits
             assertEquals(
                 "Transaction sum does not match saved transactions",
-                account1.getTransactionSum(null),
+                repository.getTransactionSum(account1.id),
                 (-amount * times * 100).toLong()
             )
         }
@@ -192,7 +191,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     @Test
     fun shouldSaveTemplateWithAmount() {
         val template =
-            Template.getTypedNewInstance(Transactions.TYPE_TRANSFER, account1, false, null)
+            Template.getTypedNewInstance(Transactions.TYPE_TRANSFER, account1.id, currency1, false, null)
         template!!.setTransferAccountId(account2.id)
         template.title = "Test template"
         template.save()

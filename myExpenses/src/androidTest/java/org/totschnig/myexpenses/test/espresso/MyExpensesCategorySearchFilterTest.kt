@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.ContentUris
-import android.content.Intent
 import androidx.compose.ui.semantics.SemanticsActions
-import androidx.compose.ui.test.*
-import androidx.test.core.app.ActivityScenario
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.RootMatchers
@@ -12,9 +12,6 @@ import androidx.test.espresso.matcher.ViewMatchers
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.TestMyExpenses
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -39,7 +36,7 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         val categoryId1 = writeCategory(catLabel1)
         val categoryId1Sub = writeCategory(catLabel1Sub, categoryId1)
         val categoryId2 = writeCategory(catLabel2)
-        val op = Transaction.getNewInstance(account)
+        val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, -1200L)
         op.catId = categoryId1
         id1Main = ContentUris.parseId(op.save()!!)

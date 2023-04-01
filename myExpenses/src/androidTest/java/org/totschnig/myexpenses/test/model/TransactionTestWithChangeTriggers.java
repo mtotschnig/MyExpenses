@@ -21,14 +21,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -49,27 +48,20 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    CurrencyUnit currencyUnit = CurrencyUnit.Companion.getDebugInstance();
-    mAccount1 = new Account("TestAccount 1", currencyUnit, 100, AccountType.CASH);
-    mAccount1.setSyncAccountName("DEBUG");
-    mAccount1.save(currencyUnit);
-    mAccount2 = new Account("TestAccount 2", currencyUnit, 100, AccountType.CASH);
-    mAccount2.setSyncAccountName("DEBUG");
-    mAccount2.save(currencyUnit);
-    mAccount3 = new Account("TestAccount 3", currencyUnit, 100, AccountType.CASH);
-    mAccount3.setSyncAccountName("DEBUG");
-    mAccount3.save(currencyUnit);
+    mAccount1 = buildAccount("TestAccount 1", 100, "DEBUG");
+    mAccount2 = buildAccount("TestAccount 2", 100, "DEBUG");
+    mAccount3 = buildAccount("TestAccount 3", 100, "DEBUG");
     ContentValues values = new ContentValues(1);
     values.put(DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL, 1);
     MoreDbUtilsKt.update(getProvider().getOpenHelperForTest().getWritableDatabase(), DatabaseConstants.TABLE_ACCOUNTS, values, null, null);
   }
 
   public void testTransaction() {
+    CurrencyUnit currencyUnit = getHomeCurrency();
     String payee = "N.N";
     long start = Transaction.getSequenceCount().longValue();
-    Transaction op1 = Transaction.getNewInstance(mAccount1);
-    assert op1 != null;
-    op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
+    Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
+    op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
     op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));//we need an uri that is considered "home"
     op1.setPayee(payee);
@@ -93,9 +85,10 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   }
 
   public void testTransfer() {
-    Transfer op = Transfer.getNewInstance(mAccount1, mAccount2.getId());
+    CurrencyUnit currencyUnit = getHomeCurrency();
+    Transfer op = Transfer.getNewInstance(mAccount1.getId(), currencyUnit, mAccount2.getId());
     Transfer peer;
-    op.setAmount(new Money(mAccount1.getCurrencyUnit(), (long) 100));
+    op.setAmount(new Money(currencyUnit, 100));
     op.setComment("test transfer");
     op.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
     op.save();
@@ -103,7 +96,6 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transaction restored = getTransactionFromDb(op.getId());
     assertEquals(op, restored);
     peer = (Transfer) getTransactionFromDb(op.getTransferPeer());
-    assert peer != null;
     assertEquals(peer.getId(), op.getTransferPeer().longValue());
     assertEquals(op.getId(), peer.getTransferPeer().longValue());
     assertEquals(op.getTransferAccountId().longValue(), peer.getAccountId());
@@ -113,8 +105,9 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   }
 
   public void testTransferChangeAccounts() {
-    Transfer op = Transfer.getNewInstance(mAccount1, mAccount2.getId());
-    op.setAmount(new Money(mAccount1.getCurrencyUnit(), (long) 100));
+    CurrencyUnit currencyUnit = getHomeCurrency();
+    Transfer op = Transfer.getNewInstance(mAccount1.getId(), currencyUnit, mAccount2.getId());
+    op.setAmount(new Money(currencyUnit, 100));
     op.setComment("test transfer");
     assertNotNull(op.save());
     op.setAccountId(mAccount2.getId());
@@ -134,22 +127,22 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
    * we test if split parts get the date of their parent
    */
   public void testSplit() {
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1, false);
-    op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
+    CurrencyUnit currencyUnit = getHomeCurrency();
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit, false);
+    op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
     op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
     op1.setDate(new Date(System.currentTimeMillis() - 1003900000));
     op1.save();
     assertTrue(op1.getId() > 0);
-    Transaction split1 = Transaction.getNewInstance(mAccount1, op1.getId());
-    split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
+    Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op1.getId());
+    split1.setAmount(new Money(currencyUnit, 50L));
     assertEquals(split1.getParentId().longValue(), op1.getId());
     split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
     assertTrue(split1.getId() > 0);
-    Transaction split2 = Transaction.getNewInstance(mAccount1, op1.getId());
-    assert split2 != null;
-    split2.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
+    Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op1.getId());
+    split2.setAmount(new Money(currencyUnit, 50L));
     assertEquals(split2.getParentId().longValue(), op1.getId());
     split2.setStatus(STATUS_UNCOMMITTED);
     split2.save();
@@ -158,12 +151,9 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     //we expect the parent to make sure that parts have the same date
     Transaction restored = getTransactionFromDb(op1.getId());
     assertEquals(op1, restored);
-    assert restored != null;
     Transaction split1Restored = getTransactionFromDb(split1.getId());
-    assert split1Restored != null;
     assertEquals(restored.getDate(), split1Restored.getDate());
     Transaction split2Restored = getTransactionFromDb(split2.getId());
-    assert split2Restored != null;
     assertEquals(restored.getDate(), split2Restored.getDate());
     restored.setCrStatus(CrStatus.CLEARED);
     restored.save();
@@ -173,8 +163,9 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   }
 
   public void testDeleteSplitWithPartTransfer() {
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1, false);
-    Money money = new Money(mAccount1.getCurrencyUnit(), 100L);
+    CurrencyUnit currencyUnit = getHomeCurrency();
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit, false);
+    Money money = new Money(currencyUnit, 100L);
     op1.setAmount(money);
     op1.save();
     Transaction split1 = new Transfer(mAccount1.getId(), money, mAccount2.getId(), op1.getId());
@@ -184,13 +175,13 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   }
 
   public void testIncreaseCatUsage() {
+    CurrencyUnit currencyUnit = getHomeCurrency();
     catId1 = writeCategory("Test category 1", null);
     catId2 = writeCategory("Test category 2", null);
     assertEquals(getCatUsage(catId1), 0);
     assertEquals(getCatUsage(catId2), 0);
-    Transaction op1 = Transaction.getNewInstance(mAccount1);
-    assert op1 != null;
-    op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
+    Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
+    op1.setAmount(new Money(currencyUnit, 100L));
     op1.setCatId(catId1);
     op1.save();
     //saving a new transaction increases usage
@@ -207,9 +198,8 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     assertEquals(getCatUsage(catId1), 1);
     assertEquals(getCatUsage(catId2), 1);
     //new transaction without cat, does not increase usage
-    Transaction op2 = Transaction.getNewInstance(mAccount1);
-    assert op2 != null;
-    op2.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
+    Transaction op2 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
+    op2.setAmount(new Money(currencyUnit, 100L));
     op2.save();
     assertEquals(getCatUsage(catId1), 1);
     assertEquals(getCatUsage(catId2), 1);
@@ -221,16 +211,16 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   }
 
   public void testIncreaseAccountUsage() {
+    CurrencyUnit currencyUnit = getHomeCurrency();
     assertEquals(0, getAccountUsage(mAccount1.getId()));
     assertEquals(0, getAccountUsage(mAccount2.getId()));
-    Transaction op1 = Transaction.getNewInstance(mAccount1);
-    assert op1 != null;
-    op1.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
+    Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
+    op1.setAmount(new Money(currencyUnit, 100L));
     op1.save();
     assertEquals(1, getAccountUsage(mAccount1.getId()));
     //transfer
-    Transfer op2 = Transfer.getNewInstance(mAccount1, mAccount2.getId());
-    op2.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
+    Transfer op2 = Transfer.getNewInstance(mAccount1.getId(), currencyUnit, mAccount2.getId());
+    op2.setAmount(new Money(currencyUnit, 100L));
     op2.save();
     assertEquals(2, getAccountUsage(mAccount1.getId()));
     assertEquals(1, getAccountUsage(mAccount2.getId()));
@@ -238,15 +228,15 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     op1.save();
     assertEquals(2, getAccountUsage(mAccount2.getId()));
     //split
-    SplitTransaction op3 = SplitTransaction.getNewInstance(mAccount1, false);
-    op3.setAmount(new Money(mAccount1.getCurrencyUnit(), 100L));
+    SplitTransaction op3 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit, false);
+    op3.setAmount(new Money(currencyUnit, 100L));
     op3.save();
-    Transaction split1 = Transaction.getNewInstance(mAccount1, op3.getId());
-    split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
+    Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op3.getId());
+    split1.setAmount(new Money(currencyUnit, 50L));
     split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
-    Transaction split2 = Transaction.getNewInstance(mAccount1, op3.getId());
-    split2.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
+    Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op3.getId());
+    split2.setAmount(new Money(currencyUnit, 50L));
     split2.setStatus(STATUS_UNCOMMITTED);
     split2.save();
     op3.save();
@@ -256,7 +246,6 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   private int countPayee(String name) {
     Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI, new String[]{"count(*)"},
         "name = ?", new String[]{name}, null);
-    assert cursor != null;
     if (cursor.getCount() == 0) {
       cursor.close();
       return 0;

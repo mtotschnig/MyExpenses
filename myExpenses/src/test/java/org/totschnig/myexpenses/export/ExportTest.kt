@@ -29,6 +29,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.markAsExported
@@ -51,7 +52,7 @@ import java.util.*
 
 
 @RunWith(RobolectricTestRunner::class)
-class ExportTest {
+class ExportTest: BaseTestWithRepository() {
     private val openingBalance = 100L
     private val expense1 = -10L
 
@@ -84,16 +85,6 @@ class ExportTest {
     }
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-
-    private val currencyContext =  Mockito.mock(CurrencyContext::class.java)
-
-    private val repository: Repository
-        get() = Repository(
-            context,
-            currencyContext,
-            Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java)
-        )
 
     @get:Rule
     val expect: Expect = Expect.create()

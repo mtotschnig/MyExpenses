@@ -20,7 +20,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
     @Before
     fun fixture() {
         val account =  buildAccount("Test account 1")
-        val op0 = Transaction.getNewInstance(account)
+        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(CurrencyUnit.DebugInstance, -1200L)
         op0.save()
         val times = 5

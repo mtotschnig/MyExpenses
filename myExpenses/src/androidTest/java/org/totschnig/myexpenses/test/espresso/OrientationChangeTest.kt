@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.*
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
@@ -35,27 +36,20 @@ class OrientationChangeTest : BaseMyExpensesTest() {
     fun fixture() {
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         account1 = Account(
-            accountLabel1,
-            currency1,
-            0,
-            "",
-            AccountType.BANK,
-            Account.DEFAULT_COLOR
-        ).apply { save(homeCurrency) }
+            label = accountLabel1,
+            currency = currency1.code,
+            type = AccountType.BANK,
+            ).createIn(repository)
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         account2 = Account(
-            accountLabel2,
-            currency2,
-            0,
-            "",
-            AccountType.CASH,
-            Account.DEFAULT_COLOR
-        ).apply { save(homeCurrency) }
+            label = accountLabel2,
+            currency = currency2.code
+        ).createIn(repository)
     }
 
     @Test
     fun shouldKeepAccountAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1)
+        val transaction = Transaction.getNewInstance(account1.id, currency1)
         transaction.amount = Money(currency1, 500L)
         transaction.save()
         val i = Intent(targetContext, ExpenseEdit::class.java)
@@ -72,7 +66,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldKeepMethodAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1)
+        val transaction = Transaction.getNewInstance(account1.id, currency1)
         transaction.amount = Money(currency1, -500L)
         transaction.methodId = PaymentMethod.find(PreDefinedPaymentMethod.DIRECTDEBIT.name)
         transaction.save()
@@ -99,7 +93,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldKeepStatusAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1)
+        val transaction = Transaction.getNewInstance(account1.id, currency1)
         transaction.amount = Money(currency1, -500L)
         transaction.crStatus = CrStatus.UNRECONCILED
         transaction.save()
@@ -139,7 +133,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldHandleExistingInstanceAfterOrientationChange() {
-        val id = with(Transaction.getNewInstance(account1)) {
+        val id = with(Transaction.getNewInstance(account1.id, currency1)) {
             amount = Money(currency1, -500L)
             crStatus = CrStatus.UNRECONCILED
             save()

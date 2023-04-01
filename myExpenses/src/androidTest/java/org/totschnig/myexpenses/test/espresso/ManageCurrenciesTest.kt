@@ -44,7 +44,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
     }
 
     private fun getTotalAccountBalance(accountId: Long) =
-        repository.loadAccount(accountId)!!.openingBalance + repository.getTransactionSum(accountId, null)
+        repository.loadAccount(accountId)!!.openingBalance + repository.getTransactionSum(accountId)
 
     private fun testHelper(withUpdate: Boolean) {
         val appComponent = app.appComponent

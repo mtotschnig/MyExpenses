@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -54,14 +55,12 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     val homeCurrency: CurrencyUnit by lazy { app.appComponent.homeCurrencyProvider().homeCurrencyUnit }
 
-    fun buildAccount(label: String, openingBalance: Long = 0L) =
-        Account(label, homeCurrency, openingBalance, AccountType.CASH).also { it.save(homeCurrency) }
-
-    fun buildAccount2(label: String, openingBalance: Long = 0L) =
-        org.totschnig.myexpenses.model2.Account(
+    @JvmOverloads
+    fun buildAccount(label: String, openingBalance: Long = 0L, currency: String = homeCurrency.code) =
+        Account(
             label = label,
             openingBalance = openingBalance,
-            currency = homeCurrency.code
+            currency = currency
         ).createIn(repository)
 
     fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(id, homeCurrency)
@@ -75,11 +74,6 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         closeSoftKeyboard()
         onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
     }
-
-        /**
-     * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher
-     * Click on a menu item, that might be visible or hidden in overflow menu
-     */
 
     /**
      * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher

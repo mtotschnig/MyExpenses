@@ -22,18 +22,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 
-import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.os.RemoteException;
 
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 public class AccountTest extends ModelTest {
@@ -50,24 +47,25 @@ public class AccountTest extends ModelTest {
 
   private void insertData() {
     Transaction op;
+    CurrencyUnit currencyUnit = getHomeCurrency();
     account1 = buildAccount("Account 1", openingBalance);
     account2 = buildAccount("Account 2", openingBalance);
     catId = writeCategory(TEST_CAT, null);
-    op = Transaction.getNewInstance(account1);
-    op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
+    op = Transaction.getNewInstance(account1.getId(), currencyUnit);
+    op.setAmount(new Money(currencyUnit, -expense1));
     op.setCrStatus(CrStatus.CLEARED);
     op.save();
-    op.setAmount(new Money(account1.getCurrencyUnit(), -expense2));
+    op.setAmount(new Money(currencyUnit, -expense2));
     op.saveAsNew();
-    op.setAmount(new Money(account1.getCurrencyUnit(), income1));
+    op.setAmount(new Money(currencyUnit, income1));
     op.saveAsNew();
-    op.setAmount(new Money(account1.getCurrencyUnit(), income2));
+    op.setAmount(new Money(currencyUnit, income2));
     op.setCatId(catId);
     op.saveAsNew();
-    Transfer op1 = Transfer.getNewInstance(account1, account2.getId());
-    op1.setAmount(new Money(account1.getCurrencyUnit(), transferP));
+    Transfer op1 = Transfer.getNewInstance(account1.getId(), currencyUnit, account2.getId());
+    op1.setAmount(new Money(currencyUnit, transferP));
     op1.save();
-    op1.setAmount(new Money(account1.getCurrencyUnit(), -transferN));
+    op1.setAmount(new Money(currencyUnit, -transferN));
     op1.saveAsNew();
   }
 

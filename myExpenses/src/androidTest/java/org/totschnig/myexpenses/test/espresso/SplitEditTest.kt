@@ -6,8 +6,8 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -26,7 +26,9 @@ import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -34,11 +36,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import org.totschnig.myexpenses.testutils.withAccount
 import org.totschnig.myexpenses.testutils.withOperationType
-import java.util.*
 
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
-    lateinit var account1: Account
+    lateinit var account1: org.totschnig.myexpenses.model2.Account
 
     private val baseIntent: Intent
         get() = Intent(targetContext, TestExpenseEdit::class.java).apply {
@@ -133,16 +134,19 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertFinishing()
     }
 
-    private fun prepareSplit() = with(SplitTransaction.getNewInstance(account1)) {
-        amount = Money(CurrencyUnit(Currency.getInstance("EUR")), 10000)
-        status = DatabaseConstants.STATUS_NONE
-        save(true)
-        val part = Transaction.getNewInstance(account1, id)
-        part.amount = Money(CurrencyUnit(Currency.getInstance("EUR")), 5000)
-        part.save()
-        part.amount = Money(CurrencyUnit(Currency.getInstance("EUR")), 5000)
-        part.saveAsNew()
-        id
+    private fun prepareSplit(): Long {
+        val currencyUnit = homeCurrency
+        return with(SplitTransaction.getNewInstance(account1.id, currencyUnit)) {
+            amount = Money(currencyUnit, 10000)
+            status = DatabaseConstants.STATUS_NONE
+            save(true)
+            val part = Transaction.getNewInstance(account1.id, currencyUnit, id)
+            part.amount = Money(currencyUnit, 5000)
+            part.save()
+            part.amount = Money(currencyUnit, 5000)
+            part.saveAsNew()
+            id
+        }
     }
 
     @Test

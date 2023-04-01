@@ -9,6 +9,7 @@ import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -23,7 +24,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @RunWith(RobolectricTestRunner::class)
-class SyncAdapterWriteToDbTest {
+class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
     private lateinit var syncDelegate: SyncDelegate
     private lateinit var ops: ArrayList<ContentProviderOperation>
 
@@ -42,19 +43,8 @@ class SyncAdapterWriteToDbTest {
         syncDelegate.account = Account(label = "", currency = "EUR")
     }
 
-    private val currencyContext = Mockito.mock(CurrencyContext::class.java).also { currencyContext ->
-        Mockito.`when`(currencyContext.get(ArgumentMatchers.anyString())).thenAnswer {
-            CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
-        }
-    }
     private val featureManager = Mockito.mock(FeatureManager::class.java)
     private val homeCurrency = CurrencyUnit.DebugInstance
-    private val repository = Repository(
-        ApplicationProvider.getApplicationContext<MyApplication>(),
-        currencyContext,
-        Mockito.mock(CurrencyFormatter::class.java),
-        Mockito.mock(PrefHandler::class.java)
-    )
 
     @Test
     fun createdChangeShouldBeCollectedAsInsertOperation() {

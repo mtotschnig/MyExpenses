@@ -60,6 +60,7 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
 
 /**
  * Activity for editing an account
@@ -232,7 +233,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.Description.setText(account.description)
         syncAccountName = account.syncAccountName
         _currencyUnit = currencyContext[account.currency]
-        binding.ERR.ExchangeRate.setRate(BigDecimal(account.exchangeRate), true)
+        binding.ERR.ExchangeRate.setRate(BigDecimal(calculateRealExchangeRate(account.exchangeRate, currencyUnit, homeCurrency)), true)
         color = account.color
         excludeFromTotals = account.excludeFromTotals
         uuid = account.uuid
@@ -290,7 +291,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             syncAccountName =  if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,
             criterion = Money(currencyUnit, binding.Criterion.typedValue).amountMinor,
             excludeFromTotals = excludeFromTotals,
-            exchangeRate = (if (prefHandler.getString(PrefKey.HOME_CURRENCY, currency) != currency) {
+            exchangeRate = (if (homeCurrencyProvider.homeCurrencyString != currency) {
                 binding.ERR.ExchangeRate.getRate(false)?.toDouble()
             } else null) ?: 1.0
         )

@@ -1,11 +1,9 @@
 package org.totschnig.myexpenses.db2
 
-import android.accounts.AccountManager
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import androidx.core.database.getStringOrNull
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Transaction
@@ -17,9 +15,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.withLimit
-import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
-import org.totschnig.myexpenses.sync.SyncAdapter.Companion.KEY_LAST_SYNCED_LOCAL
-import org.totschnig.myexpenses.sync.SyncAdapter.Companion.KEY_LAST_SYNCED_REMOTE
 import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long): CurrencyUnit? {
@@ -99,7 +94,7 @@ fun Account.toContentValues() = ContentValues().apply {
     put(DatabaseConstants.KEY_CURRENCY, currency)
     put(DatabaseConstants.KEY_TYPE, type.name)
     put(DatabaseConstants.KEY_COLOR, color)
-    put(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
+    put(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
     if (id == 0L) {
         put(DatabaseConstants.KEY_UUID, Model.generateUuid())
     }
@@ -131,15 +126,30 @@ fun Repository.updateAccount(accountId: Long, data: ContentValues) {
         data, null, null
     )
 }
+fun Repository.storeExchangeRate(
+    accountId: Long,
+    exchangeRate: Double,
+    currency: String,
+    homeCurrency: String
+) {
+    contentResolver.insert(
+        buildExchangeRateUri(accountId, currency, homeCurrency),
+        ContentValues().apply {
+            put(DatabaseConstants.KEY_EXCHANGE_RATE, exchangeRate)
+        })
+}
 
-fun Repository.deleteAccount(accountId: Long) {
+private fun buildExchangeRateUri(accountId: Long, currency: String, homeCurrency: String) =
+    ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), accountId)
+        .appendEncodedPath(currency)
+        .appendEncodedPath(homeCurrency).build()
+
+/**
+ * @return syncAccountName in case account was set up for synchronization in order to allow caller
+ * to update AccountManager
+ */
+fun Repository.deleteAccount(accountId: Long): String? {
     val syncAccountName = getStringValue(accountId, KEY_SYNC_ACCOUNT_NAME)
-    if (syncAccountName != null) {
-        val accountManager = AccountManager.get(MyApplication.getInstance())
-        val syncAccount = getAccount(syncAccountName)
-        accountManager.setUserData(syncAccount, KEY_LAST_SYNCED_LOCAL(accountId), null)
-        accountManager.setUserData(syncAccount, KEY_LAST_SYNCED_REMOTE(accountId), null)
-    }
     val ops = java.util.ArrayList<ContentProviderOperation>()
     val accountIdString = accountId.toString()
     updateTransferPeersForTransactionDelete(
@@ -153,6 +163,7 @@ fun Repository.deleteAccount(accountId: Long) {
         ).build()
     )
     contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+    return syncAccountName
 }
 
 fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {

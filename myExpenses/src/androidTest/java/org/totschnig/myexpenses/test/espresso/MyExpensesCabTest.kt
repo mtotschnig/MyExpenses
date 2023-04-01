@@ -1,20 +1,11 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.assertContentDescriptionEquals
-import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.test.onChildren
-import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.Matchers
 import org.junit.Before
@@ -22,13 +13,11 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
-import org.totschnig.myexpenses.util.Utils
 
 class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
@@ -37,7 +26,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     fun fixture() {
         val home = homeCurrency
         account = buildAccount("Test account 1")
-        val op0 = Transaction.getNewInstance(account)
+        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(home, -100L)
         op0.save()
         for (i in 2 until 7) {

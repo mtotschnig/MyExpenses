@@ -39,7 +39,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     lateinit var account: Account
     @Before
     fun fixture() {
-        account =  buildAccount2("Test account 1")
+        account =  buildAccount("Test account 1")
         launch(account.id)
         Intents.init()
     }

@@ -49,9 +49,7 @@ import com.squareup.phrase.Phrase;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
@@ -63,7 +61,6 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -116,11 +113,6 @@ public class Utils {
       }
     }
     return null;
-  }
-
-  public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
-    int minorUnitDelta = currencyUnit.getFractionDigits() - homeCurrency.getFractionDigits();
-    return raw * Math.pow(10, minorUnitDelta);
   }
 
   public static List<Map<String, String>> getProjectDependencies(Context context) {

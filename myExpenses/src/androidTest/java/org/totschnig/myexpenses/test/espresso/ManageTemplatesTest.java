@@ -23,12 +23,11 @@ import org.junit.Test;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.MockLicenceHandler;
@@ -39,7 +38,6 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
 
   @Before
   public void fixture() {
-    CurrencyUnit currencyUnit = CurrencyUnit.Companion.getDebugInstance();
     account1 = buildAccount("Test account 1", 0);
     account2 = buildAccount("Test account 2", 0);
     createInstances(Template.Action.SAVE);
@@ -50,23 +48,24 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
   }
 
   public void createInstances(Template.Action defaultAction) {
-    Template template = new Template(account1.getId(), account1.getCurrencyUnit(), TYPE_TRANSACTION, null);
-    template.setAmount(new Money(account1.getCurrencyUnit(), -1200L));
+    CurrencyUnit currencyUnit = getHomeCurrency();
+    Template template = new Template(account1.getId(), currencyUnit, TYPE_TRANSACTION, null);
+    template.setAmount(new Money(currencyUnit, -1200L));
     template.setDefaultAction(defaultAction);
     template.setTitle("Espresso Transaction Template " + defaultAction.name());
     template.save();
-    template = Template.getTypedNewInstance(TYPE_TRANSFER, account1, false, null);
-    template.setAmount(new Money(account1.getCurrencyUnit(), -1200L));
+    template = Template.getTypedNewInstance(TYPE_TRANSFER, account1.getId(), currencyUnit, false, null);
+    template.setAmount(new Money(currencyUnit, -1200L));
     template.setTransferAccountId(account2.getId());
     template.setTitle("Espresso Transfer Template " + defaultAction.name());
     template.setDefaultAction(defaultAction);
     template.save();
-    template = Template.getTypedNewInstance(TYPE_SPLIT, account1, false, null);
-    template.setAmount(new Money(account1.getCurrencyUnit(), -1200L));
+    template = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), currencyUnit, false, null);
+    template.setAmount(new Money(currencyUnit, -1200L));
     template.setTitle("Espresso Split Template " + defaultAction.name());
     template.setDefaultAction(defaultAction);
     template.save(true);
-    Template part = Template.getTypedNewInstance(TYPE_SPLIT, account1, false, template.getId());
+    Template part = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), currencyUnit, false, template.getId());
     part.save();
     assertThat(Transaction.countPerAccount(account1.getId())).isEqualTo(0);
   }

@@ -18,10 +18,10 @@ import org.totschnig.myexpenses.activity.RESTORE_REQUEST
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -53,9 +53,9 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             inject(viewModel)
         }
         viewModel.accountSave.observe(this) {
-            if (it) {
+            it.onSuccess {
                 hostActivity.start()
-            } else {
+            }.onFailure {
                 val message = "Unknown error while setting up account"
                 CrashHandler.report(Exception(message))
                 hostActivity.showSnackBar(message)
@@ -199,9 +199,12 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         val openingBalance = binding.Amount.typedValue
         val currency = selectedCurrency
         return Account(
-            label, Money(currency, openingBalance),
-            binding.Description.text.toString(),
-            binding.AccountType.selectedItem as AccountType, viewModel.accountColor
+            label = label,
+            currency = currency.code,
+            openingBalance = Money(currency, openingBalance).amountMinor,
+            description = binding.Description.text.toString(),
+            type = binding.AccountType.selectedItem as AccountType,
+            color = viewModel.accountColor
         )
     }
 

@@ -1,39 +1,22 @@
 package org.totschnig.myexpenses.provider
 
 import android.os.Bundle
-import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
-class ProviderUtilsTest {
-
-    private val repository: Repository = Repository(
-        ApplicationProvider.getApplicationContext<MyApplication>(),
-        Mockito.mock(CurrencyContext::class.java).also { currencyContext ->
-            Mockito.`when`(currencyContext.get(anyString())).thenAnswer {
-                CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
-            }
-        },
-        Mockito.mock(CurrencyFormatter::class.java),
-        Mockito.mock(PrefHandler::class.java)
-    )
+class ProviderUtilsTest: BaseTestWithRepository() {
 
     private lateinit var euroAccount: Account
     private lateinit var dollarAccount: Account

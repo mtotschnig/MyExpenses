@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 
 object TestFeatureModule: FeatureModule() {
-    override fun provideFeatureManager(localeProvider: HomeCurrencyProvider, prefHandler: PrefHandler) = TestFeatureManager
+    override fun provideFeatureManager(prefHandler: PrefHandler) = TestFeatureManager
 }
 
 object TestFeatureManager: FeatureManager() {

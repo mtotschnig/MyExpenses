@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.util.calculateRawExchangeRate
 
 class AccountEditViewModel(application: Application, savedStateHandle: SavedStateHandle)
     : TagHandlingViewModel(application, savedStateHandle) {
@@ -25,12 +26,25 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
     fun save(account: Account): LiveData<Result<Long>> = liveData(context = coroutineContext()) {
         emit(kotlin.runCatching {
             val id = if (account.id == 0L) {
-                repository.createAccount(account)
+                account.createIn(repository)
             } else {
                 repository.updateAccount(account.id, account.toContentValues())
                 account
             }.id
+            org.totschnig.myexpenses.model.Account.updateNewAccountEnabled()
+            org.totschnig.myexpenses.model.Account.updateTransferShortcut()
             repository.saveActiveTagsForAccount(tagsLiveData.value, id)
+            if (account.currency != homeCurrencyProvider.homeCurrencyString) {
+                repository.storeExchangeRate(id,
+                    calculateRawExchangeRate(
+                        account.exchangeRate,
+                        currencyContext[account.currency],
+                        homeCurrencyProvider.homeCurrencyUnit
+                    ),
+                    account.currency,
+                    homeCurrencyProvider.homeCurrencyString
+                )
+            }
             id
         })
     }

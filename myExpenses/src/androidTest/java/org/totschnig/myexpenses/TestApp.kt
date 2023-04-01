@@ -3,22 +3,12 @@ package org.totschnig.myexpenses
 import android.content.Context
 import androidx.core.os.ConfigurationCompat
 import androidx.test.platform.app.InstrumentationRegistry
-import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.di.AppModule
-import org.totschnig.myexpenses.di.CrashHandlerModule
-import org.totschnig.myexpenses.di.DaggerAppComponent
-import org.totschnig.myexpenses.di.UiModule
+import org.totschnig.myexpenses.di.*
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.testutils.Fixture
-import org.totschnig.myexpenses.testutils.MockLicenceModule
-import org.totschnig.myexpenses.testutils.TestCoroutineModule
-import org.totschnig.myexpenses.testutils.TestDataModule
-import org.totschnig.myexpenses.testutils.TestFeatureModule
-import org.totschnig.myexpenses.testutils.TestViewModelModule
+import org.totschnig.myexpenses.testutils.*
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProviderImpl
 import java.util.*
 

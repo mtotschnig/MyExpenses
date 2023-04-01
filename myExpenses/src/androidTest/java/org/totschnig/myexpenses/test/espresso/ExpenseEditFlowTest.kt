@@ -10,9 +10,7 @@ import com.google.common.truth.Truth
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.testutils.Espresso
 

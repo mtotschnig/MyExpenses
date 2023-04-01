@@ -36,14 +36,6 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     private val application: MyApplication
         get() = ApplicationProvider.getApplicationContext()
 
-    private val repository: Repository
-        get() = Repository(
-            application,
-            Mockito.mock(CurrencyContext::class.java),
-            Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java)
-        )
-
     private lateinit var account1: Account
     private val openingBalance = 100L
     private val expense1 = 10L
@@ -92,7 +84,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
 
     private fun getTotalAccountBalance(accountId: Long) =
         repository.loadAccount(accountId)!!.openingBalance +
-                repository.getTransactionSum(accountId, null)
+                repository.getTransactionSum(accountId)
 
     private fun getReconciledAccountBalance(accountId: Long) =
         repository.loadAccount(accountId)!!.openingBalance +

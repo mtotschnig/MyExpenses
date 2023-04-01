@@ -138,7 +138,7 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
 
 }
 
-fun Repository.getTransactionSum(accountId: Long, filter: WhereFilter?): Long {
+fun Repository.getTransactionSum(accountId: Long, filter: WhereFilter? = null): Long {
     var selection =
         "${DatabaseConstants.KEY_ACCOUNTID} = ? AND ${DatabaseConstants.WHERE_NOT_SPLIT_PART} AND ${DatabaseConstants.WHERE_NOT_VOID}"
     var selectionArgs: Array<String>? = arrayOf(accountId.toString())

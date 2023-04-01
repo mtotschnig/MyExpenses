@@ -21,6 +21,9 @@ data class Account(
     val excludeFromTotals: Boolean = false,
     val uuid: String? = null,
     val isSealed: Boolean = false,
+    /**
+     * describes rate of this accounts minor unit to homeCurrency minor unit
+     */
     val exchangeRate: Double = 1.0,
     override val grouping: Grouping = Grouping.NONE
 ): DataBaseAccount() {
@@ -56,12 +59,18 @@ data class Account(
         fun fromCursor(cursor: Cursor) =
             Account(
                 id = cursor.getLong(KEY_ROWID),
-                openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
-                currency = cursor.getString(KEY_CURRENCY),
                 label = cursor.getString(KEY_LABEL),
                 description = cursor.getString(KEY_DESCRIPTION),
+                openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
+                currency = cursor.getString(KEY_CURRENCY),
+                type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
+                color = cursor.getInt(KEY_COLOR),
+                criterion = cursor.getLong(KEY_CRITERION),
+                syncAccountName= cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
+                excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 uuid = cursor.getString(KEY_UUID),
                 isSealed = cursor.getBoolean(KEY_SEALED),
+                exchangeRate = cursor.getDouble(KEY_EXCHANGE_RATE),
                 grouping = cursor.getEnum(KEY_GROUPING, Grouping.NONE)
             )
 

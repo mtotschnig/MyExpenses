@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
+import android.accounts.AccountManager
 import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
@@ -34,6 +35,8 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -232,7 +235,14 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             val failures = mutableListOf<Exception>()
             for (accountId in accountIds) {
                 try {
-                    repository.deleteAccount(accountId)
+                    repository.deleteAccount(accountId)?.let {
+                        val accountManager = AccountManager.get(getApplication())
+                        val syncAccount = GenericAccountService.getAccount(it)
+                        accountManager.setUserData(syncAccount,
+                            SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId), null)
+                        accountManager.setUserData(syncAccount,
+                            SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId), null)
+                    }
                 } catch (e: Exception) {
                     CrashHandler.report(e)
                     failures.add(e)
@@ -292,7 +302,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
                 .withValues(helper.buildInitialValues()).build()
         }
-        val rowSelect = Account.buildTransactionRowSelect(filter)
+        val rowSelect = buildTransactionRowSelect(filter)
         var selectionArgs: Array<String>? = arrayOf(account.id.toString())
         if (filter != null && !filter.isEmpty) {
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))

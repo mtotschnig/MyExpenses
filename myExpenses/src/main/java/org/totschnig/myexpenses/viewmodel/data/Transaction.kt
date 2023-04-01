@@ -20,10 +20,7 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.requireLong
-import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.epoch2ZonedDateTime
+import org.totschnig.myexpenses.util.*
 import java.io.File
 import java.math.BigDecimal
 import java.time.ZonedDateTime
@@ -155,7 +152,7 @@ data class Transaction(
                     ?: Money(
                         homeCurrency, money.amountMajor.multiply(
                             BigDecimal(
-                                Utils.adjustExchangeRate(
+                                calculateRealExchangeRate(
                                     cursor.getDouble(KEY_EXCHANGE_RATE),
                                     currencyUnit, homeCurrency
                                 )

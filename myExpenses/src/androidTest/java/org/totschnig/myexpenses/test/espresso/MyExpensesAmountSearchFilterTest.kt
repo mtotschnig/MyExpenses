@@ -10,8 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -24,7 +22,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
     fun fixture() {
         val currency = DebugInstance
         val account = buildAccount("Test account 1")
-        val op = Transaction.getNewInstance(account)
+        val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount =  Money(currency, amount1)
         op.save()
         op.amount = Money(currency, amount2)

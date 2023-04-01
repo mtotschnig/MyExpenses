@@ -21,10 +21,10 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import java.util.*
@@ -47,7 +47,7 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
     private fun fixtureWithMappedTransaction() {
         baseFixture {
             categoryId = writeCategory("TestCategory")
-            with(Transaction.getNewInstance(account)) {
+            with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
                 catId = categoryId
                 save()

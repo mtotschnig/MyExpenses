@@ -11,13 +11,6 @@ import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 abstract class ModelTest : BaseProviderTest() {
-    protected val repository: Repository
-        get() = Repository(
-            targetContextWrapper,
-            Mockito.mock(CurrencyContext::class.java),
-            Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java)
-        )
 
     fun writeCategory(label: String, parentId: Long?) =
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)

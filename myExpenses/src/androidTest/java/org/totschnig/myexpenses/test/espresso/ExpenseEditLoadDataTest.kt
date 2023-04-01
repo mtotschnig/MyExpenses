@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.Espresso.*
@@ -50,12 +51,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         foreignCurrency = CurrencyUnit(Currency.getInstance("USD"))
         account1 = buildAccount("Test account 1")
         account2 = buildAccount("Test account 2")
-        account2.save(homeCurrency)
-        transaction = Transaction.getNewInstance(account1).apply {
+        transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
             amount = Money(homeCurrency, 500L)
             save()
         }
-        transfer = Transfer.getNewInstance(account1, account2.id).apply {
+        transfer = Transfer.getNewInstance(account1.id, homeCurrency, account2.id).apply {
             setAmount(Money(homeCurrency, -600L))
             save()
         }
@@ -99,15 +99,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Throws(Exception::class)
     fun shouldPopulateWithForeignExchangeTransfer() {
         val foreignAccount = Account(
-            "Test account 2",
-            foreignCurrency,
-            0,
-            "",
-            AccountType.CASH,
-            Account.DEFAULT_COLOR
-        )
-        foreignAccount.save(homeCurrency)
-        val foreignTransfer = Transfer.getNewInstance(account1, foreignAccount.id)
+            label ="Test account 2",
+            currency = foreignCurrency.code,
+        ).createIn(repository)
+        val foreignTransfer = Transfer.getNewInstance(account1.id, homeCurrency, foreignAccount.id)
         foreignTransfer.setAmountAndTransferAmount(
             Money(homeCurrency, 100L), Money(
                 foreignCurrency, 200L
@@ -279,7 +274,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithSplitTransactionAndPrepareForm() {
-        val splitTransaction: Transaction = SplitTransaction.getNewInstance(account1)
+        val splitTransaction: Transaction = SplitTransaction.getNewInstance(account1.id, homeCurrency)
         splitTransaction.status = DatabaseConstants.STATUS_NONE
         splitTransaction.save(true)
         load(splitTransaction.id).use {
@@ -328,11 +323,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     private fun buildSplitTemplate(): Long {
         val template =
-            Template.getTypedNewInstance(Transactions.TYPE_SPLIT, account1, false, null)
+            Template.getTypedNewInstance(Transactions.TYPE_SPLIT, account1.id, homeCurrency, false, null)
         template!!.save(true)
         val part = Template.getTypedNewInstance(
             Transactions.TYPE_SPLIT,
-            account1,
+            account1.id,
+            homeCurrency,
             false,
             template.id
         )
@@ -344,7 +340,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldPopulateWithPlanAndPrepareForm() {
         val plan = Template.getTypedNewInstance(
             Transactions.TYPE_TRANSACTION,
-            account1,
+            account1.id,
+            homeCurrency,
             false,
             null
         )
@@ -385,7 +382,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldInstantiateFromTemplateAndPrepareForm() {
         val template = Template.getTypedNewInstance(
             Transactions.TYPE_TRANSACTION,
-            account1,
+            account1.id,
+            homeCurrency,
             false,
             null
         )
@@ -450,7 +448,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Throws(Exception::class)
     fun shouldNotEditSealed() {
         val sealedAccount = buildAccount("Sealed account")
-        val sealed = Transaction.getNewInstance(sealedAccount)
+        val sealed = Transaction.getNewInstance(sealedAccount.id, homeCurrency)
         sealed.amount = Money(homeCurrency, 500L)
         sealed.save()
         val values = ContentValues(1)
