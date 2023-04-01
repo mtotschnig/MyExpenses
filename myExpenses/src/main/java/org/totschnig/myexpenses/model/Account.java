@@ -206,20 +206,6 @@ public class Account extends Model implements DistributionAccountInfo {
     return account;
   }
 
-  public static kotlin.Pair<Account, List<Tag>> getInstanceFromDbWithTags(long id, ContentResolver contentResolver) {
-    Account t = getInstanceFromDb(id);
-    return t == null ? null : new kotlin.Pair<>(t, loadTags(id, contentResolver));
-  }
-
-  @Nullable
-  public static List<Tag> loadTags(long id, ContentResolver contentResolver) {
-    return ModelWithLinkedTagsKt.loadTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, id, contentResolver);
-  }
-
-  public boolean saveTags(@Nullable List<Tag> tags, ContentResolver contentResolver) {
-    return ModelWithLinkedTagsKt.saveTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, tags, getId(), contentResolver);
-  }
-
   private Uri buildExchangeRateUri(CurrencyUnit homeCurrency) {
     return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
         .appendEncodedPath(currencyUnit.getCode())

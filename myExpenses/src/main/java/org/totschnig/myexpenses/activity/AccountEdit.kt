@@ -142,6 +142,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                         finish()
                     }
                 }
+                viewModel.loadTags(rowId)
             } else {
                 populateFields(
                     Account(

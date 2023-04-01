@@ -6,14 +6,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.db2.createAccount
-import org.totschnig.myexpenses.db2.loadAccount
-import org.totschnig.myexpenses.db2.toContentValues
-import org.totschnig.myexpenses.db2.updateAccount
-import org.totschnig.myexpenses.model.loadTags
+import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 
 class AccountEditViewModel(application: Application, savedStateHandle: SavedStateHandle)
     : TagHandlingViewModel(application, savedStateHandle) {
@@ -24,26 +18,20 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
 
     fun loadTags(accountId: Long) {
         viewModelScope.launch(coroutineContext()) {
-            updateTags(
-                loadTags(
-                    TransactionProvider.ACCOUNTS_TAGS_URI,
-                    DatabaseConstants.KEY_ACCOUNTID,
-                    accountId,
-                    contentResolver
-                ), false
-            )
+            updateTags(repository.loadActiveTagsForAccount(accountId), false)
         }
     }
 
     fun save(account: Account): LiveData<Result<Long>> = liveData(context = coroutineContext()) {
         emit(kotlin.runCatching {
-            if (account.id == 0L) {
+            val id = if (account.id == 0L) {
                 repository.createAccount(account)
             } else {
                 repository.updateAccount(account.id, account.toContentValues())
                 account
             }.id
+            repository.saveActiveTagsForAccount(tagsLiveData.value, id)
+            id
         })
-        //emit(if (result > 0 && !account.saveTags(tagsLiveData.value, contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
     }
 }
