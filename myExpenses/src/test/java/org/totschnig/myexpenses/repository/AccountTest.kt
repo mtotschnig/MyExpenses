@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.model
+package org.totschnig.myexpenses.repository
 
 import android.content.ContentUris
 import android.content.ContentValues
@@ -7,18 +7,25 @@ import androidx.test.core.app.ApplicationProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 @RunWith(RobolectricTestRunner::class)
-class AccountTest {
+class AccountTest: BaseTestWithRepository() {
 
     @Test(expected = SQLiteConstraintException::class)
     fun deleteTransactionInSealedAccount() {
         val currencyUnit = CurrencyUnit.DebugInstance
-        val account = Account("Account 1", currencyUnit, 100L, AccountType.CASH)
-        account.save(CurrencyUnit.DebugInstance)
+        val account = repository.createAccount(Account(label= "Account 1", currency = currencyUnit.code, openingBalance = 100L))
         val transaction = Transaction(account.id, Money(currencyUnit, 100L))
         transaction.save()
         closeAccount(account.id)
@@ -28,14 +35,12 @@ class AccountTest {
     @Test
     fun deleteAccountWithTransferLinkedToSealedAccount() {
         val currencyUnit = CurrencyUnit.DebugInstance
-        val account1 = Account("Account 1", currencyUnit, 100L, AccountType.CASH)
-        account1.save(CurrencyUnit.DebugInstance)
-        val account2 = Account("Account 1", currencyUnit, 100L, AccountType.CASH)
-        account2.save(CurrencyUnit.DebugInstance)
+        val account1 = repository.createAccount(Account(label= "Account 1", currency = currencyUnit.code, openingBalance = 100L))
+        val account2 = repository.createAccount(Account(label= "Account 2", currency = currencyUnit.code, openingBalance = 100L))
         val transfer = Transfer(account1.id, Money(currencyUnit, 100L), account2.id)
         transfer.save()
         closeAccount(account2.id)
-        Account.delete(account1.id)
+        repository.deleteAccount(account1.id)
     }
 
 

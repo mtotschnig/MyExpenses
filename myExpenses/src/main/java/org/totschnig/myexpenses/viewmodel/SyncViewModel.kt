@@ -55,7 +55,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             try {
                 configureLocalAccountForSync(accountName, uuid)
             } catch (e: SQLiteConstraintException) {
-                emit(Result.failure(AccountSealedException))
+                emit(Result.failure(AccountSealedException()))
             }
             resetRemote(accountName, uuid)
             emit(ResultUnit)

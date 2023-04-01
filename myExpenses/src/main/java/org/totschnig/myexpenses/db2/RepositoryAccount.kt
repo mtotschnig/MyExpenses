@@ -1,22 +1,28 @@
 package org.totschnig.myexpenses.db2
 
+import android.accounts.AccountManager
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import androidx.core.database.getStringOrNull
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.withLimit
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
+import org.totschnig.myexpenses.sync.SyncAdapter.Companion.KEY_LAST_SYNCED_LOCAL
+import org.totschnig.myexpenses.sync.SyncAdapter.Companion.KEY_LAST_SYNCED_REMOTE
 import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long): CurrencyUnit? {
-    require(accountId > 0L)
     return getCurrencyForAccount(accountId)?.let { currencyContext[it] }
 }
 
@@ -124,6 +130,29 @@ fun Repository.updateAccount(accountId: Long, data: ContentValues) {
         ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
         data, null, null
     )
+}
+
+fun Repository.deleteAccount(accountId: Long) {
+    val syncAccountName = getStringValue(accountId, KEY_SYNC_ACCOUNT_NAME)
+    if (syncAccountName != null) {
+        val accountManager = AccountManager.get(MyApplication.getInstance())
+        val syncAccount = getAccount(syncAccountName)
+        accountManager.setUserData(syncAccount, KEY_LAST_SYNCED_LOCAL(accountId), null)
+        accountManager.setUserData(syncAccount, KEY_LAST_SYNCED_REMOTE(accountId), null)
+    }
+    val ops = java.util.ArrayList<ContentProviderOperation>()
+    val accountIdString = accountId.toString()
+    updateTransferPeersForTransactionDelete(
+        ops,
+        buildTransactionRowSelect(null),
+        arrayOf(accountIdString)
+    )
+    ops.add(
+        ContentProviderOperation.newDelete(
+            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountIdString).build()
+        ).build()
+    )
+    contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
 }
 
 fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {

@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.db2.RepositoryAccountKt.updateTransferPeersForTransactionDelete;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -29,19 +28,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FR
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
@@ -51,7 +44,6 @@ import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 
 import android.accounts.AccountManager;
 import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -80,13 +72,10 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.viewmodel.data.Debt;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Account represents an account stored in the database.
@@ -101,8 +90,6 @@ public class Account extends Model implements DistributionAccountInfo {
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
   public final static long HOME_AGGREGATE_ID = Integer.MIN_VALUE;
-  private final static Uri LINKED_TAGS_URI = ACCOUNTS_TAGS_URI;
-  private final static String LINKED_TAGS_COLUMN = KEY_ACCOUNTID;
 
   private String label;
 
@@ -224,30 +211,6 @@ public class Account extends Model implements DistributionAccountInfo {
       cr().insert(buildExchangeRateUri(homeCurrency), exchangeRateValues);
     }
   }
-
-  public static void delete(long id) throws RemoteException, OperationApplicationException {
-    Account account = getInstanceFromDb(id);
-    if (account == null) {
-      return;
-    }
-    if (account.getSyncAccountName() != null) {
-      AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
-      android.accounts.Account syncAccount = GenericAccountService.getAccount(account.getSyncAccountName());
-      accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
-      accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
-    }
-    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    updateTransferPeersForTransactionDelete(ops,
-        buildTransactionRowSelect(null),
-        new String[]{String.valueOf(account.getId())});
-    ops.add(ContentProviderOperation.newDelete(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
-        .build());
-    cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-    updateNewAccountEnabled();
-    updateTransferShortcut();
-  }
-
   /**
    * returns an empty Account instance
    */

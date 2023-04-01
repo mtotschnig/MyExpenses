@@ -16,30 +16,18 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.model.AggregateAccount
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
@@ -60,7 +48,7 @@ import kotlin.collections.set
 
 const val KEY_ROW_IDS = "rowIds"
 
-object AccountSealedException : IllegalStateException()
+class AccountSealedException : IllegalStateException()
 
 abstract class ContentResolvingAndroidViewModel(application: Application) :
     BaseViewModel(application) {
@@ -239,17 +227,19 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 it.getInt(0)
             } == 1
         ) {
-            Result.failure(AccountSealedException)
+            Result.failure(AccountSealedException())
         } else {
             val failures = mutableListOf<Exception>()
             for (accountId in accountIds) {
                 try {
-                    Account.delete(accountId)
+                    repository.deleteAccount(accountId)
                 } catch (e: Exception) {
                     CrashHandler.report(e)
                     failures.add(e)
                 }
             }
+            Account.updateNewAccountEnabled()
+            Account.updateTransferShortcut()
             if (failures.isEmpty())
                 ResultUnit
             else

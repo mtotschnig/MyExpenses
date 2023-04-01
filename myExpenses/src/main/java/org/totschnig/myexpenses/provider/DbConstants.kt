@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.provider
 import android.net.Uri
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 fun checkSealedWithAlias(baseTable: String, innerTable: String) =
     "max(" + checkForSealedAccount(
@@ -332,3 +333,9 @@ with data as
 """.trimIndent()
 
 const val TAG_LIST_EXPRESSION = "group_concat($TABLE_TAGS.$KEY_LABEL,'') AS $KEY_TAGLIST"
+
+fun buildTransactionRowSelect(filter: WhereFilter?) =
+    "SELECT $KEY_ROWID from $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?" +
+            if (filter?.isEmpty == false) {
+                " AND ${filter.getSelectionForParents(TABLE_TRANSACTIONS)}"
+            } else ""

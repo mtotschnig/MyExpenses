@@ -15,29 +15,19 @@
 package org.totschnig.myexpenses.model
 
 import android.content.ContentUris
-import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(RobolectricTestRunner::class)
-class TemplateTest {
-    private val repository: Repository = Repository(
-        ApplicationProvider.getApplicationContext<MyApplication>(),
-        Mockito.mock(CurrencyContext::class.java),
-        Mockito.mock(CurrencyFormatter::class.java),
-        Mockito.mock(PrefHandler::class.java)
-    )
+class TemplateTest: BaseTestWithRepository() {
+
     private lateinit var mAccount1: Account
     private lateinit var mAccount2: Account
     private var categoryId: Long = 0
