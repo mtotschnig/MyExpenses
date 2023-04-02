@@ -64,9 +64,6 @@ open class MyExpensesViewModel(
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
     val hasHiddenAccounts: StateFlow<Int> = hiddenAccountsInternal
 
-    @Inject
-    lateinit var licenceHandler: LicenceHandler
-
     private val showStatusHandlePrefKey = booleanPreferencesKey("showStatusHandle")
 
     fun showStatusHandle() =

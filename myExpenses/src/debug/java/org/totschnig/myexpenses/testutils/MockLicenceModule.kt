@@ -4,6 +4,7 @@ import org.totschnig.myexpenses.di.LicenceModule
 import org.totschnig.myexpenses.MyApplication
 import com.google.android.vending.licensing.Obfuscator
 import com.google.android.vending.licensing.PreferenceObfuscator
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -26,6 +27,7 @@ class MockLicenceModule : LicenceModule() {
         preferenceObfuscator: PreferenceObfuscator,
         crashHandler: CrashHandler,
         application: MyApplication,
-        prefHandler: PrefHandler
-    ): LicenceHandler = MockLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler)
+        prefHandler: PrefHandler,
+        repository: Repository
+    ): LicenceHandler = MockLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository)
 }
