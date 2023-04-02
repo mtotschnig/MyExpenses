@@ -31,7 +31,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Repository @Inject constructor(
+open class Repository @Inject constructor(
     val context: Context,
     val currencyContext: CurrencyContext,
     val currencyFormatter: CurrencyFormatter,
