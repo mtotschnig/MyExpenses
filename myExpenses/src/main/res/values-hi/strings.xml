@@ -280,4 +280,63 @@
     <string name="backup_success">डेटाबेस और प्राथमिकताएं सफलतापूर्वक \"%1$s\" पर लिख दी गईं।</string>
     <string name="contrib_feature_distribution_label">पाई चार्ट (प्रति श्रेणी वितरण)</string>
     <string name="contrib_feature_split_template_label">विभाजित टेम्पलेट्स की असीमित संख्या</string>
+    <string name="menu_create_split_part_category">नई श्रेणी विभाजित भाग</string>
+    <string name="menu_create_split_part_transfer">नया ट्रांसफर विभाजित भाग</string>
+    <string name="button_label_share_file">बांटो</string>
+    <string name="method">भुगतान विधि</string>
+    <string name="no_app_handling_ftp_available">कोई ऐप हैंडलिंग ftp उपलब्ध नहीं है। स्थापित करना <i>Send With FTP</i>\?</string>
+    <string name="contrib_feature_pro_support_label"><b>ईमेल समर्थन</b> 2 कार्य दिवसों के भीतर गारंटीशुदा प्रतिक्रिया के साथ</string>
+    <string name="contrib_feature_roadmap_voting_label"><b>विकास रोडमैप</b> पर सही मतदान</string>
+    <string name="contrib_feature_history_label">इतिहास चार्ट</string>
+    <string name="dialog_contrib_no">जाँचें</string>
+    <string name="dialog_contrib_text_2">कृपया <i>{app_name}</i> को अपग्रेड करके योगदान दें और निम्नलिखित सुविधाओं तक अप्रतिबंधित पहुंच प्राप्त करें:</string>
+    <string name="menu_edit_split">विभाजन संपादित करें</string>
+    <string name="no_exportable_expenses">ऐसा कोई लेन-देन नहीं है जिसे अभी तक निर्यात नहीं किया गया है।</string>
+    <string name="pref_auto_fill_summary">उसी भुगतानकर्ता के लिए अंतिम लेन-देन से डेटा भरें</string>
+    <string name="pref_app_dir_title">बैकअप और निर्यात के लिए फ़ोल्डर</string>
+    <string name="parse_error_grisbi_version_not_supported">असमर्थित ग्रिस्बी फ़ाइल संस्करण: %1$s</string>
+    <string name="image_capture_not_installed">तस्वीर लेने के लिए कोई ऐप नहीं मिला।</string>
+    <string name="dialog_title_warning_delete_party">पार्टी हटाएं\?</string>
+    <string name="no_mapped_transactions">इस अवधि के दौरान श्रेणियों के लिए कोई लेन-देन मैप नहीं किया गया है।</string>
+    <string name="parse_error_parse_exception">फ़ाइल पार्स नहीं कर सका</string>
+    <string name="plan_execution_canceled">योजना का क्रियान्वयन रद्द कर दिया गया</string>
+    <string name="contrib_feature_category_tree_label">श्रेणी वृक्ष</string>
+    <string name="dialog_command_disabled_balance">समाधान किए जाने के लिए कोई समाशोधित लेन-देन नहीं।</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">खाता हटा दो\?</item>
+        <item quantity="other">%1$d खाते हटाएं\?</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">चयनित वस्तु को लेन-देन के लिए मैप किया गया है और इसे हटाया नहीं जा सकता है।</item>
+        <item quantity="other">%1$d ऑब्जेक्ट लेन-देन के लिए मैप किए गए हैं और हटाए नहीं जा सकते।</item>
+    </plurals>
+    <string name="dialog_command_disabled_distribution">इस खाते में श्रेणियों के लिए कोई लेन-देन मैप नहीं किया गया है।</string>
+    <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> को अपग्रेड करके इस सीमा को हटाएं और अधिक सुविधाओं तक पहुंचें।</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> को खुला स्रोत पेश किया जाता है।</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">आपकी वर्तमान लाइसेंस स्थिति (%2$s) आपको %1$d खाते बनाने की अनुमति देती है।</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">आपकी वर्तमान लाइसेंस स्थिति (%2$s) आपको %1$d योजनाएँ बनाने की अनुमति देती है।</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">आपकी वर्तमान लाइसेंस स्थिति (%1$s) के साथ, यह डायलॉग प्रत्येक उपयोग पर प्रदर्शित होगा।</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">सुधार के लिए हमें अपने सुझाव भेजने के लिए कृपया कुछ समय दें।</string>
+    <string name="menu_edit_plan_instance">एकल योजना घटना संपादित करें</string>
+    <string name="invalid_number_format">दशमलव प्रारूप आपके स्थान द्वारा पहचाना नहीं गया। कृपया %1$s का उपयोग करें</string>
+    <string name="menu_edit_split_part_category">श्रेणी विभाजित भाग संपादित करें</string>
+    <string name="button_label_close">बंद करना</string>
+    <string name="menu_edit_split_part_transfer">स्थानांतरण विभाजन भाग संपादित करें</string>
+    <string name="menu_split_transaction">विभाजित करने के लिए रूपांतरित करें</string>
+    <string name="no_split_parts">कोई विभाजित भाग नहीं।</string>
+    <string name="no_accounts">कोई खाता नहीं।</string>
+    <string name="plan_event_deleted">इस टेम्पलेट से संबद्ध योजना को कैलेंडर से हटा दिया गया है।</string>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">चयनित ऑब्जेक्ट को एक टेम्प्लेट में मैप किया गया है और इसे हटाया नहीं जा सकता।</item>
+        <item quantity="other">%1$d ऑब्जेक्ट टेम्प्लेट में मैप किए गए हैं और हटाए नहीं जा सकते।</item>
+    </plurals>
+    <string name="planner_create_calendar_failure">स्थानीय योजनाकार कैलेंडर बनाने में असमर्थ</string>
+    <string name="dialog_contrib_usage_limit_split_templates">आपकी वर्तमान लाइसेंस स्थिति (%1$s) आपको 1 स्प्लिट टेम्प्लेट बनाने की अनुमति देती है।</string>
+    <string name="dialog_remind_rate_how_many_stars">आप {app_name} को कितने स्टार देंगे\?</string>
+    <string name="dialog_remind_rate_1">कृपया रेट करने के लिए कुछ समय दें और {app_name} की समीक्षा करें।</string>
+    <string name="dialog_title_warning_delete_category">श्रेणी मिटाएं\?</string>
+    <string name="export_sdcard_success">\"%1$s\" फ़ाइल में डेटा सफलतापूर्वक निर्यात किया गया</string>
+    <string name="plan_calendar_name">{app_name} योजनाकार</string>
+    <string name="planner_notification_channel_name">योजनाकार</string>
+    <string name="planner_create_calendar_success">स्थानीय योजनाकार कैलेंडर सफलतापूर्वक बनाया गया</string>
 </resources>
