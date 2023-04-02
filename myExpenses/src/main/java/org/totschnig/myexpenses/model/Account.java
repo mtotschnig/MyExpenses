@@ -295,16 +295,6 @@ public class Account extends Model implements DistributionAccountInfo {
   @Nullable
   @Override
   public Uri save() {
-    //temporary placeholder until we reimplmented Account model
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Saves the account, creating it new if necessary
-   *
-   * @return the id of the account. Upon creation it is returned from the database
-   */
-  public Uri save(CurrencyUnit homeCurrency) {
     Uri uri;
     ensureCurrency(currencyUnit);
     ContentValues initialValues = new ContentValues();
@@ -333,8 +323,6 @@ public class Account extends Model implements DistributionAccountInfo {
       uri = ContentUris.withAppendedId(CONTENT_URI, getId());
       if (cr().update(uri, initialValues, null, null) == 0) return null;
     }
-    updateNewAccountEnabled();
-    updateTransferShortcut();
     return uri;
   }
 
@@ -358,20 +346,6 @@ public class Account extends Model implements DistributionAccountInfo {
       }
       case 1: return;
       default: throw new IllegalStateException("Unable to ensure currency (" + currencyUnit + "). Inconsistent query result");
-    }
-  }
-
-  public static int count(String selection, String[] selectionArgs) {
-    Cursor cursor = cr().query(CONTENT_URI, new String[]{"count(*)"},
-        selection, selectionArgs, null);
-    if (cursor.getCount() == 0) {
-      cursor.close();
-      return 0;
-    } else {
-      cursor.moveToFirst();
-      int result = cursor.getInt(0);
-      cursor.close();
-      return result;
     }
   }
 
@@ -441,25 +415,6 @@ public class Account extends Model implements DistributionAccountInfo {
       return new AggregateAccount(cursor);
     } else {
       return new Account(cursor);
-    }
-  }
-
-  public static void updateNewAccountEnabled() {
-    boolean newAccountEnabled = true;
-    final AppComponent appComponent = MyApplication.getInstance().getAppComponent();
-    LicenceHandler licenceHandler = appComponent.licenceHandler();
-    PrefHandler prefHandler = appComponent.prefHandler();
-    if (!licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)) {
-      if (count(null, null) >= ContribFeature.FREE_ACCOUNTS) {
-        newAccountEnabled = false;
-      }
-    }
-    prefHandler.putBoolean(PrefKey.NEW_ACCOUNT_ENABLED, newAccountEnabled);
-  }
-
-  public static void updateTransferShortcut() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-      ShortcutHelper.configureTransferShortcut(MyApplication.getInstance(), count(null, null) > 1);
     }
   }
 

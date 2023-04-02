@@ -31,18 +31,19 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
                 repository.updateAccount(account.id, account.toContentValues())
                 account
             }.id
-            org.totschnig.myexpenses.model.Account.updateNewAccountEnabled()
-            org.totschnig.myexpenses.model.Account.updateTransferShortcut()
+            licenceHandler.updateNewAccountEnabled()
+            updateTransferShortcut()
             repository.saveActiveTagsForAccount(tagsLiveData.value, id)
-            if (account.currency != homeCurrencyProvider.homeCurrencyString) {
+            val homeCurrency = homeCurrencyProvider.homeCurrencyUnit
+            if (account.currency != homeCurrency.code) {
                 repository.storeExchangeRate(id,
                     calculateRawExchangeRate(
                         account.exchangeRate,
                         currencyContext[account.currency],
-                        homeCurrencyProvider.homeCurrencyUnit
+                        homeCurrency
                     ),
                     account.currency,
-                    homeCurrencyProvider.homeCurrencyString
+                    homeCurrency.code
                 )
             }
             id

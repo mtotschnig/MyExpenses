@@ -13,6 +13,8 @@ import org.apache.commons.lang3.time.DateUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.IapActivity
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -34,7 +36,8 @@ open class LicenceHandler(
     protected val context: Application,
     var licenseStatusPrefs: PreferenceObfuscator,
     private val crashHandler: CrashHandler,
-    protected val prefHandler: PrefHandler
+    protected val prefHandler: PrefHandler,
+    private val repository: Repository
 ) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
@@ -108,7 +111,7 @@ open class LicenceHandler(
     fun update() {
         CoroutineScope(Dispatchers.IO).launch {
             Template.updateNewPlanEnabled()
-            Account.updateNewAccountEnabled()
+            updateNewAccountEnabled()
             GenericAccountService.updateAccountsIsSyncable(
                 context,
                 this@LicenceHandler,
@@ -385,6 +388,13 @@ open class LicenceHandler(
             }
         }?.let { addFeatures(it) }
     }
+
+    fun updateNewAccountEnabled() {
+        val newAccountEnabled =
+            hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || repository.countAccounts(null, null) < ContribFeature.FREE_ACCOUNTS
+        prefHandler.putBoolean(PrefKey.NEW_ACCOUNT_ENABLED, newAccountEnabled)
+    }
+
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"

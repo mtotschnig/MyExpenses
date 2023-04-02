@@ -16,6 +16,7 @@ import androidx.lifecycle.liveData
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.findAccountByUuid
+import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -31,6 +32,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.calculateRawExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
@@ -44,7 +46,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             } else {
                 emit(deleteAccountsInternal(longArrayOf(accountId)).also {
                     it.onSuccess {
-                        account.save(homeCurrencyProvider.homeCurrencyUnit)
+                        doSave(account)
                     }
                 })
             }
@@ -66,6 +68,20 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         GenericAccountService.requestSync(accountName, uuid = uuid, extras = Bundle().apply {
             putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true)
         })
+    }
+
+    protected fun doSave(account: Account): Uri? {
+        val result = account.save()
+        val homeCurrency = homeCurrencyProvider.homeCurrencyUnit
+        val rawExchangeRate = calculateRawExchangeRate(
+            account.exchangeRate,
+            account.currency,
+            homeCurrency
+        )
+        repository.storeExchangeRate(account.id, rawExchangeRate, account.currency.code, homeCurrency.code)
+        licenceHandler.updateNewAccountEnabled()
+        updateTransferShortcut()
+        return result
     }
 
     fun getReconfigurationData(syncAccount: String) = Bundle().apply {
@@ -258,7 +274,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                             }
                             .sumOf {
                                 @Suppress("USELESS_CAST")
-                                (if (it.save(homeCurrencyProvider.homeCurrencyUnit) == null) 0 else 1) as Int
+                                (if (doSave(it) == null) 0 else 1) as Int
                             }
                     if (numberOfRestoredAccounts == 0) {
                         emit(Result.failure(Throwable("No accounts were restored")))
@@ -284,7 +300,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     fun save(account: Account): LiveData<Uri?> =
         liveData(context = coroutineContext()) {
-            emit(account.save(homeCurrencyProvider.homeCurrencyUnit))
+            emit(doSave(account))
         }
 
     companion object {

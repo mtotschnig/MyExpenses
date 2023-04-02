@@ -7,6 +7,7 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
+import android.os.Build
 import android.text.TextUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -22,10 +23,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.RenderType
-import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.db2.getTransactionSum
-import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
+import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
@@ -38,9 +36,11 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -70,6 +70,9 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     @Inject
     lateinit var homeCurrencyProvider: HomeCurrencyProvider
+
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
 
     val collate: String
         get() = prefHandler.collate
@@ -248,13 +251,22 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                     failures.add(e)
                 }
             }
-            Account.updateNewAccountEnabled()
-            Account.updateTransferShortcut()
+            licenceHandler.updateNewAccountEnabled()
+            updateTransferShortcut()
             if (failures.isEmpty())
                 ResultUnit
             else
                 Result.failure(Exception("${failures.size} exceptions occurred. "))
         }
+
+    open fun updateTransferShortcut() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ShortcutHelper.configureTransferShortcut(
+                getApplication(),
+                repository.countAccounts(null, null) > 1
+            )
+        }
+    }
 
     /**
      * @param rowId For split transactions, we check if any of their children is linked to a debt,
