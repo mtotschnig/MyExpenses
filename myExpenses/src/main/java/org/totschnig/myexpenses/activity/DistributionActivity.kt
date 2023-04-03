@@ -197,11 +197,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         if (showChart.value) categoryState.value.withSubColors {
                             getSubColors(it, isDark)
                         } else {
-                            categoryState.value.copy(children = categoryState.value.children.map {
-                                it.copy(
-                                    color = null
-                                )
-                            })
+                            categoryState.value
                         }
                     }
                 }
