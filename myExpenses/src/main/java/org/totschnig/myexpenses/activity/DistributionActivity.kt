@@ -384,7 +384,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         Icons.Filled.Palette,
                                         R.string.color
                                     ) {
-                                        editCategoryColor(category.id, category.color!!)
+                                        editCategoryColor(category.id, category.color)
                                     }
                                 )
                         }
@@ -500,15 +500,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             """.trimIndent()
     }
 
-    private fun editCategoryColor(id: Long, color: Int) {
+    private fun editCategoryColor(id: Long, color: Int?) {
         SimpleColorDialog.build()
             .allowCustom(true)
             .cancelable(false)
             .neut()
             .extra(Bundle().apply {
                 putLong(KEY_ROWID, id)
-            })
-            .colorPreset(color)
+            }).apply {
+                color?.let { colorPreset(it) }
+            }
             .show(this, EDIT_COLOR_DIALOG)
     }
 
