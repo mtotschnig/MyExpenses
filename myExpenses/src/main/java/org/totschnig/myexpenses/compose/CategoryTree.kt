@@ -29,10 +29,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.semantics.collapse
-import androidx.compose.ui.semantics.expand
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -103,6 +102,11 @@ fun Category(
             }
         } else if (!withRoot || expansionMode.isExpanded(category.id)) {
             LazyColumn(
+                modifier = Modifier
+                    .testTag(TEST_TAG_LIST)
+                    .semantics {
+                        collectionInfo = CollectionInfo(1, filteredChildren.size)
+                    },
                 verticalArrangement = Arrangement.Center
             ) {
                 itemsIndexed(

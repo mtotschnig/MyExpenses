@@ -701,7 +701,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             .background(MaterialTheme.colors.onSurface)
                             .testTag(TEST_TAG_PAGER)
                             .semantics {
-                                collectionInfo = CollectionInfo(1, accountData.count())
+                                collectionInfo = CollectionInfo(1, accountData.size)
                             },
                         verticalAlignment = Alignment.Top,
                         count = accountData.count(),

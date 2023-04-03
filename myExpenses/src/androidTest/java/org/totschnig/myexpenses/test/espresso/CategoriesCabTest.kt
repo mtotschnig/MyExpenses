@@ -4,47 +4,49 @@ import android.content.ContentUris
 import android.content.ContentUris.appendId
 import android.content.ContentValues
 import android.content.Intent
+import android.widget.Button
 import androidx.annotation.StringRes
-import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.adevinta.android.barista.internal.matcher.HelperMatchers
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.containsString
-import org.junit.Rule
+import org.hamcrest.Matchers
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.time.LocalDate
 import java.util.*
 
-class CategoriesCabTest : BaseUiTest<ManageCategories>() {
-    @get:Rule
-    val composeTestRule = createEmptyComposeRule()
+class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private val contentResolver
         get() = targetContext.contentResolver
 
     private lateinit var account: org.totschnig.myexpenses.model2.Account
     private var categoryId: Long = 0
-    private val origListSize = 1
+    private val origListSize = 2
 
     private fun baseFixture() {
         account = buildAccount("Test account 1")
         categoryId = writeCategory(label = "TestCategory")
+        writeCategory(label = "Control Category")
     }
 
     private fun launch() =
@@ -92,11 +94,19 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     }
 
     @Test
-    fun shouldDeleteCategory() {
+    fun shouldDeleteCategoryAfterDataReload() {
         baseFixture()
         launch().use {
-            cabAndDelete()
-            assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize - 1)
+
+            assertTextAtPosition("TestCategory", 0)
+            clickMenuItem(R.id.SORT_COMMAND)
+            onData(HelperMatchers.menuIdMatcher(R.id.SORT_LABEL_COMMAND))
+                .inRoot(RootMatchers.isPlatformPopup())
+                .perform(click())
+            assertTextAtPosition("Control Category", 0)
+            callDelete(position = 1)
+            assertTextAtPosition("Control Category", 0)
+            listNode.assert(hasRowCount(1))
         }
     }
 
@@ -104,7 +114,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     fun shouldNotDeleteCategoryMappedToTransaction() {
         fixtureWithMappedTransaction()
         launch().use {
-            cabAndDelete()
+            callDelete()
             onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(getQuantityString(
                     R.plurals.not_deletable_mapped_transactions, 1, 1))))
@@ -116,7 +126,7 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     fun shouldNotDeleteCategoryMappedToTemplate() {
         fixtureWithMappedTemplate()
         launch().use {
-            cabAndDelete()
+            callDelete()
             onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(getQuantityString(
                     R.plurals.not_deletable_mapped_templates, 1, 1))))
@@ -128,17 +138,23 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     fun shouldNotDeleteCategoryMappedToBudget() {
         fixtureWithMappedBudget()
         launch().use {
-            cabAndDelete()
+            callDelete(false)
             onView(withText(containsString(getString(R.string.warning_delete_category_with_budget)))).check(matches(isDisplayed()))
             onView(withText(R.string.response_no)).perform(click())
             assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(origListSize)
         }
     }
 
-    private fun cabAndDelete()  {
-        //Interestingly, we have to use the SemanticsActions, since performTouchInput { longClick() } does not work
-        composeTestRule.onNodeWithText("TestCategory").performSemanticsAction(SemanticsActions.OnLongClick)
-        clickMenuItem(R.id.DELETE_COMMAND, true)
+    private fun callDelete(withConfirmation: Boolean = true, position: Int = 0)  {
+        clickContextItem(R.string.menu_delete, position = position)
+        if (withConfirmation) {
+            onView(
+                Matchers.allOf(
+                    isAssignableFrom(Button::class.java),
+                    withText(Matchers.`is`(getString(R.string.response_yes)))
+                )
+            ).perform(click())
+        }
     }
 
     @Test
@@ -157,5 +173,8 @@ class CategoriesCabTest : BaseUiTest<ManageCategories>() {
 
     private fun onContextMenu(@StringRes menuItemId: Int) =
         composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
+
+    override val listNode: SemanticsNodeInteraction
+        get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
 
 }

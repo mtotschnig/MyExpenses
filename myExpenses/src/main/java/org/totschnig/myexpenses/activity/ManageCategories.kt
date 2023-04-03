@@ -479,7 +479,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                     MessageDialogFragment.Button(
                                         R.string.response_yes,
                                         R.id.DELETE_COMMAND_DO,
-                                        it.categories.toTypedArray()
+                                        it.categories.map { it.id }.toTypedArray()
                                     ),
                                     null,
                                     MessageDialogFragment.Button(

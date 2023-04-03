@@ -197,7 +197,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         if (showChart.value) categoryState.value.withSubColors {
                             getSubColors(it, isDark)
                         } else {
-                            categoryState.value.copy(children = categoryState.value.children.map { it.copy(color = null) })
+                            categoryState.value.copy(children = categoryState.value.children.map {
+                                it.copy(
+                                    color = null
+                                )
+                            })
                         }
                     }
                 }
@@ -362,28 +366,30 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             choiceMode = choiceMode,
             expansionMode = expansionMode,
             sumCurrency = accountInfo?.currency,
-            menuGenerator = { category ->
-                org.totschnig.myexpenses.compose.Menu(
-                    buildList {
-                        if (accountInfo != null) {
-                            add(
-                                MenuEntry(
-                                    Icons.Filled.List,
-                                    R.string.menu_show_transactions,
-                                ) { showTransactions(category) }
-                            )
+            menuGenerator = remember {
+                { category ->
+                    org.totschnig.myexpenses.compose.Menu(
+                        buildList {
+                            if (accountInfo != null) {
+                                add(
+                                    MenuEntry(
+                                        Icons.Filled.List,
+                                        R.string.menu_show_transactions,
+                                    ) { showTransactions(category) }
+                                )
+                            }
+                            if (category.level == 1)
+                                add(
+                                    MenuEntry(
+                                        Icons.Filled.Palette,
+                                        R.string.color
+                                    ) {
+                                        editCategoryColor(category.id, category.color!!)
+                                    }
+                                )
                         }
-                        if (category.level == 1)
-                            add(
-                                MenuEntry(
-                                    Icons.Filled.Palette,
-                                    R.string.color
-                                ) {
-                                    editCategoryColor(category.id, category.color!!)
-                                }
-                            )
-                    }
-                )
+                    )
+                }
             }
         )
     }
