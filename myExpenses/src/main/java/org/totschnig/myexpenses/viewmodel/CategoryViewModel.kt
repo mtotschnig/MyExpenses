@@ -72,7 +72,7 @@ open class CategoryViewModel(
     object NoShow : DialogState()
     data class Show(
         val id: Long? = null,
-        val parentId: Long? = null,
+        val parent: Category? = null,
         val label: String? = null,
         val icon: String? = null,
         val saving: Boolean = false,
@@ -84,7 +84,7 @@ open class CategoryViewModel(
 
     sealed class DeleteResult {
         class OperationPending(
-            val ids: List<Long>,
+            val categories: List<Category>,
             val mappedToBudgets: Int,
             val hasDescendants: Int
         ) : DeleteResult()
@@ -197,7 +197,7 @@ open class CategoryViewModel(
                     id = it.id ?: 0,
                     label = label,
                     icon = icon,
-                    parentId = it.parentId
+                    parentId = it.parent?.id
                 )
                 dialogState = it.copy(saving = true)
                 dialogState = if (repository.saveCategory(category) == null) {
@@ -209,27 +209,23 @@ open class CategoryViewModel(
         }
     }
 
-    fun deleteCategories(ids: List<Long>) {
+    fun deleteCategories(categories: List<Category>) {
         viewModelScope.launch(context = coroutineContext()) {
             mappedObjectQuery(
                 arrayOf(KEY_MAPPED_BUDGETS, KEY_HAS_DESCENDANTS),
-                ids, true
+                categories.map { it.id }, true
             )?.use { cursor ->
                 cursor.moveToFirst()
                 val mappedBudgets = cursor.getInt(0)
                 val hasDescendants = cursor.getInt(1)
-                if (mappedBudgets == 0 && hasDescendants == 0) {
-                    deleteCategoriesDo(ids)
-                } else {
-                    _deleteResult.update {
-                        Result.success(
-                            DeleteResult.OperationPending(
-                                ids,
-                                mappedBudgets,
-                                hasDescendants
-                            )
+                _deleteResult.update {
+                    Result.success(
+                        DeleteResult.OperationPending(
+                            categories,
+                            mappedBudgets,
+                            hasDescendants
                         )
-                    }
+                    )
                 }
             }
         }

@@ -53,12 +53,10 @@ fun CategoryEdit(
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = titleBottomPadding),
-                    text = stringResource(
-                        if (dialogState.id == null)
-                            if (dialogState.parentId == null) R.string.menu_create_main_cat
-                            else R.string.menu_create_sub_cat
-                        else R.string.menu_edit_cat
-                    ),
+                    text = if (dialogState.id == null) {
+                        if (dialogState.parent == null) stringResource(R.string.menu_create_main_cat)
+                        else stringResource(R.string.menu_create_sub_cat) + " (${dialogState.parent.label})"
+                    } else stringResource(R.string.menu_edit_cat),
                     style = MaterialTheme.typography.subtitle1
                 )
                 OutlinedTextField(
@@ -98,7 +96,9 @@ fun CategoryEdit(
                     }
 
                     TextButton(
-                        modifier = Modifier.testTag(TEST_TAG_POSITIVE_BUTTON).weight(1f),
+                        modifier = Modifier
+                            .testTag(TEST_TAG_POSITIVE_BUTTON)
+                            .weight(1f),
                         enabled = !dialogState.saving && isError == null,
                         onClick = {
                             shouldValidate = true

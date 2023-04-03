@@ -105,7 +105,10 @@ fun Category(
             LazyColumn(
                 verticalArrangement = Arrangement.Center
             ) {
-                itemsIndexed(filteredChildren) { index, item ->
+                itemsIndexed(
+                    items = filteredChildren,
+                    key =  { _, item -> item.id }
+                ) { index, item ->
                     Category(
                         category = item,
                         expansionMode = expansionMode,
@@ -338,12 +341,12 @@ sealed class ChoiceMode(
 
     abstract fun toggleSelection(selectedAncestor: Category?, category: Category)
 
-    class MultiChoiceMode(val selectionState: SnapshotStateList<Long>, selectTree: Boolean) :
+    class MultiChoiceMode(val selectionState: SnapshotStateList<Category>, selectTree: Boolean) :
         ChoiceMode(selectTree) {
-        override fun isSelected(id: Long) = selectionState.contains(id)
+        override fun isSelected(id: Long) = selectionState.any { it.id == id }
         override fun toggleSelection(selectedAncestor: Category?, category: Category) {
             (selectedAncestor ?: category).let {
-                if (selectionState.toggle(it.id)) {
+                if (selectionState.toggle(it)) {
                     //when we select a category, children are implicitly selected, so we remove
                     //them from the explicit selection
                     it.recursiveUnselectChildren(selectionState)

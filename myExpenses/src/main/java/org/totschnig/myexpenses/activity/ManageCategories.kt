@@ -173,7 +173,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         LaunchedEffect(selectionState.value) {
                             selectionState.value?.let {
                                 if (it.level > 2) {
-                                    contribFeatureRequested(ContribFeature.CATEGORY_TREE, it)
+                                    contribFeatureRequested(ContribFeature.CATEGORY_TREE, R.id.SELECT_COMMAND to it)
                                 } else {
                                     doSingleSelection(it)
                                 }
@@ -182,7 +182,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         ChoiceMode.SingleChoiceMode(selectionState, parentSelectionOnTap.value)
                     }
                     Action.MANAGE, Action.SELECT_FILTER -> {
-                        val selectionState = rememberMutableStateListOf<Long>()
+                        val selectionState = rememberMutableStateListOf<Category>()
                         LaunchedEffect(selectionState.size) {
                             if (selectionState.isNotEmpty()) {
                                 startActionMode(selectionState)
@@ -268,7 +268,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                             )
                                                         } else {
                                                             viewModel.deleteCategories(
-                                                                listOf(it.id)
+                                                                listOf(it)
                                                             )
                                                         }
                                                     },
@@ -279,10 +279,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                         if (it.level > 1) {
                                                             contribFeatureRequested(
                                                                 ContribFeature.CATEGORY_TREE,
-                                                                it.id
+                                                                R.id.CREATE_SUB_COMMAND to it
                                                             )
                                                         } else {
-                                                            createCat(it.id)
+                                                            createCat(it)
                                                         }
                                                     },
                                                     MenuEntry(
@@ -316,12 +316,13 @@ open class ManageCategories : ProtectedFragmentActivity(),
 
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
-        if (selected.size == 1 || !selected.contains(NULL_ITEM_ID)) {
-            val label = viewModel.categoryTree.value.flatten().filter { selected.contains(it.id) }
+        if (selected.size == 1 || !selected.any { it.id == NULL_ITEM_ID }) {
+            val label = viewModel.categoryTree.value.flatten()
+                .filter { selected.any { category -> category.id == it.id } }
                 .joinToString(separator = ",") { it.label }
             setResult(RESULT_FIRST_USER, Intent().apply {
                 putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
-                putExtra(KEY_ROWID, selected.toLongArray())
+                putExtra(KEY_ROWID, selected.map { it.id }.toLongArray())
                 putExtra(KEY_LABEL, label)
             })
             finish()
@@ -339,11 +340,11 @@ open class ManageCategories : ProtectedFragmentActivity(),
         actionMode?.finish()
     }
 
-    private fun updateActionModeTitle(selectionState: SnapshotStateList<Long>) {
+    private fun updateActionModeTitle(selectionState: SnapshotStateList<Category>) {
         actionMode?.title = "${selectionState.size}"
     }
 
-    private fun startActionMode(selectionState: SnapshotStateList<Long>) {
+    private fun startActionMode(selectionState: SnapshotStateList<Category>) {
         if (actionMode == null) {
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
@@ -459,22 +460,26 @@ open class ManageCategories : ProtectedFragmentActivity(),
                             }
                             is OperationPending -> {
                                 val messages = buildList {
-                                    mapToMessage(
-                                        it.hasDescendants,
-                                        R.plurals.warning_delete_main_category
-                                    )
+                                    if (it.hasDescendants > 0) {
+                                        mapToMessage(
+                                            it.hasDescendants,
+                                            R.plurals.warning_delete_main_category
+                                        )
+                                    }
                                     if (it.mappedToBudgets > 0) {
                                         add(getString(R.string.warning_delete_category_with_budget))
                                     }
                                     add(getString(R.string.continue_confirmation))
                                 }
+                                val labels = it.categories.joinToString { it.label }
                                 MessageDialogFragment.newInstance(
-                                    getString(R.string.dialog_title_warning_delete_category),
+                                    getString(R.string.dialog_title_warning_delete_category) +
+                                            " ($labels)",
                                     messages.joinToString(" "),
                                     MessageDialogFragment.Button(
                                         R.string.response_yes,
                                         R.id.DELETE_COMMAND_DO,
-                                        it.ids.toTypedArray()
+                                        it.categories.toTypedArray()
                                     ),
                                     null,
                                     MessageDialogFragment.Button(
@@ -620,8 +625,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
      * presents AlertDialog for adding a new category
      * if label is already used, shows an error
      */
-    open fun createCat(parentId: Long?) {
-        viewModel.dialogState = CategoryViewModel.Show(parentId = parentId)
+    open fun createCat(parent: Category?) {
+        viewModel.dialogState = CategoryViewModel.Show(parent = parent)
     }
 
     /**
@@ -634,8 +639,11 @@ open class ManageCategories : ProtectedFragmentActivity(),
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (feature == ContribFeature.CATEGORY_TREE) {
-            (tag as? Long)?.also { createCat(tag as? Long) } ?: run {
-                doSingleSelection(tag as Category)
+            val (command, category) = tag as Pair<Int, Category>
+            if (command == R.id.CREATE_SUB_COMMAND) {
+                createCat(category)
+            } else if(command == R.id.SELECT_COMMAND) {
+                doSingleSelection(category)
             }
         }
     }

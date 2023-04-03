@@ -4,11 +4,12 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
 @Immutable
 @Parcelize
 data class BudgetAllocation(val budget: Long, val rollOverPrevious: Long, val rollOverNext: Long, val oneTime: Boolean) :
-    Parcelable {
+    Parcelable, Serializable {
     @IgnoredOnParcel
     val totalAllocated = budget + rollOverPrevious
 
