@@ -1249,6 +1249,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
             R.id.CLEAR_FILTER_COMMAND -> {
                 currentFilter.clear()
+                invalidateOptionsMenu()
             }
             R.id.HISTORY_COMMAND -> {
                 if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
