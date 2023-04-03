@@ -186,7 +186,7 @@ class SplitDelegate(
         updateBalance()
     }
 
-    fun onUncommitedSplitPartsMoved(success: Boolean) {
+    fun onUncommittedSplitPartsMoved(success: Boolean) {
         val account = mAccounts[accountSpinner.selectedItemPosition]
         if (success) {
             super.updateAccount(account)

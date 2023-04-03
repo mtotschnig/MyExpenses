@@ -467,6 +467,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         linkInputsWithLabels()
         loadTags()
         loadCurrencies()
+        observeMoveResult()
+        observeAutoFillData()
+    }
+
+    private fun collectSplitParts() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.splitParts.collect { transactions ->
@@ -477,8 +482,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
             }
         }
-        observeMoveResult()
-        observeAutoFillData()
     }
 
     private fun loadDebts() {
@@ -547,6 +550,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         if (!fromSavedState && !accountsLoaded) intent.getStringExtra(KEY_CURRENCY)
                         else null
                     )
+                    collectSplitParts()
                     if (operationType == Transactions.TYPE_SPLIT) {
                         viewModel.loadSplitParts(delegate.rowId, isTemplate)
                     }
@@ -1500,7 +1504,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 viewModel.moveResult.collect { result ->
                     result?.let {
                         dismissSnackBar()
-                        (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(it)
+                        (delegate as? SplitDelegate)?.onUncommittedSplitPartsMoved(it)
                         viewModel.moveResultProcessed()
                     }
                 }
