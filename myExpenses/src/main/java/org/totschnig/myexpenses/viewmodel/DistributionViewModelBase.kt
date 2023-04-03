@@ -40,7 +40,8 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     protected val _accountInfo = MutableStateFlow<T?>(null)
     val accountInfo: StateFlow<T?> = _accountInfo
 
-    protected val _whereFilter: MutableStateFlow<WhereFilter> = MutableStateFlow(WhereFilter.empty())
+    protected val _whereFilter: MutableStateFlow<WhereFilter> =
+        MutableStateFlow(WhereFilter.empty())
     val whereFilter: StateFlow<WhereFilter> = _whereFilter
 
     protected val _aggregateTypes = MutableStateFlow(true)
@@ -72,28 +73,25 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
 
     fun setGrouping(grouping: Grouping) {
-        if (grouping == Grouping.NONE) {
-            groupingInfo = GroupingInfo(grouping, 0, 0)
-        } else {
-            viewModelScope.launch {
-                dateInfo.collect {
-                    groupingInfo = GroupingInfo(
-                        grouping = grouping,
-                        year = when (grouping) {
-                            Grouping.WEEK -> it.yearOfWeekStart
-                            Grouping.MONTH -> it.yearOfMonthStart
-                            else -> it.year
-                        },
-                        second = when (grouping) {
-                            Grouping.DAY -> it.day
-                            Grouping.WEEK -> it.week
-                            Grouping.MONTH -> it.month
-                            else -> 0
-                        }
-                    )
-                }
+        groupingInfo = if (grouping == Grouping.NONE)
+            GroupingInfo(grouping, 0, 0)
+        else
+            with(dateInfo.value) {
+                GroupingInfo(
+                    grouping = grouping,
+                    year = when (grouping) {
+                        Grouping.WEEK -> yearOfWeekStart
+                        Grouping.MONTH -> yearOfMonthStart
+                        else -> year
+                    },
+                    second = when (grouping) {
+                        Grouping.DAY -> day
+                        Grouping.WEEK -> week
+                        Grouping.MONTH -> month
+                        else -> 0
+                    }
+                )
             }
-        }
     }
 
     fun GroupingInfo.next(dateInfo: DateInfo3): GroupingInfo {
@@ -278,7 +276,10 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             accountInfo.accountId == Account.HOME_AGGREGATE_ID -> {
                 accountSelection = null
                 amountCalculation =
-                    getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrencyProvider.homeCurrencyString)
+                    getAmountHomeEquivalent(
+                        VIEW_WITH_ACCOUNT,
+                        homeCurrencyProvider.homeCurrencyString
+                    )
                 table = VIEW_WITH_ACCOUNT
             }
             accountInfo.accountId < 0 -> {
