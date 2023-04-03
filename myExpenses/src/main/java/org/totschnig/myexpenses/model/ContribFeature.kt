@@ -52,11 +52,16 @@ enum class ContribFeature constructor(
             )
         }
     },
-    SPLIT_TRANSACTION, DISTRIBUTION, PRINT, AD_FREE(TrialMode.NONE), CSV_IMPORT(
+    SPLIT_TRANSACTION,
+    DISTRIBUTION,
+    PRINT,
+    AD_FREE(TrialMode.NONE),
+    CSV_IMPORT(
         TrialMode.NUMBER_OF_TIMES,
         LicenceStatus.EXTENDED
     ),
-    SYNCHRONIZATION(TrialMode.DURATION, LicenceStatus.EXTENDED), SPLIT_TEMPLATE(
+    SYNCHRONIZATION(TrialMode.DURATION, LicenceStatus.EXTENDED),
+    SPLIT_TEMPLATE(
         TrialMode.NONE,
         LicenceStatus.PROFESSIONAL
     ) {
@@ -68,15 +73,18 @@ enum class ContribFeature constructor(
             )
         }
     },
-    PRO_SUPPORT(TrialMode.NONE, LicenceStatus.PROFESSIONAL), ROADMAP_VOTING(
+    PRO_SUPPORT(TrialMode.NONE, LicenceStatus.PROFESSIONAL),
+    ROADMAP_VOTING(
         TrialMode.NONE,
         LicenceStatus.PROFESSIONAL
     ),
-    HISTORY(TrialMode.NUMBER_OF_TIMES, LicenceStatus.PROFESSIONAL), BUDGET(
+    HISTORY(TrialMode.NUMBER_OF_TIMES, LicenceStatus.PROFESSIONAL),
+    BUDGET(
         TrialMode.DURATION,
         LicenceStatus.PROFESSIONAL
     ),
-    OCR(TrialMode.DURATION, LicenceStatus.PROFESSIONAL), WEB_UI(
+    OCR(TrialMode.DURATION, LicenceStatus.PROFESSIONAL),
+    WEB_UI(
         TrialMode.DURATION,
         LicenceStatus.PROFESSIONAL
     ),
