@@ -93,9 +93,6 @@ fun Account.toContentValues() = ContentValues().apply {
     put(KEY_TYPE, type.name)
     put(KEY_COLOR, color)
     put(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
-    if (id == 0L) {
-        put(KEY_UUID, Model.generateUuid())
-    }
     if (criterion != null) {
         put(KEY_CRITERION, criterion)
     } else {

@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.OnBoardingDataViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -56,9 +57,8 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             it.onSuccess {
                 hostActivity.start()
             }.onFailure {
-                val message = "Unknown error while setting up account"
-                CrashHandler.report(Exception(message))
-                hostActivity.showSnackBar(message)
+                CrashHandler.report(it)
+                hostActivity.showSnackBar(it.safeMessage)
             }
         }
     }
