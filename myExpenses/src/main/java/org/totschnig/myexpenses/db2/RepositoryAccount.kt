@@ -70,7 +70,7 @@ fun Repository.loadAccount(accountId: Long): Account? {
         ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
         Account.PROJECTION,
         null, null, null
-    )!!.use {
+    )?.use {
         if (it.moveToFirst()) Account.fromCursor(it) else null
     }
 }
