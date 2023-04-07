@@ -23,20 +23,20 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
         }
     }
 
-    fun save(account: Account): LiveData<Result<Long>> = liveData(context = coroutineContext()) {
+    fun save(accountIn: Account): LiveData<Result<Pair<Long, String>>> = liveData(context = coroutineContext()) {
         emit(kotlin.runCatching {
-            val id = if (account.id == 0L) {
-                account.createIn(repository)
+            val account = if (accountIn.id == 0L) {
+                accountIn.createIn(repository)
             } else {
-                repository.updateAccount(account.id, account.toContentValues())
-                account
-            }.id
+                repository.updateAccount(accountIn.id, accountIn.toContentValues())
+                accountIn
+            }
             licenceHandler.updateNewAccountEnabled()
             updateTransferShortcut()
-            repository.saveActiveTagsForAccount(tagsLiveData.value, id)
+            repository.saveActiveTagsForAccount(tagsLiveData.value, account.id)
             val homeCurrency = homeCurrencyProvider.homeCurrencyUnit
             if (account.currency != homeCurrency.code) {
-                repository.storeExchangeRate(id,
+                repository.storeExchangeRate(account.id,
                     calculateRawExchangeRate(
                         account.exchangeRate,
                         currencyContext[account.currency],
@@ -46,7 +46,7 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
                     homeCurrency.code
                 )
             }
-            id
+            account.id to account.uuid!!
         })
     }
 }
