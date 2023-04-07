@@ -38,7 +38,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
@@ -59,8 +60,6 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
-import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.util.calculateRealExchangeRate
 
 /**
  * Activity for editing an account
@@ -299,14 +298,14 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             result.onFailure {
                 CrashHandler.report(it)
                 showSnackBar(it.safeMessage)
-            }.onSuccess {
+            }.onSuccess { (id , uuid) ->
                 account.syncAccountName?.let {
                     requestSync(
                         accountName = it,
-                        uuid = account.uuid!!
+                        uuid = uuid
                     )
                 }
-                intent.putExtra(DatabaseConstants.KEY_ROWID, it)
+                intent.putExtra(DatabaseConstants.KEY_ROWID, id)
                 setResult(RESULT_OK, intent)
                 currencyContext.ensureFractionDigitsAreCached(currencyUnit)
                 finish()
