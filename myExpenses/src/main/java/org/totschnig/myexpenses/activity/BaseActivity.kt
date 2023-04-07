@@ -752,10 +752,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         )
     }
 
-    fun showMessage(resId: Int) {
-        showMessage(getString(resId))
-    }
-
     fun deleteFailureMessage(message: String?) =
         "There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !"
 

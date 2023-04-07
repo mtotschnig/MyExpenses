@@ -50,11 +50,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import eltos.simpledialogfragment.form.AmountInput
-import eltos.simpledialogfragment.form.AmountInputHostDialog
-import eltos.simpledialogfragment.form.Hint
-import eltos.simpledialogfragment.form.SimpleFormDialog
-import eltos.simpledialogfragment.form.Spinner
+import eltos.simpledialogfragment.form.*
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
@@ -76,7 +72,6 @@ import org.totschnig.myexpenses.dialog.*
 import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
@@ -84,11 +79,7 @@ import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
-import org.totschnig.myexpenses.provider.filter.CommentCriterion
-import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.filter.KEY_FILTER
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.*
 import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
@@ -1255,14 +1246,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
                     contribFeatureRequested(ContribFeature.HISTORY, null)
                 } else {
-                    showMessage(R.string.no_expenses)
+                    showSnackBar(R.string.no_expenses)
                 }
             }
             R.id.DISTRIBUTION_COMMAND -> {
                 if ((sumInfo as? SumInfoLoaded)?.mappedCategories == true) {
                     contribFeatureRequested(ContribFeature.DISTRIBUTION, null)
                 } else {
-                    showMessage(R.string.dialog_command_disabled_distribution)
+                    showSnackBar(R.string.dialog_command_disabled_distribution)
                 }
             }
             R.id.GROUPING_ACCOUNTS_COMMAND -> {
@@ -1357,7 +1348,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             )
                         }).show(supportFragmentManager, "BALANCE_ACCOUNT")
                     } else {
-                        showMessage(R.string.dialog_command_disabled_balance)
+                        showSnackBar(R.string.dialog_command_disabled_balance)
                     }
                 }
             }
@@ -1800,7 +1791,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun showExportDisabledCommand() {
-        showMessage(R.string.dialog_command_disabled_reset_account)
+        showSnackBar(R.string.dialog_command_disabled_reset_account)
     }
 
     /**

@@ -690,7 +690,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     private fun checkTransferEnabled(): Boolean {
         if (currentAccount() == null) return false
         if (mAccounts.size <= 1) {
-            (context as ExpenseEdit).showMessage(R.string.dialog_command_disabled_insert_transfer)
+            (context as ExpenseEdit).showSnackBar(R.string.dialog_command_disabled_insert_transfer)
             return false
         }
         return true
