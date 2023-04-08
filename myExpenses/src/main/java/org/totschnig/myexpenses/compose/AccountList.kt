@@ -212,9 +212,10 @@ fun AccountCard(
                 )
             }
             if (account.excludeFromTotals) {
+                val contentColor = LocalContentColor.current
                 Icon(
                     modifier = Modifier.drawBehind {
-                        drawLine(Color.Black, Offset(size.width/5,size.height/2), Offset(size.width/5*4, size.height/2), 5f)
+                        drawLine(contentColor, Offset(size.width/5,size.height/2), Offset(size.width/5*4, size.height/2), 5f)
                     },
                     imageVector = Icons.Filled.Functions,
                     contentDescription = stringResource(
