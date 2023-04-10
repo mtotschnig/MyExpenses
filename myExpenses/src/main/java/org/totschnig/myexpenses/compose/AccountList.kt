@@ -50,6 +50,7 @@ fun AccountList(
     onDelete: (FullAccount) -> Unit,
     onHide: (Long) -> Unit,
     onToggleSealed: (FullAccount) -> Unit,
+    onToggleExcludeFromTotals: (FullAccount) -> Unit,
     expansionHandlerGroups: ExpansionHandler,
     expansionHandlerAccounts: ExpansionHandler
 ) {
@@ -84,6 +85,7 @@ fun AccountList(
                             onDelete = onDelete,
                             onHide = onHide,
                             onToggleSealed = onToggleSealed,
+                            onToggleExcludeFromTotals = onToggleExcludeFromTotals,
                             toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) }
                         )
                     }
@@ -156,7 +158,8 @@ fun AccountCard(
     onEdit: (Long) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
     onHide: (Long) -> Unit = {},
-    onToggleSealed: (FullAccount) -> Unit = { _ -> },
+    onToggleSealed: (FullAccount) -> Unit = {},
+    onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
     toggleExpansion: () -> Unit = { }
 ) {
     val format = LocalCurrencyFormatter.current
@@ -253,6 +256,12 @@ fun AccountCard(
                                 onToggleSealed(account)
                             }
                         )
+                        add(CheckableMenuEntry(
+                            isChecked = account.excludeFromTotals,
+                            label = R.string.menu_exclude_from_totals
+                        ) {
+                            onToggleExcludeFromTotals(account)
+                        })
                     }
                 }
             )

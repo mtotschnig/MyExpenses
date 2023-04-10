@@ -144,6 +144,10 @@
             <item
                 android:id="@id/TOGGLE_SEALED_COMMAND"
                 tools:ignore="MenuTitle" />
+            <item
+                android:id="@id/EXCLUDE_FROM_TOTALS_COMMAND"
+                android:title="@string/menu_exclude_from_totals"
+                android:checkable="true" />
         </menu>
     </item>
 

@@ -548,6 +548,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             onToggleSealed = {
                                 toggleAccountSealed(it)
                             },
+                            onToggleExcludeFromTotals = {
+                                toggleExcludeFromTotals(it)
+                            },
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
                         )
@@ -1361,6 +1364,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 viewModel.setAccountVisibility(true, it.id)
             }
             R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
+            R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
             else -> return false
         }
         return true
@@ -1449,6 +1453,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 if (sealed) R.string.menu_reopen else R.string.menu_close
                             )
                             subMenu?.findItem(R.id.EDIT_ACCOUNT_COMMAND)?.setEnabledAndVisible(!sealed)
+                            subMenu?.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)?.setChecked(excludeFromTotals)
                         }
                     }
                 }
@@ -1720,6 +1725,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 )
             }
         }
+    }
+
+    private fun toggleExcludeFromTotals(account: FullAccount) {
+        viewModel.setExcludeFromTotals(account.id, !account.excludeFromTotals)
     }
 
     val navigationView: NavigationView

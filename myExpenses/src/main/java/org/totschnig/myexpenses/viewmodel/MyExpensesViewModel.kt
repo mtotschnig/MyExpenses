@@ -375,6 +375,23 @@ open class MyExpensesViewModel(
         }
     }
 
+    fun setExcludeFromTotals(accountId: Long, excludeFromTotals: Boolean) {
+        if (DataBaseAccount.isAggregate(accountId)) {
+            CrashHandler.report(IllegalStateException("setSealed called on aggregate account"))
+        } else {
+            viewModelScope.launch(context = coroutineContext()) {
+                contentResolver.update(
+                    ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
+                    ContentValues(1).apply {
+                        put(KEY_EXCLUDE_FROM_TOTALS, excludeFromTotals)
+                    },
+                    null,
+                    null
+                )
+            }
+        }
+    }
+
     fun balanceAccount(accountId: Long, reset: Boolean): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             emit(runCatching {
