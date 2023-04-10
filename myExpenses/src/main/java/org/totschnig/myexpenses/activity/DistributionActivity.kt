@@ -53,7 +53,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import kotlin.math.abs
@@ -117,7 +116,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     private fun handleGrouping(item: MenuItem): Boolean {
         val newGrouping = Utils.getGroupingFromMenuItemId(item.itemId)
         if (newGrouping != null) {
-            viewModel.setGrouping(newGrouping)
+            viewModel.persistGrouping(newGrouping)
             invalidateOptionsMenu()
             reset()
             return true
@@ -167,18 +166,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
         }
-        viewModel.initWithAccount(intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0))
-        if (savedInstanceState == null) {
-            val grouping = enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE)
-            val groupingYear = intent.getIntExtra(DatabaseConstants.KEY_YEAR, 0)
-            val groupingSecond = intent.getIntExtra(DatabaseConstants.KEY_SECOND_GROUP, 0)
-            if (groupingYear == 0 && groupingSecond == 0) {
-                viewModel.setGrouping(grouping)
-            } else {
-                viewModel.groupingInfo =
-                    DistributionViewModelBase.GroupingInfo(grouping, groupingYear, groupingSecond)
-            }
-        }
+
+        viewModel.initWithAccount(
+            intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
+            enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE)
+        )
 
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {

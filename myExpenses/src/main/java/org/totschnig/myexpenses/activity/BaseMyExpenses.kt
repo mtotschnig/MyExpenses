@@ -1585,7 +1585,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     startActivity(Intent(this, DistributionActivity::class.java).apply {
                         putExtra(KEY_ACCOUNTID, selectedAccountId)
                         putExtra(KEY_GROUPING, currentAccount.grouping.name)
-                        (tag as? Int)?.let { tag -> fillIntentForGroupingFromTag(tag) }
                     })
                 }
                 ContribFeature.HISTORY -> {
