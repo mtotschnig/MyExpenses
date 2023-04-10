@@ -4,29 +4,19 @@ import android.database.Cursor
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.CombinedData
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
@@ -70,9 +60,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         get() = _binding!!
     private lateinit var accountInfo: HistoryAccountInfo
 
-    @JvmField
-    @State
-    var grouping: Grouping? = null
+    val grouping: Grouping
+        get() = viewModel.grouping.value
     private val filter = WhereFilter.empty()
     private var valueTextSize = 10f
 
@@ -97,7 +86,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     @State
     var showTotals = true
 
-    private val viewModel: HistoryViewModel by viewModels()
+    private val viewModel: HistoryViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,11 +95,6 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             inject(viewModel)
         }
         setHasOptionsMenu(true)
-        if (savedInstanceState == null) {
-            grouping =  requireActivity().intent.getStringExtra(DatabaseConstants.KEY_GROUPING)?.let { Grouping.valueOf(it) }?.takeIf { it != Grouping.NONE }  ?: Grouping.MONTH
-        } else {
-            Icepick.restoreInstanceState(this, savedInstanceState)
-        }
         val typedValue = TypedValue()
         requireActivity().theme.resolveAttribute(android.R.attr.textAppearanceSmall, typedValue, true)
         val textSizeAttr = intArrayOf(android.R.attr.textSize)
@@ -119,6 +103,14 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         valueTextSize = a.getDimensionPixelSize(indexOfAttrTextSize, 10) / resources.displayMetrics.density
         a.recycle()
         textColor = UiUtils.getColor(requireContext(), R.attr.colorOnSurface)
+        lifecycleScope.launchWhenStarted {
+            viewModel.grouping.collect {
+                requireActivity().invalidateOptionsMenu()
+                if (::accountInfo.isInitialized) {
+                    reset()
+                }
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -249,9 +241,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         val newGrouping = Utils.getGroupingFromMenuItemId(item.itemId)
         if (newGrouping != null) {
             if (!item.isChecked) {
-                grouping = newGrouping
-                requireActivity().invalidateOptionsMenu()
-                reset()
+                viewModel.persistGrouping(newGrouping)
             }
             return true
         }
@@ -271,7 +261,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 }
             }
             builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-                    .appendPath(grouping!!.name)
+                    .appendPath(grouping.name)
             if (!Account.isHomeAggregate(accountInfo.id)) {
                 if (Account.isAggregate(accountInfo.id)) {
                     builder.appendQueryParameter(DatabaseConstants.KEY_CURRENCY, accountInfo.currency.code)

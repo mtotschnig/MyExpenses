@@ -1591,7 +1591,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     recordUsage(feature)
                     startActivity(Intent(this, HistoryActivity::class.java).apply {
                         putExtra(KEY_ACCOUNTID, selectedAccountId)
-                        putExtra(KEY_GROUPING, currentAccount.grouping.name)
+                        putExtra(KEY_GROUPING, currentAccount.grouping)
                     })
                 }
                 ContribFeature.SPLIT_TRANSACTION -> {
