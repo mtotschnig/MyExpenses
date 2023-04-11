@@ -115,7 +115,6 @@ public class PdfPrinter {
     this.filter = filter;
     this.currentBalance = currentBalance;
     MyApplication.getInstance().getAppComponent().inject(this);
-    //TODO aggregate
     this.account = accountId > 0 ? RepositoryAccountKt.loadAccount(repository, accountId) :
       RepositoryAccountKt.loadAggregateAccount(repository, accountId);
   }

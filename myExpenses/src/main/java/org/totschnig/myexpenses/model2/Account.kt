@@ -70,7 +70,7 @@ data class Account(
                 excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 uuid = cursor.getString(KEY_UUID),
                 isSealed = cursor.getBoolean(KEY_SEALED),
-                exchangeRate = cursor.getDouble(KEY_EXCHANGE_RATE),
+                exchangeRate = cursor.getDoubleIfExists(KEY_EXCHANGE_RATE) ?: 1.0,
                 grouping = cursor.getEnum(KEY_GROUPING, Grouping.NONE)
             )
 
