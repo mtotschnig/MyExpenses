@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.BaseMyExpenses;
+import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.DebtOverview;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -289,5 +290,7 @@ public interface AppComponent {
   void inject(RestoreViewModel restoreViewModel);
 
   void inject(PlanExecutor planExecutor);
+
+  void inject(CsvImportActivity csvImportActivity);
 
 }

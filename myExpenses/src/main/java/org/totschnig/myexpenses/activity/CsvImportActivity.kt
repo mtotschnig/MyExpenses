@@ -53,7 +53,10 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
         csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
-        (applicationContext as MyApplication).appComponent.inject(csvImportViewModel)
+        with((applicationContext as MyApplication).appComponent) {
+            inject(csvImportViewModel)
+            inject(this@CsvImportActivity)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -179,7 +182,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         currency = currency,
                         openingBalance = 0,
                         type = accountType
-                    )
+                    ).createIn(repository)
                 } else {
                     repository.loadAccount(accountId)!!
                 }
