@@ -626,7 +626,7 @@
     <string name="io_error_unable_to_create_file">Neuspjelo stvaranje datoteke %1$s u mapi %2$s</string>
     <string name="slash_forbidden_in_filename">Kosa crta (/) se ne smije koristiti u imenima datoteka</string>
     <string name="menu_undelete_transaction">Poništi brisanje</string>
-    <string name="mark_void_instead_of_delete">Ne briši transakciju, umjesto toga je označi kao nevažeću.</string>
+    <string name="mark_void_instead_of_delete">Nemoj izbrisati transakciju, umjesto toga je označi kao „anulirano”.</string>
     <string name="folder_name">Ime mape</string>
     <string name="file_name">Ime datoteke</string>
     <string name="export_handle_deleted_update_balance">Aktualiziraj početni saldo</string>
@@ -862,7 +862,7 @@
     <string name="move_category_success">Jedna kategorija je uspješno premještena. </string>
     <string name="move_category_failure">Jedna kategorija nije premještena, jer ista oznaka već postoji na cilju.</string>
     <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja proračunu koja će se također izbrisati.</string>
-    <string name="status_void">nevažeće</string>
+    <string name="status_void">anulirano</string>
     <string name="select_payee">Odaberi platišu/primaoca</string>
     <string name="pref_perform_protection_title">Zaštita</string>
     <string name="pref_manage_sync_backends_summary">Dodaj pozadinske sustave za sinkroniziranje računa (%s).</string>

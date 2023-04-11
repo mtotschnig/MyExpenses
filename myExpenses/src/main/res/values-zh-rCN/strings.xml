@@ -996,6 +996,11 @@
     <string name="encrypt_database">加密数据库</string>
     <string name="database_is_encrypted">数据库已加密。</string>
     <string name="github_sponsors">许可证密钥也提供给 &lt;a href=%s&gt;Github 赞助者&lt;/a&gt;。</string>
-    <string name="encrypt_database_info">数据库将通过无法从此设备提取的密码口令进行加密。该口令因而不会被你设备的备份服务所备份。</string>
+    <string name="encrypt_database_info">数据库将通过无法从此设备提取的密码短语进行加密。该口令因而不会被你设备的备份服务所备份。</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> 需要获取权限才能在未来交易发生时向您发送通知</string>
+    <string name="debt_installment_pay">我支付 %s 的分期付款</string>
+    <string name="debt_installment_receive">我收到 %s 的分期付款</string>
+    <string name="debt_lend_additional">我借出 %s</string>
+    <string name="notifications_permission_required_sync">通过授予发送通知的权限，您可以监控同步操作的进度</string>
+    <string name="notifications_channel_required">请启用“%s”通知渠道</string>
 </resources>
