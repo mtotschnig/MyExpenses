@@ -126,12 +126,6 @@ class MyExpensesTest : BaseMyExpensesTest() {
         clickMenuItem(menuItemId)
         Espresso.onView(ViewMatchers.withText(messageResId))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.isAssignableFrom(Button::class.java),
-                ViewMatchers.withText(Matchers.`is`(getString(android.R.string.ok)))
-            )
-        ).perform(ViewActions.click())
     }
 
     @Test
