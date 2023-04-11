@@ -236,6 +236,10 @@ public class DialogUtils {
   public static RadioGroup.OnCheckedChangeListener buildCalendarRestoreStrategyChangedListener(
       final Activity context, final CalendarRestoreStrategyChangedListener listener) {
     return (group, checkedId) -> {
+      for (int i = 0; i < group.getChildCount(); i++) {
+        View child = group.getChildAt(i);
+        child.setSelected(child.getId() == checkedId);
+      }
       if ((checkedId == R.id.restore_calendar_handling_backup) ||
               (checkedId == R.id.restore_calendar_handling_create_new) ||
               (checkedId == R.id.restore_calendar_handling_configured)) {

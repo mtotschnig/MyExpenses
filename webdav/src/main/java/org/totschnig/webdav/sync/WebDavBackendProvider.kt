@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SequenceNumber
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
+import org.totschnig.myexpenses.sync.getSyncProviderUrl
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.io.calculateSize
@@ -340,8 +341,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     }
 
     init {
-        val url = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
-            ?: throw SyncParseException(NullPointerException("sync_provider_url is null"))
+        val url = accountManager.getSyncProviderUrl(account)
         val userName =
             accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_USERNAME)
         val password = accountManager.getPassword(account)

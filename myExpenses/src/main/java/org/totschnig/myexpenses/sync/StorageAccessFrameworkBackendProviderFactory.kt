@@ -17,7 +17,7 @@ class StorageAccessFrameworkBackendProviderFactory : SyncBackendProviderFactory(
         accountManager: AccountManager
     ) = StorageAccessFrameworkBackendProvider(
         context,
-        Uri.parse(accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL))
+        Uri.parse(accountManager.getSyncProviderUrl(account))
     )
 
     override val setupActivityClass = SafSetup::class.java

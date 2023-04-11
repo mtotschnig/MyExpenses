@@ -300,3 +300,7 @@ class GenericAccountService : Service() {
         }
     }
 }
+
+fun AccountManager.getSyncProviderUrl(account: Account) =
+    getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
+        ?: throw SyncBackendProvider.SyncParseException(NullPointerException("sync_provider_url is null"))

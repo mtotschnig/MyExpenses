@@ -29,10 +29,8 @@ import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
@@ -200,7 +198,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
             }
             ACTION_RESTORE, Intent.ACTION_VIEW -> {
                 BackupSourcesDialogFragment.newInstance(intent.data).show(
-                    supportFragmentManager, FRAGMENT_TAG_RESTORE_SOURCE
+                    supportFragmentManager, FRAGMENT_TAG_RESTORE
                 )
             }
         }
@@ -305,8 +303,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {
-        val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
-        when (command) {
+        when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.BACKUP_COMMAND -> {
                 prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
                 backupViewModel.doBackup(checked)
@@ -346,16 +343,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         abort()
     }
 
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        super.onPermissionsDenied(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-            (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_RESTORE_SOURCE) as? CalendarRestoreStrategyChangedListener)
-                ?.onCalendarPermissionDenied()
-        }
-    }
-
     companion object {
-        const val FRAGMENT_TAG_RESTORE_SOURCE = "RESTORE_SOURCE"
         const val FRAGMENT_TAG_CONFIRM_BACKUP = "CONFIRM_BACKUP"
         const val FRAGMENT_TAG_CONFIRM_PURGE = "CONFIRM_PURGE"
         private const val DIALOG_TAG_PASSWORD = "PASSWORD"

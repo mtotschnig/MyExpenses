@@ -89,7 +89,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
                     showSnackBar("Found accounts with duplicate uuids")
                 } else {
                     RestoreFromCloudDialogFragment.newInstance(data.backups, data.remoteAccounts)
-                        .show(supportFragmentManager, "RESTORE_FROM_CLOUD")
+                        .show(supportFragmentManager, FRAGMENT_TAG_RESTORE)
                 }
             } else {
                 showSnackBar("Neither backups nor sync accounts found")

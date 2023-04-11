@@ -8,9 +8,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel
 
@@ -100,5 +102,17 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
                 myApplication.isLocked = true
             }
         }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        super.onPermissionsDenied(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+            (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_RESTORE) as? DialogUtils.CalendarRestoreStrategyChangedListener)
+                ?.onCalendarPermissionDenied()
+        }
+    }
+
+    companion object {
+        const val FRAGMENT_TAG_RESTORE = "RESTORE"
     }
 }

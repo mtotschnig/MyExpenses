@@ -7,6 +7,7 @@ import androidx.annotation.Keep
 import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
+import org.totschnig.myexpenses.sync.getSyncProviderUrl
 
 const val KEY_DBX_CREDENTIAL = "DbxCredential"
 
@@ -18,7 +19,7 @@ class DropboxProviderFactory : SyncBackendProviderFactory() {
         accountManager: AccountManager
     ) = DropboxBackendProvider(
         context,
-        accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
+        accountManager.getSyncProviderUrl(account)
     )
 
     override val setupActivityClass = DropboxSetup::class.java
