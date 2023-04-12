@@ -1,0 +1,4 @@
+• Bug fixat
+• Perfecționarea interfeței cu utilizatorul
+
+https://github.com/mtotschnig/MyExpenses/projects/94#column-19421048

@@ -1,0 +1,4 @@
+• Poprawki błędów
+• Dopracowanie interfejsu użytkownika
+
+https://github.com/mtotschnig/MyExpenses/projects/94#column-19421048

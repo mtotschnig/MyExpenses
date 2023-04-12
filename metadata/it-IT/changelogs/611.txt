@@ -1,0 +1,4 @@
+• Correzione di bug
+• Miglioramento dell'interfaccia utente
+
+https://github.com/mtotschnig/MyExpenses/projects/94#column-19421048
