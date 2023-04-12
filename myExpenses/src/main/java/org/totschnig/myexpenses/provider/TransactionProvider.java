@@ -58,6 +58,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Grouping;
@@ -526,7 +527,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
           projection = new String[]{
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
-              "'' AS " + KEY_LABEL,
+              "'" + getWrappedContext().getString(R.string.grand_total) + "' AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
               aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, getHomeCurrency())
                   + ") AS " + KEY_OPENING_BALANCE,
