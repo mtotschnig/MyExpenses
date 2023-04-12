@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.SparseBooleanArray
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -99,7 +100,7 @@ class CsvImportDataFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val displayMetrics = resources.displayMetrics
-        windowWidth = (displayMetrics.widthPixels / displayMetrics.density).toInt()
+        windowWidth = displayMetrics.widthPixels
         header2FieldMap = prefHandler.getString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, null)?.let {
             try {
                 JSONObject(it)
@@ -257,6 +258,7 @@ class CsvImportDataFragment : Fragment() {
                 cell.setSingleLine()
                 cell.ellipsize = TextUtils.TruncateAt.END
                 cell.isSelected = true
+                cell.gravity = Gravity.CENTER_HORIZONTAL
                 cell.setOnClickListener { v1: View -> (requireActivity() as ProtectedFragmentActivity).showSnackBar((v1 as TextView).text) }
                 if (viewType == 0) {
                     cell.setTypeface(null, Typeface.BOLD)

@@ -38,8 +38,9 @@
     <dimen name="fab_related_bottom_padding">75dp</dimen>
     <dimen name="dateLink_padding">3dp</dimen>
     <dimen name="dateLink_minWidth">30dp</dimen>
-    <dimen name="csv_import_cell_min_width">100dp</dimen>
-    <dimen name="csv_import_checkbox_column_width">60dp</dimen>
+    <dimen name="csv_import_cell_min_width">100sp</dimen>
+    <dimen name="csv_import_row_height">28sp</dimen>
+    <dimen name="csv_import_checkbox_column_width">60sp</dimen>
     <dimen name="csv_import_header_text_size">12sp</dimen>
     <dimen name="csv_import_cell_margin">5dp</dimen>
     <dimen name="csv_import_spinner_right_padding">30dp</dimen>

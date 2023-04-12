@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/csv_import_row_background"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/csv_import_row_height"
     android:orientation="horizontal">
 
     <FrameLayout
-        android:layout_width="60dp"
+        android:layout_width="@dimen/csv_import_checkbox_column_width"
         android:layout_height="wrap_content"
         tools:ignore="UselessParent">
         <CheckBox
