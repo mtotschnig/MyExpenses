@@ -13,11 +13,11 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import icepick.Icepick
-import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageSyncBackends
@@ -77,7 +77,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this)[modelClass]
         appComponent.inject(viewModel)
-        Icepick.restoreInstanceState(this, savedInstanceState)
+        StateSaver.restoreInstanceState(this, savedInstanceState)
     }
 
     override fun onResume() {
@@ -325,7 +325,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
+        StateSaver.saveInstanceState(this, outState)
     }
 
     fun getAccountForSync(packedPosition: Long): Account? {

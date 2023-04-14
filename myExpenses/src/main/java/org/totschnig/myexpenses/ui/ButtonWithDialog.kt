@@ -5,13 +5,12 @@ import android.content.ContextWrapper
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
-import androidx.annotation.CallSuper
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import com.google.android.material.button.MaterialButton
-import icepick.Icepick
-import icepick.State
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
@@ -33,11 +32,11 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
     abstract fun buildDialog(): T
 
     override fun onSaveInstanceState(): Parcelable {
-        return Icepick.saveInstanceState(this, super.onSaveInstanceState())
+        return StateSaver.saveInstanceState(this, super.onSaveInstanceState())
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state))
+        super.onRestoreInstanceState(StateSaver.restoreInstanceState(this, state))
         update()
         if (dialogShown) {
             reAttachListener((context as FragmentActivity).supportFragmentManager)
@@ -74,6 +73,10 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
 
     open fun onClick() {
         showDialog()
+    }
+
+    final override fun setOnClickListener(l: OnClickListener?) {
+        super.setOnClickListener(l)
     }
 
     init {

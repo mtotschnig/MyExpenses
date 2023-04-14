@@ -32,6 +32,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
@@ -39,8 +41,6 @@ import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
-import icepick.Icepick
-import icepick.State
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.activity.Action
@@ -332,7 +332,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             inject(this@PartiesList)
             inject(viewModel)
         }
-        Icepick.restoreInstanceState(this, savedInstanceState)
+        StateSaver.restoreInstanceState(this, savedInstanceState)
     }
 
     override fun onDestroyView() {
@@ -348,7 +348,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
+        StateSaver.saveInstanceState(this, outState)
         adapter.onSaveInstanceState(outState)
     }
 

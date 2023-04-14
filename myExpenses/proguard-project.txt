@@ -29,13 +29,6 @@
 #Picasso
 -dontwarn com.squareup.okhttp.**
 
--dontwarn icepick.**
--keep class icepick.** { *; }
--keep class **$$Icepick { *; }
--keepclasseswithmembernames class * {
-    @icepick.* <fields>;
-}
-
 # Dav4Android
 -dontwarn lombok.**
 -keep class at.bitfire.** { *; }       # all DAVdroid code is required

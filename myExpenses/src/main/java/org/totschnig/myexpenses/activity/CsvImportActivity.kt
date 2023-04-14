@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
-import icepick.State
+import com.evernote.android.state.State
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R

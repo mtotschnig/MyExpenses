@@ -8,9 +8,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.core.view.isVisible
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import com.squareup.picasso.Picasso
-import icepick.Icepick
-import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -238,7 +238,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             //editText too late corrupt inputType
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits)
         } else {
-            Icepick.restoreInstanceState(this, savedInstanceState)
+            StateSaver.restoreInstanceState(this, savedInstanceState)
         }
         setVisibility(viewBinding.toolbar.OperationType, withTypeSpinner)
         originTemplateId?.let { host.loadOriginTemplate(it) }
@@ -998,7 +998,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         if (originalInputSelectedCurrency != null) {
             originalCurrencyCode = originalInputSelectedCurrency.code
         }
-        Icepick.saveInstanceState(this, outState)
+        StateSaver.saveInstanceState(this, outState)
     }
 
     private fun disableAccountSpinner() {

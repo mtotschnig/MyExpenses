@@ -3,8 +3,8 @@ package org.totschnig.myexpenses.ui
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import com.evernote.android.state.State
 import com.google.android.material.datepicker.MaterialDatePicker
-import icepick.State
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime

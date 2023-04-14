@@ -10,7 +10,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.snackbar.Snackbar
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
-import icepick.State
+import com.evernote.android.state.State
 import org.totschnig.drive.sync.GoogleDriveBackendProvider
 import org.totschnig.drive.viewmodel.DriveSetupViewModel
 import org.totschnig.myexpenses.activity.AbstractSyncSetup

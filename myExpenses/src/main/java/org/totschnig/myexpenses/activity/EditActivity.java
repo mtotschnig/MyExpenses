@@ -25,6 +25,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.evernote.android.state.State;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -33,8 +35,6 @@ import org.totschnig.myexpenses.ui.ButtonWithDialog;
 import org.totschnig.myexpenses.util.FormAccentUtilKt;
 
 import java.math.BigDecimal;
-
-import icepick.State;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher, ButtonWithDialog.Host {
 

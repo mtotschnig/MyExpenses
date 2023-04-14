@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
-import icepick.State
+import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OnboardingBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment

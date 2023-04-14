@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.delegate
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import icepick.State
+import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.databinding.DateEditBinding
@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo

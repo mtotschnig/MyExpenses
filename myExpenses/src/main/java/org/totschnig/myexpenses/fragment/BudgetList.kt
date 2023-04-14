@@ -17,7 +17,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import icepick.State
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BudgetActivity
@@ -61,7 +62,13 @@ class BudgetList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        StateSaver.restoreInstanceState(this, savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        StateSaver.saveInstanceState(this, outState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,7 +125,7 @@ class BudgetList : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         lastClickedPosition?.let {
             if (resultCode != Activity.RESULT_FIRST_USER) { //budget was deleted
-                binding.recyclerView.adapter?.notifyItemChanged(it)
+                binding.recyclerView.adapter?.notifyItemRemoved(it)
             }
             lastClickedPosition = null
         }

@@ -5,12 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import com.evernote.android.state.State
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SINGLE_CHOICE
 import eltos.simpledialogfragment.list.SimpleListDialog
-import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage

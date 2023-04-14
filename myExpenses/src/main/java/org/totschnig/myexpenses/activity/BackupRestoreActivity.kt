@@ -19,11 +19,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.activity.viewModels
+import com.evernote.android.state.State
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
-import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment

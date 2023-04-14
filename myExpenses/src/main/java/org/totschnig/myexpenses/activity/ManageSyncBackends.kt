@@ -9,7 +9,7 @@ import android.view.MenuItem
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo
 import androidx.activity.result.contract.ActivityResultContracts
 import arrow.core.flatMap
-import icepick.State
+import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment

@@ -15,10 +15,10 @@ android {
 
 dependencies {
     implementation project(":myExpenses")
-    implementation 'frankiesardo:icepick:3.2.0'
-    kapt 'frankiesardo:icepick-processor:3.2.0'
+    implementation 'com.evernote:android-state:1.4.1'
+    kapt 'com.evernote:android-state-processor:1.4.1'
 
-    implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation('com.google.http-client:google-http-client-gson:1.42.3')  {
         exclude module: 'httpclient'
         exclude module: 'commons-logging'

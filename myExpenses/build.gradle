@@ -185,8 +185,8 @@ dependencies {
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation 'frankiesardo:icepick:3.2.0'
-    kapt 'frankiesardo:icepick-processor:3.2.0'
+    implementation 'com.evernote:android-state:1.4.1'
+    kapt 'com.evernote:android-state-processor:1.4.1'
     implementation 'com.google.code.gson:gson:2.10.1'
 
     api 'com.google.auto.value:auto-value-annotations:1.10'

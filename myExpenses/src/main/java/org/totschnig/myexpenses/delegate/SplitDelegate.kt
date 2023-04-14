@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.delegate
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import icepick.State
+import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter

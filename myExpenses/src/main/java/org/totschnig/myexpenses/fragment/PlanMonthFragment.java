@@ -27,6 +27,8 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import com.evernote.android.state.State;
+import com.evernote.android.state.StateSaver;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.roomorama.caldroid.CaldroidListener;
@@ -53,8 +55,6 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
-import icepick.Icepick;
-import icepick.State;
 
 public class PlanMonthFragment extends CaldroidFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -97,7 +97,7 @@ public class PlanMonthFragment extends CaldroidFragment
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     readOnly = requireArguments().getBoolean(KEY_READ_ONLY);
-    Icepick.restoreInstanceState(this, savedInstanceState);
+    StateSaver.restoreInstanceState(this, savedInstanceState);
     setCaldroidListener(new CaldroidListener() {
       @Override
       public void onChangeMonth(int month, int year) {
@@ -159,7 +159,7 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
+    StateSaver.saveInstanceState(this, outState);
   }
 
 

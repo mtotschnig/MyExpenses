@@ -5,7 +5,7 @@ import android.text.Editable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import icepick.State
+import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdAdapter

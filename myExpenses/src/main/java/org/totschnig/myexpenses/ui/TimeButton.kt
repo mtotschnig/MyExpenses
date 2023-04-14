@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.AttributeSet
 import androidx.fragment.app.DialogFragment
-import icepick.State
+import com.evernote.android.state.State
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

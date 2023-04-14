@@ -18,8 +18,9 @@ import java.text.DecimalFormatSymbols;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
-import icepick.Icepick;
-import icepick.State;
+
+import com.evernote.android.state.State;
+import com.evernote.android.state.StateSaver;
 
 public class AmountEditText extends AppCompatEditText {
 
@@ -42,11 +43,11 @@ public class AmountEditText extends AppCompatEditText {
   }
 
   @Override public Parcelable onSaveInstanceState() {
-    return Icepick.saveInstanceState(this, super.onSaveInstanceState());
+    return StateSaver.saveInstanceState(this, super.onSaveInstanceState());
   }
 
   @Override public void onRestoreInstanceState(Parcelable state) {
-    super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
+    super.onRestoreInstanceState(StateSaver.restoreInstanceState(this, state));
     setFractionDigitsInternal(fractionDigits);
   }
 

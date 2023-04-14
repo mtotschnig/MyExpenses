@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
-import icepick.State
+import com.evernote.android.state.State
 import org.totschnig.myexpenses.activity.AbstractSyncSetup
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService

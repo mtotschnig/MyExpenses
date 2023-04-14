@@ -14,8 +14,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import icepick.Icepick
-import icepick.State
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTemplates
@@ -65,7 +65,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Icepick.restoreInstanceState(this, savedInstanceState)
+        StateSaver.restoreInstanceState(this, savedInstanceState)
         stateObserver = StateObserver()
         requireContext().contentResolver.registerContentObserver(
             TransactionProvider.PLAN_INSTANCE_STATUS_URI,
@@ -86,7 +86,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
+        StateSaver.saveInstanceState(this, outState)
     }
 
     override fun onDestroy() {

@@ -30,9 +30,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import icepick.Icepick
-import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
@@ -80,7 +80,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Icepick.restoreInstanceState(this, savedInstanceState)
+        StateSaver.restoreInstanceState(this, savedInstanceState)
         requireArguments().getString(ContribInfoDialogActivity.KEY_FEATURE)?.let {
             feature = ContribFeature.valueOf(it)
         }
@@ -89,7 +89,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
+        StateSaver.saveInstanceState(this, outState)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

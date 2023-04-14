@@ -61,6 +61,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.evernote.android.state.StateSaver;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -84,9 +86,6 @@ import java.math.BigDecimal;
 import java.util.Locale;
 
 import javax.inject.Inject;
-
-import icepick.Icepick;
-
 public abstract class ProtectedFragmentActivity extends BaseActivity
     implements OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
@@ -114,7 +113,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    Icepick.restoreInstanceState(this, savedInstanceState);
+    StateSaver.restoreInstanceState(this, savedInstanceState);
     if (requireApplication().isProtected()) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
@@ -126,7 +125,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
+    StateSaver.saveInstanceState(this, outState);
   }
 
   @Override
