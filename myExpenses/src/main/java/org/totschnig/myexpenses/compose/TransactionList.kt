@@ -33,8 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.google.accompanist.flowlayout.FlowMainAxisAlignment
-import com.google.accompanist.flowlayout.FlowRow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -265,6 +263,7 @@ fun TransactionList(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HeaderData(
     grouping: Grouping,
@@ -307,7 +306,7 @@ fun HeaderData(
             )
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            mainAxisAlignment = if (alignStart) FlowMainAxisAlignment.Start else FlowMainAxisAlignment.Center
+            horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
         ) {
             if (!showOnlyDelta) {
                 Text(amountFormatter.formatMoney(headerRow.previousBalance))
@@ -327,7 +326,7 @@ fun HeaderData(
         if (showSumDetailsState.value) {
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
-                mainAxisAlignment = if (alignStart) FlowMainAxisAlignment.Start else FlowMainAxisAlignment.Center
+                horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
             ) {
                 Text(
                     "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
@@ -413,6 +412,7 @@ interface SelectionHandler {
 }
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Preview(locale = "ar")
 @Composable
 fun RowRTL() {

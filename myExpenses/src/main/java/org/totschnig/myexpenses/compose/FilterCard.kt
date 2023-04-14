@@ -1,6 +1,9 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -10,7 +13,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,11 +23,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.flowlayout.FlowRow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
     Row(
@@ -43,7 +44,7 @@ fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 12.dp),
-            mainAxisSpacing = 8.dp
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             whereFilter?.criteria?.forEach {
                 FilterChip(

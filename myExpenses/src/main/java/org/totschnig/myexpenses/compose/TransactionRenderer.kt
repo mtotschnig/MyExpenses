@@ -46,7 +46,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.flowlayout.FlowRow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -325,6 +324,7 @@ class NewTransactionRenderer(
     withCategoryIcon: Boolean = true,
     onToggleCrStatus: ((Long) -> Unit)? = null
 ) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
+    @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
         val context = LocalContext.current
@@ -351,11 +351,12 @@ class NewTransactionRenderer(
                 TextWithInlineContent(text = info, icons = secondaryInfo.second)
             }
             if (transaction.tagList.isNotEmpty()) {
-                FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 2.dp) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     transaction.tagList.forEach {
                         Text(
                             text = it,
-                            modifier = Modifier.tagBorder(),
+                            modifier = Modifier.tagBorder().padding(bottom = 2.dp),
                             style = MaterialTheme.typography.caption
                         )
                     }

@@ -174,9 +174,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-themeadapter-material:$accompanist"
-    //includes https://github.com/google/accompanist/pull/1074/files
-    implementation 'com.github.mtotschnig.accompanist:accompanist-flowlayout:99de3a9496'
-    implementation("app.futured.donut:donut-compose:2.2.2")
+    implementation('app.futured.donut:donut-compose:2.2.3')
 
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -208,9 +206,9 @@ dependencies {
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:e40729670a'
-    api('io.github.eltos:simpledialogfragments:3.5.2')
+    api('io.github.eltos:simpledialogfragments:3.6.4')
 
-    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
 
     implementation 'org.apache.commons:commons-collections4:4.4'
 
@@ -252,7 +250,7 @@ dependencies {
     //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'
     api "com.github.mtotschnig:easypermissions-ktx:e2e2b44256"
 
-    implementation("org.jetbrains.kotlinx:kotlinx-html:0.7.3")
+    implementation('org.jetbrains.kotlinx:kotlinx-html:0.8.1')
     implementation("io.arrow-kt:arrow-core:1.0.1")
 
     implementation 'com.github.mtotschnig:FontDrawable:39e8f63ce2'
@@ -304,7 +302,7 @@ dependencies {
     androidTestImplementation "com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:4.0.0"
     //androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
-    androidTestImplementation('com.adevinta.android:barista:4.2.0') {
+    androidTestImplementation("com.adevinta.android:barista:$barista") {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
@@ -315,7 +313,7 @@ dependencies {
     androidTestImplementation "com.google.truth:truth:$truthVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
 
-    testImplementation('com.adevinta.android:barista:4.2.0') {
+    testImplementation("com.adevinta.android:barista:$barista") {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
     testImplementation "androidx.compose.ui:ui-test-junit4"
