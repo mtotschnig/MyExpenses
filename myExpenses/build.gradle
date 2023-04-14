@@ -172,7 +172,6 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended"
     implementation "androidx.paging:paging-compose:1.0.0-alpha18"
     implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
-    implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-themeadapter-material:$accompanist"
     implementation('app.futured.donut:donut-compose:2.2.3')
 
@@ -250,7 +249,7 @@ dependencies {
     //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'
     api "com.github.mtotschnig:easypermissions-ktx:e2e2b44256"
 
-    implementation('org.jetbrains.kotlinx:kotlinx-html:0.8.1')
+    implementation('org.jetbrains.kotlinx:kotlinx-html:0.8.0')
     implementation("io.arrow-kt:arrow-core:1.0.1")
 
     implementation 'com.github.mtotschnig:FontDrawable:39e8f63ce2'

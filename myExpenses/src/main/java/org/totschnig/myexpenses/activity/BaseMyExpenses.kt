@@ -17,9 +17,12 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -42,10 +45,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.evernote.android.state.State
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerScope
-import com.google.accompanist.pager.PagerState
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -105,13 +104,12 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 import kotlin.math.sign
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
     @JvmField
     @State
@@ -402,7 +400,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         initLocaleContext()
         maybeRepairRequerySchema()
         readAccountGroupingFromPref()
-        pagerState = PagerState(currentPage = savedInstanceState?.getInt(KEY_CURRENT_PAGE) ?: 0)
+        pagerState = PagerState(initialPage = savedInstanceState?.getInt(KEY_CURRENT_PAGE) ?: 0)
         accountSort = readAccountSortFromPref()
         viewModel = ViewModelProvider(this)[modelClass]
         with((applicationContext as MyApplication).appComponent) {
@@ -646,7 +644,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private suspend fun deferredLoad() {
         deferredAccountId?.let {
-            @OptIn(ExperimentalPagerApi::class)
             viewModel.accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }
                 .takeIf { it != -1 }.let {
                     pagerState.scrollToPage(it ?: 0)
@@ -655,6 +652,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun MainContent() {
 
@@ -697,15 +695,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 collectionInfo = CollectionInfo(1, accountData.size)
                             },
                         verticalAlignment = Alignment.Top,
-                        count = accountData.count(),
+                        pageCount = accountData.count(),
                         state = pagerState,
-                        itemSpacing = 10.dp,
+                        pageSpacing = 10.dp,
                         key = { accountData[it].id }
                     ) {
-                        Page(
-                            index = it,
-                            account = accountData[it].toPageAccount
-                        )
+                        Timber.i("Rendering page $it")
+                        Page(account = accountData[it].toPageAccount)
                     }
                 }
             }
@@ -713,182 +709,175 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     @Composable
-    fun PagerScope.Page(
-        index: Int,
-        account: PageAccount
-    ) {
+    fun Page(account: PageAccount) {
         LaunchedEffect(key1 = account.sealed) {
             if (account.sealed) finishActionMode()
         }
-        if ((currentPage - index).absoluteValue <= 1) {
 
-            val showStatusHandle = if (account.type == AccountType.CASH)
-                false
-            else
-                viewModel.showStatusHandle().collectAsState(initial = true).value
+        val showStatusHandle = if (account.type == AccountType.CASH)
+            false
+        else
+            viewModel.showStatusHandle().collectAsState(initial = true).value
 
-            val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
-                {
-                    checkSealed(listOf(it)) {
-                        viewModel.toggleCrStatus(it)
-                    }
-                }
-            } else null
-
-            val headerData = remember(account) { viewModel.headerData(account) }
-            if (index == currentPage) {
-                LaunchedEffect(selectionState.size) {
-                    if (selectionState.isNotEmpty()) {
-                        startMyActionMode()
-                    } else {
-                        finishActionMode()
-                    }
+        val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
+            {
+                checkSealed(listOf(it)) {
+                    viewModel.toggleCrStatus(it)
                 }
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
-                viewModel.filterPersistence.getValue(account.id)
-                    .whereFilterAsFlow
-                    .collectAsState(WhereFilter.empty())
-                    .value
-                    .takeIf { !it.isEmpty }?.let {
-                        FilterCard(it, ::clearFilter)
-                    }
-                headerData.collectAsState(null).value?.let { headerData ->
-                    val withCategoryIcon =
-                        viewModel.withCategoryIcon.collectAsState(initial = true).value
-                    val lazyPagingItems =
-                        viewModel.items.getValue(account).collectAsLazyPagingItems()
-                    if (!account.sealed) {
-                        LaunchedEffect(selectAllState.value) {
-                            if (selectAllState.value) {
-                                if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
-                                    lazyPagingItems.loadState.append.endOfPaginationReached
-                                ) {
-                                    var jndex = 0
-                                    while (jndex < lazyPagingItems.itemCount) {
-                                        lazyPagingItems.peek(jndex)?.let {
-                                            viewModel.selectionHandler.select(it)
-                                        }
-                                        jndex++
-                                    }
-                                } else {
-                                    showSnackBar(
-                                        getString(
-                                            R.string.select_all_list_too_large,
-                                            getString(android.R.string.selectAll)
-                                        )
-                                    )
-                                }
-                                selectAllState.value = false
-                            }
-                        }
-                    }
-                    val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
-                    val modificationAllowed = !account.sealed && bulkDeleteState.value !is DeleteProgress
-                    TransactionList(
-                        modifier = Modifier.weight(1f),
-                        lazyPagingItems = lazyPagingItems,
-                        headerData = headerData,
-                        budgetData = viewModel.budgetData(account).collectAsState(null),
-                        selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
-                        menuGenerator = remember(modificationAllowed) {
-                            { transaction ->
-                                Menu(
-                                    buildList {
-                                        add(MenuEntry(
-                                            icon = Icons.Filled.Loupe,
-                                            label = R.string.details
-                                        ) { showDetails(transaction.id) })
-                                        if (modificationAllowed) {
-                                            if (transaction.crStatus != CrStatus.VOID) {
-                                                add(edit { edit(transaction) })
-                                            }
-                                            add(MenuEntry(
-                                                icon = Icons.Filled.ContentCopy,
-                                                label = R.string.menu_clone_transaction
-                                            ) {
-                                                edit(transaction, true)
-                                            })
-                                            add(delete { delete(listOf(transaction.id to transaction.crStatus)) })
-                                            add(MenuEntry(
-                                                icon = myiconpack.IcActionTemplateAdd,
-                                                label = R.string.menu_create_template_from_transaction
-                                            ) { createTemplate(transaction) })
-                                            if (transaction.crStatus == CrStatus.VOID) {
-                                                add(MenuEntry(
-                                                    icon = Icons.Filled.RestoreFromTrash,
-                                                    label = R.string.menu_undelete_transaction
-                                                ) { undelete(listOf(transaction.id)) })
-                                            }
-                                            add(
-                                                select {
-                                                    viewModel.selectionState.value = listOf(
-                                                        MyExpensesViewModel.SelectionInfo(transaction)
-                                                    )
-                                                }
-                                            )
-                                            if (transaction.isSplit) {
-                                                add(MenuEntry(
-                                                    icon = Icons.Filled.CallSplit,
-                                                    label = R.string.menu_ungroup_split_transaction
-                                                ) { ungroupSplit(transaction) })
-                                            }
-                                            transaction.pictureUri?.let { uri ->
-                                                add(MenuEntry(
-                                                    icon = Icons.Filled.Attachment,
-                                                    label = R.string.menu_view_picture
-                                                ) {
-                                                    imageViewIntentProvider.startViewIntent(
-                                                        this@BaseMyExpenses,
-                                                        uri
-                                                    )
-                                                })
-                                            }
-                                        }
-                                    }
-                                )
-                            }
-                        },
-                        futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
-                        expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
-                        onBudgetClick = { budgetId, headerId ->
-                            contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
-                        },
-                        showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
-                        scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                        renderer = when (viewModel.renderer.collectAsState(initial = RenderType.New).value) {
-                            RenderType.New -> {
-                                NewTransactionRenderer(
-                                    dateTimeFormatter(account, prefHandler, this@BaseMyExpenses),
-                                    withCategoryIcon,
-                                    onToggleCrStatus
-                                )
-                            }
-                            RenderType.Legacy -> {
-                                CompactTransactionRenderer(
-                                    dateTimeFormatterLegacy(
-                                        account,
-                                        prefHandler,
-                                        this@BaseMyExpenses
-                                    )?.let {
-                                        Pair(
-                                            (it.first as SimpleDateFormat).asDateTimeFormatter,
-                                            with(LocalDensity.current) {
-                                                LocalTextStyle.current.fontSize.toDp()
-                                            } * it.second
-                                        )
-                                    },
-                                    withCategoryIcon,
-                                    onToggleCrStatus
-                                )
-                            }
-                        }
-                    )
+        } else null
+
+        val headerData = remember(account) { viewModel.headerData(account) }
+        LaunchedEffect(selectionState.size) {
+            if (selectionState.isNotEmpty()) {
+                startMyActionMode()
+            } else {
+                finishActionMode()
+            }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background)
+        ) {
+            viewModel.filterPersistence.getValue(account.id)
+                .whereFilterAsFlow
+                .collectAsState(WhereFilter.empty())
+                .value
+                .takeIf { !it.isEmpty }?.let {
+                    FilterCard(it, ::clearFilter)
                 }
+            headerData.collectAsState(null).value?.let { headerData ->
+                val withCategoryIcon =
+                    viewModel.withCategoryIcon.collectAsState(initial = true).value
+                val lazyPagingItems =
+                    viewModel.items.getValue(account).collectAsLazyPagingItems()
+                if (!account.sealed) {
+                    LaunchedEffect(selectAllState.value) {
+                        if (selectAllState.value) {
+                            if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
+                                lazyPagingItems.loadState.append.endOfPaginationReached
+                            ) {
+                                var jndex = 0
+                                while (jndex < lazyPagingItems.itemCount) {
+                                    lazyPagingItems.peek(jndex)?.let {
+                                        viewModel.selectionHandler.select(it)
+                                    }
+                                    jndex++
+                                }
+                            } else {
+                                showSnackBar(
+                                    getString(
+                                        R.string.select_all_list_too_large,
+                                        getString(android.R.string.selectAll)
+                                    )
+                                )
+                            }
+                            selectAllState.value = false
+                        }
+                    }
+                }
+                val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
+                val modificationAllowed = !account.sealed && bulkDeleteState.value !is DeleteProgress
+                TransactionList(
+                    modifier = Modifier.weight(1f),
+                    lazyPagingItems = lazyPagingItems,
+                    headerData = headerData,
+                    budgetData = viewModel.budgetData(account).collectAsState(null),
+                    selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
+                    menuGenerator = remember(modificationAllowed) {
+                        { transaction ->
+                            Menu(
+                                buildList {
+                                    add(MenuEntry(
+                                        icon = Icons.Filled.Loupe,
+                                        label = R.string.details
+                                    ) { showDetails(transaction.id) })
+                                    if (modificationAllowed) {
+                                        if (transaction.crStatus != CrStatus.VOID) {
+                                            add(edit { edit(transaction) })
+                                        }
+                                        add(MenuEntry(
+                                            icon = Icons.Filled.ContentCopy,
+                                            label = R.string.menu_clone_transaction
+                                        ) {
+                                            edit(transaction, true)
+                                        })
+                                        add(delete { delete(listOf(transaction.id to transaction.crStatus)) })
+                                        add(MenuEntry(
+                                            icon = myiconpack.IcActionTemplateAdd,
+                                            label = R.string.menu_create_template_from_transaction
+                                        ) { createTemplate(transaction) })
+                                        if (transaction.crStatus == CrStatus.VOID) {
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.RestoreFromTrash,
+                                                label = R.string.menu_undelete_transaction
+                                            ) { undelete(listOf(transaction.id)) })
+                                        }
+                                        add(
+                                            select {
+                                                viewModel.selectionState.value = listOf(
+                                                    MyExpensesViewModel.SelectionInfo(transaction)
+                                                )
+                                            }
+                                        )
+                                        if (transaction.isSplit) {
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.CallSplit,
+                                                label = R.string.menu_ungroup_split_transaction
+                                            ) { ungroupSplit(transaction) })
+                                        }
+                                        transaction.pictureUri?.let { uri ->
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.Attachment,
+                                                label = R.string.menu_view_picture
+                                            ) {
+                                                imageViewIntentProvider.startViewIntent(
+                                                    this@BaseMyExpenses,
+                                                    uri
+                                                )
+                                            })
+                                        }
+                                    }
+                                }
+                            )
+                        }
+                    },
+                    futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
+                    expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
+                    onBudgetClick = { budgetId, headerId ->
+                        contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
+                    },
+                    showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
+                    scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
+                    renderer = when (viewModel.renderer.collectAsState(initial = RenderType.New).value) {
+                        RenderType.New -> {
+                            NewTransactionRenderer(
+                                dateTimeFormatter(account, prefHandler, this@BaseMyExpenses),
+                                withCategoryIcon,
+                                onToggleCrStatus
+                            )
+                        }
+                        RenderType.Legacy -> {
+                            CompactTransactionRenderer(
+                                dateTimeFormatterLegacy(
+                                    account,
+                                    prefHandler,
+                                    this@BaseMyExpenses
+                                )?.let {
+                                    Pair(
+                                        (it.first as SimpleDateFormat).asDateTimeFormatter,
+                                        with(LocalDensity.current) {
+                                            LocalTextStyle.current.fontSize.toDp()
+                                        } * it.second
+                                    )
+                                },
+                                withCategoryIcon,
+                                onToggleCrStatus
+                            )
+                        }
+                    }
+                )
             }
         }
     }
@@ -1582,7 +1571,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         currentAccount?.let { currentAccount ->
-            @Suppress("NON_EXHAUSTIVE_WHEN")
             when (feature) {
                 ContribFeature.DISTRIBUTION -> {
                     recordUsage(feature)
