@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.provider;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
-import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
@@ -58,7 +57,6 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Grouping;
@@ -523,45 +521,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
         if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
-          String grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE");
           qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
-          projection = new String[]{
-              Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
-              "'" + getWrappedContext().getString(R.string.grand_total) + "' AS " + KEY_LABEL,
-              "'' AS " + KEY_DESCRIPTION,
-              aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, getHomeCurrency())
-                  + ") AS " + KEY_OPENING_BALANCE,
-              "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
-              "-1 AS " + KEY_COLOR,
-              "'" + grouping + "' AS " + KEY_GROUPING,
-              "'DESC' AS " + KEY_SORT_DIRECTION,
-              "null AS " + KEY_TYPE,
-              "-1 AS " + KEY_SORT_KEY,
-              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-              "null AS " + KEY_SYNC_ACCOUNT_NAME,
-              "null AS " + KEY_UUID,
-              "0 AS " + KEY_CRITERION,
-              "max(" + KEY_SEALED + ") AS " + KEY_SEALED};
+          projection = aggregateHomeProjection(projection);
         } else {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
-          String accountSelect = "from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + " AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
-          projection = new String[]{
-              "0 - " + TABLE_CURRENCIES + "." + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-              KEY_CODE + " AS " + KEY_LABEL,
-              "'' AS " + KEY_DESCRIPTION,
-              "(select " + aggregateFunction + "(" + KEY_OPENING_BALANCE
-                  + ") " + accountSelect + ") AS " + KEY_OPENING_BALANCE,
-              KEY_CODE + " AS " + KEY_CURRENCY,
-              "-1 AS " + KEY_COLOR,
-              TABLE_CURRENCIES + "." + KEY_GROUPING,
-              "'DESC' AS " + KEY_SORT_DIRECTION,
-              "null AS " + KEY_TYPE,
-              "-1 AS " + KEY_SORT_KEY,
-              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-              "null AS " + KEY_SYNC_ACCOUNT_NAME,
-              "null AS " + KEY_UUID,
-              "0 AS " + KEY_CRITERION,
-              "(select max(" + KEY_SEALED + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_SEALED};
+          projection = aggregateProjection(projection);
           additionalWhere.append(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(").append(currencyId).append(")");
         }
         break;

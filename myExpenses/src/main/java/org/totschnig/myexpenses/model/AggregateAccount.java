@@ -46,26 +46,6 @@ public class AggregateAccount extends Account {
     }
   }
 
-  public static AggregateAccount getInstanceFromDb(long id) {
-    if (BuildConfig.DEBUG && !(id < 0)) {
-      throw new AssertionError();
-    }
-    Cursor c = cr().query(
-        TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        null, null, null, null);
-    if (c == null) {
-      return null;
-    }
-    if (c.getCount() == 0) {
-      c.close();
-      return null;
-    }
-    c.moveToFirst();
-    AggregateAccount aa = new AggregateAccount(c);
-    c.close();
-    return aa;
-  }
-
   @Override
   public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
     final Uri base = super.getExtendedUriForTransactionList(withType, shortenComment);

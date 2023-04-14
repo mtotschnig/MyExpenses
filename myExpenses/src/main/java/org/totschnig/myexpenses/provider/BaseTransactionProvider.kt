@@ -709,6 +709,40 @@ abstract class BaseTransactionProvider : ContentProvider() {
         Timber.tag(TAG).i(message, *args)
     }
 
+    fun aggregateHomeProjection(columns: Array<String>?) =
+        (columns ?: arrayOf(KEY_LABEL, KEY_OPENING_BALANCE, KEY_CURRENCY, KEY_GROUPING, KEY_SEALED)).map {
+            when(it) {
+                KEY_LABEL -> "'${wrappedContext.getString(R.string.grand_total)}'"
+                KEY_OPENING_BALANCE -> "$aggregateFunction($KEY_OPENING_BALANCE * " +
+                        getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency) +
+                        ")"
+                KEY_CURRENCY -> "'${AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE}'"
+                KEY_GROUPING -> "'${
+                    prefHandler.getString(
+                        AggregateAccount.GROUPING_AGGREGATE,
+                        "NONE"
+                    )
+                }'"
+                KEY_SEALED -> "max($KEY_SEALED)"
+                else -> throw java.lang.IllegalArgumentException("unknown column $it")
+            } + " AS $it"
+        }.toTypedArray()
+
+    fun aggregateProjection(columns: Array<String>?): Array<String> {
+        val accountSelect =
+            "from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE AND $KEY_EXCLUDE_FROM_TOTALS = 0"
+        return (columns ?: arrayOf(KEY_LABEL, KEY_OPENING_BALANCE, KEY_CURRENCY, KEY_GROUPING, KEY_SEALED)).map {
+            when(it) {
+                KEY_LABEL -> KEY_CODE
+                KEY_OPENING_BALANCE -> "(select $aggregateFunction($KEY_OPENING_BALANCE) $accountSelect)"
+                KEY_CURRENCY -> KEY_CODE
+                KEY_GROUPING -> "$TABLE_CURRENCIES.$KEY_GROUPING"
+                KEY_SEALED -> "(select max($KEY_SEALED) from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE)"
+                else -> throw java.lang.IllegalArgumentException("unknown column $it")
+            } + " AS $it"
+        }.toTypedArray()
+    }
+
     fun SupportSQLiteQueryBuilder.measureAndLogQuery(
         uri: Uri,
         db: SupportSQLiteDatabase,

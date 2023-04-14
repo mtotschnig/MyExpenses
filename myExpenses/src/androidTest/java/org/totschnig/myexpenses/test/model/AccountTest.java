@@ -133,22 +133,4 @@ public class AccountTest extends ModelTest {
     assertEquals(openingBalance + transferN - transferP, cursor.getLong(balanceIndex));
     cursor.close();
   }
-
-
-  public void testGetAggregateAccountFromDb() {
-    insertData();
-    String currency = getHomeCurrency().getCode();
-    Cursor c = getMockContentResolver().query(
-        TransactionProvider.CURRENCIES_URI,
-        new String[]{KEY_ROWID},
-        KEY_CODE + " = ?",
-        new String[]{currency},
-        null);
-    c.moveToFirst();
-    long id = -c.getLong(0);
-    c.close();
-    AggregateAccount aa = AggregateAccount.getInstanceFromDb(id);
-    assertEquals(currency, aa.getCurrencyUnit().getCode());
-    assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor());
-  }
 }

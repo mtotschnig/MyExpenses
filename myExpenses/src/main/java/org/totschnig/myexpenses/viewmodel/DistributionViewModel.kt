@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
@@ -19,18 +20,20 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     DistributionViewModelBase<DistributionAccountInfo>(application, savedStateHandle) {
     private fun getGroupingPrefKey(accountId: Long) = stringPreferencesKey("distributionGrouping_$accountId")
     fun initWithAccount(accountId: Long, defaultGrouping: Grouping) {
+        val isAggregate = accountId < 0
         val base =
-            if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
+            if (isAggregate) TransactionProvider.ACCOUNTS_AGGREGATE_URI else TransactionProvider.ACCOUNTS_URI
+        val projection = if (isAggregate) arrayOf(KEY_LABEL, KEY_CURRENCY) else arrayOf(KEY_LABEL, KEY_CURRENCY, KEY_COLOR)
         viewModelScope.launch(coroutineContext()) {
             contentResolver.query(ContentUris.withAppendedId(base, accountId),
-            arrayOf(KEY_ROWID, KEY_LABEL, KEY_CURRENCY, KEY_COLOR), null, null, null)?.use {
+            projection, null, null, null)?.use {
                 it.moveToFirst()
                 _accountInfo.tryEmit(object: DistributionAccountInfo {
-                    val label = it.getString(1)
-                    override val accountId = it.getLong(0)
+                    val label = it.getString(0)
+                    override val accountId = accountId
                     override fun label(context: Context) = label
-                    override val currency = currencyContext.get(it.getString(2))
-                    override val color = it.getInt(3)
+                    override val currency = currencyContext.get(it.getString(1))
+                    override val color = if (isAggregate) -1 else it.getInt(2)
                 })
             }
         }

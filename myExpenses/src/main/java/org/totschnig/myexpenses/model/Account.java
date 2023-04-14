@@ -161,8 +161,7 @@ public class Account extends Model implements DistributionAccountInfo {
   @WorkerThread
   @Deprecated
   public static Account getInstanceFromDb(long id) {
-    if (id < 0)
-      return AggregateAccount.getInstanceFromDb(id);
+    if (id < 0) throw new IllegalArgumentException();
     Account account;
     String selection = TABLE_ACCOUNTS + "." + KEY_ROWID + " = ";
     if (id == 0) {

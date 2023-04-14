@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
@@ -12,6 +13,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getEnum
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
@@ -80,8 +85,15 @@ fun Repository.loadAggregateAccount(accountId: Long): Account? {
     return contentResolver.query(
         ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_AGGREGATE_URI, accountId),
         null, null, null, null
-    )!!.use {
-        if (it.moveToFirst()) Account.fromCursor(it) else null
+    )?.use {
+        if (it.moveToFirst()) Account(
+            id = accountId,
+            label = it.getString(KEY_LABEL),
+            currency = it.getString(KEY_CURRENCY),
+            openingBalance = it.getLong(KEY_OPENING_BALANCE),
+            grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
+            isSealed = it.getBoolean(KEY_SEALED)
+        ) else null
     }
 }
 

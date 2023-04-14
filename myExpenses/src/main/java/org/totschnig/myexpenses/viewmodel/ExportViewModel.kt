@@ -26,6 +26,11 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
@@ -37,6 +42,7 @@ import org.totschnig.myexpenses.util.io.displayName
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 class ExportViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     companion object {
@@ -71,8 +77,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val dateFormat = args.getString(KEY_DATE_FORMAT)!!
                     val timeFormat = args.getString(KEY_TIME_FORMAT)
                     val decimalSeparator: Char = args.getChar(KEY_DECIMAL_SEPARATOR)
-                    val accountId = args.getLong(DatabaseConstants.KEY_ROWID)
-                    val currency = args.getString(DatabaseConstants.KEY_CURRENCY)
+                    val accountId = args.getLong(KEY_ROWID)
+                    val currency = args.getString(KEY_CURRENCY)
                     val encoding = args.getString(KEY_ENCODING)!!
                     val handleDelete = args.getInt(KEY_EXPORT_HANDLE_DELETED)
                     val filter =
@@ -86,17 +92,17 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                         var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
                         var selectionArgs: Array<String>? = null
                         if (currency != null && currency != AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE) {
-                            selection += " AND ${DatabaseConstants.KEY_CURRENCY} = ?"
+                            selection += " AND $KEY_CURRENCY = ?"
                             selectionArgs = arrayOf(currency)
                         }
                         application.contentResolver.query(
                             TransactionProvider.ACCOUNTS_URI,
-                            arrayOf(DatabaseConstants.KEY_ROWID),
+                            arrayOf(KEY_ROWID),
                             selection,
                             selectionArgs,
                             null
                         )?.use {
-                            DbUtils.getLongArrayFromCursor(it, DatabaseConstants.KEY_ROWID)
+                            DbUtils.getLongArrayFromCursor(it, KEY_ROWID)
                         } ?: throw IOException("Cursor was null")
                     }
                     var account: Account?
@@ -216,7 +222,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             reset(a, filter, handleDelete, fileName)
                                         }
                                     } else {
-                                        repository.markAsExported(a.id!!, filter)
+                                        repository.markAsExported(a.id, filter)
                                     }
                                 } catch (e: Exception) {
                                     publishProgress("ERROR: " + e.message)
@@ -257,10 +263,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
             if (accountId != HOME_AGGREGATE_ID) {
                 if (accountId < 0L) {
                     //aggregate account
-                    val aa = AggregateAccount.getInstanceFromDb(accountId)
-                    "${DatabaseConstants.KEY_ACCOUNTID} IN (SELECT ${DatabaseConstants.KEY_ROWID} FROM ${DatabaseConstants.TABLE_ACCOUNTS} WHERE ${DatabaseConstants.KEY_CURRENCY} = ?)" to arrayOf(
-                        aa.currencyUnit.code
-                    )
+                    "${DatabaseConstants.KEY_ACCOUNTID} IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE $KEY_ROWID = ?))" to
+                            arrayOf(abs(accountId).toString())
                 } else {
                     DatabaseConstants.KEY_ACCOUNTID + " = ?" to arrayOf(accountId.toString())
                 }
