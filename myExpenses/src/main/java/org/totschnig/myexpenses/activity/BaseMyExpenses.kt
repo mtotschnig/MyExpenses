@@ -216,7 +216,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ): Boolean {
                     if (!currentAccount!!.sealed) {
                         menuInflater.inflate(R.menu.transactionlist_context, menu)
-                        resources.configuration.screenWidthDp
                         if (resources.getBoolean(R.bool.showTransactionBulkActions)) {
                             listOf(
                                 R.id.DELETE_COMMAND,
