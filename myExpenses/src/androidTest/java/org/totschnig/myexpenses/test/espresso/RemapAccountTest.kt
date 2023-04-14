@@ -62,7 +62,7 @@ class RemapAccountTest : BaseMyExpensesTest() {
                 ViewMatchers.withId(android.R.id.button1), withText(android.R.string.ok),
                 childAtPosition(
                     childAtPosition(
-                        ViewMatchers.withId(R.id.buttonPanel),
+                        ViewMatchers.withId(androidx.appcompat.R.id.buttonPanel),
                         0
                     ),
                     3
@@ -74,7 +74,7 @@ class RemapAccountTest : BaseMyExpensesTest() {
                 ViewMatchers.withId(android.R.id.button1), withText(R.string.menu_remap),
                 childAtPosition(
                     childAtPosition(
-                        ViewMatchers.withId(R.id.buttonPanel),
+                        ViewMatchers.withId(androidx.appcompat.R.id.buttonPanel),
                         0
                     ),
                     3

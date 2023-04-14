@@ -32,7 +32,7 @@ class ManagePartiesTest {
         onView(withId(R.id.list))
             .check(ViewAssertions.matches(ViewMatchers.hasChildCount(2)))
         clickMenu(R.id.SEARCH_COMMAND)
-        onView(withId(R.id.search_src_text)).perform(typeText("John"))
+        onView(withId(androidx.appcompat.R.id.search_src_text)).perform(typeText("John"))
         onView(withId(R.id.list))
             .check(ViewAssertions.matches(ViewMatchers.hasChildCount(1)))
     }

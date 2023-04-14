@@ -33,7 +33,7 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
         commentIsDisplayed(comment2, 1)
         Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withText(R.string.comment)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.editText))
+        Espresso.onView(ViewMatchers.withId(eltos.simpledialogfragment.R.id.editText))
             .perform(ViewActions.typeText(comment1), ViewActions.closeSoftKeyboard())
         Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
         assertListSize(1)

@@ -100,7 +100,7 @@ class OcrHandlerImplTest(private val country: String?, private val expectedLangu
             arrayOf("CH", "de"),
             arrayOf("UY", "es"),
             arrayOf("GR", "el"),
-            arrayOf("IL", "iw"),
+            arrayOf("IL", "he"),
             arrayOf("ZA", "en"),
             arrayOf("TH", "th"),
             arrayOf("FR", "fr"),
@@ -134,7 +134,7 @@ class OcrHandlerImplTest(private val country: String?, private val expectedLangu
             arrayOf("BY", "be"),
             arrayOf("SI", "sl"),
             arrayOf("PE", "es"),
-            arrayOf("ID", "in"),
+            arrayOf("ID", "id"),
             arrayOf("GB", "en")
         )
     }

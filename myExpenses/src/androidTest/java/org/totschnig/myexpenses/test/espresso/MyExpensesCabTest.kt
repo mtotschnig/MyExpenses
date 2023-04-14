@@ -144,7 +144,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     fun cabIsRestoredAfterOrientationChange() {
         openCab(null)
         rotate()
-        onView(withId(R.id.action_mode_bar)).check(matches(isDisplayed()))
+        onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -153,7 +153,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             it.viewModel.setSealed(account.id, true)
         }
         openCab(null)
-        onView(withId(R.id.action_mode_bar)).check(doesNotExist())
+        onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(doesNotExist())
         //context menu should only have the details entry
         composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).assert(hasChildCount(1))
     }

@@ -9,7 +9,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers.containsString
 import org.junit.Before
 import org.junit.Test
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -33,7 +32,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
     @Test
     fun testSelectedSum() {
         runTheTest()
-        clickMenuItem(R.id.action_mode_close_button)
+        clickMenuItem(androidx.appcompat.R.id.action_mode_close_button)
         runTheTest()
     }
 
@@ -48,7 +47,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
     }
 
     private fun testTitle(sum: Int) {
-        Espresso.onView(withId(R.id.action_bar_title))
+        Espresso.onView(withId(androidx.appcompat.R.id.action_bar_title))
             .check(matches(withText(containsString(String.format("%.2f", sum.toFloat())))))
     }
 
