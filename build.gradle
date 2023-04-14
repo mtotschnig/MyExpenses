@@ -3,7 +3,7 @@ buildscript {
     ext {
         compose_compiler_version = '1.4.4'
         kotlin_version = '1.8.10'
-        agp_version = '7.4.2'
+        agp_version = '8.0.0'
     }
 }
 plugins {
@@ -57,3 +57,4 @@ ext {
     requery = "3.36.0"
     androidxSqlite = "2.3.1"
 }
+

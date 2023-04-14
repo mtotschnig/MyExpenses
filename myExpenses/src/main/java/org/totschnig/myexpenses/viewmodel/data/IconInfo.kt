@@ -18,7 +18,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 sealed interface IIconInfo {
     val label: Int
-    fun asDrawable(context: Context, @AttrRes colorAttr: Int = R.attr.colorOnSurface): Drawable?
+    fun asDrawable(context: Context, @AttrRes colorAttr: Int = com.google.android.material.R.attr.colorOnSurface): Drawable?
 
     companion object {
         fun resolveIcon(icon: String): IIconInfo? =

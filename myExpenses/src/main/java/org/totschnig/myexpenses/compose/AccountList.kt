@@ -97,7 +97,7 @@ fun AccountList(
 
 @Composable
 private fun Header(header: String, onHeaderClick: () -> Unit) {
-    Divider(color = colorResource(id = R.color.material_grey_300), thickness = 2.dp)
+    Divider(color = colorResource(id = androidx.appcompat.R.color.material_grey_300), thickness = 2.dp)
     Text(
         modifier = Modifier
             .fillMaxWidth()

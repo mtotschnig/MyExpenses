@@ -790,7 +790,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     override fun inflateContextualActionBar(menu: Menu, listId: Int) {
         if (listId == R.id.list) {
             super.inflateContextualActionBar(menu, listId)
-        } else if (listId == R.id.calendar_gridview) {
+        } else if (listId == com.caldroid.R.id.calendar_gridview) {
             requireActivity().menuInflater.inflate(R.menu.planlist_context, menu)
         }
     }

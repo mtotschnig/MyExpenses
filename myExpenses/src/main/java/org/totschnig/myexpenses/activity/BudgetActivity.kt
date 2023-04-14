@@ -105,7 +105,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                         hasRollovers = category.hasRolloverNext
                         Column {
                             AndroidView(
-                                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin)),
+                                modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
                                 factory = { ChipGroup(it) },
                                 update = { chipGroup ->
                                     chipGroup.addChipsBulk(buildList {

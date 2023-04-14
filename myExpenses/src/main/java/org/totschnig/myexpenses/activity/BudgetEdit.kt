@@ -378,7 +378,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, android.R.layout.simple_spinner_item, android.R.id.text1, Grouping.values()) {
 
     init {
-        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

@@ -163,7 +163,7 @@ abstract class MainDelegate<T : ITransaction>(
     private fun createPayeeAdapter(withAutoFill: Boolean) {
         payeeAdapter = SimpleCursorAdapter(
             context,
-            R.layout.support_simple_spinner_dropdown_item,
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
             null,
             arrayOf(KEY_PAYEE_NAME),
             intArrayOf(android.R.id.text1),

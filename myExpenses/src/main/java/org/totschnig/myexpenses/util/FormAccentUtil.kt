@@ -10,7 +10,6 @@ import android.widget.Spinner
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import org.totschnig.myexpenses.R
 
 fun linkInputsWithLabels(table: TableLayout) {
     val listener = OnFocusChangeListener { v: View, hasFocus: Boolean ->
@@ -30,7 +29,7 @@ fun readPrimaryTextColor(context: Context) = readThemeColor(context, android.R.a
 
 fun readSecondaryTextColor(context: Context) = readThemeColor(context, android.R.attr.textColorSecondary)
 
-fun readAccentColor(context: Context) = readThemeColor(context, R.attr.colorAccent)
+fun readAccentColor(context: Context) = readThemeColor(context, androidx.appcompat.R.attr.colorAccent)
 
 fun readThemeColor(context: Context, attr: Int): Int {
     val typedValue = TypedValue()

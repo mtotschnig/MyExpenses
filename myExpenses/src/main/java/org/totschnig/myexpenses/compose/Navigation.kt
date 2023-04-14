@@ -108,7 +108,7 @@ fun OverFlowMenu(
             onClick = { showMenu.value = true }) {
             Icon(
                 Icons.Filled.MoreVert,
-                stringResource(id = R.string.abc_action_menu_overflow_description)
+                stringResource(id = androidx.appcompat.R.string.abc_action_menu_overflow_description)
             )
         }
         HierarchicalMenu(expanded = showMenu, menu = menu)

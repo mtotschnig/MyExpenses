@@ -52,7 +52,7 @@ public class DateFilterDialog extends BaseDialogFragment implements OnClickListe
       }
     });
     ((ArrayAdapter) mOperatorSpinner.getAdapter())
-        .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        .setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
 
     mDate1 = dialogView.findViewById(R.id.date1);
     mDate2 = dialogView.findViewById(R.id.date2);

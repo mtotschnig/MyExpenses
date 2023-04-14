@@ -11,7 +11,7 @@ class  IdAdapter<T: IdHolder>(context: Context, objects: List<T>): ArrayAdapter<
     constructor(context: Context) : this(context, mutableListOf())
 
     init {
-        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
 
     override fun hasStableIds() = true

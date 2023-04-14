@@ -43,7 +43,7 @@ class ExtendProLicenceDialogFragment : DialogFragment(), DialogInterface.OnClick
         val proPackages = licenceHandler.proPackages.map(licenceHandler::getExtendOrSwitchMessage)
         val adapter = MaterialSpinnerAdapter(
                 requireContext(),
-                R.layout.support_simple_spinner_dropdown_item,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 proPackages)
         binding.actSelectLicence.setAdapter(adapter)
         binding.actSelectLicence.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> selectedIndex = position }

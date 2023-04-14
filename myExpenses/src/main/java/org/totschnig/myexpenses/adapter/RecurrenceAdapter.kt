@@ -35,6 +35,6 @@ class RecurrenceAdapter(context: Context?) : ArrayAdapter<Recurrence?>(context!!
     }
 
     init {
-        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
 }

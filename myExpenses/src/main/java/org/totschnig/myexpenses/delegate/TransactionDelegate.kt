@@ -564,7 +564,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
         operationTypeAdapter =
             ArrayAdapter<OperationType>(context, android.R.layout.simple_spinner_item, objects)
-        operationTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        operationTypeAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         operationTypeSpinner.adapter = operationTypeAdapter
         resetOperationType()
         operationTypeSpinner.setOnItemSelectedListener(this)
@@ -588,7 +588,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     return getItem(position)?.id() ?: 0L
                 }
             }
-        methodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        methodsAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         methodSpinner.adapter = NothingSelectedSpinnerAdapter(
             methodsAdapter,
             android.R.layout.simple_spinner_item,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
@@ -945,7 +945,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         mAccounts.clear()
         mAccounts.addAll(data)
         accountSpinner.adapter = IdAdapter(context, data).apply {
-            setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+            setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         }
 
         viewBinding.Amount.setTypeEnabled(true)

@@ -94,7 +94,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         val a = requireActivity().obtainStyledAttributes(typedValue.data, textSizeAttr)
         valueTextSize = a.getDimensionPixelSize(indexOfAttrTextSize, 10) / resources.displayMetrics.density
         a.recycle()
-        textColor = UiUtils.getColor(requireContext(), R.attr.colorOnSurface)
+        textColor = UiUtils.getColor(requireContext(), com.google.android.material.R.attr.colorOnSurface)
         lifecycleScope.launchWhenStarted {
             viewModel.grouping.collect {
                 requireActivity().invalidateOptionsMenu()

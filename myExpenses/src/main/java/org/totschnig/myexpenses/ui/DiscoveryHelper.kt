@@ -60,7 +60,7 @@ class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
         TapTargetView.showFor(context,
                 TapTarget.forView(target, feature.toTitle(context), feature.toDescription(context))
                         .transparentTarget(true)
-                        .outerCircleColorInt(UiUtils.getColor(context, R.attr.colorAccent))
+                        .outerCircleColorInt(UiUtils.getColor(context, androidx.appcompat.R.attr.colorAccent))
                         .apply {
                             targetRadius?.let { this.targetRadius(it) }
                         },

@@ -122,7 +122,7 @@ class CsvImportDataFragment : Fragment() {
                 return tv
             }
         }.also {
-            it.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+            it.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         }
         _binding = ImportCsvDataBinding.inflate(inflater, container, false)
 

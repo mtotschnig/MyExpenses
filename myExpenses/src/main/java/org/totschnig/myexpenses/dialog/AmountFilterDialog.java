@@ -62,7 +62,7 @@ public class AmountFilterDialog extends BaseDialogFragment implements OnClickLis
       }
     });
     ((ArrayAdapter) mOperatorSpinner.getAdapter())
-        .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        .setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
     int fractionDigits = ((CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY)).getFractionDigits();
     mAmount1Text.setFractionDigits(fractionDigits);
     mAmount2Text.setFractionDigits(fractionDigits);

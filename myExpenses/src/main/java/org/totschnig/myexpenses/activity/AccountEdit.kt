@@ -209,7 +209,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             this, android.R.layout.simple_spinner_item,
             ArrayUtils.insert(0, getAccountNames(this), getString(R.string.synchronization_none))
         )
-        syncBackendAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        syncBackendAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         syncSpinner.adapter = syncBackendAdapter
         if (syncAccountName != null) {
             val position = syncBackendAdapter.getPosition(syncAccountName)

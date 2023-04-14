@@ -20,7 +20,7 @@ fun Spinner.configureDateFormat(
     adapter = ArrayAdapter(
         context, android.R.layout.simple_spinner_item, QifDateFormat.values()
     ).apply {
-        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
     setSelection(
         enumValueOrDefault(

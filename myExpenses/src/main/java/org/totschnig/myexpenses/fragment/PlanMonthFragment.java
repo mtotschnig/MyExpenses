@@ -110,7 +110,7 @@ public class PlanMonthFragment extends CaldroidFragment
   private void setupStateListDrawable() {
     int accountColor = requireArguments().getInt(DatabaseConstants.KEY_COLOR);
     stateListDrawable = new StateListDrawable();
-    final int surfaceColor = UiUtils.getColor(requireContext(), R.attr.colorSurface);
+    final int surfaceColor = UiUtils.getColor(requireContext(), com.google.android.material.R.attr.colorSurface);
     int todayDrawableResId = R.drawable.red_border;
     GradientDrawable today = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
     GradientDrawable todaySelected = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
@@ -119,16 +119,16 @@ public class PlanMonthFragment extends CaldroidFragment
     stateListDrawable.addState(new int[]{android.R.attr.state_activated},
         new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.appDefault, null)));
     stateListDrawable.addState(
-        new int[]{R.attr.state_date_selected, R.attr.state_date_today},
+        new int[]{com.caldroid.R.attr.state_date_selected, com.caldroid.R.attr.state_date_today},
         todaySelected);
     stateListDrawable.addState(
-        new int[]{R.attr.state_date_selected},
+        new int[]{com.caldroid.R.attr.state_date_selected},
         new ColorDrawable(accountColor));
     stateListDrawable.addState(
-        new int[]{R.attr.state_date_today},
+        new int[]{com.caldroid.R.attr.state_date_today},
         today);
     stateListDrawable.addState(
-        new int[]{R.attr.state_date_prev_next_month},
+        new int[]{com.caldroid.R.attr.state_date_prev_next_month},
         new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.caldroid_state_date_prev_next_month, null)));
     stateListDrawable.addState(
         new int[]{},
@@ -143,7 +143,7 @@ public class PlanMonthFragment extends CaldroidFragment
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     mManager = LoaderManager.getInstance(this);
     View view = super.onCreateView(inflater, container, savedInstanceState);
-    Toolbar toolbar = view.findViewById(R.id.calendar_toolbar);
+    Toolbar toolbar = view.findViewById(com.caldroid.R.id.calendar_toolbar);
     toolbar.setOnMenuItemClickListener(item -> {
       ((ProtectedFragmentActivity) requireActivity()).dispatchCommand(item.getItemId(),
           ManageTemplates.HelpVariant.plans.name());
@@ -309,7 +309,7 @@ public class PlanMonthFragment extends CaldroidFragment
         }
 
         cell.setTextColor(ResourcesCompat.getColor(getResources(),
-            brightColor ? R.color.cell_text_color : R.color.cell_text_color_dark, null));
+            brightColor ? com.caldroid.R.color.cell_text_color : com.caldroid.R.color.cell_text_color_dark, null));
         if (!readOnly) {
           final TemplatesList templatesList = (TemplatesList) requireParentFragment();
           final long instanceId = getPlanInstanceForPosition(position);

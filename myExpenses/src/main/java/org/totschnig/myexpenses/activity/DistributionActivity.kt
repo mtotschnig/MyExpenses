@@ -398,7 +398,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 color = MaterialTheme.colors.onSurface,
                 thickness = 1.dp
             )
-            Row(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))) {
+            Row(modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))) {
                 CompositionLocalProvider(
                     LocalTextStyle provides TextStyle(
                         fontWeight = FontWeight.Bold,

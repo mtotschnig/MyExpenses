@@ -53,7 +53,7 @@ fun Budget(
         modifier = modifier.conditionalComposed(category.level == 0) {
             conditionalComposed(narrowScreen) {
                 horizontalScroll(rememberScrollState())
-            }.padding(horizontal = dimensionResource(id = R.dimen.activity_horizontal_margin))
+            }.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
         }
     ) {
         val doEdit = { onBudgetEdit(category, parent) }

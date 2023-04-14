@@ -46,14 +46,10 @@ android {
         resourceConfigurations = [ 'en', 'en-rGB', 'ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'es', 'eu', 'fr', 'hr', 'hu', 'it', 'iw', 'ja', 'km', 'kn', 'ko', 'ms', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'si', 'ta', 'te', 'tr', 'uk', 'ur', 'vi', 'zh-rCN', 'zh-rHK', 'zh-rTW' ]
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     /*signingConfigs {

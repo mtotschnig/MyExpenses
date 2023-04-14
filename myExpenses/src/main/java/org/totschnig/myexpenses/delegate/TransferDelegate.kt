@@ -178,7 +178,7 @@ class TransferDelegate(
     private fun requireTransferAccountsAdapter() {
         if (!::transferAccountsAdapter.isInitialized) {
             transferAccountsAdapter = IdAdapter(context)
-            transferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+            transferAccountsAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
             transferAccountSpinner.adapter = transferAccountsAdapter
             transferAccountSpinner.setOnItemSelectedListener(this)
         }
