@@ -185,7 +185,6 @@ dependencies {
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
-    compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
     implementation 'com.google.code.gson:gson:2.10.1'

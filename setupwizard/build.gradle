@@ -7,4 +7,5 @@ android {
         minSdkVersion project.minSdkVersion
         vectorDrawables.useSupportLibrary = true
     }
+    namespace "com.android.setupwizardlib"
 }

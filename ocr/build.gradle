@@ -45,7 +45,6 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
-    compileOnly 'javax.annotation:jsr250-api:1.0'
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"

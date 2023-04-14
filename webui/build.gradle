@@ -37,7 +37,6 @@ dependencies {
     implementation "org.apache.commons:commons-text:$commonsText"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
-    compileOnly 'javax.annotation:jsr250-api:1.0'
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
