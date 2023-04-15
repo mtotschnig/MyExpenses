@@ -50,11 +50,9 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
-import javax.inject.Inject
 
 open class MyExpensesViewModel(
     application: Application,
@@ -183,6 +181,44 @@ open class MyExpensesViewModel(
             .flow.cachedIn(viewModelScope)
     }
 
+    private val sums: Map<PageAccount, Flow<SumInfo>> = lazyMap { account ->
+        val (selection, selectionArgs) = account.selectionInfo
+        contentResolver.observeQuery(
+            uri = TRANSACTIONS_URI.buildUpon()
+                .appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
+                .build(),
+            selection = selection,
+            selectionArgs = selectionArgs
+        ).mapToOne {
+            SumInfoLoaded.fromCursor(it)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, SumInfoUnknown)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val headerData: Map<PageAccount, Flow<HeaderData?>> = lazyMap { account ->
+        filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
+            val groupingQuery = account.groupingQuery(filter)
+            contentResolver.observeQuery(
+                uri = groupingQuery.first,
+                selection = groupingQuery.second,
+                selectionArgs = groupingQuery.third
+            ).map { query ->
+                withContext(Dispatchers.IO) {
+                    try {
+                        query.run()
+                    } catch (e: SQLiteException) {
+                        CrashHandler.report(e)
+                        null
+                    }?.use { cursor ->
+                        HeaderData.fromSequence(account, cursor.asSequence)
+                    } ?: emptyMap()
+                }
+            }.combine(dateInfo) { headerData, dateInfo ->
+                HeaderData(account, headerData, dateInfo, !filter.isEmpty)
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+    }
+
     private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2>> = lazyMap {
         ClearingLastPagingSourceFactory {
             buildTransactionPagingSource(it)
@@ -234,30 +270,7 @@ open class MyExpensesViewModel(
         .map { result -> result.map { it.second } }
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun headerData(account: PageAccount): Flow<HeaderData> =
-        filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
-            val groupingQuery = account.groupingQuery(filter)
-            contentResolver.observeQuery(
-                uri = groupingQuery.first,
-                selection = groupingQuery.second,
-                selectionArgs = groupingQuery.third
-            ).map { query ->
-                withContext(Dispatchers.IO) {
-                    try {
-                        query.run()
-                    } catch (e: SQLiteException) {
-                        CrashHandler.report(e)
-                        null
-                    }?.use { cursor ->
-                        HeaderData.fromSequence(account, cursor.asSequence)
-                    } ?: emptyMap()
-                }
-            }.combine(dateInfo) { headerData, dateInfo ->
-                HeaderData(account, headerData, dateInfo, !filter.isEmpty)
-            }
-        }
-
+    fun headerData(account: PageAccount) = headerData.getValue(account)
 
     fun budgetData(account: PageAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
@@ -286,18 +299,7 @@ open class MyExpensesViewModel(
                 }
         } else emptyFlow()
 
-    fun sumInfo(account: FullAccount): Flow<SumInfo> {
-        val (selection, selectionArgs) = account.selectionInfo
-        return contentResolver.observeQuery(
-            uri = TRANSACTIONS_URI.buildUpon()
-                .appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
-                .build(),
-            selection = selection,
-            selectionArgs = selectionArgs
-        ).mapToOne {
-            SumInfoLoaded.fromCursor(it)
-        }
-    }
+    fun sumInfo(account: PageAccount)= sums.getValue(account)
 
     fun persistGrouping(accountId: Long, grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
