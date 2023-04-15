@@ -660,7 +660,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             setCurrentAccount()?.let { account ->
                 finishActionMode()
                 sumInfo = SumInfoUnknown
-                viewModel.sumInfo(account).collect {
+                viewModel.sumInfo(account.toPageAccount).collect {
                     sumInfo = it
                 }
             }
@@ -674,7 +674,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     if (accountData.isNotEmpty()) {
                         currentAccount?.let {
                             lifecycleScope.launch {
-                                viewModel.sumInfo(it).collect {
+                                viewModel.sumInfo(it.toPageAccount).collect {
                                     sumInfo = it
                                 }
                             }
