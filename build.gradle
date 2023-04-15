@@ -35,7 +35,7 @@ ext {
     fragmentVersion = "1.5.6"
     coroutines = '1.6.4'
     mockitoVersion = '4.9.0'
-    retrofitVersion = "2.9.0"
+    retrofitVersion = "2.10.0-SNAPSHOT"
     ktxVersion = "1.10.0"
     appcompatVersion = "1.6.1"
     picassoVersion = "2.8"
