@@ -79,7 +79,7 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
         var backupFileName = backupFile.name
         if (backupFileName == null) {
             CrashHandler.report(Exception("Could not get name from uri ${backupFile.uri}"))
-            backupFileName = "backup-" + SimpleDateFormat("yyyMMdd", Locale.US)
+            backupFileName = "MyExpenses-backup-" + SimpleDateFormat("yyyMMdd", Locale.US)
                 .format(Date())
         }
         DbUtils.storeSetting(
