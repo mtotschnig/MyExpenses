@@ -788,7 +788,7 @@
     <string name="pref_category_exchange_rates">Tassi di cambio</string>
     <string name="pref_exchange_rate_provider_summary">Seleziona il fornitore da cui scaricare i tassi di cambio</string>
     <string name="pref_exchange_rate_provider_title">Fornitore dei Tassi di Cambio</string>
-    <string name="pref_openexchangerates_app_id_summary">Registra un account gratuito su OpenExchangeRates e riporta qui il tuo App ID</string>
+    <string name="pref_openexchangerates_app_id_summary">Registra un account gratuito su %s e riporta qui il tuo App ID</string>
     <string name="pref_plan_executor_time_title">Ora di notifica del pianificatore</string>
     <string name="synchronization_select_folder_dialog_title">Seleziona una cartella esistente o creane una nuova</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

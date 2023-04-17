@@ -779,7 +779,7 @@
     <string name="pref_category_exchange_rates">匯率</string>
     <string name="pref_exchange_rate_provider_summary">選擇用來下載匯率資料的提供者</string>
     <string name="pref_exchange_rate_provider_title">匯率提供者</string>
-    <string name="pref_openexchangerates_app_id_summary">請在 OpenExchangeRates 註冊免費帳號後，把 App ID 填到這邊</string>
+    <string name="pref_openexchangerates_app_id_summary">請在 %s 註冊免費帳號後，把 App ID 填到這邊</string>
     <string name="pref_plan_executor_time_title">規劃日曆通知時間</string>
     <string name="synchronization_select_folder_dialog_title">請選擇一個現有檔案夾或新建一個檔案夾</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

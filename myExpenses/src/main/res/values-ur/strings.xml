@@ -558,7 +558,7 @@
     <string name="pref_category_exchange_rates">شرح مبادلہ</string>
     <string name="pref_exchange_rate_provider_summary">ایکسچینج ریٹ ڈاؤن لوڈ کرنے کے لیے فراہم کنندہ کو منتخب کریں</string>
     <string name="pref_exchange_rate_provider_title">ایکسچینج ریٹ فراہم کرنے والا</string>
-    <string name="pref_openexchangerates_app_id_summary">براہ کرم OpenExchangeRates پر ایک مفت اکاؤنٹ رجسٹر کریں اور اپنی App ID فراہم کریں</string>
+    <string name="pref_openexchangerates_app_id_summary">براہ کرم %s پر ایک مفت اکاؤنٹ رجسٹر کریں اور اپنی App ID فراہم کریں</string>
     <string name="pref_plan_executor_time_title">منصوبہ ساز کی اطلاع کا وقت</string>
     <string name="synchronization_select_folder_dialog_title">ایک موجودہ فولڈر منتخب کریں یا نیا بنائیں</string>
     <string name="budget_onetime">ایک بار</string>

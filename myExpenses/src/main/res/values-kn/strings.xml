@@ -784,7 +784,6 @@
     <string name="pref_category_exchange_rates">ವಿನಿಮಯ ದರಗಳು</string>
     <string name="pref_exchange_rate_provider_summary">ವಿನಿಮಯ ದರಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಒದಗಿಸುವವರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="pref_exchange_rate_provider_title">ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು</string>
-    <string name="pref_openexchangerates_app_id_summary">ದಯವಿಟ್ಟು ಓಪನ್ ಎಕ್ಸ್ಚೇಂಜ್ ದರಗಳಲ್ಲಿ ಉಚಿತ ಖಾತೆಯನ್ನು ನೋಂದಾಯಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಅಪ್ಲಿಕೇಶನ್ ಐಡಿ ಒದಗಿಸಿ</string>
     <string name="pref_plan_executor_time_title">ಯೋಜಕರ ಅಧಿಸೂಚನೆ ಸಮಯ</string>
     <string name="synchronization_select_folder_dialog_title">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹೊಸದನ್ನು ರಚಿಸಿ</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

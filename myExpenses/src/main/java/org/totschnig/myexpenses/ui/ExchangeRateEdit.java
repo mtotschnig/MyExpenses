@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.databinding.ExchangeRateBinding;
 import org.totschnig.myexpenses.databinding.ExchangeRatesBinding;
 import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.retrofit.MissingAppIdException;
+import org.totschnig.myexpenses.retrofit.MissingApiKeyException;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 
@@ -81,10 +81,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
     final LifecycleOwner lifecycleOwner = findLifecycleOwner(context);
     if (lifecycleOwner != null) {
       viewModel.getData().observe(lifecycleOwner, result -> rate2Edit.setAmount(BigDecimal.valueOf(result)));
-    viewModel.getError().observe(lifecycleOwner, exception -> complain(exception instanceof UnsupportedOperationException ? getContext().getString(
-        R.string.exchange_rate_not_supported, firstCurrency.getCode(), secondCurrency.getCode()) :
-        (exception instanceof MissingAppIdException ? getContext().getString(R.string.pref_openexchangerates_app_id_summary) :
-            exception.getMessage())));
+      viewModel.getError().observe(lifecycleOwner, this::complain);
     } else {
       CrashHandler.report(new Exception("No LifecycleOwner found"));
     }

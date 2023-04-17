@@ -663,7 +663,7 @@
     <string name="exchange_rate_not_supported">De geconfigureerde wisselkoersprovider biedt niet de koers %1$s : %2$s. U kunt proberen een andere te selecteren in de instellingen.</string>
     <string name="budget_date_end_after_start">De einddatum van het budget moet na de startdatum vallen.</string>
     <string name="pref_exchange_rate_provider_title">Wisselkoers aanbieder</string>
-    <string name="pref_openexchangerates_app_id_summary">Registreer een gratis account op OpenExchangeRates en geef uw App ID op</string>
+    <string name="pref_openexchangerates_app_id_summary">Registreer een gratis account op %s en geef uw App ID op</string>
     <string name="budget_only_current_period">Alleen instellen voor %s</string>
     <string name="dialog_title_warning_delete_budget">Budget verwijderen\?</string>
     <string name="onboarding_privacy_intro">Uw financiële gegevens worden niet verzonden naar een server, noch beheerd door ons, noch door een derde partij.</string>

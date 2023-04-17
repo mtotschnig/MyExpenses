@@ -387,12 +387,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.showSnackBar(R.string.app_restart_required)
             }
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                configureOpenExchangeRatesPreference(
-                    sharedPreferences.getString(
-                        key,
-                        ExchangeRateSource.defaultSource.name
-                    )
-                )
+                configureExchangeRatesPreference(ExchangeRateSource.preferredSource(
+                    sharedPreferences.getString(key, null)
+                ))
             }
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
                 currencyFormatter.invalidateAll(requireContext().contentResolver)
@@ -998,12 +995,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 configureUninstallPrefs()
             }
             getKey(PrefKey.EXCHANGE_RATES) -> {
-                configureOpenExchangeRatesPreference(
-                    prefHandler.requireString(
-                        PrefKey.EXCHANGE_RATE_PROVIDER,
-                        ExchangeRateSource.defaultSource.name
-                    )
-                )
+                requirePreference<Preference>(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).summary =
+                    getString(R.string.pref_openexchangerates_app_id_summary, ExchangeRateSource.OpenExchangeRates.host)
+                configureExchangeRatesPreference(ExchangeRateSource.preferredSource(prefHandler))
             }
             getKey(PrefKey.DEBUG_SCREEN) -> {
                 requirePreference<Preference>(PrefKey.CRASHLYTICS_USER_ID).let {
@@ -1049,9 +1043,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return preferenceActivity.getTranslatorsArrayResId(language, country)
     }
 
-    private fun configureOpenExchangeRatesPreference(provider: String?) {
-        requirePreference<Preference>(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).isEnabled =
-            provider == "OPENEXCHANGERATES"
+    private fun configureExchangeRatesPreference(provider: ExchangeRateSource) {
+        with(ExchangeRateSource.OpenExchangeRates) {
+            requirePreference<Preference>(prefKey).isVisible = provider == this
+        }
     }
 
     fun loadAppDirSummary() {

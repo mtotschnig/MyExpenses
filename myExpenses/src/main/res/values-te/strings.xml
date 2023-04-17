@@ -807,7 +807,7 @@
     <string name="discover_feature_expense_income_switch">ఆదాయాన్ని రికార్డ్ చేయడానికి ఈ స్విచ్ బటన్‌ను ఉపయోగించండి.</string>
     <string name="synchronization_select_folder_dialog_title">ఇప్పటికే ఉన్న ఫోల్డర్‌ను ఎంచుకోండి లేదా క్రొత్తదాన్ని సృష్టించండి</string>
     <string name="pref_plan_executor_time_title">ప్లానర్ నోటిఫికేషన్ సమయం</string>
-    <string name="pref_openexchangerates_app_id_summary">దయచేసి OpenExchangeRates లో ఉచిత ఖాతాను నమోదు చేసి, మీ App ID ని అందించండి</string>
+    <string name="pref_openexchangerates_app_id_summary">దయచేసి %s లో ఉచిత ఖాతాను నమోదు చేసి, మీ App ID ని అందించండి</string>
     <string name="pref_exchange_rate_provider_title">మార్పిడి రేటు ప్రొవైడర్</string>
     <string name="pref_exchange_rate_provider_summary">మార్పిడి రేట్లను డౌన్‌లోడ్ చేయడానికి ప్రొవైడర్‌ను ఎంచుకోండి</string>
     <string name="pref_category_exchange_rates">మార్పిడి రేట్లు</string>

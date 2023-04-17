@@ -312,9 +312,8 @@
                 android:summary="@string/pref_exchange_rate_provider_summary"
                 android:title="@string/pref_exchange_rate_provider_title" />
             <EditTextPreference
-                android:enabled="false"
+                my:isPreferenceVisible="false"
                 android:key="@string/pref_openexchangerates_app_id_key"
-                android:summary="@string/pref_openexchangerates_app_id_summary"
                 android:title="OpenExchangeRates App ID" />
             <Preference
                 android:key="@string/pref_exchange_rates_clear_cache_key"

@@ -9,7 +9,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.di.NetworkModule
 import java.time.LocalDate
-import java.util.*
 import javax.net.SocketFactory
 
 class ExchangeRateServiceTest {
@@ -24,15 +23,13 @@ class ExchangeRateServiceTest {
     @Test
     fun openExchangeRateIsAlive() {
         Assume.assumeFalse(BuildConfig.OPEN_EXCHANGE_RATES_API_KEY.isEmpty())
-        val configuration = Configuration(ExchangeRateSource.OPENEXCHANGERATES, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY)
-        val rate = service.getRate(configuration, date, "USD", "EUR")
+        val rate = service.getRate(ExchangeRateSource.OpenExchangeRates, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY, date, "USD", "EUR")
         Truth.assertThat(rate.first).isEqualTo(date)
     }
 
     @Test
     fun exchangeRateHostIsAlive() {
-        val configuration = Configuration(ExchangeRateSource.EXCHANGE_RATE_HOST)
-        val rate = service.getRate(configuration, date, "USD", "EUR")
+        val rate = service.getRate(ExchangeRateSource.ExchangeRateHost, null, date, "USD", "EUR")
         Truth.assertThat(rate.first).isEqualTo(date)
         println(rate.second.toString())
     }

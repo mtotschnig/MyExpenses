@@ -728,7 +728,7 @@
     <string name="roadmap_vote">Votar full de ruta</string>
     <string name="warning_account_for_transaction_is_closed">Com a mínim una de les següents transaccions no pot ser editada:</string>
     <string name="backup_wrong_password">La còpia de seguretat sembla encriptada amb una contrasenya diferent.</string>
-    <string name="pref_openexchangerates_app_id_summary">Siusplau registri un compte gratuït a OpenEchangeRates i proveeixi la seva App ID</string>
+    <string name="pref_openexchangerates_app_id_summary">Siusplau registri un compte gratuït a %s i proveeixi la seva App ID</string>
     <string name="budget_onetime">Un cop</string>
     <string name="content_description_download_exchange_rate">Descarregar tipus de canvi</string>
     <string name="pref_exchange_rate_provider_summary">Seleccioni proveïdor per descarregar tipus de canvi</string>

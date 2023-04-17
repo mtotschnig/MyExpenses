@@ -786,7 +786,7 @@
     <string name="pref_category_exchange_rates">Wechselkurse</string>
     <string name="pref_exchange_rate_provider_summary">Wählen Sie den Anbieter für Wechselkurse aus</string>
     <string name="pref_exchange_rate_provider_title">Anbieter für Wechselkurse</string>
-    <string name="pref_openexchangerates_app_id_summary">Bitte registrieren Sie ein kostenloses Konto bei OpenExchangeRates und geben Sie Ihre App-ID an</string>
+    <string name="pref_openexchangerates_app_id_summary">Bitte registrieren Sie ein kostenloses Konto bei %s und geben Sie Ihre App-ID an</string>
     <string name="pref_plan_executor_time_title">Planer Benachrichtigungszeit</string>
     <string name="synchronization_select_folder_dialog_title">Wählen Sie einen vorhandenen Ordner aus oder erstellen Sie einen neuen</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
