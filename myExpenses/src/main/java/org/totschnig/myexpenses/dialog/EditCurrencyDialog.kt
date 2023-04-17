@@ -108,7 +108,7 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
                 isFocusable = true
                 isFocusableInTouchMode = true
                 isEnabled = true
-                filters = arrayOf(AllCaps(), LengthFilter(3))
+                filters = arrayOf(AllCaps())
             }
         }
         binding.edtCurrencyFractionDigits.setText(currentFractionDigits().toString())

@@ -26,7 +26,8 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
             activity?.let {
                 it.decoratedCheckSealedHandler =
                     DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
-                transactionPagingIdlingResource = (it.viewModel as DecoratingMyExpensesViewModel).countingResource
+                transactionPagingIdlingResource =
+                    (it.viewModel as DecoratingMyExpensesViewModel).countingResource
                 IdlingRegistry.getInstance().register(transactionPagingIdlingResource)
             }
 
@@ -41,18 +42,23 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
     }
 
     fun assertListSize(expectedSize: Int) {
-        composeTestRule.waitUntil {  composeTestRule
-            .onAllNodesWithTag(TEST_TAG_PAGER)
-            .fetchSemanticsNodes().size == 1 }
+        composeTestRule.waitUntil {
+            composeTestRule
+                .onAllNodesWithTag(TEST_TAG_PAGER)
+                .fetchSemanticsNodes().size == 1
+        }
         listNode.assert(hasRowCount(expectedSize))
     }
 
     override val listNode: SemanticsNodeInteraction
-        get() = composeTestRule.onNodeWithTag(TEST_TAG_PAGER).onChildren()
+        get() = composeTestRule.onNodeWithTag(TEST_TAG_PAGER)
+            .onChildren()
+            .onFirst()
+            .onChildren()
             .filter(hasTestTag(TEST_TAG_LIST)).onFirst()
 
     fun openCab(@IdRes command: Int?) {
-        composeTestRule.onNodeWithTag(TEST_TAG_PAGER).onChildren().onFirst().onChildren().onFirst()
+        listNode.onChildren().onFirst()
             .performTouchInput { longClick() }
         command?.let { clickMenuItem(it, true) }
     }
