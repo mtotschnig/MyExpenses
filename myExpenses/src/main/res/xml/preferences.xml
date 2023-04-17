@@ -306,8 +306,6 @@
             android:title="@string/pref_category_exchange_rates">
             <ListPreference
                 android:defaultValue="EXCHANGE_RATE_HOST"
-                android:entries="@array/exchange_rate_provider_entries"
-                android:entryValues="@array/exchange_rate_provider_values"
                 android:key="@string/pref_exchange_rate_provider_key"
                 android:summary="@string/pref_exchange_rate_provider_summary"
                 android:title="@string/pref_exchange_rate_provider_title" />
@@ -315,6 +313,10 @@
                 my:isPreferenceVisible="false"
                 android:key="@string/pref_openexchangerates_app_id_key"
                 android:title="OpenExchangeRates App ID" />
+            <EditTextPreference
+                my:isPreferenceVisible="false"
+                android:key="@string/pref_coin_api_api_key_key"
+                android:title="CoinApi API Key" />
             <Preference
                 android:key="@string/pref_exchange_rates_clear_cache_key"
                 android:title="@string/clear_cache" />

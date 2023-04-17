@@ -78,6 +78,7 @@ android {
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
             buildConfigField "java.time.LocalDateTime", "BUILD_DATE", "java.time.LocalDateTime.now()"
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
+            buildConfigField "String", "COIN_API_API_KEY", "\"" + getPropertyIfDefined('COIN_API_API_KEY', "") + "\""
             buildConfigField "boolean", "BETA", getPropertyIfDefined("BETA", "false")
         }
     }

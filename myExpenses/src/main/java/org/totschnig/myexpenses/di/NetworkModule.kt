@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
+import org.totschnig.myexpenses.retrofit.CoinApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateHost
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.OpenExchangeRates
@@ -101,13 +102,19 @@ open class NetworkModule {
         @JvmStatic
         @Provides
         @Singleton
+        fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory =
+            GsonConverterFactory.create(gson)
+
+        @JvmStatic
+        @Provides
+        @Singleton
         fun provideExchangeRateHost(
             builder: OkHttpClient.Builder,
-            gson: Gson
+            converterFactory: GsonConverterFactory
         ): ExchangeRateHost {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.exchangerate.host/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(converterFactory)
                 .client(builder.build())
                 .build()
             return retrofit.create(ExchangeRateHost::class.java)
@@ -118,23 +125,42 @@ open class NetworkModule {
         @Singleton
         fun provideOpenExchangeRates(
             builder: OkHttpClient.Builder,
-            gson: Gson
+            converterFactory: GsonConverterFactory
         ): OpenExchangeRates {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://openexchangerates.org/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(converterFactory)
                 .client(builder.build())
                 .build()
             return retrofit.create(OpenExchangeRates::class.java)
         }
+
+
+        @JvmStatic
+        @Provides
+        @Singleton
+        fun provideCoinapi(
+            builder: OkHttpClient.Builder,
+            converterFactory: GsonConverterFactory
+        ): CoinApi {
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://rest.coinapi.io/")
+                .addConverterFactory(converterFactory)
+                .client(builder.build())
+                .build()
+            return retrofit.create(CoinApi::class.java)
+        }
+
+
 
         @JvmStatic
         @Provides
         @Singleton
         fun provideExchangeRateService(
             api1: ExchangeRateHost,
-            api2: OpenExchangeRates
-        ) = ExchangeRateService(api1, api2)
+            api2: OpenExchangeRates,
+            api3: CoinApi
+        ) = ExchangeRateService(api1, api2, api3)
 
         @JvmStatic
         @Provides
@@ -150,7 +176,7 @@ open class NetworkModule {
         @JvmStatic
         @Provides
         @Singleton
-        fun provideRoadmapService(builder: OkHttpClient.Builder): RoadmapService {
+        fun provideRoadmapService(builder: OkHttpClient.Builder, converterFactory: GsonConverterFactory): RoadmapService {
             val okHttpClient: OkHttpClient = builder
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
@@ -158,7 +184,7 @@ open class NetworkModule {
                 .build()
             val retrofit = Retrofit.Builder()
                 .baseUrl(ROADMAP_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(converterFactory)
                 .client(okHttpClient)
                 .build()
             return retrofit.create(RoadmapService::class.java)

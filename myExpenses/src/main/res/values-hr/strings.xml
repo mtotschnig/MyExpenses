@@ -769,7 +769,7 @@
     <string name="discover_feature_expense_income_switch">Koristi ovaj gumb za zapisivanje prihoda.</string>
     <string name="synchronization_select_folder_dialog_title">Odaberi postojeću mapu ili stvori novu</string>
     <string name="pref_plan_executor_time_title">Vrijeme obavještavanja planera</string>
-    <string name="pref_openexchangerates_app_id_summary">Registriraj besplatni račun na %s i navedi tvoj ID programa</string>
+    <string name="pref_exchange_rates_api_key_summary">Registriraj besplatni račun na %s i navedi tvoj ID programa</string>
     <string name="pref_exchange_rate_provider_title">Usluga za preuzimanje tečajeva</string>
     <string name="pref_exchange_rate_provider_summary">Odaberi uslugu za preuzimanje tečajeva</string>
     <string name="pref_category_exchange_rates">Tečajevi</string>

@@ -760,7 +760,7 @@
     <string name="pref_category_exchange_rates">Курси валют</string>
     <string name="pref_exchange_rate_provider_summary">Вибрати постачальника курсів валют для завантаження</string>
     <string name="pref_exchange_rate_provider_title">Постачальник курсів валют</string>
-    <string name="pref_openexchangerates_app_id_summary">Будь ласка зареєструйте безкоштовний аккаунт в сервісі %s та введіть ваш App ID</string>
+    <string name="pref_exchange_rates_api_key_summary">Будь ласка зареєструйте безкоштовний аккаунт в сервісі %s та введіть ваш App ID</string>
     <string name="menu_create_budget">Новий бюджет</string>
     <string name="budget_duration_from">З</string>
     <string name="budget_duration_to">До</string>

@@ -22,8 +22,8 @@ interface ExchangeRateHost {
     ): Call<TimeSeriesResult>
 
     @Keep
-    data class LatestResult(val rates: Map<String, Float>)
+    data class LatestResult(val rates: Map<String, Double>)
 
     @Keep
-    data class TimeSeriesResult(val rates: Map<LocalDate, Map<String, Float>>)
+    data class TimeSeriesResult(val rates: Map<LocalDate, Map<String, Double>>)
 }

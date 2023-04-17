@@ -804,7 +804,7 @@
     <string name="pref_category_exchange_rates">שערי חליפין</string>
     <string name="pref_exchange_rate_provider_summary">בחר ספק כדי להוריד שערי חליפין</string>
     <string name="pref_exchange_rate_provider_title">בחר לספק להוריד שערי חליפין</string>
-    <string name="pref_openexchangerates_app_id_summary">אנא הרשמו לחשבון בחינם ב- %s וספקו את מזהה האפליקציה שלכם</string>
+    <string name="pref_exchange_rates_api_key_summary">אנא הרשמו לחשבון בחינם ב- %s וספקו את מזהה האפליקציה שלכם</string>
     <string name="pref_plan_executor_time_title">זמן התראה למתכנן</string>
     <string name="synchronization_select_folder_dialog_title">בחר תיקיה קיימת או צור תיקיה חדשה</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

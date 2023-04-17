@@ -778,7 +778,7 @@
     <string name="pref_category_exchange_rates">汇率</string>
     <string name="pref_exchange_rate_provider_summary">选择提供者以下载汇率</string>
     <string name="pref_exchange_rate_provider_title">汇率提供者</string>
-    <string name="pref_openexchangerates_app_id_summary">请在 %s 注册免费帐号后，在此输入注册后的 App ID</string>
+    <string name="pref_exchange_rates_api_key_summary">请在 %s 注册免费帐号后，在此输入注册后的 App ID</string>
     <string name="pref_plan_executor_time_title">规划日历通知时间</string>
     <string name="synchronization_select_folder_dialog_title">选择一个现有文件夹或创建一个新文件夹</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

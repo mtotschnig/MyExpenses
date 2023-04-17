@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -34,7 +33,7 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
     lateinit var deviceId: String
 
     @Inject
-    lateinit var gson: Gson
+    lateinit var converterFactory: GsonConverterFactory
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -58,7 +57,7 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
     private val retrofit: Retrofit
         get() = Retrofit.Builder()
             .baseUrl(licenceHandler.backendUri)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(converterFactory)
             .client(okHttpClient)
             .build()
 

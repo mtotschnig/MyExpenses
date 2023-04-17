@@ -4,4 +4,4 @@ import androidx.room.Entity
 import java.time.LocalDate
 
 @Entity(tableName = "exchange_rates", primaryKeys = ["from_currency", "to_currency", "date", "source"])
-data class ExchangeRate(val from_currency: String, val to_currency: String, val date: LocalDate, val rate: Float, val source: String)
+data class ExchangeRate(val from_currency: String, val to_currency: String, val date: LocalDate, val rate: Double, val source: String)

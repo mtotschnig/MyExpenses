@@ -757,7 +757,7 @@
     <string name="pref_category_exchange_rates">Kadar pertukaran</string>
     <string name="pref_exchange_rate_provider_summary">Pilih penyedia untuk memuat turun kadar pertukaran</string>
     <string name="pref_exchange_rate_provider_title">Penyedia Kadar Pertukaran</string>
-    <string name="pref_openexchangerates_app_id_summary">Sila daftar satu akaun percuma pada %s dan sediakan ID Apl anda</string>
+    <string name="pref_exchange_rates_api_key_summary">Sila daftar satu akaun percuma pada %s dan sediakan ID Apl anda</string>
     <string name="pref_plan_executor_time_title">Masa pemberitahuan perancang</string>
     <string name="menu_create_budget">Bajet baharu</string>
     <string name="budget_duration_from">Dari</string>

@@ -786,7 +786,7 @@
     <string name="pref_category_exchange_rates">Döviz kurları</string>
     <string name="pref_exchange_rate_provider_summary">Döviz kurlarını indirmek için bir sağlayıcı seçin</string>
     <string name="pref_exchange_rate_provider_title">Döviz Kuru Sağlayıcısı</string>
-    <string name="pref_openexchangerates_app_id_summary">Lütfen %s üzerinde ücretsiz bir hesap oluşturun ve Uygulama Kimliğinizi (App ID) girin</string>
+    <string name="pref_exchange_rates_api_key_summary">Lütfen %s üzerinde ücretsiz bir hesap oluşturun ve Uygulama Kimliğinizi (App ID) girin</string>
     <string name="pref_plan_executor_time_title">Planlayıcı bildirim zamanı</string>
     <string name="synchronization_select_folder_dialog_title">Mevcut bir klasör seçin veya yeni bir klasör oluşturun</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

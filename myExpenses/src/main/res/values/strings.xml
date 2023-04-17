@@ -795,7 +795,7 @@
     <string name="pref_exchange_rate_provider_summary">Select provider to download exchange rates</string>
     <string name="pref_exchange_rate_provider_title">Exchange Rate Provider</string>
     <!-- %s is replaced with exchange rate provider URL (openexchangerate.com or coinapi.io) -->
-    <string name="pref_openexchangerates_app_id_summary">Please register a free account on %s and provide your App ID</string>
+    <string name="pref_exchange_rates_api_key_summary">Please register a free account on %s and provide your App ID</string>
     <string name="pref_plan_executor_time_title">Planner notification time</string>
     <string name="synchronization_select_folder_dialog_title">Select an existing folder or create a new one</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

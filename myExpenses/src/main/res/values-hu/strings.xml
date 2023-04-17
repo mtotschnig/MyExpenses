@@ -788,7 +788,7 @@
     <string name="pref_category_exchange_rates">Átváltási árfolyamok</string>
     <string name="pref_exchange_rate_provider_summary">Válasszon szolgáltatót az árfolyamok letöltéséhez</string>
     <string name="pref_exchange_rate_provider_title">Árfolyamszolgáltató</string>
-    <string name="pref_openexchangerates_app_id_summary">Kérjük, regisztráljon egy ingyenes fiókot az %s webhelyen, és adja meg az alkalmazásazonosítóját</string>
+    <string name="pref_exchange_rates_api_key_summary">Kérjük, regisztráljon egy ingyenes fiókot az %s webhelyen, és adja meg az alkalmazásazonosítóját</string>
     <string name="pref_plan_executor_time_title">Tervező értesítési ideje</string>
     <string name="synchronization_select_folder_dialog_title">Válasszon egy meglévő mappát vagy készítsen újat</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

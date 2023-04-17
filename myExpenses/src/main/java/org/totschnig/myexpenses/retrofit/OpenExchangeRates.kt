@@ -22,5 +22,5 @@ interface OpenExchangeRates {
     ): Call<Result>
 
     @Keep
-    data class Result(val rates: Map<String, Float>, val timestamp: Long)
+    data class Result(val rates: Map<String, Double>, val timestamp: Long)
 }

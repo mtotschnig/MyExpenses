@@ -817,7 +817,7 @@
     <string name="pref_category_exchange_rates">أسعار الصرف</string>
     <string name="pref_exchange_rate_provider_summary">حدد مزوداً لتنزيل أسعار الصرف</string>
     <string name="pref_exchange_rate_provider_title">مزود سعر الصرف</string>
-    <string name="pref_openexchangerates_app_id_summary">يُرجى تسجيل حساب مجاني على %s وتقديم معرف التطبيق الخاص بك</string>
+    <string name="pref_exchange_rates_api_key_summary">يُرجى تسجيل حساب مجاني على %s وتقديم معرف التطبيق الخاص بك</string>
     <string name="pref_plan_executor_time_title">وقت إعلام المخطط</string>
     <string name="synchronization_select_folder_dialog_title">حدد مجلداً موجوداً أو أنشئ مجلداً جديداً</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

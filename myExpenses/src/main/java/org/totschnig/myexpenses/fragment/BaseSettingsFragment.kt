@@ -995,8 +995,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 configureUninstallPrefs()
             }
             getKey(PrefKey.EXCHANGE_RATES) -> {
-                requirePreference<Preference>(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).summary =
-                    getString(R.string.pref_openexchangerates_app_id_summary, ExchangeRateSource.OpenExchangeRates.host)
+                with(requirePreference<ListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
+                    entries = ExchangeRateSource.values.map { it.host }.toTypedArray()
+                    entryValues = ExchangeRateSource.values.map { it.id }.toTypedArray()
+                }
+                arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
+                    requirePreference<Preference>(it.prefKey).summary =
+                        getString(R.string.pref_exchange_rates_api_key_summary, it.host)
+                }
                 configureExchangeRatesPreference(ExchangeRateSource.preferredSource(prefHandler))
             }
             getKey(PrefKey.DEBUG_SCREEN) -> {
@@ -1044,8 +1050,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     private fun configureExchangeRatesPreference(provider: ExchangeRateSource) {
-        with(ExchangeRateSource.OpenExchangeRates) {
-            requirePreference<Preference>(prefKey).isVisible = provider == this
+        arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
+            requirePreference<Preference>(it.prefKey).isVisible = provider == it
         }
     }
 

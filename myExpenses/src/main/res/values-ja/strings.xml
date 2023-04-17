@@ -775,7 +775,7 @@
     <string name="pref_category_exchange_rates">為替レート</string>
     <string name="pref_exchange_rate_provider_summary">為替レートをダウンロードするプロバイダーを選択</string>
     <string name="pref_exchange_rate_provider_title">為替レートプロバイダー</string>
-    <string name="pref_openexchangerates_app_id_summary">%sで無料アカウントを登録して、アプリIDを入力してください</string>
+    <string name="pref_exchange_rates_api_key_summary">%sで無料アカウントを登録して、アプリIDを入力してください</string>
     <string name="pref_plan_executor_time_title">プランナー通知時間</string>
     <string name="synchronization_select_folder_dialog_title">既存のフォルダーを選択するか新しく作成</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

@@ -802,7 +802,7 @@
     <string name="pref_category_exchange_rates">Směnné kurzy</string>
     <string name="pref_exchange_rate_provider_summary">Vyberte poskytovatele pro stažení směnných kurzů</string>
     <string name="pref_exchange_rate_provider_title">Poskytovatel směnného kurzu</string>
-    <string name="pref_openexchangerates_app_id_summary">Zaregistrujte si bezplatný účet služby %s a zadejte své ID aplikace</string>
+    <string name="pref_exchange_rates_api_key_summary">Zaregistrujte si bezplatný účet služby %s a zadejte své ID aplikace</string>
     <string name="pref_plan_executor_time_title">Čas oznámení plánovače</string>
     <string name="synchronization_select_folder_dialog_title">Zvolte existující složku nebo vytvořte novou</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->

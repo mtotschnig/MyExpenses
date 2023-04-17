@@ -110,6 +110,7 @@
     <string name="pref_exchange_rates_key">exchange_rates</string>
     <string name="pref_exchange_rate_provider_key">exchange_rate_provider</string>
     <string name="pref_openexchangerates_app_id_key">openexchangerates_app_id</string>
+    <string name="pref_coin_api_api_key_key">coin_api_api_key</string>
     <string name="pref_plan_executor_time_key">plan_executor_time</string>
     <string name="pref_webdav_key">webdav</string>
     <string name="pref_webdav_allow_unverified_host_key">webdav_allow_unverified_host</string>

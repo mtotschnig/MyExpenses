@@ -287,7 +287,7 @@
     <string name="pref_category_exchange_rates">匯率</string>
     <string name="pref_exchange_rate_provider_summary">選擇匯率資料的提供者</string>
     <string name="pref_exchange_rate_provider_title">匯率提供</string>
-    <string name="pref_openexchangerates_app_id_summary">請在 %s 註冊帳號後，把 App ID 填到這邊</string>
+    <string name="pref_exchange_rates_api_key_summary">請在 %s 註冊帳號後，把 App ID 填到這邊</string>
     <string name="budget_duration_from">從</string>
     <string name="budget_duration_to">到</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->

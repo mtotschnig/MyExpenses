@@ -800,7 +800,7 @@
     <string name="pref_category_exchange_rates">Курсы валют</string>
     <string name="pref_exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
     <string name="pref_exchange_rate_provider_title">Поставщик курсов валют</string>
-    <string name="pref_openexchangerates_app_id_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе %s и введите ваш App ID</string>
+    <string name="pref_exchange_rates_api_key_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе %s и введите ваш App ID</string>
     <string name="pref_plan_executor_time_title">Время оповещения планировщика</string>
     <string name="synchronization_select_folder_dialog_title">Выберите существующую папку или создайте новую</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
