@@ -10,6 +10,7 @@ android {
         missingDimensionStrategy 'textRecognition', 'extern'
         minSdk project.minSdkVersion
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -23,7 +24,7 @@ dependencies {
     kapt 'com.evernote:android-state-processor:1.4.1'
 
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
-    implementation("com.google.http-client:google-http-client-gson:$gogoogleHttp")  {
+    implementation("com.google.http-client:google-http-client-gson:$googleHttp")  {
         exclude module: 'httpclient'
         exclude module: 'commons-logging'
     }
