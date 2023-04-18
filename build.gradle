@@ -57,5 +57,6 @@ ext {
     requery = "3.36.0"
     androidxSqlite = "2.3.1"
     barista = "4.3.0"
+    googleHttp = "1.43.1"
 }
 

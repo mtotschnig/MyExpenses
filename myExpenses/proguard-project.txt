@@ -20,6 +20,7 @@
 -dontwarn io.netty.internal.tcnative.SSL
 -dontwarn io.netty.internal.tcnative.SSLContext
 -dontwarn io.netty.internal.tcnative.SSLPrivateKeyMethod
+-dontwarn io.netty.internal.tcnative.SSLSession
 -dontwarn io.netty.internal.tcnative.SSLSessionCache
 -dontwarn io.netty.internal.tcnative.SessionTicketKey
 -dontwarn io.netty.internal.tcnative.SniHostNameMatcher

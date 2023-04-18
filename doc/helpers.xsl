@@ -357,6 +357,14 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='pref_manage_categories_title']" />
             </xsl:when>
+            <xsl:when test="$version = '3.5.4'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='pref_exchange_rate_provider_title']" />
+                <xsl:text>:&#032;https://coinapi.io</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

@@ -10,6 +10,10 @@ android {
         missingDimensionStrategy 'textRecognition', 'extern'
         minSdk project.minSdkVersion
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
     namespace 'org.totschnig.drive'
 }
 
@@ -19,11 +23,11 @@ dependencies {
     kapt 'com.evernote:android-state-processor:1.4.1'
 
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
-    implementation('com.google.http-client:google-http-client-gson:1.42.3')  {
+    implementation("com.google.http-client:google-http-client-gson:$gogoogleHttp")  {
         exclude module: 'httpclient'
         exclude module: 'commons-logging'
     }
-    implementation('com.google.http-client:google-http-client-android:1.42.2') {
+    implementation("com.google.http-client:google-http-client-android:$googleHttp") {
         exclude group: 'org.apache.httpcomponents'
     }
     implementation('com.google.api-client:google-api-client-android:2.2.0') {
