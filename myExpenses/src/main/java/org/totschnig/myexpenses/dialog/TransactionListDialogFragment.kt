@@ -24,14 +24,17 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.TransactionAdapter
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Transaction
@@ -48,7 +51,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import javax.inject.Inject
 
 class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.LoaderCallbacks<Cursor> {
-    private lateinit var mAccount: Account
+    private lateinit var mAccount: org.totschnig.myexpenses.model2.Account
     private lateinit var mAdapter: TransactionAdapter
     private lateinit var viewModel: TransactionListViewModel
 
@@ -69,17 +72,21 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             inject(this@TransactionListDialogFragment)
             inject(viewModel)
         }
-        with(requireArguments()) {
-            viewModel.account(getLong(DatabaseConstants.KEY_ACCOUNTID))
-                .observe(this@TransactionListDialogFragment) {
-                    mAccount = it
-                    fillData()
-                }
-            catId = getLong(DatabaseConstants.KEY_CATID)
-        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        with(requireArguments()) {
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.account(getLong(DatabaseConstants.KEY_ACCOUNTID))
+                        .collect {
+                            mAccount = it
+                            fillData()
+                        }
+                }
+            }
+            catId = getLong(DatabaseConstants.KEY_CATID)
+        }
         val builder = initBuilder()
         val listView = ListView(builder.context)
         val padding = resources.getDimensionPixelSize(R.dimen.general_padding)
@@ -138,7 +145,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
                 selection = DatabaseConstants.KEY_ACCOUNTID + " IN " +
                         "(SELECT " + KEY_ROWID + " from " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY + " = ? AND " +
                         DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS + "=0)"
-                accountSelect = mAccount.currencyUnit.code
+                accountSelect = mAccount.currency
             }
             else -> {
                 selection = DatabaseConstants.KEY_ACCOUNTID + " = ?"
@@ -191,7 +198,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         when (id) {
             TRANSACTION_CURSOR -> return CursorLoader(
                 requireActivity(),
-                mAccount.getExtendedUriForTransactionList(type != 0, true),
+                mAccount.extendedUriForTransactionList(type != 0, true),
                 mAccount.extendedProjectionForTransactionList,
                 selection,
                 selectionArgs,
@@ -212,7 +219,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             SUM_CURSOR -> {
                 cursor.moveToFirst()
                 val title = requireArguments().getString(DatabaseConstants.KEY_LABEL) + TABS +
-                        currencyFormatter.convAmount(cursor.getLong(0), mAccount.currencyUnit)
+                        currencyFormatter.convAmount(cursor.getLong(0), currencyContext[mAccount.currency])
                 dialog!!.setTitle(title)
             }
         }

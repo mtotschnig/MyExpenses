@@ -19,12 +19,12 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -32,8 +32,8 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.text.DateFormat
@@ -61,7 +61,7 @@ open class TransactionAdapter(
     private var dateEms = 0
     private val is24HourFormat = android.text.format.DateFormat.is24HourFormat(context)
     private var shouldShowTime = false
-    private lateinit var mAccount: Account
+    private lateinit var account: Account
     private val localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(context)
     private var itemDateFormat: DateFormat? = null
     private val colorExpense =
@@ -79,7 +79,7 @@ open class TransactionAdapter(
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
         val v = super.newView(context, cursor, parent)
         val holder = ViewHolder(v)
-        if (mAccount.id < 0) {
+        if (account.id < 0) {
             holder.colorAccount.visibility = View.VISIBLE
         }
         v.tag = holder
@@ -104,9 +104,12 @@ open class TransactionAdapter(
         //for the Grand Total account, we show equivalent amounts in the home currency for normal transactions
         //but show transfers in there real currency
         val columnIndexCurrency = cursor.getColumnIndex(KEY_CURRENCY)
-        val currency = if (isTransfer && columnIndexCurrency > -1) currencyContext[cursor.getString(
-            columnIndexCurrency
-        )] else mAccount.currencyUnit
+        val currency = currencyContext[
+                if (isTransfer && columnIndexCurrency > -1)
+                    cursor.getString(columnIndexCurrency)
+                else
+                    account.currency
+        ]
         val columnIndexEquivalentAmount = cursor.getColumnIndex(KEY_EQUIVALENT_AMOUNT)
         val amount =
             cursor.getLong(
@@ -116,7 +119,7 @@ open class TransactionAdapter(
         val tv1 = viewHolder.amount
         tv1.text = currencyFormatter.convAmount(amount, currency)
         tv1.setTextColor(if (amount < 0) colorExpense else colorIncome)
-        if (mAccount.isAggregate) {
+        if (account.isAggregate) {
             val columnIndexSameCurrency =
                 cursor.getColumnIndex(KEY_IS_SAME_CURRENCY)
             if (columnIndexSameCurrency == -1 || cursor.getInt(columnIndexSameCurrency) != 1) {
@@ -131,7 +134,7 @@ open class TransactionAdapter(
         var catText: CharSequence = cursor.getString(KEY_LABEL)
         if (isTransfer) {
             catText = Transfer.getIndicatorPrefixForLabel(amount) + catText
-            if (mAccount.isAggregate) {
+            if (account.isAggregate) {
                 catText = cursor.getString(KEY_ACCOUNT_LABEL) + " " + catText
             }
         } else {
@@ -201,7 +204,7 @@ open class TransactionAdapter(
 
         dateEms = 3
 
-        when (groupingOverride ?: mAccount.grouping) {
+        when (groupingOverride ?: account.grouping) {
             Grouping.DAY -> if (shouldShowTime) {
                 itemDateFormat = localizedTimeFormat
                 dateEms = if (is24HourFormat) 3 else 4
@@ -209,16 +212,19 @@ open class TransactionAdapter(
                 itemDateFormat = null
                 dateEms = 0
             }
+
             Grouping.MONTH -> if (monthStart == 1) {
                 itemDateFormat = SimpleDateFormat("dd", localeFromContext())
                 dateEms = 2
             } else {
                 itemDateFormat = Utils.localizedYearLessDateFormat(context)
             }
+
             Grouping.WEEK -> {
                 dateEms = 2
                 itemDateFormat = SimpleDateFormat("EEE", localeFromContext())
             }
+
             Grouping.YEAR -> itemDateFormat = Utils.localizedYearLessDateFormat(context)
             Grouping.NONE -> {
                 itemDateFormat = Utils.ensureDateFormatWithShortYear(context)
@@ -230,14 +236,16 @@ open class TransactionAdapter(
     override fun swapCursor(cursor: Cursor?): Cursor? {
         //currently unsupported, will work again, once TransactionListFragment uses Compose TransactionList,
         //and this class gets removed
-        futureCriterion = if (true) System.currentTimeMillis() / 1000 else LocalDate.now().plusDays(1).atStartOfDay().atZone(
-            ZoneId.systemDefault()
-        ).toEpochSecond()
+        futureCriterion =
+            if (true) System.currentTimeMillis() / 1000 else LocalDate.now().plusDays(1)
+                .atStartOfDay().atZone(
+                ZoneId.systemDefault()
+            ).toEpochSecond()
         return super.swapCursor(cursor)
     }
 
     fun setAccount(account: Account) {
-        mAccount = account
+        this.account = account
         shouldShowTime =
             getDateMode(account.type, prefHandler) == UiUtils.DateMode.DATE_TIME
         refreshDateFormat()

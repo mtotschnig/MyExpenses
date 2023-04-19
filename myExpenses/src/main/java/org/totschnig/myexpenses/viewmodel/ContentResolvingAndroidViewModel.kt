@@ -4,7 +4,6 @@ import android.accounts.AccountManager
 import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
-import android.content.ContentUris
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Build
@@ -15,7 +14,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
-import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -26,10 +24,12 @@ import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
+import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
@@ -159,19 +159,10 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             )
         }
 
-    fun account(accountId: Long, once: Boolean = false) = liveData(context = coroutineContext()) {
-        val base =
-            if (accountId > 0) ACCOUNTS_URI else ACCOUNTS_AGGREGATE_URI
-        val flow = contentResolver.observeQuery(
-            ContentUris.withAppendedId(base, accountId),
-            Account.PROJECTION_BASE, null, null, null, true
-        )
-            .mapToOne { Account.fromCursor(it) }
-        //.throttleFirst(100, TimeUnit.MILLISECONDS)
-        (if (once) flow.take(1) else flow).collect {
-            this.emit(it)
-        }
-    }
+    fun account(accountId: Long): Flow<Account> = if (accountId > 0)
+        repository.loadAccountFlow(accountId)
+    else
+        repository.loadAggregateAccountFlow(accountId)
 
     sealed class DeleteState {
         data class DeleteProgress(val count: Int, val total: Int) : DeleteState()
@@ -241,10 +232,14 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                     repository.deleteAccount(accountId)?.let {
                         val accountManager = AccountManager.get(getApplication())
                         val syncAccount = GenericAccountService.getAccount(it)
-                        accountManager.setUserData(syncAccount,
-                            SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId), null)
-                        accountManager.setUserData(syncAccount,
-                            SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId), null)
+                        accountManager.setUserData(
+                            syncAccount,
+                            SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId), null
+                        )
+                        accountManager.setUserData(
+                            syncAccount,
+                            SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId), null
+                        )
                     }
                 } catch (e: Exception) {
                     CrashHandler.report(e)
@@ -272,7 +267,8 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      * @param rowId For split transactions, we check if any of their children is linked to a debt,
      * in which case the parent should not be linkable to a debt, and we return an empty list
      */
-    fun loadDebts(rowId: Long? = null, showSealed: Boolean = false, showZero: Boolean = true) = contentResolver.observeQuery(
+    fun loadDebts(rowId: Long? = null, showSealed: Boolean = false, showZero: Boolean = true) =
+        contentResolver.observeQuery(
             uri = with(DEBTS_URI.buildUpon()) {
                 rowId?.let {
                     appendQueryParameter(KEY_TRANSACTIONID, rowId.toString())
@@ -296,18 +292,23 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      * if equals [.EXPORT_HANDLE_DELETED_CREATE_HELPER] a helper transaction
      * @param helperComment comment used for the helper transaction
      */
-    fun reset(account: org.totschnig.myexpenses.model2.Account, filter: WhereFilter?, handleDelete: Int, helperComment: String?) {
+    fun reset(
+        account: Account,
+        filter: WhereFilter?,
+        handleDelete: Int,
+        helperComment: String?
+    ) {
         val ops = ArrayList<ContentProviderOperation>()
         var handleDeleteOperation: ContentProviderOperation? = null
         val sum = repository.getTransactionSum(account.id, filter)
-        if (handleDelete == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+        if (handleDelete == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
             val currentBalance: Long = account.openingBalance + sum
             handleDeleteOperation = ContentProviderOperation.newUpdate(
                 ACCOUNTS_URI.buildUpon().appendPath(account.id.toString()).build()
             )
                 .withValue(KEY_OPENING_BALANCE, currentBalance)
                 .build()
-        } else if (handleDelete == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
+        } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
             val helper = Transaction(account.id, Money(currencyContext[account.currency], sum))
             helper.comment = helperComment
             helper.status = STATUS_HELPER

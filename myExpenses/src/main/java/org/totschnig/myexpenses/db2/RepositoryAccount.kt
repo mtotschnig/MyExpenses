@@ -4,6 +4,9 @@ import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import androidx.core.database.getStringOrNull
+import app.cash.copper.flow.mapToOne
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
@@ -80,6 +83,17 @@ fun Repository.loadAccount(accountId: Long): Account? {
     }
 }
 
+fun Repository.loadAccountFlow(accountId: Long): Flow<Account> {
+    require(accountId > 0L)
+    return contentResolver.observeQuery(
+        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        Account.PROJECTION,
+        null, null, null
+    ).mapToOne {
+        Account.fromCursor(it)
+    }
+}
+
 fun Repository.loadAggregateAccount(accountId: Long): Account? {
     require(accountId < 0L)
     return contentResolver.query(
@@ -94,6 +108,23 @@ fun Repository.loadAggregateAccount(accountId: Long): Account? {
             grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
             isSealed = it.getBoolean(KEY_SEALED)
         ) else null
+    }
+}
+
+fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
+    require(accountId < 0L)
+    return contentResolver.observeQuery(
+        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_AGGREGATE_URI, accountId),
+        null, null, null, null
+    ).mapToOne {
+        Account(
+            id = accountId,
+            label = it.getString(KEY_LABEL),
+            currency = it.getString(KEY_CURRENCY),
+            openingBalance = it.getLong(KEY_OPENING_BALANCE),
+            grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
+            isSealed = it.getBoolean(KEY_SEALED)
+        )
     }
 }
 

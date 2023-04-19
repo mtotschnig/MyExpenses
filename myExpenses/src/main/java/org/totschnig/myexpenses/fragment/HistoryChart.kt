@@ -9,7 +9,9 @@ import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
@@ -22,6 +24,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ViewPortHandler
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
@@ -29,10 +32,12 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment.Companion.newInstance
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
@@ -72,6 +77,9 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
     var showBalance = true
 
     var includeTransfers = false
@@ -88,28 +96,46 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         }
         setHasOptionsMenu(true)
         val typedValue = TypedValue()
-        requireActivity().theme.resolveAttribute(android.R.attr.textAppearanceSmall, typedValue, true)
+        requireActivity().theme.resolveAttribute(
+            android.R.attr.textAppearanceSmall,
+            typedValue,
+            true
+        )
         val textSizeAttr = intArrayOf(android.R.attr.textSize)
         val indexOfAttrTextSize = 0
         val a = requireActivity().obtainStyledAttributes(typedValue.data, textSizeAttr)
-        valueTextSize = a.getDimensionPixelSize(indexOfAttrTextSize, 10) / resources.displayMetrics.density
+        valueTextSize =
+            a.getDimensionPixelSize(indexOfAttrTextSize, 10) / resources.displayMetrics.density
         a.recycle()
-        textColor = UiUtils.getColor(requireContext(), com.google.android.material.R.attr.colorOnSurface)
-        lifecycleScope.launchWhenStarted {
-            viewModel.grouping.collect {
-                requireActivity().invalidateOptionsMenu()
-                if (::accountInfo.isInitialized) {
-                    reset()
+        textColor =
+            UiUtils.getColor(requireContext(), com.google.android.material.R.attr.colorOnSurface)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.grouping.collect {
+                    requireActivity().invalidateOptionsMenu()
+                    if (::accountInfo.isInitialized) {
+                        reset()
+                    }
                 }
             }
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        viewModel.account(requireActivity().intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)).observe(viewLifecycleOwner) {
-            accountInfo = HistoryAccountInfo(it.id, it.getLabelForScreenTitle(requireActivity()), it.currencyUnit, it.color, it.openingBalance)
-            (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title = accountInfo.label
-            LoaderManager.getInstance(this).initLoader(GROUPING_CURSOR, null, this)
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle (Lifecycle.State.STARTED) {
+                viewModel.account(requireActivity().intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)).collect {
+                    val currency = currencyContext[it.currency]
+                    accountInfo = HistoryAccountInfo(
+                        it.id,
+                        it.getLabelForScreenTitle(requireActivity()),
+                        currency, it.color,
+                        Money(currency, it.openingBalance)
+                    )
+                    (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title = accountInfo.label
+                    LoaderManager.getInstance(this@HistoryChart).initLoader(GROUPING_CURSOR, null, this@HistoryChart)
+                }
+            }
         }
         showBalance = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance)
         includeTransfers = prefHandler.getBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers)
@@ -249,8 +275,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             }
             builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
                     .appendPath(grouping.name)
-            if (!Account.isHomeAggregate(accountInfo.id)) {
-                if (Account.isAggregate(accountInfo.id)) {
+            if (!DataBaseAccount.isHomeAggregate(accountInfo.id)) {
+                if (DataBaseAccount.isAggregate(accountInfo.id)) {
                     builder.appendQueryParameter(DatabaseConstants.KEY_CURRENCY, accountInfo.currency.code)
                 } else {
                     builder.appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountInfo.id.toString())

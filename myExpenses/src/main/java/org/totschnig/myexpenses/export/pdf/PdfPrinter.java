@@ -140,7 +140,7 @@ public class PdfPrinter {
     Document document = new Document();
     transactionCursor = context.getContentResolver().query(
         account.extendedUriForTransactionList(false, false),
-        account.extendedProjectionForTransactionList(),
+        account.getExtendedProjectionForTransactionList(),
         selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";

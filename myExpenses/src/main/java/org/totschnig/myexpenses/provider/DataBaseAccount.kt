@@ -31,11 +31,12 @@ abstract class DataBaseAccount {
             else -> extendedUriForTransactionListAggregate(withType, shortenComment)
         }
 
-    fun extendedProjectionForTransactionList(): Array<String> = when {
-        !isAggregate -> getProjectionExtended()
-        isHomeAggregate -> getProjectionExtendedHome()
-        else -> getProjectionExtendedAggregate()
-    }
+    val extendedProjectionForTransactionList: Array<String>
+        get() = when {
+            !isAggregate -> getProjectionExtended()
+            isHomeAggregate -> getProjectionExtendedHome()
+            else -> getProjectionExtendedAggregate()
+        }
 
     val groupingUri: Uri
         get() {

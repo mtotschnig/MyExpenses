@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.model2
 
+import android.content.Context
 import android.database.Cursor
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.model.AccountType
@@ -29,6 +31,9 @@ data class Account(
 ): DataBaseAccount() {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
+
+    fun getLabelForScreenTitle(context: Context) =
+        if (isHomeAggregate) context.getString(R.string.grand_total) else label
 
     @Suppress("DeprecatedCallableAddReplaceWith")
     @Deprecated("Helper for legacy Java code")
