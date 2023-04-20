@@ -14,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
@@ -166,7 +165,7 @@ class PartyListViewModel(
                 val where = "$KEY_PAYEEID $inOp"
                 val operations = ArrayList<ContentProviderOperation>().apply {
                     add(
-                        newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1)
+                        newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, -1)
                             .withSelection("$KEY_SEALED = 1", null).build()
                     )
                     add(
@@ -196,7 +195,7 @@ class PartyListViewModel(
                         ).build()
                     )
                     add(
-                        newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1)
+                        newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, 1)
                             .withSelection("$KEY_SEALED = -1", null).build()
                     )
                     add(

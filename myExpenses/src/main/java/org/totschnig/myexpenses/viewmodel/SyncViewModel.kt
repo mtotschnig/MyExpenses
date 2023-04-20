@@ -200,7 +200,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     ): Result<SyncAccountData> {
         //noinspection Recycle
         val localAccounts = if (shouldQueryLocalAccounts) contentResolver.query(
-            Account.CONTENT_URI,
+            TransactionProvider.ACCOUNTS_URI,
             arrayOf(KEY_ROWID, KEY_LABEL, KEY_UUID, "$KEY_SYNC_ACCOUNT_NAME IS NULL", KEY_SEALED),
             null, null, null
         )?.useAndMap {
@@ -242,7 +242,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     protected fun configureLocalAccountForSync(accountName: String, vararg uuids: String) {
         contentResolver.update(
-            Account.CONTENT_URI,
+            TransactionProvider.ACCOUNTS_URI,
             ContentValues().apply {
                 put(KEY_SYNC_ACCOUNT_NAME, accountName)
             },

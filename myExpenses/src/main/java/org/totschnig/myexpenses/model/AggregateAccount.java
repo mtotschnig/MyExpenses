@@ -47,14 +47,6 @@ public class AggregateAccount extends Account {
   }
 
   @Override
-  public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
-    final Uri base = super.getExtendedUriForTransactionList(withType, shortenComment);
-    return withType ? base : base.buildUpon().appendQueryParameter(
-        TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, isHomeAggregate() ? "2" : "1")
-        .build();
-  }
-
-  @Override
   public String getLabelForScreenTitle(Context context) {
     return isHomeAggregate() ? context.getString(R.string.grand_total) : super.getLabelForScreenTitle(context);
   }

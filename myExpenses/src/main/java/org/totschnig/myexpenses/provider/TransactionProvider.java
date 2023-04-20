@@ -514,7 +514,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
           if (projection == null)
-            projection = Account.PROJECTION_BASE;
+            projection = org.totschnig.myexpenses.model2.Account.Companion.getPROJECTION();
           break;
         }
 

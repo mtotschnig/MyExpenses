@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
@@ -415,7 +414,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                         accountSelectionArgs.size
                                     )
                                 ops.add(
-                                    ContentProviderOperation.newUpdate(Account.CONTENT_URI)
+                                    ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
                                         .withValue(DatabaseConstants.KEY_SEALED, -1)
                                         .withSelection(
                                             DatabaseConstants.KEY_SEALED + " = 1 " + accountSelection,
@@ -429,7 +428,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                         .build()
                                 )
                                 ops.add(
-                                    ContentProviderOperation.newUpdate(Account.CONTENT_URI)
+                                    ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
                                         .withValue(DatabaseConstants.KEY_SEALED, 1)
                                         .withSelection(
                                             DatabaseConstants.KEY_SEALED + " = -1 " + accountSelection,

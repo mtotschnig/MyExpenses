@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
@@ -30,15 +28,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
-import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 import static org.totschnig.myexpenses.util.ExchangeRateKt.calculateRealExchangeRate;
 
 import android.content.ContentUris;
@@ -46,25 +39,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.util.ShortcutHelper;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 
 import java.math.BigDecimal;
@@ -128,25 +111,6 @@ public class Account extends Model implements DistributionAccountInfo {
   public CurrencyUnit getCurrencyUnit() {
     return currencyUnit;
   }
-
-  public final static String[] PROJECTION_BASE = new String[] {
-    TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
-            KEY_LABEL,
-            TABLE_ACCOUNTS + "." + KEY_DESCRIPTION + " AS " + KEY_DESCRIPTION,
-            KEY_OPENING_BALANCE,
-            TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
-            KEY_COLOR,
-            TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
-            KEY_TYPE,
-            KEY_SORT_KEY,
-            KEY_EXCLUDE_FROM_TOTALS,
-            KEY_SYNC_ACCOUNT_NAME,
-            KEY_UUID,
-            KEY_SORT_DIRECTION,
-            KEY_EXCHANGE_RATE,
-            KEY_CRITERION,
-            KEY_SEALED
-  };
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
@@ -417,22 +381,6 @@ public class Account extends Model implements DistributionAccountInfo {
     }
   }
 
-  /**
-   * @param withType true means, that the query is for either positive (income) or negative (expense) transactions
-   *                 in that case, the merge transfer restriction must be skipped, since it is based on only
-   *                 selecting the negative part of a transfer
-   */
-  public Uri getExtendedUriForTransactionList(boolean withType, boolean shortenComment) {
-    return extendedUriForTransactionList(shortenComment);
-  }
-
-  public static Uri extendedUriForTransactionList(boolean shortenComment) {
-    return shortenComment ? Transaction.EXTENDED_URI
-            .buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")
-            .build() : Transaction.EXTENDED_URI;
-  }
-
   public boolean isHomeAggregate() {
     return isHomeAggregate(getId());
   }
@@ -447,10 +395,6 @@ public class Account extends Model implements DistributionAccountInfo {
 
   public static boolean isAggregate(long id) {
     return id < 0;
-  }
-
-  public String[] getExtendedProjectionForTransactionList() {
-    return DatabaseConstants.getProjectionExtended();
   }
 
   public AccountType getType() {
@@ -468,10 +412,6 @@ public class Account extends Model implements DistributionAccountInfo {
 
   public void setGrouping(@NonNull Grouping grouping) {
     this.grouping = grouping;
-  }
-
-  public SortDirection getSortDirection() {
-    return sortDirection;
   }
 
   protected void setSortDirection(SortDirection sortDirection) {
