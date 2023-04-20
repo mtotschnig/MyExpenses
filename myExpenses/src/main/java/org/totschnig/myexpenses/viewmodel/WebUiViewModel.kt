@@ -20,7 +20,7 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     private var webInputServiceBound: Boolean = false
     private val serviceState: MutableLiveData<Result<String?>> = MutableLiveData()
     fun getServiceState(): LiveData<Result<String?>> = serviceState
-    private val serviceConnection: ServiceConnection = object : ServiceConnection {
+    private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             webInputService = (service as WebUiBinder).getService()?.apply {
                 registerObserver(object: ServerStateObserver {
