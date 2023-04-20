@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
 import org.totschnig.myexpenses.provider.doRepairRequerySchema
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.File
 import javax.inject.Named
@@ -101,6 +102,7 @@ open class DataModule {
                 val version = try {
                     SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
                 } catch (e: SQLiteException) {
+                    CrashHandler.report(e)
                     doRepairRequerySchema(path)
                     null
                 }?.use { database ->
