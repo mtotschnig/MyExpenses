@@ -57,6 +57,7 @@ class SQLiteOpenHelperFactory : SqlCryptProvider {
      * https://commonsware.com/Room/pages/chap-sqlciphermgmt-001.html
      */
     override fun encrypt(context: Context, backupFile: File, currentDb: File) {
+        SQLiteDatabase.loadLibs(context)
         if (currentDb.exists()) {
             if (!currentDb.delete())
                 throw IOException("File $currentDb exists and cannot be deleted.")

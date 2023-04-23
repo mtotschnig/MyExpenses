@@ -49,6 +49,10 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
         }
     }
 
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        // there is no need to enqueue planner now, will be done after restore
+    }
+
     fun doWithEncryptionCheck(block: () -> Unit) {
         if (prefHandler.encryptDatabase && !isSqlCryptLoaded) {
             showMessage(

@@ -37,9 +37,10 @@ interface SqlCryptProvider {
 @Module
 open class DataModule {
     companion object {
-        val cryptProvider: SqlCryptProvider
-            get() = Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
+        val cryptProvider: SqlCryptProvider by lazy {
+            Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
                 .newInstance() as SqlCryptProvider
+        }
     }
 
     open val databaseName = "data"
