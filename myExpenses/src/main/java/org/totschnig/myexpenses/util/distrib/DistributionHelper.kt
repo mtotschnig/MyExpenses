@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 object DistributionHelper {
     @JvmStatic
     val platform: String
-        get() = distribution.platform
+        get() = "Android"
 
     @JvmStatic
     val marketPrefix: String
@@ -50,7 +50,8 @@ object DistributionHelper {
     }
 
     @JvmStatic
-    val buildDateFormatted: String = DateTimeFormatter.ofPattern("yyyyMMdd-HHmm").format(BuildConfig.BUILD_DATE)
+    val buildDateFormatted: String =
+        DateTimeFormatter.ofPattern("yyyyMMdd-HHmm").format(BuildConfig.BUILD_DATE)
 
     /**
      * @return version number (versionCode)
@@ -63,27 +64,18 @@ object DistributionHelper {
     val versionName: String
         get() = BuildConfig.VERSION_NAME
 
-    enum class Distribution {
-        PLAY {
-            override val hasDynamicFeatureDelivery = true
-        },
-        AMAZON {
-            override val marketPrefix = "amzn://apps/android?p="
-        },
-        GITHUB {
-            override val supportsTrackingAndCrashReporting = false
-        },
+    enum class Distribution(
+        val hasDynamicFeatureDelivery: Boolean = false,
+        val supportsTrackingAndCrashReporting: Boolean = true,
+        val marketPrefix: String = "market://details?id="
+    ) {
+        PLAY(hasDynamicFeatureDelivery = true),
+        AMAZON(marketPrefix = "amzn://apps/android?p="),
+        GITHUB(),
         HUAWEI;
 
-        open val platform = "Android"
-
-        open val marketPrefix= "market://details?id="
-
-        open val marketSelfUri: String
+        val marketSelfUri: String
             get() = marketPrefix + "org.totschnig.myexpenses"
 
-        open val supportsTrackingAndCrashReporting = true
-
-        open val hasDynamicFeatureDelivery = false
     }
 }
