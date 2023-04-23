@@ -297,12 +297,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         featureManager.initActivity(this)
     }
 
+    open fun maybeRepairRequerySchema() {
+        if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(PrefKey.CURRENT_VERSION, -1) < 593) {
+            org.totschnig.myexpenses.provider.maybeRepairRequerySchema(getDatabasePath("data").path)
+            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         with((applicationContext as MyApplication).appComponent) {
             inject(ocrViewModel)
             inject(featureViewModel)
             inject(shareViewModel)
         }
+        maybeRepairRequerySchema()
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
                 is FeatureViewModel.FeatureState.FeatureLoading -> showSnackBar(
