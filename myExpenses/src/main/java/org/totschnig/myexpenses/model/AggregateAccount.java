@@ -51,11 +51,6 @@ public class AggregateAccount extends Account {
     return isHomeAggregate() ? context.getString(R.string.grand_total) : super.getLabelForScreenTitle(context);
   }
 
-  @Override
-  public String[] getExtendedProjectionForTransactionList() {
-    return isHomeAggregate() ? DatabaseConstants.getProjectionExtendedHome() : DatabaseConstants.getProjectionExtendedAggregate();
-  }
-
   public static void persistGroupingHomeAggregate(@NonNull PrefHandler prefHandler, @NonNull Grouping grouping) {
     prefHandler.putString(GROUPING_AGGREGATE, grouping.name());
   }
