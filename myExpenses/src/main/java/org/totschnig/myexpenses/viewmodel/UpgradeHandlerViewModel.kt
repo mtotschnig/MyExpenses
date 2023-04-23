@@ -436,6 +436,11 @@ class UpgradeHandlerViewModel(application: Application) :
                     }
                 prefHandler.remove(PrefKey.UI_LANGUAGE)
             }
+            if (fromVersion < 615) {
+                // For existing installations, we keep the previous prefix in order to keep the
+                // purge backup feature running without interruption
+                prefHandler.putString(PrefKey.BACKUP_FILE_PREFIX, "backup")
+            }
 
             if (upgradeInfoList.isNotEmpty()) {
                 postNextUpgradeInfo()

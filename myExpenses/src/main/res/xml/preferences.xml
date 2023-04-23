@@ -254,6 +254,12 @@
                 android:targetPackage="@string/application_id" />
         </Preference>
 
+        <EditTextPreference
+            android:key="@string/pref_backup_file_prefix_key"
+            android:title="@string/pref_backup_file_prefix_title"
+            android:defaultValue="myexpenses-backup"
+            my:useSimpleSummaryProvider="true" />
+
         <org.totschnig.myexpenses.preference.AccountPreference
             android:key="@string/pref_auto_backup_cloud_key"
             android:summary="@string/pref_backup_cloud_summary"

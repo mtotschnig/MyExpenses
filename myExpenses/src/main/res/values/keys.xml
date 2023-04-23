@@ -128,6 +128,7 @@
     <string name="pref_purge_backup_require_confirmation_key">purge_backup_require_confirmation</string>
     <string name="pref_ui_transaction_list_key">ui_transaction_list</string>
     <string name="pref_encrypt_database_info_key">encrypt_database_info</string>
+    <string name="pref_backup_file_prefix_key">backup_file_prefix</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

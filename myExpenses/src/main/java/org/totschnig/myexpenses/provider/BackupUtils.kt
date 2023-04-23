@@ -39,7 +39,7 @@ fun doBackup(
             context, R.string.app_dir_not_accessible, appDir.displayName
         )
     }
-    val backupFile = requireBackupFile(appDir, !TextUtils.isEmpty(password))
+    val backupFile = requireBackupFile(appDir, prefHandler.backupFilePrefix,  !TextUtils.isEmpty(password))
         ?: return Result.failure(context, R.string.io_error_backupdir_null)
     val cacheDir = AppDirHelper.cacheDir(context)
     return backup(cacheDir, context, prefHandler).mapCatching {
@@ -62,12 +62,18 @@ fun doBackup(
     }
 }
 
+private val PrefHandler.backupFilePrefix
+    get() = requireString(
+        PrefKey.BACKUP_FILE_PREFIX,
+        "myexpenses-backup"
+    )
+
 fun listOldBackups(appDir: DocumentFile, prefHandler: PrefHandler): List<DocumentFile> {
     val keep = prefHandler.getInt(PrefKey.PURGE_BACKUP_KEEP, 0)
     return if (prefHandler.getBoolean(PrefKey.PURGE_BACKUP, false) && keep > 0) {
         appDir.listFiles()
             .filter {
-                it.name?.matches("""backup-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\..+""".toRegex()) == true
+                it.name?.matches("""${prefHandler.backupFilePrefix}-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\..+""".toRegex()) == true
             }
             .sortedBy { it.lastModified() }
             .dropLast(keep)
@@ -96,10 +102,10 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
     }
 }
 
-private fun requireBackupFile(appDir: DocumentFile, encrypted: Boolean): DocumentFile? {
+private fun requireBackupFile(appDir: DocumentFile, prefix: String, encrypted: Boolean): DocumentFile? {
     return AppDirHelper.timeStampedFile(
         parentDir = appDir,
-        prefix = "backup",
+        prefix = prefix,
         mimeType = if (encrypted) "application/octet-stream" else "application/zip",
         extension = if (encrypted) "enc" else "zip"
     )
