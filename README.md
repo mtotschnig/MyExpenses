@@ -31,7 +31,7 @@ Features
 
 Credits
 =====
-*My Expenses* relies on a couple of open source libraries :
+*My Expenses* relies on many open source libraries :
 
 - <a href="http://itextpdf.com/">Itext</a>
 - <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a>
@@ -53,6 +53,7 @@ Code has also been contributed by:
 - [khris78](https://github.com/khris78) (Configuring and applying custom colors to accounts)
 - [Ayman Abdelghany](https://github.com/AymanDF) (Applying Sonar code quality checks)
 - [eltos](https://github.com/eltos) (Improved Input Dialogs and Color Pickers)
+- [tillgraeger](https://github.com/tillgraeger) implemented several tickets (#640, #704, #638) in the context of his internship.
 
 Build
 =====
