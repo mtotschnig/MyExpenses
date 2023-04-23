@@ -2,7 +2,13 @@ package org.totschnig.myexpenses.widget
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.display.DisplayManager
+import android.os.Build
+import android.view.Display
+import android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
 import android.widget.Toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -11,6 +17,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.doAsync
 
 const val CLICK_ACTION_SAVE = "save"
 const val CLICK_ACTION_EDIT = "edit"
@@ -33,11 +40,15 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, PrefKey.
                             context.getString(R.string.warning_instantiate_template_from_widget_password_protected),
                             Toast.LENGTH_LONG).show()
                 } else {
-                    Transaction.getInstanceFromTemplateWithTags(templateId)?.let {
-                        if (it.first.save(true) != null && it.first.saveTags(it.second)) {
-                            Toast.makeText(context,
-                                    context.resources.getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
-                                    Toast.LENGTH_LONG).show()
+                        doAsync {
+                            Transaction.getInstanceFromTemplateWithTags(templateId)?.let {
+                            if (it.first.save(true) != null && it.first.saveTags(it.second)) {
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(context.forToast(),
+                                        context.resources.getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
+                                        Toast.LENGTH_LONG).show()
+                                }
+                            }
                         }
                     }
                 }
@@ -50,6 +61,14 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, PrefKey.
                 putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
             })
         }
+    }
+
+    private fun Context.forToast() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        createDisplayContext(getSystemService(DisplayManager::class.java)
+            .getDisplay(Display.DEFAULT_DISPLAY))
+            .createWindowContext(TYPE_APPLICATION_OVERLAY, null)
+    } else {
+        this
     }
 
     companion object {
