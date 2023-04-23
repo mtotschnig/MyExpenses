@@ -227,15 +227,15 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
      * populates the input field either from the database or with default value for currency (from Locale)
      */
     private fun populateFields(account: Account) {
-        dataLoaded = true
         binding.Label.setText(account.label)
         binding.Description.setText(account.description)
         syncAccountName = account.syncAccountName
         _currencyUnit = currencyContext[account.currency]
-        binding.ERR.ExchangeRate.setRate(BigDecimal(calculateRealExchangeRate(account.exchangeRate, currencyUnit, homeCurrency)), true)
         color = account.color
         excludeFromTotals = account.excludeFromTotals
         uuid = account.uuid
+        dataLoaded = true
+        binding.ERR.ExchangeRate.setRate(BigDecimal(calculateRealExchangeRate(account.exchangeRate, currencyUnit, homeCurrency)), true)
         configureForCurrency(currencyUnit)
         binding.Amount.setAmount(Money(currencyUnit, account.openingBalance).amountMajor)
         accountTypeSpinner.setSelection(account.type.ordinal)
@@ -270,6 +270,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
      * (a valid float according to the format from the locale)
      */
     override fun saveState() {
+        if (!dataLoaded) return
         val label = binding.Label.text.toString()
         if (label == "") {
             binding.Label.error = getString(R.string.required)
