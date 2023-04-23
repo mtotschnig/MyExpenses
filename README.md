@@ -53,7 +53,7 @@ Code has also been contributed by:
 - [khris78](https://github.com/khris78) (Configuring and applying custom colors to accounts)
 - [Ayman Abdelghany](https://github.com/AymanDF) (Applying Sonar code quality checks)
 - [eltos](https://github.com/eltos) (Improved Input Dialogs and Color Pickers)
-- [tillgraeger](https://github.com/tillgraeger) implemented several tickets (#640, #704, #638) in the context of his internship.
+- [tillgraeger](https://github.com/tillgraeger) implemented several tickets ([#640](https://github.com/mtotschnig/MyExpenses/issues/640), [#704](https://github.com/mtotschnig/MyExpenses/issues/704), [#638](https://github.com/mtotschnig/MyExpenses/issues/638)) in the context of his internship.
 
 Build
 =====
