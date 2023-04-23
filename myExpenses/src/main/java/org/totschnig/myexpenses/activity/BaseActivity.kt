@@ -310,7 +310,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             inject(featureViewModel)
             inject(shareViewModel)
         }
-        maybeRepairRequerySchema()
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
                 is FeatureViewModel.FeatureState.FeatureLoading -> showSnackBar(

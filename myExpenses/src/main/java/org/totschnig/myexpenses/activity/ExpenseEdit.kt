@@ -213,6 +213,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        maybeRepairRequerySchema()
         setHelpVariant(HelpVariant.transaction, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
         rootBinding.TagRow.TagLabel.setText(R.string.tags)
