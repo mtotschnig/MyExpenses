@@ -1039,6 +1039,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceDataStore.handleToggle(requirePreference(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON))
                 }
             }
+            getKey(PrefKey.AUTO_BACKUP) -> {
+                requirePreference<Preference>(PrefKey.AUTO_BACKUP_UNENCRYPTED_INFO).isVisible =
+                    prefHandler.encryptDatabase
+            }
         }
     }
 

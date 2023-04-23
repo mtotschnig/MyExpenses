@@ -276,6 +276,11 @@
                 android:dependency="@string/pref_auto_backup_key"
                 android:key="@string/pref_auto_backup_time_key"
                 android:title="@string/pref_auto_backup_time_title" />
+            <Preference
+                android:key="@string/pref_auto_backup_unencrypted_info_key"
+                android:selectable="false"
+                android:summary="@string/warning_unencrypted_backup"
+                my:isPreferenceVisible="false" />
         </PreferenceScreen>
 
         <PreferenceScreen

@@ -175,7 +175,8 @@ enum class PrefKey {
     ENCRYPT_DATABASE("encrypt_database"),
     ENCRYPT_DATABASE_INFO(R.string.pref_encrypt_database_info_key),
     COIN_API_API_KEY(R.string.pref_coin_api_api_key_key),
-    BACKUP_FILE_PREFIX(R.string.pref_backup_file_prefix_key)
+    BACKUP_FILE_PREFIX(R.string.pref_backup_file_prefix_key),
+    AUTO_BACKUP_UNENCRYPTED_INFO(R.string.pref_auto_backup_unencrypted_info_key)
     ;
 
     internal val resId: Int
