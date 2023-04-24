@@ -51,4 +51,25 @@
         android:text="@string/crash_reports_user_info"
         app:switchTextAppearance="@style/SwitchTextAppearance"
         tools:ignore="UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/auto_backup_label"
+        style="@style/OnboardingInputLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pref_auto_backup_title" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/auto_backup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:checked="true"
+        android:minWidth="@dimen/accessibility_clickable_minimum"
+        android:minHeight="@dimen/accessibility_clickable_minimum"
+        android:switchMinWidth="0dp"
+        android:text="@string/pref_auto_backup_summary"
+        app:switchTextAppearance="@style/SwitchTextAppearance"
+        tools:ignore="UnusedAttribute" />
+
 </LinearLayout>

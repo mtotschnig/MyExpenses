@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -8,10 +9,12 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OnboardingWizzardPrivacyBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.TimePreference
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.distribution
 import org.totschnig.myexpenses.util.tracking.Tracker
+import java.time.LocalTime
 import javax.inject.Inject
 
 class OnBoardingPrivacyFragment: OnboardingFragment() {
@@ -62,6 +65,7 @@ class OnBoardingPrivacyFragment: OnboardingFragment() {
         (requireActivity().application as MyApplication).appComponent.inject(this)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun configureView(savedInstanceState: Bundle?) {
         if (distribution.supportsTrackingAndCrashReporting) {
             binding.crashReports.text =
@@ -72,6 +76,8 @@ class OnBoardingPrivacyFragment: OnboardingFragment() {
             binding.tracking.isVisible = false
             binding.trackingLabel.isVisible = false
         }
+        val defaultAutoBackupTime = LocalTime.of(TimePreference.DEFAULT_VALUE / 100, TimePreference.DEFAULT_VALUE % 100)
+        binding.autoBackup.text = getString(R.string.pref_auto_backup_summary) + " ($defaultAutoBackupTime)"
         nextButton.isVisible = true
     }
 
@@ -87,6 +93,7 @@ class OnBoardingPrivacyFragment: OnboardingFragment() {
         val crashReportEnabled = binding.crashReports.isChecked
         prefHandler.putBoolean(PrefKey.CRASHREPORT_ENABLED, crashReportEnabled)
         crashHandler.setEnabled(crashReportEnabled)
+        prefHandler.putBoolean(PrefKey.AUTO_BACKUP, binding.autoBackup.isChecked)
         super.onNextButtonClicked()
     }
 
