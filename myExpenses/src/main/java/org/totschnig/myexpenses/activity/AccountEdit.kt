@@ -152,7 +152,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             }
         } else {
             configureForCurrency(currencyUnit)
-            setup()
         }
         linkInputsWithLabels()
         viewModel.tagsLiveData.observe(this) {
@@ -163,8 +162,13 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         }
     }
 
-    private fun setup() {
-        configureSyncBackendAdapter()
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        setup(true)
+    }
+
+    private fun setup(fromSavedState: Boolean) {
+        configureSyncBackendAdapter(fromSavedState)
         lifecycleScope.launchWhenStarted {
             currencyViewModel.currencies.collect { currencies: List<Currency?> ->
                 currencyAdapter.addAll(currencies)
@@ -199,12 +203,12 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             PREFERENCES_REQUEST -> if (resultCode == RESULT_FIRST_USER) {
                 finish()
             } else {
-                configureSyncBackendAdapter()
+                configureSyncBackendAdapter(true)
             }
         }
     }
 
-    private fun configureSyncBackendAdapter() {
+    private fun configureSyncBackendAdapter(fromSavedState: Boolean) {
         val syncBackendAdapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_item,
             ArrayUtils.insert(0, getAccountNames(this), getString(R.string.synchronization_none))
@@ -215,11 +219,11 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             val position = syncBackendAdapter.getPosition(syncAccountName)
             if (position > -1) {
                 syncSpinner.setSelection(position)
-                syncSpinner.isEnabled = false
-                binding.SyncUnlink.visibility = View.VISIBLE
+                if (!fromSavedState) {
+                    syncSpinner.isEnabled = false
+                    binding.SyncUnlink.visibility = View.VISIBLE
+                }
             }
-        } else {
-            binding.SyncHelp.visibility = View.VISIBLE
         }
     }
 
@@ -244,7 +248,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             binding.Criterion.setAmount(Money(currencyUnit, account.criterion).amountMajor)
             updateCriterionLabel()
         }
-        setup()
+        setup(false)
     }
 
     private fun showTags(tags: Iterable<Tag>?, closeFunction: (Tag) -> Unit) {
@@ -323,13 +327,18 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         if (parentId == R.id.Currency) {
             try {
                 (currencySpinner.selectedItem as? Currency)?.code?.let {
-                    configureForCurrency(currencyContext[it])
+                    _currencyUnit = currencyContext[it]
+                    configureForCurrency(currencyUnit)
                 }
             } catch (e: IllegalArgumentException) {
                 //will be reported to user when he tries so safe
             }
-        } else if (parentId == R.id.Sync && position > 0) {
-            contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null)
+        } else if (parentId == R.id.Sync) {
+            if (position > 0) {
+                contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null)
+            } else {
+                syncAccountName = null
+            }
         }
     }
 
@@ -416,16 +425,23 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (!mNewInstance && syncSpinner.selectedItemPosition > 0) {
-            showSnackBar(R.string.progress_dialog_checking_sync_backend)
-            uuid?.let { uuid ->
-                syncViewModel.syncCheck(uuid, syncSpinner.selectedItem as String)
-                    .observe(this) { result ->
-                        result.onFailure {
-                            syncSpinner.setSelection(0)
-                            showHelp(it.safeMessage)
+        if (syncSpinner.selectedItemPosition > 0) {
+            val syncAccountName = syncSpinner.selectedItem as String
+            if (!mNewInstance) {
+                showSnackBar(R.string.progress_dialog_checking_sync_backend)
+                uuid?.let { uuid ->
+                    syncViewModel.syncCheck(uuid, syncAccountName)
+                        .observe(this) { result ->
+                            result.onFailure {
+                                syncSpinner.setSelection(0)
+                                showHelp(it.safeMessage)
+                            }.onSuccess {
+                                this.syncAccountName = syncAccountName
+                            }
                         }
-                    }
+                }
+            } else {
+                this.syncAccountName = syncAccountName
             }
         }
     }
