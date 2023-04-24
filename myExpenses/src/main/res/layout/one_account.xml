@@ -170,7 +170,6 @@
                             android:contentDescription="@string/menu_help"
                             android:focusable="true"
                             android:onClick="syncHelp"
-                            android:visibility="gone"
                             app:srcCompat="@drawable/ic_menu_help" />
                     </LinearLayout>
                 </TableRow>

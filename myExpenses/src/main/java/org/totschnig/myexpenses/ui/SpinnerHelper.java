@@ -67,8 +67,8 @@ import androidx.annotation.Nullable;
  * (Quickly) Tested on devices from 2.3.6 through 4.2.2
  *
  * @author Jorrit "Chainfire" Jongma
- * @license WTFPL (do whatever you want with this, nobody cares)
- * http://stackoverflow.com/a/17125287
+ * license WTFPL (do whatever you want with this, nobody cares)
+ * <a href="http://stackoverflow.com/a/17125287">...</a>
  */
 public class SpinnerHelper implements OnItemSelectedListener {
   private final Spinner spinner;
