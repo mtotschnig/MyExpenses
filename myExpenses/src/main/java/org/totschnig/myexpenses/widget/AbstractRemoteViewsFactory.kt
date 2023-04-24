@@ -16,6 +16,7 @@ abstract class AbstractRemoteViewsFactory(
     private val context: Context,
     intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory {
+
     protected var cursor: Cursor? = null
     protected val width: Int = intent.getIntExtra(KEY_WIDTH, 0).takeIf { it > 0 } ?: Int.MAX_VALUE
 

@@ -24,9 +24,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -296,7 +297,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                 "$KEY_ACCOUNTID = ? AND $KEY_GROUPING = ?" to
                                         arrayOf(accountIdAsString, grouping)
                             }
-                            accountId == AggregateAccount.HOME_AGGREGATE_ID -> {
+                            accountId == HOME_AGGREGATE_ID -> {
                                 "$KEY_CURRENCY = ? AND $KEY_GROUPING = ?" to
                                         arrayOf(AGGREGATE_HOME_CURRENCY_CODE, grouping)
                             }

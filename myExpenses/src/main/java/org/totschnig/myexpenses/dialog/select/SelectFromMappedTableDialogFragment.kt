@@ -15,7 +15,7 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.os.Bundle
-import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.Criterion
 import kotlin.math.abs
@@ -39,7 +39,7 @@ abstract class SelectFromMappedTableDialogFragment<T : Criterion<*>> protected c
         fun accountSelection(accountId: Long): String? {
             if (accountId > 0) {
                 return DatabaseConstants.KEY_ACCOUNTID + " = ?"
-            } else if (accountId != AggregateAccount.HOME_AGGREGATE_ID) {
+            } else if (accountId != HOME_AGGREGATE_ID) {
                 return DatabaseConstants.KEY_ACCOUNTID + " IN " +
                         "(SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY +
                         " = (SELECT " + DatabaseConstants.KEY_CODE + " FROM " + DatabaseConstants.TABLE_CURRENCIES + " WHERE " + DatabaseConstants.KEY_ROWID + " = ?))"
@@ -48,7 +48,7 @@ abstract class SelectFromMappedTableDialogFragment<T : Criterion<*>> protected c
         }
 
         fun accountSelectionArgs(accountId: Long): Array<String>? {
-            return if (accountId == AggregateAccount.HOME_AGGREGATE_ID) null else arrayOf(
+            return if (accountId == HOME_AGGREGATE_ID) null else arrayOf(
                 abs(accountId).toString()
             )
         }

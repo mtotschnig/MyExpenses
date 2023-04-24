@@ -33,8 +33,9 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -123,7 +124,7 @@ private fun getHeader(
             when (grouping) {
                 AccountGrouping.NONE -> account.id < 0 && previous.id > 0
                 AccountGrouping.TYPE -> account.type != previous.type
-                AccountGrouping.CURRENCY -> account.id == AggregateAccount.HOME_AGGREGATE_ID || account.currencyUnit != previous.currencyUnit
+                AccountGrouping.CURRENCY -> account.id == HOME_AGGREGATE_ID || account.currencyUnit != previous.currencyUnit
             }
     return if (needsHeader) {
         when (grouping) {
@@ -140,8 +141,8 @@ private fun getHeader(
                 id.toString() to title
             }
             AccountGrouping.CURRENCY -> {
-                if (account.id == AggregateAccount.HOME_AGGREGATE_ID)
-                    AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE to context.getString(R.string.menu_aggregates)
+                if (account.id == HOME_AGGREGATE_ID)
+                    AGGREGATE_HOME_CURRENCY_CODE to context.getString(R.string.menu_aggregates)
                 else account.currency to Currency.create(account.currency, context)
                     .toString()
             }

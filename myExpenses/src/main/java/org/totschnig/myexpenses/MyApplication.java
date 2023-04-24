@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_HTTPS;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_PASSWORD;
+import static org.totschnig.myexpenses.provider.DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.CALENDAR_FULL_PATH_PROJECTION;
 
 import android.app.Activity;
@@ -58,11 +59,8 @@ import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.BaseTransactionProvider;
@@ -782,7 +780,7 @@ public class MyApplication extends Application implements
 
   public void invalidateHomeCurrency(String newValue) {
     currencyContext.invalidateHomeCurrency();
-    currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
+    currencyFormatter.invalidate(AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
     DatabaseConstants.buildProjection(this, newValue);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }

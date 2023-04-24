@@ -3,7 +3,14 @@ package org.totschnig.myexpenses.provider
 import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtended
+import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedAggregate
+import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedHome
 
 /**
  * groups databaseSpecific information
@@ -50,7 +57,12 @@ abstract class DataBaseAccount {
 
     companion object {
 
+        const val AGGREGATE_HOME_CURRENCY_CODE = "___"
+
         const val HOME_AGGREGATE_ID = Int.MIN_VALUE.toLong()
+
+        const val GROUPING_AGGREGATE = "AGGREGATE_GROUPING____"
+        const val SORT_DIRECTION_AGGREGATE = "AGGREGATE_SORT_DIRECTION____"
 
         fun isHomeAggregate(id: Long) = id == HOME_AGGREGATE_ID
 

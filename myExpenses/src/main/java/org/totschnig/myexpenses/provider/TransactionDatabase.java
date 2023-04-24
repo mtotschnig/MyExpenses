@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.provider;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
@@ -40,7 +41,6 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -1998,7 +1998,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("DROP INDEX if exists budgets_type_currency");
         Cursor c = MoreDbUtilsKt.query(db, "budgets", new String[]{"_id",
                 String.format(Locale.ROOT, "coalesce(%1$s, -(select %2$s from %3$s where %4$s = %5$s), %6$d) AS %1$s",
-                    "account_id", "_id", "currency", "code", "budgets.currency", AggregateAccount.HOME_AGGREGATE_ID), "grouping"},
+                    "account_id", "_id", "currency", "code", "budgets.currency", HOME_AGGREGATE_ID), "grouping"},
             null, null, null, null, null, null);
         if (c.moveToFirst()) {
           final SharedPreferences settings = MyApplication.getInstance().getSettings();

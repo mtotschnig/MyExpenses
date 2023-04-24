@@ -12,12 +12,18 @@ import android.widget.RemoteViewsService
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
 import org.totschnig.myexpenses.util.formatMoney
+import javax.inject.Inject
 
 
 class AccountWidgetService : RemoteViewsService() {
@@ -31,6 +37,14 @@ class AccountRemoteViewsFactory(
     val context: Context,
     intent: Intent
 ) : AbstractRemoteViewsFactory(context, intent) {
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
+    init {
+        (context.applicationContext as MyApplication).appComponent.inject(this)
+    }
+
     private val appWidgetId = intent.getIntExtra(
         AppWidgetManager.EXTRA_APPWIDGET_ID,
         AppWidgetManager.INVALID_APPWIDGET_ID
@@ -41,7 +55,7 @@ class AccountRemoteViewsFactory(
     override fun buildCursor() = buildCursor(context, accountId)
 
     override fun RemoteViews.populate(cursor: Cursor) {
-        populate(context, this, cursor, sumColumn, width, null)
+        populate(context, currencyContext, this, cursor, sumColumn, width, null)
     }
 
     companion object {
@@ -75,7 +89,7 @@ class AccountRemoteViewsFactory(
                 setContentDescription(buttonId, context.getString(contentDescriptionResId))
                 val block: Intent.() -> Unit = {
                     putExtra(KEY_ROWID, account.id)
-                    putExtra(KEY_CURRENCY, account.currencyUnit.code)
+                    putExtra(KEY_CURRENCY, account.currency)
                     putExtra(KEY_CLICK_ACTION, action)
                 }
                 if (clickInfo == null) {
@@ -99,6 +113,7 @@ class AccountRemoteViewsFactory(
          */
         fun populate(
             context: Context,
+            currencyContext: CurrencyContext,
             remoteViews: RemoteViews,
             cursor: Cursor,
             sumColumn: String,
@@ -109,7 +124,7 @@ class AccountRemoteViewsFactory(
                 val account = Account.fromCursor(cursor)
                 setBackgroundColorSave(R.id.divider3, account.color)
                 val currentBalance = Money(
-                    account.currencyUnit,
+                    currencyContext[account.currency],
                     cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn))
                 )
                 setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))

@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.util;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
+import static org.totschnig.myexpenses.provider.DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -49,7 +50,6 @@ import com.squareup.phrase.Phrase;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
@@ -220,7 +220,7 @@ public class Utils {
   @Nullable
   public static Currency getInstance(@Nullable String strCurrency) {
     if (strCurrency != null) {
-      if (strCurrency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)) {
+      if (strCurrency.equals(AGGREGATE_HOME_CURRENCY_CODE)) {
         strCurrency = PrefKey.HOME_CURRENCY.getString("EUR");
       }
       try {

@@ -18,6 +18,7 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -273,7 +274,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         var amountCalculation = KEY_AMOUNT
         var table = VIEW_COMMITTED
         when {
-            accountInfo.accountId == Account.HOME_AGGREGATE_ID -> {
+            accountInfo.accountId == HOME_AGGREGATE_ID -> {
                 accountSelection = null
                 amountCalculation =
                     getAmountHomeEquivalent(
@@ -351,7 +352,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
                 .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE)
             val id = accountInfo.accountId
-            if (id != Account.HOME_AGGREGATE_ID) {
+            if (id != HOME_AGGREGATE_ID) {
                 if (id < 0) {
                     builder.appendQueryParameter(KEY_CURRENCY, accountInfo.currency.code)
                 } else {

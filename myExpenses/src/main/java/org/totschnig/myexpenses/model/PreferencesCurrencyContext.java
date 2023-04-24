@@ -1,9 +1,12 @@
 package org.totschnig.myexpenses.model;
 
+import static org.totschnig.myexpenses.provider.DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE;
+
 import androidx.annotation.NonNull;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.provider.DataBaseAccount;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Collections;
@@ -106,6 +109,6 @@ public class PreferencesCurrencyContext implements CurrencyContext {
 
   @Override
   public void invalidateHomeCurrency() {
-    INSTANCES.remove(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE);
+    INSTANCES.remove(AGGREGATE_HOME_CURRENCY_CODE);
   }
 }

@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.toEndOfDayEpoch
@@ -33,7 +34,7 @@ data class Budget(
     }
 
     override fun label(context: Context) = accountName
-            ?: if (accountId == Account.HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
+            ?: if (accountId == HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
             else currency.code
 
     /**

@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.configurePopupAnchor
@@ -88,7 +89,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         }
 
         val canReset = !accountInfo.isSealed
-        if (accountInfo.id == Account.HOME_AGGREGATE_ID) {
+        if (accountInfo.id == HOME_AGGREGATE_ID) {
             allP = true
             warningText = getString(R.string.warning_reset_account_all, "")
             fileName = "export-$now"

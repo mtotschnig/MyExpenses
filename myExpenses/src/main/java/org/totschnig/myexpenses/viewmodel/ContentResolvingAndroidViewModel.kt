@@ -26,13 +26,14 @@ import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragmen
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
 import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
-import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -122,7 +123,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(KEY_CURRENCY)
-        val currencyUnit = if (currency == AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)
+        val currencyUnit = if (currency == AGGREGATE_HOME_CURRENCY_CODE)
             homeCurrencyProvider.homeCurrencyUnit else currencyContext.get(currency)
         val budgetId = cursor.getLong(KEY_ROWID)
         val accountId = cursor.getLong(KEY_ACCOUNTID)

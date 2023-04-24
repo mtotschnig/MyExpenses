@@ -16,9 +16,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
@@ -60,7 +60,7 @@ open class BudgetViewModel(application: Application) :
             )
                 .build()
         }
-        val isTotalAccount = budget.accountId == AggregateAccount.HOME_AGGREGATE_ID
+        val isTotalAccount = budget.accountId == HOME_AGGREGATE_ID
         if (!isTotalAccount) {
             if (budget.accountId < 0) {
                 sumBuilder.appendQueryParameter(KEY_CURRENCY, budget.currency.code)
@@ -143,7 +143,7 @@ open class BudgetViewModel(application: Application) :
     companion object {
         val PROJECTION = arrayOf(
             q(KEY_ROWID),
-            "coalesce($KEY_ACCOUNTID, -(select $KEY_ROWID from $TABLE_CURRENCIES where $KEY_CODE = $TABLE_BUDGETS.$KEY_CURRENCY), ${AggregateAccount.HOME_AGGREGATE_ID}) AS $KEY_ACCOUNTID",
+            "coalesce($KEY_ACCOUNTID, -(select $KEY_ROWID from $TABLE_CURRENCIES where $KEY_CODE = $TABLE_BUDGETS.$KEY_CURRENCY), ${HOME_AGGREGATE_ID}) AS $KEY_ACCOUNTID",
             KEY_TITLE,
             q(KEY_DESCRIPTION),
             "coalesce($TABLE_BUDGETS.$KEY_CURRENCY, $TABLE_ACCOUNTS.$KEY_CURRENCY) AS $KEY_CURRENCY",

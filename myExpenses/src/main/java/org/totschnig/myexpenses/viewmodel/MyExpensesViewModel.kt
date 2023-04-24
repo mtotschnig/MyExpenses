@@ -42,6 +42,9 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -304,7 +307,7 @@ open class MyExpensesViewModel(
     fun persistGrouping(accountId: Long, grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
             if (accountId == DataBaseAccount.HOME_AGGREGATE_ID) {
-                AggregateAccount.persistGroupingHomeAggregate(prefHandler, grouping)
+                prefHandler.putString(GROUPING_AGGREGATE, grouping.name)
                 triggerAccountListRefresh()
             } else {
                 contentResolver.update(
@@ -334,7 +337,10 @@ open class MyExpensesViewModel(
     }
 
     private fun persistSortDirectionHomeAggregate(sortDirection: SortDirection) {
-        AggregateAccount.persistSortDirectionHomeAggregate(prefHandler, sortDirection)
+        prefHandler.putString(
+            SORT_DIRECTION_AGGREGATE + AGGREGATE_HOME_CURRENCY_CODE,
+            sortDirection.name
+        )
         triggerAccountListRefresh()
     }
 

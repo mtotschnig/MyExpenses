@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.dialog.select
 import android.net.Uri
 import android.os.Bundle
 import org.jetbrains.annotations.NotNull
-import org.totschnig.myexpenses.model.AggregateAccount
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -22,7 +22,7 @@ class SelectMultipleAccountDialogFragment : SelectFilterDialog<AccountCriterion>
     companion object {
         @JvmStatic
         fun newInstance(currencyCode: String): @NotNull SelectMultipleAccountDialogFragment = SelectMultipleAccountDialogFragment().apply {
-            if (currencyCode != AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE) {
+            if (currencyCode != AGGREGATE_HOME_CURRENCY_CODE) {
                 arguments = Bundle(1).apply {
                     putString(KEY_CURRENCY, currencyCode)
                 }

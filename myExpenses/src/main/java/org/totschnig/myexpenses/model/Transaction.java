@@ -105,6 +105,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
@@ -121,6 +122,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
@@ -413,7 +415,7 @@ public class Transaction extends Model implements ITransaction {
     Transaction t;
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
-        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_DEBT_ID,
+        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY, KEY_DEBT_ID,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, checkSealedWithAlias(VIEW_ALL, TABLE_TRANSACTIONS)};
@@ -438,7 +440,7 @@ public class Transaction extends Model implements ITransaction {
       Long transferAccountId = getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
       Transfer transfer = new Transfer(account_id, money, transferAccountId, parent_id);
       transfer.setTransferPeer(transfer_peer);
-      transfer.setTransferAmount(new Money(Account.getInstanceFromDb(transferAccountId).getCurrencyUnit(),
+      transfer.setTransferAmount(new Money(currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_TRANSFER_CURRENCY))),
           c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_AMOUNT))));
       t = transfer;
     } else {

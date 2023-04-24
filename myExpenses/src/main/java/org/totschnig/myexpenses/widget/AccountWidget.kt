@@ -79,7 +79,7 @@ class AccountWidget :
                 if (cursor.moveToFirst()) {
                     RemoteViews(context.packageName, R.layout.widget_row).also { widget ->
                         AccountRemoteViewsFactory.populate(
-                            context, widget, cursor,
+                            context, currencyContext, widget, cursor,
                             AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
                             availableWidth(context, appWidgetManager, appWidgetId),
                             Pair(appWidgetId, clickBaseIntent(context))

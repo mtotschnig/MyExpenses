@@ -15,6 +15,7 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import javax.inject.Inject
@@ -50,6 +51,9 @@ abstract class AbstractWidget(
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
 
     override fun onReceive(context: Context, intent: Intent) {
         (context.applicationContext as MyApplication).appComponent.inject(this)

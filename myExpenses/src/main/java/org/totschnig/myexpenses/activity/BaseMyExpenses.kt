@@ -71,10 +71,10 @@ import org.totschnig.myexpenses.dialog.*
 import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -1116,7 +1116,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             if (accountId >= 0) {
                 //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
                 putExtra(KEY_ACCOUNTID, accountId)
-            } else if (!Account.isHomeAggregate(accountId)) {
+            } else if (!isHomeAggregate(accountId)) {
                 //if we are called from an aggregate account, we also hand over the currency
                 putExtra(KEY_CURRENCY, currentAccount!!.currency)
                 putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)

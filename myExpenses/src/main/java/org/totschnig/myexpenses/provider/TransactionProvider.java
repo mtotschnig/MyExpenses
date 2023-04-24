@@ -17,7 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
-import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
+import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
@@ -520,7 +520,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
-        if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
+        if (Integer.parseInt(currencyId) == HOME_AGGREGATE_ID) {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
           projection = aggregateHomeProjection(projection);
         } else {

@@ -20,19 +20,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.util.ExchangeRateKt.calculateRealExchangeRate;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -42,11 +35,8 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
 
 import org.apache.commons.lang3.StringUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 
@@ -64,7 +54,6 @@ public class Account extends Model implements DistributionAccountInfo {
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
-  public final static long HOME_AGGREGATE_ID = Integer.MIN_VALUE;
 
   private String label;
 
@@ -79,8 +68,6 @@ public class Account extends Model implements DistributionAccountInfo {
   public boolean excludeFromTotals = false;
 
   private String syncAccountName;
-
-  private SortDirection sortDirection = SortDirection.DESC;
 
   private Money criterion;
 
@@ -121,36 +108,6 @@ public class Account extends Model implements DistributionAccountInfo {
 
   public static final int DEFAULT_COLOR = 0xff009688;
 
-
-  @WorkerThread
-  @Deprecated
-  public static Account getInstanceFromDb(long id) {
-    if (id < 0) throw new IllegalArgumentException();
-    Account account;
-    String selection = TABLE_ACCOUNTS + "." + KEY_ROWID + " = ";
-    if (id == 0) {
-      selection += String.format("(SELECT min(%s) FROM %s)", KEY_ROWID, TABLE_ACCOUNTS);
-    } else {
-      selection += id;
-    }
-    Cursor c = cr().query(
-        CONTENT_URI, null, selection, null, null);
-    if (c == null) {
-      return null;
-    }
-    if (c.getCount() == 0) {
-      c.close();
-      return null;
-    }
-    c.moveToFirst();
-    account = new Account(c);
-    c.close();
-    return account;
-  }
-
-  private double adjustExchangeRate(double raw, CurrencyUnit homeCurrency) {
-    return calculateRealExchangeRate(raw, currencyUnit, homeCurrency);
-  }
   /**
    * returns an empty Account instance
    */
@@ -188,66 +145,6 @@ public class Account extends Model implements DistributionAccountInfo {
     this.description = description;
     this.setType(type);
     this.color = color;
-  }
-
-  /**
-   * @param c Cursor positioned at the row we want to extract into the object
-   */
-  public Account(Cursor c) {
-    extract(c, MyApplication.getInstance().getAppComponent().homeCurrencyProvider().getHomeCurrencyUnit());
-  }
-
-  /**
-   * extract information from Cursor and populate fields
-   *
-   * @param c            a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
-   * @param homeCurrency
-   */
-
-  protected void extract(Cursor c, CurrencyUnit homeCurrency) {
-    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
-    this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
-    this.setLabel(c.getString(c.getColumnIndexOrThrow(KEY_LABEL)));
-    this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
-    this.currencyUnit = currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
-    this.openingBalance = new Money(this.currencyUnit,
-        c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
-
-    String type = c.getString(c.getColumnIndexOrThrow(KEY_TYPE));
-    if (type != null) {
-        try {
-          this.setType(AccountType.valueOf(type));
-        } catch (IllegalArgumentException ex) {
-          this.setType(AccountType.CASH);
-        }
-    } else {
-        this.setType(AccountType.CASH);
-    }
-    try {
-      this.setGrouping(Grouping.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_GROUPING))));
-    } catch (IllegalArgumentException ignored) {
-    }
-    this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
-    this.excludeFromTotals = c.getInt(c.getColumnIndexOrThrow(KEY_EXCLUDE_FROM_TOTALS)) != 0;
-    this.sealed = c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) != 0;
-
-    this.syncAccountName = c.getString(c.getColumnIndexOrThrow(KEY_SYNC_ACCOUNT_NAME));
-
-    this.setUuid(c.getString(c.getColumnIndexOrThrow(KEY_UUID)));
-
-    try {
-      this.sortDirection = SortDirection.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_SORT_DIRECTION)));
-    } catch (IllegalArgumentException e) {
-      this.sortDirection = SortDirection.DESC;
-    }
-    int columnIndexExchangeRate = c.getColumnIndex(KEY_EXCHANGE_RATE);
-    if (columnIndexExchangeRate != -1) {
-      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndexExchangeRate), homeCurrency);
-    }
-    long criterion = MoreDbUtilsKt.requireLong(c, KEY_CRITERION);
-    if (criterion != 0) {
-      this.criterion = new Money(this.currencyUnit, criterion);
-    }
   }
 
   public void setCurrency(CurrencyUnit currencyUnit) throws IllegalArgumentException {
@@ -368,27 +265,6 @@ public class Account extends Model implements DistributionAccountInfo {
     return result;
   }
 
-  /**
-   * return an Account or AggregateAccount that matches the one found in the cursor at the row it is
-   * positioned at. Either the one found in the cache is returned or it is extracted from the cursor
-   */
-  public static Account fromCursor(Cursor cursor) {
-    long accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID));
-    if (accountId < 0) {
-      return new AggregateAccount(cursor);
-    } else {
-      return new Account(cursor);
-    }
-  }
-
-  public boolean isHomeAggregate() {
-    return isHomeAggregate(getId());
-  }
-
-  public static boolean isHomeAggregate(long id) {
-    return id == HOME_AGGREGATE_ID;
-  }
-
   public boolean isAggregate() {
     return isAggregate(getId());
   }
@@ -410,19 +286,7 @@ public class Account extends Model implements DistributionAccountInfo {
     return grouping;
   }
 
-  public void setGrouping(@NonNull Grouping grouping) {
-    this.grouping = grouping;
-  }
-
-  protected void setSortDirection(SortDirection sortDirection) {
-    this.sortDirection = sortDirection;
-  }
-
   public String getLabel() {
-    return label;
-  }
-
-  public String getLabelForScreenTitle(Context context) {
     return label;
   }
 

@@ -314,14 +314,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     int currencyColumnIndex = c.getColumnIndex(KEY_CURRENCY);
     long accountId = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
-    //we allow the object to be instantiated without instantiation of
-    //the account, because the latter triggers an error (getDatabase called recursively)
-    //when we need a template instance in database onUpgrade
-    if (currencyColumnIndex != -1) {
-      currency = currencyContext.get(c.getString(currencyColumnIndex));
-    } else {
-      currency = Account.getInstanceFromDb(accountId).getCurrencyUnit();
-    }
+    currency = currencyContext.get(c.getString(currencyColumnIndex));
     Money amount = new Money(currency, c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT)));
     boolean isTransfer = !c.isNull(c.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT));
     Long catId = getLongOrNull(c, KEY_CATID);

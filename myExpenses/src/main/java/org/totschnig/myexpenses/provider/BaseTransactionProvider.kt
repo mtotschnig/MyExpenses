@@ -25,6 +25,10 @@ import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
@@ -370,7 +374,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
             }
             //Currency query
-            if (mergeAggregate != Account.HOME_AGGREGATE_ID.toString()) {
+            if (mergeAggregate != HOME_AGGREGATE_ID.toString()) {
                 val qb = SupportSQLiteQueryBuilder.builder(
                     "$joinWithAggregates LEFT JOIN $TABLE_CURRENCIES on $KEY_CODE = $KEY_CURRENCY"
                 )
@@ -426,20 +430,18 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
             }
             //home query
-            if (mergeAggregate == Account.HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
+            if (mergeAggregate == HOME_AGGREGATE_ID.toString() || mergeAggregate == "1") {
                 val qb = SupportSQLiteQueryBuilder.builder(
                     exchangeRateJoin(joinWithAggregates, KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)
                 )
 
-                val grouping = prefHandler.getString(AggregateAccount.GROUPING_AGGREGATE, "NONE")
+                val grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE")
                 val sortDirection =
-                    prefHandler.getString(AggregateAccount.SORT_DIRECTION_AGGREGATE, "DESC")
-                val rowIdColumn = Account.HOME_AGGREGATE_ID.toString() + " AS " + KEY_ROWID
-                val labelColumn =
-                    "'${wrappedContext.getString(R.string.grand_total)}' AS $KEY_LABEL"
-                val currencyColumn =
-                    "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY
-                val aggregateColumn = "${AggregateAccount.AGGREGATE_HOME} AS $KEY_IS_AGGREGATE"
+                    prefHandler.getString(SORT_DIRECTION_AGGREGATE, "DESC")
+                val rowIdColumn = "$HOME_AGGREGATE_ID AS $KEY_ROWID"
+                val labelColumn = "'${wrappedContext.getString(R.string.grand_total)}' AS $KEY_LABEL"
+                val currencyColumn = "'$AGGREGATE_HOME_CURRENCY_CODE' AS $KEY_CURRENCY"
+                val aggregateColumn = "2 AS $KEY_IS_AGGREGATE"
                 val homeProjection = if (minimal) {
                     arrayOf(
                         rowIdColumn,
@@ -641,7 +643,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val group = uri.pathSegments[3]
         val (accountSelection, accountSelectionArg) = when {
             accountId > 0 -> "$KEY_ACCOUNTID = ?" to accountId
-            accountId == AggregateAccount.HOME_AGGREGATE_ID -> "$KEY_CURRENCY = ?" to AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE
+            accountId == HOME_AGGREGATE_ID -> "$KEY_CURRENCY = ?" to AGGREGATE_HOME_CURRENCY_CODE
             else -> "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to accountId
         }
         return db.query(
@@ -716,13 +718,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 KEY_OPENING_BALANCE -> "$aggregateFunction($KEY_OPENING_BALANCE * " +
                         getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency) +
                         ")"
-                KEY_CURRENCY -> "'${AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE}'"
-                KEY_GROUPING -> "'${
-                    prefHandler.getString(
-                        AggregateAccount.GROUPING_AGGREGATE,
-                        "NONE"
-                    )
-                }'"
+                KEY_CURRENCY -> "'$AGGREGATE_HOME_CURRENCY_CODE'"
+                KEY_GROUPING -> "'${prefHandler.getString(GROUPING_AGGREGATE, "NONE")}'"
                 KEY_SEALED -> "max($KEY_SEALED)"
                 else -> throw java.lang.IllegalArgumentException("unknown column $it")
             } + " AS $it"
@@ -812,7 +809,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 bindArgs
             )
             val totalBudgetClause =
-                if (homeCurrency == currency) " OR $KEY_CURRENCY = '${AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE}'" else ""
+                if (homeCurrency == currency) " OR $KEY_CURRENCY = '$AGGREGATE_HOME_CURRENCY_CODE'" else ""
             db.execSQL(
                 """UPDATE $TABLE_BUDGET_ALLOCATIONS SET
                     $KEY_BUDGET=$KEY_BUDGET$operation$factor,
