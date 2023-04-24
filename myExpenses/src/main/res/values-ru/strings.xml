@@ -655,8 +655,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Получение данных с удаленного сервера. Это может занять некоторое время.</string>
     <string name="donate_button_invoice">Счёт-фактура</string>
     <string name="menu_sort_direction">Направление сортировки</string>
-    <string name="sort_direction_ascending">по возрастанию</string>
-    <string name="sort_direction_descending">по убыванию</string>
     <string name="never">Никогда</string>
     <string name="always">Всегда</string>
     <string name="auto_fill_account_from_aggregate_only">Только при запуске с совокупного счета.</string>

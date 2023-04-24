@@ -824,8 +824,6 @@
     <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
     <string name="always">sempre</string>
     <string name="never">nunca</string>
-    <string name="sort_direction_descending">descendente</string>
-    <string name="sort_direction_ascending">ascendente</string>
     <string name="menu_sort_direction">Sentido da ordenação</string>
     <string name="donate_button_invoice">Fatura</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do destino remoto. Isso pode demorar algum tempo.</string>
@@ -878,7 +876,6 @@
     <string name="warning_party_delete_debt">Ao apagar esse parceiro, as dívidas lhe associadas serão excluídas também.</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">A dívida %1$s tem %2$d transação mapeada.</item>
-        <item quantity="many">A dívida %1$s tem %2$d transações mapeadas.</item>
         <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
     </plurals>
     <string name="whats_new_338">Hierarquia de categorias arbitrariamente profunda</string>
@@ -904,7 +901,6 @@
     <string name="pref_mlkit_script_title">Script para MlKit</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Uma categoria foi atualizada com ícone.</item>
-        <item quantity="many">%1$d categorias foram atualizadas com ícones.</item>
         <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
     </plurals>
     <string name="whats_new_336_1">Compartilhar o resumo da dívida</string>
@@ -912,7 +908,6 @@
     <string name="purge_backups">Os seguintes backups antigos serão excluídos:</string>
     <plurals name="purge_backup_failure">
         <item quantity="one">Não foi possível apagar um ficheiro de backup antigo.</item>
-        <item quantity="many">Não foi possível apagar %d ficheiros de backup antigos.</item>
         <item quantity="other">Não foi possível apagar %d ficheiros de backup antigos.</item>
     </plurals>
     <string name="pref_debug_logging_share_summary">Compartilhar ficheiros de registo</string>
@@ -939,7 +934,6 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Devido ao status atual da sua licença (%1$s), este diálogo será exibido a cada utilização.</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Um ficheiro de backup antigo foi apagado.</item>
-        <item quantity="many">%d ficheiros de backup antigos foram apagados.</item>
         <item quantity="other">%d ficheiros de backup antigos foram apagados.</item>
     </plurals>
     <string name="select_all_list_too_large">O comando %s não está disponível porque a lista foi apenas parcialmente carregada. Por favor, use a funcionalidade Pesquisar para reduzir o tamanho da lista.</string>

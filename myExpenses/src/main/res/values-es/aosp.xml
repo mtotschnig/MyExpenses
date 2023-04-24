@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Abrir control de navegación"</string>
     <string name="drawer_close">"Cerrar control de navegación"</string>
+    <string name="sort_direction_ascending">"Ascendente"</string>
+    <string name="sort_direction_descending">"Descendente"</string>
     <string name="saving">"Guardando…"</string>
     <string name="default_action">"Acción predeterminada"</string>
     <string name="full_name">"Nombre"</string>

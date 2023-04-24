@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Otevřít navigační složku"</string>
     <string name="drawer_close">"Zavřít navigační složku"</string>
+    <string name="sort_direction_ascending">"Vzestupně"</string>
+    <string name="sort_direction_descending">"Sestupně"</string>
     <string name="saving">"Ukládání…"</string>
     <string name="default_action">"Výchozí akce"</string>
     <string name="full_name">"Jméno"</string>

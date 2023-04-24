@@ -638,8 +638,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Отримання даних з віддаленого сервера. Це може зайняти деякий час.</string>
     <string name="donate_button_invoice">Рахунок (інвойс)</string>
     <string name="menu_sort_direction">Напрямок сортування</string>
-    <string name="sort_direction_ascending">зростаючий</string>
-    <string name="sort_direction_descending">спадаючий</string>
     <string name="never">ніколи</string>
     <string name="always">завжди</string>
     <string name="auto_fill_account_from_aggregate_only">Лише коли розпочатий з об\'єднаного рахунку.</string>

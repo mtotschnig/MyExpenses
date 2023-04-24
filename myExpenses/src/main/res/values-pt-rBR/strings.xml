@@ -104,7 +104,6 @@
     <string name="dialog_title_contrib_feature">Recurso premium</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Excluir a conta\?</item>
-        <item quantity="many">Excluir %1$d contas\?</item>
         <item quantity="other">Excluir %1$d contas\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Apagar a categoria\?</string>
@@ -222,12 +221,10 @@
     <string name="no_accounts">Não há contas.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">O objeto selecionado está mapeado em uma transação e não pode ser excluído.</item>
-        <item quantity="many">%1$d objetos estão mapeados em transações e não podem ser excluídos.</item>
         <item quantity="other">%1$d objetos estão mapeados em transações e não podem ser excluídos.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">O objeto selecionado é mapeado em um modelo e não pode ser excluído.</item>
-        <item quantity="many">%1$d objetos estão mapeados em modelos e não podem ser excluídos.</item>
         <item quantity="other">%1$d objetos estão mapeados em modelos e não podem ser excluídos.</item>
     </plurals>
     <string name="numbered">numeradas</string>
@@ -353,7 +350,6 @@
     <string name="save_transaction_error">Não foi possível salvar a nova transação do modelo.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">A nova transação foi salva, com sucesso, do modelo.</item>
-        <item quantity="many">%1$d novas transações foram salvas, com sucesso, de modelos.</item>
         <item quantity="other">%1$d novas transações foram salvas, com sucesso, de modelos.</item>
     </plurals>
     <string name="save_transaction_template_deleted">O modelo foi apagado</string>
@@ -393,18 +389,15 @@
     <string name="warning_delete_account">A conta \"%1$s\" será apagada com todas as suas transações.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">Uma categoria selecionada contém subcategorias, que também serão excluídas.</item>
-        <item quantity="many">%1$d categorias selecionadas contém subcategorias, que também serão excluídas.</item>
         <item quantity="other">%1$d categorias selecionadas contém subcategorias, que também serão excluídas.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">Para pelo menos uma categoria selecionada, há alocações de orçamento, que também serão apagadas.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">O modelo selecionado será excluído.</item>
-        <item quantity="many">%1$d modelos selecionados serão excluídos.</item>
         <item quantity="other">%1$d modelos selecionados serão excluídos.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">A transação selecionada será apagada.</item>
-        <item quantity="many">As %1$d transações selecionadas serão apagadas.</item>
         <item quantity="other">As %1$d transações selecionadas serão apagadas.</item>
     </plurals>
     <string name="move_category_success">Uma categoria foi movida com sucesso.</string>
@@ -650,8 +643,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do destino remoto. Isso pode demorar algum tempo.</string>
     <string name="donate_button_invoice">Fatura</string>
     <string name="menu_sort_direction">Sentido da ordenação</string>
-    <string name="sort_direction_ascending">ascendente</string>
-    <string name="sort_direction_descending">descendente</string>
     <string name="never">nunca</string>
     <string name="always">sempre</string>
     <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
@@ -659,7 +650,6 @@
     <string name="sync_login_again">Por favor, autentique-se novamente.</string>
     <plurals name="delete_success">
         <item quantity="one">Um objeto foi excluído com sucesso.</item>
-        <item quantity="many">%d objetos foram excluídos com sucesso.</item>
         <item quantity="other">%d objetos foram excluídos com sucesso.</item>
     </plurals>
     <string name="feature_deprecated">Obsoleto</string>
@@ -853,7 +843,6 @@
     <string name="dialog_multi_tag_clear">Todas as etiquetas serão removidas das transações selecionadas.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">A etiqueta %1$s está mapeada numa transação. Ela deve ser excluída\?</item>
-        <item quantity="many">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
         <item quantity="other">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Adicionar novas etiquetas às já existentes</string>
@@ -970,7 +959,6 @@
     <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">A dívida %1$s tem %2$d transação mapeada.</item>
-        <item quantity="many">A dívida %1$s tem %2$d transações mapeadas.</item>
         <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Excluir a dívida\?</string>
@@ -983,7 +971,6 @@
     <string name="cb_label_merge_accounts">Fundir contas</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Uma categoria foi atualizada com ícone.</item>
-        <item quantity="many">%1$d categorias foram atualizadas com ícones.</item>
         <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
     </plurals>
     <string name="whats_new_336_2">Etiquetas para as partes da divisão</string>
@@ -996,12 +983,10 @@
     <string name="purge_backups">Os seguintes backups antigos serão excluídos:</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Um arquivo de backup antigo foi apagado.</item>
-        <item quantity="many">%d arquivos de backup antigos foram apagados.</item>
         <item quantity="other">%d arquivos de backup antigos foram apagados.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">Não foi possível excluir um arquivo de backup antigo.</item>
-        <item quantity="many">Não foi possível excluir %d arquivos de backup antigos.</item>
         <item quantity="other">Não foi possível excluir %d arquivos de backup antigos.</item>
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de excluir arquivos</string>

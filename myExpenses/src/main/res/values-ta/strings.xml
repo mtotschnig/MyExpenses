@@ -643,8 +643,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">தொலை பின்தளத்தில் இருந்து தரவைப் பெறுகிறது. இதற்கு சிறிது நேரம் ஆகலாம்.</string>
     <string name="donate_button_invoice">விலைப்பட்டியல்</string>
     <string name="menu_sort_direction">வரிசைப்படுத்தும் திசை</string>
-    <string name="sort_direction_ascending">ஏறு வரிசை</string>
-    <string name="sort_direction_descending">இறங்கு வரிசை</string>
     <string name="never">எப்போதும் இல்லை</string>
     <string name="always">எப்பொழுதும்</string>
     <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டுமே.</string>

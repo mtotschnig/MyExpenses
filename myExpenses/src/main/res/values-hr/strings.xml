@@ -481,8 +481,6 @@
     <string name="auto_fill_account_from_aggregate_only">Samo kad se počne iz kumuliranog računa.</string>
     <string name="always">uvijek</string>
     <string name="never">nikada</string>
-    <string name="sort_direction_descending">silazno</string>
-    <string name="sort_direction_ascending">uzlazno</string>
     <string name="menu_sort_direction">Smjer razvrstavanja</string>
     <string name="donate_button_invoice">Račun</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Dohvaćanje podataka s udaljenog pozadinskog sustava. To može potrajati.</string>

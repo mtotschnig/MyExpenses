@@ -670,8 +670,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">جارِ إحضار البيانات من الخلفية البعيدة. هذا قد يستغرق بعض الوقت.</string>
     <string name="donate_button_invoice">فاتورة</string>
     <string name="menu_sort_direction">اتجاه الترتيب</string>
-    <string name="sort_direction_ascending">تصاعدي</string>
-    <string name="sort_direction_descending">تنازلي</string>
     <string name="never">أبداً</string>
     <string name="always">دائماً</string>
     <string name="auto_fill_account_from_aggregate_only">فقط عندما تبدأ من الحساب الكلي.</string>

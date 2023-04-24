@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Ouvrir le panneau de navigation"</string>
     <string name="drawer_close">"Fermer le panneau de navigation"</string>
+    <string name="sort_direction_ascending">"Croissant"</string>
+    <string name="sort_direction_descending">"Décroissant"</string>
     <string name="saving">"Enregistrement…"</string>
     <string name="default_action">"Action par défaut"</string>
     <string name="full_name">"Nom"</string>

@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Άνοιγμα συρταριού πλοήγησης"</string>
     <string name="drawer_close">"Κλείσιμο συρταριού πλοήγησης"</string>
+    <string name="sort_direction_ascending">"Αύξουσα"</string>
+    <string name="sort_direction_descending">"Φθίνουσα"</string>
     <string name="saving">"Αποθήκευση…"</string>
     <string name="default_action">"Προεπιλεγμένη ενέργεια"</string>
     <string name="full_name">"Όνομα"</string>

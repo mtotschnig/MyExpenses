@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"Ireki nabigazio-panel lerrakorra"</string>
     <string name="drawer_close">"Itxi nabigazio-panel lerrakorra"</string>
+    <string name="sort_direction_ascending">"Gorantz"</string>
+    <string name="sort_direction_descending">"Beherantz"</string>
     <string name="saving">"Gordetzen…"</string>
     <string name="default_action">"Ekintza lehenetsia"</string>
     <string name="full_name">"Izena"</string>

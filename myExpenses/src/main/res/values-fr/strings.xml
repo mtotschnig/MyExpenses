@@ -650,8 +650,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Récupération de données depuis un serveur distant. Cela peut prendre un certain temps.</string>
     <string name="donate_button_invoice">Facture</string>
     <string name="menu_sort_direction">Direction de tri</string>
-    <string name="sort_direction_ascending">ascendante</string>
-    <string name="sort_direction_descending">descendante</string>
     <string name="never">jamais</string>
     <string name="always">toujours</string>
     <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>

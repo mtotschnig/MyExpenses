@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"فتح ساحب التنقل"</string>
     <string name="drawer_close">"إغلاق ساحب التنقل"</string>
+    <string name="sort_direction_ascending">"تصاعدي"</string>
+    <string name="sort_direction_descending">"تنازلي"</string>
     <string name="saving">"جارٍ الحفظ…"</string>
     <string name="default_action">"إجراء افتراضي"</string>
     <string name="full_name">"الاسم"</string>

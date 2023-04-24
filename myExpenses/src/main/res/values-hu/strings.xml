@@ -644,8 +644,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Adatok betöltése távoli háttérrendszerről. Ez eltarthat egy darabig.</string>
     <string name="donate_button_invoice">Számla</string>
     <string name="menu_sort_direction">Rendezési irány</string>
-    <string name="sort_direction_ascending">emelkedő</string>
-    <string name="sort_direction_descending">csökkenő</string>
     <string name="never">soha</string>
     <string name="always">mindig</string>
     <string name="auto_fill_account_from_aggregate_only">Csak ha összevont számláról van indítva.</string>

@@ -629,8 +629,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Mendapatkan data dari bahagian belakang jauh. Ia mengambil sedikit masa.</string>
     <string name="donate_button_invoice">Invois</string>
     <string name="menu_sort_direction">Isih arah</string>
-    <string name="sort_direction_ascending">menaik</string>
-    <string name="sort_direction_descending">menurun</string>
     <string name="never">tidak sesekali</string>
     <string name="always">sentiasa</string>
     <string name="auto_fill_account_from_aggregate_only">Hanya bermula dari akaun beragregat.</string>

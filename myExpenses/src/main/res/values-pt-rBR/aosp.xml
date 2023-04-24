@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Abrir gaveta de navegação"</string>
     <string name="drawer_close">"Fechar gaveta de navegação"</string>
+    <string name="sort_direction_ascending">"Crescente"</string>
+    <string name="sort_direction_descending">"Decrescente"</string>
     <string name="saving">"Salvando…"</string>
     <string name="default_action">"Ação padrão"</string>
     <string name="full_name">"Nome"</string>

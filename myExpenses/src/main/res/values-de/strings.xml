@@ -643,8 +643,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Daten werden vom entfernten Backend geladen. Dies könnte eine Weile dauern.</string>
     <string name="donate_button_invoice">Rechnung</string>
     <string name="menu_sort_direction">Sortierrichtung</string>
-    <string name="sort_direction_ascending">aufsteigend</string>
-    <string name="sort_direction_descending">absteigend</string>
     <string name="never">nie</string>
     <string name="always">immer</string>
     <string name="auto_fill_account_from_aggregate_only">Nur wenn vom Gesamtkonto gestartet.</string>

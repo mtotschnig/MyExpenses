@@ -631,8 +631,6 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Aldatu hileroko harpidetzara</string>
     <string name="extend_validity">Luzatu balio-epea</string>
     <string name="donate_button_invoice">Faktura</string>
-    <string name="sort_direction_ascending">gorantz</string>
-    <string name="sort_direction_descending">beherantz</string>
     <string name="never">inoiz ez</string>
     <string name="always">beti</string>
     <string name="menu_history_show_balance">Erakutsi balantzea</string>

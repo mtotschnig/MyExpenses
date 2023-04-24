@@ -481,7 +481,6 @@
     </plurals>
     <string name="progress_validating_licence">Validant llicència</string>
     <string name="licence_validation_error_expired">Llicència caducada</string>
-    <string name="sort_direction_descending">descendent</string>
     <string name="before">abans de %s</string>
     <string name="import_categories_none">Cap categoria importada</string>
     <string name="restore_not_possible_target_calendar_missing">El calendari %s desat a la còpia de seguretat no existeix localment. La restauració ha estat cancel·lada.</string>
@@ -602,7 +601,6 @@
     <string name="extend_validity">Prolongar validesa</string>
     <string name="donate_button_invoice">Factura</string>
     <string name="menu_sort_direction">Triï direcció</string>
-    <string name="sort_direction_ascending">ascendent</string>
     <string name="sync_login_again">Siusplau, iniciï sessió de nou.</string>
     <string name="menu_history_show_balance">Mostra balanç</string>
     <string name="menu_history_transfers">Inclou transferències</string>

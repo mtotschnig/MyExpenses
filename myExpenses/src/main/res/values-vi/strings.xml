@@ -620,8 +620,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Đang lấy dữ liệu từ backend từ xa. Điều này có thể mất một lúc.</string>
     <string name="donate_button_invoice">Hoá đơn</string>
     <string name="menu_sort_direction">Chiều sắp xếp</string>
-    <string name="sort_direction_ascending">tăng dần</string>
-    <string name="sort_direction_descending">giảm dần</string>
     <string name="never">không bao giờ</string>
     <string name="always">luôn luôn</string>
     <string name="auto_fill_account_from_aggregate_only">Chỉ khi bắt đầu từ tài khoản gộp.</string>

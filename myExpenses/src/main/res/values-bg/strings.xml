@@ -643,8 +643,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечното хранилище. Това може да отнеме известно време.</string>
     <string name="donate_button_invoice">Фактура</string>
     <string name="menu_sort_direction">Посока на сортиране</string>
-    <string name="sort_direction_ascending">възходяща</string>
-    <string name="sort_direction_descending">низходяща</string>
     <string name="never">никога</string>
     <string name="always">винаги</string>
     <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>

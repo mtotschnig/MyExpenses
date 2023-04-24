@@ -6,6 +6,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="drawer_open">"បើក​ផ្ទាំង​បញ្ជីកម្មវិធី"</string>
     <string name="drawer_close">"បិទ​​​ផ្ទាំង​​​បញ្ជី​កម្មវិធី"</string>
+    <string name="sort_direction_ascending">"ឡើង"</string>
+    <string name="sort_direction_descending">"ចុះ"</string>
     <string name="saving">"កំពុង​រក្សាទុក…"</string>
     <string name="default_action">"សកម្មភាព​លំនាំដើម"</string>
     <string name="full_name">"ឈ្មោះ"</string>

@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Navigationsleiste öffnen"</string>
     <string name="drawer_close">"Navigationsleiste schließen"</string>
+    <string name="sort_direction_ascending">"Aufsteigend"</string>
+    <string name="sort_direction_descending">"Absteigend"</string>
     <string name="saving">"Speichern…"</string>
     <string name="default_action">"Standardaktion"</string>
     <string name="full_name">"Name"</string>

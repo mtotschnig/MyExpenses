@@ -622,8 +622,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Λήψη δεδομένων από απομακρυσμένο σύστημα υποστήριξης. Αυτό μπορεί να διαρκέσει λίγο.</string>
     <string name="donate_button_invoice">Τιμολόγιο</string>
     <string name="menu_sort_direction">Κατεύθυνση ταξινόμησης</string>
-    <string name="sort_direction_ascending">Αύξουσα</string>
-    <string name="sort_direction_descending">Φθίνουσα</string>
     <string name="never">ποτέ</string>
     <string name="always">πάντα</string>
     <string name="auto_fill_account_from_aggregate_only">Μόνο όταν ξεκινούν από συνολικό λογαριασμό.</string>

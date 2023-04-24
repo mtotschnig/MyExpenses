@@ -637,8 +637,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">從遠程後端獲取資料中。這可能要花點時間。</string>
     <string name="donate_button_invoice">發票</string>
     <string name="menu_sort_direction">排序方式</string>
-    <string name="sort_direction_ascending">遞增: 從舊到新</string>
-    <string name="sort_direction_descending">遞減: 從新到舊</string>
     <string name="never">永遠不</string>
     <string name="always">總是</string>
     <string name="auto_fill_account_from_aggregate_only">僅當從彙總帳戶啟動時。</string>

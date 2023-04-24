@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">开启导航抽屉</string>
     <string name="drawer_close">关闭导航抽屉</string>
+    <string name="sort_direction_ascending">"升序"</string>
+    <string name="sort_direction_descending">"降序"</string>
     <string name="saving">"正在保存…"</string>
     <string name="default_action">"默认操作"</string>
     <string name="full_name">"姓名"</string>

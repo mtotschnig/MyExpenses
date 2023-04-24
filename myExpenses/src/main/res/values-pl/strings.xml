@@ -645,8 +645,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Pobieranie danych z odległego serwera. To może zająć trochę czasu.</string>
     <string name="donate_button_invoice">Faktura</string>
     <string name="menu_sort_direction">Kierunek sortowania</string>
-    <string name="sort_direction_ascending">rosnąco</string>
-    <string name="sort_direction_descending">malejąco</string>
     <string name="never">nigdy</string>
     <string name="always">zawsze</string>
     <string name="sync_auth_exception">Autoryzacja się nie powiodła.</string>

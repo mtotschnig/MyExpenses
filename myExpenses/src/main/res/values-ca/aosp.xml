@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Obre el tauler de navegació"</string>
     <string name="drawer_close">"Tanca el tauler de navegació"</string>
+    <string name="sort_direction_ascending">"Ascendent"</string>
+    <string name="sort_direction_descending">"Descendent"</string>
     <string name="saving">"S\'està desant…"</string>
     <string name="default_action">"Acció predeterminada"</string>
     <string name="full_name">"Nom"</string>

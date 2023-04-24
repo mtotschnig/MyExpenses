@@ -493,8 +493,6 @@
     <string name="dialog_button_add">شامل کریں</string>
     <string name="contributed_by">%s کے ذریعے تعاون کیا گیا</string>
     <string name="pref_sync_notification_summary">مطابقت پذیری کی پیشرفت کے بارے میں مطلع کریں</string>
-    <string name="sort_direction_ascending">چڑھتے ہوئے</string>
-    <string name="sort_direction_descending">نزول</string>
     <string name="never">کبھی نہیں</string>
     <string name="feature_deprecated">فرسودہ</string>
     <string name="always">ہمیشہ</string>

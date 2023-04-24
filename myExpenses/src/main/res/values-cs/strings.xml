@@ -657,8 +657,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Probíhá načítání dat ze vzdáleného rozhraní backend. Může to nějakou dobu trvat.</string>
     <string name="donate_button_invoice">Faktura</string>
     <string name="menu_sort_direction">Směr řazení</string>
-    <string name="sort_direction_ascending">vzestupně</string>
-    <string name="sort_direction_descending">sestupně</string>
     <string name="never">nikdy</string>
     <string name="always">vždy</string>
     <string name="auto_fill_account_from_aggregate_only">Pouze při začínání ze souhrnného účtu.</string>

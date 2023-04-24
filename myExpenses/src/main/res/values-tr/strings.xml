@@ -643,8 +643,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
     <string name="donate_button_invoice">Fatura</string>
     <string name="menu_sort_direction">Sıralama yönü</string>
-    <string name="sort_direction_ascending">artan</string>
-    <string name="sort_direction_descending">azalan</string>
     <string name="never">asla</string>
     <string name="always">daima</string>
     <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>

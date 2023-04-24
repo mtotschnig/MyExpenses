@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"ナビゲーションドロワーを開く"</string>
     <string name="drawer_close">"ナビゲーションドロワーを閉じる"</string>
+    <string name="sort_direction_ascending">"昇順"</string>
+    <string name="sort_direction_descending">"降順"</string>
     <string name="saving">"保存中…"</string>
     <string name="default_action">"既定の動作"</string>
     <string name="full_name">"名前"</string>

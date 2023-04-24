@@ -7,6 +7,8 @@
     <!-- packages/apps/DocumentsUI/res/values/strings.xml -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="sort_direction_ascending">Ascending</string>
+    <string name="sort_direction_descending">Descending</string>
     <!-- packages/apps/Settings/res/values/strings.xml wifi_add_app_single_network_saving_summary -->
     <string name="saving">Saving…</string>
     <!-- name="vpn_no_network" -->

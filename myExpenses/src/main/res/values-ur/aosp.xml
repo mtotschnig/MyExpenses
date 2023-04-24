@@ -2,6 +2,8 @@
 <resources>
     <string name="drawer_open">"روٹس دکھائیں"</string>
     <string name="drawer_close">"روٹس کو چھپائیں"</string>
+    <string name="sort_direction_ascending">"صعودی"</string>
+    <string name="sort_direction_descending">"نزولی"</string>
     <string name="saving">"محفوظ ہو رہا ہے…"</string>
     <string name="default_action">"ڈیفالٹ کارروائی"</string>
     <string name="full_name">نام</string>

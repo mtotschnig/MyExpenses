@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"Висунути навігаційну панель"</string>
     <string name="drawer_close">"Сховати навігаційну панель"</string>
+    <string name="sort_direction_ascending">"За зростанням"</string>
+    <string name="sort_direction_descending">"За спаданням"</string>
     <string name="saving">"Збереження…"</string>
     <string name="default_action">"Дія за умовчанням"</string>
     <string name="full_name">"Ім’я"</string>

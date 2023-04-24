@@ -99,8 +99,6 @@
     <string name="auto_fill_account_from_aggregate_only">మొత్తం ఖాతా నుండి ప్రారంభించినప్పుడు మాత్రమే.</string>
     <string name="always">ఎల్లప్పుడూ</string>
     <string name="never">ఎప్పుడు కాదు</string>
-    <string name="sort_direction_descending">అవరోహణ</string>
-    <string name="sort_direction_ascending">ఆరోహణ</string>
     <string name="menu_sort_direction">క్రమబద్ధీకరణ దిశ</string>
     <string name="donate_button_invoice">ఇన్వాయిస్</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">రిమోట్ బ్యాకెండ్ నుండి డేటాను పొందడం. దీనికి కొంత సమయం పడుతుంది.</string>

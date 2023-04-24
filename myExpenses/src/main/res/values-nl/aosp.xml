@@ -2,6 +2,8 @@
 <resources>
     <string name="drawer_open">"Roots tonen"</string>
     <string name="drawer_close">"Roots verbergen"</string>
+    <string name="sort_direction_ascending">"Oplopend"</string>
+    <string name="sort_direction_descending">"Aflopend"</string>
     <string name="saving">"Opslaan…"</string>
     <string name="default_action">"Standaardactie"</string>
     <string name="full_name">Naam</string>

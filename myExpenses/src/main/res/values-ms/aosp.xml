@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Buka laci navigasi"</string>
     <string name="drawer_close">"Tutup laci navigasi"</string>
+    <string name="sort_direction_ascending">"Menaik"</string>
+    <string name="sort_direction_descending">"Menurun"</string>
     <string name="saving">"Menyimpan…"</string>
     <string name="default_action">"Tindakan lalai"</string>
     <string name="full_name">"Nama"</string>

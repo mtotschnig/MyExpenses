@@ -494,8 +494,6 @@
     <string name="progress_removing_licence">Licentie verwijderen</string>
     <string name="professional_key">Professionele sleutel</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Overstappen naar een jaarabonnement</string>
-    <string name="sort_direction_ascending">oplopend</string>
-    <string name="sort_direction_descending">aflopend</string>
     <string name="pref_protection_device_lock_screen_title">Apparaatvergrendelingsscherm</string>
     <string name="warning_device_lock_screen_not_set_up_2">Ga naar \'Instellingen -&gt; Beveiliging -&gt; Schermvergrendeling\' om een vergrendelscherm in te stellen.</string>
     <string name="menu_history_show_balance">Balans tonen</string>

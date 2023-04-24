@@ -441,8 +441,6 @@
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">تا %1$s تمدید کنید برای %2$s</string>
     <string name="donate_button_invoice">فاکتور</string>
-    <string name="sort_direction_ascending">صعودی</string>
-    <string name="sort_direction_descending">نزولی</string>
     <string name="never">هرگز</string>
     <string name="always">هميشه </string>
     <string name="auto_fill_account_from_aggregate_only">فقط وقتی از حساب جمع شروع می شود.</string>

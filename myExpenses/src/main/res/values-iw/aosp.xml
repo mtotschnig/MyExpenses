@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"פתח את חלונית ההזזה לניווט"</string>
     <string name="drawer_close">"סגור את חלונית ההזזה לניווט"</string>
+    <string name="sort_direction_ascending">"סדר עולה"</string>
+    <string name="sort_direction_descending">"סדר יורד"</string>
     <string name="saving">"שומר…"</string>
     <string name="default_action">"פעולת ברירת מחדל"</string>
     <string name="full_name">"שם"</string>

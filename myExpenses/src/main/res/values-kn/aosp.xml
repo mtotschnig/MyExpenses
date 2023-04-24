@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"ನ್ಯಾವಿಗೇಶನ್ ಡ್ರಾಯರ್ ತೆರೆಯಿರಿ"</string>
     <string name="drawer_close">"ನ್ಯಾವಿಗೇಶನ್ ಡ್ರಾಯರ್ ಮುಚ್ಚಿ"</string>
+    <string name="sort_direction_ascending">"ಆರೋಹಣ"</string>
+    <string name="sort_direction_descending">"ಅವರೋಹಣ"</string>
     <string name="saving">"ಉಳಿಸಲಾಗುತ್ತಿದೆ.."</string>
     <string name="default_action">"ಡೀಫಾಲ್ಟ್ ಕ್ರಮ"</string>
     <string name="full_name">"ಹೆಸರು"</string>

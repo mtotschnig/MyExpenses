@@ -657,8 +657,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">מאחזר נתונים מרחוק backend. פעולה זו עשויה להימשך זמן מה.</string>
     <string name="donate_button_invoice">חשבונית</string>
     <string name="menu_sort_direction">כיוון מיון</string>
-    <string name="sort_direction_ascending">סדר עולה</string>
-    <string name="sort_direction_descending">סדר יורד</string>
     <string name="never">לעולם לא</string>
     <string name="always">תמיד</string>
     <string name="auto_fill_account_from_aggregate_only">רק כאשר הותחל מחשבון מצטבר.</string>

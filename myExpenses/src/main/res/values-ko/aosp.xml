@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"내비게이션 폴더 열기"</string>
     <string name="drawer_close">"내비게이션 폴더 닫기"</string>
+    <string name="sort_direction_ascending">"오름차순"</string>
+    <string name="sort_direction_descending">"내림차순"</string>
     <string name="saving">"저장 중…"</string>
     <string name="default_action">"기본 작업"</string>
     <string name="full_name">"이름"</string>

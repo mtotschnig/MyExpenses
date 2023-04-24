@@ -2,6 +2,8 @@
 <resources>
     <string name="drawer_open">"నావిగేషన్ డ్రాయర్‌ను తెరవండి"</string>
     <string name="drawer_close">"నావిగేషన్ డ్రాయర్‌ను మూసివేయండి"</string>
+    <string name="sort_direction_ascending">"ఆరోహణ"</string>
+    <string name="sort_direction_descending">"అవరోహణ"</string>
     <string name="saving">"సేవ్ చేస్తోంది…"</string>
     <string name="default_action">"డిఫాల్ట్ చర్య"</string>
     <string name="full_name">"పేరు"</string>

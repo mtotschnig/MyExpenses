@@ -636,8 +636,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">从远程后端获取数据中。这可能要花点时间。</string>
     <string name="donate_button_invoice">发票</string>
     <string name="menu_sort_direction">排序方向</string>
-    <string name="sort_direction_ascending">升序: 从旧到新</string>
-    <string name="sort_direction_descending">降序: 从新到旧</string>
     <string name="never">从不</string>
     <string name="always">总是</string>
     <string name="auto_fill_account_from_aggregate_only">仅当从汇总账户启动时。</string>

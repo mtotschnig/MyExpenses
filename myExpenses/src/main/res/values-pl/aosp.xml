@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Otwórz szufladę nawigacji"</string>
     <string name="drawer_close">"Zamknij szufladę nawigacji"</string>
+    <string name="sort_direction_ascending">"Rosnąco"</string>
+    <string name="sort_direction_descending">"Malejąco"</string>
     <string name="saving">"Zapisuję…"</string>
     <string name="default_action">"Domyślne działanie"</string>
     <string name="full_name">"Nazwa"</string>

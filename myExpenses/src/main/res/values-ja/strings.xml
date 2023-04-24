@@ -633,8 +633,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">リモートのバックエンドからデータを取得しています。これはしばらく時間がかかることがあります。</string>
     <string name="donate_button_invoice">請求書</string>
     <string name="menu_sort_direction">ソートの向き</string>
-    <string name="sort_direction_ascending">昇順</string>
-    <string name="sort_direction_descending">降順</string>
     <string name="never">しない</string>
     <string name="always">常に</string>
     <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>

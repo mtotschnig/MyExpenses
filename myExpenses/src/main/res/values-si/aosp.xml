@@ -2,6 +2,8 @@
 <resources>
     <string name="drawer_open">"සංචාලන ඇදීම විවෘත කරන්න"</string>
     <string name="drawer_close">"සංචාලන ඇදීම වසන්න"</string>
+    <string name="sort_direction_ascending">"ආරෝහණ"</string>
+    <string name="sort_direction_descending">"අවරෝහණ"</string>
     <string name="saving">"සුරැකේ…"</string>
     <string name="default_action">"සුපුරුදු ක්‍රියාව"</string>
     <string name="full_name">"නම‍"</string>

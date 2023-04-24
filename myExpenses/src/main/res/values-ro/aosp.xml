@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"Deschideți panoul de navigare"</string>
     <string name="drawer_close">"Închideți panoul de navigare"</string>
+    <string name="sort_direction_ascending">"În ordine crescătoare"</string>
+    <string name="sort_direction_descending">"În ordine descrescătoare"</string>
     <string name="saving">"Se salvează…"</string>
     <string name="default_action">"Acțiune prestabilită"</string>
     <string name="full_name">"Nume"</string>

@@ -6,6 +6,8 @@
 <resources>
     <string name="drawer_open">"Открыть панель навигации"</string>
     <string name="drawer_close">"Закрыть панель навигации"</string>
+    <string name="sort_direction_ascending">"По возрастанию"</string>
+    <string name="sort_direction_descending">"По убыванию"</string>
     <string name="saving">"Сохранение…"</string>
     <string name="default_action">"Действие по умолчанию"</string>
     <string name="full_name">"Полное имя"</string>

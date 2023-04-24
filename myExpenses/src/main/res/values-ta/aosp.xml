@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"வழிசெலுத்தல் டிராயரைத் திற"</string>
     <string name="drawer_close">"வழிசெலுத்தல் டிராயரை மூடு"</string>
+    <string name="sort_direction_ascending">"ஏறுவரிசையில்"</string>
+    <string name="sort_direction_descending">"இறங்குவரிசையில்"</string>
     <string name="saving">"சேமிக்கிறது…"</string>
     <string name="default_action">"இயல்புநிலை செயல்"</string>
     <string name="full_name">"பெயர்"</string>

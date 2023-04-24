@@ -7,6 +7,8 @@
 <resources>
     <string name="drawer_open">"Отваряне на слоя за навигация"</string>
     <string name="drawer_close">"Затваряне на чекмеджето за навигация"</string>
+    <string name="sort_direction_ascending">"Възходящ ред"</string>
+    <string name="sort_direction_descending">"Низходящ ред"</string>
     <string name="saving">"Запазва се…"</string>
     <string name="default_action">"Действие по подразбиране"</string>
     <string name="full_name">"Име"</string>
