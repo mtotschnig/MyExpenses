@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
 import android.view.*
-import android.widget.CompoundButton
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -80,43 +79,30 @@ class PartiesList : Fragment(), OnDialogResultListener {
     private var mergeMenuItem: MenuItem? = null
 
     inner class ViewHolder(val binding: PayeeRowBinding, private val itemCallback: ItemCallback) :
-        RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener, CompoundButton.OnCheckedChangeListener {
-        init {
-            binding.checkBox.setOnCheckedChangeListener(this)
-        }
+        RecyclerView.ViewHolder(binding.root) {
 
-        override fun onClick(view: View) {
-            itemCallback.onItemClick(binding, bindingAdapterPosition)
-        }
-
-        override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-            itemCallback.onCheckedChanged(isChecked, bindingAdapterPosition)
-        }
-
-        fun bind(party: PartyWrapper, isChecked: Boolean) {
-            binding.Payee.text = party.party.name
+        fun bind(party: Party, isChecked: Boolean) {
+            binding.Payee.text = party.name
             with(binding.checkBox) {
                 visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
                 this.isChecked = isChecked
+                setOnCheckedChangeListener { _, isChecked -> itemCallback.onCheckedChanged(isChecked, party) }
             }
-            binding.Debt.visibility = if (party.hasOpenDebts) View.VISIBLE else View.GONE
-            binding.root.setOnClickListener(this)
+            binding.Debt.visibility = if (party.hasOpenDebts()) View.VISIBLE else View.GONE
+            binding.root.setOnClickListener { itemCallback.onItemClick(binding, party) }
         }
+
+        fun Party.hasOpenDebts() =
+            viewModel.getDebts(id)?.any { !it.isSealed && it.currentBalance != 0L } == true
     }
 
     interface ItemCallback {
-        fun onItemClick(binding: PayeeRowBinding, position: Int)
-        fun onCheckedChanged(isChecked: Boolean, position: Int)
-    }
-
-    inner class PartyWrapper(val party: Party) {
-        val hasOpenDebts =
-            viewModel.getDebts(party.id)?.any { !it.isSealed && it.currentBalance != 0L } == true
+        fun onItemClick(binding: PayeeRowBinding, party: Party)
+        fun onCheckedChanged(isChecked: Boolean, party: Party)
     }
 
     inner class PayeeAdapter :
-        ListAdapter<PartyWrapper, ViewHolder>(DIFF_CALLBACK), ItemCallback {
+        ListAdapter<Party, ViewHolder>(DIFF_CALLBACK), ItemCallback {
         private var checkStates: MutableSet<Long> = mutableSetOf()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -124,26 +110,26 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(getParty(position)) {
-                holder.bind(this, checkStates.contains(this.party.id))
+                holder.bind(this, checkStates.contains(id))
             }
         }
 
         override fun onCurrentListChanged(
-            previousList: MutableList<PartyWrapper>,
-            currentList: MutableList<PartyWrapper>
+            previousList: MutableList<Party>,
+            currentList: MutableList<Party>
         ) {
             updateFabEnabled()
         }
 
-        private fun getParty(position: Int): PartyWrapper = getItem(position)
+        private fun getParty(position: Int): Party = getItem(position)
 
-        fun getSelected(): List<PartyWrapper> =
-            currentList.filter { checkStates.contains(it.party.id) }
+        fun getSelected(): List<Party> =
+            currentList.filter { checkStates.contains(it.id) }
 
         val checkedCount: Int
             get() = getSelected().size
 
-        override fun onItemClick(binding: PayeeRowBinding, position: Int) {
+        override fun onItemClick(binding: PayeeRowBinding, party: Party) {
             if (hasSelectMultiple()) {
                 binding.checkBox.toggle()
                 return
@@ -159,7 +145,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
                 if (action == Action.MANAGE) {
-                    val debts = viewModel.getDebts(getItem(position).party.id)
+                    val debts = viewModel.getDebts(party.id)
                     val subMenu = if ((debts?.size ?: 0) > 0)
                         menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debts)
                             .setIcon(R.drawable.balance_scale) else menu
@@ -181,7 +167,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 }
 
                 setOnMenuItemClickListener { item ->
-                    val party = getItem(position).party
                     when (item.itemId) {
                         EDIT_COMMAND -> {
                             SimpleInputDialog.build()
@@ -261,8 +246,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             }
         }
 
-        override fun onCheckedChanged(isChecked: Boolean, position: Int) {
-            val party = getParty(position).party
+        override fun onCheckedChanged(isChecked: Boolean, party: Party) {
             if (isChecked) {
                 checkStates.add(party.id)
             } else {
@@ -405,7 +389,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         }
         prepareSearch(menu, viewModel.filter)
         menu.findItem(R.id.DEBT_COMMAND)?.let { menuItem ->
-            menuItem.isVisible = adapter.currentList.any { it.party.mappedDebts }
+            menuItem.isVisible = adapter.currentList.any { it.mappedDebts }
         }
     }
 
@@ -451,11 +435,9 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 binding.list.visibility =
                                     if (parties.isEmpty()) View.GONE else View.VISIBLE
                             }
-                            val elements = parties.map { PartyWrapper(it) }
                             adapter.submitList(
                                 if (action == Action.SELECT_FILTER)
                                     listOf(
-                                        PartyWrapper(
                                             Party(
                                                 NULL_ITEM_ID,
                                                 getString(R.string.unmapped),
@@ -463,10 +445,9 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                                 mappedTemplates = false,
                                                 mappedDebts = false
                                             )
-                                        )
-                                    ).plus(elements)
+                                    ).plus(parties)
                                 else
-                                    elements
+                                    parties
                             )
                         }
                 }
@@ -493,13 +474,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DEBT_SUB_MENU = -5
         const val STATE_CHECK_STATES = "checkStates"
 
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PartyWrapper>() {
-            override fun areItemsTheSame(oldItem: PartyWrapper, newItem: PartyWrapper): Boolean {
-                return oldItem.party.id == newItem.party.id
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
+            override fun areItemsTheSame(oldItem: Party, newItem: Party): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: PartyWrapper, newItem: PartyWrapper): Boolean {
-                return oldItem.party == newItem.party && oldItem.hasOpenDebts == newItem.hasOpenDebts
+            override fun areContentsTheSame(oldItem: Party, newItem: Party): Boolean {
+                return oldItem == newItem
             }
         }
     }
@@ -526,7 +507,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 DIALOG_MERGE_PARTY -> {
                     mergeMode = false
                     updateUiMergeMode()
-                    val selectedItemIds = adapter.getSelected().map { it.party.id }
+                    val selectedItemIds = adapter.getSelected().map { it.id }
                     viewModel.mergeParties(
                         selectedItemIds.toLongArray(),
                         selectedItemIds[extras.getInt(KEY_POSITION)]
@@ -545,7 +526,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     fun dispatchFabClick() {
         if (action == Action.SELECT_FILTER) {
-            val selected = adapter.getSelected().map { it.party }
+            val selected = adapter.getSelected()
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
             if (itemIds.size != 1 && itemIds.contains(NULL_ITEM_ID)) {
@@ -561,7 +542,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 }
             }
         } else if (mergeMode) {
-            val selected = adapter.getSelected().map { it.party.name }.toTypedArray()
+            val selected = adapter.getSelected().map { it.name }.toTypedArray()
             SimpleFormDialog.build()
                 .fields(
                     Hint.plain(R.string.merge_parties_select),
