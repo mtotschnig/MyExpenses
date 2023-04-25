@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
@@ -54,6 +53,7 @@ import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.toggle
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.*
 import java.util.*
 
@@ -416,7 +416,7 @@ open class MyExpensesViewModel(
                         account = repository.loadAccount(accountId)!!,
                         filter = WhereFilter.empty()
                             .put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED))),
-                        handleDelete = Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE,
+                        handleDelete = EXPORT_HANDLE_DELETED_UPDATE_BALANCE,
                         helperComment = null
                     )
                 }

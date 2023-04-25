@@ -56,7 +56,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.RemoteException;
 
@@ -370,11 +369,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
             String.format(Locale.ROOT, "Unknown type %d", operationType));
     }
     setParentId(parentId);
-  }
-
-  @Deprecated
-  public static Template getTypedNewInstance(int operationType, Account account, boolean forEdit, Long parentId) {
-    return getTypedNewInstance(operationType, account.getId(), account.getCurrencyUnit(), forEdit, parentId);
   }
 
   @Nullable

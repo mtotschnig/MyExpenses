@@ -604,15 +604,6 @@ public class Transaction extends Model implements ITransaction {
     return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId(), Model.cr());
   }
 
-  @Deprecated
-  public static Transaction getNewInstance(Account account, Long parentId) {
-    return getNewInstance(account.getId(), account.getCurrencyUnit(), parentId);
-  }
-  @Deprecated
-  public static Transaction getNewInstance(Account account) {
-    return getNewInstance(account, null);
-  }
-
   /**
    * factory method for creating an object of the correct type and linked to a given account
    * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date

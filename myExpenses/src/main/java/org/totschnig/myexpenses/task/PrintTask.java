@@ -1,25 +1,24 @@
 package org.totschnig.myexpenses.task;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.filter.FilterPersistenceKt.KEY_FILTER;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.documentfile.provider.DocumentFile;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 
-import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.filter.FilterPersistenceKt.KEY_FILTER;
 
 public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -54,7 +53,6 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
    */
   @Override
   protected Result<Uri> doInBackground(Void... ignored) {
-    Account account;
     final MyApplication application = MyApplication.getInstance();
     final Context context = application.getWrappedContext();
     DocumentFile appDir = AppDirHelper.getAppDir(application);

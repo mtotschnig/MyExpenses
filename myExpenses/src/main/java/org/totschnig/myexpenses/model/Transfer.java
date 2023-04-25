@@ -106,16 +106,6 @@ public class Transfer extends Transaction implements ITransfer {
     this.setTransferAmount(transferAmount);
   }
 
-  @Deprecated
-  public static Transfer getNewInstance(Account account, Long transferAccountId) {
-    return getNewInstance(account, transferAccountId, null);
-  }
-
-  @Deprecated
-  public static Transfer getNewInstance(Account account, Long transferAccountId, Long parentId) {
-    return getNewInstance(account.getId(), account.getCurrency(), transferAccountId, parentId);
-  }
-
   public static Transfer getNewInstance(long accountId, CurrencyUnit currencyUnit, Long transferAccountId) {
     return getNewInstance(accountId, currencyUnit, transferAccountId, null);
   }

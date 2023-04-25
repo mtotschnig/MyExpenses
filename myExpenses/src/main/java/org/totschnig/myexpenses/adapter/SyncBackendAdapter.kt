@@ -11,15 +11,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.util.Pair
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
 data class LocalAccountInfo(val uuid: String, val syncAccountName: String?, val isSealed: Boolean)
 
 class SyncBackendAdapter(
     context: Context,
-    private val currencyContext: CurrencyContext,
+    private val homeCurrency: String,
     private var syncAccounts: List<Pair<String, Boolean>>
 ) : BaseExpandableListAdapter() {
     enum class SyncState {
@@ -168,7 +167,7 @@ class SyncBackendAdapter(
             ExpandableListView.getPackedPositionChild(packedPosition)
         )
         result.onSuccess { accountMetaData ->
-            return accountMetaData.toAccount(currencyContext, getBackendLabel(groupPosition))
+            return accountMetaData.toAccount(homeCurrency, getBackendLabel(groupPosition))
         }
         return null
     }

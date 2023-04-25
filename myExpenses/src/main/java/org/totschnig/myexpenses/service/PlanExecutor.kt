@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.getLabelForAccount
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.planCount

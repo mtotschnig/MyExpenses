@@ -27,7 +27,7 @@ class SetupSyncViewModel(application: Application) : SyncViewModel(application) 
             deleteAccountsInternal(syncRemoteList.map { it.first.id }.toLongArray()).onFailure {
                 throw it
             }
-            (remoteAccounts + syncRemoteList.map { it.second }).map { it.toAccount(currencyContext, accountName) }.forEach {
+            (remoteAccounts + syncRemoteList.map { it.second }).map { it.toAccount(homeCurrencyProvider.homeCurrencyString, accountName) }.forEach {
                 doSave(it)
                 dialogState[it.uuid!!] = SyncSource.COMPLETED
             }

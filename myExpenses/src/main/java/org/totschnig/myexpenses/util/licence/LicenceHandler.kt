@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.IapActivity
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template

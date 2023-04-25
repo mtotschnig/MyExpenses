@@ -24,8 +24,6 @@ import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
-import org.totschnig.myexpenses.model.Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
@@ -46,6 +44,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.*
 import javax.inject.Inject
 import kotlin.collections.set
@@ -288,9 +288,9 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
      * deletes all expenses and updates account according to value of handleDelete
      *
      * @param filter        if not null only expenses matched by filter will be deleted
-     * @param handleDelete  if equals [.EXPORT_HANDLE_DELETED_UPDATE_BALANCE] opening balance will
+     * @param handleDelete  if equals [EXPORT_HANDLE_DELETED_UPDATE_BALANCE] opening balance will
      * be adjusted to account for the deleted expenses,
-     * if equals [.EXPORT_HANDLE_DELETED_CREATE_HELPER] a helper transaction
+     * if equals [EXPORT_HANDLE_DELETED_CREATE_HELPER] a helper transaction
      * @param helperComment comment used for the helper transaction
      */
     fun reset(

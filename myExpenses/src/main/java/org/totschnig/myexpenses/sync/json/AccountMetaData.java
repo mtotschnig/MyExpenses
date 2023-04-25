@@ -2,19 +2,17 @@ package org.totschnig.myexpenses.sync.json;
 
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyContext;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.preference.PrefKey;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class  AccountMetaData implements Parcelable {
@@ -66,27 +64,33 @@ public abstract class  AccountMetaData implements Parcelable {
     return label() + " (" + currency() + ")";
   }
 
-  public Account toAccount(CurrencyContext currencyContext, String syncAccount) {
+  public Account toAccount(String homeCurrency, String syncAccount) {
     AccountType accountType;
     try {
       accountType = AccountType.valueOf(type());
     } catch (IllegalArgumentException e) {
       accountType = AccountType.CASH;
     }
-    final CurrencyUnit currency = currencyContext.get(currency());
-    Account account = new Account(label(), currency, openingBalance(), description(), accountType, color());
-    account.setUuid(uuid());
-    if (_criterion() != 0) {
-      account.setCriterion(new Money(currency, _criterion()));
+    Double exchangeRate = exchangeRate();
+    if (exchangeRate == null || !homeCurrency.equals(exchangeRateOtherCurrency())) {
+      exchangeRate = 1.0;
     }
-    account.excludeFromTotals = _excludeFromTotals();
-    String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
-    final Double exchangeRate = exchangeRate();
-    if (exchangeRate != null && homeCurrency != null && homeCurrency.equals(exchangeRateOtherCurrency())) {
-      account.setExchangeRate(exchangeRate);
-    }
-    account.setSyncAccountName(syncAccount);
-    return account;
+    return new Account(
+            0L,
+            label(),
+            description(),
+            openingBalance(),
+            currency(),
+            accountType,
+            color(),
+            _criterion(),
+            syncAccount,
+            false,
+            uuid(),
+            false,
+            exchangeRate,
+            Grouping.NONE
+    );
   }
 
   public static AccountMetaData from(org.totschnig.myexpenses.model2.Account account) {

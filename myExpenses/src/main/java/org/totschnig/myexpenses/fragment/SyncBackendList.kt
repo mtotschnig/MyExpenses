@@ -30,9 +30,8 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -42,6 +41,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.activateSyn
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import javax.inject.Inject
@@ -58,13 +58,13 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     lateinit var prefHandler: PrefHandler
 
     @Inject
-    lateinit var currencyContext: CurrencyContext
-
-    @Inject
     lateinit var modelClass: Class<out AbstractSyncBackendViewModel>
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
+
+    @Inject
+    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     @JvmField
     @State
@@ -98,7 +98,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         savedInstanceState: Bundle?
     ): View {
         _binding = SyncBackendsListBinding.inflate(inflater, container, false)
-        syncBackendAdapter = SyncBackendAdapter(requireContext(), currencyContext, accountList)
+        syncBackendAdapter = SyncBackendAdapter(requireContext(), homeCurrencyProvider.homeCurrencyString, accountList)
         binding.list.setAdapter(syncBackendAdapter)
         binding.list.emptyView = binding.empty
         binding.list.setOnGroupExpandListener(this)

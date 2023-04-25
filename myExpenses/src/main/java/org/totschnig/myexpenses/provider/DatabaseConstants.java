@@ -21,7 +21,6 @@ import android.content.Context;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -361,7 +360,7 @@ public class DatabaseConstants {
 
   /**
    * a transaction that has been created as a result of an export
-   * with {@link Account#EXPORT_HANDLE_DELETED_CREATE_HELPER}
+   * with EXPORT_HANDLE_DELETED_CREATE_HELPER
    */
   public static final int STATUS_HELPER = 3;
 

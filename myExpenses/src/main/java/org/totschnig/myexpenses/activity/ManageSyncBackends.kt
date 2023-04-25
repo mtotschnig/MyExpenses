@@ -14,8 +14,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment
 import org.totschnig.myexpenses.fragment.SyncBackendList
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.BackendService
@@ -230,7 +230,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     (item.menuInfo as ExpandableListContextMenuInfo).packedPosition
                 )?.let { account ->
                     viewModel.save(account).observe(this) {
-                        if (it == null) {
+                        it.onFailure {
                             showSnackBar(
                                 String.format(
                                     "There was an error saving account %s",

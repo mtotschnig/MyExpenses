@@ -19,18 +19,14 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
-import android.text.Layout
 import android.text.Spanned
-import android.text.StaticLayout
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
-import android.widget.PopupWindow
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
@@ -39,7 +35,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
@@ -48,6 +43,9 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.configurePopupAnchor
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.postScrollToBottom
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_DO_NOTHING
+import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DATE_FORMAT
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DECIMAL_SEPARATOR
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.KEY_DELETE_P
@@ -65,13 +63,14 @@ import java.time.chrono.IsoChronology
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
     DialogInterface.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
 
-    private var handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING
+    private var handleDeletedAction = EXPORT_HANDLE_DELETED_DO_NOTHING
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
@@ -228,9 +227,9 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         binding.separator.check(if (separator == ',') R.id.comma else R.id.dot)
         val radioClickListener = View.OnClickListener { v: View ->
             val mappedAction =
-                if (v.id == R.id.create_helper) Account.EXPORT_HANDLE_DELETED_CREATE_HELPER else Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
+                if (v.id == R.id.create_helper) EXPORT_HANDLE_DELETED_CREATE_HELPER else EXPORT_HANDLE_DELETED_UPDATE_BALANCE
             if (handleDeletedAction == mappedAction) {
-                handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING
+                handleDeletedAction = EXPORT_HANDLE_DELETED_DO_NOTHING
                 binding.handleDeleted.clearCheck()
             } else {
                 handleDeletedAction = mappedAction
@@ -243,11 +242,11 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         createHelperRadioButton.setOnClickListener(radioClickListener)
         if (savedInstanceState == null) {
             handleDeletedAction = prefHandler.getInt(
-                KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
+                KEY_EXPORT_HANDLE_DELETED, EXPORT_HANDLE_DELETED_CREATE_HELPER
             )
-            if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+            if (handleDeletedAction == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
                 updateBalanceRadioButton.isChecked = true
-            } else if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
+            } else if (handleDeletedAction == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
                 createHelperRadioButton.isChecked = true
             }
         }
@@ -299,19 +298,6 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         binding.fileNameLabel.setText(if (oneFile) R.string.file_name else R.string.folder_name)
     }
 
-    /* adapted from android.widget.Editor */
-    private fun chooseSize(pop: PopupWindow, text: CharSequence, tv: TextView) {
-        var ht = tv.paddingTop + tv.paddingBottom
-        val widthInPixels = (dialog!!.window!!.decorView.width * 0.75).toInt()
-        val l: Layout = StaticLayout(
-            text, tv.paint, widthInPixels,
-            Layout.Alignment.ALIGN_NORMAL, 1F, 0F, true
-        )
-        ht += l.height
-        pop.width = widthInPixels
-        pop.height = ht
-    }
-
     private fun buildDateFormatHelpText(): CharSequence {
         val letters = resources.getStringArray(R.array.help_ExportDialog_date_format_letters)
         val components = resources.getStringArray(R.array.help_ExportDialog_date_format_components)
@@ -354,13 +340,13 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         }
         val handleDeleted = when (binding.handleDeleted.checkedRadioButtonId) {
             R.id.update_balance -> {
-                Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
+                EXPORT_HANDLE_DELETED_UPDATE_BALANCE
             }
             R.id.create_helper -> {
-                Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
+                EXPORT_HANDLE_DELETED_CREATE_HELPER
             }
             else -> {
-                Account.EXPORT_HANDLE_DELETED_DO_NOTHING
+                EXPORT_HANDLE_DELETED_DO_NOTHING
             }
         }
         val encoding = binding.Encoding.selectedItem as String
@@ -437,8 +423,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         configure(binding.exportDelete.isChecked)
         val checkedId = binding.handleDeleted.checkedRadioButtonId
         if (checkedId == R.id.update_balance) handleDeletedAction =
-            Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE else if (checkedId == R.id.create_helper) handleDeletedAction =
-            Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
+            EXPORT_HANDLE_DELETED_UPDATE_BALANCE else if (checkedId == R.id.create_helper) handleDeletedAction =
+            EXPORT_HANDLE_DELETED_CREATE_HELPER
     }
 
     data class AccountInfo(

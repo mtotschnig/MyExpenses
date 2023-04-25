@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import java.io.Serializable
 
 data class Account(
     override val id: Long = 0L,
@@ -28,7 +29,7 @@ data class Account(
      */
     val exchangeRate: Double = 1.0,
     override val grouping: Grouping = Grouping.NONE
-): DataBaseAccount() {
+): DataBaseAccount(), Serializable {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
 

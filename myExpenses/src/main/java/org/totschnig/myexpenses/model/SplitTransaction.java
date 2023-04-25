@@ -29,8 +29,6 @@ import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -63,15 +61,6 @@ public class SplitTransaction extends Transaction implements ISplit {
   @Override
   protected Uri getUriForSave(boolean callerIsSyncAdapter) {
     return getStatus() == STATUS_UNCOMMITTED ? UNCOMMITTED_URI : super.getUriForSave(callerIsSyncAdapter);
-  }
-
-  @Deprecated
-  public static SplitTransaction getNewInstance(@NonNull Account account)  {
-    return getNewInstance(account, true);
-  }
-  @Deprecated
-  public static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
-    return getNewInstance(account.getAccountId(), account.getCurrencyUnit(), forEdit);
   }
 
   public static SplitTransaction getNewInstance(long accountId, CurrencyUnit currencyUnit)  {

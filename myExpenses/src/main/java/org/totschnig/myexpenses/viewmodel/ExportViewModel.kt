@@ -58,6 +58,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         const val KEY_FILE_NAME = "file_name"
         const val KEY_DELIMITER = "export_delimiter"
         const val KEY_MERGE_P = "export_merge_accounts"
+
+        const val EXPORT_HANDLE_DELETED_DO_NOTHING = -1
+        const val EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0
+        const val EXPORT_HANDLE_DELETED_CREATE_HELPER = 1
     }
 
     private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
