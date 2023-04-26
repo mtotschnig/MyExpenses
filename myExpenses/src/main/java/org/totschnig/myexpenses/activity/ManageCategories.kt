@@ -253,10 +253,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                             if (action == Action.SELECT_FILTER) null else Menu(
                                                 listOfNotNull(
                                                     if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
-                                                        select { doSingleSelection(it) }
+                                                        select("SELECT_CATEGORY") { doSingleSelection(it) }
                                                     } else null,
-                                                    edit { editCat(it) },
-                                                    delete {
+                                                    edit("EDIT_CATEGORY") { editCat(it) },
+                                                    delete("DELETE_CATEGORY") {
                                                         if (it.flatten().map { it.id }
                                                                 .contains(protectionInfo?.id)) {
                                                             showSnackBar(
@@ -274,7 +274,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                     },
                                                     MenuEntry(
                                                         icon = Icons.Filled.Add,
-                                                        label = R.string.subcategory
+                                                        label = R.string.subcategory,
+                                                        command = "CREATE_SUBCATEGORY"
                                                     ) {
                                                         if (it.level > 1) {
                                                             contribFeatureRequested(
@@ -287,7 +288,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                                     },
                                                     MenuEntry(
                                                         icon = myiconpack.ArrowsAlt,
-                                                        label = R.string.menu_move
+                                                        label = R.string.menu_move,
+                                                        command = "MOVE_CATEGORY"
                                                     ) { showMoveTargetDialog(it) }
                                                 )
                                             )

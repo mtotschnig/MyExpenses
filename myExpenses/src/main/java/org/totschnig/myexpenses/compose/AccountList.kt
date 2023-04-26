@@ -243,24 +243,26 @@ fun AccountCard(
                 buildList {
                     if (account.id > 0) {
                         if (!account.sealed) {
-                            add(edit { onEdit(account.id) })
+                            add(edit("EDIT_ACCOUNT") { onEdit(account.id) })
                         }
-                        add(delete { onDelete(account) })
+                        add(delete("DELETE_ACCOUNT") { onDelete(account) })
                         add(MenuEntry(
                             icon = Icons.Filled.VisibilityOff,
-                            label = R.string.menu_hide
+                            label = R.string.menu_hide,
+                            command = "HIDE_COMMAND"
                         ) {
                             onHide(account.id)
                         }
                         )
                         add(
-                            toggle(account.sealed) {
+                            toggle("ACCOUNT", account.sealed) {
                                 onToggleSealed(account)
                             }
                         )
                         add(CheckableMenuEntry(
                             isChecked = account.excludeFromTotals,
-                            label = R.string.menu_exclude_from_totals
+                            label = R.string.menu_exclude_from_totals,
+                            command = "EXCLUDE_FROM_TOTALS_COMMAND"
                         ) {
                             onToggleExcludeFromTotals(account)
                         })

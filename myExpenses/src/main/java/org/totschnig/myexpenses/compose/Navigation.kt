@@ -47,6 +47,7 @@ sealed interface IMenuEntry {
 
 sealed interface IActionMenuEntry: IMenuEntry {
     val action: () -> Unit
+    val command: String
 }
 
 data class SubMenuEntry(
@@ -57,6 +58,7 @@ data class SubMenuEntry(
 
 data class CheckableMenuEntry(
     override val label: Int,
+    override val command: String,
     val isChecked: Boolean,
     override val action: () -> Unit
     ): IActionMenuEntry {
@@ -67,35 +69,39 @@ data class CheckableMenuEntry(
 data class MenuEntry(
     override val icon: ImageVector? = null,
     override val label: Int,
+    override val command: String,
     override val action: () -> Unit
 ) : IActionMenuEntry {
     companion object {
-        fun delete(action: () -> Unit) = MenuEntry(
+        fun delete(command: String, action: () -> Unit) = MenuEntry(
             icon = Icons.Filled.Delete,
             label = R.string.menu_delete,
+            command = command,
             action = action
         )
 
-        fun edit(action: () -> Unit) = MenuEntry(
+        fun edit(command: String, action: () -> Unit) = MenuEntry(
             icon = Icons.Filled.Edit,
             label = R.string.menu_edit,
+            command = command,
             action = action
         )
 
-        fun select(action: () -> Unit) = MenuEntry(
+        fun select(command: String, action: () -> Unit) = MenuEntry(
             icon = Icons.Filled.Check,
             label = R.string.select,
+            command = command,
             action = action
         )
 
-        fun toggle(isSealed: Boolean, action: () -> Unit) = MenuEntry(
+        fun toggle(command: String, isSealed: Boolean, action: () -> Unit) = MenuEntry(
             icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
             label = if (isSealed) R.string.menu_reopen else R.string.menu_close,
+            command = command + "_ " + if(isSealed) "_REOPEN" else "_CLOSE",
             action = action
         )
     }
 }
-typealias GenericMenuEntry = MenuEntry
 
 @Composable
 fun OverFlowMenu(
@@ -154,12 +160,14 @@ private fun EntryListRenderer(
     menu: Menu,
     offset: Dp = 0.dp
 ) {
+    val tracker = LocalTracker.current
     menu.entries.forEach { entry ->
         when (entry) {
             is IActionMenuEntry -> {
                 DropdownMenuItem(
                     onClick = {
                         expanded.value = false
+                        tracker.trackCommand(entry.command)
                         entry.action()
                     }
                 ) {
@@ -200,13 +208,14 @@ private fun EntryListRenderer(
 fun EntryContent() {
     Column {
         DropdownMenuItem(onClick = {}) {
-            EntryContent(GenericMenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit) {})
+            EntryContent(MenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit, command = "") {})
         }
         DropdownMenuItem(onClick = {}) {
             EntryContent(
-                GenericMenuEntry(
+                MenuEntry(
                     icon = myiconpack.ArrowsAlt,
-                    label = R.string.menu_move
+                    label = R.string.menu_move,
+                    command = ""
                 ) {})
         }
     }
@@ -215,7 +224,7 @@ fun EntryContent() {
 @Preview
 @Composable
 fun Overflow() {
-    fun emptyEntry(label: Int) = GenericMenuEntry(label = label) {}
+    fun emptyEntry(label: Int) = MenuEntry(label = label, command = "") {}
     OverFlowMenu(
         menu = Menu(
             entries = listOf(
@@ -223,8 +232,8 @@ fun Overflow() {
                 SubMenuEntry(
                     label = R.string.menu_hide, subMenu = Menu(
                         entries = listOf(
-                            MenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit) {},
-                            MenuEntry(icon = myiconpack.ArrowsAlt, label = R.string.menu_move) {}
+                            MenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit, command = "") {},
+                            MenuEntry(icon = myiconpack.ArrowsAlt, label = R.string.menu_move, command = "") {}
                         )
                     )
                 )

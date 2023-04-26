@@ -63,6 +63,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.evernote.android.state.StateSaver;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -198,69 +199,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       }
     }
     return super.onOptionsItemSelected(item);
-  }
-
-  @Override
-  public boolean dispatchCommand(int command, @Nullable Object tag) {
-    if (super.dispatchCommand(command, tag)) {
-      return true;
-    }
-    Intent i;
-    if (command == R.id.RATE_COMMAND) {
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(getMarketSelfUri()));
-      startActivity(i, R.string.error_accessing_market, null);
-      return true;
-    } else if (command == R.id.SETTINGS_COMMAND) {
-      i = new Intent(this, MyPreferenceActivity.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      if (tag != null) {
-        i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, (String) tag);
-      }
-      startActivityForResult(i, PREFERENCES_REQUEST);
-      return true;
-    } else if (command == R.id.FEEDBACK_COMMAND) {
-      LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
-      String licenceInfo = "";
-      if (licenceStatus != null) {
-        licenceInfo = "\nLICENCE: " + licenceStatus.name();
-        String purchaseExtraInfo = licenceHandler.getPurchaseExtraInfo();
-        if (!TextUtils.isEmpty(purchaseExtraInfo)) {
-          licenceInfo += " (" + purchaseExtraInfo + ")";
-        }
-      }
-      sendEmail(getString(R.string.support_email),
-              "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback),
-              String.format(Locale.ROOT,
-                      "APP_VERSION:%s\nFIRST_INSTALL_VERSION:%d (DB_SCHEMA %d)\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
-                      getVersionInfo(this),
-                      prefHandler.getInt(PrefKey.FIRST_INSTALL_VERSION, 0),
-                      prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1),
-                      Build.VERSION.RELEASE,
-                      Build.BRAND,
-                      Build.MODEL,
-                      ConfigurationHelper.configToJson(getResources().getConfiguration()),
-                      licenceInfo),
-              null
-      );
-    } else if (command == R.id.CONTRIB_INFO_COMMAND) {
-      showContribDialog(null, null);
-      return true;
-    } else if (command == R.id.WEB_COMMAND) {
-      startActionView(getString(R.string.website));
-      return true;
-    } else if (command == R.id.HELP_COMMAND) {
-      return doHelp((String) tag);
-    } else if (command == android.R.id.home) {
-      doHome();
-      return true;
-    }
-    return false;
-  }
-
-  protected void doHome() {
-    setResult(FragmentActivity.RESULT_CANCELED);
-    finish();
   }
 
   public void dispatchCommand(View v) {
@@ -487,12 +425,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       finishAffinity();
       startActivity(i);
     }
-  }
-
-  @Override
-  public void onPositive(@NonNull Bundle args, boolean checked) {
-    dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),
-        args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE));
   }
 
   public void checkGdprConsent(boolean forceShow) {

@@ -9,6 +9,12 @@ interface Tracker {
     fun logEvent(eventName: String, params: Bundle?)
     fun setEnabled(enabled: Boolean)
 
+    fun trackCommand(command: String) {
+        logEvent(EVENT_DISPATCH_COMMAND, Bundle().apply {
+            putString(EVENT_PARAM_ITEM_ID, command)
+        })
+    }
+
     companion object {
         const val EVENT_DISPATCH_COMMAND = "dispatch_command"
         const val EVENT_SELECT_OPERATION_TYPE = "select_operation_type"

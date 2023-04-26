@@ -303,6 +303,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {
+        super.onPositive(args, checked)
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.BACKUP_COMMAND -> {
                 prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)

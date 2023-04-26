@@ -363,6 +363,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     MenuEntry(
                                         Icons.Filled.List,
                                         R.string.menu_show_transactions,
+                                        "SHOW_TRANSACTIONS"
                                     ) { showTransactions(category) }
                                 )
                             }
@@ -370,7 +371,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 add(
                                     MenuEntry(
                                         Icons.Filled.Palette,
-                                        R.string.color
+                                        R.string.color,
+                                        "COLOR"
                                     ) {
                                         editCategoryColor(category.id, category.color)
                                     }

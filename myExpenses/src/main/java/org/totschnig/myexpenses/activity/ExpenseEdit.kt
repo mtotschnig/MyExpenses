@@ -1252,6 +1252,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {
+        super.onPositive(args, checked)
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.AUTO_FILL_COMMAND -> {
                 startAutoFill(args.getLong(KEY_ROWID), true)
@@ -1260,7 +1261,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             R.id.LOAD_TEMPLATE_DO -> {
                 loadTemplate(args.getLong(KEY_ROWID))
             }
-            else -> super.onPositive(args, checked)
         }
     }
 

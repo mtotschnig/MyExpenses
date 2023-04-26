@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
@@ -65,6 +66,8 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -297,8 +300,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun maybeRepairRequerySchema() {
-        if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(PrefKey.CURRENT_VERSION, -1) < 593) {
-            org.totschnig.myexpenses.provider.maybeRepairRequerySchema(getDatabasePath("data").path)
+        if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(
+                PrefKey.CURRENT_VERSION,
+                -1
+            ) < 593
+        ) {
+            maybeRepairRequerySchema(getDatabasePath("data").path)
             prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
         }
     }
@@ -317,6 +324,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         getString(featureState.feature.labelResId)
                     )
                 )
+
                 is FeatureViewModel.FeatureState.FeatureAvailable -> {
                     Feature.values().find { featureState.modules.contains(it.moduleName) }?.let {
                         showSnackBar(
@@ -333,18 +341,21 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         }
                     }
                 }
+
                 is FeatureViewModel.FeatureState.Error -> {
                     with(featureState.throwable) {
                         CrashHandler.report(this)
                         message?.let { showSnackBar(it) }
                     }
                 }
+
                 is FeatureViewModel.FeatureState.LanguageLoading -> showSnackBar(
                     getString(
                         R.string.language_download_requested,
                         featureState.language
                     )
                 )
+
                 is FeatureViewModel.FeatureState.LanguageAvailable -> {
                     setLanguage(featureState.language)
                     recreate()
@@ -494,19 +505,28 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         tracker.logEvent(event, params)
     }
 
-    fun trackCommand(command: Int) {
+    fun trackCommand(command: Int, postFix: String = "") {
         try {
             resources.getResourceName(command)
         } catch (e: Resources.NotFoundException) {
             null
         }?.let { fullResourceName ->
-            logEvent(Tracker.EVENT_DISPATCH_COMMAND, Bundle().apply {
-                putString(
-                    Tracker.EVENT_PARAM_ITEM_ID,
-                    fullResourceName.substring(fullResourceName.indexOf('/') + 1)
-                )
-            })
+            trackCommand(fullResourceName.substring(fullResourceName.indexOf('/') + 1) + postFix)
         }
+    }
+
+    fun trackCommand(command: String) {
+        tracker.trackCommand(command)
+    }
+
+    @CallSuper
+    override fun onPositive(args: Bundle, checked: Boolean) {
+        val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
+        trackCommand(command, if (checked) "_CHECKED" else "")
+        dispatchCommand(
+            command,
+            args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE)
+        )
     }
 
     @CallSuper
@@ -519,10 +539,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
                 true
             }
+
             R.id.QUIT_COMMAND -> {
                 finish()
                 true
             }
+
             R.id.NOTIFICATION_SETTINGS_COMMAND -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                     !PermissionGroup.NOTIFICATION.hasPermission(this)
@@ -555,8 +577,80 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
                 true
             }
+
+            R.id.RATE_COMMAND -> {
+                startActivity(Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(marketSelfUri)
+                }, R.string.error_accessing_market, null)
+                true
+            }
+
+            R.id.SETTINGS_COMMAND -> {
+                startActivityForResult(
+                    Intent(this, MyPreferenceActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        if (tag != null) {
+                            putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, tag as String?)
+                        }
+                    }, PREFERENCES_REQUEST
+                )
+                true
+            }
+            R.id.FEEDBACK_COMMAND -> {
+                val licenceStatus = licenceHandler.licenceStatus
+                val licenceInfo = buildString {
+                    if (licenceStatus != null) {
+                        append(licenceStatus.name)
+                    }
+                    licenceHandler.purchaseExtraInfo.takeIf { !TextUtils.isEmpty(it) }?.let {
+                        append(" ($it)")
+                    }
+                }.takeIf { it.isNotEmpty() }?.let {
+                    "LICENCE: $it\n"
+                }
+                val firstInstallVersion = prefHandler.getInt(PrefKey.FIRST_INSTALL_VERSION, 0)
+                val firstInstallSchema = prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1)
+
+                sendEmail(
+                    recipient = getString(R.string.support_email),
+                    subject = "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback),
+                    body = """
+                        APP_VERSION:${getVersionInfo(this)}
+                        FIRST_INSTALL_VERSION:$firstInstallVersion (DB_SCHEMA $firstInstallSchema)
+                        ANDROID_VERSION:${Build.VERSION.RELEASE}
+                        BRAND:${Build.BRAND}
+                        MODEL:${Build.MODEL}
+                        CONFIGURATION:${ConfigurationHelper.configToJson(resources.configuration)}
+                        $licenceInfo
+
+                    """.trimIndent(),
+                    forResultRequestCode = null
+                )
+                true
+            }
+            R.id.CONTRIB_INFO_COMMAND -> {
+                showContribDialog(null, null)
+                true
+            }
+            R.id.WEB_COMMAND -> {
+                startActionView(getString(R.string.website))
+                true
+            }
+            R.id.HELP_COMMAND -> {
+                doHelp(tag as String?)
+                true
+            }
+            android.R.id.home -> {
+                doHome()
+                true
+            }
             else -> false
         }
+    }
+
+    protected open fun doHome() {
+        setResult(RESULT_CANCELED)
+        finish()
     }
 
     fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) {
@@ -765,12 +859,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showDismissibleSnackBar(deleteFailureMessage(message), callback)
     }
 
-    protected open fun doHelp(variant: String?): Boolean {
+    protected open fun doHelp(variant: String?) {
         startActivity(Intent(this, Help::class.java).apply {
             putExtra(HelpDialogFragment.KEY_CONTEXT, helpContext)
             putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant)
         })
-        return true
     }
 
     protected open val helpContext: String

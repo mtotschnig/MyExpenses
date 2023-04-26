@@ -27,7 +27,8 @@ fun AppTheme(
                 expense = colorResource(id = R.color.colorExpense),
                 transfer = colorResource(id = R.color.colorTransfer),
             ),
-            LocalHomeCurrency provides appComponent.homeCurrencyProvider().homeCurrencyUnit
+            LocalHomeCurrency provides appComponent.homeCurrencyProvider().homeCurrencyUnit,
+            LocalTracker provides appComponent.tracker()
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.body2, content = content)
         }

@@ -209,17 +209,17 @@ fun DebtRenderer(
                     modifier = Modifier.align(Alignment.TopEnd),
                     menu = Menu(buildList {
                         if (!debt.isSealed) {
-                            add(edit { onEdit() })
+                            add(edit("EDIT_DEBT") { onEdit() })
                         }
-                        add(toggle(debt.isSealed) { onToggle() })
-                        add(delete { onDelete(transactions.size) })
+                        add(toggle("DEBT", debt.isSealed) { onToggle() })
+                        add(delete("DELETE_DEBT") { onDelete(transactions.size) })
                         add(
                             SubMenuEntry(
                                 icon = Icons.Filled.Share,
                                 label = R.string.button_label_share_file,
                                 subMenu = Menu(
                                     DebtViewModel.ExportFormat.values().map { format ->
-                                        MenuEntry(label = format.resId) {
+                                        MenuEntry(label = format.resId, command = "SHARE_DEBT_$format") {
                                             onShare(format)
                                         }
                                     }
@@ -229,6 +229,7 @@ fun DebtRenderer(
                             add(
                                 CheckableMenuEntry(
                                     label = R.string.menu_equivalent_amount,
+                                    command = "DEBT_EQUIVALENT",
                                     showEquivalentAmount.value
                                 ) {
                                     showEquivalentAmount.value = !showEquivalentAmount.value

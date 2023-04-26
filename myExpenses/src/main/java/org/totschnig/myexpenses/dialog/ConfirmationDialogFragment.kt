@@ -114,7 +114,7 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
         }
         when (which) {
             AlertDialog.BUTTON_POSITIVE ->
-                ctx.onPositive(arguments, checkBox != null && checkBox!!.isChecked)
+                ctx.onPositive(arguments, checkBox?.isChecked == true)
             AlertDialog.BUTTON_NEUTRAL -> ctx.onNeutral(arguments)
             else -> {
                 val negativeCommand = arguments.getInt(KEY_COMMAND_NEGATIVE)

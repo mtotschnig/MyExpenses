@@ -113,7 +113,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                             menu = Menu(
                                 listOf(
                                     MenuEntry(
-                                        label = R.string.menu_help
+                                        label = R.string.menu_help,
+                                        command = "HELP"
                                     ) {
                                         startActivity(
                                             Intent(
