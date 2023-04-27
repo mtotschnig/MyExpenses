@@ -125,7 +125,7 @@ class BudgetList : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         lastClickedPosition?.let {
             if (resultCode != Activity.RESULT_FIRST_USER) { //budget was deleted
-                binding.recyclerView.adapter?.notifyItemRemoved(it)
+                binding.recyclerView.adapter?.notifyItemChanged(it)
             }
             lastClickedPosition = null
         }
