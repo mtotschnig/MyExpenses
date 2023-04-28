@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -97,16 +98,16 @@ public class PictureDirHelper {
     return result.exists() ? result : null;
   }
 
-  public static boolean doesPictureExist(Uri pictureUri) throws IllegalArgumentException {
-    return getFileForUri(pictureUri).exists();
+  public static boolean doesPictureExist(Context context, Uri pictureUri) throws IllegalArgumentException {
+    return getFileForUri(context, pictureUri).exists();
   }
 
   @NonNull
-  public static File getFileForUri(Uri pictureUri) throws IllegalArgumentException {
+  public static File getFileForUri(Context context, Uri pictureUri) throws IllegalArgumentException {
     if ("file".equals(pictureUri.getScheme())) {
       return new File(pictureUri.getPath());
     }
-    Preconditions.checkArgument("authority", AppDirHelper.getFileProviderAuthority(MyApplication.getInstance()),
+    Preconditions.checkArgument("authority", AppDirHelper.getFileProviderAuthority(context),
         pictureUri.getAuthority());
     List<String> pathSegments = pictureUri.getPathSegments();
     //TODO create unit test for checking if this logic is in sync with image_path.xml

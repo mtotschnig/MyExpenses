@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
@@ -25,6 +26,8 @@ import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
+import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.AppDirHelper.getFileProviderAuthority
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -351,6 +354,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     fun autoFillDone() {
         _autoFillData.tryEmit(null)
+    }
+
+    fun cleanupOrigFile(result: CropImage.ActivityResult) {
+        if (result.originalUri.authority == getFileProviderAuthority(getApplication())) {
+            viewModelScope.launch(coroutineContext()) {
+                contentResolver.delete(result.originalUri, null, null)
+            }
+        }
     }
 
     data class AutoFillData(

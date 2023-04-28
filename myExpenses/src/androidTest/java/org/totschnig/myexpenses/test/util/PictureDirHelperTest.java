@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.util;
 
+import android.content.Context;
 import android.net.Uri;
 
 import org.junit.Test;
@@ -32,8 +33,9 @@ public class PictureDirHelperTest {
     //given
     Uri uri = PictureDirHelper.getOutputMediaUri(false, false);
     //then
-    File file = PictureDirHelper.getFileForUri(uri);
-    assertEquals(AppDirHelper.getContentUriForFile(InstrumentationRegistry.getInstrumentation().getTargetContext(), file), uri);
+    Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    File file = PictureDirHelper.getFileForUri(targetContext, uri);
+    assertEquals(AppDirHelper.getContentUriForFile(targetContext, file), uri);
   }
 
   @Test
@@ -41,7 +43,8 @@ public class PictureDirHelperTest {
     //given
     Uri uri = PictureDirHelper.getOutputMediaUri(false, true);
     //then
-    File file = PictureDirHelper.getFileForUri(uri);
-    assertEquals(AppDirHelper.getContentUriForFile(InstrumentationRegistry.getInstrumentation().getTargetContext(), file), uri);
+    Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    File file = PictureDirHelper.getFileForUri(targetContext, uri);
+    assertEquals(AppDirHelper.getContentUriForFile(targetContext, file), uri);
   }
 }

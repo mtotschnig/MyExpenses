@@ -1068,6 +1068,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 val result = CropImage.getActivityResult(intent)
                 if (resultCode == RESULT_OK) {
                     setPicture(result.uri)
+                    viewModel.cleanupOrigFile(result)
                 } else {
                     processImageCaptureError(resultCode, result)
                 }

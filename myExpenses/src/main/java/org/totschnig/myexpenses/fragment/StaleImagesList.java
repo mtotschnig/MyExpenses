@@ -148,7 +148,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
     lv.setOnItemClickListener((parent, view, position, id) ->
             ((ProtectedFragmentActivity) requireActivity()).showSnackBar(
                     //TODO Strict Mode Violation
-                    PictureDirHelper.getFileForUri(uriAtPosition(position)).getPath()
+                    PictureDirHelper.getFileForUri(requireContext(), uriAtPosition(position)).getPath()
             )
     );
     LoaderManager.getInstance(this).initLoader(0, null, this);

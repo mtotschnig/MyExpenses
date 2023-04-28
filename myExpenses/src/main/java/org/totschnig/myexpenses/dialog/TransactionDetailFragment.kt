@@ -143,7 +143,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 if (transaction.pictureUri != null) {
                     doShowPicture = true
                     try {
-                        if (!PictureDirHelper.doesPictureExist(transaction.pictureUri)) {
+                        if (!PictureDirHelper.doesPictureExist(requireContext(), transaction.pictureUri)) {
                             showSnackBar(R.string.image_deleted)
                             doShowPicture = false
                         }
