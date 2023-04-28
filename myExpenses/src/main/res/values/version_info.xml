@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
+        <item>615;3.5.5</item>
         <item>614;3.5.4</item>
         <item>603;3.5.3</item>
         <item>597;3.5.2</item>
@@ -96,6 +97,7 @@
     <string name="version_more_info_352">109976902058363075</string>
     <string name="version_more_info_353">110056714935372644</string>
     <string name="version_more_info_354">110215889500909292</string>
+    <string name="version_more_info_355">110278881493299193</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
@@ -139,6 +141,7 @@
     <string name="project_board_352">90#column-19374068</string>
     <string name="project_board_353">92#column-19394983</string>
     <string name="project_board_354">95#column-19428426</string>
+    <string name="project_board_355">96#column-19437845</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
