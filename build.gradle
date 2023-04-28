@@ -48,8 +48,8 @@ ext {
     annotations = "1.6.0"
     commonsLang = "3.12.0"
     commonsText = "1.9"
-    ktor = "2.2.4"
-    bouncycastle = "1.72"
+    ktor = '2.3.0'
+    bouncycastle = '1.73'
     desugarVersion = '2.0.3'
     mlkitTextRecognition = "16.0.0-beta6"
     truthVersion = "1.1.3"
