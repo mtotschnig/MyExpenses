@@ -303,7 +303,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(
                 PrefKey.CURRENT_VERSION,
                 -1
-            ) < 593
+            ) in 557..588
         ) {
             maybeRepairRequerySchema(getDatabasePath("data").path)
             prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
