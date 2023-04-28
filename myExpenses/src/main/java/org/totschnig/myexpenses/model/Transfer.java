@@ -131,7 +131,7 @@ public class Transfer extends Transaction implements ITransfer {
     initialValues.put(KEY_TRANSFER_ACCOUNT, getTransferAccountId());
     initialValues.put(KEY_CR_STATUS, getCrStatus().name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
-    initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
+    initialValues.put(KEY_PICTURE_URI, pictureUri != null ? pictureUri.toString() : null);
     if (getId() == 0) {
       //both parts of the transfer share uuid
       initialValues.put(KEY_UUID, requireUuid());

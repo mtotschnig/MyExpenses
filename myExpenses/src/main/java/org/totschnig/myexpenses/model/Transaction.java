@@ -403,6 +403,8 @@ public class Transaction extends Model implements ITransaction {
 
   @NonNull
   private CrStatus crStatus = CrStatus.UNRECONCILED;
+
+  @Nullable
   transient protected Uri pictureUri;
 
   /**
@@ -927,7 +929,7 @@ public class Transaction extends Model implements ITransaction {
     initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().getCode());
     initialValues.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount == null ? null : equivalentAmount.getAmountMinor());
 
-    initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
+    initialValues.put(KEY_PICTURE_URI, pictureUri != null ? pictureUri.toString() : null);
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
