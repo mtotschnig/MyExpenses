@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
@@ -20,26 +21,20 @@ import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
-import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.AppDirHelper.getFileProviderAuthority
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import kotlin.collections.set
+import timber.log.Timber
+import java.io.File
+import java.io.IOException
 import kotlin.math.pow
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
-
-const val ERROR_UNKNOWN = -1L
-const val ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2L
-const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
-const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
-const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagHandlingViewModel(application, savedStateHandle) {
@@ -119,24 +114,49 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         )
     }
 
-    fun save(transaction: ITransaction): LiveData<Long> = liveData(context = coroutineContext()) {
-        val result = try {
-            transaction.save(true)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
-        } catch (e: ExternalStorageNotAvailableException) {
-            ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
-        } catch (e: UnknownPictureSaveException) {
-            val customData = HashMap<String, String>()
-            customData["pictureUri"] = e.pictureUri.toString()
-            customData["homeUri"] = e.homeUri.toString()
-            CrashHandler.report(e, customData)
-            ERROR_PICTURE_SAVE_UNKNOWN
-        } catch (e: CalendarIntegrationNotAvailableException) {
-            ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
-        } catch (e: Exception) {
-            CrashHandler.report(e)
-            ERROR_UNKNOWN
+    fun save(transaction: ITransaction): LiveData<Result<Long>> = liveData(context = coroutineContext()) {
+        emit(kotlin.runCatching {
+            savePicture(transaction)
+            val result = transaction.save(true)?.let { ContentUris.parseId(it) } ?: throw Throwable("Error while saving transaction")
+            if (!transaction.saveTags(tagsLiveData.value)) throw Throwable("Error while saving tags")
+            result
+        })
+    }
+
+    private fun savePicture(transaction: ITransaction) {
+        transaction.pictureUri?.let {
+            val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())
+                ?: throw ExternalStorageNotAvailableException()
+            if (it.toString().startsWith(pictureUriBase)) {
+                Timber.d("got Uri in our home space, nothing todo")
+            } else {
+                val pictureUriTemp = PictureDirHelper.getPictureUriBase(true, getApplication())
+                    ?: throw ExternalStorageNotAvailableException()
+                val isInTempFolder = it.toString().startsWith(pictureUriTemp)
+                val homeUri = PictureDirHelper.getOutputMediaUri(false, getApplication())
+                    ?: throw ExternalStorageNotAvailableException()
+                try {
+                    if (isInTempFolder && homeUri.scheme == "file") {
+                        if (!File(it.path!!).renameTo(File(homeUri.path!!))) {
+                            //fallback
+                            copyPictureHelper(true, it, homeUri)
+                        }
+                    } else {
+                        copyPictureHelper(isInTempFolder, it, homeUri)
+                    }
+                } catch (e: IOException) {
+                    throw UnknownPictureSaveException(it, homeUri, e)
+                }
+                transaction.pictureUri = homeUri
+            }
         }
-        emit(if (result > 0 && !transaction.saveTags(tagsLiveData.value)) ERROR_WHILE_SAVING_TAGS else result)
+    }
+
+    private fun copyPictureHelper(delete: Boolean, pictureUri: Uri, homeUri: Uri) {
+        FileCopyUtils.copy(pictureUri, homeUri)
+        if (delete) {
+            contentResolver.delete(pictureUri, null, null)
+        }
     }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
@@ -354,14 +374,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     fun autoFillDone() {
         _autoFillData.tryEmit(null)
-    }
-
-    fun cleanupOrigFile(result: CropImage.ActivityResult) {
-        if (result.originalUri.authority == getFileProviderAuthority(getApplication())) {
-            viewModelScope.launch(coroutineContext()) {
-                contentResolver.delete(result.originalUri, null, null)
-            }
-        }
     }
 
     data class AutoFillData(

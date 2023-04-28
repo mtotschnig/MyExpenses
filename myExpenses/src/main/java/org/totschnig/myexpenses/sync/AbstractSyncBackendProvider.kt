@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Account
@@ -220,7 +221,10 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     private fun mapPictureDuringRead(transactionChange: TransactionChange): TransactionChange {
         transactionChange.pictureUri()?.let {
-            val homeUri = PictureDirHelper.getOutputMediaUri(false)
+            val homeUri = PictureDirHelper.getOutputMediaUri(
+                false,
+                context.applicationContext as MyApplication
+            )
                 ?: throw IOException("Unable to write picture")
             val input = getInputStreamForPicture(it)
             val output = context.contentResolver

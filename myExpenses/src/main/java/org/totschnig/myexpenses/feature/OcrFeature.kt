@@ -2,12 +2,12 @@ package org.totschnig.myexpenses.feature
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Parcelable
 import androidx.fragment.app.FragmentManager
 import androidx.preference.ListPreference
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.activity.BaseActivity
-import java.io.File
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -18,7 +18,7 @@ interface OcrFeature {
         const val MIME_TYPE = "image/jpeg"
         fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
-    fun start(scanFile: File, fragmentManager: FragmentManager) {}
+    fun start(scanUri: Uri, fragmentManager: FragmentManager) {}
     fun handleData(intent: Intent?, fragmentManager: FragmentManager) {}
     fun downloadTessData(context: Context): String? = null
     fun isAvailable(context: Context): Boolean = false
@@ -45,5 +45,5 @@ data class OcrResultFlat(val amount: String?, val date: Pair<LocalDate, LocalTim
 data class Payee(val id: Long, val name: String): Parcelable
 
 interface OcrHost {
-    fun processOcrResult(result: Result<OcrResult>)
+    fun processOcrResult(result: Result<OcrResult>, scanUri: Uri)
 }

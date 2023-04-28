@@ -2,12 +2,12 @@ package org.totschnig.ocr
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.annotation.Keep
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.feature.OcrFeature.Companion.intent
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.preference.PrefHandler
-import java.io.File
 import javax.inject.Inject
 
 @Keep
@@ -19,7 +19,7 @@ class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, application: 
     override fun info(context: Context): CharSequence =
             intent().resolveActivity(context.packageManager).toShortString()
 
-    override suspend fun runTextRecognition(file: File, context: Context): OcrResult {
+    override suspend fun runTextRecognition(uri: Uri, context: Context): OcrResult {
         throw IllegalStateException()
     }
 }

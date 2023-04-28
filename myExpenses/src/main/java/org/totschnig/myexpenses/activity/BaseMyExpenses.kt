@@ -95,7 +95,6 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
-import java.io.File
 import java.io.Serializable
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -103,6 +102,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
+import kotlin.Result
 import kotlin.math.sign
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
@@ -110,9 +110,6 @@ const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
 @OptIn(ExperimentalFoundationApi::class)
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
-    @JvmField
-    @State
-    var scanFile: File? = null
 
     private val accountData: List<FullAccount>
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
@@ -1044,7 +1041,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
         (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.first).toString()
 
-    override fun processOcrResult(result: kotlin.Result<OcrResult>) {
+    override fun processOcrResult(result: Result<OcrResult>, scanUri: Uri) {
         result.onSuccess {
             if (it.needsDisambiguation()) {
                 SimpleFormDialog.build()
@@ -1053,6 +1050,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     .neg(android.R.string.cancel)
                     .extra(Bundle().apply {
                         putParcelable(KEY_OCR_RESULT, it)
+                        putParcelable(KEY_PICTURE_URI, scanUri)
                     })
                     .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
                     .fields(
@@ -1114,7 +1112,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         null
                     } else {
                         it.selectCandidates()
-                    }
+                    },
+                    scanUri
                 )
             }
         }.onFailure {
@@ -1159,12 +1158,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         startActivityForResult(intent, EDIT_REQUEST)
     }
 
-    private fun startEditFromOcrResult(result: OcrResultFlat?) {
+    private fun startEditFromOcrResult(result: OcrResultFlat?, scanUri: Uri) {
         recordUsage(ContribFeature.OCR)
         startEdit(
             createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
                 putExtra(KEY_OCR_RESULT, result)
-                putExtra(KEY_PICTURE_URI, Uri.fromFile(scanFile))
+                putExtra(KEY_PICTURE_URI, scanUri)
             }
         )
     }
@@ -1189,7 +1188,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             extras.getInt(KEY_AMOUNT),
                             extras.getInt(KEY_DATE),
                             extras.getInt(KEY_PAYEE_NAME)
-                        )
+                        ),
+                        extras.getParcelable(KEY_PICTURE_URI)!!
                     )
                     true
                 }
@@ -1541,18 +1541,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      * @return currently selected account
      */
     private fun setCurrentAccount() =
-        accountData.getOrNull(pagerState.currentPage)?.also { account ->
+        currentAccount?.also { account ->
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintSystemUiAndFab(account.color(resources))
             setBalance(account)
-            with(floatingActionButton) {
-                show()
-                isEnabled = !account.sealed
-                alpha = if (account.sealed) 0.5f else 1f
-                setImageResource(
-                    if (account.sealed) R.drawable.ic_lock else R.drawable.ic_menu_add_fab
-                )
-            }
+            updateFab()
             invalidateOptionsMenu()
         }
 
@@ -1571,19 +1564,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun updateFab() {
         val scanMode = isScanMode()
-        configureFloatingActionButton(
-            if (scanMode)
-                getString(R.string.contrib_feature_ocr_label)
-            else
-                TextUtils.concatResStrings(
-                    this,
+        val sealed = currentAccount?.sealed == true
+        with(floatingActionButton) {
+            show()
+            isEnabled = !sealed
+            alpha = if (sealed) 0.5f else 1f
+            setImageResource(
+                when {
+                    sealed -> R.drawable.ic_lock
+                    scanMode -> R.drawable.ic_scan
+                    else -> R.drawable.ic_menu_add_fab
+                }
+            )
+            contentDescription = when {
+                sealed -> getString(R.string.content_description_closed)
+                scanMode -> getString(R.string.contrib_feature_ocr_label)
+                else -> TextUtils.concatResStrings(
+                    this@BaseMyExpenses,
                     ". ",
                     R.string.menu_create_transaction,
                     R.string.menu_create_transfer,
                     R.string.menu_create_split
                 )
-        )
-        floatingActionButton.setImageResource(if (scanMode) R.drawable.ic_scan else R.drawable.ic_menu_add_fab)
+            }
+        }
     }
 
     fun isScanMode(): Boolean = prefHandler.getBoolean(PrefKey.OCR, false)
@@ -1690,15 +1694,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ContribFeature.OCR -> {
                     if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
                         if ((tag as Boolean)) {
-                            /*scanFile = File("/sdcard/OCR_bg.jpg")
-                        ocrViewModel.startOcrFeature(scanFile!!, supportFragmentManager);*/
+                            /*ocrViewModel.startOcrFeature(Uri.fromFile(File("/sdcard/OCR_bg.jpg")), supportFragmentManager);*/
                             ocrViewModel.getScanFiles { pair ->
-                                scanFile = pair.second
                                 CropImage.activity()
                                     .setCameraOnly(true)
                                     .setAllowFlipping(false)
-                                    .setOutputUri(Uri.fromFile(scanFile))
-                                    .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.first))
+                                    .setOutputUri(pair.second)
+                                    .setCaptureImageOutputUri(pair.first)
                                     .setGuidelines(CropImageView.Guidelines.ON)
                                     .start(this)
                             }

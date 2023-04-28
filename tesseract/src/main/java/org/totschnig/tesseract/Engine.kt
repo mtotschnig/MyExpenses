@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.feature.getLocaleForUserCountry
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
@@ -139,7 +140,7 @@ object Engine : TesseractEngine {
         return displayName
     }
 
-    override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =
+    override suspend fun run(uri: Uri, context: Context, prefHandler: PrefHandler): Text =
         withContext(Dispatchers.Default) {
             initialize()
             with(TessBaseAPI()) {
@@ -161,7 +162,7 @@ object Engine : TesseractEngine {
                 setVariable("load_bigram_dawg", TessBaseAPI.VAR_FALSE)
                 setVariable("load_fixed_length_dawgs", TessBaseAPI.VAR_FALSE)
                 pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO_OSD
-                val bitmap = with(FastBitmap(file.path)) {
+                val bitmap = with(FastBitmap(PictureDirHelper.getFileForUri(context, uri).path)) {
                     toGrayscale()
                     val g: IApplyInPlace = BradleyLocalThreshold()
                     g.applyInPlace(this)

@@ -2,6 +2,7 @@ package org.totschnig.ocr
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
@@ -14,7 +15,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.ocr.databinding.ScanPreviewBinding
-import java.io.File
 import javax.inject.Inject
 
 class ScanPreviewFragment : BaseDialogFragment() {
@@ -32,7 +32,7 @@ class ScanPreviewFragment : BaseDialogFragment() {
         binding = ScanPreviewBinding.inflate(LayoutInflater.from(requireContext()))
         viewModel = ViewModelProvider(this)[ScanPreviewViewModel::class.java]
         viewModel.getResult().observe(this) { result ->
-            (activity as? OcrHost)?.processOcrResult(result)
+            (activity as? OcrHost)?.processOcrResult(result, scanUri)
             dismiss()
         }
         val builder: AlertDialog.Builder = MaterialAlertDialogBuilder(requireActivity())
@@ -48,14 +48,14 @@ class ScanPreviewFragment : BaseDialogFragment() {
                         it.isEnabled = false
                     }
                     showSnackBar(getString(R.string.ocr_recognition_info, viewModel.getOcrInfo(requireContext())), Snackbar.LENGTH_INDEFINITE, null)
-                    activity?.let { viewModel.runTextRecognition(scanFile, it) }
+                    activity?.let { viewModel.runTextRecognition(scanUri, it) }
                 }
             }
         }
     }
 
     private fun loadImage() {
-        scanFile.let {
+        scanUri.let {
             picasso.invalidate(it)
             val requestCreator = picasso.load(it)
             with(binding.imageView) {
@@ -71,17 +71,15 @@ class ScanPreviewFragment : BaseDialogFragment() {
         intent?.let { viewModel.handleData(it) } ?: run { dismissSnackBar() }
     }
 
-    private val scanFile: File
-        get() = requireArguments().let {
-            (it.getSerializable(KEY_FILE) as File)
-        }
+    private val scanUri: Uri
+        get() = requireArguments().getParcelable(KEY_FILE)!!
 
     companion object {
         const val KEY_FILE = "file"
-        fun with(file: File) = ScanPreviewFragment().apply {
+        fun with(uri: Uri) = ScanPreviewFragment().apply {
             isCancelable = false
             arguments = Bundle().apply {
-                putSerializable(KEY_FILE, file)
+                putParcelable(KEY_FILE, uri)
             }
         }
     }

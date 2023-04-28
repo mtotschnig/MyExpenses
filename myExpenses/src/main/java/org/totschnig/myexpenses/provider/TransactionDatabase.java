@@ -1418,7 +1418,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 51) {
-        File pictureDir = PictureDirHelper.getPictureDir(false);
+        File pictureDir = PictureDirHelper.getPictureDir(MyApplication.getInstance(), false);
         //fallback if not mounted
         if (pictureDir == null) {
           pictureDir = new File(

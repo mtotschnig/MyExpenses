@@ -1,12 +1,13 @@
 package org.totschnig.ocr
 
 import android.content.Context
+import android.net.Uri
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import java.io.File
 
 interface Engine {
-    suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text
+    suspend fun run(uri: Uri, context: Context, prefHandler: PrefHandler): Text
     fun info(context: Context, prefHandler: PrefHandler): CharSequence
 }
 

@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.feature.OcrFeature.Companion.ACTION
 import org.totschnig.myexpenses.feature.OcrFeature.Companion.MIME_TYPE
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.util.AppDirHelper
-import java.io.File
 import javax.inject.Inject
 
 class ScanPreviewViewModel(application: Application) : AndroidViewModel(application) {
@@ -33,25 +32,25 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
         DaggerOcrComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
     }
 
-    fun runTextRecognition(scanFile: File, activity: Activity) {
+    fun runTextRecognition(scanUri: Uri, activity: Activity) {
         if (!running) {
             running = true
             if (BuildConfig.FLAVOR == "extern") {
-                runExternal(scanFile, activity)
+                runExternal(scanUri, activity)
             } else {
                 viewModelScope.launch {
-                    result.postValue(runCatching { ocrHandler.runTextRecognition(scanFile, activity) })
+                    result.postValue(runCatching { ocrHandler.runTextRecognition(scanUri, activity) })
                 }
             }
         }
     }
 
-    private fun runExternal(scanFile: File, activity: Activity) {
+    private fun runExternal(scanUri: Uri, activity: Activity) {
         activity.startActivityForResult(
                 Intent(ACTION).apply {
                     //use this if working with debug (Storage permission must be granted to OCR app)
                     //setDataAndType(Uri.fromFile(scanFile), MIME_TYPE)
-                    setDataAndType(AppDirHelper.ensureContentUri(Uri.fromFile(scanFile), activity), MIME_TYPE)
+                    setDataAndType(AppDirHelper.ensureContentUri(scanUri, activity), MIME_TYPE)
                     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 }, OCR_REQUEST)
     }

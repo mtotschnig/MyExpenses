@@ -54,6 +54,8 @@ import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.delegate.*
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.TemplatesList
@@ -80,6 +82,7 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlin.Result
 import kotlin.collections.set
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -1179,24 +1182,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun onSaved(result: Long, transaction: ITransaction) {
-        if (result < 0L) {
-            showSnackBar(
-                when (result) {
-                    ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
-                    ERROR_PICTURE_SAVE_UNKNOWN -> "Error while saving picture"
-                    ERROR_WHILE_SAVING_TAGS -> "Error while saving tags"
-                    ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
-                        delegate.recurrenceSpinner.setSelection(0)
-                        "Recurring transactions are not available, because calendar integration is not functional on this device."
-                    }
-                    else -> {
-                        (delegate as? CategoryDelegate)?.resetCategory()
-                        "Error while saving transaction"
-                    }
-                }
-            )
-        } else {
+    private fun onSaved(result: Result<Long>, transaction: ITransaction) {
+        result.onSuccess {
             if (operationType == Transactions.TYPE_SPLIT) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
             }
@@ -1223,6 +1210,28 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     return
                 }
             }
+        }.onFailure {
+            showSnackBar(
+                when (it) {
+                    is ExternalStorageNotAvailableException -> getString(R.string.external_storage_unavailable)
+                    is UnknownPictureSaveException -> {
+                        val customData = buildMap {
+                            put("pictureUri", it.pictureUri.toString())
+                            put("homeUri", it.homeUri.toString())
+                        }
+                        CrashHandler.report(it, customData)
+                        "Error while saving picture"
+                    }
+                    is Plan.CalendarIntegrationNotAvailableException -> {
+                        delegate.recurrenceSpinner.setSelection(0)
+                        "Recurring transactions are not available, because calendar integration is not functional on this device."
+                    }
+                    else -> {
+                        (delegate as? CategoryDelegate)?.resetCategory()
+                        "Error while saving transaction"
+                    }
+                }
+            )
         }
         mIsSaving = false
     }
@@ -1324,7 +1333,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private fun startMediaChooserDo() {
         CropImage.activity()
             .setAllowFlipping(false)
-            .setCaptureImageOutputUri(PictureDirHelper.getOutputMediaUri(true))
+            .setCaptureImageOutputUri(PictureDirHelper.getOutputMediaUri(
+                true,
+                applicationContext as MyApplication
+            ))
+            .setOutputUri(PictureDirHelper.getOutputMediaUri(
+                true,
+                applicationContext as MyApplication,
+                "cropped"
+            ))
             .setGuidelines(CropImageView.Guidelines.ON)
             .start(this)
     }

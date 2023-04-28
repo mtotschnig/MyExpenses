@@ -2,17 +2,17 @@ package org.totschnig.ocr
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.getUserConfiguredOcrEngine
 import org.totschnig.myexpenses.preference.PrefHandler
-import java.io.File
 import javax.inject.Inject
 
 class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, application: MyApplication) : AbstractOcrHandlerImpl(prefHandler, application) {
-    override suspend fun runTextRecognition(file: File, context: Context) =
-            getEngine(context, prefHandler)?.let { processTextRecognitionResult(it.run(file, context, prefHandler), queryPayees()) } ?: throw java.lang.IllegalStateException("No engine loaded")
+    override suspend fun runTextRecognition(uri: Uri, context: Context) =
+            getEngine(context, prefHandler)?.let { processTextRecognitionResult(it.run(uri, context, prefHandler), queryPayees()) } ?: throw java.lang.IllegalStateException("No engine loaded")
 
     override suspend fun handleData(intent: Intent): OcrResult {
         throw IllegalStateException()

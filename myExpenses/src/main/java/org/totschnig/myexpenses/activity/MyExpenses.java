@@ -186,10 +186,12 @@ public class MyExpenses extends BaseMyExpenses implements
       setSelectedAccountId(intent.getLongExtra(KEY_ROWID, 0));
     }
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+      CropImage.ActivityResult activityResult = CropImage.getActivityResult(intent);
       if (resultCode == RESULT_OK) {
-        getOcrViewModel().startOcrFeature(scanFile, getSupportFragmentManager());
+        viewModel.cleanupOrigFile(activityResult);
+        getOcrViewModel().startOcrFeature(activityResult.getUri(), getSupportFragmentManager());
       } else {
-        processImageCaptureError(resultCode, CropImage.getActivityResult(intent));
+        processImageCaptureError(resultCode, activityResult);
       }
     }
     if (requestCode == OCR_REQUEST) {

@@ -927,64 +927,13 @@ public class Transaction extends Model implements ITransaction {
     initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().getCode());
     initialValues.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount == null ? null : equivalentAmount.getAmountMinor());
 
-    savePicture(initialValues);
+    initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
       initialValues.put(KEY_UUID, requireUuid());
     }
     return initialValues;
-  }
-
-  private void throwExternalNotAvailable() {
-    throw new ExternalStorageNotAvailableException();
-  }
-
-  protected void savePicture(ContentValues initialValues) {
-    if (pictureUri != null) {
-      String pictureUriBase = PictureDirHelper.getPictureUriBase(false);
-      if (pictureUriBase == null) {
-        throwExternalNotAvailable();
-      }
-      if (pictureUri.toString().startsWith(pictureUriBase)) {
-        Timber.d("got Uri in our home space, nothing todo");
-      } else {
-        pictureUriBase = PictureDirHelper.getPictureUriBase(true);
-        if (pictureUriBase == null) {
-          throwExternalNotAvailable();
-        }
-        boolean isInTempFolder = pictureUri.toString().startsWith(pictureUriBase);
-        Uri homeUri = PictureDirHelper.getOutputMediaUri(false);
-        if (homeUri == null) {
-          throwExternalNotAvailable();
-        }
-        try {
-          if (isInTempFolder && homeUri.getScheme().equals("file")) {
-            if (new File(pictureUri.getPath()).renameTo(new File(homeUri.getPath()))) {
-              setPictureUri(homeUri);
-            } else {
-              //fallback
-              copyPictureHelper(true, homeUri);
-            }
-          } else {
-            copyPictureHelper(isInTempFolder, homeUri);
-          }
-        } catch (IOException e) {
-          throw new UnknownPictureSaveException(pictureUri, homeUri, e);
-        }
-      }
-      initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
-    } else {
-      initialValues.putNull(KEY_PICTURE_URI);
-    }
-  }
-
-  private void copyPictureHelper(boolean delete, Uri homeUri) throws IOException {
-    FileCopyUtils.copy(pictureUri, homeUri);
-    if (delete) {
-      new File(pictureUri.getPath()).delete();
-    }
-    setPictureUri(homeUri);
   }
 
   public Uri saveAsNew() {

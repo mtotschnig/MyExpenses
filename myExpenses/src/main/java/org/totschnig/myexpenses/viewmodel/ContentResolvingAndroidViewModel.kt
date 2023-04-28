@@ -15,6 +15,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -37,6 +38,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
+import org.totschnig.myexpenses.util.AppDirHelper.getFileProviderAuthority
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
@@ -389,6 +391,14 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             )
         })
     }*/
+
+    fun cleanupOrigFile(result: CropImage.ActivityResult) {
+        if (result.originalUri.authority == getFileProviderAuthority(getApplication())) {
+            viewModelScope.launch(coroutineContext()) {
+                contentResolver.delete(result.originalUri, null, null)
+            }
+        }
+    }
 
     companion object {
         fun <K, V> lazyMap(initializer: (K) -> V): Map<K, V> {

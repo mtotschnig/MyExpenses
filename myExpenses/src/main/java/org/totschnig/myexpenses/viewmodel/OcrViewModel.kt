@@ -15,9 +15,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
-import java.io.File
 import javax.inject.Inject
 
 class OcrViewModel(application: Application) : AndroidViewModel(application) {
@@ -35,26 +33,31 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         emit(ocrFeature.downloadTessData(getApplication()))
     }
 
-    fun startOcrFeature(scanFile: File, fragmentManager: FragmentManager) {
-        ocrFeature.start(scanFile, fragmentManager)
+    fun startOcrFeature(scanUri: Uri, fragmentManager: FragmentManager) {
+        ocrFeature.start(scanUri, fragmentManager)
     }
 
     fun handleOcrData(intent: Intent?, fragmentManager: FragmentManager) {
         ocrFeature.handleData(intent, fragmentManager)
     }
 
-    fun getScanFiles(action: (file: Pair<File, File>) -> Unit) {
+    fun getScanFiles(action: (file: Pair<Uri, Uri>) -> Unit) {
         viewModelScope.launch {
             action(withContext(Dispatchers.IO) {
-                Pair(PictureDirHelper.getOutputMediaFile("SCAN", true, false), PictureDirHelper.getOutputMediaFile("SCAN_CROPPED", true, false))
+                Pair(
+                    PictureDirHelper.getOutputMediaUri(
+                        temp = true,
+                        application = getApplication(),
+                        fileName = "SCAN"
+                    ),
+                    PictureDirHelper.getOutputMediaUri(
+                        temp = true,
+                        application = getApplication(),
+                        fileName = "SCAN_CROPPED"
+                    )
+                )
             })
         }
-    }
-
-    fun getScanUri(file: File): Uri = try {
-        AppDirHelper.getContentUriForFile(getApplication(), file)
-    } catch (e: IllegalArgumentException) {
-        Uri.fromFile(file)
     }
 
     fun offerTessDataDownload(baseActivity: BaseActivity) {

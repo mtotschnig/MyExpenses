@@ -63,7 +63,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
-    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));//we need an uri that is considered "home"
+    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));//we need an uri that is considered "home"
     op1.setPayee(payee);
     op1.save();
     assertTrue(op1.getId() > 0);
@@ -90,7 +90,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transfer peer;
     op.setAmount(new Money(currencyUnit, 100));
     op.setComment("test transfer");
-    op.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
+    op.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));
     op.save();
     assertTrue(op.getId() > 0);
     Transaction restored = getTransactionFromDb(op.getId());
@@ -131,7 +131,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit, false);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
-    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
+    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));
     op1.setDate(new Date(System.currentTimeMillis() - 1003900000));
     op1.save();
     assertTrue(op1.getId() > 0);

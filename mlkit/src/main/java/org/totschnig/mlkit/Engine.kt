@@ -52,10 +52,10 @@ object Engine : org.totschnig.ocr.MlkitEngine {
             .toTypedArray()
 
 
-    override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =
+    override suspend fun run(uri: Uri, context: Context, prefHandler: PrefHandler): Text =
         withContext(Dispatchers.Default) {
             initialize(context)
-            val image = InputImage.fromFilePath(context, Uri.fromFile(file))
+            val image = InputImage.fromFilePath(context, uri)
             TextRecognition.getClient(options(context, prefHandler)).use { recognizer ->
                 suspendCoroutine { cont ->
                     recognizer.process(image)

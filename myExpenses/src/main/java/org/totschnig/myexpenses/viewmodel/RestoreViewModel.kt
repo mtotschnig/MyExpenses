@@ -377,9 +377,12 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             var restored: Uri? = null
                             if (backupImage?.exists() == true) {
                                 val restoredImage = PictureDirHelper.getOutputMediaFile(
-                                    fileName.substring(0, fileName.lastIndexOf('.')), false, true
+                                    fileName = fileName.substring(0, fileName.lastIndexOf('.')),
+                                    temp = false,
+                                    checkUnique = true,
+                                    application = getApplication()
                                 )
-                                if (restoredImage == null || !FileCopyUtils.copy(
+                                if (!FileCopyUtils.copy(
                                         backupImage,
                                         restoredImage
                                     )
@@ -519,7 +522,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
     }
 
     private fun registerAsStale(secure: Boolean) {
-        val dir = PictureDirHelper.getPictureDir(secure) ?: return
+        val dir = PictureDirHelper.getPictureDir(getApplication(), secure) ?: return
         val files = dir.listFiles() ?: return
         val values = ContentValues()
         for (file: File in files) {
