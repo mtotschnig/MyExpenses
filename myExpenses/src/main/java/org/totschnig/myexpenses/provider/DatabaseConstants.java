@@ -458,15 +458,6 @@ public class DatabaseConstants {
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
       "count(CASE WHEN  " + KEY_CATID + ">0 AND " + WHERE_NOT_VOID + " THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
-  public static final String MAPPED_PAYEES =
-      "count(CASE WHEN  " + KEY_PAYEEID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_PAYEES;
-  public static final String MAPPED_METHODS =
-      "count(CASE WHEN  " + KEY_METHODID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
-  public static final String HAS_TRANSFERS =
-      "count(CASE WHEN  " + KEY_TRANSFER_ACCOUNT + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_HAS_TRANSFERS;
-  public static final String MAPPED_TAGS = "count((SELECT 1 FROM " + TABLE_TRANSACTIONS_TAGS+ " WHERE "
-      + KEY_TRANSACTIONID + " = " + KEY_ROWID + " LIMIT 1)) AS " + KEY_MAPPED_TAGS;
-
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
