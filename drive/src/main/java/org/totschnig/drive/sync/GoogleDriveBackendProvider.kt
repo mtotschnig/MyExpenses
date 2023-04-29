@@ -312,7 +312,7 @@ class GoogleDriveBackendProvider internal constructor(
                     getPropertyWithDefault(
                         appProperties,
                         ACCOUNT_METADATA_COLOR_KEY,
-                        org.totschnig.myexpenses.model.Account.DEFAULT_COLOR
+                        org.totschnig.myexpenses.model2.Account.DEFAULT_COLOR
                     )
                 )
                 .setCurrency(

@@ -159,5 +159,8 @@
         <item>@string/whats_new_336_1</item>
         <item>@string/whats_new_336_2</item>
     </string-array>
+    <string-array name="whats_new_355">
+        <item>@string/whats_new_355</item>
+    </string-array>
 
 </resources>
