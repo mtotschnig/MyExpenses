@@ -1,0 +1,3 @@
+• Backup file name is now configurable.
+
+https://github.com/mtotschnig/MyExpenses/projects/96#column-19437845
