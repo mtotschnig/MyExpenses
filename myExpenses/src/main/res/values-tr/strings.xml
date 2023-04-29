@@ -1025,4 +1025,6 @@
     <string name="debt_borrow_additional">%s borç alıyorum.</string>
     <string name="debt_paid_off_self">Borcum ödendi.</string>
     <string name="debt_balance_they_owe">%1$s şimdi %2$s borçlu.</string>
+    <string name="pref_backup_file_prefix_title">Dosya ön eki</string>
+    <string name="whats_new_355">Yedekleme dosyası adı artık yapılandırılabilir.</string>
 </resources>
