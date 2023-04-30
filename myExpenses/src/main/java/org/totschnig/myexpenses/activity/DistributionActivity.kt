@@ -189,7 +189,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         if (showChart.value) categoryState.value.withSubColors {
                             getSubColors(it, isDark)
                         } else {
-                            categoryState.value
+                            categoryState.value.copy(children = categoryState.value.children.map { it.copy(color = null) })
                         }
                     }
                 }
@@ -367,7 +367,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     ) { showTransactions(category) }
                                 )
                             }
-                            if (category.level == 1)
+                            if (category.level == 1 && category.color != null)
                                 add(
                                     MenuEntry(
                                         Icons.Filled.Palette,

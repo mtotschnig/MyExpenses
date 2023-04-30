@@ -145,7 +145,7 @@ fun CategoryRenderer(
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val isExpanded = expansionMode.isExpanded(category.id)
     val showMenu = remember { mutableStateOf(false) }
-    val menu = remember { menuGenerator(category) }
+    val menu = menuGenerator(category)
     Row(
         modifier = Modifier
             .height(48.dp)
