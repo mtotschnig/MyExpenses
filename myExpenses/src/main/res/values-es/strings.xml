@@ -104,6 +104,7 @@
     <string name="dialog_title_contrib_feature">Característica Contrib</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">¿Borrar la cuenta\?</item>
+        <item quantity="many">¿Borrar las %1$d cuentas\?</item>
         <item quantity="other">¿Borrar las %1$d cuentas\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">¿Borrar categoría?</string>
@@ -221,11 +222,13 @@
     <string name="no_accounts">Sin cuentas.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">El objeto seleccionado está asignado a una transacción y no se puede eliminar.</item>
-        <item quantity="other">Los objetos %1$d están asignados a transacciones y no pueden ser eliminados.</item>
+        <item quantity="many">Los objetos %1$d están asignados a transacciones y no se pueden eliminar.</item>
+        <item quantity="other">Los objetos %1$d están asignados a transacciones y no se pueden eliminar.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">El objeto seleccionado está asignado a una plantilla y no se puede eliminar.</item>
-        <item quantity="other">Los objetos %1$d están asignados a plantillas y no pueden ser eliminados.</item>
+        <item quantity="many">Los objetos %1$d están asignados a plantillas y no se pueden eliminar.</item>
+        <item quantity="other">Los objetos %1$d están asignados a plantillas y no se pueden eliminar.</item>
     </plurals>
     <string name="numbered">enumeradas</string>
     <string name="opening_balance">Balance inicial</string>
@@ -350,6 +353,7 @@
     <string name="save_transaction_error">No se pudo guardar la nueva transacción desde la plantilla.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Nueva transacción guardado correctamente de la plantilla.</item>
+        <item quantity="many">%1$d nuevas transacciones fueron guardadas con éxito desde las plantillas.</item>
         <item quantity="other">%1$d nuevas transacciones fueron guardadas con éxito desde las plantillas.</item>
     </plurals>
     <string name="save_transaction_template_deleted">La plantilla ha sido eliminada</string>
@@ -389,16 +393,19 @@
     <string name="warning_delete_account">La cuenta «%1$s» se eliminará con todas las transacciones.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
-        <item quantity="other">Las %1$d categorías seleccionadas tienen subcategorías, que también serán eliminadas.</item>
+        <item quantity="many">Las %1$d categorías seleccionadas tienen otras subcategorías, que también serán eliminadas.</item>
+        <item quantity="other">Las %1$d categorías seleccionadas tienen otras subcategorías, que también serán eliminadas.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">Para al menos una de las categorías seleccionadas existen asignaciones de presupuesto que también serán eliminadas.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">Se eliminará la plantilla seleccionada.</item>
+        <item quantity="many">Se eliminarán %1$d plantillas seleccionadas.</item>
         <item quantity="other">Se eliminarán %1$d plantillas seleccionadas.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">Se eliminará la transacción seleccionada.</item>
-        <item quantity="other">Se borrarán las %1$d transacciones seleccionadas.</item>
+        <item quantity="many">Se eliminarán las %1$d transacciones seleccionadas.</item>
+        <item quantity="other">Se eliminarán las %1$d transacciones seleccionadas.</item>
     </plurals>
     <string name="move_category_success">Una categoría fue traslada correctamente.</string>
     <string name="move_category_failure">Una categoría no fue traslada, porque la misma etiqueta ya existe en el destino.</string>
@@ -650,7 +657,8 @@
     <string name="sync_login_again">Por favor, inicie sesión de nuevo.</string>
     <plurals name="delete_success">
         <item quantity="one">Se ha eliminado un objeto con éxito.</item>
-        <item quantity="other">%d objetos han sido borrados con éxito.</item>
+        <item quantity="many">Se han eliminado %d objetos.</item>
+        <item quantity="other">Se han eliminado %d objetos.</item>
     </plurals>
     <string name="feature_deprecated">Descartado</string>
     <string name="pref_protection_device_lock_screen_title">Bloqueo de pantalla</string>
@@ -842,7 +850,8 @@
     <string name="dialog_multi_tag">Todas las transacciones seleccionadas serás etiquetadas con %s.</string>
     <string name="dialog_multi_tag_clear">Se eliminarán todas las etiquetas en las transacciones eliminadas.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">La etiqueta %1$s está asignada a una transacción. ¿Quiere eliminarla\?</item>
+        <item quantity="one">La etiqueta %1$s está asignada a una transacción. ¿Debe eliminarse\?</item>
+        <item quantity="many">La etiqueta %1$s está asignada a %2$d transacciones. ¿Debe eliminarse\?</item>
         <item quantity="other">La etiqueta %1$s está asignada a %2$d transacciones. ¿Debe eliminarse\?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Añadir nuevas etiquetas a las etiquetas existentes</string>
@@ -958,12 +967,14 @@
     <string name="debt">Deuda</string>
     <string name="dialog_title_delete_debt">¿Eliminar deuda\?</string>
     <plurals name="debt_mapped_transactions">
-        <item quantity="one">La deuda %1$s tiene %2$d transacción asociada.</item>
-        <item quantity="other">La deuda %1$s tiene %2$d transacciones asignadas.</item>
+        <item quantity="one">La deuda %1$s tiene %2$d transacciones asignadas.</item>
+        <item quantity="many">Las deudas %1$s tienen %2$d transacciones asignadas.</item>
+        <item quantity="other">Las deudas %1$s tienen %2$d transacciones asignadas.</item>
     </plurals>
     <string name="title_activity_debt_overview">Vista general de la deuda</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Se ha actualizado una categoría con un icono.</item>
+        <item quantity="many">%1$d categorías fueron actualizadas con iconos.</item>
         <item quantity="other">%1$d categorías fueron actualizadas con iconos.</item>
     </plurals>
     <string name="warning_party_delete_debt">Al eliminar esta cuenta, también se eliminarán las deudas asignadas a ella.</string>
@@ -980,11 +991,13 @@
     <string name="pref_purge_backup_keep_title">Número máximo de copias de seguridad recientes a conservar</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Se ha eliminado una copia de seguridad.</item>
-        <item quantity="other">Se han eliminado %d archivos de copia de seguridad antiguos.</item>
+        <item quantity="many">Se han eliminado %d archivos de las copias de seguridad antiguos.</item>
+        <item quantity="other">Se han eliminado %d archivos de las copias de seguridad antiguos.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">No se pudo eliminar un archivo de copia de seguridad antiguo.</item>
-        <item quantity="other">%d los archivos de copia de seguridad antiguos no se pudieron eliminar.</item>
+        <item quantity="many">No se han podido eliminar los %d archivos de las copias de seguridad antiguas.</item>
+        <item quantity="other">No se han podido eliminar los %d archivos de las copias de seguridad antiguas.</item>
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Mostrar un aviso de confirmación antes de eliminar los archivos</string>
     <string name="setup_completed">Configuración completada</string>
@@ -1025,4 +1038,6 @@
     <string name="debt_balance_they_owe">%1$s debe ahora %2$s.</string>
     <string name="debt_installment_pay">Pago una cuota de %s.</string>
     <string name="debt_paid_off_other">La deuda de %s está pagada.</string>
+    <string name="pref_backup_file_prefix_title">Extensión del archivo</string>
+    <string name="whats_new_355">Ahora se puede configurar el nombre del archivo de la copia de seguridad.</string>
 </resources>
