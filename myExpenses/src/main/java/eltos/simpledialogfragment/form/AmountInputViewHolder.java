@@ -12,13 +12,8 @@ import org.totschnig.myexpenses.R;
 
 import java.math.BigDecimal;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 class AmountInputViewHolder extends FormElementViewHolder<AmountInput> {
-  @BindView(R.id.inputLayout)
   TextInputLayout inputLayout;
-  @BindView(R.id.amount)
   org.totschnig.myexpenses.ui.AmountInput amountInputText;
 
   protected AmountInputViewHolder(AmountInput field) {
@@ -32,7 +27,8 @@ class AmountInputViewHolder extends FormElementViewHolder<AmountInput> {
 
   @Override
   protected void setUpView(View view, Context context, Bundle savedInstanceState, SimpleFormDialog.DialogActions actions) {
-    ButterKnife.bind(this, view);
+    inputLayout = view.findViewById(R.id.inputLayout);
+    amountInputText = view.findViewById(R.id.amount);
     inputLayout.setHint(field.getText(context));
     amountInputText.setFractionDigits(field.fractionDigits);
     if (field.withTypeSwitch == null) {
