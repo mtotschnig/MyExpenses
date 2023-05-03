@@ -430,7 +430,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         categories: State<Category>
     ) {
         if (showChart.value)
-            Box(modifier = modifier) { AndroidView(modifier = Modifier.fillMaxSize(),
+            AndroidView(
+                modifier = modifier,
                 factory = { ctx ->
                     requireChart(ctx)
                     chart.apply {
@@ -473,7 +474,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         legend.isEnabled = false
                         setChartData(categories.value.children)
                     }
-                }) }
+                })
     }
 
     private fun PieChart.setCenterText(position: Int) {
