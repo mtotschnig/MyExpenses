@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
@@ -90,7 +91,7 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
 
     fun showTransactions(category: Category) {
         viewModel.accountInfo.value?.let { accountInfo ->
-            TransactionListDialogFragment.newInstance(
+            TransactionListComposeDialogFragment.newInstance(
                 accountInfo.accountId,
                 category.id,
                 viewModel.grouping,
@@ -99,9 +100,9 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
                 if (category.level == 0) accountInfo.label(this) else category.label,
                 if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
                 true,
-                category.icon?.let { resources.getIdentifier(it, "drawable", packageName) } //TODO check might be not functional since new category icon implementation
+                category.icon
             )
-                .show(supportFragmentManager, TransactionListDialogFragment::class.java.name)
+                .show(supportFragmentManager, "List")
         }
     }
 }
