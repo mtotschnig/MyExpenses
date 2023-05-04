@@ -116,4 +116,8 @@
     <string name="cab_MyExpenses_select_help_text">Višestruki odabir se može pokrenuti odabirom ove naredbe ili dugim pritiskom na unos popisa.</string>
     <string name="menu_show_all_help_text">Dugovi koji su zatvoreni ili otplaćeni (čiji je saldo 0) prikazat će se samo ako je ova opcija označena.</string>
     <string name="help_DebtOverview_info">Pritisni na unos za rasklapanje/sklapanje.</string>
+    <string name="form_description_help_text">Opis ima samo informativnu svrhu.</string>
+    <string name="form_currency_help_text">Odaberi valutu iz popisa svih aktualnih valuta.</string>
+    <string name="form_synchronization_help_text_select">Odaberi pozadinski sustav za sinkronizaciju u oblaku.</string>
+    <string name="form_AccountEdit_label_help_text">Oznaka identifira račun u popisu računa.</string>
 </resources>
