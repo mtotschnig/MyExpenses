@@ -26,6 +26,7 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
 
     val viewModel by viewModels<TransactionListViewModel>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with((requireActivity().applicationContext as MyApplication).appComponent) {
@@ -34,9 +35,9 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
     }
 
     override fun initBuilder(): AlertDialog.Builder = super.initBuilder().apply {
-        setTitle(requireArguments().getString(DatabaseConstants.KEY_LABEL))
+        setTitle(viewModel.loadingInfo.label)
         setPositiveButton(android.R.string.ok, null)
-        requireArguments().getString(DatabaseConstants.KEY_ICON)?.let {
+        viewModel.loadingInfo.icon?.let {
             IIconInfo.resolveIcon(it)?.asDrawable(requireContext())
         }?.let { setIcon(it) }
     }
@@ -65,35 +66,15 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
     }
 
     companion object {
-        private const val KEY_GROUPING_CLAUSE = "grouping_clause"
-        private const val KEY_GROUPING_ARGS = "grouping_args"
-        private const val KEY_WITH_TRANSFERS = "with_transfers"
+        private const val KEY_LOADING_INFO = "loadingInfo"
         private const val TABS = "\u0009\u0009\u0009\u0009"
 
         @JvmStatic
         fun newInstance(
-            account_id: Long,
-            cat_id: Long,
-            grouping: Grouping?,
-            groupingClause: String?,
-            groupingArgs: Array<String>?,
-            label: String?,
-            type: Int,
-            withTransfers: Boolean,
-            icon: String? = null
+            loadingInfo: TransactionListViewModel.LoadingInfo
         ) = TransactionListComposeDialogFragment().apply {
             arguments = Bundle().apply {
-                putLong(DatabaseConstants.KEY_ACCOUNTID, account_id)
-                putLong(DatabaseConstants.KEY_CATID, cat_id)
-                putString(KEY_GROUPING_CLAUSE, groupingClause)
-                putSerializable(DatabaseConstants.KEY_GROUPING, grouping)
-                putStringArray(KEY_GROUPING_ARGS, groupingArgs)
-                putString(DatabaseConstants.KEY_LABEL, label)
-                putInt(DatabaseConstants.KEY_TYPE, type)
-                putBoolean(KEY_WITH_TRANSFERS, withTransfers)
-                if (icon != null) {
-                    putString(DatabaseConstants.KEY_ICON, icon)
-                }
+                putParcelable(KEY_LOADING_INFO, loadingInfo)
             }
         }
     }

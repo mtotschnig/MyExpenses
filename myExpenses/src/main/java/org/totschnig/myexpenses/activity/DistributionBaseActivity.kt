@@ -12,9 +12,11 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
+import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 
-abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : ProtectedFragmentActivity() {
+abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
+    ProtectedFragmentActivity() {
     abstract val viewModel: T
     abstract val prefKey: PrefKey
     val expansionState
@@ -65,14 +67,17 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
                 reset()
                 true
             }
+
             R.id.BACK_COMMAND -> {
                 viewModel.backward()
                 true
             }
+
             R.id.FORWARD_COMMAND -> {
                 viewModel.forward()
                 true
             }
+
             else -> false
         }
 
@@ -92,15 +97,18 @@ abstract class DistributionBaseActivity<T: DistributionViewModelBase<*>> : Prote
     fun showTransactions(category: Category) {
         viewModel.accountInfo.value?.let { accountInfo ->
             TransactionListComposeDialogFragment.newInstance(
-                accountInfo.accountId,
-                category.id,
-                viewModel.grouping,
-                viewModel.filterClause,
-                viewModel.whereFilter.value.getSelectionArgs(true),
-                if (category.level == 0) accountInfo.label(this) else category.label,
-                if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
-                true,
-                category.icon
+                TransactionListViewModel.LoadingInfo(
+                    accountInfo.accountId,
+                    accountInfo.currency,
+                    category.id,
+                    viewModel.grouping,
+                    viewModel.filterClause,
+                    viewModel.whereFilter.value.getSelectionArgsList(true),
+                    if (category.level == 0) accountInfo.label(this) else category.label,
+                    if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
+                    true,
+                    category.icon
+                )
             )
                 .show(supportFragmentManager, "List")
         }

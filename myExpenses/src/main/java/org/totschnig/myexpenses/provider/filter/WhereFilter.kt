@@ -28,11 +28,13 @@ data class WhereFilter(val criteria: List<Criterion<*>>) {
     fun getSelectionForParts(tableName: String)=
         criteria.joinToString(" AND ") { it.getSelectionForParts(tableName) }
 
-    fun getSelectionArgs(queryParts: Boolean) = criteria.flatMap {
+    fun getSelectionArgsList(queryParts: Boolean) = criteria.flatMap {
         if (queryParts || it.shouldApplyToParts()) {
             listOf(*(it.selectionArgs + it.selectionArgs))
         } else listOf(*it.selectionArgs)
-    }.toTypedArray()
+    }
+
+    fun getSelectionArgs(queryParts: Boolean) = getSelectionArgsList(queryParts).toTypedArray()
 
     fun getSelectionArgsIfNotEmpty(queryParts: Boolean) = getSelectionArgs(queryParts)
         .takeIf { it.isNotEmpty() }
