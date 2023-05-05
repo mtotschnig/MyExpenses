@@ -15,7 +15,6 @@ class CategoryViewModelTest {
 
     @Test
     fun buildCatTree() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
         val cursor =
             MatrixCursor(
                 arrayOf(

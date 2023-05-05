@@ -123,7 +123,7 @@ class TransactionListViewModel(
             if (catId == 0L) {
                 selectionParts += WHERE_NOT_SPLIT_PART
             }
-            groupingClause?.let {
+            groupingClause?.takeIf { it.isNotEmpty() }?.let {
                 selectionParts += it
                 selectionArgs.addAll(groupingArgs.toTypedArray())
             }
