@@ -2,31 +2,22 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.os.Parcelable
-import android.text.TextUtils
 import androidx.lifecycle.SavedStateHandle
 import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriForTransactionList
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
-import org.totschnig.myexpenses.provider.categoryTreeSelect
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 private const val KEY_LOADING_INFO = "loadingInfo"
@@ -43,42 +34,58 @@ class TransactionListViewModel(
     data class LoadingInfo(
         val accountId: Long,
         val currency: CurrencyUnit,
-        val catId: Long,
+        val catId: Long = 0,
         val grouping: Grouping?,
-        val groupingClause: String,
-        val groupingArgs: List<String>,
+        val groupingClause: String?,
+        val groupingArgs: List<String> = emptyList(),
         val label: String?,
         val type: Int,
-        val withTransfers: Boolean,
+        val withTransfers: Boolean = true,
         val icon: String? = null
     ) : Parcelable
 
-    fun loadTransactions(): Flow<List<Transaction2>> = with(loadingInfo) {
-        val (selection, selectionArgs) = selectionInfo
-        contentResolver.observeQuery(
-            uriBuilderForTransactionList(shortenComment = true, extended = false).apply {
-                if (catId != 0L) {
-                    appendQueryParameter(KEY_CATID, catId.toString())
-                }
-            }.build(),
-            Transaction2.projection(
-                accountId,
-                Grouping.NONE,
-                homeCurrencyProvider.homeCurrencyString,
-                extended = false
-            ),
-            selection,
-            selectionArgs
-        ).mapToList {
-            Transaction2.fromCursor(
-                getApplication(),
-                it,
-                currencyContext,
-                homeCurrencyProvider.homeCurrencyUnit,
-                currency
-            )
+    val sum: Flow<Long>
+        get() = with(loadingInfo) {
+            val (selection, selectionArgs) = selectionInfo
+            contentResolver.observeQuery(
+                TransactionProvider.TRANSACTIONS_URI.let {
+                    if (catId != 0L) {
+                        it.buildUpon().appendQueryParameter(KEY_CATID, catId.toString()).build()
+                    } else it
+                }, arrayOf("sum($amountCalculation)"), selection, selectionArgs
+            ).mapToOne {
+                it.getLong(0)
+            }
         }
-    }
+
+
+    val transactions: Flow<List<Transaction2>>
+        get() = with(loadingInfo) {
+            val (selection, selectionArgs) = selectionInfo
+            contentResolver.observeQuery(
+                uriBuilderForTransactionList(shortenComment = true, extended = false).apply {
+                    if (catId != 0L) {
+                        appendQueryParameter(KEY_CATID, catId.toString())
+                    }
+                }.build(),
+                Transaction2.projection(
+                    accountId,
+                    Grouping.NONE,
+                    homeCurrencyProvider.homeCurrencyString,
+                    extended = false
+                ),
+                selection,
+                selectionArgs
+            ).mapToList {
+                Transaction2.fromCursor(
+                    getApplication(),
+                    it,
+                    currencyContext,
+                    homeCurrencyProvider.homeCurrencyUnit,
+                    currency
+                )
+            }
+        }
 
     private val amountCalculation: String
         get() = if (isHomeAggregate(loadingInfo.accountId))
@@ -89,6 +96,7 @@ class TransactionListViewModel(
         get() = with(loadingInfo) {
             val selectionParts = mutableListOf<String>()
             val selectionArgs = mutableListOf<String>()
+            selectionParts += WHERE_NOT_VOID
             when {
                 isHomeAggregate(accountId) -> {}
                 isAggregate(accountId) -> {
@@ -115,8 +123,8 @@ class TransactionListViewModel(
             if (catId == 0L) {
                 selectionParts += WHERE_NOT_SPLIT_PART
             }
-            if (!TextUtils.isEmpty(groupingClause)) {
-                selectionParts += groupingClause
+            groupingClause?.let {
+                selectionParts += it
                 selectionArgs.addAll(groupingArgs.toTypedArray())
             }
             if (type != 0) {

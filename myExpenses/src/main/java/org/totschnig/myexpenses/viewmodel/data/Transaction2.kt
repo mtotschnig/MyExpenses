@@ -40,6 +40,7 @@ data class Transaction2(
     val _date: Long,
     val _valueDate: Long = _date,
     val amount: Money,
+    val parentId: Long? = null,
     val equivalentAmount: Money? = null,
     val comment: String? = null,
     val catId: Long? = null,
@@ -181,6 +182,7 @@ data class Transaction2(
                         homeCurrency?.let { it1 -> Money(it1, it) }
                     }
                 } else null,
+                parentId = cursor.getLongOrNull(KEY_PARENTID),
                 _date = cursor.getLong(KEY_DATE),
                 _valueDate = cursor.getLong(KEY_VALUE_DATE),
                 comment = cursor.getStringOrNull(KEY_COMMENT),

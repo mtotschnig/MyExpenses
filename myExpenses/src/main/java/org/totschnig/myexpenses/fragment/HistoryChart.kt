@@ -30,8 +30,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
-import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
-import org.totschnig.myexpenses.dialog.TransactionListDialogFragment.Companion.newInstance
+import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -48,6 +47,7 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.HistoryViewModel
+import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.HistoryAccountInfo
 import java.text.DateFormat
 import java.time.LocalDateTime
@@ -121,10 +121,19 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle (Lifecycle.State.STARTED) {
-                viewModel.account(requireActivity().intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)).collect {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.account(
+                    requireActivity().intent.getLongExtra(
+                        DatabaseConstants.KEY_ACCOUNTID,
+                        0
+                    )
+                ).collect {
                     val currency = currencyContext[it.currency]
                     accountInfo = HistoryAccountInfo(
                         it.id,
@@ -132,13 +141,16 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                         currency, it.color,
                         Money(currency, it.openingBalance)
                     )
-                    (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title = accountInfo.label
-                    LoaderManager.getInstance(this@HistoryChart).initLoader(GROUPING_CURSOR, null, this@HistoryChart)
+                    (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title =
+                        accountInfo.label
+                    LoaderManager.getInstance(this@HistoryChart)
+                        .initLoader(GROUPING_CURSOR, null, this@HistoryChart)
                 }
             }
         }
         showBalance = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance)
-        includeTransfers = prefHandler.getBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers)
+        includeTransfers =
+            prefHandler.getBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers)
         showTotals = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_TOTALS, showTotals)
         _binding = HistoryChartBinding.inflate(inflater, container, false)
         with(binding.historyChart) {
@@ -146,7 +158,9 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             with(xAxis) {
                 position = XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
-                valueFormatter = IAxisValueFormatter { value: Float, axis: AxisBase -> if (axis.axisMinimum == value) "" else formatXValue(value) }
+                valueFormatter = IAxisValueFormatter { value: Float, axis: AxisBase ->
+                    if (axis.axisMinimum == value) "" else formatXValue(value)
+                }
                 textColor = this@HistoryChart.textColor
             }
             configureYAxis(axisLeft)
@@ -158,17 +172,17 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                     if (h.stackIndex > -1) {
                         //expense is first entry, income second
                         val type = if (h.stackIndex == 0) -1 else 1
-                        newInstance(
-                            accountInfo.id,
-                            0,
-                            grouping,
-                            buildGroupingClause(e.x.toInt()),
-                            null,
-                            formatXValue(e.x),
-                            type,
-                            includeTransfers
-                        )
-                                .show(parentFragmentManager, TransactionListDialogFragment::class.java.name)
+                        TransactionListComposeDialogFragment.newInstance(
+                            TransactionListViewModel.LoadingInfo(
+                                accountId = accountInfo.id,
+                                currency = accountInfo.currency,
+                                grouping = grouping,
+                                groupingClause = buildGroupingClause(e.x.toInt()),
+                                label = formatXValue(e.x),
+                                type = type,
+                                withTransfers = includeTransfers
+                            )
+                        ).show(parentFragmentManager, "List")
                     }
                 }
 
@@ -180,12 +194,21 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     private fun formatXValue(value: Float): String = when (grouping) {
         Grouping.DAY -> LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, value.toLong())
-                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-        Grouping.WEEK -> LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, julianDayFromWeekNumber(value))
-                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-        Grouping.MONTH -> Grouping.getDisplayTitleForMonth((value / MONTH_GROUPING_YEAR_X).toInt(), (value % MONTH_GROUPING_YEAR_X).toInt(), DateFormat.SHORT,
+            .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+
+        Grouping.WEEK -> LocalDateTime.MIN.with(
+            JulianFields.JULIAN_DAY,
+            julianDayFromWeekNumber(value)
+        )
+            .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+
+        Grouping.MONTH -> Grouping.getDisplayTitleForMonth(
+            (value / MONTH_GROUPING_YEAR_X).toInt(),
+            (value % MONTH_GROUPING_YEAR_X).toInt(),
+            DateFormat.SHORT,
             (requireActivity() as BaseActivity).getLocale()
         )
+
         Grouping.YEAR -> String.format(Locale.ROOT, "%d", value.toInt())
         else -> ""
     }
@@ -229,18 +252,21 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 reset()
                 return true
             }
+
             R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND -> {
                 includeTransfers = !includeTransfers
                 prefHandler.putBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers)
                 reset()
                 return true
             }
+
             R.id.TOGGLE_TOTALS_COMMAND -> {
                 showTotals = !showTotals
                 prefHandler.putBoolean(PrefKey.HISTORY_SHOW_TOTALS, showTotals)
                 reset()
                 return true
             }
+
             else -> return false
         }
     }
@@ -268,18 +294,25 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             val builder = TransactionProvider.TRANSACTIONS_URI.buildUpon()
             //TODO enable filtering ?
             if (!filter.isEmpty) {
-                selection = filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED) //GROUP query uses extended view
+                selection =
+                    filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED) //GROUP query uses extended view
                 if (selection != "") {
                     selectionArgs = filter.getSelectionArgs(true)
                 }
             }
             builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-                    .appendPath(grouping.name)
+                .appendPath(grouping.name)
             if (!DataBaseAccount.isHomeAggregate(accountInfo.id)) {
                 if (DataBaseAccount.isAggregate(accountInfo.id)) {
-                    builder.appendQueryParameter(DatabaseConstants.KEY_CURRENCY, accountInfo.currency.code)
+                    builder.appendQueryParameter(
+                        DatabaseConstants.KEY_CURRENCY,
+                        accountInfo.currency.code
+                    )
                 } else {
-                    builder.appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountInfo.id.toString())
+                    builder.appendQueryParameter(
+                        DatabaseConstants.KEY_ACCOUNTID,
+                        accountInfo.id.toString()
+                    )
                 }
             }
             if (shouldUseGroupStart()) {
@@ -288,9 +321,11 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             if (includeTransfers) {
                 builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS)
             }
-            return CursorLoader(requireActivity(),
-                    builder.build(),
-                    null, selection, selectionArgs, null)
+            return CursorLoader(
+                requireActivity(),
+                builder.build(),
+                null, selection, selectionArgs, null
+            )
         }
         throw IllegalArgumentException()
     }
@@ -311,8 +346,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         val context = activity as ProtectedFragmentActivity? ?: return
         if (cursor != null && cursor.moveToFirst()) {
             val columnIndexGroupSumIncome = cursor.getColumnIndex(DatabaseConstants.KEY_SUM_INCOME)
-            val columnIndexGroupSumExpense = cursor.getColumnIndex(DatabaseConstants.KEY_SUM_EXPENSES)
-            val columnIndexGroupSumTransfer = cursor.getColumnIndex(DatabaseConstants.KEY_SUM_TRANSFERS)
+            val columnIndexGroupSumExpense =
+                cursor.getColumnIndex(DatabaseConstants.KEY_SUM_EXPENSES)
+            val columnIndexGroupSumTransfer =
+                cursor.getColumnIndex(DatabaseConstants.KEY_SUM_TRANSFERS)
             val columnIndexGroupYear = cursor.getColumnIndex(DatabaseConstants.KEY_YEAR)
             val columnIndexGroupSecond = cursor.getColumnIndex(DatabaseConstants.KEY_SECOND_GROUP)
             val columnIndexGroupStart = cursor.getColumnIndex(DatabaseConstants.KEY_GROUP_START)
@@ -324,12 +361,14 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             do {
                 val sumIncome = cursor.getLong(columnIndexGroupSumIncome)
                 val sumExpense = cursor.getLong(columnIndexGroupSumExpense)
-                val sumTransfer = if (columnIndexGroupSumTransfer > -1) cursor.getLong(columnIndexGroupSumTransfer) else 0
+                val sumTransfer =
+                    if (columnIndexGroupSumTransfer > -1) cursor.getLong(columnIndexGroupSumTransfer) else 0
                 val delta = sumIncome + sumExpense + sumTransfer
                 if (showBalance) interimBalance = previousBalance + delta
                 val year = cursor.getInt(columnIndexGroupYear)
                 val second = cursor.getInt(columnIndexGroupSecond)
-                val groupStart = if (columnIndexGroupStart > -1) cursor.getInt(columnIndexGroupStart) else 0
+                val groupStart =
+                    if (columnIndexGroupStart > -1) cursor.getInt(columnIndexGroupStart) else 0
                 val x = calculateX(year, second, groupStart).toFloat()
                 if (cursor.isFirst) {
                     val start = x - 1
@@ -346,13 +385,23 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 }
             } while (cursor.moveToNext())
             val combinedData = CombinedData()
-            val valueFormatter = IValueFormatter { value: Float, _: Entry?, _: Int, _: ViewPortHandler? -> convertAmount(value) }
+            val valueFormatter =
+                IValueFormatter { value: Float, _: Entry?, _: Int, _: ViewPortHandler? ->
+                    convertAmount(value)
+                }
             val set1 = BarDataSet(barEntries, "")
             set1.stackLabels = arrayOf(
-                    getString(R.string.history_chart_out_label),
-                    getString(R.string.history_chart_in_label))
-            val barColors = listOf(ContextCompat.getColor(context, R.color.colorExpenseHistoryChart), ContextCompat.getColor(context, R.color.colorIncomeHistoryChart))
-            val textColors = listOf(ContextCompat.getColor(context, R.color.colorExpense), ContextCompat.getColor(context, R.color.colorIncome))
+                getString(R.string.history_chart_out_label),
+                getString(R.string.history_chart_in_label)
+            )
+            val barColors = listOf(
+                ContextCompat.getColor(context, R.color.colorExpenseHistoryChart),
+                ContextCompat.getColor(context, R.color.colorIncomeHistoryChart)
+            )
+            val textColors = listOf(
+                ContextCompat.getColor(context, R.color.colorExpense),
+                ContextCompat.getColor(context, R.color.colorIncome)
+            )
             set1.colors = barColors
             set1.setValueTextColors(textColors)
             set1.isUseTextColorsOnYAxis = true
@@ -387,7 +436,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     private fun configureYAxis(yAxis: YAxis) {
         yAxis.textColor = textColor
-        yAxis.valueFormatter = IAxisValueFormatter { value: Float, _: AxisBase? -> convertAmount(value) }
+        yAxis.valueFormatter =
+            IAxisValueFormatter { value: Float, _: AxisBase? -> convertAmount(value) }
     }
 
     private fun convertAmount(value: Float): String {
@@ -404,6 +454,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
         //julian day 0 is monday -> Only if week starts with monday it divides without remainder by 7
         //for the x axis we need an Integer for proper rendering, for printing the week range, we add the offset from monday
-        private val JULIAN_DAY_WEEK_OFFSET = if (DatabaseConstants.weekStartsOn == Calendar.SUNDAY) 6 else DatabaseConstants.weekStartsOn - Calendar.MONDAY
+        private val JULIAN_DAY_WEEK_OFFSET =
+            if (DatabaseConstants.weekStartsOn == Calendar.SUNDAY) 6 else DatabaseConstants.weekStartsOn - Calendar.MONDAY
     }
 }

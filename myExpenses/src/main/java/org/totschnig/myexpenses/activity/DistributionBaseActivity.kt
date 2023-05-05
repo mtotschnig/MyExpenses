@@ -98,16 +98,15 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         viewModel.accountInfo.value?.let { accountInfo ->
             TransactionListComposeDialogFragment.newInstance(
                 TransactionListViewModel.LoadingInfo(
-                    accountInfo.accountId,
-                    accountInfo.currency,
-                    category.id,
-                    viewModel.grouping,
-                    viewModel.filterClause,
-                    viewModel.whereFilter.value.getSelectionArgsList(true),
-                    if (category.level == 0) accountInfo.label(this) else category.label,
-                    if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
-                    true,
-                    category.icon
+                    accountId = accountInfo.accountId,
+                    currency = accountInfo.currency,
+                    catId = category.id,
+                    grouping = viewModel.grouping,
+                    groupingClause = viewModel.filterClause,
+                    groupingArgs = viewModel.whereFilter.value.getSelectionArgsList(true),
+                    label = if (category.level == 0) accountInfo.label(this) else category.label,
+                    type = if (viewModel.aggregateTypes) 0 else (if (viewModel.incomeType) 1 else -1),
+                    icon = category.icon
                 )
             )
                 .show(supportFragmentManager, "List")

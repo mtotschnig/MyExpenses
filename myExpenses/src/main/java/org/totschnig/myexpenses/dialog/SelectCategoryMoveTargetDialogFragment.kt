@@ -31,12 +31,13 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
     @Composable
     override fun BuildContent() {
         val source = requireArguments().getParcelable<Category>(KEY_SOURCE)!!
-        Column(modifier = Modifier.padding(dialogPadding).fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
             val selectionState: MutableState<Category?> = rememberSaveable {
                 mutableStateOf(null)
             }
 
             Text(
+                modifier = Modifier.padding(top = dialogPadding, start = dialogPadding),
                 style = MaterialTheme.typography.h6,
                 text = stringResource(id = R.string.dialog_title_select_target)
             )
@@ -53,7 +54,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
                 excludedSubTree = source.id,
                 withRoot = source.parentId != null
             )
-            ButtonRow {
+            ButtonRow(modifier = Modifier.padding(bottom = dialogPadding, end = dialogPadding)) {
                 Button(onClick = { dismiss() }) {
                     Text(stringResource(id = android.R.string.cancel))
                 }

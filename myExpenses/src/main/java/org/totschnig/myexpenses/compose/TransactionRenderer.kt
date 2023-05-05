@@ -60,8 +60,7 @@ import java.time.format.FormatStyle
 
 abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
-    private val onToggleCrStatus: ((Long) -> Unit)?,
-    private val horizontalPadding: Dp? = null
+    private val onToggleCrStatus: ((Long) -> Unit)?
 ) {
 
     fun Transaction2.buildPrimaryInfo(
@@ -189,7 +188,7 @@ abstract class ItemRenderer(
                 }
                     .semantics { contentDescription = voidStatus }
             }
-            .padding(horizontal = horizontalPadding ?: mainScreenPadding, vertical = 3.dp),
+            .padding(horizontal = mainScreenPadding, vertical = 3.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             RenderInner(transaction = transaction)
@@ -282,9 +281,8 @@ abstract class ItemRenderer(
 class CompactTransactionRenderer(
     private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
     withCategoryIcon: Boolean = true,
-    onToggleCrStatus: ((Long) -> Unit)? = null,
-    horizontalPadding: Dp? = null
-) : ItemRenderer(withCategoryIcon, onToggleCrStatus, horizontalPadding) {
+    onToggleCrStatus: ((Long) -> Unit)? = null
+) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
 
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {

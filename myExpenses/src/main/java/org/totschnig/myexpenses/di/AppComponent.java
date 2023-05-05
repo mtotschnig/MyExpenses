@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.di;
 
-import android.content.Context;
-
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
@@ -27,7 +25,7 @@ import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
-import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
+import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
@@ -180,7 +178,7 @@ public interface AppComponent {
 
   void inject(TemplatesList templatesList);
 
-  void inject(TransactionListDialogFragment transactionListDialogFragment);
+  void inject(TransactionListComposeDialogFragment transactionListComposeDialogFragment);
 
   void inject(BaseAdHandler adHandler);
 

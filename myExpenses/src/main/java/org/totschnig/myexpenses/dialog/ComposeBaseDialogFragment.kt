@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 
 abstract class ComposeBaseDialogFragment: BaseDialogFragment() {
 
-    val dialogPadding = 8.dp
+    val dialogPadding = 16.dp
 
     @Composable
     abstract fun BuildContent()
