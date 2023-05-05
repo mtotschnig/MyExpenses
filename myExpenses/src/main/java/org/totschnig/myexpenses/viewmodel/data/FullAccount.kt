@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.enumValueOrNull
 
-abstract class BaseAccount: DataBaseAccount() {
+abstract class BaseAccount : DataBaseAccount() {
     abstract val _color: Int
     fun color(resources: Resources): Int = if (isAggregate)
         ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
@@ -45,7 +45,7 @@ data class FullAccount(
     val criterion: Long?,
     val total: Long? = null,
     val excludeFromTotals: Boolean = false
-): BaseAccount() {
+) : BaseAccount() {
 
     override val currency: String = currencyUnit.code
 
@@ -93,7 +93,7 @@ data class PageAccount(
     val sealed: Boolean,
     val openingBalance: Long,
     override val _color: Int
-): BaseAccount() {
+) : BaseAccount() {
     override val currency: String = currencyUnit.code
     fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
         val filter = whereFilter.takeIf { !it.isEmpty }
@@ -115,19 +115,8 @@ data class PageAccount(
 
     //Tuple4 of Uri / projection / selection / selectionArgs
     fun loadingInfo(homeCurrency: String): Tuple4<Uri, Array<String>, String, Array<String>?> {
-        val builder = Transaction.EXTENDED_URI.buildUpon()
-            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT)
-        if (id < 0) {
-            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS,
-            if (isHomeAggregate) "2" else "1")
-        }
         val uri = extendedUriForTransactionList(shortenComment = true)
-        val projection = when {
-            !isAggregate -> Transaction2.projection(grouping)
-            isHomeAggregate -> Transaction2.projection(grouping) +
-                    Transaction2.additionalAggregateColumns + Transaction2.getAdditionGrandTotalColumns(homeCurrency)
-            else -> Transaction2.projection(grouping) + Transaction2.additionalAggregateColumns
-        }
+        val projection = Transaction2.projection(id, grouping, homeCurrency)
         val (selection, selectionArgs) = selectionInfo
         return Tuple4(uri, projection, selection, selectionArgs)
     }

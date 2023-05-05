@@ -46,7 +46,7 @@ fun categoryTreeSelect(
 ) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
 val categoryTreeSelectForTrigger = """
-WITH Tree as (
+WITH Tree AS (
 SELECT
     $KEY_ROWID,
     $KEY_PARENTID,
@@ -174,7 +174,7 @@ fun maybeEscapeLabel(categorySeparator: String?, tableName: String) =
     if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
 
 val categoryTreeForView = """
-    WITH Tree as (
+    WITH Tree AS (
     SELECT
         main.$KEY_LABEL AS $KEY_PATH,
         $KEY_ICON,
@@ -197,7 +197,7 @@ fun categoryTreeCTE(
     matches: String? = null,
     categorySeparator: String? = null
 ): String = """
-WITH Tree as (
+WITH Tree AS (
 SELECT
     $KEY_LABEL,
     $KEY_UUID,
@@ -245,7 +245,7 @@ fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
 fun categoryPathFromLeave(rowId: String): String {
     check(rowId.toInt() > 0) { "rowId must be positive" }
     return """
-    WITH Tree as (SELECT parent_id, label, icon, uuid, color  from categories child where _id = $rowId
+    WITH Tree AS (SELECT parent_id, label, icon, uuid, color  from categories child where _id = $rowId
     UNION ALL
     SELECT parent.parent_id, parent.label, parent.icon, parent.uuid, parent.color from categories parent JOIN Tree on Tree.parent_id = parent._id
     ) SELECT * FROM Tree
@@ -334,8 +334,31 @@ with data as
 
 const val TAG_LIST_EXPRESSION = "group_concat($TABLE_TAGS.$KEY_LABEL,'') AS $KEY_TAGLIST"
 
+fun tagJoin(mainTable: String): String {
+    val (tagTable, referenceColumn) = when (mainTable) {
+        TABLE_TRANSACTIONS -> TABLE_TRANSACTIONS_TAGS to KEY_TRANSACTIONID
+        TABLE_TEMPLATES -> TABLE_TEMPLATES_TAGS to KEY_TEMPLATEID
+        else -> throw IllegalArgumentException()
+    }
+    return " LEFT JOIN $tagTable ON $tagTable.$referenceColumn = $mainTable.$KEY_ROWID LEFT JOIN $TABLE_TAGS ON $KEY_TAGID= $TABLE_TAGS.$KEY_ROWID"
+}
+
 fun buildTransactionRowSelect(filter: WhereFilter?) =
     "SELECT $KEY_ROWID from $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?" +
             if (filter?.isEmpty == false) {
                 " AND ${filter.getSelectionForParents(TABLE_TRANSACTIONS)}"
             } else ""
+
+fun buildViewDefinition(tableName: String) = buildString {
+    append(" AS $categoryTreeForView ")
+        .append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, $TABLE_PAYEES.$KEY_PAYEE_NAME,$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL")
+    if (tableName == TABLE_TRANSACTIONS) {
+        append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID")
+    }
+    append(", $TAG_LIST_EXPRESSION")
+    append(" FROM $tableName LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID LEFT JOIN $TABLE_METHODS ON $KEY_METHODID = $TABLE_METHODS.$KEY_ROWID LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID")
+    if (tableName == TABLE_TRANSACTIONS) {
+        append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")
+    }
+    append(tagJoin(tableName))
+}

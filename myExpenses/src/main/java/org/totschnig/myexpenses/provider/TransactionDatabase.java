@@ -21,6 +21,8 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUN
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.tagJoin;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
@@ -106,43 +108,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     super(prefHandler);
   }
 
-  public static String TAG_JOIN(String mainTable, String tagTable, String referenceColumn) {
-    return String.format(Locale.ROOT, " LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
-            tagTable, referenceColumn, mainTable, KEY_ROWID, TABLE_TAGS, KEY_TAGID);
-  }
-
   public static String TAG_GROUP_BY(String tableName) {
     return String.format(Locale.ROOT, " GROUP BY %1$s.%2$s", tableName, KEY_ROWID);
-  }
-
-  private String buildViewDefinition(String tableName, boolean withTags) {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append( " AS ").append(DbConstantsKt.getCategoryTreeForView())
-        .append(" SELECT ").append(tableName).append(".*, ")
-        .append("Tree.").append(KEY_PATH).append(", ")
-        .append("Tree.").append(KEY_ICON).append(", ")
-        .append(TABLE_PAYEES).append(".").append(KEY_PAYEE_NAME).append(", ")
-        .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
-
-    if (tableName.equals(TABLE_TRANSACTIONS)) {
-      stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
-    }
-
-    if (withTags) {
-      stringBuilder.append(", ").append(TAG_LIST_EXPRESSION);
-    }
-
-    stringBuilder.append(" FROM ").append(tableName)
-        .append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ").append(KEY_PAYEEID).append(" = ").append(TABLE_PAYEES).append(".").append(KEY_ROWID)
-        .append(" LEFT JOIN ").append(TABLE_METHODS).append(" ON ").append(KEY_METHODID).append(" = ").append(TABLE_METHODS).append(".").append(KEY_ROWID)
-        .append(" LEFT JOIN Tree ON ").append(KEY_CATID).append(" = TREE.").append(KEY_ROWID);
-
-    if (tableName.equals(TABLE_TRANSACTIONS)) {
-      stringBuilder.append(" LEFT JOIN ").append(TABLE_PLAN_INSTANCE_STATUS)
-          .append(" ON ").append(tableName).append(".").append(KEY_ROWID).append(" = ")
-          .append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TRANSACTIONID);
-    }
-    return stringBuilder.toString();
   }
 
   private static String buildViewWithAccount() {
@@ -202,7 +169,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           .append(" ON ").append(tableName).append(".").append(KEY_ROWID).append(" = ")
           .append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TRANSACTIONID);
     }
-
+    if (tableName.equals(TABLE_TRANSACTIONS)) {
+      stringBuilder.append(tagJoin(tableName));
+    }
     return stringBuilder.toString();
   }
 
@@ -2338,12 +2307,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
 
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
-    String tagJoin = TAG_JOIN(TABLE_TRANSACTIONS, TABLE_TRANSACTIONS_TAGS, KEY_TRANSACTIONID);
     String tagGroupBy = TAG_GROUP_BY(TABLE_TRANSACTIONS);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + buildViewDefinition(TABLE_TRANSACTIONS, false) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + buildViewDefinition(TABLE_TRANSACTIONS, true) + tagJoin + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
-    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagJoin + tagGroupBy);
-    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + tagJoin + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED +
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + buildViewDefinition(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + tagGroupBy + ";");
+    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + buildViewDefinition(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
+    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagGroupBy);
+    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED +
             tagGroupBy + ";");
 
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
@@ -2357,9 +2325,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_EXTENDED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_UNCOMMITTED);
 
-    String viewTemplates = buildViewDefinition(TABLE_TEMPLATES, true);
+    String viewTemplates = buildViewDefinition(TABLE_TEMPLATES);
     String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + TAG_JOIN(TABLE_TEMPLATES, TABLE_TEMPLATES_TAGS, KEY_TEMPLATEID) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + TAG_GROUP_BY(TABLE_TEMPLATES) + ";");
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + tagJoin(TABLE_TEMPLATES) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + TAG_GROUP_BY(TABLE_TEMPLATES) + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + viewTemplatesExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
   }

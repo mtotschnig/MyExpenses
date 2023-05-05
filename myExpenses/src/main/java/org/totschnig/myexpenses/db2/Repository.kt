@@ -39,12 +39,6 @@ open class Repository @Inject constructor(
 ) {
     companion object {
         const val UUID_SEPARATOR = ':'
-        fun extendedUriForTransactionList(shortenComment: Boolean): Uri {
-            return if (shortenComment) Transaction.EXTENDED_URI
-                .buildUpon()
-                .appendQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, "1")
-                .build() else Transaction.EXTENDED_URI
-        }
     }
 
     val contentResolver: ContentResolver = context.contentResolver

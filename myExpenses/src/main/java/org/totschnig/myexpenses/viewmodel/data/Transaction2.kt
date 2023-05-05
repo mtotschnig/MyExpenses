@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.getInt
@@ -91,48 +92,69 @@ data class Transaction2(
 
 
     companion object {
-        fun projection(grouping: Grouping) = arrayOf(
-            KEY_ROWID,
-            KEY_DATE,
-            KEY_VALUE_DATE,
-            KEY_AMOUNT,
-            KEY_COMMENT,
-            KEY_CATID,
-            FULL_LABEL,
-            KEY_PAYEE_NAME,
-            KEY_TRANSFER_PEER,
-            KEY_TRANSFER_ACCOUNT,
-            KEY_ACCOUNTID,
-            KEY_METHODID,
-            KEY_METHOD_LABEL,
-            KEY_CR_STATUS,
-            KEY_REFERENCE_NUMBER,
-            KEY_CURRENCY,
-            KEY_PICTURE_URI,
-            "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT",
-            KEY_STATUS,
-            KEY_TAGLIST,
-            KEY_PARENTID,
-            when (grouping) {
-                Grouping.MONTH -> getYearOfMonthStart()
-                Grouping.WEEK -> getYearOfWeekStart()
-                else -> YEAR
-            } + " AS $KEY_YEAR",
-            "${getMonth()} AS $KEY_MONTH",
-            "${getWeek()} AS $KEY_WEEK",
-            "$DAY AS $KEY_DAY",
-            KEY_ICON
-        )
 
-        val additionalAggregateColumns = arrayOf(
+        fun projection(
+            accountId: Long,
+            grouping: Grouping,
+            homeCurrency: String,
+            extended: Boolean = true
+        ) = when {
+            !DataBaseAccount.isAggregate(accountId) -> projection(grouping, extended)
+
+            !DataBaseAccount.isHomeAggregate(accountId) -> projection(grouping, extended).let {
+                if (extended) it + additionalAggregateColumns else it
+            }
+
+            else -> projection(grouping, extended) +
+                    additionalAggregateColumns +
+                    getAdditionGrandTotalColumns(homeCurrency)
+        }
+
+        private fun projection(grouping: Grouping, extended: Boolean): Array<String> =
+            listOf(
+                KEY_ROWID,
+                KEY_DATE,
+                KEY_VALUE_DATE,
+                KEY_AMOUNT,
+                KEY_COMMENT,
+                KEY_CATID,
+                FULL_LABEL,
+                KEY_PAYEE_NAME,
+                KEY_TRANSFER_PEER,
+                KEY_TRANSFER_ACCOUNT,
+                KEY_ACCOUNTID,
+                KEY_METHODID,
+                KEY_METHOD_LABEL,
+                KEY_CR_STATUS,
+                KEY_REFERENCE_NUMBER,
+                KEY_PICTURE_URI,
+                KEY_STATUS,
+                KEY_TAGLIST,
+                KEY_PARENTID,
+                when (grouping) {
+                    Grouping.MONTH -> getYearOfMonthStart()
+                    Grouping.WEEK -> getYearOfWeekStart()
+                    else -> YEAR
+                } + " AS $KEY_YEAR",
+                "${getMonth()} AS $KEY_MONTH",
+                "${getWeek()} AS $KEY_WEEK",
+                "$DAY AS $KEY_DAY",
+                KEY_ICON
+            ).let {
+                if (extended) it + listOf(
+                    KEY_CURRENCY,
+                    "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT"
+                ) else it
+            }.toTypedArray()
+
+        private val additionalAggregateColumns = arrayOf(
             KEY_COLOR,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
-        fun getAdditionGrandTotalColumns(homeCurrency: String): Array<String> = arrayOf(
-            KEY_CURRENCY,
+        private fun getAdditionGrandTotalColumns(homeCurrency: String): Array<String> = arrayOf(
             "${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)} AS $KEY_EQUIVALENT_AMOUNT"
         )
 
@@ -140,9 +162,13 @@ data class Transaction2(
             context: Context,
             cursor: Cursor,
             currencyContext: CurrencyContext,
-            homeCurrency: CurrencyUnit?
+            homeCurrency: CurrencyUnit?,
+            accountCurrency: CurrencyUnit? = null
         ): Transaction2 {
-            val currencyUnit = currencyContext.get(cursor.getString(KEY_CURRENCY))
+            val currencyUnit = cursor.getStringIfExists(KEY_CURRENCY)
+                ?.let { currencyContext.get(it) }
+                ?: accountCurrency
+                ?: throw IllegalArgumentException("Currency must be provided either in cursor or parameter")
             val amountRaw = cursor.getLong(KEY_AMOUNT)
             val money = Money(currencyUnit, amountRaw)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
@@ -188,7 +214,7 @@ data class Transaction2(
                 accountType = enumValueOrNull<AccountType>(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
-                transferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT),
+                transferPeerParent = cursor.getLongIfExists(KEY_TRANSFER_PEER_PARENT),
                 tagList = cursor.splitStringList(KEY_TAGLIST),
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),

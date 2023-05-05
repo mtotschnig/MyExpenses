@@ -1,17 +1,16 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.net.Uri
 import android.os.Parcelable
 import android.text.TextUtils
 import androidx.lifecycle.SavedStateHandle
+import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriForTransactionList
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -53,29 +52,27 @@ class TransactionListViewModel(
         val icon: String? = null
     ) : Parcelable
 
-    fun loadTransactions(): Flow<List<Transaction2>> = flow {
-        emit(
-            listOf(
-                Transaction2(
-                    id = -1,
-                    _date = System.currentTimeMillis() / 1000,
-                    amount = Money(homeCurrencyProvider.homeCurrencyUnit, -7000),
-                    methodLabel = "CHEQUE",
-                    referenceNumber = "1",
-                    accountId = -1,
-                    catId = 1,
-                    label = getString(R.string.testData_transaction2Comment),
-                    comment = getString(R.string.testData_transaction4Payee),
-                    icon = "cart-shopping",
-                    year = 0,
-                    month = 0,
-                    day = 0,
-                    week = 0,
-                    tagList = listOf(getString(R.string.testData_tag_project)),
-                    pictureUri = Uri.EMPTY
-                )
+    fun loadTransactions(): Flow<List<Transaction2>> = with(loadingInfo) {
+        val (selection, selectionArgs) = selectionInfo
+        contentResolver.observeQuery(
+            uriForTransactionList(shortenComment = true, extended = false),
+            Transaction2.projection(
+                accountId,
+                Grouping.NONE,
+                homeCurrencyProvider.homeCurrencyString,
+                extended = false
+            ),
+            selection,
+            selectionArgs
+        ).mapToList {
+            Transaction2.fromCursor(
+                getApplication(),
+                it,
+                currencyContext,
+                homeCurrencyProvider.homeCurrencyUnit,
+                currency
             )
-        )
+        }
     }
 
     private val amountCalculation: String
@@ -83,7 +80,7 @@ class TransactionListViewModel(
             getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrencyProvider.homeCurrencyString)
         else KEY_AMOUNT
 
-    val selection: Pair<String, Array<String>>
+    private val selectionInfo: Pair<String, Array<String>>
         get() = with(loadingInfo) {
             val selectionParts = mutableListOf<String>()
             val selectionArgs = mutableListOf<String>()
@@ -115,11 +112,13 @@ class TransactionListViewModel(
             } else {
                 selectionParts += buildString {
                     append(KEY_CATID)
-                    append( " IN (")
-                    append(categoryTreeSelect(
-                        projection = arrayOf(KEY_ROWID),
-                        rootExpression = WhereFilter.Operation.IN.getOp(1)
-                    ))
+                    append(" IN (")
+                    append(
+                        categoryTreeSelect(
+                            projection = arrayOf(KEY_ROWID),
+                            rootExpression = WhereFilter.Operation.IN.getOp(1)
+                        )
+                    )
                     append(")")
                 }
                 selectionArgs += catId.toString()
@@ -137,25 +136,25 @@ class TransactionListViewModel(
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
 
-/*    fun onCreateLoader(id: Int, arg1: Bundle?): Loader<Cursor> {
+    /*    fun onCreateLoader(id: Int, arg1: Bundle?): Loader<Cursor> {
 
-        when (id) {
-            TransactionListDialogFragment.TRANSACTION_CURSOR -> return CursorLoader(
-                requireActivity(),
-                mAccount.extendedUriForTransactionList(type != 0, true),
-                mAccount.extendedProjectionForTransactionList,
-                selection,
-                selectionArgs,
-                null
-            )
+            when (id) {
+                TransactionListDialogFragment.TRANSACTION_CURSOR -> return CursorLoader(
+                    requireActivity(),
+                    mAccount.extendedUriForTransactionList(type != 0, true),
+                    mAccount.extendedProjectionForTransactionList,
+                    selection,
+                    selectionArgs,
+                    null
+                )
 
-            TransactionListDialogFragment.SUM_CURSOR -> return CursorLoader(
-                requireActivity(),
-                Transaction.EXTENDED_URI, arrayOf("sum($amountCalculation)"), selection,
-                selectionArgs, null
-            )
-        }
-        throw IllegalArgumentException()
-    }*/
+                TransactionListDialogFragment.SUM_CURSOR -> return CursorLoader(
+                    requireActivity(),
+                    Transaction.EXTENDED_URI, arrayOf("sum($amountCalculation)"), selection,
+                    selectionArgs, null
+                )
+            }
+            throw IllegalArgumentException()
+        }*/
 }
 

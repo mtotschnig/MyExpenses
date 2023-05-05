@@ -3,11 +3,11 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
-import org.totschnig.myexpenses.db2.Repository.Companion.extendedUriForTransactionList
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Transaction
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -108,7 +108,7 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
     }
     //noinspection Recycle
     return contentResolver.query(
-        extendedUriForTransactionList(true),
+        DataBaseAccount.uriForTransactionList(true),
         DatabaseConstants.getProjectionExtended(),
         "${DatabaseConstants.KEY_ACCOUNTID} = ? AND ${DatabaseConstants.KEY_PARENTID} IS NULL ${
             filter?.first?.takeIf { it != "" }?.let { "AND $it" } ?: ""
