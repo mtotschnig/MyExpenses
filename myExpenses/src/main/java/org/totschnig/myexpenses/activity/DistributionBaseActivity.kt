@@ -7,7 +7,6 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
-import org.totschnig.myexpenses.dialog.TransactionListDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.setEnabledAndVisible

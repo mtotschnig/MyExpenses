@@ -82,11 +82,6 @@
         <licence>Apache License, Version 2.0</licence>
     </project>
     <project>
-        <name>Butterknife</name>
-        <url>http://jakewharton.github.io/butterknife/</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
         <name>Phrase</name>
         <url>https://github.com/square/phrase</url>
         <licence>Apache License, Version 2.0</licence>

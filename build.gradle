@@ -27,7 +27,6 @@ ext {
     daggerVersion = "2.45"
     okHttpVersion = "4.11.0"
     acraVersion = "5.9.7"
-    butterknifeVersion = "10.2.3"
     robolectricVersion = '4.10'
     roomVersion = "2.5.1"
     archLifecycleVersion = '2.6.1'
