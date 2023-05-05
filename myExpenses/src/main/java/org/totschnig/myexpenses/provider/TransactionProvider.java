@@ -280,22 +280,30 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTIONS: {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, false)) {
           String sql = transactionMappedObjectQuery(selection);
-          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
+          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           return c;
         }
+        String forCatId = uri.getQueryParameter(KEY_CATID);
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
-        qb = SupportSQLiteQueryBuilder.builder(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
-        if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
-          qb.distinct();
-        }
-        if (sortOrder == null) {
-          sortOrder = KEY_DATE + " DESC";
-        }
         if (projection == null) {
           projection = extended ? DatabaseConstants.getProjectionExtended() : DatabaseConstants.getProjectionBase();
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false)) {
           projection = Companion.shortenComment(projection);
+        }
+        if (forCatId != null) {
+          String sql = DbConstantsKt.transactionListAsCTE(forCatId) + " " + SupportSQLiteQueryBuilder.builder("data").columns(projection)
+                  .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
+                  .orderBy(sortOrder).create().getSql();
+          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
+          return c;
+        }
+        qb = SupportSQLiteQueryBuilder.builder((extended ? VIEW_EXTENDED : VIEW_COMMITTED));
+        if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
+          qb.distinct();
+        }
+        if (sortOrder == null) {
+          sortOrder = KEY_DATE + " DESC";
         }
         String mergeTransfers = uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS);
         if (mergeTransfers != null) {
@@ -457,7 +465,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
         if (mappedObjects != null) {
           String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
-          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
+          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           return c;
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
@@ -465,7 +473,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           String sql = withBudget ? categoryTreeWithBudget(sortOrder, selection, projection, uri.getQueryParameter(KEY_YEAR), uri.getQueryParameter(KEY_SECOND_GROUP)) :
                   categoryTreeSelect(sortOrder, selection, projection, null, null,
                   uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR));
-          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
+          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
@@ -480,7 +488,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CATEGORY_ID:
         String rowId = uri.getPathSegments().get(1);
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
-          c = measureAndLogQuery(db, uri, selection, DbConstantsKt.categoryPathFromLeave(rowId), selectionArgs);
+          c = measureAndLogQuery(db, uri, DbConstantsKt.categoryPathFromLeave(rowId), selection, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
         } else {
@@ -504,7 +512,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             );
           }
           String sql = buildAccountQuery(minimal, mergeAggregate, selection, sortOrder);
-          c = measureAndLogQuery(db, uri, selection, sql, selectionArgs);
+          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           if (uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT, false)) {
             c = wrapWithResultCompat(c, hiddenAccountCount(db));
           }
@@ -743,7 +751,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGET_CATEGORY: {
         if (projection == null) {
           String sql = budgetAllocation(uri);
-          c = measureAndLogQuery(db, uri, null, sql, null);
+          c = measureAndLogQuery(db, uri, sql, null, null);
           return c;
         } else {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);

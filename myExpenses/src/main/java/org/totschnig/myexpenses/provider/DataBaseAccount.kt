@@ -83,6 +83,9 @@ abstract class DataBaseAccount {
         }
 
         fun uriForTransactionList(shortenComment: Boolean, extended: Boolean = true): Uri =
+            uriBuilderForTransactionList(shortenComment, extended).build()
+
+        fun uriBuilderForTransactionList(shortenComment: Boolean, extended: Boolean = true): Uri.Builder =
             Transaction.CONTENT_URI.buildUpon().apply {
                 if (extended) {
                     appendQueryParameter(TransactionProvider.QUERY_PARAMETER_EXTENDED, "1")
@@ -90,7 +93,7 @@ abstract class DataBaseAccount {
                 if (shortenComment) {
                     appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")
                 }
-            }.build()
+            }
 
         private fun uriForTransactionListHome(
             withType: Boolean,

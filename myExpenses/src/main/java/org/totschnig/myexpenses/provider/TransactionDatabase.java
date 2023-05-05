@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_I
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.tagGroupBy;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.tagJoin;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
@@ -106,10 +107,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   public TransactionDatabase(@NonNull PrefHandler prefHandler) {
     super(prefHandler);
-  }
-
-  public static String TAG_GROUP_BY(String tableName) {
-    return String.format(Locale.ROOT, " GROUP BY %1$s.%2$s", tableName, KEY_ROWID);
   }
 
   private static String buildViewWithAccount() {
@@ -2307,7 +2304,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
 
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
-    String tagGroupBy = TAG_GROUP_BY(TABLE_TRANSACTIONS);
+    String tagGroupBy = DbConstantsKt.tagGroupBy(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + buildViewDefinition(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + tagGroupBy + ";");
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + buildViewDefinition(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagGroupBy);
@@ -2327,7 +2324,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     String viewTemplates = buildViewDefinition(TABLE_TEMPLATES);
     String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + tagJoin(TABLE_TEMPLATES) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + TAG_GROUP_BY(TABLE_TEMPLATES) + ";");
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + tagJoin(TABLE_TEMPLATES) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy(TABLE_TEMPLATES) + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + viewTemplatesExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
   }

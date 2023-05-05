@@ -838,8 +838,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun SupportSQLiteDatabase.measureAndLogQuery(
         uri: Uri,
-        selection: String?,
         sql: String,
+        selection: String?,
         selectionArgs: Array<String>?
     ): Cursor = measure(block = { query(sql, selectionArgs ?: emptyArray()) }) {
         "$uri - $selection - $sql - (${selectionArgs?.joinToString()})"

@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriForTransactionList
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
@@ -55,7 +56,11 @@ class TransactionListViewModel(
     fun loadTransactions(): Flow<List<Transaction2>> = with(loadingInfo) {
         val (selection, selectionArgs) = selectionInfo
         contentResolver.observeQuery(
-            uriForTransactionList(shortenComment = true, extended = false),
+            uriBuilderForTransactionList(shortenComment = true, extended = false).apply {
+                if (catId != 0L) {
+                    appendQueryParameter(KEY_CATID, catId.toString())
+                }
+            }.build(),
             Transaction2.projection(
                 accountId,
                 Grouping.NONE,
@@ -109,19 +114,6 @@ class TransactionListViewModel(
             }
             if (catId == 0L) {
                 selectionParts += WHERE_NOT_SPLIT_PART
-            } else {
-                selectionParts += buildString {
-                    append(KEY_CATID)
-                    append(" IN (")
-                    append(
-                        categoryTreeSelect(
-                            projection = arrayOf(KEY_ROWID),
-                            rootExpression = WhereFilter.Operation.IN.getOp(1)
-                        )
-                    )
-                    append(")")
-                }
-                selectionArgs += catId.toString()
             }
             if (!TextUtils.isEmpty(groupingClause)) {
                 selectionParts += groupingClause

@@ -245,7 +245,8 @@ fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources
             val subLabel = subLabels[i]
             val subIcon = subIconNames[i]
             val subUUid = subUuids[i]
-            val catIdSub = database.findSubCategory(catIdMain, subLabel) ?: database.findCategoryByUuid(subUUid)
+            val catIdSub = database.findSubCategory(catIdMain, subLabel)
+                ?: database.findCategoryByUuid(subUUid)
             if (catIdSub != null) {
                 Timber.i("category with label %s already defined", subLabel)
                 stmtUpdateIcon.bindString(1, subIcon)
@@ -513,25 +514,10 @@ fun buildUnionQuery(
         (if (sortOrder != null) " ORDER BY $sortOrder" else "") +
         if (limit != null) " LIMIT $limit" else ""
 
-fun computeWhere(selection: String?, whereClause: java.lang.StringBuilder): String? {
-    val hasInternal = !TextUtils.isEmpty(whereClause)
-    val hasExternal = !TextUtils.isEmpty(selection)
-    return if (hasInternal || hasExternal) {
-        val where = StringBuilder()
-        if (hasInternal) {
-            where.append('(').append(whereClause).append(')')
-        }
-        if (hasInternal && hasExternal) {
-            where.append(" AND ")
-        }
-        if (hasExternal) {
-            where.append('(').append(selection).append(')')
-        }
-        where.toString()
-    } else {
-        null
-    }
-}
+fun computeWhere(vararg parts: CharSequence?) = parts
+    .mapNotNull { part -> part?.takeIf { it.isNotEmpty() }?.let { "($it)" } }
+    .takeIf { it.isNotEmpty() }
+    ?.joinToString(" AND ")
 
 fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<Unit> {
     cacheEventData(context, prefHandler)

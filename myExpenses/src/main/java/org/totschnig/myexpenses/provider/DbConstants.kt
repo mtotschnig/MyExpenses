@@ -98,6 +98,7 @@ fun categoryTreeWithBudget(
             KEY_BUDGET -> budgetColumn(year, second)
             KEY_BUDGET_ROLLOVER_NEXT, KEY_BUDGET_ROLLOVER_PREVIOUS, KEY_ONE_TIME ->
                 subSelectFromAllocations(it, year, second)
+
             else -> it
         }
     }
@@ -154,6 +155,7 @@ fun categoryTreeWithMappedObjects(
                 it,
                 aggregate
             )
+
             else -> it
         }
     }
@@ -173,23 +175,32 @@ fun labelEscapedForQif(tableName: String) =
 fun maybeEscapeLabel(categorySeparator: String?, tableName: String) =
     if (categorySeparator == ":") labelEscapedForQif(tableName) else "$tableName.$KEY_LABEL"
 
-val categoryTreeForView = """
-    WITH Tree AS (
-    SELECT
-        main.$KEY_LABEL AS $KEY_PATH,
-        $KEY_ICON,
-        $KEY_ROWID
-    FROM $TABLE_CATEGORIES main
-    WHERE $KEY_PARENTID IS NULL
-    UNION ALL
-    SELECT
-        Tree.$KEY_PATH || ' > ' || subtree.$KEY_LABEL,
-        subtree.$KEY_ICON,
-        subtree.$KEY_ROWID
-    FROM $TABLE_CATEGORIES subtree
-    JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
-    )
+@JvmOverloads
+fun getCategoryTreeForView(
+    rootExpression: String = "$KEY_PARENTID IS NULL",
+    withRootLabel: Boolean = true
+): String {
+    val rootPath = if (withRootLabel) "main.$KEY_LABEL" else "''"
+    val separator = if (withRootLabel) "' > '" else
+        "CASE WHEN Tree.$KEY_PATH = '' THEN '' ELSE ' > ' END"
+    return """
+WITH Tree AS (
+SELECT
+    $rootPath AS $KEY_PATH,
+    $KEY_ICON,
+    $KEY_ROWID
+FROM $TABLE_CATEGORIES main
+WHERE $rootExpression
+UNION ALL
+SELECT
+    Tree.$KEY_PATH || $separator || subtree.$KEY_LABEL,
+    subtree.$KEY_ICON,
+    subtree.$KEY_ROWID
+FROM $TABLE_CATEGORIES subtree
+JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
+)
 """.trimIndent()
+}
 
 fun categoryTreeCTE(
     rootExpression: String? = null,
@@ -209,7 +220,7 @@ SELECT
     $KEY_USAGES,
     $KEY_LAST_USED,
     1 AS $KEY_LEVEL,
-    ${matches?.replace("_Tree_","main") ?: "1"} AS $KEY_MATCHES_FILTER
+    ${matches?.replace("_Tree_", "main") ?: "1"} AS $KEY_MATCHES_FILTER
 FROM $TABLE_CATEGORIES main
 WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
 UNION ALL
@@ -229,7 +240,7 @@ SELECT
     subtree.$KEY_USAGES,
     subtree.$KEY_LAST_USED,
     level + 1,
-    ${matches?.replace("_Tree_","subtree") ?: "1"} AS $KEY_MATCHES_FILTER
+    ${matches?.replace("_Tree_", "subtree") ?: "1"} AS $KEY_MATCHES_FILTER
 FROM $TABLE_CATEGORIES subtree
 JOIN Tree ON Tree._id = subtree.parent_id
 ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
@@ -313,7 +324,12 @@ WITH now as (
 """
 }
 
-fun exchangeRateJoin(table: String, colum: String, homeCurrency: String, joinTable: String = table) = """
+fun exchangeRateJoin(
+    table: String,
+    colum: String,
+    homeCurrency: String,
+    joinTable: String = table
+) = """
     $table LEFT JOIN $TABLE_ACCOUNT_EXCHANGE_RATES
         ON $joinTable.$colum = $TABLE_ACCOUNT_EXCHANGE_RATES.$KEY_ACCOUNTID
         AND $KEY_CURRENCY_SELF = $joinTable.$KEY_CURRENCY
@@ -343,21 +359,37 @@ fun tagJoin(mainTable: String): String {
     return " LEFT JOIN $tagTable ON $tagTable.$referenceColumn = $mainTable.$KEY_ROWID LEFT JOIN $TABLE_TAGS ON $KEY_TAGID= $TABLE_TAGS.$KEY_ROWID"
 }
 
+fun tagGroupBy(tableName: String): String =
+    " GROUP BY $tableName.$KEY_ROWID"
+
 fun buildTransactionRowSelect(filter: WhereFilter?) =
     "SELECT $KEY_ROWID from $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?" +
             if (filter?.isEmpty == false) {
                 " AND ${filter.getSelectionForParents(TABLE_TRANSACTIONS)}"
             } else ""
 
-fun buildViewDefinition(tableName: String) = buildString {
-    append(" AS $categoryTreeForView ")
-        .append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, $TABLE_PAYEES.$KEY_PAYEE_NAME,$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL")
-    if (tableName == TABLE_TRANSACTIONS) {
+fun transactionListAsCTE(catId: String) =
+    getCategoryTreeForView("$KEY_ROWID = $catId", false) +
+            ", data AS (" +
+            transactionsJoin() +
+            " WHERE $KEY_STATUS != $STATUS_UNCOMMITTED " +
+            tagGroupBy(TABLE_TRANSACTIONS) +
+            ")"
+
+fun buildViewDefinition(tableName: String) =
+    " AS ${getCategoryTreeForView()} ${transactionsJoin(tableName, false)}"
+
+private fun transactionsJoin(
+    tableName: String = TABLE_TRANSACTIONS,
+    withPlanInstance: Boolean = tableName == TABLE_TRANSACTIONS
+) = buildString {
+    append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, $TABLE_PAYEES.$KEY_PAYEE_NAME,$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL")
+    if (withPlanInstance) {
         append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID")
     }
     append(", $TAG_LIST_EXPRESSION")
     append(" FROM $tableName LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID LEFT JOIN $TABLE_METHODS ON $KEY_METHODID = $TABLE_METHODS.$KEY_ROWID LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID")
-    if (tableName == TABLE_TRANSACTIONS) {
+    if (withPlanInstance) {
         append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")
     }
     append(tagJoin(tableName))
