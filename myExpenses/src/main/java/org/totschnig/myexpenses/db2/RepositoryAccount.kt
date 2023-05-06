@@ -145,7 +145,7 @@ fun Account.toContentValues() = ContentValues().apply {
 }
 
 fun Repository.createAccount(account: Account): Account {
-    val uuid = Model.generateUuid()
+    val uuid = account.uuid ?: Model.generateUuid()
     val initialValues = account.toContentValues().apply {
         put(KEY_UUID, uuid)
     }
