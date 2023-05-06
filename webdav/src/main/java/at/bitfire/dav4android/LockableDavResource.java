@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.totschnig.myexpenses.sync.SyncAdapter;
+
 import java.io.IOException;
 
 import at.bitfire.dav4android.exception.HttpException;
@@ -15,6 +17,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import timber.log.Timber;
 
 public class LockableDavResource extends DavResource {
   public LockableDavResource(@NonNull OkHttpClient httpClient, @NonNull HttpUrl location) {
@@ -23,6 +26,7 @@ public class LockableDavResource extends DavResource {
 
   public static boolean isCollection(DavResource davResource) {
     ResourceType type = (ResourceType) davResource.properties.get(ResourceType.NAME);
+    Timber.tag(SyncAdapter.TAG).i("isCollection - properties: %s; type: %s", davResource.properties, type);
     return type != null && type.types.contains(ResourceType.COLLECTION);
   }
 
