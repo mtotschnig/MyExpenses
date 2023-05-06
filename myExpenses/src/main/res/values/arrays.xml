@@ -310,4 +310,9 @@
         <item>current_balance</item>
         <item>total</item>
     </string-array>
+
+    <string-array name="pref_attach_picture_format_entries">
+        <item>JPEG</item>
+        <item>WEBP</item>
+    </string-array>
 </resources>

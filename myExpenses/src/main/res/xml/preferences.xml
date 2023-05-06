@@ -423,6 +423,41 @@
                 android:key="@string/pref_csv_export_split_date_time_key"
                 android:summary="@string/pref_csv_export_split_date_time_summary" />
         </PreferenceScreen>
+        <PreferenceScreen android:key="@string/pref_optimize_picture_key" android:title="@string/contrib_feature_attach_picture_label">
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="@string/pref_attach_picture_resize_key"
+                android:summary="Resize" />
+            <org.totschnig.myexpenses.preference.EditNumberPreference
+                android:dependency="@string/pref_attach_picture_resize_key"
+                android:defaultValue="1000"
+                android:key="@string/pref_attach_picture_max_size_key"
+                android:max="2000"
+                my:useSimpleSummaryProvider="true"
+                android:title="Max size" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="@string/pref_attach_picture_compress_key"
+                android:summary="Compress" />
+            <ListPreference
+                android:dependency="@string/pref_attach_picture_compress_key"
+                android:defaultValue="WEBP"
+                android:entries="@array/pref_attach_picture_format_entries"
+                android:entryValues="@array/pref_attach_picture_format_entries"
+                android:key="@string/pref_attach_picture_format_key"
+                android:title="Format"
+                my:useSimpleSummaryProvider="true" />
+            <SeekBarPreference
+                android:dependency="@string/pref_attach_picture_compress_key"
+                android:defaultValue="80"
+                android:key="@string/pref_attach_picture_quality_key"
+                android:max="100"
+                android:summary="TODO"
+                android:title="Quality"
+                my:min="0"
+                my:showSeekBarValue="true"
+                my:updatesContinuously="true" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -38,7 +38,7 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                                     } ?: false
                                 } else {
                                     try {
-                                        FileCopyUtils.copy(imageFileUri, Uri.fromFile(File(staleFileDir, fileName)))
+                                        FileCopyUtils.copy(contentResolver, imageFileUri, Uri.fromFile(File(staleFileDir, fileName)))
                                         Timber.d("Successfully copied file %s", imageFileUri.toString())
                                         contentResolver.delete(imageFileUri, null, null) > 0
                                     } catch (e: IOException) {

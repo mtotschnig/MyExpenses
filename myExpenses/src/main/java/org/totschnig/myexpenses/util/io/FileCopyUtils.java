@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util.io;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -32,10 +33,9 @@ public class FileCopyUtils {
   /**
    * copy src uri to dest uri
    */
-  public static void copy(Uri src, Uri dest) throws IOException {
-    try (InputStream input = MyApplication.getInstance().getContentResolver()
-        .openInputStream(src); OutputStream output = MyApplication.getInstance().getContentResolver()
-        .openOutputStream(dest)) {
+  public static void copy(ContentResolver contentResolver,  Uri src, Uri dest) throws IOException {
+    try (InputStream input = contentResolver.openInputStream(src);
+         OutputStream output = contentResolver.openOutputStream(dest)) {
       if (input == null) {
         throw new IOException("Could not open InputStream " + src.toString());
       }
