@@ -143,7 +143,7 @@
     <string name="project_board_353">92#column-19394983</string>
     <string name="project_board_354">95#column-19428426</string>
     <string name="project_board_355">96#column-19437845</string>
-    <string name="project_board_3551"></string>
+    <string name="project_board_3551">98#column-19460945</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
