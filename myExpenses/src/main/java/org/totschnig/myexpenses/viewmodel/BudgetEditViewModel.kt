@@ -17,7 +17,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
             databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
                 override fun onInsertComplete(token: Int, uri: Uri?) {
                     val result = uri?.let { ContentUris.parseId(it) } ?: -1
-                    if (result > -1) persistPreferences(result, whereFilter, budget)
+                    if (result > -1) persistPreferences(result, whereFilter)
                     databaseResult.postValue(result)
                 }
             }, TransactionProvider.BUDGETS_URI, contentValues)
@@ -25,7 +25,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
             databaseHandler.startUpdate(TOKEN, object : DatabaseHandler.UpdateListener {
                 override fun onUpdateComplete(token: Int, resultCount: Int) {
                     val result = if (resultCount == 1) budget.id else -1
-                    if (result > -1) persistPreferences(result, whereFilter, budget)
+                    if (result > -1) persistPreferences(result, whereFilter)
                     databaseResult.postValue(result)
                 }
             }, ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budget.id),
@@ -33,7 +33,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
         }
     }
 
-    fun persistPreferences(budgetId: Long, whereFilter: WhereFilter, budget: Budget) {
+    fun persistPreferences(budgetId: Long, whereFilter: WhereFilter) {
         val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null,
                 immediatePersist = false, restoreFromPreferences = false)
         whereFilter.criteria.forEach { filterPersistence.addCriteria(it) }

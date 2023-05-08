@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import org.junit.Rule
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
+import org.totschnig.myexpenses.compose.amountProperty
 
 abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     abstract val listNode: SemanticsNodeInteraction
@@ -21,16 +22,17 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
         )
     }
 
-    private fun hasCollectionInfo(expectedColumnCount: Int, expectedRowCount: Int): SemanticsMatcher {
-        return SemanticsMatcher("Collection has $expectedColumnCount columns, $expectedRowCount rows") {
+    private fun hasCollectionInfo(expectedColumnCount: Int, expectedRowCount: Int) =
+        SemanticsMatcher("Collection has $expectedColumnCount columns, $expectedRowCount rows") {
             with(it.config[SemanticsProperties.CollectionInfo]) {
                 columnCount == expectedColumnCount && rowCount == expectedRowCount
             }
         }
-    }
 
     fun hasRowCount(expectedRowCount: Int) = hasCollectionInfo(1, expectedRowCount)
     fun hasColumnCount(expectedColumnCount: Int) = hasCollectionInfo(expectedColumnCount, 1)
+
+    fun hasAmount(amount: Long) = SemanticsMatcher.expectValue(amountProperty, amount)
 
     fun clickContextItem(
         @StringRes resId: Int,
