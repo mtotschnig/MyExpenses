@@ -292,7 +292,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = Companion.shortenComment(projection);
         }
         if (forCatId != null) {
-          String sql = DbConstantsKt.transactionListAsCTE(forCatId) + " " + SupportSQLiteQueryBuilder.builder("data").columns(projection)
+          String sql = DbConstantsKt.transactionListAsCTE(forCatId) + " " + SupportSQLiteQueryBuilder.builder(VIEW_COMMITTED).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
                   .orderBy(sortOrder).create().getSql();
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);

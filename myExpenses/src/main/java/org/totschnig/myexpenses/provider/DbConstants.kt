@@ -370,7 +370,7 @@ fun buildTransactionRowSelect(filter: WhereFilter?) =
 
 fun transactionListAsCTE(catId: String) =
     getCategoryTreeForView("$KEY_ROWID = $catId", false) +
-            ", data AS (" +
+            ", $VIEW_COMMITTED AS (" +
             transactionsJoin() +
             " WHERE $KEY_STATUS != $STATUS_UNCOMMITTED " +
             tagGroupBy(TABLE_TRANSACTIONS) +

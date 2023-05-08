@@ -302,7 +302,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     }
 
     val filterClause: String
-        get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_EXTENDED)
+        get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_COMMITTED)
 
     private fun buildFilterClause(
         groupingInfo: GroupingInfo,
