@@ -37,7 +37,7 @@ abstract class IapActivity: ProtectedFragmentActivity(), BillingListener {
             "${getString(R.string.licence_key)}: $packageLabel\n${getString(R.string.full_name)}:\n${
                 getString(R.string.postal_country)
             }: ${userCountry ?: ""}"
-        sendEmail(INVOICES_EMAIL, subject, messageBody, INVOICE_REQUEST)
+        sendEmail(INVOICES_EMAIL, subject, messageBody)
     }
 
     fun onPurchaseCancelled() {

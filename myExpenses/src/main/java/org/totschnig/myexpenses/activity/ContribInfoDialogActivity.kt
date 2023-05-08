@@ -97,11 +97,11 @@ class ContribInfoDialogActivity : IapActivity() {
     fun startPayment(paymentOption: Int, aPackage: Package) {
         if (paymentOption == R.string.donate_button_paypal) {
             try {
-                startActivityForResult(Intent(Intent.ACTION_VIEW).apply {
+                startActivity(Intent(Intent.ACTION_VIEW).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     data = Uri.parse(licenceHandler.getPaypalUri(aPackage))
-                }, PAYPAL_REQUEST)
+                })
             } catch (e: ActivityNotFoundException) {
                 complain("No activity found for opening Paypal")
             }
@@ -181,13 +181,6 @@ class ContribInfoDialogActivity : IapActivity() {
         if (isPlay) {
             doFinishAfterMessageDismiss = false
             complain(String.format("Billing setup failed (%s)", reason))
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == PAYPAL_REQUEST || requestCode == INVOICE_REQUEST) {
-            finish(false)
         }
     }
 
