@@ -351,7 +351,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         String amountCalculation;
         qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         if (accountSelector != null) {
-          selectionArgs = joinArrays(new String[]{accountSelector}, selectionArgs);
+          selectionArgs = joinArrays(selectionArgs, new String[]{accountSelector});
           additionalWhere.append(" AND " + KEY_ACCOUNTID).append(accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
