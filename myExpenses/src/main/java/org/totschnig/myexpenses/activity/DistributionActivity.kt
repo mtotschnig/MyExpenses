@@ -29,7 +29,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
@@ -173,13 +175,17 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         )
 
         lifecycleScope.launch {
-            viewModel.accountInfo.filterNotNull().collect {
-                supportActionBar?.title = it.label(this@DistributionActivity)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accountInfo.filterNotNull().collect {
+                    supportActionBar?.title = it.label(this@DistributionActivity)
+                }
             }
         }
         lifecycleScope.launch {
-            viewModel.groupingInfoFlow.collect {
-                invalidateOptionsMenu()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.groupingInfoFlow.collect {
+                    invalidateOptionsMenu()
+                }
             }
         }
 

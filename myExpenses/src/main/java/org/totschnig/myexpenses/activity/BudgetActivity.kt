@@ -23,7 +23,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.ChipGroup
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -83,8 +85,10 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         viewModel.initWithBudget(budgetId, groupingYear, groupingSecond)
 
         lifecycleScope.launch {
-            viewModel.accountInfo.filterNotNull().collect {
-                supportActionBar?.title = it.title
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accountInfo.filterNotNull().collect {
+                    supportActionBar?.title = it.title
+                }
             }
         }
         binding.composeView.setContent {
