@@ -40,6 +40,7 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -117,7 +118,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val newGrouping = Utils.getGroupingFromMenuItemId(item.itemId)
         if (newGrouping != null) {
             viewModel.persistGrouping(newGrouping)
-            invalidateOptionsMenu()
             reset()
             return true
         }
@@ -175,6 +175,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         lifecycleScope.launch {
             viewModel.accountInfo.filterNotNull().collect {
                 supportActionBar?.title = it.label(this@DistributionActivity)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.groupingInfoFlow.collect {
+                invalidateOptionsMenu()
             }
         }
 

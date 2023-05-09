@@ -105,7 +105,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         }
     }
 
-    val dateInfo: StateFlow<DateInfo2> = flow {
+    val dateInfo: Flow<DateInfo2> = flow {
         contentResolver.query(
             DUAL_URI,
             arrayOf(
@@ -121,7 +121,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             cursor.moveToFirst()
             emit(DateInfo2.fromCursor(cursor))
         }
-    }.flowOn(Dispatchers.IO).stateIn(viewModelScope, SharingStarted.Lazily, DateInfo2.EMPTY)
+    }
 
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(KEY_CURRENCY)
