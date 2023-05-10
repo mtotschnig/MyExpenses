@@ -24,13 +24,12 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private lateinit var account: Account
     @Before
     fun fixture() {
-        val home = homeCurrency
         account = buildAccount("Test account 1")
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
-        op0.amount = Money(home, -100L)
+        op0.amount = Money(homeCurrency, -100L)
         op0.save()
         for (i in 2 until 7) {
-            op0.amount = Money(home, -100L * i)
+            op0.amount = Money(homeCurrency, -100L * i)
             op0.date = op0.date - 10000
             op0.saveAsNew()
         }

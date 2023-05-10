@@ -73,25 +73,28 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
 
     fun setGrouping(grouping: Grouping) {
-        groupingInfo = if (grouping == Grouping.NONE)
-            GroupingInfo(grouping, 0, 0)
-        else
-            with(dateInfo.value) {
-                GroupingInfo(
-                    grouping = grouping,
-                    year = when (grouping) {
-                        Grouping.WEEK -> yearOfWeekStart
-                        Grouping.MONTH -> yearOfMonthStart
-                        else -> year
-                    },
-                    second = when (grouping) {
-                        Grouping.DAY -> day
-                        Grouping.WEEK -> week
-                        Grouping.MONTH -> month
-                        else -> 0
-                    }
-                )
+        if (grouping == Grouping.NONE) {
+            groupingInfo = GroupingInfo(grouping, 0, 0)
+        } else {
+            viewModelScope.launch {
+                groupingInfo =  with(dateInfo.first()) {
+                    GroupingInfo(
+                        grouping = grouping,
+                        year = when (grouping) {
+                            Grouping.WEEK -> yearOfWeekStart
+                            Grouping.MONTH -> yearOfMonthStart
+                            else -> year
+                        },
+                        second = when (grouping) {
+                            Grouping.DAY -> day
+                            Grouping.WEEK -> week
+                            Grouping.MONTH -> month
+                            else -> 0
+                        }
+                    )
+                }
             }
+        }
     }
 
     fun GroupingInfo.next(dateInfo: DateInfo3): GroupingInfo {
@@ -302,7 +305,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     }
 
     val filterClause: String
-        get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_EXTENDED)
+        get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_COMMITTED)
 
     private fun buildFilterClause(
         groupingInfo: GroupingInfo,

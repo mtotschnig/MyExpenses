@@ -292,7 +292,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = Companion.shortenComment(projection);
         }
         if (forCatId != null) {
-          String sql = DbConstantsKt.transactionListAsCTE(forCatId) + " " + SupportSQLiteQueryBuilder.builder("data").columns(projection)
+          String sql = DbConstantsKt.transactionListAsCTE(forCatId) + " " + SupportSQLiteQueryBuilder.builder(VIEW_COMMITTED).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
                   .orderBy(sortOrder).create().getSql();
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
@@ -351,7 +351,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         String amountCalculation;
         qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         if (accountSelector != null) {
-          selectionArgs = joinArrays(new String[]{accountSelector}, selectionArgs);
+          selectionArgs = joinArrays(selectionArgs, new String[]{accountSelector});
           additionalWhere.append(" AND " + KEY_ACCOUNTID).append(accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {

@@ -29,7 +29,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
@@ -40,6 +42,7 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -117,7 +120,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val newGrouping = Utils.getGroupingFromMenuItemId(item.itemId)
         if (newGrouping != null) {
             viewModel.persistGrouping(newGrouping)
-            invalidateOptionsMenu()
             reset()
             return true
         }
@@ -173,8 +175,17 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         )
 
         lifecycleScope.launch {
-            viewModel.accountInfo.filterNotNull().collect {
-                supportActionBar?.title = it.label(this@DistributionActivity)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accountInfo.filterNotNull().collect {
+                    supportActionBar?.title = it.label(this@DistributionActivity)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.groupingInfoFlow.collect {
+                    invalidateOptionsMenu()
+                }
             }
         }
 

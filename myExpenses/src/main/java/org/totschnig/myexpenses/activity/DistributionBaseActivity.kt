@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.view.Menu
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
@@ -24,8 +26,10 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
-            viewModel.displaySubTitle.collect {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.displaySubTitle.collect {
                 supportActionBar?.subtitle = it
+                }
             }
         }
         setAggregateTypesFromPreferences()

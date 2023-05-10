@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -31,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.absoluteValue
 import kotlin.math.sign
@@ -92,6 +92,7 @@ fun Budget(
             Header(withRollOverColumn = hasRolloverNext || editRollOver != null)
             Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
             LazyColumn(
+                modifier = Modifier.testTag(TEST_TAG_LIST),
                 verticalArrangement = Arrangement.Center
             ) {
                 item {
@@ -108,6 +109,7 @@ fun Budget(
                 category.children.forEach { model ->
                     item {
                         Budget(
+                            modifier = Modifier.testTag(TEST_TAG_ROW),
                             category = model,
                             parent = category,
                             expansionMode = expansionMode,
@@ -134,6 +136,7 @@ private fun Summary(
     editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
     Row(
+        modifier = Modifier.testTag(TEST_TAG_HEADER),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -272,44 +275,41 @@ private fun RowScope.BudgetNumbers(
     val allocation =
         if (category.children.isEmpty()) category.budget.budget else category.children.sumOf { it.budget.budget }
     Column(modifier = Modifier.numberColumn(this)) {
-        Text(
-            modifier = Modifier
+        AmountText(
+            modifier = Modifier.testTag(TEST_TAG_BUDGET_BUDGET)
                 .clickable(onClick = onBudgetEdit)
                 .fillMaxWidth(),
-            text = LocalCurrencyFormatter.current.convAmount(category.budget.budget, currency),
+            amount = category.budget.budget,
+            currency = currency,
             textAlign = TextAlign.End,
             textDecoration = TextDecoration.Underline
         )
         if (category.budget.rollOverPrevious != 0L) {
             ColoredAmountText(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 amount = category.budget.rollOverPrevious,
                 currency = currency,
                 textAlign = TextAlign.End,
                 prefix = if (category.budget.rollOverPrevious > 0) "+" else ""
             )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = " = " + LocalCurrencyFormatter.current.convAmount(
-                    category.budget.budget + category.budget.rollOverPrevious,
-                    currency
-                ),
+            AmountText(
+                modifier = Modifier.fillMaxWidth(),
+                prefix = " = ",
+                amount = category.budget.budget + category.budget.rollOverPrevious,
+                currency = currency,
                 textAlign = TextAlign.End
             )
         }
         if (allocation != category.budget.totalAllocated && allocation != 0L) {
             val isError = allocation > category.budget.totalAllocated
             val errorIndication = if (isError) "!" else ""
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = errorIndication + "(${
-                    LocalCurrencyFormatter.current.convAmount(
-                        allocation,
-                        currency
-                    )
-                })" + errorIndication,
+            AmountText(
+                modifier = Modifier.testTag(TEST_TAG_BUDGET_ALLOCATION)
+                    .fillMaxWidth(),
+                prefix = "$errorIndication(",
+                postfix = ")$errorIndication",
+                amount = allocation,
+                currency = currency,
                 textAlign = TextAlign.End,
                 color = if (isError)
                     colorResource(id = R.color.colorErrorDialog) else Color.Unspecified
@@ -321,11 +321,12 @@ private fun RowScope.BudgetNumbers(
 
     //Spent
     val aggregateSum = category.aggregateSum
-    Text(
-        modifier = Modifier
+    AmountText(
+        modifier = Modifier.testTag(TEST_TAG_BUDGET_SPENT)
             .numberColumn(this)
             .clickable(onClick = onShowTransactions),
-        text = LocalCurrencyFormatter.current.convAmount(aggregateSum, currency),
+        amount = aggregateSum,
+        currency = currency,
         textAlign = TextAlign.End,
         textDecoration = TextDecoration.Underline
     )
@@ -382,7 +383,7 @@ private fun RowScope.BudgetNumbers(
                     currency = currency,
                     textAlign = TextAlign.End,
                     prefix = "(",
-                    postFix = ")"
+                    postfix = ")"
                 )
             }
         }
