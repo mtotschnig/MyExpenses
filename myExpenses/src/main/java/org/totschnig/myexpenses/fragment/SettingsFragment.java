@@ -6,6 +6,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_SWITCH;
+import static org.totschnig.myexpenses.preference.PrefKey.OPTIMIZE_PICTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
@@ -69,7 +70,9 @@ public class SettingsFragment extends BaseSettingsFragment {
     boolean hasMasterSwitch = handleScreenWithMasterSwitch(PERFORM_SHARE, true) ||
             handleScreenWithMasterSwitch(AUTO_BACKUP, true) ||
             handleScreenWithMasterSwitch(AUTO_FILL_SWITCH, true) ||
-            handleScreenWithMasterSwitch(PURGE_BACKUP, true) || handleScreenWithMasterSwitch(UI_WEB, false);
+            handleScreenWithMasterSwitch(PURGE_BACKUP, true) ||
+            handleScreenWithMasterSwitch(UI_WEB, false) ||
+            handleScreenWithMasterSwitch(OPTIMIZE_PICTURE, true);
     if (!hasMasterSwitch) {
       actionBar.setCustomView(null);
     }

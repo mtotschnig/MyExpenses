@@ -131,10 +131,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 val isInTempFolder = it.toString().startsWith(pictureUriTemp)
                 val homeUri = PictureDirHelper.getOutputMediaUri(false, getApplication())
                 try {
-                    val resize = prefHandler.getBoolean(PrefKey.ATTACH_PICTURE_RESIZE, true)
-                    val compress = prefHandler.getBoolean(PrefKey.ATTACH_PICTURE_COMPRESS, true)
-
-                    if (resize || compress) {
+                    if (prefHandler.getBoolean(PrefKey.OPTIMIZE_PICTURE, true)) {
                         ImageOptimizer.optimize(contentResolver, it, homeUri)
                     } else {
 

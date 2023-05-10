@@ -16,9 +16,13 @@
  -->
 <resources>
     <declare-styleable name="AmountInput">
-        <attr name="withTypeSwitch" format="boolean"/>
-        <attr name="withCurrencySelection" format="boolean"/>
-        <attr name="withExchangeRate" format="boolean"/>
+        <attr name="withTypeSwitch" format="boolean" />
+        <attr name="withCurrencySelection" format="boolean" />
+        <attr name="withExchangeRate" format="boolean" />
         <attr name="alternateLayout" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="EditNumberPreference">
+        <attr name="min" format="integer" />
+        <attr name="android:max" />
     </declare-styleable>
 </resources>

@@ -178,8 +178,6 @@ enum class PrefKey {
     BACKUP_FILE_PREFIX(R.string.pref_backup_file_prefix_key),
     AUTO_BACKUP_UNENCRYPTED_INFO(R.string.pref_auto_backup_unencrypted_info_key),
     OPTIMIZE_PICTURE(R.string.pref_optimize_picture_key),
-    ATTACH_PICTURE_RESIZE(R.string.pref_attach_picture_resize_key),
-    ATTACH_PICTURE_COMPRESS(R.string.pref_attach_picture_compress_key),
     ;
 
     internal val resId: Int
