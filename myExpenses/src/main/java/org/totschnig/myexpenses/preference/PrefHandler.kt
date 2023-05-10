@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
+import org.totschnig.myexpenses.util.enumValueOrNull
 
 interface PrefHandler {
     fun getKey(key: PrefKey): String
@@ -47,3 +48,9 @@ interface PrefHandler {
         get() = if (encryptDatabase) "NOCASE" else "LOCALIZED"
 
 }
+
+inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =
+    org.totschnig.myexpenses.util.enumValueOrDefault(getString(prefKey, default.name), default)
+
+inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: String, default: T): T =
+    org.totschnig.myexpenses.util.enumValueOrDefault(getString(prefKey, default.name), default)

@@ -458,6 +458,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 configureOcrEnginePrefs()
             }
+            getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
+                requirePreference<Preference>(PrefKey.OPTIMIZE_PICTURE_QUALITY).isEnabled =
+                    prefHandler.enumValueOrDefault(key, Bitmap.CompressFormat.WEBP) != Bitmap.CompressFormat.PNG
+            }
         }
     }
 

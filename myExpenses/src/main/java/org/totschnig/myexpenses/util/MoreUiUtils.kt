@@ -70,12 +70,6 @@ fun setNightMode(prefHandler: PrefHandler, context: Context) {
 fun getBestForeground(color: Int) =
     arrayOf(Color.BLACK, Color.WHITE).maxByOrNull { calculateContrast(color, it) }!!
 
-inline fun <reified E : Enum<E>> getEnumFromPreferencesWithDefault(
-    prefHandler: PrefHandler,
-    prefKey: PrefKey,
-    defaultValue: E
-) = enumValueOrDefault(prefHandler.getString(prefKey, null), defaultValue)
-
 fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
     if (type.isInstance(view)) {
         @Suppress("UNCHECKED_CAST")

@@ -8,10 +8,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import java.util.*
 
 sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
@@ -126,7 +126,7 @@ fun getUserConfiguredMlkitScriptModule(context: Context, prefHandler: PrefHandle
     )!!
 
 fun getUserConfiguredMlkitScript(context: Context, prefHandler: PrefHandler) =
-    enumValueOrDefault(prefHandler.getString(PrefKey.MLKIT_SCRIPT, null), defaultScript(context))
+    prefHandler.enumValueOrDefault(PrefKey.MLKIT_SCRIPT, defaultScript(context))
 
 private fun defaultScript(context: Context) =
     when (getLocaleForUserCountry(context).language) {

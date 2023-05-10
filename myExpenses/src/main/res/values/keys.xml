@@ -271,9 +271,7 @@
     <string name="txt">TXT</string>
     <string name="support_email">support@myexpenses.mobi</string>
     <string name="pref_optimize_picture_key">optimize_picture</string>
-    <string name="pref_attach_picture_resize_key">attach_picture_resize</string>
-    <string name="pref_attach_picture_max_size_key">attach_picture_max_size</string>
-    <string name="pref_attach_picture_compress_key">attach_picture_compress</string>
-    <string name="pref_attach_picture_format_key">attach_picture_format</string>
-    <string name="pref_attach_picture_quality_key">attach_picture_quality</string>
+    <string name="pref_optimize_picture_max_size_key">optimize_picture_max_size</string>
+    <string name="pref_optimize_picture_format_key">optimize_picture_format</string>
+    <string name="pref_optimize_picture_quality_key">optimize_picture_quality</string>
 </resources>

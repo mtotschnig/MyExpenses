@@ -17,11 +17,7 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.Spanned
-import android.text.TextUtils
-import android.text.TextWatcher
+import android.text.*
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -37,11 +33,11 @@ import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.configurePopupAnchor
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.postScrollToBottom
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_DO_NOTHING
@@ -113,10 +109,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 if (checkedId == R.id.csv) View.VISIBLE else View.GONE
             configureDateTimeFormat()
         }
-        val format = enumValueOrDefault(
-            prefHandler.getString(PrefKey.EXPORT_FORMAT, null),
-            ExportFormat.QIF
-        )
+        val format = prefHandler.enumValueOrDefault(PrefKey.EXPORT_FORMAT, ExportFormat.QIF)
         binding.format.check(format.resId)
 
         class DateFormatWatcher(val editText: EditText) : TextWatcher {

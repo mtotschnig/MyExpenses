@@ -25,6 +25,7 @@ class EditNumberPreference(context: Context, attrs: AttributeSet) :
             attrs, R.styleable.EditNumberPreference, 0,0).use {
             min = it.getInt(R.styleable.EditNumberPreference_min, 0)
             max = it.getInt(R.styleable.EditNumberPreference_android_max, Int.MAX_VALUE)
+            require(max > min)
         }
     }
 

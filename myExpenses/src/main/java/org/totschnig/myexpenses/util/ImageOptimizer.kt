@@ -11,6 +11,14 @@ import java.io.OutputStream
 import kotlin.math.floor
 import kotlin.math.max
 
+val Bitmap.CompressFormat.asExtension: String
+    get() = when(this) {
+        Bitmap.CompressFormat.JPEG -> "jpg"
+        Bitmap.CompressFormat.PNG -> "png"
+        else -> "webp"
+    }
+
+//based on https://github.com/rifqimfahmi/BetterImageUpload
 object ImageOptimizer {
     fun optimize(
         contentResolver: ContentResolver,

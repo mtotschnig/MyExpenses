@@ -65,6 +65,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.ui.*
 import org.totschnig.myexpenses.util.*
@@ -330,8 +331,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     ).observe(this) {
                         if (it != null) {
                             mRowId = it.id
-                            it.defaultAction = getEnumFromPreferencesWithDefault(
-                                prefHandler,
+                            it.defaultAction = prefHandler.enumValueOrDefault(
                                 PrefKey.TEMPLATE_CLICK_DEFAULT,
                                 Template.Action.SAVE
                             )

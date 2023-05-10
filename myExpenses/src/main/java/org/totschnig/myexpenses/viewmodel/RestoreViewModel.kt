@@ -377,10 +377,11 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             var restored: Uri? = null
                             if (backupImage?.exists() == true) {
                                 val restoredImage = PictureDirHelper.getOutputMediaFile(
-                                    fileName = fileName.substring(0, fileName.lastIndexOf('.')),
+                                    fileName = backupImage.nameWithoutExtension,
                                     temp = false,
                                     checkUnique = true,
-                                    application = getApplication()
+                                    application = getApplication(),
+                                    extension = backupImage.extension
                                 )
                                 if (!FileCopyUtils.copy(
                                         backupImage,

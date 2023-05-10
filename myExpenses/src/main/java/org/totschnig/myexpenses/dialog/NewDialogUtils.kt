@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrDefault
 
 fun Spinner.configureDateFormat(
@@ -22,12 +23,7 @@ fun Spinner.configureDateFormat(
     ).apply {
         setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
-    setSelection(
-        enumValueOrDefault(
-            prefHandler.getString(prefName),
-            QifDateFormat.default
-        ).ordinal
-    )
+    setSelection(prefHandler.enumValueOrDefault(prefName, QifDateFormat.default).ordinal)
 }
 
 fun configureCalendarRestoreStrategy(view: View, prefHandler: PrefHandler): RadioGroup {

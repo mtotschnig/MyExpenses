@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.util.AppDirHelper.cacheDir
@@ -18,14 +17,19 @@ import java.util.Date
 import java.util.Locale
 
 object PictureDirHelper {
-    fun getOutputMediaFile(fileName: String, temp: Boolean, checkUnique: Boolean, application: MyApplication): File {
-        return getOutputMediaFile(
-            fileName,
-            temp,
-            application,
-            checkUnique
-        )
-    }
+    fun getOutputMediaFile(
+        fileName: String,
+        temp: Boolean,
+        checkUnique: Boolean,
+        application: MyApplication,
+        extension: String = "jpg"
+    ) = getOutputMediaFile(
+        fileName,
+        temp,
+        application,
+        checkUnique,
+        extension
+    )
 
     /**
      * create a File object for storage of picture data
@@ -40,21 +44,28 @@ object PictureDirHelper {
         fileName: String,
         temp: Boolean,
         application: MyApplication,
-        checkUnique: Boolean
+        checkUnique: Boolean,
+        extension: String = "jpg"
     ) = getOutputMediaFile(
-            fileName = fileName,
-            mediaStorageDir = (
-                    if (temp) cacheDir(application) else
-                        getPictureDir(application, application.isProtected)
-                    ) ?: throw ExternalStorageNotAvailableException(),
-            checkUnique = checkUnique
-        )
+        fileName = fileName,
+        mediaStorageDir = (
+                if (temp) cacheDir(application) else
+                    getPictureDir(application, application.isProtected)
+                ) ?: throw ExternalStorageNotAvailableException(),
+        checkUnique = checkUnique,
+        extension = extension
+    )
 
-    private fun getOutputMediaFile(fileName: String, mediaStorageDir: File, checkUnique: Boolean): File {
+    private fun getOutputMediaFile(
+        fileName: String,
+        mediaStorageDir: File,
+        checkUnique: Boolean,
+        extension: String
+    ): File {
         var postfix = 0
         var result: File
         do {
-            result = File(mediaStorageDir, getOutputMediaFileName(fileName, postfix))
+            result = File(mediaStorageDir, getOutputMediaFileName(fileName, postfix, extension))
             postfix++
         } while (checkUnique && result.exists())
         return result
@@ -67,9 +78,10 @@ object PictureDirHelper {
         temp: Boolean,
         application: MyApplication,
         prefix: String = "",
-        fileName: String = prefix + SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        fileName: String = prefix + SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date()),
+        extension: String = "jpg"
     ): Uri {
-        val outputMediaFile = getOutputMediaFile(fileName, temp, application, true)
+        val outputMediaFile = getOutputMediaFile(fileName, temp, application, true, extension)
         return try {
             getContentUriForFile(application, outputMediaFile)
         } catch (e: IllegalArgumentException) {
@@ -82,11 +94,16 @@ object PictureDirHelper {
 
     fun getPictureUriBase(temp: Boolean, application: MyApplication) =
         getOutputMediaUri(temp, application).toString()
-            .substring(0, getOutputMediaUri(temp, application).toString().lastIndexOf('/')
-        )
+            .substring(
+                0, getOutputMediaUri(temp, application).toString().lastIndexOf('/')
+            )
 
-    private fun getOutputMediaFileName(base: String, postfix: Int) =
-        "$base${if (postfix > 0) { "_$postfix" } else ""}.jpg"
+    private fun getOutputMediaFileName(base: String, postfix: Int, extension: String) =
+        "$base${
+            if (postfix > 0) {
+                "_$postfix"
+            } else ""
+        }.$extension"
 
     @JvmStatic
     fun getPictureDir(context: Context, secure: Boolean): File? {
@@ -124,10 +141,10 @@ object PictureDirHelper {
                 if (pathSegments[1] != Environment.DIRECTORY_PICTURES) {
                     report(Exception("Access to external-files outside pictures"))
                 }
-                File(getPictureDir(context,false), pathSegments[2])
+                File(getPictureDir(context, false), pathSegments[2])
             }
 
-            "images" -> File(getPictureDir(context,true), pathSegments[1])
+            "images" -> File(getPictureDir(context, true), pathSegments[1])
 
             "cache" -> File(context.cacheDir, pathSegments[1])
             else -> throw IllegalArgumentException(
