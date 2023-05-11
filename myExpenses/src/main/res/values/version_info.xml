@@ -166,7 +166,7 @@
         <item>@string/whats_new_355</item>
     </string-array>
     <string-array name="whats_new_356">
-        <item>@string/optimize_image_size</item>
+        <item>@string/optimize_image_file_size</item>
     </string-array>
 
 </resources>

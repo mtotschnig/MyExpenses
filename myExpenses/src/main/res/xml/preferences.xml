@@ -425,7 +425,7 @@
         </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_optimize_picture_key"
-            android:title="@string/optimize_image_size">
+            android:title="@string/optimize_image_file_size">
             <org.totschnig.myexpenses.preference.EditNumberPreference
                 android:defaultValue="1000"
                 android:key="@string/pref_optimize_picture_max_size_key"
