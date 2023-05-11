@@ -1030,6 +1030,5 @@
     <string name="image_optimize_quality_summary">Качество 0 означава компресиране до минимален размер. 100 е компресиране с максимално видимо качество.</string>
     <string name="file_format">Формат на файла</string>
     <string name="image_optimize_quality">Качество</string>
-    <string name="optimize_image_size">Оптимизиране размера на изображение</string>
     <string name="maximum_size">Максимален размер</string>
 </resources>
