@@ -519,7 +519,7 @@
     <string name="menu_move">Déplacer</string>
     <string name="dialog_title_select_target">Sélectionner la cible</string>
     <string name="transform_subcategory_to_main">Transformer en catégorie principale</string>
-    <string name="preferences_week_start_day_title">1er jour de la semaine :</string>
+    <string name="preferences_week_start_day_title">1er jour de la semaine</string>
     <string name="preferences_month_start_date_title">Le mois commence le</string>
     <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
     <string name="pref_grouping_periods">Périodes de regroupement</string>
@@ -1028,7 +1028,7 @@
     <string name="github_sponsors">Les clés de licence sont également fournies aux &lt;a href=%s&gt;sponsors Github&lt;/a&gt;.</string>
     <string name="notifications_permission_required_webui">En accordant l’autorisation d’envoyer des notifications, vous pouvez contrôler l’état du serveur Web.</string>
     <string name="notifications_channel_required">Veuillez activer le canal %s.</string>
-    <string name="notifications_permission_required_planner">i&gt;{app_name}&lt;/i&gt; requiert votre permission d\'envoyer des notifications lorsque des transactions futures sont enregistrées.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> requiert votre permission d\'envoyer des notifications lorsque des transactions futures sont enregistrées.</string>
     <string name="notifications_permission_required_sync">En accordant l’autorisation d’envoyer des notifications, vous pouvez surveiller la progression des opérations de synchronisation.</string>
     <string name="debt_paid_off_self">Ma dette est remboursée.</string>
     <string name="debt_installment_pay">Je paie un acompte de %s.</string>
@@ -1040,4 +1040,9 @@
     <string name="debt_balance_they_owe">%1$s doit maintenant %2$s.</string>
     <string name="pref_backup_file_prefix_title">Préfixe du fichier</string>
     <string name="whats_new_355">Le nom du fichier de sauvegarde est désormais configurable.</string>
+    <string name="optimize_image_file_size">Optimiser la taille du fichier image</string>
+    <string name="maximum_size">Taille maximale</string>
+    <string name="file_format">Format de fichier</string>
+    <string name="image_optimize_quality">Qualité</string>
+    <string name="image_optimize_quality_summary">Une qualité de 0 signifie qu\'il faut compresser pour obtenir la taille la plus petite possible. 100 signifie qu\'il faut compresser pour obtenir une qualité visuelle maximale.</string>
 </resources>
