@@ -1027,4 +1027,9 @@
     <string name="debt_installment_receive">Ich erhalte eine Ratenzahlung von %s.</string>
     <string name="pref_backup_file_prefix_title">Präfix der Datei</string>
     <string name="whats_new_355">Der Name der Sicherungsdatei ist jetzt konfigurierbar.</string>
+    <string name="optimize_image_file_size">Optimieren der Bilddateigröße</string>
+    <string name="maximum_size">Maximale Größe</string>
+    <string name="file_format">Dateiformat</string>
+    <string name="image_optimize_quality">Qualität</string>
+    <string name="image_optimize_quality_summary">Qualität von 0 bedeutet Komprimierung für die kleinste Größe. 100 bedeutet Komprimierung für maximale visuelle Qualität.</string>
 </resources>
