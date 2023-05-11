@@ -442,6 +442,10 @@ class UpgradeHandlerViewModel(application: Application) :
                 // purge backup feature running without interruption
                 prefHandler.putString(PrefKey.BACKUP_FILE_PREFIX, "backup")
             }
+            if (fromVersion < 617) {
+                //For existing installations, we keep JPEG, new installations will use WEBP
+                prefHandler.putString(PrefKey.OPTIMIZE_PICTURE_FORMAT, "JPEG")
+            }
 
             if (upgradeInfoList.isNotEmpty()) {
                 postNextUpgradeInfo()

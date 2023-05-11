@@ -104,6 +104,10 @@ open class PrefHandlerImpl(
 
     override fun setDefaultValues(context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.preferences, false)
+        //boolean preferences handled via master switches do not support setting default value from xml
+        if(!isSet(PrefKey.OPTIMIZE_PICTURE)) {
+            putBoolean(PrefKey.OPTIMIZE_PICTURE, true)
+        }
     }
 
     override fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat) {
