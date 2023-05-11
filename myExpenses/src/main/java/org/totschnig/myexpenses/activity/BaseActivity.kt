@@ -39,6 +39,7 @@ import com.evernote.android.state.State
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import eltos.simpledialogfragment.form.AmountInputHostDialog
@@ -53,7 +54,9 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallback
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -291,7 +294,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     protected open fun injectDependencies() {
-        (applicationContext as MyApplication).appComponent.inject(this)
+        injector.inject(this)
     }
 
     @CallSuper
@@ -311,7 +314,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        with((applicationContext as MyApplication).appComponent) {
+        with(injector) {
             inject(ocrViewModel)
             inject(featureViewModel)
             inject(shareViewModel)
@@ -1033,6 +1036,29 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun hideKeyboard() {
         val im = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         im.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+    }
+
+    fun startMediaChooserDo(fileName: String, cameraOnly: Boolean) {
+        lifecycleScope.launch {
+            val uris = withContext(Dispatchers.IO) {
+                PictureDirHelper.getOutputMediaUri(
+                    temp = true,
+                    application = myApplication,
+                    fileName = fileName
+                ) to PictureDirHelper.getOutputMediaUri(
+                    temp = true,
+                    application = myApplication,
+                    fileName = "${fileName}_CROPPED"
+                )
+            }
+            CropImage.activity()
+                .setCameraOnly(cameraOnly)
+                .setAllowFlipping(false)
+                .setCaptureImageOutputUri(uris.first)
+                .setOutputUri(uris.second)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this@BaseActivity)
+        }
     }
 
     companion object {

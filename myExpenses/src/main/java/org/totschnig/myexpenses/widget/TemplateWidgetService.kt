@@ -12,8 +12,8 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplates
@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.requireLong
 import org.totschnig.myexpenses.util.formatMoney
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 class TemplateWidgetService : RemoteViewsService() {
@@ -42,7 +42,7 @@ class TemplateRemoteViewsFactory(
     lateinit var prefHandler: PrefHandler
 
     init {
-        (context.applicationContext as MyApplication).appComponent.inject(this)
+        context.injector.inject(this)
     }
 
     override fun buildCursor(): Cursor? {
@@ -55,7 +55,7 @@ class TemplateRemoteViewsFactory(
     override fun RemoteViews.populate(cursor: Cursor) {
         setBackgroundColorSave(R.id.divider3, cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)))
         val title = cursor.getString(KEY_TITLE)
-        val currencyContext = (context.applicationContext as MyApplication).appComponent.currencyContext()
+        val currencyContext = context.injector.currencyContext()
         val currency = currencyContext.get(cursor.getString(KEY_CURRENCY))
         val amount = Money(currency, cursor.requireLong(KEY_AMOUNT))
         val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT)))
@@ -63,7 +63,7 @@ class TemplateRemoteViewsFactory(
         val comment = cursor.getString(KEY_COMMENT)
         val payee = cursor.getString(KEY_PAYEE_NAME)
         setTextViewText(R.id.line1,
-                title + " : " + (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatMoney(amount))
+                title + " : " + context.injector.currencyFormatter().formatMoney(amount))
         val commentSeparator = " / "
         val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.amountMinor) + label else label)
         if (!TextUtils.isEmpty(comment)) {

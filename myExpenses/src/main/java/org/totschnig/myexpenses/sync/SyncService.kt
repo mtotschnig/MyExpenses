@@ -16,12 +16,10 @@
 package org.totschnig.myexpenses.sync
 
 import android.app.Service
-import timber.log.Timber
-import org.totschnig.myexpenses.sync.SyncService
-import org.totschnig.myexpenses.sync.SyncAdapter
-import org.totschnig.myexpenses.MyApplication
 import android.content.Intent
 import android.os.IBinder
+import org.totschnig.myexpenses.injector
+import timber.log.Timber
 
 /** Service to handle sync requests.
  *
@@ -47,7 +45,7 @@ class SyncService : Service() {
         synchronized(sSyncAdapterLock) {
             if (sSyncAdapter == null) {
                 sSyncAdapter = SyncAdapter(applicationContext, true)
-                (applicationContext as MyApplication).appComponent.inject(sSyncAdapter)
+                injector.inject(sSyncAdapter)
             }
         }
     }

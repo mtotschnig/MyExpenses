@@ -13,10 +13,10 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
@@ -223,9 +223,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         transactionChange.pictureUri()?.let {
             val homeUri = PictureDirHelper.getOutputMediaUri(
                 false,
-                context.applicationContext as MyApplication
+                context.myApplication
             )
-                ?: throw IOException("Unable to write picture")
             val input = getInputStreamForPicture(it)
             val output = context.contentResolver
                 .openOutputStream(homeUri) ?: throw IOException("Unable to write picture")

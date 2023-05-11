@@ -21,17 +21,14 @@ class EditNumberPreference(context: Context, attrs: AttributeSet) :
             it.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
-        context.obtainStyledAttributes(
-            attrs, R.styleable.EditNumberPreference, 0,0).use {
+        context.obtainStyledAttributes(attrs, R.styleable.EditNumberPreference, 0, 0).use {
             min = it.getInt(R.styleable.EditNumberPreference_min, 0)
             max = it.getInt(R.styleable.EditNumberPreference_android_max, Int.MAX_VALUE)
             require(max > min)
         }
     }
 
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Int {
-        return a.getInt(index, 0)
-    }
+    override fun onGetDefaultValue(a: TypedArray, index: Int) = a.getInt(index, 0)
 
     override fun onSetInitialValue(defaultValue: Any?) {
         value = getPersistedInt(defaultValue as? Int ?: 0)
@@ -54,9 +51,14 @@ class EditNumberPreference(context: Context, attrs: AttributeSet) :
 
     override fun getTitle(): CharSequence? {
         val hasMin = min > 0
-        val hasMax = max  < Integer.MAX_VALUE
+        val hasMax = max < Integer.MAX_VALUE
         return when {
-            hasMin && hasMax -> context.getString(R.string.between_and, min.toString(), max.toString())
+            hasMin && hasMax -> context.getString(
+                R.string.between_and,
+                min.toString(),
+                max.toString()
+            )
+
             hasMin -> ">= $min"
             hasMax -> "<= $max"
             else -> null

@@ -20,8 +20,8 @@ package org.totschnig.myexpenses.provider.filter
 import android.content.Context
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
@@ -43,10 +43,8 @@ class AmountCriterion(
     override val column = DatabaseConstants.KEY_AMOUNT
 
     override fun prettyPrint(context: Context): String {
-        val currencyFormatter =
-            (context.applicationContext as MyApplication).appComponent.currencyFormatter()
-        val currencyContext =
-            (context.applicationContext as MyApplication).appComponent.currencyContext()
+        val currencyFormatter = context.injector.currencyFormatter()
+        val currencyContext = context.injector.currencyContext()
         val currencyUnit = currencyContext[currency]
         val amount1 = currencyFormatter.formatMoney(Money(currencyUnit, abs(values[0])))
         return context.getString(if (type) R.string.income else R.string.expense) + " " + when (operation) {

@@ -15,7 +15,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.evernote.android.state.State
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.databinding.OneBudgetBinding
@@ -24,6 +23,7 @@ import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -140,7 +140,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setContentView(binding.root)
         setupToolbarWithClose()
         viewModel = ViewModelProvider(this)[BudgetEditViewModel::class.java]
-        (applicationContext as MyApplication).appComponent.inject(viewModel)
+        injector.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

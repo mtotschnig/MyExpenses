@@ -6,6 +6,7 @@ import com.google.android.vending.licensing.Obfuscator
 import com.google.android.vending.licensing.PreferenceObfuscator
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 
@@ -28,6 +29,7 @@ class MockLicenceModule : LicenceModule() {
         crashHandler: CrashHandler,
         application: MyApplication,
         prefHandler: PrefHandler,
-        repository: Repository
-    ): LicenceHandler = MockLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository)
+        repository: Repository,
+        currencyFormatter: CurrencyFormatter
+    ): LicenceHandler = MockLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository, currencyFormatter)
 }

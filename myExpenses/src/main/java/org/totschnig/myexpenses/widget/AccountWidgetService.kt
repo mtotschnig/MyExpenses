@@ -9,17 +9,13 @@ import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
 import org.totschnig.myexpenses.util.formatMoney
@@ -42,7 +38,7 @@ class AccountRemoteViewsFactory(
     lateinit var currencyContext: CurrencyContext
 
     init {
-        (context.applicationContext as MyApplication).appComponent.inject(this)
+        context.injector.inject(this)
     }
 
     private val appWidgetId = intent.getIntExtra(
@@ -130,8 +126,7 @@ class AccountRemoteViewsFactory(
                 setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))
                 setTextViewText(
                     R.id.note,
-                    (context.applicationContext as MyApplication).appComponent.currencyFormatter()
-                        .formatMoney(currentBalance)
+                    context.injector.currencyFormatter().formatMoney(currentBalance)
                 )
                 val block: Intent.() -> Unit = {
                     putExtra(KEY_ROWID, account.id)

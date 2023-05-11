@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -43,7 +44,7 @@ class Fixture(inst: Instrumentation) {
 
     init {
         testContext = inst.context
-        appContext = inst.targetContext.applicationContext as MyApplication
+        appContext = inst.targetContext.myApplication
     }
 
     val syncAccount1 by lazy {

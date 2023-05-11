@@ -26,21 +26,24 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.databinding.TransactionDetailBinding
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.UiUtils.DateMode
+import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.getDateMode
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
@@ -69,7 +72,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity().applicationContext as MyApplication).appComponent.inject(this)
+        requireActivity().injector.inject(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -77,7 +80,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
             TransactionDetailBinding.inflate(it)
         }
         viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]
-        (requireActivity().applicationContext as MyApplication).appComponent.inject(viewModel)
+        requireActivity().injector.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
         viewModel.tags(rowId).observe(this) { tags ->

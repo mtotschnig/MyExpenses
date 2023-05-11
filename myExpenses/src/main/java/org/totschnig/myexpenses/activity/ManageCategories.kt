@@ -30,7 +30,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
@@ -39,6 +38,7 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.databinding.ActivityComposeFabBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
@@ -128,9 +128,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
         binding = ActivityComposeFabBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar(true)
-        with((applicationContext as MyApplication).appComponent) {
-            inject(viewModel)
-        }
+        injector.inject(viewModel)
         val (helpVariant, title) = when (action) {
             Action.MANAGE ->
                 HelpVariant.manage to R.string.pref_manage_categories_title

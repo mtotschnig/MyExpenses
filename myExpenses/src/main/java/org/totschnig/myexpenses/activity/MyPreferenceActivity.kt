@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.SettingsFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -80,7 +81,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         initialPrefToShow =
             if (savedInstanceState == null) intent.getStringExtra(KEY_OPEN_PREF_KEY) else null
 
-        (applicationContext as MyApplication).appComponent.inject(licenceValidationViewModel)
+        injector.inject(licenceValidationViewModel)
         observeLicenceApiResult()
     }
 

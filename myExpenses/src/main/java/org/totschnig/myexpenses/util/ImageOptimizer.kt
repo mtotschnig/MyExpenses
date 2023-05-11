@@ -29,38 +29,17 @@ object ImageOptimizer {
         maxHeight: Int = 1000,
         quality: Int = 80
     ) {
-        /**
-         * Decode uri bitmap from activity result using content provider
-         */
+
         val bmOptions: BitmapFactory.Options = decodeBitmapFromUri(contentResolver, inputUri)
 
-        /**
-         * Calculate scale factor of the bitmap relative to [maxWidth] and [maxHeight]
-         */
-        val scaleDownFactor: Float = calculateScaleDownFactor(
-            bmOptions, maxWidth, maxHeight
-        )
+        val scaleDownFactor: Float = calculateScaleDownFactor(bmOptions, maxWidth, maxHeight)
 
-        /**
-         * Since [BitmapFactory.Options.inSampleSize] only accept value with power of 2,
-         * we calculate the nearest power of 2 to the previously calculated scaleDownFactor
-         * check doc [BitmapFactory.Options.inSampleSize]
-         */
         setNearestInSampleSize(bmOptions, scaleDownFactor)
 
-        /**
-         * - Scale image matrix based on remaining [scaleDownFactor / bmOption.inSampleSize]
-         */
-        val matrix: Matrix? = calculateImageMatrix(
-            scaleDownFactor, bmOptions
-        )
+        val matrix: Matrix? = calculateImageMatrix(scaleDownFactor, bmOptions)
 
-        /**
-         * Create new bitmap based on defined bmOptions and calculated matrix
-         */
-        val newBitmap: Bitmap = generateNewBitmap(
-            contentResolver, inputUri, bmOptions, matrix
-        ) ?: throw IOException("Decoding inputUri failed")
+        val newBitmap: Bitmap = generateNewBitmap(contentResolver, inputUri, bmOptions, matrix)
+            ?: throw IOException("Decoding inputUri failed")
 
         if (!(contentResolver.openOutputStream(outputUri)?.let {
                 compressAndSaveImage(newBitmap, compressFormat, quality, it)

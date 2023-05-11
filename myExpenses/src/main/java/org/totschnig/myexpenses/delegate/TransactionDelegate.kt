@@ -11,19 +11,21 @@ import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.squareup.picasso.Picasso
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
+import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.*
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -803,7 +805,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     this.isPlanExecutionAutomatic = planExecutionButton.isChecked
                     this.planExecutionAdvance = viewBinding.advanceExecutionSeek.progress
                     val description =
-                        compileDescription(context.applicationContext as MyApplication)
+                        compileDescription(context.myApplication)
                     if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
                         plan = Plan(
                             this@TransactionDelegate.planId ?: 0L,

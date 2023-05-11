@@ -43,7 +43,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.evernote.android.state.State
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -56,7 +55,6 @@ import eltos.simpledialogfragment.list.MenuDialog
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
@@ -69,6 +67,7 @@ import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.*
 import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
@@ -392,7 +391,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         pagerState = PagerState(initialPage = savedInstanceState?.getInt(KEY_CURRENT_PAGE) ?: 0)
         accountSort = readAccountSortFromPref()
         viewModel = ViewModelProvider(this)[modelClass]
-        with((applicationContext as MyApplication).appComponent) {
+        with(injector) {
             inject(viewModel)
             inject(upgradeHandlerViewModel)
             inject(exportViewModel)
@@ -1028,7 +1027,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun injectDependencies() {
-        (applicationContext as MyApplication).appComponent.inject(this)
+        injector.inject(this)
     }
 
     override fun onFeatureAvailable(feature: Feature) {
@@ -1695,15 +1694,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
                         if ((tag as Boolean)) {
                             /*ocrViewModel.startOcrFeature(Uri.fromFile(File("/sdcard/OCR_bg.jpg")), supportFragmentManager);*/
-                            ocrViewModel.getScanFiles { pair ->
-                                CropImage.activity()
-                                    .setCameraOnly(true)
-                                    .setAllowFlipping(false)
-                                    .setOutputUri(pair.second)
-                                    .setCaptureImageOutputUri(pair.first)
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .start(this)
-                            }
+                            startMediaChooserDo("SCAN", true)
                         } else {
                             activateOcrMode()
                         }

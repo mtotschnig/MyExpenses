@@ -7,7 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -21,7 +21,7 @@ class AccountRemovedReceiver : BroadcastReceiver() {
         Timber.i(intent.getStringExtra(KEY_ACCOUNT_TYPE) + "/" + intent.getStringExtra(KEY_ACCOUNT_NAME))
         if (intent.action == AccountManager.ACTION_ACCOUNT_REMOVED &&
             intent.getStringExtra(KEY_ACCOUNT_TYPE) == GenericAccountService.ACCOUNT_TYPE &&
-            (context.applicationContext as MyApplication).appComponent.prefHandler().getInt(PrefKey.CURRENT_VERSION, 0) > 0
+            context.injector.prefHandler().getInt(PrefKey.CURRENT_VERSION, 0) > 0
                 ) {
             doAsync {
                 try {

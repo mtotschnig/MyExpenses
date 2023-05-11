@@ -12,12 +12,13 @@ import org.totschnig.myexpenses.util.tracking.Tracker.Companion.EVENT_RESTORE_FI
 
 class MyBackupAgent : BackupAgent() {
     override fun onFullBackup(data: FullBackupDataOutput?) {
-        val appComponent = (applicationContext as MyApplication).appComponent
-        if (appComponent.prefHandler().encryptDatabase) {
-            appComponent.tracker().logEvent(EVENT_BACKUP_SKIPPED, null)
-        } else {
-            appComponent.tracker().logEvent(EVENT_BACKUP_PERFORMED, null)
-            super.onFullBackup(data)
+        with(injector) {
+            if (prefHandler().encryptDatabase) {
+                tracker().logEvent(EVENT_BACKUP_SKIPPED, null)
+            } else {
+                tracker().logEvent(EVENT_BACKUP_PERFORMED, null)
+                super.onFullBackup(data)
+            }
         }
     }
 
@@ -26,8 +27,7 @@ class MyBackupAgent : BackupAgent() {
     }
 
     override fun onRestoreFinished() {
-        val appComponent = (applicationContext as MyApplication).appComponent
-        appComponent.tracker().logEvent(EVENT_RESTORE_FINISHED, null)
+        injector.tracker().logEvent(EVENT_RESTORE_FINISHED, null)
     }
 
     override fun onBackup(

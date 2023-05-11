@@ -28,12 +28,12 @@ import com.evernote.android.state.State
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import org.apache.commons.lang3.ArrayUtils
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -117,7 +117,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         currencyViewModel = viewModelProvider[CurrencyViewModel::class.java]
         viewModel = viewModelProvider[AccountEditViewModel::class.java]
         syncViewModel = viewModelProvider[SyncBackendViewModel::class.java]
-        with((applicationContext as MyApplication).appComponent) {
+        with(injector) {
             inject(viewModel)
             inject(currencyViewModel)
             inject(syncViewModel)

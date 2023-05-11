@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.PlanInstanceBinding
 import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
 import org.totschnig.myexpenses.dialog.DialogViewBinding
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -223,7 +224,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
         private val formatter: DateTimeFormatter = getDateTimeFormatter(itemBinding.root.context)
 
         init {
-            (itemBinding.root.context.applicationContext as MyApplication).appComponent.inject(this)
+            itemBinding.root.context.injector.inject(this)
         }
 
         fun bind(planInstance: PlanInstance, position: Int) {

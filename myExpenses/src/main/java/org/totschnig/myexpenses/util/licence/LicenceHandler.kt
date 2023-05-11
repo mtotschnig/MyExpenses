@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -36,7 +37,8 @@ open class LicenceHandler(
     var licenseStatusPrefs: PreferenceObfuscator,
     private val crashHandler: CrashHandler,
     protected val prefHandler: PrefHandler,
-    private val repository: Repository
+    private val repository: Repository,
+    private val currencyFormatter: CurrencyFormatter
 ) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
@@ -175,7 +177,7 @@ open class LicenceHandler(
 
     @Suppress("RedundantNullableReturnType")
     fun getFormattedPriceWithExtra(aPackage: Package, withExtra: Boolean): String? {
-        return aPackage.getFormattedPrice(context, currencyUnit, withExtra)
+        return aPackage.getFormattedPrice(context, currencyFormatter, currencyUnit, withExtra)
     }
 
     fun getFormattedPriceWithSaving(aPackage: ProfessionalPackage): String? {
@@ -197,7 +199,7 @@ open class LicenceHandler(
         return context.getString(
             R.string.extend_until,
             Utils.getDateFormatSafe(context).format(extendedDate),
-            aPackage.getFormattedPriceRaw(currencyUnit, context)
+            aPackage.getFormattedPriceRaw(currencyUnit, currencyFormatter)
         )
     }
 

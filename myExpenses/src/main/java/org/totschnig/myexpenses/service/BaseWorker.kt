@@ -5,10 +5,9 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.TextUtils
 
@@ -20,7 +19,7 @@ abstract class BaseWorker(context: Context, workerParameters: WorkerParameters) 
     val prefHandler: PrefHandler
 
     init {
-        val app = context.applicationContext as MyApplication
+        val app = context.myApplication
         wrappedContext = app.wrapContext(context)
         prefHandler = app.appComponent.prefHandler()
     }

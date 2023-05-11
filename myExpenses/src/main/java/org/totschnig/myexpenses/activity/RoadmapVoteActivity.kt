@@ -1,13 +1,8 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
-import android.view.ContextMenu
+import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,10 +11,10 @@ import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.RoadmapBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -31,7 +26,7 @@ import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository.Companion.ROADMAP_URL
-import java.util.*
+import java.util.Locale
 
 class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener {
     private lateinit var binding: RoadmapBinding
@@ -57,7 +52,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         isPro = licenceHandler.hasAccessTo(ContribFeature.ROADMAP_VOTING)
         showIsLoading()
         roadmapViewModel = ViewModelProvider(this)[RoadmapViewModel::class.java]
-        (applicationContext as MyApplication).appComponent.inject(roadmapViewModel)
+        injector.inject(roadmapViewModel)
         voteWeights = roadmapViewModel.restoreWeights()
         roadmapViewModel.getData().observe(this) { data: List<Issue>? ->
             dataSet = data?.also {

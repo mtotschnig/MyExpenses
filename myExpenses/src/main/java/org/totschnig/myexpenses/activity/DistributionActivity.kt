@@ -42,12 +42,11 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -165,9 +164,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         super.onCreate(savedInstanceState)
         val binding = setupView()
         showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
-        with((applicationContext as MyApplication).appComponent) {
-            inject(viewModel)
-        }
+        injector.inject(viewModel)
 
         viewModel.initWithAccount(
             intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),

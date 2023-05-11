@@ -8,9 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 
@@ -19,7 +17,7 @@ class DeepLinkActivity : ProtectedFragmentActivity() {
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (applicationContext as MyApplication).appComponent.inject(licenceValidationViewModel)
+        injector.inject(licenceValidationViewModel)
         observeLicenceApiResult()
         if (savedInstanceState == null) {
             if (Intent.ACTION_VIEW == intent.action) {

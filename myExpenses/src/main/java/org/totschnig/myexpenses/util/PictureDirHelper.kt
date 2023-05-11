@@ -71,6 +71,9 @@ object PictureDirHelper {
         return result
     }
 
+    val defaultFileName
+        get() = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+
 
     @JvmOverloads
     @JvmStatic
@@ -78,7 +81,7 @@ object PictureDirHelper {
         temp: Boolean,
         application: MyApplication,
         prefix: String = "",
-        fileName: String = prefix + SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date()),
+        fileName: String = prefix + defaultFileName,
         extension: String = "jpg"
     ): Uri {
         val outputMediaFile = getOutputMediaFile(fileName, temp, application, true, extension)

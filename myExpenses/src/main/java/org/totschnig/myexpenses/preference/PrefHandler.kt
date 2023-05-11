@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
-import org.totschnig.myexpenses.util.enumValueOrNull
 
 interface PrefHandler {
     fun getKey(key: PrefKey): String

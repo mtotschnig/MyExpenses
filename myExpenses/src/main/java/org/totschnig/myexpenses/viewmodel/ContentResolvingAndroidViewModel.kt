@@ -16,7 +16,6 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -25,8 +24,6 @@ import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -48,7 +45,10 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
-import org.totschnig.myexpenses.viewmodel.data.*
+import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
+import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.DateInfo2
+import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
 import kotlin.collections.set
 

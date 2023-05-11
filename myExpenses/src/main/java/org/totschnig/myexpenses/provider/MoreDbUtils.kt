@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Calendars
-import android.text.TextUtils
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
@@ -22,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.util.enumValueOrNull
 import timber.log.Timber
 import java.io.File
 
@@ -380,7 +379,7 @@ fun cacheSyncState(context: Context) {
         null,
         null
     )?.use {
-        val editor = (context.applicationContext as MyApplication).settings.edit()
+        val editor = context.myApplication.settings.edit()
         if (it.moveToFirst()) {
             do {
                 val accountId = it.getLong(0)

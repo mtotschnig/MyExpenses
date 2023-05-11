@@ -13,9 +13,10 @@ import android.view.Surface.ROTATION_180
 import android.view.WindowManager
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import javax.inject.Inject
@@ -56,7 +57,7 @@ abstract class AbstractWidget(
     lateinit var currencyContext: CurrencyContext
 
     override fun onReceive(context: Context, intent: Intent) {
-        (context.applicationContext as MyApplication).appComponent.inject(this)
+        context.injector.inject(this)
         val instance = AppWidgetManager.getInstance(context)
         val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
         when (intent.action) {
@@ -145,7 +146,7 @@ abstract class AbstractWidget(
     }
 
     protected open fun isProtected(context: Context): Boolean {
-        return (context.applicationContext as MyApplication).isProtected &&
+        return (context.myApplication).isProtected &&
                 !prefHandler.getBoolean(protectionKey, false)
     }
 }

@@ -17,8 +17,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asDateTimeFormatter
@@ -38,7 +38,7 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with((requireActivity().applicationContext as MyApplication).appComponent) {
+        with(requireActivity().injector) {
             inject(this@TransactionListComposeDialogFragment)
             inject(viewModel)
         }

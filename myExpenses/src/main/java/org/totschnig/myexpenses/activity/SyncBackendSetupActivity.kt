@@ -14,9 +14,9 @@ import com.evernote.android.state.State
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -41,7 +41,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         backendProviders = BackendService.allAvailable(this)
-        (applicationContext as MyApplication).appComponent.inject(viewModel)
+        injector.inject(viewModel)
     }
 
     override fun onResume() {

@@ -7,7 +7,6 @@ import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import com.evernote.android.state.State
 import org.apache.commons.csv.CSVRecord
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadAccount
@@ -17,6 +16,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model2.Account
@@ -53,14 +53,14 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
         csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
-        with((applicationContext as MyApplication).appComponent) {
+        with(injector) {
             inject(csvImportViewModel)
             inject(this@CsvImportActivity)
         }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val allowed = parseFragment?.isReady == true && idle
+        val allowed = parseFragment.isReady && idle
         menu.findItem(R.id.PARSE_COMMAND)?.isEnabled = allowed
         menu.findItem(R.id.IMPORT_COMMAND)?.isEnabled = allowed
         super.onPrepareOptionsMenu(menu)
@@ -85,6 +85,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         if (shouldGoBack()) super.doHome()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (shouldGoBack()) super.onBackPressed()
     }

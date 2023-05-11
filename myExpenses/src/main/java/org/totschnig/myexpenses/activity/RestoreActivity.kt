@@ -6,12 +6,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel
@@ -21,9 +21,7 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with((applicationContext as MyApplication).appComponent) {
-            inject(restoreViewModel)
-        }
+        injector.inject(restoreViewModel)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 restoreViewModel.publishProgress.collect { progress ->

@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.getLabelForAccount
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.planCount
@@ -55,7 +56,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     lateinit var repository: Repository
 
     init {
-        (context.applicationContext as MyApplication).appComponent.inject(this)
+        context.injector.inject(this)
     }
 
     override val channelId = NotificationBuilderWrapper.CHANNEL_ID_PLANNER

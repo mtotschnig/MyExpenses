@@ -11,6 +11,7 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
@@ -29,9 +30,10 @@ public class LicenceModule {
           CrashHandler crashHandler,
           MyApplication application,
           PrefHandler prefHandler,
-          Repository repository
+          Repository repository,
+          CurrencyFormatter currencyFormatter
           ) {
-    return new LicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository);
+    return new LicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository, currencyFormatter);
   }
 
   @Provides

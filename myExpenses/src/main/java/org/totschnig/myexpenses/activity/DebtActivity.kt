@@ -6,11 +6,11 @@ import android.view.View
 import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.fragment.PartiesList
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -24,7 +24,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (applicationContext as MyApplication).appComponent.inject(debtViewModel)
+        injector.inject(debtViewModel)
     }
 
     fun editDebt(debt: Debt) {
@@ -35,8 +35,9 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         }, DEBT_EDIT_REQUEST)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == DEBT_EDIT_REQUEST && resultCode == RESULT_FIRST_USER) {
             showSnackBar(R.string.object_sealed_debt)
         }

@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModelProvider
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.DebtActivity
 import org.totschnig.myexpenses.compose.DebtRenderer
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -46,7 +46,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with((requireActivity().applicationContext as MyApplication).appComponent) {
+        with(requireActivity().injector) {
             inject(this@DebtDetailsDialogFragment)
         }
         viewModel = ViewModelProvider(requireActivity())[DebtViewModel::class.java]
