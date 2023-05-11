@@ -82,9 +82,9 @@
                 android:persistent="false" />
             <SwitchPreferenceCompat
                 android:defaultValue="true"
-                android:title="@string/icons_for_categories"
                 android:key="@string/pref_ui_item_renderer_category_icon_key"
-                android:persistent="false" />
+                android:persistent="false"
+                android:title="@string/icons_for_categories" />
 
         </PreferenceScreen>
         <org.totschnig.myexpenses.preference.FontSizeDialogPreference
@@ -96,8 +96,8 @@
             android:defaultValue="default"
             android:entryValues="@array/pref_ui_language_values"
             android:key="@string/pref_ui_language_key"
-            android:title="@string/pref_ui_language_title"
             android:persistent="false"
+            android:title="@string/pref_ui_language_title"
             my:useSimpleSummaryProvider="true" />
 
         <PreferenceScreen
@@ -255,9 +255,9 @@
         </Preference>
 
         <EditTextPreference
+            android:defaultValue="myexpenses-backup"
             android:key="@string/pref_backup_file_prefix_key"
             android:title="@string/pref_backup_file_prefix_title"
-            android:defaultValue="myexpenses-backup"
             my:useSimpleSummaryProvider="true" />
 
         <org.totschnig.myexpenses.preference.AccountPreference
@@ -321,13 +321,13 @@
                 android:summary="@string/pref_exchange_rate_provider_summary"
                 android:title="@string/pref_exchange_rate_provider_title" />
             <EditTextPreference
-                my:isPreferenceVisible="false"
                 android:key="@string/pref_openexchangerates_app_id_key"
-                android:title="OpenExchangeRates App ID" />
+                android:title="OpenExchangeRates App ID"
+                my:isPreferenceVisible="false" />
             <EditTextPreference
-                my:isPreferenceVisible="false"
                 android:key="@string/pref_coin_api_api_key_key"
-                android:title="CoinApi API Key" />
+                android:title="CoinApi API Key"
+                my:isPreferenceVisible="false" />
             <Preference
                 android:key="@string/pref_exchange_rates_clear_cache_key"
                 android:title="@string/clear_cache" />
@@ -423,25 +423,28 @@
                 android:key="@string/pref_csv_export_split_date_time_key"
                 android:summary="@string/pref_csv_export_split_date_time_summary" />
         </PreferenceScreen>
-        <PreferenceScreen android:key="@string/pref_optimize_picture_key" android:title="Optimize image size">
+        <PreferenceScreen
+            android:key="@string/pref_optimize_picture_key"
+            android:title="@string/optimize_image_size">
             <org.totschnig.myexpenses.preference.EditNumberPreference
                 android:defaultValue="1000"
                 android:key="@string/pref_optimize_picture_max_size_key"
+                android:title="@string/maximum_size"
                 my:min="500"
-                my:useSimpleSummaryProvider="true"
-                android:title="Max size" />
+                my:useSimpleSummaryProvider="true" />
             <ListPreference
                 android:defaultValue="WEBP"
                 android:entries="@array/pref_attach_picture_format_entries"
                 android:entryValues="@array/pref_attach_picture_format_entries"
                 android:key="@string/pref_optimize_picture_format_key"
-                android:title="Format"
+                android:title="@string/file_format"
                 my:useSimpleSummaryProvider="true" />
             <SeekBarPreference
                 android:defaultValue="80"
                 android:key="@string/pref_optimize_picture_quality_key"
                 android:max="100"
-                android:title="Quality"
+                android:summary="@string/image_optimize_quality_summary"
+                android:title="@string/image_optimize_quality"
                 my:min="0"
                 my:showSeekBarValue="true"
                 my:updatesContinuously="true" />
@@ -510,8 +513,8 @@
         <Preference
             android:key="@string/pref_encrypt_database_info_key"
             android:selectable="false"
-            my:isPreferenceVisible="false"
-            android:summary="@string/database_is_encrypted" />
+            android:summary="@string/database_is_encrypted"
+            my:isPreferenceVisible="false" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_more_information">
@@ -568,9 +571,8 @@
             android:title="@string/help_button_rate" />
         <Preference
             android:key="@string/pref_send_feedback_key"
-            android:title="@string/pref_send_feedback_title"
             android:summary="@string/support_email"
-            />
+            android:title="@string/pref_send_feedback_title" />
         <Preference
             android:key="roadmap_vote"
             android:title="@string/roadmap_vote">

@@ -1062,4 +1062,9 @@
     <string name="debt_balance_they_owe">%1$s now owes %2$s.</string>
     <string name="pref_backup_file_prefix_title">File prefix</string>
     <string name="whats_new_355">Backup file name is now configurable.</string>
+    <string name="optimize_image_size">Optimize image size</string>
+    <string name="maximum_size">Maximum size</string>
+    <string name="file_format">File Format</string>
+    <string name="image_optimize_quality">Quality</string>
+    <string name="image_optimize_quality_summary">Quality of 0 means compress for the smallest size. 100 means compress for maximum visual quality.</string>
 </resources>
