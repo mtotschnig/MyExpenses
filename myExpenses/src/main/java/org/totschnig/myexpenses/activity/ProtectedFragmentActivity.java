@@ -30,8 +30,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.setBackgroundTintList;
-import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
-import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -46,7 +44,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,34 +54,28 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.evernote.android.state.StateSaver;
 
-import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Locale;
 
 import javax.inject.Inject;
 public abstract class ProtectedFragmentActivity extends BaseActivity
@@ -106,10 +97,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @Inject
   protected SharedPreferences settings;
-
-  public ColorStateList getTextColorSecondary() {
-    return textColorSecondary;
-  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
