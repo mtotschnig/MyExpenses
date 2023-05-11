@@ -21,10 +21,11 @@ class EditNumberPreference(context: Context, attrs: AttributeSet) :
             it.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
-        context.obtainStyledAttributes(attrs, R.styleable.EditNumberPreference, 0, 0).use {
-            min = it.getInt(R.styleable.EditNumberPreference_min, 0)
-            max = it.getInt(R.styleable.EditNumberPreference_android_max, Int.MAX_VALUE)
+        with(context.obtainStyledAttributes(attrs, R.styleable.EditNumberPreference, 0, 0)) {
+            min = getInt(R.styleable.EditNumberPreference_min, 0)
+            max = getInt(R.styleable.EditNumberPreference_android_max, Int.MAX_VALUE)
             require(max > min)
+            recycle()
         }
     }
 
