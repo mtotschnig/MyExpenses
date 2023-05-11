@@ -845,7 +845,8 @@
     <string name="dialog_multi_tag_clear">Tutti i tag saranno rimossi dalle transazioni selezionate.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Il tag %1$s è associato a una transazione. Vuoi eliminarlo\?</item>
-        <item quantity="other">"I tag  %1$s sono assegnati a %2$d transazioni. Vuoi eliminarli\?"</item>
+        <item quantity="many"></item>
+        <item quantity="other">I tag %1$s sono assegnati a %2$d transazioni. Vuoi eliminarli\?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Aggiungi nuovi tag ai tag esistenti</string>
     <string name="dialog_multi_tag_replace">Sostituisci tag esistenti con nuovi tag</string>
@@ -980,7 +981,7 @@
     <string name="setup_completed">Impostazione completata</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Albero delle categorie</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Al tuo attuale stato di licenza (%1$s), questa finestra verrà visualizzato ad ogni utilizzo.</string>
-    <string name="whats_new_338">Gerarchia delle categorie personalizzabile</string>
+    <string name="whats_new_338">Gerarchia di categorie arbitrariamente profonda</string>
     <string name="dialog_title_purge_backups">Elimina i vecchi backup</string>
     <string name="icons_for_categories">Icone per le categorie</string>
     <string name="content_description_attachment">Allegato</string>
@@ -1011,4 +1012,29 @@
     <string name="pref_csv_export_split_amount_summary">Usa colonne separate per entrate e spese</string>
     <string name="select_all_list_too_large">Il comando %s non è disponibile perché l\'elenco è caricato solo parzialmente. Si prega di utilizzare la funzionalità di Ricerca per ridurre le dimensioni dell\'elenco.</string>
     <string name="menu_reconfigure">Riconfigurare</string>
+    <string name="database_is_encrypted">Il database è crittografato.</string>
+    <string name="debt_installment_receive">Ricevo una rata di %s.</string>
+    <string name="debt_lend_additional">Presto %s.</string>
+    <string name="debt_installment_pay">Pago una rata di %s.</string>
+    <string name="debt_paid_off_self">Il mio debito è saldato.</string>
+    <string name="debt_balance_i_owe">Ora sono in debito con %s.</string>
+    <string name="debt_borrow_additional">Prendo in prestito %s.</string>
+    <string name="debt_paid_off_other">Il debito di %s è saldato.</string>
+    <string name="rollover_edit_invalid">La somma del rollover assegnato ad una categoria e i rollover assegnati alle sottocategorie non possono superare il resto.</string>
+    <string name="debt_balance_they_owe">%1$s ora è in debito con %2$s.</string>
+    <string name="pref_backup_file_prefix_title">Prefisso del file</string>
+    <string name="whats_new_355">Il nome del file di backup è ora configurabile.</string>
+    <string name="optimize_image_file_size">Ottimizzare le dimensioni del file immagine</string>
+    <string name="encrypt_database_info">Il database sarà crittografato con una passphrase che non può essere estratta dal dispositivo. Di conseguenza, non verrà eseguito il backup dal servizio di backup del dispositivo.</string>
+    <string name="dialog_confirm_rollover_delete">Tutti gli importi di rollover per questo periodo saranno cancellati.</string>
+    <string name="encrypt_database">Crittografare il database</string>
+    <string name="github_sponsors">Le chiavi di licenza vengono fornite anche agli &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="notifications_permission_required_webui">Concedendo il permesso di inviare notifiche, è possibile controllare lo stato del server web.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> ha bisogno dell\'autorizzazione per inviare notifiche quando vengono pubblicate transazioni future.</string>
+    <string name="notifications_permission_required_sync">Concedendo l\'autorizzazione all\'invio di notifiche, è possibile monitorare l\'avanzamento delle operazioni di sincronizzazione.</string>
+    <string name="notifications_channel_required">Si prega di attivare il canale %s.</string>
+    <string name="maximum_size">Dimensioni massime</string>
+    <string name="file_format">Formato file</string>
+    <string name="image_optimize_quality">Qualità</string>
+    <string name="image_optimize_quality_summary">Qualità 0 significa comprimere per ottenere le dimensioni più piccole. 100 significa comprimere per ottenere la massima qualità visiva.</string>
 </resources>
