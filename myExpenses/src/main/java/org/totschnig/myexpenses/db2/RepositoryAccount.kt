@@ -67,7 +67,7 @@ fun Repository.getLastUsedOpenAccount() =
         arrayOf(KEY_ROWID, KEY_CURRENCY),
         "$KEY_SEALED = 0",
         null,
-        KEY_LAST_USED
+        "$KEY_LAST_USED DESC"
     )?.use {
         if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
     }
