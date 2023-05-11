@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.R
 // the following keys are stored as string resources, so that
 // they can be referenced from preferences.xml, and thus we
 // can guarantee the referential integrity
-enum class PrefKey {
+enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     ROOT_SCREEN(R.string.pref_root_screen_key),
     CATEGORIES_SORT_BY_USAGES_LEGACY(R.string.pref_categories_sort_by_usages_key),
     SORT_ORDER_LEGACY(R.string.pref_sort_order_key),
@@ -183,10 +183,6 @@ enum class PrefKey {
     OPTIMIZE_PICTURE_QUALITY(R.string.pref_optimize_picture_quality_key),
     ;
 
-    internal val resId: Int
-
-    internal val _key: String?
-
     @Deprecated("")
     fun getKey(): String? {
         return if (resId == 0) _key else MyApplication.getInstance().getString(resId)
@@ -197,57 +193,7 @@ enum class PrefKey {
         return MyApplication.getInstance().settings.getString(getKey(), defValue)
     }
 
-    @Deprecated("")
-    fun putString(value: String?) {
-        MyApplication.getInstance().settings.edit().putString(getKey(), value).apply()
-    }
+    constructor(resId: Int) : this(resId, null)
 
-    @Deprecated("")
-    fun getBoolean(defValue: Boolean): Boolean {
-        return MyApplication.getInstance().settings.getBoolean(getKey(), defValue)
-    }
-
-    @Deprecated("")
-    fun putBoolean(value: Boolean) {
-        MyApplication.getInstance().settings.edit().putBoolean(getKey(), value).apply()
-    }
-
-    @Deprecated("")
-    fun getInt(defValue: Int): Int {
-        return MyApplication.getInstance().settings.getInt(getKey(), defValue)
-    }
-
-    @Deprecated("")
-    fun putInt(value: Int) {
-        MyApplication.getInstance().settings.edit().putInt(getKey(), value).apply()
-    }
-
-    @Deprecated("")
-    fun getLong(defValue: Long): Long {
-        return MyApplication.getInstance().settings.getLong(getKey(), defValue)
-    }
-
-    @Deprecated("")
-    fun putLong(value: Long) {
-        MyApplication.getInstance().settings.edit().putLong(getKey(), value).apply()
-    }
-
-    @Deprecated("")
-    fun remove() {
-        MyApplication.getInstance().settings.edit().remove(getKey()).apply()
-    }
-
-    @get:Deprecated("")
-    val isSet: Boolean
-        get() = MyApplication.getInstance().settings.contains(getKey())
-
-    constructor(resId: Int) {
-        this._key = null
-        this.resId = resId
-    }
-
-    constructor(key: String) {
-        this._key = key
-        this.resId = 0
-    }
+    constructor(key: String) : this(0, key)
 }

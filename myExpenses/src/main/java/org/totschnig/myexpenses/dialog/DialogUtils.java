@@ -103,7 +103,8 @@ public class DialogUtils {
   }
 
   public static AlertDialog passwordDialog(final Activity ctx, final boolean cancelable) {
-    final String securityQuestion = PrefKey.SECURITY_QUESTION.getString("");
+    PrefHandler prefHandler = ((MyApplication) ctx.getApplication()).getAppComponent().prefHandler();
+    final String securityQuestion = prefHandler.getString(PrefKey.SECURITY_QUESTION,"");
     AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx);
     //noinspection InflateParams
     View view = LayoutInflater.from(builder.getContext()).inflate(R.layout.password_check, null);
@@ -196,7 +197,8 @@ public class DialogUtils {
 
     @Override
     public void onClick(View v) {
-      final String securityQuestion = PrefKey.SECURITY_QUESTION.getString("");
+      PrefHandler prefHandler = ((MyApplication) ctx.getApplication()).getAppComponent().prefHandler();
+      final String securityQuestion = prefHandler.getString(PrefKey.SECURITY_QUESTION,"");
       EditText input = dialog.findViewById(R.id.password);
       TextView error = dialog.findViewById(R.id.passwordInvalid);
       if (v == dialog.getButton(AlertDialog.BUTTON_NEUTRAL)) {
@@ -213,12 +215,12 @@ public class DialogUtils {
         String value = input.getText().toString();
         boolean isInSecurityQuestion = (Boolean) input.getTag();
         if (Utils.md5(value).equals(
-            (isInSecurityQuestion ? PrefKey.SECURITY_ANSWER : PrefKey.SET_PASSWORD).getString(""))) {
+                prefHandler.getString(isInSecurityQuestion ? PrefKey.SECURITY_ANSWER : PrefKey.SET_PASSWORD, ""))) {
           input.setText("");
           error.setText("");
           callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
-            PrefKey.PROTECTION_LEGACY.putBoolean(false);
+            prefHandler.putBoolean(PrefKey.PROTECTION_LEGACY, false);
             ctx.showDismissibleSnackBar(R.string.password_disabled_reenable);
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);

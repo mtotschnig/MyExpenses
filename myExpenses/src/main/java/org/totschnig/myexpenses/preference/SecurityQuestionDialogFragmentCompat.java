@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -36,7 +37,8 @@ public class SecurityQuestionDialogFragmentCompat extends EditTextPreferenceDial
     public void onDialogClosed(boolean positiveResult) {
       super.onDialogClosed(positiveResult);
       if (positiveResult) {
-        PrefKey.SECURITY_ANSWER.putString(Utils.md5(answer.getText().toString()));
+          ((MyApplication) requireContext().getApplicationContext()).getAppComponent().prefHandler()
+                  .putString(PrefKey.SECURITY_ANSWER, Utils.md5(answer.getText().toString()));
       }
     }
 

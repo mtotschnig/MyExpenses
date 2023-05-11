@@ -11,6 +11,7 @@ import androidx.test.espresso.idling.CountingIdlingResource
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.di.ViewModelModule
@@ -73,7 +74,7 @@ class FakeSyncBackendViewModel(application: Application) :
                 else -> throw IllegalStateException()
             }
         }
-        emit(Result.success(listOf(Result.success(AccountMetaData.from(syncedAccount)))))
+        emit(Result.success(listOf(Result.success(AccountMetaData.from(syncedAccount, getApplication<MyApplication>().appComponent.homeCurrencyProvider().homeCurrencyString)))))
     }
 }
 

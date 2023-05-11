@@ -1503,15 +1503,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           }
         }
         c.close();
-        @SuppressWarnings("deprecation") String legacy =  PrefKey.SORT_ORDER_LEGACY.getString("USAGES");
-        //noinspection deprecation
-        PrefKey.SORT_ORDER_TEMPLATES.putString(legacy);
-        //noinspection deprecation
-        PrefKey.SORT_ORDER_CATEGORIES.putString(legacy);
-        //noinspection deprecation
-        PrefKey.SORT_ORDER_ACCOUNTS.putString(hasAccountSortKeySet ? "CUSTOM" : legacy);
-        //noinspection deprecation
-        PrefKey.SORT_ORDER_LEGACY.remove();
+        PrefHandler prefHandler = getPrefHandler();
+        String legacy = prefHandler.getString(PrefKey.SORT_ORDER_LEGACY, "USAGES");
+        prefHandler.putString(PrefKey.SORT_ORDER_TEMPLATES, legacy);
+        prefHandler.putString(PrefKey.SORT_ORDER_CATEGORIES, legacy);
+        prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, hasAccountSortKeySet ? "CUSTOM" : legacy);
+        prefHandler.remove(PrefKey.SORT_ORDER_LEGACY);
       }
 
       if (oldVersion < 57) {

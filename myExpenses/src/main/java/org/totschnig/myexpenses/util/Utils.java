@@ -218,10 +218,10 @@ public class Utils {
   }
 
   @Nullable
-  public static Currency getInstance(@Nullable String strCurrency) {
+  public static Currency getInstance(@Nullable String strCurrency, PrefHandler prefHandler) {
     if (strCurrency != null) {
       if (strCurrency.equals(AGGREGATE_HOME_CURRENCY_CODE)) {
-        strCurrency = PrefKey.HOME_CURRENCY.getString("EUR");
+        strCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY,"EUR");
       }
       try {
         return Currency.getInstance(strCurrency);

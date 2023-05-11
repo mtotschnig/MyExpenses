@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.Objects;
@@ -27,7 +28,14 @@ public class LicenceHandlerTest {
 
   @Before
   public void setUp() {
-    licenceHandler = new LicenceHandler(mock(MyApplication.class), mock(PreferenceObfuscator.class), mock(CrashHandler.class), mock(PrefHandler.class), mock(Repository.class));
+    licenceHandler = new LicenceHandler(
+            mock(MyApplication.class),
+            mock(PreferenceObfuscator.class),
+            mock(CrashHandler.class),
+            mock(PrefHandler.class),
+            mock(Repository.class),
+            mock(CurrencyFormatter.class)
+    );
   }
 
   @After

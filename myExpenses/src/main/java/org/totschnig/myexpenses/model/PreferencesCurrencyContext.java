@@ -41,7 +41,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
         return currencyUnit;
       }
 
-      Currency c = Utils.getInstance(currencyCode);
+      Currency c = Utils.getInstance(currencyCode, prefHandler);
       if (c != null) {
         currencyUnit = new CurrencyUnit(currencyCode, getSymbol(c), getFractionDigits(c), c.getDisplayName());
       } else {

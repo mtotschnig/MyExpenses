@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
@@ -23,7 +24,7 @@ object AppDirHelper {
      */
     @JvmStatic
     fun getAppDir(context: Context): DocumentFile? {
-        val prefString = PrefKey.APP_DIR.getString(null)
+        val prefString = context.injector.prefHandler().getString(PrefKey.APP_DIR, null)
         if (prefString != null) {
             val pref = Uri.parse(prefString)
             if ("file" == pref.scheme) {

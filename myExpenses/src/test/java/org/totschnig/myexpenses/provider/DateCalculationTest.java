@@ -25,6 +25,8 @@ import java.util.TimeZone;
 
 import static junit.framework.Assert.assertEquals;
 
+import androidx.test.core.app.ApplicationProvider;
+
 /**
  * This test can be run from the command line with different timezones
  * TZ=Etc/GMT+5 ./gradlew testAcraDebugUnitTest --tests org.totschnig.myexpenses.provider.DateCalculationTest
@@ -82,7 +84,8 @@ public class DateCalculationTest {
 
   private void doTheTest(String timeZone, int configuredWeekStart) {
     calendar = Calendar.getInstance();
-    PrefKey.GROUP_WEEK_STARTS.putString(String.valueOf(configuredWeekStart));
+    ((MyApplication) ApplicationProvider.getApplicationContext()).getAppComponent().prefHandler()
+            .putString(PrefKey.GROUP_WEEK_STARTS, String.valueOf(configuredWeekStart));
     DatabaseConstants.buildLocalized(Locale.getDefault(), (MyApplication) RuntimeEnvironment.getApplication());
     assertEquals(configuredWeekStart, DatabaseConstants.weekStartsOn);
     String[] projection = {

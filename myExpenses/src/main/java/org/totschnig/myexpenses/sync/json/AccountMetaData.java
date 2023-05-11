@@ -93,8 +93,7 @@ public abstract class  AccountMetaData implements Parcelable {
     );
   }
 
-  public static AccountMetaData from(org.totschnig.myexpenses.model2.Account account) {
-    String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+  public static AccountMetaData from(org.totschnig.myexpenses.model2.Account account, String homeCurrency) {
     final String accountCurrency = account.getCurrency();
     final Builder builder = builder()
         .setCurrency(accountCurrency)

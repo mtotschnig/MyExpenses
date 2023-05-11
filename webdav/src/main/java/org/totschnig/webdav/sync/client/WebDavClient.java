@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.webdav.sync.DaggerWebDavComponent;
@@ -69,6 +70,9 @@ public class WebDavClient {
   @Inject
   OkHttpClient.Builder builder;
 
+  @Inject
+  PrefHandler prefHandler;
+
   public WebDavClient(@NonNull String baseUrl, String userName, String password, final X509Certificate trustedCertificate, boolean allowUnverified) throws InvalidCertificateException {
     DaggerWebDavComponent.builder().appComponent(MyApplication.getInstance().getAppComponent()).build().inject(this);
 
@@ -79,7 +83,7 @@ public class WebDavClient {
 
     mBaseUri = HttpUrl.get(baseUrl);
 
-    int timeout = PrefKey.WEBDAV_TIMEOUT.getInt(10);
+    int timeout = prefHandler.getInt(PrefKey.WEBDAV_TIMEOUT,10);
 
     builder.connectTimeout(timeout, TimeUnit.SECONDS);
     builder.readTimeout(timeout, TimeUnit.SECONDS);

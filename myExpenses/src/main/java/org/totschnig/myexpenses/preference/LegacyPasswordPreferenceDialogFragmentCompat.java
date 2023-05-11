@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -36,7 +37,8 @@ public class LegacyPasswordPreferenceDialogFragmentCompat extends PreferenceDial
     if (positiveResult) {
       if (boolProtect && strPass1 != null && strPass1.equals(strPass2)) {
         String hash = Utils.md5(strPass1);
-        PrefKey.SET_PASSWORD.putString(hash);
+        ((MyApplication) requireContext().getApplicationContext()).getAppComponent().prefHandler()
+                .putString(PrefKey.SET_PASSWORD, hash);
       }
       ((LegacyPasswordPreference) getPreference()).setValue(boolProtect);
     }

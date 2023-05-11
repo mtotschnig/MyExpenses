@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
@@ -27,6 +28,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import java.io.*
 import java.security.GeneralSecurityException
 import java.util.*
@@ -333,7 +335,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     protected abstract fun saveUriToAccountDir(fileName: String, uri: Uri)
 
     protected fun buildMetadata(account: Account?): String {
-        return gson.toJson(AccountMetaData.from(account))
+        return gson.toJson(AccountMetaData.from(account, context.injector.homeCurrencyProvider().homeCurrencyString))
     }
 
     protected fun getLastFileNamePart(fileName: String): String {
