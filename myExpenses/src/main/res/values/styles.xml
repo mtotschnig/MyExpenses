@@ -83,7 +83,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="SmallButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="SmallButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">?colorPrimary</item>
         <item name="strokeWidth">2sp</item>
     </style>
@@ -110,7 +110,7 @@
         <item name="android:paddingStart">?android:attr/expandableListPreferredItemPaddingLeft</item>
     </style>
 
-    <style name="MyAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="MyAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="colorPrimary">@color/colorPrimaryDialog</item>
         <item name="colorAccent">@color/colorPrimaryDialog</item>
         <item name="colorError">@color/colorErrorDialog</item>
@@ -137,7 +137,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="CalculatorButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="CalculatorButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:minHeight">@dimen/calculator_button_min</item>
         <item name="android:minWidth">@dimen/calculator_button_min</item>
         <item name="android:textSize">@dimen/calculator_button_text_size</item>
@@ -225,7 +225,7 @@
         <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
-    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/material_grey</item>
     </style>
 
@@ -239,7 +239,7 @@
         <item name="android:textSize">@dimen/textSizeLabel</item>
     </style>
 
-    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+    <style name="MyTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox" />
 
     <style name="OnBoardingDisplayProperty">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
@@ -264,17 +264,17 @@
         <item name="layout_constraintTop_toBottomOf">@id/Recurrence</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+    <style name="AppTheme.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
         <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
         <item name="android:background">@color/toolbarBackground</item>
     </style>
 
-    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
     </style>
 
-    <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
     </style>
 
@@ -282,7 +282,7 @@
         <item name="textInputStyle">@style/SimpleDialogTextInputStyle</item>
     </style>
 
-    <style name="SimpleDialogTextInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+    <style name="SimpleDialogTextInputStyle" parent="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="endIconMode">none</item>
     </style>
 

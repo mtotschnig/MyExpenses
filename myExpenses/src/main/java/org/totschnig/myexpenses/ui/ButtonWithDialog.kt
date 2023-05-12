@@ -12,6 +12,7 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.google.android.material.button.MaterialButton
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.getActivity
 
 abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : MaterialButton(context, attrs, defStyleAttr) {
@@ -25,7 +26,7 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
     private fun showDialog() {
         val picker = buildDialog()
         attachListener(picker)
-        picker.show((context as FragmentActivity).supportFragmentManager, fragmentTag)
+        picker.show((context.getActivity() as FragmentActivity).supportFragmentManager, fragmentTag)
         dialogShown = true
     }
 
@@ -39,7 +40,7 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
         super.onRestoreInstanceState(StateSaver.restoreInstanceState(this, state))
         update()
         if (dialogShown) {
-            reAttachListener((context as FragmentActivity).supportFragmentManager)
+            reAttachListener((context.getActivity() as FragmentActivity).supportFragmentManager)
         }
     }
 

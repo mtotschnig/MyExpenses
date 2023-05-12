@@ -77,7 +77,7 @@ class TimeButton @JvmOverloads constructor(
         override fun onCreateDialog(savedInstanceState: Bundle?): TimePickerDialog {
             val time = requireArguments().getSerializable(KEY_TIME) as LocalTime
             return TimePickerDialog(
-                context, com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog,
+                context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog,
                 { _, hourOfDay, minute ->
                     onTimeSetListener?.onTimeSet(
                         LocalTime.of(
