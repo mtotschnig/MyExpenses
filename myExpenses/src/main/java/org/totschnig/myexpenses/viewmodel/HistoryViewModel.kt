@@ -16,7 +16,11 @@ import org.totschnig.myexpenses.util.enumValueOrDefault
 class HistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
     private val accountId by lazy { savedStateHandle.get<Long>(DatabaseConstants.KEY_ACCOUNTID) }
-    private val defaultGrouping: Grouping by lazy { savedStateHandle.get<Grouping>(DatabaseConstants.KEY_GROUPING) ?: Grouping.MONTH }
+    private val defaultGrouping: Grouping by lazy {
+        savedStateHandle.get<Grouping>(DatabaseConstants.KEY_GROUPING)
+            .takeIf { it != Grouping.NONE }
+            ?: Grouping.MONTH
+    }
     private val groupingPrefKey = stringPreferencesKey("historyGrouping_$accountId")
 
     val grouping by lazy {
