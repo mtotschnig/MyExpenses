@@ -365,6 +365,10 @@
                     select="document($strings)/resources/string[@name='pref_exchange_rate_provider_title']" />
                 <xsl:text>:&#032;https://coinapi.io</xsl:text>
             </xsl:when>
+            <xsl:when test="$version = '3.5.6'">
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='optimize_image_file_size']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>
