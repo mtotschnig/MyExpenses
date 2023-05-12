@@ -2226,6 +2226,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 139) {
         db.execSQL("ALTER TABLE debts add column equivalent_amount integer");
       }
+      if (oldVersion < 140) {
+        createOrRefreshViews(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
