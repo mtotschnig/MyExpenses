@@ -1040,4 +1040,9 @@
     <string name="debt_paid_off_other">La deuda de %s está pagada.</string>
     <string name="pref_backup_file_prefix_title">Extensión del archivo</string>
     <string name="whats_new_355">Ahora se puede configurar el nombre del archivo de la copia de seguridad.</string>
+    <string name="optimize_image_file_size">Optimización del tamaño del archivo de la imagen</string>
+    <string name="maximum_size">Tamaño Máximo</string>
+    <string name="file_format">Formato del archivo</string>
+    <string name="image_optimize_quality">Calidad</string>
+    <string name="image_optimize_quality_summary">Calidad 0 significa compresión al tamaño mínimo. 100 es la máxima compresión de calidad visible.</string>
 </resources>
