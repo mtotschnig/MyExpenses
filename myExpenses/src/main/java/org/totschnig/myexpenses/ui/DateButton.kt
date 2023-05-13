@@ -4,16 +4,19 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import com.evernote.android.state.State
+import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.epochMillis2LocalDate
+import org.totschnig.myexpenses.util.getDateTimeFormatter
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.epochMillis2LocalDate
-import org.totschnig.myexpenses.util.getDateTimeFormatter
+import java.util.Calendar
 
 
 /**
@@ -92,7 +95,20 @@ class DateButton @JvmOverloads constructor(
     override fun buildDialog() = MaterialDatePicker.Builder.datePicker()
         .setSelection(
             ZonedDateTime.of(date.atStartOfDay(), ZoneId.of("UTC")).toEpochSecond() * 1000
-        )
+        ).apply {
+            context.injector.prefHandler().requireString(PrefKey.GROUP_WEEK_STARTS, "-1")
+                .let { weekStartSetting ->
+                    try {
+                        weekStartSetting.toInt().takeIf { it in Calendar.SUNDAY..Calendar.SATURDAY }
+                    } catch (e: NumberFormatException) {
+                        null
+                    }?.let { firstDayOfWeek ->
+                        setCalendarConstraints(
+                            CalendarConstraints.Builder().setFirstDayOfWeek(firstDayOfWeek).build()
+                        )
+                    }
+                }
+        }
         .build()
 
     override fun attachListener(dialogFragment: MaterialDatePicker<Long>) {
